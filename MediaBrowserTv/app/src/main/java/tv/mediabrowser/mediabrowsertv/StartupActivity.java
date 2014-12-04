@@ -86,13 +86,21 @@ public class StartupActivity extends Activity {
                                 switch (serverResult.getState()) {
                                     case ServerSignIn:
                                         try {
-                                            serverResult.getApiClient().AuthenticateUserAsync("Dad","1224", new Response<AuthenticationResult>() {
+                                            serverResult.getApiClient().AuthenticateUserAsync("Dad","124", new Response<AuthenticationResult>() {
                                                 @Override
                                                 public void onResponse(AuthenticationResult authenticationResult) {
                                                     logger.Debug("Signed in as Dad.");
                                                     application.setCurrentUser(authenticationResult.getUser());
                                                     Intent intent = new Intent(activity, MainActivity.class);
                                                     startActivity(intent);
+                                                }
+
+                                                @Override
+                                                public void onError(Exception exception) {
+                                                    super.onError(exception);
+                                                    logger.ErrorException("Error logging in", exception);
+                                                    Utils.showToast(activity, "Error logging in");
+                                                    System.exit(1);
                                                 }
                                             });
                                         } catch (NoSuchAlgorithmException e) {
