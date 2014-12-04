@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="tv.mediabrowser.mediabrowsertv.ConnectActivity$PlaceholderFragment">
+
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/mblogo"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/textView2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/txt_signinconnect"
+        android:id="@+id/textView"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="With Media Browser Connect you can easily access your Media Browser Server wherever you are and share with your family and friends.   To sign in with Media Browser Connect, visit http://mediabrowser.tv/pin and enter the following pin code:"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="54dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="PIN"
+        android:id="@+id/textViewPin"
+        android:layout_marginTop="70dp"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:id="@+id/buttonNext"
+        android:clickable="true"
+        android:focusable="true"
+        android:enabled="true"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/textViewPin"
+        android:layout_marginBottom="46dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_skip"
+        android:id="@+id/buttonSkip"
+        android:layout_alignTop="@+id/buttonNext"
+        android:layout_alignEnd="@+id/imageView"
+        android:layout_marginEnd="50dp"
+        android:hint="@string/btn_skip_hint" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textViewMessage"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/buttonNext"
+        android:layout_alignEnd="@+id/buttonSkip" />
+</RelativeLayout>
