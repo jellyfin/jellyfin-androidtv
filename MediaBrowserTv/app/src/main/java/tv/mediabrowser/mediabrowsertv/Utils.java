@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Point;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -147,5 +149,11 @@ public class Utils {
         options.setTag(item.getImageTags().get(ImageType.Backdrop));
 
         return apiClient.GetImageUrl(item, options);
+    }
+
+    public static void Beep() {
+        // send the tone to the "alarm" stream (classic beeps go there) with 50% volume
+        ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 50);
+            toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200); // 200 is duration in ms
     }
 }
