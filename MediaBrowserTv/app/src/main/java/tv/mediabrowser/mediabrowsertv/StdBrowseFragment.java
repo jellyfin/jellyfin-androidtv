@@ -38,6 +38,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +53,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import mediabrowser.apiinteraction.ApiClient;
+import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.model.dto.BaseItemDto;
 
 
@@ -59,10 +61,6 @@ public class StdBrowseFragment extends BrowseFragment {
     private static final String TAG = "StdBrowseFragment";
 
     private static final int BACKGROUND_UPDATE_DELAY = 300;
-    private static final int GRID_ITEM_WIDTH = 200;
-    private static final int GRID_ITEM_HEIGHT = 200;
-    private static final int NUM_ROWS = 6;
-    private static final int NUM_COLS = 15;
 
     protected String MainTitle;
     protected ApiClient apiClient;
@@ -105,7 +103,7 @@ public class StdBrowseFragment extends BrowseFragment {
         }
     }
 
-    private void loadRows() {
+    protected void loadRows() {
 
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
         mCardPresenter = new CardPresenter();
@@ -126,17 +124,13 @@ public class StdBrowseFragment extends BrowseFragment {
 //            mRowsAdapter.add(new ListRow(header, listRowAdapter));
 //        }
 
-        HeaderItem gridHeader = new HeaderItem(i, "SETTINGS", null);
-
-        GridItemPresenter mGridPresenter = new GridItemPresenter();
-        ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add(getResources().getString(R.string.grid_view));
-        gridRowAdapter.add(getResources().getString(R.string.error_fragment));
-        gridRowAdapter.add(getResources().getString(R.string.personal_settings));
-        gridRowAdapter.add("Logout " + TvApp.getApplication().getCurrentUser().getName());
-        mRowsAdapter.add(new ListRow(gridHeader, gridRowAdapter));
-
+        addAdditionalRows(mRowsAdapter);
+        
         setAdapter(mRowsAdapter);
+
+    }
+
+    protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
 
     }
 
@@ -152,7 +146,7 @@ public class StdBrowseFragment extends BrowseFragment {
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
     }
 
-    private void setupUIElements() {
+    protected void setupUIElements() {
         setBadgeDrawable(getActivity().getResources().getDrawable(
         R.drawable.mblogo));
         setTitle(MainTitle); // Badge, when set, takes precedent
@@ -166,7 +160,7 @@ public class StdBrowseFragment extends BrowseFragment {
         setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
     }
 
-    private void setupEventListeners() {
+    protected void setupEventListeners() {
         setOnSearchClickedListener(new View.OnClickListener() {
 
             @Override
@@ -196,14 +190,6 @@ public class StdBrowseFragment extends BrowseFragment {
                         ((ImageCardView) itemViewHolder.view).getMainImageView(),
                         DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
                 getActivity().startActivity(intent, bundle);
-            } else if (item instanceof String) {
-                if (((String) item).indexOf(getString(R.string.error_fragment)) >= 0) {
-                    Intent intent = new Intent(getActivity(), BrowseErrorActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT)
-                            .show();
-                }
             }
         }
     }
@@ -271,27 +257,5 @@ public class StdBrowseFragment extends BrowseFragment {
         }
     }
 
-    private class GridItemPresenter extends Presenter {
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent) {
-            TextView view = new TextView(parent.getContext());
-            view.setLayoutParams(new ViewGroup.LayoutParams(GRID_ITEM_WIDTH, GRID_ITEM_HEIGHT));
-            view.setFocusable(true);
-            view.setFocusableInTouchMode(true);
-            view.setBackgroundColor(getResources().getColor(R.color.default_background));
-            view.setTextColor(Color.WHITE);
-            view.setGravity(Gravity.CENTER);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder viewHolder, Object item) {
-            ((TextView) viewHolder.view).setText((String) item);
-        }
-
-        @Override
-        public void onUnbindViewHolder(ViewHolder viewHolder) {
-        }
-    }
 
 }
