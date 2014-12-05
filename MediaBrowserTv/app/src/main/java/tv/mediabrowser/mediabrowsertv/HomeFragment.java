@@ -48,7 +48,7 @@ public class HomeFragment extends StdBrowseFragment {
     @Override
     protected void setupEventListeners() {
         super.setupEventListeners();
-        setOnItemViewClickedListener(new ItemViewClickedListener());
+        mClickedListener.registerListener(new ItemViewClickedListener());
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {

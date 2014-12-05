@@ -64,6 +64,8 @@ public class StdBrowseFragment extends BrowseFragment {
 
     protected String MainTitle;
     protected ApiClient apiClient;
+    protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
+    protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     private ArrayObjectAdapter mRowsAdapter;
     private Drawable mDefaultBackground;
     private Target mBackgroundTarget;
@@ -125,7 +127,7 @@ public class StdBrowseFragment extends BrowseFragment {
 //        }
 
         addAdditionalRows(mRowsAdapter);
-        
+
         setAdapter(mRowsAdapter);
 
     }
@@ -170,8 +172,11 @@ public class StdBrowseFragment extends BrowseFragment {
             }
         });
 
-        setOnItemViewClickedListener(new ItemViewClickedListener());
-        setOnItemViewSelectedListener(new ItemViewSelectedListener());
+        setOnItemViewClickedListener(mClickedListener);
+        mClickedListener.registerListener(new ItemViewClickedListener());
+
+        setOnItemViewSelectedListener(mSelectedListener);
+        mSelectedListener.registerListener(new ItemViewSelectedListener());
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
@@ -257,5 +262,42 @@ public class StdBrowseFragment extends BrowseFragment {
         }
     }
 
+    protected class CompositeClickedListener implements OnItemViewClickedListener {
+        private List<OnItemViewClickedListener> registeredListeners = new ArrayList<>();
 
+        public void registerListener (OnItemViewClickedListener listener) {
+            registeredListeners.add(listener);
+        }
+
+        public void unRegisterListener (OnItemViewClickedListener listener) {
+            registeredListeners.remove(listener);
+        }
+
+        @Override
+        public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
+            for (OnItemViewClickedListener listener : registeredListeners) {
+                listener.onItemClicked(itemViewHolder, item, rowViewHolder, row);
+            }
+        }
+    }
+
+    protected class CompositeSelectedListener implements OnItemViewSelectedListener {
+        private List<OnItemViewSelectedListener> registeredListeners = new ArrayList<>();
+
+        public void registerListener (OnItemViewSelectedListener listener) {
+            registeredListeners.add(listener);
+        }
+
+        public void unRegisterListener (OnItemViewSelectedListener listener) {
+            registeredListeners.remove(listener);
+        }
+
+
+        @Override
+        public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
+            for (OnItemViewSelectedListener listener : registeredListeners) {
+                listener.onItemSelected(itemViewHolder, item, rowViewHolder, row);
+            }
+        }
+    }
 }
