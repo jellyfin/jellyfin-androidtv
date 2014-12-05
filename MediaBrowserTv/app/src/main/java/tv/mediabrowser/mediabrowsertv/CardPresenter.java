@@ -44,7 +44,7 @@ public class CardPresenter extends Presenter {
 
         public void setItem(BaseItemDto m) {
             mItem = m;
-            cardWidth = (int)(mItem.getPrimaryImageAspectRatio() * cardHeight);
+            cardWidth = (int)(((mItem.getPrimaryImageAspectRatio() != null) ? mItem.getPrimaryImageAspectRatio() : .7777) * cardHeight);
             mCardView.setMainImageDimensions(cardWidth, cardHeight);
         }
 
