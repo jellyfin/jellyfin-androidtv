@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.model.entities.SortOrder;
+import mediabrowser.model.querying.ItemSortBy;
 
 /**
  * Created by Eric on 12/4/2014.
@@ -29,6 +31,17 @@ public class HomeFragment extends StdBrowseFragment {
         MainTitle = this.getString(R.string.home_title);
         super.onActivityCreated(savedInstanceState);
 
+    }
+
+    @Override
+    protected void setupQueries() {
+        StdItemQuery query = new StdItemQuery();
+        query.setIncludeItemTypes(new String[]{"Movie"});
+        query.setRecursive(true);
+        query.setLimit(50);
+        query.setSortBy(new String[]{ItemSortBy.DateCreated});
+        query.setSortOrder(SortOrder.Descending);
+        mRows.add(new BrowseRowDef("Latest Movies", query));
     }
 
     @Override

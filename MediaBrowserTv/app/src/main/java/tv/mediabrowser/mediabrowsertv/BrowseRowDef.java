@@ -9,7 +9,12 @@ import mediabrowser.model.querying.ItemQuery;
  */
 public class BrowseRowDef {
     private String headerText;
-    private List<ItemQuery> itemQueries;
+    private ItemQuery query;
+
+    public BrowseRowDef(String header, ItemQuery query) {
+        headerText = header;
+        this.query = query;
+    }
 
     public String getHeaderText() {
         return headerText;
@@ -19,11 +24,11 @@ public class BrowseRowDef {
         this.headerText = headerText;
     }
 
-    public List<ItemQuery> getItemQueries() {
-        return itemQueries;
+    public ItemQuery getQuery() {
+        return query;
     }
 
-    public void setItemQueries(List<ItemQuery> itemQueries) {
-        this.itemQueries = itemQueries;
+    public void setQuery(ItemQuery itemQuery) {
+        this.query = itemQuery;
     }
 }

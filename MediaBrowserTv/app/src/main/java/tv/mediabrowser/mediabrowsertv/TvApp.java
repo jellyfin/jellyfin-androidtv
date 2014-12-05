@@ -1,6 +1,7 @@
 package tv.mediabrowser.mediabrowsertv;
 
 import android.app.Application;
+import android.util.Log;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.IConnectionManager;
@@ -23,6 +24,15 @@ public class TvApp extends Application {
         super.onCreate();
         logger = new ConsoleLogger();
         app = (TvApp)getApplicationContext();
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread thread, Throwable ex) {
+                Log.e("MediaBrowserTv", "Uncaught exception is: ", ex);
+                ex.printStackTrace();
+                         }
+                 });
+
+
     }
 
     public static TvApp getApplication() {
@@ -52,4 +62,5 @@ public class TvApp extends Application {
     public void setCurrentUser(UserDto currentUser) {
         this.currentUser = currentUser;
     }
+
 }

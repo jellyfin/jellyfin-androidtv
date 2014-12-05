@@ -14,9 +14,7 @@
 
 package tv.mediabrowser.mediabrowsertv;
 
-import android.app.Application;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,25 +33,18 @@ import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import mediabrowser.apiinteraction.ApiClient;
-import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.model.dto.BaseItemDto;
 
 
@@ -92,7 +83,7 @@ public class StdBrowseFragment extends BrowseFragment {
         setupEventListeners();
     }
 
-    private void setupQueries() {
+    protected void setupQueries() {
 
     }
 
@@ -111,20 +102,11 @@ public class StdBrowseFragment extends BrowseFragment {
         mCardPresenter = new CardPresenter();
 
         for (BrowseRowDef def : mRows) {
-
+            HeaderItem header = new HeaderItem(def.getHeaderText(), null);
+            ItemRowAdapter rowAdapter = new ItemRowAdapter(def.getQuery(), mCardPresenter);
+            mRowsAdapter.add(new ListRow(header,rowAdapter ));
+            rowAdapter.Retrieve();
         }
-        int i = 0;
-//        for (i = 0; i < NUM_ROWS; i++) {
-//            if (i != 0) {
-//                Collections.shuffle(list);
-//            }
-//            ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(mCardPresenter);
-//            for (int j = 0; j < NUM_COLS; j++) {
-//                listRowAdapter.add(list.get(j % 5));
-//            }
-//            HeaderItem header = new HeaderItem(i, MovieList.MOVIE_CATEGORY[i], null);
-//            mRowsAdapter.add(new ListRow(header, listRowAdapter));
-//        }
 
         addAdditionalRows(mRowsAdapter);
 
@@ -255,6 +237,8 @@ public class StdBrowseFragment extends BrowseFragment {
                 public void run() {
                     if (mBackgroundUrl != null) {
                         updateBackground(mBackgroundUrl);
+                    } else {
+                        updateBackground(getResources().getDrawable(R.drawable.default_background));
                     }
                 }
             });

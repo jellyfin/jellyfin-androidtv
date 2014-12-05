@@ -135,20 +135,22 @@ public class Utils {
 
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient) {
         ImageOptions options = new ImageOptions();
-        options.setMaxWidth(300);
+        options.setMaxWidth(320);
         options.setImageType(ImageType.Primary);
         options.setTag(item.getImageTags().get(ImageType.Primary));
 
         return apiClient.GetImageUrl(item, options);
     }
     public static String getBackdropImageUrl(BaseItemDto item, ApiClient apiClient) {
-        ImageOptions options = new ImageOptions();
-        options.setMaxWidth(300);
-        options.setImageType(ImageType.Backdrop);
-        options.setImageIndex(0);
-        options.setTag(item.getImageTags().get(ImageType.Backdrop));
-
-        return apiClient.GetImageUrl(item, options);
+        if (item.getBackdropCount() > 0) {
+            ImageOptions options = new ImageOptions();
+            options.setMaxWidth(1200);
+            options.setImageType(ImageType.Backdrop);
+            options.setImageIndex(0);
+            options.setTag(item.getBackdropImageTags().get(0));
+            return apiClient.GetImageUrl(item, options);
+        }
+        return null;
     }
 
     public static void Beep() {
