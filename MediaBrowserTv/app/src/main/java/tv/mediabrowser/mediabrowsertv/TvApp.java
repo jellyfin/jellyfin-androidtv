@@ -7,6 +7,7 @@ import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.IConnectionManager;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.logging.ConsoleLogger;
+import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.serialization.IJsonSerializer;
@@ -21,6 +22,7 @@ public class TvApp extends Application {
     private GsonJsonSerializer serializer;
     private static TvApp app;
     private UserDto currentUser;
+    private BaseItemDto currentPlayingItem;
 
     @Override
     public void onCreate() {
@@ -76,5 +78,13 @@ public class TvApp extends Application {
 
     public ApiClient getApiClient() {
         return connectionManager.GetApiClient(currentUser);
+    }
+
+    public BaseItemDto getCurrentPlayingItem() {
+        return currentPlayingItem;
+    }
+
+    public void setCurrentPlayingItem(BaseItemDto currentPlayingItem) {
+        this.currentPlayingItem = currentPlayingItem;
     }
 }

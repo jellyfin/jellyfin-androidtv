@@ -81,16 +81,18 @@ public class StartupActivity extends Activity {
                         break;
                     case ServerSignIn:
                         logger.Debug("Sign in with server "+ response.getServers().get(0).getName() + " total: " + response.getServers().size());
-                        connectionManager.Connect(response.getServers().get(0), new Response<ConnectionResult>() {
+                        //connectionManager.Connect(response.getServers().get(0), new Response<ConnectionResult>() {
+                        //force to dev server
+                        connectionManager.Connect("eric-office:8096", new Response<ConnectionResult>() {
                             @Override
                             public void onResponse(ConnectionResult serverResult) {
                                 switch (serverResult.getState()) {
                                     case ServerSignIn:
                                         try {
-                                            serverResult.getApiClient().AuthenticateUserAsync("Dad","124", new Response<AuthenticationResult>() {
+                                            serverResult.getApiClient().AuthenticateUserAsync("ebr","0101", new Response<AuthenticationResult>() {
                                                 @Override
                                                 public void onResponse(AuthenticationResult authenticationResult) {
-                                                    logger.Debug("Signed in as Dad.");
+                                                    logger.Debug("Signed in as " + authenticationResult.getUser().getName());
                                                     application.setCurrentUser(authenticationResult.getUser());
                                                     Intent intent = new Intent(activity, MainActivity.class);
                                                     startActivity(intent);

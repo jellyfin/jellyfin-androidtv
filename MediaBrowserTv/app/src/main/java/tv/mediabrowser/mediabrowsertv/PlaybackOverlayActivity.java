@@ -15,11 +15,19 @@ package tv.mediabrowser.mediabrowsertv;
 
 import android.app.Activity;
 import android.media.MediaPlayer;
+import android.media.session.MediaController;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.VideoView;
+
+import mediabrowser.apiinteraction.ApiClient;
+import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.model.dlna.StreamBuilder;
+import mediabrowser.model.dlna.VideoOptions;
+import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.session.PlaybackStopInfo;
 
 /**
  * PlaybackOverlayActivity for video playback that loads PlaybackOverlayFragment
@@ -35,6 +43,7 @@ public class PlaybackOverlayActivity extends Activity implements
     private static final double MEDIA_BOTTOM_MARGIN = 0.025;
     private static final double MEDIA_LEFT_MARGIN = 0.025;
 
+    private ApiClient mApiClient;
 
     private VideoView mVideoView;
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
@@ -45,23 +54,25 @@ public class PlaybackOverlayActivity extends Activity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mApiClient = TvApp.getApplication().getApiClient();
         setContentView(R.layout.playback_controls);
         loadViews();
-        //setupCallbacks();
-        overScan();
+        setupCallbacks();
+        //overScan();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Utils.Stop(TvApp.getApplication().getCurrentPlayingItem(), mVideoView.getCurrentPosition());
         mVideoView.suspend();
     }
 
     /**
      * Implementation of OnPlayPauseClickedListener
      */
-    public void onFragmentPlayPause(Movie movie, int position, Boolean playPause) {
-        mVideoView.setVideoPath(movie.getVideoUrl());
+    public void onFragmentPlayPause(BaseItemDto movie, int position, Boolean playPause) {
+        Utils.Play(movie, mVideoView);
 
         if (position == 0 || mPlaybackState == PlaybackState.IDLE) {
             setupCallbacks();
@@ -133,6 +144,8 @@ public class PlaybackOverlayActivity extends Activity implements
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mPlaybackState = PlaybackState.IDLE;
+                Utils.Stop(TvApp.getApplication().getCurrentPlayingItem(), mVideoView.getCurrentPosition());
+                mVideoView.suspend();
             }
         });
 
