@@ -17,7 +17,10 @@ import android.widget.Toast;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.model.entities.SortOrder;
+import mediabrowser.model.querying.ItemFields;
+import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemSortBy;
+import mediabrowser.model.querying.NextUpQuery;
 
 /**
  * Created by Eric on 12/4/2014.
@@ -35,13 +38,31 @@ public class HomeFragment extends StdBrowseFragment {
 
     @Override
     protected void setupQueries() {
-        StdItemQuery query = new StdItemQuery();
-        query.setIncludeItemTypes(new String[]{"Movie"});
-        query.setRecursive(true);
-        query.setLimit(50);
-        query.setSortBy(new String[]{ItemSortBy.DateCreated});
-        query.setSortOrder(SortOrder.Descending);
-        mRows.add(new BrowseRowDef("Latest Movies", query));
+
+        mRows.add(new BrowseRowDef("Library", new ViewQuery()));
+
+        StdItemQuery latestMovies = new StdItemQuery();
+        latestMovies.setIncludeItemTypes(new String[]{"Movie"});
+        latestMovies.setRecursive(true);
+        latestMovies.setLimit(50);
+        latestMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
+        latestMovies.setSortBy(new String[]{ItemSortBy.DateCreated});
+        latestMovies.setSortOrder(SortOrder.Descending);
+        mRows.add(new BrowseRowDef("Latest Movies", latestMovies));
+
+        NextUpQuery nextUpQuery = new NextUpQuery();
+        nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        nextUpQuery.setLimit(50);
+        nextUpQuery.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
+        mRows.add(new BrowseRowDef("Next Up TV", nextUpQuery));
+
+        StdItemQuery latestMusic = new StdItemQuery();
+        latestMusic.setIncludeItemTypes(new String[]{"MusicAlbum"});
+        latestMusic.setRecursive(true);
+        latestMusic.setLimit(50);
+        latestMusic.setSortBy(new String[]{ItemSortBy.DateCreated});
+        latestMusic.setSortOrder(SortOrder.Descending);
+        mRows.add(new BrowseRowDef("Latest Albums", latestMusic));
     }
 
     @Override

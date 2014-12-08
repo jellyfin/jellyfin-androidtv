@@ -74,7 +74,7 @@ public class CardPresenter extends Presenter {
         ImageCardView cardView = new ImageCardView(mContext);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
-        cardView.setBackgroundColor(mContext.getResources().getColor(R.color.fastlane_background));
+        cardView.setBackgroundColor(mContext.getResources().getColor(R.color.lb_basic_card_info_bg_color));
         return new ViewHolder(cardView);
     }
 
@@ -85,7 +85,7 @@ public class CardPresenter extends Presenter {
 
         //Log.d(TAG, "onBindViewHolder");
         if (baseItem != null) {
-            ((ViewHolder) viewHolder).mCardView.setTitleText(baseItem.getName());
+            ((ViewHolder) viewHolder).mCardView.setTitleText(Utils.GetFullName(baseItem));
             //((ViewHolder) viewHolder).mCardView.setContentText(baseItem.getProductionYear().toString());
             //((ViewHolder) viewHolder).mCardView.setBadgeImage(mContext.getResources().getDrawable(
             //        R.drawable.videos_by_google_icon));

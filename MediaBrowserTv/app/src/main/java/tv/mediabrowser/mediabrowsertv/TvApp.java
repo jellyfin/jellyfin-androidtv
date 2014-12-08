@@ -8,6 +8,7 @@ import mediabrowser.apiinteraction.IConnectionManager;
 import mediabrowser.logging.ConsoleLogger;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.logging.ILogger;
+import mediabrowser.model.serialization.IJsonSerializer;
 
 /**
  * Created by Eric on 11/24/2014.
@@ -16,6 +17,7 @@ public class TvApp extends Application {
 
     private ILogger logger;
     private IConnectionManager connectionManager;
+    private IJsonSerializer serializer;
     private static TvApp app;
     private UserDto currentUser;
 
@@ -63,4 +65,15 @@ public class TvApp extends Application {
         this.currentUser = currentUser;
     }
 
+    public IJsonSerializer getSerializer() {
+        return serializer;
+    }
+
+    public void setSerializer(IJsonSerializer serializer) {
+        this.serializer = serializer;
+    }
+
+    public ApiClient getApiClient() {
+        return connectionManager.GetApiClient(currentUser);
+    }
 }
