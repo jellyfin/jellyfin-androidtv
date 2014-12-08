@@ -149,8 +149,27 @@ public class Utils {
             options.setImageIndex(0);
             options.setTag(item.getBackdropImageTags().get(0));
             return apiClient.GetImageUrl(item, options);
+        } else {
+            if (item.getParentBackdropImageTags() != null && item.getParentBackdropImageTags().size() > 0) {
+                ImageOptions options = new ImageOptions();
+                options.setMaxWidth(1200);
+                options.setImageType(ImageType.Backdrop);
+                options.setImageIndex(0);
+                options.setTag(item.getParentBackdropImageTags().get(0));
+                return apiClient.GetImageUrl(item.getParentBackdropItemId(), options);
+
+            }
         }
         return null;
+    }
+
+    public static String GetFullName(BaseItemDto item) {
+        switch (item.getType()) {
+            case "Episode":
+                return item.getSeriesName() + " " + item.getParentIndexNumber() + "x" + item.getIndexNumber() + " " + item.getName();
+            default:
+                return item.getName();
+        }
     }
 
     public static void Beep() {

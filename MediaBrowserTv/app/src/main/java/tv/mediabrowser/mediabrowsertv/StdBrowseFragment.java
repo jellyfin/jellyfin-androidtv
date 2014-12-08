@@ -51,7 +51,7 @@ import mediabrowser.model.dto.BaseItemDto;
 public class StdBrowseFragment extends BrowseFragment {
     private static final String TAG = "StdBrowseFragment";
 
-    private static final int BACKGROUND_UPDATE_DELAY = 300;
+    private static final int BACKGROUND_UPDATE_DELAY = 200;
 
     protected String MainTitle;
     protected ApiClient apiClient;
@@ -103,8 +103,20 @@ public class StdBrowseFragment extends BrowseFragment {
 
         for (BrowseRowDef def : mRows) {
             HeaderItem header = new HeaderItem(def.getHeaderText(), null);
-            ItemRowAdapter rowAdapter = new ItemRowAdapter(def.getQuery(), mCardPresenter);
-            mRowsAdapter.add(new ListRow(header,rowAdapter ));
+            ItemRowAdapter rowAdapter;
+            switch (def.getQueryType()) {
+                case NextUp:
+                    rowAdapter = new ItemRowAdapter(def.getNextUpQuery(), mCardPresenter);
+                    break;
+                case Views:
+                    rowAdapter = new ItemRowAdapter(new ViewQuery(), mCardPresenter);
+                    break;
+                default:
+                    rowAdapter = new ItemRowAdapter(def.getQuery(), mCardPresenter);
+                    break;
+            }
+
+            mRowsAdapter.add(new ListRow(header, rowAdapter));
             rowAdapter.Retrieve();
         }
 
@@ -166,11 +178,11 @@ public class StdBrowseFragment extends BrowseFragment {
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
-            if (item instanceof Movie) {
-                Movie movie = (Movie) item;
-                Log.d(TAG, "Item: " + item.toString());
+            if (item instanceof BaseItemDto) {
+                BaseItemDto baseItem = (BaseItemDto) item;
+                TvApp.getApplication().getLogger().Debug("Item selected: " + item.toString());
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                intent.putExtra(DetailsActivity.MOVIE, movie);
+                intent.putExtra("BaseItemDto", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
 
                 Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         getActivity(),
