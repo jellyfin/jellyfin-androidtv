@@ -1,8 +1,6 @@
 package tv.mediabrowser.mediabrowsertv;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,7 +14,6 @@ import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.ClassPresenterSelector;
 import android.support.v17.leanback.widget.DetailsOverviewRow;
 import android.support.v17.leanback.widget.DetailsOverviewRowPresenter;
-import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
@@ -40,7 +37,7 @@ import mediabrowser.model.dto.BaseItemDto;
 public class BaseItemDetailsFragment extends DetailsFragment {
     private static final String TAG = "BaseItemDetailsFragment";
 
-    private static final int ACTION_WATCH_TRAILER = 1;
+    private static final int ACTION_PLAY = 1;
     private static final int ACTION_RENT = 2;
     private static final int ACTION_BUY = 3;
 
@@ -110,8 +107,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
             } catch (IOException e) {
             }
 
-            row.addAction(new Action(ACTION_WATCH_TRAILER, getResources().getString(
-                    R.string.watch_trailer_1), getResources().getString(R.string.watch_trailer_2)));
+            row.addAction(new Action(ACTION_PLAY, "Play", "From Beginning"));
             row.addAction(new Action(ACTION_RENT, getResources().getString(R.string.rent_1),
                     getResources().getString(R.string.rent_2)));
             row.addAction(new Action(ACTION_BUY, getResources().getString(R.string.buy_1),
@@ -128,13 +124,13 @@ public class BaseItemDetailsFragment extends DetailsFragment {
             mDorPresenter.setOnActionClickedListener(new OnActionClickedListener() {
                 @Override
                 public void onActionClicked(Action action) {
-                    if (action.getId() == ACTION_WATCH_TRAILER) {
+                    if (action.getId() == ACTION_PLAY) {
                         Intent intent = new Intent(getActivity(), PlaybackOverlayActivity.class);
                         intent.putExtra("BaseItemDto", TvApp.getApplication().getSerializer().SerializeToString(mBaseItem));
                         intent.putExtra(getResources().getString(R.string.should_start), true);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(getActivity(), action.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), action.toString() + " not implemented", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

@@ -9,13 +9,21 @@ import android.media.ToneGenerator;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import java.net.URI;
 
 import mediabrowser.apiinteraction.ApiClient;
+import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.model.dlna.StreamBuilder;
+import mediabrowser.model.dlna.StreamInfo;
+import mediabrowser.model.dlna.VideoOptions;
+import mediabrowser.model.dlna.profiles.AndroidProfile;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.ImageOptions;
 import mediabrowser.model.entities.ImageType;
+import mediabrowser.model.session.PlaybackStartInfo;
+import mediabrowser.model.session.PlaybackStopInfo;
 
 /**
  * A collection of utility methods, all static.
@@ -135,7 +143,7 @@ public class Utils {
 
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient) {
         ImageOptions options = new ImageOptions();
-        options.setMaxWidth(320);
+        options.setMaxWidth(500);
         options.setImageType(ImageType.Primary);
         options.setTag(item.getImageTags().get(ImageType.Primary));
 
@@ -170,6 +178,34 @@ public class Utils {
             default:
                 return item.getName();
         }
+    }
+
+    public static void Play(BaseItemDto item, VideoView view) {
+        StreamBuilder builder = new StreamBuilder();
+        VideoOptions options = new VideoOptions();
+        ApiClient apiClient = TvApp.getApplication().getApiClient();
+        options.setDeviceId(apiClient.getDeviceId());
+        options.setItemId(item.getId());
+        options.setMediaSources(item.getMediaSources());
+        options.setProfile(new AndroidProfile());
+        StreamInfo info = builder.BuildVideoItem(options);
+        view.setVideoPath(info.ToUrl(apiClient.getApiUrl()));
+        TvApp.getApplication().setCurrentPlayingItem(item);
+
+        PlaybackStartInfo startInfo = new PlaybackStartInfo();
+        startInfo.setItemId(item.getId());
+        apiClient.ReportPlaybackStartAsync(startInfo, new EmptyResponse());
+
+    }
+
+    public static void Stop(BaseItemDto item, long pos) {
+        PlaybackStopInfo info = new PlaybackStopInfo();
+        ApiClient apiClient = TvApp.getApplication().getApiClient();
+        info.setItemId(item.getId());
+        info.setPositionTicks(pos);
+        apiClient.ReportPlaybackStoppedAsync(info, new EmptyResponse());
+        apiClient.StopTranscodingProcesses(apiClient.getDeviceId(), new EmptyResponse());
+
     }
 
     public static void Beep() {

@@ -58,6 +58,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import mediabrowser.model.dto.BaseItemDto;
+
 /*
  * Class for video playback with media control
  */
@@ -90,18 +92,19 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private SkipNextAction mSkipNextAction;
     private SkipPreviousAction mSkipPreviousAction;
     private PlaybackControlsRow mPlaybackControlsRow;
-    private ArrayList<Movie> mItems = new ArrayList<Movie>();
+    private ArrayList<BaseItemDto> mItems = new ArrayList<>();
     private int mCurrentItem;
     private Handler mHandler;
     private Runnable mRunnable;
-    private Movie mSelectedMovie;
+    private BaseItemDto mSelectedMovie;
+    private TvApp mApplication;
     private PicassoPlaybackControlsRowTarget mPlaybackControlsRowTarget;
 
     OnPlayPauseClickedListener mCallback;
 
     // Container Activity must implement this interface
     public interface OnPlayPauseClickedListener {
-        public void onFragmentPlayPause(Movie movie, int position, Boolean playPause);
+        public void onFragmentPlayPause(BaseItemDto movie, int position, Boolean playPause);
     }
 
     @Override
@@ -109,21 +112,17 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         sContext = getActivity();
+        mApplication = TvApp.getApplication();
 
-        mItems = new ArrayList<Movie>();
-        mSelectedMovie = (Movie) getActivity()
-                .getIntent().getSerializableExtra(DetailsActivity.MOVIE);
+        mItems = new ArrayList<>();
+        mSelectedMovie = mApplication.getSerializer().DeserializeFromString(getActivity()
+                .getIntent().getStringExtra("BaseItemDto"), BaseItemDto.class);
 
-        List<Movie> movies = MovieList.list;
+        //TODO get additional items to play from intent
+        mItems.add(mSelectedMovie);
+        mCurrentItem = 0;
 
-        ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new CardPresenter());
-
-        for (int j = 0; j < movies.size(); j++) {
-            mItems.add(movies.get(j));
-            if (mSelectedMovie.getTitle().contentEquals(movies.get(j).getTitle())) {
-                mCurrentItem = j;
-            }
-        }
+        //ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new CardPresenter());
 
         mHandler = new Handler();
 
@@ -146,6 +145,10 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                 Log.i(TAG, "onItemClicked: " + item + " row " + row);
             }
         });
+
+        if (getActivity().getIntent().getBooleanExtra("ShouldStart", false)) {
+            mCallback.onFragmentPlayPause(mSelectedMovie, 0, true);
+        }
     }
 
     @Override
@@ -215,16 +218,8 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     }
 
     private int getDuration() {
-        Movie movie = mItems.get(mCurrentItem);
-        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            mmr.setDataSource(movie.getVideoUrl(), new HashMap<String, String>());
-        } else {
-            mmr.setDataSource(movie.getVideoUrl());
-        }
-        String time = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-        long duration = Long.parseLong(time);
-        return (int) duration;
+        BaseItemDto movie = mItems.get(mCurrentItem);
+        return movie != null ? movie.getRunTimeTicks().intValue() : 0;
     }
 
     private void addPlaybackControlsRow() {
@@ -294,13 +289,13 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
     private void updatePlaybackRow(int index) {
         if (mPlaybackControlsRow.getItem() != null) {
-            Movie item = (Movie) mPlaybackControlsRow.getItem();
-            item.setTitle(mItems.get(mCurrentItem).getTitle());
-            item.setStudio(mItems.get(mCurrentItem).getStudio());
+            BaseItemDto item = (BaseItemDto) mPlaybackControlsRow.getItem();
+//            item.setTitle(mItems.get(mCurrentItem).getTitle());
+//            item.setStudio(mItems.get(mCurrentItem).getStudio());
         }
         if (SHOW_IMAGE) {
             mPlaybackControlsRowTarget = new PicassoPlaybackControlsRowTarget(mPlaybackControlsRow);
-            updateVideoImage(mItems.get(mCurrentItem).getCardImageURI());
+            updateVideoImage(Utils.getPrimaryImageUrl(mItems.get(mCurrentItem), mApplication.getApiClient()));
         }
         mRowsAdapter.notifyArrayItemRangeChanged(0, 1);
         mPlaybackControlsRow.setTotalTime(getDuration());
@@ -310,10 +305,10 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
     private void addOtherRows() {
         ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new CardPresenter());
-        for (Movie movie : mItems) {
+        for (BaseItemDto movie : mItems) {
             listRowAdapter.add(movie);
         }
-        HeaderItem header = new HeaderItem(0, getString(R.string.related_movies), null);
+        HeaderItem header = new HeaderItem(0, getString(R.string.current_queue), null);
         mRowsAdapter.add(new ListRow(header, listRowAdapter));
 
     }
@@ -384,8 +379,9 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     static class DescriptionPresenter extends AbstractDetailsDescriptionPresenter {
         @Override
         protected void onBindDescription(ViewHolder viewHolder, Object item) {
-            viewHolder.getTitle().setText(((Movie) item).getTitle());
-            viewHolder.getSubtitle().setText(((Movie) item).getStudio());
+            BaseItemDto movie = (BaseItemDto) item;
+            viewHolder.getTitle().setText(movie.getName());
+            viewHolder.getSubtitle().setText(movie.getOfficialRating());
         }
     }
 
@@ -413,9 +409,9 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         }
     }
 
-    protected void updateVideoImage(URI uri) {
+    protected void updateVideoImage(String url) {
         Picasso.with(sContext)
-                .load(uri.toString())
+                .load(url)
                 .resize(Utils.convertDpToPixel(sContext, CARD_WIDTH),
                         Utils.convertDpToPixel(sContext, CARD_HEIGHT))
                 .into(mPlaybackControlsRowTarget);
