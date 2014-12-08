@@ -63,7 +63,7 @@ public class StartupActivity extends Activity {
                 apiEventListener);
 
         application.setConnectionManager(connectionManager);
-        application.setSerializer(jsonSerializer);
+        application.setSerializer((GsonJsonSerializer)jsonSerializer);
 
         connectionManager.Connect(new Response<ConnectionResult>() {
             @Override

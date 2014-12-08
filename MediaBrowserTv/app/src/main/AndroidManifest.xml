@@ -45,6 +45,11 @@
             android:name="tv.mediabrowser.mediabrowsertv.SelectUserActivity"
             android:label="@string/title_activity_select_user" >
         </activity>
+        <activity android:name=".PlaybackOverlayActivity"
+            android:label="PlaybackOverlayActivity" >
+
+        </activity>
+        <activity android:name=".BrowseErrorActivity" ></activity>
     </application>
 
 </manifest>
