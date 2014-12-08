@@ -5,6 +5,7 @@ import android.util.Log;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.IConnectionManager;
+import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.logging.ConsoleLogger;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.logging.ILogger;
@@ -17,7 +18,7 @@ public class TvApp extends Application {
 
     private ILogger logger;
     private IConnectionManager connectionManager;
-    private IJsonSerializer serializer;
+    private GsonJsonSerializer serializer;
     private static TvApp app;
     private UserDto currentUser;
 
@@ -65,11 +66,11 @@ public class TvApp extends Application {
         this.currentUser = currentUser;
     }
 
-    public IJsonSerializer getSerializer() {
+    public GsonJsonSerializer getSerializer() {
         return serializer;
     }
 
-    public void setSerializer(IJsonSerializer serializer) {
+    public void setSerializer(GsonJsonSerializer serializer) {
         this.serializer = serializer;
     }
 

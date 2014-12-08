@@ -95,8 +95,8 @@ public class HomeFragment extends StdBrowseFragment {
                     Intent intent = new Intent(getActivity(), BrowseErrorActivity.class);
                     startActivity(intent);
                 } else if (((String) item).indexOf("Logout ") >= 0) {
-                    apiClient = TvApp.getApplication().getConnectionManager().GetApiClient(TvApp.getApplication().getCurrentUser());
-                    apiClient.Logout(new EmptyResponse() {
+                    mApiClient = TvApp.getApplication().getConnectionManager().GetApiClient(TvApp.getApplication().getCurrentUser());
+                    mApiClient.Logout(new EmptyResponse() {
                         @Override
                         public void onResponse() {
                             super.onResponse();

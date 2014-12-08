@@ -2,15 +2,17 @@ package tv.mediabrowser.mediabrowsertv;
 
 import android.support.v17.leanback.widget.AbstractDetailsDescriptionPresenter;
 
+import mediabrowser.model.dto.BaseItemDto;
+
 public class DetailsDescriptionPresenter extends AbstractDetailsDescriptionPresenter {
     @Override
     protected void onBindDescription(ViewHolder viewHolder, Object item) {
-        Movie movie = (Movie) item;
+        BaseItemDto baseItem = (BaseItemDto) item;
 
-        if (movie != null) {
-            viewHolder.getTitle().setText(movie.getTitle());
-            viewHolder.getSubtitle().setText(movie.getStudio());
-            viewHolder.getBody().setText(movie.getDescription());
+        if (baseItem != null) {
+            viewHolder.getTitle().setText(baseItem.getName());
+            viewHolder.getSubtitle().setText(baseItem.getOfficialRating());
+            viewHolder.getBody().setText(baseItem.getOverview());
         }
     }
 }

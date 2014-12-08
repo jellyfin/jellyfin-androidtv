@@ -45,6 +45,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import mediabrowser.apiinteraction.ApiClient;
+import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 
 
@@ -54,7 +55,8 @@ public class StdBrowseFragment extends BrowseFragment {
     private static final int BACKGROUND_UPDATE_DELAY = 200;
 
     protected String MainTitle;
-    protected ApiClient apiClient;
+    protected ApiClient mApiClient;
+    protected TvApp mApplication;
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     private ArrayObjectAdapter mRowsAdapter;
@@ -71,6 +73,8 @@ public class StdBrowseFragment extends BrowseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
         super.onActivityCreated(savedInstanceState);
+
+        mApplication = TvApp.getApplication();
 
         prepareBackgroundManager();
 
@@ -175,20 +179,33 @@ public class StdBrowseFragment extends BrowseFragment {
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
         @Override
-        public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
+        public void onItemClicked(final Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (item instanceof BaseItemDto) {
-                BaseItemDto baseItem = (BaseItemDto) item;
+                final BaseItemDto baseItem = (BaseItemDto) item;
                 TvApp.getApplication().getLogger().Debug("Item selected: " + item.toString());
-                Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                intent.putExtra("BaseItemDto", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+                //Retrieve full item for display and playback
+                mApplication.getApiClient().GetItemAsync(baseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                    @Override
+                    public void onResponse(BaseItemDto response) {
+                        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                        intent.putExtra("BaseItemDto", TvApp.getApplication().getSerializer().SerializeToString(response));
 
-                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        getActivity(),
-                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                getActivity().startActivity(intent, bundle);
+                        Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                getActivity(),
+                                ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                                DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                        getActivity().startActivity(intent, bundle);
+
+                    }
+
+                    @Override
+                    public void onError(Exception exception) {
+                        mApplication.getLogger().ErrorException("Error retrieving full object", exception);
+                        exception.printStackTrace();
+                    }
+                });
             }
         }
     }
