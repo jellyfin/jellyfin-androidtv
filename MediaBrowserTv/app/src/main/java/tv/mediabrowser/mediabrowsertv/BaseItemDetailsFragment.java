@@ -126,7 +126,8 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 public void onActionClicked(Action action) {
                     if (action.getId() == ACTION_PLAY) {
                         Intent intent = new Intent(getActivity(), PlaybackOverlayActivity.class);
-                        intent.putExtra("BaseItemDto", TvApp.getApplication().getSerializer().SerializeToString(mBaseItem));
+                        String[] items = new String[] {TvApp.getApplication().getSerializer().SerializeToString(mBaseItem)};
+                        intent.putExtra("Items", items);
                         intent.putExtra(getResources().getString(R.string.should_start), true);
                         startActivity(intent);
                     } else {

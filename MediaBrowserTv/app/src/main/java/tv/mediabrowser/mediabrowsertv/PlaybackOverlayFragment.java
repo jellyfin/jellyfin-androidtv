@@ -18,8 +18,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.MediaMetadataRetriever;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.widget.AbstractDetailsDescriptionPresenter;
@@ -49,15 +47,15 @@ import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.util.Log;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
 
 /*
@@ -69,7 +67,6 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private static Context sContext;
 
     private static final boolean SHOW_DETAIL = true;
-    private static final boolean HIDE_MORE_ACTIONS = false;
     private static final int PRIMARY_CONTROLS = 5;
     private static final boolean SHOW_IMAGE = PRIMARY_CONTROLS <= 5;
     private static final int BACKGROUND_TYPE = PlaybackOverlayFragment.BG_LIGHT;
@@ -92,20 +89,13 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private SkipNextAction mSkipNextAction;
     private SkipPreviousAction mSkipPreviousAction;
     private PlaybackControlsRow mPlaybackControlsRow;
-    private ArrayList<BaseItemDto> mItems = new ArrayList<>();
-    private int mCurrentItem;
     private Handler mHandler;
     private Runnable mRunnable;
-    private BaseItemDto mSelectedMovie;
     private TvApp mApplication;
     private PicassoPlaybackControlsRowTarget mPlaybackControlsRowTarget;
-
-    OnPlayPauseClickedListener mCallback;
-
-    // Container Activity must implement this interface
-    public interface OnPlayPauseClickedListener {
-        public void onFragmentPlayPause(BaseItemDto movie, int position, Boolean playPause);
-    }
+    private PlaybackController mPlaybackController;
+    private List<BaseItemDto> mItemsToPlay = new ArrayList<>();
+    private VideoView mVideoView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -114,15 +104,17 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         sContext = getActivity();
         mApplication = TvApp.getApplication();
 
-        mItems = new ArrayList<>();
-        mSelectedMovie = mApplication.getSerializer().DeserializeFromString(getActivity()
-                .getIntent().getStringExtra("BaseItemDto"), BaseItemDto.class);
+        GsonJsonSerializer serializer = mApplication.getSerializer();
 
-        //TODO get additional items to play from intent
-        mItems.add(mSelectedMovie);
-        mCurrentItem = 0;
+        String[] passedItems = getActivity().getIntent().getStringArrayExtra("Items");
+        if (passedItems != null) {
+            for (String json : passedItems) {
+                mItemsToPlay.add((BaseItemDto) serializer.DeserializeFromString(json, BaseItemDto.class));
+            }
+        }
 
-        //ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new CardPresenter());
+        mApplication.setPlaybackController(new PlaybackController(mItemsToPlay));
+        mPlaybackController = mApplication.getPlaybackController();
 
         mHandler = new Handler();
 
@@ -147,23 +139,10 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         });
 
         if (getActivity().getIntent().getBooleanExtra("ShouldStart", false)) {
-            mCallback.onFragmentPlayPause(mSelectedMovie, 0, true);
+            mPlaybackController.onFragmentPlayPause(0, true);
         }
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
-        try {
-            mCallback = (OnPlayPauseClickedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnPlayPauseClickedListener");
-        }
-    }
 
     private void setupRows() {
 
@@ -182,18 +161,16 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                     if (mPlayPauseAction.getIndex() == PlayPauseAction.PLAY) {
                         startProgressAutomation();
                         setFadingEnabled(true);
-                        mCallback.onFragmentPlayPause(mItems.get(mCurrentItem),
-                                mPlaybackControlsRow.getCurrentTime(), true);
+                        mPlaybackController.onFragmentPlayPause(mPlaybackControlsRow.getCurrentTime(), true);
                     } else {
                         stopProgressAutomation();
                         setFadingEnabled(false);
-                        mCallback.onFragmentPlayPause(mItems.get(mCurrentItem),
-                                mPlaybackControlsRow.getCurrentTime(), false);
+                        mPlaybackController.onFragmentPlayPause(mPlaybackControlsRow.getCurrentTime(), false);
                     }
                 } else if (action.getId() == mSkipNextAction.getId()) {
-                    next();
+                    mPlaybackController.next();
                 } else if (action.getId() == mSkipPreviousAction.getId()) {
-                    prev();
+                    mPlaybackController.prev();
                 } else if (action.getId() == mFastForwardAction.getId()) {
                     Toast.makeText(getActivity(), "TODO: Fast Forward", Toast.LENGTH_SHORT).show();
                 } else if (action.getId() == mRewindAction.getId()) {
@@ -205,20 +182,20 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                 }
             }
         });
-        playbackControlsRowPresenter.setSecondaryActionsHidden(HIDE_MORE_ACTIONS);
+        playbackControlsRowPresenter.setSecondaryActionsHidden(false);
 
         ps.addClassPresenter(PlaybackControlsRow.class, playbackControlsRowPresenter);
         ps.addClassPresenter(ListRow.class, new ListRowPresenter());
         mRowsAdapter = new ArrayObjectAdapter(ps);
 
         addPlaybackControlsRow();
-        if (mItems.size() > 1) addOtherRows(); // only show queue if more than one item
+        if (mItemsToPlay.size() > 1) addQueueRow(); // only show queue if more than one item
 
         setAdapter(mRowsAdapter);
     }
 
     private int getDuration() {
-        BaseItemDto movie = mItems.get(mCurrentItem);
+        BaseItemDto movie = mPlaybackController.getCurrentlyPlayingItem();
 
         if (movie != null) {
             Long mbRuntime = movie.getRunTimeTicks();
@@ -230,13 +207,13 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
     private void addPlaybackControlsRow() {
         if (SHOW_DETAIL) {
-            mPlaybackControlsRow = new PlaybackControlsRow(mSelectedMovie);
+            mPlaybackControlsRow = new PlaybackControlsRow(mPlaybackController.getCurrentlyPlayingItem());
         } else {
             mPlaybackControlsRow = new PlaybackControlsRow();
         }
         mRowsAdapter.add(mPlaybackControlsRow);
 
-        updatePlaybackRow(mCurrentItem);
+        updatePlaybackRow();
 
         ControlButtonPresenterSelector presenterSelector = new ControlButtonPresenterSelector();
         mPrimaryActionsAdapter = new ArrayObjectAdapter(presenterSelector);
@@ -293,15 +270,10 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         }
     }
 
-    private void updatePlaybackRow(int index) {
-        if (mPlaybackControlsRow.getItem() != null) {
-            BaseItemDto item = (BaseItemDto) mPlaybackControlsRow.getItem();
-//            item.setTitle(mItems.get(mCurrentItem).getTitle());
-//            item.setStudio(mItems.get(mCurrentItem).getStudio());
-        }
+    private void updatePlaybackRow() {
         if (SHOW_IMAGE) {
             mPlaybackControlsRowTarget = new PicassoPlaybackControlsRowTarget(mPlaybackControlsRow);
-            updateVideoImage(Utils.getPrimaryImageUrl(mItems.get(mCurrentItem), mApplication.getApiClient()));
+            updateVideoImage(Utils.getPrimaryImageUrl(mPlaybackController.getCurrentlyPlayingItem(), mApplication.getApiClient()));
         }
         mRowsAdapter.notifyArrayItemRangeChanged(0, 1);
         mPlaybackControlsRow.setTotalTime(getDuration());
@@ -309,9 +281,9 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         mPlaybackControlsRow.setBufferedProgress(0);
     }
 
-    private void addOtherRows() {
+    private void addQueueRow() {
         ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new CardPresenter());
-        for (BaseItemDto movie : mItems) {
+        for (BaseItemDto movie : mItemsToPlay) {
             listRowAdapter.add(movie);
         }
         HeaderItem header = new HeaderItem(0, getString(R.string.current_queue), null);
@@ -334,10 +306,11 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                 int currentTime = mPlaybackControlsRow.getCurrentTime() + updatePeriod;
                 int totalTime = mPlaybackControlsRow.getTotalTime();
                 mPlaybackControlsRow.setCurrentTime(currentTime);
+                mPlaybackController.setmCurrentPosition(currentTime);
                 mPlaybackControlsRow.setBufferedProgress(currentTime + SIMULATED_BUFFERED_TIME);
 
                 if (totalTime > 0 && totalTime <= currentTime) {
-                    next();
+                    mPlaybackController.next();
                 }
                 mHandler.postDelayed(this, updatePeriod);
             }
@@ -345,30 +318,6 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         mHandler.postDelayed(mRunnable, getUpdatePeriod());
     }
 
-    private void next() {
-        if (++mCurrentItem >= mItems.size()) {
-            mCurrentItem = 0;
-        }
-
-        if (mPlayPauseAction.getIndex() == PlayPauseAction.PLAY) {
-            mCallback.onFragmentPlayPause(mItems.get(mCurrentItem), 0, false);
-        } else {
-            mCallback.onFragmentPlayPause(mItems.get(mCurrentItem), 0, true);
-        }
-        updatePlaybackRow(mCurrentItem);
-    }
-
-    private void prev() {
-        if (--mCurrentItem < 0) {
-            mCurrentItem = mItems.size() - 1;
-        }
-        if (mPlayPauseAction.getIndex() == PlayPauseAction.PLAY) {
-            mCallback.onFragmentPlayPause(mItems.get(mCurrentItem), 0, false);
-        } else {
-            mCallback.onFragmentPlayPause(mItems.get(mCurrentItem), 0, true);
-        }
-        updatePlaybackRow(mCurrentItem);
-    }
 
     private void stopProgressAutomation() {
         if (mHandler != null && mRunnable != null) {
