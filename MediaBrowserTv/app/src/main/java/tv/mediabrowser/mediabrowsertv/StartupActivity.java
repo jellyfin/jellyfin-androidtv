@@ -2,14 +2,7 @@ package tv.mediabrowser.mediabrowsertv;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -38,6 +31,7 @@ public class StartupActivity extends Activity {
         setContentView(R.layout.fragment_startup);
         application = (TvApp) getApplicationContext();
         final Activity activity = this;
+
 
         connectToServer(activity);
 
@@ -136,4 +130,5 @@ public class StartupActivity extends Activity {
         });
 
     }
+
 }

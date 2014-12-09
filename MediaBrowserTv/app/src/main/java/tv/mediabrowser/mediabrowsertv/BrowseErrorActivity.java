@@ -29,11 +29,8 @@ import android.widget.ProgressBar;
  */
 public class BrowseErrorActivity extends Activity {
     private static int TIMER_DELAY = 3000;
-    private static int SPINNER_WIDTH = 100;
-    private static int SPINNER_HEIGHT = 100;
 
     private ErrorFragment mErrorFragment;
-    private SpinnerFragment mSpinnerFragment;
 
     /**
      * Called when the activity is first created.
@@ -50,9 +47,6 @@ public class BrowseErrorActivity extends Activity {
         mErrorFragment = new ErrorFragment();
         getFragmentManager().beginTransaction().add(R.id.main_browse_fragment, mErrorFragment).commit();
 
-        mSpinnerFragment = new SpinnerFragment();
-        getFragmentManager().beginTransaction().add(R.id.main_browse_fragment, mSpinnerFragment).commit();
-
         final Handler display = new Handler();
         display.postDelayed(new Runnable() {
             @Override
@@ -65,24 +59,10 @@ public class BrowseErrorActivity extends Activity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                getFragmentManager().beginTransaction().remove(mSpinnerFragment).commit();
                 mErrorFragment.setErrorContent(msg);
                 if (shutDown) System.exit(1);
             }
         }, TIMER_DELAY);
     }
 
-    static public class SpinnerFragment extends Fragment {
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            ProgressBar progressBar = new ProgressBar(container.getContext());
-            if (container instanceof FrameLayout) {
-                FrameLayout.LayoutParams layoutParams =
-                        new FrameLayout.LayoutParams(SPINNER_WIDTH, SPINNER_HEIGHT, Gravity.CENTER);
-                progressBar.setLayoutParams(layoutParams);
-            }
-            return progressBar;
-        }
-    }
 }
