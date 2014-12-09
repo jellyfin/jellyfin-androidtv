@@ -14,26 +14,15 @@
 package tv.mediabrowser.mediabrowsertv;
 
 import android.app.Activity;
-import android.media.MediaPlayer;
-import android.media.session.MediaController;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.VideoView;
-
-import mediabrowser.apiinteraction.ApiClient;
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.model.dlna.StreamBuilder;
-import mediabrowser.model.dlna.VideoOptions;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.session.PlaybackStopInfo;
 
 /**
  * PlaybackOverlayActivity for video playback that loads PlaybackOverlayFragment
  */
-public class PlaybackOverlayActivity extends Activity implements
-        PlaybackOverlayFragment.OnPlayPauseClickedListener {
+public class PlaybackOverlayActivity extends Activity {
     private static final String TAG = "PlaybackOverlayActivity";
 
     private static final double MEDIA_HEIGHT = 0.95;
@@ -43,10 +32,8 @@ public class PlaybackOverlayActivity extends Activity implements
     private static final double MEDIA_BOTTOM_MARGIN = 0.025;
     private static final double MEDIA_LEFT_MARGIN = 0.025;
 
-    private ApiClient mApiClient;
-
     private VideoView mVideoView;
-    private PlaybackState mPlaybackState = PlaybackState.IDLE;
+    private TvApp mApplication;
 
     /**
      * Called when the activity is first created.
@@ -54,45 +41,22 @@ public class PlaybackOverlayActivity extends Activity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mApiClient = TvApp.getApplication().getApiClient();
         setContentView(R.layout.playback_controls);
+        mApplication = TvApp.getApplication();
         loadViews();
-        setupCallbacks();
         //overScan();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Utils.Stop(TvApp.getApplication().getCurrentPlayingItem(), mVideoView.getCurrentPosition());
         mVideoView.suspend();
-    }
-
-    /**
-     * Implementation of OnPlayPauseClickedListener
-     */
-    public void onFragmentPlayPause(BaseItemDto movie, int position, Boolean playPause) {
-        Utils.Play(movie, mVideoView);
-
-        if (position == 0 || mPlaybackState == PlaybackState.IDLE) {
-            setupCallbacks();
-            mPlaybackState = PlaybackState.IDLE;
-        }
-
-        if (playPause && mPlaybackState != PlaybackState.PLAYING) {
-            mPlaybackState = PlaybackState.PLAYING;
-            if (position > 0) {
-                mVideoView.seekTo(position);
-                mVideoView.start();
-            }
-        } else {
-            mPlaybackState = PlaybackState.PAUSED;
-            mVideoView.pause();
-        }
+        Utils.Stop(mApplication.getPlaybackController().getCurrentlyPlayingItem(), mApplication.getPlaybackController().getmCurrentPosition() * 10000);
     }
 
     private void loadViews() {
         mVideoView = (VideoView) findViewById(R.id.videoView);
+        mApplication.getPlaybackController().init(mVideoView);
     }
 
     private void overScan() {
@@ -108,55 +72,4 @@ public class PlaybackOverlayActivity extends Activity implements
         lp.setMargins(marginLeft, marginTop, marginRight, marginBottom);
         mVideoView.setLayoutParams(lp);
     }
-
-    private void setupCallbacks() {
-
-        mVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-
-            @Override
-            public boolean onError(MediaPlayer mp, int what, int extra) {
-                String msg = "";
-                if (extra == MediaPlayer.MEDIA_ERROR_TIMED_OUT) {
-                    msg = getString(R.string.video_error_media_load_timeout);
-                } else if (what == MediaPlayer.MEDIA_ERROR_SERVER_DIED) {
-                    msg = getString(R.string.video_error_server_inaccessible);
-                } else {
-                    msg = getString(R.string.video_error_unknown_error);
-                }
-                mVideoView.stopPlayback();
-                mPlaybackState = PlaybackState.IDLE;
-                return false;
-            }
-        });
-
-
-        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                if (mPlaybackState == PlaybackState.PLAYING) {
-                    mVideoView.start();
-                }
-            }
-        });
-
-
-        mVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mPlaybackState = PlaybackState.IDLE;
-                Long mbPos = new Long(mVideoView.getCurrentPosition()) * 10000;
-                Utils.Stop(TvApp.getApplication().getCurrentPlayingItem(), mbPos);
-                mVideoView.suspend();
-            }
-        });
-
-    }
-
-    /*
-     * List of various states that we can be in
-     */
-    public static enum PlaybackState {
-        PLAYING, PAUSED, BUFFERING, IDLE;
-    }
-
 }

@@ -24,6 +24,7 @@ public class TvApp extends Application {
     private static TvApp app;
     private UserDto currentUser;
     private BaseItemDto currentPlayingItem;
+    private PlaybackController playbackController;
 
     @Override
     public void onCreate() {
@@ -92,5 +93,13 @@ public class TvApp extends Application {
 
     public void setCurrentPlayingItem(BaseItemDto currentPlayingItem) {
         this.currentPlayingItem = currentPlayingItem;
+    }
+
+    public PlaybackController getPlaybackController() {
+        return playbackController;
+    }
+
+    public void setPlaybackController(PlaybackController playbackController) {
+        this.playbackController = playbackController;
     }
 }
