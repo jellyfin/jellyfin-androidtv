@@ -212,14 +212,20 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         mRowsAdapter = new ArrayObjectAdapter(ps);
 
         addPlaybackControlsRow();
-        addOtherRows();
+        if (mItems.size() > 1) addOtherRows(); // only show queue if more than one item
 
         setAdapter(mRowsAdapter);
     }
 
     private int getDuration() {
         BaseItemDto movie = mItems.get(mCurrentItem);
-        return movie != null ? movie.getRunTimeTicks().intValue() : 0;
+
+        if (movie != null) {
+            Long mbRuntime = movie.getRunTimeTicks();
+            Long andDuration = mbRuntime != null ? mbRuntime / 10000: 0;
+            return andDuration.intValue();
+        }
+        return 0;
     }
 
     private void addPlaybackControlsRow() {
