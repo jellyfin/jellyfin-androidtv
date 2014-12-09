@@ -144,7 +144,8 @@ public class PlaybackOverlayActivity extends Activity implements
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mPlaybackState = PlaybackState.IDLE;
-                Utils.Stop(TvApp.getApplication().getCurrentPlayingItem(), mVideoView.getCurrentPosition());
+                Long mbPos = new Long(mVideoView.getCurrentPosition()) * 10000;
+                Utils.Stop(TvApp.getApplication().getCurrentPlayingItem(), mbPos);
                 mVideoView.suspend();
             }
         });
