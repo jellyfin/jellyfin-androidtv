@@ -43,22 +43,31 @@ public class BrowseErrorActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        testError();
+        showError(getIntent().getStringExtra("Message"), getIntent().getBooleanExtra("Shutdown", false));
     }
 
-    private void testError() {
+    private void showError(final String msg, final Boolean shutDown) {
         mErrorFragment = new ErrorFragment();
         getFragmentManager().beginTransaction().add(R.id.main_browse_fragment, mErrorFragment).commit();
 
         mSpinnerFragment = new SpinnerFragment();
         getFragmentManager().beginTransaction().add(R.id.main_browse_fragment, mSpinnerFragment).commit();
 
+        final Handler display = new Handler();
+        display.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mErrorFragment.setErrorContent(msg);
+            }
+        }, 250);
+
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 getFragmentManager().beginTransaction().remove(mSpinnerFragment).commit();
-                mErrorFragment.setErrorContent();
+                mErrorFragment.setErrorContent(msg);
+                if (shutDown) System.exit(1);
             }
         }, TIMER_DELAY);
     }

@@ -32,9 +32,9 @@ public class ErrorFragment extends android.support.v17.leanback.app.ErrorFragmen
         setTitle(getResources().getString(R.string.app_name));
     }
 
-    void setErrorContent() {
+    void setErrorContent(String msg) {
         setImageDrawable(getResources().getDrawable(R.drawable.lb_ic_sad_cloud));
-        setMessage(getResources().getString(R.string.error_fragment_message));
+        setMessage(msg);
         setDefaultBackground(TRANSLUCENT);
 
         setButtonText(getResources().getString(R.string.dismiss_error));

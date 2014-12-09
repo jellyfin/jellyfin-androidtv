@@ -93,6 +93,7 @@ public class HomeFragment extends StdBrowseFragment {
             if (item instanceof String) {
                 if (((String) item).indexOf(getString(R.string.error_fragment)) >= 0) {
                     Intent intent = new Intent(getActivity(), BrowseErrorActivity.class);
+                    intent.putExtra("Message", "Test Error");
                     startActivity(intent);
                 } else if (((String) item).indexOf("Logout ") >= 0) {
                     mApiClient = TvApp.getApplication().getConnectionManager().GetApiClient(TvApp.getApplication().getCurrentUser());
