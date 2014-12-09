@@ -1,6 +1,7 @@
 package tv.mediabrowser.mediabrowsertv;
 
 import android.app.Application;
+import android.content.Intent;
 import android.util.Log;
 
 import mediabrowser.apiinteraction.ApiClient;
@@ -34,7 +35,12 @@ public class TvApp extends Application {
             public void uncaughtException(Thread thread, Throwable ex) {
                 Log.e("MediaBrowserTv", "Uncaught exception is: ", ex);
                 ex.printStackTrace();
-                         }
+                Intent intent = new Intent(app, BrowseErrorActivity.class);
+                intent.putExtra("Message", ex.getMessage());
+                intent.putExtra("Shutdown", true);
+                startActivity(intent);
+
+            }
                  });
 
 
