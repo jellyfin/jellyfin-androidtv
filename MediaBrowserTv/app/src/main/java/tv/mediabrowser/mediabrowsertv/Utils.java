@@ -199,12 +199,15 @@ public class Utils {
     }
 
     public static void Stop(BaseItemDto item, long pos) {
-        PlaybackStopInfo info = new PlaybackStopInfo();
-        ApiClient apiClient = TvApp.getApplication().getApiClient();
-        info.setItemId(item.getId());
-        info.setPositionTicks(pos);
-        apiClient.ReportPlaybackStoppedAsync(info, new EmptyResponse());
-        apiClient.StopTranscodingProcesses(apiClient.getDeviceId(), new EmptyResponse());
+        if (item != null) {
+            PlaybackStopInfo info = new PlaybackStopInfo();
+            ApiClient apiClient = TvApp.getApplication().getApiClient();
+            info.setItemId(item.getId());
+            info.setPositionTicks(pos);
+            apiClient.ReportPlaybackStoppedAsync(info, new EmptyResponse());
+            apiClient.StopTranscodingProcesses(apiClient.getDeviceId(), new EmptyResponse());
+
+        }
 
     }
 
