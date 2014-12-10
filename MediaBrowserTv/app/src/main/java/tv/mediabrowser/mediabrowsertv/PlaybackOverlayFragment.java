@@ -151,7 +151,9 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     }
 
     public void startPlayback() {
-        getActivity().findViewById(R.id.bufferingProgress).setVisibility(View.VISIBLE);
+        if (mPlaybackController.isIdle()) {
+            getActivity().findViewById(R.id.bufferingProgress).setVisibility(View.VISIBLE);
+        }
         startProgressAutomation();
         setFadingEnabled(true);
         mPlaybackController.play(mPlaybackControlsRow.getCurrentTime());
@@ -318,7 +320,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                 if (mPlaybackController.isPlaying()) {
                     if (!spinnerOff) {
                         spinnerOff = true;
-                        getActivity().findViewById(R.id.bufferingProgress).setVisibility(View.INVISIBLE);
+                        getActivity().findViewById(R.id.bufferingProgress).setVisibility(View.GONE);
                     }
                     int currentTime = mPlaybackControlsRow.getCurrentTime() + updatePeriod;
                     int totalTime = mPlaybackControlsRow.getTotalTime();

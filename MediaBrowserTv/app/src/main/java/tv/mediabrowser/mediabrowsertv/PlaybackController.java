@@ -160,6 +160,14 @@ public class PlaybackController {
         this.mCurrentPosition = mCurrentPosition;
     }
 
+    public boolean isPaused() {
+        return mPlaybackState == PlaybackState.PAUSED;
+    }
+
+    public boolean isIdle() {
+        return mPlaybackState == PlaybackState.IDLE;
+    }
+
 
     /*
  * List of various states that we can be in
