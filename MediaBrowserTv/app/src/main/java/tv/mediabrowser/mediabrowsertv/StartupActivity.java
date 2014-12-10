@@ -24,6 +24,7 @@ import mediabrowser.model.users.AuthenticationResult;
 public class StartupActivity extends Activity {
 
     private TvApp application;
+    private ILogger logger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +32,13 @@ public class StartupActivity extends Activity {
         setContentView(R.layout.fragment_startup);
         application = (TvApp) getApplicationContext();
         final Activity activity = this;
+        logger = application.getLogger();
 
-
-        connectToServer(activity);
+        establishConnection(activity);
 
     }
 
-    private void connectToServer(final Activity activity){
-        final ILogger logger = application.getLogger();
+    private void establishConnection(final Activity activity){
         // The underlying http stack. Developers can inject their own if desired
         VolleyHttpClient volleyHttpClient = new VolleyHttpClient(logger, application);
         ClientCapabilities capabilities = new ClientCapabilities();
@@ -75,42 +75,8 @@ public class StartupActivity extends Activity {
                         break;
                     case ServerSignIn:
                         logger.Debug("Sign in with server "+ response.getServers().get(0).getName() + " total: " + response.getServers().size());
-                        //connectionManager.Connect(response.getServers().get(0), new Response<ConnectionResult>() {
-                        //force to dev server
-                        connectionManager.Connect("eric-office:8096", new Response<ConnectionResult>() {
-                            @Override
-                            public void onResponse(ConnectionResult serverResult) {
-                                switch (serverResult.getState()) {
-                                    case ServerSignIn:
-                                        try {
-                                            serverResult.getApiClient().AuthenticateUserAsync("ebr","0101", new Response<AuthenticationResult>() {
-                                                @Override
-                                                public void onResponse(AuthenticationResult authenticationResult) {
-                                                    logger.Debug("Signed in as " + authenticationResult.getUser().getName());
-                                                    application.setCurrentUser(authenticationResult.getUser());
-                                                    Intent intent = new Intent(activity, MainActivity.class);
-                                                    startActivity(intent);
-                                                }
+                        signInToServer(connectionManager, "eric-office:8096", activity);
 
-                                                @Override
-                                                public void onError(Exception exception) {
-                                                    super.onError(exception);
-                                                    logger.ErrorException("Error logging in", exception);
-                                                    Utils.showToast(activity, "Error logging in");
-                                                    System.exit(1);
-                                                }
-                                            });
-                                        } catch (NoSuchAlgorithmException e) {
-                                            e.printStackTrace();
-                                        } catch (UnsupportedEncodingException e) {
-                                            e.printStackTrace();
-                                        }
-                                        break;
-                                }
-                            }
-
-
-                    });
                         break;
                     case SignedIn:
                         logger.Debug("Already signed in");
@@ -124,11 +90,52 @@ public class StartupActivity extends Activity {
                         });
                         break;
                     case ServerSelection:
+                        logger.Debug("Select A server");
+                        signInToServer(connectionManager, "eric-office:8096", activity);
 
                 }
             }
         });
 
+    }
+
+    private void signInToServer(IConnectionManager connectionManager, String address, final Activity activity) {
+        //connectionManager.Connect(response.getServers().get(0), new Response<ConnectionResult>() {
+        //force to dev server
+        connectionManager.Connect(address, new Response<ConnectionResult>() {
+            @Override
+            public void onResponse(ConnectionResult serverResult) {
+                switch (serverResult.getState()) {
+                    case ServerSignIn:
+                        try {
+                            serverResult.getApiClient().AuthenticateUserAsync("ebr","0101", new Response<AuthenticationResult>() {
+                                @Override
+                                public void onResponse(AuthenticationResult authenticationResult) {
+                                    logger.Debug("Signed in as " + authenticationResult.getUser().getName());
+                                    application.setCurrentUser(authenticationResult.getUser());
+                                    Intent intent = new Intent(activity, MainActivity.class);
+                                    startActivity(intent);
+                                }
+
+                                @Override
+                                public void onError(Exception exception) {
+                                    super.onError(exception);
+                                    logger.ErrorException("Error logging in", exception);
+                                    Utils.showToast(activity, "Error logging in");
+                                    System.exit(1);
+                                }
+                            });
+                        } catch (NoSuchAlgorithmException e) {
+                            e.printStackTrace();
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                }
+            }
+
+
+        });
     }
 
 }
