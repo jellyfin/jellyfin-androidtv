@@ -41,6 +41,15 @@ public class HomeFragment extends StdBrowseFragment {
 
         mRows.add(new BrowseRowDef("Library", new ViewQuery()));
 
+        StdItemQuery resumeMovies = new StdItemQuery();
+        resumeMovies.setIncludeItemTypes(new String[]{"Movie"});
+        resumeMovies.setRecursive(true);
+        resumeMovies.setLimit(50);
+        resumeMovies.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
+        resumeMovies.setSortBy(new String[]{ItemSortBy.DatePlayed});
+        resumeMovies.setSortOrder(SortOrder.Descending);
+        mRows.add(new BrowseRowDef("Continue Watching", resumeMovies));
+
         StdItemQuery latestMovies = new StdItemQuery();
         latestMovies.setIncludeItemTypes(new String[]{"Movie"});
         latestMovies.setRecursive(true);
