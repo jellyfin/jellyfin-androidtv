@@ -13,6 +13,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import java.net.URI;
+import java.util.Arrays;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.EmptyResponse;
@@ -22,6 +23,7 @@ import mediabrowser.model.dlna.VideoOptions;
 import mediabrowser.model.dlna.profiles.AndroidProfile;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.ImageOptions;
+import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.session.PlaybackProgressInfo;
 import mediabrowser.model.session.PlaybackStartInfo;
@@ -143,10 +145,23 @@ public class Utils {
         return Math.round((float) dp * density);
     }
 
-    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient) {
+    private static String[] ProgressIndicatorTypes = new String[] {"Episode", "Movie", "MusicVideo", "Video"};
+
+    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched) {
         ImageOptions options = new ImageOptions();
         options.setMaxWidth(320);
         options.setImageType(ImageType.Primary);
+        UserItemDataDto userData = item.getUserData();
+        if (userData != null) {
+            if (Arrays.asList(ProgressIndicatorTypes).contains(item.getType()) && userData.getPlayedPercentage() != null
+                    && userData.getPlayedPercentage() > 0 && userData.getPlayedPercentage() < 99) {
+                Double pct = userData.getPlayedPercentage();
+                options.setPercentPlayed(pct.intValue());
+            }
+            if (showWatched) options.setAddPlayedIndicator(userData.getPlayed());
+
+        }
+
         options.setTag(item.getImageTags().get(ImageType.Primary));
 
         return apiClient.GetImageUrl(item, options);
