@@ -98,7 +98,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
             DetailsOverviewRow row = new DetailsOverviewRow(BaseItemDetailsFragment.this.mBaseItem);
             try {
                 Bitmap poster = Picasso.with(getActivity())
-                        .load(Utils.getPrimaryImageUrl(BaseItemDetailsFragment.this.mBaseItem, mApiClient))
+                        .load(Utils.getPrimaryImageUrl(BaseItemDetailsFragment.this.mBaseItem, mApiClient, true))
                                 .resize(Utils.convertDpToPixel(getActivity().getApplicationContext(), DETAIL_THUMB_WIDTH),
                                         Utils.convertDpToPixel(getActivity().getApplicationContext(), DETAIL_THUMB_HEIGHT))
                                 .centerCrop()

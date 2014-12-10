@@ -90,7 +90,7 @@ public class CardPresenter extends Presenter {
             //((ViewHolder) viewHolder).mCardView.setBadgeImage(mContext.getResources().getDrawable(
             //        R.drawable.videos_by_google_icon));
 
-            ((ViewHolder) viewHolder).updateCardViewImage(Utils.getPrimaryImageUrl(baseItem, application.getConnectionManager().GetApiClient(baseItem)));
+            ((ViewHolder) viewHolder).updateCardViewImage(Utils.getPrimaryImageUrl(baseItem, application.getConnectionManager().GetApiClient(baseItem),true));
 
         }
     }

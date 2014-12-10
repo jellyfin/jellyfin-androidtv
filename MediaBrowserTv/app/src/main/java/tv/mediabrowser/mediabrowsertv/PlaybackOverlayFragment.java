@@ -285,7 +285,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private void updatePlaybackRow() {
         if (SHOW_IMAGE) {
             mPlaybackControlsRowTarget = new PicassoPlaybackControlsRowTarget(mPlaybackControlsRow);
-            updateVideoImage(Utils.getPrimaryImageUrl(mPlaybackController.getCurrentlyPlayingItem(), mApplication.getApiClient()));
+            updateVideoImage(Utils.getPrimaryImageUrl(mPlaybackController.getCurrentlyPlayingItem(), mApplication.getApiClient(), false));
         }
         mRowsAdapter.notifyArrayItemRangeChanged(0, 1);
         mPlaybackControlsRow.setTotalTime(getDuration());
