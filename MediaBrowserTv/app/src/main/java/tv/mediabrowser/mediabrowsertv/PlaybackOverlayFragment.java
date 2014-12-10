@@ -15,6 +15,7 @@ package tv.mediabrowser.mediabrowsertv;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -74,7 +75,6 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private static final int CARD_HEIGHT = 240;
     private static final int DEFAULT_UPDATE_PERIOD = 1000;
     private static final int UPDATE_PERIOD = 16;
-    private static final int SIMULATED_BUFFERED_TIME = 10000;
 
     private ArrayObjectAdapter mRowsAdapter;
     private ArrayObjectAdapter mPrimaryActionsAdapter;
@@ -104,9 +104,10 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         sContext = getActivity();
         mApplication = TvApp.getApplication();
 
+        Intent intent = getActivity().getIntent();
         GsonJsonSerializer serializer = mApplication.getSerializer();
 
-        String[] passedItems = getActivity().getIntent().getStringArrayExtra("Items");
+        String[] passedItems = intent.getStringArrayExtra("Items");
         if (passedItems != null) {
             for (String json : passedItems) {
                 mItemsToPlay.add((BaseItemDto) serializer.DeserializeFromString(json, BaseItemDto.class));
@@ -138,11 +139,20 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             }
         });
 
-        if (getActivity().getIntent().getBooleanExtra("ShouldStart", false)) {
-            mPlaybackController.onFragmentPlayPause(0, true);
-        }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPlaybackController.stop();
+    }
+
+    public void startPlayback() {
+        startProgressAutomation();
+        setFadingEnabled(true);
+        mPlaybackController.play(mPlaybackControlsRow.getCurrentTime());
+
+    }
 
     private void setupRows() {
 
@@ -159,13 +169,11 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             public void onActionClicked(Action action) {
                 if (action.getId() == mPlayPauseAction.getId()) {
                     if (mPlayPauseAction.getIndex() == PlayPauseAction.PLAY) {
-                        startProgressAutomation();
-                        setFadingEnabled(true);
-                        mPlaybackController.onFragmentPlayPause(mPlaybackControlsRow.getCurrentTime(), true);
+                        startPlayback();
                     } else {
                         stopProgressAutomation();
                         setFadingEnabled(false);
-                        mPlaybackController.onFragmentPlayPause(mPlaybackControlsRow.getCurrentTime(), false);
+                        mPlaybackController.pause();
                     }
                 } else if (action.getId() == mSkipNextAction.getId()) {
                     mPlaybackController.next();
@@ -303,15 +311,17 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             @Override
             public void run() {
                 int updatePeriod = getUpdatePeriod();
-                int currentTime = mPlaybackControlsRow.getCurrentTime() + updatePeriod;
-                int totalTime = mPlaybackControlsRow.getTotalTime();
-                mPlaybackControlsRow.setCurrentTime(currentTime);
-                mPlaybackController.setmCurrentPosition(currentTime);
-                mPlaybackControlsRow.setBufferedProgress(currentTime + SIMULATED_BUFFERED_TIME);
+                if (mPlaybackController.isPlaying()) {
+                    int currentTime = mPlaybackControlsRow.getCurrentTime() + updatePeriod;
+                    int totalTime = mPlaybackControlsRow.getTotalTime();
+                    mPlaybackControlsRow.setCurrentTime(currentTime);
+                    mPlaybackController.setmCurrentPosition(currentTime);
 
-                if (totalTime > 0 && totalTime <= currentTime) {
-                    mPlaybackController.next();
+                    if (totalTime > 0 && totalTime <= currentTime) {
+                        mPlaybackController.next();
+                    }
                 }
+
                 mHandler.postDelayed(this, updatePeriod);
             }
         };
