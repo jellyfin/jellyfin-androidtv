@@ -102,7 +102,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                         .load(Utils.getPrimaryImageUrl(BaseItemDetailsFragment.this.mBaseItem, mApiClient, true))
                                 .resize(Utils.convertDpToPixel(getActivity().getApplicationContext(), DETAIL_THUMB_WIDTH),
                                         Utils.convertDpToPixel(getActivity().getApplicationContext(), DETAIL_THUMB_HEIGHT))
-                                .centerCrop()
+                                .centerInside()
                                 .get();
                 row.setImageBitmap(getActivity(), poster);
             } catch (IOException e) {
