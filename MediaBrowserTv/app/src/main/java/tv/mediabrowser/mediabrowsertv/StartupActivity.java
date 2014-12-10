@@ -51,7 +51,7 @@ public class StartupActivity extends Activity {
                 jsonSerializer,
                 logger,
                 volleyHttpClient,
-                "MediaBrowserTv",
+                "AndroidTv",
                 BuildConfig.VERSION_NAME,
                 capabilities,
                 apiEventListener);
