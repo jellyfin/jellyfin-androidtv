@@ -47,6 +47,8 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -96,6 +98,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private PlaybackController mPlaybackController;
     private List<BaseItemDto> mItemsToPlay = new ArrayList<>();
     private VideoView mVideoView;
+    private Boolean spinnerOff = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -148,6 +151,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     }
 
     public void startPlayback() {
+        getActivity().findViewById(R.id.bufferingProgress).setVisibility(View.VISIBLE);
         startProgressAutomation();
         setFadingEnabled(true);
         mPlaybackController.play(mPlaybackControlsRow.getCurrentTime());
@@ -312,6 +316,10 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             public void run() {
                 int updatePeriod = getUpdatePeriod();
                 if (mPlaybackController.isPlaying()) {
+                    if (!spinnerOff) {
+                        spinnerOff = true;
+                        getActivity().findViewById(R.id.bufferingProgress).setVisibility(View.INVISIBLE);
+                    }
                     int currentTime = mPlaybackControlsRow.getCurrentTime() + updatePeriod;
                     int totalTime = mPlaybackControlsRow.getTotalTime();
                     mPlaybackControlsRow.setCurrentTime(currentTime);
