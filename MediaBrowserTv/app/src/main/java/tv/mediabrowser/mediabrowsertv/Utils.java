@@ -145,7 +145,7 @@ public class Utils {
 
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient) {
         ImageOptions options = new ImageOptions();
-        options.setMaxWidth(500);
+        options.setMaxWidth(320);
         options.setImageType(ImageType.Primary);
         options.setTag(item.getImageTags().get(ImageType.Primary));
 

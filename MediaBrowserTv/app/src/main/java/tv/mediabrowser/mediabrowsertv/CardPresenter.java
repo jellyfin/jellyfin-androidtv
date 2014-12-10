@@ -28,7 +28,7 @@ public class CardPresenter extends Presenter {
 
     static class ViewHolder extends Presenter.ViewHolder {
         private int cardWidth = 230;
-        private int cardHeight = 360;
+        private int cardHeight = 300;
         private BaseItemDto mItem;
         private ImageCardView mCardView;
         private Drawable mDefaultCardImage;
@@ -44,7 +44,7 @@ public class CardPresenter extends Presenter {
 
         public void setItem(BaseItemDto m) {
             mItem = m;
-            cardWidth = (int)(((mItem.getPrimaryImageAspectRatio() != null) ? mItem.getPrimaryImageAspectRatio() : .7777) * cardHeight);
+            cardWidth = (int)(((mItem.getPrimaryImageAspectRatio() != null) ? mItem.getPrimaryImageAspectRatio() : .72222) * cardHeight);
             mCardView.setMainImageDimensions(cardWidth, cardHeight);
         }
 
