@@ -52,6 +52,8 @@ public class PlaybackController {
             case PAUSED:
                 // just resume
                 mVideoView.start();
+                mPlaybackState = PlaybackState.PLAYING;
+                startReportLoop();
                 break;
             case BUFFERING:
                 // onPrepared should take care of it

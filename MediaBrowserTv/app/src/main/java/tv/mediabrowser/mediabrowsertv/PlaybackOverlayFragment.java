@@ -150,13 +150,13 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         mPlaybackController.stop();
     }
 
-    public void startPlayback() {
+    public void startPlayback(int position) {
         if (mPlaybackController.isIdle()) {
             getActivity().findViewById(R.id.bufferingProgress).setVisibility(View.VISIBLE);
         }
         startProgressAutomation();
         setFadingEnabled(true);
-        mPlaybackController.play(mPlaybackControlsRow.getCurrentTime());
+        mPlaybackController.play(position);
 
     }
 
@@ -175,7 +175,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             public void onActionClicked(Action action) {
                 if (action.getId() == mPlayPauseAction.getId()) {
                     if (mPlayPauseAction.getIndex() == PlayPauseAction.PLAY) {
-                        startPlayback();
+                        startPlayback(mPlaybackControlsRow.getCurrentTime());
                     } else {
                         stopProgressAutomation();
                         setFadingEnabled(false);

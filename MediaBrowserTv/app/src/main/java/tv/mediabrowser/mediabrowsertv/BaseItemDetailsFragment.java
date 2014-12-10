@@ -32,17 +32,18 @@ import com.squareup.picasso.Target;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.dto.UserItemDataDto;
 
 
 public class BaseItemDetailsFragment extends DetailsFragment {
     private static final String TAG = "BaseItemDetailsFragment";
 
     private static final int ACTION_PLAY = 1;
-    private static final int ACTION_RENT = 2;
-    private static final int ACTION_BUY = 3;
+    private static final int ACTION_RESUME = 2;
+    private static final int ACTION_DETAILS = 3;
 
-    private static final int DETAIL_THUMB_WIDTH = 274;
-    private static final int DETAIL_THUMB_HEIGHT = 274;
+    private static final int DETAIL_THUMB_WIDTH = 150;
+    private static final int DETAIL_THUMB_HEIGHT = 150;
 
     private static final int NUM_COLS = 10;
 
@@ -107,11 +108,13 @@ public class BaseItemDetailsFragment extends DetailsFragment {
             } catch (IOException e) {
             }
 
+            UserItemDataDto userData = BaseItemDetailsFragment.this.mBaseItem.getUserData();
+            if (userData != null && userData.getPlaybackPositionTicks() > 0) {
+                row.addAction(new Action(ACTION_RESUME, "Resume"));
+            }
+
             row.addAction(new Action(ACTION_PLAY, "Play", "From Beginning"));
-            row.addAction(new Action(ACTION_RENT, getResources().getString(R.string.rent_1),
-                    getResources().getString(R.string.rent_2)));
-            row.addAction(new Action(ACTION_BUY, getResources().getString(R.string.buy_1),
-                    getResources().getString(R.string.buy_2)));
+            row.addAction(new Action(ACTION_DETAILS, "Full Details"));
             return row;
         }
 
@@ -131,7 +134,17 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                         intent.putExtra(getResources().getString(R.string.should_start), true);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(getActivity(), action.toString() + " not implemented", Toast.LENGTH_SHORT).show();
+                        if (action.getId() == ACTION_RESUME) {
+                            Intent intent = new Intent(getActivity(), PlaybackOverlayActivity.class);
+                            String[] items = new String[] {TvApp.getApplication().getSerializer().SerializeToString(mBaseItem)};
+                            intent.putExtra("Items", items);
+                            intent.putExtra(getResources().getString(R.string.should_start), true);
+                            intent.putExtra("Position", mBaseItem.getUserData().getPlaybackPositionTicks() / 10000);
+                            startActivity(intent);
+
+                        } else {
+                            Toast.makeText(getActivity(), action.toString() + " not implemented", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             });
