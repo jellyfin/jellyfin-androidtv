@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Point;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
+import android.media.session.MediaController;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import mediabrowser.model.dlna.profiles.AndroidProfile;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.ImageOptions;
 import mediabrowser.model.entities.ImageType;
+import mediabrowser.model.session.PlaybackProgressInfo;
 import mediabrowser.model.session.PlaybackStartInfo;
 import mediabrowser.model.session.PlaybackStopInfo;
 
@@ -180,7 +182,7 @@ public class Utils {
         }
     }
 
-    public static void Play(BaseItemDto item, VideoView view) {
+    public static void Play(BaseItemDto item, int position, VideoView view) {
         StreamBuilder builder = new StreamBuilder();
         VideoOptions options = new VideoOptions();
         ApiClient apiClient = TvApp.getApplication().getApiClient();
@@ -191,9 +193,14 @@ public class Utils {
         StreamInfo info = builder.BuildVideoItem(options);
         view.setVideoPath(info.ToUrl(apiClient.getApiUrl()));
         TvApp.getApplication().setCurrentPlayingItem(item);
+        if (position > 0) {
+            view.seekTo(position);
+        }
+        view.start();
 
         PlaybackStartInfo startInfo = new PlaybackStartInfo();
         startInfo.setItemId(item.getId());
+        startInfo.setPositionTicks((long) 0);
         apiClient.ReportPlaybackStartAsync(startInfo, new EmptyResponse());
 
     }
@@ -215,5 +222,17 @@ public class Utils {
         // send the tone to the "alarm" stream (classic beeps go there) with 50% volume
         ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 50);
             toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200); // 200 is duration in ms
+    }
+
+    public static void ReportProgress(BaseItemDto item, long position) {
+        if (item != null) {
+            PlaybackProgressInfo info = new PlaybackProgressInfo();
+            ApiClient apiClient = TvApp.getApplication().getApiClient();
+            info.setItemId(item.getId());
+            info.setPositionTicks(position);
+            apiClient.ReportPlaybackProgressAsync(info, new EmptyResponse());
+
+        }
+
     }
 }

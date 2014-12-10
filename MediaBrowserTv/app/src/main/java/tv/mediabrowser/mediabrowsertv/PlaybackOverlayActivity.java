@@ -50,8 +50,6 @@ public class PlaybackOverlayActivity extends Activity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mVideoView.suspend();
-        Utils.Stop(mApplication.getPlaybackController().getCurrentlyPlayingItem(), mApplication.getPlaybackController().getmCurrentPosition() * 10000);
     }
 
     private void loadViews() {

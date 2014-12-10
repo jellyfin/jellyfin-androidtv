@@ -1,6 +1,7 @@
 package tv.mediabrowser.mediabrowsertv;
 
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.widget.VideoView;
 
 import java.util.List;
@@ -18,10 +19,15 @@ public class PlaybackController {
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
     private TvApp mApplication;
 
+    private Runnable mReportLoop;
+    private Handler mHandler;
+    private static int REPORT_INTERVAL = 3000;
+
 
     public PlaybackController(List<BaseItemDto> items) {
         mItems = items;
         mApplication = TvApp.getApplication();
+        mHandler = new Handler();
 
     }
 
@@ -34,31 +40,42 @@ public class PlaybackController {
         return mItems.get(mCurrentIndex);
     }
 
-    /**
-     * Implementation of OnPlayPauseClickedListener
-     */
-    public void onFragmentPlayPause(int position, Boolean playPause) {
-        Utils.Play(getCurrentlyPlayingItem(), mVideoView);
+    public boolean isPlaying() {
+        return mPlaybackState == PlaybackState.PLAYING;
+    }
 
-        if (position == 0 || mPlaybackState == PlaybackState.IDLE) {
-            setupCallbacks();
-            mPlaybackState = PlaybackState.IDLE;
-        }
-
-        if (playPause && mPlaybackState != PlaybackState.PLAYING) {
-            mPlaybackState = PlaybackState.PLAYING;
-            if (position > 0) {
-                mVideoView.seekTo(position);
+    public void play(int position) {
+        switch (mPlaybackState) {
+            case PLAYING:
+                // do nothing
+                break;
+            case PAUSED:
+                // just resume
                 mVideoView.start();
-            }
-        } else {
-            mPlaybackState = PlaybackState.PAUSED;
-            mVideoView.pause();
+                break;
+            case BUFFERING:
+                // onPrepared should take care of it
+                break;
+            case IDLE:
+                // start new playback
+                Utils.Play(getCurrentlyPlayingItem(), position, mVideoView);
+                mPlaybackState = PlaybackState.BUFFERING;
+                break;
         }
     }
 
-    public void play() {
+    public void pause() {
+        mPlaybackState = PlaybackState.PAUSED;
+        stopReportLoop();
+        mVideoView.pause();
 
+    }
+
+    public void stop() {
+        mPlaybackState = PlaybackState.IDLE;
+        stopReportLoop();
+        Utils.Stop(getCurrentlyPlayingItem(), mCurrentPosition * 10000);
+        mVideoView.stopPlayback();
     }
 
     public void next() {
@@ -68,6 +85,27 @@ public class PlaybackController {
     public void prev() {
 
     }
+
+    private void startReportLoop() {
+        mReportLoop = new Runnable() {
+            @Override
+            public void run() {
+                if (mPlaybackState == PlaybackState.PLAYING) {
+                    Utils.ReportProgress(getCurrentlyPlayingItem(), mVideoView.getCurrentPosition() * 10000);
+                }
+                mHandler.postDelayed(this, REPORT_INTERVAL);
+            }
+        };
+        mHandler.postDelayed(mReportLoop, REPORT_INTERVAL);
+    }
+
+    private void stopReportLoop() {
+        if (mHandler != null && mReportLoop != null) {
+            mHandler.removeCallbacks(mReportLoop);
+        }
+
+    }
+
 
     private void setupCallbacks() {
 
@@ -93,8 +131,10 @@ public class PlaybackController {
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-                if (mPlaybackState == PlaybackState.PLAYING) {
+                if (mPlaybackState == PlaybackState.BUFFERING) {
                     mVideoView.start();
+                    mPlaybackState = PlaybackState.PLAYING;
+                    startReportLoop();
                 }
             }
         });
