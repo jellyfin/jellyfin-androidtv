@@ -76,7 +76,10 @@ public class PlaybackController {
                 // start new playback
                 mSpinner.setVisibility(View.VISIBLE);
                 Utils.Play(getCurrentlyPlayingItem(), position, mVideoView);
-                if (mFragment != null) mFragment.setFadingEnabled(true);
+                if (mFragment != null) {
+                    mFragment.setFadingEnabled(true);
+                    mFragment.getPlaybackControlsRow().setCurrentTime(position);
+                }
                 mPlaybackState = PlaybackState.BUFFERING;
                 break;
         }
@@ -195,7 +198,6 @@ public class PlaybackController {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 if (mPlaybackState == PlaybackState.BUFFERING) {
-                    mVideoView.start();
                     mPlaybackState = PlaybackState.PLAYING;
                     startProgressAutomation();
                     startReportLoop();
