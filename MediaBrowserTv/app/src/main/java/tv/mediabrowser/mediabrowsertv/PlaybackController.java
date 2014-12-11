@@ -97,7 +97,7 @@ public class PlaybackController {
     public void stop() {
         mPlaybackState = PlaybackState.IDLE;
         stopReportLoop();
-        Utils.Stop(getCurrentlyPlayingItem(), mCurrentPosition * 10000);
+        Utils.Stop(getCurrentlyPlayingItem(), getCurrentPosition() * 10000);
         mVideoView.stopPlayback();
     }
 
@@ -218,12 +218,8 @@ public class PlaybackController {
 
     }
 
-    public int getmCurrentPosition() {
-        return mCurrentPosition;
-    }
-
-    public void setmCurrentPosition(int mCurrentPosition) {
-        this.mCurrentPosition = mCurrentPosition;
+    public int getCurrentPosition() {
+        return mFragment.getPlaybackControlsRow().getCurrentTime();
     }
 
     public boolean isPaused() {
