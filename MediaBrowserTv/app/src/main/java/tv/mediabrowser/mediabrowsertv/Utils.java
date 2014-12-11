@@ -25,6 +25,9 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.ImageOptions;
 import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.ImageType;
+import mediabrowser.model.entities.MediaStream;
+import mediabrowser.model.entities.MediaStreamType;
+import mediabrowser.model.entities.MediaType;
 import mediabrowser.model.session.PlaybackProgressInfo;
 import mediabrowser.model.session.PlaybackStartInfo;
 import mediabrowser.model.session.PlaybackStopInfo;
@@ -203,6 +206,77 @@ public class Utils {
             }
         }
         return null;
+    }
+
+    private static String divider = "   |   ";
+    public static String getInfoRow(BaseItemDto item) {
+        StringBuilder sb = new StringBuilder();
+        if (item.getType().equals("Episode")) {
+            sb.append("S ");
+            sb.append(item.getParentIndexNumber());
+            sb.append(" Ep ");
+            sb.append(item.getIndexNumber());
+        }
+
+        if (item.getCommunityRating() != null) {
+            addWithDivider(sb, item.getCommunityRating());
+        }
+        if (item.getCriticRating() != null) {
+            if (sb.length() > 0) sb.append(" / ");
+            sb.append(item.getCriticRating());
+            sb.append("%");
+        }
+
+        MediaStream video = null;
+
+        if (item.getMediaStreams() != null) {
+            for (MediaStream stream : item.getMediaStreams()) {
+                if (stream.getType() == MediaStreamType.Video) {
+                    video = stream;
+                    break;
+                }
+            }
+        }
+
+        if (video != null) {
+            if (video.getWidth() > 1280) {
+                addWithDivider(sb, "1080");
+            } else if (video.getWidth() > 640) {
+                addWithDivider(sb, "720");
+            }
+        }
+
+        if (item.getRunTimeTicks() >  0) {
+            addWithDivider(sb, item.getRunTimeTicks() / 600000000);
+            sb.append("mins");
+        }
+
+        if (item.getOfficialRating() != null) {
+            addWithDivider(sb, item.getOfficialRating());
+        }
+
+        return sb.toString();
+    }
+
+    private static void addWithDivider(StringBuilder sb, String value) {
+        if (sb.length() > 0) {
+            sb.append(divider);
+        }
+        sb.append(value);
+    }
+
+    private static void addWithDivider(StringBuilder sb, Long value) {
+        if (sb.length() > 0) {
+            sb.append(divider);
+        }
+        sb.append(value);
+    }
+
+    private static void addWithDivider(StringBuilder sb, Float value) {
+        if (sb.length() > 0) {
+            sb.append(divider);
+        }
+        sb.append(value);
     }
 
     public static String GetFullName(BaseItemDto item) {
