@@ -290,11 +290,13 @@ public class Utils {
 
     public static void Play(BaseItemDto item, int position, VideoView view) {
         StreamBuilder builder = new StreamBuilder();
+        Long mbPos = (long)position * 10000;
         VideoOptions options = new VideoOptions();
         ApiClient apiClient = TvApp.getApplication().getApiClient();
         options.setDeviceId(apiClient.getDeviceId());
         options.setItemId(item.getId());
         options.setMediaSources(item.getMediaSources());
+
         options.setProfile(new AndroidProfile());
         StreamInfo info = builder.BuildVideoItem(options);
         view.setVideoPath(info.ToUrl(apiClient.getApiUrl()));
@@ -306,7 +308,7 @@ public class Utils {
 
         PlaybackStartInfo startInfo = new PlaybackStartInfo();
         startInfo.setItemId(item.getId());
-        startInfo.setPositionTicks((long) 0);
+        startInfo.setPositionTicks(mbPos);
         apiClient.ReportPlaybackStartAsync(startInfo, new EmptyResponse());
 
     }

@@ -139,7 +139,8 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                             String[] items = new String[] {TvApp.getApplication().getSerializer().SerializeToString(mBaseItem)};
                             intent.putExtra("Items", items);
                             intent.putExtra("ShouldStart", true);
-                            intent.putExtra("Position", mBaseItem.getUserData().getPlaybackPositionTicks() / 10000);
+                            Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
+                            intent.putExtra("Position", pos.intValue());
                             startActivity(intent);
 
                         } else {
