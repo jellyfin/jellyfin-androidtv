@@ -13,12 +13,9 @@
  */
 package tv.mediabrowser.mediabrowsertv;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.widget.AbstractDetailsDescriptionPresenter;
@@ -48,12 +45,11 @@ import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,8 +69,8 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private static final int PRIMARY_CONTROLS = 5;
     private static final boolean SHOW_IMAGE = PRIMARY_CONTROLS <= 5;
     private static final int BACKGROUND_TYPE = PlaybackOverlayFragment.BG_LIGHT;
-    private static final int CARD_WIDTH = 200;
-    private static final int CARD_HEIGHT = 240;
+    private static final int CARD_WIDTH = 100;
+    private static final int CARD_HEIGHT = 100;
     private static final int DEFAULT_UPDATE_PERIOD = 1000;
     private static final int UPDATE_PERIOD = 16;
 
@@ -94,7 +90,6 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private Handler mHandler;
     private Runnable mRunnable;
     private TvApp mApplication;
-    private PicassoPlaybackControlsRowTarget mPlaybackControlsRowTarget;
     private PlaybackController mPlaybackController;
     private List<BaseItemDto> mItemsToPlay = new ArrayList<>();
     private VideoView mVideoView;
@@ -286,8 +281,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
     private void updatePlaybackRow() {
         if (SHOW_IMAGE) {
-            mPlaybackControlsRowTarget = new PicassoPlaybackControlsRowTarget(mPlaybackControlsRow);
-            updateVideoImage(Utils.getPrimaryImageUrl(mPlaybackController.getCurrentlyPlayingItem(), mApplication.getApiClient(), false));
+            updateLogoImage(Utils.getLogoImageUrl(mPlaybackController.getCurrentlyPlayingItem(), mApplication.getApiClient()));
         }
         mRowsAdapter.notifyArrayItemRangeChanged(0, 1);
         mPlaybackControlsRow.setTotalTime(getDuration());
@@ -360,36 +354,15 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         }
     }
 
-    public static class PicassoPlaybackControlsRowTarget implements Target {
-        PlaybackControlsRow mPlaybackControlsRow;
 
-        public PicassoPlaybackControlsRowTarget(PlaybackControlsRow playbackControlsRow) {
-            mPlaybackControlsRow = playbackControlsRow;
+    protected void updateLogoImage(String url) {
+        if (url != null) {
+            ImageView img = (ImageView) getActivity().findViewById(R.id.npLogoImage);
+            if (img != null) {
+                img.setImageURI(Uri.parse(url));
+            }
+
         }
-
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom loadedFrom) {
-            Drawable bitmapDrawable = new BitmapDrawable(sContext.getResources(), bitmap);
-            mPlaybackControlsRow.setImageDrawable(bitmapDrawable);
-        }
-
-        @Override
-        public void onBitmapFailed(Drawable drawable) {
-            mPlaybackControlsRow.setImageDrawable(drawable);
-        }
-
-        @Override
-        public void onPrepareLoad(Drawable drawable) {
-            // Do nothing, default_background manager has its own transitions
-        }
-    }
-
-    protected void updateVideoImage(String url) {
-        Picasso.with(sContext)
-                .load(url)
-                .resize(Utils.convertDpToPixel(sContext, CARD_WIDTH),
-                        Utils.convertDpToPixel(sContext, CARD_HEIGHT))
-                .into(mPlaybackControlsRowTarget);
     }
 
 }
