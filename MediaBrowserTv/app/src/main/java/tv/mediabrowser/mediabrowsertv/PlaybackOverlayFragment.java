@@ -214,6 +214,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         mPlaybackControlsRow.setSecondaryActionsAdapter(mSecondaryActionsAdapter);
 
         mPlayPauseAction = new PlayPauseAction(sContext);
+        mPlayPauseAction.setIndex(PlayPauseAction.PAUSE);
         mRepeatAction = new RepeatAction(sContext);
         mThumbsUpAction = new ThumbsUpAction(sContext);
         mThumbsDownAction = new ThumbsDownAction(sContext);
