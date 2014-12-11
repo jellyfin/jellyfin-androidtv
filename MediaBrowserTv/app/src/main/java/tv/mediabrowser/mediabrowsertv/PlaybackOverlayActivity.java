@@ -14,6 +14,7 @@
 package tv.mediabrowser.mediabrowsertv;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.FrameLayout;
@@ -44,7 +45,6 @@ public class PlaybackOverlayActivity extends Activity {
         setContentView(R.layout.playback_controls);
         mApplication = TvApp.getApplication();
         loadViews();
-        //overScan();
     }
 
     @Override
@@ -54,20 +54,12 @@ public class PlaybackOverlayActivity extends Activity {
 
     private void loadViews() {
         mVideoView = (VideoView) findViewById(R.id.videoView);
-        mApplication.getPlaybackController().init(mVideoView);
+        mApplication.getPlaybackController().init(mVideoView, findViewById(R.id.bufferingProgress));
+        Intent intent = getIntent();
+        if (intent.getBooleanExtra("ShouldStart",false)) {
+            //start playing
+            mApplication.getPlaybackController().play(intent.getIntExtra("Position", 0));
+        }
     }
 
-    private void overScan() {
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int w = (int) (metrics.widthPixels * MEDIA_WIDTH);
-        int h = (int) (metrics.heightPixels * MEDIA_HEIGHT);
-        int marginLeft = (int) (metrics.widthPixels * MEDIA_LEFT_MARGIN);
-        int marginTop = (int) (metrics.heightPixels * MEDIA_TOP_MARGIN);
-        int marginRight = (int) (metrics.widthPixels * MEDIA_RIGHT_MARGIN);
-        int marginBottom = (int) (metrics.heightPixels * MEDIA_BOTTOM_MARGIN);
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(w, h);
-        lp.setMargins(marginLeft, marginTop, marginRight, marginBottom);
-        mVideoView.setLayoutParams(lp);
-    }
 }

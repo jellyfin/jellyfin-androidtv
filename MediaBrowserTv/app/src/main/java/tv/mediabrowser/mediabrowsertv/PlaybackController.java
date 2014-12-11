@@ -1,7 +1,11 @@
 package tv.mediabrowser.mediabrowsertv;
 
+import android.app.Activity;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.support.v17.leanback.app.PlaybackOverlaySupportFragment;
+import android.support.v17.leanback.widget.PlaybackControlsRow;
+import android.view.View;
 import android.widget.VideoView;
 
 import java.util.List;
@@ -19,20 +23,28 @@ public class PlaybackController {
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
     private TvApp mApplication;
 
+    private PlaybackOverlayFragment mFragment;
+    private View mSpinner;
+    private Boolean spinnerOff = false;
+
     private Runnable mReportLoop;
+    private Runnable mProgressLoop;
     private Handler mHandler;
     private static int REPORT_INTERVAL = 3000;
+    private static final int DEFAULT_UPDATE_PERIOD = 1000;
+    private static final int UPDATE_PERIOD = 16;
 
-
-    public PlaybackController(List<BaseItemDto> items) {
+    public PlaybackController(List<BaseItemDto> items, PlaybackOverlayFragment fragment) {
         mItems = items;
+        mFragment = fragment;
         mApplication = TvApp.getApplication();
         mHandler = new Handler();
 
     }
 
-    public void init(VideoView view) {
+    public void init(VideoView view, View spinner) {
         mVideoView = view;
+        mSpinner = spinner;
         setupCallbacks();
     }
 
@@ -53,6 +65,8 @@ public class PlaybackController {
                 // just resume
                 mVideoView.start();
                 mPlaybackState = PlaybackState.PLAYING;
+                startProgressAutomation();
+                if (mFragment != null) mFragment.setFadingEnabled(true);
                 startReportLoop();
                 break;
             case BUFFERING:
@@ -60,7 +74,9 @@ public class PlaybackController {
                 break;
             case IDLE:
                 // start new playback
+                mSpinner.setVisibility(View.VISIBLE);
                 Utils.Play(getCurrentlyPlayingItem(), position, mVideoView);
+                if (mFragment != null) mFragment.setFadingEnabled(true);
                 mPlaybackState = PlaybackState.BUFFERING;
                 break;
         }
@@ -68,8 +84,10 @@ public class PlaybackController {
 
     public void pause() {
         mPlaybackState = PlaybackState.PAUSED;
-        stopReportLoop();
+        stopProgressAutomation();
         mVideoView.pause();
+        if (mFragment != null) mFragment.setFadingEnabled(false);
+        stopReportLoop();
 
     }
 
@@ -87,6 +105,47 @@ public class PlaybackController {
     public void prev() {
 
     }
+
+    private int getUpdatePeriod() {
+        if (mPlaybackState != PlaybackState.PLAYING) {
+            return DEFAULT_UPDATE_PERIOD;
+        }
+        return UPDATE_PERIOD;
+    }
+
+    private void startProgressAutomation() {
+        mProgressLoop = new Runnable() {
+            @Override
+            public void run() {
+                int updatePeriod = getUpdatePeriod();
+                PlaybackControlsRow controls = mFragment.getPlaybackControlsRow();
+                if (isPlaying()) {
+                    if (!spinnerOff) {
+                        spinnerOff = true;
+                        if (mSpinner != null) mSpinner.setVisibility(View.GONE);
+                    }
+                    int currentTime = controls.getCurrentTime() + updatePeriod;
+                    int totalTime = controls.getTotalTime();
+                    controls.setCurrentTime(currentTime);
+                    mCurrentPosition = currentTime;
+
+                    if (totalTime > 0 && totalTime <= currentTime) {
+                        next();
+                    }
+                }
+
+                mHandler.postDelayed(this, updatePeriod);
+            }
+        };
+        mHandler.postDelayed(mProgressLoop, getUpdatePeriod());
+    }
+
+    public void stopProgressAutomation() {
+        if (mHandler != null && mProgressLoop != null) {
+            mHandler.removeCallbacks(mProgressLoop);
+        }
+    }
+
 
     private void startReportLoop() {
         mReportLoop = new Runnable() {
@@ -125,6 +184,8 @@ public class PlaybackController {
                 }
                 mVideoView.stopPlayback();
                 mPlaybackState = PlaybackState.IDLE;
+                stopProgressAutomation();
+                stopReportLoop();
                 return false;
             }
         });
@@ -136,6 +197,7 @@ public class PlaybackController {
                 if (mPlaybackState == PlaybackState.BUFFERING) {
                     mVideoView.start();
                     mPlaybackState = PlaybackState.PLAYING;
+                    startProgressAutomation();
                     startReportLoop();
                 }
             }

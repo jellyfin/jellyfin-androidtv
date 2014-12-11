@@ -83,7 +83,7 @@ public class PlayerActivity extends Activity {
         Bundle b = getIntent().getExtras();
         mSelectedMovie = (Movie) getIntent().getSerializableExtra(getResources().getString(R.string.movie));
         if (null != b) {
-            mShouldStartPlayback = b.getBoolean(getResources().getString(R.string.should_start));
+            mShouldStartPlayback = b.getBoolean("ShouldStart");
             int startPosition = b.getInt(getResources().getString(R.string.start_position), 0);
             mVideoView.setVideoPath(mSelectedMovie.getVideoUrl());
             if (mShouldStartPlayback) {
