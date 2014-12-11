@@ -11,9 +11,9 @@ public class DetailsDescriptionPresenter extends AbstractDetailsDescriptionPrese
 
         if (baseItem != null) {
             viewHolder.getTitle().setText(baseItem.getName());
-            viewHolder.getSubtitle().setText(baseItem.getOfficialRating());
-            viewHolder.getBody().setMaxLines(4);
+            viewHolder.getSubtitle().setText(Utils.getInfoRow(baseItem));
             viewHolder.getBody().setText(baseItem.getOverview());
+            viewHolder.getBody().setMaxLines(4);
         }
     }
 }
