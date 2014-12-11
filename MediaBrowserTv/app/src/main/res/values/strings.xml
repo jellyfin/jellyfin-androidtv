@@ -21,14 +21,7 @@
     <string name="grid_view">Grid View</string>
     <string name="send_feeback">Send Feedback</string>
     <string name="personal_settings">Personal Settings</string>
-    <string name="watch_trailer_1">Watch trailer</string>
-    <string name="watch_trailer_2">FREE</string>
-    <string name="rent_1">Rent By Day</string>
-    <string name="rent_2">From $1.99</string>
-    <string name="buy_1">Buy and Own</string>
-    <string name="buy_2">AT $9.99</string>
     <string name="movie">Movie</string>
-    <string name="should_start">shouldStart</string>
     <string name="start_position">startPosition</string>
     <string name="search_results">Search Results</string>
     <string name="video_error_media_load_timeout">Media loading timed out</string>

@@ -69,10 +69,6 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private static final int PRIMARY_CONTROLS = 5;
     private static final boolean SHOW_IMAGE = PRIMARY_CONTROLS <= 5;
     private static final int BACKGROUND_TYPE = PlaybackOverlayFragment.BG_LIGHT;
-    private static final int CARD_WIDTH = 100;
-    private static final int CARD_HEIGHT = 100;
-    private static final int DEFAULT_UPDATE_PERIOD = 1000;
-    private static final int UPDATE_PERIOD = 16;
 
     private ArrayObjectAdapter mRowsAdapter;
     private ArrayObjectAdapter mPrimaryActionsAdapter;
@@ -86,14 +82,15 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private RewindAction mRewindAction;
     private SkipNextAction mSkipNextAction;
     private SkipPreviousAction mSkipPreviousAction;
+
+    public PlaybackControlsRow getPlaybackControlsRow() {
+        return mPlaybackControlsRow;
+    }
+
     private PlaybackControlsRow mPlaybackControlsRow;
-    private Handler mHandler;
-    private Runnable mRunnable;
     private TvApp mApplication;
     private PlaybackController mPlaybackController;
     private List<BaseItemDto> mItemsToPlay = new ArrayList<>();
-    private VideoView mVideoView;
-    private Boolean spinnerOff = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,10 +109,8 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             }
         }
 
-        mApplication.setPlaybackController(new PlaybackController(mItemsToPlay));
+        mApplication.setPlaybackController(new PlaybackController(mItemsToPlay, this));
         mPlaybackController = mApplication.getPlaybackController();
-
-        mHandler = new Handler();
 
         setBackgroundType(BACKGROUND_TYPE);
         setFadingEnabled(false);
@@ -145,16 +140,6 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         mPlaybackController.stop();
     }
 
-    public void startPlayback(int position) {
-        if (mPlaybackController.isIdle()) {
-            getActivity().findViewById(R.id.bufferingProgress).setVisibility(View.VISIBLE);
-        }
-        startProgressAutomation();
-        setFadingEnabled(true);
-        mPlaybackController.play(position);
-
-    }
-
     private void setupRows() {
 
         ClassPresenterSelector ps = new ClassPresenterSelector();
@@ -170,10 +155,8 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             public void onActionClicked(Action action) {
                 if (action.getId() == mPlayPauseAction.getId()) {
                     if (mPlayPauseAction.getIndex() == PlayPauseAction.PLAY) {
-                        startPlayback(mPlaybackControlsRow.getCurrentTime());
+                        mPlaybackController.play(mPlaybackControlsRow.getCurrentTime());
                     } else {
-                        stopProgressAutomation();
-                        setFadingEnabled(false);
                         mPlaybackController.pause();
                     }
                 } else if (action.getId() == mSkipNextAction.getId()) {
@@ -299,49 +282,11 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
     }
 
-    private int getUpdatePeriod() {
-        if (getView() == null || mPlaybackControlsRow.getTotalTime() <= 0) {
-            return DEFAULT_UPDATE_PERIOD;
-        }
-        return Math.max(UPDATE_PERIOD, mPlaybackControlsRow.getTotalTime() / getView().getWidth());
-    }
 
-    private void startProgressAutomation() {
-        mRunnable = new Runnable() {
-            @Override
-            public void run() {
-                int updatePeriod = getUpdatePeriod();
-                if (mPlaybackController.isPlaying()) {
-                    if (!spinnerOff) {
-                        spinnerOff = true;
-                        getActivity().findViewById(R.id.bufferingProgress).setVisibility(View.GONE);
-                    }
-                    int currentTime = mPlaybackControlsRow.getCurrentTime() + updatePeriod;
-                    int totalTime = mPlaybackControlsRow.getTotalTime();
-                    mPlaybackControlsRow.setCurrentTime(currentTime);
-                    mPlaybackController.setmCurrentPosition(currentTime);
-
-                    if (totalTime > 0 && totalTime <= currentTime) {
-                        mPlaybackController.next();
-                    }
-                }
-
-                mHandler.postDelayed(this, updatePeriod);
-            }
-        };
-        mHandler.postDelayed(mRunnable, getUpdatePeriod());
-    }
-
-
-    private void stopProgressAutomation() {
-        if (mHandler != null && mRunnable != null) {
-            mHandler.removeCallbacks(mRunnable);
-        }
-    }
 
     @Override
     public void onStop() {
-        stopProgressAutomation();
+        mPlaybackController.stopProgressAutomation();
         super.onStop();
     }
 
