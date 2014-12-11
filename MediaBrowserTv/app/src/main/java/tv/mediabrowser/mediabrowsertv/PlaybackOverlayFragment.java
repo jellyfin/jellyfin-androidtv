@@ -296,7 +296,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         protected void onBindDescription(ViewHolder viewHolder, Object item) {
             BaseItemDto movie = (BaseItemDto) item;
             viewHolder.getTitle().setText(movie.getName());
-            viewHolder.getSubtitle().setText(movie.getOfficialRating());
+            viewHolder.getSubtitle().setText(Utils.getInfoRow(movie));
         }
     }
 
