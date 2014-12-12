@@ -56,10 +56,8 @@ public class PlaybackOverlayActivity extends Activity {
         mVideoView = (VideoView) findViewById(R.id.videoView);
         mApplication.getPlaybackController().init(mVideoView, findViewById(R.id.bufferingProgress));
         Intent intent = getIntent();
-        if (intent.getBooleanExtra("ShouldStart",false)) {
-            //start playing
-            mApplication.getPlaybackController().play(intent.getIntExtra("Position", 0));
-        }
+        //start playing
+        mApplication.getPlaybackController().play(intent.getIntExtra("Position", 0));
     }
 
 }
