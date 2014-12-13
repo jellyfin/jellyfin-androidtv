@@ -55,6 +55,7 @@ public class StdBrowseFragment extends BrowseFragment {
     private static final int BACKGROUND_UPDATE_DELAY = 200;
 
     protected String MainTitle;
+    protected boolean ShowBadge = true;
     protected ApiClient mApiClient;
     protected TvApp mApplication;
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
@@ -147,8 +148,7 @@ public class StdBrowseFragment extends BrowseFragment {
     }
 
     protected void setupUIElements() {
-        setBadgeDrawable(getActivity().getResources().getDrawable(
-        R.drawable.mblogo));
+        if (ShowBadge) setBadgeDrawable(getActivity().getResources().getDrawable(R.drawable.mblogo));
         setTitle(MainTitle); // Badge, when set, takes precedent
         // over title
         setHeadersState(HEADERS_ENABLED);
@@ -185,27 +185,52 @@ public class StdBrowseFragment extends BrowseFragment {
             if (item instanceof BaseItemDto) {
                 final BaseItemDto baseItem = (BaseItemDto) item;
                 TvApp.getApplication().getLogger().Debug("Item selected: " + item.toString());
-                //Retrieve full item for display and playback
-                mApplication.getApiClient().GetItemAsync(baseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
-                    @Override
-                    public void onResponse(BaseItemDto response) {
-                        Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                        intent.putExtra("BaseItemDto", TvApp.getApplication().getSerializer().SerializeToString(response));
+                if (baseItem.getIsFolder()) {
+                    // open generic folder browsing
+                    mApplication.getApiClient().GetItemAsync(baseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                        @Override
+                        public void onResponse(BaseItemDto response) {
+                            Intent intent = new Intent(getActivity(), GenericFolderActivity.class);
+                            intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(response));
 
-                        Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                getActivity(),
-                                ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                                DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                        getActivity().startActivity(intent, bundle);
+                            Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                    getActivity(),
+                                    ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                                    DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                            getActivity().startActivity(intent, bundle);
 
-                    }
+                        }
 
-                    @Override
-                    public void onError(Exception exception) {
-                        mApplication.getLogger().ErrorException("Error retrieving full object", exception);
-                        exception.printStackTrace();
-                    }
-                });
+                        @Override
+                        public void onError(Exception exception) {
+                            mApplication.getLogger().ErrorException("Error retrieving folder object", exception);
+                            exception.printStackTrace();
+                        }
+                    });
+                } else {
+                    //Retrieve full item for display and playback
+                    mApplication.getApiClient().GetItemAsync(baseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                        @Override
+                        public void onResponse(BaseItemDto response) {
+                            Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                            intent.putExtra("BaseItemDto", TvApp.getApplication().getSerializer().SerializeToString(response));
+
+                            Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                    getActivity(),
+                                    ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                                    DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                            getActivity().startActivity(intent, bundle);
+
+                        }
+
+                        @Override
+                        public void onError(Exception exception) {
+                            mApplication.getLogger().ErrorException("Error retrieving full object", exception);
+                            exception.printStackTrace();
+                        }
+                    });
+
+                }
             }
         }
     }

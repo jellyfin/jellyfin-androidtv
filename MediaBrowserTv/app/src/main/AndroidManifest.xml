@@ -50,6 +50,7 @@
 
         </activity>
         <activity android:name=".BrowseErrorActivity" ></activity>
+        <activity android:name=".GenericFolderActivity"></activity>
     </application>
 
 </manifest>
