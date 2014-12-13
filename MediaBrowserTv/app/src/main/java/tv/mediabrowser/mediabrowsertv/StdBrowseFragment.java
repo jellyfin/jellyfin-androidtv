@@ -111,17 +111,19 @@ public class StdBrowseFragment extends BrowseFragment {
             ItemRowAdapter rowAdapter;
             switch (def.getQueryType()) {
                 case NextUp:
-                    rowAdapter = new ItemRowAdapter(def.getNextUpQuery(), mCardPresenter);
+                    rowAdapter = new ItemRowAdapter(def.getNextUpQuery(), mCardPresenter, mRowsAdapter);
                     break;
                 case Views:
-                    rowAdapter = new ItemRowAdapter(new ViewQuery(), mCardPresenter);
+                    rowAdapter = new ItemRowAdapter(new ViewQuery(), mCardPresenter, mRowsAdapter);
                     break;
                 default:
-                    rowAdapter = new ItemRowAdapter(def.getQuery(), mCardPresenter);
+                    rowAdapter = new ItemRowAdapter(def.getQuery(), mCardPresenter, mRowsAdapter);
                     break;
             }
 
-            mRowsAdapter.add(new ListRow(header, rowAdapter));
+            ListRow row = new ListRow(header, rowAdapter);
+            mRowsAdapter.add(row);
+            rowAdapter.setRow(row);
             rowAdapter.Retrieve();
         }
 

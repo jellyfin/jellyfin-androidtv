@@ -24,13 +24,13 @@ public class GenericFolderFragment extends BrowseFolderFragment {
     @Override
     protected void setupQueries() {
 
-//        StdItemQuery resume = new StdItemQuery();
-//        resume.setParentId(mFolder.getId());
-//        resume.setLimit(50);
-//        resume.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
-//        resume.setSortBy(new String[]{ItemSortBy.DatePlayed});
-//        resume.setSortOrder(SortOrder.Descending);
-//        mRows.add(new BrowseRowDef("Continue Watching", resume));
+        StdItemQuery resume = new StdItemQuery();
+        resume.setParentId(mFolder.getId());
+        resume.setLimit(50);
+        resume.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
+        resume.setSortBy(new String[]{ItemSortBy.DatePlayed});
+        resume.setSortOrder(SortOrder.Descending);
+        mRows.add(new BrowseRowDef("Continue Watching", resume));
 
         StdItemQuery latest = new StdItemQuery();
         latest.setParentId(mFolder.getId());
