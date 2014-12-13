@@ -80,9 +80,16 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
         mApiClient = TvApp.getApplication().getApiClient();
 
-        updateBackground(Utils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient()));
+        updateBackground(Utils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true));
         setOnItemViewClickedListener(new ItemViewClickedListener());
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TvApp.getApplication().getLogger().Debug("Resuming details fragment...");
+        //reload with our updated item
     }
 
     @Override

@@ -217,7 +217,7 @@ public class StdBrowseFragment extends BrowseFragment {
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
             if (item instanceof BaseItemDto) {
                 BaseItemDto baseItem = (BaseItemDto)item;
-                mBackgroundUrl = Utils.getBackdropImageUrl(baseItem, TvApp.getApplication().getConnectionManager().GetApiClient(baseItem));
+                mBackgroundUrl = Utils.getBackdropImageUrl(baseItem, TvApp.getApplication().getConnectionManager().GetApiClient(baseItem), true);
                 startBackgroundTimer();
             }
 
