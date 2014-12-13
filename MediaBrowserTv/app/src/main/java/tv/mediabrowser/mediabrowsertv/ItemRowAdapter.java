@@ -19,21 +19,26 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private ItemQuery mQuery;
     private NextUpQuery mNextUpQuery;
     private QueryType queryType;
+    private ArrayObjectAdapter mParent;
+    private ListRow mRow;
 
-    public ItemRowAdapter(ItemQuery query, Presenter presenter) {
+    public ItemRowAdapter(ItemQuery query, Presenter presenter, ArrayObjectAdapter parent) {
         super(presenter);
+        mParent = parent;
         mQuery = query;
         queryType = QueryType.Items;
     }
 
-    public ItemRowAdapter(NextUpQuery query, Presenter presenter) {
+    public ItemRowAdapter(NextUpQuery query, Presenter presenter, ArrayObjectAdapter parent) {
         super(presenter);
+        mParent = parent;
         mNextUpQuery = query;
         queryType = QueryType.NextUp;
     }
 
-    public ItemRowAdapter(ViewQuery query, Presenter presenter) {
+    public ItemRowAdapter(ViewQuery query, Presenter presenter, ArrayObjectAdapter parent) {
         super(presenter);
+        mParent = parent;
         queryType = QueryType.Views;
     }
 
@@ -57,8 +62,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         TvApp.getApplication().getConnectionManager().GetApiClient(user).GetUserViews(user.getId(), new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
-                for (BaseItemDto item : response.getItems()) {
-                    adapter.add(item);
+                if (response.getTotalRecordCount() > 0) {
+                    for (BaseItemDto item : response.getItems()) {
+                        adapter.add(item);
+                    }
+                } else {
+                    // no results - don't show us
+                    mParent.remove(mRow);
                 }
             }
 
@@ -76,8 +86,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             TvApp.getApplication().getConnectionManager().GetApiClient(TvApp.getApplication().getCurrentUser()).GetItemsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
-                for (BaseItemDto item : response.getItems()) {
-                    adapter.add(item);
+                if (response.getTotalRecordCount() > 0) {
+                    for (BaseItemDto item : response.getItems()) {
+                        adapter.add(item);
+                    }
+                } else {
+                    // no results - don't show us
+                    mParent.remove(mRow);
                 }
             }
 
@@ -94,8 +109,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         TvApp.getApplication().getConnectionManager().GetApiClient(TvApp.getApplication().getCurrentUser()).GetNextUpEpisodesAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
-                for (BaseItemDto item : response.getItems()) {
-                    adapter.add(item);
+                if (response.getTotalRecordCount() > 0) {
+                    for (BaseItemDto item : response.getItems()) {
+                        adapter.add(item);
+                    }
+                } else {
+                    // no results - don't show us
+                    mParent.remove(mRow);
                 }
             }
 
@@ -106,5 +126,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             }
         });
 
+    }
+
+    public void setRow(ListRow row) {
+        mRow = row;
     }
 }
