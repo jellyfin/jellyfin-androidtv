@@ -14,6 +14,8 @@ import android.widget.VideoView;
 
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Random;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.EmptyResponse;
@@ -186,21 +188,23 @@ public class Utils {
         return null;
     }
 
-    public static String getBackdropImageUrl(BaseItemDto item, ApiClient apiClient) {
+    public static String getBackdropImageUrl(BaseItemDto item, ApiClient apiClient, boolean random) {
         if (item.getBackdropCount() > 0) {
             ImageOptions options = new ImageOptions();
             options.setMaxWidth(1200);
             options.setImageType(ImageType.Backdrop);
-            options.setImageIndex(0);
-            options.setTag(item.getBackdropImageTags().get(0));
+            int index = random ? randInt(0, item.getBackdropCount() - 1) : 0;
+            options.setImageIndex(index);
+            options.setTag(item.getBackdropImageTags().get(index));
             return apiClient.GetImageUrl(item, options);
         } else {
             if (item.getParentBackdropImageTags() != null && item.getParentBackdropImageTags().size() > 0) {
                 ImageOptions options = new ImageOptions();
                 options.setMaxWidth(1200);
                 options.setImageType(ImageType.Backdrop);
-                options.setImageIndex(0);
-                options.setTag(item.getParentBackdropImageTags().get(0));
+                int index = random ? randInt(0, item.getParentBackdropImageTags().size() - 1) : 0;
+                options.setImageIndex(index);
+                options.setTag(item.getParentBackdropImageTags().get(index));
                 return apiClient.GetImageUrl(item.getParentBackdropItemId(), options);
 
             }
@@ -322,6 +326,15 @@ public class Utils {
             apiClient.ReportPlaybackStoppedAsync(info, new EmptyResponse());
             apiClient.StopTranscodingProcesses(apiClient.getDeviceId(), new EmptyResponse());
 
+            // now update the position info on the item itself so we can resume immediately
+            UserItemDataDto userData = item.getUserData();
+            if (userData == null) {
+                userData = new UserItemDataDto();
+                item.setUserData(userData);
+            }
+
+            userData.setLastPlayedDate(new Date());
+            userData.setPlaybackPositionTicks(pos);
         }
 
     }
@@ -342,5 +355,25 @@ public class Utils {
 
         }
 
+    }
+    /**
+     * Returns a pseudo-random number between min and max, inclusive.
+     * The difference between min and max can be at most
+     * <code>Integer.MAX_VALUE - 1</code>.
+     *
+     * @param min Minimum value
+     * @param max Maximum value.  Must be greater than min.
+     * @return Integer between min and max, inclusive.
+     * @see java.util.Random#nextInt(int)
+     */
+    private static Random rand = new Random();
+    public static int randInt(int min, int max) {
+        if (max <= min) return min;
+
+        // nextInt is normally exclusive of the top value,
+        // so add 1 to make it inclusive
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+
+        return randomNum;
     }
 }
