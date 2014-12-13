@@ -213,6 +213,12 @@ public class PlaybackController {
                 Long mbPos = (long) mVideoView.getCurrentPosition() * 10000;
                 Utils.Stop(TvApp.getApplication().getCurrentPlayingItem(), mbPos);
                 mVideoView.suspend();
+                if (mCurrentIndex < mItems.size() - 1) {
+                    // TODO move to next in queue
+                } else {
+                    // exit activity
+                    mFragment.finish();
+                }
             }
         });
 
