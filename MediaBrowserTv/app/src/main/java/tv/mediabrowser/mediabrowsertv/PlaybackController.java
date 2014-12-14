@@ -32,7 +32,7 @@ public class PlaybackController {
     private Handler mHandler;
     private static int REPORT_INTERVAL = 3000;
     private static final int DEFAULT_UPDATE_PERIOD = 1000;
-    private static final int UPDATE_PERIOD = 16;
+    private static final int UPDATE_PERIOD = 250;
 
     public PlaybackController(List<BaseItemDto> items, PlaybackOverlayFragment fragment) {
         mItems = items;
@@ -97,7 +97,7 @@ public class PlaybackController {
     public void stop() {
         mPlaybackState = PlaybackState.IDLE;
         stopReportLoop();
-        Utils.Stop(getCurrentlyPlayingItem(), getCurrentPosition() * 10000);
+        Utils.Stop(getCurrentlyPlayingItem(), mCurrentPosition * 10000);
         mVideoView.stopPlayback();
     }
 
@@ -127,8 +127,8 @@ public class PlaybackController {
                         spinnerOff = true;
                         if (mSpinner != null) mSpinner.setVisibility(View.GONE);
                     }
-                    int currentTime = mVideoView.getCurrentPosition();
-                    controls.setCurrentTime(mVideoView.getCurrentPosition());
+                    int currentTime = controls.getCurrentTime() + updatePeriod;
+                    controls.setCurrentTime(currentTime);
                     mCurrentPosition = currentTime;
 
                 }
