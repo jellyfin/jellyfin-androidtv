@@ -127,14 +127,10 @@ public class PlaybackController {
                         spinnerOff = true;
                         if (mSpinner != null) mSpinner.setVisibility(View.GONE);
                     }
-                    int currentTime = controls.getCurrentTime() + updatePeriod;
-                    int totalTime = controls.getTotalTime();
-                    controls.setCurrentTime(currentTime);
+                    int currentTime = mVideoView.getCurrentPosition();
+                    controls.setCurrentTime(mVideoView.getCurrentPosition());
                     mCurrentPosition = currentTime;
 
-                    if (totalTime > 0 && totalTime <= currentTime) {
-                        next();
-                    }
                 }
 
                 mHandler.postDelayed(this, updatePeriod);
