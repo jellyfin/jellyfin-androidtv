@@ -120,7 +120,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 row.addAction(new Action(ACTION_RESUME, "Resume"));
             }
 
-            row.addAction(new Action(ACTION_PLAY, "Play", "From Beginning"));
+            row.addAction(new Action(ACTION_PLAY, "Play"));
             row.addAction(new Action(ACTION_DETAILS, "Full Details"));
             return row;
         }
