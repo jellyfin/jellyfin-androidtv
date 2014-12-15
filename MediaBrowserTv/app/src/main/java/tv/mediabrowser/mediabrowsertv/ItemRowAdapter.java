@@ -63,8 +63,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
+                    int i = 0;
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(item);
+                        adapter.add(new BaseRowItem(i++,item));
                     }
                 } else {
                     // no results - don't show us
@@ -87,8 +88,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
+                    int i = 0;
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(item);
+                        adapter.add(new BaseRowItem(i++,item));
                     }
                 } else {
                     // no results - don't show us
@@ -110,8 +112,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
+                    int i = 0;
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(item);
+                        adapter.add(new BaseRowItem(i++,item));
                     }
                 } else {
                     // no results - don't show us
