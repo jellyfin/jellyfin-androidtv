@@ -254,7 +254,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         mThumbsUpAction = new ThumbsUpAction(sContext);
         mThumbsDownAction = new ThumbsDownAction(sContext);
         mShuffleAction = new ShuffleAction(sContext);
-        mSubtitleAction = new Action(999, null, null, getActivity().getResources().getDrawable(R.drawable.subt));
+//        mSubtitleAction = new Action(999, null, null, getActivity().getResources().getDrawable(R.drawable.subt));
         mSkipNextAction = new PlaybackControlsRow.SkipNextAction(sContext);
         mSkipPreviousAction = new PlaybackControlsRow.SkipPreviousAction(sContext);
         mFastForwardAction = new PlaybackControlsRow.FastForwardAction(sContext);
@@ -282,8 +282,8 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         } else {
             mSecondaryActionsAdapter.add(mThumbsDownAction);
         }
-        mSecondaryActionsAdapter.add(new PlaybackControlsRow.HighQualityAction(sContext));
-        mSecondaryActionsAdapter.add(mSubtitleAction);
+//        mSecondaryActionsAdapter.add(new PlaybackControlsRow.HighQualityAction(sContext));
+//        mSecondaryActionsAdapter.add(mSubtitleAction);
     }
 
     private void notifyChanged(Action action) {
