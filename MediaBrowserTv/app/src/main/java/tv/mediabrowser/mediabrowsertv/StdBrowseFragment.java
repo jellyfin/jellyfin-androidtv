@@ -52,7 +52,7 @@ import mediabrowser.model.dto.BaseItemDto;
 public class StdBrowseFragment extends BrowseFragment {
     private static final String TAG = "StdBrowseFragment";
 
-    private static final int BACKGROUND_UPDATE_DELAY = 200;
+    private static final int BACKGROUND_UPDATE_DELAY = 100;
 
     protected String MainTitle;
     protected boolean ShowBadge = true;
