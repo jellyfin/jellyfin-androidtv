@@ -101,12 +101,12 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     private class DetailRowBuilderTask extends AsyncTask<BaseItemDto, Integer, DetailsOverviewRow> {
         @Override
         protected DetailsOverviewRow doInBackground(BaseItemDto... baseItem) {
-            BaseItemDetailsFragment.this.mBaseItem = baseItem[0];
 
-            DetailsOverviewRow row = new DetailsOverviewRow(BaseItemDetailsFragment.this.mBaseItem);
+
+            DetailsOverviewRow row = new DetailsOverviewRow(mBaseItem);
             try {
                 Bitmap poster = Picasso.with(getActivity())
-                        .load(Utils.getPrimaryImageUrl(BaseItemDetailsFragment.this.mBaseItem, mApiClient, true))
+                        .load(Utils.getPrimaryImageUrl(mBaseItem, mApiClient, true))
                                 .resize(Utils.convertDpToPixel(getActivity().getApplicationContext(), DETAIL_THUMB_WIDTH),
                                         Utils.convertDpToPixel(getActivity().getApplicationContext(), DETAIL_THUMB_HEIGHT))
                                 .centerInside()
@@ -115,7 +115,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
             } catch (IOException e) {
             }
 
-            UserItemDataDto userData = BaseItemDetailsFragment.this.mBaseItem.getUserData();
+            UserItemDataDto userData = mBaseItem.getUserData();
             if (userData != null && userData.getPlaybackPositionTicks() > 0) {
                 row.addAction(new Action(ACTION_RESUME, "Resume"));
             }
