@@ -185,8 +185,11 @@ public class StdBrowseFragment extends BrowseFragment {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (item instanceof BaseItemDto) {
-                final BaseItemDto baseItem = (BaseItemDto) item;
-                TvApp.getApplication().getLogger().Debug("Item selected: " + item.toString());
+                BaseRowItem rowItem = (BaseRowItem) item;
+                if (rowItem == null) return;
+
+                final BaseItemDto baseItem = rowItem.getBaseItem();
+                TvApp.getApplication().getLogger().Debug("Item selected: " + rowItem.getIndex() + " - " + baseItem.getName());
                 if (baseItem.getIsFolder()) {
                     // open generic folder browsing
                     mApplication.getApiClient().GetItemAsync(baseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
@@ -242,11 +245,14 @@ public class StdBrowseFragment extends BrowseFragment {
         @Override
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
-            if (item instanceof BaseItemDto) {
-                BaseItemDto baseItem = (BaseItemDto)item;
-                mBackgroundUrl = Utils.getBackdropImageUrl(baseItem, TvApp.getApplication().getConnectionManager().GetApiClient(baseItem), true);
-                startBackgroundTimer();
-            }
+            BaseRowItem rowItem = (BaseRowItem) item;
+            if (rowItem == null) return;
+
+            mApplication.getLogger().Debug("Selected Item "+rowItem.getIndex());
+
+            BaseItemDto baseItem = rowItem.getBaseItem();
+            mBackgroundUrl = Utils.getBackdropImageUrl(baseItem, TvApp.getApplication().getConnectionManager().GetApiClient(baseItem), true);
+            startBackgroundTimer();
 
         }
     }

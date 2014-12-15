@@ -80,7 +80,10 @@ public class CardPresenter extends Presenter {
 
     @Override
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
-        BaseItemDto baseItem = (BaseItemDto) item;
+        BaseRowItem rowItem = (BaseRowItem) item;
+        if (rowItem == null) return;
+
+        final BaseItemDto baseItem = rowItem.getBaseItem();
         ((ViewHolder) viewHolder).setItem(baseItem);
 
         //Log.d(TAG, "onBindViewHolder");
