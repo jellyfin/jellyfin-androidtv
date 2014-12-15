@@ -101,7 +101,8 @@ public class PlaybackController {
     public void stop() {
         mPlaybackState = PlaybackState.IDLE;
         stopReportLoop();
-        Utils.Stop(getCurrentlyPlayingItem(), mCurrentPosition * 10000);
+        Long mbPos = (long)mCurrentPosition * 10000;
+        Utils.Stop(getCurrentlyPlayingItem(), mbPos);
         mVideoView.stopPlayback();
     }
 
@@ -155,7 +156,7 @@ public class PlaybackController {
             @Override
             public void run() {
                 if (mPlaybackState == PlaybackState.PLAYING) {
-                    Utils.ReportProgress(getCurrentlyPlayingItem(), mVideoView.getCurrentPosition() * 10000);
+                    Utils.ReportProgress(getCurrentlyPlayingItem(), (long)mVideoView.getCurrentPosition() * 10000);
                 }
                 mHandler.postDelayed(this, REPORT_INTERVAL);
             }
