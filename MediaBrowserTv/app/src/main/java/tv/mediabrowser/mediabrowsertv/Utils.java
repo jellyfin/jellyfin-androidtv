@@ -13,8 +13,10 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import mediabrowser.apiinteraction.ApiClient;
@@ -25,6 +27,7 @@ import mediabrowser.model.dlna.VideoOptions;
 import mediabrowser.model.dlna.profiles.AndroidProfile;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.ImageOptions;
+import mediabrowser.model.dto.MediaSourceInfo;
 import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.MediaStream;
@@ -292,7 +295,25 @@ public class Utils {
         }
     }
 
-    public static void Play(BaseItemDto item, int position, VideoView view) {
+    public static List<MediaStream> GetSubtitleStreams(MediaSourceInfo mediaSource) {
+        return GetStreams(mediaSource, MediaStreamType.Subtitle);
+    }
+
+    public static List<MediaStream> GetStreams(MediaSourceInfo mediaSource, MediaStreamType type) {
+        ArrayList<MediaStream> streams = mediaSource.getMediaStreams();
+        ArrayList<MediaStream> ret = new ArrayList<>();
+        if (streams != null) {
+            for (MediaStream stream : streams) {
+                if (stream.getType() == type) {
+                    ret.add(stream);
+                }
+            }
+        }
+
+        return ret;
+    }
+
+    public static MediaSourceInfo Play(BaseItemDto item, int position, VideoView view) {
         StreamBuilder builder = new StreamBuilder();
         Long mbPos = (long)position * 10000;
         VideoOptions options = new VideoOptions();
@@ -314,6 +335,8 @@ public class Utils {
         startInfo.setItemId(item.getId());
         startInfo.setPositionTicks(mbPos);
         apiClient.ReportPlaybackStartAsync(startInfo, new EmptyResponse());
+
+        return info.getMediaSource();
 
     }
 

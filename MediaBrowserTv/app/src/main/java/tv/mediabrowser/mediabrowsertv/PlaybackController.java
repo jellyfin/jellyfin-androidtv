@@ -11,6 +11,7 @@ import android.widget.VideoView;
 import java.util.List;
 
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.dto.MediaSourceInfo;
 
 /**
  * Created by Eric on 12/9/2014.
@@ -22,6 +23,8 @@ public class PlaybackController {
     private int mCurrentPosition = 0;
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
     private TvApp mApplication;
+
+    private MediaSourceInfo mCurrentMediaSource;
 
     private PlaybackOverlayFragment mFragment;
     private View mSpinner;
@@ -51,6 +54,7 @@ public class PlaybackController {
     public BaseItemDto getCurrentlyPlayingItem() {
         return mItems.get(mCurrentIndex);
     }
+    public MediaSourceInfo getCurrentMediaSource() { return mCurrentMediaSource;}
 
     public boolean isPlaying() {
         return mPlaybackState == PlaybackState.PLAYING;
@@ -75,7 +79,7 @@ public class PlaybackController {
             case IDLE:
                 // start new playback
                 mSpinner.setVisibility(View.VISIBLE);
-                Utils.Play(getCurrentlyPlayingItem(), position, mVideoView);
+                mCurrentMediaSource = Utils.Play(getCurrentlyPlayingItem(), position, mVideoView);
                 if (mFragment != null) {
                     mFragment.setFadingEnabled(true);
                     mFragment.getPlaybackControlsRow().setCurrentTime(position);
