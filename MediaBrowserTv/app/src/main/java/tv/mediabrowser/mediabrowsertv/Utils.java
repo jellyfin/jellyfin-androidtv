@@ -321,6 +321,7 @@ public class Utils {
         options.setDeviceId(apiClient.getDeviceId());
         options.setItemId(item.getId());
         options.setMediaSources(item.getMediaSources());
+        options.setMaxBitrate(30000000);
 
         options.setProfile(new AndroidProfile());
         StreamInfo info = builder.BuildVideoItem(options);
