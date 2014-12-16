@@ -16,7 +16,6 @@ public class GenericFolderFragment extends BrowseFolderFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        ShowBadge = false;
         super.onActivityCreated(savedInstanceState);
 
     }
@@ -42,7 +41,6 @@ public class GenericFolderFragment extends BrowseFolderFragment {
 
         StdItemQuery byName = new StdItemQuery();
         byName.setParentId(mFolder.getId());
-        byName.setLimit(100);
         byName.setSortBy(new String[]{ItemSortBy.SortName});
         mRows.add(new BrowseRowDef("By Name", byName, 100));
 
