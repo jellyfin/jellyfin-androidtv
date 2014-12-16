@@ -48,7 +48,7 @@ public class HomeFragment extends StdBrowseFragment {
         resumeMovies.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
         resumeMovies.setSortBy(new String[]{ItemSortBy.DatePlayed});
         resumeMovies.setSortOrder(SortOrder.Descending);
-        mRows.add(new BrowseRowDef("Continue Watching", resumeMovies));
+        mRows.add(new BrowseRowDef("Continue Watching", resumeMovies, 0));
 
         StdItemQuery latestMovies = new StdItemQuery();
         latestMovies.setIncludeItemTypes(new String[]{"Movie"});
@@ -57,7 +57,7 @@ public class HomeFragment extends StdBrowseFragment {
         latestMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
         latestMovies.setSortBy(new String[]{ItemSortBy.DateCreated});
         latestMovies.setSortOrder(SortOrder.Descending);
-        mRows.add(new BrowseRowDef("Latest Movies", latestMovies));
+        mRows.add(new BrowseRowDef("Latest Movies", latestMovies, 0));
 
         NextUpQuery nextUpQuery = new NextUpQuery();
         nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
@@ -71,7 +71,7 @@ public class HomeFragment extends StdBrowseFragment {
         latestMusic.setLimit(50);
         latestMusic.setSortBy(new String[]{ItemSortBy.DateCreated});
         latestMusic.setSortOrder(SortOrder.Descending);
-        mRows.add(new BrowseRowDef("Latest Albums", latestMusic));
+        mRows.add(new BrowseRowDef("Latest Albums", latestMusic, 0));
     }
 
     @Override

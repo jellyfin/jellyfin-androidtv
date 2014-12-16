@@ -1,7 +1,6 @@
 package tv.mediabrowser.mediabrowsertv;
 
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
-import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.Presenter;
 
@@ -21,11 +20,18 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private QueryType queryType;
     private ArrayObjectAdapter mParent;
     private ListRow mRow;
+    private int chunkSize = 0;
 
-    public ItemRowAdapter(ItemQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+    private long itemsLoaded = 0;
+    private long totalItems = 0;
+    private boolean fullyLoaded = false;
+    private boolean currentlyRetrieving = false;
+
+    public ItemRowAdapter(ItemQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
         super(presenter);
         mParent = parent;
         mQuery = query;
+        this.chunkSize = chunkSize;
         queryType = QueryType.Items;
     }
 
@@ -42,7 +48,34 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.Views;
     }
 
+    public void setItemsLoaded(long itemsLoaded) {
+        this.itemsLoaded = itemsLoaded;
+        this.fullyLoaded = chunkSize == 0 || itemsLoaded >= totalItems;
+    }
+
+    public long getItemsLoaded() {
+        return itemsLoaded;
+    }
+
+    public void loadMoreItemsIfNeeded(long pos) {
+        if (fullyLoaded) {
+            TvApp.getApplication().getLogger().Debug("Row is fully loaded");
+            return;
+        }
+        if (currentlyRetrieving) {
+            TvApp.getApplication().getLogger().Debug("Not loading more because currently retrieving");
+            return;
+        }
+
+        if (pos >= itemsLoaded - 20) {
+            //TODO load more...
+            TvApp.getApplication().getLogger().Debug("Would load more items...");
+        }
+
+    }
+
     public void Retrieve() {
+        currentlyRetrieving = true;
         switch (queryType) {
             case Items:
                 Retrieve(mQuery);
@@ -67,16 +100,21 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(i++,item));
                     }
+                    totalItems = response.getTotalRecordCount();
+                    setItemsLoaded(itemsLoaded + i);
                 } else {
                     // no results - don't show us
                     mParent.remove(mRow);
                 }
+
+                currentlyRetrieving = false;
             }
 
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving items", exception);
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                currentlyRetrieving = false;
             }
         });
 
@@ -92,16 +130,21 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(i++,item));
                     }
+                    totalItems = response.getTotalRecordCount();
+                    setItemsLoaded(itemsLoaded + i);
                 } else {
                     // no results - don't show us
                     mParent.remove(mRow);
                 }
+
+                currentlyRetrieving = false;
             }
 
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving items", exception);
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                currentlyRetrieving = false;
             }
         });
 
@@ -116,16 +159,21 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(i++,item));
                     }
+                    totalItems = response.getTotalRecordCount();
+                    setItemsLoaded(itemsLoaded + i);
                 } else {
                     // no results - don't show us
                     mParent.remove(mRow);
                 }
+
+                currentlyRetrieving = false;
             }
 
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving next up items", exception);
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                currentlyRetrieving = false;
             }
         });
 
