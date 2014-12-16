@@ -21,10 +21,10 @@ import java.util.Random;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.model.dlna.StreamBuilder;
 import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dlna.VideoOptions;
-import mediabrowser.model.dlna.profiles.AndroidProfile;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.ImageOptions;
 import mediabrowser.model.dto.MediaSourceInfo;
@@ -253,7 +253,7 @@ public class Utils {
             }
         }
 
-        if (item.getRunTimeTicks() >  0) {
+        if (item.getRunTimeTicks() != null && item.getRunTimeTicks() >  0) {
             addWithDivider(sb, item.getRunTimeTicks() / 600000000);
             sb.append("mins");
         }
