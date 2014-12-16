@@ -316,16 +316,26 @@ public class Utils {
     public static MediaSourceInfo Play(BaseItemDto item, int position, VideoView view) {
         StreamBuilder builder = new StreamBuilder();
         Long mbPos = (long)position * 10000;
-        VideoOptions options = new VideoOptions();
         ApiClient apiClient = TvApp.getApplication().getApiClient();
-        options.setDeviceId(apiClient.getDeviceId());
-        options.setItemId(item.getId());
-        options.setMediaSources(item.getMediaSources());
-        options.setMaxBitrate(30000000);
+        MediaSourceInfo ret = null;
 
-        options.setProfile(new AndroidProfile());
-        StreamInfo info = builder.BuildVideoItem(options);
-        view.setVideoPath(info.ToUrl(apiClient.getApiUrl()));
+        if (item.getPath().startsWith("http://")) {
+            //try direct stream
+            view.setVideoPath(item.getPath());
+            ret = item.getMediaSources().get(0);
+        } else {
+            VideoOptions options = new VideoOptions();
+            options.setDeviceId(apiClient.getDeviceId());
+            options.setItemId(item.getId());
+            options.setMediaSources(item.getMediaSources());
+            options.setMaxBitrate(30000000);
+
+            options.setProfile(new AndroidProfile());
+            StreamInfo info = builder.BuildVideoItem(options);
+            view.setVideoPath(info.ToUrl(apiClient.getApiUrl()));
+            ret = info.getMediaSource();
+        }
+
         TvApp.getApplication().setCurrentPlayingItem(item);
         if (position > 0) {
             view.seekTo(position);
@@ -337,7 +347,7 @@ public class Utils {
         startInfo.setPositionTicks(mbPos);
         apiClient.ReportPlaybackStartAsync(startInfo, new EmptyResponse());
 
-        return info.getMediaSource();
+        return ret;
 
     }
 
