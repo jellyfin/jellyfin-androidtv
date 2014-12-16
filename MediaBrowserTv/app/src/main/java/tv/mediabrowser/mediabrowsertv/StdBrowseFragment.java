@@ -48,8 +48,11 @@ import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 
+interface IRowLoader {
+    void loadRows(List<BrowseRowDef> rows);
+}
 
-public class StdBrowseFragment extends BrowseFragment {
+public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     private static final String TAG = "StdBrowseFragment";
 
     private static final int BACKGROUND_UPDATE_DELAY = 100;
@@ -81,15 +84,13 @@ public class StdBrowseFragment extends BrowseFragment {
 
         setupUIElements();
 
-        setupQueries();
-
-        loadRows();
+        setupQueries(this);
 
         setupEventListeners();
     }
 
-    protected void setupQueries() {
-
+    protected void setupQueries(IRowLoader rowLoader) {
+        rowLoader.loadRows(mRows);
     }
 
     @Override
@@ -101,12 +102,12 @@ public class StdBrowseFragment extends BrowseFragment {
         }
     }
 
-    protected void loadRows() {
+    public void loadRows(List<BrowseRowDef> rows) {
 
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
         mCardPresenter = new CardPresenter();
 
-        for (BrowseRowDef def : mRows) {
+        for (BrowseRowDef def : rows) {
             HeaderItem header = new HeaderItem(def.getHeaderText(), null);
             ItemRowAdapter rowAdapter;
             switch (def.getQueryType()) {

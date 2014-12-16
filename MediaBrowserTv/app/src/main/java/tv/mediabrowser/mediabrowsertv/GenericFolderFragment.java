@@ -22,7 +22,7 @@ public class GenericFolderFragment extends BrowseFolderFragment {
     }
 
     @Override
-    protected void setupQueries() {
+    protected void setupQueries(IRowLoader rowLoader) {
 
         StdItemQuery resume = new StdItemQuery();
         resume.setParentId(mFolder.getId());
@@ -45,6 +45,8 @@ public class GenericFolderFragment extends BrowseFolderFragment {
         byName.setLimit(100);
         byName.setSortBy(new String[]{ItemSortBy.SortName});
         mRows.add(new BrowseRowDef("By Name", byName, 100));
+
+        rowLoader.loadRows(mRows);
 
     }
 
