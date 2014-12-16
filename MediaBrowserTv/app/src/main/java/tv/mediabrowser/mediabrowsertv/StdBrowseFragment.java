@@ -143,7 +143,7 @@ public class StdBrowseFragment extends BrowseFragment {
         backgroundManager.attach(getActivity().getWindow());
         mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
 
-        mDefaultBackground = getResources().getDrawable(R.drawable.default_background);
+        mDefaultBackground = getResources().getDrawable(R.drawable.mbwall);
 
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
@@ -244,7 +244,12 @@ public class StdBrowseFragment extends BrowseFragment {
         @Override
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
-            if (!(item instanceof BaseRowItem)) return;
+            if (!(item instanceof BaseRowItem)) {
+                //fill in default background
+                mBackgroundUrl = null;
+                startBackgroundTimer();
+                return;
+            }
 
             BaseRowItem rowItem = (BaseRowItem) item;
 
@@ -302,7 +307,7 @@ public class StdBrowseFragment extends BrowseFragment {
                     if (mBackgroundUrl != null) {
                         updateBackground(mBackgroundUrl);
                     } else {
-                        updateBackground(getResources().getDrawable(R.drawable.default_background));
+                        updateBackground(mDefaultBackground);
                     }
                 }
             });
