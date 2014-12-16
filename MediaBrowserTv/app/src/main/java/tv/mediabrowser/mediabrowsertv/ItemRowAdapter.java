@@ -22,16 +22,29 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private ListRow mRow;
     private int chunkSize = 0;
 
-    private long itemsLoaded = 0;
-    private long totalItems = 0;
+    private int itemsLoaded = 0;
+    private int totalItems = 0;
     private boolean fullyLoaded = false;
     private boolean currentlyRetrieving = false;
+
+    public boolean isCurrentlyRetrieving() {
+        synchronized (this) {
+            return currentlyRetrieving;
+        }
+    }
+
+    public void setCurrentlyRetrieving(boolean currentlyRetrieving) {
+        synchronized (this) {
+            this.currentlyRetrieving = currentlyRetrieving;
+        }
+    }
 
     public ItemRowAdapter(ItemQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
         super(presenter);
         mParent = parent;
         mQuery = query;
         this.chunkSize = chunkSize;
+        if (chunkSize > 0) mQuery.setLimit(chunkSize);
         queryType = QueryType.Items;
     }
 
@@ -48,7 +61,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.Views;
     }
 
-    public void setItemsLoaded(long itemsLoaded) {
+    public void setItemsLoaded(int itemsLoaded) {
         this.itemsLoaded = itemsLoaded;
         this.fullyLoaded = chunkSize == 0 || itemsLoaded >= totalItems;
     }
@@ -62,20 +75,31 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             TvApp.getApplication().getLogger().Debug("Row is fully loaded");
             return;
         }
-        if (currentlyRetrieving) {
+        if (isCurrentlyRetrieving()) {
             TvApp.getApplication().getLogger().Debug("Not loading more because currently retrieving");
             return;
         }
 
         if (pos >= itemsLoaded - 20) {
             //TODO load more...
-            TvApp.getApplication().getLogger().Debug("Would load more items...");
+            TvApp.getApplication().getLogger().Debug("Loading more items starting at "+itemsLoaded);
+            RetrieveNext();
         }
 
     }
 
+    public void RetrieveNext() {
+        if (fullyLoaded || mQuery == null || isCurrentlyRetrieving()) return;
+        setCurrentlyRetrieving(true);
+
+        //set the query to go get the next chunk
+        mQuery.setStartIndex(itemsLoaded);
+        Retrieve(mQuery);
+    }
+
     public void Retrieve() {
-        currentlyRetrieving = true;
+        setCurrentlyRetrieving(true);
+        this.clear();
         switch (queryType) {
             case Items:
                 Retrieve(mQuery);
@@ -126,12 +150,12 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
-                    int i = 0;
+                    int i = itemsLoaded;
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(i++,item));
                     }
                     totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(itemsLoaded + i);
+                    setItemsLoaded(i);
                 } else {
                     // no results - don't show us
                     mParent.remove(mRow);
