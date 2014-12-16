@@ -40,6 +40,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -180,6 +181,8 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         mSelectedListener.registerListener(new ItemViewSelectedListener());
     }
 
+    private final String[] browseViewTypes = new String[] {"movies", "music", "tvshows"};
+
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
         @Override
         public void onItemClicked(final Presenter.ViewHolder itemViewHolder, Object item,
@@ -190,6 +193,29 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
             final BaseItemDto baseItem = rowItem.getBaseItem();
             TvApp.getApplication().getLogger().Debug("Item selected: " + rowItem.getIndex() + " - " + baseItem.getName());
+            if (baseItem.getType().equals("UserView") && Arrays.asList(browseViewTypes).contains(baseItem.getCollectionType())) {
+                // open user view browsing
+                mApplication.getApiClient().GetItemAsync(baseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                    @Override
+                    public void onResponse(BaseItemDto response) {
+                        Intent intent = new Intent(getActivity(), UserViewActivity.class);
+                        intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(response));
+
+                        Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                getActivity(),
+                                ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                                DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                        getActivity().startActivity(intent, bundle);
+
+                    }
+
+                    @Override
+                    public void onError(Exception exception) {
+                        mApplication.getLogger().ErrorException("Error retrieving view object", exception);
+                        exception.printStackTrace();
+                    }
+                });
+            } else
             if (baseItem.getIsFolder()) {
                 // open generic folder browsing
                 mApplication.getApiClient().GetItemAsync(baseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {

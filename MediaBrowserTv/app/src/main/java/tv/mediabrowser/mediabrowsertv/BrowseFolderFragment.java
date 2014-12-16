@@ -34,6 +34,7 @@ public class BrowseFolderFragment extends StdBrowseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         mFolder = TvApp.getApplication().getSerializer().DeserializeFromString(getActivity().getIntent().getStringExtra("Folder"),BaseItemDto.class);
         MainTitle = mFolder.getName();
+        ShowBadge = false;
 
         super.onActivityCreated(savedInstanceState);
     }
