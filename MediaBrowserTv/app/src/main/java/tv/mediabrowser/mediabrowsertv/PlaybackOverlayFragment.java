@@ -57,8 +57,10 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.MediaStream;
 
 /*
@@ -175,33 +177,42 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                     Toast.makeText(getActivity(), "TODO: Fast Forward", Toast.LENGTH_SHORT).show();
                 } else if (action.getId() == mRewindAction.getId()) {
                     Toast.makeText(getActivity(), "TODO: Rewind", Toast.LENGTH_SHORT).show();
-                } else if (action.getId() == mSubtitleAction.getId()) {
-                    setFadingEnabled(false);
-                    List<MediaStream> subtitles = Utils.GetSubtitleStreams(mPlaybackController.getCurrentMediaSource());
-                    int index = 0;
-                    PopupMenu subMenu = new PopupMenu(getActivity(), getActivity().findViewById(R.id.playback_progress), Gravity.RIGHT);
-                    subMenu.getMenu().add(0, -1, 0, "None");
-                    subMenu.getMenu().getItem(0).setChecked(true);
-                    for (MediaStream sub : subtitles) {
-                        subMenu.getMenu().add(0, index++, index, sub.getLanguage() + (sub.getIsExternal() ? " (external)" : " (internal)") + (sub.getIsForced() ? " (forced)" : ""));
-                    }
-                    subMenu.getMenu().setGroupCheckable(0,true, false);
-                    subMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
-                        @Override
-                        public void onDismiss(PopupMenu menu) {
-                            setFadingEnabled(true);
-                        }
-                    });
-                    subMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            mApplication.getLogger().Debug("Clicked item "+item.getItemId());
-                            return true;
-                        }
-                    });
-                    subMenu.show();
-
+                } else if (action.getId() == mThumbsUpAction.getId()) {
+                    //toggle likes
+                    ((PlaybackControlsRow.MultiAction)action).nextIndex();
+                    //updateLikes(mThumbsUpAction.getIndex() == mThumbsUpAction.OUTLINE ? true : null);
+                } else if (action.getId() == mThumbsDownAction.getId()) {
+                    //toggle dislikes
+                    ((PlaybackControlsRow.MultiAction)action).nextIndex();
+                    //updateLikes(mThumbsDownAction.getIndex() == mThumbsDownAction.OUTLINE ? false : null);
                 }
+//                } else if (action.getId() == mSubtitleAction.getId()) {
+//                    setFadingEnabled(false);
+//                    List<MediaStream> subtitles = Utils.GetSubtitleStreams(mPlaybackController.getCurrentMediaSource());
+//                    int index = 0;
+//                    PopupMenu subMenu = new PopupMenu(getActivity(), getActivity().findViewById(R.id.playback_progress), Gravity.RIGHT);
+//                    subMenu.getMenu().add(0, -1, 0, "None");
+//                    subMenu.getMenu().getItem(0).setChecked(true);
+//                    for (MediaStream sub : subtitles) {
+//                        subMenu.getMenu().add(0, index++, index, sub.getLanguage() + (sub.getIsExternal() ? " (external)" : " (internal)") + (sub.getIsForced() ? " (forced)" : ""));
+//                    }
+//                    subMenu.getMenu().setGroupCheckable(0,true, false);
+//                    subMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+//                        @Override
+//                        public void onDismiss(PopupMenu menu) {
+//                            setFadingEnabled(true);
+//                        }
+//                    });
+//                    subMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//                        @Override
+//                        public boolean onMenuItemClick(MenuItem item) {
+//                            mApplication.getLogger().Debug("Clicked item "+item.getItemId());
+//                            return true;
+//                        }
+//                    });
+//                    subMenu.show();
+//
+//                }
                 if (action instanceof PlaybackControlsRow.MultiAction) {
                     ((PlaybackControlsRow.MultiAction) action).nextIndex();
                     notifyChanged(action);
@@ -218,6 +229,21 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         if (mItemsToPlay.size() > 1) addQueueRow(); // only show queue if more than one item
 
         setAdapter(mRowsAdapter);
+    }
+
+    private void updateLikes(Boolean likes) {
+        mApplication.getApiClient().UpdateUserItemRatingAsync(mPlaybackController.getCurrentlyPlayingItem().getId(), mApplication.getCurrentUser().getId(), likes, new Response<UserItemDataDto>() {
+            @Override
+            public void onResponse(UserItemDataDto response) {
+                mPlaybackController.getCurrentlyPlayingItem().setUserData(response);
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                exception.printStackTrace();
+            }
+        });
+
     }
 
     private int getDuration() {
@@ -252,6 +278,19 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         mRepeatAction = new RepeatAction(sContext);
         mThumbsUpAction = new ThumbsUpAction(sContext);
         mThumbsDownAction = new ThumbsDownAction(sContext);
+        BaseItemDto firstItem = mItemsToPlay.get(0);
+        UserItemDataDto userData = firstItem.getUserData();
+        if (userData != null) {
+            mThumbsDownAction.setIndex(ThumbsDownAction.OUTLINE);
+            mThumbsUpAction.setIndex(ThumbsUpAction.OUTLINE);
+        } else if (userData.getLikes()) {
+            mThumbsUpAction.setIndex(ThumbsUpAction.SOLID);
+            mThumbsDownAction.setIndex(ThumbsDownAction.OUTLINE);
+        } else {
+            mThumbsDownAction.setIndex(ThumbsDownAction.SOLID);
+            mThumbsUpAction.setIndex(ThumbsUpAction.OUTLINE);
+        }
+
 //        mSubtitleAction = new Action(999, null, null, getActivity().getResources().getDrawable(R.drawable.subt));
         mSkipNextAction = new PlaybackControlsRow.SkipNextAction(sContext);
         mSkipPreviousAction = new PlaybackControlsRow.SkipPreviousAction(sContext);
