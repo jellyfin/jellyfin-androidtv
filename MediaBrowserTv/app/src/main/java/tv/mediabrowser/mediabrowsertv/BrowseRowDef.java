@@ -14,9 +14,12 @@ public class BrowseRowDef {
     private NextUpQuery nextUpQuery;
     private QueryType queryType;
 
-    public BrowseRowDef(String header, ItemQuery query) {
+    private int chunkSize = 0;
+
+    public BrowseRowDef(String header, ItemQuery query, int chunkSize) {
         headerText = header;
         this.query = query;
+        this.chunkSize = chunkSize;
         this.queryType = QueryType.Items;
     }
 
@@ -29,6 +32,10 @@ public class BrowseRowDef {
     public BrowseRowDef(String header, ViewQuery query) {
         headerText = header;
         this.queryType = QueryType.Views;
+    }
+
+    public int getChunkSize() {
+        return chunkSize;
     }
 
     public String getHeaderText() {

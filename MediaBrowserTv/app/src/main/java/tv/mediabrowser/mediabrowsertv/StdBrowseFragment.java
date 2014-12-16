@@ -117,7 +117,7 @@ public class StdBrowseFragment extends BrowseFragment {
                     rowAdapter = new ItemRowAdapter(new ViewQuery(), mCardPresenter, mRowsAdapter);
                     break;
                 default:
-                    rowAdapter = new ItemRowAdapter(def.getQuery(), mCardPresenter, mRowsAdapter);
+                    rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), mCardPresenter, mRowsAdapter);
                     break;
             }
 
@@ -244,10 +244,13 @@ public class StdBrowseFragment extends BrowseFragment {
         @Override
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
+            if (!(item instanceof BaseRowItem)) return;
+
             BaseRowItem rowItem = (BaseRowItem) item;
-            if (rowItem == null) return;
 
             mApplication.getLogger().Debug("Selected Item "+rowItem.getIndex());
+            ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)row).getAdapter();
+            adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
 
             BaseItemDto baseItem = rowItem.getBaseItem();
             mBackgroundUrl = Utils.getBackdropImageUrl(baseItem, TvApp.getApplication().getConnectionManager().GetApiClient(baseItem), true);
