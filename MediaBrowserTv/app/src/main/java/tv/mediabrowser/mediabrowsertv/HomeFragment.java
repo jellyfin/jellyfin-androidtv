@@ -37,7 +37,7 @@ public class HomeFragment extends StdBrowseFragment {
     }
 
     @Override
-    protected void setupQueries() {
+    protected void setupQueries(IRowLoader rowLoader) {
 
         mRows.add(new BrowseRowDef("Library", new ViewQuery()));
 
@@ -72,6 +72,8 @@ public class HomeFragment extends StdBrowseFragment {
         latestMusic.setSortBy(new String[]{ItemSortBy.DateCreated});
         latestMusic.setSortOrder(SortOrder.Descending);
         mRows.add(new BrowseRowDef("Latest Albums", latestMusic, 0));
+
+        rowLoader.loadRows(mRows);
     }
 
     @Override
