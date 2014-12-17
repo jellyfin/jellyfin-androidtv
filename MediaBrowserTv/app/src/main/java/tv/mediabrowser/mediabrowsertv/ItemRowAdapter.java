@@ -197,7 +197,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         });
 
     }
-    public void Retrieve(NextUpQuery query) {
+    public void Retrieve(final NextUpQuery query) {
         final ItemRowAdapter adapter = this;
         TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(query, new Response<ItemsResult>() {
             @Override
@@ -209,6 +209,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
+                    if (i == 0) mParent.remove(mRow);
                 } else {
                     // no results - don't show us
                     mParent.remove(mRow);
@@ -227,7 +228,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     }
 
-    public void Retrieve(UpcomingEpisodesQuery query) {
+    public void Retrieve(final UpcomingEpisodesQuery query) {
         final ItemRowAdapter adapter = this;
         TvApp.getApplication().getApiClient().GetUpcomingEpisodesAsync(query, new Response<ItemsResult>() {
             @Override
@@ -235,10 +236,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++,item));
+                        if (query.getParentId() == null || item.getSeriesId() == null || item.getSeriesId().equals(query.getParentId())) adapter.add(new BaseRowItem(i++, item));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
+                    if (i == 0) mParent.remove(mRow);
                 } else {
                     // no results - don't show us
                     mParent.remove(mRow);
