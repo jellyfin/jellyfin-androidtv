@@ -194,8 +194,8 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         public void onItemClicked(final Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
+            if (!(item instanceof BaseRowItem)) return;
             BaseRowItem rowItem = (BaseRowItem) item;
-            if (rowItem == null) return;
 
             final BaseItemDto baseItem = rowItem.getBaseItem();
             TvApp.getApplication().getLogger().Debug("Item selected: " + rowItem.getIndex() + " - " + baseItem.getName());
