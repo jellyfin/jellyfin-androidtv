@@ -7,6 +7,7 @@ import java.util.List;
 
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
@@ -40,6 +41,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                         ItemQuery rowQuery = new ItemQuery();
                         rowQuery.setParentId(item.getId());
                         rowQuery.setUserId(userId);
+                        rowQuery.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
                         rows.add(new BrowseRowDef(item.getName(), rowQuery, 100));
                     }
                 }

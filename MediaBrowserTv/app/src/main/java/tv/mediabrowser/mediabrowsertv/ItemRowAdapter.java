@@ -10,6 +10,8 @@ import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
+import mediabrowser.model.querying.SeasonQuery;
+import mediabrowser.model.querying.UpcomingEpisodesQuery;
 
 /**
  * Created by Eric on 12/5/2014.
@@ -17,6 +19,8 @@ import mediabrowser.model.querying.NextUpQuery;
 public class ItemRowAdapter extends ArrayObjectAdapter {
     private ItemQuery mQuery;
     private NextUpQuery mNextUpQuery;
+    private SeasonQuery mSeasonQuery;
+    private UpcomingEpisodesQuery mUpcomingQuery;
     private QueryType queryType;
     private ArrayObjectAdapter mParent;
     private ListRow mRow;
@@ -53,6 +57,20 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mNextUpQuery = query;
         queryType = QueryType.NextUp;
+    }
+
+    public ItemRowAdapter(UpcomingEpisodesQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+        super(presenter);
+        mParent = parent;
+        mUpcomingQuery = query;
+        queryType = QueryType.Upcoming;
+    }
+
+    public ItemRowAdapter(SeasonQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+        super(presenter);
+        mParent = parent;
+        mSeasonQuery = query;
+        queryType = QueryType.Season;
     }
 
     public ItemRowAdapter(ViewQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -106,6 +124,12 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
             case NextUp:
                 Retrieve(mNextUpQuery);
+                break;
+            case Upcoming:
+                Retrieve(mUpcomingQuery);
+                break;
+            case Season:
+                Retrieve(mSeasonQuery);
                 break;
             case Views:
                 RetrieveViews();
@@ -175,7 +199,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
     public void Retrieve(NextUpQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getConnectionManager().GetApiClient(TvApp.getApplication().getCurrentUser()).GetNextUpEpisodesAsync(query, new Response<ItemsResult>() {
+        TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
@@ -196,6 +220,66 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving next up items", exception);
+                Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                currentlyRetrieving = false;
+            }
+        });
+
+    }
+
+    public void Retrieve(UpcomingEpisodesQuery query) {
+        final ItemRowAdapter adapter = this;
+        TvApp.getApplication().getApiClient().GetUpcomingEpisodesAsync(query, new Response<ItemsResult>() {
+            @Override
+            public void onResponse(ItemsResult response) {
+                if (response.getTotalRecordCount() > 0) {
+                    int i = 0;
+                    for (BaseItemDto item : response.getItems()) {
+                        adapter.add(new BaseRowItem(i++,item));
+                    }
+                    totalItems = response.getTotalRecordCount();
+                    setItemsLoaded(itemsLoaded + i);
+                } else {
+                    // no results - don't show us
+                    mParent.remove(mRow);
+                }
+
+                currentlyRetrieving = false;
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving upcoming items", exception);
+                Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                currentlyRetrieving = false;
+            }
+        });
+
+    }
+
+    public void Retrieve(SeasonQuery query) {
+        final ItemRowAdapter adapter = this;
+        TvApp.getApplication().getApiClient().GetSeasonsAsync(query, new Response<ItemsResult>() {
+            @Override
+            public void onResponse(ItemsResult response) {
+                if (response.getTotalRecordCount() > 0) {
+                    int i = 0;
+                    for (BaseItemDto item : response.getItems()) {
+                        adapter.add(new BaseRowItem(i++,item));
+                    }
+                    totalItems = response.getTotalRecordCount();
+                    setItemsLoaded(itemsLoaded + i);
+                } else {
+                    // no results - don't show us
+                    mParent.remove(mRow);
+                }
+
+                currentlyRetrieving = false;
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving season items", exception);
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
             }

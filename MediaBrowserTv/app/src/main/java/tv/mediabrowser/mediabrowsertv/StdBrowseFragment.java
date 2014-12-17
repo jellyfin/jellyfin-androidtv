@@ -115,6 +115,12 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                 case NextUp:
                     rowAdapter = new ItemRowAdapter(def.getNextUpQuery(), mCardPresenter, mRowsAdapter);
                     break;
+                case Season:
+                    rowAdapter = new ItemRowAdapter(def.getSeasonQuery(), mCardPresenter, mRowsAdapter);
+                    break;
+                case Upcoming:
+                    rowAdapter = new ItemRowAdapter(def.getUpcomingQuery(), mCardPresenter, mRowsAdapter);
+                    break;
                 case Views:
                     rowAdapter = new ItemRowAdapter(new ViewQuery(), mCardPresenter, mRowsAdapter);
                     break;
@@ -216,12 +222,12 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                     }
                 });
             } else
-            if (baseItem.getIsFolder()) {
-                // open generic folder browsing
+            if (baseItem.getType().equals("Series")) {
+                // open series browsing
                 mApplication.getApiClient().GetItemAsync(baseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
-                        Intent intent = new Intent(getActivity(), GenericFolderActivity.class);
+                        Intent intent = new Intent(getActivity(), SeriesActivity.class);
                         intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(response));
 
                         Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
@@ -234,33 +240,57 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
                     @Override
                     public void onError(Exception exception) {
-                        mApplication.getLogger().ErrorException("Error retrieving folder object", exception);
+                        mApplication.getLogger().ErrorException("Error retrieving series object", exception);
                         exception.printStackTrace();
                     }
                 });
             } else {
-                //Retrieve full item for display and playback
-                mApplication.getApiClient().GetItemAsync(baseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
-                    @Override
-                    public void onResponse(BaseItemDto response) {
-                        Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                        intent.putExtra("BaseItemDto", TvApp.getApplication().getSerializer().SerializeToString(response));
+                if (baseItem.getIsFolder()) {
+                    // open generic folder browsing
+                    mApplication.getApiClient().GetItemAsync(baseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                        @Override
+                        public void onResponse(BaseItemDto response) {
+                            Intent intent = new Intent(getActivity(), GenericFolderActivity.class);
+                            intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(response));
 
-                        Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                getActivity(),
-                                ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                                DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                        getActivity().startActivity(intent, bundle);
+                            Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                    getActivity(),
+                                    ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                                    DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                            getActivity().startActivity(intent, bundle);
 
-                    }
+                        }
 
-                    @Override
-                    public void onError(Exception exception) {
-                        mApplication.getLogger().ErrorException("Error retrieving full object", exception);
-                        exception.printStackTrace();
-                    }
-                });
+                        @Override
+                        public void onError(Exception exception) {
+                            mApplication.getLogger().ErrorException("Error retrieving folder object", exception);
+                            exception.printStackTrace();
+                        }
+                    });
+                } else {
+                    //Retrieve full item for display and playback
+                    mApplication.getApiClient().GetItemAsync(baseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                        @Override
+                        public void onResponse(BaseItemDto response) {
+                            Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                            intent.putExtra("BaseItemDto", TvApp.getApplication().getSerializer().SerializeToString(response));
 
+                            Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                    getActivity(),
+                                    ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                                    DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                            getActivity().startActivity(intent, bundle);
+
+                        }
+
+                        @Override
+                        public void onError(Exception exception) {
+                            mApplication.getLogger().ErrorException("Error retrieving full object", exception);
+                            exception.printStackTrace();
+                        }
+                    });
+
+                }
             }
 
         }
