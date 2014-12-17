@@ -177,6 +177,10 @@ public class Utils {
                 itemId = item.getSeriesId();
             }
         }
+        if (item.getType().equals("Season") && imageTag == null) {
+            imageTag = item.getSeriesPrimaryImageTag();
+            itemId = item.getSeriesId();
+        }
         options.setMaxWidth(320);
         options.setImageType(imageType);
         UserItemDataDto userData = item.getUserData();
