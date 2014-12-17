@@ -57,6 +57,7 @@ public class CardPresenter extends Presenter {
                     break;
                 case "Season":
                 case "Series":
+                case "Episode":
                     mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.tv);
                     break;
                 case "Folder":
