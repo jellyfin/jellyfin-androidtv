@@ -79,6 +79,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private ArrayObjectAdapter mRowsAdapter;
     private ArrayObjectAdapter mPrimaryActionsAdapter;
     private ArrayObjectAdapter mSecondaryActionsAdapter;
+    private ArrayObjectAdapter mCurrentQueue;
     private PlayPauseAction mPlayPauseAction;
     private RepeatAction mRepeatAction;
     private ThumbsUpAction mThumbsUpAction;
@@ -257,13 +258,14 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         return 0;
     }
 
-    private void addPlaybackControlsRow() {
+    public void addPlaybackControlsRow() {
+        if (mPlaybackControlsRow != null) mRowsAdapter.remove(mPlaybackControlsRow);
         if (SHOW_DETAIL) {
             mPlaybackControlsRow = new PlaybackControlsRow(mPlaybackController.getCurrentlyPlayingItem());
         } else {
             mPlaybackControlsRow = new PlaybackControlsRow();
         }
-        mRowsAdapter.add(mPlaybackControlsRow);
+        mRowsAdapter.add(0, mPlaybackControlsRow);
 
         updatePlaybackRow();
 
@@ -347,16 +349,21 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     }
 
     private void addQueueRow() {
-        ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new CardPresenter());
-        for (BaseItemDto movie : mItemsToPlay) {
-            listRowAdapter.add(movie);
+        mCurrentQueue = new ArrayObjectAdapter(new CardPresenter());
+        int i = 0;
+        for (BaseItemDto item : mItemsToPlay) {
+            mCurrentQueue.add(new BaseRowItem(i++,item));
         }
         HeaderItem header = new HeaderItem(0, getString(R.string.current_queue), null);
-        mRowsAdapter.add(new ListRow(header, listRowAdapter));
+        mRowsAdapter.add(new ListRow(header, mCurrentQueue));
 
     }
 
-
+    public void removeQueueItem(int pos) {
+        if (mCurrentQueue != null) {
+            mCurrentQueue.removeItems(pos, 1);
+        }
+    }
 
     @Override
     public void onStop() {

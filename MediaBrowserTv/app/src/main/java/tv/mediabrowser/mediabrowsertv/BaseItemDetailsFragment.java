@@ -31,6 +31,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import mediabrowser.apiinteraction.ApiClient;
+import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserItemDataDto;
 
@@ -125,6 +126,19 @@ public class BaseItemDetailsFragment extends DetailsFragment {
             return row;
         }
 
+        protected void play(final BaseItemDto item, final int pos) {
+            Utils.getItemsToPlay(item, new Response<String[]>() {
+                @Override
+                public void onResponse(String[] response) {
+                    Intent intent = new Intent(getActivity(), PlaybackOverlayActivity.class);
+                    intent.putExtra("Items", response);
+                    intent.putExtra("Position", pos);
+                    startActivity(intent);
+                }
+            });
+
+        }
+
         @Override
         protected void onPostExecute(DetailsOverviewRow detailRow) {
             ClassPresenterSelector ps = new ClassPresenterSelector();
@@ -135,19 +149,11 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 @Override
                 public void onActionClicked(Action action) {
                     if (action.getId() == ACTION_PLAY) {
-                        Intent intent = new Intent(getActivity(), PlaybackOverlayActivity.class);
-                        String[] items = new String[] {TvApp.getApplication().getSerializer().SerializeToString(mBaseItem)};
-                        intent.putExtra("Items", items);
-                        startActivity(intent);
+                        play(mBaseItem, 0);
                     } else {
                         if (action.getId() == ACTION_RESUME) {
-                            Intent intent = new Intent(getActivity(), PlaybackOverlayActivity.class);
-                            String[] items = new String[] {TvApp.getApplication().getSerializer().SerializeToString(mBaseItem)};
-                            intent.putExtra("Items", items);
                             Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
-                            intent.putExtra("Position", pos.intValue());
-                            startActivity(intent);
-
+                            play(mBaseItem, pos.intValue());
                         } else {
                             Toast.makeText(getActivity(), action.toString() + " not implemented", Toast.LENGTH_SHORT).show();
                         }

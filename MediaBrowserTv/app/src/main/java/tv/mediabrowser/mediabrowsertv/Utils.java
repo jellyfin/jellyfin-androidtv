@@ -21,6 +21,8 @@ import java.util.Random;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.apiinteraction.Response;
+import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.model.dlna.StreamBuilder;
 import mediabrowser.model.dlna.StreamInfo;
@@ -33,6 +35,10 @@ import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.MediaStreamType;
 import mediabrowser.model.entities.MediaType;
+import mediabrowser.model.querying.EpisodeQuery;
+import mediabrowser.model.querying.ItemFields;
+import mediabrowser.model.querying.ItemQuery;
+import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.session.PlaybackProgressInfo;
 import mediabrowser.model.session.PlaybackStartInfo;
 import mediabrowser.model.session.PlaybackStopInfo;
@@ -239,6 +245,37 @@ public class Utils {
         return null;
     }
 
+    public static void getItemsToPlay(final BaseItemDto mainItem, final Response<String[]> outerResponse) {
+        final List<String> items = new ArrayList<>();
+        final GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
+        items.add(serializer.SerializeToString(mainItem));
+
+        if (mainItem.getType().equals("Episode")) {
+            //add subsequent episodes
+            ItemQuery query = new ItemQuery();
+            query.setParentId(mainItem.getSeasonId());
+            query.setIsMissing(false);
+            query.setIsVirtualUnaired(false);
+            query.setMinIndexNumber(mainItem.getIndexNumber() + 1);
+            query.setIncludeItemTypes(new String[]{"Episode"});
+            query.setFields(new ItemFields[] {ItemFields.MediaSources});
+            query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+            TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+                @Override
+                public void onResponse(ItemsResult response) {
+                    for (BaseItemDto item : response.getItems()) {
+                        if (item.getIndexNumber() > mainItem.getIndexNumber()) {
+                            items.add(serializer.SerializeToString(item));
+                        }
+                    }
+                    outerResponse.onResponse(items.toArray(new String[items.size()]));
+                }
+            });
+        } else {
+            outerResponse.onResponse((String[])items.toArray());
+        }
+    }
+
     private static String divider = "   |   ";
     public static String getInfoRow(BaseItemDto item) {
         StringBuilder sb = new StringBuilder();
@@ -343,7 +380,7 @@ public class Utils {
         ApiClient apiClient = TvApp.getApplication().getApiClient();
         MediaSourceInfo ret = null;
 
-        if (item.getPath().startsWith("http://")) {
+        if (item.getPath() != null && item.getPath().startsWith("http://")) {
             //try direct stream
             view.setVideoPath(item.getPath());
             ret = item.getMediaSources().get(0);
