@@ -39,13 +39,37 @@ public class CardPresenter extends Presenter {
             mCardView = (ImageCardView) view;
 
             mImageCardViewTarget = new PicassoImageCardViewTarget(mCardView);
-            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.movie);
+            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.video);
         }
 
         public void setItem(BaseItemDto m) {
             mItem = m;
             cardWidth = (int)(((mItem.getPrimaryImageAspectRatio() != null) ? mItem.getPrimaryImageAspectRatio() : .72222) * cardHeight);
             mCardView.setMainImageDimensions(cardWidth, cardHeight);
+            switch (mItem.getType()) {
+                case "Audio":
+                case "MusicAlbum":
+                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.audio);
+                    break;
+                case "Person":
+                case "MusicArtist":
+                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
+                    break;
+                case "Folder":
+                case "CollectionFolder":
+                case "MovieGenreFolder":
+                case "MusicGenreFolder":
+                case "MovieGenre":
+                case "Genre":
+                case "MusicGenre":
+                case "UserView":
+                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.folder);
+                    break;
+                default:
+                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.video);
+                    break;
+
+            }
         }
 
         public BaseItemDto getItem() {
