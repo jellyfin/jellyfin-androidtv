@@ -44,7 +44,7 @@ public class CardPresenter extends Presenter {
 
         public void setItem(BaseItemDto m) {
             mItem = m;
-            cardWidth = (int)(((mItem.getPrimaryImageAspectRatio() != null) ? mItem.getPrimaryImageAspectRatio() : .72222) * cardHeight);
+            cardWidth = (int)((Utils.getImageAspectRatio(mItem)) * cardHeight);
             mCardView.setMainImageDimensions(cardWidth, cardHeight);
             switch (mItem.getType()) {
                 case "Audio":

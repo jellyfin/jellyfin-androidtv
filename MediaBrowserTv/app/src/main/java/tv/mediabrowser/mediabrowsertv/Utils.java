@@ -148,17 +148,37 @@ public class Utils {
         return Math.round((float) dp * density);
     }
 
-    public static int dpToPx(int dp, Context ctx) {
-        float density = ctx.getResources().getDisplayMetrics().density;
-        return Math.round((float) dp * density);
+    private static String[] ThumbFallbackTypes = new String[] {"Episode"};
+
+    public static Double getImageAspectRatio(BaseItemDto item) {
+        if (Arrays.asList(ThumbFallbackTypes).contains(item.getType())) {
+            if (item.getPrimaryImageAspectRatio() != null) return item.getPrimaryImageAspectRatio();
+            if (item.getParentThumbItemId() != null || item.getSeriesThumbImageTag() != null) return 1.777777;
+        }
+
+        return item.getPrimaryImageAspectRatio() != null ? item.getPrimaryImageAspectRatio() : .72222;
     }
 
     private static String[] ProgressIndicatorTypes = new String[] {"Episode", "Movie", "MusicVideo", "Video"};
 
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched) {
         ImageOptions options = new ImageOptions();
+        String itemId = item.getId();
+        String imageTag = item.getImageTags().get(ImageType.Primary);
+        ImageType imageType = ImageType.Primary;
+        if (item.getType().equals("Episode") && imageTag == null) {
+            //try for thumb of season or series
+            imageType = ImageType.Thumb;
+            if (item.getParentThumbImageTag() != null) {
+                imageTag = item.getParentThumbImageTag();
+                itemId = item.getParentThumbItemId();
+            } else {
+                imageTag = item.getSeriesThumbImageTag();
+                itemId = item.getSeriesId();
+            }
+        }
         options.setMaxWidth(320);
-        options.setImageType(ImageType.Primary);
+        options.setImageType(imageType);
         UserItemDataDto userData = item.getUserData();
         if (userData != null) {
             if (Arrays.asList(ProgressIndicatorTypes).contains(item.getType()) && userData.getPlayedPercentage() != null
@@ -170,9 +190,9 @@ public class Utils {
 
         }
 
-        options.setTag(item.getImageTags().get(ImageType.Primary));
+        options.setTag(imageTag);
 
-        return apiClient.GetImageUrl(item, options);
+        return apiClient.GetImageUrl(itemId, options);
     }
     public static String getLogoImageUrl(BaseItemDto item, ApiClient apiClient) {
         if (item != null) {
