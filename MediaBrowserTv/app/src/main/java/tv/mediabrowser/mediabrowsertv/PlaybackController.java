@@ -107,7 +107,13 @@ public class PlaybackController {
     }
 
     public void next() {
-
+        stop();
+        if (mCurrentIndex < mItems.size() - 1) {
+            mCurrentIndex++;
+            mFragment.addPlaybackControlsRow();
+            spinnerOff = false;
+            play(0);
+        }
     }
 
     public void prev() {
