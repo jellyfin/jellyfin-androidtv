@@ -17,7 +17,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v17.leanback.widget.AbstractDetailsDescriptionPresenter;
 import android.support.v17.leanback.widget.Action;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
@@ -34,7 +33,6 @@ import android.support.v17.leanback.widget.PlaybackControlsRow.FastForwardAction
 import android.support.v17.leanback.widget.PlaybackControlsRow.PlayPauseAction;
 import android.support.v17.leanback.widget.PlaybackControlsRow.RepeatAction;
 import android.support.v17.leanback.widget.PlaybackControlsRow.RewindAction;
-import android.support.v17.leanback.widget.PlaybackControlsRow.ShuffleAction;
 import android.support.v17.leanback.widget.PlaybackControlsRow.SkipNextAction;
 import android.support.v17.leanback.widget.PlaybackControlsRow.SkipPreviousAction;
 import android.support.v17.leanback.widget.PlaybackControlsRow.ThumbsDownAction;
@@ -44,15 +42,8 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.Toast;
-import android.widget.VideoView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +52,6 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserItemDataDto;
-import mediabrowser.model.entities.MediaStream;
 
 /*
  * Class for video playback with media control
@@ -72,7 +62,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private static Context sContext;
 
     private static final boolean SHOW_DETAIL = true;
-    private static final int PRIMARY_CONTROLS = 5;
+    private static final int PRIMARY_CONTROLS = 6;
     private static final boolean SHOW_IMAGE = PRIMARY_CONTROLS <= 5;
     private static final int BACKGROUND_TYPE = PlaybackOverlayFragment.BG_LIGHT;
 
@@ -86,7 +76,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private ThumbsDownAction mThumbsDownAction;
     private Action mSubtitleAction;
     private FastForwardAction mFastForwardAction;
-    private RewindAction mRewindAction;
+    private Action mRewindAction;
     private SkipNextAction mSkipNextAction;
     private SkipPreviousAction mSkipPreviousAction;
 
@@ -172,12 +162,10 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                     }
                 } else if (action.getId() == mSkipNextAction.getId()) {
                     mPlaybackController.next();
-                } else if (action.getId() == mSkipPreviousAction.getId()) {
-                    mPlaybackController.prev();
                 } else if (action.getId() == mFastForwardAction.getId()) {
-                    Toast.makeText(getActivity(), "TODO: Fast Forward", Toast.LENGTH_SHORT).show();
+                    mPlaybackController.skip(30000);
                 } else if (action.getId() == mRewindAction.getId()) {
-                    Toast.makeText(getActivity(), "TODO: Rewind", Toast.LENGTH_SHORT).show();
+                    mPlaybackController.skip(-11000);
                 } else if (action.getId() == mThumbsUpAction.getId()) {
                     //toggle likes
                     ((PlaybackControlsRow.MultiAction)action).nextIndex();
@@ -295,9 +283,8 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
 //        mSubtitleAction = new Action(999, null, null, getActivity().getResources().getDrawable(R.drawable.subt));
         mSkipNextAction = new PlaybackControlsRow.SkipNextAction(sContext);
-        mSkipPreviousAction = new PlaybackControlsRow.SkipPreviousAction(sContext);
+        mRewindAction = new Action(998, null, null, getActivity().getResources().getDrawable(R.drawable.loopback));
         mFastForwardAction = new PlaybackControlsRow.FastForwardAction(sContext);
-        mRewindAction = new PlaybackControlsRow.RewindAction(sContext);
 
         if (PRIMARY_CONTROLS > 5) {
             mPrimaryActionsAdapter.add(mThumbsUpAction);
@@ -306,7 +293,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         }
         //mPrimaryActionsAdapter.add(mSkipPreviousAction);
         if (PRIMARY_CONTROLS > 3) {
-            mPrimaryActionsAdapter.add(new PlaybackControlsRow.RewindAction(sContext));
+            mPrimaryActionsAdapter.add(mRewindAction);
         }
         mPrimaryActionsAdapter.add(mPlayPauseAction);
         if (PRIMARY_CONTROLS > 3) {
@@ -316,7 +303,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             mPrimaryActionsAdapter.add(mSkipNextAction);
         }
 
-        mSecondaryActionsAdapter.add(mRepeatAction);
+        //mSecondaryActionsAdapter.add(mRepeatAction);
 
         if (PRIMARY_CONTROLS > 5) {
             mPrimaryActionsAdapter.add(mThumbsDownAction);

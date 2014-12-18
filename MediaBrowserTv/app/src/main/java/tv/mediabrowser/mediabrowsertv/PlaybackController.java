@@ -36,7 +36,7 @@ public class PlaybackController {
     private Handler mHandler;
     private static int REPORT_INTERVAL = 3000;
     private static final int DEFAULT_UPDATE_PERIOD = 1000;
-    private static final int UPDATE_PERIOD = 250;
+    private static final int UPDATE_PERIOD = 500;
 
     public PlaybackController(List<BaseItemDto> items, PlaybackOverlayFragment fragment) {
         mItems = items;
@@ -130,6 +130,18 @@ public class PlaybackController {
 
     }
 
+    public void seek(int pos) {
+        stopReportLoop();
+        stopProgressAutomation();
+        mPlaybackState = PlaybackState.SEEKING;
+        mVideoView.seekTo(pos);
+
+    }
+
+    public void skip(int msec) {
+        seek(mVideoView.getCurrentPosition() + msec);
+    }
+
     private int getUpdatePeriod() {
         if (mPlaybackState != PlaybackState.PLAYING) {
             return DEFAULT_UPDATE_PERIOD;
@@ -148,7 +160,7 @@ public class PlaybackController {
                         spinnerOff = true;
                         if (mSpinner != null) mSpinner.setVisibility(View.GONE);
                     }
-                    int currentTime = controls.getCurrentTime() + updatePeriod;
+                    int currentTime = mVideoView.getCurrentPosition();
                     controls.setCurrentTime(currentTime);
                     mCurrentPosition = currentTime;
 
@@ -214,6 +226,17 @@ public class PlaybackController {
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+
+                mp.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
+                    @Override
+                    public void onSeekComplete(MediaPlayer mp) {
+                        TvApp.getApplication().getLogger().Debug("Seek complete...");
+                        mPlaybackState = PlaybackState.PLAYING;
+                        mFragment.getPlaybackControlsRow().setCurrentTime(mVideoView.getCurrentPosition());
+                        startProgressAutomation();
+                        startReportLoop();
+                    }
+                });
                 if (mPlaybackState == PlaybackState.BUFFERING) {
                     mPlaybackState = PlaybackState.PLAYING;
                     startProgressAutomation();
@@ -258,7 +281,7 @@ public class PlaybackController {
  * List of various states that we can be in
  */
     public static enum PlaybackState {
-        PLAYING, PAUSED, BUFFERING, IDLE;
+        PLAYING, PAUSED, BUFFERING, IDLE, SEEKING;
     }
 
 }
