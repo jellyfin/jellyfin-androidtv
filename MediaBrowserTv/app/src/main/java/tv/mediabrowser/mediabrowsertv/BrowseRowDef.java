@@ -5,6 +5,7 @@ import java.util.List;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.NextUpQuery;
 import mediabrowser.model.querying.SeasonQuery;
+import mediabrowser.model.querying.SimilarItemsQuery;
 import mediabrowser.model.querying.UpcomingEpisodesQuery;
 
 /**
@@ -15,6 +16,7 @@ public class BrowseRowDef {
     private ItemQuery query;
     private NextUpQuery nextUpQuery;
     private UpcomingEpisodesQuery upcomingQuery;
+    private SimilarItemsQuery similarQuery;
 
     private SeasonQuery seasonQuery;
     private QueryType queryType;
@@ -32,6 +34,12 @@ public class BrowseRowDef {
         headerText = header;
         this.nextUpQuery = query;
         this.queryType = QueryType.NextUp;
+    }
+
+    public BrowseRowDef(String header, SimilarItemsQuery query) {
+        headerText = header;
+        this.similarQuery = query;
+        this.queryType = QueryType.SimilarSeries;
     }
 
     public BrowseRowDef(String header, SeasonQuery query) {
@@ -70,6 +78,8 @@ public class BrowseRowDef {
     public NextUpQuery getNextUpQuery() {
         return nextUpQuery;
     }
+
+    public SimilarItemsQuery getSimilarQuery() { return similarQuery; }
 
     public QueryType getQueryType() {
         return queryType;

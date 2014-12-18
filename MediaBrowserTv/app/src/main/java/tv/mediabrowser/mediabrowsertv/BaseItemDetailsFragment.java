@@ -57,7 +57,6 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
     private BaseItemDto mBaseItem;
     private ApiClient mApiClient;
-    private List<BaseItemDto> mSimilarItems;
 
     private Drawable mDefaultBackground;
     private Target mBackgroundTarget;

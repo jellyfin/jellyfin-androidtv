@@ -124,6 +124,9 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                 case Views:
                     rowAdapter = new ItemRowAdapter(new ViewQuery(), mCardPresenter, mRowsAdapter);
                     break;
+                case SimilarSeries:
+                    rowAdapter = new ItemRowAdapter(def.getSimilarQuery(), mCardPresenter, mRowsAdapter);
+                    break;
                 default:
                     rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), mCardPresenter, mRowsAdapter);
                     break;

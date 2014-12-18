@@ -10,6 +10,7 @@ import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.NextUpQuery;
 import mediabrowser.model.querying.SeasonQuery;
+import mediabrowser.model.querying.SimilarItemsQuery;
 import mediabrowser.model.querying.UpcomingEpisodesQuery;
 
 /**
@@ -43,6 +44,13 @@ public class SeriesFragment extends BrowseFolderFragment {
         upcoming.setParentId(mFolder.getId());
         upcoming.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
         mRows.add(new BrowseRowDef("Upcoming", upcoming));
+
+        SimilarItemsQuery similar = new SimilarItemsQuery();
+        similar.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
+        similar.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        similar.setId(mFolder.getId());
+        similar.setLimit(20);
+        mRows.add(new BrowseRowDef("Similar", similar));
 
         setHeadersState(HEADERS_DISABLED);
 
