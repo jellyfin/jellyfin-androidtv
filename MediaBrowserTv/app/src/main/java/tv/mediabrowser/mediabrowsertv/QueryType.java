@@ -5,5 +5,6 @@ public enum QueryType {
     NextUp,
     Views,
     Season,
-    Upcoming
+    Upcoming,
+    SimilarSeries
 }
