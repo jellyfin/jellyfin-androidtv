@@ -1,6 +1,9 @@
 package tv.mediabrowser.mediabrowsertv;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,6 +17,7 @@ import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.ClassPresenterSelector;
 import android.support.v17.leanback.widget.DetailsOverviewRow;
 import android.support.v17.leanback.widget.DetailsOverviewRowPresenter;
+import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
@@ -34,6 +38,9 @@ import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserItemDataDto;
+import mediabrowser.model.querying.ItemFields;
+import mediabrowser.model.querying.ItemsResult;
+import mediabrowser.model.querying.SimilarItemsQuery;
 
 
 public class BaseItemDetailsFragment extends DetailsFragment {
@@ -50,6 +57,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
     private BaseItemDto mBaseItem;
     private ApiClient mApiClient;
+    private List<BaseItemDto> mSimilarItems;
 
     private Drawable mDefaultBackground;
     private Target mBackgroundTarget;
@@ -164,44 +172,75 @@ public class BaseItemDetailsFragment extends DetailsFragment {
             ps.addClassPresenter(ListRow.class,
                     new ListRowPresenter());
 
-            ArrayObjectAdapter adapter = new ArrayObjectAdapter(ps);
+            final ArrayObjectAdapter adapter = new ArrayObjectAdapter(ps);
             adapter.add(detailRow);
 
-//            String subcategories[] = {
-//                    getString(R.string.related_movies)
-//            };
-//            List<Movie> list = MovieList.list;
-//            Collections.shuffle(list);
-//            ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new CardPresenter());
-//            for (int j = 0; j < NUM_COLS; j++) {
-//                listRowAdapter.add(list.get(j % 5));
-//            }
-//
-//            HeaderItem header = new HeaderItem(0, subcategories[0], null);
-//            adapter.add(new ListRow(header, listRowAdapter));
+            SimilarItemsQuery similar = new SimilarItemsQuery();
+            similar.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
+            similar.setUserId(TvApp.getApplication().getCurrentUser().getId());
+            similar.setId(mBaseItem.getId());
+            similar.setLimit(10);
+
+            switch (mBaseItem.getType()) {
+                case "Movie":
+                    mApiClient.GetSimilarMoviesAsync(similar, new Response<ItemsResult>() {
+                        @Override
+                        public void onResponse(ItemsResult response) {
+                            addSimilarRow(adapter, response.getItems());
+                        }
+                    });
+            }
 
             setAdapter(adapter);
         }
 
     }
 
+    private void addSimilarRow(ArrayObjectAdapter adapter, BaseItemDto[] items) {
+        if (items.length < 1) return;
+
+        List<BaseRowItem> rowItems = new ArrayList<>();
+        ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new CardPresenter());
+        int i = 0;
+        for (BaseItemDto item : items) {
+            listRowAdapter.add(new BaseRowItem(i++, item));
+        }
+
+        HeaderItem header = new HeaderItem(0, "Similar Items", null);
+        adapter.add(new ListRow(header, listRowAdapter));
+
+    }
+
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
         @Override
-        public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
+        public void onItemClicked(final Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
-            if (item instanceof Movie) {
-                Movie movie = (Movie) item;
-                Log.d(TAG, "Item: " + item.toString());
-                Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                intent.putExtra(DetailsActivity.MOVIE, movie);
+            if (!(item instanceof BaseRowItem)) return;
+            BaseRowItem rowItem = (BaseRowItem) item;
 
-                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        getActivity(),
-                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                getActivity().startActivity(intent, bundle);
-            }
+            final BaseItemDto baseItem = rowItem.getBaseItem();
+            //Retrieve full item for display and playback
+            mApiClient.GetItemAsync(baseItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                @Override
+                public void onResponse(BaseItemDto response) {
+                    Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                    intent.putExtra("BaseItemDto", TvApp.getApplication().getSerializer().SerializeToString(response));
+
+                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            getActivity(),
+                            ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                            DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                    getActivity().startActivity(intent, bundle);
+
+                }
+
+                @Override
+                public void onError(Exception exception) {
+                    TvApp.getApplication().getLogger().ErrorException("Error retrieving full object", exception);
+                    exception.printStackTrace();
+                }
+            });
         }
     }
 
