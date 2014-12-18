@@ -32,7 +32,6 @@ import android.support.v17.leanback.widget.PlaybackControlsRow;
 import android.support.v17.leanback.widget.PlaybackControlsRow.FastForwardAction;
 import android.support.v17.leanback.widget.PlaybackControlsRow.PlayPauseAction;
 import android.support.v17.leanback.widget.PlaybackControlsRow.RepeatAction;
-import android.support.v17.leanback.widget.PlaybackControlsRow.RewindAction;
 import android.support.v17.leanback.widget.PlaybackControlsRow.SkipNextAction;
 import android.support.v17.leanback.widget.PlaybackControlsRow.SkipPreviousAction;
 import android.support.v17.leanback.widget.PlaybackControlsRow.ThumbsDownAction;
@@ -42,8 +41,10 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,11 +60,11 @@ import mediabrowser.model.dto.UserItemDataDto;
 public class PlaybackOverlayFragment extends android.support.v17.leanback.app.PlaybackOverlayFragment {
     private static final String TAG = "PlaybackControlsFragment";
 
-    private static Context sContext;
+    private static PlaybackOverlayActivity sContext;
 
     private static final boolean SHOW_DETAIL = true;
     private static final int PRIMARY_CONTROLS = 6;
-    private static final boolean SHOW_IMAGE = PRIMARY_CONTROLS <= 5;
+    private static final boolean SHOW_LOGO = true;
     private static final int BACKGROUND_TYPE = PlaybackOverlayFragment.BG_LIGHT;
 
     private ArrayObjectAdapter mRowsAdapter;
@@ -80,6 +81,8 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private SkipNextAction mSkipNextAction;
     private SkipPreviousAction mSkipPreviousAction;
 
+    private ImageView mLogo;
+
     public PlaybackControlsRow getPlaybackControlsRow() {
         return mPlaybackControlsRow;
     }
@@ -93,7 +96,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
-        sContext = getActivity();
+        sContext = (PlaybackOverlayActivity) getActivity();
         mApplication = TvApp.getApplication();
 
         Intent intent = getActivity().getIntent();
@@ -134,6 +137,12 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mPlaybackController.stop();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
         mPlaybackController.stop();
     }
 
@@ -328,8 +337,8 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     }
 
     private void updatePlaybackRow() {
-        if (SHOW_IMAGE) {
-            updateLogoImage(Utils.getLogoImageUrl(mPlaybackController.getCurrentlyPlayingItem(), mApplication.getApiClient()));
+        if (SHOW_LOGO) {
+            sContext.setLogo(Utils.getLogoImageUrl(mPlaybackController.getCurrentlyPlayingItem(), mApplication.getApiClient()));
         }
         mRowsAdapter.notifyArrayItemRangeChanged(0, 1);
         mPlaybackControlsRow.setTotalTime(getDuration());
@@ -366,17 +375,6 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             BaseItemDto movie = (BaseItemDto) item;
             viewHolder.getTitle().setText(movie.getName());
             viewHolder.getSubtitle().setText(Utils.getInfoRow(movie));
-        }
-    }
-
-
-    protected void updateLogoImage(String url) {
-        if (url != null) {
-            ImageView img = (ImageView) getActivity().findViewById(R.id.npLogoImage);
-            if (img != null) {
-                img.setImageURI(Uri.parse(url));
-            }
-
         }
     }
 

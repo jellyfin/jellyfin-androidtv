@@ -108,11 +108,13 @@ public class PlaybackController {
     }
 
     public void stop() {
-        mPlaybackState = PlaybackState.IDLE;
-        stopReportLoop();
-        Long mbPos = (long)mCurrentPosition * 10000;
-        Utils.Stop(getCurrentlyPlayingItem(), mbPos);
-        mVideoView.stopPlayback();
+        if (mPlaybackState != PlaybackState.IDLE) {
+            mPlaybackState = PlaybackState.IDLE;
+            stopReportLoop();
+            Long mbPos = (long)mCurrentPosition * 10000;
+            Utils.Stop(getCurrentlyPlayingItem(), mbPos);
+            mVideoView.stopPlayback();
+        }
     }
 
     public void next() {
