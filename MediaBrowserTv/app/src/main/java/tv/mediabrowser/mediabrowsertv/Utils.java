@@ -396,15 +396,15 @@ public class Utils {
             options.setProfile(new AndroidProfile());
             StreamInfo info = builder.BuildVideoItem(options);
             view.setVideoPath(info.ToUrl(apiClient.getApiUrl()));
-            TvApp.getApplication().getPlaybackController().setPlaybackMethod(info.getIsDirectStream() ? PlayMethod.DirectStream : PlayMethod.Transcode);
+            TvApp.getApplication().getPlaybackController().setPlaybackMethod(info.getPlayMethod());
             ret = info.getMediaSource();
         }
 
-        TvApp.getApplication().setCurrentPlayingItem(item);
         if (position > 0) {
-            view.seekTo(position);
+            TvApp.getApplication().getPlaybackController().seek(position);
         }
         view.start();
+        TvApp.getApplication().setCurrentPlayingItem(item);
 
         PlaybackStartInfo startInfo = new PlaybackStartInfo();
         startInfo.setItemId(item.getId());
