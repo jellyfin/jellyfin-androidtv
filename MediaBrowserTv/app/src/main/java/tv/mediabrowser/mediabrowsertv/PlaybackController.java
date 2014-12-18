@@ -10,6 +10,7 @@ import java.util.List;
 
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.MediaSourceInfo;
+import mediabrowser.model.session.PlayMethod;
 
 /**
  * Created by Eric on 12/9/2014.
@@ -27,6 +28,8 @@ public class PlaybackController {
     private PlaybackOverlayFragment mFragment;
     private View mSpinner;
     private Boolean spinnerOff = false;
+
+    private PlayMethod mPlaybackMethod = PlayMethod.Transcode;
 
     private Runnable mReportLoop;
     private Runnable mProgressLoop;
@@ -47,6 +50,14 @@ public class PlaybackController {
         mVideoView = view;
         mSpinner = spinner;
         setupCallbacks();
+    }
+
+    public PlayMethod getPlaybackMethod() {
+        return mPlaybackMethod;
+    }
+
+    public void setPlaybackMethod(PlayMethod value) {
+        mPlaybackMethod = value;
     }
 
     public BaseItemDto getCurrentlyPlayingItem() {
