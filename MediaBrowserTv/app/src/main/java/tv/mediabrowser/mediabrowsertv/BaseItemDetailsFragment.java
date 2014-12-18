@@ -61,6 +61,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate DetailsFragment");
         super.onCreate(savedInstanceState);
+        mApiClient = TvApp.getApplication().getApiClient();
 
         mDorPresenter =
                 new DetailsOverviewRowPresenter(new DetailsDescriptionPresenter());
@@ -78,8 +79,6 @@ public class BaseItemDetailsFragment extends DetailsFragment {
         mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask().execute(mBaseItem);
         mDorPresenter.setSharedElementEnterTransition(getActivity(),
                 DetailsActivity.SHARED_ELEMENT_NAME);
-
-        mApiClient = TvApp.getApplication().getApiClient();
 
         updateBackground(Utils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true));
         setOnItemViewClickedListener(new ItemViewClickedListener());
