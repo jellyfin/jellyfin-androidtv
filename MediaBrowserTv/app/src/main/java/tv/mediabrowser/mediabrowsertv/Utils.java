@@ -272,7 +272,7 @@ public class Utils {
                 }
             });
         } else {
-            outerResponse.onResponse((String[])items.toArray());
+            outerResponse.onResponse(items.toArray(new String[items.size()]));
         }
     }
 
