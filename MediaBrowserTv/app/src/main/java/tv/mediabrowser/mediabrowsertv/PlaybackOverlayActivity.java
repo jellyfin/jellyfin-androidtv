@@ -15,9 +15,11 @@ package tv.mediabrowser.mediabrowsertv;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.VideoView;
 
 /**
@@ -58,6 +60,15 @@ public class PlaybackOverlayActivity extends Activity {
         Intent intent = getIntent();
         //start playing
         mApplication.getPlaybackController().play(intent.getIntExtra("Position", 0));
+    }
+
+    public void setLogo(String url) {
+        if (url != null) {
+            ImageView logo = (ImageView) findViewById(R.id.npLogoImage);
+            if (logo != null) {
+                logo.setImageURI(Uri.parse(url));
+            }
+        }
     }
 
 }
