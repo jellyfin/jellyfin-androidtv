@@ -151,7 +151,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         backgroundManager.attach(getActivity().getWindow());
         mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
 
-        mDefaultBackground = getResources().getDrawable(R.drawable.mbwall);
+        mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
 
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
