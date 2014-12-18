@@ -1,9 +1,7 @@
 package tv.mediabrowser.mediabrowsertv;
 
-import android.app.Activity;
 import android.media.MediaPlayer;
 import android.os.Handler;
-import android.support.v17.leanback.app.PlaybackOverlaySupportFragment;
 import android.support.v17.leanback.widget.PlaybackControlsRow;
 import android.view.View;
 import android.widget.VideoView;
@@ -110,6 +108,7 @@ public class PlaybackController {
         stop();
         if (mCurrentIndex < mItems.size() - 1) {
             mCurrentIndex++;
+            mFragment.removeQueueItem(0);
             mFragment.addPlaybackControlsRow();
             spinnerOff = false;
             play(0);

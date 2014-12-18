@@ -304,7 +304,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         } else {
             mSecondaryActionsAdapter.add(mThumbsUpAction);
         }
-        mPrimaryActionsAdapter.add(mSkipPreviousAction);
+        //mPrimaryActionsAdapter.add(mSkipPreviousAction);
         if (PRIMARY_CONTROLS > 3) {
             mPrimaryActionsAdapter.add(new PlaybackControlsRow.RewindAction(sContext));
         }
@@ -312,7 +312,9 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         if (PRIMARY_CONTROLS > 3) {
             mPrimaryActionsAdapter.add(new PlaybackControlsRow.FastForwardAction(sContext));
         }
-        mPrimaryActionsAdapter.add(mSkipNextAction);
+        if (mItemsToPlay.size() > 1) {
+            mPrimaryActionsAdapter.add(mSkipNextAction);
+        }
 
         mSecondaryActionsAdapter.add(mRepeatAction);
 
