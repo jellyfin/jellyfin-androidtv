@@ -39,6 +39,7 @@ import mediabrowser.model.querying.EpisodeQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemsResult;
+import mediabrowser.model.session.PlayMethod;
 import mediabrowser.model.session.PlaybackProgressInfo;
 import mediabrowser.model.session.PlaybackStartInfo;
 import mediabrowser.model.session.PlaybackStopInfo;
@@ -383,6 +384,7 @@ public class Utils {
         if (item.getPath() != null && item.getPath().startsWith("http://")) {
             //try direct stream
             view.setVideoPath(item.getPath());
+            TvApp.getApplication().getPlaybackController().setPlaybackMethod(PlayMethod.DirectStream);
             ret = item.getMediaSources().get(0);
         } else {
             VideoOptions options = new VideoOptions();
@@ -394,6 +396,7 @@ public class Utils {
             options.setProfile(new AndroidProfile());
             StreamInfo info = builder.BuildVideoItem(options);
             view.setVideoPath(info.ToUrl(apiClient.getApiUrl()));
+            TvApp.getApplication().getPlaybackController().setPlaybackMethod(info.getIsDirectStream() ? PlayMethod.DirectStream : PlayMethod.Transcode);
             ret = info.getMediaSource();
         }
 
@@ -446,6 +449,7 @@ public class Utils {
             ApiClient apiClient = TvApp.getApplication().getApiClient();
             info.setItemId(item.getId());
             info.setPositionTicks(position);
+            info.setPlayMethod(TvApp.getApplication().getPlaybackController().getPlaybackMethod());
             apiClient.ReportPlaybackProgressAsync(info, new EmptyResponse());
 
         }
