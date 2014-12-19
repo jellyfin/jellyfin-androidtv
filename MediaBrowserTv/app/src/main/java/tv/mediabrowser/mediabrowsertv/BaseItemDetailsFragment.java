@@ -29,6 +29,7 @@ import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.widget.Adapter;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -53,10 +54,9 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     private static final int DETAIL_THUMB_WIDTH = 150;
     private static final int DETAIL_THUMB_HEIGHT = 150;
 
-    private static final int NUM_COLS = 10;
-
-    private BaseItemDto mBaseItem;
-    private ApiClient mApiClient;
+    protected BaseItemDto mBaseItem;
+    protected ApiClient mApiClient;
+    protected DetailsActivity mActivity;
 
     private Drawable mDefaultBackground;
     private Target mBackgroundTarget;
@@ -80,9 +80,10 @@ public class BaseItemDetailsFragment extends DetailsFragment {
         mDefaultBackground = getResources().getDrawable(R.drawable.default_background);
 
         mMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
+        mActivity = (DetailsActivity) getActivity();
+        mActivity.getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
-        mBaseItem = TvApp.getApplication().getSerializer().DeserializeFromString(getActivity().getIntent().getStringExtra("BaseItemDto"),BaseItemDto.class);
+        mBaseItem = mActivity.getBaseItem();
         mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask().execute(mBaseItem);
         mDorPresenter.setSharedElementEnterTransition(getActivity(),
                 DetailsActivity.SHARED_ELEMENT_NAME);
@@ -174,38 +175,27 @@ public class BaseItemDetailsFragment extends DetailsFragment {
             final ArrayObjectAdapter adapter = new ArrayObjectAdapter(ps);
             adapter.add(detailRow);
 
-            SimilarItemsQuery similar = new SimilarItemsQuery();
-            similar.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
-            similar.setUserId(TvApp.getApplication().getCurrentUser().getId());
-            similar.setId(mBaseItem.getId());
-            similar.setLimit(10);
-
-            switch (mBaseItem.getType()) {
-                case "Movie":
-                    mApiClient.GetSimilarMoviesAsync(similar, new Response<ItemsResult>() {
-                        @Override
-                        public void onResponse(ItemsResult response) {
-                            addSimilarRow(adapter, response.getItems());
-                        }
-                    });
-            }
-
             setAdapter(adapter);
+
+            addAdditionalRows(adapter);
         }
 
     }
 
-    private void addSimilarRow(ArrayObjectAdapter adapter, BaseItemDto[] items) {
+    protected void addAdditionalRows(ArrayObjectAdapter adapter) {
+
+    }
+
+    protected void addRow(ArrayObjectAdapter adapter, String heading, BaseItemDto[] items) {
         if (items.length < 1) return;
 
-        List<BaseRowItem> rowItems = new ArrayList<>();
         ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new CardPresenter());
         int i = 0;
         for (BaseItemDto item : items) {
             listRowAdapter.add(new BaseRowItem(i++, item));
         }
 
-        HeaderItem header = new HeaderItem(0, "Similar Items", null);
+        HeaderItem header = new HeaderItem(0, heading, null);
         adapter.add(new ListRow(header, listRowAdapter));
 
     }
