@@ -7,12 +7,14 @@ import android.graphics.Point;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.media.session.MediaController;
+import android.text.format.DateFormat;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import java.net.URI;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -308,9 +310,8 @@ public class Utils {
     public static String getInfoRow(BaseItemDto item) {
         StringBuilder sb = new StringBuilder();
         if (item.getType().equals("Episode")) {
-            sb.append("S ");
             sb.append(item.getParentIndexNumber());
-            sb.append(" Ep ");
+            sb.append("x");
             sb.append(item.getIndexNumber());
         }
 
@@ -344,7 +345,7 @@ public class Utils {
 
         if (item.getRunTimeTicks() != null && item.getRunTimeTicks() >  0) {
             addWithDivider(sb, item.getRunTimeTicks() / 600000000);
-            sb.append("mins");
+            sb.append("m");
         }
 
         if (item.getOfficialRating() != null) {
@@ -361,6 +362,10 @@ public class Utils {
             }
             if (item.getStatus() != null) {
                 addWithDivider(sb, item.getStatus().toString());
+            }
+        } else {
+            if (item.getPremiereDate() != null) {
+                addWithDivider(sb, new SimpleDateFormat("d MMM y").format(item.getPremiereDate()));
             }
         }
 
