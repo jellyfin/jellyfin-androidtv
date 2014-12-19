@@ -111,7 +111,9 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
     protected void addItemRow(ArrayObjectAdapter parent, ItemRowAdapter row, int index, String headerText) {
         HeaderItem header = new HeaderItem(index, headerText, null);
-        parent.add(new ListRow(header, row));
+        ListRow listRow = new ListRow(header, row);
+        parent.add(listRow);
+        row.setRow(listRow);
         row.Retrieve();
     }
 
