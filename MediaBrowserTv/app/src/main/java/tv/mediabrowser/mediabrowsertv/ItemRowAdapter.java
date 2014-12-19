@@ -61,11 +61,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.NextUp;
     }
 
-    public ItemRowAdapter(SimilarItemsQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(SimilarItemsQuery query, QueryType queryType, Presenter presenter, ArrayObjectAdapter parent) {
         super(presenter);
         mParent = parent;
         mSimilarQuery = query;
-        queryType = QueryType.SimilarSeries;
+        this.queryType = queryType;
     }
 
     public ItemRowAdapter(UpcomingEpisodesQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -145,6 +145,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
             case SimilarSeries:
                 RetrieveSimilarSeries(mSimilarQuery);
+                break;
+            case SimilarMovies:
+                RetrieveSimilarMovies(mSimilarQuery);
+                break;
         }
     }
 
@@ -242,6 +246,37 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     public void RetrieveSimilarSeries(final SimilarItemsQuery query) {
         final ItemRowAdapter adapter = this;
         TvApp.getApplication().getApiClient().GetSimilarSeriesAsync(query, new Response<ItemsResult>() {
+            @Override
+            public void onResponse(ItemsResult response) {
+                if (response.getTotalRecordCount() > 0) {
+                    int i = 0;
+                    for (BaseItemDto item : response.getItems()) {
+                        adapter.add(new BaseRowItem(i++,item));
+                    }
+                    totalItems = response.getTotalRecordCount();
+                    setItemsLoaded(itemsLoaded + i);
+                    if (i == 0) mParent.remove(mRow);
+                } else {
+                    // no results - don't show us
+                    mParent.remove(mRow);
+                }
+
+                currentlyRetrieving = false;
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving similar series items", exception);
+                Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                currentlyRetrieving = false;
+            }
+        });
+
+    }
+
+    public void RetrieveSimilarMovies(final SimilarItemsQuery query) {
+        final ItemRowAdapter adapter = this;
+        TvApp.getApplication().getApiClient().GetSimilarMoviesAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {

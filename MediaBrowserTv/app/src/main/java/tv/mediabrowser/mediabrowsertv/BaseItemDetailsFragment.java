@@ -41,7 +41,10 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemsResult;
+import mediabrowser.model.querying.NextUpQuery;
+import mediabrowser.model.querying.SeasonQuery;
 import mediabrowser.model.querying.SimilarItemsQuery;
+import mediabrowser.model.querying.UpcomingEpisodesQuery;
 
 
 public class BaseItemDetailsFragment extends DetailsFragment {
@@ -83,7 +86,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
         mActivity = (DetailsActivity) getActivity();
         mActivity.getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
-        mBaseItem = mActivity.getBaseItem();
+        mBaseItem = TvApp.getApplication().getSerializer().DeserializeFromString(mActivity.getIntent().getStringExtra("BaseItemDto"), BaseItemDto.class);
         mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask().execute(mBaseItem);
         mDorPresenter.setSharedElementEnterTransition(getActivity(),
                 DetailsActivity.SHARED_ELEMENT_NAME);
@@ -104,6 +107,12 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     public void onStop() {
         mDetailRowBuilderTask.cancel(true);
         super.onStop();
+    }
+
+    protected void addItemRow(ArrayObjectAdapter parent, ItemRowAdapter row, int index, String headerText) {
+        HeaderItem header = new HeaderItem(index, headerText, null);
+        parent.add(new ListRow(header, row));
+        row.Retrieve();
     }
 
     private class DetailRowBuilderTask extends AsyncTask<BaseItemDto, Integer, DetailsOverviewRow> {
@@ -183,20 +192,48 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     }
 
     protected void addAdditionalRows(ArrayObjectAdapter adapter) {
+        switch (mBaseItem.getType()) {
+            case "Movie":
+                SimilarItemsQuery similar = new SimilarItemsQuery();
+                similar.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
+                similar.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                similar.setId(mBaseItem.getId());
+                similar.setLimit(10);
 
-    }
+                ItemRowAdapter listRowAdapter = new ItemRowAdapter(similar, QueryType.SimilarMovies, new CardPresenter(), adapter);
+                addItemRow(adapter, listRowAdapter, 0, "Similar Movies");
+                break;
+            case "Series":
+                SeasonQuery seasons = new SeasonQuery();
+                seasons.setSeriesId(mBaseItem.getId());
+                seasons.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                ItemRowAdapter seasonsAdapter = new ItemRowAdapter(seasons, new CardPresenter(), adapter);
+                addItemRow(adapter, seasonsAdapter, 0, "Seasons");
 
-    protected void addRow(ArrayObjectAdapter adapter, String heading, BaseItemDto[] items) {
-        if (items.length < 1) return;
+                NextUpQuery nextUpQuery = new NextUpQuery();
+                nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                nextUpQuery.setSeriesId(mBaseItem.getId());
+                nextUpQuery.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
+                ItemRowAdapter nextUpAdapter = new ItemRowAdapter(nextUpQuery, new CardPresenter(), adapter);
+                addItemRow(adapter, nextUpAdapter, 1, "Next Up");
 
-        ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new CardPresenter());
-        int i = 0;
-        for (BaseItemDto item : items) {
-            listRowAdapter.add(new BaseRowItem(i++, item));
+                UpcomingEpisodesQuery upcoming = new UpcomingEpisodesQuery();
+                upcoming.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                upcoming.setParentId(mBaseItem.getId());
+                upcoming.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
+                ItemRowAdapter upcomingAdapter = new ItemRowAdapter(upcoming, new CardPresenter(), adapter);
+                addItemRow(adapter, upcomingAdapter, 2, "Upcoming");
+
+                SimilarItemsQuery similarSeries = new SimilarItemsQuery();
+                similarSeries.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
+                similarSeries.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                similarSeries.setId(mBaseItem.getId());
+                similarSeries.setLimit(20);
+                ItemRowAdapter similarAdapter = new ItemRowAdapter(similarSeries, QueryType.SimilarSeries, new CardPresenter(), adapter);
+                addItemRow(adapter, similarAdapter, 1, "Similar Series");
+                break;
         }
 
-        HeaderItem header = new HeaderItem(0, heading, null);
-        adapter.add(new ListRow(header, listRowAdapter));
 
     }
 

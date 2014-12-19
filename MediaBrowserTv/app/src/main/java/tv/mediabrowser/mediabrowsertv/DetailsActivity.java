@@ -15,13 +15,7 @@
 package tv.mediabrowser.mediabrowsertv;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-
-import mediabrowser.model.dto.BaseItemDto;
-import tv.mediabrowser.mediabrowsertv.R;
 
 /*
  * Details activity class that loads LeanbackDetailsFragment class
@@ -29,35 +23,13 @@ import tv.mediabrowser.mediabrowsertv.R;
 public class DetailsActivity extends Activity {
     public static final String SHARED_ELEMENT_NAME = "hero";
 
-    private BaseItemDto mBaseItem;
-
     /**
      * Called when the activity is first created.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_blank);
-        mBaseItem = TvApp.getApplication().getSerializer().DeserializeFromString(getIntent().getStringExtra("BaseItemDto"),BaseItemDto.class);
-
-        Fragment fragment;
-        switch (mBaseItem.getType()) {
-            case "Movie":
-                fragment = new MovieDetailsFragment();
-                break;
-            default:
-                fragment = new BaseItemDetailsFragment();
-        }
-
-        FragmentManager fragMan = getFragmentManager();
-        FragmentTransaction fragTran = fragMan.beginTransaction();
-        fragTran.add(R.id.detail_replace, fragment);
-        fragTran.commit();
-
-    }
-
-    public BaseItemDto getBaseItem(){
-        return mBaseItem;
+        setContentView(R.layout.activity_details);
     }
 
 }
