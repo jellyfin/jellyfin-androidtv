@@ -193,8 +193,6 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         mSelectedListener.registerListener(new ItemViewSelectedListener());
     }
 
-    private final String[] browseViewTypes = new String[] {"movies", "music", "tvshows"};
-
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
         @Override
         public void onItemClicked(final Presenter.ViewHolder itemViewHolder, Object item,

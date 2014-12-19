@@ -38,6 +38,7 @@ import mediabrowser.model.entities.MediaType;
 import mediabrowser.model.querying.EpisodeQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
+import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.session.PlayMethod;
 import mediabrowser.model.session.PlaybackProgressInfo;
@@ -249,31 +250,57 @@ public class Utils {
     public static void getItemsToPlay(final BaseItemDto mainItem, final Response<String[]> outerResponse) {
         final List<String> items = new ArrayList<>();
         final GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
-        items.add(serializer.SerializeToString(mainItem));
+        ItemQuery query = new ItemQuery();
 
-        if (mainItem.getType().equals("Episode")) {
-            //add subsequent episodes
-            ItemQuery query = new ItemQuery();
-            query.setParentId(mainItem.getSeasonId());
-            query.setIsMissing(false);
-            query.setIsVirtualUnaired(false);
-            query.setMinIndexNumber(mainItem.getIndexNumber() + 1);
-            query.setIncludeItemTypes(new String[]{"Episode"});
-            query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.Path, ItemFields.PrimaryImageAspectRatio});
-            query.setUserId(TvApp.getApplication().getCurrentUser().getId());
-            TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
-                @Override
-                public void onResponse(ItemsResult response) {
-                    for (BaseItemDto item : response.getItems()) {
-                        if (item.getIndexNumber() > mainItem.getIndexNumber()) {
+        switch (mainItem.getType()) {
+            case "Episode":
+                items.add(serializer.SerializeToString(mainItem));
+                //add subsequent episodes
+                query.setParentId(mainItem.getSeasonId());
+                query.setIsMissing(false);
+                query.setIsVirtualUnaired(false);
+                query.setMinIndexNumber(mainItem.getIndexNumber() + 1);
+                query.setSortBy(new String[] {ItemSortBy.SortName});
+                query.setIncludeItemTypes(new String[]{"Episode"});
+                query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.Path, ItemFields.PrimaryImageAspectRatio});
+                query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+                    @Override
+                    public void onResponse(ItemsResult response) {
+                        for (BaseItemDto item : response.getItems()) {
+                            if (item.getIndexNumber() > mainItem.getIndexNumber()) {
+                                items.add(serializer.SerializeToString(item));
+                            }
+                        }
+                        outerResponse.onResponse(items.toArray(new String[items.size()]));
+                    }
+                });
+                break;
+            case "Series":
+            case "Season":
+                //get all episodes
+                query.setParentId(mainItem.getId());
+                query.setIsMissing(false);
+                query.setIsVirtualUnaired(false);
+                query.setIncludeItemTypes(new String[]{"Episode"});
+                query.setSortBy(new String[]{ItemSortBy.SortName});
+                query.setRecursive(true);
+                query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.Path, ItemFields.PrimaryImageAspectRatio});
+                query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+                    @Override
+                    public void onResponse(ItemsResult response) {
+                        for (BaseItemDto item : response.getItems()) {
                             items.add(serializer.SerializeToString(item));
                         }
+                        outerResponse.onResponse(items.toArray(new String[items.size()]));
                     }
-                    outerResponse.onResponse(items.toArray(new String[items.size()]));
-                }
-            });
-        } else {
-            outerResponse.onResponse(items.toArray(new String[items.size()]));
+                });
+                break;
+            default:
+                items.add(serializer.SerializeToString(mainItem));
+                outerResponse.onResponse(items.toArray(new String[items.size()]));
+                break;
         }
     }
 
@@ -322,6 +349,19 @@ public class Utils {
 
         if (item.getOfficialRating() != null) {
             addWithDivider(sb, item.getOfficialRating());
+        }
+
+        if (item.getType().equals("Series")) {
+            if (item.getAirDays() != null && item.getAirDays().size() > 0) {
+                addWithDivider(sb, item.getAirDays().get(0));
+                sb.append(" ");
+            }
+            if (item.getAirTime() != null) {
+                sb.append(item.getAirTime());
+            }
+            if (item.getStatus() != null) {
+                addWithDivider(sb, item.getStatus().toString());
+            }
         }
 
         return sb.toString();
