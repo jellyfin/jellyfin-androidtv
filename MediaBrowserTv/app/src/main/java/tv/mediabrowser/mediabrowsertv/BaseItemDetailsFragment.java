@@ -206,18 +206,18 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 addItemRow(adapter, listRowAdapter, 0, "Similar Movies");
                 break;
             case "Series":
-                SeasonQuery seasons = new SeasonQuery();
-                seasons.setSeriesId(mBaseItem.getId());
-                seasons.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                ItemRowAdapter seasonsAdapter = new ItemRowAdapter(seasons, new CardPresenter(), adapter);
-                addItemRow(adapter, seasonsAdapter, 0, "Seasons");
-
                 NextUpQuery nextUpQuery = new NextUpQuery();
                 nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 nextUpQuery.setSeriesId(mBaseItem.getId());
                 nextUpQuery.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
                 ItemRowAdapter nextUpAdapter = new ItemRowAdapter(nextUpQuery, new CardPresenter(), adapter);
-                addItemRow(adapter, nextUpAdapter, 1, "Next Up");
+                addItemRow(adapter, nextUpAdapter, 0, "Next Up");
+
+                SeasonQuery seasons = new SeasonQuery();
+                seasons.setSeriesId(mBaseItem.getId());
+                seasons.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                ItemRowAdapter seasonsAdapter = new ItemRowAdapter(seasons, new CardPresenter(), adapter);
+                addItemRow(adapter, seasonsAdapter, 1, "Seasons");
 
                 UpcomingEpisodesQuery upcoming = new UpcomingEpisodesQuery();
                 upcoming.setUserId(TvApp.getApplication().getCurrentUser().getId());
