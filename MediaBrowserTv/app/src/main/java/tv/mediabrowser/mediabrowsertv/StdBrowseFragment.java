@@ -125,7 +125,10 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                     rowAdapter = new ItemRowAdapter(new ViewQuery(), mCardPresenter, mRowsAdapter);
                     break;
                 case SimilarSeries:
-                    rowAdapter = new ItemRowAdapter(def.getSimilarQuery(), mCardPresenter, mRowsAdapter);
+                    rowAdapter = new ItemRowAdapter(def.getSimilarQuery(), QueryType.SimilarSeries, mCardPresenter, mRowsAdapter);
+                    break;
+                case SimilarMovies:
+                    rowAdapter = new ItemRowAdapter(def.getSimilarQuery(), QueryType.SimilarMovies, mCardPresenter, mRowsAdapter);
                     break;
                 default:
                     rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), mCardPresenter, mRowsAdapter);
@@ -202,33 +205,12 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
             final BaseItemDto baseItem = rowItem.getBaseItem();
             TvApp.getApplication().getLogger().Debug("Item selected: " + rowItem.getIndex() + " - " + baseItem.getName());
-            if (baseItem.getType().equals("UserView") && Arrays.asList(browseViewTypes).contains(baseItem.getCollectionType())) {
-                // open user view browsing
-                Intent intent = new Intent(getActivity(), UserViewActivity.class);
-                intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
 
-                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        getActivity(),
-                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                getActivity().startActivity(intent, bundle);
-
-            } else
-            if (baseItem.getType().equals("Series")) {
-                // open series browsing
-                Intent intent = new Intent(getActivity(), SeriesActivity.class);
-                intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
-
-                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        getActivity(),
-                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                getActivity().startActivity(intent, bundle);
-
-            } else {
-                if (baseItem.getIsFolder()) {
-                    // open generic folder browsing
-                    Intent intent = new Intent(getActivity(), GenericFolderActivity.class);
+            //specialized type handling
+            switch (baseItem.getType()) {
+                case "UserView":
+                    // open user view browsing
+                    Intent intent = new Intent(getActivity(), UserViewActivity.class);
                     intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
 
                     Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
@@ -236,8 +218,9 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                             ((ImageCardView) itemViewHolder.view).getMainImageView(),
                             DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
                     getActivity().startActivity(intent, bundle);
-                } else {
-                    //Retrieve full item for display and playback
+                    return;
+                case "Series":
+                    //Retrieve series for details display
                     mApplication.getApiClient().GetItemAsync(baseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
                         @Override
                         public void onResponse(BaseItemDto response) {
@@ -258,13 +241,46 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                             exception.printStackTrace();
                         }
                     });
+                    return;
 
-                }
             }
 
+            // or generic handling
+            if (baseItem.getIsFolder()) {
+                // open generic folder browsing
+                Intent intent = new Intent(getActivity(), GenericFolderActivity.class);
+                intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+
+                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        getActivity(),
+                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                getActivity().startActivity(intent, bundle);
+            } else {
+                //Retrieve full item for display and playback
+                mApplication.getApiClient().GetItemAsync(baseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                    @Override
+                    public void onResponse(BaseItemDto response) {
+                        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                        intent.putExtra("BaseItemDto", TvApp.getApplication().getSerializer().SerializeToString(response));
+
+                        Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                getActivity(),
+                                ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                                DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                        getActivity().startActivity(intent, bundle);
+
+                    }
+
+                    @Override
+                    public void onError(Exception exception) {
+                        mApplication.getLogger().ErrorException("Error retrieving full object", exception);
+                        exception.printStackTrace();
+                    }
+                });
+            }
         }
     }
-
 
     private final class ItemViewSelectedListener implements OnItemViewSelectedListener {
         @Override
