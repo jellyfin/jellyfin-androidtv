@@ -213,8 +213,11 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     protected void addAdditionalRows(ArrayObjectAdapter adapter) {
         switch (mBaseItem.getType()) {
             case "Movie":
-                ItemRowAdapter castAdapter = new ItemRowAdapter(mBaseItem.getPeople(), new CardPresenter(), adapter);
-                addItemRow(adapter, castAdapter, 0, "Cast/Crew");
+
+                if (mBaseItem.getPeople() != null) {
+                    ItemRowAdapter castAdapter = new ItemRowAdapter(mBaseItem.getPeople(), new CardPresenter(), adapter);
+                    addItemRow(adapter, castAdapter, 0, "Cast/Crew");
+                }
 
                 SimilarItemsQuery similar = new SimilarItemsQuery();
                 similar.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
@@ -246,13 +249,19 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 ItemRowAdapter upcomingAdapter = new ItemRowAdapter(upcoming, new CardPresenter(), adapter);
                 addItemRow(adapter, upcomingAdapter, 2, "Upcoming");
 
+                if (mBaseItem.getPeople() != null) {
+                    ItemRowAdapter seriesCastAdapter = new ItemRowAdapter(mBaseItem.getPeople(), new CardPresenter(), adapter);
+                    addItemRow(adapter, seriesCastAdapter, 3, "Cast/Crew");
+
+                }
+
                 SimilarItemsQuery similarSeries = new SimilarItemsQuery();
                 similarSeries.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
                 similarSeries.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 similarSeries.setId(mBaseItem.getId());
                 similarSeries.setLimit(20);
                 ItemRowAdapter similarAdapter = new ItemRowAdapter(similarSeries, QueryType.SimilarSeries, new CardPresenter(), adapter);
-                addItemRow(adapter, similarAdapter, 1, "Similar Series");
+                addItemRow(adapter, similarAdapter, 4, "Similar Series");
                 break;
         }
 
