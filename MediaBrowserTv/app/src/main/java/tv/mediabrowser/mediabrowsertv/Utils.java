@@ -30,6 +30,7 @@ import mediabrowser.model.dlna.StreamBuilder;
 import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dlna.VideoOptions;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.ImageOptions;
 import mediabrowser.model.dto.MediaSourceInfo;
 import mediabrowser.model.dto.UserItemDataDto;
@@ -167,6 +168,14 @@ public class Utils {
         }
 
         return item.getPrimaryImageAspectRatio() != null ? item.getPrimaryImageAspectRatio() : .72222;
+    }
+
+    public static String getPrimaryImageUrl(BaseItemPerson item, ApiClient apiClient) {
+        ImageOptions options = new ImageOptions();
+        options.setTag(item.getPrimaryImageTag());
+        options.setMaxWidth(300);
+        options.setImageType(ImageType.Primary);
+        return apiClient.GetPersonImageUrl(item.getName().replace(" ","%20"), options);
     }
 
     private static String[] ProgressIndicatorTypes = new String[] {"Episode", "Movie", "MusicVideo", "Video"};

@@ -29,7 +29,7 @@ public class CardPresenter extends Presenter {
     static class ViewHolder extends Presenter.ViewHolder {
         private int cardWidth = 230;
         private int cardHeight = 300;
-        private BaseItemDto mItem;
+        private BaseRowItem mItem;
         private ImageCardView mCardView;
         private Drawable mDefaultCardImage;
         private PicassoImageCardViewTarget mImageCardViewTarget;
@@ -42,42 +42,55 @@ public class CardPresenter extends Presenter {
             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.video);
         }
 
-        public void setItem(BaseItemDto m) {
+        public void setItem(BaseRowItem m) {
             mItem = m;
-            cardWidth = (int)((Utils.getImageAspectRatio(mItem)) * cardHeight);
-            mCardView.setMainImageDimensions(cardWidth, cardHeight);
-            switch (mItem.getType()) {
-                case "Audio":
-                case "MusicAlbum":
-                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.audio);
+            switch (mItem.getItemType()) {
+
+                case BaseItem:
+                    BaseItemDto itemDto = mItem.getBaseItem();
+                    cardWidth = (int)((Utils.getImageAspectRatio(itemDto)) * cardHeight);
+                    mCardView.setMainImageDimensions(cardWidth, cardHeight);
+                    switch (itemDto.getType()) {
+                        case "Audio":
+                        case "MusicAlbum":
+                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.audio);
+                            break;
+                        case "Person":
+                        case "MusicArtist":
+                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
+                            break;
+                        case "Season":
+                        case "Series":
+                        case "Episode":
+                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.tv);
+                            break;
+                        case "Folder":
+                        case "CollectionFolder":
+                        case "MovieGenreFolder":
+                        case "MusicGenreFolder":
+                        case "MovieGenre":
+                        case "Genre":
+                        case "MusicGenre":
+                        case "UserView":
+                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.folder);
+                            break;
+                        default:
+                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.video);
+                            break;
+
+                    }
                     break;
-                case "Person":
-                case "MusicArtist":
+                case Person:
+                    cardWidth = (int)(.777777777 * cardHeight);
+                    mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
                     break;
-                case "Season":
-                case "Series":
-                case "Episode":
-                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.tv);
+                case Chapter:
                     break;
-                case "Folder":
-                case "CollectionFolder":
-                case "MovieGenreFolder":
-                case "MusicGenreFolder":
-                case "MovieGenre":
-                case "Genre":
-                case "MusicGenre":
-                case "UserView":
-                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.folder);
-                    break;
-                default:
-                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.video);
-                    break;
-
             }
         }
 
-        public BaseItemDto getItem() {
+        public BaseRowItem getItem() {
             return mItem;
         }
 
@@ -109,22 +122,19 @@ public class CardPresenter extends Presenter {
 
     @Override
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
+        if (!(item instanceof BaseRowItem)) return;
         BaseRowItem rowItem = (BaseRowItem) item;
-        if (rowItem == null) return;
 
-        final BaseItemDto baseItem = rowItem.getBaseItem();
-        ((ViewHolder) viewHolder).setItem(baseItem);
+        ((ViewHolder) viewHolder).setItem(rowItem);
 
         //Log.d(TAG, "onBindViewHolder");
-        if (baseItem != null) {
-            ((ViewHolder) viewHolder).mCardView.setTitleText(Utils.GetFullName(baseItem));
-            //((ViewHolder) viewHolder).mCardView.setContentText(baseItem.getProductionYear().toString());
-            //((ViewHolder) viewHolder).mCardView.setBadgeImage(mContext.getResources().getDrawable(
-            //        R.drawable.videos_by_google_icon));
+        ((ViewHolder) viewHolder).mCardView.setTitleText(rowItem.getFullName());
+        ((ViewHolder) viewHolder).mCardView.setContentText(rowItem.getSubText());
+        //((ViewHolder) viewHolder).mCardView.setBadgeImage(mContext.getResources().getDrawable(
+        //        R.drawable.videos_by_google_icon));
 
-            ((ViewHolder) viewHolder).updateCardViewImage(Utils.getPrimaryImageUrl(baseItem, application.getConnectionManager().GetApiClient(baseItem),true));
+        ((ViewHolder) viewHolder).updateCardViewImage(rowItem.getPrimaryImageUrl());
 
-        }
     }
 
     @Override
