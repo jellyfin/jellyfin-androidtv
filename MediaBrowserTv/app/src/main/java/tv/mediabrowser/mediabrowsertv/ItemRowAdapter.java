@@ -4,8 +4,11 @@ import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.Presenter;
 
+import java.util.List;
+
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemsResult;
@@ -24,6 +27,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private UpcomingEpisodesQuery mUpcomingQuery;
     private SimilarItemsQuery mSimilarQuery;
     private QueryType queryType;
+
+    private BaseItemPerson[] mPersons;
+
     private ArrayObjectAdapter mParent;
     private ListRow mRow;
     private int chunkSize = 0;
@@ -59,6 +65,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mNextUpQuery = query;
         queryType = QueryType.NextUp;
+    }
+
+    public ItemRowAdapter(BaseItemPerson[] people, Presenter presenter, ArrayObjectAdapter parent) {
+        super(presenter);
+        mParent = parent;
+        mPersons = people;
+        queryType = QueryType.StaticPeople;
     }
 
     public ItemRowAdapter(SimilarItemsQuery query, QueryType queryType, Presenter presenter, ArrayObjectAdapter parent) {
@@ -149,6 +162,20 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             case SimilarMovies:
                 RetrieveSimilarMovies(mSimilarQuery);
                 break;
+            case StaticPeople:
+                LoadPeople();
+                break;
+        }
+    }
+
+    private void LoadPeople() {
+        if (mPersons != null) {
+            for (BaseItemPerson person : mPersons) {
+                add(new BaseRowItem(person));
+            }
+
+        } else {
+            mParent.remove(mRow);
         }
     }
 

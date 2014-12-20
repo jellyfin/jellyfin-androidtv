@@ -7,5 +7,7 @@ public enum QueryType {
     Season,
     Upcoming,
     SimilarSeries,
-    SimilarMovies
+    SimilarMovies,
+    StaticPeople,
+    StaticChapters
 }

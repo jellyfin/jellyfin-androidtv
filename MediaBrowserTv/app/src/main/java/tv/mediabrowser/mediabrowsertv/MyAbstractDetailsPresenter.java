@@ -51,7 +51,7 @@ public abstract class MyAbstractDetailsPresenter extends Presenter {
                     android.support.v17.leanback.R.dimen.lb_details_description_body_line_spacing);
 
             mBodyMaxLines = 6;
-            mBodyMinLines = 5;
+            mBodyMinLines = 4;
 
             mTitleFontMetricsInt = getFontMetricsInt(mTitle);
             mSubtitleFontMetricsInt = getFontMetricsInt(mSubtitle);
