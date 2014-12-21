@@ -332,12 +332,12 @@ public class Utils {
                     addWithDivider(sb, "Died ");
                     sb.append(new SimpleDateFormat("d MMM y").format(item.getEndDate()));
                     sb.append(" (");
-                    sb.append(DateUtils.getRelativeTimeSpanString(item.getPremiereDate().getTime(), item.getEndDate().getTime(), DateUtils.YEAR_IN_MILLIS));
+                    sb.append(numYears(item.getPremiereDate(), item.getEndDate()));
                     sb.append(")");
                 } else {
                     if (item.getPremiereDate() != null) {
                         sb.append(" (");
-                        sb.append(DateUtils.getRelativeTimeSpanString(item.getPremiereDate().getTime(), Calendar.getInstance().get(Calendar.MILLISECOND), DateUtils.YEAR_IN_MILLIS));
+                        sb.append(numYears(item.getPremiereDate(), Calendar.getInstance()));
                         sb.append(")");
                     }
                 }
@@ -406,6 +406,31 @@ public class Utils {
         }
 
         return sb.toString();
+    }
+
+    public static int numYears(Date start, Date end) {
+        Calendar calStart = Calendar.getInstance();
+        calStart.setTime(start);
+        Calendar calEnd = Calendar.getInstance();
+        calEnd.setTime(end);
+        return numYears(calStart, calEnd);
+    }
+
+    public static int numYears(Date start, Calendar end) {
+        Calendar calStart = Calendar.getInstance();
+        calStart.setTime(start);
+        return numYears(calStart, end);
+    }
+
+    public static int numYears(Calendar start, Calendar end) {
+        int age = end.get(Calendar.YEAR) - start.get(Calendar.YEAR);
+        if (end.get(Calendar.MONTH) < start.get(Calendar.MONTH)) {
+            age--;
+        } else if (end.get(Calendar.MONTH) == start.get(Calendar.MONTH)
+                && end.get(Calendar.DAY_OF_MONTH) < start.get(Calendar.DAY_OF_MONTH)) {
+            age--;
+        }
+        return age;
     }
 
     private static void addWithDivider(StringBuilder sb, String value) {

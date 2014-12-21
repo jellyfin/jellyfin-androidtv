@@ -41,6 +41,8 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.querying.ItemFields;
+import mediabrowser.model.querying.ItemFilter;
+import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
 import mediabrowser.model.querying.SeasonQuery;
@@ -232,6 +234,27 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
                 ItemRowAdapter similarMoviesAdapter = new ItemRowAdapter(similar, QueryType.SimilarMovies, new CardPresenter(), adapter);
                 addItemRow(adapter, similarMoviesAdapter, 1, "Similar Movies");
+                break;
+            case "Person":
+
+                ItemQuery personMovies = new ItemQuery();
+                personMovies.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
+                personMovies.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                personMovies.setPerson(mBaseItem.getName());
+                personMovies.setRecursive(true);
+                personMovies.setIncludeItemTypes(new String[] {"Movie"});
+                ItemRowAdapter personMoviesAdapter = new ItemRowAdapter(personMovies, 100, new CardPresenter(), adapter);
+                addItemRow(adapter, personMoviesAdapter, 0, "Movies");
+
+                ItemQuery personSeries = new ItemQuery();
+                personSeries.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
+                personSeries.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                personSeries.setPerson(mBaseItem.getName());
+                personMovies.setRecursive(true);
+                personSeries.setIncludeItemTypes(new String[] {"Series", "Episode"});
+                ItemRowAdapter personSeriesAdapter = new ItemRowAdapter(personSeries, 100, new CardPresenter(), adapter);
+                addItemRow(adapter, personSeriesAdapter, 1, "TV Shows");
+
                 break;
             case "Series":
                 NextUpQuery nextUpQuery = new NextUpQuery();
