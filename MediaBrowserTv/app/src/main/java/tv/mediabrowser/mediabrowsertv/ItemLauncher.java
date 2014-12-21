@@ -97,7 +97,7 @@ public class ItemLauncher {
                 break;
             case Person:
                 //Retrieve full item for display
-                application.getApiClient().GetPersonAsync(rowItem.getPerson().getId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                application.getApiClient().GetItemAsync(rowItem.getPerson().getId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         Intent intent = new Intent(activity, DetailsActivity.class);
