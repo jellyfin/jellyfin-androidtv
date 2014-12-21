@@ -54,7 +54,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     private static final int ACTION_PLAY = 1;
     private static final int ACTION_RESUME = 2;
     private static final int ACTION_DETAILS = 3;
-    private static final int ACTION_SHUFFLE = 3;
+    private static final int ACTION_SHUFFLE = 4;
 
     private static final int DETAIL_THUMB_WIDTH = 150;
     private static final int DETAIL_THUMB_HEIGHT = 150;
