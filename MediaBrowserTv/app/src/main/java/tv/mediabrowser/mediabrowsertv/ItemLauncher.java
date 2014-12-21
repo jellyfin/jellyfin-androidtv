@@ -96,6 +96,27 @@ public class ItemLauncher {
                 }
                 break;
             case Person:
+                //Retrieve full item for display
+                application.getApiClient().GetPersonAsync(rowItem.getPerson().getId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                    @Override
+                    public void onResponse(BaseItemDto response) {
+                        Intent intent = new Intent(activity, DetailsActivity.class);
+                        intent.putExtra("BaseItemDto", TvApp.getApplication().getSerializer().SerializeToString(response));
+
+                        Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                activity,
+                                ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                                DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                        activity.startActivity(intent, bundle);
+
+                    }
+
+                    @Override
+                    public void onError(Exception exception) {
+                        application.getLogger().ErrorException("Error retrieving full object", exception);
+                        exception.printStackTrace();
+                    }
+                });
                 break;
             case Chapter:
                 break;

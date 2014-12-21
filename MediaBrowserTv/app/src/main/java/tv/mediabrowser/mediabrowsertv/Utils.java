@@ -8,6 +8,7 @@ import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.media.session.MediaController;
 import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -175,7 +177,7 @@ public class Utils {
         options.setTag(item.getPrimaryImageTag());
         options.setMaxWidth(300);
         options.setImageType(ImageType.Primary);
-        return apiClient.GetPersonImageUrl(item.getName().replace(" ","%20"), options);
+        return apiClient.GetPersonImageUrl(item, options);
     }
 
     private static String[] ProgressIndicatorTypes = new String[] {"Episode", "Movie", "MusicVideo", "Video"};
@@ -318,64 +320,89 @@ public class Utils {
     private static String divider = "   |   ";
     public static String getInfoRow(BaseItemDto item) {
         StringBuilder sb = new StringBuilder();
-        if (item.getType().equals("Episode")) {
-            sb.append(item.getParentIndexNumber());
-            sb.append("x");
-            sb.append(item.getIndexNumber());
-        }
+        String type = item.getType();
 
-        if (item.getCommunityRating() != null) {
-            addWithDivider(sb, item.getCommunityRating());
-        }
-        if (item.getCriticRating() != null) {
-            if (sb.length() > 0) sb.append(" / ");
-            sb.append(item.getCriticRating());
-            sb.append("%");
-        }
-
-        MediaStream video = null;
-
-        if (item.getMediaStreams() != null) {
-            for (MediaStream stream : item.getMediaStreams()) {
-                if (stream.getType() == MediaStreamType.Video) {
-                    video = stream;
-                    break;
+        switch (type) {
+            case "Person":
+                if (item.getPremiereDate() != null) {
+                    sb.append("Born ");
+                    sb.append(new SimpleDateFormat("d MMM y").format(item.getPremiereDate()));
                 }
-            }
-        }
+                if (item.getEndDate() != null) {
+                    addWithDivider(sb, "Died ");
+                    sb.append(new SimpleDateFormat("d MMM y").format(item.getEndDate()));
+                    sb.append(" (");
+                    sb.append(DateUtils.getRelativeTimeSpanString(item.getPremiereDate().getTime(), item.getEndDate().getTime(), DateUtils.YEAR_IN_MILLIS));
+                    sb.append(")");
+                } else {
+                    if (item.getPremiereDate() != null) {
+                        sb.append(" (");
+                        sb.append(DateUtils.getRelativeTimeSpanString(item.getPremiereDate().getTime(), Calendar.getInstance().get(Calendar.MILLISECOND), DateUtils.YEAR_IN_MILLIS));
+                        sb.append(")");
+                    }
+                }
+                break;
+            default:
+                if (item.getType().equals("Episode")) {
+                    sb.append(item.getParentIndexNumber());
+                    sb.append("x");
+                    sb.append(item.getIndexNumber());
+                }
 
-        if (video != null) {
-            if (video.getWidth() > 1280) {
-                addWithDivider(sb, "1080");
-            } else if (video.getWidth() > 640) {
-                addWithDivider(sb, "720");
-            }
-        }
+                if (item.getCommunityRating() != null) {
+                    addWithDivider(sb, item.getCommunityRating());
+                }
+                if (item.getCriticRating() != null) {
+                    if (sb.length() > 0) sb.append(" / ");
+                    sb.append(item.getCriticRating());
+                    sb.append("%");
+                }
 
-        if (item.getRunTimeTicks() != null && item.getRunTimeTicks() >  0) {
-            addWithDivider(sb, item.getRunTimeTicks() / 600000000);
-            sb.append("m");
-        }
+                MediaStream video = null;
 
-        if (item.getOfficialRating() != null) {
-            addWithDivider(sb, item.getOfficialRating());
-        }
+                if (item.getMediaStreams() != null) {
+                    for (MediaStream stream : item.getMediaStreams()) {
+                        if (stream.getType() == MediaStreamType.Video) {
+                            video = stream;
+                            break;
+                        }
+                    }
+                }
 
-        if (item.getType().equals("Series")) {
-            if (item.getAirDays() != null && item.getAirDays().size() > 0) {
-                addWithDivider(sb, item.getAirDays().get(0));
-                sb.append(" ");
-            }
-            if (item.getAirTime() != null) {
-                sb.append(item.getAirTime());
-            }
-            if (item.getStatus() != null) {
-                addWithDivider(sb, item.getStatus().toString());
-            }
-        } else {
-            if (item.getPremiereDate() != null) {
-                addWithDivider(sb, new SimpleDateFormat("d MMM y").format(item.getPremiereDate()));
-            }
+                if (video != null) {
+                    if (video.getWidth() > 1280) {
+                        addWithDivider(sb, "1080");
+                    } else if (video.getWidth() > 640) {
+                        addWithDivider(sb, "720");
+                    }
+                }
+
+                if (item.getRunTimeTicks() != null && item.getRunTimeTicks() >  0) {
+                    addWithDivider(sb, item.getRunTimeTicks() / 600000000);
+                    sb.append("m");
+                }
+
+                if (item.getOfficialRating() != null) {
+                    addWithDivider(sb, item.getOfficialRating());
+                }
+
+                if (item.getType().equals("Series")) {
+                    if (item.getAirDays() != null && item.getAirDays().size() > 0) {
+                        addWithDivider(sb, item.getAirDays().get(0));
+                        sb.append(" ");
+                    }
+                    if (item.getAirTime() != null) {
+                        sb.append(item.getAirTime());
+                    }
+                    if (item.getStatus() != null) {
+                        addWithDivider(sb, item.getStatus().toString());
+                    }
+                } else {
+                    if (item.getPremiereDate() != null) {
+                        addWithDivider(sb, new SimpleDateFormat("d MMM y").format(item.getPremiereDate()));
+                    }
+                }
+
         }
 
         return sb.toString();
