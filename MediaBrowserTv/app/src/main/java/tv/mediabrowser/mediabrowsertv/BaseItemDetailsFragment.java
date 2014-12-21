@@ -143,13 +143,18 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 row.addAction(new Action(ACTION_RESUME, "Resume"));
             }
 
-            if (mBaseItem.getIsFolder()) {
-                row.addAction(new Action(ACTION_PLAY, "Play All"));
-                row.addAction(new Action(ACTION_SHUFFLE, "Shuffle All"));
+            switch (mBaseItem.getType()) {
+                case "Person":
+                    break;
+                default:
+                    if (mBaseItem.getIsFolder()) {
+                        row.addAction(new Action(ACTION_PLAY, "Play All"));
+                        row.addAction(new Action(ACTION_SHUFFLE, "Shuffle All"));
 
-            } else {
-                row.addAction(new Action(ACTION_PLAY, "Play"));
-                row.addAction(new Action(ACTION_DETAILS, "Full Details"));
+                    } else {
+                        row.addAction(new Action(ACTION_PLAY, "Play"));
+                        row.addAction(new Action(ACTION_DETAILS, "Full Details"));
+                    }
             }
             return row;
         }
