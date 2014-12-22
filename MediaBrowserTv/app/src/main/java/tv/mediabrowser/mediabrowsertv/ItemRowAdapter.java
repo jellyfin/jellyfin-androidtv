@@ -7,6 +7,7 @@ import android.support.v17.leanback.widget.Presenter;
 import java.util.List;
 
 import mediabrowser.apiinteraction.Response;
+import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.UserDto;
@@ -29,6 +30,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private QueryType queryType;
 
     private BaseItemPerson[] mPersons;
+    private ServerInfo[] mServers;
+    private String mServerId;
 
     private ArrayObjectAdapter mParent;
     private ListRow mRow;
@@ -72,6 +75,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mPersons = people;
         queryType = QueryType.StaticPeople;
+    }
+
+    public ItemRowAdapter(ServerInfo[] servers, Presenter presenter, ArrayObjectAdapter parent) {
+        super(presenter);
+        mParent = parent;
+        mServers = servers;
+        queryType = QueryType.StaticServers;
     }
 
     public ItemRowAdapter(SimilarItemsQuery query, QueryType queryType, Presenter presenter, ArrayObjectAdapter parent) {
@@ -165,6 +175,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             case StaticPeople:
                 LoadPeople();
                 break;
+            case StaticServers:
+                LoadServers();
+                break;
         }
     }
 
@@ -177,6 +190,21 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         } else {
             mParent.remove(mRow);
         }
+
+        currentlyRetrieving = false;
+    }
+
+    private void LoadServers() {
+        if (mServers != null) {
+            for (ServerInfo server : mServers) {
+                add(new BaseRowItem(server));
+            }
+
+        } else {
+            mParent.remove(mRow);
+        }
+
+        currentlyRetrieving = false;
     }
 
     private void RetrieveViews() {

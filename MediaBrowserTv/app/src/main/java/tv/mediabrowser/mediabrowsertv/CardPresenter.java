@@ -80,6 +80,10 @@ public class CardPresenter extends Presenter {
 
                     }
                     break;
+                case Server:
+                    cardWidth = (int)(.777777777 * cardHeight);
+                    mCardView.setMainImageDimensions(cardWidth, cardHeight);
+                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.server);
                 case Person:
                     cardWidth = (int)(.777777777 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);

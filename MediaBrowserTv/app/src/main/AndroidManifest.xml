@@ -52,7 +52,7 @@
         <activity android:name=".BrowseErrorActivity" ></activity>
         <activity android:name=".GenericFolderActivity"></activity>
         <activity android:name=".UserViewActivity"></activity>
-        <activity android:name=".SeriesActivity"></activity>
+        <activity android:name=".SelectServerActivity"></activity>
     </application>
 
 </manifest>

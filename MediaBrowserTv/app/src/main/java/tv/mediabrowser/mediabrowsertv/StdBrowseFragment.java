@@ -220,8 +220,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
             ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)row).getAdapter();
             adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
 
-            BaseItemDto baseItem = rowItem.getBaseItem();
-            mBackgroundUrl = Utils.getBackdropImageUrl(baseItem, TvApp.getApplication().getConnectionManager().GetApiClient(baseItem), true);
+            mBackgroundUrl = rowItem.getBackdropImageUrl();
             startBackgroundTimer();
 
         }
