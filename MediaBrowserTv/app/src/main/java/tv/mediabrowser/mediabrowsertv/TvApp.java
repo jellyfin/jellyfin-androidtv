@@ -25,6 +25,7 @@ public class TvApp extends Application {
     private UserDto currentUser;
     private BaseItemDto currentPlayingItem;
     private PlaybackController playbackController;
+    private ApiClient loginApiClient;
 
     @Override
     public void onCreate() {
@@ -94,6 +95,15 @@ public class TvApp extends Application {
     public void setCurrentPlayingItem(BaseItemDto currentPlayingItem) {
         this.currentPlayingItem = currentPlayingItem;
     }
+
+    public ApiClient getLoginApiClient() {
+        return loginApiClient;
+    }
+
+    public void setLoginApiClient(ApiClient loginApiClient) {
+        this.loginApiClient = loginApiClient;
+    }
+
 
     public PlaybackController getPlaybackController() {
         return playbackController;

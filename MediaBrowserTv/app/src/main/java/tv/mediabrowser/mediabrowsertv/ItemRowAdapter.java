@@ -31,7 +31,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private BaseItemPerson[] mPersons;
     private ServerInfo[] mServers;
-    private String mServerId;
+    private ServerInfo mServer;
 
     private ArrayObjectAdapter mParent;
     private ListRow mRow;
@@ -111,6 +111,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.Views;
     }
 
+    public ItemRowAdapter(ServerInfo serverInfo, Presenter presenter, ArrayObjectAdapter parent) {
+        super(presenter);
+        mParent = parent;
+        mServer = serverInfo;
+        queryType = QueryType.Users;
+    }
+
     public void setItemsLoaded(int itemsLoaded) {
         this.itemsLoaded = itemsLoaded;
         this.fullyLoaded = chunkSize == 0 || itemsLoaded >= totalItems;
@@ -178,7 +185,34 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             case StaticServers:
                 LoadServers();
                 break;
+            case Users:
+                RetrieveUsers(mServer);
         }
+    }
+
+    private void RetrieveUsers(ServerInfo mServer) {
+        final ItemRowAdapter adapter = this;
+        UserDto user = TvApp.getApplication().getCurrentUser();
+        TvApp.getApplication().getLoginApiClient().GetPublicUsersAsync(new Response<UserDto[]>() {
+            @Override
+            public void onResponse(UserDto[] response) {
+                for (UserDto user : response) {
+                    adapter.add(new BaseRowItem(user));
+                }
+                totalItems = response.length;
+                setItemsLoaded(totalItems);
+
+                currentlyRetrieving = false;
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving users", exception);
+                Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                currentlyRetrieving = false;
+            }
+        });
+
     }
 
     private void LoadPeople() {

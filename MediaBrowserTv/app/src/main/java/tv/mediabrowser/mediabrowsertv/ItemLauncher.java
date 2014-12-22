@@ -7,6 +7,7 @@ import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v4.app.ActivityOptionsCompat;
 
+import mediabrowser.apiinteraction.ConnectionResult;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 
@@ -121,8 +122,19 @@ public class ItemLauncher {
             case Chapter:
                 break;
             case Server:
-                //Open user selection
-                
+                //Connect to the selected server
+                application.getConnectionManager().Connect(rowItem.getServerInfo(), new Response<ConnectionResult>() {
+                    @Override
+                    public void onResponse(ConnectionResult response) {
+                        //Set api client for login
+                        TvApp.getApplication().setLoginApiClient(response.getApiClient());
+                        //Open user selection
+                        Intent userIntent = new Intent(activity, SelectUserActivity.class);
+                        userIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        activity.startActivity(userIntent);
+                    }
+                });
+
                 break;
         }
 

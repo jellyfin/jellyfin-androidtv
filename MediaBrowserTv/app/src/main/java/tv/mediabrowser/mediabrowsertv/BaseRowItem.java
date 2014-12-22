@@ -1,11 +1,14 @@
 package tv.mediabrowser.mediabrowsertv;
 
 import android.net.Uri;
+import android.text.format.DateUtils;
 
 import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.ChapterInfoDto;
+import mediabrowser.model.dto.UserDto;
+import mediabrowser.model.dto.UserItemDataDto;
 
 /**
  * Created by Eric on 12/15/2014.
@@ -16,6 +19,7 @@ public class BaseRowItem {
     private BaseItemPerson person;
     private ChapterInfoDto chapterInfo;
     private ServerInfo serverInfo;
+    private UserDto user;
     private ItemType type;
 
     public BaseRowItem(int index, BaseItemDto item) {
@@ -34,6 +38,11 @@ public class BaseRowItem {
         type = ItemType.Person;
     }
 
+    public BaseRowItem(UserDto user) {
+        this.user = user;
+        type = ItemType.User;
+    }
+
     public BaseRowItem(ChapterInfoDto chapter) {
         this.chapterInfo = chapter;
         type = ItemType.Chapter;
@@ -48,6 +57,7 @@ public class BaseRowItem {
     }
     public BaseItemPerson getPerson() { return person; }
     public ChapterInfoDto getChapterInfo() { return chapterInfo; }
+    public ServerInfo getServerInfo() { return serverInfo; }
 
     public boolean getIsChapter() { return type == ItemType.Chapter; }
     public boolean getIsPerson() { return type == ItemType.Person; }
@@ -61,6 +71,8 @@ public class BaseRowItem {
                 return Utils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(),true);
             case Person:
                 return Utils.getPrimaryImageUrl(person, TvApp.getApplication().getApiClient());
+            case User:
+                return Utils.getPrimaryImageUrl(user, TvApp.getApplication().getLoginApiClient());
             case Chapter:
                 break;
             case Server:
@@ -80,6 +92,8 @@ public class BaseRowItem {
                 return chapterInfo.getName();
             case Server:
                 return serverInfo.getName();
+            case User:
+                return user.getName();
         }
 
         return "<Unknown>";
@@ -97,6 +111,8 @@ public class BaseRowItem {
                 return Utils.formatMillis(pos.intValue());
             case Server:
                 return serverInfo.getLocalAddress().substring(7);
+            case User:
+                return DateUtils.getRelativeTimeSpanString(user.getLastActivityDate().getTime()).toString();
         }
 
         return "";
@@ -115,7 +131,7 @@ public class BaseRowItem {
     public enum ItemType {
         BaseItem,
         Person,
-        Server, Chapter
+        Server, User, Chapter
     }
 }
 
