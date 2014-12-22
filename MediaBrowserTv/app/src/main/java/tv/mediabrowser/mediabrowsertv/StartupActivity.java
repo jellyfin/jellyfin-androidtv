@@ -101,7 +101,6 @@ public class StartupActivity extends Activity {
                             payload.add(serializer.SerializeToString(server));
                         }
                         serverIntent.putExtra("Servers", payload.toArray(new String[payload.size()]));
-                        serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         startActivity(serverIntent);
                         break;
                 }

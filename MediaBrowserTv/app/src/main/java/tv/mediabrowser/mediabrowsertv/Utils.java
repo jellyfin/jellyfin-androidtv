@@ -35,6 +35,7 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.ImageOptions;
 import mediabrowser.model.dto.MediaSourceInfo;
+import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.MediaStream;
@@ -178,6 +179,14 @@ public class Utils {
         options.setMaxWidth(300);
         options.setImageType(ImageType.Primary);
         return apiClient.GetPersonImageUrl(item, options);
+    }
+
+    public static String getPrimaryImageUrl(UserDto item, ApiClient apiClient) {
+        ImageOptions options = new ImageOptions();
+        options.setTag(item.getPrimaryImageTag());
+        options.setMaxWidth(300);
+        options.setImageType(ImageType.Primary);
+        return apiClient.GetUserImageUrl(item, options);
     }
 
     private static String[] ProgressIndicatorTypes = new String[] {"Episode", "Movie", "MusicVideo", "Video"};
