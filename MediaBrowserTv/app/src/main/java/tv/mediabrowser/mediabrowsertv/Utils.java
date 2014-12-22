@@ -1,8 +1,10 @@
 package tv.mediabrowser.mediabrowsertv;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Point;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
@@ -14,7 +16,9 @@ import android.view.WindowManager;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +28,9 @@ import java.util.List;
 import java.util.Random;
 
 import mediabrowser.apiinteraction.ApiClient;
+import mediabrowser.apiinteraction.ConnectionResult;
 import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.apiinteraction.IConnectionManager;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
@@ -50,6 +56,7 @@ import mediabrowser.model.session.PlayMethod;
 import mediabrowser.model.session.PlaybackProgressInfo;
 import mediabrowser.model.session.PlaybackStartInfo;
 import mediabrowser.model.session.PlaybackStopInfo;
+import mediabrowser.model.users.AuthenticationResult;
 
 /**
  * A collection of utility methods, all static.
@@ -590,4 +597,25 @@ public class Utils {
 
         return randomNum;
     }
+
+    public static void signInToServer(IConnectionManager connectionManager, String address, final Activity activity) {
+        connectionManager.Connect(address, new Response<ConnectionResult>() {
+            @Override
+            public void onResponse(ConnectionResult serverResult) {
+                switch (serverResult.getState()) {
+                    case ServerSignIn:
+                        //Set api client for login
+                        TvApp.getApplication().setLoginApiClient(serverResult.getApiClient());
+                        //Open user selection
+                        Intent userIntent = new Intent(activity, SelectUserActivity.class);
+                        userIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        activity.startActivity(userIntent);
+                        break;
+                }
+            }
+
+
+        });
+    }
+
 }

@@ -1,5 +1,7 @@
 package tv.mediabrowser.mediabrowsertv;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,8 +12,11 @@ import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.text.Editable;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,10 +83,24 @@ public class SelectServerFragment extends StdBrowseFragment {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (item instanceof String) {
-                if (((String) item).indexOf(getString(R.string.error_fragment)) >= 0) {
-                    Intent intent = new Intent(getActivity(), BrowseErrorActivity.class);
-                    intent.putExtra("Message", "Test Error");
-                    startActivity(intent);
+                if (((String) item).indexOf("Enter Manually") >= 0) {
+                    final EditText address = new EditText(getActivity());
+                    address.setHint("IP Address or full domain name");
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("Enter Server Address")
+                            .setMessage("Please enter a valid server address")
+                            .setView(address)
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    String addressValue = address.getText().toString();
+                                    TvApp.getApplication().getLogger().Debug("Entered address: " + addressValue);
+                                    Utils.signInToServer(TvApp.getApplication().getConnectionManager(), addressValue + ":8096", getActivity());
+                                }
+                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            // Do nothing.
+                        }
+                    }).show();
                 } else if (((String) item).indexOf("Logout ") >= 0) {
                     mApiClient = TvApp.getApplication().getConnectionManager().GetApiClient(TvApp.getApplication().getCurrentUser());
                     mApiClient.Logout(new EmptyResponse() {

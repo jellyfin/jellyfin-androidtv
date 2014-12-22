@@ -78,7 +78,7 @@ public class StartupActivity extends Activity {
                         break;
                     case ServerSignIn:
                         logger.Debug("Sign in with server "+ response.getServers().get(0).getName() + " total: " + response.getServers().size());
-                        signInToServer(connectionManager, "eric-office:8096", activity);
+                        Utils.signInToServer(connectionManager, "eric-office:8096", activity);
 
                         break;
                     case SignedIn:
@@ -109,43 +109,5 @@ public class StartupActivity extends Activity {
 
     }
 
-    private void signInToServer(IConnectionManager connectionManager, String address, final Activity activity) {
-        //connectionManager.Connect(response.getServers().get(0), new Response<ConnectionResult>() {
-        //force to dev server
-        connectionManager.Connect(address, new Response<ConnectionResult>() {
-            @Override
-            public void onResponse(ConnectionResult serverResult) {
-                switch (serverResult.getState()) {
-                    case ServerSignIn:
-                        try {
-                            serverResult.getApiClient().AuthenticateUserAsync("ebr","0101", new Response<AuthenticationResult>() {
-                                @Override
-                                public void onResponse(AuthenticationResult authenticationResult) {
-                                    logger.Debug("Signed in as " + authenticationResult.getUser().getName());
-                                    application.setCurrentUser(authenticationResult.getUser());
-                                    Intent intent = new Intent(activity, MainActivity.class);
-                                    startActivity(intent);
-                                }
-
-                                @Override
-                                public void onError(Exception exception) {
-                                    super.onError(exception);
-                                    logger.ErrorException("Error logging in", exception);
-                                    Utils.showToast(activity, "Error logging in");
-                                    System.exit(1);
-                                }
-                            });
-                        } catch (NoSuchAlgorithmException e) {
-                            e.printStackTrace();
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                }
-            }
-
-
-        });
-    }
 
 }
