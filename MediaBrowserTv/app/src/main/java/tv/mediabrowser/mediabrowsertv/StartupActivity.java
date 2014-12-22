@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 import mediabrowser.apiinteraction.ApiEventListener;
 import mediabrowser.apiinteraction.ConnectionResult;
@@ -14,6 +16,7 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.AndroidConnectionManager;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.apiinteraction.android.VolleyHttpClient;
+import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.serialization.IJsonSerializer;
@@ -91,8 +94,16 @@ public class StartupActivity extends Activity {
                         break;
                     case ServerSelection:
                         logger.Debug("Select A server");
-                        signInToServer(connectionManager, "eric-office:8096", activity);
-
+                        Intent serverIntent = new Intent(activity, SelectServerActivity.class);
+                        GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
+                        List<String> payload = new ArrayList<String>();
+                        for (ServerInfo server : response.getServers()) {
+                            payload.add(serializer.SerializeToString(server));
+                        }
+                        serverIntent.putExtra("Servers", payload.toArray(new String[payload.size()]));
+                        serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        startActivity(serverIntent);
+                        break;
                 }
             }
         });

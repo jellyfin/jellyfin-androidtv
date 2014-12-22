@@ -1,5 +1,8 @@
 package tv.mediabrowser.mediabrowsertv;
 
+import android.net.Uri;
+
+import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.ChapterInfoDto;
@@ -12,12 +15,18 @@ public class BaseRowItem {
     private BaseItemDto baseItem;
     private BaseItemPerson person;
     private ChapterInfoDto chapterInfo;
+    private ServerInfo serverInfo;
     private ItemType type;
 
     public BaseRowItem(int index, BaseItemDto item) {
         this.index = index;
         this.baseItem = item;
         type = ItemType.BaseItem;
+    }
+
+    public BaseRowItem(ServerInfo server) {
+        this.serverInfo = server;
+        this.type = ItemType.Server;
     }
 
     public BaseRowItem(BaseItemPerson person) {
@@ -54,6 +63,8 @@ public class BaseRowItem {
                 return Utils.getPrimaryImageUrl(person, TvApp.getApplication().getApiClient());
             case Chapter:
                 break;
+            case Server:
+                return "android.resource://tv.mediabrowser.mediabrowsertv/" + R.drawable.server;
         }
         return null;
     }
@@ -67,6 +78,8 @@ public class BaseRowItem {
                 return person.getName();
             case Chapter:
                 return chapterInfo.getName();
+            case Server:
+                return serverInfo.getName();
         }
 
         return "<Unknown>";
@@ -82,15 +95,27 @@ public class BaseRowItem {
             case Chapter:
                 Long pos = chapterInfo.getStartPositionTicks() / 10000;
                 return Utils.formatMillis(pos.intValue());
+            case Server:
+                return serverInfo.getLocalAddress().substring(7);
         }
 
         return "";
     }
 
+    public String getBackdropImageUrl() {
+        switch (type) {
+            case BaseItem:
+                return Utils.getBackdropImageUrl(baseItem, TvApp.getApplication().getConnectionManager().GetApiClient(baseItem), true);
+
+        }
+
+        return null;
+    }
+
     public enum ItemType {
         BaseItem,
         Person,
-        Chapter
+        Server, Chapter
     }
 }
 

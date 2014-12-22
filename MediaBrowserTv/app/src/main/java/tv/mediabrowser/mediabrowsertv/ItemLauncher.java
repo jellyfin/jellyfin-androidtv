@@ -120,6 +120,10 @@ public class ItemLauncher {
                 break;
             case Chapter:
                 break;
+            case Server:
+                //Open user selection
+                
+                break;
         }
 
     }

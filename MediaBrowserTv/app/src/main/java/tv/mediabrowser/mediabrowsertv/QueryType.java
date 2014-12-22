@@ -9,5 +9,7 @@ public enum QueryType {
     SimilarSeries,
     SimilarMovies,
     StaticPeople,
-    StaticChapters
+    StaticChapters,
+    StaticServers,
+    Users
 }
