@@ -34,6 +34,8 @@ import mediabrowser.model.dto.BaseItemDto;
 public class SelectServerFragment extends StdBrowseFragment {
     private static final int GRID_ITEM_WIDTH = 200;
     private static final int GRID_ITEM_HEIGHT = 200;
+    private static final int ENTER_MANUALLY = 0;
+    private static final int LOGIN_CONNECT = 1;
     private List<ServerInfo> mServers = new ArrayList<>();
 
     @Override
@@ -66,8 +68,8 @@ public class SelectServerFragment extends StdBrowseFragment {
 
         GridItemPresenter mGridPresenter = new GridItemPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add("Enter Manually");
-        gridRowAdapter.add("Login with Connect");
+        gridRowAdapter.add(new GridButton(ENTER_MANUALLY, "Enter Manually"));
+        gridRowAdapter.add(new GridButton(LOGIN_CONNECT, "Login with Connect"));
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
 
@@ -82,39 +84,34 @@ public class SelectServerFragment extends StdBrowseFragment {
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
-            if (item instanceof String) {
-                if (((String) item).indexOf("Enter Manually") >= 0) {
-                    final EditText address = new EditText(getActivity());
-                    address.setHint("IP Address or full domain name");
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle("Enter Server Address")
-                            .setMessage("Please enter a valid server address")
-                            .setView(address)
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    String addressValue = address.getText().toString();
-                                    TvApp.getApplication().getLogger().Debug("Entered address: " + addressValue);
-                                    Utils.signInToServer(TvApp.getApplication().getConnectionManager(), addressValue + ":8096", getActivity());
-                                }
-                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            // Do nothing.
-                        }
-                    }).show();
-                } else if (((String) item).indexOf("Logout ") >= 0) {
-                    mApiClient = TvApp.getApplication().getConnectionManager().GetApiClient(TvApp.getApplication().getCurrentUser());
-                    mApiClient.Logout(new EmptyResponse() {
-                        @Override
-                        public void onResponse() {
-                            super.onResponse();
-                            Intent intent = new Intent(getActivity(), StartupActivity.class);
-                            startActivity(intent);
-                        }
-                    });
-                } else
-                {
-                    Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT)
-                            .show();
+            if (item instanceof GridButton) {
+                switch (((GridButton) item).getId()) {
+                    case ENTER_MANUALLY:
+                        final EditText address = new EditText(getActivity());
+                        address.setHint("IP Address or full domain name");
+                        address.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
+                        new AlertDialog.Builder(getActivity())
+                                .setTitle("Enter Server Address")
+                                .setMessage("Please enter a valid server address")
+                                .setView(address)
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        // Do nothing.
+                                    }
+                                }).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                String addressValue = address.getText().toString();
+                                TvApp.getApplication().getLogger().Debug("Entered address: " + addressValue);
+                                Utils.signInToServer(TvApp.getApplication().getConnectionManager(), addressValue + ":8096", getActivity());
+                            }
+                        }).show();
+                        break;
+                    case LOGIN_CONNECT:
+
+                    default:
+                        Toast.makeText(getActivity(), item.toString(), Toast.LENGTH_SHORT)
+                                .show();
+                        break;
                 }
             }
         }
@@ -135,7 +132,7 @@ public class SelectServerFragment extends StdBrowseFragment {
 
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, Object item) {
-            ((TextView) viewHolder.view).setText((String) item);
+            ((TextView) viewHolder.view).setText(item.toString());
         }
 
         @Override
