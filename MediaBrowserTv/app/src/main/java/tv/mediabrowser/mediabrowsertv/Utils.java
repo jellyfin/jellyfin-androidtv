@@ -618,4 +618,30 @@ public class Utils {
         });
     }
 
+    public static void loginUser(String userName, String pw, ApiClient apiClient, final Activity activity) {
+        try {
+            apiClient.AuthenticateUserAsync(userName, pw, new Response<AuthenticationResult>() {
+                @Override
+                public void onResponse(AuthenticationResult authenticationResult) {
+                    TvApp application = TvApp.getApplication();
+                    application.getLogger().Debug("Signed in as " + authenticationResult.getUser().getName());
+                    application.setCurrentUser(authenticationResult.getUser());
+                    Intent intent = new Intent(activity, MainActivity.class);
+                    activity.startActivity(intent);
+                }
+
+                @Override
+                public void onError(Exception exception) {
+                    super.onError(exception);
+                    TvApp.getApplication().getLogger().ErrorException("Error logging in", exception);
+                    Utils.showToast(activity, "Invalid User id or password");
+                }
+            });
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
