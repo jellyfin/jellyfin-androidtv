@@ -28,6 +28,8 @@ import mediabrowser.model.querying.NextUpQuery;
 public class HomeFragment extends StdBrowseFragment {
     private static final int GRID_ITEM_WIDTH = 200;
     private static final int GRID_ITEM_HEIGHT = 200;
+    private static final int LOGOUT = 0;
+    private static final int SETTINGS = 1;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -83,10 +85,8 @@ public class HomeFragment extends StdBrowseFragment {
 
         GridItemPresenter mGridPresenter = new GridItemPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add(getResources().getString(R.string.grid_view));
-        gridRowAdapter.add(getResources().getString(R.string.error_fragment));
-        gridRowAdapter.add(getResources().getString(R.string.personal_settings));
-        gridRowAdapter.add("Logout " + TvApp.getApplication().getCurrentUser().getName());
+        gridRowAdapter.add(new GridButton(SETTINGS, getResources().getString(R.string.personal_settings)));
+        gridRowAdapter.add(new GridButton(LOGOUT, "Logout " + TvApp.getApplication().getCurrentUser().getName()));
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
 
@@ -101,23 +101,21 @@ public class HomeFragment extends StdBrowseFragment {
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
-            if (item instanceof String) {
-                if (((String) item).indexOf(getString(R.string.error_fragment)) >= 0) {
-                    Intent intent = new Intent(getActivity(), BrowseErrorActivity.class);
-                    intent.putExtra("Message", "Test Error");
-                    startActivity(intent);
-                } else if (((String) item).indexOf("Logout ") >= 0) {
-                    mApiClient = TvApp.getApplication().getConnectionManager().GetApiClient(TvApp.getApplication().getCurrentUser());
-                    mApiClient.Logout(new EmptyResponse() {
-                        @Override
-                        public void onResponse() {
-                            getActivity().finish();
-                        }
-                    });
-                } else
-                {
-                    Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT)
-                            .show();
+            if (item instanceof GridButton) {
+                switch (((GridButton) item).getId()) {
+                    case LOGOUT:
+                        mApiClient = TvApp.getApplication().getConnectionManager().GetApiClient(TvApp.getApplication().getCurrentUser());
+                        mApiClient.Logout(new EmptyResponse() {
+                            @Override
+                            public void onResponse() {
+                                getActivity().finish();
+                            }
+                        });
+                        break;
+                    default:
+                        Toast.makeText(getActivity(), item.toString(), Toast.LENGTH_SHORT)
+                                .show();
+                        break;
                 }
             }
         }
@@ -138,7 +136,7 @@ public class HomeFragment extends StdBrowseFragment {
 
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, Object item) {
-            ((TextView) viewHolder.view).setText((String) item);
+            ((TextView) viewHolder.view).setText(item.toString());
         }
 
         @Override
