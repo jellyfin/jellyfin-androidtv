@@ -58,6 +58,7 @@ public class SelectServerFragment extends StdBrowseFragment {
         super.addAdditionalRows(rowAdapter);
 
         setHeadersState(HEADERS_DISABLED);
+        
 
         HeaderItem serverHeader = new HeaderItem(rowAdapter.size(), "Select a server", null);
         ItemRowAdapter serverAdapter = new ItemRowAdapter(mServers.toArray(new ServerInfo[mServers.size()]), new CardPresenter(), rowAdapter);
