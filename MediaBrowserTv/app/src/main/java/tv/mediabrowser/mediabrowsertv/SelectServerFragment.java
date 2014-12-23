@@ -107,6 +107,9 @@ public class SelectServerFragment extends StdBrowseFragment {
                         }).show();
                         break;
                     case LOGIN_CONNECT:
+                        Intent intent = new Intent(getActivity(), ConnectActivity.class);
+                        startActivity(intent);
+                        break;
 
                     default:
                         Toast.makeText(getActivity(), item.toString(), Toast.LENGTH_SHORT)
