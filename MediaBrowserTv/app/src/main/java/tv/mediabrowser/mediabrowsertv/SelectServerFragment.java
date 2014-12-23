@@ -108,6 +108,7 @@ public class SelectServerFragment extends StdBrowseFragment {
                         break;
                     case LOGIN_CONNECT:
                         Intent intent = new Intent(getActivity(), ConnectActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         startActivity(intent);
                         break;
 
