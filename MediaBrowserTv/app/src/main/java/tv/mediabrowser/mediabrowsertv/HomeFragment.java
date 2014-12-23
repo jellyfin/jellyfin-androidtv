@@ -111,9 +111,7 @@ public class HomeFragment extends StdBrowseFragment {
                     mApiClient.Logout(new EmptyResponse() {
                         @Override
                         public void onResponse() {
-                            super.onResponse();
-                            Intent intent = new Intent(getActivity(), StartupActivity.class);
-                            startActivity(intent);
+                            getActivity().finish();
                         }
                     });
                 } else
