@@ -1,6 +1,8 @@
 package tv.mediabrowser.mediabrowsertv;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -11,24 +13,70 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.Button;
 import android.widget.TextView;
 
 import mediabrowser.apiinteraction.IConnectionManager;
+import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.connectionmanager.ConnectionManager;
+import mediabrowser.model.connect.PinCreationResult;
+import mediabrowser.model.connect.PinExchangeResult;
+import mediabrowser.model.connect.PinStatusResult;
 
 
 public class ConnectActivity extends Activity {
+
+    PinCreationResult pinResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_connect);
 
-        IConnectionManager connectionManager = ((TvApp) getApplicationContext()).getConnectionManager();
+        final IConnectionManager connectionManager = ((TvApp) getApplicationContext()).getConnectionManager();
 
+        connectionManager.CreatePin(Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID), new Response<PinCreationResult>() {
+            @Override
+            public void onResponse(PinCreationResult response) {
+                pinResult = response;
+                TextView pin = (TextView) findViewById(R.id.textViewPin);
+                pin.setText(response.getPin());
+            }
+        });
 
-        TextView pin = (TextView) findViewById(R.id.textViewPin);
-        pin.setText("34545");
+        Button next = (Button) findViewById(R.id.buttonNext);
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                connectionManager.GetPinStatus(pinResult, new Response<PinStatusResult>() {
+                    @Override
+                    public void onResponse(PinStatusResult response) {
+                        if (response.getIsConfirmed()) {
+                            //Exchange and login
+                            connectionManager.ExchangePin(pinResult, new Response<PinExchangeResult>() {
+                                @Override
+                                public void onResponse(PinExchangeResult response) {
+                                    //Re-startup which should get proper connect info as signed in
+                                    Intent startup = new Intent(TvApp.getApplication(), StartupActivity.class);
+                                    startup.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                    startActivity(startup);
+                                }
+                            });
+                        } else {
+                            Utils.showToast(TvApp.getApplication(), "Please confirm the above pin at mediabrowser.tv/pin");
+                        }
+                    }
+                });
+            }
+        });
+
+        Button skip = (Button) findViewById(R.id.buttonSkip);
+        skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
@@ -46,5 +94,7 @@ public class ConnectActivity extends Activity {
             View rootView = inflater.inflate(R.layout.fragment_connect, container, false);
             return rootView;
         }
+
+
     }
 }

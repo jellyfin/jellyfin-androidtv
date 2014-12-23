@@ -78,8 +78,7 @@ public class StartupActivity extends Activity {
                         break;
                     case ServerSignIn:
                         logger.Debug("Sign in with server "+ response.getServers().get(0).getName() + " total: " + response.getServers().size());
-                        Utils.signInToServer(connectionManager, "eric-office:8096", activity);
-
+                        Utils.signInToServer(connectionManager, response.getServers().get(0).getLocalAddress(), activity);
                         break;
                     case SignedIn:
                         logger.Debug("Already signed in");
@@ -96,7 +95,7 @@ public class StartupActivity extends Activity {
                         logger.Debug("Select A server");
                         Intent serverIntent = new Intent(activity, SelectServerActivity.class);
                         GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
-                        List<String> payload = new ArrayList<String>();
+                        List<String> payload = new ArrayList<>();
                         for (ServerInfo server : response.getServers()) {
                             payload.add(serializer.SerializeToString(server));
                         }
