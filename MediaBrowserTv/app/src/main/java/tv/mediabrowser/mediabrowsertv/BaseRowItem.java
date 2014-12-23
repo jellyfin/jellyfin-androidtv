@@ -113,7 +113,7 @@ public class BaseRowItem {
             case Server:
                 return serverInfo.getLocalAddress().substring(7);
             case User:
-                return DateUtils.getRelativeTimeSpanString(user.getLastActivityDate().getTime()).toString();
+                return DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(user.getLastActivityDate()).getTime()).toString();
         }
 
         return "";

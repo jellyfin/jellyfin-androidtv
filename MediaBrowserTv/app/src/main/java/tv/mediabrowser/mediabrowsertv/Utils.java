@@ -26,6 +26,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.TimeZone;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.ConnectionResult;
@@ -576,6 +577,26 @@ public class Utils {
 
         }
 
+    }
+
+    public static Date convertToLocalDate(Date utcDate) {
+
+
+        TimeZone timeZone = Calendar.getInstance().getTimeZone();
+        Date convertedDate = new Date( utcDate.getTime() + timeZone.getRawOffset() );
+
+
+        if ( timeZone.inDaylightTime(convertedDate) ) {
+            Date dstDate = new Date( convertedDate.getTime() + timeZone.getDSTSavings() );
+
+
+            if (timeZone.inDaylightTime( dstDate )) {
+                convertedDate = dstDate;
+            }
+        }
+
+
+        return convertedDate;
     }
     /**
      * Returns a pseudo-random number between min and max, inclusive.
