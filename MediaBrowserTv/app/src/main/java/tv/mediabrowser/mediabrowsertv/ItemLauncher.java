@@ -1,15 +1,20 @@
 package tv.mediabrowser.mediabrowsertv;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.text.InputType;
+import android.widget.EditText;
 
 import mediabrowser.apiinteraction.ConnectionResult;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.dto.UserDto;
 
 /**
  * Created by Eric on 12/21/2014.
@@ -134,8 +139,31 @@ public class ItemLauncher {
                         activity.startActivity(userIntent);
                     }
                 });
-
                 break;
+
+            case User:
+                final UserDto user = rowItem.getUser();
+                if (user.getHasPassword()) {
+                    final EditText password = new EditText(activity);
+                    password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    new AlertDialog.Builder(activity)
+                            .setTitle("Enter Password")
+                            .setMessage("Please enter password for " + user.getName())
+                            .setView(password)
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    // Do nothing.
+                                }
+                            }).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            String pw = password.getText().toString();
+                            Utils.loginUser(user.getName(), pw, application.getLoginApiClient(), activity);
+                        }
+                    }).show();
+
+                } else {
+                    Utils.loginUser(user.getName(), "", application.getLoginApiClient(), activity);
+                }
         }
 
     }

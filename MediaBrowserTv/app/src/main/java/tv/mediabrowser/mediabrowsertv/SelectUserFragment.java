@@ -1,5 +1,7 @@
 package tv.mediabrowser.mediabrowsertv;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,8 +12,10 @@ import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +32,8 @@ import mediabrowser.model.apiclient.ServerInfo;
 public class SelectUserFragment extends StdBrowseFragment {
     private static final int GRID_ITEM_WIDTH = 200;
     private static final int GRID_ITEM_HEIGHT = 200;
+    private static final int ENTER_MANUALLY = 0;
+    private static final int LOGIN_CONNECT = 1;
     private ServerInfo mServer;
 
     @Override
@@ -55,8 +61,8 @@ public class SelectUserFragment extends StdBrowseFragment {
 
         GridItemPresenter mGridPresenter = new GridItemPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add("Enter Manually");
-        gridRowAdapter.add("Login with Connect");
+        gridRowAdapter.add(new GridButton(ENTER_MANUALLY, "Enter Manually"));
+        gridRowAdapter.add(new GridButton(LOGIN_CONNECT, "Login with Connect"));
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
 
@@ -71,25 +77,16 @@ public class SelectUserFragment extends StdBrowseFragment {
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
-            if (item instanceof String) {
-                if (((String) item).indexOf(getString(R.string.error_fragment)) >= 0) {
-                    Intent intent = new Intent(getActivity(), BrowseErrorActivity.class);
-                    intent.putExtra("Message", "Test Error");
-                    startActivity(intent);
-                } else if (((String) item).indexOf("Logout ") >= 0) {
-                    mApiClient = TvApp.getApplication().getConnectionManager().GetApiClient(TvApp.getApplication().getCurrentUser());
-                    mApiClient.Logout(new EmptyResponse() {
-                        @Override
-                        public void onResponse() {
-                            super.onResponse();
-                            Intent intent = new Intent(getActivity(), StartupActivity.class);
-                            startActivity(intent);
-                        }
-                    });
-                } else
-                {
-                    Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT)
-                            .show();
+            if (item instanceof GridButton) {
+                switch (((GridButton) item).getId()) {
+                    case ENTER_MANUALLY:
+                        // Manual login
+                    case LOGIN_CONNECT:
+
+                    default:
+                        Toast.makeText(getActivity(), item.toString(), Toast.LENGTH_SHORT)
+                                .show();
+                        break;
                 }
             }
         }
@@ -110,7 +107,7 @@ public class SelectUserFragment extends StdBrowseFragment {
 
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, Object item) {
-            ((TextView) viewHolder.view).setText((String) item);
+            ((TextView) viewHolder.view).setText(item.toString());
         }
 
         @Override

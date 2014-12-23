@@ -58,6 +58,7 @@ public class BaseRowItem {
     public BaseItemPerson getPerson() { return person; }
     public ChapterInfoDto getChapterInfo() { return chapterInfo; }
     public ServerInfo getServerInfo() { return serverInfo; }
+    public UserDto getUser() { return user; }
 
     public boolean getIsChapter() { return type == ItemType.Chapter; }
     public boolean getIsPerson() { return type == ItemType.Person; }
