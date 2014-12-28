@@ -93,14 +93,19 @@ public class StartupActivity extends Activity {
                         break;
                     case ServerSelection:
                         logger.Debug("Select A server");
-                        Intent serverIntent = new Intent(activity, SelectServerActivity.class);
-                        GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
-                        List<String> payload = new ArrayList<>();
-                        for (ServerInfo server : response.getServers()) {
-                            payload.add(serializer.SerializeToString(server));
-                        }
-                        serverIntent.putExtra("Servers", payload.toArray(new String[payload.size()]));
-                        startActivity(serverIntent);
+                        connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>(){
+                            @Override
+                            public void onResponse(ArrayList<ServerInfo> serverResponse) {
+                                Intent serverIntent = new Intent(activity, SelectServerActivity.class);
+                                GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
+                                List<String> payload = new ArrayList<>();
+                                for (ServerInfo server : serverResponse) {
+                                    payload.add(serializer.SerializeToString(server));
+                                }
+                                serverIntent.putExtra("Servers", payload.toArray(new String[payload.size()]));
+                                startActivity(serverIntent);
+                            }
+                        });
                         break;
                 }
             }
