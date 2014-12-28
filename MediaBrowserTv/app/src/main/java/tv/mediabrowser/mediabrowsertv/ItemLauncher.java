@@ -30,15 +30,31 @@ public class ItemLauncher {
                 //specialized type handling
                 switch (baseItem.getType()) {
                     case "UserView":
-                        // open user view browsing
-                        Intent intent = new Intent(activity, UserViewActivity.class);
-                        intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+                        switch (baseItem.getCollectionType()) {
+                            case "movies":
+                            case "tvshows":
+                            case "music":
+                                // open user view browsing
+                                Intent intent = new Intent(activity, UserViewActivity.class);
+                                intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
 
-                        Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                activity,
-                                ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                                DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                        activity.startActivity(intent, bundle);
+                                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                        activity,
+                                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                                activity.startActivity(intent, bundle);
+                                break;
+                            default:
+                                // open generic folder browsing
+                                Intent folderIntent = new Intent(activity, GenericFolderActivity.class);
+                                folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+
+                                Bundle folderBundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                        activity,
+                                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                                activity.startActivity(folderIntent, folderBundle);
+                        }
                         return;
                     case "Series":
                         //Retrieve series for details display
