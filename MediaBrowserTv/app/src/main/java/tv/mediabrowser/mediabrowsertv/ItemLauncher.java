@@ -131,12 +131,34 @@ public class ItemLauncher {
                 application.getConnectionManager().Connect(rowItem.getServerInfo(), new Response<ConnectionResult>() {
                     @Override
                     public void onResponse(ConnectionResult response) {
-                        //Set api client for login
-                        TvApp.getApplication().setLoginApiClient(response.getApiClient());
-                        //Open user selection
-                        Intent userIntent = new Intent(activity, SelectUserActivity.class);
-                        userIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        activity.startActivity(userIntent);
+                        switch (response.getState()) {
+
+                            case Unavailable:
+                                Utils.showToast(activity, "Server unavailable");
+                                break;
+                            case SignedIn:
+                                response.getApiClient().GetUserAsync(response.getApiClient().getCurrentUserId(), new Response<UserDto>() {
+                                    @Override
+                                    public void onResponse(UserDto response) {
+                                        application.setCurrentUser(response);
+                                        Intent intent = new Intent(activity, MainActivity.class);
+                                        activity.startActivity(intent);
+                                    }
+                                });
+                                break;
+                            case ServerSignIn:
+                                //Set api client for login
+                                TvApp.getApplication().setLoginApiClient(response.getApiClient());
+                                //Open user selection
+                                Intent userIntent = new Intent(activity, SelectUserActivity.class);
+                                userIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                activity.startActivity(userIntent);
+                                break;
+                            case ConnectSignIn:
+                            case ServerSelection:
+                                Utils.showToast(activity, "Unexpected response from server connect: "+response.getState());
+                                break;
+                        }
                     }
                 });
                 break;
