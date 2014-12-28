@@ -128,9 +128,11 @@ public class ItemLauncher {
                 break;
             case Server:
                 //Connect to the selected server
+                final DelayedMessage message = new DelayedMessage(activity);
                 application.getConnectionManager().Connect(rowItem.getServerInfo(), new Response<ConnectionResult>() {
                     @Override
                     public void onResponse(ConnectionResult response) {
+                        message.Cancel();
                         switch (response.getState()) {
 
                             case Unavailable:
