@@ -22,10 +22,20 @@ public class CollectionFragment extends BrowseFolderFragment {
     @Override
     protected void setupQueries(IRowLoader rowLoader) {
 
-        StdItemQuery byDate = new StdItemQuery();
-        byDate.setParentId(mFolder.getId());
-        byDate.setSortBy(new String[]{ItemSortBy.PremiereDate});
-        mRows.add(new BrowseRowDef("By Release", byDate, 100));
+        StdItemQuery movies = new StdItemQuery();
+        movies.setParentId(mFolder.getId());
+        movies.setIncludeItemTypes(new String[] {"Movie"});
+        mRows.add(new BrowseRowDef("Movies", movies, 100));
+
+        StdItemQuery series = new StdItemQuery();
+        series.setParentId(mFolder.getId());
+        series.setIncludeItemTypes(new String[]{"Series"});
+        mRows.add(new BrowseRowDef("TV Series", series, 100));
+
+        StdItemQuery others = new StdItemQuery();
+        others.setParentId(mFolder.getId());
+        others.setExcludeItemTypes(new String[]{"Movie","Series"});
+        mRows.add(new BrowseRowDef("Other", others, 100));
 
         setHeadersState(HEADERS_DISABLED);
 
