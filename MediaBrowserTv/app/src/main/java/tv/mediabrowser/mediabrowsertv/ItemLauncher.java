@@ -38,22 +38,13 @@ public class ItemLauncher {
                                 Intent intent = new Intent(activity, UserViewActivity.class);
                                 intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
 
-                                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                        activity,
-                                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                                activity.startActivity(intent, bundle);
+                                activity.startActivity(intent);
                                 break;
                             default:
                                 // open generic folder browsing
                                 Intent folderIntent = new Intent(activity, GenericFolderActivity.class);
                                 folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
-
-                                Bundle folderBundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                        activity,
-                                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                                activity.startActivity(folderIntent, folderBundle);
+                                activity.startActivity(folderIntent);
                         }
                         return;
                     case "Series":
@@ -78,6 +69,14 @@ public class ItemLauncher {
                                 exception.printStackTrace();
                             }
                         });
+                        return;
+
+                    case "BoxSet":
+                        // open collection browsing
+                        Intent collectionIntent = new Intent(activity, CollectionActivity.class);
+                        collectionIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+
+                        activity.startActivity(collectionIntent);
                         return;
 
                 }

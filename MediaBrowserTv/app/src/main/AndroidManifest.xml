@@ -53,6 +53,7 @@
         <activity android:name=".GenericFolderActivity"></activity>
         <activity android:name=".UserViewActivity"></activity>
         <activity android:name=".SelectServerActivity"></activity>
+        <activity android:name=".CollectionActivity"></activity>
     </application>
 
 </manifest>
