@@ -5,7 +5,15 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.media.session.MediaController;
@@ -168,6 +176,21 @@ public class Utils {
     public static int convertDpToPixel(Context ctx, int dp) {
         float density = ctx.getResources().getDisplayMetrics().density;
         return Math.round((float) dp * density);
+    }
+
+    public static Drawable writeOnDrawable(Resources resources, int drawableId, String text){
+
+        Bitmap bm = BitmapFactory.decodeResource(resources, drawableId).copy(Bitmap.Config.ARGB_8888, true);
+
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(30);
+
+        Canvas canvas = new Canvas(bm);
+        canvas.drawText(text, 0, bm.getHeight()/2, paint);
+
+        return new BitmapDrawable(resources, bm);
     }
 
     private static String[] ThumbFallbackTypes = new String[] {"Episode"};

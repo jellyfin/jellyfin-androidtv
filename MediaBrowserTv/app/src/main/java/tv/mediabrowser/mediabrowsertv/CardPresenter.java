@@ -30,13 +30,13 @@ public class CardPresenter extends Presenter {
         private int cardWidth = 230;
         private int cardHeight = 300;
         private BaseRowItem mItem;
-        private ImageCardView mCardView;
+        private MyImageCardView mCardView;
         private Drawable mDefaultCardImage;
         private PicassoImageCardViewTarget mImageCardViewTarget;
 
         public ViewHolder(View view) {
             super(view);
-            mCardView = (ImageCardView) view;
+            mCardView = (MyImageCardView) view;
 
             mImageCardViewTarget = new PicassoImageCardViewTarget(mCardView);
             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.video);
@@ -122,7 +122,7 @@ public class CardPresenter extends Presenter {
         //Log.d(TAG, "onCreateViewHolder");
         mContext = parent.getContext();
 
-        ImageCardView cardView = new ImageCardView(mContext);
+        MyImageCardView cardView = new MyImageCardView(mContext);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
         cardView.setBackgroundColor(mContext.getResources().getColor(R.color.lb_basic_card_info_bg_color));
@@ -139,8 +139,11 @@ public class CardPresenter extends Presenter {
         //Log.d(TAG, "onBindViewHolder");
         ((ViewHolder) viewHolder).mCardView.setTitleText(rowItem.getFullName());
         ((ViewHolder) viewHolder).mCardView.setContentText(rowItem.getSubText());
-        //((ViewHolder) viewHolder).mCardView.setBadgeImage(mContext.getResources().getDrawable(
-        //        R.drawable.videos_by_google_icon));
+        Drawable badge = rowItem.getBadgeImage();
+        if (badge != null) {
+            ((ViewHolder) viewHolder).mCardView.setBadgeImage(badge);
+
+        }
 
         ((ViewHolder) viewHolder).updateCardViewImage(rowItem.getPrimaryImageUrl());
 
