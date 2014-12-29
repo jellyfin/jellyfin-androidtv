@@ -1,5 +1,6 @@
 package tv.mediabrowser.mediabrowsertv;
 
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.format.DateUtils;
 
@@ -124,6 +125,30 @@ public class BaseRowItem {
             case BaseItem:
                 return Utils.getBackdropImageUrl(baseItem, TvApp.getApplication().getConnectionManager().GetApiClient(baseItem), true);
 
+        }
+
+        return null;
+    }
+
+    public Drawable getBadgeImage() {
+        switch (type) {
+
+            case BaseItem:
+                if (baseItem.getCriticRating() != null) {
+                    return baseItem.getCriticRating() > 59 ? TvApp.getApplication().getDrawable(R.drawable.fresh) : TvApp.getApplication().getDrawable(R.drawable.rotten);
+                }
+                break;
+            case Person:
+                break;
+            case Server:
+                break;
+            case User:
+                if (user.getHasPassword()) {
+                    return TvApp.getApplication().getDrawable(R.drawable.lock);
+                }
+                break;
+            case Chapter:
+                break;
         }
 
         return null;
