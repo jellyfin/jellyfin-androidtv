@@ -147,6 +147,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
             switch (mBaseItem.getType()) {
                 case "Person":
+                case "Photo":
                     break;
                 default:
                     if (mBaseItem.getIsFolder()) {
