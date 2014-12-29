@@ -67,13 +67,13 @@ public class HomeFragment extends StdBrowseFragment {
         nextUpQuery.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
         mRows.add(new BrowseRowDef("Next Up TV", nextUpQuery));
 
-        StdItemQuery latestMusic = new StdItemQuery();
-        latestMusic.setIncludeItemTypes(new String[]{"MusicAlbum"});
-        latestMusic.setRecursive(true);
-        latestMusic.setLimit(50);
-        latestMusic.setSortBy(new String[]{ItemSortBy.DateCreated});
-        latestMusic.setSortOrder(SortOrder.Descending);
-        mRows.add(new BrowseRowDef("Latest Albums", latestMusic, 0));
+//        StdItemQuery latestMusic = new StdItemQuery();
+//        latestMusic.setIncludeItemTypes(new String[]{"MusicAlbum"});
+//        latestMusic.setRecursive(true);
+//        latestMusic.setLimit(50);
+//        latestMusic.setSortBy(new String[]{ItemSortBy.DateCreated});
+//        latestMusic.setSortOrder(SortOrder.Descending);
+//        mRows.add(new BrowseRowDef("Latest Albums", latestMusic, 0));
 
         rowLoader.loadRows(mRows);
     }

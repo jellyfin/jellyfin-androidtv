@@ -4,6 +4,7 @@ import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.Presenter;
 
+import java.util.Arrays;
 import java.util.List;
 
 import mediabrowser.apiinteraction.Response;
@@ -240,6 +241,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         currentlyRetrieving = false;
     }
 
+    private static String[] ignoreTypes = new String[] {"music","books","games"};
+    private static List<String> ignoreTypeList = Arrays.asList(ignoreTypes);
+
     private void RetrieveViews() {
         final ItemRowAdapter adapter = this;
         UserDto user = TvApp.getApplication().getCurrentUser();
@@ -249,7 +253,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++,item));
+                        if (!ignoreTypeList.contains(item.getCollectionType())) adapter.add(new BaseRowItem(i++,item));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);

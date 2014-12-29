@@ -79,6 +79,10 @@ public class ItemLauncher {
                         activity.startActivity(collectionIntent);
                         return;
 
+                    case "Playlist":
+                        // not sure how to handle these yet
+                        return;
+
                 }
 
                 // or generic handling
