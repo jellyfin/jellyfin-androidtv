@@ -78,7 +78,7 @@ public class StartupActivity extends Activity {
                         break;
                     case ServerSignIn:
                         logger.Debug("Sign in with server "+ response.getServers().get(0).getName() + " total: " + response.getServers().size());
-                        Utils.signInToServer(connectionManager, response.getServers().get(0).getLocalAddress(), activity);
+                        Utils.signInToServer(connectionManager, response.getServers().get(0), activity);
                         break;
                     case SignedIn:
                         logger.Debug("Already signed in");
