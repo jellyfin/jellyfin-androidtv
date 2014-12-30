@@ -43,6 +43,7 @@ import mediabrowser.apiinteraction.IConnectionManager;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
+import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dlna.StreamBuilder;
 import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dlna.VideoOptions;
@@ -640,6 +641,26 @@ public class Utils {
         int randomNum = rand.nextInt((max - min) + 1) + min;
 
         return randomNum;
+    }
+
+    public static void signInToServer(IConnectionManager connectionManager, ServerInfo server, final Activity activity) {
+        connectionManager.Connect(server, new Response<ConnectionResult>() {
+            @Override
+            public void onResponse(ConnectionResult serverResult) {
+                switch (serverResult.getState()) {
+                    case ServerSignIn:
+                        //Set api client for login
+                        TvApp.getApplication().setLoginApiClient(serverResult.getApiClient());
+                        //Open user selection
+                        Intent userIntent = new Intent(activity, SelectUserActivity.class);
+                        userIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        activity.startActivity(userIntent);
+                        break;
+                }
+            }
+
+
+        });
     }
 
     public static void signInToServer(IConnectionManager connectionManager, String address, final Activity activity) {
