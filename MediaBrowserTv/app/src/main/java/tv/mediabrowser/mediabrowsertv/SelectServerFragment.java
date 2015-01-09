@@ -88,24 +88,7 @@ public class SelectServerFragment extends StdBrowseFragment {
             if (item instanceof GridButton) {
                 switch (((GridButton) item).getId()) {
                     case ENTER_MANUALLY:
-                        final EditText address = new EditText(getActivity());
-                        address.setHint("IP Address or full domain name");
-                        address.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
-                        new AlertDialog.Builder(getActivity())
-                                .setTitle("Enter Server Address")
-                                .setMessage("Please enter a valid server address")
-                                .setView(address)
-                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        // Do nothing.
-                                    }
-                                }).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                String addressValue = address.getText().toString();
-                                TvApp.getApplication().getLogger().Debug("Entered address: " + addressValue);
-                                Utils.signInToServer(TvApp.getApplication().getConnectionManager(), addressValue + ":8096", getActivity());
-                            }
-                        }).show();
+                        Utils.EnterManualServerAddress(getActivity());
                         break;
                     case LOGIN_CONNECT:
                         Intent intent = new Intent(getActivity(), ConnectActivity.class);

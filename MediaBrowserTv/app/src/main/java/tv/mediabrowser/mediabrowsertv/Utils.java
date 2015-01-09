@@ -17,10 +17,12 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.media.session.MediaController;
+import android.text.InputType;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.view.Display;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -581,6 +583,28 @@ public class Utils {
             userData.setLastPlayedDate(new Date());
             userData.setPlaybackPositionTicks(pos);
         }
+
+    }
+
+    public static void EnterManualServerAddress(final Activity activity) {
+        final EditText address = new EditText(activity);
+        address.setHint("IP Address or full domain name");
+        address.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
+        new AlertDialog.Builder(activity)
+                .setTitle("Enter Server Address")
+                .setMessage("Please enter a valid server address")
+                .setView(address)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Do nothing.
+                    }
+                }).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String addressValue = address.getText().toString();
+                TvApp.getApplication().getLogger().Debug("Entered address: " + addressValue);
+                signInToServer(TvApp.getApplication().getConnectionManager(), addressValue + ":8096", activity);
+            }
+        }).show();
 
     }
 
