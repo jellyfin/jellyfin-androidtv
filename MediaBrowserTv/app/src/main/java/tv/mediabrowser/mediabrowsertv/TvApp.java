@@ -12,11 +12,18 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.serialization.IJsonSerializer;
+import org.acra.*;
+import org.acra.annotation.*;
 
 /**
  * Created by Eric on 11/24/2014.
  */
-public class TvApp extends Application {
+
+
+@ReportsCrashes(
+        formKey = "", // This is required for backward compatibility but not used
+        formUri = "http://mb3admin.com/admin/crashreports/submit.php"
+)public class TvApp extends Application {
 
     private ILogger logger;
     private IConnectionManager connectionManager;
@@ -32,15 +39,14 @@ public class TvApp extends Application {
         super.onCreate();
         logger = new ConsoleLogger();
         app = (TvApp)getApplicationContext();
+
+        ACRA.init(this);
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread thread, Throwable ex) {
                 Log.e("MediaBrowserTv", "Uncaught exception is: ", ex);
                 ex.printStackTrace();
-                Intent intent = new Intent(app, BrowseErrorActivity.class);
-                intent.putExtra("Message", ex.getMessage());
-                intent.putExtra("Shutdown", true);
-                startActivity(intent);
+                ACRA.getErrorReporter().handleException(ex, true);
 
             }
                  });
