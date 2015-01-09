@@ -51,7 +51,7 @@ public class PlayerActivity extends Activity {
     private Timer mControllersTimer;
     private PlaybackState mPlaybackState;
     private final Handler mHandler = new Handler();
-    private Movie mSelectedMovie;
+    //private Movie mSelectedMovie;
     private boolean mShouldStartPlayback;
     private boolean mControlersVisible;
     private int mDuration;
@@ -81,11 +81,11 @@ public class PlayerActivity extends Activity {
 
     private void startVideoPlayer() {
         Bundle b = getIntent().getExtras();
-        mSelectedMovie = (Movie) getIntent().getSerializableExtra(getResources().getString(R.string.movie));
+        //mSelectedMovie = (Movie) getIntent().getSerializableExtra(getResources().getString(R.string.movie));
         if (null != b) {
             mShouldStartPlayback = b.getBoolean("ShouldStart");
             int startPosition = b.getInt(getResources().getString(R.string.start_position), 0);
-            mVideoView.setVideoPath(mSelectedMovie.getVideoUrl());
+            //mVideoView.setVideoPath(mSelectedMovie.getVideoUrl());
             if (mShouldStartPlayback) {
                 mPlaybackState = PlaybackState.PLAYING;
                 updatePlayButton(mPlaybackState);
@@ -235,7 +235,7 @@ public class PlayerActivity extends Activity {
                 @Override
                 public void run() {
                     Intent intent = new Intent(PlayerActivity.this, DetailsActivity.class);
-                    intent.putExtra(getResources().getString(R.string.movie), mSelectedMovie);
+                    //intent.putExtra(getResources().getString(R.string.movie), mSelectedMovie);
                     startActivity(intent);
                 }
             });
