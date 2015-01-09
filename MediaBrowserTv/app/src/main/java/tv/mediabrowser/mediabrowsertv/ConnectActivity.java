@@ -34,6 +34,7 @@ public class ConnectActivity extends Activity {
         setContentView(R.layout.fragment_connect);
 
         final IConnectionManager connectionManager = ((TvApp) getApplicationContext()).getConnectionManager();
+        final Activity activity = this;
 
         connectionManager.CreatePin(Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID), new Response<PinCreationResult>() {
             @Override
@@ -70,11 +71,19 @@ public class ConnectActivity extends Activity {
             }
         });
 
-        Button skip = (Button) findViewById(R.id.buttonSkip);
-        skip.setOnClickListener(new View.OnClickListener() {
+        Button cancel = (Button) findViewById(R.id.buttonSkip);
+        cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        Button manual = (Button) findViewById(R.id.buttonManual);
+        manual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.EnterManualServerAddress(activity);
             }
         });
 

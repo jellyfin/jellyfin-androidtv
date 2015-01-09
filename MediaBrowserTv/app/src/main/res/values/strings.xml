@@ -43,5 +43,7 @@
     <string name="video_error_server_inaccessible">Server Inaccessible</string>
     <string name="error_fragment">Error Fragment</string>
     <string name="home_title">Home</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_manually">Enter Server Address</string>
 
 </resources>

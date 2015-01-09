@@ -60,19 +60,17 @@
         android:clickable="true"
         android:focusable="true"
         android:enabled="true"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/textViewPin"
-        android:layout_marginBottom="46dp" />
+        android:layout_marginStart="74dp"
+        android:layout_alignBottom="@+id/textViewMessage"
+        android:layout_toEndOf="@+id/textViewPin" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btn_skip"
+        android:text="@string/btn_cancel"
         android:id="@+id/buttonSkip"
-        android:layout_alignTop="@+id/buttonNext"
-        android:layout_alignEnd="@+id/imageView"
-        android:layout_marginEnd="50dp"
-        android:hint="@string/btn_skip_hint" />
+        android:layout_alignBottom="@+id/textViewMessage"
+        android:layout_toEndOf="@+id/buttonManual" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -80,8 +78,16 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/textViewMessage"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/buttonNext"
-        android:layout_alignEnd="@+id/buttonSkip" />
+        android:layout_alignEnd="@+id/buttonSkip"
+        android:layout_marginBottom="37dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_manually"
+        android:id="@+id/buttonManual"
+        android:layout_alignTop="@+id/buttonNext"
+        android:layout_toEndOf="@+id/buttonNext" />
 
 
 </RelativeLayout>
