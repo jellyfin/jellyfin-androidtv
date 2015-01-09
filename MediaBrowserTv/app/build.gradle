@@ -10,7 +10,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 21
         versionCode 1
-        versionName "1.0"
+        versionName "0.0.2"
     }
 
     compileOptions {
@@ -27,6 +27,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'ch.acra:acra:4.5.0'
     compile 'com.android.support:recyclerview-v7:21.0.2'
     compile 'com.android.support:leanback-v17:21.0.2'
     compile 'com.android.support:appcompat-v7:21.0.2'
