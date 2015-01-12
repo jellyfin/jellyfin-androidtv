@@ -177,12 +177,12 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                     mPlaybackController.skip(-11000);
                 } else if (action.getId() == mThumbsUpAction.getId()) {
                     //toggle likes
-                    ((PlaybackControlsRow.MultiAction)action).nextIndex();
-                    //updateLikes(mThumbsUpAction.getIndex() == mThumbsUpAction.OUTLINE ? true : null);
+                    updateLikes(mPlaybackController.getCurrentlyPlayingItem().getUserData().getLikes() == null ? true : null);
+                    mThumbsDownAction.setIndex(mThumbsDownAction.OUTLINE);
                 } else if (action.getId() == mThumbsDownAction.getId()) {
                     //toggle dislikes
-                    ((PlaybackControlsRow.MultiAction)action).nextIndex();
-                    //updateLikes(mThumbsDownAction.getIndex() == mThumbsDownAction.OUTLINE ? false : null);
+                    updateLikes(mPlaybackController.getCurrentlyPlayingItem().getUserData().getLikes());
+                    mThumbsUpAction.setIndex(mThumbsUpAction.OUTLINE);
                 }
 //                } else if (action.getId() == mSubtitleAction.getId()) {
 //                    setFadingEnabled(false);
@@ -230,17 +230,32 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     }
 
     private void updateLikes(Boolean likes) {
-        mApplication.getApiClient().UpdateUserItemRatingAsync(mPlaybackController.getCurrentlyPlayingItem().getId(), mApplication.getCurrentUser().getId(), likes, new Response<UserItemDataDto>() {
-            @Override
-            public void onResponse(UserItemDataDto response) {
-                mPlaybackController.getCurrentlyPlayingItem().setUserData(response);
-            }
+        if (likes == null) {
+            mApplication.getApiClient().ClearUserItemRatingAsync(mPlaybackController.getCurrentlyPlayingItem().getId(), mApplication.getCurrentUser().getId(), new Response<UserItemDataDto>() {
+                @Override
+                public void onResponse(UserItemDataDto response) {
+                    mPlaybackController.getCurrentlyPlayingItem().setUserData(response);
+                }
 
-            @Override
-            public void onError(Exception exception) {
-                exception.printStackTrace();
-            }
-        });
+                @Override
+                public void onError(Exception exception) {
+                    exception.printStackTrace();
+                }
+            });
+
+        } else {
+            mApplication.getApiClient().UpdateUserItemRatingAsync(mPlaybackController.getCurrentlyPlayingItem().getId(), mApplication.getCurrentUser().getId(), likes, new Response<UserItemDataDto>() {
+                @Override
+                public void onResponse(UserItemDataDto response) {
+                    mPlaybackController.getCurrentlyPlayingItem().setUserData(response);
+                }
+
+                @Override
+                public void onError(Exception exception) {
+                    exception.printStackTrace();
+                }
+            });
+        }
 
     }
 
@@ -279,16 +294,18 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         mThumbsDownAction = new ThumbsDownAction(sContext);
         BaseItemDto firstItem = mItemsToPlay.get(0);
         UserItemDataDto userData = firstItem.getUserData();
-        if (userData != null) {
-            mThumbsDownAction.setIndex(ThumbsDownAction.OUTLINE);
-            mThumbsUpAction.setIndex(ThumbsUpAction.OUTLINE);
-        } else if (userData.getLikes()) {
-            mThumbsUpAction.setIndex(ThumbsUpAction.SOLID);
-            mThumbsDownAction.setIndex(ThumbsDownAction.OUTLINE);
-        } else {
-            mThumbsDownAction.setIndex(ThumbsDownAction.SOLID);
-            mThumbsUpAction.setIndex(ThumbsUpAction.OUTLINE);
+        mThumbsDownAction.setIndex(ThumbsDownAction.OUTLINE);
+        mThumbsUpAction.setIndex(ThumbsUpAction.OUTLINE);
+        if (userData != null && userData.getLikes() != null) {
+            if (userData.getLikes()) {
+                mThumbsUpAction.setIndex(ThumbsUpAction.SOLID);
+                mThumbsDownAction.setIndex(ThumbsDownAction.OUTLINE);
+            } else {
+                mThumbsDownAction.setIndex(ThumbsDownAction.SOLID);
+                mThumbsUpAction.setIndex(ThumbsUpAction.OUTLINE);
+            }
         }
+
 
 //        mSubtitleAction = new Action(999, null, null, getActivity().getResources().getDrawable(R.drawable.subt));
         mSkipNextAction = new PlaybackControlsRow.SkipNextAction(sContext);
