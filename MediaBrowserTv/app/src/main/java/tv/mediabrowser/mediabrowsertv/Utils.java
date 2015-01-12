@@ -26,6 +26,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import org.acra.ACRA;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.security.NoSuchAlgorithmException;
@@ -730,6 +732,15 @@ public class Utils {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void PutCustomAcraData() {
+        TvApp app = TvApp.getApplication();
+        ApiClient apiClient = app.getApiClient();
+        if (app != null && apiClient != null) {
+            if (app.getCurrentUser() != null) ACRA.getErrorReporter().putCustomData("mbUser", app.getCurrentUser().getName());
+            ACRA.getErrorReporter().putCustomData("serverInfo", app.getSerializer().SerializeToString(apiClient.getServerInfo()));
         }
     }
 
