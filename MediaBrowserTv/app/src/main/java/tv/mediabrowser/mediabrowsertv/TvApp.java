@@ -14,6 +14,7 @@ import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.serialization.IJsonSerializer;
 import org.acra.*;
 import org.acra.annotation.*;
+import org.acra.sender.HttpSender;
 
 /**
  * Created by Eric on 11/24/2014.
@@ -22,8 +23,13 @@ import org.acra.annotation.*;
 
 @ReportsCrashes(
         formKey = "", // This is required for backward compatibility but not used
-        formUri = "http://mb3admin.com/admin/crashreports/submit.php"
-)public class TvApp extends Application {
+        httpMethod = HttpSender.Method.PUT,
+        reportType = HttpSender.Type.JSON,
+        formUri = "https://embi.couchappy.com/acra-androidtv/_design/acra-storage/_update/report",
+        formUriBasicAuthLogin = "atvreporter",
+        formUriBasicAuthPassword = "bumblebee+")
+
+public class TvApp extends Application {
 
     private ILogger logger;
     private IConnectionManager connectionManager;
@@ -46,6 +52,7 @@ import org.acra.annotation.*;
             public void uncaughtException(Thread thread, Throwable ex) {
                 Log.e("MediaBrowserTv", "Uncaught exception is: ", ex);
                 ex.printStackTrace();
+                Utils.PutCustomAcraData();
                 ACRA.getErrorReporter().handleException(ex, true);
 
             }
