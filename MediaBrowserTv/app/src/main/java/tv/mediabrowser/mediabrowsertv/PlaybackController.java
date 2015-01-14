@@ -155,13 +155,27 @@ public class PlaybackController {
     public void switchAudioStream(int index) {
         if (!isPlaying()) return;
 
-        stopReportLoop();
-        stopProgressAutomation();
         mSpinner.setVisibility(View.VISIBLE);
         spinnerOff = false;
         mCurrentOptions.setAudioStreamIndex(index);
+        TvApp.getApplication().getLogger().Debug("Setting audio index to: " + index);
         mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
+        stop();
         mCurrentStreamInfo = playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mVideoView, mCurrentOptions);
+        mPlaybackState = PlaybackState.PLAYING;
+    }
+
+    public void switchSubtitleStream(int index) {
+        if (!isPlaying()) return;
+
+        mSpinner.setVisibility(View.VISIBLE);
+        spinnerOff = false;
+        mCurrentOptions.setSubtitleStreamIndex(index >= 0 ? index : null);
+        TvApp.getApplication().getLogger().Debug("Setting subtitle index to: " + index);
+        mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
+        stop();
+        mCurrentStreamInfo = playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mVideoView, mCurrentOptions);
+        mPlaybackState = PlaybackState.PLAYING;
     }
 
     public void pause() {
@@ -177,6 +191,7 @@ public class PlaybackController {
         if (mPlaybackState != PlaybackState.IDLE) {
             mPlaybackState = PlaybackState.IDLE;
             stopReportLoop();
+            stopProgressAutomation();
             Long mbPos = (long)mCurrentPosition * 10000;
             Utils.Stop(getCurrentlyPlayingItem(), mbPos);
             mVideoView.stopPlayback();
