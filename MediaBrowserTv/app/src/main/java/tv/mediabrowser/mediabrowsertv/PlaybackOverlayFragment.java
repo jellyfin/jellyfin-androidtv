@@ -41,10 +41,13 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +56,7 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserItemDataDto;
+import mediabrowser.model.entities.MediaStream;
 
 /*
  * Class for video playback with media control
@@ -76,6 +80,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private ThumbsUpAction mThumbsUpAction;
     private ThumbsDownAction mThumbsDownAction;
     private Action mSubtitleAction;
+    private Action mAudioAction;
     private FastForwardAction mFastForwardAction;
     private Action mRewindAction;
     private SkipNextAction mSkipNextAction;
@@ -183,34 +188,62 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                     //toggle dislikes
                     updateLikes(mPlaybackController.getCurrentlyPlayingItem().getUserData().getLikes());
                     mThumbsUpAction.setIndex(mThumbsUpAction.OUTLINE);
+                } else if (action.getId() == mSubtitleAction.getId()) {
+                    setFadingEnabled(false);
+                    List<MediaStream> subtitles = Utils.GetSubtitleStreams(mPlaybackController.getCurrentMediaSource());
+                    int index = 0;
+                    PopupMenu subMenu = new PopupMenu(getActivity(), getActivity().findViewById(R.id.playback_progress), Gravity.RIGHT);
+                    MenuItem none = subMenu.getMenu().add(0, -1, 0, "None");
+                    int currentSubIndex = Utils.NullCoalesce(mPlaybackController.getCurrentStreamInfo().getSubtitleStreamIndex(), -1);
+                    if (currentSubIndex < 0) none.setChecked(true);
+                    for (MediaStream sub : subtitles) {
+                        MenuItem item = subMenu.getMenu().add(0, index++, index, sub.getLanguage() + (sub.getIsExternal() ? " (external)" : " (internal)") + (sub.getIsForced() ? " (forced)" : ""));
+                        if (currentSubIndex == index) item.setChecked(true);
+                    }
+                    subMenu.getMenu().setGroupCheckable(0, true, false);
+                    subMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+                        @Override
+                        public void onDismiss(PopupMenu menu) {
+                            setFadingEnabled(true);
+                        }
+                    });
+                    subMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            mApplication.getLogger().Debug("Clicked item " + item.getItemId());
+                            return true;
+                        }
+                    });
+                    subMenu.show();
+
+                } else if (action.getId() == mAudioAction.getId()) {
+                    setFadingEnabled(false);
+                    List<MediaStream> audioTracks = Utils.GetAudioStreams(mPlaybackController.getCurrentMediaSource());
+                    int index = 0;
+                    int currentAudioIndex = Utils.NullCoalesce(mPlaybackController.getCurrentStreamInfo().getAudioStreamIndex(), 0);
+                    PopupMenu audioMenu = new PopupMenu(getActivity(), getActivity().findViewById(R.id.playback_progress), Gravity.RIGHT);
+                    for (MediaStream audio : audioTracks) {
+                        MenuItem item = audioMenu.getMenu().add(0, index++, index, Utils.SafeToUpper(audio.getLanguage()) + " " + Utils.SafeToUpper(audio.getCodec()) + " (" + audio.getChannelLayout() + ")");
+                        if (currentAudioIndex == index - 1) item.setChecked(true);
+                    }
+                    audioMenu.getMenu().setGroupCheckable(0, true, false);
+                    audioMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+                        @Override
+                        public void onDismiss(PopupMenu menu) {
+                            setFadingEnabled(true);
+                        }
+                    });
+                    audioMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            mApplication.getLogger().Debug("Selected stream " + item.getTitle());
+                            mPlaybackController.switchAudioStream(item.getItemId());
+                            return true;
+                        }
+                    });
+                    audioMenu.show();
+
                 }
-//                } else if (action.getId() == mSubtitleAction.getId()) {
-//                    setFadingEnabled(false);
-//                    List<MediaStream> subtitles = Utils.GetSubtitleStreams(mPlaybackController.getCurrentMediaSource());
-//                    int index = 0;
-//                    PopupMenu subMenu = new PopupMenu(getActivity(), getActivity().findViewById(R.id.playback_progress), Gravity.RIGHT);
-//                    subMenu.getMenu().add(0, -1, 0, "None");
-//                    subMenu.getMenu().getItem(0).setChecked(true);
-//                    for (MediaStream sub : subtitles) {
-//                        subMenu.getMenu().add(0, index++, index, sub.getLanguage() + (sub.getIsExternal() ? " (external)" : " (internal)") + (sub.getIsForced() ? " (forced)" : ""));
-//                    }
-//                    subMenu.getMenu().setGroupCheckable(0,true, false);
-//                    subMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
-//                        @Override
-//                        public void onDismiss(PopupMenu menu) {
-//                            setFadingEnabled(true);
-//                        }
-//                    });
-//                    subMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//                        @Override
-//                        public boolean onMenuItemClick(MenuItem item) {
-//                            mApplication.getLogger().Debug("Clicked item "+item.getItemId());
-//                            return true;
-//                        }
-//                    });
-//                    subMenu.show();
-//
-//                }
                 if (action instanceof PlaybackControlsRow.MultiAction) {
                     ((PlaybackControlsRow.MultiAction) action).nextIndex();
                     notifyChanged(action);
@@ -292,8 +325,11 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         mRepeatAction = new RepeatAction(sContext);
         mThumbsUpAction = new ThumbsUpAction(sContext);
         mThumbsDownAction = new ThumbsDownAction(sContext);
-        BaseItemDto firstItem = mItemsToPlay.get(0);
+        BaseItemDto firstItem = mPlaybackController.getCurrentlyPlayingItem();
         UserItemDataDto userData = firstItem.getUserData();
+        Boolean hasSubs = false; // Utils.GetSubtitleStreams(mPlaybackController.getCurrentMediaSource()).size() > 0;
+        Boolean hasMultiAudio = Utils.GetAudioStreams(mPlaybackController.getCurrentMediaSource()).size() > 1;
+
         mThumbsDownAction.setIndex(ThumbsDownAction.OUTLINE);
         mThumbsUpAction.setIndex(ThumbsUpAction.OUTLINE);
         if (userData != null && userData.getLikes() != null) {
@@ -307,9 +343,10 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         }
 
 
-//        mSubtitleAction = new Action(999, null, null, getActivity().getResources().getDrawable(R.drawable.subt));
+        mSubtitleAction = new Action(999, null, null, getActivity().getResources().getDrawable(R.drawable.subt));
+        mAudioAction = new Action(998, null, null, getActivity().getResources().getDrawable(R.drawable.audiosel));
         mSkipNextAction = new PlaybackControlsRow.SkipNextAction(sContext);
-        mRewindAction = new Action(998, null, null, getActivity().getResources().getDrawable(R.drawable.loopback));
+        mRewindAction = new Action(997, null, null, getActivity().getResources().getDrawable(R.drawable.loopback));
         mFastForwardAction = new PlaybackControlsRow.FastForwardAction(sContext);
 
         if (PRIMARY_CONTROLS > 5) {
@@ -336,8 +373,14 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         } else {
             mSecondaryActionsAdapter.add(mThumbsDownAction);
         }
-//        mSecondaryActionsAdapter.add(new PlaybackControlsRow.HighQualityAction(sContext));
-//        mSecondaryActionsAdapter.add(mSubtitleAction);
+
+        if (hasSubs && hasMultiAudio) {
+            mSecondaryActionsAdapter.add(mAudioAction);
+            mSecondaryActionsAdapter.add(mSubtitleAction);
+        } else {
+            if (hasSubs) mPrimaryActionsAdapter.add(mSubtitleAction);
+            else if (hasMultiAudio) mPrimaryActionsAdapter.add(mAudioAction);
+        }
     }
 
     private void notifyChanged(Action action) {
