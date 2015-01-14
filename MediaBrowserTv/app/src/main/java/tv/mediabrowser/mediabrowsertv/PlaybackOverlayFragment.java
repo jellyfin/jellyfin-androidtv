@@ -191,14 +191,13 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                 } else if (action.getId() == mSubtitleAction.getId()) {
                     setFadingEnabled(false);
                     List<MediaStream> subtitles = Utils.GetSubtitleStreams(mPlaybackController.getCurrentMediaSource());
-                    int index = 0;
                     PopupMenu subMenu = new PopupMenu(getActivity(), getActivity().findViewById(R.id.playback_progress), Gravity.RIGHT);
                     MenuItem none = subMenu.getMenu().add(0, -1, 0, "None");
                     int currentSubIndex = Utils.NullCoalesce(mPlaybackController.getCurrentStreamInfo().getSubtitleStreamIndex(), -1);
                     if (currentSubIndex < 0) none.setChecked(true);
                     for (MediaStream sub : subtitles) {
-                        MenuItem item = subMenu.getMenu().add(0, index++, index, sub.getLanguage() + (sub.getIsExternal() ? " (external)" : " (internal)") + (sub.getIsForced() ? " (forced)" : ""));
-                        if (currentSubIndex == index) item.setChecked(true);
+                        MenuItem item = subMenu.getMenu().add(0, sub.getIndex(), sub.getIndex(), sub.getLanguage() + (sub.getIsExternal() ? " (external)" : " (internal)") + (sub.getIsForced() ? " (forced)" : ""));
+                        if (currentSubIndex == sub.getIndex()) item.setChecked(true);
                     }
                     subMenu.getMenu().setGroupCheckable(0, true, false);
                     subMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
@@ -210,7 +209,8 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                     subMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                            mApplication.getLogger().Debug("Clicked item " + item.getItemId());
+                            mApplication.getLogger().Debug("Selected subtitle " + item.getTitle());
+                            mPlaybackController.switchSubtitleStream(item.getItemId());
                             return true;
                         }
                     });
@@ -219,12 +219,11 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                 } else if (action.getId() == mAudioAction.getId()) {
                     setFadingEnabled(false);
                     List<MediaStream> audioTracks = Utils.GetAudioStreams(mPlaybackController.getCurrentMediaSource());
-                    int index = 0;
                     int currentAudioIndex = Utils.NullCoalesce(mPlaybackController.getCurrentStreamInfo().getAudioStreamIndex(), 0);
                     PopupMenu audioMenu = new PopupMenu(getActivity(), getActivity().findViewById(R.id.playback_progress), Gravity.RIGHT);
                     for (MediaStream audio : audioTracks) {
-                        MenuItem item = audioMenu.getMenu().add(0, index++, index, Utils.SafeToUpper(audio.getLanguage()) + " " + Utils.SafeToUpper(audio.getCodec()) + " (" + audio.getChannelLayout() + ")");
-                        if (currentAudioIndex == index - 1) item.setChecked(true);
+                        MenuItem item = audioMenu.getMenu().add(0, audio.getIndex(), audio.getIndex(), Utils.SafeToUpper(audio.getLanguage()) + " " + Utils.SafeToUpper(audio.getCodec()) + " (" + audio.getChannelLayout() + ")");
+                        if (currentAudioIndex == audio.getIndex()) item.setChecked(true);
                     }
                     audioMenu.getMenu().setGroupCheckable(0, true, false);
                     audioMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
@@ -327,7 +326,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         mThumbsDownAction = new ThumbsDownAction(sContext);
         BaseItemDto firstItem = mPlaybackController.getCurrentlyPlayingItem();
         UserItemDataDto userData = firstItem.getUserData();
-        Boolean hasSubs = false; // Utils.GetSubtitleStreams(mPlaybackController.getCurrentMediaSource()).size() > 0;
+        Boolean hasSubs = Utils.GetSubtitleStreams(mPlaybackController.getCurrentMediaSource()).size() > 0;
         Boolean hasMultiAudio = Utils.GetAudioStreams(mPlaybackController.getCurrentMediaSource()).size() > 1;
 
         mThumbsDownAction.setIndex(ThumbsDownAction.OUTLINE);
