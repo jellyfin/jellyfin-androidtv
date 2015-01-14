@@ -512,6 +512,10 @@ public class Utils {
         return GetStreams(mediaSource, MediaStreamType.Subtitle);
     }
 
+    public static List<MediaStream> GetAudioStreams(MediaSourceInfo mediaSource) {
+        return GetStreams(mediaSource, MediaStreamType.Audio);
+    }
+
     public static List<MediaStream> GetStreams(MediaSourceInfo mediaSource, MediaStreamType type) {
         ArrayList<MediaStream> streams = mediaSource.getMediaStreams();
         ArrayList<MediaStream> ret = new ArrayList<>();
@@ -524,46 +528,6 @@ public class Utils {
         }
 
         return ret;
-    }
-
-    public static MediaSourceInfo Play(BaseItemDto item, int position, VideoView view) {
-        StreamBuilder builder = new StreamBuilder();
-        Long mbPos = (long)position * 10000;
-        ApiClient apiClient = TvApp.getApplication().getApiClient();
-        MediaSourceInfo ret = null;
-
-        if (item.getPath() != null && item.getPath().startsWith("http://")) {
-            //try direct stream
-            view.setVideoPath(item.getPath());
-            TvApp.getApplication().getPlaybackController().setPlaybackMethod(PlayMethod.DirectStream);
-            ret = item.getMediaSources().get(0);
-        } else {
-            VideoOptions options = new VideoOptions();
-            options.setDeviceId(apiClient.getDeviceId());
-            options.setItemId(item.getId());
-            options.setMediaSources(item.getMediaSources());
-            options.setMaxBitrate(30000000);
-
-            options.setProfile(new AndroidProfile());
-            StreamInfo info = builder.BuildVideoItem(options);
-            view.setVideoPath(info.ToUrl(apiClient.getApiUrl()));
-            TvApp.getApplication().getPlaybackController().setPlaybackMethod(info.getPlayMethod());
-            ret = info.getMediaSource();
-        }
-
-        if (position > 0) {
-            TvApp.getApplication().getPlaybackController().seek(position);
-        }
-        view.start();
-        TvApp.getApplication().setCurrentPlayingItem(item);
-
-        PlaybackStartInfo startInfo = new PlaybackStartInfo();
-        startInfo.setItemId(item.getId());
-        startInfo.setPositionTicks(mbPos);
-        apiClient.ReportPlaybackStartAsync(startInfo, new EmptyResponse());
-
-        return ret;
-
     }
 
     public static void Stop(BaseItemDto item, long pos) {
@@ -733,6 +697,16 @@ public class Utils {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String SafeToUpper(String value) {
+        if (value == null) return "";
+        return value.toUpperCase();
+    }
+
+    public static int NullCoalesce(Integer obj, int def) {
+        if (obj == null) return def;
+        return obj;
     }
 
     public static void PutCustomAcraData() {

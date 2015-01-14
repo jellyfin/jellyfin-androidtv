@@ -8,9 +8,16 @@ import android.widget.VideoView;
 
 import java.util.List;
 
+import mediabrowser.apiinteraction.ApiClient;
+import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
+import mediabrowser.model.dlna.StreamBuilder;
+import mediabrowser.model.dlna.StreamInfo;
+import mediabrowser.model.dlna.VideoOptions;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.MediaSourceInfo;
 import mediabrowser.model.session.PlayMethod;
+import mediabrowser.model.session.PlaybackStartInfo;
 
 /**
  * Created by Eric on 12/9/2014.
@@ -23,11 +30,13 @@ public class PlaybackController {
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
     private TvApp mApplication;
 
-    private MediaSourceInfo mCurrentMediaSource;
+    private StreamInfo mCurrentStreamInfo;
 
     private PlaybackOverlayFragment mFragment;
     private View mSpinner;
     private Boolean spinnerOff = false;
+
+    private VideoOptions mCurrentOptions;
 
     private PlayMethod mPlaybackMethod = PlayMethod.Transcode;
 
@@ -63,7 +72,8 @@ public class PlaybackController {
     public BaseItemDto getCurrentlyPlayingItem() {
         return mItems.get(mCurrentIndex);
     }
-    public MediaSourceInfo getCurrentMediaSource() { return mCurrentMediaSource;}
+    public MediaSourceInfo getCurrentMediaSource() { return mCurrentStreamInfo != null && mCurrentStreamInfo.getMediaSource() != null ? mCurrentStreamInfo.getMediaSource() : getCurrentlyPlayingItem().getMediaSources().get(0);}
+    public StreamInfo getCurrentStreamInfo() { return mCurrentStreamInfo; }
 
     public boolean isPlaying() {
         return mPlaybackState == PlaybackState.PLAYING;
@@ -88,7 +98,16 @@ public class PlaybackController {
             case IDLE:
                 // start new playback
                 mSpinner.setVisibility(View.VISIBLE);
-                mCurrentMediaSource = Utils.Play(getCurrentlyPlayingItem(), position, mVideoView);
+                BaseItemDto item = getCurrentlyPlayingItem();
+                mCurrentOptions = new VideoOptions();
+                mCurrentOptions.setDeviceId(TvApp.getApplication().getApiClient().getDeviceId());
+                mCurrentOptions.setItemId(item.getId());
+                mCurrentOptions.setMediaSources(item.getMediaSources());
+                mCurrentOptions.setMaxBitrate(15000000);
+
+                mCurrentOptions.setProfile(new AndroidProfile());
+
+                mCurrentStreamInfo = playInternal(getCurrentlyPlayingItem(), position, mVideoView, mCurrentOptions);
                 if (mFragment != null) {
                     mFragment.setFadingEnabled(true);
                     mFragment.getPlaybackControlsRow().setCurrentTime(position);
@@ -96,6 +115,53 @@ public class PlaybackController {
                 mPlaybackState = PlaybackState.BUFFERING;
                 break;
         }
+    }
+
+    private StreamInfo playInternal(BaseItemDto item, int position, VideoView view, VideoOptions options) {
+        StreamBuilder builder = new StreamBuilder();
+        Long mbPos = (long)position * 10000;
+        ApiClient apiClient = TvApp.getApplication().getApiClient();
+        StreamInfo ret = null;
+
+        if (item.getPath() != null && item.getPath().startsWith("http://")) {
+            //try direct stream
+            view.setVideoPath(item.getPath());
+            setPlaybackMethod(PlayMethod.DirectStream);
+            ret = new StreamInfo();
+            ret.setMediaSource(item.getMediaSources().get(0));
+        } else {
+
+            StreamInfo info = builder.BuildVideoItem(options);
+            view.setVideoPath(info.ToUrl(apiClient.getApiUrl()));
+            setPlaybackMethod(info.getPlayMethod());
+            ret = info;
+        }
+
+        if (position > 0) {
+            TvApp.getApplication().getPlaybackController().seek(position);
+        }
+        view.start();
+        TvApp.getApplication().setCurrentPlayingItem(item);
+
+        PlaybackStartInfo startInfo = new PlaybackStartInfo();
+        startInfo.setItemId(item.getId());
+        startInfo.setPositionTicks(mbPos);
+        apiClient.ReportPlaybackStartAsync(startInfo, new EmptyResponse());
+
+        return ret;
+
+    }
+
+    public void switchAudioStream(int index) {
+        if (!isPlaying()) return;
+
+        stopReportLoop();
+        stopProgressAutomation();
+        mSpinner.setVisibility(View.VISIBLE);
+        spinnerOff = false;
+        mCurrentOptions.setAudioStreamIndex(index);
+        mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
+        mCurrentStreamInfo = playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mVideoView, mCurrentOptions);
     }
 
     public void pause() {
