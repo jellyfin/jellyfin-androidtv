@@ -7,6 +7,9 @@ import android.os.Bundle;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import mediabrowser.apiinteraction.ApiEventListener;
@@ -28,6 +31,7 @@ public class StartupActivity extends Activity {
 
     private TvApp application;
     private ILogger logger;
+    private Calendar expirationDate = new GregorianCalendar(2015,0,18);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +40,16 @@ public class StartupActivity extends Activity {
         application = (TvApp) getApplicationContext();
         final Activity activity = this;
         logger = application.getLogger();
-
-        establishConnection(activity);
+        logger.Debug("exp: " + expirationDate);
+        logger.Debug("now: " + new GregorianCalendar());
+        if (new GregorianCalendar().after(expirationDate)) {
+            //Expired
+            Intent expired = new Intent(this, ExpiredActivity.class);
+            expired.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            startActivity(expired);
+        } else {
+            establishConnection(activity);
+        }
 
     }
 
