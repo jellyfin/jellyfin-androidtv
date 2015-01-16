@@ -251,7 +251,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 personSeries.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
                 personSeries.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 personSeries.setPerson(mBaseItem.getName());
-                personMovies.setRecursive(true);
+                personSeries.setRecursive(true);
                 personSeries.setIncludeItemTypes(new String[] {"Series", "Episode"});
                 ItemRowAdapter personSeriesAdapter = new ItemRowAdapter(personSeries, 100, new CardPresenter(), adapter);
                 addItemRow(adapter, personSeriesAdapter, 1, "TV Shows");
