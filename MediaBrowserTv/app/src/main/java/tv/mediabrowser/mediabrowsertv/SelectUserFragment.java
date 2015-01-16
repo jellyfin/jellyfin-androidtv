@@ -59,7 +59,7 @@ public class SelectUserFragment extends StdBrowseFragment {
 
         HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), "Other options", null);
 
-        GridItemPresenter mGridPresenter = new GridItemPresenter();
+        GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
         gridRowAdapter.add(new GridButton(ENTER_MANUALLY, "Enter Manually", R.drawable.edit));
         gridRowAdapter.add(new GridButton(LOGIN_CONNECT, "Login with Connect", R.drawable.chain));
