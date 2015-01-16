@@ -50,7 +50,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
         switch (mFolder.getCollectionType().toLowerCase())
         {
             case "movies":
-                itemTypeString = "Movies";
+                itemTypeString = "Movie";
 
                 //Resume
                 StdItemQuery resumeMovies = new StdItemQuery();
@@ -186,9 +186,9 @@ public class BrowseViewFragment extends BrowseFolderFragment {
             GridButtonPresenter mGridPresenter = new GridButtonPresenter();
             ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
             gridRowAdapter.add(new GridButton(BY_LETTER, "By Letter", R.drawable.byletter));
-            gridRowAdapter.add(new GridButton(SUGGESTED, "Suggested", R.drawable.suggestions));
+            if (mFolder.getCollectionType().toLowerCase().equals("movies")) gridRowAdapter.add(new GridButton(SUGGESTED, "Suggested", R.drawable.suggestions));
             gridRowAdapter.add(new GridButton(GENRES, "Genres", R.drawable.genres));
-            gridRowAdapter.add(new GridButton(YEARS, "Years", R.drawable.years));
+            if (mFolder.getCollectionType().toLowerCase().equals("movies")) gridRowAdapter.add(new GridButton(YEARS, "Years", R.drawable.years));
             gridRowAdapter.add(new GridButton(ACTORS, "Performers", R.drawable.actors));
             rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
         }
@@ -210,6 +210,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                     case BY_LETTER:
                         Intent intent = new Intent(getActivity(), ByLetterActivity.class);
                         intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
+                        intent.putExtra("IncludeType", itemTypeString);
 
                         getActivity().startActivity(intent);
                         break;
