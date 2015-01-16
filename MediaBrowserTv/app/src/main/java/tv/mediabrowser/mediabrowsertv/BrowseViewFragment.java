@@ -1,13 +1,17 @@
 package tv.mediabrowser.mediabrowsertv;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
+import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -179,13 +183,13 @@ public class BrowseViewFragment extends BrowseFolderFragment {
             super.addAdditionalRows(rowAdapter);
             HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), "Views", null);
 
-            GridItemPresenter mGridPresenter = new GridItemPresenter();
+            GridButtonPresenter mGridPresenter = new GridButtonPresenter();
             ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-            gridRowAdapter.add(new GridButton(BY_LETTER, "By Letter"));
-            gridRowAdapter.add(new GridButton(SUGGESTED, "Suggested"));
-            gridRowAdapter.add(new GridButton(GENRES, "Genres"));
-            gridRowAdapter.add(new GridButton(YEARS, "Years"));
-            gridRowAdapter.add(new GridButton(ACTORS, "Performers"));
+            gridRowAdapter.add(new GridButton(BY_LETTER, "By Letter", R.drawable.byletter));
+            gridRowAdapter.add(new GridButton(SUGGESTED, "Suggested", R.drawable.suggestions));
+            gridRowAdapter.add(new GridButton(GENRES, "Genres", R.drawable.genres));
+            gridRowAdapter.add(new GridButton(YEARS, "Years", R.drawable.years));
+            gridRowAdapter.add(new GridButton(ACTORS, "Performers", R.drawable.actors));
             rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
         }
     }
@@ -204,7 +208,12 @@ public class BrowseViewFragment extends BrowseFolderFragment {
             if (item instanceof GridButton) {
                 switch (((GridButton) item).getId()) {
                     case BY_LETTER:
+                        Intent intent = new Intent(getActivity(), ByLetterActivity.class);
+                        intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
+
+                        getActivity().startActivity(intent);
                         break;
+
                     default:
                         Toast.makeText(getActivity(), item.toString() + " not implemented", Toast.LENGTH_SHORT)
                                 .show();

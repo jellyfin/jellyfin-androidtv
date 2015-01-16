@@ -61,8 +61,8 @@ public class SelectUserFragment extends StdBrowseFragment {
 
         GridItemPresenter mGridPresenter = new GridItemPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add(new GridButton(ENTER_MANUALLY, "Enter Manually"));
-        gridRowAdapter.add(new GridButton(LOGIN_CONNECT, "Login with Connect"));
+        gridRowAdapter.add(new GridButton(ENTER_MANUALLY, "Enter Manually", R.drawable.edit));
+        gridRowAdapter.add(new GridButton(LOGIN_CONNECT, "Login with Connect", R.drawable.chain));
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
 

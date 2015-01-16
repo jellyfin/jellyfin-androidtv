@@ -81,10 +81,10 @@ public class HomeFragment extends StdBrowseFragment {
         super.addAdditionalRows(rowAdapter);
         HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), "SETTINGS", null);
 
-        GridItemPresenter mGridPresenter = new GridItemPresenter();
+        GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add(new GridButton(SETTINGS, getResources().getString(R.string.personal_settings)));
-        gridRowAdapter.add(new GridButton(LOGOUT, "Logout " + TvApp.getApplication().getCurrentUser().getName()));
+        gridRowAdapter.add(new GridButton(SETTINGS, getResources().getString(R.string.personal_settings), R.drawable.gears));
+        gridRowAdapter.add(new GridButton(LOGOUT, "Logout " + TvApp.getApplication().getCurrentUser().getName(), R.drawable.logout));
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
 
