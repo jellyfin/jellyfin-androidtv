@@ -47,5 +47,6 @@
     <string name="btn_manually">Enter Server Address</string>
     <string name="txt_expired">Media Browser for Android TV is Expired</string>
     <string name="txt_expired_exp">This development version has expired.   Please look for an update or install from the store.  Thank you for using Media Browser!</string>
+    <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 
 </resources>

@@ -56,6 +56,7 @@
         <activity android:name=".SelectServerActivity"></activity>
         <activity android:name=".CollectionActivity"></activity>
         <activity android:name=".ExpiredActivity"></activity>
+        <activity android:name=".ByLetterActivity"></activity>
     </application>
 
 </manifest>
