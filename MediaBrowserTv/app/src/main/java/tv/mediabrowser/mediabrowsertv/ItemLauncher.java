@@ -55,11 +55,7 @@ public class ItemLauncher {
                                 Intent intent = new Intent(activity, DetailsActivity.class);
                                 intent.putExtra("BaseItemDto", TvApp.getApplication().getSerializer().SerializeToString(response));
 
-                                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                        activity,
-                                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                                activity.startActivity(intent, bundle);
+                                activity.startActivity(intent);
 
                             }
 
@@ -87,11 +83,7 @@ public class ItemLauncher {
                     Intent intent = new Intent(activity, GenericFolderActivity.class);
                     intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
 
-                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            activity,
-                            ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                            DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                    activity.startActivity(intent, bundle);
+                    activity.startActivity(intent);
                 } else {
                     //Retrieve full item for display and playback
                     application.getApiClient().GetItemAsync(baseItem.getId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
