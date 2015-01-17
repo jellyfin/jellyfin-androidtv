@@ -105,7 +105,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     @Override
     public void onResume() {
         super.onResume();
-        TvApp.getApplication().getLogger().Debug("Resuming details fragment...");
+        //TvApp.getApplication().getLogger().Debug("Resuming details fragment...");
         //reload with our updated item
     }
 
