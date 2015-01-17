@@ -57,6 +57,7 @@
         <activity android:name=".CollectionActivity"></activity>
         <activity android:name=".ExpiredActivity"></activity>
         <activity android:name=".ByLetterActivity"></activity>
+        <activity android:name=".ByGenreActivity"></activity>
     </application>
 
 </manifest>
