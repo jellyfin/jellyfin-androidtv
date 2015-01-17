@@ -59,6 +59,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mQuery = query;
+        mQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         this.chunkSize = chunkSize;
         if (chunkSize > 0) mQuery.setLimit(chunkSize);
         queryType = QueryType.Items;
@@ -68,6 +69,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mNextUpQuery = query;
+        mNextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         queryType = QueryType.NextUp;
     }
 
@@ -89,6 +91,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mSimilarQuery = query;
+        mSimilarQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         this.queryType = queryType;
     }
 
@@ -96,6 +99,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mUpcomingQuery = query;
+        mUpcomingQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         queryType = QueryType.Upcoming;
     }
 
@@ -103,6 +107,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mSeasonQuery = query;
+        mSeasonQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         queryType = QueryType.Season;
     }
 

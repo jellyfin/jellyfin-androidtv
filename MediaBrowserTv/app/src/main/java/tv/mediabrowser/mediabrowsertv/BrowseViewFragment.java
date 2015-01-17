@@ -215,6 +215,14 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                         getActivity().startActivity(intent);
                         break;
 
+                    case GENRES:
+                        Intent genreIntent = new Intent(getActivity(), ByGenreActivity.class);
+                        genreIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
+                        genreIntent.putExtra("IncludeType", itemTypeString);
+
+                        getActivity().startActivity(genreIntent);
+                        break;
+
                     default:
                         Toast.makeText(getActivity(), item.toString() + " not implemented", Toast.LENGTH_SHORT)
                                 .show();
