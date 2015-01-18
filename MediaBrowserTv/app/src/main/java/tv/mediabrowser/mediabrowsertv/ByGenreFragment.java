@@ -11,12 +11,10 @@ import mediabrowser.model.querying.ItemsResult;
 /**
  * Created by Eric on 12/4/2014.
  */
-public class ByGenreFragment extends BrowseFolderFragment {
-    private String includeType = "Movie";
+public class ByGenreFragment extends CustomViewFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        includeType = getActivity().getIntent().getStringExtra("IncludeType");
         super.onActivityCreated(savedInstanceState);
     }
 
