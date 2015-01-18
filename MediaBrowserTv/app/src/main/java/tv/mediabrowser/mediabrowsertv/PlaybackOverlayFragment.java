@@ -46,8 +46,12 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +91,8 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private SkipPreviousAction mSkipPreviousAction;
 
     private ImageView mLogo;
+    private Animation fadeIn;
+    private Animation fadeOut;
 
     public PlaybackControlsRow getPlaybackControlsRow() {
         return mPlaybackControlsRow;
@@ -117,6 +123,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         mApplication.setPlaybackController(new PlaybackController(mItemsToPlay, this));
         mPlaybackController = mApplication.getPlaybackController();
 
+        setupLogoFade();
         setBackgroundType(BACKGROUND_TYPE);
         setFadingEnabled(false);
 
@@ -137,6 +144,28 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             }
         });
 
+        setFadeCompleteListener(new OnFadeCompleteListener() {
+            @Override
+            public void onFadeInComplete() {
+                mLogo.startAnimation(fadeIn);
+                super.onFadeInComplete();
+            }
+
+            @Override
+            public void onFadeOutComplete() {
+                mLogo.startAnimation(fadeOut);
+                super.onFadeOutComplete();
+            }
+        });
+
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mLogo = (ImageView) getActivity().findViewById(R.id.npLogoImage);
+        String logoImageUrl = Utils.getLogoImageUrl(mPlaybackController.getCurrentlyPlayingItem(), mApplication.getApiClient());
+        if (logoImageUrl != null) Picasso.with(getActivity()).load(logoImageUrl).into(mLogo);
     }
 
     @Override
@@ -153,6 +182,44 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
     public void finish() {
         getActivity().finish();
+    }
+
+    private void setupLogoFade() {
+        fadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.abc_fade_in);
+        fadeIn.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mLogo.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        fadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.abc_fade_out);
+        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mLogo.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
     }
 
     private void setupRows() {
