@@ -11,15 +11,7 @@ import mediabrowser.model.querying.ItemSortBy;
 /**
  * Created by Eric on 12/4/2014.
  */
-public class ByLetterFragment extends BrowseFolderFragment {
-    private String includeType = "Movie";
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        includeType = getActivity().getIntent().getStringExtra("IncludeType");
-        TvApp.getApplication().getLogger().Debug("Item type: "+includeType);
-        super.onActivityCreated(savedInstanceState);
-    }
+public class ByLetterFragment extends CustomViewFragment {
 
     private static String letters = TvApp.getApplication().getResources().getString(R.string.byletter_letters);
 
