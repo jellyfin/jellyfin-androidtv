@@ -37,14 +37,16 @@
         android:visibility="invisible" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="400sp"
+        android:layout_height="150sp"
         android:id="@+id/npLogoImage"
-        android:layout_gravity="left|top"
-        android:paddingLeft="20dp"
-        android:paddingTop="20dp"
+        android:layout_gravity="right|top"
+        android:paddingRight="40sp"
+        android:paddingTop="20sp"
         android:scaleType="fitCenter"
         android:maxWidth="400dp"
-        android:maxHeight="200dp" />
+        android:maxHeight="150sp"
+        android:visibility="invisible"
+         />
 
 </FrameLayout>
