@@ -8,11 +8,13 @@ import android.support.v17.leanback.widget.Presenter;
 import java.util.Arrays;
 import java.util.List;
 
+import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.UserDto;
+import mediabrowser.model.net.HttpException;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
@@ -306,7 +308,23 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving items", exception);
-                Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                if (exception instanceof HttpException) {
+                    HttpException httpException = (HttpException) exception;
+                    if (httpException.getHeaders().get("X-Application-Error-Code").equals("ParentalControl")) {
+                        Utils.showToast(TvApp.getApplication(), "Access Restricted at this time");
+                        TvApp.getApplication().getApiClient().Logout(new EmptyResponse(){
+                            @Override
+                            public void onResponse() {
+                                System.exit(0);
+                            }
+                        });
+                    } else {
+                        Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                    }
+                } else {
+                    Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+
+                }
                 currentlyRetrieving = false;
             }
         });
