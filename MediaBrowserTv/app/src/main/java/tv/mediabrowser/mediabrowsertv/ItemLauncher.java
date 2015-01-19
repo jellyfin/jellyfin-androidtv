@@ -185,16 +185,16 @@ public class ItemLauncher {
                             .setTitle("Enter Password")
                             .setMessage("Please enter password for " + user.getName())
                             .setView(password)
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    String pw = password.getText().toString();
+                                    Utils.loginUser(user.getName(), pw, application.getLoginApiClient(), activity);
+                                }
+                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     // Do nothing.
                                 }
-                            }).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            String pw = password.getText().toString();
-                            Utils.loginUser(user.getName(), pw, application.getLoginApiClient(), activity);
-                        }
-                    }).show();
+                            }).show();
 
                 } else {
                     Utils.loginUser(user.getName(), "", application.getLoginApiClient(), activity);
