@@ -74,6 +74,8 @@ public class StartupActivity extends Activity {
         application.setConnectionManager(connectionManager);
         application.setSerializer((GsonJsonSerializer)jsonSerializer);
 
+        //todo Check for saved server info and use that
+
         connectionManager.Connect(new Response<ConnectionResult>() {
             @Override
             public void onResponse(ConnectionResult response) {
