@@ -83,7 +83,7 @@ public class HomeFragment extends StdBrowseFragment {
 
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add(new GridButton(SETTINGS, getResources().getString(R.string.personal_settings), R.drawable.gears));
+        gridRowAdapter.add(new GridButton(SETTINGS, "App Settings", R.drawable.gears));
         gridRowAdapter.add(new GridButton(LOGOUT, "Logout " + TvApp.getApplication().getCurrentUser().getName(), R.drawable.logout));
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
