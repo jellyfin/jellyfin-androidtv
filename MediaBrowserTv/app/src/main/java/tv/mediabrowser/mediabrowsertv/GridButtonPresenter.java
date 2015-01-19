@@ -15,16 +15,8 @@ import com.squareup.picasso.Target;
 import mediabrowser.model.dto.BaseItemDto;
 
 public class GridButtonPresenter extends Presenter {
-    private static final String TAG = "GridButtonPresenter";
 
     private static Context mContext;
-    private TvApp application;
-
-    public GridButtonPresenter() {
-        super();
-        application = TvApp.getApplication();
-
-    }
 
     static class ViewHolder extends Presenter.ViewHolder {
         private int cardWidth = 240;
