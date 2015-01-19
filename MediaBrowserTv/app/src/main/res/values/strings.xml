@@ -48,5 +48,13 @@
     <string name="txt_expired">Media Browser for Android TV is Expired</string>
     <string name="txt_expired_exp">This development version has expired.   Please look for an update or install from the store.  Thank you for using Media Browser!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="pref_login_behavior_title">Start Up Behavior</string>
+    <string name="pref_show_login">Show Login Screen</string>
+    <string name="pref_show_login_value">0</string>
+    <string name="pref_playback">PLAYBACK</string>
+    <string name="pref_max_bitrate_title">Max Streaming Bitrate</string>
+    <string name="pref_auto_login">Automatically login as this user</string>
+    <string name="settings_title">Settings</string>
+    <string name="pref_startup_cat">LOG IN</string>
 
 </resources>

@@ -110,6 +110,10 @@ public class HomeFragment extends StdBrowseFragment {
                             }
                         });
                         break;
+                    case SETTINGS:
+                        Intent settings = new Intent(getActivity(), SettingsActivity.class);
+                        getActivity().startActivity(settings);
+                        break;
                     default:
                         Toast.makeText(getActivity(), item.toString(), Toast.LENGTH_SHORT)
                                 .show();

@@ -1,0 +1,43 @@
+<FrameLayout
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView7"
+        android:layout_gravity="center"
+        android:src="@drawable/moviebg" />
+
+
+    <SurfaceView
+        android:layout_width="500sp"
+        android:layout_height="400sp"
+        android:id="@+id/surfaceView"
+        android:layout_gravity="center"
+        android:background="@drawable/default_background" />
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_marginTop="80sp"
+        android:layout_marginBottom="80sp"
+        android:layout_marginLeft="250sp"
+        android:layout_marginRight="250sp"
+        android:layout_height="match_parent" android:id="@+id/fragment_settings"
+        android:name="tv.mediabrowser.mediabrowsertv.SettingsFragment"
+        tools:context="tv.mediabrowser.mediabrowsertv.SettingsFragment">
+
+    </fragment>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/settings_title"
+        android:id="@+id/textView6"
+        android:layout_gravity="center_horizontal|top"
+        android:paddingTop="20sp" />
+
+</FrameLayout>
+

@@ -58,6 +58,7 @@
         <activity android:name=".ExpiredActivity"></activity>
         <activity android:name=".ByLetterActivity"></activity>
         <activity android:name=".ByGenreActivity"></activity>
+        <activity android:name=".SettingsActivity"></activity>
     </application>
 
 </manifest>

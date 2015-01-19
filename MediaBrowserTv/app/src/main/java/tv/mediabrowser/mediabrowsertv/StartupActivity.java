@@ -3,12 +3,10 @@ package tv.mediabrowser.mediabrowsertv;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -24,7 +22,6 @@ import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.serialization.IJsonSerializer;
 import mediabrowser.model.session.ClientCapabilities;
-import mediabrowser.model.users.AuthenticationResult;
 
 
 public class StartupActivity extends Activity {
@@ -37,6 +34,10 @@ public class StartupActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_startup);
+
+        //Ensure we have prefs
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
         application = (TvApp) getApplicationContext();
         final Activity activity = this;
         logger = application.getLogger();

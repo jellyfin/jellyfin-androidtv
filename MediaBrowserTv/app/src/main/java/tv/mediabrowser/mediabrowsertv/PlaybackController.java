@@ -1,7 +1,9 @@
 package tv.mediabrowser.mediabrowsertv;
 
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v17.leanback.widget.PlaybackControlsRow;
 import android.view.View;
 import android.widget.VideoView;
@@ -103,7 +105,7 @@ public class PlaybackController {
                 mCurrentOptions.setDeviceId(TvApp.getApplication().getApiClient().getDeviceId());
                 mCurrentOptions.setItemId(item.getId());
                 mCurrentOptions.setMediaSources(item.getMediaSources());
-                mCurrentOptions.setMaxBitrate(15000000);
+                mCurrentOptions.setMaxBitrate(getMaxBitrate());
 
                 mCurrentOptions.setProfile(new AndroidProfile());
 
@@ -117,6 +119,11 @@ public class PlaybackController {
         }
     }
 
+    public int getMaxBitrate() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mApplication);
+        String maxRate = sharedPref.getString("pref_max_bitrate", "15");
+        return Integer.parseInt(maxRate) * 1000000;
+    }
     private StreamInfo playInternal(BaseItemDto item, int position, VideoView view, VideoOptions options) {
         StreamBuilder builder = new StreamBuilder();
         Long mbPos = (long)position * 10000;
