@@ -2,6 +2,7 @@ package tv.mediabrowser.mediabrowsertv;
 
 import android.app.Application;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import mediabrowser.apiinteraction.ApiClient;

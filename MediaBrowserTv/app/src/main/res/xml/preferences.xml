@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/pref_startup_cat" >
+        <ListPreference android:key="pref_login_behavior"
+            android:title="@string/pref_login_behavior_title"
+            android:defaultValue="@string/pref_show_login_value"
+            android:entries="@array/pref_startup_entries"
+            android:entryValues="@array/pref_startup_values"
+            android:enabled="false"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_playback" >
+        <ListPreference android:key="pref_max_bitrate"
+            android:title="@string/pref_max_bitrate_title"
+            android:defaultValue="30"
+            android:entries="@array/pref_bitrate_entries"
+            android:entryValues="@array/pref_bitrate_values"
+            />
+
+
+    </PreferenceCategory>
+</PreferenceScreen>
