@@ -190,10 +190,6 @@ public class ItemLauncher {
                                     String pw = password.getText().toString();
                                     Utils.loginUser(user.getName(), pw, application.getLoginApiClient(), activity);
                                 }
-                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    // Do nothing.
-                                }
                             }).show();
 
                 } else {
