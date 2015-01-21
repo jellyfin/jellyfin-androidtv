@@ -40,7 +40,7 @@ public class BrowseFolderFragment extends StdBrowseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         mFolder = TvApp.getApplication().getSerializer().DeserializeFromString(getActivity().getIntent().getStringExtra("Folder"),BaseItemDto.class);
-        MainTitle = mFolder.getName();
+        if (MainTitle == null) MainTitle = mFolder.getName();
         ShowBadge = false;
         if (mFolder.getCollectionType() != null) {
             switch (mFolder.getCollectionType()) {
@@ -106,6 +106,14 @@ public class BrowseFolderFragment extends StdBrowseFragment {
                         genreIntent.putExtra("IncludeType", itemTypeString);
 
                         getActivity().startActivity(genreIntent);
+                        break;
+
+                    case SUGGESTED:
+                        Intent suggIntent = new Intent(getActivity(), SuggestedMoviesActivity.class);
+                        suggIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
+                        suggIntent.putExtra("IncludeType", itemTypeString);
+
+                        getActivity().startActivity(suggIntent);
                         break;
 
                     default:
