@@ -39,5 +39,15 @@
         android:layout_gravity="center_horizontal|top"
         android:paddingTop="20sp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Version Info"
+        android:id="@+id/settings_version_info"
+        android:layout_gravity="right|bottom"
+        android:layout_marginRight="30sp"
+        android:layout_marginBottom="20sp" />
+
 </FrameLayout>
 

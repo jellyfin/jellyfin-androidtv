@@ -738,6 +738,10 @@ public class Utils {
         return fileContent.toString();
     }
 
+    public static String VersionString() {
+        return "Version: " + BuildConfig.VERSION_NAME;
+    }
+
     public static String SafeToUpper(String value) {
         if (value == null) return "";
         return value.toUpperCase();
