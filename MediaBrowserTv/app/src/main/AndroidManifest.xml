@@ -59,6 +59,7 @@
         <activity android:name=".ByLetterActivity"></activity>
         <activity android:name=".ByGenreActivity"></activity>
         <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SuggestedMoviesActivity"></activity>
     </application>
 
 </manifest>

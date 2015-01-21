@@ -42,6 +42,12 @@ public class BrowseRowDef {
         this.queryType = QueryType.SimilarSeries;
     }
 
+    public BrowseRowDef(String header, SimilarItemsQuery query, QueryType type) {
+        headerText = header;
+        this.similarQuery = query;
+        this.queryType = type;
+    }
+
     public BrowseRowDef(String header, SeasonQuery query) {
         headerText = header;
         this.seasonQuery = query;
