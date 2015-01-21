@@ -41,7 +41,7 @@ public class ByGenreFragment extends CustomViewFragment {
                         if (includeType != null) genreQuery.setIncludeItemTypes(new String[]{includeType});
                         genreQuery.setGenres(new String[] {genre.getName()});
                         genreQuery.setRecursive(true);
-                        mRows.add(new BrowseRowDef(genre.getName(), genreQuery, 100));
+                        mRows.add(new BrowseRowDef(genre.getName(), genreQuery, 60));
                     }
 
                     if (mRows.size() < 2) setHeadersState(HEADERS_DISABLED);

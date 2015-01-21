@@ -33,7 +33,7 @@ public class SuggestedMoviesFragment extends CustomViewFragment {
         lastPlayed.setUserId(TvApp.getApplication().getCurrentUser().getId());
         lastPlayed.setSortOrder(SortOrder.Descending);
         lastPlayed.setSortBy(new String[]{ItemSortBy.DatePlayed});
-        lastPlayed.setLimit(10);
+        lastPlayed.setLimit(8);
         lastPlayed.setRecursive(true);
 
         TvApp.getApplication().getApiClient().GetItemsAsync(lastPlayed, new Response<ItemsResult>() {
