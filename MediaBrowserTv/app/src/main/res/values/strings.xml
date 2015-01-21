@@ -51,10 +51,12 @@
     <string name="pref_login_behavior_title">Start Up Behavior</string>
     <string name="pref_show_login">Show Login Screen</string>
     <string name="pref_show_login_value">0</string>
+    <string name="pref_auto_login_value">1</string>
     <string name="pref_playback">PLAYBACK</string>
     <string name="pref_max_bitrate_title">Max Streaming Bitrate</string>
     <string name="pref_auto_login">Automatically login as this user</string>
     <string name="settings_title">Settings</string>
     <string name="pref_startup_cat">LOG IN</string>
+    <string name="pref_prompt_pw">Prompt For Password</string>
 
 </resources>

@@ -7,7 +7,10 @@
             android:defaultValue="@string/pref_show_login_value"
             android:entries="@array/pref_startup_entries"
             android:entryValues="@array/pref_startup_values"
-            android:enabled="false"
+            />
+        <CheckBoxPreference android:key="pref_auto_pw_prompt"
+            android:title="@string/pref_prompt_pw"
+            android:defaultValue="false"
             />
 
     </PreferenceCategory>
