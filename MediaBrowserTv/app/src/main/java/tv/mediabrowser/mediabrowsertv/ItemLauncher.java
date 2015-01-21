@@ -147,19 +147,6 @@ public class ItemLauncher {
                                 break;
                             case SignedIn: // never allow default "remember user"
                             case ServerSignIn:
-                                //todo Check for saved user credentials and use them
-//                                if ([has saved user]){
-//                                  load saved user info
-//                                response.getApiClient().GetUserAsync(response.getApiClient().getCurrentUserId(), new Response<UserDto>() {
-//                                    @Override
-//                                    public void onResponse(UserDto response) {
-//                                        application.setCurrentUser(response);
-//                                        Intent intent = new Intent(activity, MainActivity.class);
-//                                        activity.startActivity(intent);
-//                                    }
-//                                });
-//                            } else
-
                                 //Set api client for login
                                 TvApp.getApplication().setLoginApiClient(response.getApiClient());
                                 //Open user selection

@@ -28,6 +28,11 @@ import android.widget.VideoView;
 
 import org.acra.ACRA;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.security.NoSuchAlgorithmException;
@@ -697,6 +702,40 @@ public class Utils {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void SaveLoginCredentials(LogonCredentials creds) throws IOException {
+        TvApp app = TvApp.getApplication();
+        OutputStream credsFile = app.openFileOutput("tv.mediabrowser.login.json", Context.MODE_PRIVATE);
+        credsFile.write(app.getSerializer().SerializeToString(creds).getBytes());
+        credsFile.close();
+        app.setConfiguredAutoCredentials(creds);
+    }
+
+    public static LogonCredentials GetSavedLoginCredentials(){
+        TvApp app = TvApp.getApplication();
+        try {
+            InputStream credsFile = app.openFileInput("tv.mediabrowser.login.json");
+            String json = ReadStringFromFile(credsFile);
+            credsFile.close();
+            return (LogonCredentials) app.getSerializer().DeserializeFromString(json, LogonCredentials.class);
+        } catch (IOException e) {
+            // none saved
+            return new LogonCredentials(new ServerInfo(), new UserDto());
+        }
+    }
+
+    public static String ReadStringFromFile(InputStream inputStream) throws IOException {
+        StringBuffer fileContent = new StringBuffer("");
+
+        byte[] buffer = new byte[1024];
+        int n;
+        while ((n = inputStream.read(buffer)) != -1)
+        {
+            fileContent.append(new String(buffer, 0, n));
+        }
+
+        return fileContent.toString();
     }
 
     public static String SafeToUpper(String value) {

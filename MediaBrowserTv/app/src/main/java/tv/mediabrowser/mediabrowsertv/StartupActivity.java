@@ -1,14 +1,20 @@
 package tv.mediabrowser.mediabrowsertv;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.InputType;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.prefs.Preferences;
 
 import mediabrowser.apiinteraction.ApiEventListener;
 import mediabrowser.apiinteraction.ConnectionResult;
@@ -17,6 +23,7 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.AndroidConnectionManager;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.apiinteraction.android.VolleyHttpClient;
+import mediabrowser.apiinteraction.connectionmanager.ConnectionManager;
 import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.logging.ILogger;
@@ -75,8 +82,56 @@ public class StartupActivity extends Activity {
         application.setConnectionManager(connectionManager);
         application.setSerializer((GsonJsonSerializer)jsonSerializer);
 
-        //todo Check for saved server info and use that
+        //Load any saved login creds
+        application.setConfiguredAutoCredentials(Utils.GetSavedLoginCredentials());
 
+        //And use those credentials if option is set
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(application);
+        if (prefs.getString("pref_login_behavior", "0").equals("1")) {
+            //Auto login as configured user - first connect to server
+            connectionManager.Connect(application.getConfiguredAutoCredentials().getServerInfo(), new Response<ConnectionResult>() {
+                @Override
+                public void onResponse(ConnectionResult response) {
+                    // Connected to server - load user and prompt for pw if necessary
+                    application.setLoginApiClient(response.getApiClient());
+                    response.getApiClient().GetUserAsync(response.getApiClient().getCurrentUserId(), new Response<UserDto>() {
+                        @Override
+                        public void onResponse(final UserDto response) {
+                            if (response.getHasPassword() && prefs.getBoolean("pref_auto_pw_prompt", false)) {
+                                final EditText password = new EditText(activity);
+                                password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                                new AlertDialog.Builder(activity)
+                                        .setTitle("Enter Password")
+                                        .setMessage("Please enter password for " + response.getName())
+                                        .setView(password)
+                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                                String pw = password.getText().toString();
+                                                Utils.loginUser(response.getName(), pw, application.getLoginApiClient(), activity);
+                                            }
+                                        }).show();
+
+                            } else {
+                                application.setCurrentUser(response);
+                                Intent intent = new Intent(activity, MainActivity.class);
+                                activity.startActivity(intent);
+                            }
+                        }
+                    });
+                }
+
+                @Override
+                public void onError(Exception exception) {
+                    Utils.showToast( activity, "Unable to connect to configured server "+application.getConfiguredAutoCredentials().getServerInfo().getName());
+                    connectAutomatically(connectionManager, activity);
+                }
+            });
+        } else {
+            connectAutomatically(connectionManager, activity);
+        }
+    }
+
+    private void connectAutomatically(final IConnectionManager connectionManager, final Activity activity){
         connectionManager.Connect(new Response<ConnectionResult>() {
             @Override
             public void onResponse(ConnectionResult response) {

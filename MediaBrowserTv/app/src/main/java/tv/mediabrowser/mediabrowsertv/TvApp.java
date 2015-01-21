@@ -41,6 +41,8 @@ public class TvApp extends Application {
     private PlaybackController playbackController;
     private ApiClient loginApiClient;
 
+    private LogonCredentials configuredAutoCredentials;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -127,5 +129,13 @@ public class TvApp extends Application {
 
     public void setPlaybackController(PlaybackController playbackController) {
         this.playbackController = playbackController;
+    }
+
+    public LogonCredentials getConfiguredAutoCredentials() {
+        return configuredAutoCredentials;
+    }
+
+    public void setConfiguredAutoCredentials(LogonCredentials configuredAutoCredentials) {
+        this.configuredAutoCredentials = configuredAutoCredentials;
     }
 }
