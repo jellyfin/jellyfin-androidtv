@@ -12,6 +12,7 @@ import android.preference.PreferenceGroup;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.acra.ACRA;
 
@@ -29,6 +30,17 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preferences);
+
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        // Set version info
+        TextView ver = (TextView) getActivity().findViewById(R.id.settings_version_info);
+        ver.setText(Utils.VersionString());
+
     }
 
     @Override
