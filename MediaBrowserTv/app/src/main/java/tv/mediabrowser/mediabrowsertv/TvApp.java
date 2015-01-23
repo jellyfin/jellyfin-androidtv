@@ -28,6 +28,7 @@ import org.acra.sender.HttpSender;
         reportType = HttpSender.Type.JSON,
         formUri = "https://embi.couchappy.com/acra-androidtv/_design/acra-storage/_update/report",
         formUriBasicAuthLogin = "atvreporter",
+        logcatArguments = { "-t", "400", "-v", "long", "ActivityManager:I", "MyApp:D", "*:S" },
         formUriBasicAuthPassword = "bumblebee+")
 
 public class TvApp extends Application {

@@ -1,7 +1,6 @@
 package tv.mediabrowser.mediabrowsertv;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
@@ -10,18 +9,9 @@ import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
-import android.view.Gravity;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.entities.SortOrder;
-import mediabrowser.model.querying.ItemFields;
-import mediabrowser.model.querying.ItemFilter;
-import mediabrowser.model.querying.ItemSortBy;
-import mediabrowser.model.querying.NextUpQuery;
 
 /**
  * Created by Eric on 12/4/2014.
@@ -31,7 +21,7 @@ public class BrowseFolderFragment extends StdBrowseFragment {
     protected static final int BY_LETTER = 0;
     protected static final int GENRES = 1;
     protected static final int YEARS = 2;
-    protected static final int ACTORS = 3;
+    protected static final int PERSONS = 3;
     protected static final int SUGGESTED = 4;
     protected BaseItemDto mFolder;
     protected String itemTypeString;
@@ -73,7 +63,7 @@ public class BrowseFolderFragment extends StdBrowseFragment {
             gridRowAdapter.add(new GridButton(GENRES, "Genres", R.drawable.genres));
             if (itemTypeString != null && itemTypeString.equals("Movie"))
                 gridRowAdapter.add(new GridButton(YEARS, "Years", R.drawable.years));
-            gridRowAdapter.add(new GridButton(ACTORS, "Performers", R.drawable.actors));
+            gridRowAdapter.add(new GridButton(PERSONS, "Performers", R.drawable.actors));
             rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
 
         }
@@ -114,6 +104,14 @@ public class BrowseFolderFragment extends StdBrowseFragment {
                         suggIntent.putExtra("IncludeType", itemTypeString);
 
                         getActivity().startActivity(suggIntent);
+                        break;
+
+                    case PERSONS:
+                        Intent personIntent = new Intent(getActivity(), BrowsePersonsActivity.class);
+                        personIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
+                        personIntent.putExtra("IncludeType", itemTypeString);
+
+                        getActivity().startActivity(personIntent);
                         break;
 
                     default:
