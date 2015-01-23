@@ -49,6 +49,7 @@ public class CardPresenter extends Presenter {
                 case BaseItem:
                     BaseItemDto itemDto = mItem.getBaseItem();
                     cardWidth = (int)((Utils.getImageAspectRatio(itemDto)) * cardHeight);
+                    //TvApp.getApplication().getLogger().Debug("**** Image width: "+ cardWidth + " Aspect: " + Utils.getImageAspectRatio(itemDto) + " Item: "+itemDto.getName());
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     switch (itemDto.getType()) {
                         case "Audio":

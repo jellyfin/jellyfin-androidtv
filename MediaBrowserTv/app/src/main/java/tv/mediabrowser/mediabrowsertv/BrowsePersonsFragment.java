@@ -1,17 +1,12 @@
 package tv.mediabrowser.mediabrowsertv;
 
-import android.os.Bundle;
-
-import java.util.Arrays;
-
-import mediabrowser.model.entities.SortOrder;
-import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemSortBy;
+import mediabrowser.model.querying.PersonsQuery;
 
 /**
  * Created by Eric on 12/4/2014.
  */
-public class ByLetterFragment extends CustomViewFragment {
+public class BrowsePersonsFragment extends CustomViewFragment {
 
     private static String letters = TvApp.getApplication().getResources().getString(R.string.byletter_letters);
 
@@ -20,23 +15,23 @@ public class ByLetterFragment extends CustomViewFragment {
 
         if (mFolder.getChildCount() > 0) {
             //First add a '#' item
-            StdItemQuery numbers = new StdItemQuery();
+            PersonsQuery numbers = new PersonsQuery();
             numbers.setParentId(mFolder.getId());
             numbers.setSortBy(new String[]{ItemSortBy.SortName});
             if (includeType != null) numbers.setIncludeItemTypes(new String[]{includeType});
             numbers.setNameLessThan("A");
             numbers.setRecursive(true);
-            mRows.add(new BrowseRowDef("#", numbers, 60));
+            mRows.add(new BrowseRowDef("#", numbers, 50));
 
             //Then all the defined letters
             for (Character letter : letters.toCharArray()) {
-                StdItemQuery letterQuery = new StdItemQuery();
+                PersonsQuery letterQuery = new PersonsQuery();
                 letterQuery.setParentId(mFolder.getId());
                 letterQuery.setSortBy(new String[]{ItemSortBy.SortName});
                 if (includeType != null) letterQuery.setIncludeItemTypes(new String[]{includeType});
-                letterQuery.setNameStartsWith(letter.toString());
+                letterQuery.setNameStartsWithOrGreater(letter.toString());
                 letterQuery.setRecursive(true);
-                mRows.add(new BrowseRowDef(letter.toString(), letterQuery, 60));
+                mRows.add(new BrowseRowDef(letter.toString(), letterQuery, 50));
             }
 
             if (mRows.size() < 2) setHeadersState(HEADERS_DISABLED);

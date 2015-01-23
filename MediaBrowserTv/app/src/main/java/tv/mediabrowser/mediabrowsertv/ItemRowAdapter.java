@@ -18,6 +18,7 @@ import mediabrowser.model.net.HttpException;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
+import mediabrowser.model.querying.PersonsQuery;
 import mediabrowser.model.querying.SeasonQuery;
 import mediabrowser.model.querying.SimilarItemsQuery;
 import mediabrowser.model.querying.UpcomingEpisodesQuery;
@@ -31,6 +32,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private SeasonQuery mSeasonQuery;
     private UpcomingEpisodesQuery mUpcomingQuery;
     private SimilarItemsQuery mSimilarQuery;
+    private PersonsQuery mPersonsQuery;
     private QueryType queryType;
 
     private BaseItemPerson[] mPersons;
@@ -114,6 +116,16 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.Season;
     }
 
+    public ItemRowAdapter(PersonsQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
+        super(presenter);
+        mParent = parent;
+        this.chunkSize = chunkSize;
+        mPersonsQuery = query;
+        mPersonsQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        if (chunkSize > 0) mQuery.setLimit(chunkSize);
+        queryType = QueryType.Persons;
+    }
+
     public ItemRowAdapter(ViewQuery query, Presenter presenter, ArrayObjectAdapter parent) {
         super(presenter);
         mParent = parent;
@@ -147,7 +159,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         }
 
         if (pos >= itemsLoaded - 20) {
-            //TODO load more...
             TvApp.getApplication().getLogger().Debug("Loading more items starting at "+itemsLoaded);
             RetrieveNext();
         }
@@ -155,12 +166,25 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     public void RetrieveNext() {
-        if (fullyLoaded || mQuery == null || isCurrentlyRetrieving()) return;
-        setCurrentlyRetrieving(true);
+        switch (queryType) {
+            case Persons:
+                if (fullyLoaded || mPersonsQuery == null || isCurrentlyRetrieving()) return;
+                setCurrentlyRetrieving(true);
 
-        //set the query to go get the next chunk
-        mQuery.setStartIndex(itemsLoaded);
-        Retrieve(mQuery);
+                //set the query to go get the next chunk
+                mPersonsQuery.setStartIndex(itemsLoaded);
+                Retrieve(mPersonsQuery);
+                break;
+
+            default:
+                if (fullyLoaded || mQuery == null || isCurrentlyRetrieving()) return;
+                setCurrentlyRetrieving(true);
+
+                //set the query to go get the next chunk
+                mQuery.setStartIndex(itemsLoaded);
+                Retrieve(mQuery);
+                break;
+        }
     }
 
     public void Retrieve() {
@@ -187,6 +211,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
             case SimilarMovies:
                 RetrieveSimilarMovies(mSimilarQuery);
+                break;
+            case Persons:
+                Retrieve(mPersonsQuery);
                 break;
             case StaticPeople:
                 LoadPeople();
@@ -278,6 +305,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving items", exception);
+                mParent.remove(mRow);
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
             }
@@ -322,6 +350,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                         Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                     }
                 } else {
+                    mParent.remove(mRow);
                     Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
 
                 }
@@ -354,6 +383,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving next up items", exception);
+                mParent.remove(mRow);
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
             }
@@ -369,7 +399,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++,item));
+                        adapter.add(new BaseRowItem(i++, item));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
@@ -385,6 +415,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving similar series items", exception);
+                mParent.remove(mRow);
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
             }
@@ -400,7 +431,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++,item));
+                        adapter.add(new BaseRowItem(i++, item));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
@@ -416,6 +447,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving similar series items", exception);
+                mParent.remove(mRow);
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
             }
@@ -431,7 +463,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
                     for (BaseItemDto item : response.getItems()) {
-                        if (query.getParentId() == null || item.getSeriesId() == null || item.getSeriesId().equals(query.getParentId())) adapter.add(new BaseRowItem(i++, item));
+                        if (query.getParentId() == null || item.getSeriesId() == null || item.getSeriesId().equals(query.getParentId()))
+                            adapter.add(new BaseRowItem(i++, item));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
@@ -447,6 +480,39 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving upcoming items", exception);
+                mParent.remove(mRow);
+                Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                currentlyRetrieving = false;
+            }
+        });
+
+    }
+
+    public void Retrieve(final PersonsQuery query) {
+        final ItemRowAdapter adapter = this;
+        TvApp.getApplication().getApiClient().GetPeopleAsync(query, new Response<ItemsResult>() {
+            @Override
+            public void onResponse(ItemsResult response) {
+                if (response.getTotalRecordCount() > 0) {
+                    int i = itemsLoaded;
+                    for (BaseItemDto item : response.getItems()) {
+                        adapter.add(new BaseRowItem(i++, item));
+                    }
+                    totalItems = response.getTotalRecordCount();
+                    setItemsLoaded(i);
+                    if (i == 0) mParent.remove(mRow);
+                } else {
+                    // no results - don't show us
+                    mParent.remove(mRow);
+                }
+
+                currentlyRetrieving = false;
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving people", exception);
+                mParent.remove(mRow);
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
             }

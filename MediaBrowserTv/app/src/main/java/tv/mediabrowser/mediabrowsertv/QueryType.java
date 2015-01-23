@@ -11,5 +11,6 @@ public enum QueryType {
     StaticPeople,
     StaticChapters,
     StaticServers,
-    Users
+    Users,
+    Persons
 }
