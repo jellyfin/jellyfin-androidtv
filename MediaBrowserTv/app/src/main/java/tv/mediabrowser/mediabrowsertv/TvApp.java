@@ -28,7 +28,7 @@ import org.acra.sender.HttpSender;
         reportType = HttpSender.Type.JSON,
         formUri = "https://embi.couchappy.com/acra-androidtv/_design/acra-storage/_update/report",
         formUriBasicAuthLogin = "atvreporter",
-        logcatArguments = { "-t", "400", "-v", "long", "ActivityManager:I", "MyApp:D", "*:S" },
+        logcatArguments = { "-t", "400", "-v", "long", "ActivityManager:I", "MediaBrowserTv:D", "*:S" },
         formUriBasicAuthPassword = "bumblebee+")
 
 public class TvApp extends Application {
@@ -54,11 +54,13 @@ public class TvApp extends Application {
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread thread, Throwable ex) {
-                Log.e("MediaBrowserTv", "Uncaught exception is: ", ex);
-                ex.printStackTrace();
                 if (!getApiClient().getServerInfo().getName().equals("Dev Server")) {
                     Utils.PutCustomAcraData();
                     ACRA.getErrorReporter().handleException(ex, true);
+                } else {
+                    Log.e("MediaBrowserTv", "Uncaught exception is: ", ex);
+                    ex.printStackTrace();
+
                 }
 
             }
