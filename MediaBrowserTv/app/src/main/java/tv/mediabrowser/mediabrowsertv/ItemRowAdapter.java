@@ -122,7 +122,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.chunkSize = chunkSize;
         mPersonsQuery = query;
         mPersonsQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
-        if (chunkSize > 0) mQuery.setLimit(chunkSize);
+        if (chunkSize > 0) mPersonsQuery.setLimit(chunkSize);
         queryType = QueryType.Persons;
     }
 

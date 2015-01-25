@@ -48,6 +48,7 @@ public class BrowseRowDef {
         headerText = header;
         this.personsQuery = query;
         this.queryType = QueryType.Persons;
+        this.chunkSize = chunkSize;
     }
 
     public BrowseRowDef(String header, SimilarItemsQuery query, QueryType type) {

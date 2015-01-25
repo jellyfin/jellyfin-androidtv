@@ -21,7 +21,7 @@ public class BrowsePersonsFragment extends CustomViewFragment {
             if (includeType != null) numbers.setIncludeItemTypes(new String[]{includeType});
             numbers.setNameLessThan("A");
             numbers.setRecursive(true);
-            mRows.add(new BrowseRowDef("#", numbers, 50));
+            mRows.add(new BrowseRowDef("#", numbers, 25));
 
             //Then all the defined letters
             for (Character letter : letters.toCharArray()) {
@@ -29,9 +29,9 @@ public class BrowsePersonsFragment extends CustomViewFragment {
                 letterQuery.setParentId(mFolder.getId());
                 letterQuery.setSortBy(new String[]{ItemSortBy.SortName});
                 if (includeType != null) letterQuery.setIncludeItemTypes(new String[]{includeType});
-                letterQuery.setNameStartsWithOrGreater(letter.toString());
+                letterQuery.setNameStartsWith(letter.toString());
                 letterQuery.setRecursive(true);
-                mRows.add(new BrowseRowDef(letter.toString(), letterQuery, 50));
+                mRows.add(new BrowseRowDef(letter.toString(), letterQuery, 25));
             }
 
             if (mRows.size() < 2) setHeadersState(HEADERS_DISABLED);
