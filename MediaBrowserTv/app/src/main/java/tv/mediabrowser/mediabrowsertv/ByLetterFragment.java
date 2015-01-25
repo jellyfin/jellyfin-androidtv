@@ -26,7 +26,7 @@ public class ByLetterFragment extends CustomViewFragment {
             if (includeType != null) numbers.setIncludeItemTypes(new String[]{includeType});
             numbers.setNameLessThan("A");
             numbers.setRecursive(true);
-            mRows.add(new BrowseRowDef("#", numbers, 60));
+            mRows.add(new BrowseRowDef("#", numbers, 40));
 
             //Then all the defined letters
             for (Character letter : letters.toCharArray()) {
@@ -36,7 +36,7 @@ public class ByLetterFragment extends CustomViewFragment {
                 if (includeType != null) letterQuery.setIncludeItemTypes(new String[]{includeType});
                 letterQuery.setNameStartsWith(letter.toString());
                 letterQuery.setRecursive(true);
-                mRows.add(new BrowseRowDef(letter.toString(), letterQuery, 60));
+                mRows.add(new BrowseRowDef(letter.toString(), letterQuery, 40));
             }
 
             if (mRows.size() < 2) setHeadersState(HEADERS_DISABLED);
