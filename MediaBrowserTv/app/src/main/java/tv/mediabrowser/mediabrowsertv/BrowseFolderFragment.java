@@ -43,6 +43,8 @@ public class BrowseFolderFragment extends StdBrowseFragment {
                 case "folders":
                     showViews = false;
                     break;
+                default:
+                    showViews = false;
             }
         }
 
