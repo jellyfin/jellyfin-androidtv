@@ -97,6 +97,24 @@ public class CardPresenter extends Presenter {
                     break;
                 case Chapter:
                     break;
+                case SearchHint:
+                    switch (mItem.getSearchHint().getType()) {
+                        case "Episode":
+                            cardWidth = (int)(1.77777777 * cardHeight);
+                            mCardView.setMainImageDimensions(cardWidth, cardHeight);
+                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.tv);
+                            break;
+                        case "Person":
+                            cardWidth = (int)(.777777777 * cardHeight);
+                            mCardView.setMainImageDimensions(cardWidth, cardHeight);
+                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
+                            break;
+                        default:
+                            cardWidth = (int)(.777777777 * cardHeight);
+                            mCardView.setMainImageDimensions(cardWidth, cardHeight);
+                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.video);
+                            break;
+                    }
             }
         }
 

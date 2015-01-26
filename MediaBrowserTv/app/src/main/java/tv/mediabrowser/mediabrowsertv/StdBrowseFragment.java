@@ -184,8 +184,8 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "In-app search not implemented", Toast.LENGTH_LONG)
-                        .show();
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                getActivity().startActivity(intent);
             }
         });
 

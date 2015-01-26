@@ -10,6 +10,8 @@ import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.ChapterInfoDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.dto.UserItemDataDto;
+import mediabrowser.model.entities.ImageType;
+import mediabrowser.model.search.SearchHint;
 
 /**
  * Created by Eric on 12/15/2014.
@@ -21,6 +23,7 @@ public class BaseRowItem {
     private ChapterInfoDto chapterInfo;
     private ServerInfo serverInfo;
     private UserDto user;
+    private SearchHint searchHint;
     private ItemType type;
 
     public BaseRowItem(int index, BaseItemDto item) {
@@ -44,6 +47,11 @@ public class BaseRowItem {
         type = ItemType.User;
     }
 
+    public BaseRowItem(SearchHint hint) {
+        this.searchHint = hint;
+        type = ItemType.SearchHint;
+    }
+
     public BaseRowItem(ChapterInfoDto chapter) {
         this.chapterInfo = chapter;
         type = ItemType.Chapter;
@@ -60,6 +68,7 @@ public class BaseRowItem {
     public ChapterInfoDto getChapterInfo() { return chapterInfo; }
     public ServerInfo getServerInfo() { return serverInfo; }
     public UserDto getUser() { return user; }
+    public SearchHint getSearchHint() { return searchHint; }
 
     public boolean getIsChapter() { return type == ItemType.Chapter; }
     public boolean getIsPerson() { return type == ItemType.Person; }
@@ -79,6 +88,9 @@ public class BaseRowItem {
                 break;
             case Server:
                 return "android.resource://tv.mediabrowser.mediabrowsertv/" + R.drawable.server;
+            case SearchHint:
+                return !Utils.IsEmpty(searchHint.getPrimaryImageTag()) ? Utils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag(), TvApp.getApplication().getApiClient()) :
+                        !Utils.IsEmpty(searchHint.getThumbImageItemId()) ? Utils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag(), TvApp.getApplication().getApiClient()) : null;
         }
         return null;
     }
@@ -96,6 +108,8 @@ public class BaseRowItem {
                 return serverInfo.getName();
             case User:
                 return user.getName();
+            case SearchHint:
+                return (searchHint.getSeries() != null ? searchHint.getSeries() + " - " : "") + searchHint.getName();
         }
 
         return "<Unknown>";
@@ -115,6 +129,8 @@ public class BaseRowItem {
                 return serverInfo.getLocalAddress().substring(7);
             case User:
                 return DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(user.getLastActivityDate()).getTime()).toString();
+            case SearchHint:
+                return searchHint.getType();
         }
 
         return "";
@@ -157,7 +173,7 @@ public class BaseRowItem {
     public enum ItemType {
         BaseItem,
         Person,
-        Server, User, Chapter
+        Server, User, Chapter, SearchHint
     }
 }
 
