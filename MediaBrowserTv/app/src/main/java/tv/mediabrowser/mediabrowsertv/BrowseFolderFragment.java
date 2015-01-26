@@ -61,8 +61,6 @@ public class BrowseFolderFragment extends StdBrowseFragment {
             if (itemTypeString != null && itemTypeString.equals("Movie"))
                 gridRowAdapter.add(new GridButton(SUGGESTED, "Suggested", R.drawable.suggestions));
             gridRowAdapter.add(new GridButton(GENRES, "Genres", R.drawable.genres));
-            if (itemTypeString != null && itemTypeString.equals("Movie"))
-                gridRowAdapter.add(new GridButton(YEARS, "Years", R.drawable.years));
             gridRowAdapter.add(new GridButton(PERSONS, "Performers", R.drawable.actors));
             rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
 
