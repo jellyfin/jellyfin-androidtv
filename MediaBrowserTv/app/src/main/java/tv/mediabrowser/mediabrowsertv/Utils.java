@@ -232,6 +232,15 @@ public class Utils {
 
     private static String[] ProgressIndicatorTypes = new String[] {"Episode", "Movie", "MusicVideo", "Video"};
 
+    public static String getImageUrl(String itemId, ImageType imageType, String imageTag, ApiClient apiClient) {
+        ImageOptions options = new ImageOptions();
+        options.setMaxWidth(320);
+        options.setImageType(imageType);
+        options.setTag(imageTag);
+
+        return apiClient.GetImageUrl(itemId, options);
+    }
+
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched) {
         ImageOptions options = new ImageOptions();
         String itemId = item.getId();
@@ -269,6 +278,7 @@ public class Utils {
 
         return apiClient.GetImageUrl(itemId, options);
     }
+
     public static String getLogoImageUrl(BaseItemDto item, ApiClient apiClient) {
         if (item != null) {
             ImageOptions options = new ImageOptions();
@@ -633,9 +643,8 @@ public class Utils {
 
         // nextInt is normally exclusive of the top value,
         // so add 1 to make it inclusive
-        int randomNum = rand.nextInt((max - min) + 1) + min;
 
-        return randomNum;
+        return rand.nextInt((max - min) + 1) + min;
     }
 
     public static void signInToServer(IConnectionManager connectionManager, ServerInfo server, final Activity activity) {
@@ -697,9 +706,7 @@ public class Utils {
                     Utils.showToast(activity, "Invalid User id or password");
                 }
             });
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
@@ -750,6 +757,10 @@ public class Utils {
     public static int NullCoalesce(Integer obj, int def) {
         if (obj == null) return def;
         return obj;
+    }
+
+    public static boolean IsEmpty(String value) {
+        return value == null || value.equals("");
     }
 
     public static void PutCustomAcraData() {

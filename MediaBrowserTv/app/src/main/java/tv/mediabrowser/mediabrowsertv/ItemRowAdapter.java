@@ -22,6 +22,9 @@ import mediabrowser.model.querying.PersonsQuery;
 import mediabrowser.model.querying.SeasonQuery;
 import mediabrowser.model.querying.SimilarItemsQuery;
 import mediabrowser.model.querying.UpcomingEpisodesQuery;
+import mediabrowser.model.search.SearchHint;
+import mediabrowser.model.search.SearchHintResult;
+import mediabrowser.model.search.SearchQuery;
 
 /**
  * Created by Eric on 12/5/2014.
@@ -33,6 +36,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private UpcomingEpisodesQuery mUpcomingQuery;
     private SimilarItemsQuery mSimilarQuery;
     private PersonsQuery mPersonsQuery;
+    private SearchQuery mSearchQuery;
     private QueryType queryType;
 
     private BaseItemPerson[] mPersons;
@@ -126,6 +130,15 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.Persons;
     }
 
+    public ItemRowAdapter(SearchQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+        super(presenter);
+        mParent = parent;
+        mSearchQuery = query;
+        mSearchQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        mSearchQuery.setLimit(50);
+        queryType = QueryType.Search;
+    }
+
     public ItemRowAdapter(ViewQuery query, Presenter presenter, ArrayObjectAdapter parent) {
         super(presenter);
         mParent = parent;
@@ -142,6 +155,12 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     public void setItemsLoaded(int itemsLoaded) {
         this.itemsLoaded = itemsLoaded;
         this.fullyLoaded = chunkSize == 0 || itemsLoaded >= totalItems;
+    }
+
+    public void setSearchString(String value) {
+        if (mSearchQuery != null) {
+            mSearchQuery.setSearchTerm(value);
+        }
     }
 
     public long getItemsLoaded() {
@@ -223,6 +242,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
             case Users:
                 RetrieveUsers(mServer);
+                break;
+            case Search:
+                Retrieve(mSearchQuery);
+                break;
         }
     }
 
@@ -307,6 +330,41 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving items", exception);
                 mParent.remove(mRow);
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                currentlyRetrieving = false;
+            }
+        });
+
+    }
+
+    private void Retrieve(SearchQuery query) {
+        final ItemRowAdapter adapter = this;
+        TvApp.getApplication().getApiClient().GetSearchHintsAsync(query, new Response<SearchHintResult>() {
+            @Override
+            public void onResponse(SearchHintResult response) {
+                if (response.getTotalRecordCount() > 0) {
+                    int i = 0;
+                    for (SearchHint item : response.getSearchHints()) {
+                        if (!ignoreTypeList.contains(item.getType())) {
+                            i++;
+                            adapter.add(new BaseRowItem(item));
+                        }
+                    }
+                    totalItems = response.getTotalRecordCount();
+                    setItemsLoaded(itemsLoaded + i);
+                    if (itemsLoaded == 0) mParent.remove(mRow);
+                } else {
+                    // no results - don't show us
+                    mParent.remove(mRow);
+                }
+
+                currentlyRetrieving = false;
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving search results", exception);
+                Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                mParent.remove(mRow);
                 currentlyRetrieving = false;
             }
         });
