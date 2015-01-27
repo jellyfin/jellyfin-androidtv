@@ -102,7 +102,18 @@ public class HomeFragment extends StdBrowseFragment {
             if (item instanceof GridButton) {
                 switch (((GridButton) item).getId()) {
                     case LOGOUT:
+                        TvApp app = TvApp.getApplication();
+                        if (app.getIsAutoLoginConfigured()) {
+                            // Present user selection
+                            app.setLoginApiClient(app.getApiClient());
+                            Intent userIntent = new Intent(getActivity(), SelectUserActivity.class);
+                            userIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            getActivity().startActivity(userIntent);
+
+                        }
+
                         getActivity().finish(); //don't actually log out because we handle it ourselves
+
                         break;
                     case SETTINGS:
                         Intent settings = new Intent(getActivity(), SettingsActivity.class);
