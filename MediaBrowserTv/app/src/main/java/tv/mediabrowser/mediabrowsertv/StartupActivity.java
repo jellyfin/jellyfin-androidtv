@@ -35,7 +35,7 @@ public class StartupActivity extends Activity {
 
     private TvApp application;
     private ILogger logger;
-    private Calendar expirationDate = new GregorianCalendar(2015,0,27);
+    private Calendar expirationDate = new GregorianCalendar(2015,1,2);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,18 +86,17 @@ public class StartupActivity extends Activity {
         application.setConfiguredAutoCredentials(Utils.GetSavedLoginCredentials());
 
         //And use those credentials if option is set
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(application);
-        if (prefs.getString("pref_login_behavior", "0").equals("1")) {
+        if (application.getIsAutoLoginConfigured()) {
             //Auto login as configured user - first connect to server
             connectionManager.Connect(application.getConfiguredAutoCredentials().getServerInfo(), new Response<ConnectionResult>() {
                 @Override
                 public void onResponse(ConnectionResult response) {
                     // Connected to server - load user and prompt for pw if necessary
                     application.setLoginApiClient(response.getApiClient());
-                    response.getApiClient().GetUserAsync(response.getApiClient().getCurrentUserId(), new Response<UserDto>() {
+                    response.getApiClient().GetUserAsync(application.getConfiguredAutoCredentials().getUserDto().getId(), new Response<UserDto>() {
                         @Override
                         public void onResponse(final UserDto response) {
-                            if (response.getHasPassword() && prefs.getBoolean("pref_auto_pw_prompt", false)) {
+                            if (response.getHasPassword() && application.getPrefs().getBoolean("pref_auto_pw_prompt", false)) {
                                 final EditText password = new EditText(activity);
                                 password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                                 new AlertDialog.Builder(activity)
@@ -116,6 +115,12 @@ public class StartupActivity extends Activity {
                                 Intent intent = new Intent(activity, MainActivity.class);
                                 activity.startActivity(intent);
                             }
+                        }
+
+                        @Override
+                        public void onError(Exception exception) {
+                            Utils.reportError(activity, "Error Signing In");
+                            connectAutomatically(connectionManager, activity);
                         }
                     });
                 }
