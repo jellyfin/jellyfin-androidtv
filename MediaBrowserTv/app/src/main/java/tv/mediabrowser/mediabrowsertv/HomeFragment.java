@@ -102,13 +102,7 @@ public class HomeFragment extends StdBrowseFragment {
             if (item instanceof GridButton) {
                 switch (((GridButton) item).getId()) {
                     case LOGOUT:
-                        mApiClient = TvApp.getApplication().getConnectionManager().GetApiClient(TvApp.getApplication().getCurrentUser());
-                        mApiClient.Logout(new EmptyResponse() {
-                            @Override
-                            public void onResponse() {
-                                getActivity().finish();
-                            }
-                        });
+                        getActivity().finish(); //don't actually log out because we handle it ourselves
                         break;
                     case SETTINGS:
                         Intent settings = new Intent(getActivity(), SettingsActivity.class);
