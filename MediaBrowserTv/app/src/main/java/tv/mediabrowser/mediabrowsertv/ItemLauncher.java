@@ -183,6 +183,7 @@ public class ItemLauncher {
                 } else {
                     Utils.loginUser(user.getName(), "", application.getLoginApiClient(), activity);
                 }
+                break;
 
             case SearchHint:
                 final SearchHint hint = rowItem.getSearchHint();
