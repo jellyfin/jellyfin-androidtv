@@ -2,6 +2,7 @@ package tv.mediabrowser.mediabrowsertv;
 
 import android.app.Application;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -28,7 +29,7 @@ import org.acra.sender.HttpSender;
         reportType = HttpSender.Type.JSON,
         formUri = "https://embi.couchappy.com/acra-androidtv/_design/acra-storage/_update/report",
         formUriBasicAuthLogin = "atvreporter",
-        logcatArguments = { "-t", "400", "-v", "long", "ActivityManager:I", "MediaBrowserTv:D", "*:S" },
+        logcatArguments = { "-t", "200", "-v", "long", "ActivityManager:I", "MediaBrowserTv:D", "*:S" },
         formUriBasicAuthPassword = "bumblebee+")
 
 public class TvApp extends Application {
@@ -140,5 +141,13 @@ public class TvApp extends Application {
 
     public void setConfiguredAutoCredentials(LogonCredentials configuredAutoCredentials) {
         this.configuredAutoCredentials = configuredAutoCredentials;
+    }
+
+    public SharedPreferences getPrefs() {
+        return PreferenceManager.getDefaultSharedPreferences(this);
+    }
+
+    public boolean getIsAutoLoginConfigured() {
+        return getPrefs().getString("pref_login_behavior", "0").equals("1");
     }
 }

@@ -680,11 +680,36 @@ public class Utils {
                         userIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         activity.startActivity(userIntent);
                         break;
+                    default:
+                        TvApp.getApplication().getLogger().Error("Unexpected response from server login "+ serverResult.getState());
+                        reportError(activity, "Error Connecting to Server");
                 }
             }
 
-
+            @Override
+            public void onError(Exception exception) {
+                reportError(activity, "Error Connecting to Server");
+            }
         });
+    }
+
+    public static void reportError(final Context context, final String msg) {
+        new AlertDialog.Builder(context)
+                .setTitle(msg)
+                .setMessage("Would you like to send a report to the developer?")
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showToast(context, "Report NOT sent");
+                    }
+                }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                PutCustomAcraData();
+                ACRA.getErrorReporter().handleException(new Exception(msg), false);
+                showToast(context, "Report sent to developer. Thank you.");
+            }
+        }).show();
     }
 
     public static void loginUser(String userName, String pw, ApiClient apiClient, final Activity activity) {
