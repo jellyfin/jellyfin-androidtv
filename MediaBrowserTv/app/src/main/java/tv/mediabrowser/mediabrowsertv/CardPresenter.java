@@ -49,6 +49,7 @@ public class CardPresenter extends Presenter {
                 case BaseItem:
                     BaseItemDto itemDto = mItem.getBaseItem();
                     cardWidth = (int)((Utils.getImageAspectRatio(itemDto)) * cardHeight);
+                    if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
                     //TvApp.getApplication().getLogger().Debug("**** Image width: "+ cardWidth + " Aspect: " + Utils.getImageAspectRatio(itemDto) + " Item: "+itemDto.getName());
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     switch (itemDto.getType()) {
