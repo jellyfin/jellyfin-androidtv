@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.view.View;
@@ -135,6 +136,16 @@ public class CardPresenter extends Presenter {
                     .error(mDefaultCardImage)
                     .into(mImageCardViewTarget);
         }
+
+        protected void resetCardViewImage() {
+            Picasso.with(mContext)
+                    .load(Uri.parse("android.resource://tv.mediabrowser.mediabrowsertv/drawable/loading"))
+                    .resize(cardWidth, cardHeight)
+                    .centerCrop()
+                    .error(mDefaultCardImage)
+                    .into(mImageCardViewTarget);
+
+        }
     }
 
     @Override
@@ -172,6 +183,8 @@ public class CardPresenter extends Presenter {
     @Override
     public void onUnbindViewHolder(Presenter.ViewHolder viewHolder) {
         //Log.d(TAG, "onUnbindViewHolder");
+        //Get the image out of there so won't be there if recycled
+        ((ViewHolder) viewHolder).resetCardViewImage();
     }
 
     @Override
