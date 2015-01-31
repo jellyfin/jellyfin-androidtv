@@ -119,6 +119,7 @@ public class StartupActivity extends Activity {
 
                         @Override
                         public void onError(Exception exception) {
+                            application.getLogger().ErrorException("Error Signing in", exception);
                             Utils.reportError(activity, "Error Signing In");
                             connectAutomatically(connectionManager, activity);
                         }
