@@ -123,7 +123,7 @@ public class StartupActivity extends Activity {
                         @Override
                         public void onError(Exception exception) {
                             application.getLogger().ErrorException("Error Signing in", exception);
-                            ACRA.getErrorReporter().putCustomData("SavedInfo", TvApp.getApplication().getSerializer().SerializeToString(TvApp.getApplication().getConfiguredAutoCredentials()));
+                            ACRA.getErrorReporter().putCustomData("SavedInfo", application.getSerializer().SerializeToString(application.getConfiguredAutoCredentials()));
                             Utils.reportError(activity, "Error Signing In");
                             new Handler().postDelayed(new Runnable() {
                                 @Override
