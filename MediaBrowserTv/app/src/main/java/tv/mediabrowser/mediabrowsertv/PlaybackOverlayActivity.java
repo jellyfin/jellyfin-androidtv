@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.VideoView;
@@ -52,6 +53,28 @@ public class PlaybackOverlayActivity extends Activity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_MEDIA_PLAY:
+                mApplication.getPlaybackController().play(0);
+                return true;
+            case KeyEvent.KEYCODE_MEDIA_PAUSE:
+                mApplication.getPlaybackController().pause();
+                return true;
+            case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                PlaybackController controller = mApplication.getPlaybackController();
+                if (controller.isPlaying()) {
+                    controller.pause();
+                } else {
+                    controller.play(0);
+                }
+                return true;
+            default:
+                return super.onKeyUp(keyCode, event);
+        }
     }
 
     private void loadViews() {
