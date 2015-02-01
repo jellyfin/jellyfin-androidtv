@@ -11,6 +11,8 @@ import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.widget.EditText;
 
+import org.acra.ACRA;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -121,6 +123,7 @@ public class StartupActivity extends Activity {
                         @Override
                         public void onError(Exception exception) {
                             application.getLogger().ErrorException("Error Signing in", exception);
+                            ACRA.getErrorReporter().putCustomData("SavedInfo", TvApp.getApplication().getSerializer().SerializeToString(TvApp.getApplication().getConfiguredAutoCredentials()));
                             Utils.reportError(activity, "Error Signing In");
                             new Handler().postDelayed(new Runnable() {
                                 @Override
