@@ -1,5 +1,6 @@
 package tv.mediabrowser.mediabrowsertv;
 
+import android.os.Handler;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
@@ -396,15 +397,16 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving items", exception);
                 if (exception instanceof HttpException) {
                     HttpException httpException = (HttpException) exception;
-                    if (httpException.getHeaders().get("X-Application-Error-Code").equals("ParentalControl")) {
+                    if (httpException.getStatusCode() == 401 && "ParentalControl".equals(httpException.getHeaders().get("X-Application-Error-Code"))) {
                         Utils.showToast(TvApp.getApplication(), "Access Restricted at this time");
-                        TvApp.getApplication().getApiClient().Logout(new EmptyResponse(){
+                        new Handler().postDelayed(new Runnable() {
                             @Override
-                            public void onResponse() {
-                                System.exit(0);
+                            public void run() {
+                                System.exit(1);
                             }
-                        });
+                        }, 3000);
                     } else {
+                        mParent.remove(mRow);
                         Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                     }
                 } else {
