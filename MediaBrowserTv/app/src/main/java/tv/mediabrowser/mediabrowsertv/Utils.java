@@ -545,7 +545,7 @@ public class Utils {
         return ret;
     }
 
-    public static void Stop(BaseItemDto item, long pos) {
+    public static void ReportStopped(BaseItemDto item, long pos) {
         if (item != null) {
             PlaybackStopInfo info = new PlaybackStopInfo();
             ApiClient apiClient = TvApp.getApplication().getApiClient();

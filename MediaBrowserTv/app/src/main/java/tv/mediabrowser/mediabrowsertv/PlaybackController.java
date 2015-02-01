@@ -200,7 +200,7 @@ public class PlaybackController {
             stopReportLoop();
             stopProgressAutomation();
             Long mbPos = (long)mCurrentPosition * 10000;
-            Utils.Stop(getCurrentlyPlayingItem(), mbPos);
+            Utils.ReportStopped(getCurrentlyPlayingItem(), mbPos);
             mVideoView.stopPlayback();
         }
     }
@@ -340,11 +340,17 @@ public class PlaybackController {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mPlaybackState = PlaybackState.IDLE;
+                stopProgressAutomation();
+                stopReportLoop();
                 Long mbPos = (long) mVideoView.getCurrentPosition() * 10000;
-                Utils.Stop(TvApp.getApplication().getCurrentPlayingItem(), mbPos);
-                mVideoView.suspend();
+                Utils.ReportStopped(TvApp.getApplication().getCurrentPlayingItem(), mbPos);
                 if (mCurrentIndex < mItems.size() - 1) {
-                    // TODO move to next in queue
+                    // move to next in queue
+                    mCurrentIndex++;
+                    mFragment.removeQueueItem(0);
+                    mFragment.addPlaybackControlsRow();
+                    spinnerOff = false;
+                    play(0);
                 } else {
                     // exit activity
                     mFragment.finish();
