@@ -108,26 +108,23 @@ public class MySearchFragment extends SearchFragment
         @Override
         public void run() {
             //Get search results by type
-            SearchQuery movies = getSearchQuery(new String[] {"Movie", "BoxSet"});
-            ItemRowAdapter movieAdapter = new ItemRowAdapter(movies, new CardPresenter(), mRowsAdapter);
-            ListRow movieRow = new ListRow(new HeaderItem("Movies",""), movieAdapter);
-            movieAdapter.setRow(movieRow);
-            mRowsAdapter.add(movieRow);
-            movieAdapter.Retrieve();
+            SearchQuery people = getSearchQuery(new String[] {"Person"});
+            ItemRowAdapter peopleAdapter = new ItemRowAdapter(people, new CardPresenter(), mRowsAdapter);
+            ListRow peopleRow = new ListRow(new HeaderItem("People",""), peopleAdapter);
+            peopleAdapter.setRow(peopleRow);
+            peopleAdapter.Retrieve();
 
             SearchQuery tv = getSearchQuery(new String[] {"Series","Episode"});
             ItemRowAdapter tvAdapter = new ItemRowAdapter(tv, new CardPresenter(), mRowsAdapter);
             ListRow tvRow = new ListRow(new HeaderItem("TV",""), tvAdapter);
             tvAdapter.setRow(tvRow);
-            mRowsAdapter.add(tvRow);
             tvAdapter.Retrieve();
 
-            SearchQuery people = getSearchQuery(new String[] {"Person"});
-            ItemRowAdapter peopleAdapter = new ItemRowAdapter(people, new CardPresenter(), mRowsAdapter);
-            ListRow peopleRow = new ListRow(new HeaderItem("People",""), peopleAdapter);
-            peopleAdapter.setRow(peopleRow);
-            mRowsAdapter.add(peopleRow);
-            peopleAdapter.Retrieve();
+            SearchQuery movies = getSearchQuery(new String[] {"Movie", "BoxSet"});
+            ItemRowAdapter movieAdapter = new ItemRowAdapter(movies, new CardPresenter(), mRowsAdapter);
+            ListRow movieRow = new ListRow(new HeaderItem("Movies",""), movieAdapter);
+            movieAdapter.setRow(movieRow);
+            movieAdapter.Retrieve();
 
         }
 
