@@ -38,6 +38,7 @@ import com.squareup.picasso.Target;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.Response;
+import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.querying.ItemFields;
@@ -57,6 +58,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     private static final int ACTION_RESUME = 2;
     private static final int ACTION_DETAILS = 3;
     private static final int ACTION_SHUFFLE = 4;
+    private static final int ACTION_PLAY_TRAILER = 5;
 
     private static final int DETAIL_THUMB_WIDTH = 150;
     private static final int DETAIL_THUMB_HEIGHT = 150;
@@ -158,6 +160,10 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                         row.addAction(new Action(ACTION_PLAY, "Play"));
                         row.addAction(new Action(ACTION_DETAILS, "Full Details"));
                     }
+
+                    if (mBaseItem.getLocalTrailerCount() != null && mBaseItem.getLocalTrailerCount() > 0) {
+                        row.addAction(new Action(ACTION_PLAY_TRAILER, "Play Trailer(s)"));
+                    }
             }
             return row;
         }
@@ -173,6 +179,22 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                     startActivity(intent);
                 }
             });
+
+        }
+
+        protected void play(final BaseItemDto[] items, final int pos, final boolean shuffle) {
+            List<String> itemsToPlay = new ArrayList<>();
+            final GsonJsonSerializer serializer = mApplication.getSerializer();
+
+            for (BaseItemDto item : items) {
+                itemsToPlay.add(serializer.SerializeToString(item));
+            }
+
+            Intent intent = new Intent(getActivity(), PlaybackOverlayActivity.class);
+            if (shuffle) Collections.shuffle(itemsToPlay);
+            intent.putExtra("Items", itemsToPlay.toArray(new String[itemsToPlay.size()]));
+            intent.putExtra("Position", pos);
+            startActivity(intent);
 
         }
 
@@ -196,6 +218,14 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                             break;
                         case ACTION_SHUFFLE:
                             play(mBaseItem, 0 , true);
+                            break;
+                        case ACTION_PLAY_TRAILER:
+                            mApplication.getApiClient().GetLocalTrailersAsync(mApplication.getCurrentUser().getId(), mBaseItem.getId(), new Response<BaseItemDto[]>() {
+                                @Override
+                                public void onResponse(BaseItemDto[] response) {
+                                    play(response, 0, true);
+                                }
+                            });
                             break;
                         default:
                             Toast.makeText(getActivity(), action.toString() + " not implemented", Toast.LENGTH_SHORT).show();
