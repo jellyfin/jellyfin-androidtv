@@ -38,14 +38,14 @@
 
     <ImageView
         android:layout_width="400sp"
-        android:layout_height="150sp"
+        android:layout_height="120sp"
         android:id="@+id/npLogoImage"
         android:layout_gravity="right|top"
         android:paddingRight="40sp"
         android:paddingTop="20sp"
         android:scaleType="fitCenter"
         android:maxWidth="400dp"
-        android:maxHeight="150sp"
+        android:maxHeight="120dp"
         android:visibility="invisible"
          />
 
