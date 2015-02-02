@@ -38,7 +38,7 @@ public class StartupActivity extends Activity {
 
     private TvApp application;
     private ILogger logger;
-    private Calendar expirationDate = new GregorianCalendar(2015,1,2);
+    private Calendar expirationDate = new GregorianCalendar(2015,1,28);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
