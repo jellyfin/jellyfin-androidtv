@@ -352,10 +352,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
-                    if (itemsLoaded == 0) mParent.remove(mRow);
-                } else {
-                    // no results - don't show us
-                    mParent.remove(mRow);
+                    if (itemsLoaded > 0) mParent.add(mRow);
                 }
 
                 currentlyRetrieving = false;
@@ -365,7 +362,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving search results", exception);
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                mParent.remove(mRow);
                 currentlyRetrieving = false;
             }
         });
