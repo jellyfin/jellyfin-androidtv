@@ -27,7 +27,7 @@ import org.acra.sender.HttpSender;
         formKey = "", // This is required for backward compatibility but not used
         httpMethod = HttpSender.Method.PUT,
         reportType = HttpSender.Type.JSON,
-        formUri = "https://embi.couchappy.com/acra-androidtv/_design/acra-storage/_update/report",
+        formUri = "https://embi.smileupps.com/acra-androidtv/_design/acra-storage/_update/report",
         formUriBasicAuthLogin = "atvreporter",
         formUriBasicAuthPassword = "bumblebee+")
 
