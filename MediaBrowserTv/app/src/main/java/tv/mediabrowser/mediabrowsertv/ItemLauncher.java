@@ -157,9 +157,19 @@ public class ItemLauncher {
                                 break;
                             case ConnectSignIn:
                             case ServerSelection:
-                                Utils.showToast(activity, "Unexpected response from server connect: "+response.getState());
+                                Utils.showToast(activity, "Unexpected response from server connect: " + response.getState());
                                 break;
                         }
+
+
+                    }
+
+                    @Override
+                    public void onError(Exception exception) {
+                        message.Cancel();
+                        Utils.showToast(activity, "Error Signing in to server");
+                        exception.printStackTrace();
+                        Utils.reportError(activity, "Error Signing in to server");
                     }
                 });
                 break;
