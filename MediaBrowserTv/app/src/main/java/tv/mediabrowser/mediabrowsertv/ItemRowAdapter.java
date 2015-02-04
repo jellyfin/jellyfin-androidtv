@@ -267,9 +267,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
             @Override
             public void onError(Exception exception) {
-                mParent.remove(mRow);
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving users", exception);
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                mParent.remove(mRow);
                 currentlyRetrieving = false;
             }
         });
