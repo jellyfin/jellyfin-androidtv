@@ -82,6 +82,7 @@ public class PlaybackController {
     }
 
     public void play(int position) {
+        mApplication.getLogger().Debug("Play called with pos: "+position);
         switch (mPlaybackState) {
             case PLAYING:
                 // do nothing
@@ -102,7 +103,7 @@ public class PlaybackController {
                 mSpinner.setVisibility(View.VISIBLE);
                 BaseItemDto item = getCurrentlyPlayingItem();
                 mCurrentOptions = new VideoOptions();
-                mCurrentOptions.setDeviceId(TvApp.getApplication().getApiClient().getDeviceId());
+                mCurrentOptions.setDeviceId(mApplication.getApiClient().getDeviceId());
                 mCurrentOptions.setItemId(item.getId());
                 mCurrentOptions.setMediaSources(item.getMediaSources());
                 mCurrentOptions.setMaxBitrate(getMaxBitrate());
@@ -127,7 +128,7 @@ public class PlaybackController {
     private StreamInfo playInternal(BaseItemDto item, int position, VideoView view, VideoOptions options) {
         StreamBuilder builder = new StreamBuilder();
         Long mbPos = (long)position * 10000;
-        ApiClient apiClient = TvApp.getApplication().getApiClient();
+        ApiClient apiClient = mApplication.getApiClient();
         StreamInfo ret = null;
 
         if (item.getPath() != null && item.getPath().startsWith("http://")) {
@@ -145,10 +146,10 @@ public class PlaybackController {
         }
 
         if (position > 0) {
-            TvApp.getApplication().getPlaybackController().seek(position);
+            mApplication.getPlaybackController().seek(position);
         }
         view.start();
-        TvApp.getApplication().setCurrentPlayingItem(item);
+        mApplication.setCurrentPlayingItem(item);
 
         PlaybackStartInfo startInfo = new PlaybackStartInfo();
         startInfo.setItemId(item.getId());
@@ -165,7 +166,7 @@ public class PlaybackController {
         mSpinner.setVisibility(View.VISIBLE);
         spinnerOff = false;
         mCurrentOptions.setAudioStreamIndex(index);
-        TvApp.getApplication().getLogger().Debug("Setting audio index to: " + index);
+        mApplication.getLogger().Debug("Setting audio index to: " + index);
         mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
         stop();
         mCurrentStreamInfo = playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mVideoView, mCurrentOptions);
@@ -178,7 +179,7 @@ public class PlaybackController {
         mSpinner.setVisibility(View.VISIBLE);
         spinnerOff = false;
         mCurrentOptions.setSubtitleStreamIndex(index >= 0 ? index : null);
-        TvApp.getApplication().getLogger().Debug("Setting subtitle index to: " + index);
+        mApplication.getLogger().Debug("Setting subtitle index to: " + index);
         mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
         stop();
         mCurrentStreamInfo = playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mVideoView, mCurrentOptions);
@@ -207,8 +208,10 @@ public class PlaybackController {
 
     public void next() {
         stop();
+        mApplication.getLogger().Debug("Next called.");
         if (mCurrentIndex < mItems.size() - 1) {
             mCurrentIndex++;
+            mApplication.getLogger().Debug("Moving to index: "+mCurrentIndex+" out of "+mItems.size() + " total items.");
             mFragment.removeQueueItem(0);
             mFragment.addPlaybackControlsRow();
             spinnerOff = false;
@@ -224,6 +227,7 @@ public class PlaybackController {
         stopReportLoop();
         stopProgressAutomation();
         mPlaybackState = PlaybackState.SEEKING;
+        mApplication.getLogger().Debug("Seeking to "+pos);
         mVideoView.seekTo(pos);
 
     }
@@ -304,6 +308,8 @@ public class PlaybackController {
                 } else {
                     msg = mApplication.getString(R.string.video_error_unknown_error);
                 }
+                Utils.showToast(mApplication, "Video Playback error - "+msg);
+                mApplication.getLogger().Error("Playback error - "+msg);
                 mVideoView.stopPlayback();
                 mPlaybackState = PlaybackState.IDLE;
                 stopProgressAutomation();
@@ -320,7 +326,7 @@ public class PlaybackController {
                 mp.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
                     @Override
                     public void onSeekComplete(MediaPlayer mp) {
-                        TvApp.getApplication().getLogger().Debug("Seek complete...");
+                        mApplication.getLogger().Debug("Seek complete...");
                         mPlaybackState = PlaybackState.PLAYING;
                         mFragment.getPlaybackControlsRow().setCurrentTime(mVideoView.getCurrentPosition());
                         startProgressAutomation();
@@ -343,7 +349,7 @@ public class PlaybackController {
                 stopProgressAutomation();
                 stopReportLoop();
                 Long mbPos = (long) mVideoView.getCurrentPosition() * 10000;
-                Utils.ReportStopped(TvApp.getApplication().getCurrentPlayingItem(), mbPos);
+                Utils.ReportStopped(mApplication.getCurrentPlayingItem(), mbPos);
                 if (mCurrentIndex < mItems.size() - 1) {
                     // move to next in queue
                     mCurrentIndex++;
@@ -353,6 +359,7 @@ public class PlaybackController {
                     play(0);
                 } else {
                     // exit activity
+                    mApplication.getLogger().Debug("Last item completed. Finishing activity.");
                     mFragment.finish();
                 }
             }
