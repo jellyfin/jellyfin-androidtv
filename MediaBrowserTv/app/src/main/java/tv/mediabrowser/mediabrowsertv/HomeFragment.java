@@ -28,6 +28,7 @@ import mediabrowser.model.querying.NextUpQuery;
 public class HomeFragment extends StdBrowseFragment {
     private static final int LOGOUT = 0;
     private static final int SETTINGS = 1;
+    private static final int REPORT = 2;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -85,6 +86,7 @@ public class HomeFragment extends StdBrowseFragment {
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
         gridRowAdapter.add(new GridButton(SETTINGS, "App Settings", R.drawable.gears));
         gridRowAdapter.add(new GridButton(LOGOUT, "Logout " + TvApp.getApplication().getCurrentUser().getName(), R.drawable.logout));
+        gridRowAdapter.add(new GridButton(REPORT, "Send Logs", R.drawable.upload));
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
 
@@ -118,6 +120,9 @@ public class HomeFragment extends StdBrowseFragment {
                     case SETTINGS:
                         Intent settings = new Intent(getActivity(), SettingsActivity.class);
                         getActivity().startActivity(settings);
+                        break;
+                    case REPORT:
+                        Utils.reportError(getActivity(), "Send Log to Dev");
                         break;
                     default:
                         Toast.makeText(getActivity(), item.toString(), Toast.LENGTH_SHORT)
