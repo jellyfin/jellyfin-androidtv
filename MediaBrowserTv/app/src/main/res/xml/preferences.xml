@@ -22,6 +22,11 @@
             android:entries="@array/pref_bitrate_entries"
             android:entryValues="@array/pref_bitrate_values"
             />
+        <CheckBoxPreference android:key="pref_enable_hls"
+            android:title="@string/pref_enable_hls_label"
+            android:defaultValue="true"
+            android:summary="Disable only if experiencing playback problems"
+            />
 
 
     </PreferenceCategory>

@@ -17,6 +17,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v17.leanback.widget.AbstractDetailsDescriptionPresenter;
 import android.support.v17.leanback.widget.Action;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
@@ -410,6 +411,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             }
         }
 
+        boolean hlsEnabled = PreferenceManager.getDefaultSharedPreferences(mApplication).getBoolean("pref_enable_hls",true);
 
         mSubtitleAction = new Action(999, null, null, getActivity().getResources().getDrawable(R.drawable.subt));
         mAudioAction = new Action(998, null, null, getActivity().getResources().getDrawable(R.drawable.audiosel));
@@ -423,11 +425,11 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             mSecondaryActionsAdapter.add(mThumbsUpAction);
         }
         //mPrimaryActionsAdapter.add(mSkipPreviousAction);
-        if (PRIMARY_CONTROLS > 3) {
+        if (hlsEnabled) {
             mPrimaryActionsAdapter.add(mRewindAction);
         }
         mPrimaryActionsAdapter.add(mPlayPauseAction);
-        if (PRIMARY_CONTROLS > 3) {
+        if (hlsEnabled) {
             mPrimaryActionsAdapter.add(new PlaybackControlsRow.FastForwardAction(sContext));
         }
         if (mItemsToPlay.size() > 1) {

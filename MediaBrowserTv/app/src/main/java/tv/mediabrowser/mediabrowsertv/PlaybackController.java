@@ -54,6 +54,7 @@ public class PlaybackController {
     private int mFreezeCheckPoint;
     private int mLastReportedTime;
     private boolean mayBeFrozen = false;
+    private int mPositionOffset = 0;
 
     public PlaybackController(List<BaseItemDto> items, PlaybackOverlayFragment fragment) {
         mItems = items;
@@ -115,7 +116,7 @@ public class PlaybackController {
                 mCurrentOptions.setMediaSources(item.getMediaSources());
                 mCurrentOptions.setMaxBitrate(getMaxBitrate());
 
-                mCurrentOptions.setProfile(new AndroidProfile(true, true));
+                mCurrentOptions.setProfile(new AndroidProfile(PreferenceManager.getDefaultSharedPreferences(mApplication).getBoolean("pref_enable_hls",true), true));
 
                 mCurrentStreamInfo = playInternal(getCurrentlyPlayingItem(), position, mVideoView, mCurrentOptions);
                 if (mFragment != null) {
@@ -135,6 +136,7 @@ public class PlaybackController {
     private StreamInfo playInternal(BaseItemDto item, int position, VideoView view, VideoOptions options) {
         StreamBuilder builder = new StreamBuilder();
         Long mbPos = (long)position * 10000;
+        mPositionOffset = 0;
         ApiClient apiClient = mApplication.getApiClient();
         StreamInfo ret = null;
 
@@ -145,8 +147,12 @@ public class PlaybackController {
             ret = new StreamInfo();
             ret.setMediaSource(item.getMediaSources().get(0));
         } else {
-
             StreamInfo info = builder.BuildVideoItem(options);
+            if (!PreferenceManager.getDefaultSharedPreferences(mApplication).getBoolean("pref_enable_hls",true)) {
+                info.setStartPositionTicks(mbPos);
+                mPositionOffset = position;
+            }
+
             view.setVideoPath(info.ToUrl(apiClient.getApiUrl()));
             setPlaybackMethod(info.getPlayMethod());
             ret = info;
@@ -240,7 +246,7 @@ public class PlaybackController {
     }
 
     public void skip(int msec) {
-        seek(mVideoView.getCurrentPosition() + msec);
+        if (isPlaying()) seek(mVideoView.getCurrentPosition() + msec);
     }
 
     private int getUpdatePeriod() {
@@ -261,7 +267,7 @@ public class PlaybackController {
                         spinnerOff = true;
                         if (mSpinner != null) mSpinner.setVisibility(View.GONE);
                     }
-                    final int currentTime = mVideoView.getCurrentPosition();
+                    final int currentTime = mVideoView.getCurrentPosition() + mPositionOffset;
                     controls.setCurrentTime(currentTime);
                     mCurrentPosition = currentTime;
                     //The very end of some videos over hls cause the VideoView to freeze which freezes our whole app
@@ -391,7 +397,7 @@ public class PlaybackController {
                 });
                 if (mPlaybackState == PlaybackState.BUFFERING) {
                     mPlaybackState = PlaybackState.PLAYING;
-                    mFreezeCheckPoint = mp.getDuration() - 1000;
+                    mFreezeCheckPoint = mp.getDuration() > 60000 ? mp.getDuration() - 1000 : Integer.MAX_VALUE;
                     startProgressAutomation();
                     startReportLoop();
                 }
