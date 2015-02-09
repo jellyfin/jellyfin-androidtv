@@ -1,5 +1,7 @@
 package tv.mediabrowser.mediabrowsertv;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Handler;
@@ -49,6 +51,10 @@ public class PlaybackController {
     private static final int DEFAULT_UPDATE_PERIOD = 1000;
     private static final int UPDATE_PERIOD = 500;
 
+    private int mFreezeCheckPoint;
+    private int mLastReportedTime;
+    private boolean mayBeFrozen = false;
+
     public PlaybackController(List<BaseItemDto> items, PlaybackOverlayFragment fragment) {
         mItems = items;
         mFragment = fragment;
@@ -82,6 +88,7 @@ public class PlaybackController {
     }
 
     public void play(int position) {
+        mayBeFrozen = false;
         mApplication.getLogger().Debug("Play called with pos: "+position);
         switch (mPlaybackState) {
             case PLAYING:
@@ -108,7 +115,7 @@ public class PlaybackController {
                 mCurrentOptions.setMediaSources(item.getMediaSources());
                 mCurrentOptions.setMaxBitrate(getMaxBitrate());
 
-                mCurrentOptions.setProfile(new AndroidProfile());
+                mCurrentOptions.setProfile(new AndroidProfile(true, true));
 
                 mCurrentStreamInfo = playInternal(getCurrentlyPlayingItem(), position, mVideoView, mCurrentOptions);
                 if (mFragment != null) {
@@ -196,13 +203,13 @@ public class PlaybackController {
     }
 
     public void stop() {
-        if (mPlaybackState != PlaybackState.IDLE) {
+        if (mPlaybackState != PlaybackState.IDLE && mPlaybackState != PlaybackState.UNDEFINED) {
             mPlaybackState = PlaybackState.IDLE;
             stopReportLoop();
             stopProgressAutomation();
             Long mbPos = (long)mCurrentPosition * 10000;
             Utils.ReportStopped(getCurrentlyPlayingItem(), mbPos);
-            mVideoView.stopPlayback();
+            if (mVideoView.isPlaying()) mVideoView.stopPlayback();
         }
     }
 
@@ -254,13 +261,39 @@ public class PlaybackController {
                         spinnerOff = true;
                         if (mSpinner != null) mSpinner.setVisibility(View.GONE);
                     }
-                    int currentTime = mVideoView.getCurrentPosition();
+                    final int currentTime = mVideoView.getCurrentPosition();
                     controls.setCurrentTime(currentTime);
                     mCurrentPosition = currentTime;
+                    //The very end of some videos over hls cause the VideoView to freeze which freezes our whole app
+                    //Try to detect this and tell the user about it
+                    if (!mayBeFrozen && currentTime >= mFreezeCheckPoint && currentTime == mLastReportedTime) {
+                        mayBeFrozen = true;
+                        mHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Be sure completion event didn't fire while we were waiting
+                                if (mayBeFrozen) {
+                                    mApplication.getLogger().Info("We appear to have frozen at the end of a video");
+                                    Utils.ReportStopped(mApplication.getCurrentPlayingItem(), currentTime * 10000);
+                                    new AlertDialog.Builder(mFragment.getActivity())
+                                            .setTitle("Streaming Error")
+                                            .setMessage("It appears you have encountered a bug in HLS streaming.  Please try turning off HLS support in Settings. The app will now attempt to exit but you may need to force close it.")
+                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            System.exit(-1);
+                                        }
+                                    }).show();
 
+                                }
+                            }
+                        }, 1100);
+                    } else {
+                        mLastReportedTime = currentTime;
+                        mHandler.postDelayed(this, updatePeriod);
+                    }
+                } else {
+                    mHandler.postDelayed(this, updatePeriod);
                 }
-
-                mHandler.postDelayed(this, updatePeriod);
             }
         };
         mHandler.postDelayed(mProgressLoop, getUpdatePeriod());
@@ -278,9 +311,11 @@ public class PlaybackController {
             @Override
             public void run() {
                 if (mPlaybackState == PlaybackState.PLAYING) {
-                    Utils.ReportProgress(getCurrentlyPlayingItem(), (long)mVideoView.getCurrentPosition() * 10000);
+                    int currentTime = mVideoView.getCurrentPosition();
+
+                    Utils.ReportProgress(getCurrentlyPlayingItem(), (long)currentTime * 10000);
                 }
-                mHandler.postDelayed(this, REPORT_INTERVAL);
+                if (mPlaybackState != PlaybackState.UNDEFINED) mHandler.postDelayed(this, REPORT_INTERVAL);
             }
         };
         mHandler.postDelayed(mReportLoop, REPORT_INTERVAL);
@@ -293,6 +328,27 @@ public class PlaybackController {
 
     }
 
+    private void itemComplete() {
+        mayBeFrozen = false;
+        mPlaybackState = PlaybackState.IDLE;
+        stopProgressAutomation();
+        stopReportLoop();
+        Long mbPos = (long) mVideoView.getCurrentPosition() * 10000;
+        Utils.ReportStopped(mApplication.getCurrentPlayingItem(), mbPos);
+        if (mCurrentIndex < mItems.size() - 1) {
+            // move to next in queue
+            mCurrentIndex++;
+            mApplication.getLogger().Debug("Moving to next queue item. Index: "+mCurrentIndex);
+            mFragment.removeQueueItem(0);
+            mFragment.addPlaybackControlsRow();
+            spinnerOff = false;
+            play(0);
+        } else {
+            // exit activity
+            mApplication.getLogger().Debug("Last item completed. Finishing activity.");
+            mFragment.finish();
+        }
+    }
 
     private void setupCallbacks() {
 
@@ -308,12 +364,12 @@ public class PlaybackController {
                 } else {
                     msg = mApplication.getString(R.string.video_error_unknown_error);
                 }
-                Utils.showToast(mApplication, "Video Playback error - "+msg);
-                mApplication.getLogger().Error("Playback error - "+msg);
-                mVideoView.stopPlayback();
+                Utils.showToast(mApplication, "Video Playback error - " + msg);
+                mApplication.getLogger().Error("Playback error - " + msg);
                 mPlaybackState = PlaybackState.IDLE;
                 stopProgressAutomation();
                 stopReportLoop();
+                mFragment.finish();
                 return false;
             }
         });
@@ -328,13 +384,14 @@ public class PlaybackController {
                     public void onSeekComplete(MediaPlayer mp) {
                         mApplication.getLogger().Debug("Seek complete...");
                         mPlaybackState = PlaybackState.PLAYING;
-                        mFragment.getPlaybackControlsRow().setCurrentTime(mVideoView.getCurrentPosition());
+                        mFragment.getPlaybackControlsRow().setCurrentTime(mp.getCurrentPosition());
                         startProgressAutomation();
                         startReportLoop();
                     }
                 });
                 if (mPlaybackState == PlaybackState.BUFFERING) {
                     mPlaybackState = PlaybackState.PLAYING;
+                    mFreezeCheckPoint = mp.getDuration() - 1000;
                     startProgressAutomation();
                     startReportLoop();
                 }
@@ -345,23 +402,7 @@ public class PlaybackController {
         mVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                mPlaybackState = PlaybackState.IDLE;
-                stopProgressAutomation();
-                stopReportLoop();
-                Long mbPos = (long) mVideoView.getCurrentPosition() * 10000;
-                Utils.ReportStopped(mApplication.getCurrentPlayingItem(), mbPos);
-                if (mCurrentIndex < mItems.size() - 1) {
-                    // move to next in queue
-                    mCurrentIndex++;
-                    mFragment.removeQueueItem(0);
-                    mFragment.addPlaybackControlsRow();
-                    spinnerOff = false;
-                    play(0);
-                } else {
-                    // exit activity
-                    mApplication.getLogger().Debug("Last item completed. Finishing activity.");
-                    mFragment.finish();
-                }
+                itemComplete();
             }
         });
 
@@ -384,7 +425,7 @@ public class PlaybackController {
  * List of various states that we can be in
  */
     public static enum PlaybackState {
-        PLAYING, PAUSED, BUFFERING, IDLE, SEEKING;
+        PLAYING, PAUSED, BUFFERING, IDLE, SEEKING, UNDEFINED;
     }
 
 }
