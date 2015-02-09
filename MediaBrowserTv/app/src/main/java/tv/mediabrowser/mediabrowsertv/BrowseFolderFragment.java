@@ -46,6 +46,8 @@ public class BrowseFolderFragment extends StdBrowseFragment {
                 default:
                     showViews = false;
             }
+        } else {
+            showViews = false;
         }
 
         super.onActivityCreated(savedInstanceState);
