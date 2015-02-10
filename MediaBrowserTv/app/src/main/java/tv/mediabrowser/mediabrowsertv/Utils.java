@@ -16,25 +16,18 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
-import android.media.session.MediaController;
 import android.text.InputType;
-import android.text.format.DateFormat;
-import android.text.format.DateUtils;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import org.acra.ACRA;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,11 +44,7 @@ import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.IConnectionManager;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
-import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.model.apiclient.ServerInfo;
-import mediabrowser.model.dlna.StreamBuilder;
-import mediabrowser.model.dlna.StreamInfo;
-import mediabrowser.model.dlna.VideoOptions;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.ImageOptions;
@@ -65,15 +54,11 @@ import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.MediaStreamType;
-import mediabrowser.model.entities.MediaType;
-import mediabrowser.model.querying.EpisodeQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
-import mediabrowser.model.session.PlayMethod;
 import mediabrowser.model.session.PlaybackProgressInfo;
-import mediabrowser.model.session.PlaybackStartInfo;
 import mediabrowser.model.session.PlaybackStopInfo;
 import mediabrowser.model.users.AuthenticationResult;
 
@@ -594,10 +579,23 @@ public class Utils {
 
     }
 
+    // send the tone to the "alarm" stream (classic beeps go there) with 50% volume
+    private static ToneGenerator ToneHandler = new ToneGenerator(AudioManager.STREAM_ALARM, 50);
+
     public static void Beep() {
-        // send the tone to the "alarm" stream (classic beeps go there) with 50% volume
-        ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 50);
-            toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200); // 200 is duration in ms
+        MakeTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
+    }
+
+    public static void Beep(int ms) {
+        MakeTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, ms);
+    }
+
+    public static void ClickSound() {
+        MakeTone(ToneGenerator.TONE_CDMA_PIP, 50);
+    }
+
+    public static void MakeTone(int type, int ms) {
+        ToneHandler.startTone(type, ms);
     }
 
     public static void ReportProgress(BaseItemDto item, long position) {
