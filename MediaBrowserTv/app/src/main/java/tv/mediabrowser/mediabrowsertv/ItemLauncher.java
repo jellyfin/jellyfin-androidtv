@@ -177,18 +177,10 @@ public class ItemLauncher {
             case User:
                 final UserDto user = rowItem.getUser();
                 if (user.getHasPassword()) {
-                    final EditText password = new EditText(activity);
-                    password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    new AlertDialog.Builder(activity)
-                            .setTitle("Enter Password")
-                            .setMessage("Please enter password for " + user.getName())
-                            .setView(password)
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    String pw = password.getText().toString();
-                                    Utils.loginUser(user.getName(), pw, application.getLoginApiClient(), activity);
-                                }
-                            }).show();
+                    Intent pwIntent = new Intent(activity, DpadPwActivity.class);
+                    pwIntent.putExtra("User", application.getSerializer().SerializeToString(user));
+                    pwIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    activity.startActivity(pwIntent);
 
                 } else {
                     Utils.loginUser(user.getName(), "", application.getLoginApiClient(), activity);
