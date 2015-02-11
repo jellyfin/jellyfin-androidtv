@@ -2,14 +2,12 @@ package tv.mediabrowser.mediabrowsertv;
 
 import android.os.Handler;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
-import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.Presenter;
 
 import java.util.Arrays;
 import java.util.List;
 
-import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.BaseItemDto;
@@ -53,6 +51,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private boolean fullyLoaded = false;
     private boolean currentlyRetrieving = false;
 
+    private boolean preferParentThumb = false;
+
     public boolean isCurrentlyRetrieving() {
         synchronized (this) {
             return currentlyRetrieving;
@@ -75,12 +75,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.Items;
     }
 
-    public ItemRowAdapter(NextUpQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(NextUpQuery query, boolean preferParentThumb, Presenter presenter, ArrayObjectAdapter parent) {
         super(presenter);
         mParent = parent;
         mNextUpQuery = query;
         mNextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         queryType = QueryType.NextUp;
+        this.preferParentThumb = preferParentThumb;
     }
 
     public ItemRowAdapter(BaseItemPerson[] people, Presenter presenter, ArrayObjectAdapter parent) {
@@ -423,7 +424,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++,item));
+                        adapter.add(new BaseRowItem(i++,item, preferParentThumb));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
