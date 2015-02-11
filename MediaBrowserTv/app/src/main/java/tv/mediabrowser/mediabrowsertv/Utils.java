@@ -552,15 +552,6 @@ public class Utils {
             apiClient.ReportPlaybackStoppedAsync(info, new EmptyResponse());
             apiClient.StopTranscodingProcesses(apiClient.getDeviceId(), new EmptyResponse());
 
-            // now update the position info on the item itself so we can resume immediately
-            UserItemDataDto userData = item.getUserData();
-            if (userData == null) {
-                userData = new UserItemDataDto();
-                item.setUserData(userData);
-            }
-
-            userData.setLastPlayedDate(new Date());
-            userData.setPlaybackPositionTicks(pos);
         }
 
     }

@@ -49,23 +49,12 @@ public class ItemLauncher {
                         }
                         return;
                     case "Series":
-                        //Retrieve series for details display
-                        application.getApiClient().GetItemAsync(baseItem.getId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
-                            @Override
-                            public void onResponse(BaseItemDto response) {
-                                Intent intent = new Intent(activity, DetailsActivity.class);
-                                intent.putExtra("BaseItemDto", TvApp.getApplication().getSerializer().SerializeToString(response));
+                        //Start activity for details display
+                        Intent intent = new Intent(activity, DetailsActivity.class);
+                        intent.putExtra("ItemId", baseItem.getId());
 
-                                activity.startActivity(intent);
+                        activity.startActivity(intent);
 
-                            }
-
-                            @Override
-                            public void onError(Exception exception) {
-                                application.getLogger().ErrorException("Error retrieving full object", exception);
-                                exception.printStackTrace();
-                            }
-                        });
                         return;
 
                     case "BoxSet":
@@ -86,51 +75,28 @@ public class ItemLauncher {
 
                     activity.startActivity(intent);
                 } else {
-                    //Retrieve full item for display and playback
-                    application.getApiClient().GetItemAsync(baseItem.getId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
-                        @Override
-                        public void onResponse(BaseItemDto response) {
-                            Intent intent = new Intent(activity, DetailsActivity.class);
-                            intent.putExtra("BaseItemDto", TvApp.getApplication().getSerializer().SerializeToString(response));
+                    //Start details fragment for display and playback
+                    Intent intent = new Intent(activity, DetailsActivity.class);
+                    intent.putExtra("ItemId", baseItem.getId());
 
-                            Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                    activity,
-                                    ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                                    DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                            activity.startActivity(intent, bundle);
-
-                        }
-
-                        @Override
-                        public void onError(Exception exception) {
-                            application.getLogger().ErrorException("Error retrieving full object", exception);
-                            exception.printStackTrace();
-                        }
-                    });
+                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            activity,
+                            ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                            DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                    activity.startActivity(intent, bundle);
                 }
                 break;
             case Person:
-                //Retrieve full item for display
-                application.getApiClient().GetItemAsync(rowItem.getPerson().getId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
-                    @Override
-                    public void onResponse(BaseItemDto response) {
-                        Intent intent = new Intent(activity, DetailsActivity.class);
-                        intent.putExtra("BaseItemDto", TvApp.getApplication().getSerializer().SerializeToString(response));
+                //Start details fragment
+                Intent intent = new Intent(activity, DetailsActivity.class);
+                intent.putExtra("ItemId", rowItem.getPerson().getId());
 
-                        Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                activity,
-                                ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                                DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                        activity.startActivity(intent, bundle);
+                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        activity,
+                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                activity.startActivity(intent, bundle);
 
-                    }
-
-                    @Override
-                    public void onError(Exception exception) {
-                        application.getLogger().ErrorException("Error retrieving full object", exception);
-                        exception.printStackTrace();
-                    }
-                });
                 break;
             case Chapter:
                 break;

@@ -64,9 +64,11 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     private static final int DETAIL_THUMB_HEIGHT = 150;
 
     protected BaseItemDto mBaseItem;
+    protected String mItemId;
     protected ApiClient mApiClient;
     protected DetailsActivity mActivity;
     protected TvApp mApplication;
+    protected boolean mNeedsRefresh = true;
 
     private Drawable mDefaultBackground;
     private Target mBackgroundTarget;
@@ -94,12 +96,10 @@ public class BaseItemDetailsFragment extends DetailsFragment {
         mActivity = (DetailsActivity) getActivity();
         mActivity.getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
-        mBaseItem = TvApp.getApplication().getSerializer().DeserializeFromString(mActivity.getIntent().getStringExtra("BaseItemDto"), BaseItemDto.class);
-        mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask().execute(mBaseItem);
+        mItemId = mActivity.getIntent().getStringExtra("ItemId");
         mDorPresenter.setSharedElementEnterTransition(getActivity(),
                 DetailsActivity.SHARED_ELEMENT_NAME);
 
-        updateBackground(Utils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true));
         setOnItemViewClickedListener(new ItemViewClickedListener());
 
     }
@@ -107,8 +107,28 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     @Override
     public void onResume() {
         super.onResume();
-        //TvApp.getApplication().getLogger().Debug("Resuming details fragment...");
+        TvApp.getApplication().getLogger().Debug("Resuming details fragment...");
         //reload with our updated item
+        if (mNeedsRefresh) loadItem(mItemId);
+    }
+
+    private void loadItem(String id) {
+        mNeedsRefresh = false;
+        mApplication.getApiClient().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+            @Override
+            public void onResponse(BaseItemDto response) {
+                mBaseItem = response;
+                mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask().execute(mBaseItem);
+                updateBackground(Utils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true));
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                mApplication.getLogger().ErrorException("Error retrieving full object", exception);
+                Utils.reportError(getActivity(), "Error retrieving item");
+            }
+        });
+
     }
 
     @Override
@@ -176,6 +196,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                     if (shuffle) Collections.shuffle(Arrays.asList(response));
                     intent.putExtra("Items", response);
                     intent.putExtra("Position", pos);
+                    mNeedsRefresh = true; //refresh when we come back
                     startActivity(intent);
                 }
             });
@@ -194,6 +215,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
             if (shuffle) Collections.shuffle(itemsToPlay);
             intent.putExtra("Items", itemsToPlay.toArray(new String[itemsToPlay.size()]));
             intent.putExtra("Position", pos);
+            mNeedsRefresh = true;
             startActivity(intent);
 
         }
