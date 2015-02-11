@@ -100,18 +100,10 @@ public class StartupActivity extends Activity {
                         @Override
                         public void onResponse(final UserDto response) {
                             if (response.getHasPassword() && application.getPrefs().getBoolean("pref_auto_pw_prompt", false)) {
-                                final EditText password = new EditText(activity);
-                                password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                                new AlertDialog.Builder(activity)
-                                        .setTitle("Enter Password")
-                                        .setMessage("Please enter password for " + response.getName())
-                                        .setView(password)
-                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int whichButton) {
-                                                String pw = password.getText().toString();
-                                                Utils.loginUser(response.getName(), pw, application.getLoginApiClient(), activity);
-                                            }
-                                        }).show();
+                                Intent pwIntent = new Intent(activity, DpadPwActivity.class);
+                                pwIntent.putExtra("User", application.getSerializer().SerializeToString(response));
+                                pwIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                activity.startActivity(pwIntent);
 
                             } else {
                                 application.setCurrentUser(response);
