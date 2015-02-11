@@ -246,7 +246,7 @@ public class PlaybackController {
     }
 
     public void skip(int msec) {
-        if (isPlaying()) seek(mVideoView.getCurrentPosition() + msec);
+        seek(mVideoView.getCurrentPosition() + msec);
     }
 
     private int getUpdatePeriod() {
