@@ -56,6 +56,12 @@ public class DpadPwActivity extends Activity {
                     Utils.loginUser(user.getName(), password, TvApp.getApplication().getLoginApiClient(), this);
                     return true;
                 }
+                if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT && System.currentTimeMillis() - lastKeyDown > longPressSensitivity) {
+                    TvApp.getApplication().getLogger().Debug("Password clear");
+                    password = "";
+                    pwField.setText(password);
+                    return true;
+                }
                 if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN && System.currentTimeMillis() - lastKeyDown > longPressSensitivity) {
                     TvApp.getApplication().getLogger().Debug("Requesting dialog...");
                     final EditText password = new EditText(this);
@@ -77,6 +83,8 @@ public class DpadPwActivity extends Activity {
                 if (lastKey == keyCode && System.currentTimeMillis() - lastKeyUp <= doubleClickSensitivity) {
                     lastKeyUp = 0;
                     Utils.Beep(300);
+                    //Remove the single-click value
+                    password = password.substring(0,password.length()-1);
                     processKey(keyCode, true);
                 } else {
                     lastKeyUp = System.currentTimeMillis();
@@ -123,7 +131,6 @@ public class DpadPwActivity extends Activity {
                 if (!keyUpDetected) return false;
                 lastKeyDown = System.currentTimeMillis();
                 lastKey = keyCode;
-                Utils.ClickSound();
                 keyUpDetected = false;
                 return true;
             default:
