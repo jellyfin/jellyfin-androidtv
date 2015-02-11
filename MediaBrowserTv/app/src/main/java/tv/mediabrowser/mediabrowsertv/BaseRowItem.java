@@ -25,11 +25,18 @@ public class BaseRowItem {
     private UserDto user;
     private SearchHint searchHint;
     private ItemType type;
+    private boolean preferParentThumb = false;
+
 
     public BaseRowItem(int index, BaseItemDto item) {
+        this(index, item, false);
+    }
+
+    public BaseRowItem(int index, BaseItemDto item, boolean preferParentThumb) {
         this.index = index;
         this.baseItem = item;
         type = ItemType.BaseItem;
+        this.preferParentThumb = preferParentThumb;
     }
 
     public BaseRowItem(ServerInfo server) {
@@ -79,7 +86,7 @@ public class BaseRowItem {
         switch (type) {
 
             case BaseItem:
-                return Utils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(),true);
+                return Utils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(),true, preferParentThumb);
             case Person:
                 return Utils.getPrimaryImageUrl(person, TvApp.getApplication().getApiClient());
             case User:

@@ -113,7 +113,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
             ItemRowAdapter rowAdapter;
             switch (def.getQueryType()) {
                 case NextUp:
-                    rowAdapter = new ItemRowAdapter(def.getNextUpQuery(), mCardPresenter, mRowsAdapter);
+                    rowAdapter = new ItemRowAdapter(def.getNextUpQuery(), true, mCardPresenter, mRowsAdapter);
                     break;
                 case Season:
                     rowAdapter = new ItemRowAdapter(def.getSeasonQuery(), mCardPresenter, mRowsAdapter);

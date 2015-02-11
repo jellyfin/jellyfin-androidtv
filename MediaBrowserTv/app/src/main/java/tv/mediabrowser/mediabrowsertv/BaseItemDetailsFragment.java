@@ -292,7 +292,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 nextUpQuery.setSeriesId(mBaseItem.getId());
                 nextUpQuery.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
-                ItemRowAdapter nextUpAdapter = new ItemRowAdapter(nextUpQuery, new CardPresenter(), adapter);
+                ItemRowAdapter nextUpAdapter = new ItemRowAdapter(nextUpQuery, false, new CardPresenter(), adapter);
                 addItemRow(adapter, nextUpAdapter, 0, "Next Up");
 
                 SeasonQuery seasons = new SeasonQuery();

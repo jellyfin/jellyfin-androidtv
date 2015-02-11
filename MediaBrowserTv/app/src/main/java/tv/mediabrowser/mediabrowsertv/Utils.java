@@ -227,26 +227,32 @@ public class Utils {
     }
 
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched) {
+        return getPrimaryImageUrl(item, apiClient, showWatched, false);
+    }
+
+    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched, boolean preferParentThumb) {
         ImageOptions options = new ImageOptions();
         String itemId = item.getId();
         String imageTag = item.getImageTags().get(ImageType.Primary);
         ImageType imageType = ImageType.Primary;
-        if (item.getType().equals("Episode") && imageTag == null) {
+        if (preferParentThumb || (item.getType().equals("Episode") && imageTag == null)) {
             //try for thumb of season or series
-            imageType = ImageType.Thumb;
             if (item.getParentThumbImageTag() != null) {
                 imageTag = item.getParentThumbImageTag();
                 itemId = item.getParentThumbItemId();
-            } else {
+                imageType = ImageType.Thumb;
+            } else if (item.getSeriesThumbImageTag() != null) {
                 imageTag = item.getSeriesThumbImageTag();
+                itemId = item.getSeriesId();
+                imageType = ImageType.Thumb;
+            }
+        } else {
+            if (item.getType().equals("Season") && imageTag == null) {
+                imageTag = item.getSeriesPrimaryImageTag();
                 itemId = item.getSeriesId();
             }
         }
-        if (item.getType().equals("Season") && imageTag == null) {
-            imageTag = item.getSeriesPrimaryImageTag();
-            itemId = item.getSeriesId();
-        }
-        options.setMaxWidth(320);
+        options.setMaxWidth(420);
         options.setImageType(imageType);
         UserItemDataDto userData = item.getUserData();
         if (userData != null) {
