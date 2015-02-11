@@ -3,6 +3,7 @@ package tv.mediabrowser.mediabrowsertv;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.KeyEvent;
@@ -53,6 +54,7 @@ public class DpadPwActivity extends Activity {
             case KeyEvent.KEYCODE_DPAD_UP:
                 if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && System.currentTimeMillis() - lastKeyDown > longPressSensitivity) {
                     TvApp.getApplication().getLogger().Debug("Password finished");
+                    Utils.MakeTone(ToneGenerator.TONE_CDMA_ANSWER, 200);
                     Utils.loginUser(user.getName(), password, TvApp.getApplication().getLoginApiClient(), this);
                     return true;
                 }
