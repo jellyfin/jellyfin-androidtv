@@ -61,7 +61,7 @@
     <string name="pref_enable_hls_label">Enable HLS Streaming</string>
     <string name="title_activity_dpad_pw">Enter Password</string>
     <string name="enter_password">Enter Password</string>
-    <string name="dpad_entry_desc">Use the D-Pad on your remote to enter a numeric password as indicated here.  Single-click a button for the first listed number and double-click for the second. e.g. Single-click \'up\' for 1 and double-click \'select\' for 5.  Hold down the \'select\' button when finished or the left button to start over.</string>
-    <string name="dpad_pw_cancel">* Hold the \'down\' button down for 1 second if you have an alpha password or need a keyboard for entry</string>
+    <string name="dpad_entry_desc">Use the D-Pad on your remote to enter a numeric password.  Single-click a button for the first listed number or double-click for the second. e.g. Single-click \'up\' for 1 or double-click \'select\' for 5.  Hold down for 1 second and release the \'select\' button when finished or the left button to start over.</string>
+    <string name="dpad_pw_cancel">* Hold the \'down\' button down for 1 second and release if you have an alpha password or need a keyboard for entry</string>
 
 </resources>
