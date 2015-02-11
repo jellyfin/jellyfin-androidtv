@@ -73,6 +73,8 @@ public class Utils {
     private Utils() {
     }
 
+    private static int maxPrimaryImageWidth = 420;
+
     /**
      * Returns the screen/display size
      *
@@ -202,7 +204,7 @@ public class Utils {
     public static String getPrimaryImageUrl(BaseItemPerson item, ApiClient apiClient) {
         ImageOptions options = new ImageOptions();
         options.setTag(item.getPrimaryImageTag());
-        options.setMaxWidth(300);
+        options.setMaxWidth(maxPrimaryImageWidth);
         options.setImageType(ImageType.Primary);
         return apiClient.GetPersonImageUrl(item, options);
     }
@@ -210,7 +212,7 @@ public class Utils {
     public static String getPrimaryImageUrl(UserDto item, ApiClient apiClient) {
         ImageOptions options = new ImageOptions();
         options.setTag(item.getPrimaryImageTag());
-        options.setMaxWidth(300);
+        options.setMaxWidth(maxPrimaryImageWidth);
         options.setImageType(ImageType.Primary);
         return apiClient.GetUserImageUrl(item, options);
     }
@@ -219,7 +221,7 @@ public class Utils {
 
     public static String getImageUrl(String itemId, ImageType imageType, String imageTag, ApiClient apiClient) {
         ImageOptions options = new ImageOptions();
-        options.setMaxWidth(320);
+        options.setMaxWidth(maxPrimaryImageWidth);
         options.setImageType(imageType);
         options.setTag(imageTag);
 
@@ -252,7 +254,7 @@ public class Utils {
                 itemId = item.getSeriesId();
             }
         }
-        options.setMaxWidth(420);
+        options.setMaxWidth(maxPrimaryImageWidth);
         options.setImageType(imageType);
         UserItemDataDto userData = item.getUserData();
         if (userData != null) {
