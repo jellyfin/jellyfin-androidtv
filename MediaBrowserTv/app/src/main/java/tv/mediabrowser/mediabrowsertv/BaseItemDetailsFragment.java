@@ -309,6 +309,12 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 }
 
                 //Specials
+                if (mBaseItem.getSpecialFeatureCount() != null && mBaseItem.getSpecialFeatureCount() > 0) {
+                    SpecialsQuery specialsQuery = new SpecialsQuery();
+                    specialsQuery.setItemId(mBaseItem.getId());
+                    ItemRowAdapter specialsAdapter = new ItemRowAdapter(specialsQuery, new CardPresenter(), adapter);
+                    addItemRow(adapter, specialsAdapter, 2, "Specials");
+                }
 
                 //Similar
                 SimilarItemsQuery similar = new SimilarItemsQuery();
