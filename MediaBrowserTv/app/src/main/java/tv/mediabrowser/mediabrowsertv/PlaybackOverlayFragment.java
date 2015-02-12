@@ -60,7 +60,10 @@ import java.util.List;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.dto.ChapterInfoDto;
+import mediabrowser.model.dto.ImageOptions;
 import mediabrowser.model.dto.UserItemDataDto;
+import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.MediaStream;
 
 /*
@@ -90,6 +93,8 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private Action mRewindAction;
     private SkipNextAction mSkipNextAction;
     private SkipPreviousAction mSkipPreviousAction;
+
+    private int mInitialStartPos;
 
     private ImageView mLogo;
     private Animation fadeIn;
@@ -121,6 +126,8 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             }
         }
 
+        mInitialStartPos = intent.getIntExtra("Position", 0);
+
         mApplication.setPlaybackController(new PlaybackController(mItemsToPlay, this));
         mPlaybackController = mApplication.getPlaybackController();
 
@@ -142,6 +149,28 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                       RowPresenter.ViewHolder rowViewHolder, Row row) {
                 Log.i(TAG, "onItemClicked: " + item + " row " + row);
+                if (item instanceof BaseRowItem) {
+                    BaseRowItem rowItem = (BaseRowItem)item;
+
+                    switch (rowItem.getItemType()) {
+
+                        case BaseItem:
+                            break;
+                        case Person:
+                            break;
+                        case Server:
+                            break;
+                        case User:
+                            break;
+                        case Chapter:
+                            Long start = rowItem.getChapterInfo().getStartPositionTicks() / 10000;
+                            mPlaybackController.seek(start.intValue());
+
+                            break;
+                        case SearchHint:
+                            break;
+                    }
+                }
             }
         });
 
@@ -326,6 +355,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         mRowsAdapter = new ArrayObjectAdapter(ps);
 
         addPlaybackControlsRow();
+        if (mItemsToPlay.get(0).getChapters() != null && mItemsToPlay.get(0).getChapters().size() > 0) addChapterRow();
         if (mItemsToPlay.size() > 1) addQueueRow(); // only show queue if more than one item
 
         setAdapter(mRowsAdapter);
@@ -474,6 +504,35 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         mPlaybackControlsRow.setTotalTime(getDuration());
         mPlaybackControlsRow.setCurrentTime(0);
         mPlaybackControlsRow.setBufferedProgress(0);
+    }
+
+    private void addChapterRow() {
+        BaseItemDto baseItem = mItemsToPlay.get(0);
+        if (baseItem.getChapters() != null && baseItem.getChapters().size() > 0) {
+            List<ChapterItemInfo> chapters = new ArrayList<>();
+            ImageOptions options = new ImageOptions();
+            options.setImageType(ImageType.Chapter);
+            int i = 0;
+            for (ChapterInfoDto dto : baseItem.getChapters()) {
+                ChapterItemInfo chapter = new ChapterItemInfo();
+                chapter.setItemId(baseItem.getId());
+                chapter.setName(dto.getName());
+                chapter.setStartPositionTicks(dto.getStartPositionTicks());
+                if (dto.getHasImage()) {
+                    options.setTag(dto.getImageTag());
+                    options.setImageIndex(i);
+                    chapter.setImagePath(TvApp.getApplication().getApiClient().GetImageUrl(baseItem.getId(), options));
+                }
+                chapters.add(chapter);
+                i++;
+            }
+
+            ItemRowAdapter chapterAdapter = new ItemRowAdapter(chapters, new CardPresenter(), mRowsAdapter);
+            chapterAdapter.Retrieve();
+            HeaderItem header = new HeaderItem(0, getString(R.string.chapters), null);
+            mRowsAdapter.add(new ListRow(header, chapterAdapter));
+
+        }
     }
 
     private void addQueueRow() {

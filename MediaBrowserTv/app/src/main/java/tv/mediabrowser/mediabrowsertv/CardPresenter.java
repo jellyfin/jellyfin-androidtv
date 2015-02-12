@@ -100,6 +100,9 @@ public class CardPresenter extends Presenter {
                     mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
                     break;
                 case Chapter:
+                    cardWidth = (int)(1.77777777 * cardHeight);
+                    mCardView.setMainImageDimensions(cardWidth, cardHeight);
+                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.video);
                     break;
                 case SearchHint:
                     switch (mItem.getSearchHint().getType()) {

@@ -11,6 +11,9 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.text.InputType;
 import android.widget.EditText;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import mediabrowser.apiinteraction.ConnectionResult;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
@@ -99,6 +102,20 @@ public class ItemLauncher {
 
                 break;
             case Chapter:
+                final ChapterItemInfo chapter = rowItem.getChapterInfo();
+                //Start playback of the item at the chapter point
+                application.getApiClient().GetItemAsync(chapter.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>(){
+                    @Override
+                    public void onResponse(BaseItemDto response) {
+                        String[] items = new String[1];
+                        items[0] = application.getSerializer().SerializeToString(response);
+                        Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                        intent.putExtra("Items", items);
+                        Long start = chapter.getStartPositionTicks() / 10000;
+                        intent.putExtra("Position", start.intValue());
+                        activity.startActivity(intent);
+                    }
+                });
                 break;
             case Server:
                 //Connect to the selected server

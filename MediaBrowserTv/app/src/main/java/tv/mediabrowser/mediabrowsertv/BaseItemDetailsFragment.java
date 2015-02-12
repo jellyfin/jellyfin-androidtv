@@ -40,7 +40,11 @@ import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.dto.ChapterInfoDto;
+import mediabrowser.model.dto.ImageOptions;
 import mediabrowser.model.dto.UserItemDataDto;
+import mediabrowser.model.entities.ChapterInfo;
+import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemQuery;
@@ -274,11 +278,39 @@ public class BaseItemDetailsFragment extends DetailsFragment {
         switch (mBaseItem.getType()) {
             case "Movie":
 
+                //Cast/Crew
                 if (mBaseItem.getPeople() != null) {
                     ItemRowAdapter castAdapter = new ItemRowAdapter(mBaseItem.getPeople(), new CardPresenter(), adapter);
                     addItemRow(adapter, castAdapter, 0, "Cast/Crew");
                 }
 
+                //Chapters
+                if (mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
+                    List<ChapterItemInfo> chapters = new ArrayList<>();
+                    ImageOptions options = new ImageOptions();
+                    options.setImageType(ImageType.Chapter);
+                    int i = 0;
+                    for (ChapterInfoDto dto : mBaseItem.getChapters()) {
+                        ChapterItemInfo chapter = new ChapterItemInfo();
+                        chapter.setItemId(mBaseItem.getId());
+                        chapter.setName(dto.getName());
+                        chapter.setStartPositionTicks(dto.getStartPositionTicks());
+                        if (dto.getHasImage()) {
+                            options.setTag(dto.getImageTag());
+                            options.setImageIndex(i);
+                            chapter.setImagePath(mApiClient.GetImageUrl(mBaseItem.getId(), options));
+                        }
+                        chapters.add(chapter);
+                        i++;
+                    }
+
+                    ItemRowAdapter chapterAdapter = new ItemRowAdapter(chapters, new CardPresenter(), adapter);
+                    addItemRow(adapter, chapterAdapter, 1, "Chapters");
+                }
+
+                //Specials
+
+                //Similar
                 SimilarItemsQuery similar = new SimilarItemsQuery();
                 similar.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
                 similar.setUserId(TvApp.getApplication().getCurrentUser().getId());
@@ -286,7 +318,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 similar.setLimit(10);
 
                 ItemRowAdapter similarMoviesAdapter = new ItemRowAdapter(similar, QueryType.SimilarMovies, new CardPresenter(), adapter);
-                addItemRow(adapter, similarMoviesAdapter, 1, "Similar Movies");
+                addItemRow(adapter, similarMoviesAdapter, 3, "Similar Movies");
                 break;
             case "Person":
 
