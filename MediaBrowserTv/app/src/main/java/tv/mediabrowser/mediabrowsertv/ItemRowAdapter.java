@@ -12,7 +12,9 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
+import mediabrowser.model.dto.ChapterInfoDto;
 import mediabrowser.model.dto.UserDto;
+import mediabrowser.model.entities.ChapterInfo;
 import mediabrowser.model.net.HttpException;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemsResult;
@@ -40,6 +42,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private BaseItemPerson[] mPersons;
     private ServerInfo[] mServers;
+    private List<ChapterItemInfo> mChapters;
     private ServerInfo mServer;
 
     private ArrayObjectAdapter mParent;
@@ -89,6 +92,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mPersons = people;
         queryType = QueryType.StaticPeople;
+    }
+
+    public ItemRowAdapter(List<ChapterItemInfo> chapters, Presenter presenter, ArrayObjectAdapter parent) {
+        super(presenter);
+        mParent = parent;
+        mChapters = chapters;
+        queryType = QueryType.StaticChapters;
     }
 
     public ItemRowAdapter(ServerInfo[] servers, Presenter presenter, ArrayObjectAdapter parent) {
@@ -242,6 +252,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             case StaticServers:
                 LoadServers();
                 break;
+            case StaticChapters:
+                LoadChapters();
+                break;
             case Users:
                 RetrieveUsers(mServer);
                 break;
@@ -281,6 +294,19 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         if (mPersons != null) {
             for (BaseItemPerson person : mPersons) {
                 add(new BaseRowItem(person));
+            }
+
+        } else {
+            mParent.remove(mRow);
+        }
+
+        currentlyRetrieving = false;
+    }
+
+    private void LoadChapters() {
+        if (mChapters != null) {
+            for (ChapterItemInfo chapter : mChapters) {
+                add(new BaseRowItem(chapter));
             }
 
         } else {

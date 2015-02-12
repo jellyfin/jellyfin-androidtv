@@ -10,6 +10,7 @@ import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.ChapterInfoDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.dto.UserItemDataDto;
+import mediabrowser.model.entities.ChapterInfo;
 import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.search.SearchHint;
 
@@ -20,7 +21,7 @@ public class BaseRowItem {
     private int index;
     private BaseItemDto baseItem;
     private BaseItemPerson person;
-    private ChapterInfoDto chapterInfo;
+    private ChapterItemInfo chapterInfo;
     private ServerInfo serverInfo;
     private UserDto user;
     private SearchHint searchHint;
@@ -59,7 +60,7 @@ public class BaseRowItem {
         type = ItemType.SearchHint;
     }
 
-    public BaseRowItem(ChapterInfoDto chapter) {
+    public BaseRowItem(ChapterItemInfo chapter) {
         this.chapterInfo = chapter;
         type = ItemType.Chapter;
     }
@@ -72,7 +73,7 @@ public class BaseRowItem {
         return baseItem;
     }
     public BaseItemPerson getPerson() { return person; }
-    public ChapterInfoDto getChapterInfo() { return chapterInfo; }
+    public ChapterItemInfo getChapterInfo() { return chapterInfo; }
     public ServerInfo getServerInfo() { return serverInfo; }
     public UserDto getUser() { return user; }
     public SearchHint getSearchHint() { return searchHint; }
@@ -92,7 +93,7 @@ public class BaseRowItem {
             case User:
                 return Utils.getPrimaryImageUrl(user, TvApp.getApplication().getLoginApiClient());
             case Chapter:
-                break;
+                return chapterInfo.getImagePath();
             case Server:
                 return "android.resource://tv.mediabrowser.mediabrowsertv/" + R.drawable.server;
             case SearchHint:

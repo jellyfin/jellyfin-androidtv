@@ -370,7 +370,7 @@ public class Utils {
                 break;
             default:
                 items.add(serializer.SerializeToString(mainItem));
-                if (mainItem.getPartCount() > 1) {
+                if (mainItem.getPartCount() != null && mainItem.getPartCount() > 1) {
                     // get additional parts
                     TvApp.getApplication().getApiClient().GetAdditionalParts(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
                         @Override
