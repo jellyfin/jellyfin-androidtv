@@ -370,7 +370,20 @@ public class Utils {
                 break;
             default:
                 items.add(serializer.SerializeToString(mainItem));
-                outerResponse.onResponse(items.toArray(new String[items.size()]));
+                if (mainItem.getPartCount() > 1) {
+                    // get additional parts
+                    TvApp.getApplication().getApiClient().GetAdditionalParts(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
+                        @Override
+                        public void onResponse(ItemsResult response) {
+                            for (BaseItemDto item : response.getItems()) {
+                                items.add(serializer.SerializeToString(item));
+                            }
+                            outerResponse.onResponse(items.toArray(new String[items.size()]));
+                        }
+                    });
+                } else {
+                    outerResponse.onResponse(items.toArray(new String[items.size()]));
+                }
                 break;
         }
     }
