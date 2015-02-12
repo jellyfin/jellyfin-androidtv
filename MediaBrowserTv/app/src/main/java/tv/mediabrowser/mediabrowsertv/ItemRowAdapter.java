@@ -38,6 +38,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private SimilarItemsQuery mSimilarQuery;
     private PersonsQuery mPersonsQuery;
     private SearchQuery mSearchQuery;
+    private SpecialsQuery mSpecialsQuery;
     private QueryType queryType;
 
     private BaseItemPerson[] mPersons;
@@ -106,6 +107,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mServers = servers;
         queryType = QueryType.StaticServers;
+    }
+
+    public ItemRowAdapter(SpecialsQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+        super(presenter);
+        mParent = parent;
+        mSpecialsQuery = query;
+        queryType = QueryType.Specials;
     }
 
     public ItemRowAdapter(SimilarItemsQuery query, QueryType queryType, Presenter presenter, ArrayObjectAdapter parent) {
@@ -254,6 +262,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
             case StaticChapters:
                 LoadChapters();
+                break;
+            case Specials:
+                Retrieve(mSpecialsQuery);
                 break;
             case Users:
                 RetrieveUsers(mServer);
@@ -466,6 +477,38 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving next up items", exception);
+                mParent.remove(mRow);
+                Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                currentlyRetrieving = false;
+            }
+        });
+
+    }
+
+    public void Retrieve(final SpecialsQuery query) {
+        final ItemRowAdapter adapter = this;
+        TvApp.getApplication().getApiClient().GetSpecialFeaturesAsync(TvApp.getApplication().getCurrentUser().getId(), query.getItemId(), new Response<BaseItemDto[]>() {
+            @Override
+            public void onResponse(BaseItemDto[] response) {
+                if (response.length > 0) {
+                    int i = 0;
+                    for (BaseItemDto item : response) {
+                        adapter.add(new BaseRowItem(i++,item, preferParentThumb));
+                    }
+                    totalItems = response.length;
+                    setItemsLoaded(itemsLoaded + i);
+                    if (i == 0) mParent.remove(mRow);
+                } else {
+                    // no results - don't show us
+                    mParent.remove(mRow);
+                }
+
+                currentlyRetrieving = false;
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving special features", exception);
                 mParent.remove(mRow);
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
