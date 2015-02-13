@@ -4,6 +4,10 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.format.DateUtils;
 
+import com.jakewharton.disklrucache.Util;
+
+import java.text.SimpleDateFormat;
+
 import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
@@ -12,6 +16,7 @@ import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.ChapterInfo;
 import mediabrowser.model.entities.ImageType;
+import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.search.SearchHint;
 
 /**
@@ -127,7 +132,7 @@ public class BaseRowItem {
         switch (type) {
 
             case BaseItem:
-                return baseItem.getOfficialRating();
+                return (baseItem.getType().equals("Episode") && baseItem.getLocationType().equals(LocationType.Virtual)) ? new SimpleDateFormat("d MMM y").format(Utils.convertToLocalDate(baseItem.getPremiereDate())) : baseItem.getOfficialRating();
             case Person:
                 return person.getRole();
             case Chapter:
