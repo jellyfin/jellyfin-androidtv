@@ -52,8 +52,10 @@ import mediabrowser.model.dto.MediaSourceInfo;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.ImageType;
+import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.MediaStreamType;
+import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemSortBy;
@@ -386,6 +388,11 @@ public class Utils {
                 }
                 break;
         }
+    }
+
+    public static boolean CanPlay(BaseItemDto item) {
+        return item.getPlayAccess().equals(PlayAccess.Full)
+                && (item.getLocationType().equals(LocationType.FileSystem) || item.getLocationType().equals(LocationType.Remote));
     }
 
     private static String divider = "   |   ";
