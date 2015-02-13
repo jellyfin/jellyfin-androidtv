@@ -45,6 +45,8 @@ import mediabrowser.model.dto.ImageOptions;
 import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.ChapterInfo;
 import mediabrowser.model.entities.ImageType;
+import mediabrowser.model.entities.LocationType;
+import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemQuery;
@@ -158,8 +160,8 @@ public class BaseItemDetailsFragment extends DetailsFragment {
             try {
                 Bitmap poster = Picasso.with(getActivity())
                         .load(Utils.getPrimaryImageUrl(mBaseItem, mApiClient, true))
-                                .resize(Utils.convertDpToPixel(getActivity().getApplicationContext(), DETAIL_THUMB_WIDTH),
-                                        Utils.convertDpToPixel(getActivity().getApplicationContext(), DETAIL_THUMB_HEIGHT))
+                                .resize(DETAIL_THUMB_WIDTH,
+                                        DETAIL_THUMB_HEIGHT)
                                 .centerInside()
                                 .get();
                 row.setImageBitmap(getActivity(), poster);
@@ -176,12 +178,12 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 case "Photo":
                     break;
                 default:
-                    if (mBaseItem.getIsFolder()) {
+                    if (mBaseItem.getIsFolder() && Utils.CanPlay(mBaseItem)) {
                         row.addAction(new Action(ACTION_PLAY, "Play All"));
                         row.addAction(new Action(ACTION_SHUFFLE, "Shuffle All"));
 
-                    } else {
-                        row.addAction(new Action(ACTION_PLAY, "Play"));
+                    } else  {
+                        if (Utils.CanPlay(mBaseItem)) row.addAction(new Action(ACTION_PLAY, "Play"));
                         row.addAction(new Action(ACTION_DETAILS, "Full Details"));
                     }
 
