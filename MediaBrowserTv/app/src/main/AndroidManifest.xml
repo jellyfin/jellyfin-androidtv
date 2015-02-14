@@ -53,7 +53,6 @@
             android:name=".PlaybackOverlayActivity"
             android:label="PlaybackOverlayActivity" >
         </activity>
-        <activity android:name=".BrowseErrorActivity" />
         <activity android:name=".GenericFolderActivity" />
         <activity android:name=".UserViewActivity" />
         <activity android:name=".SelectServerActivity" />
