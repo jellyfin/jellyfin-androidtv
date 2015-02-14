@@ -71,7 +71,7 @@ public class StartupActivity extends Activity {
         IJsonSerializer jsonSerializer = new GsonJsonSerializer();
 
 
-        ApiEventListener apiEventListener = new ApiEventListener();
+        ApiEventListener apiEventListener = new TvApiEventListener();
 
         final IConnectionManager connectionManager = new AndroidConnectionManager(application,
                 jsonSerializer,

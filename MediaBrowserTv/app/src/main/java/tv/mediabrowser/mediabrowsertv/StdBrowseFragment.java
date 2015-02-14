@@ -64,7 +64,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     protected TvApp mApplication;
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
-    private ArrayObjectAdapter mRowsAdapter;
+    protected ArrayObjectAdapter mRowsAdapter;
     private Drawable mDefaultBackground;
     private Target mBackgroundTarget;
     private DisplayMetrics mMetrics;
