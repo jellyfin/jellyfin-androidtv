@@ -75,7 +75,7 @@ public class Utils {
     private Utils() {
     }
 
-    private static int maxPrimaryImageWidth = 420;
+    private static int maxPrimaryImageHeight = 370;
 
     /**
      * Returns the screen/display size
@@ -203,10 +203,10 @@ public class Utils {
         return item.getPrimaryImageAspectRatio() != null ? item.getPrimaryImageAspectRatio() : .72222;
     }
 
-    public static String getPrimaryImageUrl(BaseItemPerson item, ApiClient apiClient) {
+    public static String getPrimaryImageUrl(BaseItemPerson item, ApiClient apiClient, int maxHeight) {
         ImageOptions options = new ImageOptions();
         options.setTag(item.getPrimaryImageTag());
-        options.setMaxWidth(maxPrimaryImageWidth);
+        options.setMaxHeight(maxHeight);
         options.setImageType(ImageType.Primary);
         return apiClient.GetPersonImageUrl(item, options);
     }
@@ -214,7 +214,7 @@ public class Utils {
     public static String getPrimaryImageUrl(UserDto item, ApiClient apiClient) {
         ImageOptions options = new ImageOptions();
         options.setTag(item.getPrimaryImageTag());
-        options.setMaxWidth(maxPrimaryImageWidth);
+        options.setMaxHeight(maxPrimaryImageHeight);
         options.setImageType(ImageType.Primary);
         return apiClient.GetUserImageUrl(item, options);
     }
@@ -223,18 +223,14 @@ public class Utils {
 
     public static String getImageUrl(String itemId, ImageType imageType, String imageTag, ApiClient apiClient) {
         ImageOptions options = new ImageOptions();
-        options.setMaxWidth(maxPrimaryImageWidth);
+        options.setMaxHeight(maxPrimaryImageHeight);
         options.setImageType(imageType);
         options.setTag(imageTag);
 
         return apiClient.GetImageUrl(itemId, options);
     }
 
-    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched) {
-        return getPrimaryImageUrl(item, apiClient, showWatched, false);
-    }
-
-    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched, boolean preferParentThumb) {
+    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched, boolean preferParentThumb, int maxHeight) {
         ImageOptions options = new ImageOptions();
         String itemId = item.getId();
         String imageTag = item.getImageTags().get(ImageType.Primary);
@@ -256,7 +252,7 @@ public class Utils {
                 itemId = item.getSeriesId();
             }
         }
-        options.setMaxWidth(maxPrimaryImageWidth);
+        options.setMaxHeight(maxHeight);
         options.setImageType(imageType);
         UserItemDataDto userData = item.getUserData();
         if (userData != null) {
@@ -265,7 +261,10 @@ public class Utils {
                 Double pct = userData.getPlayedPercentage();
                 options.setPercentPlayed(pct.intValue());
             }
-            if (showWatched) options.setAddPlayedIndicator(userData.getPlayed());
+            if (showWatched) {
+                options.setAddPlayedIndicator(userData.getPlayed());
+                //if (item.getIsFolder() && userData.getUnplayedItemCount() != null && userData.getUnplayedItemCount() > 0) options.setUnplayedCount(userData.getUnplayedItemCount());
+            }
 
         }
 
