@@ -67,7 +67,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     private static final int ACTION_PLAY_TRAILER = 5;
 
     private static final int DETAIL_THUMB_WIDTH = 150;
-    private static final int DETAIL_THUMB_HEIGHT = 150;
+    private static final int DETAIL_THUMB_HEIGHT = 200;
 
     protected BaseItemDto mBaseItem;
     protected String mItemId;
@@ -159,9 +159,9 @@ public class BaseItemDetailsFragment extends DetailsFragment {
             DetailsOverviewRow row = new DetailsOverviewRow(mBaseItem);
             try {
                 Bitmap poster = Picasso.with(getActivity())
-                        .load(Utils.getPrimaryImageUrl(mBaseItem, mApiClient, true))
-                                .resize(DETAIL_THUMB_WIDTH,
-                                        DETAIL_THUMB_HEIGHT)
+                        .load(Utils.getPrimaryImageUrl(mBaseItem, mApiClient, true, false, Utils.convertDpToPixel(mApplication, DETAIL_THUMB_HEIGHT)))
+                                .resize(Utils.convertDpToPixel(mApplication,DETAIL_THUMB_WIDTH),
+                                        Utils.convertDpToPixel(mApplication, DETAIL_THUMB_HEIGHT))
                                 .centerInside()
                                 .get();
                 row.setImageBitmap(getActivity(), poster);
@@ -395,6 +395,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
+            if (((BaseRowItem) item).getItemType().equals(BaseRowItem.ItemType.Chapter)) mNeedsRefresh = true;
             ItemLauncher.launch((BaseRowItem)item, mApplication,getActivity(),itemViewHolder);
         }
     }

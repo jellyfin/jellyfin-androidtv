@@ -29,6 +29,7 @@ public class CardPresenter extends Presenter {
 
     static class ViewHolder extends Presenter.ViewHolder {
         private int cardWidth = 230;
+
         private int cardHeight = 300;
         private BaseRowItem mItem;
         private MyImageCardView mCardView;
@@ -41,6 +42,10 @@ public class CardPresenter extends Presenter {
 
             mImageCardViewTarget = new PicassoImageCardViewTarget(mCardView);
             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.video);
+        }
+
+        public int getCardHeight() {
+            return cardHeight;
         }
 
         public void setItem(BaseRowItem m) {
@@ -181,7 +186,7 @@ public class CardPresenter extends Presenter {
 
         }
 
-        ((ViewHolder) viewHolder).updateCardViewImage(rowItem.getPrimaryImageUrl());
+        ((ViewHolder) viewHolder).updateCardViewImage(rowItem.getPrimaryImageUrl(((ViewHolder) viewHolder).getCardHeight()));
 
     }
 

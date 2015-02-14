@@ -88,13 +88,13 @@ public class BaseRowItem {
     public boolean getIsBaseItem() { return type == ItemType.BaseItem; }
     public ItemType getItemType() { return type; }
 
-    public String getPrimaryImageUrl() {
+    public String getPrimaryImageUrl(int maxHeight) {
         switch (type) {
 
             case BaseItem:
-                return Utils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(),true, preferParentThumb);
+                return Utils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(),true, preferParentThumb, maxHeight);
             case Person:
-                return Utils.getPrimaryImageUrl(person, TvApp.getApplication().getApiClient());
+                return Utils.getPrimaryImageUrl(person, TvApp.getApplication().getApiClient(), maxHeight);
             case User:
                 return Utils.getPrimaryImageUrl(user, TvApp.getApplication().getLoginApiClient());
             case Chapter:
