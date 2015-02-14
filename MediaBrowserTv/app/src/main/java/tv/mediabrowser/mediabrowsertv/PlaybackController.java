@@ -271,28 +271,33 @@ public class PlaybackController {
                     controls.setCurrentTime(currentTime);
                     mCurrentPosition = currentTime;
                     //The very end of some videos over hls cause the VideoView to freeze which freezes our whole app
-                    //Try to detect this and tell the user about it
-                    if (!mayBeFrozen && currentTime >= mFreezeCheckPoint && currentTime == mLastReportedTime) {
-                        mayBeFrozen = true;
-                        mHandler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                // Be sure completion event didn't fire while we were waiting
-                                if (mayBeFrozen) {
-                                    mApplication.getLogger().Info("We appear to have frozen at the end of a video");
-                                    Utils.ReportStopped(mApplication.getCurrentPlayingItem(), currentTime * 10000);
-                                    new AlertDialog.Builder(mFragment.getActivity())
-                                            .setTitle("Streaming Error")
-                                            .setMessage("It appears you have encountered a bug in HLS streaming.  Please try turning off HLS support in Settings. The app will now attempt to exit but you may need to force close it.")
-                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-                                            System.exit(-1);
-                                        }
-                                    }).show();
+                    //First try and avoid this by skipping the last few seconds of the video
+                    if (currentTime >= mFreezeCheckPoint && mCurrentStreamInfo.getProtocol().equals("hls")) {
+                        mVideoView.stopPlayback();
+                        itemComplete();
 
-                                }
-                            }
-                        }, 1100);
+//                    //Try to detect this and tell the user about it
+//                    if (!mayBeFrozen && currentTime >= mFreezeCheckPoint && currentTime == mLastReportedTime) {
+//                        mayBeFrozen = true;
+//                        mHandler.postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                // Be sure completion event didn't fire while we were waiting
+//                                if (mayBeFrozen) {
+//                                    mApplication.getLogger().Info("We appear to have frozen at the end of a video");
+//                                    Utils.ReportStopped(mApplication.getCurrentPlayingItem(), currentTime * 10000);
+//                                    new AlertDialog.Builder(mFragment.getActivity())
+//                                            .setTitle("Streaming Error")
+//                                            .setMessage("It appears you have encountered a bug in HLS streaming.  Please try turning off HLS support in Settings. The app will now attempt to exit but you may need to force close it.")
+//                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                                        public void onClick(DialogInterface dialog, int whichButton) {
+//                                            System.exit(-1);
+//                                        }
+//                                    }).show();
+//
+//                                }
+//                            }
+//                        }, 1100);
                     } else {
                         mLastReportedTime = currentTime;
                         mHandler.postDelayed(this, updatePeriod);
@@ -399,7 +404,7 @@ public class PlaybackController {
                 });
                 if (mPlaybackState == PlaybackState.BUFFERING) {
                     mPlaybackState = PlaybackState.PLAYING;
-                    mFreezeCheckPoint = mp.getDuration() > 60000 ? mp.getDuration() - 1000 : Integer.MAX_VALUE;
+                    mFreezeCheckPoint = mp.getDuration() > 60000 ? mp.getDuration() - 9000 : Integer.MAX_VALUE;
                     startProgressAutomation();
                     startReportLoop();
                 }
