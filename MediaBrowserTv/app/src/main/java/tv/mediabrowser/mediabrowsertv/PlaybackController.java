@@ -375,6 +375,8 @@ public class PlaybackController {
                 mPlaybackState = PlaybackState.IDLE;
                 stopProgressAutomation();
                 stopReportLoop();
+                //Be sure to shut down any transcoding
+                mApplication.getApiClient().StopTranscodingProcesses(mApplication.getApiClient().getDeviceId(), new EmptyResponse());
                 mFragment.finish();
                 return false;
             }
