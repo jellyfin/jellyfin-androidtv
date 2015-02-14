@@ -139,7 +139,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
     @Override
     public void onStop() {
-        mDetailRowBuilderTask.cancel(true);
+        if (mDetailRowBuilderTask != null) mDetailRowBuilderTask.cancel(true);
         super.onStop();
     }
 
