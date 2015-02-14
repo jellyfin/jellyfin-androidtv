@@ -185,7 +185,7 @@ public class ItemLauncher {
 
                         } else {
                             Intent intent = new Intent(activity, DetailsActivity.class);
-                            intent.putExtra("BaseItemDto", TvApp.getApplication().getSerializer().SerializeToString(response));
+                            intent.putExtra("ItemId", response.getId());
 
                             Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
                                     activity,
