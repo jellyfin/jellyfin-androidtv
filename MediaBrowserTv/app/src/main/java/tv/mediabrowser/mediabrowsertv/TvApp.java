@@ -1,7 +1,6 @@
 package tv.mediabrowser.mediabrowsertv;
 
 import android.app.Application;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -13,7 +12,10 @@ import mediabrowser.logging.ConsoleLogger;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.logging.ILogger;
-import mediabrowser.model.serialization.IJsonSerializer;
+import tv.mediabrowser.mediabrowsertv.playback.PlaybackController;
+import tv.mediabrowser.mediabrowsertv.startup.LogonCredentials;
+import tv.mediabrowser.mediabrowsertv.util.Utils;
+
 import org.acra.*;
 import org.acra.annotation.*;
 import org.acra.sender.HttpSender;
