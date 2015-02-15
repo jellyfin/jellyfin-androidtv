@@ -21,17 +21,17 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.Leanback" >
         <activity
-            android:name=".MainActivity"
+            android:name=".browsing.MainActivity"
             android:label="@string/app_name"
             android:logo="@drawable/app_icon"
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name=".PlayerActivity"
+            android:name=".playback.PlayerActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity android:name=".DetailsActivity" />
+        <activity android:name=".details.DetailsActivity" />
         <activity
-            android:name=".StartupActivity"
+            android:name=".startup.StartupActivity"
             android:label="@string/app_name"
             android:logo="@drawable/app_icon"
             android:noHistory="true" >
@@ -42,30 +42,30 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ConnectActivity"
+            android:name=".startup.ConnectActivity"
             android:label="@string/title_activity_connect" >
         </activity>
         <activity
-            android:name=".SelectUserActivity"
+            android:name=".startup.SelectUserActivity"
             android:label="@string/title_activity_select_user" >
         </activity>
         <activity
-            android:name=".PlaybackOverlayActivity"
+            android:name=".playback.PlaybackOverlayActivity"
             android:label="PlaybackOverlayActivity" >
         </activity>
-        <activity android:name=".GenericFolderActivity" />
-        <activity android:name=".UserViewActivity" />
-        <activity android:name=".SelectServerActivity" />
-        <activity android:name=".CollectionActivity" />
-        <activity android:name=".ExpiredActivity" />
-        <activity android:name=".ByLetterActivity" />
-        <activity android:name=".ByGenreActivity" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".SuggestedMoviesActivity" />
-        <activity android:name=".BrowsePersonsActivity" />
-        <activity android:name=".SearchActivity" />
+        <activity android:name=".browsing.GenericFolderActivity" />
+        <activity android:name=".browsing.UserViewActivity" />
+        <activity android:name=".startup.SelectServerActivity" />
+        <activity android:name=".browsing.CollectionActivity" />
+        <activity android:name=".startup.ExpiredActivity" />
+        <activity android:name=".browsing.ByLetterActivity" />
+        <activity android:name=".browsing.ByGenreActivity" />
+        <activity android:name=".settings.SettingsActivity" />
+        <activity android:name=".browsing.SuggestedMoviesActivity" />
+        <activity android:name=".browsing.BrowsePersonsActivity" />
+        <activity android:name=".search.SearchActivity" />
         <activity
-            android:name=".DpadPwActivity"
+            android:name=".startup.DpadPwActivity"
             android:label="@string/title_activity_dpad_pw" >
         </activity>
     </application>
