@@ -273,7 +273,7 @@ public class PlaybackController {
                     mCurrentPosition = currentTime;
                     //The very end of some videos over hls cause the VideoView to freeze which freezes our whole app
                     //First try and avoid this by skipping the last few seconds of the video
-                    if (currentTime >= mFreezeCheckPoint && mCurrentStreamInfo.getProtocol().equals("hls")) {
+                    if (currentTime >= mFreezeCheckPoint && mCurrentStreamInfo.getProtocol() != null && mCurrentStreamInfo.getProtocol().equals("hls")) {
                         mVideoView.stopPlayback();
                         itemComplete();
 
