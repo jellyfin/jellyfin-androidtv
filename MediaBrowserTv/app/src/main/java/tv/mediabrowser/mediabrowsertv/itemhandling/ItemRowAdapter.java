@@ -435,7 +435,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving items", exception);
                 if (exception instanceof HttpException) {
                     HttpException httpException = (HttpException) exception;
-                    if (httpException.getStatusCode() == 401 && "ParentalControl".equals(httpException.getHeaders().get("X-Application-Error-Code"))) {
+                    if (httpException.getStatusCode() != null && httpException.getStatusCode() == 401 && "ParentalControl".equals(httpException.getHeaders().get("X-Application-Error-Code"))) {
                         Utils.showToast(TvApp.getApplication(), "Access Restricted at this time");
                         new Handler().postDelayed(new Runnable() {
                             @Override
