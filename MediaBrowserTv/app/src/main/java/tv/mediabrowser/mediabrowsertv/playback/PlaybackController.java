@@ -154,7 +154,7 @@ public class PlaybackController {
                 mPositionOffset = position;
             }
 
-            view.setVideoPath(info.ToUrl(apiClient.getApiUrl()));
+            view.setVideoPath(info.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()));
             setPlaybackMethod(info.getPlayMethod());
             ret = info;
         }

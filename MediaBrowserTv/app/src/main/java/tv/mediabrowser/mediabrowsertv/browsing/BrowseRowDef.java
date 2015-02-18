@@ -6,6 +6,7 @@ import mediabrowser.model.querying.PersonsQuery;
 import mediabrowser.model.querying.SeasonQuery;
 import mediabrowser.model.querying.SimilarItemsQuery;
 import mediabrowser.model.querying.UpcomingEpisodesQuery;
+import tv.mediabrowser.mediabrowsertv.model.ChangeTriggerType;
 import tv.mediabrowser.mediabrowsertv.querying.QueryType;
 import tv.mediabrowser.mediabrowsertv.querying.ViewQuery;
 
@@ -25,6 +26,8 @@ public class BrowseRowDef {
 
     private int chunkSize = 0;
 
+    private ChangeTriggerType[] changeTriggers;
+
     public BrowseRowDef(String header, ItemQuery query, int chunkSize) {
         headerText = header;
         this.query = query;
@@ -32,10 +35,25 @@ public class BrowseRowDef {
         this.queryType = QueryType.Items;
     }
 
+    public BrowseRowDef(String header, ItemQuery query, int chunkSize, ChangeTriggerType[] changeTriggers) {
+        headerText = header;
+        this.query = query;
+        this.chunkSize = chunkSize;
+        this.queryType = QueryType.Items;
+        this.changeTriggers = changeTriggers;
+    }
+
     public BrowseRowDef(String header, NextUpQuery query) {
         headerText = header;
         this.nextUpQuery = query;
         this.queryType = QueryType.NextUp;
+    }
+
+    public BrowseRowDef(String header, NextUpQuery query, ChangeTriggerType[] changeTriggers) {
+        headerText = header;
+        this.nextUpQuery = query;
+        this.queryType = QueryType.NextUp;
+        this.changeTriggers = changeTriggers;
     }
 
     public BrowseRowDef(String header, SimilarItemsQuery query) {
@@ -109,6 +127,10 @@ public class BrowseRowDef {
 
     public PersonsQuery getPersonsQuery() {
         return personsQuery;
+    }
+
+    public ChangeTriggerType[] getChangeTriggers() {
+        return changeTriggers;
     }
 }
 

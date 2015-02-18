@@ -6,6 +6,8 @@ import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.Presenter;
 
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import mediabrowser.apiinteraction.Response;
@@ -25,6 +27,7 @@ import mediabrowser.model.search.SearchHint;
 import mediabrowser.model.search.SearchHintResult;
 import mediabrowser.model.search.SearchQuery;
 import tv.mediabrowser.mediabrowsertv.TvApp;
+import tv.mediabrowser.mediabrowsertv.model.ChangeTriggerType;
 import tv.mediabrowser.mediabrowsertv.model.ChapterItemInfo;
 import tv.mediabrowser.mediabrowsertv.querying.QueryType;
 import tv.mediabrowser.mediabrowsertv.querying.SpecialsQuery;
@@ -44,6 +47,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private SearchQuery mSearchQuery;
     private SpecialsQuery mSpecialsQuery;
     private QueryType queryType;
+
+    private ChangeTriggerType[] reRetrieveTriggers = new ChangeTriggerType[] {};
+    private Calendar lastFullRetrieve;
 
     private BaseItemPerson[] mPersons;
     private ServerInfo[] mServers;
@@ -71,6 +77,14 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         synchronized (this) {
             this.currentlyRetrieving = currentlyRetrieving;
         }
+    }
+
+    public void setRow(ListRow row) {
+        mRow = row;
+    }
+
+    public void setReRetrieveTriggers(ChangeTriggerType[] reRetrieveTriggers) {
+        this.reRetrieveTriggers = reRetrieveTriggers;
     }
 
     public ItemRowAdapter(ItemQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
@@ -230,9 +244,35 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         }
     }
 
+    public void ReRetrieveIfNeeded() {
+        if (reRetrieveTriggers == null) return;
+
+        boolean retrieve = false;
+        TvApp app = TvApp.getApplication();
+        for (ChangeTriggerType trigger : reRetrieveTriggers) {
+            switch (trigger) {
+                case LibraryUpdated:
+                    retrieve |= lastFullRetrieve.before(app.getLastLibraryChange());
+                    break;
+                case MoviePlayback:
+                    retrieve |= lastFullRetrieve.before(app.getLastMoviePlayback());
+                    break;
+                case TvPlayback:
+                    retrieve |= lastFullRetrieve.before(app.getLastTvPlayback());
+                    break;
+            }
+        }
+
+        if (retrieve) {
+            TvApp.getApplication().getLogger().Info("Re-retrieving row of type "+ queryType);
+            Retrieve();
+        }
+    }
+
     public void Retrieve() {
         setCurrentlyRetrieving(true);
-        this.clear();
+        lastFullRetrieve = Calendar.getInstance();
+        itemsLoaded = 0;
         switch (queryType) {
             case Items:
                 Retrieve(mQuery);
@@ -355,6 +395,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
+                    if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
                         if (!ignoreTypeList.contains(item.getCollectionType())) adapter.add(new BaseRowItem(i++,item));
                     }
@@ -386,6 +427,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(SearchHintResult response) {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
+                    if (adapter.size() > 0) adapter.clear();
                     for (SearchHint item : response.getSearchHints()) {
                         if (!ignoreTypeList.contains(item.getType())) {
                             i++;
@@ -417,6 +459,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
                     int i = itemsLoaded;
+                    if (i == 0 && adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(i++,item));
                     }
@@ -464,6 +507,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
+                    if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(i++,item, preferParentThumb));
                     }
@@ -496,6 +540,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(BaseItemDto[] response) {
                 if (response.length > 0) {
                     int i = 0;
+                    if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response) {
                         adapter.add(new BaseRowItem(i++,item, preferParentThumb));
                     }
@@ -528,6 +573,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
+                    if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(i++, item));
                     }
@@ -560,6 +606,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
+                    if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(i++, item));
                     }
@@ -592,6 +639,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
+                    if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
                         if (query.getParentId() == null || item.getSeriesId() == null || item.getSeriesId().equals(query.getParentId()))
                             adapter.add(new BaseRowItem(i++, item));
@@ -625,6 +673,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
                     int i = itemsLoaded;
+                    if (i == 0 && adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(i++, item));
                     }
@@ -657,6 +706,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
+                    if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(i++,item));
                     }
@@ -680,7 +730,4 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     }
 
-    public void setRow(ListRow row) {
-        mRow = row;
-    }
 }

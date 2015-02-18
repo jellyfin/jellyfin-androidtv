@@ -577,6 +577,16 @@ public class Utils {
             apiClient.ReportPlaybackStoppedAsync(info, new EmptyResponse());
             apiClient.StopTranscodingProcesses(apiClient.getDeviceId(), new EmptyResponse());
 
+            TvApp.getApplication().setLastPlayback(Calendar.getInstance());
+            switch (item.getType()) {
+                case "Movie":
+                    TvApp.getApplication().setLastMoviePlayback(Calendar.getInstance());
+                    break;
+                case "Episode":
+                    TvApp.getApplication().setLastTvPlayback(Calendar.getInstance());
+                    break;
+            }
+
         }
 
     }
