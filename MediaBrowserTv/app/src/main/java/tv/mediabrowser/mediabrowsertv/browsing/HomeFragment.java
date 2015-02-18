@@ -16,6 +16,7 @@ import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.NextUpQuery;
+import tv.mediabrowser.mediabrowsertv.model.ChangeTriggerType;
 import tv.mediabrowser.mediabrowsertv.ui.GridButton;
 import tv.mediabrowser.mediabrowsertv.R;
 import tv.mediabrowser.mediabrowsertv.TvApp;
@@ -53,7 +54,7 @@ public class HomeFragment extends StdBrowseFragment {
         resumeMovies.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
         resumeMovies.setSortBy(new String[]{ItemSortBy.DatePlayed});
         resumeMovies.setSortOrder(SortOrder.Descending);
-        mRows.add(new BrowseRowDef("Continue Watching", resumeMovies, 0));
+        mRows.add(new BrowseRowDef("Continue Watching", resumeMovies, 0, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback}));
 
         StdItemQuery latestMovies = new StdItemQuery();
         latestMovies.setIncludeItemTypes(new String[]{"Movie"});
@@ -62,13 +63,13 @@ public class HomeFragment extends StdBrowseFragment {
         latestMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
         latestMovies.setSortBy(new String[]{ItemSortBy.DateCreated});
         latestMovies.setSortOrder(SortOrder.Descending);
-        mRows.add(new BrowseRowDef("Latest Movies", latestMovies, 0));
+        mRows.add(new BrowseRowDef("Latest Movies", latestMovies, 0, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated, ChangeTriggerType.MoviePlayback}));
 
         NextUpQuery nextUpQuery = new NextUpQuery();
         nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         nextUpQuery.setLimit(50);
         nextUpQuery.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
-        mRows.add(new BrowseRowDef("Next Up TV", nextUpQuery));
+        mRows.add(new BrowseRowDef("Next Up TV", nextUpQuery, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}));
 
 //        StdItemQuery latestMusic = new StdItemQuery();
 //        latestMusic.setIncludeItemTypes(new String[]{"MusicAlbum"});

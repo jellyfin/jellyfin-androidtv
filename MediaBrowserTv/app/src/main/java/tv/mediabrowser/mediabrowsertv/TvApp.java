@@ -20,6 +20,9 @@ import org.acra.*;
 import org.acra.annotation.*;
 import org.acra.sender.HttpSender;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by Eric on 11/24/2014.
  */
@@ -43,6 +46,11 @@ public class TvApp extends Application {
     private BaseItemDto currentPlayingItem;
     private PlaybackController playbackController;
     private ApiClient loginApiClient;
+
+    private Calendar lastPlayback = Calendar.getInstance();
+    private Calendar lastMoviePlayback = Calendar.getInstance();
+    private Calendar lastTvPlayback = Calendar.getInstance();
+    private Calendar lastLibraryChange = Calendar.getInstance();
 
     private LogonCredentials configuredAutoCredentials;
 
@@ -150,5 +158,37 @@ public class TvApp extends Application {
 
     public boolean getIsAutoLoginConfigured() {
         return getPrefs().getString("pref_login_behavior", "0").equals("1");
+    }
+
+    public Calendar getLastMoviePlayback() {
+        return lastMoviePlayback;
+    }
+
+    public void setLastMoviePlayback(Calendar lastMoviePlayback) {
+        this.lastMoviePlayback = lastMoviePlayback;
+    }
+
+    public Calendar getLastTvPlayback() {
+        return lastTvPlayback;
+    }
+
+    public void setLastTvPlayback(Calendar lastTvPlayback) {
+        this.lastTvPlayback = lastTvPlayback;
+    }
+
+    public Calendar getLastLibraryChange() {
+        return lastLibraryChange;
+    }
+
+    public void setLastLibraryChange(Calendar lastLibraryChange) {
+        this.lastLibraryChange = lastLibraryChange;
+    }
+
+    public Calendar getLastPlayback() {
+        return lastPlayback;
+    }
+
+    public void setLastPlayback(Calendar lastPlayback) {
+        this.lastPlayback = lastPlayback;
     }
 }

@@ -15,6 +15,7 @@ import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
 import tv.mediabrowser.mediabrowsertv.TvApp;
+import tv.mediabrowser.mediabrowsertv.model.ChangeTriggerType;
 import tv.mediabrowser.mediabrowsertv.querying.StdItemQuery;
 
 /**
@@ -42,7 +43,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 resumeMovies.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
                 resumeMovies.setSortBy(new String[]{ItemSortBy.DatePlayed});
                 resumeMovies.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef("Continue Watching", resumeMovies, 50));
+                mRows.add(new BrowseRowDef("Continue Watching", resumeMovies, 50, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback}));
 
                 //Latest
                 StdItemQuery latestMovies = new StdItemQuery();
@@ -53,7 +54,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 latestMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
                 latestMovies.setSortBy(new String[]{ItemSortBy.DateCreated});
                 latestMovies.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef("Latest", latestMovies, 0));
+                mRows.add(new BrowseRowDef("Latest", latestMovies, 0, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
 
                 //All
                 StdItemQuery movies = new StdItemQuery();
@@ -61,7 +62,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 movies.setRecursive(true);
                 movies.setParentId(mFolder.getId());
                 movies.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef("By Name", movies, 100));
+                mRows.add(new BrowseRowDef("By Name", movies, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
                 StdItemQuery favorites = new StdItemQuery();
@@ -70,7 +71,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 favorites.setParentId(mFolder.getId());
                 favorites.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
                 favorites.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef("Favorites", favorites, 100));
+                mRows.add(new BrowseRowDef("Favorites", favorites, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 //Collections
                 StdItemQuery collections = new StdItemQuery();
@@ -78,7 +79,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 collections.setRecursive(true);
                 collections.setParentId(mFolder.getId());
                 collections.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef("Collections", collections, 100));
+                mRows.add(new BrowseRowDef("Collections", collections, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 rowLoader.loadRows(mRows);
                 break;
@@ -90,7 +91,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 nextUpQuery.setLimit(50);
                 nextUpQuery.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
-                mRows.add(new BrowseRowDef("Next Up", nextUpQuery));
+                mRows.add(new BrowseRowDef("Next Up", nextUpQuery, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}));
 
                 //Latest content added
                 StdItemQuery latestSeries = new StdItemQuery();
@@ -101,7 +102,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 latestSeries.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
                 latestSeries.setSortBy(new String[]{ItemSortBy.DateCreated});
                 latestSeries.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef("Latest", latestSeries, 0));
+                mRows.add(new BrowseRowDef("Latest", latestSeries, 0, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 //All
                 StdItemQuery series = new StdItemQuery();
@@ -109,7 +110,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 series.setRecursive(true);
                 series.setParentId(mFolder.getId());
                 series.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef("By Name", series, 100));
+                mRows.add(new BrowseRowDef("By Name", series, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
                 StdItemQuery tvFavorites = new StdItemQuery();
@@ -118,7 +119,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 tvFavorites.setParentId(mFolder.getId());
                 tvFavorites.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
                 tvFavorites.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef("Favorites", tvFavorites, 100));
+                mRows.add(new BrowseRowDef("Favorites", tvFavorites, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 rowLoader.loadRows(mRows);
                 break;
@@ -141,7 +142,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                                 rowQuery.setParentId(item.getId());
                                 rowQuery.setUserId(userId);
                                 rowQuery.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
-                                rows.add(new BrowseRowDef(item.getName(), rowQuery, 100));
+                                rows.add(new BrowseRowDef(item.getName(), rowQuery, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
                             }
                         }
 
