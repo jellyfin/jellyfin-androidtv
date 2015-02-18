@@ -18,11 +18,12 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import tv.mediabrowser.mediabrowsertv.R;
+import tv.mediabrowser.mediabrowsertv.base.BaseActivity;
 
 /*
  * Details activity class that loads LeanbackDetailsFragment class
  */
-public class DetailsActivity extends Activity {
+public class DetailsActivity extends BaseActivity {
     public static final String SHARED_ELEMENT_NAME = "hero";
 
     /**
