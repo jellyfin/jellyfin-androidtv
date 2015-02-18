@@ -3,7 +3,9 @@ package tv.mediabrowser.mediabrowsertv.details;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Intent;
@@ -79,7 +81,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     protected ApiClient mApiClient;
     protected DetailsActivity mActivity;
     protected TvApp mApplication;
-    protected boolean mNeedsRefresh = true;
+    protected Calendar lastLoaded = Calendar.getInstance();
 
     private Drawable mDefaultBackground;
     private Target mBackgroundTarget;
@@ -93,6 +95,8 @@ public class BaseItemDetailsFragment extends DetailsFragment {
         super.onCreate(savedInstanceState);
         mApplication = TvApp.getApplication();
         mApiClient = mApplication.getApiClient();
+        //Make sure we refresh
+        lastLoaded.set(Calendar.YEAR, 2000);
 
         mDorPresenter =
                 new DetailsOverviewRowPresenter(new DetailsDescriptionPresenter());
@@ -120,11 +124,11 @@ public class BaseItemDetailsFragment extends DetailsFragment {
         super.onResume();
         TvApp.getApplication().getLogger().Debug("Resuming details fragment...");
         //reload with our updated item
-        if (mNeedsRefresh) loadItem(mItemId);
+        if (lastLoaded.before(TvApp.getApplication().getLastPlayback())) loadItem(mItemId);
     }
 
     private void loadItem(String id) {
-        mNeedsRefresh = false;
+        lastLoaded = Calendar.getInstance();
         mApplication.getApiClient().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
             @Override
             public void onResponse(BaseItemDto response) {
@@ -207,7 +211,6 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                     if (shuffle) Collections.shuffle(Arrays.asList(response));
                     intent.putExtra("Items", response);
                     intent.putExtra("Position", pos);
-                    mNeedsRefresh = true; //refresh when we come back
                     startActivity(intent);
                 }
             });
@@ -226,7 +229,6 @@ public class BaseItemDetailsFragment extends DetailsFragment {
             if (shuffle) Collections.shuffle(itemsToPlay);
             intent.putExtra("Items", itemsToPlay.toArray(new String[itemsToPlay.size()]));
             intent.putExtra("Position", pos);
-            mNeedsRefresh = true;
             startActivity(intent);
 
         }
@@ -400,7 +402,6 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            if (((BaseRowItem) item).getItemType().equals(BaseRowItem.ItemType.Chapter)) mNeedsRefresh = true;
             ItemLauncher.launch((BaseRowItem) item, mApplication, getActivity(), itemViewHolder);
         }
     }
