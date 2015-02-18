@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import tv.mediabrowser.mediabrowsertv.R;
+import tv.mediabrowser.mediabrowsertv.base.BaseActivity;
 
-public class GenericFolderActivity extends Activity {
+public class GenericFolderActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

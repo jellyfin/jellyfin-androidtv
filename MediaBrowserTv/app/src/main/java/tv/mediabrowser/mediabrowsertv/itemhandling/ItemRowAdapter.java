@@ -207,7 +207,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     public void loadMoreItemsIfNeeded(long pos) {
         if (fullyLoaded) {
-            TvApp.getApplication().getLogger().Debug("Row is fully loaded");
+            //TvApp.getApplication().getLogger().Debug("Row is fully loaded");
             return;
         }
         if (isCurrentlyRetrieving()) {

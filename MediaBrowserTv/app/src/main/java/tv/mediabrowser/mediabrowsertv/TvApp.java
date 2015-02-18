@@ -51,6 +51,7 @@ public class TvApp extends Application {
     private Calendar lastMoviePlayback = Calendar.getInstance();
     private Calendar lastTvPlayback = Calendar.getInstance();
     private Calendar lastLibraryChange = Calendar.getInstance();
+    private Calendar lastUserInteraction = Calendar.getInstance();
 
     private LogonCredentials configuredAutoCredentials;
 
@@ -190,5 +191,13 @@ public class TvApp extends Application {
 
     public void setLastPlayback(Calendar lastPlayback) {
         this.lastPlayback = lastPlayback;
+    }
+
+    public Calendar getLastUserInteraction() {
+        return lastUserInteraction;
+    }
+
+    public void setLastUserInteraction(Calendar lastUserInteraction) {
+        this.lastUserInteraction = lastUserInteraction;
     }
 }

@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import tv.mediabrowser.mediabrowsertv.R;
+import tv.mediabrowser.mediabrowsertv.base.BaseActivity;
 
-public class UserViewActivity extends Activity {
+public class UserViewActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
