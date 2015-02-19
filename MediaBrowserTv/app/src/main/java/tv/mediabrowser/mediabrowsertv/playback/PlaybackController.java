@@ -8,6 +8,7 @@ import android.support.v17.leanback.widget.PlaybackControlsRow;
 import android.view.View;
 import android.widget.VideoView;
 
+import java.util.Calendar;
 import java.util.List;
 
 import mediabrowser.apiinteraction.ApiClient;
@@ -327,7 +328,8 @@ public class PlaybackController {
 
                     Utils.ReportProgress(getCurrentlyPlayingItem(), (long)currentTime * 10000);
                 }
-                if (mPlaybackState != PlaybackState.UNDEFINED) mHandler.postDelayed(this, REPORT_INTERVAL);
+                mApplication.setLastUserInteraction(System.currentTimeMillis());
+                if (mPlaybackState != PlaybackState.UNDEFINED && mPlaybackState != PlaybackState.IDLE) mHandler.postDelayed(this, REPORT_INTERVAL);
             }
         };
         mHandler.postDelayed(mReportLoop, REPORT_INTERVAL);
