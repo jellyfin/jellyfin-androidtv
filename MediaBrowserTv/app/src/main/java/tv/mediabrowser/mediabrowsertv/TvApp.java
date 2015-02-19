@@ -2,6 +2,7 @@ package tv.mediabrowser.mediabrowsertv;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -51,7 +52,7 @@ public class TvApp extends Application {
     private Calendar lastMoviePlayback = Calendar.getInstance();
     private Calendar lastTvPlayback = Calendar.getInstance();
     private Calendar lastLibraryChange = Calendar.getInstance();
-    private Calendar lastUserInteraction = Calendar.getInstance();
+    private long lastUserInteraction = System.currentTimeMillis();
 
     private LogonCredentials configuredAutoCredentials;
 
@@ -73,10 +74,8 @@ public class TvApp extends Application {
                     ex.printStackTrace();
 
                 }
-
             }
-                 });
-
+                      });
 
     }
 
@@ -193,11 +192,11 @@ public class TvApp extends Application {
         this.lastPlayback = lastPlayback;
     }
 
-    public Calendar getLastUserInteraction() {
+    public long getLastUserInteraction() {
         return lastUserInteraction;
     }
 
-    public void setLastUserInteraction(Calendar lastUserInteraction) {
+    public void setLastUserInteraction(long lastUserInteraction) {
         this.lastUserInteraction = lastUserInteraction;
     }
 }

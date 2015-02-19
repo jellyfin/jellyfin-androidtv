@@ -112,18 +112,20 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         super.onResume();
 
         //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < mRowsAdapter.size(); i++) {
-                    if (mRowsAdapter.get(i) instanceof ListRow) {
-                        if (((ListRow) mRowsAdapter.get(i)).getAdapter() instanceof ItemRowAdapter) {
-                            ((ItemRowAdapter) ((ListRow) mRowsAdapter.get(i)).getAdapter()).ReRetrieveIfNeeded();
+        if (mRowsAdapter != null) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < mRowsAdapter.size(); i++) {
+                        if (mRowsAdapter.get(i) instanceof ListRow) {
+                            if (((ListRow) mRowsAdapter.get(i)).getAdapter() instanceof ItemRowAdapter) {
+                                ((ItemRowAdapter) ((ListRow) mRowsAdapter.get(i)).getAdapter()).ReRetrieveIfNeeded();
+                            }
                         }
                     }
                 }
-            }
-        },1500);
+            },1500);
+        }
     }
 
     public void loadRows(List<BrowseRowDef> rows) {
