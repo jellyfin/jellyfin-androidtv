@@ -7,10 +7,14 @@ import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v4.app.ActivityOptionsCompat;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import mediabrowser.apiinteraction.ConnectionResult;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
+import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.search.SearchHint;
 import tv.mediabrowser.mediabrowsertv.TvApp;
 import tv.mediabrowser.mediabrowsertv.browsing.CollectionActivity;
@@ -82,15 +86,34 @@ public class ItemLauncher {
 
                     activity.startActivity(intent);
                 } else {
-                    //Start details fragment for display and playback
-                    Intent intent = new Intent(activity, DetailsActivity.class);
-                    intent.putExtra("ItemId", baseItem.getId());
+                    switch (rowItem.getSelectAction()) {
 
-                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            activity,
-                            ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                            DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                    activity.startActivity(intent, bundle);
+                        case ShowDetails:
+                            //Start details fragment for display and playback
+                            Intent intent = new Intent(activity, DetailsActivity.class);
+                            intent.putExtra("ItemId", baseItem.getId());
+
+                            Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                    activity,
+                                    ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                                    DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                            activity.startActivity(intent, bundle);
+                            break;
+                        case Play:
+                            if (baseItem.getPlayAccess() == PlayAccess.Full) {
+                                //Just play it directly
+                                Utils.getItemsToPlay(baseItem, new Response<String[]>() {
+                                    @Override
+                                    public void onResponse(String[] response) {
+                                        Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                                        intent.putExtra("Items", response);
+                                        intent.putExtra("Position", 0);
+                                        activity.startActivity(intent);
+                                    }
+                                });
+                            }
+                            break;
+                    }
                 }
                 break;
             case Person:

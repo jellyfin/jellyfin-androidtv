@@ -31,6 +31,7 @@ import tv.mediabrowser.mediabrowsertv.model.ChangeTriggerType;
 import tv.mediabrowser.mediabrowsertv.model.ChapterItemInfo;
 import tv.mediabrowser.mediabrowsertv.querying.QueryType;
 import tv.mediabrowser.mediabrowsertv.querying.SpecialsQuery;
+import tv.mediabrowser.mediabrowsertv.querying.TrailersQuery;
 import tv.mediabrowser.mediabrowsertv.querying.ViewQuery;
 import tv.mediabrowser.mediabrowsertv.util.Utils;
 
@@ -46,6 +47,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private PersonsQuery mPersonsQuery;
     private SearchQuery mSearchQuery;
     private SpecialsQuery mSpecialsQuery;
+    private TrailersQuery mTrailersQuery;
     private QueryType queryType;
 
     private ChangeTriggerType[] reRetrieveTriggers = new ChangeTriggerType[] {};
@@ -132,6 +134,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mSpecialsQuery = query;
         queryType = QueryType.Specials;
+    }
+
+    public ItemRowAdapter(TrailersQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+        super(presenter);
+        mParent = parent;
+        mTrailersQuery = query;
+        queryType = QueryType.Trailers;
     }
 
     public ItemRowAdapter(SimilarItemsQuery query, QueryType queryType, Presenter presenter, ArrayObjectAdapter parent) {
@@ -309,6 +318,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
             case Specials:
                 Retrieve(mSpecialsQuery);
+                break;
+            case Trailers:
+                Retrieve(mTrailersQuery);
                 break;
             case Users:
                 RetrieveUsers(mServer);
@@ -542,7 +554,41 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int i = 0;
                     if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response) {
-                        adapter.add(new BaseRowItem(i++,item, preferParentThumb));
+                        adapter.add(new BaseRowItem(i++, item, preferParentThumb));
+                    }
+                    totalItems = response.length;
+                    setItemsLoaded(itemsLoaded + i);
+                    if (i == 0) mParent.remove(mRow);
+                } else {
+                    // no results - don't show us
+                    mParent.remove(mRow);
+                }
+
+                currentlyRetrieving = false;
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving special features", exception);
+                mParent.remove(mRow);
+                Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                currentlyRetrieving = false;
+            }
+        });
+
+    }
+
+    public void Retrieve(final TrailersQuery query) {
+        final ItemRowAdapter adapter = this;
+        TvApp.getApplication().getApiClient().GetLocalTrailersAsync(TvApp.getApplication().getCurrentUser().getId(), query.getItemId(), new Response<BaseItemDto[]>() {
+            @Override
+            public void onResponse(BaseItemDto[] response) {
+                if (response.length > 0) {
+                    int i = 0;
+                    if (adapter.size() > 0) adapter.clear();
+                    for (BaseItemDto item : response) {
+                        item.setName("Trailer " + (i + 1));
+                        adapter.add(new BaseRowItem(i++, item, preferParentThumb, BaseRowItem.SelectAction.Play));
                     }
                     totalItems = response.length;
                     setItemsLoaded(itemsLoaded + i);
