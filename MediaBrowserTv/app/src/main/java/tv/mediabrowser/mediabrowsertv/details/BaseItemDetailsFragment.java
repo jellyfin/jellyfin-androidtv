@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import android.content.Intent;
@@ -61,6 +60,7 @@ import tv.mediabrowser.mediabrowsertv.presentation.CardPresenter;
 import tv.mediabrowser.mediabrowsertv.presentation.DetailsDescriptionPresenter;
 import tv.mediabrowser.mediabrowsertv.querying.QueryType;
 import tv.mediabrowser.mediabrowsertv.querying.SpecialsQuery;
+import tv.mediabrowser.mediabrowsertv.querying.TrailersQuery;
 import tv.mediabrowser.mediabrowsertv.util.Utils;
 
 
@@ -196,9 +196,6 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                         row.addAction(new Action(ACTION_DETAILS, "Full Details"));
                     }
 
-                    if (mBaseItem.getLocalTrailerCount() != null && mBaseItem.getLocalTrailerCount() > 0) {
-                        row.addAction(new Action(ACTION_PLAY_TRAILER, "Play Trailer(s)"));
-                    }
             }
             return row;
         }
@@ -252,15 +249,12 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                             play(mBaseItem, pos.intValue(), false);
                             break;
                         case ACTION_SHUFFLE:
-                            play(mBaseItem, 0 , true);
+                            play(mBaseItem, 0, true);
                             break;
-                        case ACTION_PLAY_TRAILER:
-                            mApplication.getApiClient().GetLocalTrailersAsync(mApplication.getCurrentUser().getId(), mBaseItem.getId(), new Response<BaseItemDto[]>() {
-                                @Override
-                                public void onResponse(BaseItemDto[] response) {
-                                    play(response, 0, true);
-                                }
-                            });
+                        case ACTION_DETAILS:
+                            Intent intent = new Intent(mActivity, FullDetailsActivity.class);
+                            intent.putExtra("BaseItem", TvApp.getApplication().getSerializer().SerializeToString(mBaseItem));
+                            mActivity.startActivity(intent);
                             break;
                         default:
                             Toast.makeText(getActivity(), action.toString() + " not implemented", Toast.LENGTH_SHORT).show();
@@ -319,10 +313,12 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
                 //Specials
                 if (mBaseItem.getSpecialFeatureCount() != null && mBaseItem.getSpecialFeatureCount() > 0) {
-                    SpecialsQuery specialsQuery = new SpecialsQuery();
-                    specialsQuery.setItemId(mBaseItem.getId());
-                    ItemRowAdapter specialsAdapter = new ItemRowAdapter(specialsQuery, new CardPresenter(), adapter);
-                    addItemRow(adapter, specialsAdapter, 2, "Specials");
+                    addItemRow(adapter, new ItemRowAdapter(new SpecialsQuery(mBaseItem.getId()), new CardPresenter(), adapter), 2, "Specials");
+                }
+
+                //Trailers
+                if (mBaseItem.getLocalTrailerCount() != null && mBaseItem.getLocalTrailerCount() > 0) {
+                    addItemRow(adapter, new ItemRowAdapter(new TrailersQuery(mBaseItem.getId()), new CardPresenter(), adapter), 3, "Trailers");
                 }
 
                 //Similar
@@ -333,7 +329,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 similar.setLimit(10);
 
                 ItemRowAdapter similarMoviesAdapter = new ItemRowAdapter(similar, QueryType.SimilarMovies, new CardPresenter(), adapter);
-                addItemRow(adapter, similarMoviesAdapter, 3, "Similar Movies");
+                addItemRow(adapter, similarMoviesAdapter, 4, "Similar Movies");
                 break;
             case "Person":
 

@@ -30,6 +30,7 @@ public class BaseRowItem {
     private SearchHint searchHint;
     private ItemType type;
     private boolean preferParentThumb = false;
+    private SelectAction selectAction = SelectAction.ShowDetails;
 
 
     public BaseRowItem(int index, BaseItemDto item) {
@@ -37,10 +38,14 @@ public class BaseRowItem {
     }
 
     public BaseRowItem(int index, BaseItemDto item, boolean preferParentThumb) {
+        this(index, item, preferParentThumb, SelectAction.ShowDetails);
+    }
+    public BaseRowItem(int index, BaseItemDto item, boolean preferParentThumb, SelectAction selectAction) {
         this.index = index;
         this.baseItem = item;
         type = ItemType.BaseItem;
         this.preferParentThumb = preferParentThumb;
+        this.selectAction = selectAction;
     }
 
     public BaseRowItem(ServerInfo server) {
@@ -181,10 +186,19 @@ public class BaseRowItem {
         return null;
     }
 
+    public SelectAction getSelectAction() {
+        return selectAction;
+    }
+
     public enum ItemType {
         BaseItem,
         Person,
         Server, User, Chapter, SearchHint
+    }
+
+    public enum SelectAction {
+        ShowDetails,
+        Play
     }
 }
 
