@@ -193,7 +193,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
                     } else  {
                         if (Utils.CanPlay(mBaseItem)) row.addAction(new Action(ACTION_PLAY, "Play"));
-                        row.addAction(new Action(ACTION_DETAILS, "Full Details"));
+                        row.addAction(new Action(ACTION_DETAILS, "Details"));
                     }
 
             }
