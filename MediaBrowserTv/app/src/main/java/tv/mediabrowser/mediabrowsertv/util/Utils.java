@@ -453,9 +453,9 @@ public class Utils {
                 }
 
                 if (video != null) {
-                    if (video.getWidth() > 1280) {
+                    if (video.getWidth() > 1910) {
                         addWithDivider(sb, "1080");
-                    } else if (video.getWidth() > 640) {
+                    } else if (video.getWidth() > 1270) {
                         addWithDivider(sb, "720");
                     }
                 }
@@ -552,6 +552,17 @@ public class Utils {
 
     public static List<MediaStream> GetAudioStreams(MediaSourceInfo mediaSource) {
         return GetStreams(mediaSource, MediaStreamType.Audio);
+    }
+
+    public static MediaStream GetFirstAudioStream(BaseItemDto item) {
+        if (item.getMediaSources() == null || item.getMediaSources().size() < 1) return null;
+        List<MediaStream> streams = GetAudioStreams(item.getMediaSources().get(0));
+        if (streams == null || streams.size() < 1) return null;
+        return streams.get(0);
+    }
+
+    public static List<MediaStream> GetVideoStreams(MediaSourceInfo mediaSource) {
+        return GetStreams(mediaSource, MediaStreamType.Video);
     }
 
     public static List<MediaStream> GetStreams(MediaSourceInfo mediaSource, MediaStreamType type) {

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/summaryBg"
+        android:maxHeight="300sp"
+        android:maxWidth="500sp"
+        android:minHeight="300sp"
+        android:minWidth="500sp"
+        android:src="@color/semi_trans_dark"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="80sp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/fdTitle" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fdPoster"
+        android:layout_marginLeft="45sp"
+        android:adjustViewBounds="false"
+        android:scaleType="centerInside"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/summaryBg"
+        android:minHeight="300sp"
+        android:minWidth="200sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Title"
+        android:id="@+id/fdTitle"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/fdPoster"
+        android:layout_marginTop="30sp"
+        android:textSize="44sp"
+        android:shadowColor="#d00d0d0d"
+        android:fontFamily="Roboto Light"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Summary"
+        android:id="@+id/fdSummaryText"
+        android:width="500sp"
+        android:height="200sp"
+        android:textSize="16sp"
+        android:layout_alignTop="@+id/summaryBg"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="145sp"
+        android:layout_marginTop="60sp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fdMainInfoRow"
+        android:dividerPadding="4sp"
+        android:layout_below="@+id/fdTitle"
+        android:layout_alignStart="@+id/fdTitle"></LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/summaryBg"
+        android:layout_alignStart="@+id/fdSummaryText"
+        android:id="@+id/fdButtonRow"
+        android:layout_alignEnd="@+id/fdSummaryText"
+        android:layout_marginTop="207dp"
+        android:minHeight="35sp"
+        android:gravity="center"></LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Button Help"
+        android:id="@+id/fdButtonHelp"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/summaryBg"
+        android:layout_alignStart="@+id/fdButtonRow"
+        android:layout_alignEnd="@+id/fdButtonRow"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="30sp" />
+
+</RelativeLayout>

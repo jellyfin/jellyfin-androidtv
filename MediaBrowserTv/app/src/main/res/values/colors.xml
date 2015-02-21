@@ -15,4 +15,7 @@
     <color name="yellow">#EEFF41</color>
     <color name="default_background">#3d3d3d</color>
     <color name="settings_background">#d04c4c4c</color>
+    <color name="semi_trans_dark">#33000000</color>
+    <color name="gray_gradient_start">#ff7c7c7c</color>
+    <color name="gray_gradient_end">#ffbebebe</color>
 </resources>

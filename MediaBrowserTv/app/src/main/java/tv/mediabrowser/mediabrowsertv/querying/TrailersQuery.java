@@ -3,10 +3,10 @@ package tv.mediabrowser.mediabrowsertv.querying;
 /**
  * Created by Eric on 2/12/2015.
  */
-public class SpecialsQuery {
+public class TrailersQuery {
     private String ItemId;
 
-    public SpecialsQuery(String itemId) {
+    public TrailersQuery(String itemId) {
         ItemId = itemId;
     }
 
