@@ -1,16 +1,17 @@
 package tv.mediabrowser.mediabrowsertv.details;
 
-import android.app.ActionBar;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
+import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,9 +20,15 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
+import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.dto.BaseItemPerson;
+import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.MediaStream;
+import mediabrowser.model.entities.PersonType;
 import mediabrowser.model.library.PlayAccess;
 import tv.mediabrowser.mediabrowsertv.R;
 import tv.mediabrowser.mediabrowsertv.TvApp;
@@ -38,15 +45,24 @@ public class FullDetailsActivity extends BaseActivity {
     private ImageView mPoster;
     private TextView mTitle;
     private TextView mButtonHelp;
+    private TextView mLastPlayedText;
+    private TextView mTimeLine;
+    private TextView mClock;
     private LinearLayout mButtonRow;
+    private ImageButton mResumeButton;
+
+    private int BUTTON_SIZE;
 
     private Target mBackgroundTarget;
     private Drawable mDefaultBackground;
     private DisplayMetrics mMetrics;
 
+    private Calendar mLastUpdated;
+
     private TvApp mApplication;
-    private Handler mRotateHandler = new Handler();
+    private Handler mLoopHandler = new Handler();
     private Runnable mBackdropLoop;
+    private Runnable mClockLoop;
     private int BACKDROP_ROTATION_INTERVAL = 8000;
     private Typeface roboto;
 
@@ -58,14 +74,20 @@ public class FullDetailsActivity extends BaseActivity {
         setContentView(R.layout.activity_full_details);
 
         mApplication = TvApp.getApplication();
+        BUTTON_SIZE = Utils.convertDpToPixel(mApplication, 35);
 
         mPoster = (ImageView) findViewById(R.id.fdPoster);
         mTitle = (TextView) findViewById(R.id.fdTitle);
         mButtonHelp = (TextView) findViewById(R.id.fdButtonHelp);
+        mLastPlayedText = (TextView) findViewById(R.id.fdLastPlayedText);
         mButtonRow = (LinearLayout) findViewById(R.id.fdButtonRow);
+        mTimeLine = (TextView) findViewById(R.id.fdSummarySubTitle);
+        mClock = (TextView) findViewById(R.id.fdClock);
 
         roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
         mTitle.setTypeface(roboto);
+        mLastPlayedText.setTypeface(roboto);
+        mClock.setTypeface(roboto);
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         backgroundManager.attach(getWindow());
         mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
@@ -80,13 +102,15 @@ public class FullDetailsActivity extends BaseActivity {
         TextView summary = (TextView)findViewById(R.id.fdSummaryText);
         summary.setTypeface(roboto);
         summary.setText(mBaseItem.getOverview());
+        setSummaryTitles();
         LinearLayout mainInfoRow = (LinearLayout)findViewById(R.id.fdMainInfoRow);
 
         addCriticInfo(mainInfoRow);
         addDate(mainInfoRow);
         addRatingAndRes(mainInfoRow);
         addMediaDetails(mainInfoRow);
-        addButtons(mButtonRow);
+        addButtons(mButtonRow, BUTTON_SIZE);
+        updatePlayedDate();
 
         mButtonRow.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -95,6 +119,64 @@ public class FullDetailsActivity extends BaseActivity {
             }
         });
 
+        updatePoster();
+        rotateBackdrops();
+        updateClock();
+        startClock();
+
+        mLastUpdated = Calendar.getInstance();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //Update information that may have changed
+        if (mApplication.getLastPlayback().after(mLastUpdated)) {
+            mApplication.getLogger().Debug("Updating info after playback");
+            updatePoster();
+            mApplication.getApiClient().GetItemAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                @Override
+                public void onResponse(BaseItemDto response) {
+                    mBaseItem = response;
+                    if ((mResumeButton == null || mResumeButton.getVisibility() == View.GONE) && mBaseItem.getCanResume()) {
+                        addResumeButton(mButtonRow, BUTTON_SIZE);
+                    }
+                    updatePlayedDate();
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopRotate();
+        stopClock();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopRotate();
+        stopClock();
+    }
+
+    public void setTitle(String title) {
+        mTitle.setText(title);
+    }
+
+    public ImageView getPosterView() {
+        return mPoster;
+    }
+
+    private void updatePlayedDate() {
+        mLastPlayedText.setText(mBaseItem.getUserData() != null && mBaseItem.getUserData().getLastPlayedDate() != null ?
+                "Last Played "+ DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(mBaseItem.getUserData().getLastPlayedDate()).getTime()).toString()
+                : "Never Played");
+    }
+
+    private void updatePoster() {
         // Figure image size
         Double aspect = Utils.getImageAspectRatio(mBaseItem);
         int height = aspect > 1 ? Utils.convertDpToPixel(this, 170) : Utils.convertDpToPixel(this, 300);
@@ -108,27 +190,34 @@ public class FullDetailsActivity extends BaseActivity {
                 .error(getDrawable(R.drawable.video))
                 .into(mPoster);
 
-        rotateBackdrops();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        stopRotate();
+    private void setSummaryTitles() {
+        switch (mBaseItem.getType()) {
+            case "Person":
+                break;
+            default:
+                TextView topLine = (TextView) findViewById(R.id.fdSummaryTitle);
+
+                BaseItemPerson director = Utils.GetFirstPerson(mBaseItem, PersonType.Director);
+                if (director != null) {
+                    topLine.setText("Directed By: "+director.getName());
+                }
+                setEndTime();
+        }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        stopRotate();
+    private void setEndTime() {
+        Long runtime = Utils.NullCoalesce(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
+        if (runtime != null && runtime > 0) {
+            long endTimeTicks = System.currentTimeMillis() + runtime / 10000;
+            mTimeLine.setText("Runs: " + runtime / 600000000 + " min   Ends: " + android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks)));
+        }
+
     }
 
-    public void setTitle(String title) {
-        mTitle.setText(title);
-    }
-
-    public ImageView getPosterView() {
-        return mPoster;
+    private void updateClock() {
+        mClock.setText(android.text.format.DateFormat.getTimeFormat(this).format(new Date()));
     }
 
     private void addCriticInfo(LinearLayout layout) {
@@ -231,16 +320,9 @@ public class FullDetailsActivity extends BaseActivity {
 
     }
 
-    private void addButtons(LinearLayout layout) {
-        int buttonSize = Utils.convertDpToPixel(mApplication, 35);
+    private void addButtons(LinearLayout layout, int buttonSize) {
         if (mBaseItem.getCanResume()) {
-            ImageButton resume = new ImageButton(this, R.drawable.resume, buttonSize, "Resume", mButtonHelp, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Utils.showToast(mApplication, "Resume Clicked");
-                }
-            });
-            layout.addView(resume);
+            addResumeButton(layout, buttonSize);
         }
         if (mBaseItem.getPlayAccess() == PlayAccess.Full) {
             ImageButton play = new ImageButton(this, R.drawable.play, buttonSize, "Play", mButtonHelp, new View.OnClickListener() {
@@ -250,26 +332,125 @@ public class FullDetailsActivity extends BaseActivity {
                 }
             });
             layout.addView(play);
+        }
+        UserItemDataDto userData = mBaseItem.getUserData();
+        if (userData != null) {
+            final ImageButton watched = new ImageButton(this, userData.getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck, buttonSize, "Toggle Watched", mButtonHelp, new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    final UserItemDataDto data = mBaseItem.getUserData();
+                    if (data.getPlayed()) {
+                        mApplication.getApiClient().MarkUnplayedAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), new Response<UserItemDataDto>() {
+                            @Override
+                            public void onResponse(UserItemDataDto response) {
+                                mBaseItem.setUserData(response);
+                                ((ImageButton)v).setImageResource(R.drawable.whitecheck);
+                                //adjust resume
+                                if (mResumeButton != null && !mBaseItem.getCanResume()) mResumeButton.setVisibility(View.GONE);
+                            }
+                        });
+                    } else {
+                        mApplication.getApiClient().MarkPlayedAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), null, new Response<UserItemDataDto>() {
+                            @Override
+                            public void onResponse(UserItemDataDto response) {
+                                mBaseItem.setUserData(response);
+                                ((ImageButton)v).setImageResource(R.drawable.redcheck);
+                                //adjust resume
+                                if (mResumeButton != null && !mBaseItem.getCanResume()) mResumeButton.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+                }
+            });
+            layout.addView(watched);
 
+            //Favorite
+            ImageButton fav = new ImageButton(this, userData.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, "Toggle Favorite", mButtonHelp, new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    UserItemDataDto data = mBaseItem.getUserData();
+                        mApplication.getApiClient().UpdateFavoriteStatusAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
+                            @Override
+                            public void onResponse(UserItemDataDto response) {
+                                mBaseItem.setUserData(response);
+                                ((ImageButton)v).setImageResource(response.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart);
+                            }
+                        });
+                }
+            });
+            layout.addView(fav);
+        }
+
+        if (mBaseItem.getCanDelete()) {
+            final Activity activity = this;
+            ImageButton del = new ImageButton(this, R.drawable.trash, buttonSize, "Delete", mButtonHelp, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialog.Builder(activity)
+                            .setTitle("Delete")
+                            .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
+                            .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    Utils.showToast(activity, "Would delete...");
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Utils.showToast(activity, "Item NOT Deleted");
+                                }
+                            })
+                            .show();
+
+                }
+            });
         }
     }
 
+    private void addResumeButton(LinearLayout layout, int buttonSize) {
+        mResumeButton = new ImageButton(this, R.drawable.resume, buttonSize, "Resume", mButtonHelp, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.showToast(mApplication, "Resume Clicked");
+            }
+        });
+        layout.addView(mResumeButton);
+    }
 
     private void rotateBackdrops() {
         mBackdropLoop = new Runnable() {
             @Override
             public void run() {
                 updateBackground(Utils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true));
-                mRotateHandler.postDelayed(this, BACKDROP_ROTATION_INTERVAL);
+                mLoopHandler.postDelayed(this, BACKDROP_ROTATION_INTERVAL);
             }
         };
 
-        mRotateHandler.postDelayed(mBackdropLoop, BACKDROP_ROTATION_INTERVAL);
+        mLoopHandler.postDelayed(mBackdropLoop, BACKDROP_ROTATION_INTERVAL);
     }
 
     private void stopRotate() {
-        if (mRotateHandler != null && mBackdropLoop != null) {
-            mRotateHandler.removeCallbacks(mBackdropLoop);
+        if (mLoopHandler != null && mBackdropLoop != null) {
+            mLoopHandler.removeCallbacks(mBackdropLoop);
+        }
+    }
+
+    private void startClock() {
+        mClockLoop = new Runnable() {
+            @Override
+            public void run() {
+                updateClock();
+                setEndTime();
+                mLoopHandler.postDelayed(this, 15000);
+            }
+        };
+
+        mLoopHandler.postDelayed(mClockLoop, 15000);
+    }
+
+    private void stopClock() {
+        if (mLoopHandler != null && mClockLoop != null) {
+            mLoopHandler.removeCallbacks(mClockLoop);
         }
     }
 

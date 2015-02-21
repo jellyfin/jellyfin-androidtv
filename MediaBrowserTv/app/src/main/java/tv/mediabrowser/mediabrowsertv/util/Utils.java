@@ -55,6 +55,7 @@ import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.MediaStreamType;
+import mediabrowser.model.entities.PersonType;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
@@ -546,6 +547,15 @@ public class Utils {
         }
     }
 
+    public static BaseItemPerson GetFirstPerson(BaseItemDto item, String type) {
+        if (item.getPeople() == null || item.getPeople().length < 1) return null;
+
+        for (BaseItemPerson person : item.getPeople()) {
+            if (type.equals(person.getType())) return person;
+        }
+        return null;
+    }
+
     public static List<MediaStream> GetSubtitleStreams(MediaSourceInfo mediaSource) {
         return GetStreams(mediaSource, MediaStreamType.Subtitle);
     }
@@ -828,6 +838,11 @@ public class Utils {
     }
 
     public static int NullCoalesce(Integer obj, int def) {
+        if (obj == null) return def;
+        return obj;
+    }
+
+    public static Long NullCoalesce(Long obj, Long def) {
         if (obj == null) return def;
         return obj;
     }

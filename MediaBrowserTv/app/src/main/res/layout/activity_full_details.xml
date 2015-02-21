@@ -54,7 +54,7 @@
         android:layout_alignTop="@+id/summaryBg"
         android:layout_alignParentRight="true"
         android:layout_marginRight="145sp"
-        android:layout_marginTop="60sp" />
+        android:layout_marginTop="65sp" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -89,5 +89,49 @@
         android:layout_alignEnd="@+id/fdButtonRow"
         android:gravity="center_horizontal"
         android:layout_marginBottom="30sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/fdLastPlayedText"
+        android:layout_alignStart="@+id/fdPoster"
+        android:gravity="center"
+        android:layout_below="@+id/summaryBg"
+        android:layout_alignEnd="@+id/fdPoster"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/fdSummaryTitle"
+        android:layout_alignStart="@+id/fdSummaryText"
+        android:layout_alignTop="@+id/summaryBg"
+        android:layout_alignEnd="@+id/fdSummaryText"
+        android:layout_marginTop="5sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/fdSummarySubTitle"
+        android:layout_alignStart="@+id/fdSummaryText"
+        android:layout_below="@+id/fdSummaryTitle"
+        android:layout_alignEnd="@+id/fdSummaryTitle" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="12:00"
+        android:id="@+id/fdClock"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/fdTitle"
+        android:textSize="40sp"
+        android:layout_marginRight="30sp" />
 
 </RelativeLayout>
