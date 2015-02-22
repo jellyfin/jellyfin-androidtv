@@ -3,6 +3,7 @@ package tv.mediabrowser.mediabrowsertv.details;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -20,7 +21,9 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 
 import mediabrowser.apiinteraction.Response;
@@ -34,6 +37,8 @@ import tv.mediabrowser.mediabrowsertv.R;
 import tv.mediabrowser.mediabrowsertv.TvApp;
 import tv.mediabrowser.mediabrowsertv.base.BaseActivity;
 import tv.mediabrowser.mediabrowsertv.imagehandling.PicassoBackgroundManagerTarget;
+import tv.mediabrowser.mediabrowsertv.playback.PlaybackOverlayActivity;
+import tv.mediabrowser.mediabrowsertv.ui.GenreButton;
 import tv.mediabrowser.mediabrowsertv.ui.ImageButton;
 import tv.mediabrowser.mediabrowsertv.util.Utils;
 
@@ -48,6 +53,7 @@ public class FullDetailsActivity extends BaseActivity {
     private TextView mLastPlayedText;
     private TextView mTimeLine;
     private TextView mClock;
+    private LinearLayout mGenreRow;
     private LinearLayout mButtonRow;
     private ImageButton mResumeButton;
 
@@ -81,6 +87,7 @@ public class FullDetailsActivity extends BaseActivity {
         mButtonHelp = (TextView) findViewById(R.id.fdButtonHelp);
         mLastPlayedText = (TextView) findViewById(R.id.fdLastPlayedText);
         mButtonRow = (LinearLayout) findViewById(R.id.fdButtonRow);
+        mGenreRow = (LinearLayout) findViewById(R.id.fdGenreRow);
         mTimeLine = (TextView) findViewById(R.id.fdSummarySubTitle);
         mClock = (TextView) findViewById(R.id.fdClock);
 
@@ -109,6 +116,7 @@ public class FullDetailsActivity extends BaseActivity {
         addDate(mainInfoRow);
         addRatingAndRes(mainInfoRow);
         addMediaDetails(mainInfoRow);
+        addGenres(mGenreRow);
         addButtons(mButtonRow, BUTTON_SIZE);
         updatePlayedDate();
 
@@ -124,6 +132,8 @@ public class FullDetailsActivity extends BaseActivity {
         updateClock();
         startClock();
 
+        mButtonRow.requestFocus();
+
         mLastUpdated = Calendar.getInstance();
     }
 
@@ -134,11 +144,11 @@ public class FullDetailsActivity extends BaseActivity {
         //Update information that may have changed
         if (mApplication.getLastPlayback().after(mLastUpdated)) {
             mApplication.getLogger().Debug("Updating info after playback");
-            updatePoster();
             mApplication.getApiClient().GetItemAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
                 @Override
                 public void onResponse(BaseItemDto response) {
                     mBaseItem = response;
+                    updatePoster();
                     if ((mResumeButton == null || mResumeButton.getVisibility() == View.GONE) && mBaseItem.getCanResume()) {
                         addResumeButton(mButtonRow, BUTTON_SIZE);
                     }
@@ -180,6 +190,10 @@ public class FullDetailsActivity extends BaseActivity {
         // Figure image size
         Double aspect = Utils.getImageAspectRatio(mBaseItem);
         int height = aspect > 1 ? Utils.convertDpToPixel(this, 170) : Utils.convertDpToPixel(this, 300);
+        if (aspect > 1) {
+            //Adjust min width of poster area so text doesn't jump over after loading of image
+            mPoster.setMinimumWidth(Utils.convertDpToPixel(this, 255));
+        }
         int width = (int)((aspect) * height);
         if (width < 10) width = Utils.convertDpToPixel(this, 150);  //Guard against zero size images causing picasso to barf
 
@@ -211,7 +225,12 @@ public class FullDetailsActivity extends BaseActivity {
         Long runtime = Utils.NullCoalesce(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
         if (runtime != null && runtime > 0) {
             long endTimeTicks = System.currentTimeMillis() + runtime / 10000;
-            mTimeLine.setText("Runs: " + runtime / 600000000 + " min   Ends: " + android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks)));
+            String text = "Runs: " + runtime / 600000000 + " min   Ends: " + android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks));
+            if (mBaseItem.getCanResume()) {
+                endTimeTicks = System.currentTimeMillis() + ((runtime - mBaseItem.getUserData().getPlaybackPositionTicks()) / 10000);
+                text += " ("+android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks))+" if resumed)";
+            }
+            mTimeLine.setText(text);
         }
 
     }
@@ -221,7 +240,7 @@ public class FullDetailsActivity extends BaseActivity {
     }
 
     private void addCriticInfo(LinearLayout layout) {
-        int imagesize = Utils.convertDpToPixel(this,18);
+        int imagesize = Utils.convertDpToPixel(this,20);
         LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(imagesize,imagesize);
         imageParams.setMargins(0, 5, 10, 0);
         if (mBaseItem.getCommunityRating() != null) {
@@ -231,7 +250,7 @@ public class FullDetailsActivity extends BaseActivity {
             layout.addView(star);
 
             TextView amt = new TextView(this);
-            amt.setTextSize(16);
+            amt.setTextSize(18);
             amt.setText(mBaseItem.getCommunityRating().toString()+" ");
             layout.addView(amt);
         }
@@ -247,7 +266,7 @@ public class FullDetailsActivity extends BaseActivity {
 
             layout.addView(tomato);
             TextView amt = new TextView(this);
-            amt.setTextSize(16);
+            amt.setTextSize(18);
             amt.setText(mBaseItem.getCriticRating().toString() + "% ");
             layout.addView(amt);
 
@@ -257,7 +276,7 @@ public class FullDetailsActivity extends BaseActivity {
 
     private void addDate(LinearLayout layout) {
         TextView date = new TextView(this);
-        date.setTextSize(16);
+        date.setTextSize(18);
         if (mBaseItem.getPremiereDate() != null) {
             date.setText(new SimpleDateFormat("d MMM y").format(mBaseItem.getPremiereDate()));
             layout.addView(date);
@@ -304,7 +323,7 @@ public class FullDetailsActivity extends BaseActivity {
 
     private void addBlockText(LinearLayout layout, String text) {
         TextView view = new TextView(this);
-        view.setTextSize(12);
+        view.setTextSize(14);
         view.setTextColor(Color.BLACK);
         view.setText(" " + text + " ");
         view.setBackgroundResource(R.drawable.gray_gradient);
@@ -320,6 +339,14 @@ public class FullDetailsActivity extends BaseActivity {
 
     }
 
+    private void addGenres(LinearLayout layout) {
+        if (mBaseItem.getGenres() != null && mBaseItem.getGenres().size() > 0) {
+            for (String genre : mBaseItem.getGenres()) {
+                layout.addView(new GenreButton(this, roboto, 18, genre, mBaseItem.getType()));
+            }
+        }
+    }
+
     private void addButtons(LinearLayout layout, int buttonSize) {
         if (mBaseItem.getCanResume()) {
             addResumeButton(layout, buttonSize);
@@ -328,7 +355,7 @@ public class FullDetailsActivity extends BaseActivity {
             ImageButton play = new ImageButton(this, R.drawable.play, buttonSize, "Play", mButtonHelp, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Utils.showToast(mApplication, "Play Clicked");
+                    play(mBaseItem, 0, false);
                 }
             });
             layout.addView(play);
@@ -411,10 +438,26 @@ public class FullDetailsActivity extends BaseActivity {
         mResumeButton = new ImageButton(this, R.drawable.resume, buttonSize, "Resume", mButtonHelp, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.showToast(mApplication, "Resume Clicked");
+                Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
+                play(mBaseItem, pos.intValue(), false);
             }
         });
-        layout.addView(mResumeButton);
+        layout.addView(mResumeButton, 0);
+    }
+
+    protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
+        final Activity activity = this;
+        Utils.getItemsToPlay(item, new Response<String[]>() {
+            @Override
+            public void onResponse(String[] response) {
+                Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                if (shuffle) Collections.shuffle(Arrays.asList(response));
+                intent.putExtra("Items", response);
+                intent.putExtra("Position", pos);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void rotateBackdrops() {
