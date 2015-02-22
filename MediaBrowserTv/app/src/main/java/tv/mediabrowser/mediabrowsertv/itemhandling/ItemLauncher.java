@@ -11,7 +11,10 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import mediabrowser.apiinteraction.ConnectionResult;
+import mediabrowser.apiinteraction.IConnectionManager;
 import mediabrowser.apiinteraction.Response;
+import mediabrowser.apiinteraction.connectionmanager.ConnectionManager;
+import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.library.PlayAccess;
@@ -145,43 +148,8 @@ public class ItemLauncher {
                 });
                 break;
             case Server:
-                //Connect to the selected server
-                final DelayedMessage message = new DelayedMessage(activity);
-                application.getConnectionManager().Connect(rowItem.getServerInfo(), new Response<ConnectionResult>() {
-                    @Override
-                    public void onResponse(ConnectionResult response) {
-                        message.Cancel();
-                        switch (response.getState()) {
-
-                            case Unavailable:
-                                Utils.showToast(activity, "Server unavailable");
-                                break;
-                            case SignedIn: // never allow default "remember user"
-                            case ServerSignIn:
-                                //Set api client for login
-                                TvApp.getApplication().setLoginApiClient(response.getApiClient());
-                                //Open user selection
-                                Intent userIntent = new Intent(activity, SelectUserActivity.class);
-                                userIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                activity.startActivity(userIntent);
-                                break;
-                            case ConnectSignIn:
-                            case ServerSelection:
-                                Utils.showToast(activity, "Unexpected response from server connect: " + response.getState());
-                                break;
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onError(Exception exception) {
-                        message.Cancel();
-                        Utils.showToast(activity, "Error Signing in to server");
-                        exception.printStackTrace();
-                        Utils.reportError(activity, "Error Signing in to server");
-                    }
-                });
+                //Log in to selected server
+                ServerSignIn(application.getConnectionManager(), rowItem.getServerInfo(), activity);
                 break;
 
             case User:
@@ -230,6 +198,44 @@ public class ItemLauncher {
                 });
 
         }
+
+    }
+
+    public static void ServerSignIn(IConnectionManager connectionManager, ServerInfo serverInfo, final Activity activity) {
+        //Connect to the selected server
+        final DelayedMessage message = new DelayedMessage(activity);
+        connectionManager.Connect(serverInfo, new Response<ConnectionResult>() {
+            @Override
+            public void onResponse(ConnectionResult response) {
+                message.Cancel();
+                switch (response.getState()) {
+                    case Unavailable:
+                        Utils.showToast(activity, "Server unavailable");
+                        break;
+                    case SignedIn: // never allow default "remember user"
+                    case ServerSignIn:
+                        //Set api client for login
+                        TvApp.getApplication().setLoginApiClient(response.getApiClient());
+                        //Open user selection
+                        Intent userIntent = new Intent(activity, SelectUserActivity.class);
+                        userIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        activity.startActivity(userIntent);
+                        break;
+                    case ConnectSignIn:
+                    case ServerSelection:
+                        Utils.showToast(activity, "Unexpected response from server connect: " + response.getState());
+                        break;
+                }
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                message.Cancel();
+                Utils.showToast(activity, "Error Signing in to server");
+                exception.printStackTrace();
+                Utils.reportError(activity, "Error Signing in to server");
+            }
+        });
 
     }
 }
