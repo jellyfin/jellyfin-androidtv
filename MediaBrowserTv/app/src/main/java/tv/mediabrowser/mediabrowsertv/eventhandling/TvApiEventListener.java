@@ -15,6 +15,7 @@ public class TvApiEventListener extends ApiEventListener {
     @Override
     public void onPlaybackStopped(ApiClient client, SessionInfoDto info) {
         TvApp app = TvApp.getApplication();
+        app.getLogger().Debug("Got Playback stopped message from server");
         if (info.getUserId().equals(app.getCurrentUser().getId())) {
             app.setLastPlayback(Calendar.getInstance());
             if (info.getNowPlayingItem() == null) return;
