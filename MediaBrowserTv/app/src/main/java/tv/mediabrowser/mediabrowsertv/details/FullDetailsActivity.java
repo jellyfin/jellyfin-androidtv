@@ -106,6 +106,10 @@ public class FullDetailsActivity extends BaseActivity {
         mBaseItem = TvApp.getApplication().getSerializer().DeserializeFromString(getIntent().getStringExtra("BaseItem"), BaseItemDto.class);
 
         setTitle(mBaseItem.getName());
+        if (mBaseItem.getName().length() > 32) {
+            // scale down the title so more will fit
+            mTitle.setTextSize(32);
+        }
         TextView summary = (TextView)findViewById(R.id.fdSummaryText);
         summary.setTypeface(roboto);
         summary.setText(mBaseItem.getOverview());
