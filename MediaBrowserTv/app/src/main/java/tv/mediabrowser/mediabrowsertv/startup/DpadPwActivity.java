@@ -21,6 +21,7 @@ public class DpadPwActivity extends Activity {
     private long lastKeyDown = Long.MAX_VALUE;
     private long lastKeyUp = 0;
     private boolean keyUpDetected = true;
+    private boolean processed = false;
     private int lastKey;
     private int longPressSensitivity = 600;
     private int doubleClickSensitivity = 350;
@@ -47,6 +48,7 @@ public class DpadPwActivity extends Activity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         keyUpDetected = true;
+        if (processed) return true; //some controllers appear to double send the up on a long press
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_DPAD_DOWN:
@@ -56,6 +58,7 @@ public class DpadPwActivity extends Activity {
                 if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && System.currentTimeMillis() - lastKeyDown > longPressSensitivity) {
                     TvApp.getApplication().getLogger().Debug("Password finished");
                     Utils.MakeTone(ToneGenerator.TONE_CDMA_ANSWER, 200);
+                    processed = true;
                     Utils.loginUser(user.getName(), password, TvApp.getApplication().getLoginApiClient(), this);
                     return true;
                 }

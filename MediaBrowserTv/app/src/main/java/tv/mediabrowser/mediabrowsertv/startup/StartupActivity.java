@@ -30,6 +30,7 @@ import tv.mediabrowser.mediabrowsertv.browsing.MainActivity;
 import tv.mediabrowser.mediabrowsertv.R;
 import tv.mediabrowser.mediabrowsertv.eventhandling.TvApiEventListener;
 import tv.mediabrowser.mediabrowsertv.TvApp;
+import tv.mediabrowser.mediabrowsertv.itemhandling.ItemLauncher;
 import tv.mediabrowser.mediabrowsertv.util.Utils;
 
 
@@ -140,7 +141,7 @@ public class StartupActivity extends Activity {
     private void connectAutomatically(final IConnectionManager connectionManager, final Activity activity){
         connectionManager.Connect(new Response<ConnectionResult>() {
             @Override
-            public void onResponse(ConnectionResult response) {
+            public void onResponse(final ConnectionResult response) {
                 switch (response.getState()) {
                     case ConnectSignIn:
                         logger.Debug("Sign in with connect...");
@@ -157,13 +158,25 @@ public class StartupActivity extends Activity {
                         Utils.signInToServer(connectionManager, response.getServers().get(0), activity);
                         break;
                     case SignedIn:
-                        logger.Debug("Already signed in");
-                        response.getApiClient().GetUserAsync(response.getApiClient().getCurrentUserId(), new Response<UserDto>() {
+                        logger.Debug("Ignoring saved connection manager sign in");
+                        connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>(){
                             @Override
-                            public void onResponse(UserDto response) {
-                                application.setCurrentUser(response);
-                                Intent intent = new Intent(activity, MainActivity.class);
-                                startActivity(intent);
+                            public void onResponse(ArrayList<ServerInfo> serverResponse) {
+                                if (serverResponse.size() == 1) {
+                                    //Signed in before and have just one server so go directly to user screen
+                                    ItemLauncher.ServerSignIn(connectionManager, serverResponse.get(0), activity);
+                                } else {
+                                    //More than one server so show selection
+                                    Intent serverIntent = new Intent(activity, SelectServerActivity.class);
+                                    GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
+                                    List<String> payload = new ArrayList<>();
+                                    for (ServerInfo server : serverResponse) {
+                                        payload.add(serializer.SerializeToString(server));
+                                    }
+                                    serverIntent.putExtra("Servers", payload.toArray(new String[payload.size()]));
+                                    serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                    startActivity(serverIntent);
+                                }
                             }
                         });
                         break;
@@ -179,6 +192,7 @@ public class StartupActivity extends Activity {
                                     payload.add(serializer.SerializeToString(server));
                                 }
                                 serverIntent.putExtra("Servers", payload.toArray(new String[payload.size()]));
+                                serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                 startActivity(serverIntent);
                             }
                         });
