@@ -357,11 +357,16 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         ps.addClassPresenter(ListRow.class, new ListRowPresenter());
         mRowsAdapter = new ArrayObjectAdapter(ps);
 
-        addPlaybackControlsRow();
-        if (mItemsToPlay.get(0).getChapters() != null && mItemsToPlay.get(0).getChapters().size() > 0) addChapterRow();
+        updatePlaybackControls();
         if (mItemsToPlay.size() > 1) addQueueRow(); // only show queue if more than one item
 
         setAdapter(mRowsAdapter);
+    }
+
+    public void updatePlaybackControls() {
+        addPlaybackControlsRow();
+        if (mPlaybackController.getCurrentlyPlayingItem().getChapters() != null && mPlaybackController.getCurrentlyPlayingItem().getChapters().size() > 0) addChapterRow();
+
     }
 
     private void updateLikes(Boolean likes) {
@@ -510,7 +515,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     }
 
     private void addChapterRow() {
-        BaseItemDto baseItem = mItemsToPlay.get(0);
+        BaseItemDto baseItem = mPlaybackController.getCurrentlyPlayingItem();
         if (baseItem.getChapters() != null && baseItem.getChapters().size() > 0) {
             List<ChapterItemInfo> chapters = new ArrayList<>();
             ImageOptions options = new ImageOptions();

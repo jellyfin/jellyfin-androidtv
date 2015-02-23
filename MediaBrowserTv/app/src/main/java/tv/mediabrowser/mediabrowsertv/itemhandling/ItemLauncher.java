@@ -105,7 +105,7 @@ public class ItemLauncher {
                         case Play:
                             if (baseItem.getPlayAccess() == PlayAccess.Full) {
                                 //Just play it directly
-                                Utils.getItemsToPlay(baseItem, new Response<String[]>() {
+                                Utils.getItemsToPlay(baseItem, baseItem.getType().equals("Movie"), new Response<String[]>() {
                                     @Override
                                     public void onResponse(String[] response) {
                                         Intent intent = new Intent(activity, PlaybackOverlayActivity.class);

@@ -354,7 +354,7 @@ public class PlaybackController {
             mCurrentIndex++;
             mApplication.getLogger().Debug("Moving to next queue item. Index: "+mCurrentIndex);
             mFragment.removeQueueItem(0);
-            mFragment.addPlaybackControlsRow();
+            mFragment.updatePlaybackControls();
             spinnerOff = false;
             play(0);
         } else {

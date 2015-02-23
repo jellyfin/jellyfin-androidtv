@@ -321,7 +321,7 @@ public class Utils {
         return null;
     }
 
-    public static void getItemsToPlay(final BaseItemDto mainItem, final Response<String[]> outerResponse) {
+    public static void getItemsToPlay(final BaseItemDto mainItem, boolean allowIntros, final Response<String[]> outerResponse) {
         final List<String> items = new ArrayList<>();
         final GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
         ItemQuery query = new ItemQuery();
@@ -377,23 +377,43 @@ public class Utils {
                 });
                 break;
             default:
-                items.add(serializer.SerializeToString(mainItem));
-                if (mainItem.getPartCount() != null && mainItem.getPartCount() > 1) {
-                    // get additional parts
-                    TvApp.getApplication().getApiClient().GetAdditionalParts(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
+                if (allowIntros) {
+                    //Intros
+                    TvApp.getApplication().getApiClient().GetIntrosAsync(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
                         @Override
                         public void onResponse(ItemsResult response) {
-                            for (BaseItemDto item : response.getItems()) {
-                                items.add(serializer.SerializeToString(item));
+                            if (response.getTotalRecordCount() > 0){
+                                for (BaseItemDto item : response.getItems()) {
+                                    items.add(serializer.SerializeToString(item));
+                                }
+                                TvApp.getApplication().getLogger().Info(response.getTotalRecordCount() + " intro items added for playback.");
                             }
-                            outerResponse.onResponse(items.toArray(new String[items.size()]));
+                            //Finally, the main item including subsequent parts
+                            addMainItem(mainItem, serializer, items, outerResponse);
                         }
                     });
+
                 } else {
-                    outerResponse.onResponse(items.toArray(new String[items.size()]));
+                    addMainItem(mainItem, serializer, items, outerResponse);
                 }
                 break;
         }
+    }
+
+    private static void addMainItem(BaseItemDto mainItem, GsonJsonSerializer serializer, final List<String> items, final Response<String[]> outerResponse) {
+        items.add(serializer.SerializeToString(mainItem));
+        if (mainItem.getPartCount() != null && mainItem.getPartCount() > 1) {
+            // get additional parts
+            TvApp.getApplication().getApiClient().GetAdditionalParts(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
+                @Override
+                public void onResponse(ItemsResult response) {
+                    outerResponse.onResponse(items.toArray(new String[items.size()]));
+                }
+            });
+        } else {
+            outerResponse.onResponse(items.toArray(new String[items.size()]));
+        }
+
     }
 
     public static boolean CanPlay(BaseItemDto item) {

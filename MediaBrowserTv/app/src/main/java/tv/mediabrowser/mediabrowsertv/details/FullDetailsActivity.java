@@ -451,7 +451,7 @@ public class FullDetailsActivity extends BaseActivity {
 
     protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
         final Activity activity = this;
-        Utils.getItemsToPlay(item, new Response<String[]>() {
+        Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), new Response<String[]>() {
             @Override
             public void onResponse(String[] response) {
                 Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
