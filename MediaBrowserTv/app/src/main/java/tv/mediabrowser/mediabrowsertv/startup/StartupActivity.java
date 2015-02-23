@@ -164,7 +164,7 @@ public class StartupActivity extends Activity {
                             public void onResponse(ArrayList<ServerInfo> serverResponse) {
                                 if (serverResponse.size() == 1) {
                                     //Signed in before and have just one server so go directly to user screen
-                                    ItemLauncher.ServerSignIn(connectionManager, serverResponse.get(0), activity);
+                                    Utils.signInToServer(connectionManager, serverResponse.get(0), activity);
                                 } else {
                                     //More than one server so show selection
                                     Intent serverIntent = new Intent(activity, SelectServerActivity.class);
