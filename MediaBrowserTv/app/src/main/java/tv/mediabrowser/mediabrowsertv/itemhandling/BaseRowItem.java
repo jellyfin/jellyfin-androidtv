@@ -166,7 +166,7 @@ public class BaseRowItem {
         switch (type) {
 
             case BaseItem:
-                if (!baseItem.getIsFolder() && baseItem.getCriticRating() != null) {
+                if (baseItem.getType().equals("Movie") && baseItem.getCriticRating() != null) {
                     return baseItem.getCriticRating() > 59 ? TvApp.getApplication().getDrawable(R.drawable.fresh) : TvApp.getApplication().getDrawable(R.drawable.rotten);
                 }
                 break;
