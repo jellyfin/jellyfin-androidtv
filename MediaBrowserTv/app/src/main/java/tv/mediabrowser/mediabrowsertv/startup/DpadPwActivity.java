@@ -48,7 +48,6 @@ public class DpadPwActivity extends Activity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         keyUpDetected = true;
-        if (processed) return true; //some controllers appear to double send the up on a long press
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_DPAD_DOWN:
@@ -56,6 +55,7 @@ public class DpadPwActivity extends Activity {
             case KeyEvent.KEYCODE_DPAD_RIGHT:
             case KeyEvent.KEYCODE_DPAD_UP:
                 if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && System.currentTimeMillis() - lastKeyDown > longPressSensitivity) {
+                    if (processed) return true; //some controllers appear to double send the up on a long press
                     TvApp.getApplication().getLogger().Debug("Password finished");
                     Utils.MakeTone(ToneGenerator.TONE_CDMA_ANSWER, 200);
                     processed = true;
@@ -66,6 +66,7 @@ public class DpadPwActivity extends Activity {
                     TvApp.getApplication().getLogger().Debug("Password clear");
                     password = "";
                     pwField.setText(password);
+                    processed = false;
                     return true;
                 }
                 if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN && System.currentTimeMillis() - lastKeyDown > longPressSensitivity) {
@@ -97,8 +98,10 @@ public class DpadPwActivity extends Activity {
                     Utils.Beep();
                     processKey(keyCode, false);
                 }
+                processed = false;
                 return true;
             default:
+                processed = false;
                 return super.onKeyUp(keyCode, event);
 
         }
