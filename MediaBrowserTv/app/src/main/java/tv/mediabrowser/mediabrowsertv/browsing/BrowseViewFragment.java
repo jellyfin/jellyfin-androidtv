@@ -8,6 +8,8 @@ import java.util.List;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.SortOrder;
+import mediabrowser.model.livetv.LiveTvChannelQuery;
+import mediabrowser.model.livetv.RecommendedProgramQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemQuery;
@@ -122,6 +124,37 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 mRows.add(new BrowseRowDef("Favorites", tvFavorites, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 rowLoader.loadRows(mRows);
+                break;
+            case "livetv":
+                //On now
+                RecommendedProgramQuery onNow = new RecommendedProgramQuery();
+                onNow.setIsAiring(true);
+                onNow.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                onNow.setLimit(200);
+                mRows.add(new BrowseRowDef("On Now", onNow));
+
+                //Upcoming
+                RecommendedProgramQuery upcomingTv = new RecommendedProgramQuery();
+                upcomingTv.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                upcomingTv.setIsAiring(false);
+                upcomingTv.setLimit(200);
+                mRows.add(new BrowseRowDef("Coming Up", upcomingTv));
+
+                //Fav Channels
+                LiveTvChannelQuery favTv = new LiveTvChannelQuery();
+                favTv.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                favTv.setEnableFavoriteSorting(true);
+                favTv.setIsFavorite(true);
+                mRows.add(new BrowseRowDef("Favorite Channels", favTv));
+
+                //Other Channels
+                LiveTvChannelQuery otherTv = new LiveTvChannelQuery();
+                otherTv.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                otherTv.setIsFavorite(false);
+                mRows.add(new BrowseRowDef("Other Channels", otherTv));
+
+                rowLoader.loadRows(mRows);
+
                 break;
             default:
                 // Fall back to rows defined by the view children

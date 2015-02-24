@@ -14,6 +14,8 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.livetv.ChannelInfoDto;
+import mediabrowser.model.livetv.ProgramInfoDto;
 import tv.mediabrowser.mediabrowsertv.itemhandling.BaseRowItem;
 import tv.mediabrowser.mediabrowsertv.R;
 import tv.mediabrowser.mediabrowsertv.TvApp;
@@ -94,6 +96,28 @@ public class CardPresenter extends Presenter {
 
                     }
                     break;
+                case LiveTvChannel:
+                    ChannelInfoDto channel = mItem.getChannelInfo();
+                    Double tvAspect = channel.getPrimaryImageAspectRatio();
+                    if (tvAspect == null) tvAspect = .7777777;
+                    cardHeight = tvAspect > 1 ? 300 : 370;
+                    cardWidth = (int)((tvAspect) * cardHeight);
+                    if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
+                    mCardView.setMainImageDimensions(cardWidth, cardHeight);
+                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.tv);
+                    break;
+
+                case LiveTvProgram:
+                    ProgramInfoDto program = mItem.getProgramInfo();
+                    Double programAspect = program.getPrimaryImageAspectRatio();
+                    if (programAspect == null) programAspect = .7777777;
+                    cardHeight = programAspect > 1 ? 300 : 370;
+                    cardWidth = (int)((programAspect) * cardHeight);
+                    if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
+                    mCardView.setMainImageDimensions(cardWidth, cardHeight);
+                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.tv);
+                    break;
+
                 case Server:
                     cardWidth = (int)(.777777777 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
@@ -143,12 +167,22 @@ public class CardPresenter extends Presenter {
         }
 
         protected void updateCardViewImage(String url) {
-            Picasso.with(mContext)
-                    .load(url)
-                    .resize(cardWidth, cardHeight)
-                    .centerCrop()
-                    .error(mDefaultCardImage)
-                    .into(mImageCardViewTarget);
+            if (url == null) {
+                Picasso.with(mContext)
+                        .load("nothing")
+                        .resize(cardWidth, cardHeight)
+                        .centerCrop()
+                        .error(mDefaultCardImage)
+                        .into(mImageCardViewTarget);
+
+            } else {
+                Picasso.with(mContext)
+                        .load(url)
+                        .resize(cardWidth, cardHeight)
+                        .centerCrop()
+                        .error(mDefaultCardImage)
+                        .into(mImageCardViewTarget);
+            }
         }
 
         protected void resetCardViewImage() {

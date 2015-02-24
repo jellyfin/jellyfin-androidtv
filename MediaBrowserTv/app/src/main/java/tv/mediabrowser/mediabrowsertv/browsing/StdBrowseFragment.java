@@ -158,6 +158,12 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                 case Persons:
                     rowAdapter = new ItemRowAdapter(def.getPersonsQuery(), def.getChunkSize(), mCardPresenter, mRowsAdapter);
                     break;
+                case LiveTvChannel:
+                    rowAdapter = new ItemRowAdapter(def.getTvChannelQuery(), mCardPresenter, mRowsAdapter);
+                    break;
+                case LiveTvProgram:
+                    rowAdapter = new ItemRowAdapter(def.getProgramQuery(), mCardPresenter, mRowsAdapter);
+                    break;
                 default:
                     rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), mCardPresenter, mRowsAdapter);
                     break;
