@@ -23,6 +23,31 @@
         android:layout_height="fill_parent" android:layout_gravity="center"
         android:layout_centerInParent="true"></VideoView>
 
+    <ImageView
+        android:layout_width="250sp"
+        android:layout_height="110sp"
+        android:id="@+id/npLogoImage"
+        android:layout_gravity="left|top"
+        android:paddingRight="40sp"
+        android:paddingTop="20sp"
+        android:scaleType="centerInside"
+        android:maxWidth="400dp"
+        android:maxHeight="120dp"
+        android:visibility="invisible"
+        android:layout_marginLeft="40sp"
+        android:layout_marginTop="20sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="12:00"
+        android:id="@+id/pbClock"
+        android:layout_gravity="right|top"
+        android:layout_marginTop="40sp"
+        android:layout_marginRight="40sp"
+        android:textSize="40sp" />
+
     <fragment android:id="@+id/playback_controls_fragment"
         android:name="tv.mediabrowser.mediabrowsertv.playback.PlaybackOverlayFragment"
         android:layout_width="match_parent" android:layout_height="match_parent" />
@@ -35,18 +60,5 @@
         android:layout_gravity="center"
         android:indeterminate="false"
         android:visibility="invisible" />
-
-    <ImageView
-        android:layout_width="400sp"
-        android:layout_height="120sp"
-        android:id="@+id/npLogoImage"
-        android:layout_gravity="right|top"
-        android:paddingRight="40sp"
-        android:paddingTop="20sp"
-        android:scaleType="fitCenter"
-        android:maxWidth="400dp"
-        android:maxHeight="120dp"
-        android:visibility="invisible"
-         />
 
 </FrameLayout>
