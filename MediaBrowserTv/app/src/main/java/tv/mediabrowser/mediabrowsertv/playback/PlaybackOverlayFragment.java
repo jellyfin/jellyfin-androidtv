@@ -14,7 +14,9 @@
 package tv.mediabrowser.mediabrowsertv.playback;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v17.leanback.widget.AbstractDetailsDescriptionPresenter;
 import android.support.v17.leanback.widget.Action;
@@ -47,10 +49,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import mediabrowser.apiinteraction.Response;
@@ -100,8 +104,12 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private int mInitialStartPos;
 
     private ImageView mLogo;
+    private TextView mClock;
     private Animation fadeIn;
     private Animation fadeOut;
+
+    private Handler mLoopHandler = new Handler();
+    private Runnable mClockLoop;
 
     public PlaybackControlsRow getPlaybackControlsRow() {
         return mPlaybackControlsRow;
@@ -134,7 +142,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         mApplication.setPlaybackController(new PlaybackController(mItemsToPlay, this));
         mPlaybackController = mApplication.getPlaybackController();
 
-        setupLogoFade();
+        setupFade();
         setBackgroundType(BACKGROUND_TYPE);
         setFadingEnabled(false);
 
@@ -181,12 +189,14 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             @Override
             public void onFadeInComplete() {
                 mLogo.startAnimation(fadeIn);
+                mClock.startAnimation(fadeIn);
                 super.onFadeInComplete();
             }
 
             @Override
             public void onFadeOutComplete() {
                 mLogo.startAnimation(fadeOut);
+                mClock.startAnimation(fadeOut);
                 super.onFadeOutComplete();
             }
         });
@@ -199,27 +209,59 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         mLogo = (ImageView) getActivity().findViewById(R.id.npLogoImage);
         String logoImageUrl = Utils.getLogoImageUrl(mPlaybackController.getCurrentlyPlayingItem(), mApplication.getApiClient());
         if (logoImageUrl != null) Picasso.with(getActivity()).load(logoImageUrl).into(mLogo);
+        mClock = (TextView) getActivity().findViewById(R.id.pbClock);
+        mClock.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Light.ttf"));
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startClock();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mPlaybackController.stop();
+        stopClock();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         mPlaybackController.stop();
+        stopClock();
     }
 
-
+    private void updateClock() {
+        mClock.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(new Date()));
+    }
 
     public void finish() {
         getActivity().finish();
     }
 
-    private void setupLogoFade() {
+    private void startClock() {
+        updateClock();
+        mClockLoop = new Runnable() {
+            @Override
+            public void run() {
+                updateClock();
+                mLoopHandler.postDelayed(this, 15000);
+            }
+        };
+
+        mLoopHandler.postDelayed(mClockLoop, 15000);
+    }
+
+    private void stopClock() {
+        if (mLoopHandler != null && mClockLoop != null) {
+            mLoopHandler.removeCallbacks(mClockLoop);
+        }
+    }
+
+    private void setupFade() {
         fadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.abc_fade_in);
         fadeIn.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -230,6 +272,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             @Override
             public void onAnimationEnd(Animation animation) {
                 mLogo.setVisibility(View.VISIBLE);
+                mClock.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -247,6 +290,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             @Override
             public void onAnimationEnd(Animation animation) {
                 mLogo.setVisibility(View.INVISIBLE);
+                mClock.setVisibility(View.INVISIBLE);
             }
 
             @Override
