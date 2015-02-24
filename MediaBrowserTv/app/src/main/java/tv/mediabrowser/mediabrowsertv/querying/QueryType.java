@@ -12,5 +12,5 @@ public enum QueryType {
     StaticChapters,
     StaticServers,
     Users,
-    Search, Specials, Trailers, Persons
+    Search, Specials, Trailers, LiveTvChannel, LiveTvProgram, Persons
 }

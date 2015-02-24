@@ -78,6 +78,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
     protected BaseItemDto mBaseItem;
     protected String mItemId;
+    protected String mChannelId;
     protected ApiClient mApiClient;
     protected DetailsActivity mActivity;
     protected TvApp mApplication;
@@ -112,6 +113,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
         mActivity.getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
         mItemId = mActivity.getIntent().getStringExtra("ItemId");
+        mChannelId = mActivity.getIntent().getStringExtra("ChannelId");
         mDorPresenter.setSharedElementEnterTransition(getActivity(),
                 DetailsActivity.SHARED_ELEMENT_NAME);
 
@@ -133,6 +135,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
             @Override
             public void onResponse(BaseItemDto response) {
                 mBaseItem = response;
+                if (mChannelId != null) mBaseItem.setParentId(mChannelId);
                 mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask().execute(mBaseItem);
                 updateBackground(Utils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true));
             }

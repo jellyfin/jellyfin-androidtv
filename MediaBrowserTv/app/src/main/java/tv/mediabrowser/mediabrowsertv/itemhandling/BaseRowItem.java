@@ -3,6 +3,7 @@ package tv.mediabrowser.mediabrowsertv.itemhandling;
 import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import mediabrowser.model.apiclient.ServerInfo;
@@ -11,6 +12,8 @@ import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.LocationType;
+import mediabrowser.model.livetv.ChannelInfoDto;
+import mediabrowser.model.livetv.ProgramInfoDto;
 import mediabrowser.model.search.SearchHint;
 import tv.mediabrowser.mediabrowsertv.R;
 import tv.mediabrowser.mediabrowsertv.TvApp;
@@ -28,6 +31,8 @@ public class BaseRowItem {
     private ServerInfo serverInfo;
     private UserDto user;
     private SearchHint searchHint;
+    private ChannelInfoDto channelInfo;
+    private ProgramInfoDto programInfo;
     private ItemType type;
     private boolean preferParentThumb = false;
     private SelectAction selectAction = SelectAction.ShowDetails;
@@ -46,6 +51,16 @@ public class BaseRowItem {
         type = ItemType.BaseItem;
         this.preferParentThumb = preferParentThumb;
         this.selectAction = selectAction;
+    }
+
+    public BaseRowItem(ChannelInfoDto channel) {
+        this.channelInfo = channel;
+        type = ItemType.LiveTvChannel;
+    }
+
+    public BaseRowItem(ProgramInfoDto program) {
+        this.programInfo = program;
+        type = ItemType.LiveTvProgram;
     }
 
     public BaseRowItem(ServerInfo server) {
@@ -85,6 +100,8 @@ public class BaseRowItem {
     public ServerInfo getServerInfo() { return serverInfo; }
     public UserDto getUser() { return user; }
     public SearchHint getSearchHint() { return searchHint; }
+    public ChannelInfoDto getChannelInfo() { return channelInfo; }
+    public ProgramInfoDto getProgramInfo() { return programInfo; }
 
     public boolean getIsChapter() { return type == ItemType.Chapter; }
     public boolean getIsPerson() { return type == ItemType.Person; }
@@ -102,6 +119,10 @@ public class BaseRowItem {
                 return Utils.getPrimaryImageUrl(user, TvApp.getApplication().getLoginApiClient());
             case Chapter:
                 return chapterInfo.getImagePath();
+            case LiveTvChannel:
+                return Utils.getPrimaryImageUrl(channelInfo, TvApp.getApplication().getApiClient());
+            case LiveTvProgram:
+                return Utils.getPrimaryImageUrl(programInfo, TvApp.getApplication().getApiClient());
             case Server:
                 return "android.resource://tv.mediabrowser.mediabrowsertv/" + R.drawable.server;
             case SearchHint:
@@ -124,6 +145,10 @@ public class BaseRowItem {
                 return serverInfo.getName();
             case User:
                 return user.getName();
+            case LiveTvChannel:
+                return channelInfo.getName() + " (" + channelInfo.getServiceName() + ")";
+            case LiveTvProgram:
+                return programInfo.getName();
             case SearchHint:
                 return (searchHint.getSeries() != null ? searchHint.getSeries() + " - " : "") + searchHint.getName();
         }
@@ -143,6 +168,12 @@ public class BaseRowItem {
                 return Utils.formatMillis(pos.intValue());
             case Server:
                 return serverInfo.getLocalAddress().substring(7);
+            case LiveTvChannel:
+                return channelInfo.getNumber();
+            case LiveTvProgram:
+                return (programInfo.getEpisodeTitle() != null ? programInfo.getEpisodeTitle() : programInfo.getChannelName()) + " " +
+                        (android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(programInfo.getStartDate())) + "-"
+                        + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(programInfo.getEndDate())));
             case User:
                 return DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(user.getLastActivityDate()).getTime()).toString();
             case SearchHint:
@@ -193,7 +224,7 @@ public class BaseRowItem {
     public enum ItemType {
         BaseItem,
         Person,
-        Server, User, Chapter, SearchHint
+        Server, User, Chapter, SearchHint, LiveTvChannel, LiveTvProgram
     }
 
     public enum SelectAction {

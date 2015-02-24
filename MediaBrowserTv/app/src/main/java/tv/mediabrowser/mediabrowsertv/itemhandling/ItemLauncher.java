@@ -18,6 +18,8 @@ import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.library.PlayAccess;
+import mediabrowser.model.livetv.ChannelInfoDto;
+import mediabrowser.model.livetv.ProgramInfoDto;
 import mediabrowser.model.search.SearchHint;
 import tv.mediabrowser.mediabrowsertv.TvApp;
 import tv.mediabrowser.mediabrowsertv.browsing.CollectionActivity;
@@ -49,6 +51,7 @@ public class ItemLauncher {
                             case "movies":
                             case "tvshows":
                             case "music":
+                            case "livetv":
                                 // open user view browsing
                                 Intent intent = new Intent(activity, UserViewActivity.class);
                                 intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
@@ -114,6 +117,8 @@ public class ItemLauncher {
                                         activity.startActivity(intent);
                                     }
                                 });
+                            } else {
+                                Utils.showToast(activity, "Item not playable at this time");
                             }
                             break;
                     }
@@ -196,6 +201,58 @@ public class ItemLauncher {
                         exception.printStackTrace();
                     }
                 });
+                break;
+            case LiveTvProgram:
+                ProgramInfoDto program = rowItem.getProgramInfo();
+                switch (rowItem.getSelectAction()) {
+
+                    case ShowDetails:
+                        //Start details fragment for display and playback
+                        Intent programIntent = new Intent(activity, DetailsActivity.class);
+                        programIntent.putExtra("ItemId", program.getId());
+                        programIntent.putExtra("ItemType", BaseRowItem.ItemType.LiveTvProgram);
+                        programIntent.putExtra("ChannelId", program.getChannelId());
+
+                        Bundle programBundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                activity,
+                                ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                                DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                        activity.startActivity(programIntent, programBundle);
+                        break;
+                    case Play:
+                        if (program.getPlayAccess() == PlayAccess.Full) {
+                            //Just play it directly - need to retrieve program channel via items api to convert to BaseItem
+                            TvApp.getApplication().getApiClient().GetItemAsync(program.getChannelId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                                @Override
+                                public void onResponse(BaseItemDto response) {
+                                    String[] items = new String[] {TvApp.getApplication().getSerializer().SerializeToString(response)};
+                                    Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                                    intent.putExtra("Items", items);
+                                    intent.putExtra("Position", 0);
+                                    activity.startActivity(intent);
+
+                                }
+                            });
+                        } else {
+                            Utils.showToast(activity, "Item not playable at this time");
+                        }
+                }
+                break;
+
+            case LiveTvChannel:
+                //Just tune to it by playing
+                ChannelInfoDto channel = rowItem.getChannelInfo();
+                TvApp.getApplication().getApiClient().GetItemAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                    @Override
+                    public void onResponse(BaseItemDto response) {
+                        String[] items = new String[] {TvApp.getApplication().getSerializer().SerializeToString(response)};
+                        Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                        intent.putExtra("Items", items);
+                        intent.putExtra("Position", 0);
+                        activity.startActivity(intent);
+                    }
+                });
+
 
         }
 

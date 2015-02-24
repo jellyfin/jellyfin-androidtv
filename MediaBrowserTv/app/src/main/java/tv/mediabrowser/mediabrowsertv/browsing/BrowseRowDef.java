@@ -1,5 +1,8 @@
 package tv.mediabrowser.mediabrowsertv.browsing;
 
+import mediabrowser.model.livetv.LiveTvChannelQuery;
+import mediabrowser.model.livetv.ProgramQuery;
+import mediabrowser.model.livetv.RecommendedProgramQuery;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.NextUpQuery;
 import mediabrowser.model.querying.PersonsQuery;
@@ -19,7 +22,11 @@ public class BrowseRowDef {
     private NextUpQuery nextUpQuery;
     private UpcomingEpisodesQuery upcomingQuery;
     private SimilarItemsQuery similarQuery;
+
     private PersonsQuery personsQuery;
+
+    private LiveTvChannelQuery tvChannelQuery;
+    private RecommendedProgramQuery programQuery;
 
     private SeasonQuery seasonQuery;
     private QueryType queryType;
@@ -60,6 +67,18 @@ public class BrowseRowDef {
         headerText = header;
         this.similarQuery = query;
         this.queryType = QueryType.SimilarSeries;
+    }
+
+    public BrowseRowDef(String header, LiveTvChannelQuery query) {
+        headerText = header;
+        this.tvChannelQuery = query;
+        this.queryType = QueryType.LiveTvChannel;
+    }
+
+    public BrowseRowDef(String header, RecommendedProgramQuery query) {
+        headerText = header;
+        this.programQuery = query;
+        this.queryType = QueryType.LiveTvProgram;
     }
 
     public BrowseRowDef(String header, PersonsQuery query, int chunkSize) {
@@ -122,6 +141,14 @@ public class BrowseRowDef {
 
     public UpcomingEpisodesQuery getUpcomingQuery() {
         return upcomingQuery;
+    }
+
+    public LiveTvChannelQuery getTvChannelQuery() {
+        return tvChannelQuery;
+    }
+
+    public RecommendedProgramQuery getProgramQuery() {
+        return programQuery;
     }
 
 

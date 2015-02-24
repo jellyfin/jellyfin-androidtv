@@ -15,6 +15,11 @@ import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.UserDto;
+import mediabrowser.model.livetv.ChannelInfoDto;
+import mediabrowser.model.livetv.LiveTvChannelQuery;
+import mediabrowser.model.livetv.ProgramInfoDto;
+import mediabrowser.model.livetv.ProgramQuery;
+import mediabrowser.model.livetv.RecommendedProgramQuery;
 import mediabrowser.model.net.HttpException;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemsResult;
@@ -23,6 +28,8 @@ import mediabrowser.model.querying.PersonsQuery;
 import mediabrowser.model.querying.SeasonQuery;
 import mediabrowser.model.querying.SimilarItemsQuery;
 import mediabrowser.model.querying.UpcomingEpisodesQuery;
+import mediabrowser.model.results.ChannelInfoDtoResult;
+import mediabrowser.model.results.ProgramInfoDtoResult;
 import mediabrowser.model.search.SearchHint;
 import mediabrowser.model.search.SearchHintResult;
 import mediabrowser.model.search.SearchQuery;
@@ -48,6 +55,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private SearchQuery mSearchQuery;
     private SpecialsQuery mSpecialsQuery;
     private TrailersQuery mTrailersQuery;
+    private LiveTvChannelQuery mTvChannelQuery;
+    private RecommendedProgramQuery mTvProgramQuery;
     private QueryType queryType;
 
     private ChangeTriggerType[] reRetrieveTriggers = new ChangeTriggerType[] {};
@@ -141,6 +150,20 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mTrailersQuery = query;
         queryType = QueryType.Trailers;
+    }
+
+    public ItemRowAdapter(LiveTvChannelQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+        super(presenter);
+        mParent = parent;
+        mTvChannelQuery = query;
+        queryType = QueryType.LiveTvChannel;
+    }
+
+    public ItemRowAdapter(RecommendedProgramQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+        super(presenter);
+        mParent = parent;
+        mTvProgramQuery = query;
+        queryType = QueryType.LiveTvProgram;
     }
 
     public ItemRowAdapter(SimilarItemsQuery query, QueryType queryType, Presenter presenter, ArrayObjectAdapter parent) {
@@ -306,6 +329,12 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
             case Persons:
                 Retrieve(mPersonsQuery);
+                break;
+            case LiveTvChannel:
+                Retrieve(mTvChannelQuery);
+                break;
+            case LiveTvProgram:
+                Retrieve(mTvProgramQuery);
                 break;
             case StaticPeople:
                 LoadPeople();
@@ -537,6 +566,74 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving next up items", exception);
+                mParent.remove(mRow);
+                Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                currentlyRetrieving = false;
+            }
+        });
+
+    }
+
+    public void Retrieve(final LiveTvChannelQuery query) {
+        final ItemRowAdapter adapter = this;
+        TvApp.getApplication().getApiClient().GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
+            @Override
+            public void onResponse(ChannelInfoDtoResult response) {
+                if (response.getTotalRecordCount() > 0) {
+                    int i = 0;
+                    if (adapter.size() > 0) adapter.clear();
+                    for (ChannelInfoDto item : response.getItems()) {
+                        adapter.add(new BaseRowItem(item));
+                        i++;
+                    }
+                    totalItems = response.getTotalRecordCount();
+                    setItemsLoaded(itemsLoaded + i);
+                    if (i == 0) mParent.remove(mRow);
+                } else {
+                    // no results - don't show us
+                    mParent.remove(mRow);
+                }
+
+                currentlyRetrieving = false;
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving live tv channels", exception);
+                mParent.remove(mRow);
+                Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                currentlyRetrieving = false;
+            }
+        });
+
+    }
+
+    public void Retrieve(final RecommendedProgramQuery query) {
+        final ItemRowAdapter adapter = this;
+        TvApp.getApplication().getApiClient().GetRecommendedLiveTvProgramsAsync(query, new Response<ProgramInfoDtoResult>() {
+            @Override
+            public void onResponse(ProgramInfoDtoResult response) {
+                if (response.getTotalRecordCount() > 0) {
+                    int i = 0;
+                    if (adapter.size() > 0) adapter.clear();
+                    for (ProgramInfoDto item : response.getItems()) {
+                        adapter.add(new BaseRowItem(item));
+                        i++;
+                    }
+                    totalItems = response.getTotalRecordCount();
+                    setItemsLoaded(itemsLoaded + i);
+                    if (i == 0) mParent.remove(mRow);
+                } else {
+                    // no results - don't show us
+                    mParent.remove(mRow);
+                }
+
+                currentlyRetrieving = false;
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving live tv programs", exception);
                 mParent.remove(mRow);
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;

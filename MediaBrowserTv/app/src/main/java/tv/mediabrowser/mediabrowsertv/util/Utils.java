@@ -57,6 +57,8 @@ import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.MediaStreamType;
 import mediabrowser.model.entities.PersonType;
 import mediabrowser.model.library.PlayAccess;
+import mediabrowser.model.livetv.ChannelInfoDto;
+import mediabrowser.model.livetv.ProgramInfoDto;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemSortBy;
@@ -226,6 +228,24 @@ public class Utils {
         return apiClient.GetUserImageUrl(item, options);
     }
 
+    public static String getPrimaryImageUrl(ProgramInfoDto item, ApiClient apiClient) {
+        if (!item.getHasPrimaryImage()) return null;
+        ImageOptions options = new ImageOptions();
+        options.setTag(item.getImageTags().get(ImageType.Primary));
+        options.setMaxHeight(maxPrimaryImageHeight);
+        options.setImageType(ImageType.Primary);
+        return apiClient.GetImageUrl(item, options);
+    }
+
+    public static String getPrimaryImageUrl(ChannelInfoDto item, ApiClient apiClient) {
+        if (!item.getHasPrimaryImage()) return null;
+        ImageOptions options = new ImageOptions();
+        options.setTag(item.getImageTags().get(ImageType.Primary));
+        options.setMaxHeight(maxPrimaryImageHeight);
+        options.setImageType(ImageType.Primary);
+        return apiClient.GetImageUrl(item, options);
+    }
+
     private static String[] ProgressIndicatorTypes = new String[] {"Episode", "Movie", "MusicVideo", "Video"};
 
     public static String getImageUrl(String itemId, ImageType imageType, String imageTag, ApiClient apiClient) {
@@ -376,6 +396,22 @@ public class Utils {
                     }
                 });
                 break;
+            case "Program":
+                //We retrieve the channel the program is on (which should be the program's parent)
+                TvApp.getApplication().getApiClient().GetItemAsync(mainItem.getParentId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                    @Override
+                    public void onResponse(BaseItemDto response) {
+                        items.add(serializer.SerializeToString(response));
+                        outerResponse.onResponse(items.toArray(new String[items.size()]));
+                    }
+
+                    @Override
+                    public void onError(Exception exception) {
+                        super.onError(exception);
+                    }
+                });
+                break;
+
             default:
                 if (allowIntros) {
                     //Intros
@@ -418,7 +454,10 @@ public class Utils {
 
     public static boolean CanPlay(BaseItemDto item) {
         return item.getPlayAccess().equals(PlayAccess.Full)
-                && (item.getLocationType().equals(LocationType.FileSystem) || item.getLocationType().equals(LocationType.Remote));
+                && (item.getLocationType().equals(LocationType.FileSystem)
+                || item.getLocationType().equals(LocationType.Remote)
+                || item.getLocationType().equals(LocationType.Virtual)
+        );
     }
 
     private static String divider = "   |   ";
