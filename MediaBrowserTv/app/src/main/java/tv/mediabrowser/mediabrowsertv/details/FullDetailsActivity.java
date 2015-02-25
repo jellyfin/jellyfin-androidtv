@@ -507,6 +507,7 @@ public class FullDetailsActivity extends BaseActivity {
     protected void updateBackground(String url) {
         Picasso.with(this)
                 .load(url)
+                .skipMemoryCache()
                 .resize(mMetrics.widthPixels, mMetrics.heightPixels)
                 .error(mDefaultBackground)
                 .into(mBackgroundTarget);
