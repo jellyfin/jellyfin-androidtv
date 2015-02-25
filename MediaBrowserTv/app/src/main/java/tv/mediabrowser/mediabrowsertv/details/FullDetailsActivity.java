@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.text.format.DateUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
@@ -112,6 +113,7 @@ public class FullDetailsActivity extends BaseActivity {
         }
         TextView summary = (TextView)findViewById(R.id.fdSummaryText);
         summary.setTypeface(roboto);
+        summary.setMovementMethod(new ScrollingMovementMethod());
         summary.setText(mBaseItem.getOverview());
         setSummaryTitles();
         LinearLayout mainInfoRow = (LinearLayout)findViewById(R.id.fdMainInfoRow);
@@ -345,6 +347,7 @@ public class FullDetailsActivity extends BaseActivity {
 
     private void addGenres(LinearLayout layout) {
         if (mBaseItem.getGenres() != null && mBaseItem.getGenres().size() > 0) {
+            int i = 0;
             for (String genre : mBaseItem.getGenres()) {
                 layout.addView(new GenreButton(this, roboto, 18, genre, mBaseItem.getType()));
             }
