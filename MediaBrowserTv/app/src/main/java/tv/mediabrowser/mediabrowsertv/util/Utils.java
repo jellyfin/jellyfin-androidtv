@@ -17,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -529,21 +530,34 @@ public class Utils {
                     addWithDivider(sb, item.getOfficialRating());
                 }
 
+                switch (item.getType()) {
+                    case "Series":
+                        if (item.getAirDays() != null && item.getAirDays().size() > 0) {
+                            addWithDivider(sb, item.getAirDays().get(0));
+                            sb.append(" ");
+                        }
+                        if (item.getAirTime() != null) {
+                            sb.append(item.getAirTime());
+                        }
+                        if (item.getStatus() != null) {
+                            addWithDivider(sb, item.getStatus().toString());
+                        }
+
+                        break;
+                    case "Program":
+                        if (item.getPremiereDate() != null && item.getEndDate() != null) {
+                            addWithDivider(sb, android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(convertToLocalDate(item.getPremiereDate()))
+                            + "-"+ android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(convertToLocalDate(item.getEndDate())));
+                        }
+                        break;
+                    default:
+                        if (item.getPremiereDate() != null) {
+                            addWithDivider(sb, new SimpleDateFormat("d MMM y").format(item.getPremiereDate()));
+                        }
+
+                }
                 if (item.getType().equals("Series")) {
-                    if (item.getAirDays() != null && item.getAirDays().size() > 0) {
-                        addWithDivider(sb, item.getAirDays().get(0));
-                        sb.append(" ");
-                    }
-                    if (item.getAirTime() != null) {
-                        sb.append(item.getAirTime());
-                    }
-                    if (item.getStatus() != null) {
-                        addWithDivider(sb, item.getStatus().toString());
-                    }
                 } else {
-                    if (item.getPremiereDate() != null) {
-                        addWithDivider(sb, new SimpleDateFormat("d MMM y").format(item.getPremiereDate()));
-                    }
                 }
 
         }
@@ -919,4 +933,10 @@ public class Utils {
         }
     }
 
+    public static String getCurrentFormattedTime() {
+        String fullTime = android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(new Date());
+        return android.text.format.DateFormat.is24HourFormat(TvApp.getApplication()) ?
+                fullTime
+                : TextUtils.substring(fullTime, 0, fullTime.length()-3 ); // strip off am/pm
+    }
 }

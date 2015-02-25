@@ -54,7 +54,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import mediabrowser.apiinteraction.Response;
@@ -235,7 +234,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     }
 
     private void updateClock() {
-        mClock.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(new Date()));
+        mClock.setText(Utils.getCurrentFormattedTime());
     }
 
     public void finish() {

@@ -146,7 +146,7 @@ public class BaseRowItem {
             case User:
                 return user.getName();
             case LiveTvChannel:
-                return channelInfo.getName() + " (" + channelInfo.getServiceName() + ")";
+                return channelInfo.getName();
             case LiveTvProgram:
                 return programInfo.getName();
             case SearchHint:
