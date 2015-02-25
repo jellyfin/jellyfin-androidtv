@@ -326,7 +326,7 @@ public class PlaybackController {
                 if (mPlaybackState == PlaybackState.PLAYING) {
                     int currentTime = mVideoView.getCurrentPosition();
 
-                    Utils.ReportProgress(getCurrentlyPlayingItem(), (long)currentTime * 11000);
+                    Utils.ReportProgress(getCurrentlyPlayingItem(), (long)currentTime * 10000);
                 }
                 mApplication.setLastUserInteraction(System.currentTimeMillis());
                 if (mPlaybackState != PlaybackState.UNDEFINED && mPlaybackState != PlaybackState.IDLE) mHandler.postDelayed(this, REPORT_INTERVAL);
@@ -407,7 +407,7 @@ public class PlaybackController {
                 });
                 if (mPlaybackState == PlaybackState.BUFFERING) {
                     mPlaybackState = PlaybackState.PLAYING;
-                    mFreezeCheckPoint = mp.getDuration() > 60000 ? mp.getDuration() - 10000 : Integer.MAX_VALUE;
+                    mFreezeCheckPoint = mp.getDuration() > 60000 ? mp.getDuration() - 9000 : Integer.MAX_VALUE;
                     startProgressAutomation();
                     startReportLoop();
                 }
