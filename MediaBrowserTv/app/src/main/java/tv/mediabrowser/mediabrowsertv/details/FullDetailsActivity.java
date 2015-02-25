@@ -240,7 +240,7 @@ public class FullDetailsActivity extends BaseActivity {
     }
 
     private void updateClock() {
-        mClock.setText(android.text.format.DateFormat.getTimeFormat(this).format(new Date()));
+        mClock.setText(Utils.getCurrentFormattedTime());
     }
 
     private void addCriticInfo(LinearLayout layout) {
