@@ -326,7 +326,7 @@ public class PlaybackController {
                 if (mPlaybackState == PlaybackState.PLAYING) {
                     int currentTime = mVideoView.getCurrentPosition();
 
-                    Utils.ReportProgress(getCurrentlyPlayingItem(), (long)currentTime * 10000);
+                    Utils.ReportProgress(getCurrentlyPlayingItem(), (long)currentTime * 11000);
                 }
                 mApplication.setLastUserInteraction(System.currentTimeMillis());
                 if (mPlaybackState != PlaybackState.UNDEFINED && mPlaybackState != PlaybackState.IDLE) mHandler.postDelayed(this, REPORT_INTERVAL);
