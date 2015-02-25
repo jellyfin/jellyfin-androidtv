@@ -273,6 +273,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     protected void updateBackground(String url) {
         Picasso.with(getActivity())
                 .load(url)
+                .skipMemoryCache()
                 .resize(mMetrics.widthPixels, mMetrics.heightPixels)
                 .centerCrop()
                 .error(mDefaultBackground)
