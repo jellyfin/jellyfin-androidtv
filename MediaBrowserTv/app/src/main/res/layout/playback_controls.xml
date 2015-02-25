@@ -35,7 +35,7 @@
         android:maxHeight="120dp"
         android:visibility="invisible"
         android:layout_marginLeft="40sp"
-        android:layout_marginTop="20sp" />
+        android:layout_marginTop="30sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -44,8 +44,8 @@
         android:text="12:00"
         android:id="@+id/pbClock"
         android:layout_gravity="right|top"
-        android:layout_marginTop="40sp"
-        android:layout_marginRight="40sp"
+        android:layout_marginTop="30sp"
+        android:layout_marginRight="30sp"
         android:textSize="40sp" />
 
     <fragment android:id="@+id/playback_controls_fragment"
