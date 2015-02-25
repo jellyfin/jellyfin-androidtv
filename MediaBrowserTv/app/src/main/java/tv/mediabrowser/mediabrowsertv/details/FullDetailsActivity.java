@@ -284,7 +284,7 @@ public class FullDetailsActivity extends BaseActivity {
         TextView date = new TextView(this);
         date.setTextSize(18);
         if (mBaseItem.getPremiereDate() != null) {
-            date.setText(new SimpleDateFormat("d MMM y").format(mBaseItem.getPremiereDate()));
+            date.setText(new SimpleDateFormat("d MMM y").format(Utils.convertToLocalDate(mBaseItem.getPremiereDate())));
             layout.addView(date);
             addSpacer(layout, "    ");
         } else if (mBaseItem.getProductionYear() != null) {

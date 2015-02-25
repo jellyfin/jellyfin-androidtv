@@ -552,7 +552,7 @@ public class Utils {
                         break;
                     default:
                         if (item.getPremiereDate() != null) {
-                            addWithDivider(sb, new SimpleDateFormat("d MMM y").format(item.getPremiereDate()));
+                            addWithDivider(sb, new SimpleDateFormat("d MMM y").format(convertToLocalDate(item.getPremiereDate())));
                         }
 
                 }
