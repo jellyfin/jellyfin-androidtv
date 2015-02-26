@@ -778,11 +778,12 @@ public class Utils {
         return rand.nextInt((max - min) + 1) + min;
     }
 
-    public static void signInToServer(IConnectionManager connectionManager, ServerInfo server, final Activity activity) {
+    public static void signInToServer(IConnectionManager connectionManager, final ServerInfo server, final Activity activity) {
         connectionManager.Connect(server, new Response<ConnectionResult>() {
             @Override
             public void onResponse(ConnectionResult serverResult) {
                 switch (serverResult.getState()) {
+                    case SignedIn:
                     case ServerSignIn:
                         //Set api client for login
                         TvApp.getApplication().setLoginApiClient(serverResult.getApiClient());
@@ -790,6 +791,9 @@ public class Utils {
                         Intent userIntent = new Intent(activity, SelectUserActivity.class);
                         userIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         activity.startActivity(userIntent);
+                        break;
+                    default:
+                        TvApp.getApplication().getLogger().Error("Unexpected response "+serverResult.getState()+" trying to sign in to specific server "+server.getLocalAddress());
                         break;
                 }
             }
