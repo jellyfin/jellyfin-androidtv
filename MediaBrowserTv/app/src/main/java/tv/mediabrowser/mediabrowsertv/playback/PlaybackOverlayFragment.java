@@ -506,11 +506,11 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             mSecondaryActionsAdapter.add(mThumbsUpAction);
         }
         //mPrimaryActionsAdapter.add(mSkipPreviousAction);
-        if (hlsEnabled) {
+        if (hlsEnabled && mPlaybackController.canSeek()) {
             mPrimaryActionsAdapter.add(mRewindAction);
         }
         mPrimaryActionsAdapter.add(mPlayPauseAction);
-        if (hlsEnabled) {
+        if (hlsEnabled && mPlaybackController.canSeek()) {
             mPrimaryActionsAdapter.add(new PlaybackControlsRow.FastForwardAction(sContext));
         }
         if (mItemsToPlay.size() > 1) {
