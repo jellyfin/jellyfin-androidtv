@@ -12,6 +12,7 @@ import android.support.v17.leanback.widget.RowPresenter;
 import android.widget.Toast;
 
 import mediabrowser.model.entities.SortOrder;
+import mediabrowser.model.livetv.RecommendedProgramQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemSortBy;
@@ -70,6 +71,13 @@ public class HomeFragment extends StdBrowseFragment {
         nextUpQuery.setLimit(50);
         nextUpQuery.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
         mRows.add(new BrowseRowDef("Next Up TV", nextUpQuery, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}));
+
+        //On now
+        RecommendedProgramQuery onNow = new RecommendedProgramQuery();
+        onNow.setIsAiring(true);
+        onNow.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        onNow.setLimit(50);
+        mRows.add(new BrowseRowDef("On Now", onNow));
 
 //        StdItemQuery latestMusic = new StdItemQuery();
 //        latestMusic.setIncludeItemTypes(new String[]{"MusicAlbum"});
