@@ -137,6 +137,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 RecommendedProgramQuery upcomingTv = new RecommendedProgramQuery();
                 upcomingTv.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 upcomingTv.setIsAiring(false);
+                upcomingTv.setHasAired(false);
                 upcomingTv.setLimit(200);
                 mRows.add(new BrowseRowDef("Coming Up", upcomingTv));
 
