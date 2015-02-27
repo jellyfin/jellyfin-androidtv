@@ -61,6 +61,7 @@ public class CardPresenter extends Presenter {
                 case BaseItem:
                     BaseItemDto itemDto = mItem.getBaseItem();
                     Double aspect = Utils.getImageAspectRatio(itemDto);
+                    if (aspect == null) aspect = .77777;
                     cardHeight = aspect > 1 ? 300 : 370;
                     cardWidth = (int)((aspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf

@@ -210,7 +210,7 @@ public class Utils {
             if (item.getParentThumbItemId() != null || item.getSeriesThumbImageTag() != null) return 1.777777;
         }
 
-        return item.getPrimaryImageAspectRatio() != null ? item.getPrimaryImageAspectRatio() : .72222;
+        return item.getPrimaryImageAspectRatio() != null ? item.getPrimaryImageAspectRatio() : .77777;
     }
 
     public static String getPrimaryImageUrl(BaseItemPerson item, ApiClient apiClient, int maxHeight) {
