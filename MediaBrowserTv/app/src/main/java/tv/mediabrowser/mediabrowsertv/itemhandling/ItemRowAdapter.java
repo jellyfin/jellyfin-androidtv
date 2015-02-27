@@ -20,6 +20,8 @@ import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.ProgramInfoDto;
 import mediabrowser.model.livetv.ProgramQuery;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
+import mediabrowser.model.livetv.RecordingInfoDto;
+import mediabrowser.model.livetv.RecordingQuery;
 import mediabrowser.model.net.HttpException;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemsResult;
@@ -30,6 +32,7 @@ import mediabrowser.model.querying.SimilarItemsQuery;
 import mediabrowser.model.querying.UpcomingEpisodesQuery;
 import mediabrowser.model.results.ChannelInfoDtoResult;
 import mediabrowser.model.results.ProgramInfoDtoResult;
+import mediabrowser.model.results.RecordingInfoDtoResult;
 import mediabrowser.model.search.SearchHint;
 import mediabrowser.model.search.SearchHintResult;
 import mediabrowser.model.search.SearchQuery;
@@ -57,6 +60,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private TrailersQuery mTrailersQuery;
     private LiveTvChannelQuery mTvChannelQuery;
     private RecommendedProgramQuery mTvProgramQuery;
+    private RecordingQuery mTvRecordingQuery;
     private QueryType queryType;
 
     private ChangeTriggerType[] reRetrieveTriggers = new ChangeTriggerType[] {};
@@ -164,6 +168,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mTvProgramQuery = query;
         queryType = QueryType.LiveTvProgram;
+    }
+
+    public ItemRowAdapter(RecordingQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+        super(presenter);
+        mParent = parent;
+        mTvRecordingQuery = query;
+        queryType = QueryType.LiveTvRecording;
     }
 
     public ItemRowAdapter(SimilarItemsQuery query, QueryType queryType, Presenter presenter, ArrayObjectAdapter parent) {
@@ -335,6 +346,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
             case LiveTvProgram:
                 Retrieve(mTvProgramQuery);
+                break;
+            case LiveTvRecording:
+                Retrieve(mTvRecordingQuery);
                 break;
             case StaticPeople:
                 LoadPeople();
@@ -637,6 +651,40 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 mParent.remove(mRow);
                 //TODO suppress this message for now - put it back when server returns empty set for no live tv
                 //Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                currentlyRetrieving = false;
+            }
+        });
+
+    }
+
+    public void Retrieve(final RecordingQuery query) {
+        final ItemRowAdapter adapter = this;
+        TvApp.getApplication().getApiClient().GetLiveTvRecordingsAsync(query, new Response<RecordingInfoDtoResult>() {
+            @Override
+            public void onResponse(RecordingInfoDtoResult response) {
+                if (response.getTotalRecordCount() > 0) {
+                    int i = 0;
+                    if (adapter.size() > 0) adapter.clear();
+                    for (RecordingInfoDto item : response.getItems()) {
+                        adapter.add(new BaseRowItem(item));
+                        i++;
+                    }
+                    totalItems = response.getTotalRecordCount();
+                    setItemsLoaded(itemsLoaded + i);
+                    if (i == 0) mParent.remove(mRow);
+                } else {
+                    // no results - don't show us
+                    mParent.remove(mRow);
+                }
+
+                currentlyRetrieving = false;
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving live tv recordings", exception);
+                mParent.remove(mRow);
+                Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
             }
         });

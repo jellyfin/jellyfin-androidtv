@@ -14,6 +14,7 @@ import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.ProgramInfoDto;
+import mediabrowser.model.livetv.RecordingInfoDto;
 import mediabrowser.model.search.SearchHint;
 import tv.mediabrowser.mediabrowsertv.R;
 import tv.mediabrowser.mediabrowsertv.TvApp;
@@ -33,6 +34,7 @@ public class BaseRowItem {
     private SearchHint searchHint;
     private ChannelInfoDto channelInfo;
     private ProgramInfoDto programInfo;
+    private RecordingInfoDto recordingInfo;
     private ItemType type;
     private boolean preferParentThumb = false;
     private SelectAction selectAction = SelectAction.ShowDetails;
@@ -61,6 +63,11 @@ public class BaseRowItem {
     public BaseRowItem(ProgramInfoDto program) {
         this.programInfo = program;
         type = ItemType.LiveTvProgram;
+    }
+
+    public BaseRowItem(RecordingInfoDto program) {
+        this.recordingInfo = program;
+        type = ItemType.LiveTvRecording;
     }
 
     public BaseRowItem(ServerInfo server) {
@@ -102,6 +109,7 @@ public class BaseRowItem {
     public SearchHint getSearchHint() { return searchHint; }
     public ChannelInfoDto getChannelInfo() { return channelInfo; }
     public ProgramInfoDto getProgramInfo() { return programInfo; }
+    public RecordingInfoDto getRecordingInfo() { return recordingInfo; }
 
     public boolean getIsChapter() { return type == ItemType.Chapter; }
     public boolean getIsPerson() { return type == ItemType.Person; }
@@ -123,6 +131,8 @@ public class BaseRowItem {
                 return Utils.getPrimaryImageUrl(channelInfo, TvApp.getApplication().getApiClient());
             case LiveTvProgram:
                 return Utils.getPrimaryImageUrl(programInfo, TvApp.getApplication().getApiClient());
+            case LiveTvRecording:
+                return Utils.getPrimaryImageUrl(recordingInfo, TvApp.getApplication().getApiClient());
             case Server:
                 return "android.resource://tv.mediabrowser.mediabrowsertv/" + R.drawable.server;
             case SearchHint:
@@ -149,6 +159,8 @@ public class BaseRowItem {
                 return channelInfo.getName();
             case LiveTvProgram:
                 return programInfo.getName();
+            case LiveTvRecording:
+                return recordingInfo.getName();
             case SearchHint:
                 return (searchHint.getSeries() != null ? searchHint.getSeries() + " - " : "") + searchHint.getName();
         }
@@ -174,6 +186,11 @@ public class BaseRowItem {
                 return (programInfo.getEpisodeTitle() != null ? programInfo.getEpisodeTitle() : programInfo.getChannelName()) + " " +
                         (android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(programInfo.getStartDate())) + "-"
                         + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(programInfo.getEndDate())));
+            case LiveTvRecording:
+                return (recordingInfo.getEpisodeTitle() != null ? recordingInfo.getEpisodeTitle() : recordingInfo.getChannelName()) + " " +
+                        new SimpleDateFormat("d MMM").format(Utils.convertToLocalDate(recordingInfo.getStartDate())) + " " +
+                        (android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(recordingInfo.getStartDate())) + "-"
+                                + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(recordingInfo.getEndDate())));
             case User:
                 return DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(user.getLastActivityDate()).getTime()).toString();
             case SearchHint:
@@ -224,7 +241,7 @@ public class BaseRowItem {
     public enum ItemType {
         BaseItem,
         Person,
-        Server, User, Chapter, SearchHint, LiveTvChannel, LiveTvProgram
+        Server, User, Chapter, SearchHint, LiveTvChannel, LiveTvRecording, LiveTvProgram
     }
 
     public enum SelectAction {

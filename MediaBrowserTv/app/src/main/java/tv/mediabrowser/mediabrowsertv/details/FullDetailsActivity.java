@@ -287,7 +287,7 @@ public class FullDetailsActivity extends BaseActivity {
             date.setText(new SimpleDateFormat("d MMM y").format(Utils.convertToLocalDate(mBaseItem.getPremiereDate())));
             layout.addView(date);
             addSpacer(layout, "    ");
-        } else if (mBaseItem.getProductionYear() != null) {
+        } else if (mBaseItem.getProductionYear() != null && mBaseItem.getProductionYear() > 0) {
             date.setText(mBaseItem.getProductionYear().toString());
             layout.addView(date);
             addSpacer(layout, "    ");
@@ -438,6 +438,7 @@ public class FullDetailsActivity extends BaseActivity {
 
                 }
             });
+            layout.addView(del);
         }
     }
 

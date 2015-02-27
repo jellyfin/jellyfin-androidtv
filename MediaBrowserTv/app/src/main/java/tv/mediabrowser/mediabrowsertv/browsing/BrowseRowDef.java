@@ -3,6 +3,7 @@ package tv.mediabrowser.mediabrowsertv.browsing;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.ProgramQuery;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
+import mediabrowser.model.livetv.RecordingQuery;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.NextUpQuery;
 import mediabrowser.model.querying.PersonsQuery;
@@ -27,6 +28,7 @@ public class BrowseRowDef {
 
     private LiveTvChannelQuery tvChannelQuery;
     private RecommendedProgramQuery programQuery;
+    private RecordingQuery recordingQuery;
 
     private SeasonQuery seasonQuery;
     private QueryType queryType;
@@ -79,6 +81,12 @@ public class BrowseRowDef {
         headerText = header;
         this.programQuery = query;
         this.queryType = QueryType.LiveTvProgram;
+    }
+
+    public BrowseRowDef(String header, RecordingQuery query) {
+        headerText = header;
+        this.recordingQuery = query;
+        this.queryType = QueryType.LiveTvRecording;
     }
 
     public BrowseRowDef(String header, PersonsQuery query, int chunkSize) {
@@ -150,6 +158,8 @@ public class BrowseRowDef {
     public RecommendedProgramQuery getProgramQuery() {
         return programQuery;
     }
+
+    public RecordingQuery getRecordingQuery() { return recordingQuery; }
 
 
     public PersonsQuery getPersonsQuery() {

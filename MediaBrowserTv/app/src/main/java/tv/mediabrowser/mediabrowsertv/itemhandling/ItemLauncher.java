@@ -20,6 +20,7 @@ import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.ProgramInfoDto;
+import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.search.SearchHint;
 import tv.mediabrowser.mediabrowsertv.TvApp;
 import tv.mediabrowser.mediabrowsertv.browsing.CollectionActivity;
@@ -252,6 +253,41 @@ public class ItemLauncher {
                         activity.startActivity(intent);
                     }
                 });
+                break;
+
+            case LiveTvRecording:
+                switch (rowItem.getSelectAction()) {
+
+                    case ShowDetails:
+                        //Start details fragment for display and playback
+                        Intent recIntent = new Intent(activity, DetailsActivity.class);
+                        recIntent.putExtra("ItemId", rowItem.getRecordingInfo().getId());
+
+                        Bundle recBundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                activity,
+                                ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                                DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                        activity.startActivity(recIntent, recBundle);
+                        break;
+                    case Play:
+                        if (rowItem.getRecordingInfo().getPlayAccess() == PlayAccess.Full) {
+                            //Just play it directly but need to retrieve as base item
+                            TvApp.getApplication().getApiClient().GetItemAsync(rowItem.getRecordingInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                                @Override
+                                public void onResponse(BaseItemDto response) {
+                                    Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                                    String[] items = new String[] {TvApp.getApplication().getSerializer().SerializeToString(response)};
+                                    intent.putExtra("Items", items);
+                                    intent.putExtra("Position", 0);
+                                    activity.startActivity(intent);
+                                }
+                            });
+                        } else {
+                            Utils.showToast(activity, "Item not playable at this time");
+                        }
+                        break;
+                }
+
 
 
         }

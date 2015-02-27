@@ -10,6 +10,7 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
+import mediabrowser.model.livetv.RecordingQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemQuery;
@@ -126,6 +127,12 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 rowLoader.loadRows(mRows);
                 break;
             case "livetv":
+                //Latest Recordings
+                RecordingQuery recordings = new RecordingQuery();
+                recordings.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                recordings.setLimit(200);
+                mRows.add(new BrowseRowDef("Latest Recordings", recordings));
+
                 //On now
                 RecommendedProgramQuery onNow = new RecommendedProgramQuery();
                 onNow.setIsAiring(true);
