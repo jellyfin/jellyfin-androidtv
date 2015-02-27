@@ -211,8 +211,9 @@ public class ItemLauncher {
                         //Start details fragment for display and playback
                         Intent programIntent = new Intent(activity, DetailsActivity.class);
                         programIntent.putExtra("ItemId", program.getId());
-                        programIntent.putExtra("ItemType", BaseRowItem.ItemType.LiveTvProgram);
+                        programIntent.putExtra("ItemType", program.getType());
                         programIntent.putExtra("ChannelId", program.getChannelId());
+                        programIntent.putExtra("ProgramInfo", TvApp.getApplication().getSerializer().SerializeToString(program));
 
                         Bundle programBundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
                                 activity,
