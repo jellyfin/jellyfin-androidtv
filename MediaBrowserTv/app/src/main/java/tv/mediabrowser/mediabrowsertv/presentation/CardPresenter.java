@@ -16,6 +16,7 @@ import com.squareup.picasso.Target;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.ProgramInfoDto;
+import mediabrowser.model.livetv.RecordingInfoDto;
 import tv.mediabrowser.mediabrowsertv.itemhandling.BaseRowItem;
 import tv.mediabrowser.mediabrowsertv.R;
 import tv.mediabrowser.mediabrowsertv.TvApp;
@@ -114,6 +115,17 @@ public class CardPresenter extends Presenter {
                     if (programAspect == null) programAspect = .7777777;
                     cardHeight = programAspect > 1 ? 300 : 370;
                     cardWidth = (int)((programAspect) * cardHeight);
+                    if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
+                    mCardView.setMainImageDimensions(cardWidth, cardHeight);
+                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.tv);
+                    break;
+
+                case LiveTvRecording:
+                    RecordingInfoDto recording = mItem.getRecordingInfo();
+                    Double recordingAspect = recording.getPrimaryImageAspectRatio();
+                    if (recordingAspect == null) recordingAspect = .7777777;
+                    cardHeight = recordingAspect > 1 ? 300 : 370;
+                    cardWidth = (int)((recordingAspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.tv);

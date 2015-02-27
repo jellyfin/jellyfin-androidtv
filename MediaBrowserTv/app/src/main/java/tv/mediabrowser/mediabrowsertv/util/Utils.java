@@ -60,6 +60,7 @@ import mediabrowser.model.entities.PersonType;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.ProgramInfoDto;
+import mediabrowser.model.livetv.RecordingInfoDto;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemSortBy;
@@ -230,6 +231,15 @@ public class Utils {
     }
 
     public static String getPrimaryImageUrl(ProgramInfoDto item, ApiClient apiClient) {
+        if (!item.getHasPrimaryImage()) return null;
+        ImageOptions options = new ImageOptions();
+        options.setTag(item.getImageTags().get(ImageType.Primary));
+        options.setMaxHeight(maxPrimaryImageHeight);
+        options.setImageType(ImageType.Primary);
+        return apiClient.GetImageUrl(item, options);
+    }
+
+    public static String getPrimaryImageUrl(RecordingInfoDto item, ApiClient apiClient) {
         if (!item.getHasPrimaryImage()) return null;
         ImageOptions options = new ImageOptions();
         options.setTag(item.getImageTags().get(ImageType.Primary));
@@ -470,7 +480,7 @@ public class Utils {
             case "Person":
                 if (item.getPremiereDate() != null) {
                     sb.append("Born ");
-                    sb.append(new SimpleDateFormat("d MMM y").format(item.getPremiereDate()));
+                    sb.append(new SimpleDateFormat("d MMM y").format(convertToLocalDate(item.getPremiereDate())));
                 }
                 if (item.getEndDate() != null) {
                     addWithDivider(sb, "Died ");
