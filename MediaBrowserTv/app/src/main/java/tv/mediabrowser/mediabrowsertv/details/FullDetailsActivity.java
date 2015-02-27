@@ -134,9 +134,6 @@ public class FullDetailsActivity extends BaseActivity {
         });
 
         updatePoster();
-        rotateBackdrops();
-        updateClock();
-        startClock();
 
         mButtonRow.requestFocus();
 
@@ -146,6 +143,9 @@ public class FullDetailsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        rotateBackdrops();
+        startClock();
 
         //Update information that may have changed
         if (mApplication.getLastPlayback().after(mLastUpdated)) {
@@ -487,6 +487,7 @@ public class FullDetailsActivity extends BaseActivity {
     }
 
     private void startClock() {
+        updateClock();
         mClockLoop = new Runnable() {
             @Override
             public void run() {
