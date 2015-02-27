@@ -301,7 +301,7 @@ public class Utils {
             }
             if (showWatched) {
                 options.setAddPlayedIndicator(userData.getPlayed());
-                //if (item.getIsFolder() && userData.getUnplayedItemCount() != null && userData.getUnplayedItemCount() > 0) options.setUnplayedCount(userData.getUnplayedItemCount());
+                if (item.getIsFolder() && userData.getUnplayedItemCount() != null && userData.getUnplayedItemCount() > 0) options.setUnPlayedCount(userData.getUnplayedItemCount());
             }
 
         }
