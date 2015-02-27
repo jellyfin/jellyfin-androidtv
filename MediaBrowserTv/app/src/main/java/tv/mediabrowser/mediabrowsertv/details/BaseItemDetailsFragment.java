@@ -35,6 +35,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import mediabrowser.apiinteraction.ApiClient;
+import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
@@ -42,6 +43,8 @@ import mediabrowser.model.dto.ChapterInfoDto;
 import mediabrowser.model.dto.ImageOptions;
 import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.ImageType;
+import mediabrowser.model.livetv.ProgramInfoDto;
+import mediabrowser.model.livetv.SeriesTimerInfoDto;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.NextUpQuery;
@@ -71,12 +74,14 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     private static final int ACTION_RESUME = 2;
     private static final int ACTION_DETAILS = 3;
     private static final int ACTION_SHUFFLE = 4;
-    private static final int ACTION_PLAY_TRAILER = 5;
+    private static final int ACTION_RECORD = 5;
+    private static final int ACTION_CANCEL_RECORD = 6;
 
     private static final int DETAIL_THUMB_WIDTH = 150;
     private static final int DETAIL_THUMB_HEIGHT = 200;
 
     protected BaseItemDto mBaseItem;
+    protected ProgramInfoDto mProgramInfo;
     protected String mItemId;
     protected String mChannelId;
     protected ApiClient mApiClient;
@@ -114,6 +119,8 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
         mItemId = mActivity.getIntent().getStringExtra("ItemId");
         mChannelId = mActivity.getIntent().getStringExtra("ChannelId");
+        String programJson = mActivity.getIntent().getStringExtra("ProgramInfo");
+        if (programJson != null) mProgramInfo = mApplication.getSerializer().DeserializeFromString(programJson, ProgramInfoDto.class);
         mDorPresenter.setSharedElementEnterTransition(getActivity(),
                 DetailsActivity.SHARED_ELEMENT_NAME);
 
@@ -196,6 +203,15 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
                     } else  {
                         if (Utils.CanPlay(mBaseItem)) row.addAction(new Action(ACTION_PLAY, "Play"));
+                        if (mProgramInfo != null && TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvManagement()) {
+                            //Add record buttons
+                            if (mProgramInfo.getTimerId() != null) {
+                                //existing recording
+                                row.addAction(new Action(ACTION_CANCEL_RECORD, "Cancel"));
+                            } else {
+                                row.addAction(new Action(ACTION_RECORD, "Record"));
+                            }
+                        }
                         row.addAction(new Action(ACTION_DETAILS, "Details"));
                     }
 
@@ -254,6 +270,12 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                         case ACTION_SHUFFLE:
                             play(mBaseItem, 0, true);
                             break;
+                        case ACTION_RECORD:
+                            recordProgram(mProgramInfo);
+                            break;
+                        case ACTION_CANCEL_RECORD:
+                            cancelRecording(mProgramInfo);
+                            break;
                         case ACTION_DETAILS:
                             Intent intent = new Intent(mActivity, FullDetailsActivity.class);
                             intent.putExtra("BaseItem", TvApp.getApplication().getSerializer().SerializeToString(mBaseItem));
@@ -278,6 +300,44 @@ public class BaseItemDetailsFragment extends DetailsFragment {
             addAdditionalRows(adapter);
         }
 
+    }
+
+    protected void recordProgram(ProgramInfoDto program) {
+        //Create timer with default settings
+        TvApp.getApplication().getApiClient().GetDefaultLiveTvTimerInfo(program.getId(), new Response<SeriesTimerInfoDto>() {
+            @Override
+            public void onResponse(SeriesTimerInfoDto response) {
+                TvApp.getApplication().getApiClient().CreateLiveTvTimerAsync(response, new EmptyResponse());
+                Utils.showToast(mActivity, "Program set to record");
+                //re-create details
+                mProgramInfo.setTimerId(response.getId());
+                mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask().execute(mBaseItem);
+
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error creating live tv recording", exception);
+                Utils.showToast(mActivity, "Unable to create recording");
+            }
+        });
+    }
+
+    protected void cancelRecording(ProgramInfoDto program) {
+        TvApp.getApplication().getApiClient().CancelLiveTvTimerAsync(program.getTimerId(), new EmptyResponse() {
+            @Override
+            public void onResponse() {
+                Utils.showToast(mActivity, "Recording Cancelled");
+                mProgramInfo.setTimerId(null);
+                mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask().execute(mBaseItem);
+
+            }
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error cancelling live tv recording", exception);
+                Utils.showToast(mActivity, "Unable to cancel recording");
+            }
+        });
     }
 
     protected void addAdditionalRows(ArrayObjectAdapter adapter) {
