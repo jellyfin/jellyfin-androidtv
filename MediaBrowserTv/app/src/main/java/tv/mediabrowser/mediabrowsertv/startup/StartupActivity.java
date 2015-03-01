@@ -30,6 +30,7 @@ import tv.mediabrowser.mediabrowsertv.browsing.MainActivity;
 import tv.mediabrowser.mediabrowsertv.R;
 import tv.mediabrowser.mediabrowsertv.eventhandling.TvApiEventListener;
 import tv.mediabrowser.mediabrowsertv.TvApp;
+import tv.mediabrowser.mediabrowsertv.integration.RecommendationManager;
 import tv.mediabrowser.mediabrowsertv.itemhandling.ItemLauncher;
 import tv.mediabrowser.mediabrowsertv.util.Utils;
 
@@ -51,8 +52,6 @@ public class StartupActivity extends Activity {
         application = (TvApp) getApplicationContext();
         final Activity activity = this;
         logger = application.getLogger();
-        logger.Debug("exp: " + expirationDate);
-        logger.Debug("now: " + new GregorianCalendar());
         if (new GregorianCalendar().after(expirationDate)) {
             //Expired
             Intent expired = new Intent(this, ExpiredActivity.class);
