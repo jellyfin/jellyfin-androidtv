@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">MediaBrowserTv</string>
+    <string name="app_name">Media Browser</string>
     <string name="browse_title"><![CDATA[Videos by Your Company]]></string>
     <string name="current_queue">Current Queue</string>
     <string name="vertical_grid_title"><![CDATA[Vertical Video Grid]]></string>
