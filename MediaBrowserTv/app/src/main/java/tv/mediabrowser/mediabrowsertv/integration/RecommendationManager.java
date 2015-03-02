@@ -13,7 +13,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.querying.ItemsResult;
+import mediabrowser.model.querying.NextUpQuery;
+import mediabrowser.model.querying.SimilarItemsQuery;
 import tv.mediabrowser.mediabrowsertv.R;
 import tv.mediabrowser.mediabrowsertv.TvApp;
 import tv.mediabrowser.mediabrowsertv.details.DetailsActivity;
@@ -85,6 +89,74 @@ public class RecommendationManager {
         nm.cancelAll();
         mRecommendations = new Recommendations(TvApp.getApplication().getApiClient().getServerInfo().getId(), TvApp.getApplication().getCurrentUser().getId());
         saveRecs();
+    }
+
+    public void recommend(String itemId) {
+        //No matter what it is, if it is resumeable, recommend this item (need to re-retrieve for current user data)
+        TvApp.getApplication().getApiClient().GetItemAsync(itemId, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+            @Override
+            public void onResponse(BaseItemDto response) {
+                if (response.getCanResume()) {
+                    addRecommendation(response, RecommendationType.Movie);
+                } else {
+                    switch (response.getType()) {
+                        case "Movie":
+                            //First remove us if we were a recommendation
+                            mRecommendations.remove(RecommendationType.Movie, response.getId());
+
+                            //Suggest a similar movie
+                            SimilarItemsQuery similar = new SimilarItemsQuery();
+                            similar.setId(response.getId());
+                            similar.setLimit(1);
+                            similar.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                            TvApp.getApplication().getApiClient().GetSimilarMoviesAsync(similar, new Response<ItemsResult>() {
+                                @Override
+                                public void onResponse(ItemsResult similarResponse) {
+                                    if (similarResponse.getTotalRecordCount() > 0) {
+                                        addRecommendation(similarResponse.getItems()[0], RecommendationType.Movie);
+                                    }
+                                }
+
+                                @Override
+                                public void onError(Exception exception) {
+                                    TvApp.getApplication().getLogger().ErrorException("Error retrieving item for recommendation", exception);
+                                }
+                            });
+                            break;
+                        case "Episode":
+                            //First remove us if we were a recommendation
+                            mRecommendations.remove(RecommendationType.Movie, response.getId());
+
+                            //Suggest the next up episode
+                            NextUpQuery next = new NextUpQuery();
+                            next.setSeriesId(response.getSeriesId());
+                            next.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                            next.setLimit(1);
+                            TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(next, new Response<ItemsResult>() {
+                                @Override
+                                public void onResponse(ItemsResult nextResponse) {
+                                    if (nextResponse.getTotalRecordCount() > 0) {
+                                        addRecommendation(nextResponse.getItems()[0], RecommendationType.Tv);
+                                    }
+                                }
+
+                                @Override
+                                public void onError(Exception exception) {
+                                    TvApp.getApplication().getLogger().ErrorException("Error retrieving item for recommendation", exception);
+                                }
+                            });
+                            break;
+                    }
+
+                }
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving item for recommendation", exception);
+            }
+        });
+
     }
 
     public boolean addRecommendation(BaseItemDto item, RecommendationType type) {
