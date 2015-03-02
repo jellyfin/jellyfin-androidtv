@@ -74,6 +74,7 @@ import tv.mediabrowser.mediabrowsertv.BuildConfig;
 import tv.mediabrowser.mediabrowsertv.browsing.MainActivity;
 import tv.mediabrowser.mediabrowsertv.R;
 import tv.mediabrowser.mediabrowsertv.TvApp;
+import tv.mediabrowser.mediabrowsertv.details.DetailsActivity;
 import tv.mediabrowser.mediabrowsertv.startup.LogonCredentials;
 import tv.mediabrowser.mediabrowsertv.startup.SelectUserActivity;
 
@@ -860,6 +861,10 @@ public class Utils {
     }
 
     public static void loginUser(String userName, String pw, ApiClient apiClient, final Activity activity) {
+        loginUser(userName, pw, apiClient, activity, null);
+    }
+
+    public static void loginUser(String userName, String pw, ApiClient apiClient, final Activity activity, final String directEntryItemId) {
         try {
             apiClient.AuthenticateUserAsync(userName, pw, new Response<AuthenticationResult>() {
                 @Override
@@ -867,8 +872,14 @@ public class Utils {
                     TvApp application = TvApp.getApplication();
                     application.getLogger().Debug("Signed in as " + authenticationResult.getUser().getName());
                     application.setCurrentUser(authenticationResult.getUser());
-                    Intent intent = new Intent(activity, MainActivity.class);
-                    activity.startActivity(intent);
+                    if (directEntryItemId == null) {
+                        Intent intent = new Intent(activity, MainActivity.class);
+                        activity.startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(activity, DetailsActivity.class);
+                        intent.putExtra("ItemId", directEntryItemId);
+                        activity.startActivity(intent);
+                    }
                 }
 
                 @Override
