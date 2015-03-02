@@ -64,6 +64,7 @@ import mediabrowser.model.dto.ImageOptions;
 import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.MediaStream;
+import tv.mediabrowser.mediabrowsertv.integration.RecommendationManager;
 import tv.mediabrowser.mediabrowsertv.itemhandling.BaseRowItem;
 import tv.mediabrowser.mediabrowsertv.model.ChapterItemInfo;
 import tv.mediabrowser.mediabrowsertv.itemhandling.ItemRowAdapter;
@@ -222,6 +223,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     @Override
     public void onDestroy() {
         super.onDestroy();
+        RecommendationManager.getInstance().recommend(mPlaybackController.getCurrentlyPlayingItem().getId());
         mPlaybackController.stop();
         stopClock();
     }

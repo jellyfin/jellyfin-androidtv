@@ -96,6 +96,20 @@ public class Recommendations {
         return oldest.getRecId();
     }
 
+    public boolean remove(RecommendationType type, String id) {
+        List<Recommendation> list = type == RecommendationType.Movie ? movieRecommendations : tvRecommendations;
+
+        Recommendation existing = get(type, id);
+
+        if (existing != null) {
+            list.remove(existing);
+            ((NotificationManager) TvApp.getApplication().getSystemService(Context.NOTIFICATION_SERVICE)).cancel(existing.getRecId());
+            return true;
+        }
+
+        return false;
+    }
+
     public String getUserId() {
         return userId;
     }
