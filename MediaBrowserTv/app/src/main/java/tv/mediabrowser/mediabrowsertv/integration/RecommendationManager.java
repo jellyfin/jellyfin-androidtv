@@ -33,6 +33,7 @@ public class RecommendationManager {
 
     public RecommendationManager() {
         mRecommendations = loadRecs();
+        validate();
     }
 
     public static RecommendationManager getInstance() {
@@ -48,8 +49,21 @@ public class RecommendationManager {
             return (Recommendations) TvApp.getApplication().getSerializer().DeserializeFromString(json, Recommendations.class);
         } catch (IOException e) {
             // none saved
-            return new Recommendations();
+            return new Recommendations(TvApp.getApplication().getApiClient().getServerInfo().getId(), TvApp.getApplication().getCurrentUser().getId());
         }
+    }
+
+    public boolean validate() {
+        //Now validate that these are for this server and user.
+        if (!mRecommendations.getServerId().equals(TvApp.getApplication().getApiClient().getServerInfo().getId())
+                || !mRecommendations.getUserId().equals(TvApp.getApplication().getCurrentUser().getId())) {
+            //Nope - clear them out and start over for this user
+            clearAll();
+            TvApp.getApplication().getLogger().Info("Recommendations re-set for user "+TvApp.getApplication().getCurrentUser().getName());
+            return false;
+        }
+
+        return true;
     }
 
     private void saveRecs() {
@@ -68,8 +82,7 @@ public class RecommendationManager {
                 TvApp.getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
 
         nm.cancelAll();
-        mRecommendations.setmMovieRecommendations(new ArrayList<Recommendation>());
-        mRecommendations.setmTvRecommendations(new ArrayList<Recommendation>());
+        mRecommendations = new Recommendations(TvApp.getApplication().getApiClient().getServerInfo().getId(), TvApp.getApplication().getCurrentUser().getId());
         saveRecs();
     }
 

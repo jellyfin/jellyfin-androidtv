@@ -15,23 +15,30 @@ import tv.mediabrowser.mediabrowsertv.TvApp;
  */
 public class Recommendations {
 
-    private List<Recommendation> mTvRecommendations = new ArrayList<>();
-    private List<Recommendation> mMovieRecommendations = new ArrayList<>();
+    private String serverId;
+    private String userId;
+    private List<Recommendation> tvRecommendations = new ArrayList<>();
+    private List<Recommendation> movieRecommendations = new ArrayList<>();
 
-    public List<Recommendation> getmTvRecommendations() {
-        return mTvRecommendations;
+    public Recommendations(String serverId, String userId) {
+        this.userId = userId;
+        this.serverId = serverId;
     }
 
-    public void setmTvRecommendations(List<Recommendation> mTvRecommendations) {
-        this.mTvRecommendations = mTvRecommendations;
+    public List<Recommendation> getTvRecommendations() {
+        return tvRecommendations;
     }
 
-    public List<Recommendation> getmMovieRecommendations() {
-        return mMovieRecommendations;
+    public void setTvRecommendations(List<Recommendation> tvRecommendations) {
+        this.tvRecommendations = tvRecommendations;
     }
 
-    public void setmMovieRecommendations(List<Recommendation> mMovieRecommendations) {
-        this.mMovieRecommendations = mMovieRecommendations;
+    public List<Recommendation> getMovieRecommendations() {
+        return movieRecommendations;
+    }
+
+    public void setMovieRecommendations(List<Recommendation> movieRecommendations) {
+        this.movieRecommendations = movieRecommendations;
     }
 
     public Recommendation get(RecommendationType type, String id) {
@@ -39,9 +46,9 @@ public class Recommendations {
         switch (type) {
 
             case Movie:
-                return mMovieRecommendations.contains(compare) ? mMovieRecommendations.get(mMovieRecommendations.indexOf(compare)) : null;
+                return movieRecommendations.contains(compare) ? movieRecommendations.get(movieRecommendations.indexOf(compare)) : null;
             case Tv:
-                return mTvRecommendations.contains(compare) ? mTvRecommendations.get(mTvRecommendations.indexOf(compare)) : null;
+                return tvRecommendations.contains(compare) ? tvRecommendations.get(tvRecommendations.indexOf(compare)) : null;
         }
 
         return null;
@@ -51,10 +58,10 @@ public class Recommendations {
         switch (rec.getType()) {
 
             case Movie:
-                mMovieRecommendations.add(rec);
+                movieRecommendations.add(rec);
                 break;
             case Tv:
-                mTvRecommendations.add(rec);
+                tvRecommendations.add(rec);
                 break;
         }
 
@@ -64,10 +71,10 @@ public class Recommendations {
     public Integer getRecId(RecommendationType type, int max) {
         switch (type) {
             case Movie:
-                if (mMovieRecommendations.size() < max) return 100 + mMovieRecommendations.size()+1;
+                if (movieRecommendations.size() < max) return 100 + movieRecommendations.size()+1;
                 return replaceOldest(type);
             case Tv:
-                if (mTvRecommendations.size() < max) return 200 + mTvRecommendations.size()+1;
+                if (tvRecommendations.size() < max) return 200 + tvRecommendations.size()+1;
                 return replaceOldest(type);
         }
 
@@ -75,7 +82,7 @@ public class Recommendations {
     }
 
     private Integer replaceOldest(RecommendationType type) {
-        List<Recommendation> list = type == RecommendationType.Movie ? mMovieRecommendations : mTvRecommendations;
+        List<Recommendation> list = type == RecommendationType.Movie ? movieRecommendations : tvRecommendations;
 
         Recommendation oldest = Collections.min(list, new Comparator<Recommendation>() {
             @Override
@@ -89,5 +96,20 @@ public class Recommendations {
         return oldest.getRecId();
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getServerId() {
+        return serverId;
+    }
+
+    public void setServerId(String serverId) {
+        this.serverId = serverId;
+    }
 }
 
