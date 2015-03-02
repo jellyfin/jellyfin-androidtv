@@ -30,6 +30,7 @@ public class DpadPwActivity extends Activity {
     TextView title;
     TextView pwField;
     UserDto user;
+    String directItemId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class DpadPwActivity extends Activity {
         pwField = (TextView)findViewById(R.id.dpad_pw_display);
 
         user = TvApp.getApplication().getSerializer().DeserializeFromString(getIntent().getStringExtra("User"), UserDto.class);
+        directItemId = getIntent().getStringExtra("ItemId");
 
         title.setText(title.getText() + " for "+ user.getName());
         pwField.setText(password);
@@ -59,7 +61,7 @@ public class DpadPwActivity extends Activity {
                     TvApp.getApplication().getLogger().Debug("Password finished");
                     Utils.MakeTone(ToneGenerator.TONE_CDMA_ANSWER, 200);
                     processed = true;
-                    Utils.loginUser(user.getName(), password, TvApp.getApplication().getLoginApiClient(), this);
+                    Utils.loginUser(user.getName(), password, TvApp.getApplication().getLoginApiClient(), this, directItemId);
                     return true;
                 }
                 if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT && System.currentTimeMillis() - lastKeyDown > longPressSensitivity) {
@@ -81,7 +83,7 @@ public class DpadPwActivity extends Activity {
                             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     String pw = password.getText().toString();
-                                    Utils.loginUser(user.getName(), pw, TvApp.getApplication().getLoginApiClient(), activity);
+                                    Utils.loginUser(user.getName(), pw, TvApp.getApplication().getLoginApiClient(), activity, directItemId);
                                 }
                             }).show();
                     return true;

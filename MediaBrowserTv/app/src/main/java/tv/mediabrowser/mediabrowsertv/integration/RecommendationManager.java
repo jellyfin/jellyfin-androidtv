@@ -17,6 +17,7 @@ import mediabrowser.model.dto.BaseItemDto;
 import tv.mediabrowser.mediabrowsertv.R;
 import tv.mediabrowser.mediabrowsertv.TvApp;
 import tv.mediabrowser.mediabrowsertv.details.DetailsActivity;
+import tv.mediabrowser.mediabrowsertv.startup.DirectEntryActivity;
 import tv.mediabrowser.mediabrowsertv.util.Utils;
 
 /**
@@ -129,15 +130,16 @@ public class RecommendationManager {
     }
 
     private PendingIntent buildPendingIntent(BaseItemDto item) {
-        Intent detailsIntent = new Intent(TvApp.getApplication(), DetailsActivity.class);
-        detailsIntent.putExtra("ItemId", item.getId());
+        Intent directIntent = new Intent(TvApp.getApplication(), DirectEntryActivity.class);
+        directIntent.putExtra("ItemId", item.getId());
+        directIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(TvApp.getApplication());
-        stackBuilder.addParentStack(DetailsActivity.class);
-        stackBuilder.addNextIntent(detailsIntent);
+        stackBuilder.addParentStack(DirectEntryActivity.class);
+        stackBuilder.addNextIntent(directIntent);
         // Ensure a unique PendingIntents, otherwise all recommendations end up with the same
         // PendingIntent
-        detailsIntent.setAction(item.getId());
+        directIntent.setAction(item.getId());
 
         PendingIntent intent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         return intent;
