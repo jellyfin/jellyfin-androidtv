@@ -152,6 +152,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/fdTitle"
         android:textSize="40sp"
-        android:layout_marginRight="50sp" />
+        android:layout_marginRight="80sp" />
 
 </RelativeLayout>
