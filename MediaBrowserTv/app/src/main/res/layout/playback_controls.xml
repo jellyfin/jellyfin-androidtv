@@ -44,7 +44,7 @@
         android:id="@+id/pbClock"
         android:layout_gravity="right|top"
         android:layout_marginTop="30sp"
-        android:layout_marginRight="30sp"
+        android:layout_marginRight="50sp"
         android:textSize="40sp" />
 
     <fragment android:id="@+id/playback_controls_fragment"
