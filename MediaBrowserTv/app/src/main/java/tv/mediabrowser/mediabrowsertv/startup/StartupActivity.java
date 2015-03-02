@@ -52,6 +52,7 @@ public class StartupActivity extends Activity {
         application = (TvApp) getApplicationContext();
         final Activity activity = this;
         logger = application.getLogger();
+
         if (new GregorianCalendar().after(expirationDate)) {
             //Expired
             Intent expired = new Intent(this, ExpiredActivity.class);
