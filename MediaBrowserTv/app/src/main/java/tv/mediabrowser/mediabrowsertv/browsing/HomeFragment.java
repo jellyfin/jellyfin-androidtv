@@ -17,6 +17,7 @@ import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.NextUpQuery;
+import tv.mediabrowser.mediabrowsertv.AppValidator;
 import tv.mediabrowser.mediabrowsertv.integration.RecommendationManager;
 import tv.mediabrowser.mediabrowsertv.model.ChangeTriggerType;
 import tv.mediabrowser.mediabrowsertv.ui.GridButton;
@@ -39,6 +40,9 @@ public class HomeFragment extends StdBrowseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        //Validate app
+        AppValidator.validate(getActivity());
+
         MainTitle = this.getString(R.string.home_title);
         super.onActivityCreated(savedInstanceState);
 
