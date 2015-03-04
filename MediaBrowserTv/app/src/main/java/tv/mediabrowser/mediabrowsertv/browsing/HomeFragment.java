@@ -101,7 +101,7 @@ public class HomeFragment extends StdBrowseFragment {
     @Override
     protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
         super.addAdditionalRows(rowAdapter);
-        HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), "SETTINGS", null);
+        HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), "Settings", null);
 
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
