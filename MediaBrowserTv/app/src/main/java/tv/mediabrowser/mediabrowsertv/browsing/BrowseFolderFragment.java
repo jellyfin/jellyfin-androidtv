@@ -61,15 +61,15 @@ public class BrowseFolderFragment extends StdBrowseFragment {
     protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
         super.addAdditionalRows(rowAdapter);
         if (showViews) {
-            HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), "Views", null);
+            HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_views), null);
 
             GridButtonPresenter mGridPresenter = new GridButtonPresenter();
             ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-            gridRowAdapter.add(new GridButton(BY_LETTER, "By Letter", R.drawable.byletter));
+            gridRowAdapter.add(new GridButton(BY_LETTER, mApplication.getString(R.string.lbl_by_letter), R.drawable.byletter));
             if (itemTypeString != null && itemTypeString.equals("Movie"))
-                gridRowAdapter.add(new GridButton(SUGGESTED, "Suggested", R.drawable.suggestions));
-            gridRowAdapter.add(new GridButton(GENRES, "Genres", R.drawable.genres));
-            gridRowAdapter.add(new GridButton(PERSONS, "Performers", R.drawable.actors));
+                gridRowAdapter.add(new GridButton(SUGGESTED, mApplication.getString(R.string.lbl_suggested), R.drawable.suggestions));
+            gridRowAdapter.add(new GridButton(GENRES, mApplication.getString(R.string.lbl_genres), R.drawable.genres));
+            gridRowAdapter.add(new GridButton(PERSONS, mApplication.getString(R.string.lbl_performers), R.drawable.actors));
             rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
 
         }
@@ -121,7 +121,7 @@ public class BrowseFolderFragment extends StdBrowseFragment {
                         break;
 
                     default:
-                        Toast.makeText(getActivity(), item.toString() + " not implemented", Toast.LENGTH_SHORT)
+                        Toast.makeText(getActivity(), item.toString() + mApplication.getString(R.string.msg_not_implemented), Toast.LENGTH_SHORT)
                                 .show();
                         break;
                 }

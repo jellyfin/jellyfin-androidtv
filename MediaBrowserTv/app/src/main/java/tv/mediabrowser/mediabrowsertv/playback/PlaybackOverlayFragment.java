@@ -32,7 +32,6 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.PlaybackControlsRow;
 import android.support.v17.leanback.widget.PlaybackControlsRow.FastForwardAction;
 import android.support.v17.leanback.widget.PlaybackControlsRow.PlayPauseAction;
-import android.support.v17.leanback.widget.PlaybackControlsRow.RepeatAction;
 import android.support.v17.leanback.widget.PlaybackControlsRow.SkipNextAction;
 import android.support.v17.leanback.widget.PlaybackControlsRow.SkipPreviousAction;
 import android.support.v17.leanback.widget.PlaybackControlsRow.ThumbsDownAction;
@@ -41,7 +40,6 @@ import android.support.v17.leanback.widget.PlaybackControlsRowPresenter;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -64,12 +62,12 @@ import mediabrowser.model.dto.ImageOptions;
 import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.MediaStream;
-import tv.mediabrowser.mediabrowsertv.integration.RecommendationManager;
-import tv.mediabrowser.mediabrowsertv.itemhandling.BaseRowItem;
-import tv.mediabrowser.mediabrowsertv.model.ChapterItemInfo;
-import tv.mediabrowser.mediabrowsertv.itemhandling.ItemRowAdapter;
 import tv.mediabrowser.mediabrowsertv.R;
 import tv.mediabrowser.mediabrowsertv.TvApp;
+import tv.mediabrowser.mediabrowsertv.integration.RecommendationManager;
+import tv.mediabrowser.mediabrowsertv.itemhandling.BaseRowItem;
+import tv.mediabrowser.mediabrowsertv.itemhandling.ItemRowAdapter;
+import tv.mediabrowser.mediabrowsertv.model.ChapterItemInfo;
 import tv.mediabrowser.mediabrowsertv.presentation.CardPresenter;
 import tv.mediabrowser.mediabrowsertv.util.Utils;
 
@@ -90,7 +88,6 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private ArrayObjectAdapter mSecondaryActionsAdapter;
     private ArrayObjectAdapter mCurrentQueue;
     private PlayPauseAction mPlayPauseAction;
-    private RepeatAction mRepeatAction;
     private ThumbsUpAction mThumbsUpAction;
     private ThumbsDownAction mThumbsDownAction;
     private Action mSubtitleAction;
@@ -98,9 +95,6 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private FastForwardAction mFastForwardAction;
     private Action mRewindAction;
     private SkipNextAction mSkipNextAction;
-    private SkipPreviousAction mSkipPreviousAction;
-
-    private int mInitialStartPos;
 
     private ImageView mLogo;
     private TextView mClock;
@@ -134,8 +128,6 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                 mItemsToPlay.add((BaseItemDto) serializer.DeserializeFromString(json, BaseItemDto.class));
             }
         }
-
-        mInitialStartPos = intent.getIntExtra("Position", 0);
 
         mApplication.setPlaybackController(new PlaybackController(mItemsToPlay, this));
         mPlaybackController = mApplication.getPlaybackController();
@@ -335,11 +327,11 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                     setFadingEnabled(false);
                     List<MediaStream> subtitles = Utils.GetSubtitleStreams(mPlaybackController.getCurrentMediaSource());
                     PopupMenu subMenu = new PopupMenu(getActivity(), getActivity().findViewById(R.id.playback_progress), Gravity.RIGHT);
-                    MenuItem none = subMenu.getMenu().add(0, -1, 0, "None");
+                    MenuItem none = subMenu.getMenu().add(0, -1, 0, mApplication.getString(R.string.lbl_none));
                     int currentSubIndex = Utils.NullCoalesce(mPlaybackController.getCurrentStreamInfo().getSubtitleStreamIndex(), -1);
                     if (currentSubIndex < 0) none.setChecked(true);
                     for (MediaStream sub : subtitles) {
-                        MenuItem item = subMenu.getMenu().add(0, sub.getIndex(), sub.getIndex(), sub.getLanguage() + (sub.getIsExternal() ? " (external)" : " (internal)") + (sub.getIsForced() ? " (forced)" : ""));
+                        MenuItem item = subMenu.getMenu().add(0, sub.getIndex(), sub.getIndex(), sub.getLanguage() + (sub.getIsExternal() ? mApplication.getString(R.string.lbl_parens_external) : mApplication.getString(R.string.lbl_parens_internal)) + (sub.getIsForced() ? mApplication.getString(R.string.lbl_parens_forced) : ""));
                         if (currentSubIndex == sub.getIndex()) item.setChecked(true);
                     }
                     subMenu.getMenu().setGroupCheckable(0, true, false);
@@ -470,7 +462,6 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
         mPlayPauseAction = new PlayPauseAction(sContext);
         mPlayPauseAction.setIndex(PlayPauseAction.PAUSE);
-        mRepeatAction = new RepeatAction(sContext);
         mThumbsUpAction = new ThumbsUpAction(sContext);
         mThumbsDownAction = new ThumbsDownAction(sContext);
         BaseItemDto firstItem = mPlaybackController.getCurrentlyPlayingItem();
@@ -497,13 +488,8 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         mSkipNextAction = new PlaybackControlsRow.SkipNextAction(sContext);
         mRewindAction = new Action(997, null, null, getActivity().getResources().getDrawable(R.drawable.loopback));
         mFastForwardAction = new PlaybackControlsRow.FastForwardAction(sContext);
+        mPrimaryActionsAdapter.add(mThumbsUpAction);
 
-        if (PRIMARY_CONTROLS > 5) {
-            mPrimaryActionsAdapter.add(mThumbsUpAction);
-        } else {
-            mSecondaryActionsAdapter.add(mThumbsUpAction);
-        }
-        //mPrimaryActionsAdapter.add(mSkipPreviousAction);
         if (hlsEnabled && mPlaybackController.canSeek()) {
             mPrimaryActionsAdapter.add(mRewindAction);
         }
@@ -515,13 +501,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             mPrimaryActionsAdapter.add(mSkipNextAction);
         }
 
-        //mSecondaryActionsAdapter.add(mRepeatAction);
-
-        if (PRIMARY_CONTROLS > 5) {
-            mPrimaryActionsAdapter.add(mThumbsDownAction);
-        } else {
-            mSecondaryActionsAdapter.add(mThumbsDownAction);
-        }
+        mPrimaryActionsAdapter.add(mThumbsDownAction);
 
         if (hasSubs && hasMultiAudio) {
             mSecondaryActionsAdapter.add(mAudioAction);
@@ -541,7 +521,6 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         adapter = mSecondaryActionsAdapter;
         if (adapter.indexOf(action) >= 0) {
             adapter.notifyArrayItemRangeChanged(adapter.indexOf(action), 1);
-            return;
         }
     }
 

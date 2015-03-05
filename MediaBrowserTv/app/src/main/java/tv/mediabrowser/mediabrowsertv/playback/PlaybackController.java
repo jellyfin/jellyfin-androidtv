@@ -379,7 +379,7 @@ public class PlaybackController {
                 } else {
                     msg = mApplication.getString(R.string.video_error_unknown_error);
                 }
-                Utils.showToast(mApplication, "Video Playback error - " + msg);
+                Utils.showToast(mApplication, mApplication.getString(R.string.msg_video_playback_error) + msg);
                 mApplication.getLogger().Error("Playback error - " + msg);
                 mPlaybackState = PlaybackState.IDLE;
                 stopProgressAutomation();

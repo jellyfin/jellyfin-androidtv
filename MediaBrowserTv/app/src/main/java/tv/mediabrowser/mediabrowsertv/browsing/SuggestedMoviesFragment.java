@@ -9,6 +9,7 @@ import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.SimilarItemsQuery;
+import tv.mediabrowser.mediabrowsertv.R;
 import tv.mediabrowser.mediabrowsertv.TvApp;
 import tv.mediabrowser.mediabrowsertv.querying.QueryType;
 import tv.mediabrowser.mediabrowsertv.querying.StdItemQuery;
@@ -20,7 +21,7 @@ public class SuggestedMoviesFragment extends CustomViewFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        MainTitle = "Suggested Movies";
+        MainTitle = mApplication.getString(R.string.lbl_suggested_movies);
         super.onActivityCreated(savedInstanceState);
 
     }
@@ -47,7 +48,7 @@ public class SuggestedMoviesFragment extends CustomViewFragment {
                     similar.setId(item.getId());
                     similar.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
                     similar.setLimit(7);
-                    mRows.add(new BrowseRowDef("Because you watched "+item.getName(), similar, QueryType.SimilarMovies));
+                    mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_because_you_watched)+item.getName(), similar, QueryType.SimilarMovies));
                 }
 
                 rowLoader.loadRows(mRows);

@@ -17,6 +17,7 @@ import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
+import tv.mediabrowser.mediabrowsertv.R;
 import tv.mediabrowser.mediabrowsertv.TvApp;
 import tv.mediabrowser.mediabrowsertv.model.ChangeTriggerType;
 import tv.mediabrowser.mediabrowsertv.querying.StdItemQuery;
@@ -46,7 +47,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 resumeMovies.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
                 resumeMovies.setSortBy(new String[]{ItemSortBy.DatePlayed});
                 resumeMovies.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef("Continue Watching", resumeMovies, 50, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_continue_watching), resumeMovies, 50, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback}));
 
                 //Latest
                 StdItemQuery latestMovies = new StdItemQuery();
@@ -57,7 +58,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 latestMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
                 latestMovies.setSortBy(new String[]{ItemSortBy.DateCreated});
                 latestMovies.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef("Latest", latestMovies, 0, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestMovies, 0, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
 
                 //All
                 StdItemQuery movies = new StdItemQuery();
@@ -65,7 +66,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 movies.setRecursive(true);
                 movies.setParentId(mFolder.getId());
                 movies.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef("By Name", movies, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_by_name), movies, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
                 StdItemQuery favorites = new StdItemQuery();
@@ -74,7 +75,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 favorites.setParentId(mFolder.getId());
                 favorites.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
                 favorites.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef("Favorites", favorites, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_favorites), favorites, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 //Collections
                 StdItemQuery collections = new StdItemQuery();
@@ -82,7 +83,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 collections.setRecursive(true);
                 collections.setParentId(mFolder.getId());
                 collections.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef("Collections", collections, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_collections), collections, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 rowLoader.loadRows(mRows);
                 break;
@@ -94,7 +95,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 nextUpQuery.setLimit(50);
                 nextUpQuery.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
-                mRows.add(new BrowseRowDef("Next Up", nextUpQuery, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}));
+                mRows.add(new BrowseRowDef(mApplication.getResources().getString(R.string.lbl_next_up), nextUpQuery, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}));
 
                 //Latest content added
                 StdItemQuery latestSeries = new StdItemQuery();
@@ -105,7 +106,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 latestSeries.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
                 latestSeries.setSortBy(new String[]{ItemSortBy.DateCreated});
                 latestSeries.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef("Latest", latestSeries, 0, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestSeries, 0, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 //All
                 StdItemQuery series = new StdItemQuery();
@@ -113,7 +114,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 series.setRecursive(true);
                 series.setParentId(mFolder.getId());
                 series.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef("By Name", series, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_by_name), series, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
                 StdItemQuery tvFavorites = new StdItemQuery();
@@ -122,7 +123,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 tvFavorites.setParentId(mFolder.getId());
                 tvFavorites.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
                 tvFavorites.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef("Favorites", tvFavorites, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_favorites), tvFavorites, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 rowLoader.loadRows(mRows);
                 break;
@@ -131,14 +132,14 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 RecordingQuery recordings = new RecordingQuery();
                 recordings.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 recordings.setLimit(200);
-                mRows.add(new BrowseRowDef("Latest Recordings", recordings));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest_recordings), recordings));
 
                 //On now
                 RecommendedProgramQuery onNow = new RecommendedProgramQuery();
                 onNow.setIsAiring(true);
                 onNow.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 onNow.setLimit(200);
-                mRows.add(new BrowseRowDef("On Now", onNow));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_on_now), onNow));
 
                 //Upcoming
                 RecommendedProgramQuery upcomingTv = new RecommendedProgramQuery();
@@ -146,20 +147,20 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 upcomingTv.setIsAiring(false);
                 upcomingTv.setHasAired(false);
                 upcomingTv.setLimit(200);
-                mRows.add(new BrowseRowDef("Coming Up", upcomingTv));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_coming_up), upcomingTv));
 
                 //Fav Channels
                 LiveTvChannelQuery favTv = new LiveTvChannelQuery();
                 favTv.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 favTv.setEnableFavoriteSorting(true);
                 favTv.setIsFavorite(true);
-                mRows.add(new BrowseRowDef("Favorite Channels", favTv));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_favorite_channels), favTv));
 
                 //Other Channels
                 LiveTvChannelQuery otherTv = new LiveTvChannelQuery();
                 otherTv.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 otherTv.setIsFavorite(false);
-                mRows.add(new BrowseRowDef("Other Channels", otherTv));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_other_channels), otherTv));
 
                 rowLoader.loadRows(mRows);
 

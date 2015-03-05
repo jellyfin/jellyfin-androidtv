@@ -189,7 +189,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
             UserItemDataDto userData = mBaseItem.getUserData();
             if (userData != null && userData.getPlaybackPositionTicks() > 0) {
-                row.addAction(new Action(ACTION_RESUME, "Resume"));
+                row.addAction(new Action(ACTION_RESUME, mActivity.getString(R.string.lbl_resume)));
             }
 
             switch (mBaseItem.getType()) {
@@ -198,21 +198,21 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                     break;
                 default:
                     if (mBaseItem.getIsFolder() && Utils.CanPlay(mBaseItem)) {
-                        row.addAction(new Action(ACTION_PLAY, "Play All"));
-                        row.addAction(new Action(ACTION_SHUFFLE, "Shuffle All"));
+                        row.addAction(new Action(ACTION_PLAY, mActivity.getString(R.string.lbl_play_all)));
+                        row.addAction(new Action(ACTION_SHUFFLE, mActivity.getString(R.string.lbl_shuffle_all)));
 
                     } else  {
-                        if (Utils.CanPlay(mBaseItem)) row.addAction(new Action(ACTION_PLAY, "Play"));
+                        if (Utils.CanPlay(mBaseItem)) row.addAction(new Action(ACTION_PLAY, mActivity.getString(R.string.lbl_play)));
                         if (mProgramInfo != null && TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvManagement()) {
                             //Add record buttons
                             if (mProgramInfo.getTimerId() != null) {
                                 //existing recording
-                                row.addAction(new Action(ACTION_CANCEL_RECORD, "Cancel"));
+                                row.addAction(new Action(ACTION_CANCEL_RECORD, mActivity.getString(R.string.lbl_cancel)));
                             } else {
-                                row.addAction(new Action(ACTION_RECORD, "Record"));
+                                row.addAction(new Action(ACTION_RECORD, mActivity.getString(R.string.lbl_record)));
                             }
                         }
-                        row.addAction(new Action(ACTION_DETAILS, "Details"));
+                        row.addAction(new Action(ACTION_DETAILS, mActivity.getString(R.string.lbl_details)));
                     }
 
             }
@@ -282,7 +282,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                             mActivity.startActivity(intent);
                             break;
                         default:
-                            Toast.makeText(getActivity(), action.toString() + " not implemented", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), action.toString() + mActivity.getString(R.string.msg_not_implemented), Toast.LENGTH_SHORT).show();
                             break;
                     }
                 }
@@ -308,7 +308,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
             @Override
             public void onResponse(SeriesTimerInfoDto response) {
                 TvApp.getApplication().getApiClient().CreateLiveTvTimerAsync(response, new EmptyResponse());
-                Utils.showToast(mActivity, "Program set to record");
+                Utils.showToast(mActivity, mActivity.getString(R.string.msg_set_to_record));
                 //re-create details
                 mProgramInfo.setTimerId(response.getId());
                 mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask().execute(mBaseItem);
@@ -318,7 +318,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error creating live tv recording", exception);
-                Utils.showToast(mActivity, "Unable to create recording");
+                Utils.showToast(mActivity, mActivity.getString(R.string.msg_unable_to_create_recording));
             }
         });
     }
@@ -327,7 +327,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
         TvApp.getApplication().getApiClient().CancelLiveTvTimerAsync(program.getTimerId(), new EmptyResponse() {
             @Override
             public void onResponse() {
-                Utils.showToast(mActivity, "Recording Cancelled");
+                Utils.showToast(mActivity, mActivity.getString(R.string.msg_recording_cancelled));
                 mProgramInfo.setTimerId(null);
                 mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask().execute(mBaseItem);
 
@@ -335,7 +335,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error cancelling live tv recording", exception);
-                Utils.showToast(mActivity, "Unable to cancel recording");
+                Utils.showToast(mActivity, mActivity.getString(R.string.msg_unable_to_cancel));
             }
         });
     }
@@ -347,7 +347,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 //Cast/Crew
                 if (mBaseItem.getPeople() != null) {
                     ItemRowAdapter castAdapter = new ItemRowAdapter(mBaseItem.getPeople(), new CardPresenter(), adapter);
-                    addItemRow(adapter, castAdapter, 0, "Cast/Crew");
+                    addItemRow(adapter, castAdapter, 0, mActivity.getString(R.string.lbl_cast_crew));
                 }
 
                 //Chapters
@@ -371,17 +371,17 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                     }
 
                     ItemRowAdapter chapterAdapter = new ItemRowAdapter(chapters, new CardPresenter(), adapter);
-                    addItemRow(adapter, chapterAdapter, 1, "Chapters");
+                    addItemRow(adapter, chapterAdapter, 1, mActivity.getString(R.string.lbl_chapters));
                 }
 
                 //Specials
                 if (mBaseItem.getSpecialFeatureCount() != null && mBaseItem.getSpecialFeatureCount() > 0) {
-                    addItemRow(adapter, new ItemRowAdapter(new SpecialsQuery(mBaseItem.getId()), new CardPresenter(), adapter), 2, "Specials");
+                    addItemRow(adapter, new ItemRowAdapter(new SpecialsQuery(mBaseItem.getId()), new CardPresenter(), adapter), 2, mActivity.getString(R.string.lbl_specials));
                 }
 
                 //Trailers
                 if (mBaseItem.getLocalTrailerCount() != null && mBaseItem.getLocalTrailerCount() > 0) {
-                    addItemRow(adapter, new ItemRowAdapter(new TrailersQuery(mBaseItem.getId()), new CardPresenter(), adapter), 3, "Trailers");
+                    addItemRow(adapter, new ItemRowAdapter(new TrailersQuery(mBaseItem.getId()), new CardPresenter(), adapter), 3, mActivity.getString(R.string.lbl_trailers));
                 }
 
                 //Similar
@@ -392,7 +392,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 similar.setLimit(10);
 
                 ItemRowAdapter similarMoviesAdapter = new ItemRowAdapter(similar, QueryType.SimilarMovies, new CardPresenter(), adapter);
-                addItemRow(adapter, similarMoviesAdapter, 4, "Similar Movies");
+                addItemRow(adapter, similarMoviesAdapter, 4, mActivity.getString(R.string.lbl_similar_movies));
                 break;
             case "Person":
 
@@ -403,7 +403,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 personMovies.setRecursive(true);
                 personMovies.setIncludeItemTypes(new String[] {"Movie"});
                 ItemRowAdapter personMoviesAdapter = new ItemRowAdapter(personMovies, 100, new CardPresenter(), adapter);
-                addItemRow(adapter, personMoviesAdapter, 0, "Movies");
+                addItemRow(adapter, personMoviesAdapter, 0, mApplication.getString(R.string.lbl_movies));
 
                 ItemQuery personSeries = new ItemQuery();
                 personSeries.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
@@ -412,7 +412,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 personSeries.setRecursive(true);
                 personSeries.setIncludeItemTypes(new String[] {"Series", "Episode"});
                 ItemRowAdapter personSeriesAdapter = new ItemRowAdapter(personSeries, 100, new CardPresenter(), adapter);
-                addItemRow(adapter, personSeriesAdapter, 1, "TV Shows");
+                addItemRow(adapter, personSeriesAdapter, 1, mApplication.getString(R.string.lbl_tv_series));
 
                 break;
             case "Series":
@@ -421,24 +421,24 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 nextUpQuery.setSeriesId(mBaseItem.getId());
                 nextUpQuery.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
                 ItemRowAdapter nextUpAdapter = new ItemRowAdapter(nextUpQuery, false, new CardPresenter(), adapter);
-                addItemRow(adapter, nextUpAdapter, 0, "Next Up");
+                addItemRow(adapter, nextUpAdapter, 0, mApplication.getString(R.string.lbl_next_up));
 
                 SeasonQuery seasons = new SeasonQuery();
                 seasons.setSeriesId(mBaseItem.getId());
                 seasons.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 ItemRowAdapter seasonsAdapter = new ItemRowAdapter(seasons, new CardPresenter(), adapter);
-                addItemRow(adapter, seasonsAdapter, 1, "Seasons");
+                addItemRow(adapter, seasonsAdapter, 1, mActivity.getString(R.string.lbl_seasons));
 
                 UpcomingEpisodesQuery upcoming = new UpcomingEpisodesQuery();
                 upcoming.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 upcoming.setParentId(mBaseItem.getId());
                 upcoming.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
                 ItemRowAdapter upcomingAdapter = new ItemRowAdapter(upcoming, new CardPresenter(), adapter);
-                addItemRow(adapter, upcomingAdapter, 2, "Upcoming");
+                addItemRow(adapter, upcomingAdapter, 2, mActivity.getString(R.string.lbl_upcoming));
 
                 if (mBaseItem.getPeople() != null) {
                     ItemRowAdapter seriesCastAdapter = new ItemRowAdapter(mBaseItem.getPeople(), new CardPresenter(), adapter);
-                    addItemRow(adapter, seriesCastAdapter, 3, "Cast/Crew");
+                    addItemRow(adapter, seriesCastAdapter, 3, mApplication.getString(R.string.lbl_cast_crew));
 
                 }
 
@@ -448,7 +448,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 similarSeries.setId(mBaseItem.getId());
                 similarSeries.setLimit(20);
                 ItemRowAdapter similarAdapter = new ItemRowAdapter(similarSeries, QueryType.SimilarSeries, new CardPresenter(), adapter);
-                addItemRow(adapter, similarAdapter, 4, "Similar Series");
+                addItemRow(adapter, similarAdapter, 4, mActivity.getString(R.string.lbl_similar_series));
                 break;
         }
 
@@ -466,8 +466,6 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     }
 
     protected void updateBackground(String url) {
-        Log.d(TAG, "url" + url);
-        Log.d(TAG, "metrics" + mMetrics.toString());
         Picasso.with(getActivity())
                 .load(url)
                 .resize(mMetrics.widthPixels, mMetrics.heightPixels)

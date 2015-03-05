@@ -54,7 +54,6 @@ public class FullDetailsActivity extends BaseActivity {
     private TextView mLastPlayedText;
     private TextView mTimeLine;
     private TextView mClock;
-    private LinearLayout mGenreRow;
     private LinearLayout mButtonRow;
     private ImageButton mResumeButton;
 
@@ -88,7 +87,7 @@ public class FullDetailsActivity extends BaseActivity {
         mButtonHelp = (TextView) findViewById(R.id.fdButtonHelp);
         mLastPlayedText = (TextView) findViewById(R.id.fdLastPlayedText);
         mButtonRow = (LinearLayout) findViewById(R.id.fdButtonRow);
-        mGenreRow = (LinearLayout) findViewById(R.id.fdGenreRow);
+        LinearLayout genreRow = (LinearLayout) findViewById(R.id.fdGenreRow);
         mTimeLine = (TextView) findViewById(R.id.fdSummarySubTitle);
         mClock = (TextView) findViewById(R.id.fdClock);
 
@@ -122,7 +121,7 @@ public class FullDetailsActivity extends BaseActivity {
         addDate(mainInfoRow);
         addRatingAndRes(mainInfoRow);
         addMediaDetails(mainInfoRow);
-        addGenres(mGenreRow);
+        addGenres(genreRow);
         addButtons(mButtonRow, BUTTON_SIZE);
         updatePlayedDate();
 
@@ -188,8 +187,8 @@ public class FullDetailsActivity extends BaseActivity {
 
     private void updatePlayedDate() {
         mLastPlayedText.setText(mBaseItem.getUserData() != null && mBaseItem.getUserData().getLastPlayedDate() != null ?
-                "Last Played "+ DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(mBaseItem.getUserData().getLastPlayedDate()).getTime()).toString()
-                : "Never Played");
+                getString(R.string.lbl_last_played)+ DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(mBaseItem.getUserData().getLastPlayedDate()).getTime()).toString()
+                : getString(R.string.lbl_never_played));
     }
 
     private void updatePoster() {
@@ -221,7 +220,7 @@ public class FullDetailsActivity extends BaseActivity {
 
                 BaseItemPerson director = Utils.GetFirstPerson(mBaseItem, PersonType.Director);
                 if (director != null) {
-                    topLine.setText("Directed By: "+director.getName());
+                    topLine.setText(getString(R.string.lbl_directed_by)+director.getName());
                 }
                 setEndTime();
         }
@@ -231,10 +230,10 @@ public class FullDetailsActivity extends BaseActivity {
         Long runtime = Utils.NullCoalesce(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
         if (runtime != null && runtime > 0) {
             long endTimeTicks = System.currentTimeMillis() + runtime / 10000;
-            String text = "Runs: " + runtime / 600000000 + " min   Ends: " + android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks));
+            String text = getString(R.string.lbl_runs) + runtime / 600000000 + getString(R.string.lbl_min) + "  " + getString(R.string.lbl_ends) + android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks));
             if (mBaseItem.getCanResume()) {
                 endTimeTicks = System.currentTimeMillis() + ((runtime - mBaseItem.getUserData().getPlaybackPositionTicks()) / 10000);
-                text += " ("+android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks))+" if resumed)";
+                text += " ("+android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks))+getString(R.string.lbl_if_resumed);
             }
             mTimeLine.setText(text);
         }
@@ -305,7 +304,7 @@ public class FullDetailsActivity extends BaseActivity {
                 addBlockText(layout, "1080");
             } else if (width > 1270) {
                 addBlockText(layout, "720");
-            } else addBlockText(layout, "SD");
+            } else addBlockText(layout, getString(R.string.lbl_sd));
 
             addSpacer(layout, "  ");
         }
@@ -359,7 +358,7 @@ public class FullDetailsActivity extends BaseActivity {
             addResumeButton(layout, buttonSize);
         }
         if (mBaseItem.getPlayAccess() == PlayAccess.Full) {
-            ImageButton play = new ImageButton(this, R.drawable.play, buttonSize, "Play", mButtonHelp, new View.OnClickListener() {
+            ImageButton play = new ImageButton(this, R.drawable.play, buttonSize, getString(R.string.lbl_play), mButtonHelp, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     play(mBaseItem, 0, false);
@@ -369,7 +368,7 @@ public class FullDetailsActivity extends BaseActivity {
         }
         UserItemDataDto userData = mBaseItem.getUserData();
         if (userData != null) {
-            final ImageButton watched = new ImageButton(this, userData.getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck, buttonSize, "Toggle Watched", mButtonHelp, new View.OnClickListener() {
+            final ImageButton watched = new ImageButton(this, userData.getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck, buttonSize, getString(R.string.lbl_toggle_watched), mButtonHelp, new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
                     final UserItemDataDto data = mBaseItem.getUserData();
@@ -399,7 +398,7 @@ public class FullDetailsActivity extends BaseActivity {
             layout.addView(watched);
 
             //Favorite
-            ImageButton fav = new ImageButton(this, userData.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, "Toggle Favorite", mButtonHelp, new View.OnClickListener() {
+            ImageButton fav = new ImageButton(this, userData.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, getString(R.string.lbl_toggle_favorite), mButtonHelp, new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
                     UserItemDataDto data = mBaseItem.getUserData();
@@ -443,7 +442,7 @@ public class FullDetailsActivity extends BaseActivity {
     }
 
     private void addResumeButton(LinearLayout layout, int buttonSize) {
-        mResumeButton = new ImageButton(this, R.drawable.resume, buttonSize, "Resume", mButtonHelp, new View.OnClickListener() {
+        mResumeButton = new ImageButton(this, R.drawable.resume, buttonSize, getString(R.string.lbl_resume), mButtonHelp, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
