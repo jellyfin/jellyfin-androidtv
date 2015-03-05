@@ -165,7 +165,7 @@ public class BaseRowItem {
                 return (searchHint.getSeries() != null ? searchHint.getSeries() + " - " : "") + searchHint.getName();
         }
 
-        return "<Unknown>";
+        return TvApp.getApplication().getString(R.string.lbl_bracket_unknown);
     }
 
     public String getSubText() {

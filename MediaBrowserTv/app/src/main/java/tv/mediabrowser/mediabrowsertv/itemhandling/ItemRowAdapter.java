@@ -36,6 +36,7 @@ import mediabrowser.model.results.RecordingInfoDtoResult;
 import mediabrowser.model.search.SearchHint;
 import mediabrowser.model.search.SearchHintResult;
 import mediabrowser.model.search.SearchQuery;
+import tv.mediabrowser.mediabrowsertv.R;
 import tv.mediabrowser.mediabrowsertv.TvApp;
 import tv.mediabrowser.mediabrowsertv.model.ChangeTriggerType;
 import tv.mediabrowser.mediabrowsertv.model.ChapterItemInfo;
@@ -534,7 +535,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 if (exception instanceof HttpException) {
                     HttpException httpException = (HttpException) exception;
                     if (httpException.getStatusCode() != null && httpException.getStatusCode() == 401 && "ParentalControl".equals(httpException.getHeaders().get("X-Application-Error-Code"))) {
-                        Utils.showToast(TvApp.getApplication(), "Access Restricted at this time");
+                        Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_access_restricted));
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -733,7 +734,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int i = 0;
                     if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response) {
-                        item.setName("Trailer " + (i + 1));
+                        item.setName(TvApp.getApplication().getString(R.string.lbl_trailer) + (i + 1));
                         adapter.add(new BaseRowItem(i++, item, preferParentThumb, BaseRowItem.SelectAction.Play));
                     }
                     totalItems = response.length;

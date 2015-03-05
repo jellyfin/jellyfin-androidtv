@@ -482,7 +482,7 @@ public class Utils {
         switch (type) {
             case "Person":
                 if (item.getPremiereDate() != null) {
-                    sb.append("Born ");
+                    sb.append(TvApp.getApplication().getString(R.string.lbl_born));
                     sb.append(new SimpleDateFormat("d MMM y").format(convertToLocalDate(item.getPremiereDate())));
                 }
                 if (item.getEndDate() != null) {
@@ -700,17 +700,17 @@ public class Utils {
 
     public static void EnterManualServerAddress(final Activity activity) {
         final EditText address = new EditText(activity);
-        address.setHint("IP Address or full domain name");
+        address.setHint(activity.getString(R.string.lbl_ip_hint));
         address.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
         new AlertDialog.Builder(activity)
-                .setTitle("Enter Server Address")
-                .setMessage("Please enter a valid server address")
+                .setTitle(activity.getString(R.string.lbl_enter_server_address))
+                .setMessage(activity.getString(R.string.lbl_valid_server_address))
                 .setView(address)
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(activity.getString(R.string.lbl_cancel), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         // Do nothing.
                     }
-                }).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                }).setPositiveButton(activity.getString(R.string.lbl_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String addressValue = address.getText().toString();
                 TvApp.getApplication().getLogger().Debug("Entered address: " + addressValue);
@@ -830,13 +830,13 @@ public class Utils {
                         break;
                     default:
                         TvApp.getApplication().getLogger().Error("Unexpected response from server login "+ serverResult.getState());
-                        reportError(activity, "Error Connecting to Server");
+                        reportError(activity, activity.getString(R.string.msg_error_connecting_server));
                 }
             }
 
             @Override
             public void onError(Exception exception) {
-                reportError(activity, "Error Connecting to Server");
+                reportError(activity, activity.getString(R.string.msg_error_connecting_server));
             }
         });
     }
@@ -844,18 +844,18 @@ public class Utils {
     public static void reportError(final Context context, final String msg) {
         new AlertDialog.Builder(context)
                 .setTitle(msg)
-                .setMessage("Would you like to send a report to the developer?")
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setMessage(context.getString(R.string.lbl_report_msg_question))
+                .setNegativeButton(context.getString(R.string.lbl_no), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        showToast(context, "Report NOT sent");
+                        showToast(context, context.getString(R.string.msg_report_not_sent));
                     }
-                }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                }).setPositiveButton(context.getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 PutCustomAcraData();
                 ACRA.getErrorReporter().handleException(new Exception(msg), false);
-                showToast(context, "Report sent to developer. Thank you.");
+                showToast(context, context.getString(R.string.msg_report_sent));
             }
         }).show();
     }
@@ -886,7 +886,7 @@ public class Utils {
                 public void onError(Exception exception) {
                     super.onError(exception);
                     TvApp.getApplication().getLogger().ErrorException("Error logging in", exception);
-                    Utils.showToast(activity, "Invalid User id or password");
+                    Utils.showToast(activity, activity.getString(R.string.msg_invalid_id_pw));
                 }
             });
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
@@ -929,7 +929,7 @@ public class Utils {
     }
 
     public static String VersionString() {
-        return "Version: " + BuildConfig.VERSION_NAME;
+        return TvApp.getApplication().getString(R.string.lbl_version_colon) + BuildConfig.VERSION_NAME;
     }
 
     public static String SafeToUpper(String value) {

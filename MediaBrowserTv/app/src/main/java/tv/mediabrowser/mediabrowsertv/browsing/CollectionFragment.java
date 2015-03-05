@@ -2,6 +2,7 @@ package tv.mediabrowser.mediabrowsertv.browsing;
 
 import android.os.Bundle;
 
+import tv.mediabrowser.mediabrowsertv.R;
 import tv.mediabrowser.mediabrowsertv.querying.StdItemQuery;
 
 /**
@@ -21,17 +22,17 @@ public class CollectionFragment extends BrowseFolderFragment {
         StdItemQuery movies = new StdItemQuery();
         movies.setParentId(mFolder.getId());
         movies.setIncludeItemTypes(new String[] {"Movie"});
-        mRows.add(new BrowseRowDef("Movies", movies, 100));
+        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_movies), movies, 100));
 
         StdItemQuery series = new StdItemQuery();
         series.setParentId(mFolder.getId());
         series.setIncludeItemTypes(new String[]{"Series"});
-        mRows.add(new BrowseRowDef("TV Series", series, 100));
+        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_tv_series), series, 100));
 
         StdItemQuery others = new StdItemQuery();
         others.setParentId(mFolder.getId());
         others.setExcludeItemTypes(new String[]{"Movie","Series"});
-        mRows.add(new BrowseRowDef("Other", others, 100));
+        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_other), others, 100));
 
         setHeadersState(HEADERS_DISABLED);
 

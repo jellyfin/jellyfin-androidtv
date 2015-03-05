@@ -99,9 +99,9 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                     if (!TvApp.getApplication().getConfiguredAutoCredentials().getUserDto().getId().equals(TvApp.getApplication().getCurrentUser().getId())) {
                         listPreference.setEnabled(false);
                         pwPrompt.setEnabled(false);
-                        extra = " (login as "+TvApp.getApplication().getConfiguredAutoCredentials().getUserDto().getName()+" to change)";
+                        extra = getActivity().getString(R.string.lbl_paren_login_as)+TvApp.getApplication().getConfiguredAutoCredentials().getUserDto().getName()+getActivity().getString(R.string.lbl_to_change_paren);
                     }
-                    listPreference.setSummary("Login as " + TvApp.getApplication().getConfiguredAutoCredentials().getUserDto().getName() + extra);
+                    listPreference.setSummary(getActivity().getString(R.string.lbl_login_as) + TvApp.getApplication().getConfiguredAutoCredentials().getUserDto().getName() + extra);
                 } else {
                     listPreference.setSummary(listPreference.getEntry());
                     pwPrompt.setEnabled(false);

@@ -54,7 +54,7 @@ public class HomeFragment extends StdBrowseFragment {
     @Override
     protected void setupQueries(IRowLoader rowLoader) {
 
-        mRows.add(new BrowseRowDef("Library", new ViewQuery()));
+        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_library), new ViewQuery()));
 
         StdItemQuery resumeMovies = new StdItemQuery();
         resumeMovies.setIncludeItemTypes(new String[]{"Movie"});
@@ -63,7 +63,7 @@ public class HomeFragment extends StdBrowseFragment {
         resumeMovies.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
         resumeMovies.setSortBy(new String[]{ItemSortBy.DatePlayed});
         resumeMovies.setSortOrder(SortOrder.Descending);
-        mRows.add(new BrowseRowDef("Continue Watching", resumeMovies, 0, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback}));
+        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_continue_watching), resumeMovies, 0, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback}));
 
         StdItemQuery latestMovies = new StdItemQuery();
         latestMovies.setIncludeItemTypes(new String[]{"Movie"});
@@ -72,20 +72,20 @@ public class HomeFragment extends StdBrowseFragment {
         latestMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
         latestMovies.setSortBy(new String[]{ItemSortBy.DateCreated});
         latestMovies.setSortOrder(SortOrder.Descending);
-        mRows.add(new BrowseRowDef("Latest Movies", latestMovies, 0, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated, ChangeTriggerType.MoviePlayback}));
+        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest_movies), latestMovies, 0, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated, ChangeTriggerType.MoviePlayback}));
 
         NextUpQuery nextUpQuery = new NextUpQuery();
         nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         nextUpQuery.setLimit(50);
         nextUpQuery.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
-        mRows.add(new BrowseRowDef("Next Up TV", nextUpQuery, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}));
+        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_next_up_tv), nextUpQuery, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}));
 
         //On now
         RecommendedProgramQuery onNow = new RecommendedProgramQuery();
         onNow.setIsAiring(true);
         onNow.setUserId(TvApp.getApplication().getCurrentUser().getId());
         onNow.setLimit(50);
-        mRows.add(new BrowseRowDef("On Now", onNow));
+        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_on_now), onNow));
 
 //        StdItemQuery latestMusic = new StdItemQuery();
 //        latestMusic.setIncludeItemTypes(new String[]{"MusicAlbum"});
@@ -101,13 +101,13 @@ public class HomeFragment extends StdBrowseFragment {
     @Override
     protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
         super.addAdditionalRows(rowAdapter);
-        HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), "Settings", null);
+        HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_settings), null);
 
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add(new GridButton(SETTINGS, "App Settings", R.drawable.gears));
-        gridRowAdapter.add(new GridButton(LOGOUT, "Logout " + TvApp.getApplication().getCurrentUser().getName(), R.drawable.logout));
-        gridRowAdapter.add(new GridButton(REPORT, "Send Logs", R.drawable.upload));
+        gridRowAdapter.add(new GridButton(SETTINGS, mApplication.getString(R.string.lbl_app_settings), R.drawable.gears));
+        gridRowAdapter.add(new GridButton(LOGOUT, mApplication.getString(R.string.lbl_logout) + TvApp.getApplication().getCurrentUser().getName(), R.drawable.logout));
+        gridRowAdapter.add(new GridButton(REPORT, mApplication.getString(R.string.lbl_send_logs), R.drawable.upload));
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
 

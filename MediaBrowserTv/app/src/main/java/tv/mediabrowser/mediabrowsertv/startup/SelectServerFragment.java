@@ -61,17 +61,17 @@ public class SelectServerFragment extends StdBrowseFragment {
         setHeadersState(HEADERS_DISABLED);
 
 
-        HeaderItem serverHeader = new HeaderItem(rowAdapter.size(), "Select a server", null);
+        HeaderItem serverHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_select_server), null);
         ItemRowAdapter serverAdapter = new ItemRowAdapter(mServers.toArray(new ServerInfo[mServers.size()]), new CardPresenter(), rowAdapter);
         serverAdapter.Retrieve();
         rowAdapter.add(new ListRow(serverHeader, serverAdapter));
 
-        HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), "Other options", null);
+        HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_other_options), null);
 
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add(new GridButton(ENTER_MANUALLY, "Enter Manually", R.drawable.edit));
-        gridRowAdapter.add(new GridButton(LOGIN_CONNECT, "Login with Connect", R.drawable.chain));
+        gridRowAdapter.add(new GridButton(ENTER_MANUALLY, mApplication.getString(R.string.lbl_enter_manually), R.drawable.edit));
+        gridRowAdapter.add(new GridButton(LOGIN_CONNECT, mApplication.getString(R.string.lbl_login_with_connect), R.drawable.chain));
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
 

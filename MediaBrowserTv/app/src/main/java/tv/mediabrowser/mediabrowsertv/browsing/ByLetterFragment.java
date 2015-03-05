@@ -21,7 +21,7 @@ public class ByLetterFragment extends CustomViewFragment {
             numbers.setParentId(mFolder.getId());
             numbers.setSortBy(new String[]{ItemSortBy.SortName});
             if (includeType != null) numbers.setIncludeItemTypes(new String[]{includeType});
-            numbers.setNameLessThan("A");
+            numbers.setNameLessThan(letters.substring(0,1));
             numbers.setRecursive(true);
             mRows.add(new BrowseRowDef("#", numbers, 40));
 

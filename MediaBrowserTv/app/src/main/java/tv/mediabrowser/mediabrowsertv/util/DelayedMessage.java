@@ -4,13 +4,16 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Handler;
 
+import tv.mediabrowser.mediabrowsertv.R;
+import tv.mediabrowser.mediabrowsertv.TvApp;
+
 /**
  * Created by Eric on 12/28/2014.
  */
 public class DelayedMessage {
     private int delay = 750;
-    private String title = "Please Wait";
-    private String message = "This is taking a little longer than expected...";
+    private String title = TvApp.getApplication().getString(R.string.lbl_please_wait);
+    private String message = TvApp.getApplication().getString(R.string.msg_little_longer);
     private Runnable runnable;
     private ProgressDialog dialog;
     private Handler handler;
