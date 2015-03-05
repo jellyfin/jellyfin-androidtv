@@ -77,7 +77,6 @@ import tv.mediabrowser.mediabrowsertv.util.Utils;
  * Class for video playback with media control
  */
 public class PlaybackOverlayFragment extends android.support.v17.leanback.app.PlaybackOverlayFragment {
-    private static final String TAG = "PlaybackControlsFragment";
 
     private static PlaybackOverlayActivity sContext;
 
@@ -122,7 +121,6 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         sContext = (PlaybackOverlayActivity) getActivity();
         mApplication = TvApp.getApplication();
@@ -152,14 +150,12 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             @Override
             public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                        RowPresenter.ViewHolder rowViewHolder, Row row) {
-                Log.i(TAG, "onItemSelected: " + item + " row " + row);
             }
         });
         setOnItemViewClickedListener(new OnItemViewClickedListener() {
             @Override
             public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                       RowPresenter.ViewHolder rowViewHolder, Row row) {
-                Log.i(TAG, "onItemClicked: " + item + " row " + row);
                 if (item instanceof BaseRowItem) {
                     BaseRowItem rowItem = (BaseRowItem)item;
 

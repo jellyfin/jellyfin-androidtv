@@ -26,12 +26,9 @@ public class CardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";
 
     private static Context mContext;
-    private TvApp application;
 
     public CardPresenter() {
         super();
-        application = TvApp.getApplication();
-
     }
 
     static class ViewHolder extends Presenter.ViewHolder {
