@@ -84,12 +84,7 @@ public class MySearchFragment extends SearchFragment
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        mRowsAdapter.clear();
-        if (!Utils.IsEmpty(query)) {
-            mDelayedLoad.setQueryString(query);
-            mHandler.removeCallbacks(mDelayedLoad);
-            mHandler.postDelayed(mDelayedLoad, SEARCH_DELAY_MS);
-        }
+        //text change handles it all
         return true;
     }
 
@@ -117,19 +112,19 @@ public class MySearchFragment extends SearchFragment
             //Get search results by type
             SearchQuery people = getSearchQuery(new String[] {"Person"});
             ItemRowAdapter peopleAdapter = new ItemRowAdapter(people, new CardPresenter(), mRowsAdapter);
-            ListRow peopleRow = new ListRow(new HeaderItem("People",""), peopleAdapter);
+            ListRow peopleRow = new ListRow(new HeaderItem(getActivity().getString(R.string.lbl_people),""), peopleAdapter);
             peopleAdapter.setRow(peopleRow);
             peopleAdapter.Retrieve();
 
             SearchQuery tv = getSearchQuery(new String[] {"Series","Episode"});
             ItemRowAdapter tvAdapter = new ItemRowAdapter(tv, new CardPresenter(), mRowsAdapter);
-            ListRow tvRow = new ListRow(new HeaderItem("TV",""), tvAdapter);
+            ListRow tvRow = new ListRow(new HeaderItem(getActivity().getString(R.string.lbl_tv),""), tvAdapter);
             tvAdapter.setRow(tvRow);
             tvAdapter.Retrieve();
 
             SearchQuery movies = getSearchQuery(new String[] {"Movie", "BoxSet"});
             ItemRowAdapter movieAdapter = new ItemRowAdapter(movies, new CardPresenter(), mRowsAdapter);
-            ListRow movieRow = new ListRow(new HeaderItem("Movies",""), movieAdapter);
+            ListRow movieRow = new ListRow(new HeaderItem(getActivity().getString(R.string.lbl_movies),""), movieAdapter);
             movieAdapter.setRow(movieRow);
             movieAdapter.Retrieve();
 
