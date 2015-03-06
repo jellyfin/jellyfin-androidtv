@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_login_behavior_title">Start Up Behaviour</string>
+    <string name="lbl_favorite_channels">Favourite Channels</string>
+    <string name="lbl_toggle_favorite">Toggle Favourite</string>
+</resources>
