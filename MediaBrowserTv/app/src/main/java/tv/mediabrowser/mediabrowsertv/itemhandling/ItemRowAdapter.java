@@ -162,10 +162,12 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
-    public ItemRowAdapter(LiveTvChannelQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(LiveTvChannelQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
         super(presenter);
         mParent = parent;
         mTvChannelQuery = query;
+        this.chunkSize = chunkSize;
+        if (chunkSize > 0) mTvChannelQuery.setLimit(chunkSize);
         queryType = QueryType.LiveTvChannel;
         add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
@@ -289,6 +291,15 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 //set the query to go get the next chunk
                 mPersonsQuery.setStartIndex(itemsLoaded);
                 Retrieve(mPersonsQuery);
+                break;
+
+            case LiveTvChannel:
+                if (fullyLoaded || mTvChannelQuery == null || isCurrentlyRetrieving()) return;
+                setCurrentlyRetrieving(true);
+
+                //set the query to go get the next chunk
+                mTvChannelQuery.setStartIndex(itemsLoaded);
+                Retrieve(mTvChannelQuery);
                 break;
 
             default:
@@ -524,7 +535,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     public void Retrieve(ItemQuery query) {
         final ItemRowAdapter adapter = this;
-            TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+        TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
@@ -609,14 +620,14 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onResponse(ChannelInfoDtoResult response) {
                 if (response.getTotalRecordCount() > 0) {
-                    int i = 0;
-                    if (adapter.size() > 0) adapter.clear();
+                    int i = itemsLoaded;
+                    if (i == 0 && adapter.size() > 0) adapter.clear();
                     for (ChannelInfoDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(item));
+                        adapter.add(new BaseRowItem(i, item));
                         i++;
                     }
                     totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(itemsLoaded + i);
+                    setItemsLoaded(i);
                     if (i == 0) mParent.remove(mRow);
                 } else {
                     // no results - don't show us
