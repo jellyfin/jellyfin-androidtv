@@ -36,7 +36,7 @@ import tv.mediabrowser.mediabrowsertv.util.Utils;
 public class MySearchFragment extends SearchFragment
         implements SearchFragment.SearchResultProvider {
 
-    private static final int SEARCH_DELAY_MS = 400;
+    private static final int SEARCH_DELAY_MS = 800;
     private final Handler mHandler = new Handler();
     private ArrayObjectAdapter mRowsAdapter;
     private SearchRunnable mDelayedLoad;
@@ -75,8 +75,8 @@ public class MySearchFragment extends SearchFragment
     public boolean onQueryTextChange(String newQuery) {
         mRowsAdapter.clear();
         if (!Utils.IsEmpty(newQuery)) {
-            mDelayedLoad.setQueryString(newQuery);
             mHandler.removeCallbacks(mDelayedLoad);
+            mDelayedLoad.setQueryString(newQuery);
             mHandler.postDelayed(mDelayedLoad, SEARCH_DELAY_MS);
         }
         return true;
@@ -84,7 +84,12 @@ public class MySearchFragment extends SearchFragment
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        //text change handles it all
+        mRowsAdapter.clear();
+        if (!Utils.IsEmpty(query)) {
+            mHandler.removeCallbacks(mDelayedLoad);
+            mDelayedLoad.setQueryString(query);
+            mHandler.postDelayed(mDelayedLoad, SEARCH_DELAY_MS);
+        }
         return true;
     }
 
