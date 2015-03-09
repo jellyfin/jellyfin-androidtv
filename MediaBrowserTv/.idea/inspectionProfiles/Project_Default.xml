@@ -13,7 +13,6 @@
       <option name="ignoreAssignedToConstants" value="true" />
       <option name="ignoreToString" value="true" />
       <option name="nonNlsCommentPattern" value="NON-NLS" />
-      <option name="ignoreForEnumConstant" value="true" />
     </inspection_tool>
     <inspection_tool class="LoggerInitializedWithForeignClass" enabled="false" level="WARNING" enabled_by_default="false">
       <option name="loggerClassName" value="org.apache.log4j.Logger,org.slf4j.LoggerFactory,org.apache.commons.logging.LogFactory,java.util.logging.Logger" />
