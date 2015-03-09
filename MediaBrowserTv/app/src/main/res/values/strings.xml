@@ -150,5 +150,6 @@
     <string name="lbl_valid_server_address">Please enter a valid server address</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Born "</string>
+    <string name="lbl_loading_elipses">Loading...</string>
 
 </resources>
