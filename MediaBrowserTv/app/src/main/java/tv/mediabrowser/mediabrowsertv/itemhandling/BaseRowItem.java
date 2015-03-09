@@ -57,7 +57,8 @@ public class BaseRowItem {
         this.selectAction = selectAction;
     }
 
-    public BaseRowItem(ChannelInfoDto channel) {
+    public BaseRowItem(int index, ChannelInfoDto channel) {
+        this.index = index;
         this.channelInfo = channel;
         type = ItemType.LiveTvChannel;
     }
