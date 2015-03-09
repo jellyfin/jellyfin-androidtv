@@ -19,6 +19,7 @@ import mediabrowser.model.search.SearchHint;
 import tv.mediabrowser.mediabrowsertv.R;
 import tv.mediabrowser.mediabrowsertv.TvApp;
 import tv.mediabrowser.mediabrowsertv.model.ChapterItemInfo;
+import tv.mediabrowser.mediabrowsertv.ui.GridButton;
 import tv.mediabrowser.mediabrowsertv.util.Utils;
 
 /**
@@ -35,6 +36,7 @@ public class BaseRowItem {
     private ChannelInfoDto channelInfo;
     private ProgramInfoDto programInfo;
     private RecordingInfoDto recordingInfo;
+    private GridButton gridButton;
     private ItemType type;
     private boolean preferParentThumb = false;
     private SelectAction selectAction = SelectAction.ShowDetails;
@@ -95,6 +97,11 @@ public class BaseRowItem {
         type = ItemType.Chapter;
     }
 
+    public BaseRowItem(GridButton button) {
+        this.gridButton = button;
+        type = ItemType.GridButton;
+    }
+
     public int getIndex() {
         return index;
     }
@@ -135,6 +142,8 @@ public class BaseRowItem {
                 return Utils.getPrimaryImageUrl(recordingInfo, TvApp.getApplication().getApiClient());
             case Server:
                 return "android.resource://tv.mediabrowser.mediabrowsertv/" + R.drawable.server;
+            case GridButton:
+                return "android.resource://tv.mediabrowser.mediabrowsertv/" + gridButton.getImageIndex();
             case SearchHint:
                 return !Utils.IsEmpty(searchHint.getPrimaryImageTag()) ? Utils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag(), TvApp.getApplication().getApiClient()) :
                         !Utils.IsEmpty(searchHint.getThumbImageItemId()) ? Utils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag(), TvApp.getApplication().getApiClient()) : null;
@@ -161,6 +170,8 @@ public class BaseRowItem {
                 return programInfo.getName();
             case LiveTvRecording:
                 return recordingInfo.getName();
+            case GridButton:
+                return gridButton.getText();
             case SearchHint:
                 return (searchHint.getSeries() != null ? searchHint.getSeries() + " - " : "") + searchHint.getName();
         }
@@ -241,7 +252,7 @@ public class BaseRowItem {
     public enum ItemType {
         BaseItem,
         Person,
-        Server, User, Chapter, SearchHint, LiveTvChannel, LiveTvRecording, LiveTvProgram
+        Server, User, Chapter, SearchHint, LiveTvChannel, LiveTvRecording, GridButton, LiveTvProgram
     }
 
     public enum SelectAction {
