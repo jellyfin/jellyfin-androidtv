@@ -10,22 +10,12 @@ android {
         minSdkVersion 21
         targetSdkVersion 21
         versionCode 103
+        versionName "0.1.03"
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
-    }
-
-    productFlavors {
-        supporter {
-            applicationId "tv.mediabrowser.mediabrowsertv"
-            versionName "0.1.03s"
-        }
-        paid {
-            applicationId "tv.mediabrowser.mediabrowsertv.paid"
-            versionName "0.1.03p"
-        }
     }
 
     buildTypes {

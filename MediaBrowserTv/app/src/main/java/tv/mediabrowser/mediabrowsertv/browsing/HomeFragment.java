@@ -17,7 +17,7 @@ import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.NextUpQuery;
-import tv.mediabrowser.mediabrowsertv.AppValidator;
+import tv.mediabrowser.mediabrowsertv.validation.AppValidator;
 import tv.mediabrowser.mediabrowsertv.integration.RecommendationManager;
 import tv.mediabrowser.mediabrowsertv.model.ChangeTriggerType;
 import tv.mediabrowser.mediabrowsertv.ui.GridButton;

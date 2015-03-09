@@ -1,4 +1,4 @@
-package tv.mediabrowser.mediabrowsertv;
+package tv.mediabrowser.mediabrowsertv.validation;
 
 import android.app.Activity;
 import android.text.format.DateUtils;
@@ -6,6 +6,7 @@ import android.text.format.DateUtils;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.configuration.ServerConfiguration;
 import mediabrowser.model.entities.MBRegistrationRecord;
+import tv.mediabrowser.mediabrowsertv.TvApp;
 import tv.mediabrowser.mediabrowsertv.util.Utils;
 
 /**
