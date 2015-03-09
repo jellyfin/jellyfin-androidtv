@@ -9,7 +9,7 @@ android {
         applicationId "tv.mediabrowser.mediabrowsertv"
         minSdkVersion 21
         targetSdkVersion 21
-        versionCode 102
+        versionCode 103
     }
 
     compileOptions {
@@ -20,11 +20,11 @@ android {
     productFlavors {
         supporter {
             applicationId "tv.mediabrowser.mediabrowsertv"
-            versionName "0.1.02s"
+            versionName "0.1.03s"
         }
         paid {
             applicationId "tv.mediabrowser.mediabrowsertv.paid"
-            versionName "0.1.02p"
+            versionName "0.1.03p"
         }
     }
 
