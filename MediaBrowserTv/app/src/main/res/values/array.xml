@@ -9,16 +9,18 @@
         <item>1</item>
     </string-array>
     <string-array name="pref_bitrate_entries" >
+        <item>40 Mbits/sec</item>
         <item>30 Mbits/sec</item>
-        <item>20 Mbits/sec</item>
+        <item>21 Mbits/sec</item>
         <item>15 Mbits/sec</item>
         <item>10 Mbits/sec</item>
         <item>5 Mbits/sec</item>
         <item>2 Mbits/sec</item>
     </string-array>
     <string-array name="pref_bitrate_values" >
+        <item>40</item>
         <item>30</item>
-        <item>20</item>
+        <item>21</item>
         <item>15</item>
         <item>10</item>
         <item>5</item>
