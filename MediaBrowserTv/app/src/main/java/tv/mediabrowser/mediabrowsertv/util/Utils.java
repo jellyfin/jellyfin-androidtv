@@ -114,6 +114,11 @@ public class Utils {
      * @param errorString
      */
 
+    public static final String k1 = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkGYRnisgHtwT8uZqqdIOfkizt5MMWQxhI18BUnAy4CPr1eJrEiAftFNemBjo371PwSRp4tjNoQNDE6";
+    public static final String k2 = "Ks6y3njWvvqQnC4U7s6GHTV6ZpVaaY/jE39mr2K+1ZNafukV+nkDVs6q6D4Tq1GpNRfZSifQBBmJTforDCCZv6dVcqmkVHwctoxfRD/wIQxfNMnqdcmA/5Eo6m";
+    public static final String k3 = "deN1a18foRAirsmRdPUznErGEN3ksH5d9d6CHJpeC+hJnzoRSehD1jZjxdkFezCpJphhgBk3i/IV963TNc4PriPUbMlh0lcMNF209bFgy2I5SLx8PLZxUIaCmk";
+    public static final String k4 = "h7IsJXhDn/mZD3U262HwIDAQAB";
+
     public static final void showErrorDialog(Context context, String errorString) {
         new AlertDialog.Builder(context).setTitle(R.string.error)
                 .setMessage(errorString)
@@ -153,6 +158,10 @@ public class Utils {
         d.reset();
         d.update(x.getBytes());
         return d.digest();
+    }
+
+    public static String getKey() {
+        return k1+k3+k2+k4;
     }
 
     /**

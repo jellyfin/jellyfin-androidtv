@@ -16,6 +16,8 @@ import mediabrowser.model.logging.ILogger;
 import tv.mediabrowser.mediabrowsertv.playback.PlaybackController;
 import tv.mediabrowser.mediabrowsertv.startup.LogonCredentials;
 import tv.mediabrowser.mediabrowsertv.util.Utils;
+import tv.mediabrowser.mediabrowsertv.util.billing.IabHelper;
+import tv.mediabrowser.mediabrowsertv.validation.AppValidator;
 
 import org.acra.*;
 import org.acra.annotation.*;
@@ -48,6 +50,8 @@ public class TvApp extends Application {
     private PlaybackController playbackController;
     private ApiClient loginApiClient;
 
+    private AppValidator appValidator;
+
     private Calendar lastPlayback = Calendar.getInstance();
     private Calendar lastMoviePlayback = Calendar.getInstance();
     private Calendar lastTvPlayback = Calendar.getInstance();
@@ -61,6 +65,8 @@ public class TvApp extends Application {
         super.onCreate();
         logger = new ConsoleLogger();
         app = (TvApp)getApplicationContext();
+        appValidator = new AppValidator();
+        appValidator.validate();
 
         ACRA.init(this);
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
@@ -199,4 +205,5 @@ public class TvApp extends Application {
     public void setLastUserInteraction(long lastUserInteraction) {
         this.lastUserInteraction = lastUserInteraction;
     }
+
 }
