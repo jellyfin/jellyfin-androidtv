@@ -9,8 +9,8 @@ android {
         applicationId "tv.mediabrowser.mediabrowsertv"
         minSdkVersion 21
         targetSdkVersion 21
-        versionCode 103
-        versionName "0.1.03"
+        versionCode 104
+        versionName "0.1.04"
     }
 
     compileOptions {
