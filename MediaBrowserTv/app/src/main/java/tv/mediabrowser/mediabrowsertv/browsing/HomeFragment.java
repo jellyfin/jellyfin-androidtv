@@ -40,8 +40,6 @@ public class HomeFragment extends StdBrowseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        //Validate app
-        AppValidator.validate(getActivity());
 
         MainTitle = this.getString(R.string.home_title);
         super.onActivityCreated(savedInstanceState);
