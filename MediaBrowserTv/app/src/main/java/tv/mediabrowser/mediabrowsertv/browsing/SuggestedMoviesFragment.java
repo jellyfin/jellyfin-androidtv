@@ -21,7 +21,7 @@ public class SuggestedMoviesFragment extends CustomViewFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        MainTitle = mApplication.getString(R.string.lbl_suggested_movies);
+        MainTitle = TvApp.getApplication().getString(R.string.lbl_suggested_movies);
         super.onActivityCreated(savedInstanceState);
 
     }
