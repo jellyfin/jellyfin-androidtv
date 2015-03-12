@@ -87,6 +87,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private ArrayObjectAdapter mPrimaryActionsAdapter;
     private ArrayObjectAdapter mSecondaryActionsAdapter;
     private ArrayObjectAdapter mCurrentQueue;
+    private ListRow mChapterRow;
     private PlayPauseAction mPlayPauseAction;
     private ThumbsUpAction mThumbsUpAction;
     private ThumbsDownAction mThumbsDownAction;
@@ -535,6 +536,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     }
 
     private void addChapterRow() {
+        if (mChapterRow != null) mRowsAdapter.remove(mChapterRow);
         BaseItemDto baseItem = mPlaybackController.getCurrentlyPlayingItem();
         if (baseItem.getChapters() != null && baseItem.getChapters().size() > 0) {
             List<ChapterItemInfo> chapters = new ArrayList<>();
@@ -558,7 +560,8 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             ItemRowAdapter chapterAdapter = new ItemRowAdapter(chapters, new CardPresenter(), mRowsAdapter);
             chapterAdapter.Retrieve();
             HeaderItem header = new HeaderItem(0, getString(R.string.chapters), null);
-            mRowsAdapter.add(new ListRow(header, chapterAdapter));
+            mChapterRow = new ListRow(header, chapterAdapter);
+            mRowsAdapter.add(mChapterRow);
 
         }
     }
