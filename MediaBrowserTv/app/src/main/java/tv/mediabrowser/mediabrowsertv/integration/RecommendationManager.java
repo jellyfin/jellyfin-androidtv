@@ -15,12 +15,17 @@ import java.util.ArrayList;
 
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.entities.SortOrder;
+import mediabrowser.model.querying.ItemFields;
+import mediabrowser.model.querying.ItemFilter;
+import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
 import mediabrowser.model.querying.SimilarItemsQuery;
 import tv.mediabrowser.mediabrowsertv.R;
 import tv.mediabrowser.mediabrowsertv.TvApp;
 import tv.mediabrowser.mediabrowsertv.details.DetailsActivity;
+import tv.mediabrowser.mediabrowsertv.querying.StdItemQuery;
 import tv.mediabrowser.mediabrowsertv.startup.DirectEntryActivity;
 import tv.mediabrowser.mediabrowsertv.util.Utils;
 
@@ -64,6 +69,7 @@ public class RecommendationManager {
                 || !mRecommendations.getUserId().equals(TvApp.getApplication().getCurrentUser().getId())) {
             //Nope - clear them out and start over for this user
             clearAll();
+            createAll();
             TvApp.getApplication().getLogger().Info("Recommendations re-set for user "+TvApp.getApplication().getCurrentUser().getName());
             return false;
         }
@@ -89,6 +95,66 @@ public class RecommendationManager {
         nm.cancelAll();
         mRecommendations = new Recommendations(TvApp.getApplication().getApiClient().getServerInfo().getId(), TvApp.getApplication().getCurrentUser().getId());
         saveRecs();
+    }
+
+    public void createAll() {
+        //Create recs for next up tv and last 4 movies watched
+        NextUpQuery nextUpQuery = new NextUpQuery();
+        nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        nextUpQuery.setLimit(MAX_TV_RECS);
+        nextUpQuery.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
+        TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(nextUpQuery, new Response<ItemsResult>() {
+            @Override
+            public void onResponse(ItemsResult response) {
+                if (response.getTotalRecordCount() > 0) {
+                    for (BaseItemDto episode : response.getItems()) {
+                        recommend(episode.getId());
+                    }
+                }
+            }
+        });
+
+        //First try for resumables
+        StdItemQuery resumeMovies = new StdItemQuery();
+        resumeMovies.setIncludeItemTypes(new String[]{"Movie"});
+        resumeMovies.setRecursive(true);
+        resumeMovies.setLimit(MAX_MOVIE_RECS);
+        resumeMovies.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
+        resumeMovies.setSortBy(new String[]{ItemSortBy.DatePlayed});
+        resumeMovies.setSortOrder(SortOrder.Descending);
+        TvApp.getApplication().getApiClient().GetItemsAsync(resumeMovies, new Response<ItemsResult>() {
+            @Override
+            public void onResponse(ItemsResult response) {
+                int movieItems = 0;
+                if (response.getTotalRecordCount() > 0) {
+                    for (BaseItemDto movie : response.getItems()) {
+                        recommend(movie.getId());
+                        movieItems++;
+                    }
+                }
+                if (movieItems < MAX_MOVIE_RECS) {
+                    //Now fill in with suggested movies
+                    StdItemQuery suggMovies = new StdItemQuery();
+                    suggMovies.setIncludeItemTypes(new String[]{"Movie"});
+                    suggMovies.setRecursive(true);
+                    suggMovies.setLimit(MAX_MOVIE_RECS - movieItems);
+                    suggMovies.setFilters(new ItemFilter[]{ItemFilter.IsPlayed});
+                    suggMovies.setSortBy(new String[]{ItemSortBy.DatePlayed});
+                    suggMovies.setSortOrder(SortOrder.Descending);
+                    TvApp.getApplication().getApiClient().GetItemsAsync(suggMovies, new Response<ItemsResult>() {
+                        @Override
+                        public void onResponse(ItemsResult suggResponse) {
+                            if (suggResponse.getTotalRecordCount() > 0) {
+                                for (BaseItemDto movie : suggResponse.getItems()) {
+                                    recommend(movie.getId());
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
     }
 
     public void recommend(String itemId) {
@@ -125,7 +191,7 @@ public class RecommendationManager {
                             break;
                         case "Episode":
                             //First remove us if we were a recommendation
-                            mRecommendations.remove(RecommendationType.Movie, response.getId());
+                            mRecommendations.remove(RecommendationType.Tv, response.getId());
 
                             //Suggest the next up episode
                             NextUpQuery next = new NextUpQuery();
