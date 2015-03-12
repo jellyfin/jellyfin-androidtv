@@ -229,7 +229,7 @@ public class PlaybackController {
             mCurrentIndex++;
             mApplication.getLogger().Debug("Moving to index: "+mCurrentIndex+" out of "+mItems.size() + " total items.");
             mFragment.removeQueueItem(0);
-            mFragment.addPlaybackControlsRow();
+            mFragment.updatePlaybackControls();
             spinnerOff = false;
             play(0);
         }
