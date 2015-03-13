@@ -73,7 +73,7 @@ public class RecommendationManager {
             TvApp.getApplication().getLogger().Info("Recommendations re-set for user "+TvApp.getApplication().getCurrentUser().getName());
             return false;
         }
-        
+
         createAll();
         TvApp.getApplication().getLogger().Info("Recommendations re-created for user "+TvApp.getApplication().getCurrentUser().getName());
 

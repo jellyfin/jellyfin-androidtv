@@ -104,7 +104,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 latestSeries.setParentId(mFolder.getId());
                 latestSeries.setLimit(50);
                 latestSeries.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
-                latestSeries.setSortBy(new String[]{ItemSortBy.DateCreated});
+                latestSeries.setSortBy(new String[]{ItemSortBy.DateLastContentAdded});
                 latestSeries.setSortOrder(SortOrder.Descending);
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestSeries, 0, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
