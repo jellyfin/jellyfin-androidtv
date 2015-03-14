@@ -41,7 +41,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         // Set version info
         TextView ver = (TextView) getActivity().findViewById(R.id.settings_version_info);
-        ver.setText(Utils.VersionString());
+        ver.setText(Utils.VersionString() + " " + TvApp.getApplication().getRegistrationString());
 
     }
 

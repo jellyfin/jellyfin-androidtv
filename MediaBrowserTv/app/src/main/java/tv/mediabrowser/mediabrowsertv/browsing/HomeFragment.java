@@ -44,6 +44,9 @@ public class HomeFragment extends StdBrowseFragment {
         MainTitle = this.getString(R.string.home_title);
         super.onActivityCreated(savedInstanceState);
 
+        //Validate the app
+        TvApp.getApplication().validate();
+
         //Validate recommendations
         RecommendationManager.getInstance().validate();
 
