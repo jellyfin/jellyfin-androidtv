@@ -2,8 +2,8 @@ package tv.mediabrowser.mediabrowsertv;
 
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.text.format.DateUtils;
 import android.util.Log;
 
 import mediabrowser.apiinteraction.ApiClient;
@@ -13,10 +13,10 @@ import mediabrowser.logging.ConsoleLogger;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.logging.ILogger;
+import mediabrowser.model.registration.RegistrationInfo;
 import tv.mediabrowser.mediabrowsertv.playback.PlaybackController;
 import tv.mediabrowser.mediabrowsertv.startup.LogonCredentials;
 import tv.mediabrowser.mediabrowsertv.util.Utils;
-import tv.mediabrowser.mediabrowsertv.util.billing.IabHelper;
 import tv.mediabrowser.mediabrowsertv.validation.AppValidator;
 
 import org.acra.*;
@@ -24,7 +24,6 @@ import org.acra.annotation.*;
 import org.acra.sender.HttpSender;
 
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by Eric on 11/24/2014.
@@ -41,6 +40,8 @@ import java.util.Date;
 
 public class TvApp extends Application {
 
+    public static String FEATURE_CODE = "androidtv";
+
     private ILogger logger;
     private IConnectionManager connectionManager;
     private GsonJsonSerializer serializer;
@@ -50,7 +51,8 @@ public class TvApp extends Application {
     private PlaybackController playbackController;
     private ApiClient loginApiClient;
 
-    private AppValidator appValidator;
+    private boolean isPaid = false;
+    private RegistrationInfo registrationInfo;
 
     private Calendar lastPlayback = Calendar.getInstance();
     private Calendar lastMoviePlayback = Calendar.getInstance();
@@ -65,8 +67,6 @@ public class TvApp extends Application {
         super.onCreate();
         logger = new ConsoleLogger();
         app = (TvApp)getApplicationContext();
-        appValidator = new AppValidator();
-        appValidator.validate();
 
         ACRA.init(this);
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
@@ -206,4 +206,36 @@ public class TvApp extends Application {
         this.lastUserInteraction = lastUserInteraction;
     }
 
+    public boolean isPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(boolean isPaid) {
+        this.isPaid = isPaid;
+    }
+
+    public RegistrationInfo getRegistrationInfo() {
+        return registrationInfo;
+    }
+
+    public void setRegistrationInfo(RegistrationInfo registrationInfo) {
+        this.registrationInfo = registrationInfo;
+    }
+
+    public boolean isValid() {
+        return isPaid || (registrationInfo != null && (registrationInfo.getIsRegistered() || registrationInfo.getIsTrial()));
+    }
+
+    public boolean isTrial() {
+        return registrationInfo != null && registrationInfo.getIsTrial();
+    }
+
+    public void validate() {
+        new AppValidator().validate();
+    }
+
+    public String getRegistrationString() {
+        return isTrial() ? "In Trial. Expires " + DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(registrationInfo.getExpirationDate()).getTime()).toString() :
+                isValid() ? "Registered" : "Expired";
+    }
 }
