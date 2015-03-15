@@ -18,8 +18,10 @@ import mediabrowser.apiinteraction.ConnectionResult;
 import mediabrowser.apiinteraction.IConnectionManager;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.AndroidConnectionManager;
+import mediabrowser.apiinteraction.android.AndroidDevice;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.apiinteraction.android.VolleyHttpClient;
+import mediabrowser.apiinteraction.playback.PlaybackManager;
 import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.logging.ILogger;
@@ -84,6 +86,8 @@ public class StartupActivity extends Activity {
 
         application.setConnectionManager(connectionManager);
         application.setSerializer((GsonJsonSerializer)jsonSerializer);
+
+        application.setPlaybackManager(new PlaybackManager(new AndroidDevice(application), logger));
 
         //Load any saved login creds
         application.setConfiguredAutoCredentials(Utils.GetSavedLoginCredentials());
