@@ -48,6 +48,7 @@ import mediabrowser.apiinteraction.IConnectionManager;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.apiclient.ServerInfo;
+import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.ImageOptions;
@@ -683,14 +684,13 @@ public class Utils {
         return ret;
     }
 
-    public static void ReportStopped(BaseItemDto item, long pos) {
+    public static void ReportStopped(BaseItemDto item, StreamInfo streamInfo, long pos) {
         if (item != null) {
             PlaybackStopInfo info = new PlaybackStopInfo();
             ApiClient apiClient = TvApp.getApplication().getApiClient();
             info.setItemId(item.getId());
             info.setPositionTicks(pos);
-            apiClient.ReportPlaybackStoppedAsync(info, new EmptyResponse());
-            apiClient.StopTranscodingProcesses(apiClient.getDeviceId(), new EmptyResponse());
+            TvApp.getApplication().getPlaybackManager().reportPlaybackStopped(info, streamInfo, apiClient.getServerInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), false, apiClient, new EmptyResponse());
 
             TvApp.getApplication().setLastPlayback(Calendar.getInstance());
             switch (item.getType()) {
