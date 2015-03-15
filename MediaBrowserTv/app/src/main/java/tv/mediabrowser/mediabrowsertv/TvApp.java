@@ -9,6 +9,7 @@ import android.util.Log;
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.IConnectionManager;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
+import mediabrowser.apiinteraction.playback.PlaybackManager;
 import mediabrowser.logging.ConsoleLogger;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
@@ -44,6 +45,7 @@ public class TvApp extends Application {
 
     private ILogger logger;
     private IConnectionManager connectionManager;
+    private PlaybackManager playbackManager;
     private GsonJsonSerializer serializer;
     private static TvApp app;
     private UserDto currentUser;
@@ -237,5 +239,13 @@ public class TvApp extends Application {
     public String getRegistrationString() {
         return isTrial() ? "In Trial. Expires " + DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(registrationInfo.getExpirationDate()).getTime()).toString() :
                 isValid() ? "Registered" : "Expired";
+    }
+
+    public PlaybackManager getPlaybackManager() {
+        return playbackManager;
+    }
+
+    public void setPlaybackManager(PlaybackManager playbackManager) {
+        this.playbackManager = playbackManager;
     }
 }
