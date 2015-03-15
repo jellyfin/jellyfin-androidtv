@@ -37,15 +37,16 @@ public class HomeFragment extends StdBrowseFragment {
     private static final int LOGOUT = 0;
     private static final int SETTINGS = 1;
     private static final int REPORT = 2;
+    private static final int UNLOCK = 3;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 
         MainTitle = this.getString(R.string.home_title);
-        super.onActivityCreated(savedInstanceState);
-
         //Validate the app
         TvApp.getApplication().validate();
+
+        super.onActivityCreated(savedInstanceState);
 
         //Validate recommendations
         RecommendationManager.getInstance().validate();
@@ -108,6 +109,7 @@ public class HomeFragment extends StdBrowseFragment {
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
         gridRowAdapter.add(new GridButton(SETTINGS, mApplication.getString(R.string.lbl_app_settings), R.drawable.gears));
         gridRowAdapter.add(new GridButton(LOGOUT, mApplication.getString(R.string.lbl_logout) + TvApp.getApplication().getCurrentUser().getName(), R.drawable.logout));
+        if (!TvApp.getApplication().isValid()) gridRowAdapter.add(new GridButton(UNLOCK, mApplication.getString(R.string.lbl_unlock), R.drawable.unlock));
         gridRowAdapter.add(new GridButton(REPORT, mApplication.getString(R.string.lbl_send_logs), R.drawable.upload));
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
