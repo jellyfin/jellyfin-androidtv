@@ -227,7 +227,7 @@ public class PlaybackController {
             stopReportLoop();
             stopProgressAutomation();
             Long mbPos = (long)mCurrentPosition * 10000;
-            Utils.ReportStopped(getCurrentlyPlayingItem(), mbPos);
+            Utils.ReportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
             if (mVideoView.isPlaying()) mVideoView.stopPlayback();
         }
     }
@@ -359,7 +359,7 @@ public class PlaybackController {
         stopProgressAutomation();
         stopReportLoop();
         Long mbPos = (long) mVideoView.getCurrentPosition() * 10000;
-        Utils.ReportStopped(mApplication.getCurrentPlayingItem(), mbPos);
+        Utils.ReportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
         if (mCurrentIndex < mItems.size() - 1) {
             // move to next in queue
             mCurrentIndex++;
