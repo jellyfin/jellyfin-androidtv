@@ -180,7 +180,7 @@ public class PlaybackController {
         PlaybackStartInfo startInfo = new PlaybackStartInfo();
         startInfo.setItemId(item.getId());
         startInfo.setPositionTicks(mbPos);
-        apiClient.ReportPlaybackStartAsync(startInfo, new EmptyResponse());
+        TvApp.getApplication().getPlaybackManager().reportPlaybackStart(startInfo, false, apiClient, new EmptyResponse());
 
         return ret;
 

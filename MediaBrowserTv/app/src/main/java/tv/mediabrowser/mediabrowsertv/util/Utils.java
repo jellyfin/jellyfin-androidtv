@@ -754,8 +754,7 @@ public class Utils {
             info.setItemId(item.getId());
             info.setPositionTicks(position);
             info.setPlayMethod(TvApp.getApplication().getPlaybackController().getPlaybackMethod());
-            apiClient.ReportPlaybackProgressAsync(info, new EmptyResponse());
-
+            TvApp.getApplication().getPlaybackManager().reportPlaybackProgress(info, false, apiClient, new EmptyResponse());
         }
 
     }
