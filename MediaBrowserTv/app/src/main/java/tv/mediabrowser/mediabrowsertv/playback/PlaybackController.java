@@ -299,9 +299,9 @@ public class PlaybackController {
                     mCurrentPosition = currentTime;
                     //The very end of some videos over hls cause the VideoView to freeze which freezes our whole app
                     //First try and avoid this by skipping the last few seconds of the video
-//                    if (currentTime >= mFreezeCheckPoint && mCurrentStreamInfo.getProtocol() != null && mCurrentStreamInfo.getProtocol().equals("hls")) {
-//                        mVideoView.stopPlayback();
-//                        itemComplete();
+                    if (currentTime >= mFreezeCheckPoint && mCurrentStreamInfo.getProtocol() != null && mCurrentStreamInfo.getProtocol().equals("hls")) {
+                        mVideoView.stopPlayback();
+                        itemComplete();
 
 //                    //Try to detect this and tell the user about it
 //                    if (!mayBeFrozen && currentTime >= mFreezeCheckPoint && currentTime == mLastReportedTime) {
@@ -325,10 +325,10 @@ public class PlaybackController {
 //                                }
 //                            }
 //                        }, 1100);
-//                    } else {
+                    } else {
                         mLastReportedTime = currentTime;
                         mHandler.postDelayed(this, updatePeriod);
-//                    }
+                    }
                 } else {
                     mHandler.postDelayed(this, updatePeriod);
                 }
@@ -432,7 +432,7 @@ public class PlaybackController {
                 });
                 if (mPlaybackState == PlaybackState.BUFFERING) {
                     mPlaybackState = PlaybackState.PLAYING;
-                    //mFreezeCheckPoint = mp.getDuration() > 60000 ? mp.getDuration() - 9000 : Integer.MAX_VALUE;
+                    mFreezeCheckPoint = mp.getDuration() > 60000 ? mp.getDuration() - 9000 : Integer.MAX_VALUE;
                     startProgressAutomation();
                     startReportLoop();
                 }
