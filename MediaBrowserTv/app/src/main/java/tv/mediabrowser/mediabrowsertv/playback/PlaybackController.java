@@ -13,6 +13,7 @@ import java.util.List;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.model.dlna.StreamBuilder;
 import mediabrowser.model.dlna.StreamInfo;
@@ -131,7 +132,7 @@ public class PlaybackController {
 
                 mCurrentOptions.setProfile(new AndroidProfile(PreferenceManager.getDefaultSharedPreferences(mApplication).getBoolean("pref_enable_hls",true), true));
 
-                mCurrentStreamInfo = playInternal(getCurrentlyPlayingItem(), position, mVideoView, mCurrentOptions);
+                playInternal(getCurrentlyPlayingItem(), position, mVideoView, mCurrentOptions);
                 if (mFragment != null) {
                     mFragment.setFadingEnabled(true);
                     mFragment.getPlaybackControlsRow().setCurrentTime(position);
@@ -146,44 +147,34 @@ public class PlaybackController {
         String maxRate = sharedPref.getString("pref_max_bitrate", "15");
         return Integer.parseInt(maxRate) * 1000000;
     }
-    private StreamInfo playInternal(BaseItemDto item, int position, VideoView view, VideoOptions options) {
-        StreamBuilder builder = new StreamBuilder();
-        Long mbPos = (long)position * 10000;
+    private void playInternal(final BaseItemDto item, final int position, final VideoView view, VideoOptions options) {
+        final ApiClient apiClient = mApplication.getApiClient();
         mPositionOffset = 0;
-        ApiClient apiClient = mApplication.getApiClient();
-        StreamInfo ret = null;
-
-        if (item.getPath() != null && item.getPath().startsWith("http://")) {
-            //try direct stream
-            view.setVideoPath(item.getPath());
-            setPlaybackMethod(PlayMethod.DirectStream);
-            ret = new StreamInfo();
-            ret.setMediaSource(item.getMediaSources().get(0));
-        } else {
-            StreamInfo info = builder.BuildVideoItem(options);
-            if (!PreferenceManager.getDefaultSharedPreferences(mApplication).getBoolean("pref_enable_hls",true)) {
-                info.setStartPositionTicks(mbPos);
-                mPositionOffset = position;
-            }
-
-            view.setVideoPath(info.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()));
-            setPlaybackMethod(info.getPlayMethod());
-            ret = info;
-        }
-
-        if (position > 0) {
-            mApplication.getPlaybackController().seek(position);
-        }
-        view.start();
         mApplication.setCurrentPlayingItem(item);
 
-        PlaybackStartInfo startInfo = new PlaybackStartInfo();
-        startInfo.setItemId(item.getId());
-        startInfo.setPositionTicks(mbPos);
-        TvApp.getApplication().getPlaybackManager().reportPlaybackStart(startInfo, false, apiClient, new EmptyResponse());
+        mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
+            @Override
+            public void onResponse(StreamInfo response) {
+                mCurrentStreamInfo = response;
+                Long mbPos = (long)position * 10000;
+                if (!PreferenceManager.getDefaultSharedPreferences(mApplication).getBoolean("pref_enable_hls",true)) {
+                    response.setStartPositionTicks(mbPos);
+                    mPositionOffset = position;
+                }
 
-        return ret;
+                view.setVideoPath(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()));
+                setPlaybackMethod(response.getPlayMethod());
+                if (position > 0) {
+                    mApplication.getPlaybackController().seek(position);
+                }
+                view.start();
 
+                PlaybackStartInfo startInfo = new PlaybackStartInfo();
+                startInfo.setItemId(item.getId());
+                startInfo.setPositionTicks(mbPos);
+                TvApp.getApplication().getPlaybackManager().reportPlaybackStart(startInfo, false, apiClient, new EmptyResponse());
+            }
+        });
     }
 
     public void switchAudioStream(int index) {
@@ -195,7 +186,7 @@ public class PlaybackController {
         mApplication.getLogger().Debug("Setting audio index to: " + index);
         mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
         stop();
-        mCurrentStreamInfo = playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mVideoView, mCurrentOptions);
+        playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mVideoView, mCurrentOptions);
         mPlaybackState = PlaybackState.PLAYING;
     }
 
@@ -208,7 +199,7 @@ public class PlaybackController {
         mApplication.getLogger().Debug("Setting subtitle index to: " + index);
         mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
         stop();
-        mCurrentStreamInfo = playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mVideoView, mCurrentOptions);
+        playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mVideoView, mCurrentOptions);
         mPlaybackState = PlaybackState.PLAYING;
     }
 
