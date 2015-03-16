@@ -152,5 +152,8 @@
     <string name="lbl_born">"Born "</string>
     <string name="lbl_loading_elipses">Loading...</string>
     <string name="lbl_unlock">Unlock</string>
+    <string name="msg_playback_not_allowed">Playback not allowed at this time</string>
+    <string name="msg_playback_restricted">The administrator has restricted playback of this item at this time</string>
+    <string name="msg_playback_incompatible">Cannot play this video format</string>
 
 </resources>
