@@ -15,6 +15,7 @@ import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
+import mediabrowser.model.dlna.PlaybackException;
 import mediabrowser.model.dlna.StreamBuilder;
 import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dlna.VideoOptions;
@@ -176,7 +177,27 @@ public class PlaybackController {
                 TvApp.getApplication().getPlaybackManager().reportPlaybackStart(startInfo, false, apiClient, new EmptyResponse());
                 TvApp.getApplication().getLogger().Info("Playback of "+item.getName()+"("+path+") started.");
             }
+
+            @Override
+            public void onError(Exception exception) {
+                if (exception instanceof PlaybackException) {
+                    PlaybackException ex = (PlaybackException) exception;
+                    switch (ex.getErrorCode()){
+                        case NotAllowed:
+                            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_playback_not_allowed));
+                            break;
+                        case NoCompatibleStream:
+                            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_playback_incompatible));
+                            break;
+                        case RateLimitExceeded:
+                            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_playback_restricted));
+                            break;
+                    }
+                }
+            }
         });
+
+
     }
 
     public void switchAudioStream(int index) {
