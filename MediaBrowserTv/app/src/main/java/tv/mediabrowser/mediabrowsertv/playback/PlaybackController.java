@@ -162,7 +162,8 @@ public class PlaybackController {
                     mPositionOffset = position;
                 }
 
-                view.setVideoPath(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()));
+                String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken());
+                view.setVideoPath(path);
                 setPlaybackMethod(response.getPlayMethod());
                 if (position > 0) {
                     mApplication.getPlaybackController().seek(position);
@@ -173,6 +174,7 @@ public class PlaybackController {
                 startInfo.setItemId(item.getId());
                 startInfo.setPositionTicks(mbPos);
                 TvApp.getApplication().getPlaybackManager().reportPlaybackStart(startInfo, false, apiClient, new EmptyResponse());
+                TvApp.getApplication().getLogger().Info("Playback of "+item.getName()+"("+path+") started.");
             }
         });
     }
