@@ -55,7 +55,7 @@ public class PlaybackController {
     private static final int DEFAULT_UPDATE_PERIOD = 1000;
     private static final int UPDATE_PERIOD = 500;
 
-    private int mFreezeCheckPoint;
+    private int mFreezeCheckPoint = Integer.MAX_VALUE;
     private int mLastReportedTime;
     private boolean mayBeFrozen = false;
     private int mPositionOffset = 0;
