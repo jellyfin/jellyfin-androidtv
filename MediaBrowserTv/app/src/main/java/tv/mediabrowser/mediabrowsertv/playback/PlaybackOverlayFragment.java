@@ -326,7 +326,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                     mThumbsUpAction.setIndex(mThumbsUpAction.OUTLINE);
                 } else if (action.getId() == mSubtitleAction.getId()) {
                     setFadingEnabled(false);
-                    List<MediaStream> subtitles = Utils.GetSubtitleStreams(mPlaybackController.getCurrentMediaSource());
+                    List<MediaStream> subtitles = TvApp.getApplication().getPlaybackManager().getInPlaybackSelectableSubtitleStreams(mPlaybackController.getCurrentStreamInfo());
                     PopupMenu subMenu = new PopupMenu(getActivity(), getActivity().findViewById(R.id.playback_progress), Gravity.RIGHT);
                     MenuItem none = subMenu.getMenu().add(0, -1, 0, mApplication.getString(R.string.lbl_none));
                     int currentSubIndex = Utils.NullCoalesce(mPlaybackController.getCurrentStreamInfo().getSubtitleStreamIndex(), -1);
@@ -354,7 +354,8 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
                 } else if (action.getId() == mAudioAction.getId()) {
                     setFadingEnabled(false);
-                    List<MediaStream> audioTracks = Utils.GetAudioStreams(mPlaybackController.getCurrentMediaSource());
+
+                    List<MediaStream> audioTracks = TvApp.getApplication().getPlaybackManager().getInPlaybackSelectableAudioStreams(mPlaybackController.getCurrentStreamInfo());
                     int currentAudioIndex = Utils.NullCoalesce(mPlaybackController.getCurrentStreamInfo().getAudioStreamIndex(), 0);
                     PopupMenu audioMenu = new PopupMenu(getActivity(), getActivity().findViewById(R.id.playback_progress), Gravity.RIGHT);
                     for (MediaStream audio : audioTracks) {
