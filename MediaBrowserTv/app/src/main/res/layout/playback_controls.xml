@@ -48,7 +48,7 @@
         android:textSize="40sp" />
 
     <fragment android:id="@+id/playback_controls_fragment"
-        android:name="tv.mediabrowser.mediabrowsertv.playback.PlaybackOverlayFragment"
+        android:name="tv.emby.embyatv.playback.PlaybackOverlayFragment"
         android:layout_width="match_parent" android:layout_height="match_parent" />
 
     <ProgressBar

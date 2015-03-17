@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="tv.mediabrowser.mediabrowsertv.startup.ConnectActivity$PlaceholderFragment">
+    tools:context="tv.emby.embyatv.startup.ConnectActivity$PlaceholderFragment">
 
     android:layout_width="match_parent" android:layout_height="match_parent">
 
@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="With Media Browser Connect you can easily access your Media Browser Server wherever you are and share with your family and friends.   To sign in with Media Browser Connect, visit http://mediabrowser.tv/pin and enter the following pin code:"
+        android:text="With Connect you can easily access your Emby Server wherever you are and share with your family and friends.   To sign in with Connect, visit http://emby.media/pin and enter the following pin code:"
         android:id="@+id/textView2"
         android:paddingLeft="40dp"
         android:layout_centerVertical="true"

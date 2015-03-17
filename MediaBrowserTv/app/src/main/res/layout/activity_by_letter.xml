@@ -2,7 +2,7 @@
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/by_letter_fragment"
-    android:name="tv.mediabrowser.mediabrowsertv.browsing.ByLetterFragment" android:layout_width="match_parent"
+    android:name="tv.emby.embyatv.browsing.ByLetterFragment" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context=".ByLetterActivity" tools:deviceIds="tv"
     tools:ignore="MergeRootFrame"
     tools:layout="@layout/activity_by_letter" />

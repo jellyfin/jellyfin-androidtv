@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/expired"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    tools:context="tv.mediabrowser.mediabrowsertv.startup.ExpiredActivity" tools:ignore="MergeRootFrame" >
+    tools:context="tv.emby.embyatv.startup.ExpiredActivity" tools:ignore="MergeRootFrame" >
 
     <ImageView
         android:layout_width="match_parent"
