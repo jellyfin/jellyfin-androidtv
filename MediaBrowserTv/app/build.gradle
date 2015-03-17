@@ -6,11 +6,11 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "tv.mediabrowser.mediabrowsertv"
+        applicationId "tv.emby.embyatv"
         minSdkVersion 21
         targetSdkVersion 21
-        versionCode 107
-        versionName "0.1.07"
+        versionCode 108
+        versionName "0.1.08"
     }
 
     compileOptions {

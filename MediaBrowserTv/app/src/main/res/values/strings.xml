@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Media Browser</string>
+    <string name="app_name">Emby</string>
     <string name="current_queue">Current Queue</string>
     <string name="error">Error</string>
     <string name="ok">OK</string>
@@ -28,7 +28,7 @@
     <string name="action_settings">Settings</string>
     <string name="txt_loading">Loading...</string>
     <string name="title_activity_connect">ConnectActivity</string>
-    <string name="txt_signinconnect">Sign in with Media Browser Connect</string>
+    <string name="txt_signinconnect">Sign in with Connect</string>
     <string name="title_activity_select_user">SelectUserActivity</string>
     <string name="selusr_pleaseselect">Please Select a User</string>
     <string name="error_fragment_message">Error</string>
@@ -37,8 +37,8 @@
     <string name="home_title">Home</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_manually">Enter Server Address</string>
-    <string name="txt_expired">Media Browser for Android TV is Expired</string>
-    <string name="txt_expired_exp">This development version has expired.   Please look for an update or install from the store.  Thank you for using Media Browser!</string>
+    <string name="txt_expired">Emby for Android TV is Expired</string>
+    <string name="txt_expired_exp">This development version has expired.   Please look for an update or install from the store.  Thank you for using Emby!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Start Up Behavior</string>
     <string name="pref_show_login">Show Login Screen</string>
