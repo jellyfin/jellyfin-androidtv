@@ -238,9 +238,9 @@ public class PlaybackController {
             mPlaybackState = PlaybackState.IDLE;
             stopReportLoop();
             stopProgressAutomation();
+            if (mVideoView.isPlaying()) mVideoView.stopPlayback();
             Long mbPos = (long)mCurrentPosition * 10000;
             Utils.ReportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
-            if (mVideoView.isPlaying()) mVideoView.stopPlayback();
         }
     }
 
@@ -441,6 +441,7 @@ public class PlaybackController {
         mVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
+                TvApp.getApplication().getLogger().Debug("On Completion fired");
                 itemComplete();
             }
         });
