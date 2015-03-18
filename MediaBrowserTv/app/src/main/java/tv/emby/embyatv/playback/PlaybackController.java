@@ -239,6 +239,12 @@ public class PlaybackController {
             stopReportLoop();
             stopProgressAutomation();
             if (mVideoView.isPlaying()) mVideoView.stopPlayback();
+            //give it a just a beat to actually stop - this keeps it from re-requesting the stream after we tell the server we've stopped
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             Long mbPos = (long)mCurrentPosition * 10000;
             Utils.ReportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
         }
