@@ -212,8 +212,6 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     public void onDestroy() {
         super.onDestroy();
         RecommendationManager.getInstance().recommend(mPlaybackController.getCurrentlyPlayingItem().getId());
-        mPlaybackController.stop();
-        stopClock();
     }
 
     @Override
