@@ -107,10 +107,10 @@ public class Utils {
         return new Point(width, height);
     }
 
-    public static final String k1 = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkGYRnisgHtwT8uZqqdIOfkizt5MMWQxhI18BUnAy4CPr1eJrEiAftFNemBjo371PwSRp4tjNoQNDE6";
-    public static final String k2 = "Ks6y3njWvvqQnC4U7s6GHTV6ZpVaaY/jE39mr2K+1ZNafukV+nkDVs6q6D4Tq1GpNRfZSifQBBmJTforDCCZv6dVcqmkVHwctoxfRD/wIQxfNMnqdcmA/5Eo6m";
-    public static final String k3 = "deN1a18foRAirsmRdPUznErGEN3ksH5d9d6CHJpeC+hJnzoRSehD1jZjxdkFezCpJphhgBk3i/IV963TNc4PriPUbMlh0lcMNF209bFgy2I5SLx8PLZxUIaCmk";
-    public static final String k4 = "h7IsJXhDn/mZD3U262HwIDAQAB";
+    public static final String k1 = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhAR9t5CAdBY+iOXd4QkZeSTttHtpQ48mLM+k2h0i54FWDLhn28CDUIDogQSZTLKBu0Qshp+i0KUjCD";
+    public static final String k2 = "iiyQfQjYe0pgdpC7hk2ZzuOjy8C1Pb8GEhJYUoH7Pg/3ZnEZrV8kdNtfAu/TtvKGFkrhBCVrMQVN/TTKfZrq36IHC2HEqGAOin2CYV323ZjnSJpJQkGuOISy+I";
+    public static final String k3 = "PvVi1EBf7+bfK3dqbv461xcSz0HtC5aJwDfvYS+fVE0X+7bLpbz93gPP07Il9ntKSCVYsmiv4PJ8uVfjVrFdaxEJowK89/+S1hD4AaDGLk90l7nfVKdXC7qpKu";
+    public static final String k4 = "I+ZwyT8czrx8qyCvU5MQIDAQAB";
 
     /**
      * Shows an error dialog with a given text message.
