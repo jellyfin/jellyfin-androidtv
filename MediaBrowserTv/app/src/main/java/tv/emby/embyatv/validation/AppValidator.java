@@ -6,12 +6,14 @@ import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.util.Utils;
 import tv.emby.embyatv.util.billing.IabHelper;
 import tv.emby.embyatv.util.billing.IabResult;
+import tv.emby.embyatv.util.billing.Inventory;
 
 /**
  * Created by Eric on 3/3/2015.
  */
 public class AppValidator {
 
+    private String SKU_UNLOCK = "tv.emby.embyatv.unlock";
     private IabHelper iabHelper;
 
     public AppValidator() {
@@ -53,14 +55,29 @@ public class AppValidator {
                     TvApp.getApplication().getLogger().Info("Failed to connect to Google Play: " + result.getMessage());
 
                 } else {
-                    TvApp.getApplication().getLogger().Info("IAB Initialized");
-                    dispose();
+                    TvApp.getApplication().getLogger().Info("IAB Initialized.  Checking for unlock purchase...");
+                    iabHelper.queryInventoryAsync(mGotInventoryListener);
                 }
             }
         });
 
     }
 
+    IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
+        public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
+            if (result.isFailure()) {
+                TvApp.getApplication().getLogger().Error("Unable to retrieve IAB purchase information. "+result.getMessage());
+            }
+            else {
+                // set our indicator of paid status
+                TvApp.getApplication().setPaid(inventory.hasPurchase(SKU_UNLOCK));
+                TvApp.getApplication().getLogger().Info("Application unlock status is: "+TvApp.getApplication().isPaid());
+            }
+
+            // no longer need connection to Google
+            dispose();
+        }
+    };
     public void dispose() {
         if (iabHelper != null) iabHelper.dispose();
     }
