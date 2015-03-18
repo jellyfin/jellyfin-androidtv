@@ -241,7 +241,7 @@ public class PlaybackController {
             if (mVideoView.isPlaying()) mVideoView.stopPlayback();
             //give it a just a beat to actually stop - this keeps it from re-requesting the stream after we tell the server we've stopped
             try {
-                Thread.sleep(250);
+                Thread.sleep(150);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
