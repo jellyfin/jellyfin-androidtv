@@ -68,7 +68,7 @@ public class ConnectActivity extends Activity {
             }
         });
 
-        Button cancel = (Button) findViewById(R.id.buttonSkip);
+        Button cancel = (Button) findViewById(R.id.buttonCancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

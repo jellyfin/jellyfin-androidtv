@@ -28,6 +28,7 @@ import tv.emby.embyatv.querying.StdItemQuery;
 import tv.emby.embyatv.querying.ViewQuery;
 import tv.emby.embyatv.settings.SettingsActivity;
 import tv.emby.embyatv.startup.SelectUserActivity;
+import tv.emby.embyatv.validation.UnlockActivity;
 
 /**
  * Created by Eric on 12/4/2014.
@@ -37,6 +38,9 @@ public class HomeFragment extends StdBrowseFragment {
     private static final int SETTINGS = 1;
     private static final int REPORT = 2;
     private static final int UNLOCK = 3;
+
+    private ArrayObjectAdapter toolsRow;
+    private GridButton unlockButton;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -50,6 +54,14 @@ public class HomeFragment extends StdBrowseFragment {
         //Validate recommendations
         RecommendationManager.getInstance().validate();
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //if we were locked before and have just unlocked, remove the button
+        if (unlockButton != null && TvApp.getApplication().isPaid()) toolsRow.remove(unlockButton);
     }
 
     @Override
@@ -102,15 +114,19 @@ public class HomeFragment extends StdBrowseFragment {
     @Override
     protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
         super.addAdditionalRows(rowAdapter);
+
         HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_settings), null);
 
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
-        ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add(new GridButton(SETTINGS, mApplication.getString(R.string.lbl_app_settings), R.drawable.gears));
-        gridRowAdapter.add(new GridButton(LOGOUT, mApplication.getString(R.string.lbl_logout) + TvApp.getApplication().getCurrentUser().getName(), R.drawable.logout));
-        if (!TvApp.getApplication().isValid()) gridRowAdapter.add(new GridButton(UNLOCK, mApplication.getString(R.string.lbl_unlock), R.drawable.unlock));
-        gridRowAdapter.add(new GridButton(REPORT, mApplication.getString(R.string.lbl_send_logs), R.drawable.upload));
-        rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
+        toolsRow = new ArrayObjectAdapter(mGridPresenter);
+        toolsRow.add(new GridButton(SETTINGS, mApplication.getString(R.string.lbl_app_settings), R.drawable.gears));
+        toolsRow.add(new GridButton(LOGOUT, mApplication.getString(R.string.lbl_logout) + TvApp.getApplication().getCurrentUser().getName(), R.drawable.logout));
+        if (!TvApp.getApplication().isValid()) {
+            unlockButton = new GridButton(UNLOCK, mApplication.getString(R.string.lbl_unlock), R.drawable.unlock);
+            toolsRow.add(unlockButton);
+        }
+        toolsRow.add(new GridButton(REPORT, mApplication.getString(R.string.lbl_send_logs), R.drawable.upload));
+        rowAdapter.add(new ListRow(gridHeader, toolsRow));
     }
 
     @Override
@@ -143,6 +159,10 @@ public class HomeFragment extends StdBrowseFragment {
                     case SETTINGS:
                         Intent settings = new Intent(getActivity(), SettingsActivity.class);
                         getActivity().startActivity(settings);
+                        break;
+                    case UNLOCK:
+                        Intent unlock = new Intent(getActivity(), UnlockActivity.class);
+                        getActivity().startActivity(unlock);
                         break;
                     case REPORT:
                         Utils.reportError(getActivity(), "Send Log to Dev");

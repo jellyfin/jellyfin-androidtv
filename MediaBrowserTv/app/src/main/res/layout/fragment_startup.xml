@@ -18,10 +18,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView2"
-        android:layout_marginTop="37dp"
+        android:layout_marginTop="20sp"
         android:src="@drawable/mblogo"
         android:layout_alignParentTop="true"
-        android:layout_alignEnd="@+id/progressBar2" />
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="40sp" />
 
     <TextView
         android:layout_width="wrap_content"
