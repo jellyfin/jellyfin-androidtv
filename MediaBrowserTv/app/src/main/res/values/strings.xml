@@ -156,5 +156,13 @@
     <string name="msg_playback_restricted">The administrator has restricted playback of this item at this time</string>
     <string name="msg_playback_incompatible">Cannot play this video format</string>
     <string name="lbl_never">Never</string>
+    <string name="lbl_unlock_app">Unlock App</string>
+    <string name="lbl_unlock_desc">Unlock the app for full functionality by purchasing it here. If you are an active Supporter you should not need to do this. Be sure your server has your supporter key in place or, if you are remote, that you are using Connect to log in.</string>
+    <string name="btn_next">Next</string>
+    <string name="msg_invalid_purchase">Invalid purchase attempt.</string>
+    <string name="msg_thank_you_unlocked">Thank You. App is now unlocked.</string>
+    <string name="msg_purchase_error">Error with purchase.  Please try again later.</string>
+    <string name="msg_unable_connect_google">Unable to connect to Google Play. Please try again later.</string>
+
 
 </resources>

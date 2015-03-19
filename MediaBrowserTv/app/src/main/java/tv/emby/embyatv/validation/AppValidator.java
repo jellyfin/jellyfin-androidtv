@@ -13,7 +13,7 @@ import tv.emby.embyatv.util.billing.Inventory;
  */
 public class AppValidator {
 
-    private String SKU_UNLOCK = "tv.emby.embyatv.unlock";
+    public static String SKU_UNLOCK = "tv.emby.embyatv.unlock";
     private IabHelper iabHelper;
 
     public AppValidator() {

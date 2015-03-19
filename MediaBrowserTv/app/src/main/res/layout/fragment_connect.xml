@@ -3,7 +3,6 @@
     android:layout_height="match_parent"
     tools:context="tv.emby.embyatv.startup.ConnectActivity$PlaceholderFragment">
 
-    android:layout_width="match_parent" android:layout_height="match_parent">
 
     <ImageView
         android:layout_width="match_parent"
@@ -19,7 +18,9 @@
         android:id="@+id/imageView"
         android:src="@drawable/mblogo"
         android:layout_alignTop="@+id/imageView4"
-        android:layout_alignStart="@+id/buttonNext" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20sp"
+        android:layout_marginLeft="20sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -27,10 +28,11 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/txt_signinconnect"
         android:id="@+id/textView"
-        android:paddingLeft="40dp"
         android:textSize="28dp"
         android:layout_below="@+id/imageView"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,9 +40,11 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="With Connect you can easily access your Emby Server wherever you are and share with your family and friends.   To sign in with Connect, visit http://emby.media/pin and enter the following pin code:"
         android:id="@+id/textView2"
-        android:paddingLeft="40dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:paddingEnd="40dp"
+        android:paddingStart="40dp"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="30sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -68,7 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btn_cancel"
-        android:id="@+id/buttonSkip"
+        android:id="@+id/buttonCancel"
         android:layout_alignBottom="@+id/textViewMessage"
         android:layout_toEndOf="@+id/buttonManual" />
 
@@ -78,7 +82,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/textViewMessage"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/buttonSkip"
+        android:layout_alignEnd="@+id/buttonCancel"
         android:layout_marginBottom="37dp" />
 
     <Button
