@@ -228,6 +228,10 @@ public class TvApp extends Application {
         return isPaid || (registrationInfo != null && (registrationInfo.getIsRegistered() || registrationInfo.getIsTrial()));
     }
 
+    public boolean isRegistered() {
+        return registrationInfo != null && registrationInfo.getIsRegistered();
+    }
+
     public boolean isTrial() {
         return registrationInfo != null && registrationInfo.getIsTrial();
     }
