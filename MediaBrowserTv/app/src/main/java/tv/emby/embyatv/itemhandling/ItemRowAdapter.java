@@ -463,7 +463,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         currentlyRetrieving = false;
     }
 
-    private static String[] ignoreTypes = new String[] {"music","books","games","playlists"};
+    private static String[] ignoreTypes = new String[] {"music","books","games","playlists","channels","Channel"};
     private static List<String> ignoreTypeList = Arrays.asList(ignoreTypes);
 
     private void RetrieveViews() {
@@ -476,7 +476,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int i = 0;
                     if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
-                        if (!ignoreTypeList.contains(item.getCollectionType())) adapter.add(new BaseRowItem(i++,item));
+                        if (!ignoreTypeList.contains(item.getCollectionType()) && !ignoreTypeList.contains(item.getType())) adapter.add(new BaseRowItem(i++,item));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
