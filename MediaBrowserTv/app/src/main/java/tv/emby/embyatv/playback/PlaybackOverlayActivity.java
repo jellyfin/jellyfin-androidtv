@@ -17,6 +17,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v17.leanback.widget.PlaybackControlsRow;
 import android.view.KeyEvent;
 import android.widget.ImageView;
 import android.widget.VideoView;
@@ -69,8 +70,10 @@ public class PlaybackOverlayActivity extends Activity {
                 PlaybackController controller = mApplication.getPlaybackController();
                 if (controller.isPlaying()) {
                     controller.pause();
+                    controller.setPlayPauseIndicatorState(PlaybackControlsRow.PlayPauseAction.PLAY);
                 } else {
                     controller.play(0);
+                    controller.setPlayPauseIndicatorState(PlaybackControlsRow.PlayPauseAction.PAUSE);
                 }
                 return true;
             default:
