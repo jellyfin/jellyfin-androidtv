@@ -86,27 +86,12 @@ public class UnlockActivity extends Activity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
         if (iabHelper != null) {
             iabHelper.dispose();
-            TvApp.getApplication().getLogger().Info("IAB Disposed.");
+            TvApp.getApplication().getLogger().Info("IAB Disposed in unlock activity destroy.");
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (iabHelper == null) return;
-
-        // Pass on the activity result to the helper for handling
-        if (!iabHelper.handleActivityResult(requestCode, resultCode, data)) {
-            // not handled, so handle it ourselves (here's where you'd
-            // perform any handling of activity results not related to in-app
-            // billing...
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-        else {
-            TvApp.getApplication().getLogger().Debug("onActivityResult handled by IABUtil.");
-        }
-    }
 }
