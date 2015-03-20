@@ -2,6 +2,7 @@ package tv.emby.embyatv.browsing;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
@@ -61,7 +62,7 @@ public class HomeFragment extends StdBrowseFragment {
         super.onResume();
 
         //if we were locked before and have just unlocked, remove the button
-        if (unlockButton != null && TvApp.getApplication().isPaid()) toolsRow.remove(unlockButton);
+        if (unlockButton != null && TvApp.getApplication().isValid()) toolsRow.remove(unlockButton);
     }
 
     @Override
@@ -121,10 +122,16 @@ public class HomeFragment extends StdBrowseFragment {
         toolsRow = new ArrayObjectAdapter(mGridPresenter);
         toolsRow.add(new GridButton(SETTINGS, mApplication.getString(R.string.lbl_app_settings), R.drawable.gears));
         toolsRow.add(new GridButton(LOGOUT, mApplication.getString(R.string.lbl_logout) + TvApp.getApplication().getCurrentUser().getName(), R.drawable.logout));
-        if (!TvApp.getApplication().isValid()) {
-            unlockButton = new GridButton(UNLOCK, mApplication.getString(R.string.lbl_unlock), R.drawable.unlock);
-            toolsRow.add(unlockButton);
-        }
+        //give this some time to have validated
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!TvApp.getApplication().isValid()) {
+                    unlockButton = new GridButton(UNLOCK, mApplication.getString(R.string.lbl_unlock), R.drawable.unlock);
+                    toolsRow.add(unlockButton);
+                }
+            }
+        }, 5000);
         toolsRow.add(new GridButton(REPORT, mApplication.getString(R.string.lbl_send_logs), R.drawable.upload));
         rowAdapter.add(new ListRow(gridHeader, toolsRow));
     }
