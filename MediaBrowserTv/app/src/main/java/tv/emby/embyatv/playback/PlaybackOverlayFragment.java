@@ -302,7 +302,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         playbackControlsRowPresenter.setOnActionClickedListener(new OnActionClickedListener() {
             public void onActionClicked(Action action) {
                 if (action.getId() == mPlayPauseAction.getId()) {
-                    if (mPlayPauseAction.getIndex() == PlayPauseAction.PLAY) {
+                    if (!mPlaybackController.isPlaying()) {
                         mPlaybackController.play(mPlaybackControlsRow.getCurrentTime());
                     } else {
                         mPlaybackController.pause();
@@ -399,6 +399,11 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         addPlaybackControlsRow();
         if (mPlaybackController.getCurrentlyPlayingItem().getChapters() != null && mPlaybackController.getCurrentlyPlayingItem().getChapters().size() > 0) addChapterRow();
 
+    }
+
+    public void setPlayPauseActionState(int state) {
+        mPlayPauseAction.setIndex(state);
+        mPrimaryActionsAdapter.notifyArrayItemRangeChanged(mPrimaryActionsAdapter.indexOf(mPlayPauseAction), 1);
     }
 
     private void updateLikes(Boolean likes) {

@@ -146,6 +146,7 @@ public class PlaybackController {
         String maxRate = sharedPref.getString("pref_max_bitrate", "15");
         return Integer.parseInt(maxRate) * 1000000;
     }
+
     private void playInternal(final BaseItemDto item, final int position, final VideoView view, VideoOptions options) {
         final ApiClient apiClient = mApplication.getApiClient();
         mPositionOffset = 0;
@@ -195,9 +196,12 @@ public class PlaybackController {
             }
         });
 
-
     }
 
+    public void setPlayPauseIndicatorState(int state) {
+        mFragment.setPlayPauseActionState(state);
+
+    }
     public void switchAudioStream(int index) {
         if (!isPlaying()) return;
 
@@ -228,7 +232,9 @@ public class PlaybackController {
         mPlaybackState = PlaybackState.PAUSED;
         stopProgressAutomation();
         mVideoView.pause();
-        if (mFragment != null) mFragment.setFadingEnabled(false);
+        if (mFragment != null) {
+            mFragment.setFadingEnabled(false);
+        }
         stopReportLoop();
 
     }
