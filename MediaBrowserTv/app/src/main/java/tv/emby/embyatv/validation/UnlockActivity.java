@@ -91,7 +91,7 @@ public class UnlockActivity extends Activity {
 
         // Pass on the activity result to the helper for handling
         if (!iabHelper.handleActivityResult(requestCode, resultCode, data)) {
-            // not handled, so handle it ourselves 
+            // not handled, so handle it ourselves
             super.onActivityResult(requestCode, resultCode, data);
         }
         else {
