@@ -86,6 +86,20 @@ public class UnlockActivity extends Activity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (iabHelper == null) return;
+
+        // Pass on the activity result to the helper for handling
+        if (!iabHelper.handleActivityResult(requestCode, resultCode, data)) {
+            // not handled, so handle it ourselves 
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+        else {
+            TvApp.getApplication().getLogger().Debug("onActivityResult handled by IABUtil.");
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (iabHelper != null) {
