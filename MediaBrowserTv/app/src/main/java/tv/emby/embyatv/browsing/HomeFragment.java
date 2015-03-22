@@ -62,7 +62,7 @@ public class HomeFragment extends StdBrowseFragment {
         super.onResume();
 
         //if we were locked before and have just unlocked, remove the button
-        if (unlockButton != null && TvApp.getApplication().isValid()) toolsRow.remove(unlockButton);
+        if (unlockButton != null && (TvApp.getApplication().isRegistered() || TvApp.getApplication().isPaid())) toolsRow.remove(unlockButton);
     }
 
     @Override
@@ -126,7 +126,7 @@ public class HomeFragment extends StdBrowseFragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (!TvApp.getApplication().isValid()) {
+                if (!TvApp.getApplication().isRegistered() && !TvApp.getApplication().isPaid()) {
                     unlockButton = new GridButton(UNLOCK, mApplication.getString(R.string.lbl_unlock), R.drawable.unlock);
                     toolsRow.add(unlockButton);
                 }
