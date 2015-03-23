@@ -138,22 +138,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
     private void loadItem(String id) {
         lastLoaded = Calendar.getInstance();
-        mApplication.getApiClient().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
-            @Override
-            public void onResponse(BaseItemDto response) {
-                mBaseItem = response;
-                if (mChannelId != null) mBaseItem.setParentId(mChannelId);
-                mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask().execute(mBaseItem);
-                updateBackground(Utils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true));
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                mApplication.getLogger().ErrorException("Error retrieving full object", exception);
-                Utils.reportError(getActivity(), "Error retrieving item");
-            }
-        });
-
+        mApplication.getApiClient().GetItemAsync(id, mApplication.getCurrentUser().getId(), new DetailItemLoadResponse(this));
     }
 
     @Override
@@ -453,6 +438,13 @@ public class BaseItemDetailsFragment extends DetailsFragment {
         }
 
 
+    }
+
+    public void setBaseItem(BaseItemDto item) {
+        mBaseItem = item;
+        if (mChannelId != null) mBaseItem.setParentId(mChannelId);
+        mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask().execute(mBaseItem);
+        updateBackground(Utils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true));
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
