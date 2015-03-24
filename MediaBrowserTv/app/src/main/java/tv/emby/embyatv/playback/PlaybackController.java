@@ -198,6 +198,43 @@ public class PlaybackController {
 
     }
 
+    private void switchStreamInternal(final StreamInfo current, final int position, final VideoView view) {
+
+        TvApp.getApplication().getPlaybackManager().changeVideoStream(
+                current,
+                TvApp.getApplication().getApiClient().getServerInfo().getId(),
+                mCurrentOptions,
+                TvApp.getApplication().getApiClient(),
+                new Response<StreamInfo>() {
+                    @Override
+                    public void onResponse(StreamInfo response) {
+                        mCurrentStreamInfo = response;
+                        Long mbPos = (long)position * 10000;
+                        if (!PreferenceManager.getDefaultSharedPreferences(mApplication).getBoolean("pref_enable_hls",true)) {
+                            response.setStartPositionTicks(mbPos);
+                            mPositionOffset = position;
+                        }
+
+                        String path = response.ToUrl(TvApp.getApplication().getApiClient().getApiUrl(), TvApp.getApplication().getApiClient().getAccessToken());
+                        view.setVideoPath(path);
+                        setPlaybackMethod(response.getPlayMethod());
+                        if (position > 0) {
+                            mApplication.getPlaybackController().seek(position);
+                        }
+                        view.start();
+
+                        PlaybackStartInfo startInfo = new PlaybackStartInfo();
+
+                        startInfo.setItemId(current.getItemId());
+                        startInfo.setPositionTicks(mbPos);
+                        TvApp.getApplication().getPlaybackManager().reportPlaybackStart(startInfo, false, TvApp.getApplication().getApiClient(), new EmptyResponse());
+                        TvApp.getApplication().getLogger().Info("Playback of "+getCurrentlyPlayingItem().getName()+"("+path+") re-started.");
+                    }
+                }
+        );
+
+    }
+
     public void setPlayPauseIndicatorState(int state) {
         mFragment.setPlayPauseActionState(state);
 
@@ -211,8 +248,7 @@ public class PlaybackController {
         mApplication.getLogger().Debug("Setting audio index to: " + index);
         mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
         stop();
-        playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mVideoView, mCurrentOptions);
-        mPlaybackState = PlaybackState.PLAYING;
+        switchStreamInternal(mCurrentStreamInfo, mCurrentPosition, mVideoView);
     }
 
     public void switchSubtitleStream(int index) {
@@ -224,8 +260,8 @@ public class PlaybackController {
         mApplication.getLogger().Debug("Setting subtitle index to: " + index);
         mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
         stop();
-        playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mVideoView, mCurrentOptions);
-        mPlaybackState = PlaybackState.PLAYING;
+        //playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mVideoView, mCurrentOptions);
+        switchStreamInternal(mCurrentStreamInfo, mCurrentPosition, mVideoView);
     }
 
     public void pause() {
@@ -253,6 +289,11 @@ public class PlaybackController {
             }
             Long mbPos = (long)mCurrentPosition * 10000;
             Utils.ReportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
+        } else {
+            //Be sure to shut down any transcoding
+            String streamId = mCurrentStreamInfo != null && mCurrentStreamInfo.getPlaybackInfo() == null ? null : mCurrentStreamInfo.getPlaybackInfo().getStreamId();
+            mApplication.getApiClient().StopTranscodingProcesses(mApplication.getApiClient().getDeviceId(), streamId, new EmptyResponse());
+
         }
     }
 
@@ -418,9 +459,6 @@ public class PlaybackController {
                 mPlaybackState = PlaybackState.IDLE;
                 stopProgressAutomation();
                 stopReportLoop();
-                //Be sure to shut down any transcoding
-                mApplication.getApiClient().StopTranscodingProcesses(mApplication.getApiClient().getDeviceId(), new EmptyResponse());
-                mFragment.finish();
                 return false;
             }
         });
