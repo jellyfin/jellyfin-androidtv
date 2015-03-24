@@ -690,6 +690,9 @@ public class Utils {
             info.setItemId(item.getId());
             info.setPositionTicks(pos);
             TvApp.getApplication().getPlaybackManager().reportPlaybackStopped(info, streamInfo, apiClient.getServerInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), false, apiClient, new EmptyResponse());
+            //Be sure to shut down any transcoding
+            String streamId = streamInfo.getPlaybackInfo() == null ? null : streamInfo.getPlaybackInfo().getStreamId();
+            apiClient.StopTranscodingProcesses(apiClient.getDeviceId(), streamId, new EmptyResponse());
 
             TvApp.getApplication().setLastPlayback(Calendar.getInstance());
             switch (item.getType()) {
