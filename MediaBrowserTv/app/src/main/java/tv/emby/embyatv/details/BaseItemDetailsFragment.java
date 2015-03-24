@@ -384,7 +384,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 ItemQuery personMovies = new ItemQuery();
                 personMovies.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
                 personMovies.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                personMovies.setPerson(mBaseItem.getName());
+                personMovies.setPersonIds(new String[] {mBaseItem.getId()});
                 personMovies.setRecursive(true);
                 personMovies.setIncludeItemTypes(new String[] {"Movie"});
                 ItemRowAdapter personMoviesAdapter = new ItemRowAdapter(personMovies, 100, new CardPresenter(), adapter);
@@ -393,7 +393,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 ItemQuery personSeries = new ItemQuery();
                 personSeries.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
                 personSeries.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                personSeries.setPerson(mBaseItem.getName());
+                personSeries.setPersonIds(new String[] {mBaseItem.getId()});
                 personSeries.setRecursive(true);
                 personSeries.setIncludeItemTypes(new String[] {"Series", "Episode"});
                 ItemRowAdapter personSeriesAdapter = new ItemRowAdapter(personSeries, 100, new CardPresenter(), adapter);
