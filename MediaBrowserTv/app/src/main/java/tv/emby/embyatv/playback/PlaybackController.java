@@ -19,6 +19,7 @@ import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dlna.VideoOptions;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.MediaSourceInfo;
+import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.session.PlayMethod;
 import mediabrowser.model.session.PlaybackStartInfo;
 import tv.emby.embyatv.R;
@@ -121,8 +122,15 @@ public class PlaybackController {
                 break;
             case IDLE:
                 // start new playback
-                mSpinner.setVisibility(View.VISIBLE);
                 BaseItemDto item = getCurrentlyPlayingItem();
+                // confirm we actually can play
+                if (item.getPlayAccess() != PlayAccess.Full) {
+                    String msg = item.getIsPlaceHolder() ? mApplication.getString(R.string.msg_cannot_play) : mApplication.getString(R.string.msg_cannot_play_time);
+                    Utils.showToast(TvApp.getApplication(), msg);
+                    return;
+                }
+
+                mSpinner.setVisibility(View.VISIBLE);
                 mCurrentOptions = new VideoOptions();
                 mCurrentOptions.setDeviceId(mApplication.getApiClient().getDeviceId());
                 mCurrentOptions.setItemId(item.getId());
