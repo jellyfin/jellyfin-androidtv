@@ -39,7 +39,6 @@ public class StartupActivity extends Activity {
 
     private TvApp application;
     private ILogger logger;
-    private Calendar expirationDate = new GregorianCalendar(2015,2,30);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +52,7 @@ public class StartupActivity extends Activity {
         final Activity activity = this;
         logger = application.getLogger();
 
-        if (new GregorianCalendar().after(expirationDate)) {
-            //Expired
-            Intent expired = new Intent(this, ExpiredActivity.class);
-            expired.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            startActivity(expired);
-        } else {
-            establishConnection(activity);
-        }
+        establishConnection(activity);
 
     }
 
