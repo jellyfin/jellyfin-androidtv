@@ -58,11 +58,6 @@ public class CardPresenter extends Presenter {
                 case BaseItem:
                     BaseItemDto itemDto = mItem.getBaseItem();
                     Double aspect = Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb());
-                    if (aspect == null) aspect = .77777;
-                    cardHeight = aspect > 1 ? 300 : 370;
-                    cardWidth = (int)((aspect) * cardHeight);
-                    if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
-                    mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     switch (itemDto.getType()) {
                         case "Audio":
                         case "MusicAlbum":
@@ -78,8 +73,9 @@ public class CardPresenter extends Presenter {
                             //TvApp.getApplication().getLogger().Debug("**** Image width: "+ cardWidth + " Aspect: " + Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()) + " Item: "+itemDto.getName());
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.tv);
                             break;
-                        case "Folder":
                         case "CollectionFolder":
+                            if (aspect == null) aspect = 1.779;
+                        case "Folder":
                         case "MovieGenreFolder":
                         case "MusicGenreFolder":
                         case "MovieGenre":
@@ -93,6 +89,11 @@ public class CardPresenter extends Presenter {
                             break;
 
                     }
+                    if (aspect == null) aspect = .77777;
+                    cardHeight = aspect > 1 ? 300 : 370;
+                    cardWidth = (int)((aspect) * cardHeight);
+                    if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
+                    mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     break;
                 case LiveTvChannel:
                     ChannelInfoDto channel = mItem.getChannelInfo();
