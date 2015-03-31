@@ -297,11 +297,6 @@ public class PlaybackController {
             }
             Long mbPos = (long)mCurrentPosition * 10000;
             Utils.ReportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
-        } else {
-            //Be sure to shut down any transcoding
-            String streamId = mCurrentStreamInfo != null && mCurrentStreamInfo.getPlaybackInfo() != null ? mCurrentStreamInfo.getPlaybackInfo().getPlaySessionId() : null;
-            mApplication.getApiClient().StopTranscodingProcesses(mApplication.getApiClient().getDeviceId(), streamId, new EmptyResponse());
-
         }
     }
 
