@@ -122,6 +122,7 @@ public class BaseRowItem {
     public boolean getIsChapter() { return type == ItemType.Chapter; }
     public boolean getIsPerson() { return type == ItemType.Person; }
     public boolean getIsBaseItem() { return type == ItemType.BaseItem; }
+    public boolean getPreferParentThumb() { return preferParentThumb; }
     public ItemType getItemType() { return type; }
 
     public String getPrimaryImageUrl(int maxHeight) {
