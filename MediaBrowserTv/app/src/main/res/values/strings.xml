@@ -163,6 +163,8 @@
     <string name="msg_thank_you_unlocked">Thank You. App is now unlocked.</string>
     <string name="msg_purchase_error">Error with purchase.  Please try again later.</string>
     <string name="msg_unable_connect_google">Unable to connect to Google Play. Please try again later.</string>
+    <string name="msg_cannot_play_time">Cannot play this item at this time</string>
+    <string name="msg_cannot_play">This item cannot be played</string>
 
 
 </resources>
