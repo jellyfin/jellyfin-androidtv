@@ -191,7 +191,7 @@ public class FullDetailsActivity extends BaseActivity {
 
     private void updatePoster() {
         // Figure image size
-        Double aspect = Utils.getImageAspectRatio(mBaseItem);
+        Double aspect = Utils.getImageAspectRatio(mBaseItem, false);
         int height = aspect > 1 ? Utils.convertDpToPixel(this, 170) : Utils.convertDpToPixel(this, 300);
         if (aspect > 1) {
             //Adjust min width of poster area so text doesn't jump over after loading of image

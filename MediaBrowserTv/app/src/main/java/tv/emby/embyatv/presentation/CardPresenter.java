@@ -17,8 +17,8 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.ProgramInfoDto;
 import mediabrowser.model.livetv.RecordingInfoDto;
-import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.R;
+import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.util.Utils;
 
 public class CardPresenter extends Presenter {
@@ -57,12 +57,11 @@ public class CardPresenter extends Presenter {
 
                 case BaseItem:
                     BaseItemDto itemDto = mItem.getBaseItem();
-                    Double aspect = Utils.getImageAspectRatio(itemDto);
+                    Double aspect = Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb());
                     if (aspect == null) aspect = .77777;
                     cardHeight = aspect > 1 ? 300 : 370;
                     cardWidth = (int)((aspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
-                    //TvApp.getApplication().getLogger().Debug("**** Image width: "+ cardWidth + " Aspect: " + Utils.getImageAspectRatio(itemDto) + " Item: "+itemDto.getName());
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     switch (itemDto.getType()) {
                         case "Audio":
@@ -76,6 +75,7 @@ public class CardPresenter extends Presenter {
                         case "Season":
                         case "Series":
                         case "Episode":
+                            //TvApp.getApplication().getLogger().Debug("**** Image width: "+ cardWidth + " Aspect: " + Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()) + " Item: "+itemDto.getName());
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.tv);
                             break;
                         case "Folder":
@@ -142,14 +142,14 @@ public class CardPresenter extends Presenter {
                     mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
                     break;
                 case Chapter:
-                    cardWidth = (int)(1.77777777 * cardHeight);
+                    cardWidth = (int)(1.779 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.video);
                     break;
                 case SearchHint:
                     switch (mItem.getSearchHint().getType()) {
                         case "Episode":
-                            cardWidth = (int)(1.77777777 * cardHeight);
+                            cardWidth = (int)(1.779 * cardHeight);
                             mCardView.setMainImageDimensions(cardWidth, cardHeight);
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.tv);
                             break;

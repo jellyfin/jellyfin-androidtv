@@ -216,10 +216,12 @@ public class Utils {
 
     private static String[] ThumbFallbackTypes = new String[] {"Episode"};
 
-    public static Double getImageAspectRatio(BaseItemDto item) {
+    public static Double getImageAspectRatio(BaseItemDto item, boolean preferParentThumb) {
+        if (preferParentThumb && (item.getParentThumbItemId() != null || item.getSeriesThumbImageTag() != null)) return 1.779;
+
         if (Arrays.asList(ThumbFallbackTypes).contains(item.getType())) {
             if (item.getPrimaryImageAspectRatio() != null) return item.getPrimaryImageAspectRatio();
-            if (item.getParentThumbItemId() != null || item.getSeriesThumbImageTag() != null) return 1.777777;
+            if (item.getParentThumbItemId() != null || item.getSeriesThumbImageTag() != null) return 1.779;
         }
 
         return item.getPrimaryImageAspectRatio() != null ? item.getPrimaryImageAspectRatio() : .77777;
