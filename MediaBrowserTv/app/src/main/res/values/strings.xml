@@ -145,9 +145,9 @@
     <string name="msg_error_connecting_server">Error Connecting to Server</string>
     <string name="msg_invalid_id_pw">Invalid User id or password</string>
     <string name="lbl_version_colon">"Version: "</string>
-    <string name="lbl_ip_hint">IP Address or full domain name</string>
+    <string name="lbl_ip_hint">192.168.1.1 or https://myserver.com</string>
     <string name="lbl_enter_server_address">Enter Server Address</string>
-    <string name="lbl_valid_server_address">Please enter a valid server address</string>
+    <string name="lbl_valid_server_address">Please enter the server address (IP or domain/machine name)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Born "</string>
     <string name="lbl_loading_elipses">Loading...</string>
