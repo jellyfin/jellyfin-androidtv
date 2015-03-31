@@ -746,14 +746,14 @@ public class Utils {
         ToneHandler.startTone(type, ms);
     }
 
-    public static void ReportProgress(BaseItemDto item, long position) {
+    public static void ReportProgress(BaseItemDto item, StreamInfo currentStreamInfo, long position) {
         if (item != null) {
             PlaybackProgressInfo info = new PlaybackProgressInfo();
             ApiClient apiClient = TvApp.getApplication().getApiClient();
             info.setItemId(item.getId());
             info.setPositionTicks(position);
             info.setPlayMethod(TvApp.getApplication().getPlaybackController().getPlaybackMethod());
-            TvApp.getApplication().getPlaybackManager().reportPlaybackProgress(info, false, apiClient, new EmptyResponse());
+            TvApp.getApplication().getPlaybackManager().reportPlaybackProgress(info, currentStreamInfo, false, apiClient, new EmptyResponse());
         }
 
     }
