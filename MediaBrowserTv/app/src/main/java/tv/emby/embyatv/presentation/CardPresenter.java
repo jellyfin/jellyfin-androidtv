@@ -188,6 +188,7 @@ public class CardPresenter extends Presenter {
             } else {
                 Picasso.with(mContext)
                         .load(url)
+                        .skipMemoryCache()
                         .resize(cardWidth, cardHeight)
                         .centerCrop()
                         .error(mDefaultCardImage)
@@ -198,6 +199,7 @@ public class CardPresenter extends Presenter {
         protected void resetCardViewImage() {
             Picasso.with(mContext)
                     .load(Uri.parse("android.resource://tv.mediabrowser.embyatv/drawable/loading"))
+                    .skipMemoryCache()
                     .resize(cardWidth, cardHeight)
                     .centerCrop()
                     .error(mDefaultCardImage)
