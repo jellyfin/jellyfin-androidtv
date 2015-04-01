@@ -21,12 +21,12 @@ public class GenericFolderFragment extends BrowseFolderFragment {
 
     }
 
-    private static String[] showSpecialViewTypes = new String[] {"CollectionFolder", "Folder", "Channel", "ChannelFolderItem"};
+    private static String[] showSpecialViewTypes = new String[] {"CollectionFolder", "Folder"};
 
     @Override
     protected void setupQueries(IRowLoader rowLoader) {
 
-        if (mFolder.getChildCount() > 0) {
+        if (mFolder.getChildCount() > 0 || mFolder.getType().equals("Channel") || mFolder.getType().equals("ChannelFolderItem")) {
             boolean showSpecialViews = Arrays.asList(showSpecialViewTypes).contains(mFolder.getType());
 
             if (showSpecialViews) {
