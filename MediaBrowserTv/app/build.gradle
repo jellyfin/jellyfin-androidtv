@@ -9,8 +9,8 @@ android {
         applicationId "tv.emby.embyatv"
         minSdkVersion 21
         targetSdkVersion 21
-        versionCode 207
-        versionName "0.2.07"
+        versionCode 208
+        versionName "0.2.08"
     }
 
     compileOptions {
