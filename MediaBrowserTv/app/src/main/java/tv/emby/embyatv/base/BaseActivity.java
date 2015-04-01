@@ -16,6 +16,7 @@ public class BaseActivity extends Activity {
     private TvApp app = TvApp.getApplication();
     private long timeoutInterval = 3600000;
     private Handler autoLogoutHandler = new Handler();
+    private Runnable loop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +27,19 @@ public class BaseActivity extends Activity {
     }
 
     @Override
+    protected void onDestroy() {
+        if (autoLogoutHandler != null && loop != null) autoLogoutHandler.removeCallbacks(loop);
+        super.onDestroy();
+    }
+
+    @Override
     public void onUserInteraction() {
         super.onUserInteraction();
         app.setLastUserInteraction(System.currentTimeMillis());
     }
 
     private void startAutoLogoffLoop() {
-        final Runnable loop = new Runnable() {
+        loop = new Runnable() {
             @Override
             public void run() {
                 if (System.currentTimeMillis() > app.getLastUserInteraction() + timeoutInterval) {
