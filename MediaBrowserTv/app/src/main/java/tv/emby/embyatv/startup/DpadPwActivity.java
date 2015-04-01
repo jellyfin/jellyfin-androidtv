@@ -127,7 +127,7 @@ public class DpadPwActivity extends Activity {
                 password += doubleClick ? 5 : 0;
                 break;
         }
-        TvApp.getApplication().getLogger().Debug(password);
+        //TvApp.getApplication().getLogger().Debug(password);
         pwField.setText(password);
     }
 
