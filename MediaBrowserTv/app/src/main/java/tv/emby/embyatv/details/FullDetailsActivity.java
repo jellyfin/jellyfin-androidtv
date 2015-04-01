@@ -202,6 +202,7 @@ public class FullDetailsActivity extends BaseActivity {
 
         Picasso.with(this)
                 .load(Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(),false, false, height))
+                .skipMemoryCache()
                 .resize(width, height)
                 .centerInside()
                 .error(getDrawable(R.drawable.video))

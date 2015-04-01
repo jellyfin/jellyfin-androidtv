@@ -196,7 +196,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         super.onActivityCreated(savedInstanceState);
         mLogo = (ImageView) getActivity().findViewById(R.id.npLogoImage);
         String logoImageUrl = Utils.getLogoImageUrl(mPlaybackController.getCurrentlyPlayingItem(), mApplication.getApiClient());
-        if (logoImageUrl != null) Picasso.with(getActivity()).load(logoImageUrl).into(mLogo);
+        if (logoImageUrl != null) Picasso.with(getActivity()).load(logoImageUrl).skipMemoryCache().into(mLogo);
         mClock = (TextView) getActivity().findViewById(R.id.pbClock);
         mClock.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Light.ttf"));
 

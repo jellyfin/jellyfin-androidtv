@@ -164,6 +164,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
             try {
                 Bitmap poster = Picasso.with(getActivity())
                         .load(Utils.getPrimaryImageUrl(mBaseItem, mApiClient, true, false, Utils.convertDpToPixel(mApplication, DETAIL_THUMB_HEIGHT)))
+                        .skipMemoryCache()
                                 .resize(Utils.convertDpToPixel(mApplication,DETAIL_THUMB_WIDTH),
                                         Utils.convertDpToPixel(mApplication, DETAIL_THUMB_HEIGHT))
                                 .centerInside()
@@ -460,6 +461,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     protected void updateBackground(String url) {
         Picasso.with(getActivity())
                 .load(url)
+                .skipMemoryCache()
                 .resize(mMetrics.widthPixels, mMetrics.heightPixels)
                 .error(mDefaultBackground)
                 .into(mBackgroundTarget);
