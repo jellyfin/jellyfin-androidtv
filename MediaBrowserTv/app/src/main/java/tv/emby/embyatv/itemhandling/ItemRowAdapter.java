@@ -94,6 +94,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         }
     }
 
+    public ArrayObjectAdapter getParent() { return mParent; }
+
     public void setRow(ListRow row) {
         mRow = row;
     }
@@ -259,9 +261,15 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         }
     }
 
-    public long getItemsLoaded() {
+    public int getItemsLoaded() {
         return itemsLoaded;
     }
+
+    public void setTotalItems(int amt) {
+        totalItems = amt;
+    }
+
+    public void removeRow() { mParent.remove(mRow); }
 
     public void loadMoreItemsIfNeeded(long pos) {
         if (fullyLoaded) {
@@ -532,53 +540,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     public void Retrieve(ItemQuery query) {
-        final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult response) {
-                if (response.getTotalRecordCount() > 0) {
-                    int i = itemsLoaded;
-                    if (i == 0 && adapter.size() > 0) adapter.clear();
-                    for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++,item));
-                    }
-                    totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(i);
-                } else {
-                    // no results - don't show us
-                    mParent.remove(mRow);
-                }
-
-                currentlyRetrieving = false;
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                TvApp.getApplication().getLogger().ErrorException("Error retrieving items", exception);
-                if (exception instanceof HttpException) {
-                    HttpException httpException = (HttpException) exception;
-                    if (httpException.getStatusCode() != null && httpException.getStatusCode() == 401 && "ParentalControl".equals(httpException.getHeaders().get("X-Application-Error-Code"))) {
-                        Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_access_restricted));
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                System.exit(1);
-                            }
-                        }, 3000);
-                    } else {
-                        mParent.remove(mRow);
-                        Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                    }
-                } else {
-                    mParent.remove(mRow);
-                    Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-
-                }
-                currentlyRetrieving = false;
-            }
-        });
-
+        TvApp.getApplication().getApiClient().GetItemsAsync(query, new ItemQueryResponse(this));
     }
+
     public void Retrieve(final NextUpQuery query) {
         final ItemRowAdapter adapter = this;
         TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(query, new Response<ItemsResult>() {
