@@ -165,7 +165,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 Bitmap poster = Picasso.with(getActivity())
                         .load(Utils.getPrimaryImageUrl(mBaseItem, mApiClient, true, false, Utils.convertDpToPixel(mApplication, DETAIL_THUMB_HEIGHT)))
                         .skipMemoryCache()
-                                .resize(Utils.convertDpToPixel(mApplication,DETAIL_THUMB_WIDTH),
+                                .resize(Utils.convertDpToPixel(mApplication, DETAIL_THUMB_WIDTH),
                                         Utils.convertDpToPixel(mApplication, DETAIL_THUMB_HEIGHT))
                                 .centerInside()
                                 .get();
@@ -443,9 +443,11 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
     public void setBaseItem(BaseItemDto item) {
         mBaseItem = item;
-        if (mChannelId != null) mBaseItem.setParentId(mChannelId);
-        mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask().execute(mBaseItem);
-        updateBackground(Utils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true));
+        if (mBaseItem != null) {
+            if (mChannelId != null) mBaseItem.setParentId(mChannelId);
+            mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask().execute(mBaseItem);
+            updateBackground(Utils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true));
+        }
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
