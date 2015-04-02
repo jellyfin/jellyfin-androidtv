@@ -277,8 +277,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             // we will be removing the last row - show something and prevent the framework from crashing
             // because there is nowhere for focus to land
             ArrayObjectAdapter emptyRow = new ArrayObjectAdapter(new TextItemPresenter());
-            emptyRow.add("No Items");
-            mParent.add(new ListRow(new HeaderItem("Empty",null),emptyRow));
+            emptyRow.add(TvApp.getApplication().getString(R.string.lbl_no_items));
+            mParent.add(new ListRow(new HeaderItem(TvApp.getApplication().getString(R.string.lbl_empty),null),emptyRow));
         }
 
         mParent.remove(mRow);

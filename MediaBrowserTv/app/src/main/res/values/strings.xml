@@ -167,6 +167,8 @@
     <string name="msg_unable_connect_google">Unable to connect to Google Play. Please try again later.</string>
     <string name="msg_cannot_play_time">Cannot play this item at this time</string>
     <string name="msg_cannot_play">This item cannot be played</string>
+    <string name="lbl_no_items">No Items</string>
+    <string name="lbl_empty">Empty</string>
 
 
 </resources>
