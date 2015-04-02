@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_startup_entries">
+        <item>@string/pref_show_login</item>
+        <item>@string/pref_auto_login</item>
+    </string-array>
+    <string-array name="pref_startup_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="pref_bitrate_entries">
+        <item>40 Мбит/с</item>
+        <item>30 Мбит/с</item>
+        <item>21 Мбит/с</item>
+        <item>15 Мбит/с</item>
+        <item>10 Мбит/с</item>
+        <item>5 Мбит/с</item>
+        <item>2 Мбит/с</item>
+    </string-array>
+    <string-array name="pref_bitrate_values">
+        <item>40</item>
+        <item>30</item>
+        <item>21</item>
+        <item>15</item>
+        <item>10</item>
+        <item>5</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="pref_timeout_entries">
+        <item>30 мин</item>
+        <item>1 сағ</item>
+        <item>2 сағ</item>
+        <item>3 сағ</item>
+        <item>6 сағ</item>
+        <item>24 сағ</item>
+    </string-array>
+    <string-array name="pref_timeout_values">
+        <item>1800000</item>
+        <item>3600000</item>
+        <item>7200000</item>
+        <item>10800000</item>
+        <item>21600000</item>
+        <item>86400000</item>
+    </string-array>
+</resources>
