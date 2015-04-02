@@ -2,6 +2,7 @@ package tv.emby.embyatv.itemhandling;
 
 import android.os.Handler;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
+import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.Presenter;
 
@@ -38,6 +39,8 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.model.ChangeTriggerType;
 import tv.emby.embyatv.model.ChapterItemInfo;
+import tv.emby.embyatv.presentation.GridItemPresenter;
+import tv.emby.embyatv.presentation.TextItemPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.SpecialsQuery;
 import tv.emby.embyatv.querying.TrailersQuery;
@@ -269,7 +272,17 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         totalItems = amt;
     }
 
-    public void removeRow() { mParent.remove(mRow); }
+    public void removeRow() {
+        if (mParent.size() == 1) {
+            // we will be removing the last row - show something and prevent the framework from crashing
+            // because there is nowhere for focus to land
+            ArrayObjectAdapter emptyRow = new ArrayObjectAdapter(new TextItemPresenter());
+            emptyRow.add("No Items");
+            mParent.add(new ListRow(new HeaderItem("Empty",null),emptyRow));
+        }
+
+        mParent.remove(mRow);
+    }
 
     public void loadMoreItemsIfNeeded(long pos) {
         if (fullyLoaded) {
@@ -416,7 +429,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 }
                 totalItems = response.length;
                 setItemsLoaded(totalItems);
-                if (totalItems == 0) mParent.remove(mRow);
+                if (totalItems == 0) removeRow();
 
                 currentlyRetrieving = false;
             }
@@ -425,7 +438,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving users", exception);
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                mParent.remove(mRow);
+                removeRow();
                 currentlyRetrieving = false;
             }
         });
@@ -439,7 +452,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             }
 
         } else {
-            mParent.remove(mRow);
+            removeRow();
         }
 
         currentlyRetrieving = false;
@@ -452,7 +465,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             }
 
         } else {
-            mParent.remove(mRow);
+            removeRow();
         }
 
         currentlyRetrieving = false;
@@ -465,7 +478,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             }
 
         } else {
-            mParent.remove(mRow);
+            removeRow();
         }
 
         currentlyRetrieving = false;
@@ -490,7 +503,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     setItemsLoaded(itemsLoaded + i);
                 } else {
                     // no results - don't show us
-                    mParent.remove(mRow);
+                    removeRow();
                 }
 
                 currentlyRetrieving = false;
@@ -499,7 +512,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving items", exception);
-                mParent.remove(mRow);
+                removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
             }
@@ -556,10 +569,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) mParent.remove(mRow);
+                    if (i == 0) removeRow();
                 } else {
                     // no results - don't show us
-                    mParent.remove(mRow);
+                    removeRow();
                 }
 
                 currentlyRetrieving = false;
@@ -568,7 +581,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving next up items", exception);
-                mParent.remove(mRow);
+                removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
             }
@@ -590,10 +603,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(i);
-                    if (i == 0) mParent.remove(mRow);
+                    if (i == 0) removeRow();
                 } else {
                     // no results - don't show us
-                    mParent.remove(mRow);
+                    removeRow();
                 }
 
                 currentlyRetrieving = false;
@@ -602,7 +615,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving live tv channels", exception);
-                mParent.remove(mRow);
+                removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
             }
@@ -624,10 +637,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) mParent.remove(mRow);
+                    if (i == 0) removeRow();
                 } else {
                     // no results - don't show us
-                    mParent.remove(mRow);
+                    removeRow();
                 }
 
                 currentlyRetrieving = false;
@@ -636,7 +649,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving live tv programs", exception);
-                mParent.remove(mRow);
+                removeRow();
                 //TODO suppress this message for now - put it back when server returns empty set for no live tv
                 //Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
@@ -659,10 +672,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) mParent.remove(mRow);
+                    if (i == 0) removeRow();
                 } else {
                     // no results - don't show us
-                    mParent.remove(mRow);
+                    removeRow();
                 }
 
                 currentlyRetrieving = false;
@@ -671,7 +684,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving live tv recordings", exception);
-                mParent.remove(mRow);
+                removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
             }
@@ -692,10 +705,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     totalItems = response.length;
                     setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) mParent.remove(mRow);
+                    if (i == 0) removeRow();
                 } else {
                     // no results - don't show us
-                    mParent.remove(mRow);
+                    removeRow();
                 }
 
                 currentlyRetrieving = false;
@@ -704,7 +717,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving special features", exception);
-                mParent.remove(mRow);
+                removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
             }
@@ -726,10 +739,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     totalItems = response.length;
                     setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) mParent.remove(mRow);
+                    if (i == 0) removeRow();
                 } else {
                     // no results - don't show us
-                    mParent.remove(mRow);
+                    removeRow();
                 }
 
                 currentlyRetrieving = false;
@@ -738,7 +751,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving special features", exception);
-                mParent.remove(mRow);
+                removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
             }
@@ -759,10 +772,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) mParent.remove(mRow);
+                    if (i == 0) removeRow();
                 } else {
                     // no results - don't show us
-                    mParent.remove(mRow);
+                    removeRow();
                 }
 
                 currentlyRetrieving = false;
@@ -771,7 +784,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving similar series items", exception);
-                mParent.remove(mRow);
+                removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
             }
@@ -792,10 +805,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) mParent.remove(mRow);
+                    if (i == 0) removeRow();
                 } else {
                     // no results - don't show us
-                    mParent.remove(mRow);
+                    removeRow();
                 }
 
                 currentlyRetrieving = false;
@@ -804,7 +817,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving similar series items", exception);
-                mParent.remove(mRow);
+                removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
             }
@@ -826,10 +839,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) mParent.remove(mRow);
+                    if (i == 0) removeRow();
                 } else {
                     // no results - don't show us
-                    mParent.remove(mRow);
+                    removeRow();
                 }
 
                 currentlyRetrieving = false;
@@ -838,7 +851,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving upcoming items", exception);
-                mParent.remove(mRow);
+                removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
             }
@@ -859,10 +872,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(i);
-                    if (i == 0) mParent.remove(mRow);
+                    if (i == 0) removeRow();
                 } else {
                     // no results - don't show us
-                    mParent.remove(mRow);
+                    removeRow();
                 }
 
                 currentlyRetrieving = false;
@@ -871,7 +884,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving people", exception);
-                mParent.remove(mRow);
+                removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
             }
@@ -894,7 +907,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     setItemsLoaded(itemsLoaded + i);
                 } else {
                     // no results - don't show us
-                    mParent.remove(mRow);
+                    removeRow();
                 }
 
                 currentlyRetrieving = false;
