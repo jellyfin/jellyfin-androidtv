@@ -132,7 +132,7 @@ public class HomeFragment extends StdBrowseFragment {
                 }
             }
         }, 5000);
-        toolsRow.add(new GridButton(REPORT, mApplication.getString(R.string.lbl_send_logs), R.drawable.upload));
+        //toolsRow.add(new GridButton(REPORT, mApplication.getString(R.string.lbl_send_logs), R.drawable.upload));
         rowAdapter.add(new ListRow(gridHeader, toolsRow));
     }
 
