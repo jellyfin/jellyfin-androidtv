@@ -33,6 +33,7 @@ public class BrowseRowDef {
     private QueryType queryType;
 
     private int chunkSize = 0;
+    private boolean staticHeight = false;
 
     private ChangeTriggerType[] changeTriggers;
 
@@ -42,12 +43,16 @@ public class BrowseRowDef {
         this.chunkSize = chunkSize;
         this.queryType = QueryType.Items;
     }
-
     public BrowseRowDef(String header, ItemQuery query, int chunkSize, ChangeTriggerType[] changeTriggers) {
+        this(header, query, chunkSize, false, changeTriggers);
+    }
+
+    public BrowseRowDef(String header, ItemQuery query, int chunkSize, boolean staticHeight, ChangeTriggerType[] changeTriggers) {
         headerText = header;
         this.query = query;
         this.chunkSize = chunkSize;
         this.queryType = QueryType.Items;
+        this.staticHeight = staticHeight;
         this.changeTriggers = changeTriggers;
     }
 
@@ -115,12 +120,15 @@ public class BrowseRowDef {
 
     public BrowseRowDef(String header, ViewQuery query) {
         headerText = header;
+        this.staticHeight = true;
         this.queryType = QueryType.Views;
     }
 
     public int getChunkSize() {
         return chunkSize;
     }
+
+    public boolean isStaticHeight() { return staticHeight; }
 
     public String getHeaderText() {
         return headerText;

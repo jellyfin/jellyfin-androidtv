@@ -33,7 +33,7 @@ public class CardPresenter extends Presenter {
     static class ViewHolder extends Presenter.ViewHolder {
         private int cardWidth = 230;
 
-        private int cardHeight = 335;
+        private int cardHeight = 300;
         private BaseRowItem mItem;
         private MyImageCardView mCardView;
         private Drawable mDefaultCardImage;
@@ -90,7 +90,7 @@ public class CardPresenter extends Presenter {
 
                     }
                     if (aspect == null) aspect = .77777;
-                    //cardHeight = aspect > 1 ? 300 : 370;
+                    cardHeight = !m.isStaticHeight() ? aspect > 1 ? 300 : 370 : 335;
                     cardWidth = (int)((aspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
@@ -99,7 +99,7 @@ public class CardPresenter extends Presenter {
                     ChannelInfoDto channel = mItem.getChannelInfo();
                     Double tvAspect = channel.getPrimaryImageAspectRatio();
                     if (tvAspect == null) tvAspect = .7777777;
-                    cardHeight = tvAspect > 1 ? 300 : 370;
+                    cardHeight = !m.isStaticHeight() ? tvAspect > 1 ? 300 : 370 : 335;
                     cardWidth = (int)((tvAspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
@@ -121,7 +121,7 @@ public class CardPresenter extends Presenter {
                     RecordingInfoDto recording = mItem.getRecordingInfo();
                     Double recordingAspect = recording.getPrimaryImageAspectRatio();
                     if (recordingAspect == null) recordingAspect = .7777777;
-                    cardHeight = recordingAspect > 1 ? 300 : 370;
+                    cardHeight = !m.isStaticHeight() ? recordingAspect > 1 ? 300 : 370 : 335;
                     cardWidth = (int)((recordingAspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
