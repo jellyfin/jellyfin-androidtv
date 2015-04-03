@@ -158,11 +158,19 @@ public class RecommendationManager {
 
     }
 
-    public void recommend(String itemId) {
+    public void recommend(final String itemId) {
+        if (itemId == null) {
+            TvApp.getApplication().getLogger().Error("Attempt to recommend null Item");
+            return;
+        }
         //No matter what it is, if it is resumeable, recommend this item (need to re-retrieve for current user data)
         TvApp.getApplication().getApiClient().GetItemAsync(itemId, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
             @Override
             public void onResponse(BaseItemDto response) {
+                if (response == null) {
+                    TvApp.getApplication().getLogger().Error("No item found with ID: "+itemId);
+                    return;
+                }
                 if (response.getCanResume()) {
                     addRecommendation(response, RecommendationType.Movie);
                 } else {
