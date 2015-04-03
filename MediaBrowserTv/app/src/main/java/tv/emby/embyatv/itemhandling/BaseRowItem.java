@@ -185,7 +185,7 @@ public class BaseRowItem {
         switch (type) {
 
             case BaseItem:
-                return (baseItem.getType().equals("Episode") && baseItem.getLocationType().equals(LocationType.Virtual)) ? new SimpleDateFormat("d MMM y").format(Utils.convertToLocalDate(baseItem.getPremiereDate())) : baseItem.getOfficialRating();
+                return Utils.GetSubName(baseItem);
             case Person:
                 return person.getRole();
             case Chapter:
@@ -245,7 +245,7 @@ public class BaseRowItem {
                 break;
         }
 
-        return null;
+        return TvApp.getApplication().getDrawable(R.drawable.blank10x10);
     }
 
     public SelectAction getSelectAction() {

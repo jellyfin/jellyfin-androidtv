@@ -514,8 +514,9 @@ public class Utils {
                 break;
             default:
                 if (item.getType().equals("Episode")) {
+                    sb.append("S");
                     sb.append(item.getParentIndexNumber());
-                    sb.append("x");
+                    sb.append(", E");
                     sb.append(item.getIndexNumber());
                 }
 
@@ -640,10 +641,23 @@ public class Utils {
     public static String GetFullName(BaseItemDto item) {
         switch (item.getType()) {
             case "Episode":
-                return item.getSeriesName() + " " + item.getParentIndexNumber() + "x" + item.getIndexNumber() + " " + item.getName();
+                return item.getSeriesName() + " S" + item.getParentIndexNumber() + ", E" + item.getIndexNumber();
             default:
                 return item.getName();
         }
+    }
+
+    public static String GetSubName(BaseItemDto item) {
+        switch (item.getType()) {
+            case "Episode":
+                String addendum = item.getLocationType().equals(LocationType.Virtual) ? " (" +  new SimpleDateFormat("d MMM y").format(Utils.convertToLocalDate(item.getPremiereDate())) + ")" : "";
+                return item.getName() + addendum;
+            case "Season":
+                return item.getChildCount() != null && item.getChildCount() > 0 ? item.getChildCount() + " Episodes" : "";
+            default:
+                return item.getOfficialRating();
+        }
+
     }
 
     public static BaseItemPerson GetFirstPerson(BaseItemDto item, String type) {
