@@ -33,7 +33,7 @@ public class CardPresenter extends Presenter {
     static class ViewHolder extends Presenter.ViewHolder {
         private int cardWidth = 230;
 
-        private int cardHeight = 300;
+        private int cardHeight = 335;
         private BaseRowItem mItem;
         private MyImageCardView mCardView;
         private Drawable mDefaultCardImage;
@@ -90,7 +90,7 @@ public class CardPresenter extends Presenter {
 
                     }
                     if (aspect == null) aspect = .77777;
-                    cardHeight = aspect > 1 ? 300 : 370;
+                    //cardHeight = aspect > 1 ? 300 : 370;
                     cardWidth = (int)((aspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
