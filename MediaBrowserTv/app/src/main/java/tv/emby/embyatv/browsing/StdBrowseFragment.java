@@ -168,7 +168,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                     rowAdapter = new ItemRowAdapter(def.getRecordingQuery(), mCardPresenter, mRowsAdapter);
                     break;
                 default:
-                    rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), mCardPresenter, mRowsAdapter);
+                    rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), true, mCardPresenter, mRowsAdapter);
                     break;
             }
 

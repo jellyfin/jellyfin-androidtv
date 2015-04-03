@@ -97,6 +97,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         }
     }
 
+    public boolean getPreferParentThumb() { return preferParentThumb; }
+
     public ArrayObjectAdapter getParent() { return mParent; }
 
     public void setRow(ListRow row) {
@@ -107,12 +109,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.reRetrieveTriggers = reRetrieveTriggers;
     }
 
-    public ItemRowAdapter(ItemQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(ItemQuery query, int chunkSize, boolean preferParentThumb, Presenter presenter, ArrayObjectAdapter parent) {
         super(presenter);
         mParent = parent;
         mQuery = query;
         mQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         this.chunkSize = chunkSize;
+        this.preferParentThumb = preferParentThumb;
         if (chunkSize > 0) mQuery.setLimit(chunkSize);
         queryType = QueryType.Items;
         add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));

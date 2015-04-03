@@ -70,14 +70,14 @@ public class HomeFragment extends StdBrowseFragment {
 
         mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_library), new ViewQuery()));
 
-        StdItemQuery resumeMovies = new StdItemQuery();
-        resumeMovies.setIncludeItemTypes(new String[]{"Movie"});
-        resumeMovies.setRecursive(true);
-        resumeMovies.setLimit(50);
-        resumeMovies.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
-        resumeMovies.setSortBy(new String[]{ItemSortBy.DatePlayed});
-        resumeMovies.setSortOrder(SortOrder.Descending);
-        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_continue_watching), resumeMovies, 0, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback}));
+        StdItemQuery resumeItems = new StdItemQuery();
+        resumeItems.setIncludeItemTypes(new String[]{"Movie", "Episode"});
+        resumeItems.setRecursive(true);
+        resumeItems.setLimit(50);
+        resumeItems.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
+        resumeItems.setSortBy(new String[]{ItemSortBy.DatePlayed});
+        resumeItems.setSortOrder(SortOrder.Descending);
+        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_continue_watching), resumeItems, 0, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback, ChangeTriggerType.TvPlayback}));
 
         StdItemQuery latestMovies = new StdItemQuery();
         latestMovies.setIncludeItemTypes(new String[]{"Movie"});
