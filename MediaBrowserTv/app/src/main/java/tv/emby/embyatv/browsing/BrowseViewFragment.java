@@ -94,6 +94,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 NextUpQuery nextUpQuery = new NextUpQuery();
                 nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 nextUpQuery.setLimit(50);
+                nextUpQuery.setParentId(mFolder.getId());
                 nextUpQuery.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
                 mRows.add(new BrowseRowDef(mApplication.getResources().getString(R.string.lbl_next_up), nextUpQuery, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}));
 
