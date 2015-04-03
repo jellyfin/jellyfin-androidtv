@@ -2,7 +2,7 @@
 <resources
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
-    
+
     <string-array name="pref_startup_entries" >
         <item>@string/pref_show_login</item>
         <item>@string/pref_auto_login</item>
