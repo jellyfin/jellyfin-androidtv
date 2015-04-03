@@ -27,7 +27,7 @@ public class ItemQueryResponse extends Response<ItemsResult> {
             int i = adapter.getItemsLoaded();
             if (i == 0 && adapter.size() > 0) adapter.clear();
             for (BaseItemDto item : response.getItems()) {
-                adapter.add(new BaseRowItem(i++, item, adapter.getPreferParentThumb()));
+                adapter.add(new BaseRowItem(i++, item, adapter.getPreferParentThumb(), adapter.isStaticHeight()));
             }
             adapter.setTotalItems(response.getTotalRecordCount());
             adapter.setItemsLoaded(i);

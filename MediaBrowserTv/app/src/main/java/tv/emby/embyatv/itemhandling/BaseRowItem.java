@@ -39,21 +39,23 @@ public class BaseRowItem {
     private GridButton gridButton;
     private ItemType type;
     private boolean preferParentThumb = false;
+    private boolean staticHeight = false;
     private SelectAction selectAction = SelectAction.ShowDetails;
 
 
     public BaseRowItem(int index, BaseItemDto item) {
-        this(index, item, false);
+        this(index, item, false, false);
     }
 
-    public BaseRowItem(int index, BaseItemDto item, boolean preferParentThumb) {
-        this(index, item, preferParentThumb, SelectAction.ShowDetails);
+    public BaseRowItem(int index, BaseItemDto item, boolean preferParentThumb, boolean staticHeight) {
+        this(index, item, preferParentThumb, staticHeight, SelectAction.ShowDetails);
     }
-    public BaseRowItem(int index, BaseItemDto item, boolean preferParentThumb, SelectAction selectAction) {
+    public BaseRowItem(int index, BaseItemDto item, boolean preferParentThumb, boolean staticHeight, SelectAction selectAction) {
         this.index = index;
         this.baseItem = item;
         type = ItemType.BaseItem;
         this.preferParentThumb = preferParentThumb;
+        this.staticHeight = staticHeight;
         this.selectAction = selectAction;
     }
 
@@ -250,6 +252,10 @@ public class BaseRowItem {
 
     public SelectAction getSelectAction() {
         return selectAction;
+    }
+
+    public boolean isStaticHeight() {
+        return staticHeight;
     }
 
     public enum ItemType {

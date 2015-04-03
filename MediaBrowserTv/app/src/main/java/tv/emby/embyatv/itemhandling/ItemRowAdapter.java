@@ -84,6 +84,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private boolean currentlyRetrieving = false;
 
     private boolean preferParentThumb = false;
+    private boolean staticHeight = false;
 
     public boolean isCurrentlyRetrieving() {
         synchronized (this) {
@@ -98,6 +99,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     public boolean getPreferParentThumb() { return preferParentThumb; }
+    public boolean isStaticHeight() { return staticHeight; }
 
     public ArrayObjectAdapter getParent() { return mParent; }
 
@@ -108,14 +110,18 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     public void setReRetrieveTriggers(ChangeTriggerType[] reRetrieveTriggers) {
         this.reRetrieveTriggers = reRetrieveTriggers;
     }
-
     public ItemRowAdapter(ItemQuery query, int chunkSize, boolean preferParentThumb, Presenter presenter, ArrayObjectAdapter parent) {
+        this(query, chunkSize, preferParentThumb, false, presenter, parent);
+    }
+
+    public ItemRowAdapter(ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, ArrayObjectAdapter parent) {
         super(presenter);
         mParent = parent;
         mQuery = query;
         mQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         this.chunkSize = chunkSize;
         this.preferParentThumb = preferParentThumb;
+        this.staticHeight = staticHeight;
         if (chunkSize > 0) mQuery.setLimit(chunkSize);
         queryType = QueryType.Items;
         add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
@@ -246,6 +252,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         queryType = QueryType.Views;
+        staticHeight = true;
         add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
@@ -500,7 +507,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int i = 0;
                     if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
-                        if (!ignoreTypeList.contains(item.getCollectionType()) && !ignoreTypeList.contains(item.getType())) adapter.add(new BaseRowItem(i++,item));
+                        if (!ignoreTypeList.contains(item.getCollectionType()) && !ignoreTypeList.contains(item.getType())) adapter.add(new BaseRowItem(i++,item, preferParentThumb, staticHeight));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
@@ -568,7 +575,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int i = 0;
                     if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++,item, preferParentThumb));
+                        adapter.add(new BaseRowItem(i++,item, preferParentThumb, false));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
@@ -704,7 +711,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int i = 0;
                     if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response) {
-                        adapter.add(new BaseRowItem(i++, item, preferParentThumb));
+                        adapter.add(new BaseRowItem(i++, item, preferParentThumb, false));
                     }
                     totalItems = response.length;
                     setItemsLoaded(itemsLoaded + i);
@@ -738,7 +745,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response) {
                         item.setName(TvApp.getApplication().getString(R.string.lbl_trailer) + (i + 1));
-                        adapter.add(new BaseRowItem(i++, item, preferParentThumb, BaseRowItem.SelectAction.Play));
+                        adapter.add(new BaseRowItem(i++, item, preferParentThumb, false, BaseRowItem.SelectAction.Play));
                     }
                     totalItems = response.length;
                     setItemsLoaded(itemsLoaded + i);
