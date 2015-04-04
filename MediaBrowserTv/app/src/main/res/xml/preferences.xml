@@ -22,10 +22,15 @@
             android:entries="@array/pref_bitrate_entries"
             android:entryValues="@array/pref_bitrate_values"
             />
+        <CheckBoxPreference android:key="pref_enable_tv_queuing"
+            android:title="@string/lbl_tv_queuing"
+            android:defaultValue="true"
+            android:summary="@string/sum_tv_queuing"
+            />
         <CheckBoxPreference android:key="pref_enable_hls"
             android:title="@string/pref_enable_hls_label"
             android:defaultValue="true"
-            android:summary="Disable only if experiencing playback problems"
+            android:summary="@string/sum_enable_hls"
             />
 
 
