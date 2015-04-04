@@ -144,9 +144,9 @@
     <string name="msg_error_connecting_server">Erro ao Conectar com o Servidor</string>
     <string name="msg_invalid_id_pw">Senha ou id de usuário inválido</string>
     <string name="lbl_version_colon">"Versão: "</string>
-    <string name="lbl_ip_hint">Endereço IP ou nome de domínio completo</string>
+    <string name="lbl_ip_hint">192.168.1.1 ou https://meuservidor.com</string>
     <string name="lbl_enter_server_address">Digite o Endereço do Servidor</string>
-    <string name="lbl_valid_server_address">Por favor, digite um endereço válido do servidor</string>
+    <string name="lbl_valid_server_address">Por favor, digite o endereço do servidor (IP ou nome do domínio/máquina)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Nascimento "</string>
     <string name="lbl_loading_elipses">Carregando...</string>
@@ -162,4 +162,8 @@
     <string name="msg_thank_you_unlocked">Obrigado. A app já está desbloqueada.</string>
     <string name="msg_purchase_error">Erro ao comprar. Por favor, tente novamente mais tarde.</string>
     <string name="msg_unable_connect_google">Não foi possível conectar ao Google Play. Por favor, tente novamente mais tarde.</string>
+    <string name="msg_cannot_play_time">Não é possível reproduzir este item no momento</string>
+    <string name="msg_cannot_play">Este item não pode ser reproduzido</string>
+    <string name="lbl_no_items">Não existem itens</string>
+    <string name="lbl_empty">Vazia</string>
 </resources>

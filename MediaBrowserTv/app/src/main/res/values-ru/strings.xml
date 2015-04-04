@@ -132,7 +132,7 @@
     <string name="lbl_none">Ничего</string>
     <string name="msg_video_playback_error">"Ошибка воспроизведения видео - "</string>
     <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>
-    <string name="msg_access_restricted">Доступ запрещён в это время</string>
+    <string name="msg_access_restricted">Доступ запрещён в настоящее время</string>
     <string name="lbl_trailer">"Трейлер "</string>
     <string name="lbl_please_wait">Подождите</string>
     <string name="msg_little_longer">Это займёт немного больше времени, чем ожидалось...</string>
@@ -144,15 +144,15 @@
     <string name="msg_error_connecting_server">Ошибка соединения с сервером</string>
     <string name="msg_invalid_id_pw">Неверные ID или пароль пользователя</string>
     <string name="lbl_version_colon">"Версия: "</string>
-    <string name="lbl_ip_hint">IP-адрес или полное доменное имя</string>
+    <string name="lbl_ip_hint">192.168.1.1 или https://myserver.com</string>
     <string name="lbl_enter_server_address">Ввести адрес сервера</string>
-    <string name="lbl_valid_server_address">Введите действительный адрес сервера</string>
+    <string name="lbl_valid_server_address">Введите адрес сервера (IP или домен/имя машины)</string>
     <string name="lbl_ok">Ок</string>
     <string name="lbl_born">"Рождение "</string>
     <string name="lbl_loading_elipses">Загружается...</string>
     <string name="lbl_unlock">Разблокировать</string>
-    <string name="msg_playback_not_allowed">Воспроизведение в это время не разрешено</string>
-    <string name="msg_playback_restricted">Администратор запретил воспроизведение данного элемента в это время</string>
+    <string name="msg_playback_not_allowed">Воспроизведение в настоящее время не разрешено</string>
+    <string name="msg_playback_restricted">Администратор запретил воспроизведение данного элемента в настоящее время</string>
     <string name="msg_playback_incompatible">Невозможно воспроизвести данный видеоформат</string>
     <string name="lbl_never">Никогда</string>
     <string name="lbl_unlock_app">Разблокировать приложение</string>
@@ -162,4 +162,8 @@
     <string name="msg_thank_you_unlocked">Приложение теперь разблокировано.</string>
     <string name="msg_purchase_error">Ошибка при покупке. Повторите попытку позже.</string>
     <string name="msg_unable_connect_google">Невозможно соединиться с Google Play. Повторите попытку позже.</string>
+    <string name="msg_cannot_play_time">Невозможно воспроизвести данный элемент в настоящее время</string>
+    <string name="msg_cannot_play">Этот элемент невозможно воспроизвести</string>
+    <string name="lbl_no_items">Нет элементов</string>
+    <string name="lbl_empty">Пусто</string>
 </resources>
