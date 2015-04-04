@@ -132,7 +132,7 @@
     <string name="lbl_none">Ешқандай</string>
     <string name="msg_video_playback_error">"Бейне ойнату қатесі - "</string>
     <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>
-    <string name="msg_access_restricted">Осы уақытта қатынау шектелген</string>
+    <string name="msg_access_restricted">Қазіргі уақытта қатынау шектелген</string>
     <string name="lbl_trailer">"Трейлер "</string>
     <string name="lbl_please_wait">Күтіңіз</string>
     <string name="msg_little_longer">Бұл күтілгеннен көбірек уақытты алатыны тәрізді...</string>
@@ -144,15 +144,15 @@
     <string name="msg_error_connecting_server">Серверге қосылғандағы қате</string>
     <string name="msg_invalid_id_pw">Жарамсыз пайдаланушы id немесе құпия сөз</string>
     <string name="lbl_version_colon">"Нұсқасы: "</string>
-    <string name="lbl_ip_hint">IP-мекенжай немесе толық домен аты</string>
+    <string name="lbl_ip_hint">192.168.1.1 немесе https://myserver.com</string>
     <string name="lbl_enter_server_address">Сервер мекенжайын енгізу</string>
-    <string name="lbl_valid_server_address">Жарамды сервер мекенжайын енгізіңіз</string>
+    <string name="lbl_valid_server_address">Сервер мекенжайын енгізіңіз (IP немесе домен/машина аты</string>
     <string name="lbl_ok">Жарайды</string>
     <string name="lbl_born">"Туғаны "</string>
     <string name="lbl_loading_elipses">Жүктелуде...</string>
     <string name="lbl_unlock">Құрсаудан босату</string>
-    <string name="msg_playback_not_allowed">Осы уақытта ойнатуға рұқсат етілмеген</string>
-    <string name="msg_playback_restricted">Әкімші осы уақытта осы элементті ойнатуды шектеген</string>
+    <string name="msg_playback_not_allowed">Қазіргі уақытта ойнатуға рұқсат етілмеген</string>
+    <string name="msg_playback_restricted">Әкімші қазіргі уақытта осы элементті ойнатуды шектеген</string>
     <string name="msg_playback_incompatible">Осы бейне пішімін ойнату мүмкін емес</string>
     <string name="lbl_never">Ешқашан</string>
     <string name="lbl_unlock_app">Қолданбаны құрсаудан босату</string>
@@ -162,4 +162,8 @@
     <string name="msg_thank_you_unlocked">Қолданба енді құрсаудан босатылды.</string>
     <string name="msg_purchase_error">Сатып алу қатесі. Әрекетті кейін қайталаңыз.</string>
     <string name="msg_unable_connect_google">Google Play қосылу мүмкін емес. Әрекетті кейін қайталаңыз.</string>
+    <string name="msg_cannot_play_time">Қазіргі уақытта осы тармақ ойнатылуы мүмкін емес</string>
+    <string name="msg_cannot_play">Осы тармақ ойнатылуы мүмкін емес</string>
+    <string name="lbl_no_items">Тармақтар жоқ</string>
+    <string name="lbl_empty">Бос</string>
 </resources>

@@ -144,9 +144,9 @@
     <string name="msg_error_connecting_server">Erreur de connexion au serveur</string>
     <string name="msg_invalid_id_pw">Identifiant utilisateur ou mot de passe invalide</string>
     <string name="lbl_version_colon">"Version : "</string>
-    <string name="lbl_ip_hint">Adresse IP ou nom de domaine complet</string>
+    <string name="lbl_ip_hint">192.168.1.1 ou https://monserveur.com</string>
     <string name="lbl_enter_server_address">Entrez l\'adresse du serveur</string>
-    <string name="lbl_valid_server_address">Veuillez entrer une adresse de serveur valide</string>
+    <string name="lbl_valid_server_address">Veuillez entrer une adresse de serveur valide (IP ou nom de machine/domaine)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Né "</string>
     <string name="lbl_loading_elipses">Chargement...</string>
@@ -162,4 +162,8 @@
     <string name="msg_thank_you_unlocked">Merci. L\'application est maintenant déverrouillée.</string>
     <string name="msg_purchase_error">Erreur lors de l\'achat. Veuillez réessayer plus tard.</string>
     <string name="msg_unable_connect_google">Impossible de se connecter à Google Play. Veuillez réessayer plus tard.</string>
+    <string name="msg_cannot_play_time">Impossible de lire cet élément pour le moment</string>
+    <string name="msg_cannot_play">Impossible de lire cet élément</string>
+    <string name="lbl_no_items">Aucun élément</string>
+    <string name="lbl_empty">Vide</string>
 </resources>
