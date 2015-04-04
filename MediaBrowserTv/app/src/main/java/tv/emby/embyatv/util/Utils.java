@@ -376,29 +376,33 @@ public class Utils {
         switch (mainItem.getType()) {
             case "Episode":
                 items.add(serializer.SerializeToString(mainItem));
-                //add subsequent episodes
-                if (mainItem.getSeasonId() != null && mainItem.getIndexNumber() != null) {
-                    query.setParentId(mainItem.getSeasonId());
-                    query.setIsMissing(false);
-                    query.setIsVirtualUnaired(false);
-                    query.setMinIndexNumber(mainItem.getIndexNumber() + 1);
-                    query.setSortBy(new String[] {ItemSortBy.SortName});
-                    query.setIncludeItemTypes(new String[]{"Episode"});
-                    query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.Path, ItemFields.PrimaryImageAspectRatio});
-                    query.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                    TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
-                        @Override
-                        public void onResponse(ItemsResult response) {
-                            for (BaseItemDto item : response.getItems()) {
-                                if (item.getIndexNumber() > mainItem.getIndexNumber()) {
-                                    items.add(serializer.SerializeToString(item));
+                if (TvApp.getApplication().getPrefs().getBoolean("pref_enable_tv_queuing", true)) {
+                    //add subsequent episodes
+                    if (mainItem.getSeasonId() != null && mainItem.getIndexNumber() != null) {
+                        query.setParentId(mainItem.getSeasonId());
+                        query.setIsMissing(false);
+                        query.setIsVirtualUnaired(false);
+                        query.setMinIndexNumber(mainItem.getIndexNumber() + 1);
+                        query.setSortBy(new String[] {ItemSortBy.SortName});
+                        query.setIncludeItemTypes(new String[]{"Episode"});
+                        query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.Path, ItemFields.PrimaryImageAspectRatio});
+                        query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                        TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+                            @Override
+                            public void onResponse(ItemsResult response) {
+                                for (BaseItemDto item : response.getItems()) {
+                                    if (item.getIndexNumber() > mainItem.getIndexNumber()) {
+                                        items.add(serializer.SerializeToString(item));
+                                    }
                                 }
+                                outerResponse.onResponse(items.toArray(new String[items.size()]));
                             }
-                            outerResponse.onResponse(items.toArray(new String[items.size()]));
-                        }
-                    });
+                        });
+                    } else {
+                        TvApp.getApplication().getLogger().Info("Unable to add subsequent episodes due to lack of season or episode data.");
+                        outerResponse.onResponse(items.toArray(new String[items.size()]));
+                    }
                 } else {
-                    TvApp.getApplication().getLogger().Info("Unable to add subsequent episodes due to lack of season or episode data.");
                     outerResponse.onResponse(items.toArray(new String[items.size()]));
                 }
                 break;

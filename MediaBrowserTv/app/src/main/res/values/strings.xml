@@ -169,6 +169,9 @@
     <string name="msg_cannot_play">This item cannot be played</string>
     <string name="lbl_no_items">No Items</string>
     <string name="lbl_empty">Empty</string>
+    <string name="sum_enable_hls">Disable only if experiencing playback problems</string>
+    <string name="lbl_tv_queuing">Queue all subsequent episodes</string>
+    <string name="sum_tv_queuing">Add the rest of the season to the playback queue when playing an episode</string>
 
 
 </resources>
