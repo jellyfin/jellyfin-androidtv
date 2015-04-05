@@ -85,6 +85,7 @@ public class BrowseRowDef {
         headerText = header;
         this.programQuery = query;
         this.queryType = QueryType.LiveTvProgram;
+        this.changeTriggers = new ChangeTriggerType[] {ChangeTriggerType.Always};
     }
 
     public BrowseRowDef(String header, RecordingQuery query) {

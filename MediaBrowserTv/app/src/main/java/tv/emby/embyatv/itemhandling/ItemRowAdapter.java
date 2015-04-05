@@ -358,6 +358,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 case TvPlayback:
                     retrieve |= lastFullRetrieve.before(app.getLastTvPlayback());
                     break;
+                case Always:
+                    retrieve = true;
+                    break;
             }
         }
 

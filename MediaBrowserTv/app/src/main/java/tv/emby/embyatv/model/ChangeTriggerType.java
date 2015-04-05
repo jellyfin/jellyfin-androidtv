@@ -6,5 +6,6 @@ package tv.emby.embyatv.model;
 public enum  ChangeTriggerType {
     LibraryUpdated,
     MoviePlayback,
-    TvPlayback
+    TvPlayback,
+    Always
 }
