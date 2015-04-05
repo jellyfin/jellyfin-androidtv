@@ -379,6 +379,8 @@ public class FullDetailsActivity extends BaseActivity {
                                 ((ImageButton)v).setImageResource(R.drawable.whitecheck);
                                 //adjust resume
                                 if (mResumeButton != null && !mBaseItem.getCanResume()) mResumeButton.setVisibility(View.GONE);
+                                //force lists to re-fetch
+                                TvApp.getApplication().setLastPlayback(Calendar.getInstance());
                             }
                         });
                     } else {
@@ -389,6 +391,8 @@ public class FullDetailsActivity extends BaseActivity {
                                 ((ImageButton)v).setImageResource(R.drawable.redcheck);
                                 //adjust resume
                                 if (mResumeButton != null && !mBaseItem.getCanResume()) mResumeButton.setVisibility(View.GONE);
+                                //force lists to re-fetch
+                                TvApp.getApplication().setLastPlayback(Calendar.getInstance());
                             }
                         });
                     }
