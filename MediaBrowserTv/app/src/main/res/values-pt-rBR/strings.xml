@@ -166,4 +166,7 @@
     <string name="msg_cannot_play">Este item não pode ser reproduzido</string>
     <string name="lbl_no_items">Não existem itens</string>
     <string name="lbl_empty">Vazia</string>
+    <string name="sum_enable_hls">Desativar apenas se ocorrerem problemas na reprodução</string>
+    <string name="lbl_tv_queuing">Enfileirar todos os espisódios subsequentes</string>
+    <string name="sum_tv_queuing">Adicionar o restante da temporada à fila de reprodução ao reproduzir um episódio</string>
 </resources>

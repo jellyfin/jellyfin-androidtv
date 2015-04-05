@@ -93,7 +93,7 @@
     <string name="lbl_play">Ойнату</string>
     <string name="lbl_cancel">Болдырмау</string>
     <string name="lbl_record">Жазу</string>
-    <string name="lbl_details">Мәліметтер</string>
+    <string name="lbl_details">Толық мәліметтер</string>
     <string name="msg_set_to_record">Берілім жазуы орнатылды</string>
     <string name="msg_unable_to_create_recording">Жазбаны жасау мүмкін емес</string>
     <string name="msg_recording_cancelled">Жазба болдырылмады</string>
@@ -166,4 +166,7 @@
     <string name="msg_cannot_play">Осы тармақ ойнатылуы мүмкін емес</string>
     <string name="lbl_no_items">Тармақтар жоқ</string>
     <string name="lbl_empty">Бос</string>
+    <string name="sum_enable_hls">Егер ойнату қиыншылықтары кедессе тек қана ажыратыңыз</string>
+    <string name="lbl_tv_queuing">Келесі бөлімдердің бәрін кезекке қою</string>
+    <string name="sum_tv_queuing">Эпизод ойнату кезінде маусымда қалғандарды ойнату кезегіне үстеңіз</string>
 </resources>
