@@ -169,19 +169,21 @@ public class TvApp extends Application {
     }
 
     public Calendar getLastMoviePlayback() {
-        return lastMoviePlayback;
+        return lastMoviePlayback.after(lastPlayback) ? lastMoviePlayback : lastPlayback;
     }
 
     public void setLastMoviePlayback(Calendar lastMoviePlayback) {
         this.lastMoviePlayback = lastMoviePlayback;
+        this.lastPlayback = lastMoviePlayback;
     }
 
     public Calendar getLastTvPlayback() {
-        return lastTvPlayback;
+        return lastTvPlayback.after(lastPlayback) ? lastTvPlayback : lastPlayback;
     }
 
     public void setLastTvPlayback(Calendar lastTvPlayback) {
         this.lastTvPlayback = lastTvPlayback;
+        this.lastPlayback = lastTvPlayback;
     }
 
     public Calendar getLastLibraryChange() {
