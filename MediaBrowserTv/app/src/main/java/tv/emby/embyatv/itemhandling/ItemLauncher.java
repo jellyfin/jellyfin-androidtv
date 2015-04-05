@@ -94,12 +94,15 @@ public class ItemLauncher {
                             //Start details fragment for display and playback
                             Intent intent = new Intent(activity, DetailsActivity.class);
                             intent.putExtra("ItemId", baseItem.getId());
-
-                            Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                    activity,
-                                    ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                                    DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                            activity.startActivity(intent, bundle);
+                            if (baseItem.getHasPrimaryImage()) {
+                                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                        activity,
+                                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                                activity.startActivity(intent, bundle);
+                            } else {
+                                activity.startActivity(intent);
+                            }
                             break;
                         case Play:
                             if (baseItem.getPlayAccess() == PlayAccess.Full) {
@@ -125,11 +128,15 @@ public class ItemLauncher {
                 Intent intent = new Intent(activity, DetailsActivity.class);
                 intent.putExtra("ItemId", rowItem.getPerson().getId());
 
-                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        activity,
-                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                activity.startActivity(intent, bundle);
+                if (rowItem.getPerson().getHasPrimaryImage()) {
+                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            activity,
+                            ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                            DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                    activity.startActivity(intent, bundle);
+                } else {
+                    activity.startActivity(intent);
+                }
 
                 break;
             case Chapter:
@@ -172,7 +179,7 @@ public class ItemLauncher {
                 application.getApiClient().GetItemAsync(hint.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
-                        if (response.getIsFolder()) {
+                        if (response.getIsFolder() && !"Series".equals(response.getType())) {
                             // open generic folder browsing
                             Intent intent = new Intent(activity, GenericFolderActivity.class);
                             intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(response));
@@ -182,12 +189,15 @@ public class ItemLauncher {
                         } else {
                             Intent intent = new Intent(activity, DetailsActivity.class);
                             intent.putExtra("ItemId", response.getId());
-
-                            Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                    activity,
-                                    ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                                    DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                            activity.startActivity(intent, bundle);
+                            if (response.getHasPrimaryImage()) {
+                                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                        activity,
+                                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                                activity.startActivity(intent, bundle);
+                            } else {
+                                activity.startActivity(intent);
+                            }
                         }
                     }
 
@@ -210,11 +220,15 @@ public class ItemLauncher {
                         programIntent.putExtra("ChannelId", program.getChannelId());
                         programIntent.putExtra("ProgramInfo", TvApp.getApplication().getSerializer().SerializeToString(program));
 
-                        Bundle programBundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                activity,
-                                ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                                DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                        activity.startActivity(programIntent, programBundle);
+                        if (program.getHasPrimaryImage()) {
+                            Bundle programBundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                    activity,
+                                    ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                                    DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                            activity.startActivity(programIntent, programBundle);
+                        } else {
+                            activity.startActivity(programIntent);
+                        }
                         break;
                     case Play:
                         if (program.getPlayAccess() == PlayAccess.Full) {
