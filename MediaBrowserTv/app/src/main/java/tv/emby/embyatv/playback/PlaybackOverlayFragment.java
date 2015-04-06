@@ -322,6 +322,11 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                     updateLikes(mPlaybackController.getCurrentlyPlayingItem().getUserData().getLikes());
                     mThumbsUpAction.setIndex(mThumbsUpAction.OUTLINE);
                 } else if (action.getId() == mSubtitleAction.getId()) {
+                    if (mPlaybackController.getCurrentStreamInfo() == null) {
+                        TvApp.getApplication().getLogger().Warn("StreamInfo null trying to obtain subtitles");
+                        Utils.showToast(TvApp.getApplication(), "Unable to obtain subtitle info");
+                        return;
+                    }
                     setFadingEnabled(false);
                     List<MediaStream> subtitles = TvApp.getApplication().getPlaybackManager().getInPlaybackSelectableSubtitleStreams(mPlaybackController.getCurrentStreamInfo());
                     PopupMenu subMenu = new PopupMenu(getActivity(), getActivity().findViewById(R.id.playback_progress), Gravity.RIGHT);
@@ -350,6 +355,11 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                     subMenu.show();
 
                 } else if (action.getId() == mAudioAction.getId()) {
+                    if (mPlaybackController.getCurrentStreamInfo() == null) {
+                        TvApp.getApplication().getLogger().Warn("StreamInfo null trying to obtain audio tracks");
+                        Utils.showToast(TvApp.getApplication(), "Unable to obtain audio track info");
+                        return;
+                    }
                     setFadingEnabled(false);
 
                     List<MediaStream> audioTracks = TvApp.getApplication().getPlaybackManager().getInPlaybackSelectableAudioStreams(mPlaybackController.getCurrentStreamInfo());
