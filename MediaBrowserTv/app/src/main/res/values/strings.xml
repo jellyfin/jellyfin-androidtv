@@ -138,6 +138,8 @@
     <string name="msg_access_restricted">Access Restricted at this time</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_please_wait">Please Wait</string>
+    <string name="lbl_enter_user_name">Enter user name</string>
+    <string name="lbl_enter_user_pw">Enter user password</string>
     <string name="msg_little_longer">This is taking a little longer than expected...</string>
     <string name="msg_report_sent">Report sent to developer. Thank you.</string>
     <string name="lbl_report_msg_question">Would you like to send a report to the developer?</string>

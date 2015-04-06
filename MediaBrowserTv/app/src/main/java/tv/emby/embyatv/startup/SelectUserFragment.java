@@ -1,5 +1,6 @@
 package tv.emby.embyatv.startup;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
@@ -23,6 +24,7 @@ import tv.emby.embyatv.browsing.StdBrowseFragment;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.presentation.GridButtonPresenter;
+import tv.emby.embyatv.util.Utils;
 
 /**
  * Created by Eric on 12/4/2014.
@@ -79,7 +81,13 @@ public class SelectUserFragment extends StdBrowseFragment {
                 switch (((GridButton) item).getId()) {
                     case ENTER_MANUALLY:
                         // Manual login
+                        Utils.EnterManualUser(getActivity());
+                        break;
                     case LOGIN_CONNECT:
+                        Intent intent = new Intent(getActivity(), ConnectActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        startActivity(intent);
+                        break;
 
                     default:
                         Toast.makeText(getActivity(), item.toString(), Toast.LENGTH_SHORT)
