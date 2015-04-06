@@ -99,7 +99,7 @@ public class RecommendationManager {
     }
 
     public void createAll() {
-        //Create recs for next up tv and last 4 movies watched
+        //Create recs for next up tv and movies
         NextUpQuery nextUpQuery = new NextUpQuery();
         nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         nextUpQuery.setLimit(MAX_TV_RECS);
@@ -119,7 +119,7 @@ public class RecommendationManager {
         StdItemQuery resumeMovies = new StdItemQuery();
         resumeMovies.setIncludeItemTypes(new String[]{"Movie"});
         resumeMovies.setRecursive(true);
-        resumeMovies.setLimit(MAX_MOVIE_RECS);
+        resumeMovies.setLimit(2);
         resumeMovies.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
         resumeMovies.setSortBy(new String[]{ItemSortBy.DatePlayed});
         resumeMovies.setSortOrder(SortOrder.Descending);
@@ -134,20 +134,20 @@ public class RecommendationManager {
                     }
                 }
                 if (movieItems < MAX_MOVIE_RECS) {
-                    //Now fill in with suggested movies
+                    //Now fill in with latest movies
                     StdItemQuery suggMovies = new StdItemQuery();
                     suggMovies.setIncludeItemTypes(new String[]{"Movie"});
                     suggMovies.setRecursive(true);
                     suggMovies.setLimit(MAX_MOVIE_RECS - movieItems);
-                    suggMovies.setFilters(new ItemFilter[]{ItemFilter.IsPlayed});
-                    suggMovies.setSortBy(new String[]{ItemSortBy.DatePlayed});
+                    suggMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
+                    suggMovies.setSortBy(new String[]{ItemSortBy.DateCreated});
                     suggMovies.setSortOrder(SortOrder.Descending);
                     TvApp.getApplication().getApiClient().GetItemsAsync(suggMovies, new Response<ItemsResult>() {
                         @Override
                         public void onResponse(ItemsResult suggResponse) {
                             if (suggResponse.getTotalRecordCount() > 0) {
                                 for (BaseItemDto movie : suggResponse.getItems()) {
-                                    recommend(movie.getId());
+                                    addRecommendation(movie, RecommendationType.Movie);
                                 }
                             }
                         }
