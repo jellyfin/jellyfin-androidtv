@@ -162,14 +162,14 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
             DetailsOverviewRow row = new DetailsOverviewRow(mBaseItem);
             try {
-                Bitmap poster = Picasso.with(getActivity())
+                Bitmap poster = Picasso.with(mActivity)
                         .load(Utils.getPrimaryImageUrl(mBaseItem, mApiClient, true, false, Utils.convertDpToPixel(mApplication, DETAIL_THUMB_HEIGHT)))
                         .skipMemoryCache()
                                 .resize(Utils.convertDpToPixel(mApplication, DETAIL_THUMB_WIDTH),
                                         Utils.convertDpToPixel(mApplication, DETAIL_THUMB_HEIGHT))
                                 .centerInside()
                                 .get();
-                row.setImageBitmap(getActivity(), poster);
+                row.setImageBitmap(mActivity, poster);
             } catch (IOException e) {
             }
 
