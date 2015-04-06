@@ -16,6 +16,7 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.model.dlna.PlaybackException;
 import mediabrowser.model.dlna.StreamInfo;
+import mediabrowser.model.dlna.SubtitleProfile;
 import mediabrowser.model.dlna.VideoOptions;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.MediaSourceInfo;
@@ -137,7 +138,10 @@ public class PlaybackController {
                 mCurrentOptions.setMediaSources(item.getMediaSources());
                 mCurrentOptions.setMaxBitrate(getMaxBitrate());
 
-                mCurrentOptions.setProfile(new AndroidProfile(PreferenceManager.getDefaultSharedPreferences(mApplication).getBoolean("pref_enable_hls",true), true));
+                // Create our profile and clear out subtitles so that they will burn in
+                AndroidProfile profile = new AndroidProfile(PreferenceManager.getDefaultSharedPreferences(mApplication).getBoolean("pref_enable_hls",true), true);
+                profile.setSubtitleProfiles(new SubtitleProfile[] {});
+                mCurrentOptions.setProfile(profile);
 
                 playInternal(getCurrentlyPlayingItem(), position, mVideoView, mCurrentOptions);
                 if (mFragment != null) {
@@ -383,7 +387,7 @@ public class PlaybackController {
                 if (mPlaybackState == PlaybackState.PLAYING) {
                     int currentTime = mVideoView.getCurrentPosition();
 
-                    Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo (), (long)currentTime * 10000);
+                    Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), (long)currentTime * 10000);
                 }
                 mApplication.setLastUserInteraction(System.currentTimeMillis());
                 if (mPlaybackState != PlaybackState.UNDEFINED && mPlaybackState != PlaybackState.IDLE) mHandler.postDelayed(this, REPORT_INTERVAL);
