@@ -750,6 +750,38 @@ public class Utils {
 
     }
 
+    public static void EnterManualUser(final Activity activity) {
+        final EditText userName = new EditText(activity);
+        userName.setInputType(InputType.TYPE_CLASS_TEXT);
+        new AlertDialog.Builder(activity)
+                .setTitle(activity.getString(R.string.lbl_enter_user_name))
+                .setView(userName)
+                .setNegativeButton(activity.getString(R.string.lbl_cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Do nothing.
+                    }
+                }).setPositiveButton(activity.getString(R.string.lbl_ok), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String userValue = userName.getText().toString();
+                TvApp.getApplication().getLogger().Debug("Entered user: " + userValue);
+                final EditText userPw = new EditText(activity);
+                userPw.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                new AlertDialog.Builder(activity)
+                        .setTitle(activity.getString(R.string.lbl_enter_user_pw))
+                        .setView(userPw)
+                        .setNegativeButton(activity.getString(R.string.lbl_cancel), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                // Do nothing.
+                            }
+                        }).setPositiveButton(activity.getString(R.string.lbl_ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Utils.loginUser(userName.getText().toString(), userPw.getText().toString(), TvApp.getApplication().getLoginApiClient(), activity);
+                    }
+                }).show();
+            }
+        }).show();
+
+    }
     // send the tone to the "alarm" stream (classic beeps go there) with 50% volume
     private static ToneGenerator ToneHandler = new ToneGenerator(AudioManager.STREAM_ALARM, 50);
 
