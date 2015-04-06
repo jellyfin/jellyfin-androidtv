@@ -34,25 +34,33 @@ public class BrowseRowDef {
 
     private int chunkSize = 0;
     private boolean staticHeight = false;
+    private boolean preferParentThumb = false;
 
     private ChangeTriggerType[] changeTriggers;
 
     public BrowseRowDef(String header, ItemQuery query, int chunkSize) {
+        this(header, query, chunkSize, false);
+    }
+
+    public BrowseRowDef(String header, ItemQuery query, int chunkSize, boolean preferParentThumb) {
         headerText = header;
         this.query = query;
         this.chunkSize = chunkSize;
+        this.preferParentThumb = preferParentThumb;
         this.queryType = QueryType.Items;
     }
+
     public BrowseRowDef(String header, ItemQuery query, int chunkSize, ChangeTriggerType[] changeTriggers) {
-        this(header, query, chunkSize, false, changeTriggers);
+        this(header, query, chunkSize, false, false, changeTriggers);
     }
 
-    public BrowseRowDef(String header, ItemQuery query, int chunkSize, boolean staticHeight, ChangeTriggerType[] changeTriggers) {
+    public BrowseRowDef(String header, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, ChangeTriggerType[] changeTriggers) {
         headerText = header;
         this.query = query;
         this.chunkSize = chunkSize;
         this.queryType = QueryType.Items;
         this.staticHeight = staticHeight;
+        this.preferParentThumb = preferParentThumb;
         this.changeTriggers = changeTriggers;
     }
 
@@ -169,6 +177,7 @@ public class BrowseRowDef {
 
     public RecordingQuery getRecordingQuery() { return recordingQuery; }
 
+    public boolean getPreferParentThumb() { return preferParentThumb; }
 
     public PersonsQuery getPersonsQuery() {
         return personsQuery;

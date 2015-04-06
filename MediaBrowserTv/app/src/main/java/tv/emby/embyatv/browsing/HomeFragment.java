@@ -77,7 +77,7 @@ public class HomeFragment extends StdBrowseFragment {
         resumeItems.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
         resumeItems.setSortBy(new String[]{ItemSortBy.DatePlayed});
         resumeItems.setSortOrder(SortOrder.Descending);
-        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_continue_watching), resumeItems, 0, true, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback, ChangeTriggerType.TvPlayback}));
+        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_continue_watching), resumeItems, 0, true, true, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback, ChangeTriggerType.TvPlayback}));
 
         StdItemQuery latestMovies = new StdItemQuery();
         latestMovies.setIncludeItemTypes(new String[]{"Movie"});
