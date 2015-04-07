@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/imageView9"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/moviebg"
+        android:alpha=".6" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchField"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        android:enabled="true"
+        android:focusable="true"
+        android:hint="@string/lbl_search_hint"
+        android:minWidth="400sp"
+        android:background="@color/default_background"
+        android:textSize="18sp"
+        android:minHeight="25sp"
+        android:padding="2sp"
+        android:gravity="center_vertical"
+        android:paddingLeft="10sp" />
+</RelativeLayout>

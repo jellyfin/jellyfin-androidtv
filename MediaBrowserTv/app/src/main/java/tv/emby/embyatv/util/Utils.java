@@ -1051,8 +1051,16 @@ public class Utils {
         return Build.VERSION.SDK_INT >= 21 ? new PopupMenu(activity, view, gravity) : new PopupMenu(activity, view);
     }
 
+    public static boolean isFireTv() {
+        return Build.MODEL.startsWith("AFT");
+    }
+
+    public static boolean is50() {
+        return Build.VERSION.SDK_INT >= 21;
+    }
+
     public static int getBrandColor() {
-        return Build.MODEL.startsWith("AFT") ?
+        return isFireTv() ?
                 TvApp.getApplication().getResources().getColor(R.color.fastlane_fire) :
                 TvApp.getApplication().getResources().getColor(R.color.fastlane_background);
     }
