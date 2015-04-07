@@ -52,6 +52,7 @@ import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.ViewQuery;
+import tv.emby.embyatv.util.Utils;
 
 interface IRowLoader {
     void loadRows(List<BrowseRowDef> rows);
@@ -210,7 +211,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         setHeadersTransitionOnBackEnabled(true);
 
         // set fastLane (or headers) background color
-        setBrandColor(getResources().getColor(R.color.fastlane_background));
+        setBrandColor(Utils.getBrandColor());
         // set search icon color
         setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
     }

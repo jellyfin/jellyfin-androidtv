@@ -1050,4 +1050,10 @@ public class Utils {
     public static PopupMenu createPopupMenu(Activity activity, View view, int gravity) {
         return Build.VERSION.SDK_INT >= 21 ? new PopupMenu(activity, view, gravity) : new PopupMenu(activity, view);
     }
+
+    public static int getBrandColor() {
+        return Build.MODEL.startsWith("AFT") ?
+                TvApp.getApplication().getResources().getColor(R.color.fastlane_fire) :
+                TvApp.getApplication().getResources().getColor(R.color.fastlane_background);
+    }
 }

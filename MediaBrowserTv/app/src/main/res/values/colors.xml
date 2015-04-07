@@ -18,4 +18,5 @@
     <color name="semi_trans_dark">#49000000</color>
     <color name="gray_gradient_start">#ff7c7c7c</color>
     <color name="gray_gradient_end">#ffbebebe</color>
+    <color name="fastlane_fire">#ff161b21</color>
 </resources>
