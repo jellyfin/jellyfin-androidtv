@@ -7,6 +7,7 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,13 +36,20 @@ public class RecommendationManager {
     private final Integer MAX_TV_RECS = 3;
     private final Integer MAX_MOVIE_RECS = 4;
 
+    private boolean isEnabled;
+
     private static RecommendationManager instance;
 
     private Recommendations mRecommendations;
 
     public RecommendationManager() {
+        isEnabled = Build.VERSION.SDK_INT >= 21;
         mRecommendations = loadRecs();
-        validate();
+        if (isEnabled) {
+            validate();
+        } else {
+            TvApp.getApplication().getLogger().Info("Recommendations not enabled on this device");
+        }
     }
 
     public static RecommendationManager getInstance() {
@@ -50,41 +58,49 @@ public class RecommendationManager {
     }
 
     private Recommendations loadRecs() {
-        try {
-            InputStream recFile = TvApp.getApplication().openFileInput(REC_FILE_NAME);
-            String json = Utils.ReadStringFromFile(recFile);
-            recFile.close();
-            return (Recommendations) TvApp.getApplication().getSerializer().DeserializeFromString(json, Recommendations.class);
-        } catch (IOException e) {
-            // none saved
+        if (isEnabled) {
+            try {
+                InputStream recFile = TvApp.getApplication().openFileInput(REC_FILE_NAME);
+                String json = Utils.ReadStringFromFile(recFile);
+                recFile.close();
+                return (Recommendations) TvApp.getApplication().getSerializer().DeserializeFromString(json, Recommendations.class);
+            } catch (IOException e) {
+                // none saved
+                return new Recommendations(TvApp.getApplication().getApiClient().getServerInfo().getId(), TvApp.getApplication().getCurrentUser().getId());
+            }
+        } else {
             return new Recommendations(TvApp.getApplication().getApiClient().getServerInfo().getId(), TvApp.getApplication().getCurrentUser().getId());
         }
     }
 
     public boolean validate() {
-        //Now validate that these are for this server and user.
-        if (!mRecommendations.getServerId().equals(TvApp.getApplication().getApiClient().getServerInfo().getId())
-                || !mRecommendations.getUserId().equals(TvApp.getApplication().getCurrentUser().getId())) {
-            //Nope - clear them out and start over for this user
-            clearAll();
-            createAll();
-            TvApp.getApplication().getLogger().Info("Recommendations re-set for user "+TvApp.getApplication().getCurrentUser().getName());
-            return false;
-        }
+        if (isEnabled) {
+            //Now validate that these are for this server and user.
+            if (!mRecommendations.getServerId().equals(TvApp.getApplication().getApiClient().getServerInfo().getId())
+                    || !mRecommendations.getUserId().equals(TvApp.getApplication().getCurrentUser().getId())) {
+                //Nope - clear them out and start over for this user
+                clearAll();
+                createAll();
+                TvApp.getApplication().getLogger().Info("Recommendations re-set for user "+TvApp.getApplication().getCurrentUser().getName());
+                return false;
+            }
 
-        createAll();
-        TvApp.getApplication().getLogger().Info("Recommendations re-created for user "+TvApp.getApplication().getCurrentUser().getName());
+            createAll();
+            TvApp.getApplication().getLogger().Info("Recommendations re-created for user "+TvApp.getApplication().getCurrentUser().getName());
+        }
 
         return true;
     }
 
     private void saveRecs() {
-        try {
-            OutputStream recFile = TvApp.getApplication().openFileOutput(REC_FILE_NAME, Context.MODE_PRIVATE);
-            recFile.write(TvApp.getApplication().getSerializer().SerializeToString(mRecommendations).getBytes());
-            recFile.close();
-        } catch (IOException e) {
-            TvApp.getApplication().getLogger().ErrorException("Error saving recommendations",e);
+        if (isEnabled) {
+            try {
+                OutputStream recFile = TvApp.getApplication().openFileOutput(REC_FILE_NAME, Context.MODE_PRIVATE);
+                recFile.write(TvApp.getApplication().getSerializer().SerializeToString(mRecommendations).getBytes());
+                recFile.close();
+            } catch (IOException e) {
+                TvApp.getApplication().getLogger().ErrorException("Error saving recommendations",e);
+            }
         }
 
     }
@@ -99,149 +115,156 @@ public class RecommendationManager {
     }
 
     public void createAll() {
-        //Create recs for next up tv and movies
-        NextUpQuery nextUpQuery = new NextUpQuery();
-        nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
-        nextUpQuery.setLimit(MAX_TV_RECS);
-        nextUpQuery.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
-        TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(nextUpQuery, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult response) {
-                if (response.getTotalRecordCount() > 0) {
-                    for (BaseItemDto episode : response.getItems()) {
-                        recommend(episode.getId());
+        if (isEnabled) {
+            //Create recs for next up tv and movies
+            NextUpQuery nextUpQuery = new NextUpQuery();
+            nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+            nextUpQuery.setLimit(MAX_TV_RECS);
+            nextUpQuery.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
+            TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(nextUpQuery, new Response<ItemsResult>() {
+                @Override
+                public void onResponse(ItemsResult response) {
+                    if (response.getTotalRecordCount() > 0) {
+                        for (BaseItemDto episode : response.getItems()) {
+                            recommend(episode.getId());
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        //First try for resumables
-        StdItemQuery resumeMovies = new StdItemQuery();
-        resumeMovies.setIncludeItemTypes(new String[]{"Movie"});
-        resumeMovies.setRecursive(true);
-        resumeMovies.setLimit(2);
-        resumeMovies.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
-        resumeMovies.setSortBy(new String[]{ItemSortBy.DatePlayed});
-        resumeMovies.setSortOrder(SortOrder.Descending);
-        TvApp.getApplication().getApiClient().GetItemsAsync(resumeMovies, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult response) {
-                int movieItems = 0;
-                if (response.getTotalRecordCount() > 0) {
-                    for (BaseItemDto movie : response.getItems()) {
-                        recommend(movie.getId());
-                        movieItems++;
+            //First try for resumables
+            StdItemQuery resumeMovies = new StdItemQuery();
+            resumeMovies.setIncludeItemTypes(new String[]{"Movie"});
+            resumeMovies.setRecursive(true);
+            resumeMovies.setLimit(2);
+            resumeMovies.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
+            resumeMovies.setSortBy(new String[]{ItemSortBy.DatePlayed});
+            resumeMovies.setSortOrder(SortOrder.Descending);
+            TvApp.getApplication().getApiClient().GetItemsAsync(resumeMovies, new Response<ItemsResult>() {
+                @Override
+                public void onResponse(ItemsResult response) {
+                    int movieItems = 0;
+                    if (response.getTotalRecordCount() > 0) {
+                        for (BaseItemDto movie : response.getItems()) {
+                            recommend(movie.getId());
+                            movieItems++;
+                        }
                     }
-                }
-                if (movieItems < MAX_MOVIE_RECS) {
-                    //Now fill in with latest movies
-                    StdItemQuery suggMovies = new StdItemQuery();
-                    suggMovies.setIncludeItemTypes(new String[]{"Movie"});
-                    suggMovies.setRecursive(true);
-                    suggMovies.setLimit(MAX_MOVIE_RECS - movieItems);
-                    suggMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
-                    suggMovies.setSortBy(new String[]{ItemSortBy.DateCreated});
-                    suggMovies.setSortOrder(SortOrder.Descending);
-                    TvApp.getApplication().getApiClient().GetItemsAsync(suggMovies, new Response<ItemsResult>() {
-                        @Override
-                        public void onResponse(ItemsResult suggResponse) {
-                            if (suggResponse.getTotalRecordCount() > 0) {
-                                for (BaseItemDto movie : suggResponse.getItems()) {
-                                    addRecommendation(movie, RecommendationType.Movie);
+                    if (movieItems < MAX_MOVIE_RECS) {
+                        //Now fill in with latest movies
+                        StdItemQuery suggMovies = new StdItemQuery();
+                        suggMovies.setIncludeItemTypes(new String[]{"Movie"});
+                        suggMovies.setRecursive(true);
+                        suggMovies.setLimit(MAX_MOVIE_RECS - movieItems);
+                        suggMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
+                        suggMovies.setSortBy(new String[]{ItemSortBy.DateCreated});
+                        suggMovies.setSortOrder(SortOrder.Descending);
+                        TvApp.getApplication().getApiClient().GetItemsAsync(suggMovies, new Response<ItemsResult>() {
+                            @Override
+                            public void onResponse(ItemsResult suggResponse) {
+                                if (suggResponse.getTotalRecordCount() > 0) {
+                                    for (BaseItemDto movie : suggResponse.getItems()) {
+                                        addRecommendation(movie, RecommendationType.Movie);
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }
 
     }
 
     public void recommend(final String itemId) {
-        if (itemId == null) {
-            TvApp.getApplication().getLogger().Error("Attempt to recommend null Item");
-            return;
-        }
-        //No matter what it is, if it is resumeable, recommend this item (need to re-retrieve for current user data)
-        TvApp.getApplication().getApiClient().GetItemAsync(itemId, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
-            @Override
-            public void onResponse(BaseItemDto response) {
-                if (response == null) {
-                    TvApp.getApplication().getLogger().Error("No item found with ID: "+itemId);
-                    return;
-                }
-                if (response.getCanResume()) {
-                    addRecommendation(response, RecommendationType.Movie);
-                } else {
-                    switch (response.getType()) {
-                        case "Movie":
-                            //First remove us if we were a recommendation
-                            mRecommendations.remove(RecommendationType.Movie, response.getId());
-
-                            //Suggest a similar movie
-                            SimilarItemsQuery similar = new SimilarItemsQuery();
-                            similar.setId(response.getId());
-                            similar.setLimit(1);
-                            similar.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                            TvApp.getApplication().getApiClient().GetSimilarMoviesAsync(similar, new Response<ItemsResult>() {
-                                @Override
-                                public void onResponse(ItemsResult similarResponse) {
-                                    if (similarResponse.getTotalRecordCount() > 0) {
-                                        addRecommendation(similarResponse.getItems()[0], RecommendationType.Movie);
-                                    }
-                                }
-
-                                @Override
-                                public void onError(Exception exception) {
-                                    TvApp.getApplication().getLogger().ErrorException("Error retrieving item for recommendation", exception);
-                                }
-                            });
-                            break;
-                        case "Episode":
-                            //First remove us if we were a recommendation
-                            mRecommendations.remove(RecommendationType.Tv, response.getId());
-
-                            //Suggest the next up episode
-                            NextUpQuery next = new NextUpQuery();
-                            next.setSeriesId(response.getSeriesId());
-                            next.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                            next.setLimit(1);
-                            TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(next, new Response<ItemsResult>() {
-                                @Override
-                                public void onResponse(ItemsResult nextResponse) {
-                                    if (nextResponse.getTotalRecordCount() > 0) {
-                                        addRecommendation(nextResponse.getItems()[0], RecommendationType.Tv);
-                                    }
-                                }
-
-                                @Override
-                                public void onError(Exception exception) {
-                                    TvApp.getApplication().getLogger().ErrorException("Error retrieving item for recommendation", exception);
-                                }
-                            });
-                            break;
+        if (isEnabled) {
+            if (itemId == null) {
+                TvApp.getApplication().getLogger().Error("Attempt to recommend null Item");
+                return;
+            }
+            //No matter what it is, if it is resumable, recommend this item (need to re-retrieve for current user data)
+            TvApp.getApplication().getApiClient().GetItemAsync(itemId, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                @Override
+                public void onResponse(BaseItemDto response) {
+                    if (response == null) {
+                        TvApp.getApplication().getLogger().Error("No item found with ID: "+itemId);
+                        return;
                     }
+                    if (response.getCanResume()) {
+                        addRecommendation(response, RecommendationType.Movie);
+                    } else {
+                        switch (response.getType()) {
+                            case "Movie":
+                                //First remove us if we were a recommendation
+                                mRecommendations.remove(RecommendationType.Movie, response.getId());
 
+                                //Suggest a similar movie
+                                SimilarItemsQuery similar = new SimilarItemsQuery();
+                                similar.setId(response.getId());
+                                similar.setLimit(1);
+                                similar.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                                TvApp.getApplication().getApiClient().GetSimilarMoviesAsync(similar, new Response<ItemsResult>() {
+                                    @Override
+                                    public void onResponse(ItemsResult similarResponse) {
+                                        if (similarResponse.getTotalRecordCount() > 0) {
+                                            addRecommendation(similarResponse.getItems()[0], RecommendationType.Movie);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(Exception exception) {
+                                        TvApp.getApplication().getLogger().ErrorException("Error retrieving item for recommendation", exception);
+                                    }
+                                });
+                                break;
+                            case "Episode":
+                                //First remove us if we were a recommendation
+                                mRecommendations.remove(RecommendationType.Tv, response.getId());
+
+                                //Suggest the next up episode
+                                NextUpQuery next = new NextUpQuery();
+                                next.setSeriesId(response.getSeriesId());
+                                next.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                                next.setLimit(1);
+                                TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(next, new Response<ItemsResult>() {
+                                    @Override
+                                    public void onResponse(ItemsResult nextResponse) {
+                                        if (nextResponse.getTotalRecordCount() > 0) {
+                                            addRecommendation(nextResponse.getItems()[0], RecommendationType.Tv);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(Exception exception) {
+                                        TvApp.getApplication().getLogger().ErrorException("Error retrieving item for recommendation", exception);
+                                    }
+                                });
+                                break;
+                        }
+
+                    }
                 }
-            }
 
-            @Override
-            public void onError(Exception exception) {
-                TvApp.getApplication().getLogger().ErrorException("Error retrieving item for recommendation", exception);
-            }
-        });
+                @Override
+                public void onError(Exception exception) {
+                    TvApp.getApplication().getLogger().ErrorException("Error retrieving item for recommendation", exception);
+                }
+            });
+        }
 
     }
 
     public boolean addRecommendation(BaseItemDto item, RecommendationType type) {
+        if (isEnabled) {
+            //No need if we are already there
+            if (mRecommendations.get(type, item.getId()) != null) return false;
 
-        //No need if we are already there
-        if (mRecommendations.get(type, item.getId()) != null) return false;
-
-        //Not so build one
-        new AsyncRunner().execute(item, type);
-        return true;
+            //Not so build one
+            new AsyncRunner().execute(item, type);
+            return true;
+        } else {
+            return false;
+        }
 
     }
 
