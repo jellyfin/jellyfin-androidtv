@@ -16,11 +16,15 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
+import android.os.Build;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Display;
+import android.view.Gravity;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import org.acra.ACRA;
@@ -1041,4 +1045,9 @@ public class Utils {
             // Log exception
             return null;
         }
-    }}
+    }
+
+    public static PopupMenu createPopupMenu(Activity activity, View view, int gravity) {
+        return Build.VERSION.SDK_INT >= 21 ? new PopupMenu(activity, view, gravity) : new PopupMenu(activity, view);
+    }
+}

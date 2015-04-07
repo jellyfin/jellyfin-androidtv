@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 22
     buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "tv.emby.embyatv"
-        minSdkVersion 21
-        targetSdkVersion 21
+        minSdkVersion 17
+        targetSdkVersion 22
         versionCode 1003
         versionName "1.0.03"
     }

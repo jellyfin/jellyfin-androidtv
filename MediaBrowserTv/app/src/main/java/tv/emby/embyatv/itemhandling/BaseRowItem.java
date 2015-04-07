@@ -231,7 +231,7 @@ public class BaseRowItem {
 
             case BaseItem:
                 if (baseItem.getType().equals("Movie") && baseItem.getCriticRating() != null) {
-                    return baseItem.getCriticRating() > 59 ? TvApp.getApplication().getDrawable(R.drawable.fresh) : TvApp.getApplication().getDrawable(R.drawable.rotten);
+                    return baseItem.getCriticRating() > 59 ? TvApp.getApplication().getDrawableCompat(R.drawable.fresh) : TvApp.getApplication().getDrawableCompat(R.drawable.rotten);
                 }
                 break;
             case Person:
@@ -240,14 +240,14 @@ public class BaseRowItem {
                 break;
             case User:
                 if (user.getHasPassword()) {
-                    return TvApp.getApplication().getDrawable(R.drawable.lock);
+                    return TvApp.getApplication().getDrawableCompat(R.drawable.lock);
                 }
                 break;
             case Chapter:
                 break;
         }
 
-        return TvApp.getApplication().getDrawable(R.drawable.blank10x10);
+        return TvApp.getApplication().getDrawableCompat(R.drawable.blank10x10);
     }
 
     public SelectAction getSelectAction() {

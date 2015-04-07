@@ -2,6 +2,8 @@ package tv.emby.embyatv;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -253,5 +255,13 @@ public class TvApp extends Application {
 
     public void setPlaybackManager(PlaybackManager playbackManager) {
         this.playbackManager = playbackManager;
+    }
+
+    public Drawable getDrawableCompat(int id) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            return getDrawable(id);
+        }
+
+        return getResources().getDrawable(id);
     }
 }
