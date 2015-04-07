@@ -205,7 +205,7 @@ public class FullDetailsActivity extends BaseActivity {
                 .skipMemoryCache()
                 .resize(width, height)
                 .centerInside()
-                .error(getDrawable(R.drawable.video))
+                .error(getResources().getDrawable(R.drawable.video))
                 .into(mPoster);
 
     }

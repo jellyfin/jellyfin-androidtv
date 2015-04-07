@@ -210,15 +210,15 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         RecommendationManager.getInstance().recommend(mPlaybackController.getCurrentlyPlayingItem().getId());
+        super.onDestroy();
     }
 
     @Override
     public void onPause() {
-        super.onPause();
         mPlaybackController.stop();
         stopClock();
+        super.onPause();
     }
 
     private void updateClock() {
@@ -329,7 +329,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                     }
                     setFadingEnabled(false);
                     List<MediaStream> subtitles = TvApp.getApplication().getPlaybackManager().getInPlaybackSelectableSubtitleStreams(mPlaybackController.getCurrentStreamInfo());
-                    PopupMenu subMenu = new PopupMenu(getActivity(), getActivity().findViewById(R.id.playback_progress), Gravity.RIGHT);
+                    PopupMenu subMenu = Utils.createPopupMenu(getActivity(), getActivity().findViewById(R.id.playback_progress), Gravity.RIGHT);
                     MenuItem none = subMenu.getMenu().add(0, -1, 0, mApplication.getString(R.string.lbl_none));
                     int currentSubIndex = Utils.NullCoalesce(mPlaybackController.getCurrentStreamInfo().getSubtitleStreamIndex(), -1);
                     if (currentSubIndex < 0) none.setChecked(true);
@@ -364,7 +364,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
                     List<MediaStream> audioTracks = TvApp.getApplication().getPlaybackManager().getInPlaybackSelectableAudioStreams(mPlaybackController.getCurrentStreamInfo());
                     int currentAudioIndex = Utils.NullCoalesce(mPlaybackController.getCurrentStreamInfo().getAudioStreamIndex(), 0);
-                    PopupMenu audioMenu = new PopupMenu(getActivity(), getActivity().findViewById(R.id.playback_progress), Gravity.RIGHT);
+                    PopupMenu audioMenu = Utils.createPopupMenu(getActivity(), getActivity().findViewById(R.id.playback_progress), Gravity.RIGHT);
                     for (MediaStream audio : audioTracks) {
                         MenuItem item = audioMenu.getMenu().add(0, audio.getIndex(), audio.getIndex(), Utils.SafeToUpper(audio.getLanguage()) + " " + Utils.SafeToUpper(audio.getCodec()) + " (" + audio.getChannelLayout() + ")");
                         if (currentAudioIndex == audio.getIndex()) item.setChecked(true);
