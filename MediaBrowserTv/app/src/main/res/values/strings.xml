@@ -174,7 +174,7 @@
     <string name="sum_enable_hls">Disable only if experiencing playback problems</string>
     <string name="lbl_tv_queuing">Queue all subsequent episodes</string>
     <string name="sum_tv_queuing">Add the rest of the season to the playback queue when playing an episode</string>
-    <string name="lbl_search_hint">Type search text or select for keyboard</string>
+    <string name="lbl_search_hint">Search text (select for keyboard)</string>
 
 
 </resources>
