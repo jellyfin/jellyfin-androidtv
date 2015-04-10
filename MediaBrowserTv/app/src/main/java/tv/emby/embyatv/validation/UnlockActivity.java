@@ -2,23 +2,18 @@ package tv.emby.embyatv.validation;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
-import com.jakewharton.disklrucache.Util;
 
 import java.util.UUID;
 
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.util.Utils;
-import tv.emby.embyatv.util.billing.IabHelper;
-import tv.emby.embyatv.util.billing.IabResult;
-import tv.emby.embyatv.util.billing.Purchase;
+import tv.emby.embyatv.validation.billing.IabHelper;
+import tv.emby.embyatv.validation.billing.IabResult;
+import tv.emby.embyatv.validation.billing.Purchase;
 
 public class UnlockActivity extends Activity {
 
@@ -30,7 +25,7 @@ public class UnlockActivity extends Activity {
         setContentView(R.layout.activity_unlock);
 
         final Activity activity = this;
-        iabHelper = new IabHelper(TvApp.getApplication(), Utils.getKey());
+        iabHelper = new IabHelper(TvApp.getApplication(), IabValidator.getKey());
 
         iabHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
             @Override
@@ -52,14 +47,14 @@ public class UnlockActivity extends Activity {
             @Override
             public void onClick(View v) {
                 final String check = UUID.randomUUID().toString();
-                iabHelper.launchPurchaseFlow(activity, AppValidator.SKU_UNLOCK, 1000, new IabHelper.OnIabPurchaseFinishedListener() {
+                iabHelper.launchPurchaseFlow(activity, IabValidator.SKU_UNLOCK, 1000, new IabHelper.OnIabPurchaseFinishedListener() {
                     @Override
                     public void onIabPurchaseFinished(IabResult result, Purchase info) {
                         if (!result.isSuccess()) {
                             TvApp.getApplication().getLogger().Error("Error unlocking app. "+result.getMessage());
                             Utils.showToast(TvApp.getApplication(), getString(R.string.msg_purchase_error));
                         } else {
-                            if (info.getSku().equals(AppValidator.SKU_UNLOCK) && info.getDeveloperPayload().equals(check)) {
+                            if (info.getSku().equals(IabValidator.SKU_UNLOCK) && info.getDeveloperPayload().equals(check)) {
                                 TvApp.getApplication().getLogger().Info("Application unlocked with purchase.");
                                 TvApp.getApplication().setPaid(true);
                                 Utils.showToast(TvApp.getApplication(), getString(R.string.msg_thank_you_unlocked));
