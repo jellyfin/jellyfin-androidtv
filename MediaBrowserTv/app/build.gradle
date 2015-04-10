@@ -2,15 +2,14 @@ apply plugin: 'com.android.application'
 
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 21
     buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "tv.emby.embyatv"
         minSdkVersion 17
-        targetSdkVersion 22
-        versionCode 1005
-        versionName "1.0.05"
+        targetSdkVersion 21
+        versionCode 1006
     }
 
     compileOptions {
@@ -24,6 +23,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    productFlavors {
+        google {
+            versionName = "1.0.06g"
+        }
+        amazon {
+            versionName = "1.0.06a"
+        }
+    }
+
 }
 
 dependencies {
