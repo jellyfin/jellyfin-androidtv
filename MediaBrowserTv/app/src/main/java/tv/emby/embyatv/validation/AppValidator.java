@@ -4,9 +4,6 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.registration.RegistrationInfo;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.util.Utils;
-import tv.emby.embyatv.validation.billing.IabHelper;
-import tv.emby.embyatv.validation.billing.IabResult;
-import tv.emby.embyatv.validation.billing.Inventory;
 
 /**
  * Created by Eric on 3/3/2015.
