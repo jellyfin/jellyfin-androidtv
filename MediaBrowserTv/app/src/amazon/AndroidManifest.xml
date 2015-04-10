@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="tv.emby.embyatv">
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO"
+        tools:node="remove"/>
+    <uses-permission android:name="com.android.vending.BILLING"
+        tools:node="remove"/>
+    <uses-permission android:name="com.android.vending.CHECK_LICENSE"
+        tools:node="remove"/>
+
+
+</manifest>
