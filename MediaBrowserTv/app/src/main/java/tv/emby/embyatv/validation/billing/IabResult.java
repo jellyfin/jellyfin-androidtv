@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package tv.emby.embyatv.util.billing;
+package tv.emby.embyatv.validation.billing;
 
 /**
  * Represents the result of an in-app billing operation.
