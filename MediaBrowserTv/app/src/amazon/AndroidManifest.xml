@@ -3,12 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="tv.emby.embyatv">
 
-    <uses-permission android:name="android.permission.RECORD_AUDIO"
-        tools:node="remove"/>
     <uses-permission android:name="com.android.vending.BILLING"
         tools:node="remove"/>
     <uses-permission android:name="com.android.vending.CHECK_LICENSE"
         tools:node="remove"/>
 
+    <application>
+        <activity
+            android:name=".startup.StartupActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" tools:node="remove" />
+                <category android:name="android.intent.category.LAUNCHER" />
+
+            </intent-filter>
+        </activity>
+
+    </application>
 
 </manifest>
