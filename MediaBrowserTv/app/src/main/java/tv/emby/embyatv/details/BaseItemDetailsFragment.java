@@ -38,12 +38,15 @@ import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
+import mediabrowser.model.channels.ChannelQuery;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.ChapterInfoDto;
 import mediabrowser.model.dto.ImageOptions;
 import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.ImageType;
+import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.ProgramInfoDto;
+import mediabrowser.model.livetv.ProgramQuery;
 import mediabrowser.model.livetv.SeriesTimerInfoDto;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
@@ -137,8 +140,23 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     }
 
     private void loadItem(String id) {
+        final BaseItemDetailsFragment us = this;
+        if (mChannelId != null) {
+            // if we are displaying a live tv channel - we want to get whatever is showing now on that channel
+            mApplication.getApiClient().GetLiveTvChannelAsync(mChannelId, TvApp.getApplication().getCurrentUser().getId(), new Response<ChannelInfoDto>() {
+                @Override
+                public void onResponse(ChannelInfoDto response) {
+                    mProgramInfo = response.getCurrentProgram();
+                    mItemId = mProgramInfo.getId();
+                    mApplication.getApiClient().GetItemAsync(mItemId, mApplication.getCurrentUser().getId(), new DetailItemLoadResponse(us));
+
+                }
+            });
+        } else {
+            mApplication.getApiClient().GetItemAsync(id, mApplication.getCurrentUser().getId(), new DetailItemLoadResponse(this));
+        }
+        
         lastLoaded = Calendar.getInstance();
-        mApplication.getApiClient().GetItemAsync(id, mApplication.getCurrentUser().getId(), new DetailItemLoadResponse(this));
     }
 
     @Override
