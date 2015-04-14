@@ -155,7 +155,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
         } else {
             mApplication.getApiClient().GetItemAsync(id, mApplication.getCurrentUser().getId(), new DetailItemLoadResponse(this));
         }
-        
+
         lastLoaded = Calendar.getInstance();
     }
 
