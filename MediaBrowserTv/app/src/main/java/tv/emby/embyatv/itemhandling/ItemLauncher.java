@@ -163,10 +163,7 @@ public class ItemLauncher {
             case User:
                 final UserDto user = rowItem.getUser();
                 if (user.getHasPassword()) {
-                    Intent pwIntent = new Intent(activity, DpadPwActivity.class);
-                    pwIntent.putExtra("User", application.getSerializer().SerializeToString(user));
-                    pwIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    activity.startActivity(pwIntent);
+                    Utils.processPasswordEntry(activity, user);
 
                 } else {
                     Utils.loginUser(user.getName(), "", application.getLoginApiClient(), activity);

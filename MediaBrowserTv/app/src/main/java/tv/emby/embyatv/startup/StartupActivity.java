@@ -94,10 +94,7 @@ public class StartupActivity extends Activity {
                         @Override
                         public void onResponse(final UserDto response) {
                             if (response.getHasPassword() && application.getPrefs().getBoolean("pref_auto_pw_prompt", false)) {
-                                Intent pwIntent = new Intent(activity, DpadPwActivity.class);
-                                pwIntent.putExtra("User", application.getSerializer().SerializeToString(response));
-                                pwIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                activity.startActivity(pwIntent);
+                                Utils.processPasswordEntry(activity, response);
 
                             } else {
                                 application.setCurrentUser(response);
