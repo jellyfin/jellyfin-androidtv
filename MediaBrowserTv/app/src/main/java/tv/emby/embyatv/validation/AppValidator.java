@@ -10,10 +10,8 @@ import tv.emby.embyatv.util.Utils;
  */
 public class AppValidator {
 
-    private IabValidator iabValidator;
 
     public AppValidator() {
-        iabValidator = new IabValidator();
     }
 
     public void validate() {
@@ -29,14 +27,14 @@ public class AppValidator {
                     }
                 } else {
                     //If that fails, then we check for our in-app billing purchase
-                    iabValidator.checkInAppPurchase();
+                    new IabValidator().checkInAppPurchase();
                 }
             }
 
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving registration info", exception);
-                iabValidator.checkInAppPurchase();
+                new IabValidator().checkInAppPurchase();
             }
         });
 

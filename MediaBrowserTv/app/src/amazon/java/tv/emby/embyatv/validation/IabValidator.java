@@ -1,6 +1,17 @@
 package tv.emby.embyatv.validation;
 
+import android.app.Activity;
+
+import com.amazon.device.iap.PurchasingService;
+import com.amazon.device.iap.model.FulfillmentResult;
+import com.amazon.device.iap.model.Receipt;
+import com.amazon.device.iap.model.UserData;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.validation.billing.PurchasingListener;
 
 /**
  * Created by Eric on 4/10/2015.
@@ -9,16 +20,55 @@ public class IabValidator {
 
     public static String SKU_UNLOCK = "tv.emby.embyatv.unlock";
 
-    private static final String k1 = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhAR9t5CAdBY+iOXd4QkZeSTttHtpQ48mLM+k2h0i54FWDLhn28CDUIDogQSZTLKBu0Qshp+i0KUjCD";
-    private static final String k2 = "iiyQfQjYe0pgdpC7hk2ZzuOjy8C1Pb8GEhJYUoH7Pg/3ZnEZrV8kdNtfAu/TtvKGFkrhBCVrMQVN/TTKfZrq36IHC2HEqGAOin2CYV323ZjnSJpJQkGuOISy+I";
-    private static final String k3 = "PvVi1EBf7+bfK3dqbv461xcSz0HtC5aJwDfvYS+fVE0X+7bLpbz93gPP07Il9ntKSCVYsmiv4PJ8uVfjVrFdaxEJowK89/+S1hD4AaDGLk90l7nfVKdXC7qpKu";
-    private static final String k4 = "I+ZwyT8czrx8qyCvU5MQIDAQAB";
+    private String amazonUserId;
+    private String amazonMarketplace;
 
+    private Activity purchaseActivity;
 
-    public static String getKey() { return k1+k3+k2+k4;}
+    public IabValidator() {
+        PurchasingService.registerListener(TvApp.getApplication(), new PurchasingListener(this));
+        final Set<String> productSkus =  new HashSet();
+        productSkus.add(SKU_UNLOCK);
+        PurchasingService.getProductData(productSkus);
+        PurchasingService.getUserData();
+    }
+
+    public void setAmazonUserId(String id, String marketplace) {
+        amazonUserId = id;
+        amazonMarketplace = marketplace;
+    }
+
+    public void purchase(Activity activity) {
+        purchaseActivity = activity;
+        PurchasingService.purchase(SKU_UNLOCK);
+    }
+
+    public void purchaseComplete() {
+        purchaseActivity.finish();
+    }
 
     public void checkInAppPurchase() {
-        TvApp.getApplication().getLogger().Info("This would check the Amazon in app purchase...");
+        TvApp.getApplication().getLogger().Info("Checking Amazon purchase...");
+        PurchasingService.getPurchaseUpdates(true);
+    }
+
+    public void setAppUnlocked(boolean value) {
+        TvApp.getApplication().setPaid(value);
+    }
+
+    public void handleReceipt(Receipt receipt) {
+        if (receipt.isCanceled()) {
+            setAppUnlocked(false);
+        } else {
+            if (receipt.getSku().equals(SKU_UNLOCK)) {
+                setAppUnlocked(true);
+                PurchasingService.notifyFulfillment(receipt.getReceiptId(), FulfillmentResult.FULFILLED);
+                TvApp.getApplication().getLogger().Info("App is unlocked via purchase");
+            } else {
+                TvApp.getApplication().getLogger().Info("Invalid sku reported: "+receipt.getSku());
+                PurchasingService.notifyFulfillment(receipt.getReceiptId(), FulfillmentResult.UNAVAILABLE);
+            }
+        }
     }
 
 }
