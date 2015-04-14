@@ -79,6 +79,7 @@ import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.details.DetailsActivity;
+import tv.emby.embyatv.startup.DpadPwActivity;
 import tv.emby.embyatv.startup.LogonCredentials;
 import tv.emby.embyatv.startup.SelectUserActivity;
 
@@ -1054,5 +1055,33 @@ public class Utils {
         return isFireTv() ?
                 TvApp.getApplication().getResources().getColor(R.color.fastlane_fire) :
                 TvApp.getApplication().getResources().getColor(R.color.fastlane_background);
+    }
+
+    public static void processPasswordEntry(Activity activity, UserDto user) {
+        processPasswordEntry(activity, user, null);
+    }
+
+    public static void processPasswordEntry(final Activity activity, final UserDto user, final String directItemId) {
+        if (TvApp.getApplication().getPrefs().getBoolean("pref_alt_pw_entry", false)) {
+            Intent pwIntent = new Intent(activity, DpadPwActivity.class);
+            pwIntent.putExtra("User", TvApp.getApplication().getSerializer().SerializeToString(user));
+            pwIntent.putExtra("ItemId", directItemId);
+            pwIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            activity.startActivity(pwIntent);
+        } else {
+            TvApp.getApplication().getLogger().Debug("Requesting dialog...");
+            final EditText password = new EditText(activity);
+            password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            new AlertDialog.Builder(activity)
+                    .setTitle("Enter Password")
+                    .setMessage("Please enter password for " + user.getName())
+                    .setView(password)
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            String pw = password.getText().toString();
+                            Utils.loginUser(user.getName(), pw, TvApp.getApplication().getLoginApiClient(), activity, directItemId);
+                        }
+                    }).show();
+        }
     }
 }

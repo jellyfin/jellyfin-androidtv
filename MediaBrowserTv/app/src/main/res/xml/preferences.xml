@@ -13,6 +13,11 @@
             android:defaultValue="false"
             />
 
+        <CheckBoxPreference android:key="pref_alt_pw_entry"
+            android:title="@string/pref_alt_pw_entry"
+            android:summary="@string/pref_alt_pw_entry_desc"
+            android:defaultValue="false"
+            />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_playback" >
