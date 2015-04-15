@@ -1,25 +1,12 @@
-/*
- * Copyright (C) 2014 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
- */
-
 package tv.emby.embyatv.browsing;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
-import android.support.v17.leanback.app.BrowseFragment;
+import android.support.v17.leanback.app.RowsFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
@@ -30,8 +17,9 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.util.DisplayMetrics;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -41,22 +29,23 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import mediabrowser.apiinteraction.ApiClient;
+import tv.emby.embyatv.R;
+import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
-import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.search.SearchActivity;
-import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.ViewQuery;
+import tv.emby.embyatv.search.SearchActivity;
 import tv.emby.embyatv.util.Utils;
 
-public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
-    private static final String TAG = "StdBrowseFragment";
-
+/**
+ * Created by Eric on 4/15/2015.
+ */
+public class CustomBrowseFragment extends Fragment implements IRowLoader {
+    private RowsFragment mRowsFragment;
     private static final int BACKGROUND_UPDATE_DELAY = 100;
 
     protected String MainTitle;
@@ -73,6 +62,27 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     private String mBackgroundUrl;
     protected ArrayList<BrowseRowDef> mRows = new ArrayList<>();
     CardPresenter mCardPresenter;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View root = inflater.inflate(R.layout.fragment_custom_browse, container, false);
+
+        // Inject the RowsFragment in the results container
+        if (getChildFragmentManager().findFragmentById(R.id.rows_area) == null) {
+            mRowsFragment = new RowsFragment();
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.rows_area, mRowsFragment).commit();
+        } else {
+            mRowsFragment = (RowsFragment) getChildFragmentManager()
+                    .findFragmentById(R.id.rows_area);
+        }
+
+        mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+        mRowsFragment.setAdapter(mRowsAdapter);
+
+        return root;
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -176,7 +186,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
         addAdditionalRows(mRowsAdapter);
 
-        setAdapter(mRowsAdapter);
+        mRowsFragment.setAdapter(mRowsAdapter);
 
     }
 
@@ -197,32 +207,14 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     }
 
     protected void setupUIElements() {
-        if (ShowBadge) setBadgeDrawable(getActivity().getResources().getDrawable(R.drawable.mblogo));
-        setTitle(MainTitle); // Badge, when set, takes precedent
-        // over title
-        setHeadersState(HEADERS_ENABLED);
-        setHeadersTransitionOnBackEnabled(true);
-
-        // set fastLane (or headers) background color
-        setBrandColor(Utils.getBrandColor());
-        // set search icon color
-        setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
     }
 
     protected void setupEventListeners() {
-        setOnSearchClickedListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
-                getActivity().startActivity(intent);
-            }
-        });
-
-        setOnItemViewClickedListener(mClickedListener);
+        mRowsFragment.setOnItemViewClickedListener(mClickedListener);
         mClickedListener.registerListener(new ItemViewClickedListener());
 
-        setOnItemViewSelectedListener(mSelectedListener);
+        mRowsFragment.setOnItemViewSelectedListener(mSelectedListener);
         mSelectedListener.registerListener(new ItemViewSelectedListener());
     }
 

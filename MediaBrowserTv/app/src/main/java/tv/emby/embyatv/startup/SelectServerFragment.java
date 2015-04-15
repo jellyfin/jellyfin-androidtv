@@ -20,6 +20,7 @@ import java.util.List;
 
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.apiclient.ServerInfo;
+import tv.emby.embyatv.browsing.CustomBrowseFragment;
 import tv.emby.embyatv.ui.GridButton;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.R;
@@ -32,7 +33,7 @@ import tv.emby.embyatv.presentation.GridButtonPresenter;
 /**
  * Created by Eric on 12/4/2014.
  */
-public class SelectServerFragment extends StdBrowseFragment {
+public class SelectServerFragment extends CustomBrowseFragment {
     private static final int GRID_ITEM_WIDTH = 200;
     private static final int GRID_ITEM_HEIGHT = 200;
     private static final int ENTER_MANUALLY = 0;
@@ -57,9 +58,6 @@ public class SelectServerFragment extends StdBrowseFragment {
     @Override
     protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
         super.addAdditionalRows(rowAdapter);
-
-        setHeadersState(HEADERS_DISABLED);
-
 
         HeaderItem serverHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_select_server), null);
         ItemRowAdapter serverAdapter = new ItemRowAdapter(mServers.toArray(new ServerInfo[mServers.size()]), new CardPresenter(), rowAdapter);
