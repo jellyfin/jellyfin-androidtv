@@ -253,11 +253,16 @@ public class ItemLauncher {
                 TvApp.getApplication().getApiClient().GetItemAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
-                        String[] items = new String[] {TvApp.getApplication().getSerializer().SerializeToString(response)};
-                        Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
-                        intent.putExtra("Items", items);
-                        intent.putExtra("Position", 0);
-                        activity.startActivity(intent);
+                        Utils.getItemsToPlay(response, false, new Response<String[]>() {
+                            @Override
+                            public void onResponse(String[] response) {
+                                Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                                intent.putExtra("Items", response);
+                                intent.putExtra("Position", 0);
+                                activity.startActivity(intent);
+
+                            }
+                        });
                     }
                 });
                 break;
