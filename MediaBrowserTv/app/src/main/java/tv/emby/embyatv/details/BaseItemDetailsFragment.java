@@ -462,7 +462,12 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     public void setBaseItem(BaseItemDto item) {
         mBaseItem = item;
         if (mBaseItem != null) {
-            if (mChannelId != null) mBaseItem.setParentId(mChannelId);
+            if (mChannelId != null) {
+                mBaseItem.setParentId(mChannelId);
+                mBaseItem.setPremiereDate(mProgramInfo.getStartDate());
+                mBaseItem.setEndDate(mProgramInfo.getEndDate());
+                mBaseItem.setRunTimeTicks(mProgramInfo.getRunTimeTicks());
+            }
             mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask().execute(mBaseItem);
             updateBackground(Utils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true));
         }

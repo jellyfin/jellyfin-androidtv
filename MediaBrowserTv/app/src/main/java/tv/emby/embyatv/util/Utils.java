@@ -428,6 +428,12 @@ public class Utils {
                 TvApp.getApplication().getApiClient().GetItemAsync(mainItem.getParentId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
+                        // fill in info about the specific program for display
+                        response.setPremiereDate(mainItem.getPremiereDate());
+                        response.setEndDate(mainItem.getEndDate());
+                        response.setName(mainItem.getName() + " (" + response.getName() + ")");
+                        response.setOfficialRating(mainItem.getOfficialRating());
+                        response.setRunTimeTicks(mainItem.getRunTimeTicks());
                         items.add(serializer.SerializeToString(response));
                         outerResponse.onResponse(items.toArray(new String[items.size()]));
                     }
@@ -435,6 +441,25 @@ public class Utils {
                     @Override
                     public void onError(Exception exception) {
                         super.onError(exception);
+                    }
+                });
+                break;
+
+            case "TvChannel":
+                // Retrieve full channel info for display
+                TvApp.getApplication().getApiClient().GetLiveTvChannelAsync(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ChannelInfoDto>() {
+                    @Override
+                    public void onResponse(ChannelInfoDto response) {
+                        // get current program info and fill it into our item
+                        ProgramInfoDto program = response.getCurrentProgram();
+                        if (program != null) {
+                            mainItem.setName(program.getName() + " (" + mainItem.getName() + ")");
+                            mainItem.setPremiereDate(program.getStartDate());
+                            mainItem.setEndDate(program.getEndDate());
+                            mainItem.setOfficialRating(program.getOfficialRating());
+                            mainItem.setRunTimeTicks(program.getRunTimeTicks());
+                        }
+                        addMainItem(mainItem, serializer, items, outerResponse);
                     }
                 });
                 break;
@@ -553,7 +578,7 @@ public class Utils {
                     sb.append("m");
                 }
 
-                if (item.getOfficialRating() != null) {
+                if (item.getOfficialRating() != null && !item.getOfficialRating().equals("0")) {
                     addWithDivider(sb, item.getOfficialRating());
                 }
 
@@ -572,6 +597,7 @@ public class Utils {
 
                         break;
                     case "Program":
+                    case "TvChannel":
                         if (item.getPremiereDate() != null && item.getEndDate() != null) {
                             addWithDivider(sb, android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(convertToLocalDate(item.getPremiereDate()))
                             + "-"+ android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(convertToLocalDate(item.getEndDate())));
@@ -582,9 +608,6 @@ public class Utils {
                             addWithDivider(sb, new SimpleDateFormat("d MMM y").format(convertToLocalDate(item.getPremiereDate())));
                         }
 
-                }
-                if (item.getType().equals("Series")) {
-                } else {
                 }
 
         }
