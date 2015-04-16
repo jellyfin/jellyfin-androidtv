@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.view.KeyEvent;
 
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.util.Utils;
@@ -17,6 +18,8 @@ public class BaseActivity extends Activity {
     private long timeoutInterval = 3600000;
     private Handler autoLogoutHandler = new Handler();
     private Runnable loop;
+    private KeyListener keyListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,4 +63,12 @@ public class BaseActivity extends Activity {
 
     }
 
+    public void registerKeyListener(KeyListener listener) {
+        keyListener = listener;
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        return keyListener != null ? keyListener.onKeyUp(keyCode, event) || super.onKeyUp(keyCode, event) : super.onKeyUp(keyCode, event);
+    }
 }
