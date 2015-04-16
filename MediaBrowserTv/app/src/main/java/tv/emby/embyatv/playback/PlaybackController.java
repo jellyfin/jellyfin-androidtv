@@ -5,9 +5,11 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v17.leanback.widget.PlaybackControlsRow;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.VideoView;
 
+import java.util.Date;
 import java.util.List;
 
 import mediabrowser.apiinteraction.ApiClient;
@@ -21,6 +23,8 @@ import mediabrowser.model.dlna.VideoOptions;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.MediaSourceInfo;
 import mediabrowser.model.library.PlayAccess;
+import mediabrowser.model.livetv.ChannelInfoDto;
+import mediabrowser.model.livetv.ProgramInfoDto;
 import mediabrowser.model.session.PlayMethod;
 import mediabrowser.model.session.PlaybackStartInfo;
 import tv.emby.embyatv.R;
@@ -59,6 +63,10 @@ public class PlaybackController {
     private int mLastReportedTime;
     private boolean mayBeFrozen = false;
     private int mPositionOffset = 0;
+    private long mCurrentProgramEndTime;
+    private long mCurrentProgramStartTime;
+    private boolean isLiveTv;
+    private String liveTvChannelName = "";
 
     public PlaybackController(List<BaseItemDto> items, PlaybackOverlayFragment fragment) {
         mItems = items;
@@ -159,10 +167,20 @@ public class PlaybackController {
         return Integer.parseInt(maxRate) * 1000000;
     }
 
+    private int getCurrentOffset(Date start) {
+        Long millis = System.currentTimeMillis() - start.getTime();
+        return millis.intValue();
+    }
+
     private void playInternal(final BaseItemDto item, final int position, final VideoView view, VideoOptions options) {
         final ApiClient apiClient = mApplication.getApiClient();
         mPositionOffset = 0;
         mApplication.setCurrentPlayingItem(item);
+        isLiveTv = item.getType().equals("TvChannel");
+        if (isLiveTv) {
+            liveTvChannelName = " ("+item.getName()+")";
+            updateTvProgramInfo();
+        }
 
         mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
             @Override
@@ -341,6 +359,35 @@ public class PlaybackController {
         return UPDATE_PERIOD;
     }
 
+    private void updateTvProgramInfo() {
+        // Get the current program info when playing a live TV channel
+        final BaseItemDto channel = getCurrentlyPlayingItem();
+        if (channel.getType().equals("TvChannel")) {
+            TvApp.getApplication().getApiClient().GetLiveTvChannelAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ChannelInfoDto>() {
+                @Override
+                public void onResponse(ChannelInfoDto response) {
+                    ProgramInfoDto program = response.getCurrentProgram();
+                    if (program != null) {
+                        channel.setName(program.getName() + liveTvChannelName);
+                        channel.setPremiereDate(program.getStartDate());
+                        channel.setEndDate(program.getEndDate());
+                        channel.setOfficialRating(program.getOfficialRating());
+                        channel.setRunTimeTicks(program.getRunTimeTicks());
+                        mCurrentProgramEndTime = channel.getEndDate() != null ? Utils.convertToLocalDate(channel.getEndDate()).getTime() : 0;
+                        mCurrentProgramStartTime = channel.getPremiereDate() != null ? Utils.convertToLocalDate(channel.getPremiereDate()).getTime() : 0;
+                        mFragment.updatePlaybackControls();
+                    }
+                }
+            });
+
+        }
+    }
+
+    private int getRealTimeProgress() {
+        Long time = System.currentTimeMillis() - mCurrentProgramStartTime;
+        return time.intValue();
+    }
+
     private void startProgressAutomation() {
         mProgressLoop = new Runnable() {
             @Override
@@ -352,7 +399,11 @@ public class PlaybackController {
                         spinnerOff = true;
                         if (mSpinner != null) mSpinner.setVisibility(View.GONE);
                     }
-                    final int currentTime = mVideoView.getCurrentPosition() + mPositionOffset;
+                    if (isLiveTv && mCurrentProgramEndTime > 0 && System.currentTimeMillis() >= mCurrentProgramEndTime) {
+                        // crossed fire off an async routine to update the program info
+                        updateTvProgramInfo();
+                    }
+                    final int currentTime = isLiveTv && mCurrentProgramStartTime > 0 ? getRealTimeProgress() : mVideoView.getCurrentPosition() + mPositionOffset;
                     controls.setCurrentTime(currentTime);
                     mCurrentPosition = currentTime;
                     //The very end of some videos over hls cause the VideoView to freeze which freezes our whole app

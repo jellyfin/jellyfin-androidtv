@@ -431,7 +431,6 @@ public class Utils {
                         // fill in info about the specific program for display
                         response.setPremiereDate(mainItem.getPremiereDate());
                         response.setEndDate(mainItem.getEndDate());
-                        response.setName(mainItem.getName() + " (" + response.getName() + ")");
                         response.setOfficialRating(mainItem.getOfficialRating());
                         response.setRunTimeTicks(mainItem.getRunTimeTicks());
                         items.add(serializer.SerializeToString(response));
@@ -453,7 +452,6 @@ public class Utils {
                         // get current program info and fill it into our item
                         ProgramInfoDto program = response.getCurrentProgram();
                         if (program != null) {
-                            mainItem.setName(program.getName() + " (" + mainItem.getName() + ")");
                             mainItem.setPremiereDate(program.getStartDate());
                             mainItem.setEndDate(program.getEndDate());
                             mainItem.setOfficialRating(program.getOfficialRating());
