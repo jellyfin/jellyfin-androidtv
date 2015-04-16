@@ -189,6 +189,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                                 .get();
                 row.setImageBitmap(mActivity, poster);
             } catch (IOException e) {
+                TvApp.getApplication().getLogger().ErrorException("Error loading image", e);
             }
 
             UserItemDataDto userData = mBaseItem.getUserData();
