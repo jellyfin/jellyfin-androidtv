@@ -31,22 +31,30 @@ import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import mediabrowser.apiinteraction.ApiClient;
+import mediabrowser.apiinteraction.Response;
+import mediabrowser.model.dto.BaseItemDto;
+import tv.emby.embyatv.base.BaseActivity;
+import tv.emby.embyatv.base.KeyListener;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.R;
+import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.search.SearchActivity;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.presentation.CardPresenter;
@@ -62,6 +70,8 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     protected String MainTitle;
     protected boolean ShowBadge = true;
     protected TvApp mApplication;
+    protected BaseActivity mActivity;
+    protected BaseRowItem mCurrentItem;
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ArrayObjectAdapter mRowsAdapter;
@@ -79,6 +89,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         super.onActivityCreated(savedInstanceState);
 
         mApplication = TvApp.getApplication();
+        if (getActivity() instanceof BaseActivity) mActivity = (BaseActivity)getActivity();
 
         prepareBackgroundManager();
 
@@ -209,6 +220,37 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
     }
 
+    protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
+        Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), new Response<String[]>() {
+            @Override
+            public void onResponse(String[] response) {
+                Intent intent = new Intent(getActivity(), PlaybackOverlayActivity.class);
+                if (shuffle) Collections.shuffle(Arrays.asList(response));
+                intent.putExtra("Items", response);
+                intent.putExtra("Position", pos);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    protected void retrieveAndPlay(String id) {
+        mApplication.getApiClient().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+            @Override
+            public void onResponse(BaseItemDto response) {
+                Long pos = response.getUserData() != null ? response.getUserData().getPlaybackPositionTicks() / 10000 : 0;
+                play(response, pos.intValue(), false);
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                mApplication.getLogger().ErrorException("Error retrieving item for playback",exception);
+                Utils.showToast(mActivity, R.string.msg_video_playback_error);
+            }
+        });
+
+    }
+
     protected void setupEventListeners() {
         setOnSearchClickedListener(new View.OnClickListener() {
 
@@ -224,6 +266,75 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
         setOnItemViewSelectedListener(mSelectedListener);
         mSelectedListener.registerListener(new ItemViewSelectedListener());
+
+        if (mActivity != null) {
+            mActivity.registerKeyListener(new KeyListener() {
+                @Override
+                public boolean onKeyUp(int key, KeyEvent event) {
+                    switch (key) {
+                        case KeyEvent.KEYCODE_MEDIA_PLAY:
+                        case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                            if (mCurrentItem == null) return false;
+
+                            switch (mCurrentItem.getItemType()) {
+
+                                case BaseItem:
+                                    BaseItemDto item = mCurrentItem.getBaseItem();
+                                    switch (item.getType()) {
+                                        case "Movie":
+                                        case "Episode":
+                                        case "TvChannel":
+                                        case "Program":
+                                            // give some audible feedback
+                                            Utils.Beep();
+                                            // retrieve full item and play
+                                            retrieveAndPlay(item.getId());
+                                            return true;
+                                    }
+                                    break;
+                                case Person:
+                                    break;
+                                case Server:
+                                    break;
+                                case User:
+                                    break;
+                                case Chapter:
+                                    break;
+                                case SearchHint:
+                                    switch (mCurrentItem.getSearchHint().getType()) {
+                                        case "Movie":
+                                        case "Episode":
+                                        case "TvChannel":
+                                        case "Program":
+                                            // give some audible feedback
+                                            Utils.Beep();
+                                            // retrieve full item and play
+                                            retrieveAndPlay(mCurrentItem.getItemId());
+                                            return true;
+                                    }
+                                    break;
+                                case LiveTvChannel:
+                                case LiveTvRecording:
+                                    // give some audible feedback
+                                    Utils.Beep();
+                                    // retrieve full item and play
+                                    retrieveAndPlay(mCurrentItem.getItemId());
+                                    return true;
+                                case LiveTvProgram:
+                                    // give some audible feedback
+                                    Utils.Beep();
+                                    // retrieve channel this program belongs to and play
+                                    retrieveAndPlay(mCurrentItem.getProgramInfo().getChannelId());
+                                    return true;
+                                case GridButton:
+                                    break;
+                            }
+                            break;
+                    }
+                    return false;
+                }
+            });
+        }
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
@@ -241,10 +352,13 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
             if (!(item instanceof BaseRowItem)) {
+                mCurrentItem = null;
                 //fill in default background
                 mBackgroundUrl = null;
                 startBackgroundTimer();
                 return;
+            } else {
+                mCurrentItem = (BaseRowItem)item;
             }
 
             BaseRowItem rowItem = (BaseRowItem) item;

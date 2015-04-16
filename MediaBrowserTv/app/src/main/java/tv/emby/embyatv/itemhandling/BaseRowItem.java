@@ -183,6 +183,34 @@ public class BaseRowItem {
         return TvApp.getApplication().getString(R.string.lbl_bracket_unknown);
     }
 
+    public String getItemId() {
+        switch (type) {
+
+            case BaseItem:
+                return baseItem.getId();
+            case Person:
+                return person.getId();
+            case Chapter:
+                return chapterInfo.getItemId();
+            case Server:
+                return serverInfo.getId();
+            case User:
+                return user.getId();
+            case LiveTvChannel:
+                return channelInfo.getId();
+            case LiveTvProgram:
+                return programInfo.getId();
+            case LiveTvRecording:
+                return recordingInfo.getId();
+            case GridButton:
+                return null;
+            case SearchHint:
+                return searchHint.getItemId();
+        }
+
+        return null;
+    }
+
     public String getSubText() {
         switch (type) {
 
