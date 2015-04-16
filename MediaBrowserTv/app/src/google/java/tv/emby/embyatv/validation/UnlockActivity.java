@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import org.acra.ACRA;
+
 import java.util.UUID;
 
 import tv.emby.embyatv.R;
@@ -52,7 +54,10 @@ public class UnlockActivity extends Activity {
                     public void onIabPurchaseFinished(IabResult result, Purchase info) {
                         if (!result.isSuccess()) {
                             TvApp.getApplication().getLogger().Error("Error unlocking app. "+result.getMessage());
+                            TvApp.getApplication().getLogger().Error(result.toString());
                             Utils.showToast(TvApp.getApplication(), getString(R.string.msg_purchase_error));
+                            Utils.PutCustomAcraData();
+                            ACRA.getErrorReporter().handleException(new Exception("Error with purchase"), false);
                         } else {
                             if (info.getSku().equals(IabValidator.SKU_UNLOCK) && info.getDeveloperPayload().equals(check)) {
                                 TvApp.getApplication().getLogger().Info("Application unlocked with purchase.");
