@@ -63,6 +63,7 @@ public class PlaybackController {
     private int mLastReportedTime;
     private boolean mayBeFrozen = false;
     private int mPositionOffset = 0;
+    private int mStartPosition = 0;
     private long mCurrentProgramEndTime;
     private long mCurrentProgramStartTime;
     private boolean isLiveTv;
@@ -139,7 +140,7 @@ public class PlaybackController {
                     return;
                 }
 
-                mSpinner.setVisibility(View.VISIBLE);
+                startSpinner();
                 mCurrentOptions = new VideoOptions();
                 mCurrentOptions.setDeviceId(mApplication.getApiClient().getDeviceId());
                 mCurrentOptions.setItemId(item.getId());
@@ -195,10 +196,8 @@ public class PlaybackController {
                 String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken());
                 view.setVideoPath(path);
                 setPlaybackMethod(response.getPlayMethod());
-                if (position > 0) {
-                    mApplication.getPlaybackController().seek(position);
-                }
                 view.start();
+                mStartPosition = position;
 
                 PlaybackStartInfo startInfo = new PlaybackStartInfo();
                 startInfo.setItemId(item.getId());
@@ -265,6 +264,18 @@ public class PlaybackController {
 
     }
 
+    public void startSpinner() {
+        if (mSpinner != null) mSpinner.setVisibility(View.VISIBLE);
+        spinnerOff = false;
+
+    }
+
+    public void stopSpinner() {
+        spinnerOff = true;
+        if (mSpinner != null) mSpinner.setVisibility(View.GONE);
+
+    }
+
     public void setPlayPauseIndicatorState(int state) {
         mFragment.setPlayPauseActionState(state);
 
@@ -272,8 +283,7 @@ public class PlaybackController {
     public void switchAudioStream(int index) {
         if (!isPlaying()) return;
 
-        mSpinner.setVisibility(View.VISIBLE);
-        spinnerOff = false;
+        startSpinner();
         mCurrentOptions.setAudioStreamIndex(index);
         mApplication.getLogger().Debug("Setting audio index to: " + index);
         mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
@@ -284,8 +294,7 @@ public class PlaybackController {
     public void switchSubtitleStream(int index) {
         if (!isPlaying()) return;
 
-        mSpinner.setVisibility(View.VISIBLE);
-        spinnerOff = false;
+        startSpinner();
         mCurrentOptions.setSubtitleStreamIndex(index >= 0 ? index : null);
         mApplication.getLogger().Debug("Setting subtitle index to: " + index);
         mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
@@ -344,6 +353,7 @@ public class PlaybackController {
         stopProgressAutomation();
         mPlaybackState = PlaybackState.SEEKING;
         mApplication.getLogger().Debug("Seeking to "+pos);
+        startSpinner();
         mVideoView.seekTo(pos);
 
     }
@@ -396,8 +406,7 @@ public class PlaybackController {
                 PlaybackControlsRow controls = mFragment.getPlaybackControlsRow();
                 if (isPlaying()) {
                     if (!spinnerOff) {
-                        spinnerOff = true;
-                        if (mSpinner != null) mSpinner.setVisibility(View.GONE);
+                        stopSpinner();
                     }
                     if (isLiveTv && mCurrentProgramEndTime > 0 && System.currentTimeMillis() >= mCurrentProgramEndTime) {
                         // crossed fire off an async routine to update the program info
@@ -504,6 +513,7 @@ public class PlaybackController {
             @Override
             public void onPrepared(MediaPlayer mp) {
 
+                mFreezeCheckPoint = mp.getDuration() > 60000 ? mp.getDuration() - 9000 : Integer.MAX_VALUE;
                 mp.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
                     @Override
                     public void onSeekComplete(MediaPlayer mp) {
@@ -514,11 +524,16 @@ public class PlaybackController {
                         startReportLoop();
                     }
                 });
-                if (mPlaybackState == PlaybackState.BUFFERING) {
-                    mPlaybackState = PlaybackState.PLAYING;
-                    mFreezeCheckPoint = mp.getDuration() > 60000 ? mp.getDuration() - 9000 : Integer.MAX_VALUE;
-                    startProgressAutomation();
-                    startReportLoop();
+
+                if (mStartPosition > 0) {
+                    mVideoView.seekTo(mStartPosition);
+                    mStartPosition = 0; // clear for next item
+                } else {
+                    if (mPlaybackState == PlaybackState.BUFFERING) {
+                        mPlaybackState = PlaybackState.PLAYING;
+                        startProgressAutomation();
+                        startReportLoop();
+                    }
                 }
             }
         });
