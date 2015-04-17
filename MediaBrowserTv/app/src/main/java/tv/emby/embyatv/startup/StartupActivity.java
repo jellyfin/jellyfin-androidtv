@@ -70,7 +70,7 @@ public class StartupActivity extends Activity {
         capabilities.setDeviceProfile(new AndroidProfile(true, false));
         capabilities.setSupportsMediaControl(false);
         capabilities.setUrl(Utils.getStoreUrl());
-        
+
         IJsonSerializer jsonSerializer = new GsonJsonSerializer();
 
 

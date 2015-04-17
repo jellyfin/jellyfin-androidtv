@@ -76,6 +76,12 @@
         <activity
             android:name=".validation.UnlockActivity">
         </activity>
+
+        <receiver android:name=".util.RemoteControlReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

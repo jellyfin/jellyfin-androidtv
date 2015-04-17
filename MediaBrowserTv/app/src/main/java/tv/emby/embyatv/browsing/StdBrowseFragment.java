@@ -14,8 +14,11 @@
 
 package tv.emby.embyatv.browsing;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
@@ -61,6 +64,7 @@ import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.ViewQuery;
 import tv.emby.embyatv.util.KeyProcessor;
+import tv.emby.embyatv.util.RemoteControlReceiver;
 import tv.emby.embyatv.util.Utils;
 
 public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
@@ -114,8 +118,21 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     }
 
     @Override
+    public void onPause() {
+        //UnRegister a media button receiver so that all media button presses will come to us and not another app
+        AudioManager audioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
+        audioManager.unregisterMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
+
+        super.onPause();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+
+        //Register a media button receiver so that all media button presses will come to us and not another app
+        AudioManager audioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
+        audioManager.registerMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
 
         //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
         if (mRowsAdapter != null) {
