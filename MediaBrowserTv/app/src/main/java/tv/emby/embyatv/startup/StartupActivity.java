@@ -69,7 +69,8 @@ public class StartupActivity extends Activity {
         capabilities.setSupportsSync(false);
         capabilities.setDeviceProfile(new AndroidProfile(true, false));
         capabilities.setSupportsMediaControl(false);
-        capabilities.setUrl(Utils.getStoreUrl());
+        capabilities.setAppStoreUrl(Utils.getStoreUrl());
+        capabilities.setIconUrl("https://raw.githubusercontent.com/MediaBrowser/MediaBrowser.Android/master/servericon.png");
 
         IJsonSerializer jsonSerializer = new GsonJsonSerializer();
 
