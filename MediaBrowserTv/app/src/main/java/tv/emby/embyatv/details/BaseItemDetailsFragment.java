@@ -7,9 +7,12 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v17.leanback.app.BackgroundManager;
@@ -71,6 +74,7 @@ import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.SpecialsQuery;
 import tv.emby.embyatv.querying.TrailersQuery;
 import tv.emby.embyatv.util.KeyProcessor;
+import tv.emby.embyatv.util.RemoteControlReceiver;
 import tv.emby.embyatv.util.Utils;
 
 
@@ -157,6 +161,11 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     public void onResume() {
         super.onResume();
         TvApp.getApplication().getLogger().Debug("Resuming details fragment...");
+        //Register a media button receiver so that all media button presses will come to us and not another app
+        AudioManager audioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
+        audioManager.registerMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
+        //TODO implement conditional logic for api 21+
+
         //reload with our updated item
         if (lastLoaded.before(TvApp.getApplication().getLastPlayback())) loadItem(mItemId);
     }
@@ -184,6 +193,11 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     @Override
     public void onStop() {
         if (mDetailRowBuilderTask != null) mDetailRowBuilderTask.cancel(true);
+
+        //UnRegister the media button receiver
+        AudioManager audioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
+        audioManager.unregisterMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
+
         super.onStop();
     }
 

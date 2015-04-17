@@ -13,8 +13,11 @@
  */
 package tv.emby.embyatv.playback;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -68,6 +71,7 @@ import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.presentation.CardPresenter;
+import tv.emby.embyatv.util.RemoteControlReceiver;
 import tv.emby.embyatv.util.Utils;
 
 /*
@@ -210,6 +214,11 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     @Override
     public void onResume() {
         super.onResume();
+        //Register a media button receiver so that all media button presses will come to us and not another app
+        AudioManager audioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
+        audioManager.registerMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
+        //TODO implement conditional logic for api 21+
+
         startClock();
     }
 
@@ -223,6 +232,10 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     public void onPause() {
         mPlaybackController.stop();
         stopClock();
+        //UnRegister the media button receiver
+        AudioManager audioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
+        audioManager.unregisterMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
+
         super.onPause();
     }
 
