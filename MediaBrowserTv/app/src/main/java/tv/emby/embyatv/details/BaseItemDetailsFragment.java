@@ -287,7 +287,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
         @Override
         protected void onPostExecute(DetailsOverviewRow detailRow) {
             if (cancelled) return;
-            
+
             ClassPresenterSelector ps = new ClassPresenterSelector();
             // set detail background and style
             mDorPresenter.setBackgroundColor(getResources().getColor(R.color.detail_background));

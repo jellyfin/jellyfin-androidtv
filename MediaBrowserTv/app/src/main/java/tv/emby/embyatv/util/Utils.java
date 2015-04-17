@@ -519,6 +519,10 @@ public class Utils {
 
     }
 
+    public static String getStoreUrl() {
+        return isFireTv() ? "TBD" : "https://play.google.com/store/apps/details?id=tv.emby.embyatv";
+    }
+
     private static void addMainItem(BaseItemDto mainItem, GsonJsonSerializer serializer, final List<String> items, final Response<String[]> outerResponse) {
         items.add(serializer.SerializeToString(mainItem));
         if (mainItem.getPartCount() != null && mainItem.getPartCount() > 1) {
