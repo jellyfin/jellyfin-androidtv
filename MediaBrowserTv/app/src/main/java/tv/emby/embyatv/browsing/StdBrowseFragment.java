@@ -60,6 +60,7 @@ import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.ViewQuery;
+import tv.emby.embyatv.util.KeyProcessor;
 import tv.emby.embyatv.util.Utils;
 
 public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
@@ -220,37 +221,6 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
     }
 
-    protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
-        Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), new Response<String[]>() {
-            @Override
-            public void onResponse(String[] response) {
-                Intent intent = new Intent(getActivity(), PlaybackOverlayActivity.class);
-                if (shuffle) Collections.shuffle(Arrays.asList(response));
-                intent.putExtra("Items", response);
-                intent.putExtra("Position", pos);
-                startActivity(intent);
-            }
-        });
-
-    }
-
-    protected void retrieveAndPlay(String id) {
-        mApplication.getApiClient().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
-            @Override
-            public void onResponse(BaseItemDto response) {
-                Long pos = response.getUserData() != null ? response.getUserData().getPlaybackPositionTicks() / 10000 : 0;
-                play(response, pos.intValue(), false);
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                mApplication.getLogger().ErrorException("Error retrieving item for playback",exception);
-                Utils.showToast(mActivity, R.string.msg_video_playback_error);
-            }
-        });
-
-    }
-
     protected void setupEventListeners() {
         setOnSearchClickedListener(new View.OnClickListener() {
 
@@ -271,67 +241,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
             mActivity.registerKeyListener(new KeyListener() {
                 @Override
                 public boolean onKeyUp(int key, KeyEvent event) {
-                    switch (key) {
-                        case KeyEvent.KEYCODE_MEDIA_PLAY:
-                        case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                            if (mCurrentItem == null) return false;
-
-                            switch (mCurrentItem.getItemType()) {
-
-                                case BaseItem:
-                                    BaseItemDto item = mCurrentItem.getBaseItem();
-                                    switch (item.getType()) {
-                                        case "Movie":
-                                        case "Episode":
-                                        case "TvChannel":
-                                        case "Program":
-                                            // give some audible feedback
-                                            Utils.Beep();
-                                            // retrieve full item and play
-                                            retrieveAndPlay(item.getId());
-                                            return true;
-                                    }
-                                    break;
-                                case Person:
-                                    break;
-                                case Server:
-                                    break;
-                                case User:
-                                    break;
-                                case Chapter:
-                                    break;
-                                case SearchHint:
-                                    switch (mCurrentItem.getSearchHint().getType()) {
-                                        case "Movie":
-                                        case "Episode":
-                                        case "TvChannel":
-                                        case "Program":
-                                            // give some audible feedback
-                                            Utils.Beep();
-                                            // retrieve full item and play
-                                            retrieveAndPlay(mCurrentItem.getItemId());
-                                            return true;
-                                    }
-                                    break;
-                                case LiveTvChannel:
-                                case LiveTvRecording:
-                                    // give some audible feedback
-                                    Utils.Beep();
-                                    // retrieve full item and play
-                                    retrieveAndPlay(mCurrentItem.getItemId());
-                                    return true;
-                                case LiveTvProgram:
-                                    // give some audible feedback
-                                    Utils.Beep();
-                                    // retrieve channel this program belongs to and play
-                                    retrieveAndPlay(mCurrentItem.getProgramInfo().getChannelId());
-                                    return true;
-                                case GridButton:
-                                    break;
-                            }
-                            break;
-                    }
-                    return false;
+                    return KeyProcessor.HandleKey(key, mCurrentItem, getActivity());
                 }
             });
         }

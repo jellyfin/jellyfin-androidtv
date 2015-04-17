@@ -40,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -79,6 +80,7 @@ import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.details.DetailsActivity;
+import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.startup.DpadPwActivity;
 import tv.emby.embyatv.startup.LogonCredentials;
 import tv.emby.embyatv.startup.SelectUserActivity;
@@ -484,6 +486,37 @@ public class Utils {
                 }
                 break;
         }
+    }
+
+    public static void play(final BaseItemDto item, final int pos, final boolean shuffle, final Activity activity) {
+        Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), new Response<String[]>() {
+            @Override
+            public void onResponse(String[] response) {
+                Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                if (shuffle) Collections.shuffle(Arrays.asList(response));
+                intent.putExtra("Items", response);
+                intent.putExtra("Position", pos);
+                activity.startActivity(intent);
+            }
+        });
+
+    }
+
+    public static void retrieveAndPlay(String id, final Activity activity) {
+        TvApp.getApplication().getApiClient().GetItemAsync(id, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+            @Override
+            public void onResponse(BaseItemDto response) {
+                Long pos = response.getUserData() != null ? response.getUserData().getPlaybackPositionTicks() / 10000 : 0;
+                play(response, pos.intValue(), false, activity);
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving item for playback",exception);
+                Utils.showToast(activity, R.string.msg_video_playback_error);
+            }
+        });
+
     }
 
     private static void addMainItem(BaseItemDto mainItem, GsonJsonSerializer serializer, final List<String> items, final Response<String[]> outerResponse) {
