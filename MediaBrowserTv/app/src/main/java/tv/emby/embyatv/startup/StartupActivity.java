@@ -21,6 +21,7 @@ import mediabrowser.apiinteraction.android.AndroidConnectionManager;
 import mediabrowser.apiinteraction.android.AndroidDevice;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.apiinteraction.android.VolleyHttpClient;
+import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.apiinteraction.playback.PlaybackManager;
 import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.UserDto;
@@ -60,6 +61,16 @@ public class StartupActivity extends Activity {
         // The underlying http stack. Developers can inject their own if desired
         VolleyHttpClient volleyHttpClient = new VolleyHttpClient(logger, application);
         ClientCapabilities capabilities = new ClientCapabilities();
+        ArrayList<String> playableTypes = new ArrayList<>();
+        playableTypes.add("Video");
+
+        capabilities.setPlayableMediaTypes(playableTypes);
+        capabilities.setSupportsContentUploading(false);
+        capabilities.setSupportsSync(false);
+        capabilities.setDeviceProfile(new AndroidProfile(true, false));
+        capabilities.setSupportsMediaControl(false);
+        capabilities.setUrl(Utils.getStoreUrl());
+        
         IJsonSerializer jsonSerializer = new GsonJsonSerializer();
 
 
