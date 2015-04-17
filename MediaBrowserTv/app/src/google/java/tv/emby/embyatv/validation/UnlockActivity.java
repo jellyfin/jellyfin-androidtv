@@ -55,9 +55,11 @@ public class UnlockActivity extends Activity {
                         if (!result.isSuccess()) {
                             TvApp.getApplication().getLogger().Error("Error unlocking app. "+result.getMessage());
                             TvApp.getApplication().getLogger().Error(result.toString());
-                            Utils.showToast(TvApp.getApplication(), getString(R.string.msg_purchase_error));
-                            Utils.PutCustomAcraData();
-                            ACRA.getErrorReporter().handleException(new Exception("Error with purchase"), false);
+                            if (!result.getMessage().contains("-1005")) { // make sure it isn't just user cancelled
+                                Utils.showToast(TvApp.getApplication(), getString(R.string.msg_purchase_error));
+                                Utils.PutCustomAcraData();
+                                ACRA.getErrorReporter().handleException(new Exception("Error with purchase"), false);
+                            }
                         } else {
                             if (info.getSku().equals(IabValidator.SKU_UNLOCK) && info.getDeveloperPayload().equals(check)) {
                                 TvApp.getApplication().getLogger().Info("Application unlocked with purchase.");
@@ -101,11 +103,11 @@ public class UnlockActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (iabHelper != null) {
             iabHelper.dispose();
             TvApp.getApplication().getLogger().Info("IAB Disposed in unlock activity destroy.");
         }
+        super.onDestroy();
     }
 
 }
