@@ -119,7 +119,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
     @Override
     public void onPause() {
-        //UnRegister a media button receiver so that all media button presses will come to us and not another app
+        //UnRegister the media button receiver
         AudioManager audioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
         audioManager.unregisterMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
 
@@ -133,6 +133,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         //Register a media button receiver so that all media button presses will come to us and not another app
         AudioManager audioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
         audioManager.registerMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
+        //TODO implement conditional logic for api 21+
 
         //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
         if (mRowsAdapter != null) {
