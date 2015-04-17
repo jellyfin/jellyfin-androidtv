@@ -27,6 +27,7 @@ public class KeyProcessor {
                             case "Episode":
                             case "TvChannel":
                             case "Program":
+                            case "ChannelVideoItem":
                                 // give some audible feedback
                                 Utils.Beep();
                                 // retrieve full item and play

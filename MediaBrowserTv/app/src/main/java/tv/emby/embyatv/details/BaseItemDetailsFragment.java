@@ -24,11 +24,13 @@ import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnActionClickedListener;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
+import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -54,6 +56,7 @@ import mediabrowser.model.querying.NextUpQuery;
 import mediabrowser.model.querying.SeasonQuery;
 import mediabrowser.model.querying.SimilarItemsQuery;
 import mediabrowser.model.querying.UpcomingEpisodesQuery;
+import tv.emby.embyatv.base.KeyListener;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
@@ -67,6 +70,7 @@ import tv.emby.embyatv.presentation.DetailsDescriptionPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.SpecialsQuery;
 import tv.emby.embyatv.querying.TrailersQuery;
+import tv.emby.embyatv.util.KeyProcessor;
 import tv.emby.embyatv.util.Utils;
 
 
@@ -87,6 +91,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     protected ProgramInfoDto mProgramInfo;
     protected String mItemId;
     protected String mChannelId;
+    protected BaseRowItem mCurrentItem;
     protected ApiClient mApiClient;
     protected DetailsActivity mActivity;
     protected TvApp mApplication;
@@ -120,6 +125,22 @@ public class BaseItemDetailsFragment extends DetailsFragment {
         mActivity = (DetailsActivity) getActivity();
         mActivity.getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
+        mActivity.registerKeyListener(new KeyListener() {
+            @Override
+            public boolean onKeyUp(int key, KeyEvent event) {
+                if (mCurrentItem != null) {
+                    return KeyProcessor.HandleKey(key, mCurrentItem, getActivity());
+
+                } else if (key == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || key == KeyEvent.KEYCODE_MEDIA_PLAY) {
+                    //default play action
+                    Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
+                    play(mBaseItem, pos.intValue() , false);
+                    return true;
+                }
+                return false;
+            }
+        });
+
         mItemId = mActivity.getIntent().getStringExtra("ItemId");
         mChannelId = mActivity.getIntent().getStringExtra("ChannelId");
         String programJson = mActivity.getIntent().getStringExtra("ProgramInfo");
@@ -128,6 +149,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                 DetailsActivity.SHARED_ELEMENT_NAME);
 
         setOnItemViewClickedListener(new ItemViewClickedListener());
+        setOnItemViewSelectedListener(new ItemViewSelectedListener());
 
     }
 
@@ -171,6 +193,36 @@ public class BaseItemDetailsFragment extends DetailsFragment {
         parent.add(listRow);
         row.setRow(listRow);
         row.Retrieve();
+    }
+
+    protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
+        Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), new Response<String[]>() {
+            @Override
+            public void onResponse(String[] response) {
+                Intent intent = new Intent(getActivity(), PlaybackOverlayActivity.class);
+                if (shuffle) Collections.shuffle(Arrays.asList(response));
+                intent.putExtra("Items", response);
+                intent.putExtra("Position", pos);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    protected void play(final BaseItemDto[] items, final int pos, final boolean shuffle) {
+        List<String> itemsToPlay = new ArrayList<>();
+        final GsonJsonSerializer serializer = mApplication.getSerializer();
+
+        for (BaseItemDto item : items) {
+            itemsToPlay.add(serializer.SerializeToString(item));
+        }
+
+        Intent intent = new Intent(getActivity(), PlaybackOverlayActivity.class);
+        if (shuffle) Collections.shuffle(itemsToPlay);
+        intent.putExtra("Items", itemsToPlay.toArray(new String[itemsToPlay.size()]));
+        intent.putExtra("Position", pos);
+        startActivity(intent);
+
     }
 
     private class DetailRowBuilderTask extends AsyncTask<BaseItemDto, Integer, DetailsOverviewRow> {
@@ -222,36 +274,6 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
             }
             return row;
-        }
-
-        protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
-            Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), new Response<String[]>() {
-                @Override
-                public void onResponse(String[] response) {
-                    Intent intent = new Intent(getActivity(), PlaybackOverlayActivity.class);
-                    if (shuffle) Collections.shuffle(Arrays.asList(response));
-                    intent.putExtra("Items", response);
-                    intent.putExtra("Position", pos);
-                    startActivity(intent);
-                }
-            });
-
-        }
-
-        protected void play(final BaseItemDto[] items, final int pos, final boolean shuffle) {
-            List<String> itemsToPlay = new ArrayList<>();
-            final GsonJsonSerializer serializer = mApplication.getSerializer();
-
-            for (BaseItemDto item : items) {
-                itemsToPlay.add(serializer.SerializeToString(item));
-            }
-
-            Intent intent = new Intent(getActivity(), PlaybackOverlayActivity.class);
-            if (shuffle) Collections.shuffle(itemsToPlay);
-            intent.putExtra("Items", itemsToPlay.toArray(new String[itemsToPlay.size()]));
-            intent.putExtra("Position", pos);
-            startActivity(intent);
-
         }
 
         @Override
@@ -481,6 +503,18 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
             if (!(item instanceof BaseRowItem)) return;
             ItemLauncher.launch((BaseRowItem) item, mApplication, getActivity(), itemViewHolder);
+        }
+    }
+
+    private final class ItemViewSelectedListener implements OnItemViewSelectedListener {
+        @Override
+        public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
+                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
+            if (!(item instanceof BaseRowItem)) {
+                mCurrentItem = null;
+            } else {
+                mCurrentItem = (BaseRowItem)item;
+            }
         }
     }
 
