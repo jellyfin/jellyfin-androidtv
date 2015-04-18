@@ -7,6 +7,10 @@
         tools:node="remove"/>
     <uses-permission android:name="com.android.vending.CHECK_LICENSE"
         tools:node="remove"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"
+        tools:node="remove"/>
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+
 
     <application>
         <activity
