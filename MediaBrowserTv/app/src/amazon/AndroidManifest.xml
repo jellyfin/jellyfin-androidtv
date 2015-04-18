@@ -18,6 +18,7 @@
             <intent-filter>
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" tools:node="remove" />
                 <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN" />
 
             </intent-filter>
         </activity>
