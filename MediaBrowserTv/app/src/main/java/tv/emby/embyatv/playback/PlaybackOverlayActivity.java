@@ -76,6 +76,12 @@ public class PlaybackOverlayActivity extends Activity {
                     controller.setPlayPauseIndicatorState(PlaybackControlsRow.PlayPauseAction.PAUSE);
                 }
                 return true;
+            case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
+                mApplication.getPlaybackController().skip(30000);
+                return true;
+            case KeyEvent.KEYCODE_MEDIA_REWIND:
+                mApplication.getPlaybackController().skip(-11000);
+                return true;
             default:
                 return super.onKeyUp(keyCode, event);
         }
