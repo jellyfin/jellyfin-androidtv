@@ -398,6 +398,22 @@ public class PlaybackController {
         return time.intValue();
     }
 
+    private void delayedSeek(final int position) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mVideoView.getDuration() <= 0) {
+                    // wait until we have valid duration
+                    mHandler.postDelayed(this, 25);
+                } else {
+                    // do the seek
+                    mVideoView.seekTo(position);
+                    TvApp.getApplication().getLogger().Info("Delayed seek to "+position+" successful");
+                }
+            }
+        });
+    }
+
     private void startProgressAutomation() {
         mProgressLoop = new Runnable() {
             @Override
@@ -526,7 +542,11 @@ public class PlaybackController {
                 });
 
                 if (mStartPosition > 0) {
-                    mVideoView.seekTo(mStartPosition);
+                    if (Utils.is50()) {
+                        mVideoView.seekTo(mStartPosition);
+                    } else {
+                        delayedSeek(mStartPosition);
+                    }
                     mStartPosition = 0; // clear for next item
                 } else {
                     if (mPlaybackState == PlaybackState.BUFFERING) {
