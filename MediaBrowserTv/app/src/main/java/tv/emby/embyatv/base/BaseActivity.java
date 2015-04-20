@@ -18,7 +18,8 @@ public class BaseActivity extends Activity {
     private long timeoutInterval = 3600000;
     private Handler autoLogoutHandler = new Handler();
     private Runnable loop;
-    private KeyListener keyListener;
+    private IKeyListener keyListener;
+    private IMessageListener messageListener;
 
 
     @Override
@@ -63,8 +64,16 @@ public class BaseActivity extends Activity {
 
     }
 
-    public void registerKeyListener(KeyListener listener) {
+    public void registerKeyListener(IKeyListener listener) {
         keyListener = listener;
+    }
+
+    public void registerMessageListener(IMessageListener listener) {
+        messageListener = listener;
+    }
+
+    public void sendMessage(CustomMessage message) {
+        if (messageListener != null) messageListener.onMessageReceived(message);
     }
 
     @Override
