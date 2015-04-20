@@ -1,12 +1,5 @@
 package tv.emby.embyatv.details;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -39,11 +32,17 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
-import mediabrowser.model.channels.ChannelQuery;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.ChapterInfoDto;
 import mediabrowser.model.dto.ImageOptions;
@@ -51,7 +50,6 @@ import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.ProgramInfoDto;
-import mediabrowser.model.livetv.ProgramQuery;
 import mediabrowser.model.livetv.SeriesTimerInfoDto;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
@@ -59,14 +57,15 @@ import mediabrowser.model.querying.NextUpQuery;
 import mediabrowser.model.querying.SeasonQuery;
 import mediabrowser.model.querying.SimilarItemsQuery;
 import mediabrowser.model.querying.UpcomingEpisodesQuery;
-import tv.emby.embyatv.base.KeyListener;
-import tv.emby.embyatv.itemhandling.BaseRowItem;
-import tv.emby.embyatv.model.ChapterItemInfo;
-import tv.emby.embyatv.itemhandling.ItemLauncher;
-import tv.emby.embyatv.itemhandling.ItemRowAdapter;
-import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.base.BaseActivity;
+import tv.emby.embyatv.base.IKeyListener;
+import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
+import tv.emby.embyatv.itemhandling.BaseRowItem;
+import tv.emby.embyatv.itemhandling.ItemLauncher;
+import tv.emby.embyatv.itemhandling.ItemRowAdapter;
+import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.presentation.DetailsDescriptionPresenter;
@@ -129,11 +128,11 @@ public class BaseItemDetailsFragment extends DetailsFragment {
         mActivity = (DetailsActivity) getActivity();
         mActivity.getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
-        mActivity.registerKeyListener(new KeyListener() {
+        mActivity.registerKeyListener(new IKeyListener() {
             @Override
             public boolean onKeyUp(int key, KeyEvent event) {
                 if (mCurrentItem != null) {
-                    return KeyProcessor.HandleKey(key, mCurrentItem, getActivity());
+                    return KeyProcessor.HandleKey(key, mCurrentItem, (BaseActivity)getActivity());
 
                 } else if (key == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || key == KeyEvent.KEYCODE_MEDIA_PLAY) {
                     //default play action

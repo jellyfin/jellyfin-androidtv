@@ -6,6 +6,8 @@ import android.text.format.DateUtils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
@@ -276,6 +278,39 @@ public class BaseRowItem {
         }
 
         return TvApp.getApplication().getDrawableCompat(R.drawable.blank10x10);
+    }
+
+    public void refresh(final EmptyResponse outerResponse) {
+        switch (type) {
+
+            case BaseItem:
+                TvApp.getApplication().getApiClient().GetItemAsync(getItemId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                    @Override
+                    public void onResponse(BaseItemDto response) {
+                        baseItem = response;
+                        outerResponse.onResponse();
+                    }
+                });
+                break;
+            case Person:
+                break;
+            case Server:
+                break;
+            case User:
+                break;
+            case Chapter:
+                break;
+            case SearchHint:
+                break;
+            case LiveTvChannel:
+                break;
+            case LiveTvRecording:
+                break;
+            case GridButton:
+                break;
+            case LiveTvProgram:
+                break;
+        }
     }
 
     public SelectAction getSelectAction() {

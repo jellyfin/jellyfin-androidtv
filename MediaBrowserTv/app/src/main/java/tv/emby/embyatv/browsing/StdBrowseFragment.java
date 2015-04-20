@@ -33,7 +33,6 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -41,28 +40,25 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import mediabrowser.apiinteraction.ApiClient;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.apiinteraction.EmptyResponse;
+import tv.emby.embyatv.R;
+import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
-import tv.emby.embyatv.base.KeyListener;
+import tv.emby.embyatv.base.CustomMessage;
+import tv.emby.embyatv.base.IKeyListener;
+import tv.emby.embyatv.base.IMessageListener;
+import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
-import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.playback.PlaybackOverlayActivity;
-import tv.emby.embyatv.search.SearchActivity;
-import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.ViewQuery;
+import tv.emby.embyatv.search.SearchActivity;
 import tv.emby.embyatv.util.KeyProcessor;
 import tv.emby.embyatv.util.RemoteControlReceiver;
 import tv.emby.embyatv.util.Utils;
@@ -77,6 +73,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     protected TvApp mApplication;
     protected BaseActivity mActivity;
     protected BaseRowItem mCurrentItem;
+    protected Row mCurrentRow;
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ArrayObjectAdapter mRowsAdapter;
@@ -256,10 +253,29 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         mSelectedListener.registerListener(new ItemViewSelectedListener());
 
         if (mActivity != null) {
-            mActivity.registerKeyListener(new KeyListener() {
+            mActivity.registerKeyListener(new IKeyListener() {
                 @Override
                 public boolean onKeyUp(int key, KeyEvent event) {
-                    return KeyProcessor.HandleKey(key, mCurrentItem, getActivity());
+                    return KeyProcessor.HandleKey(key, mCurrentItem, mActivity);
+                }
+            });
+
+            mActivity.registerMessageListener(new IMessageListener() {
+                @Override
+                public void onMessageReceived(CustomMessage message) {
+                    switch (message) {
+
+                        case RefreshCurrentItem:
+                            TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
+                            mCurrentItem.refresh(new EmptyResponse() {
+                                @Override
+                                public void onResponse() {
+                                    ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)mCurrentRow).getAdapter();
+                                    adapter.notifyArrayItemRangeChanged(adapter.indexOf(mCurrentItem), 1);
+                                }
+                            });
+                            break;
+                    }
                 }
             });
         }
@@ -289,6 +305,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                 mCurrentItem = (BaseRowItem)item;
             }
 
+            mCurrentRow = row;
             BaseRowItem rowItem = (BaseRowItem) item;
 
             //mApplication.getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));
