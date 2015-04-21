@@ -68,7 +68,6 @@ public class KeyProcessor {
                                 return true;
                             case "Series":
                             case "Season":
-                            case "Folder":
                             case "BoxSet":
                                 createPlayMenu(rowItem.getItemId(), true, activity);
                                 return true;
@@ -96,7 +95,6 @@ public class KeyProcessor {
                                 return true;
                             case "Series":
                             case "Season":
-                            case "Folder":
                             case "BoxSet":
                                 createPlayMenu(rowItem.getItemId(), true, activity);
                                 return true;
@@ -140,7 +138,6 @@ public class KeyProcessor {
                                 break;
                             case "Series":
                             case "Season":
-                            case "Folder":
                             case "BoxSet":
                                 createItemMenu(rowItem.getItemId(), item.getUserData(), true, activity);
                                 break;
