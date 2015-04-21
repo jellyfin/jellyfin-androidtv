@@ -1,6 +1,7 @@
 package tv.emby.embyatv.util;
 
 import android.app.Activity;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.PopupMenu;
@@ -98,6 +99,7 @@ public class KeyProcessor {
                 }
                 break;
             case KeyEvent.KEYCODE_MENU:
+            case KeyEvent.KEYCODE_BUTTON_Y:
                 TvApp.getApplication().getLogger().Debug("Menu for: "+rowItem.getFullName());
 
                 //Create a contextual menu based on item
@@ -141,7 +143,7 @@ public class KeyProcessor {
     }
 
     private static void createItemMenu(String itemId, UserItemDataDto userData, BaseActivity activity) {
-        PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus());
+        PopupMenu menu = Utils.createPopupMenu(activity, activity.getCurrentFocus(), Gravity.RIGHT);
         int order = 0;
         menu.getMenu().add(0, MENU_PLAY, order++, R.string.lbl_play);
         if (userData.getPlayed())
