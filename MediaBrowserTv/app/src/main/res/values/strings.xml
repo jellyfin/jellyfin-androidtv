@@ -178,6 +178,16 @@
     <string name="sum_tv_queuing">Add the rest of the season to the playback queue when playing an episode</string>
     <string name="lbl_search_hint">Search text (select for keyboard)</string>
     <string name="lbl_play_first_unwatched">Play First Unwatched</string>
+    <string name="lbl_confirm_mark_watched">This will mark all content as played.  Are you VERY sure?</string>
+    <string name="lbl_mark_unplayed">Mark Un-played</string>
+    <string name="lbl_mark_played">Mark Played</string>
+    <string name="lbl_remove_favorite">Remove Favorite</string>
+    <string name="lbl_add_favorite">Add Favorite</string>
+    <string name="lbl_like">Like</string>
+    <string name="lbl_dislike">Dislike</string>
+    <string name="lbl_unlike">Unlike</string>
+    <string name="lbl_remove_dislike">Remove Dislike</string>
+    <string name="lbl_confirm_mark_unwatched">This will mark all content as un-played.  Are you VERY sure?</string>
 
 
 </resources>
