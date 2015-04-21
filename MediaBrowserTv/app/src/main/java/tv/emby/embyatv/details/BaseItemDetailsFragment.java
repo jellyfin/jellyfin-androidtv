@@ -86,9 +86,10 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     private static final int ACTION_SHUFFLE = 4;
     private static final int ACTION_RECORD = 5;
     private static final int ACTION_CANCEL_RECORD = 6;
+    private static final int ACTION_PLAY_TRAILER = 7;
 
     private static final int DETAIL_THUMB_WIDTH = 150;
-    private static final int DETAIL_THUMB_HEIGHT = 200;
+    private static final int DETAIL_THUMB_HEIGHT = 300;
 
     protected BaseItemDto mBaseItem;
     protected ProgramInfoDto mProgramInfo;
@@ -290,6 +291,10 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                                 row.addAction(new Action(ACTION_RECORD, mActivity.getString(R.string.lbl_record)));
                             }
                         }
+                        if (mBaseItem.getLocalTrailerCount() != null && mBaseItem.getLocalTrailerCount() == 1) {
+                            // Show button if only one trailer
+                            row.addAction(new Action(ACTION_PLAY_TRAILER, mActivity.getString(R.string.lbl_trailer)));
+                        }
                         row.addAction(new Action(ACTION_DETAILS, mActivity.getString(R.string.lbl_details)));
                     }
 
@@ -325,6 +330,20 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                             break;
                         case ACTION_CANCEL_RECORD:
                             cancelRecording(mProgramInfo);
+                            break;
+                        case ACTION_PLAY_TRAILER:
+                            TvApp.getApplication().getApiClient().GetLocalTrailersAsync(TvApp.getApplication().getCurrentUser().getId(), mBaseItem.getId(), new Response<BaseItemDto[]>() {
+                                @Override
+                                public void onResponse(BaseItemDto[] response) {
+                                    play(response, 0 , false);
+                                }
+
+                                @Override
+                                public void onError(Exception exception) {
+                                    TvApp.getApplication().getLogger().ErrorException("Error retrieving trailers for playback", exception);
+                                    Utils.showToast(mActivity, R.string.msg_video_playback_error);
+                                }
+                            });
                             break;
                         case ACTION_DETAILS:
                             Intent intent = new Intent(mActivity, FullDetailsActivity.class);
@@ -400,6 +419,16 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                     addItemRow(adapter, castAdapter, 0, mActivity.getString(R.string.lbl_cast_crew));
                 }
 
+                //Specials
+                if (mBaseItem.getSpecialFeatureCount() != null && mBaseItem.getSpecialFeatureCount() > 0) {
+                    addItemRow(adapter, new ItemRowAdapter(new SpecialsQuery(mBaseItem.getId()), new CardPresenter(), adapter), 2, mActivity.getString(R.string.lbl_specials));
+                }
+
+                //Trailers
+                if (mBaseItem.getLocalTrailerCount() != null && mBaseItem.getLocalTrailerCount() > 1) {
+                    addItemRow(adapter, new ItemRowAdapter(new TrailersQuery(mBaseItem.getId()), new CardPresenter(), adapter), 3, mActivity.getString(R.string.lbl_trailers));
+                }
+
                 //Chapters
                 if (mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
                     List<ChapterItemInfo> chapters = new ArrayList<>();
@@ -422,16 +451,6 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
                     ItemRowAdapter chapterAdapter = new ItemRowAdapter(chapters, new CardPresenter(), adapter);
                     addItemRow(adapter, chapterAdapter, 1, mActivity.getString(R.string.lbl_chapters));
-                }
-
-                //Specials
-                if (mBaseItem.getSpecialFeatureCount() != null && mBaseItem.getSpecialFeatureCount() > 0) {
-                    addItemRow(adapter, new ItemRowAdapter(new SpecialsQuery(mBaseItem.getId()), new CardPresenter(), adapter), 2, mActivity.getString(R.string.lbl_specials));
-                }
-
-                //Trailers
-                if (mBaseItem.getLocalTrailerCount() != null && mBaseItem.getLocalTrailerCount() > 0) {
-                    addItemRow(adapter, new ItemRowAdapter(new TrailersQuery(mBaseItem.getId()), new CardPresenter(), adapter), 3, mActivity.getString(R.string.lbl_trailers));
                 }
 
                 //Similar
