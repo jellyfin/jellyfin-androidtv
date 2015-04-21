@@ -148,7 +148,7 @@ public class PlaybackController {
                 mCurrentOptions.setMaxBitrate(getMaxBitrate());
 
                 // Create our profile and clear out subtitles so that they will burn in
-                AndroidProfile profile = new AndroidProfile(PreferenceManager.getDefaultSharedPreferences(mApplication).getBoolean("pref_enable_hls",true), true);
+                AndroidProfile profile = new AndroidProfile(PreferenceManager.getDefaultSharedPreferences(mApplication).getBoolean("pref_enable_hls",true), 40);
                 profile.setSubtitleProfiles(new SubtitleProfile[] {});
                 mCurrentOptions.setProfile(profile);
 

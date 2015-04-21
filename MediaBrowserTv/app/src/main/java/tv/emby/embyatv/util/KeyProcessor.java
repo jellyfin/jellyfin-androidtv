@@ -283,7 +283,7 @@ public class KeyProcessor {
                                 .setNegativeButton(mCurrentActivity.getString(R.string.lbl_no), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        
+
                                     }
                                 }).setPositiveButton(mCurrentActivity.getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
                             @Override
