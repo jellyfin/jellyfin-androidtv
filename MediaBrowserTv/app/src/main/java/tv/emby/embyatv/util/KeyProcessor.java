@@ -1,6 +1,8 @@
 package tv.emby.embyatv.util;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -136,6 +138,12 @@ public class KeyProcessor {
                                 // generate a standard item menu
                                 createItemMenu(rowItem.getItemId(), item.getUserData(), false, activity);
                                 break;
+                            case "Series":
+                            case "Season":
+                            case "Folder":
+                            case "BoxSet":
+                                createItemMenu(rowItem.getItemId(), item.getUserData(), true, activity);
+                                break;
                         }
                         break;
                     case Person:
@@ -165,26 +173,30 @@ public class KeyProcessor {
     private static void createItemMenu(String itemId, UserItemDataDto userData, boolean isFolder, BaseActivity activity) {
         PopupMenu menu = Utils.createPopupMenu(activity, activity.getCurrentFocus(), Gravity.RIGHT);
         int order = 0;
+
+        if (isFolder) menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
         menu.getMenu().add(0, MENU_PLAY, order++, R.string.lbl_play);
+        if (isFolder) menu.getMenu().add(0, MENU_PLAY_SHUFFLE, order++, R.string.lbl_shuffle_all);
+
         if (userData.getPlayed())
-            menu.getMenu().add(0, MENU_UNMARK_PLAYED, order++, "Mark Un-played");
+            menu.getMenu().add(0, MENU_UNMARK_PLAYED, order++, activity.getString(R.string.lbl_mark_unplayed));
         else
-            menu.getMenu().add(0, MENU_MARK_PLAYED, order++, "Mark Played");
+            menu.getMenu().add(0, MENU_MARK_PLAYED, order++, activity.getString(R.string.lbl_mark_played));
 
         if (userData.getIsFavorite())
-            menu.getMenu().add(0, MENU_UNMARK_FAVORITE, order++, "Remove Favorite");
+            menu.getMenu().add(0, MENU_UNMARK_FAVORITE, order++, activity.getString(R.string.lbl_remove_favorite));
         else
-            menu.getMenu().add(0, MENU_MARK_FAVORITE, order++, "Add Favorite");
+            menu.getMenu().add(0, MENU_MARK_FAVORITE, order++, activity.getString(R.string.lbl_add_favorite));
 
         if (userData.getLikes() == null) {
-            menu.getMenu().add(0, MENU_LIKE, order++, "Like");
-            menu.getMenu().add(0, MENU_DISLIKE, order++, "Dislike");
+            menu.getMenu().add(0, MENU_LIKE, order++, activity.getString(R.string.lbl_like));
+            menu.getMenu().add(0, MENU_DISLIKE, order++, activity.getString(R.string.lbl_dislike));
         } else if (userData.getLikes()) {
-            menu.getMenu().add(0, MENU_UNLIKE, order++, "Unlike");
-            menu.getMenu().add(0, MENU_DISLIKE, order++, "Dislike");
+            menu.getMenu().add(0, MENU_UNLIKE, order++, activity.getString(R.string.lbl_unlike));
+            menu.getMenu().add(0, MENU_DISLIKE, order++, activity.getString(R.string.lbl_dislike));
         } else {
-            menu.getMenu().add(0, MENU_LIKE, order++, "Like");
-            menu.getMenu().add(0, MENU_UNDISLIKE, order++, "Remove Dislike");
+            menu.getMenu().add(0, MENU_LIKE, order++, activity.getString(R.string.lbl_like));
+            menu.getMenu().add(0, MENU_UNDISLIKE, order++, activity.getString(R.string.lbl_remove_dislike));
         }
 
         //Not sure I like this but I either duplicate processing with in-line events or do this and
@@ -263,32 +275,47 @@ public class KeyProcessor {
                     toggleFavorite(false);
                     return true;
                 case MENU_MARK_PLAYED:
-                    TvApp.getApplication().getApiClient().MarkPlayedAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), null, new Response<UserItemDataDto>() {
-                        @Override
-                        public void onResponse(UserItemDataDto response) {
-                            mCurrentActivity.sendMessage(CustomMessage.RefreshCurrentItem);
-                        }
+                    if (currentItemIsFolder) {
+                        // confirm
+                        new AlertDialog.Builder(mCurrentActivity)
+                                .setTitle(R.string.lbl_mark_played)
+                                .setMessage(mCurrentActivity.getString(R.string.lbl_confirm_mark_watched))
+                                .setNegativeButton(mCurrentActivity.getString(R.string.lbl_no), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        
+                                    }
+                                }).setPositiveButton(mCurrentActivity.getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                    markPlayed();
+                            }
+                        }).show();
 
-                        @Override
-                        public void onError(Exception exception) {
-                            TvApp.getApplication().getLogger().ErrorException("Error setting played status", exception);
-                            Utils.showToast(mCurrentActivity, "Error setting played status");
-                        }
-                    });
+                    } else {
+                        markPlayed();
+                    }
                     return true;
                 case MENU_UNMARK_PLAYED:
-                    TvApp.getApplication().getApiClient().MarkUnplayedAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), new Response<UserItemDataDto>() {
-                        @Override
-                        public void onResponse(UserItemDataDto response) {
-                            mCurrentActivity.sendMessage(CustomMessage.RefreshCurrentItem);
-                        }
+                    if (currentItemIsFolder) {
+                        // confirm
+                        new AlertDialog.Builder(mCurrentActivity)
+                                .setTitle(R.string.lbl_mark_unplayed)
+                                .setMessage(mCurrentActivity.getString(R.string.lbl_confirm_mark_unwatched))
+                                .setNegativeButton(mCurrentActivity.getString(R.string.lbl_no), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
 
-                        @Override
-                        public void onError(Exception exception) {
-                            TvApp.getApplication().getLogger().ErrorException("Error setting played status", exception);
-                            Utils.showToast(mCurrentActivity, "Error setting played status");
-                        }
-                    });
+                                    }
+                                }).setPositiveButton(mCurrentActivity.getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                markUnplayed();
+                            }
+                        }).show();
+                    } else {
+                        markUnplayed();
+                    }
                     return true;
                 case MENU_LIKE:
                     toggleLikes(true);
@@ -305,6 +332,38 @@ public class KeyProcessor {
             return false;
             }
     };
+
+    private static void markPlayed() {
+        TvApp.getApplication().getApiClient().MarkPlayedAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), null, new Response<UserItemDataDto>() {
+            @Override
+            public void onResponse(UserItemDataDto response) {
+                mCurrentActivity.sendMessage(CustomMessage.RefreshCurrentItem);
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error setting played status", exception);
+                Utils.showToast(mCurrentActivity, "Error setting played status");
+            }
+        });
+
+    }
+
+    private static void markUnplayed() {
+        TvApp.getApplication().getApiClient().MarkUnplayedAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), new Response<UserItemDataDto>() {
+            @Override
+            public void onResponse(UserItemDataDto response) {
+                mCurrentActivity.sendMessage(CustomMessage.RefreshCurrentItem);
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error setting played status", exception);
+                Utils.showToast(mCurrentActivity, "Error setting played status");
+            }
+        });
+
+    }
 
     private static void toggleFavorite(boolean fav) {
         TvApp.getApplication().getApiClient().UpdateFavoriteStatusAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), fav, new Response<UserItemDataDto>() {
