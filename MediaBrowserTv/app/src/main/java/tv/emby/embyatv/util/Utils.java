@@ -406,11 +406,13 @@ public class Utils {
                 break;
             case "Series":
             case "Season":
+            case "BoxSet":
+            case "Folder":
                 //get all episodes
                 query.setParentId(mainItem.getId());
                 query.setIsMissing(false);
                 query.setIsVirtualUnaired(false);
-                query.setIncludeItemTypes(new String[]{"Episode"});
+                query.setIncludeItemTypes(new String[]{"Episode", "Movie", "Video"});
                 query.setSortBy(new String[]{ItemSortBy.SortName});
                 query.setRecursive(true);
                 query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.Path, ItemFields.PrimaryImageAspectRatio});
@@ -502,12 +504,12 @@ public class Utils {
 
     }
 
-    public static void retrieveAndPlay(String id, final Activity activity) {
+    public static void retrieveAndPlay(String id, final boolean shuffle, final Activity activity) {
         TvApp.getApplication().getApiClient().GetItemAsync(id, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
             @Override
             public void onResponse(BaseItemDto response) {
                 Long pos = response.getUserData() != null ? response.getUserData().getPlaybackPositionTicks() / 10000 : 0;
-                play(response, pos.intValue(), false, activity);
+                play(response, pos.intValue(), shuffle, activity);
             }
 
             @Override

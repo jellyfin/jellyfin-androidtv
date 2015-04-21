@@ -177,6 +177,7 @@
     <string name="lbl_tv_queuing">Queue all subsequent episodes</string>
     <string name="sum_tv_queuing">Add the rest of the season to the playback queue when playing an episode</string>
     <string name="lbl_search_hint">Search text (select for keyboard)</string>
+    <string name="lbl_play_first_unwatched">Play First Unwatched</string>
 
 
 </resources>
