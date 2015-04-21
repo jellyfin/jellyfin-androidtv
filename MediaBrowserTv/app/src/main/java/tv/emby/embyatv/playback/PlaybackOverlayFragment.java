@@ -134,7 +134,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         }
 
         if (mItemsToPlay.size() == 0) {
-            Utils.reportError(TvApp.getApplication(), "Unable to play item(s)");
+            Utils.reportError(getActivity(), "Unable to play item(s)");
             return;
         }
 
