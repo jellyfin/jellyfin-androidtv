@@ -88,8 +88,10 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     private static final int ACTION_CANCEL_RECORD = 6;
     private static final int ACTION_PLAY_TRAILER = 7;
 
-    private static final int DETAIL_THUMB_WIDTH = 150;
-    private static final int DETAIL_THUMB_HEIGHT = 300;
+    private static final int POSTER_THUMB_WIDTH = 200;
+    private static final int THUMB_WIDTH = 150;
+    private static final int POSTER_THUMB_HEIGHT = 300;
+    private static final int THUMB_HEIGHT = 200;
 
     protected BaseItemDto mBaseItem;
     protected ProgramInfoDto mProgramInfo;
@@ -253,12 +255,15 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
 
             DetailsOverviewRow row = new DetailsOverviewRow(mBaseItem);
+            Double aspect = !Utils.isFireTv() ? Utils.getImageAspectRatio(mBaseItem, true) : .6;
+            int width = aspect != null && aspect > 1 ? THUMB_WIDTH : POSTER_THUMB_WIDTH;
+            int height = aspect != null && aspect > 1 ? THUMB_HEIGHT : POSTER_THUMB_HEIGHT;
             try {
                 Bitmap poster = Picasso.with(mActivity)
-                        .load(Utils.getPrimaryImageUrl(mBaseItem, mApiClient, true, false, Utils.convertDpToPixel(mApplication, DETAIL_THUMB_HEIGHT)))
+                        .load(Utils.getPrimaryImageUrl(mBaseItem, mApiClient, true, false, Utils.convertDpToPixel(mApplication, height)))
                         .skipMemoryCache()
-                                .resize(Utils.convertDpToPixel(mApplication, DETAIL_THUMB_WIDTH),
-                                        Utils.convertDpToPixel(mApplication, DETAIL_THUMB_HEIGHT))
+                                .resize(Utils.convertDpToPixel(mApplication, width),
+                                        Utils.convertDpToPixel(mApplication, height))
                                 .centerInside()
                                 .get();
                 row.setImageBitmap(mActivity, poster);
