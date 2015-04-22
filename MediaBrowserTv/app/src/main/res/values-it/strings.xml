@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Media Browser</string>
+    <string name="app_name">Emby</string>
     <string name="current_queue">Attualmente in coda</string>
     <string name="error">Errore</string>
     <string name="ok">Ok</string>
@@ -27,7 +27,7 @@
     <string name="action_settings">Impostazioni</string>
     <string name="txt_loading">Caricamento...</string>
     <string name="title_activity_connect">Attività alla connessione</string>
-    <string name="txt_signinconnect">Accedi con Browser Media Connect</string>
+    <string name="txt_signinconnect">Accedi con Emby Connect</string>
     <string name="title_activity_select_user">Attività Selezione Utente</string>
     <string name="selusr_pleaseselect">Per favore seleziona un utente</string>
     <string name="error_fragment_message">Errore</string>
@@ -36,8 +36,8 @@
     <string name="home_title">Home</string>
     <string name="btn_cancel">Annulla</string>
     <string name="btn_manually">Inserisci l\'indirizzo del server</string>
-    <string name="txt_expired">Media Browser per Android TV è scaduto</string>
-    <string name="txt_expired_exp">La versione per sviluppatori è scaduta. Per favore cerca un aggiornamento o installalo dallo store. Grazie per aver usato Media Browser</string>
+    <string name="txt_expired">Emby per Android TV è scaduto</string>
+    <string name="txt_expired_exp">La versione per sviluppatori è scaduta. Per favore cerca un aggiornamento o installalo dallo store. Grazie per aver usato Emby</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Comportamento all\'avvio</string>
     <string name="pref_show_login">Mostra schermata di accesso</string>
@@ -144,9 +144,29 @@
     <string name="msg_error_connecting_server">Errore nel contattare il server</string>
     <string name="msg_invalid_id_pw">Nome utente o password non validi</string>
     <string name="lbl_version_colon">"Versione: "</string>
-    <string name="lbl_ip_hint">Indirizzo IP o nome dominio completo</string>
+    <string name="lbl_ip_hint">192.168.1.1 or https://ilmioserver.com</string>
     <string name="lbl_enter_server_address">Inserisci l\'indirizzo del server</string>
-    <string name="lbl_valid_server_address">Per favore inserisci un indirizzo del server valido</string>
+    <string name="lbl_valid_server_address">Per favore inserisci un indirizzo del server (indirizzo IP, dominio o nome computer)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Nato "</string>
+    <string name="lbl_loading_elipses">Caricamento...</string>
+    <string name="lbl_unlock">Sblocca</string>
+    <string name="msg_playback_not_allowed">Riproduzione non consentita al momento</string>
+    <string name="msg_playback_restricted">L\'amministratore ha limitato la riproduzione di questo elemento</string>
+    <string name="msg_playback_incompatible">Impossibile riprodurre questo formato video</string>
+    <string name="lbl_never">Mai</string>
+    <string name="lbl_unlock_app">Sblocca App</string>
+    <string name="lbl_unlock_desc">Sblocca le funzionalità complete dell\'app acquistandola qui. Se hai una chiave Sostenitore non dovresti aver bisogno di farlo. Assicurati di averla inserita correttamente nelle impostazioni del server, oppure, se sei in remoto, di aver effettuato l\'accesso con Connect.</string>
+    <string name="btn_next">Prossimo</string>
+    <string name="msg_invalid_purchase">Tentativo di acquisto non valido.</string>
+    <string name="msg_thank_you_unlocked">Grazie. L\'app ora è sbloccata.</string>
+    <string name="msg_purchase_error">Errore nell\'acquisto. Riprova più tardi.</string>
+    <string name="msg_unable_connect_google">Impossibile connettersi a Google Play. Per favore riprova più tardi.</string>
+    <string name="msg_cannot_play_time">Impossibile riprodurre questo elemento</string>
+    <string name="msg_cannot_play">Questo elemento non piò essere riprodotto.</string>
+    <string name="lbl_no_items">Nessun elemento</string>
+    <string name="lbl_empty">Vuoto</string>
+    <string name="sum_enable_hls">Disabilita solo se riscontri problemi con la riproduzione</string>
+    <string name="lbl_tv_queuing">Metti in coda tutti gli episodi sequenziali.</string>
+    <string name="sum_tv_queuing">Aggiungi il resto della stagione alla coda di riproduzione quando riproduci un episodio.</string>
 </resources>

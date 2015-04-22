@@ -162,4 +162,11 @@
     <string name="msg_thank_you_unlocked">Vielen Dank. Ihre App ist nun freigeschaltet.</string>
     <string name="msg_purchase_error">Fehler beim Kauf. Bitte versuchen Sie es später erneut.</string>
     <string name="msg_unable_connect_google">Eine Verbindung zu Google Play kann nicht hergestellt werden. Bitte versuchen Sie es später erneut.</string>
+    <string name="msg_cannot_play_time">Wiedergabe zur jetzigen Zeit nicht möglich</string>
+    <string name="msg_cannot_play">Dieser Eintrag kann nicht abgespielt werden</string>
+    <string name="lbl_no_items">Keine Einträge</string>
+    <string name="lbl_empty">Leer</string>
+    <string name="sum_enable_hls">Nur ausschalten wenn Wiedergabeprobleme auftreten</string>
+    <string name="lbl_tv_queuing">Alle untergeordneten Episoden in Warteschlange</string>
+    <string name="sum_tv_queuing">Füge den Rest der Staffel der Warteschlange hinzu wenn eine Episode abgespielt wird.</string>
 </resources>
