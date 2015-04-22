@@ -34,7 +34,6 @@ import com.squareup.picasso.Target;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -212,11 +211,10 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     }
 
     protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
-        Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), new Response<String[]>() {
+        Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), shuffle, new Response<String[]>() {
             @Override
             public void onResponse(String[] response) {
                 Intent intent = new Intent(getActivity(), PlaybackOverlayActivity.class);
-                if (shuffle) Collections.shuffle(Arrays.asList(response));
                 intent.putExtra("Items", response);
                 intent.putExtra("Position", pos);
                 startActivity(intent);
