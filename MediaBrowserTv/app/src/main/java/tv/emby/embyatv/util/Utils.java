@@ -492,6 +492,7 @@ public class Utils {
     }
 
     public static void play(final BaseItemDto item, final int pos, final boolean shuffle, final Activity activity) {
+        final DelayedMessage msg = new DelayedMessage(activity);
         Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), shuffle, new Response<String[]>() {
             @Override
             public void onResponse(String[] response) {
@@ -499,6 +500,7 @@ public class Utils {
                 intent.putExtra("Items", response);
                 intent.putExtra("Position", pos);
                 activity.startActivity(intent);
+                msg.Cancel();
             }
         });
 
