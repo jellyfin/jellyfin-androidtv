@@ -20,9 +20,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 
 import mediabrowser.apiinteraction.Response;
@@ -457,11 +455,10 @@ public class FullDetailsActivity extends BaseActivity {
 
     protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
         final Activity activity = this;
-        Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), new Response<String[]>() {
+        Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), shuffle, new Response<String[]>() {
             @Override
             public void onResponse(String[] response) {
                 Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
-                if (shuffle) Collections.shuffle(Arrays.asList(response));
                 intent.putExtra("Items", response);
                 intent.putExtra("Position", pos);
                 startActivity(intent);

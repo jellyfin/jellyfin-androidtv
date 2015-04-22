@@ -107,7 +107,7 @@ public class ItemLauncher {
                         case Play:
                             if (baseItem.getPlayAccess() == PlayAccess.Full) {
                                 //Just play it directly
-                                Utils.getItemsToPlay(baseItem, baseItem.getType().equals("Movie"), new Response<String[]>() {
+                                Utils.getItemsToPlay(baseItem, baseItem.getType().equals("Movie"), false, new Response<String[]>() {
                                     @Override
                                     public void onResponse(String[] response) {
                                         Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
@@ -253,7 +253,7 @@ public class ItemLauncher {
                 TvApp.getApplication().getApiClient().GetItemAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
-                        Utils.getItemsToPlay(response, false, new Response<String[]>() {
+                        Utils.getItemsToPlay(response, false, false, new Response<String[]>() {
                             @Override
                             public void onResponse(String[] response) {
                                 Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
