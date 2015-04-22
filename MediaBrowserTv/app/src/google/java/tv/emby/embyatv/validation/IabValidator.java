@@ -1,5 +1,7 @@
 package tv.emby.embyatv.validation;
 
+import org.acra.ACRA;
+
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.util.Utils;
 import tv.emby.embyatv.validation.billing.IabHelper;
@@ -31,6 +33,7 @@ public class IabValidator {
                 if (!result.isSuccess()) {
                     //Failed to connect to Google Play
                     TvApp.getApplication().getLogger().Info("Failed to connect to Google Play: " + result.getMessage());
+                    ACRA.getErrorReporter().handleException(new Exception("Could not connect to Play Store"), false);
 
                 } else {
                     TvApp.getApplication().getLogger().Info("IAB Initialized.  Checking for unlock purchase...");
@@ -45,6 +48,7 @@ public class IabValidator {
         public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
             if (result.isFailure()) {
                 TvApp.getApplication().getLogger().Error("Unable to retrieve IAB purchase information. "+result.getMessage());
+                ACRA.getErrorReporter().handleException(new Exception("Error confirming purchase"), false);
             }
             else {
                 // set our indicator of paid status

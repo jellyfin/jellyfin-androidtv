@@ -7,6 +7,8 @@ import com.amazon.device.iap.model.PurchaseUpdatesResponse;
 import com.amazon.device.iap.model.Receipt;
 import com.amazon.device.iap.model.UserDataResponse;
 
+import org.acra.ACRA;
+
 import java.util.Set;
 
 import tv.emby.embyatv.R;
@@ -121,6 +123,7 @@ public class PurchasingListener implements com.amazon.device.iap.PurchasingListe
         case NOT_SUPPORTED:
             TvApp.getApplication().getLogger().Debug("onProductDataResponse: failed, should retry request");
             Utils.showToast(TvApp.getApplication(), R.string.msg_purchase_error);
+            ACRA.getErrorReporter().handleException(new Exception("Error confirming purchase"), false);
             break;
         }
 
