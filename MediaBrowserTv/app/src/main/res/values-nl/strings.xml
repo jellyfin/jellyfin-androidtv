@@ -55,6 +55,7 @@
     <string name="dpad_entry_desc">Gebruik de D-Pad op uw afstandsbediening om een ​​numeriek wachtwoord in te voeren. Enkel klik op een knop voor het eerste weergegeven nummer of dubbelklik voor het tweede. bijv. Enkel klik \'boven\' voor 1 of dubbelklik op \'selecteren\' voor 5. Houd 1 seconde in, en laat de knop \'select\' los wanneer u klaar bent of op de linker knop om opnieuw te beginnen.</string>
     <string name="dpad_pw_cancel">* Houd de \'omlaag\'-knop ingedrukt gedurende 1 seconde en laat los als u een alpha wachtwoord hebt of behoefte aan een toetsenbord voor ingave</string>
     <string name="chapters">Hoofdstukken</string>
+    <string name="pref_auto_logoff_title">Automatisch afmelden na</string>
     <string name="pref_general">ALGEMEEN</string>
     <string name="lbl_settings">Instellingen</string>
     <string name="lbl_app_settings">App Instellingen</string>
@@ -76,6 +77,7 @@
     <string name="lbl_by_name">Op Naam</string>
     <string name="lbl_favorites">Favorieten</string>
     <string name="lbl_latest_recordings">Laatste Opnames</string>
+    <string name="lbl_coming_up">Aankomend</string>
     <string name="lbl_favorite_channels">Favoriete Kanalen</string>
     <string name="lbl_other_channels">Andere Kanalen</string>
     <string name="lbl_collections">Collecties</string>
@@ -102,7 +104,10 @@
     <string name="lbl_trailers">Trailers</string>
     <string name="lbl_similar_movies">Vergelijkbare Films</string>
     <string name="lbl_seasons">Seizoenen</string>
+    <string name="lbl_upcoming">Straks</string>
     <string name="lbl_similar_series">Vergelijkbare Series</string>
+    <string name="lbl_toggle_favorite">Favoriet schakelen</string>
+    <string name="lbl_toggle_watched">Bekeken schakelen</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_if_resumed">" wanneer hervat)"</string>
     <string name="lbl_runs">"Duurt: "</string>
@@ -141,7 +146,7 @@
     <string name="lbl_version_colon">"Versie: "</string>
     <string name="lbl_ip_hint">IP Adres of volledige domeinnaam</string>
     <string name="lbl_enter_server_address">Invoeren Server Adres</string>
-    <string name="lbl_valid_server_address">Gelieve een geldig server adres in te voeren</string>
+    <string name="lbl_valid_server_address">Vul het server adres in (IP adres of domein-/servernaam)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Geboren "</string>
     <string name="lbl_loading_elipses">Laden...</string>
@@ -157,4 +162,11 @@
     <string name="msg_thank_you_unlocked">Bedankt. App is nu volledig ontgrendeld.</string>
     <string name="msg_purchase_error">Er is een fout opgetreden met uw aankoop. Probeer het later opnieuw.</string>
     <string name="msg_unable_connect_google">Kan niet verbinden aan Google Play. Probeer het alstublieft later opnieuw.</string>
+    <string name="msg_cannot_play_time">Kan dit item momenteel niet afspelen</string>
+    <string name="msg_cannot_play">Dit item kan niet afgespeeld worden</string>
+    <string name="lbl_no_items">Geen items</string>
+    <string name="lbl_empty">Leeg</string>
+    <string name="sum_enable_hls">Alleen uitschakelen als je problemen hebt bij afspelen</string>
+    <string name="lbl_tv_queuing">Zet allen volgende afleveringen in de wachtrij</string>
+    <string name="sum_tv_queuing">Voeg de rest van het seizoen toe aan de afspeelwachtrij als er een aflevering afgespeeld wordt.</string>
 </resources>

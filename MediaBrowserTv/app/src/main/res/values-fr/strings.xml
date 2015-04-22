@@ -166,4 +166,7 @@
     <string name="msg_cannot_play">Impossible de lire cet élément</string>
     <string name="lbl_no_items">Aucun élément</string>
     <string name="lbl_empty">Vide</string>
+    <string name="sum_enable_hls">Désactiver uniquement si des problèmes de lecture apparaissent</string>
+    <string name="lbl_tv_queuing">Mettre en file tous les épisodes suivants</string>
+    <string name="sum_tv_queuing">Ajouter le reste de la saison à la liste lors de la lecture d\'un épisode</string>
 </resources>
