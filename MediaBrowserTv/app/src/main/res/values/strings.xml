@@ -188,6 +188,7 @@
     <string name="lbl_unlike">Unlike</string>
     <string name="lbl_remove_dislike">Remove Dislike</string>
     <string name="lbl_confirm_mark_unwatched">This will mark all content as un-played.  Are you VERY sure?</string>
+    <string name="msg_no_playable_items">No playable items</string>
 
 
 </resources>
