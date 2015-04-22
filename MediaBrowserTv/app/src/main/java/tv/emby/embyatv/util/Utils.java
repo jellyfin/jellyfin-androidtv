@@ -366,7 +366,7 @@ public class Utils {
         return null;
     }
 
-    public static void getItemsToPlay(final BaseItemDto mainItem, boolean allowIntros, final Response<String[]> outerResponse) {
+    public static void getItemsToPlay(final BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<String[]> outerResponse) {
         final List<String> items = new ArrayList<>();
         final GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
         ItemQuery query = new ItemQuery();
@@ -413,8 +413,9 @@ public class Utils {
                 query.setIsMissing(false);
                 query.setIsVirtualUnaired(false);
                 query.setIncludeItemTypes(new String[]{"Episode", "Movie", "Video"});
-                query.setSortBy(new String[]{ItemSortBy.SortName});
+                query.setSortBy(new String[]{shuffle ? ItemSortBy.Random : ItemSortBy.SortName});
                 query.setRecursive(true);
+                query.setLimit(50); // guard against too many items
                 query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.Path, ItemFields.PrimaryImageAspectRatio});
                 query.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
@@ -491,11 +492,10 @@ public class Utils {
     }
 
     public static void play(final BaseItemDto item, final int pos, final boolean shuffle, final Activity activity) {
-        Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), new Response<String[]>() {
+        Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), shuffle, new Response<String[]>() {
             @Override
             public void onResponse(String[] response) {
                 Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
-                if (shuffle) Collections.shuffle(Arrays.asList(response));
                 intent.putExtra("Items", response);
                 intent.putExtra("Position", pos);
                 activity.startActivity(intent);
