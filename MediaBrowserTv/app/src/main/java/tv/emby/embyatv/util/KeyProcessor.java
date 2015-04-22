@@ -228,7 +228,6 @@ public class KeyProcessor {
     private static PopupMenu.OnMenuItemClickListener menuItemClickListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            Utils.Beep();
 
             switch (item.getItemId()) {
                 case MENU_PLAY:
