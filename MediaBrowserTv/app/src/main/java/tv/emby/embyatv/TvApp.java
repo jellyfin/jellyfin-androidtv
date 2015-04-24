@@ -34,7 +34,6 @@ import java.util.Calendar;
 
 
 @ReportsCrashes(
-        formKey = "", // This is required for backward compatibility but not used
         httpMethod = HttpSender.Method.PUT,
         reportType = HttpSender.Type.JSON,
         formUri = "https://embi.smileupps.com/acra-androidtv/_design/acra-storage/_update/report",
