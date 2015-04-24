@@ -949,7 +949,7 @@ public class Utils {
                         break;
                     default:
                         TvApp.getApplication().getLogger().Error("Unexpected response from server login "+ serverResult.getState());
-                        reportError(activity, activity.getString(R.string.msg_error_connecting_server));
+                        Utils.showToast(activity, activity.getString(R.string.msg_error_connecting_server));
                 }
             }
 
