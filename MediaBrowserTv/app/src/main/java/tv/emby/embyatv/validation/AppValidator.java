@@ -20,13 +20,12 @@ public class AppValidator {
             @Override
             public void onResponse(RegistrationInfo response) {
                 TvApp.getApplication().setRegistrationInfo(response);
-                if (TvApp.getApplication().isValid()) {
+                if (TvApp.getApplication().isRegistered()) {
                     TvApp.getApplication().getLogger().Info("Application is valid via supporter registration.");
-                    if (TvApp.getApplication().isTrial()) {
-                        TvApp.getApplication().getLogger().Info("Trial period expires "+ Utils.convertToLocalDate(response.getExpirationDate()));
-                    }
                 } else {
-                    //If that fails, then we check for our in-app billing purchase
+                    if (TvApp.getApplication().isTrial()) {
+                        TvApp.getApplication().getLogger().Info("In supporter trial. Trial period expires "+ Utils.convertToLocalDate(response.getExpirationDate()));
+                    }
                     new IabValidator().checkInAppPurchase();
                 }
             }
