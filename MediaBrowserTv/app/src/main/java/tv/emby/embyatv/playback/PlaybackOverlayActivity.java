@@ -67,6 +67,7 @@ public class PlaybackOverlayActivity extends Activity {
                 mApplication.getPlaybackController().pause();
                 return true;
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+            case KeyEvent.KEYCODE_BUTTON_A:
                 PlaybackController controller = mApplication.getPlaybackController();
                 if (controller.isPlaying()) {
                     controller.pause();
@@ -77,9 +78,11 @@ public class PlaybackOverlayActivity extends Activity {
                 }
                 return true;
             case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
+            case KeyEvent.KEYCODE_BUTTON_R1:
                 mApplication.getPlaybackController().skip(30000);
                 return true;
             case KeyEvent.KEYCODE_MEDIA_REWIND:
+            case KeyEvent.KEYCODE_BUTTON_L1:
                 mApplication.getPlaybackController().skip(-11000);
                 return true;
             default:

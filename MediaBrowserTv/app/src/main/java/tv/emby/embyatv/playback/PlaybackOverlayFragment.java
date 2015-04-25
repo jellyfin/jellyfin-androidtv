@@ -131,6 +131,8 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             return;
         }
 
+        getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
         Intent intent = getActivity().getIntent();
         GsonJsonSerializer serializer = mApplication.getSerializer();
 
