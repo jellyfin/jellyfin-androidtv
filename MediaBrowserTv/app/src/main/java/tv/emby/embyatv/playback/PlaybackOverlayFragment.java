@@ -107,6 +107,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
     private Handler mLoopHandler = new Handler();
     private Runnable mClockLoop;
+    private AudioManager mAudioManager;
 
     public PlaybackControlsRow getPlaybackControlsRow() {
         return mPlaybackControlsRow;
@@ -122,6 +123,13 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         super.onCreate(savedInstanceState);
         sContext = (PlaybackOverlayActivity) getActivity();
         mApplication = TvApp.getApplication();
+        mAudioManager = (AudioManager) mApplication.getSystemService(Context.AUDIO_SERVICE);
+
+        if (mAudioManager == null) {
+            mApplication.getLogger().Error("Unable to get audio manager");
+            Utils.showToast(getActivity(), R.string.msg_cannot_play_time);
+            return;
+        }
 
         Intent intent = getActivity().getIntent();
         GsonJsonSerializer serializer = mApplication.getSerializer();
@@ -200,6 +208,20 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
     }
 
+    private AudioManager.OnAudioFocusChangeListener mAudioFocusChanged = new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+            switch (focusChange) {
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                    mPlaybackController.pause();
+                    break;
+                case AudioManager.AUDIOFOCUS_LOSS:
+                    finish();
+                    break;
+            }
+        }
+    };
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -214,9 +236,14 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     @Override
     public void onResume() {
         super.onResume();
+        if (mAudioManager.requestAudioFocus(mAudioFocusChanged, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN) != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            mApplication.getLogger().Error("Unable to get audio focus");
+            Utils.showToast(getActivity(), R.string.msg_cannot_play_time);
+            return;
+        }
+
         //Register a media button receiver so that all media button presses will come to us and not another app
-        AudioManager audioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
-        audioManager.registerMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
+        mAudioManager.registerMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
         //TODO implement conditional logic for api 21+
 
         startClock();
@@ -233,8 +260,11 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         mPlaybackController.stop();
         stopClock();
         //UnRegister the media button receiver
-        AudioManager audioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
-        audioManager.unregisterMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
+        mAudioManager.unregisterMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
+        //TODO implement conditional logic for api 21+
+
+        //Give back audio focus
+        mAudioManager.abandonAudioFocus(mAudioFocusChanged);
 
         super.onPause();
     }
