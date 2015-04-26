@@ -79,10 +79,12 @@ public class PlaybackOverlayActivity extends Activity {
                 return true;
             case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
             case KeyEvent.KEYCODE_BUTTON_R1:
+            case KeyEvent.KEYCODE_BUTTON_R2:
                 mApplication.getPlaybackController().skip(30000);
                 return true;
             case KeyEvent.KEYCODE_MEDIA_REWIND:
             case KeyEvent.KEYCODE_BUTTON_L1:
+            case KeyEvent.KEYCODE_BUTTON_L2:
                 mApplication.getPlaybackController().skip(-11000);
                 return true;
             default:
