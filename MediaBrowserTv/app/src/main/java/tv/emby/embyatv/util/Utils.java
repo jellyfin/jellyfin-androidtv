@@ -17,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Display;
@@ -52,6 +53,7 @@ import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.IConnectionManager;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
+import mediabrowser.apiinteraction.android.profiles.AndroidProfileOptions;
 import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dto.BaseItemDto;
@@ -925,7 +927,7 @@ public class Utils {
                         activity.startActivity(userIntent);
                         break;
                     default:
-                        TvApp.getApplication().getLogger().Error("Unexpected response "+serverResult.getState()+" trying to sign in to specific server "+server.getLocalAddress());
+                        TvApp.getApplication().getLogger().Error("Unexpected response " + serverResult.getState() + " trying to sign in to specific server " + server.getLocalAddress());
                         break;
                 }
             }
@@ -958,6 +960,14 @@ public class Utils {
                 reportError(activity, activity.getString(R.string.msg_error_connecting_server));
             }
         });
+    }
+
+    public static AndroidProfileOptions getProfileOptions() {
+        AndroidProfileOptions options = new AndroidProfileOptions();
+        options.SupportsAc3 = true;
+        options.SupportsHls = PreferenceManager.getDefaultSharedPreferences(TvApp.getApplication()).getBoolean("pref_enable_hls",true);
+        options.DefaultH264Level = 40;
+        return options;
     }
 
     public static void reportError(final Context context, final String msg) {
