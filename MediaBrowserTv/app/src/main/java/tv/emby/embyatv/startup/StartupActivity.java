@@ -67,7 +67,7 @@ public class StartupActivity extends Activity {
         capabilities.setPlayableMediaTypes(playableTypes);
         capabilities.setSupportsContentUploading(false);
         capabilities.setSupportsSync(false);
-        capabilities.setDeviceProfile(new AndroidProfile(true, 40));
+        capabilities.setDeviceProfile(new AndroidProfile(Utils.getProfileOptions()));
         capabilities.setSupportsMediaControl(false);
         capabilities.setAppStoreUrl(Utils.getStoreUrl());
         capabilities.setIconUrl("https://raw.githubusercontent.com/MediaBrowser/MediaBrowser.Android/master/servericon.png");
