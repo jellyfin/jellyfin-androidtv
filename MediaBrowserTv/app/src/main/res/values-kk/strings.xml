@@ -49,6 +49,8 @@
     <string name="settings_title">Параметрлер</string>
     <string name="pref_startup_cat">КІРУ</string>
     <string name="pref_prompt_pw">Құпия сөз үшін шақыру</string>
+    <string name="pref_alt_pw_entry">Тоғыспа арқылы құпия сөзді енгізу теңшелетін әдісін пайдаланыңыз</string>
+    <string name="pref_alt_pw_entry_desc">Бөлмедегі әлдекімге құпия сөзді әшкерелемей тек қана тоғыспа пернелері арқылы сандық құпия сөзді енгізуді қосады</string>
     <string name="pref_enable_hls_label">HLS ағынмен тасымалдауды қосу</string>
     <string name="title_activity_dpad_pw">Құпия сөзді енгізу</string>
     <string name="enter_password">Құпия сөзді енгізу</string>
@@ -135,6 +137,8 @@
     <string name="msg_access_restricted">Қазіргі уақытта қатынау шектелген</string>
     <string name="lbl_trailer">"Трейлер "</string>
     <string name="lbl_please_wait">Күтіңіз</string>
+    <string name="lbl_enter_user_name">Пайдаланушы атын енгізу</string>
+    <string name="lbl_enter_user_pw">Пайдаланушы құпия сөзін енгізу</string>
     <string name="msg_little_longer">Бұл күтілгеннен көбірек уақытты алатыны тәрізді...</string>
     <string name="msg_report_sent">Жасақтаушыға баянат жіберілді. Рахмет!</string>
     <string name="lbl_report_msg_question">Баянатты жасақтаушыға жіберу қажет пе?</string>
@@ -169,4 +173,17 @@
     <string name="sum_enable_hls">Егер ойнату қиыншылықтары кедессе тек қана ажыратыңыз</string>
     <string name="lbl_tv_queuing">Келесі бөлімдердің бәрін кезекке қою</string>
     <string name="sum_tv_queuing">Эпизод ойнату кезінде маусымда қалғандарды ойнату кезегіне үстеңіз</string>
+    <string name="lbl_search_hint">Мәтінді іздеу (пернетақта үшін тандаңыз)</string>
+    <string name="lbl_play_first_unwatched">Қаралмағандардың біріншісін ойнату</string>
+    <string name="lbl_confirm_mark_watched">Бұл барлық мазмұнды ойнатылған деп белгілейді. Сіз оған ӘБДЕН сенімдісіз бе?</string>
+    <string name="lbl_mark_unplayed">Ойнатылмаған деп белгілеу</string>
+    <string name="lbl_mark_played">Ойнатылған деп белгілеу</string>
+    <string name="lbl_remove_favorite">Таңдаулыдан аластау</string>
+    <string name="lbl_add_favorite">Таңдаулыға үстеу</string>
+    <string name="lbl_like">Ұнайды</string>
+    <string name="lbl_dislike">Ұнамайды</string>
+    <string name="lbl_unlike">Басқаша</string>
+    <string name="lbl_remove_dislike">Ұнамайды дегенді аластау</string>
+    <string name="lbl_confirm_mark_unwatched">Бұл барлық мазмұнды ойнатылмаған деп белгілейді. Сіз оған ӘБДЕН сенімдісіз бе?</string>
+    <string name="msg_no_playable_items">Ойнатылатын тармақтар жоқ</string>
 </resources>

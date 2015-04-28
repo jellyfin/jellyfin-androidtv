@@ -49,6 +49,8 @@
     <string name="settings_title">Параметры</string>
     <string name="pref_startup_cat">ВХОД</string>
     <string name="pref_prompt_pw">Приглашение ввести пароль</string>
+    <string name="pref_alt_pw_entry">Использовать настраиваемую технику ввода пароля крестовиной.</string>
+    <string name="pref_alt_pw_entry_desc">Включается цифровой ввод пароля с помощью только клавиш крестовины, без раскрытия пароля кому-либо в комнате</string>
     <string name="pref_enable_hls_label">Включить HLS-трансляцию</string>
     <string name="title_activity_dpad_pw">Ввод пароля</string>
     <string name="enter_password">Ввести пароль</string>
@@ -135,6 +137,8 @@
     <string name="msg_access_restricted">Доступ запрещён в настоящее время</string>
     <string name="lbl_trailer">"Трейлер "</string>
     <string name="lbl_please_wait">Подождите</string>
+    <string name="lbl_enter_user_name">Ввод имени пользователя</string>
+    <string name="lbl_enter_user_pw">Ввод пароля пользователя</string>
     <string name="msg_little_longer">Это займёт немного больше времени, чем ожидалось...</string>
     <string name="msg_report_sent">Отчёт отправленк разработчику. Спасибо.</string>
     <string name="lbl_report_msg_question">Хотите ли отправить отчёт к разработчику?</string>
@@ -169,4 +173,17 @@
     <string name="sum_enable_hls">Отключать только если возникают проблемы воспроизведения</string>
     <string name="lbl_tv_queuing">Поставить в очередь все последующие эпизоды</string>
     <string name="sum_tv_queuing">Добавьте оставшуюся часть сезона в очередь воспроизведения при воспроизведении эпизода</string>
+    <string name="lbl_search_hint">Поиск текста (выбирать для клавиатуры)</string>
+    <string name="lbl_play_first_unwatched">Воспроизвести первое непросмотренное</string>
+    <string name="lbl_confirm_mark_watched">Всё содержание будет отмечено как воспроизведённое. Вы СОВЕРШЕННО уверены?</string>
+    <string name="lbl_mark_unplayed">Отметить как невоспроизведённое</string>
+    <string name="lbl_mark_played">Отметить как воспроизведённое</string>
+    <string name="lbl_remove_favorite">Убрать из Избранного</string>
+    <string name="lbl_add_favorite">Добавить в Избранное</string>
+    <string name="lbl_like">Нравится</string>
+    <string name="lbl_dislike">Не нравится</string>
+    <string name="lbl_unlike">Иное</string>
+    <string name="lbl_remove_dislike">Убрать Не нравится</string>
+    <string name="lbl_confirm_mark_unwatched">Всё содержание будет отмечено как невоспроизведённое. Вы СОВЕРШЕННО уверены?</string>
+    <string name="msg_no_playable_items">Нет воспроизводимых элементов</string>
 </resources>

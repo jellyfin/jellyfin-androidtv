@@ -27,7 +27,7 @@
     <string name="action_settings">Einstellungen</string>
     <string name="txt_loading">Lade...</string>
     <string name="title_activity_connect">VerbindungsAktivität</string>
-    <string name="txt_signinconnect">Anmelden mit Media Browser Connect</string>
+    <string name="txt_signinconnect">Anmelden mit Connect</string>
     <string name="title_activity_select_user">AuswahlBenutzerAktivität</string>
     <string name="selusr_pleaseselect">Bitte wählen Sie einen Benutzer</string>
     <string name="error_fragment_message">Fehler</string>
@@ -49,6 +49,8 @@
     <string name="settings_title">Einstellungen</string>
     <string name="pref_startup_cat">ANMELDEN</string>
     <string name="pref_prompt_pw">Frage nach Passwort</string>
+    <string name="pref_alt_pw_entry">Verwende eigene Steuerkreuz-Passwort Technik.</string>
+    <string name="pref_alt_pw_entry_desc">Aktiviert die numerische Passworteingabe nur mit dem Steuerkreuz Tasten ohne das Passwort jedem im Raum anzuzeigen.</string>
     <string name="pref_enable_hls_label">aktiviere HLS Streaming</string>
     <string name="title_activity_dpad_pw">Passwort eingeben</string>
     <string name="enter_password">Passwort eingeben</string>
@@ -135,6 +137,8 @@
     <string name="msg_access_restricted">Zugriffbeschränkungen zu dieser Zeit</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_please_wait">Bitte warten</string>
+    <string name="lbl_enter_user_name">Benutzername eingeben</string>
+    <string name="lbl_enter_user_pw">Benutzer Passwort eingeben</string>
     <string name="msg_little_longer">Es dauert ein bisschen länger als erwartet...</string>
     <string name="msg_report_sent">Bericht an Entwickler versendet. Vielen Dank.</string>
     <string name="lbl_report_msg_question">Möchten Sie einen Bericht an den Entwickler senden?</string>
@@ -144,9 +148,9 @@
     <string name="msg_error_connecting_server">Fehler bei Serververbindung</string>
     <string name="msg_invalid_id_pw">Fahler Benutzername oder Passwort</string>
     <string name="lbl_version_colon">"Version: "</string>
-    <string name="lbl_ip_hint">IP Adresse oder kompletten Domainnamen</string>
+    <string name="lbl_ip_hint">192.168.1.1 oder https://meinserver.com</string>
     <string name="lbl_enter_server_address">Server Adresse eingeben</string>
-    <string name="lbl_valid_server_address">Bitte geben Sie eine gültige Serveradresse ein</string>
+    <string name="lbl_valid_server_address">Bitte geben Sie die Server Adresse ein (IP oder Domain/Server Name)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Geburtstag "</string>
     <string name="lbl_loading_elipses">Lade...</string>
@@ -169,4 +173,17 @@
     <string name="sum_enable_hls">Nur ausschalten wenn Wiedergabeprobleme auftreten</string>
     <string name="lbl_tv_queuing">Alle untergeordneten Episoden in Warteschlange</string>
     <string name="sum_tv_queuing">Füge den Rest der Staffel der Warteschlange hinzu wenn eine Episode abgespielt wird.</string>
+    <string name="lbl_search_hint">Suche Text (Auswahl für Tastatur)</string>
+    <string name="lbl_play_first_unwatched">Starte Erste ungesehen</string>
+    <string name="lbl_confirm_mark_watched">Dies wird alles als gesehen markieren. Sind Sie sich SEHR sicher?</string>
+    <string name="lbl_mark_unplayed">Markiere ungesehen</string>
+    <string name="lbl_mark_played">Markiere gesehen</string>
+    <string name="lbl_remove_favorite">Entferne Favorit</string>
+    <string name="lbl_add_favorite">Favorit hinzufügen</string>
+    <string name="lbl_like">Mag ich</string>
+    <string name="lbl_dislike">Mag ich nicht</string>
+    <string name="lbl_unlike">Mag ich nicht mehr</string>
+    <string name="lbl_remove_dislike">Entferne \"mag ich nicht\"</string>
+    <string name="lbl_confirm_mark_unwatched">Dies markiert alle Inhalte als ungesehen. Sind Sie sich SEHR sicher?</string>
+    <string name="msg_no_playable_items">Keine abspielbaren Einträge</string>
 </resources>

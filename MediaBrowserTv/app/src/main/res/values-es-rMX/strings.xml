@@ -49,6 +49,8 @@
     <string name="settings_title">Configuraciones</string>
     <string name="pref_startup_cat">INICIAR SESIÓN</string>
     <string name="pref_prompt_pw">Solicitar una Contraseña</string>
+    <string name="pref_alt_pw_entry">Emplear la técnica de ingreso de contraseña personalizada d-pad</string>
+    <string name="pref_alt_pw_entry_desc">Habilita el ingreso de una contraseña numérica con tan solo teclas d-pad sin exponer la contraseña a otras personas en la habitación</string>
     <string name="pref_enable_hls_label">Habilitar Transmisión HLS</string>
     <string name="title_activity_dpad_pw">Intoducir Contraseña</string>
     <string name="enter_password">Introducir Contraseña</string>
@@ -135,6 +137,8 @@
     <string name="msg_access_restricted">Acceso Restingido en este momento</string>
     <string name="lbl_trailer">"Avance "</string>
     <string name="lbl_please_wait">Espere Por Favor</string>
+    <string name="lbl_enter_user_name">Introducir nombre del usuario</string>
+    <string name="lbl_enter_user_pw">Introducir contraseña del usuario</string>
     <string name="msg_little_longer">Esto está tomando más tiempo de lo esperado...</string>
     <string name="msg_report_sent">Reporte enviado al desarrollador. Gracias.</string>
     <string name="lbl_report_msg_question">¿Desea enviar un reporte al desarrollador?</string>
@@ -169,4 +173,17 @@
     <string name="sum_enable_hls">Deshabilitar únicamente si está experimentando problemas de reproducción</string>
     <string name="lbl_tv_queuing">Encolar todos los episodios subsecuentes</string>
     <string name="sum_tv_queuing">Añadir el resto de la temporada a la cola de reproducción al reproducir un episodio</string>
+    <string name="lbl_search_hint">Buscar texto (seleccionar para teclado)</string>
+    <string name="lbl_play_first_unwatched">Reproducir Primero Mo Visto</string>
+    <string name="lbl_confirm_mark_watched">Esto marcará a todo el contenido como reproducido. ¿Está usted MUY seguro?</string>
+    <string name="lbl_mark_unplayed">Marcar como No-Reproducido</string>
+    <string name="lbl_mark_played">Marcar como Reproducido</string>
+    <string name="lbl_remove_favorite">Remover de Favoritos</string>
+    <string name="lbl_add_favorite">Agregar a Favoritos</string>
+    <string name="lbl_like">Me gusta</string>
+    <string name="lbl_dislike">Me disgusta</string>
+    <string name="lbl_unlike">Diferente</string>
+    <string name="lbl_remove_dislike">Remover Me disgusta</string>
+    <string name="lbl_confirm_mark_unwatched">Esto marcará a todo el contenido como no reproducido. ¿Está usted MUY seguro?</string>
+    <string name="msg_no_playable_items">No hay ítems reproducibles</string>
 </resources>

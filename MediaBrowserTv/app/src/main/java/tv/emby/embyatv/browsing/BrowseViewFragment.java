@@ -60,6 +60,16 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 latestMovies.setSortOrder(SortOrder.Descending);
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestMovies, 0, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
 
+                //Unwatched
+                StdItemQuery unwatchedMovies = new StdItemQuery();
+                unwatchedMovies.setIncludeItemTypes(new String[]{"Movie"});
+                unwatchedMovies.setRecursive(true);
+                unwatchedMovies.setParentId(mFolder.getId());
+                unwatchedMovies.setLimit(50);
+                unwatchedMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
+                unwatchedMovies.setSortBy(new String[]{ItemSortBy.SortName});
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_unwatched), unwatchedMovies, 0, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
+
                 //All
                 StdItemQuery movies = new StdItemQuery();
                 movies.setIncludeItemTypes(new String[]{"Movie"});
