@@ -218,7 +218,10 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                     mPlaybackController.pause();
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS:
-                    finish();
+                    //We don't do anything here on purpose
+                    // On the Nexus we get this notification erroneously when first starting up
+                    // and in any instance that we navigate away from our page, we already handle
+                    // stopping video and handing back audio focus
                     break;
             }
         }
