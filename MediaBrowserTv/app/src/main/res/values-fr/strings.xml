@@ -49,6 +49,8 @@
     <string name="settings_title">Paramètres</string>
     <string name="pref_startup_cat">Connexion</string>
     <string name="pref_prompt_pw">Demander le mot de passe</string>
+    <string name="pref_alt_pw_entry">Utiliser la technique du mot de passe numérique d-pad</string>
+    <string name="pref_alt_pw_entry_desc">Active la saisie des mots de passe numérique avec les touches d-pad sans montrer le mot de passe à tout le monde dans la pièce</string>
     <string name="pref_enable_hls_label">Activer le streaming HLS</string>
     <string name="title_activity_dpad_pw">Entrer le mot de passe</string>
     <string name="enter_password">Entrer le mot de passe</string>
@@ -135,6 +137,8 @@
     <string name="msg_access_restricted">Accès restreint pour le moment</string>
     <string name="lbl_trailer">"Bande-annonce "</string>
     <string name="lbl_please_wait">Veuillez patienter</string>
+    <string name="lbl_enter_user_name">Entrez le nom d\'utilisateur</string>
+    <string name="lbl_enter_user_pw">Entrez le mot de passe utilisateur</string>
     <string name="msg_little_longer">Cela prend un peu plus de temps que prévu...</string>
     <string name="msg_report_sent">Rapport envoyé au développeur. Merci.</string>
     <string name="lbl_report_msg_question">Voulez-vous envoyer un rapport au développeur ?</string>
@@ -169,4 +173,17 @@
     <string name="sum_enable_hls">Désactiver uniquement si des problèmes de lecture apparaissent</string>
     <string name="lbl_tv_queuing">Mettre en file tous les épisodes suivants</string>
     <string name="sum_tv_queuing">Ajouter le reste de la saison à la liste lors de la lecture d\'un épisode</string>
+    <string name="lbl_search_hint">Recherche texte</string>
+    <string name="lbl_play_first_unwatched">Lire la premier élément non vu</string>
+    <string name="lbl_confirm_mark_watched">Cette action marquera tout le contenu comme lu. Etes-vous VRAIMENT sûr ?</string>
+    <string name="lbl_mark_unplayed">Marquer comme non vu</string>
+    <string name="lbl_mark_played">Marqué comme vu</string>
+    <string name="lbl_remove_favorite">Supprimer des favoris</string>
+    <string name="lbl_add_favorite">Ajouter aux favoris</string>
+    <string name="lbl_like">Like</string>
+    <string name="lbl_dislike">Dislike</string>
+    <string name="lbl_unlike">Unlike</string>
+    <string name="lbl_remove_dislike">Supprimer dislike</string>
+    <string name="lbl_confirm_mark_unwatched">Cette action marquera tout le contenu comme non vu. Etes-vous VRAIMENT sûr ?</string>
+    <string name="msg_no_playable_items">Aucun élément à lire</string>
 </resources>
