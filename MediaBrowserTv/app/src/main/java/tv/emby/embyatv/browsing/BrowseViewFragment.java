@@ -65,10 +65,9 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 unwatchedMovies.setIncludeItemTypes(new String[]{"Movie"});
                 unwatchedMovies.setRecursive(true);
                 unwatchedMovies.setParentId(mFolder.getId());
-                unwatchedMovies.setLimit(50);
                 unwatchedMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
                 unwatchedMovies.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_unwatched), unwatchedMovies, 0, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_unwatched), unwatchedMovies, 60, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
 
                 //All
                 StdItemQuery movies = new StdItemQuery();
@@ -76,7 +75,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 movies.setRecursive(true);
                 movies.setParentId(mFolder.getId());
                 movies.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_by_name), movies, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_by_name), movies, 60, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
                 StdItemQuery favorites = new StdItemQuery();
@@ -85,7 +84,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 favorites.setParentId(mFolder.getId());
                 favorites.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
                 favorites.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_favorites), favorites, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_favorites), favorites, 60, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 //Collections
                 StdItemQuery collections = new StdItemQuery();
@@ -93,7 +92,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 collections.setRecursive(true);
                 collections.setParentId(mFolder.getId());
                 collections.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_collections), collections, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_collections), collections, 60, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 rowLoader.loadRows(mRows);
                 break;
@@ -125,7 +124,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 series.setRecursive(true);
                 series.setParentId(mFolder.getId());
                 series.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_by_name), series, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_by_name), series, 60, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
                 StdItemQuery tvFavorites = new StdItemQuery();
@@ -134,7 +133,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 tvFavorites.setParentId(mFolder.getId());
                 tvFavorites.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
                 tvFavorites.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_favorites), tvFavorites, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_favorites), tvFavorites, 60, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 rowLoader.loadRows(mRows);
                 break;
@@ -195,7 +194,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                                 rowQuery.setParentId(item.getId());
                                 rowQuery.setUserId(userId);
                                 rowQuery.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
-                                rows.add(new BrowseRowDef(item.getName(), rowQuery, 100, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                                rows.add(new BrowseRowDef(item.getName(), rowQuery, 60, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
                             }
                         }
 
