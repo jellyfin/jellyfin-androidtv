@@ -44,7 +44,7 @@ public class PlaybackController {
 
     private StreamInfo mCurrentStreamInfo;
 
-    private PlaybackOverlayFragment mFragment;
+    private IPlaybackOverlayFragment mFragment;
     private View mSpinner;
     private Boolean spinnerOff = false;
 
@@ -69,7 +69,7 @@ public class PlaybackController {
     private boolean isLiveTv;
     private String liveTvChannelName = "";
 
-    public PlaybackController(List<BaseItemDto> items, PlaybackOverlayFragment fragment) {
+    public PlaybackController(List<BaseItemDto> items, IPlaybackOverlayFragment fragment) {
         mItems = items;
         mFragment = fragment;
         mApplication = TvApp.getApplication();
@@ -155,7 +155,7 @@ public class PlaybackController {
                 playInternal(getCurrentlyPlayingItem(), position, mVideoView, mCurrentOptions);
                 if (mFragment != null) {
                     mFragment.setFadingEnabled(true);
-                    mFragment.getPlaybackControlsRow().setCurrentTime(position);
+                    mFragment.setCurrentTime(position);
                 }
                 mPlaybackState = PlaybackState.BUFFERING;
                 break;
@@ -419,7 +419,6 @@ public class PlaybackController {
             @Override
             public void run() {
                 int updatePeriod = getUpdatePeriod();
-                PlaybackControlsRow controls = mFragment.getPlaybackControlsRow();
                 if (isPlaying()) {
                     if (!spinnerOff) {
                         stopSpinner();
@@ -429,7 +428,7 @@ public class PlaybackController {
                         updateTvProgramInfo();
                     }
                     final int currentTime = isLiveTv && mCurrentProgramStartTime > 0 ? getRealTimeProgress() : mVideoView.getCurrentPosition() + mPositionOffset;
-                    controls.setCurrentTime(currentTime);
+                    mFragment.setCurrentTime(currentTime);
                     mCurrentPosition = currentTime;
                     //The very end of some videos over hls cause the VideoView to freeze which freezes our whole app
                     //Try and avoid this by skipping the last few seconds of the video
@@ -535,7 +534,7 @@ public class PlaybackController {
                     public void onSeekComplete(MediaPlayer mp) {
                         mApplication.getLogger().Debug("Seek complete...");
                         mPlaybackState = PlaybackState.PLAYING;
-                        mFragment.getPlaybackControlsRow().setCurrentTime(mp.getCurrentPosition());
+                        mFragment.setCurrentTime(mp.getCurrentPosition());
                         startProgressAutomation();
                         startReportLoop();
                     }
@@ -567,10 +566,6 @@ public class PlaybackController {
             }
         });
 
-    }
-
-    public int getCurrentPosition() {
-        return mFragment.getPlaybackControlsRow().getCurrentTime();
     }
 
     public boolean isPaused() {

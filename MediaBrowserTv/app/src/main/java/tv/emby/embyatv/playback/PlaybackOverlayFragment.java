@@ -77,7 +77,7 @@ import tv.emby.embyatv.util.Utils;
 /*
  * Class for video playback with media control
  */
-public class PlaybackOverlayFragment extends android.support.v17.leanback.app.PlaybackOverlayFragment {
+public class PlaybackOverlayFragment extends android.support.v17.leanback.app.PlaybackOverlayFragment implements IPlaybackOverlayFragment {
 
     private static PlaybackOverlayActivity sContext;
 
@@ -462,6 +462,10 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         addPlaybackControlsRow();
         if (mPlaybackController.getCurrentlyPlayingItem().getChapters() != null && mPlaybackController.getCurrentlyPlayingItem().getChapters().size() > 0) addChapterRow();
 
+    }
+
+    public void setCurrentTime(int time) {
+        mPlaybackControlsRow.setCurrentTime(time);
     }
 
     public void setPlayPauseActionState(int state) {
