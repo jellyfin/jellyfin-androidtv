@@ -282,11 +282,18 @@ public class Utils {
     }
 
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched, boolean preferParentThumb, int maxHeight) {
+        return getPrimaryImageUrl(item, apiClient,showWatched, true, preferParentThumb, false, maxHeight);
+    }
+
+    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched, boolean showProgress, boolean preferParentThumb, boolean preferSeriesPoster, int maxHeight) {
         ImageOptions options = new ImageOptions();
         String itemId = item.getId();
         String imageTag = item.getImageTags().get(ImageType.Primary);
         ImageType imageType = ImageType.Primary;
-        if (preferParentThumb || (item.getType().equals("Episode") && imageTag == null)) {
+        if (preferSeriesPoster && item.getType().equals("Episode") && item.getSeriesPrimaryImageTag() != null && item.getSeriesId() != null) {
+            imageTag = item.getSeriesPrimaryImageTag();
+            itemId = item.getSeriesId();
+        } else if (preferParentThumb || (item.getType().equals("Episode") && imageTag == null)) {
             //try for thumb of season or series
             if (item.getParentThumbImageTag() != null) {
                 imageTag = item.getParentThumbImageTag();
@@ -307,14 +314,15 @@ public class Utils {
         options.setImageType(imageType);
         UserItemDataDto userData = item.getUserData();
         if (userData != null) {
-            if (Arrays.asList(ProgressIndicatorTypes).contains(item.getType()) && userData.getPlayedPercentage() != null
+            if (showProgress && Arrays.asList(ProgressIndicatorTypes).contains(item.getType()) && userData.getPlayedPercentage() != null
                     && userData.getPlayedPercentage() > 0 && userData.getPlayedPercentage() < 99) {
                 Double pct = userData.getPlayedPercentage();
                 options.setPercentPlayed(pct.intValue());
             }
             if (showWatched) {
                 options.setAddPlayedIndicator(userData.getPlayed());
-                if (item.getIsFolder() && userData.getUnplayedItemCount() != null && userData.getUnplayedItemCount() > 0) options.setUnPlayedCount(userData.getUnplayedItemCount());
+                if (item.getIsFolder() && userData.getUnplayedItemCount() != null && userData.getUnplayedItemCount() > 0)
+                    options.setUnPlayedCount(userData.getUnplayedItemCount());
             }
 
         }
