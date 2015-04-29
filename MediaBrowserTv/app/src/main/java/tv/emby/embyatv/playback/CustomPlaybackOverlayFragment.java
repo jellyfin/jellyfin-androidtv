@@ -38,7 +38,6 @@ import tv.emby.embyatv.util.Utils;
  */
 public class CustomPlaybackOverlayFragment extends Fragment implements IPlaybackOverlayFragment {
 
-    ImageView mLogo;
     ImageView mPoster;
     TextView mTitle;
     TextView mEndTime;
@@ -120,7 +119,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mLogo = (ImageView) mActivity.findViewById(R.id.npLogoImage);
         mPoster = (ImageView) mActivity.findViewById(R.id.poster);
         mTopPanel = mActivity.findViewById(R.id.topPanel);
         mBottomPanel = mActivity.findViewById(R.id.bottomPanel);
@@ -145,8 +143,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         Intent intent = mActivity.getIntent();
         //start playing
-        mApplication.getPlaybackController().play(intent.getIntExtra("Position", 0));
-
+        int startPos = intent.getIntExtra("Position", 0);
+        mPlaybackController.play(startPos);
+        updateEndTime(mCurrentDuration - startPos);
     }
 
     private AudioManager.OnAudioFocusChangeListener mAudioFocusChanged = new AudioManager.OnAudioFocusChangeListener() {
@@ -276,13 +275,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     }
 
-    private void updateLogo(BaseItemDto item) {
-        String logoImageUrl = Utils.getLogoImageUrl(item, mApplication.getApiClient());
-        if (logoImageUrl != null) Picasso.with(getActivity()).load(logoImageUrl).skipMemoryCache().resize(Utils.convertDpToPixel(mApplication, 400), Utils.convertDpToPixel(mApplication, 120)).centerInside().into(mLogo);
-    }
-
     private void updateEndTime(int timeLeft) {
-        mEndTime.setText(mApplication.getString(R.string.lbl_ends) + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(System.currentTimeMillis() + timeLeft));
+        mEndTime.setText( timeLeft > 0 ?
+                mApplication.getString(R.string.lbl_ends) + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(System.currentTimeMillis() + timeLeft)
+                : ""
+        );
 
     }
 
@@ -330,7 +327,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             mTitle.setText(current.getName());
             updatePoster(current);
             updateEndTime(mCurrentDuration-mPlaybackController.getCurrentPosition());
-            updateLogo(current);
         }
     }
 
