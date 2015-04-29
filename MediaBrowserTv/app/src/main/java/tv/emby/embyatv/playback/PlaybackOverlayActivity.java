@@ -50,7 +50,7 @@ public class PlaybackOverlayActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.playback_controls);
+        setContentView(R.layout.activity_playback_overlay);
         mApplication = TvApp.getApplication();
         loadViews();
     }

@@ -169,18 +169,21 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private View.OnKeyListener keyListener = new View.OnKeyListener() {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
-            //if we're not visible, show us
-            if (!mIsVisible) show();
+            if (keyCode != KeyEvent.KEYCODE_BACK && keyCode != KeyEvent.KEYCODE_BUTTON_B) {
+                //if we're not visible, show us
+                if (!mIsVisible) show();
 
-            //and then manage our fade timer
-            if (mFadeEnabled) startFadeTimer();
+                //and then manage our fade timer
+                if (mFadeEnabled) startFadeTimer();
+            }
+
             return false;
         }
     };
 
     private void startFadeTimer() {
         mHandler.removeCallbacks(mHideTask);
-        mHandler.postDelayed(mHideTask, 7000);
+        mHandler.postDelayed(mHideTask, 6000);
     }
 
     @Override
