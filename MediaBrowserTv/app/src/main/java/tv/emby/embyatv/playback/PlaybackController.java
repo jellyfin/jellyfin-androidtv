@@ -4,8 +4,6 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v17.leanback.widget.PlaybackControlsRow;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.VideoView;
 
@@ -338,7 +336,7 @@ public class PlaybackController {
             mCurrentIndex++;
             mApplication.getLogger().Debug("Moving to index: "+mCurrentIndex+" out of "+mItems.size() + " total items.");
             mFragment.removeQueueItem(0);
-            mFragment.updatePlaybackControls();
+            mFragment.updateDisplay();
             spinnerOff = false;
             play(0);
         }
@@ -385,7 +383,7 @@ public class PlaybackController {
                         channel.setRunTimeTicks(program.getRunTimeTicks());
                         mCurrentProgramEndTime = channel.getEndDate() != null ? Utils.convertToLocalDate(channel.getEndDate()).getTime() : 0;
                         mCurrentProgramStartTime = channel.getPremiereDate() != null ? Utils.convertToLocalDate(channel.getPremiereDate()).getTime() : 0;
-                        mFragment.updatePlaybackControls();
+                        mFragment.updateDisplay();
                     }
                 }
             });
@@ -490,7 +488,7 @@ public class PlaybackController {
             mCurrentIndex++;
             mApplication.getLogger().Debug("Moving to next queue item. Index: "+mCurrentIndex);
             mFragment.removeQueueItem(0);
-            mFragment.updatePlaybackControls();
+            mFragment.updateDisplay();
             spinnerOff = false;
             play(0);
         } else {
@@ -566,6 +564,10 @@ public class PlaybackController {
             }
         });
 
+    }
+
+    public int getCurrentPosition() {
+        return mCurrentPosition;
     }
 
     public boolean isPaused() {

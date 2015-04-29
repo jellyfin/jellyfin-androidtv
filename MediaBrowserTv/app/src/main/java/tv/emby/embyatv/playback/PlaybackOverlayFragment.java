@@ -452,13 +452,13 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         ps.addClassPresenter(ListRow.class, new ListRowPresenter());
         mRowsAdapter = new ArrayObjectAdapter(ps);
 
-        updatePlaybackControls();
+        updateDisplay();
         if (mItemsToPlay.size() > 1) addQueueRow(); // only show queue if more than one item
 
         setAdapter(mRowsAdapter);
     }
 
-    public void updatePlaybackControls() {
+    public void updateDisplay() {
         addPlaybackControlsRow();
         if (mPlaybackController.getCurrentlyPlayingItem().getChapters() != null && mPlaybackController.getCurrentlyPlayingItem().getChapters().size() > 0) addChapterRow();
 

@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v17.leanback.widget.PlaybackControlsRow;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.VideoView;
 
@@ -41,13 +42,15 @@ public class PlaybackOverlayActivity extends Activity {
     private VideoView mVideoView;
     private TvApp mApplication;
 
+    private View.OnKeyListener mKeyListener;
+
     /**
      * Called when the activity is first created.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.playback_controls);
+        setContentView(R.layout.activity_playback_overlay);
         mApplication = TvApp.getApplication();
         loadViews();
     }
@@ -59,6 +62,7 @@ public class PlaybackOverlayActivity extends Activity {
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (mKeyListener != null) mKeyListener.onKey(getCurrentFocus(), keyCode, event);
         switch (keyCode) {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
                 mApplication.getPlaybackController().play(0);
@@ -95,9 +99,6 @@ public class PlaybackOverlayActivity extends Activity {
     private void loadViews() {
         mVideoView = (VideoView) findViewById(R.id.videoView);
         mApplication.getPlaybackController().init(mVideoView, findViewById(R.id.bufferingProgress));
-        Intent intent = getIntent();
-        //start playing
-        mApplication.getPlaybackController().play(intent.getIntExtra("Position", 0));
     }
 
     public void setLogo(String url) {
@@ -109,4 +110,7 @@ public class PlaybackOverlayActivity extends Activity {
         }
     }
 
+    public void setKeyListener(View.OnKeyListener listener) {
+        mKeyListener = listener;
+    }
 }
