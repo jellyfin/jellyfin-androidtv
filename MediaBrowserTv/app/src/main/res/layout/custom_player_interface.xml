@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <VideoView android:id="@+id/videoView" android:layout_width="fill_parent"
+        android:layout_height="match_parent" android:layout_gravity="center"
+        android:layout_centerInParent="true" android:layout_centerVertical="true"></VideoView>
+
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bufferingProgress"
+        android:layout_gravity="center"
+        android:indeterminate="false"
+        android:visibility="invisible" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="206dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:id="@+id/bottomPanel">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="155sp"
+            android:id="@+id/imageView13"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentBottom="true"
+            android:background="@color/black"
+            android:alpha=".5" />
+
+        <ImageView
+            android:layout_width="150sp"
+            android:layout_height="300sp"
+            android:id="@+id/poster"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="30sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/title"
+            android:layout_alignTop="@+id/imageView13"
+            android:layout_toEndOf="@+id/poster"
+            android:layout_toRightOf="@+id/poster"
+            android:layout_marginTop="5sp"
+            android:layout_marginLeft="20sp"
+            android:maxWidth="600sp"
+            android:maxLines="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="End Time"
+            android:id="@+id/endTime"
+            android:layout_alignTop="@+id/title"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5sp"
+            android:layout_marginRight="20sp"
+            android:alpha=".6" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignStart="@+id/title"
+            android:layout_alignBottom="@+id/endTime"
+            android:id="@+id/infoRow"
+            android:layout_below="@+id/endTime"
+            android:layout_toStartOf="@+id/endTime"
+            android:minHeight="30sp"></LinearLayout>
+
+        <ProgressBar
+            style="@style/player_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/playerProgress"
+            android:minWidth="580sp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="65sp"
+            android:maxHeight="5sp"
+            android:layout_marginLeft="280sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="1:23:00"
+            android:id="@+id/currentPos"
+            android:layout_alignStart="@+id/infoRow"
+            android:layout_alignBottom="@+id/playerProgress"
+            android:layout_marginBottom="-8sp"
+            android:maxLines="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="-1:25:00"
+            android:id="@+id/remainingTime"
+            android:layout_alignBottom="@+id/currentPos"
+            android:layout_alignParentEnd="false"
+            android:layout_toRightOf="@+id/playerProgress"
+            android:layout_marginLeft="10sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="155dp"
+        android:layout_gravity="center_horizontal|top"
+        android:id="@+id/topPanel">
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textClock"
+            android:layout_gravity="right|top"
+            android:layout_marginTop="40sp"
+            android:layout_marginRight="40sp"
+            android:typeface="sans"
+            android:textSize="40sp"
+            android:format12Hour="h:mm"
+            android:layout_alignParentEnd="true" />
+
+        <ImageView
+            android:layout_width="321dp"
+            android:layout_height="141dp"
+            android:id="@+id/npLogoImage"
+            android:layout_gravity="left|top"
+            android:paddingRight="40sp"
+            android:paddingTop="20sp"
+            android:scaleType="centerInside"
+            android:maxWidth="400dp"
+            android:maxHeight="120dp"
+            android:visibility="invisible"
+            android:layout_marginLeft="40sp" />
+    </RelativeLayout>
+
+
+</FrameLayout>
