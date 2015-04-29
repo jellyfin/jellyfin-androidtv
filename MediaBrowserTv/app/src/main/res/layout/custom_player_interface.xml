@@ -131,18 +131,6 @@
             android:format12Hour="h:mm"
             android:layout_alignParentEnd="true" />
 
-        <ImageView
-            android:layout_width="321dp"
-            android:layout_height="141dp"
-            android:id="@+id/npLogoImage"
-            android:layout_gravity="left|top"
-            android:paddingRight="40sp"
-            android:paddingTop="20sp"
-            android:scaleType="centerInside"
-            android:maxWidth="400dp"
-            android:maxHeight="120dp"
-            android:visibility="invisible"
-            android:layout_marginLeft="40sp" />
     </RelativeLayout>
 
 
