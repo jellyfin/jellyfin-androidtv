@@ -236,6 +236,10 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         mClock = (TextView) getActivity().findViewById(R.id.pbClock);
         mClock.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Light.ttf"));
 
+        Intent intent = getActivity().getIntent();
+        //start playing
+        mApplication.getPlaybackController().play(intent.getIntExtra("Position", 0));
+
     }
 
     @Override
