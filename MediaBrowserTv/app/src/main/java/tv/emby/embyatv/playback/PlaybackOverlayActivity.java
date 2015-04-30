@@ -72,14 +72,7 @@ public class PlaybackOverlayActivity extends Activity {
                 return true;
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
             case KeyEvent.KEYCODE_BUTTON_A:
-                PlaybackController controller = mApplication.getPlaybackController();
-                if (controller.isPlaying()) {
-                    controller.pause();
-                    controller.setPlayPauseIndicatorState(PlaybackControlsRow.PlayPauseAction.PLAY);
-                } else {
-                    controller.play(0);
-                    controller.setPlayPauseIndicatorState(PlaybackControlsRow.PlayPauseAction.PAUSE);
-                }
+                mApplication.getPlaybackController().playPause();
                 return true;
             case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
             case KeyEvent.KEYCODE_BUTTON_R1:

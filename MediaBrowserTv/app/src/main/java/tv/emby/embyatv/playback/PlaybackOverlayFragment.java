@@ -468,6 +468,11 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
     }
 
+    @Override
+    public void updateEndTime(int timeLeft) {
+
+    }
+
     public void setCurrentTime(int time) {
         mPlaybackControlsRow.setCurrentTime(time);
     }

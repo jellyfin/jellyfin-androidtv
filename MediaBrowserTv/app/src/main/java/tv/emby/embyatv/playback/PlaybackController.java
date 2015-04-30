@@ -27,6 +27,7 @@ import mediabrowser.model.session.PlayMethod;
 import mediabrowser.model.session.PlaybackStartInfo;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.ui.ImageButton;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -122,7 +123,13 @@ public class PlaybackController {
                 mVideoView.start();
                 mPlaybackState = PlaybackState.PLAYING;
                 startProgressAutomation();
-                if (mFragment != null) mFragment.setFadingEnabled(true);
+                if (mFragment != null) {
+                    mFragment.setFadingEnabled(true);
+                    mFragment.setPlayPauseActionState(ImageButton.STATE_SECONDARY);
+                    Long mbRuntime = getCurrentlyPlayingItem().getRunTimeTicks();
+                    Long andDuration = mbRuntime != null ? mbRuntime / 10000: 0;
+                    mFragment.updateEndTime(andDuration.intValue() - getCurrentPosition());
+                }
                 startReportLoop();
                 break;
             case BUFFERING:
@@ -307,9 +314,21 @@ public class PlaybackController {
         mVideoView.pause();
         if (mFragment != null) {
             mFragment.setFadingEnabled(false);
+            mFragment.setPlayPauseActionState(ImageButton.STATE_PRIMARY);
         }
         stopReportLoop();
 
+    }
+
+    public void playPause() {
+        switch (mPlaybackState) {
+            case PLAYING:
+                pause();
+                break;
+            case PAUSED:
+                play(getCurrentPosition());
+                break;
+        }
     }
 
     public void stop() {
@@ -544,10 +563,14 @@ public class PlaybackController {
                     } else {
                         delayedSeek(mStartPosition);
                     }
+                    Long mbRuntime = getCurrentlyPlayingItem().getRunTimeTicks();
+                    Long andDuration = mbRuntime != null ? mbRuntime / 10000: 0;
+                    mFragment.updateEndTime(andDuration.intValue() - mStartPosition);
                     mStartPosition = 0; // clear for next item
                 } else {
                     if (mPlaybackState == PlaybackState.BUFFERING) {
                         mPlaybackState = PlaybackState.PLAYING;
+                        mFragment.updateEndTime(mp.getDuration());
                         startProgressAutomation();
                         startReportLoop();
                     }

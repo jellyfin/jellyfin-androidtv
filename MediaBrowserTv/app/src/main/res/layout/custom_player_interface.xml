@@ -21,17 +21,19 @@
         android:layout_width="fill_parent"
         android:layout_height="206dp"
         android:layout_gravity="center_horizontal|bottom"
-        android:id="@+id/bottomPanel">
+        android:id="@+id/bottomPanel"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="155sp"
+            android:layout_height="165sp"
             android:id="@+id/imageView13"
             android:layout_centerHorizontal="true"
             android:layout_alignParentEnd="false"
             android:layout_alignParentBottom="true"
             android:background="@color/black"
-            android:alpha=".5" />
+            android:alpha=".65" />
 
         <ImageView
             android:layout_width="150sp"
@@ -59,7 +61,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="End Time"
             android:id="@+id/endTime"
             android:layout_alignTop="@+id/title"
             android:layout_alignParentEnd="true"
@@ -69,13 +70,14 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignStart="@+id/title"
-            android:layout_alignBottom="@+id/endTime"
             android:id="@+id/infoRow"
-            android:layout_below="@+id/endTime"
-            android:layout_toStartOf="@+id/endTime"
+            android:measureWithLargestChild="false"
+            android:layout_alignEnd="@+id/endTime"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="5sp"
             android:minHeight="30sp"></LinearLayout>
 
         <ProgressBar
@@ -83,11 +85,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/playerProgress"
-            android:minWidth="580sp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="65sp"
+            android:minWidth="530sp"
+            android:layout_alignParentBottom="false"
             android:maxHeight="5sp"
-            android:layout_marginLeft="280sp" />
+            android:layout_marginLeft="320sp"
+            android:layout_below="@+id/infoRow"
+            android:layout_marginTop="20sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -95,10 +98,11 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="1:23:00"
             android:id="@+id/currentPos"
-            android:layout_alignStart="@+id/infoRow"
             android:layout_alignBottom="@+id/playerProgress"
             android:layout_marginBottom="-8sp"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:layout_marginLeft="10sp"
+            android:layout_toRightOf="@+id/playPauseBtn" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -111,13 +115,35 @@
             android:layout_toRightOf="@+id/playerProgress"
             android:layout_marginLeft="10sp" />
 
+        <ImageView
+            android:layout_width="100sp"
+            android:layout_height="50sp"
+            android:id="@+id/studioImg"
+            android:layout_alignParentBottom="true"
+            android:layout_alignEnd="@+id/remainingTime"
+            android:layout_marginBottom="10sp" />
+
+        <view
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            class="tv.emby.embyatv.ui.ImageButton"
+            android:id="@+id/playPauseBtn"
+            android:layout_alignStart="@+id/infoRow"
+            android:layout_marginBottom="-13sp"
+            android:src="@drawable/lb_ic_pause"
+            android:focusable="true"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
+            android:layout_alignBottom="@+id/playerProgress" />
+
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="155dp"
         android:layout_gravity="center_horizontal|top"
-        android:id="@+id/topPanel">
+        android:id="@+id/topPanel"
+        android:clickable="false">
 
         <TextClock
             android:layout_width="wrap_content"
