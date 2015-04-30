@@ -375,8 +375,22 @@ public class PlaybackController {
 
     }
 
+    private int currentSkipAmt = 0;
+    private Runnable skipRunnable = new Runnable() {
+        @Override
+        public void run() {
+            seek(mVideoView.getCurrentPosition() + currentSkipAmt);
+            currentSkipAmt = 0;
+        }
+    };
+
     public void skip(int msec) {
-        seek(mVideoView.getCurrentPosition() + msec);
+        mHandler.removeCallbacks(skipRunnable);
+        stopProgressAutomation();
+        stopReportLoop();
+        currentSkipAmt += msec;
+        mFragment.setCurrentTime(mVideoView.getCurrentPosition() + currentSkipAmt);
+        mHandler.postDelayed(skipRunnable, 800);
     }
 
     private int getUpdatePeriod() {
@@ -536,7 +550,7 @@ public class PlaybackController {
                 mPlaybackState = PlaybackState.IDLE;
                 stopProgressAutomation();
                 stopReportLoop();
-                return false;
+                return true;
             }
         });
 
