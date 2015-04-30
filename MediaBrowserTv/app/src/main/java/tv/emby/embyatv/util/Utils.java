@@ -983,7 +983,7 @@ public class Utils {
         AndroidProfileOptions options = new AndroidProfileOptions();
         options.SupportsAc3 = true;
         options.SupportsHls = PreferenceManager.getDefaultSharedPreferences(TvApp.getApplication()).getBoolean("pref_enable_hls",true);
-        options.DefaultH264Level = 40;
+        options.DefaultH264Level = 41;
         return options;
     }
 
