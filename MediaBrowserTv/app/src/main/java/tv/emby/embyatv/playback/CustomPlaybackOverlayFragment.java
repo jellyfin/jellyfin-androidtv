@@ -35,6 +35,7 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.integration.RecommendationManager;
 import tv.emby.embyatv.ui.ImageButton;
+import tv.emby.embyatv.ui.TextButton;
 import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.RemoteControlReceiver;
 import tv.emby.embyatv.util.Utils;
@@ -108,7 +109,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             return;
         }
 
-        mButtonSize = Utils.convertDpToPixel(mActivity, 20);
+        mButtonSize = Utils.convertDpToPixel(mActivity, 32);
 
         mApplication.setPlaybackController(new PlaybackController(mItemsToPlay, this));
         mPlaybackController = mApplication.getPlaybackController();
@@ -342,14 +343,14 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         if (!Utils.isFireTv()) {
             // on-screen jump buttons for Nexus
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.lb_ic_fast_forward, mButtonSize, new View.OnClickListener() {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.fastforward, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mPlaybackController.skip(30000);
                 }
             }));
 
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.lb_ic_replay, mButtonSize, new View.OnClickListener() {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.repeat, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mPlaybackController.skip(-11000);
@@ -381,17 +382,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         ArrayList<ChapterInfoDto> chapters = item.getChapters();
         if (chapters != null && chapters.size() > 0) {
-            Button chapterButton = new Button(mActivity);
-            chapterButton.setText(R.string.chapters);
-            chapterButton.setTextSize(12);
-            chapterButton.setOnClickListener(new View.OnClickListener() {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.chapter, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                 }
-            });
-
-            mButtonRow.addView(chapterButton);
+            }));
         }
 
     }
