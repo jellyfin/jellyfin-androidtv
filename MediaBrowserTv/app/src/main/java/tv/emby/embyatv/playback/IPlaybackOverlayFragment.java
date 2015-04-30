@@ -8,6 +8,7 @@ public interface IPlaybackOverlayFragment {
     public void setFadingEnabled(boolean value);
     public void setPlayPauseActionState(int state);
     public void updateDisplay();
+    public void updateEndTime(int timeLeft);
     public void removeQueueItem(int pos);
     public void finish();
 }

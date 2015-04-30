@@ -60,6 +60,7 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.ImageOptions;
 import mediabrowser.model.dto.MediaSourceInfo;
+import mediabrowser.model.dto.StudioDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.ImageType;
@@ -233,6 +234,14 @@ public class Utils {
         options.setMaxHeight(maxHeight);
         options.setImageType(ImageType.Primary);
         return apiClient.GetPersonImageUrl(item, options);
+    }
+
+    public static String getPrimaryImageUrl(StudioDto studio, ApiClient apiClient, int maxHeight) {
+        ImageOptions options = new ImageOptions();
+        options.setTag(studio.getPrimaryImageTag());
+        options.setMaxHeight(maxHeight);
+        options.setImageType(ImageType.Primary);
+        return apiClient.GetStudioImageUrl(studio.getName(), options);
     }
 
     public static String getPrimaryImageUrl(UserDto item, ApiClient apiClient) {

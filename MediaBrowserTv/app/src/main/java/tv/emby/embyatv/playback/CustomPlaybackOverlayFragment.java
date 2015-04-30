@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextClock;
 import android.widget.TextView;
@@ -30,6 +31,8 @@ import mediabrowser.model.dto.BaseItemDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.integration.RecommendationManager;
+import tv.emby.embyatv.ui.ImageButton;
+import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.RemoteControlReceiver;
 import tv.emby.embyatv.util.Utils;
 
@@ -39,6 +42,7 @@ import tv.emby.embyatv.util.Utils;
 public class CustomPlaybackOverlayFragment extends Fragment implements IPlaybackOverlayFragment {
 
     ImageView mPoster;
+    ImageView mStudioImage;
     TextView mTitle;
     TextView mEndTime;
     TextView mCurrentPos;
@@ -46,6 +50,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     TextClock mClock;
     View mTopPanel;
     View mBottomPanel;
+    ImageButton mPlayPauseBtn;
+    LinearLayout mInfoRow;
     ProgressBar mCurrentProgress;
     PlaybackController mPlaybackController;
     private List<BaseItemDto> mItemsToPlay = new ArrayList<>();
@@ -120,8 +126,19 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mPoster = (ImageView) mActivity.findViewById(R.id.poster);
+        mStudioImage = (ImageView) mActivity.findViewById(R.id.studioImg);
         mTopPanel = mActivity.findViewById(R.id.topPanel);
         mBottomPanel = mActivity.findViewById(R.id.bottomPanel);
+        mPlayPauseBtn = (ImageButton) mActivity.findViewById(R.id.playPauseBtn);
+        mPlayPauseBtn.setSecondaryImage(R.drawable.lb_ic_pause);
+        mPlayPauseBtn.setPrimaryImage(R.drawable.play);
+        mPlayPauseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPlaybackController.playPause();
+            }
+        });
+        mInfoRow = (LinearLayout) mActivity.findViewById(R.id.infoRow);
         mTitle = (TextView) mActivity.findViewById(R.id.title);
         Typeface font = Typeface.createFromAsset(mActivity.getAssets(), "fonts/Roboto-Light.ttf");
         mTitle.setTypeface(font);
@@ -145,7 +162,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         //start playing
         int startPos = intent.getIntExtra("Position", 0);
         mPlaybackController.play(startPos);
-        updateEndTime(mCurrentDuration - startPos);
+
+        mPlayPauseBtn.requestFocus();
+
     }
 
     private AudioManager.OnAudioFocusChangeListener mAudioFocusChanged = new AudioManager.OnAudioFocusChangeListener() {
@@ -223,6 +242,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mBottomPanel.startAnimation(slideUp);
         mTopPanel.startAnimation(slideDown);
         mIsVisible = true;
+        mPlayPauseBtn.requestFocus();
     }
 
     public void hide() {
@@ -275,7 +295,19 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     }
 
-    private void updateEndTime(int timeLeft) {
+    private void updateStudio(BaseItemDto item) {
+        if (item.getStudios() != null && item.getStudios().length > 0 && item.getStudios()[0].getHasPrimaryImage()) {
+            int height = Utils.convertDpToPixel(mActivity, 45);
+            int width = Utils.convertDpToPixel(mActivity, 70);
+            String studioImageUrl = Utils.getPrimaryImageUrl(item.getStudios()[0], mApplication.getApiClient(), height);
+            if (studioImageUrl != null) Picasso.with(mActivity).load(studioImageUrl).resize(width, height).into(mStudioImage);
+        } else {
+            mStudioImage.setImageResource(R.drawable.blank30x30);
+        }
+
+    }
+
+    public void updateEndTime(int timeLeft) {
         mEndTime.setText( timeLeft > 0 ?
                 mApplication.getString(R.string.lbl_ends) + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(System.currentTimeMillis() + timeLeft)
                 : ""
@@ -313,7 +345,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     @Override
     public void setPlayPauseActionState(int state) {
-
+        mPlayPauseBtn.setState(state);
     }
 
     @Override
@@ -325,8 +357,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             mCurrentProgress.setMax(mCurrentDuration);
             //set other information
             mTitle.setText(current.getName());
+            mInfoRow.removeAllViews();
             updatePoster(current);
-            updateEndTime(mCurrentDuration-mPlaybackController.getCurrentPosition());
+            updateStudio(current);
+            InfoLayoutHelper.addInfoRow(mActivity, current, mInfoRow, true);
         }
     }
 

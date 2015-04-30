@@ -37,6 +37,7 @@ import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.ui.GenreButton;
 import tv.emby.embyatv.ui.ImageButton;
+import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -113,10 +114,7 @@ public class FullDetailsActivity extends BaseActivity {
         setSummaryTitles();
         LinearLayout mainInfoRow = (LinearLayout)findViewById(R.id.fdMainInfoRow);
 
-        addCriticInfo(mainInfoRow);
-        addDate(mainInfoRow);
-        addRatingAndRes(mainInfoRow);
-        addMediaDetails(mainInfoRow);
+        InfoLayoutHelper.addInfoRow(this, mBaseItem, mainInfoRow, false);
         addGenres(genreRow);
         addButtons(mButtonRow, BUTTON_SIZE);
         updatePlayedDate();
@@ -239,106 +237,6 @@ public class FullDetailsActivity extends BaseActivity {
 
     private void updateClock() {
         mClock.setText(Utils.getCurrentFormattedTime());
-    }
-
-    private void addCriticInfo(LinearLayout layout) {
-        int imagesize = Utils.convertDpToPixel(this,20);
-        LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(imagesize,imagesize);
-        imageParams.setMargins(0, 5, 10, 0);
-        if (mBaseItem.getCommunityRating() != null) {
-            ImageView star = new ImageView(this);
-            star.setImageResource(R.drawable.star);
-            star.setLayoutParams(imageParams);
-            layout.addView(star);
-
-            TextView amt = new TextView(this);
-            amt.setTextSize(18);
-            amt.setText(mBaseItem.getCommunityRating().toString()+" ");
-            layout.addView(amt);
-        }
-
-        if (mBaseItem.getCriticRating() != null) {
-            ImageView tomato = new ImageView(this);
-            tomato.setLayoutParams(imageParams);
-            if (mBaseItem.getCriticRating() > 59) {
-                tomato.setImageResource(R.drawable.fresh);
-            } else {
-                tomato.setImageResource(R.drawable.rotten);
-            }
-
-            layout.addView(tomato);
-            TextView amt = new TextView(this);
-            amt.setTextSize(18);
-            amt.setText(mBaseItem.getCriticRating().toString() + "% ");
-            layout.addView(amt);
-
-        }
-        addSpacer(layout, "    ");
-    }
-
-    private void addDate(LinearLayout layout) {
-        TextView date = new TextView(this);
-        date.setTextSize(18);
-        if (mBaseItem.getPremiereDate() != null) {
-            date.setText(new SimpleDateFormat("d MMM y").format(Utils.convertToLocalDate(mBaseItem.getPremiereDate())));
-            layout.addView(date);
-            addSpacer(layout, "    ");
-        } else if (mBaseItem.getProductionYear() != null && mBaseItem.getProductionYear() > 0) {
-            date.setText(mBaseItem.getProductionYear().toString());
-            layout.addView(date);
-            addSpacer(layout, "    ");
-        }
-    }
-
-    private void addRatingAndRes(LinearLayout layout) {
-        if (mBaseItem.getOfficialRating() != null) {
-            addBlockText(layout, mBaseItem.getOfficialRating());
-            addSpacer(layout, "  ");
-        }
-        if (mBaseItem.getMediaStreams() != null && mBaseItem.getMediaStreams().size() > 0 && mBaseItem.getMediaStreams().get(0).getWidth() != null) {
-            int width = mBaseItem.getMediaStreams().get(0).getWidth();
-            if (width > 1910) {
-                addBlockText(layout, "1080");
-            } else if (width > 1270) {
-                addBlockText(layout, "720");
-            } else addBlockText(layout, getString(R.string.lbl_sd));
-
-            addSpacer(layout, "  ");
-        }
-    }
-
-    private void addMediaDetails(LinearLayout layout) {
-        MediaStream stream = Utils.GetFirstAudioStream(mBaseItem);
-
-        if (stream != null) {
-            if (stream.getCodec() != null) {
-                String codec = stream.getCodec().equals("dca") ? "DTS" : stream.getCodec().toUpperCase();
-                addBlockText(layout, codec);
-                addSpacer(layout, " ");
-            }
-            if (stream.getChannelLayout() != null) {
-                addBlockText(layout, stream.getChannelLayout().toUpperCase());
-                addSpacer(layout, "  ");
-            }
-        }
-    }
-
-    private void addBlockText(LinearLayout layout, String text) {
-        TextView view = new TextView(this);
-        view.setTextSize(14);
-        view.setTextColor(Color.BLACK);
-        view.setText(" " + text + " ");
-        view.setBackgroundResource(R.drawable.gray_gradient);
-        layout.addView(view);
-
-    }
-
-    private void addSpacer(LinearLayout layout, String sp) {
-        TextView mSpacer = new TextView(this);
-        mSpacer.setTextSize(16);
-        mSpacer.setText(sp);
-        layout.addView(mSpacer);
-
     }
 
     private void addGenres(LinearLayout layout) {
