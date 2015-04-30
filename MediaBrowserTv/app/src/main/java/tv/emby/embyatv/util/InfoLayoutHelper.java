@@ -19,6 +19,8 @@ import tv.emby.embyatv.TvApp;
  */
 public class InfoLayoutHelper {
 
+    private static int textSize = 16;
+
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime) {
         addCriticInfo(activity, item, layout);
         addDate(activity, item, layout);
@@ -32,14 +34,14 @@ public class InfoLayoutHelper {
         if (runtime != null && runtime > 0) {
             String text = runtime / 600000000 + activity.getString(R.string.lbl_min) + "  ";
             TextView time = new TextView(activity);
-            time.setTextSize(18);
+            time.setTextSize(textSize);
             time.setText(text);
             layout.addView(time);
         }
     }
 
     private static void addCriticInfo(Activity activity, BaseItemDto item, LinearLayout layout) {
-        int imagesize = Utils.convertDpToPixel(activity,20);
+        int imagesize = Utils.convertDpToPixel(activity,textSize+2);
         LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(imagesize,imagesize);
         imageParams.setMargins(0, 5, 10, 0);
         if (item.getCommunityRating() != null) {
@@ -49,7 +51,7 @@ public class InfoLayoutHelper {
             layout.addView(star);
 
             TextView amt = new TextView(activity);
-            amt.setTextSize(18);
+            amt.setTextSize(textSize);
             amt.setText(item.getCommunityRating().toString()+" ");
             layout.addView(amt);
         }
@@ -65,7 +67,7 @@ public class InfoLayoutHelper {
 
             layout.addView(tomato);
             TextView amt = new TextView(activity);
-            amt.setTextSize(18);
+            amt.setTextSize(textSize);
             amt.setText(item.getCriticRating().toString() + "% ");
             layout.addView(amt);
 
@@ -75,7 +77,7 @@ public class InfoLayoutHelper {
 
     private static void addDate(Activity activity, BaseItemDto item, LinearLayout layout) {
         TextView date = new TextView(activity);
-        date.setTextSize(18);
+        date.setTextSize(textSize);
         switch (item.getType()) {
             case "Program":
             case "TvChannel":
@@ -137,7 +139,7 @@ public class InfoLayoutHelper {
 
     private static void addBlockText(Activity activity, LinearLayout layout, String text) {
         TextView view = new TextView(activity);
-        view.setTextSize(14);
+        view.setTextSize(textSize-4);
         view.setTextColor(Color.BLACK);
         view.setText(" " + text + " ");
         view.setBackgroundResource(R.drawable.gray_gradient);
@@ -147,7 +149,7 @@ public class InfoLayoutHelper {
 
     private static void addSpacer(Activity activity, LinearLayout layout, String sp) {
         TextView mSpacer = new TextView(activity);
-        mSpacer.setTextSize(16);
+        mSpacer.setTextSize(textSize);
         mSpacer.setText(sp);
         layout.addView(mSpacer);
 
