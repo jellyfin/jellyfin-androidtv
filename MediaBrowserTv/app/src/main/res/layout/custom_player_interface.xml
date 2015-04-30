@@ -85,10 +85,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/playerProgress"
-            android:minWidth="530sp"
+            android:minWidth="525sp"
             android:layout_alignParentBottom="false"
             android:maxHeight="5sp"
-            android:layout_marginLeft="320sp"
+            android:layout_marginLeft="325sp"
             android:layout_below="@+id/infoRow"
             android:layout_marginTop="20sp" />
 
@@ -99,10 +99,11 @@
             android:text="1:23:00"
             android:id="@+id/currentPos"
             android:layout_alignBottom="@+id/playerProgress"
-            android:layout_marginBottom="-8sp"
+            android:layout_marginBottom="-7sp"
             android:maxLines="1"
-            android:layout_marginLeft="10sp"
-            android:layout_toRightOf="@+id/playPauseBtn" />
+            android:layout_marginLeft="15sp"
+            android:layout_toRightOf="@+id/playPauseBtn"
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -113,7 +114,8 @@
             android:layout_alignBottom="@+id/currentPos"
             android:layout_alignParentEnd="false"
             android:layout_toRightOf="@+id/playerProgress"
-            android:layout_marginLeft="10sp" />
+            android:layout_marginLeft="10sp"
+            android:textSize="16sp" />
 
         <ImageView
             android:layout_width="100sp"
@@ -124,17 +126,28 @@
             android:layout_marginBottom="10sp" />
 
         <view
-            android:layout_width="35sp"
-            android:layout_height="35sp"
+            android:layout_width="32sp"
+            android:layout_height="32sp"
             class="tv.emby.embyatv.ui.ImageButton"
             android:id="@+id/playPauseBtn"
             android:layout_alignStart="@+id/infoRow"
-            android:layout_marginBottom="-13sp"
+            android:layout_marginBottom="-12sp"
             android:src="@drawable/lb_ic_pause"
             android:focusable="true"
             android:clickable="true"
             android:focusableInTouchMode="true"
-            android:layout_alignBottom="@+id/playerProgress" />
+            android:layout_alignBottom="@+id/playerProgress"
+            android:layout_marginLeft="10sp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/currentPos"
+            android:layout_alignTop="@+id/studioImg"
+            android:id="@+id/buttonRow"
+            android:gravity="left|center_vertical"></LinearLayout>
 
     </RelativeLayout>
 
