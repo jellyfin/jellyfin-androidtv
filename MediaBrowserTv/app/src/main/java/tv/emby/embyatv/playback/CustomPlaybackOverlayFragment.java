@@ -52,6 +52,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     View mBottomPanel;
     ImageButton mPlayPauseBtn;
     LinearLayout mInfoRow;
+    LinearLayout mButtonRow;
     ProgressBar mCurrentProgress;
     PlaybackController mPlaybackController;
     private List<BaseItemDto> mItemsToPlay = new ArrayList<>();
@@ -139,6 +140,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }
         });
         mInfoRow = (LinearLayout) mActivity.findViewById(R.id.infoRow);
+        mButtonRow = (LinearLayout) mActivity.findViewById(R.id.buttonRow);
         mTitle = (TextView) mActivity.findViewById(R.id.title);
         Typeface font = Typeface.createFromAsset(mActivity.getAssets(), "fonts/Roboto-Light.ttf");
         mTitle.setTypeface(font);
@@ -188,11 +190,25 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
             if (keyCode != KeyEvent.KEYCODE_BACK && keyCode != KeyEvent.KEYCODE_BUTTON_B) {
+                //process left and right as skip forward and back if we're not visible or play button in focus
+                if (!mIsVisible || mActivity.getCurrentFocus() == mPlayPauseBtn) {
+                    switch (keyCode) {
+                        case KeyEvent.KEYCODE_DPAD_LEFT:
+                            mPlaybackController.skip(-11000);
+                            break;
+                        case KeyEvent.KEYCODE_DPAD_RIGHT:
+                            mPlaybackController.skip(30000);
+                            break;
+                    }
+
+                }
+
                 //if we're not visible, show us
                 if (!mIsVisible) show();
 
                 //and then manage our fade timer
                 if (mFadeEnabled) startFadeTimer();
+
             }
 
             return false;
@@ -325,11 +341,16 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         return mCurrentDuration;
     }
 
+    private void addButtons(BaseItemDto item) {
+        mButtonRow.removeAllViews();
+
+    }
+
     @Override
     public void setCurrentTime(int time) {
         mCurrentProgress.setProgress(time);
         mCurrentPos.setText(Utils.formatMillis(time));
-        mRemainingTime.setText("-"+Utils.formatMillis(mCurrentDuration - time));
+        mRemainingTime.setText(mCurrentDuration > 0 ? "-"+Utils.formatMillis(mCurrentDuration - time) : "");
     }
 
     @Override
