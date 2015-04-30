@@ -9,8 +9,10 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -18,6 +20,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextClock;
 import android.widget.TextView;
@@ -31,6 +34,7 @@ import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.ChapterInfoDto;
 import mediabrowser.model.dto.UserItemDataDto;
+import mediabrowser.model.entities.MediaStream;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.integration.RecommendationManager;
@@ -366,6 +370,36 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.audiosel, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (mPlaybackController.getCurrentStreamInfo() == null) {
+                        TvApp.getApplication().getLogger().Warn("StreamInfo null trying to obtain audio tracks");
+                        Utils.showToast(TvApp.getApplication(), "Unable to obtain audio track info");
+                        return;
+                    }
+                    setFadingEnabled(false);
+
+                    List<MediaStream> audioTracks = TvApp.getApplication().getPlaybackManager().getInPlaybackSelectableAudioStreams(mPlaybackController.getCurrentStreamInfo());
+                    int currentAudioIndex = Utils.NullCoalesce(mPlaybackController.getCurrentStreamInfo().getAudioStreamIndex(), 0);
+                    PopupMenu audioMenu = Utils.createPopupMenu(getActivity(), v, Gravity.RIGHT);
+                    for (MediaStream audio : audioTracks) {
+                        MenuItem item = audioMenu.getMenu().add(0, audio.getIndex(), audio.getIndex(), Utils.SafeToUpper(audio.getLanguage()) + " " + Utils.SafeToUpper(audio.getCodec()) + " (" + audio.getChannelLayout() + ")");
+                        if (currentAudioIndex == audio.getIndex()) item.setChecked(true);
+                    }
+                    audioMenu.getMenu().setGroupCheckable(0, true, false);
+                    audioMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+                        @Override
+                        public void onDismiss(PopupMenu menu) {
+                            setFadingEnabled(true);
+                        }
+                    });
+                    audioMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            mApplication.getLogger().Debug("Selected stream " + item.getTitle());
+                            mPlaybackController.switchAudioStream(item.getItemId());
+                            return true;
+                        }
+                    });
+                    audioMenu.show();
 
                 }
             }));
@@ -375,6 +409,37 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.subt, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (mPlaybackController.getCurrentStreamInfo() == null) {
+                        TvApp.getApplication().getLogger().Warn("StreamInfo null trying to obtain subtitles");
+                        Utils.showToast(TvApp.getApplication(), "Unable to obtain subtitle info");
+                        return;
+                    }
+                    setFadingEnabled(false);
+                    List<MediaStream> subtitles = TvApp.getApplication().getPlaybackManager().getInPlaybackSelectableSubtitleStreams(mPlaybackController.getCurrentStreamInfo());
+                    PopupMenu subMenu = Utils.createPopupMenu(getActivity(), v, Gravity.RIGHT);
+                    MenuItem none = subMenu.getMenu().add(0, -1, 0, mApplication.getString(R.string.lbl_none));
+                    int currentSubIndex = Utils.NullCoalesce(mPlaybackController.getCurrentStreamInfo().getSubtitleStreamIndex(), -1);
+                    if (currentSubIndex < 0) none.setChecked(true);
+                    for (MediaStream sub : subtitles) {
+                        MenuItem item = subMenu.getMenu().add(0, sub.getIndex(), sub.getIndex(), sub.getLanguage() + (sub.getIsExternal() ? mApplication.getString(R.string.lbl_parens_external) : mApplication.getString(R.string.lbl_parens_internal)) + (sub.getIsForced() ? mApplication.getString(R.string.lbl_parens_forced) : ""));
+                        if (currentSubIndex == sub.getIndex()) item.setChecked(true);
+                    }
+                    subMenu.getMenu().setGroupCheckable(0, true, false);
+                    subMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+                        @Override
+                        public void onDismiss(PopupMenu menu) {
+                            setFadingEnabled(true);
+                        }
+                    });
+                    subMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            mApplication.getLogger().Debug("Selected subtitle " + item.getTitle());
+                            mPlaybackController.switchSubtitleStream(item.getItemId());
+                            return true;
+                        }
+                    });
+                    subMenu.show();
 
                 }
             }));
