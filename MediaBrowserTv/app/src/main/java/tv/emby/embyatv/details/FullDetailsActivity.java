@@ -243,7 +243,7 @@ public class FullDetailsActivity extends BaseActivity {
         if (mBaseItem.getGenres() != null && mBaseItem.getGenres().size() > 0) {
             int i = 0;
             for (String genre : mBaseItem.getGenres()) {
-                layout.addView(new GenreButton(this, roboto, 18, genre, mBaseItem.getType()));
+                layout.addView(new GenreButton(this, roboto, 16, genre, mBaseItem.getType()));
             }
         }
     }
