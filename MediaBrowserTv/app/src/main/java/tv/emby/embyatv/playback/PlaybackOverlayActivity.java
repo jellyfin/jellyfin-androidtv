@@ -62,7 +62,7 @@ public class PlaybackOverlayActivity extends Activity {
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (mKeyListener != null) mKeyListener.onKey(getCurrentFocus(), keyCode, event);
+        if (mKeyListener != null) if (mKeyListener.onKey(getCurrentFocus(), keyCode, event)) return true;
         switch (keyCode) {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
                 mApplication.getPlaybackController().play(0);

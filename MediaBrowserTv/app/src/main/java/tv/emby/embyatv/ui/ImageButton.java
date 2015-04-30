@@ -27,6 +27,10 @@ public class ImageButton extends ImageView {
         setOnFocusChangeListener(focusChangeListener);
     }
 
+    public ImageButton(Context context, int imageResource, int size, final OnClickListener clicked) {
+        this(context, imageResource, size, "", null, clicked);
+    }
+
     public ImageButton(Context context, int imageResource, int size, String helpText, TextView helpView, final OnClickListener clicked) {
         super(context, null, R.style.spaced_buttons);
         setImageResource(imageResource);

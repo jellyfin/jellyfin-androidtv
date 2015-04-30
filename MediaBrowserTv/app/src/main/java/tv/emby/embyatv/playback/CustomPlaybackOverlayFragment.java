@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -28,6 +29,8 @@ import java.util.List;
 
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.dto.ChapterInfoDto;
+import mediabrowser.model.dto.UserItemDataDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.integration.RecommendationManager;
@@ -67,6 +70,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     PlaybackOverlayActivity mActivity;
     private AudioManager mAudioManager;
 
+    int mButtonSize;
+
     boolean mFadeEnabled = false;
     boolean mIsVisible = true;
 
@@ -102,6 +107,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             Utils.showToast(mActivity, mApplication.getString(R.string.msg_no_playable_items));
             return;
         }
+
+        mButtonSize = Utils.convertDpToPixel(mActivity, 20);
 
         mApplication.setPlaybackController(new PlaybackController(mItemsToPlay, this));
         mPlaybackController = mApplication.getPlaybackController();
@@ -189,19 +196,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private View.OnKeyListener keyListener = new View.OnKeyListener() {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
+            boolean ret = false;
             if (keyCode != KeyEvent.KEYCODE_BACK && keyCode != KeyEvent.KEYCODE_BUTTON_B) {
-                //process left and right as skip forward and back if we're not visible or play button in focus
-                if (!mIsVisible || mActivity.getCurrentFocus() == mPlayPauseBtn) {
-                    switch (keyCode) {
-                        case KeyEvent.KEYCODE_DPAD_LEFT:
-                            mPlaybackController.skip(-11000);
-                            break;
-                        case KeyEvent.KEYCODE_DPAD_RIGHT:
-                            mPlaybackController.skip(30000);
-                            break;
-                    }
-
-                }
 
                 //if we're not visible, show us
                 if (!mIsVisible) show();
@@ -211,7 +207,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
             }
 
-            return false;
+            return ret;
         }
     };
 
@@ -344,6 +340,60 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private void addButtons(BaseItemDto item) {
         mButtonRow.removeAllViews();
 
+        if (!Utils.isFireTv()) {
+            // on-screen jump buttons for Nexus
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.lb_ic_fast_forward, mButtonSize, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPlaybackController.skip(30000);
+                }
+            }));
+
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.lb_ic_replay, mButtonSize, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPlaybackController.skip(-11000);
+                }
+            }));
+
+        }
+
+        Boolean hasSubs = Utils.GetSubtitleStreams(mPlaybackController.getCurrentMediaSource()).size() > 0;
+        Boolean hasMultiAudio = Utils.GetAudioStreams(mPlaybackController.getCurrentMediaSource()).size() > 1;
+
+        if (hasMultiAudio) {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.audiosel, mButtonSize, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            }));
+        }
+
+        if (hasSubs) {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.subt, mButtonSize, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            }));
+        }
+
+        ArrayList<ChapterInfoDto> chapters = item.getChapters();
+        if (chapters != null && chapters.size() > 0) {
+            Button chapterButton = new Button(mActivity);
+            chapterButton.setText(R.string.chapters);
+            chapterButton.setTextSize(12);
+            chapterButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+            mButtonRow.addView(chapterButton);
+        }
+
     }
 
     @Override
@@ -381,6 +431,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             mInfoRow.removeAllViews();
             updatePoster(current);
             updateStudio(current);
+            addButtons(current);
             InfoLayoutHelper.addInfoRow(mActivity, current, mInfoRow, true);
         }
     }
