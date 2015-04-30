@@ -385,12 +385,14 @@ public class PlaybackController {
     };
 
     public void skip(int msec) {
-        mHandler.removeCallbacks(skipRunnable);
-        stopProgressAutomation();
-        stopReportLoop();
-        currentSkipAmt += msec;
-        mFragment.setCurrentTime(mVideoView.getCurrentPosition() + currentSkipAmt);
-        mHandler.postDelayed(skipRunnable, 800);
+        if (isPlaying()) {
+            mHandler.removeCallbacks(skipRunnable);
+            stopProgressAutomation();
+            stopReportLoop();
+            currentSkipAmt += msec;
+            mFragment.setCurrentTime(mVideoView.getCurrentPosition() + currentSkipAmt);
+            mHandler.postDelayed(skipRunnable, 800);
+        }
     }
 
     private int getUpdatePeriod() {
