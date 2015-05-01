@@ -372,6 +372,7 @@ public class PlaybackController {
         mApplication.getLogger().Debug("Seeking to "+pos);
         startSpinner();
         mVideoView.seekTo(pos);
+        mFragment.updateEndTime(mVideoView.getDuration() - pos);
 
     }
 
