@@ -434,24 +434,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
                 //Chapters
                 if (mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
-                    List<ChapterItemInfo> chapters = new ArrayList<>();
-                    ImageOptions options = new ImageOptions();
-                    options.setImageType(ImageType.Chapter);
-                    int i = 0;
-                    for (ChapterInfoDto dto : mBaseItem.getChapters()) {
-                        ChapterItemInfo chapter = new ChapterItemInfo();
-                        chapter.setItemId(mBaseItem.getId());
-                        chapter.setName(dto.getName());
-                        chapter.setStartPositionTicks(dto.getStartPositionTicks());
-                        if (dto.getHasImage()) {
-                            options.setTag(dto.getImageTag());
-                            options.setImageIndex(i);
-                            chapter.setImagePath(mApiClient.GetImageUrl(mBaseItem.getId(), options));
-                        }
-                        chapters.add(chapter);
-                        i++;
-                    }
-
+                    List<ChapterItemInfo> chapters = Utils.buildChapterItems(mBaseItem);
                     ItemRowAdapter chapterAdapter = new ItemRowAdapter(chapters, new CardPresenter(), adapter);
                     addItemRow(adapter, chapterAdapter, 1, mActivity.getString(R.string.lbl_chapters));
                 }

@@ -155,6 +155,23 @@
 
     </RelativeLayout>
 
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="275sp"
+        android:id="@+id/popupArea"
+        android:visibility="gone"
+        android:background="@color/black"
+        android:layout_alignParentStart="true"
+        android:layout_gravity="bottom">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="left|center_vertical"
+            android:id="@+id/rows_area"></LinearLayout>
+    </FrameLayout>
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="155dp"
