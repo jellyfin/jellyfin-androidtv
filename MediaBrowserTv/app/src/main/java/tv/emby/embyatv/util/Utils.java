@@ -58,11 +58,13 @@ import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
+import mediabrowser.model.dto.ChapterInfoDto;
 import mediabrowser.model.dto.ImageOptions;
 import mediabrowser.model.dto.MediaSourceInfo;
 import mediabrowser.model.dto.StudioDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.dto.UserItemDataDto;
+import mediabrowser.model.entities.ChapterInfo;
 import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.entities.MediaStream;
@@ -83,6 +85,7 @@ import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.details.DetailsActivity;
+import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.startup.DpadPwActivity;
 import tv.emby.embyatv.startup.LogonCredentials;
@@ -748,6 +751,29 @@ public class Utils {
             if (type.equals(person.getType())) return person;
         }
         return null;
+    }
+
+    public static List<ChapterItemInfo> buildChapterItems(BaseItemDto item) {
+        List<ChapterItemInfo> chapters = new ArrayList<>();
+        ImageOptions options = new ImageOptions();
+        options.setImageType(ImageType.Chapter);
+        int i = 0;
+        for (ChapterInfoDto dto : item.getChapters()) {
+            ChapterItemInfo chapter = new ChapterItemInfo();
+            chapter.setItemId(item.getId());
+            chapter.setName(dto.getName());
+            chapter.setStartPositionTicks(dto.getStartPositionTicks());
+            if (dto.getHasImage()) {
+                options.setTag(dto.getImageTag());
+                options.setImageIndex(i);
+                chapter.setImagePath(TvApp.getApplication().getApiClient().GetImageUrl(item.getId(), options));
+            }
+            chapters.add(chapter);
+            i++;
+        }
+
+        return chapters;
+
     }
 
     public static List<MediaStream> GetSubtitleStreams(MediaSourceInfo mediaSource) {

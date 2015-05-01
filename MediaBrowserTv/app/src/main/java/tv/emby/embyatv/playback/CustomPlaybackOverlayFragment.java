@@ -9,6 +9,15 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v17.leanback.app.RowsFragment;
+import android.support.v17.leanback.widget.ArrayObjectAdapter;
+import android.support.v17.leanback.widget.HeaderItem;
+import android.support.v17.leanback.widget.ListRow;
+import android.support.v17.leanback.widget.ListRowPresenter;
+import android.support.v17.leanback.widget.OnItemViewClickedListener;
+import android.support.v17.leanback.widget.Presenter;
+import android.support.v17.leanback.widget.Row;
+import android.support.v17.leanback.widget.RowPresenter;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -18,6 +27,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -27,6 +37,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +49,9 @@ import mediabrowser.model.entities.MediaStream;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.integration.RecommendationManager;
+import tv.emby.embyatv.itemhandling.BaseRowItem;
+import tv.emby.embyatv.itemhandling.ItemRowAdapter;
+import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.ui.ImageButton;
 import tv.emby.embyatv.ui.TextButton;
 import tv.emby.embyatv.util.InfoLayoutHelper;
@@ -61,6 +75,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     ImageButton mPlayPauseBtn;
     LinearLayout mInfoRow;
     LinearLayout mButtonRow;
+    FrameLayout mPopupArea;
+    RowsFragment mPopupRowsFragment;
+    ArrayObjectAdapter mPopupRowAdapter;
+    ListRow mChapterRow;
+    ListRow mQueueRow;
     ProgressBar mCurrentProgress;
     PlaybackController mPlaybackController;
     private List<BaseItemDto> mItemsToPlay = new ArrayList<>();
@@ -68,6 +87,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     Animation fadeOut;
     Animation slideUp;
     Animation slideDown;
+    Animation showPopup;
+    Animation hidePopup;
     Handler mHandler = new Handler();
     Runnable mHideTask;
 
@@ -79,6 +100,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     boolean mFadeEnabled = false;
     boolean mIsVisible = true;
+    boolean mPopupPanelVisible = false;
 
     int mCurrentDuration;
 
@@ -132,7 +154,23 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.custom_player_interface, container);
+        View root = inflater.inflate(R.layout.custom_player_interface, container);
+
+        // Inject the RowsFragment in the popup container
+        if (getChildFragmentManager().findFragmentById(R.id.rows_area) == null) {
+            mPopupRowsFragment = new RowsFragment();
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.rows_area, mPopupRowsFragment).commit();
+        } else {
+            mPopupRowsFragment = (RowsFragment) getChildFragmentManager()
+                    .findFragmentById(R.id.rows_area);
+        }
+
+        mPopupRowAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+        mPopupRowsFragment.setAdapter(mPopupRowAdapter);
+        mPopupRowsFragment.setOnItemViewClickedListener(itemViewClickedListener);
+
+        return root;
     }
 
     @Override
@@ -162,6 +200,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mClock = (TextClock) mActivity.findViewById(R.id.textClock);
         mClock.setTypeface(font);
         mCurrentProgress = (ProgressBar) mActivity.findViewById(R.id.playerProgress);
+        mPopupArea = (FrameLayout) mActivity.findViewById(R.id.popupArea);
 
         //pre-load animations
         fadeOut = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_out);
@@ -169,6 +208,43 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         slideDown = AnimationUtils.loadAnimation(mActivity, R.anim.abc_slide_in_top);
         slideUp = AnimationUtils.loadAnimation(mActivity, R.anim.abc_slide_in_bottom);
         slideUp.setAnimationListener(showAnimationListener);
+        showPopup = AnimationUtils.loadAnimation(mActivity, R.anim.abc_slide_in_bottom);
+        showPopup.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mPopupArea.setVisibility(View.VISIBLE);
+                mPopupArea.requestFocus();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        hidePopup = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_out);
+        hidePopup.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mPopupArea.setVisibility(View.GONE);
+                mButtonRow.requestFocus();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
 
         updateDisplay();
 
@@ -198,11 +274,45 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         }
     };
 
+    private OnItemViewClickedListener itemViewClickedListener = new OnItemViewClickedListener() {
+        @Override
+        public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
+                                  RowPresenter.ViewHolder rowViewHolder, Row row) {
+            if (item instanceof BaseRowItem) {
+                BaseRowItem rowItem = (BaseRowItem)item;
+
+                switch (rowItem.getItemType()) {
+
+                    case Chapter:
+                        Long start = rowItem.getChapterInfo().getStartPositionTicks() / 10000;
+                        mPlaybackController.seek(start.intValue());
+                        hidePopupPanel();
+                        break;
+                }
+            }
+        }
+    };
+
     private View.OnKeyListener keyListener = new View.OnKeyListener() {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
             boolean ret = false;
+            if (mPopupPanelVisible && keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B) {
+                //back should just hide the popup panel
+                hidePopupPanel();
+                return true;
+            }
+
             if (keyCode != KeyEvent.KEYCODE_BACK && keyCode != KeyEvent.KEYCODE_BUTTON_B) {
+                if (mPopupPanelVisible) {
+                    // up or down should close panel
+                    if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN || keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                        hidePopupPanel();
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
 
                 //if we're not visible, show us
                 if (!mIsVisible) show();
@@ -266,6 +376,21 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mBottomPanel.startAnimation(fadeOut);
         mTopPanel.startAnimation(fadeOut);
         mIsVisible = false;
+    }
+
+    private void showPopupPanel(ListRow row) {
+        setFadingEnabled(false);
+
+        mPopupRowAdapter.clear();
+        mPopupRowAdapter.add(row);
+        mPopupArea.startAnimation(showPopup);
+        mPopupPanelVisible = true;
+    }
+
+    private void hidePopupPanel(){
+        setFadingEnabled(true);
+        mPopupArea.startAnimation(hidePopup);
+        mPopupPanelVisible = false;
     }
 
     private Animation.AnimationListener hideAnimationListener = new Animation.AnimationListener() {
@@ -445,14 +570,20 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }));
         }
 
-        ArrayList<ChapterInfoDto> chapters = item.getChapters();
+        List<ChapterInfoDto> chapters = item.getChapters();
         if (chapters != null && chapters.size() > 0) {
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.chapter, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    showPopupPanel(mChapterRow);
                 }
             }));
+
+            //Create chapter row for later use
+            ItemRowAdapter chapterAdapter = new ItemRowAdapter(Utils.buildChapterItems(item), new CardPresenter(), new ArrayObjectAdapter());
+            chapterAdapter.Retrieve();
+            mChapterRow = new ListRow(new HeaderItem(mActivity.getString(R.string.chapters), null), chapterAdapter);
+
         }
 
     }
