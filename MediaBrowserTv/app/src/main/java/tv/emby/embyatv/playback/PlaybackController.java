@@ -59,6 +59,8 @@ public class PlaybackController {
     private static final int UPDATE_PERIOD = 500;
 
     private int mFreezeCheckPoint = Integer.MAX_VALUE;
+    private int mNextItemThreshold = Integer.MAX_VALUE;
+    private boolean nextItemReported;
     private int mLastReportedTime;
     private boolean mayBeFrozen = false;
     private int mPositionOffset = 0;
@@ -96,6 +98,9 @@ public class PlaybackController {
     public MediaSourceInfo getCurrentMediaSource() { return mCurrentStreamInfo != null && mCurrentStreamInfo.getMediaSource() != null ? mCurrentStreamInfo.getMediaSource() : getCurrentlyPlayingItem().getMediaSources().get(0);}
     public StreamInfo getCurrentStreamInfo() { return mCurrentStreamInfo; }
     public boolean canSeek() {return getCurrentlyPlayingItem() != null && !"TvChannel".equals(getCurrentlyPlayingItem().getType());}
+
+    public boolean hasNextItem() { return mCurrentIndex < mItems.size() - 1; }
+    public BaseItemDto getNextItem() { return hasNextItem() ? mItems.get(mCurrentIndex+1) : null; }
 
     public boolean isPlaying() {
         return mPlaybackState == PlaybackState.PLAYING;
@@ -158,11 +163,36 @@ public class PlaybackController {
                 mCurrentOptions.setProfile(profile);
 
                 playInternal(getCurrentlyPlayingItem(), position, mVideoView, mCurrentOptions);
+                mPlaybackState = PlaybackState.BUFFERING;
                 if (mFragment != null) {
                     mFragment.setFadingEnabled(true);
                     mFragment.setCurrentTime(position);
                 }
-                mPlaybackState = PlaybackState.BUFFERING;
+
+                if (hasNextItem()) {
+                    // Determine the "next up" threshold
+                    int duration = ((Long) (getCurrentlyPlayingItem().getRunTimeTicks() / 10000)).intValue();
+                    if (duration > 600000) {
+                        //only items longer than 10min to have this feature
+                        nextItemReported = false;
+                        if (duration > 4500000) {
+                            //longer than 1hr 15 it probably has pretty long credits
+                            mNextItemThreshold = duration - 180000; // 3 min
+                        } else if (duration > 2700000) {
+                            //45 min show
+                            mNextItemThreshold = duration - 120000; // 2 min
+                        } else {
+                            //std 30 min episode or less
+                            mNextItemThreshold = duration - 60000; // 1 min
+                        }
+                        TvApp.getApplication().getLogger().Debug("Next item threshold set to "+ mNextItemThreshold);
+                    } else {
+                        mNextItemThreshold = Integer.MAX_VALUE;
+                    }
+                } else {
+                    mNextItemThreshold = Integer.MAX_VALUE;
+                }
+
                 break;
         }
     }
@@ -192,8 +222,8 @@ public class PlaybackController {
             @Override
             public void onResponse(StreamInfo response) {
                 mCurrentStreamInfo = response;
-                Long mbPos = (long)position * 10000;
-                if (!PreferenceManager.getDefaultSharedPreferences(mApplication).getBoolean("pref_enable_hls",true)) {
+                Long mbPos = (long) position * 10000;
+                if (!PreferenceManager.getDefaultSharedPreferences(mApplication).getBoolean("pref_enable_hls", true)) {
                     response.setStartPositionTicks(mbPos);
                     mPositionOffset = position;
                 }
@@ -208,14 +238,14 @@ public class PlaybackController {
                 startInfo.setItemId(item.getId());
                 startInfo.setPositionTicks(mbPos);
                 TvApp.getApplication().getPlaybackManager().reportPlaybackStart(startInfo, false, apiClient, new EmptyResponse());
-                TvApp.getApplication().getLogger().Info("Playback of "+item.getName()+"("+path+") started.");
+                TvApp.getApplication().getLogger().Info("Playback of " + item.getName() + "(" + path + ") started.");
             }
 
             @Override
             public void onError(Exception exception) {
                 if (exception instanceof PlaybackException) {
                     PlaybackException ex = (PlaybackException) exception;
-                    switch (ex.getErrorCode()){
+                    switch (ex.getErrorCode()) {
                         case NotAllowed:
                             Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_playback_not_allowed));
                             break;
@@ -442,7 +472,7 @@ public class PlaybackController {
                 } else {
                     // do the seek
                     mVideoView.seekTo(position);
-                    TvApp.getApplication().getLogger().Info("Delayed seek to "+position+" successful");
+                    TvApp.getApplication().getLogger().Info("Delayed seek to " + position + " successful");
                 }
             }
         });
@@ -497,6 +527,12 @@ public class PlaybackController {
                     int currentTime = mVideoView.getCurrentPosition();
 
                     Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), (long)currentTime * 10000);
+
+                    //Do this next up processing here because every 3 seconds is good enough
+                    if (!nextItemReported && hasNextItem() && currentTime >= mNextItemThreshold){
+                        nextItemReported = true;
+                        mFragment.nextItemThresholdHit(getNextItem());
+                    }
                 }
                 mApplication.setLastUserInteraction(System.currentTimeMillis());
                 if (mPlaybackState != PlaybackState.UNDEFINED && mPlaybackState != PlaybackState.IDLE) mHandler.postDelayed(this, REPORT_INTERVAL);
