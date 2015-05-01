@@ -634,6 +634,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     @Override
+    public void nextItemThresholdHit(BaseItemDto nextItem) {
+        mApplication.getLogger().Debug("Next Item is " + nextItem.getName());
+        Utils.showToast(mActivity, "Next Item...");
+    }
+
+    @Override
     public void finish() {
         getActivity().finish();
     }

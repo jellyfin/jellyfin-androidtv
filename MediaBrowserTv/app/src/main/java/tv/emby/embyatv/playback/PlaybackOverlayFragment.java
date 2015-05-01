@@ -663,6 +663,11 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     }
 
     @Override
+    public void nextItemThresholdHit(BaseItemDto nextItem) {
+
+    }
+
+    @Override
     public void onStop() {
         mPlaybackController.stopProgressAutomation();
         super.onStop();
