@@ -114,7 +114,7 @@ public class InfoLayoutHelper {
     }
 
     private static void addRatingAndRes(Activity activity, BaseItemDto item, LinearLayout layout) {
-        if (item.getOfficialRating() != null && item.getOfficialRating() != "0") {
+        if (item.getOfficialRating() != null && !item.getOfficialRating().equals("0")) {
             addBlockText(activity, layout, item.getOfficialRating());
             addSpacer(activity, layout, "  ");
         }
