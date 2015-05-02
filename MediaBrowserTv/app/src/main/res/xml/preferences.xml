@@ -32,11 +32,6 @@
             android:defaultValue="true"
             android:summary="@string/sum_tv_queuing"
             />
-        <CheckBoxPreference android:key="pref_enable_hls"
-            android:title="@string/pref_enable_hls_label"
-            android:defaultValue="true"
-            android:summary="@string/sum_enable_hls"
-            />
 
 
     </PreferenceCategory>

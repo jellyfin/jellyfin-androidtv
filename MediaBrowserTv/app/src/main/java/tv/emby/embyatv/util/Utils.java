@@ -1008,7 +1008,7 @@ public class Utils {
     public static AndroidProfileOptions getProfileOptions() {
         AndroidProfileOptions options = new AndroidProfileOptions();
         options.SupportsAc3 = isFireTv();
-        options.SupportsHls = PreferenceManager.getDefaultSharedPreferences(TvApp.getApplication()).getBoolean("pref_enable_hls",true);
+        options.SupportsHls = true;
         options.DefaultH264Level = 41;
         return options;
     }
