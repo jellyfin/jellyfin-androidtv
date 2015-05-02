@@ -86,6 +86,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     private static final int ACTION_RECORD = 5;
     private static final int ACTION_CANCEL_RECORD = 6;
     private static final int ACTION_PLAY_TRAILER = 7;
+    private static final int ACTION_LAUNCH_SERIES = 8;
 
     private static final int POSTER_THUMB_WIDTH = 200;
     private static final int THUMB_WIDTH = 150;
@@ -299,6 +300,10 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                             row.addAction(new Action(ACTION_PLAY_TRAILER, mActivity.getString(R.string.lbl_trailer)));
                         }
                         row.addAction(new Action(ACTION_DETAILS, mActivity.getString(R.string.lbl_details)));
+
+                        if (mBaseItem.getType().equals("Episode") && mBaseItem.getSeriesId() != null) {
+                            row.addAction(new Action(ACTION_LAUNCH_SERIES, mActivity.getString(R.string.lbl_series)));
+                        }
                     }
 
             }
@@ -353,6 +358,13 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                             intent.putExtra("BaseItem", TvApp.getApplication().getSerializer().SerializeToString(mBaseItem));
                             mActivity.startActivity(intent);
                             break;
+                        case ACTION_LAUNCH_SERIES:
+                            Intent seriesIntent = new Intent(mActivity, DetailsActivity.class);
+                            seriesIntent.putExtra("ItemId", mBaseItem.getSeriesId());
+
+                            mActivity.startActivity(seriesIntent);
+                            break;
+
                         default:
                             Toast.makeText(getActivity(), action.toString() + mActivity.getString(R.string.msg_not_implemented), Toast.LENGTH_SHORT).show();
                             break;
