@@ -158,7 +158,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mHideTask = new Runnable() {
             @Override
             public void run() {
-                hide();
+                if (mIsVisible) hide();
             }
         };
 
@@ -392,6 +392,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 }
                 return false;
             }
+            if (mIsVisible && (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B)) {
+                //back should just hide the panel
+                hide();
+                return true;
+            }
 
             if (keyCode != KeyEvent.KEYCODE_BACK && keyCode != KeyEvent.KEYCODE_BUTTON_B) {
                 if (mPopupPanelVisible) {
@@ -463,9 +468,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     public void hide() {
+        mIsVisible = false;
         mBottomPanel.startAnimation(fadeOut);
         mTopPanel.startAnimation(fadeOut);
-        mIsVisible = false;
     }
 
     private void showPopupPanel(ListRow row) {
