@@ -228,7 +228,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             @Override
             public void onClick(View v) {
                 mPlaybackController.next();
-                hideNextUpPanel();
             }
         });
         mCancelButton = (Button) mActivity.findViewById(R.id.cancelButton);
@@ -723,6 +722,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     public void updateDisplay() {
         BaseItemDto current = mPlaybackController.getCurrentlyPlayingItem();
         if (current != null) {
+            if (mNextUpPanelVisible) hideNextUpPanel();
             updateCurrentDuration(current);
             //set progress to match duration
             mCurrentProgress.setMax(mCurrentDuration);
