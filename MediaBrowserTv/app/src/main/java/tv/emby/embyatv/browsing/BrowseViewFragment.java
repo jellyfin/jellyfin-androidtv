@@ -118,6 +118,15 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 latestSeries.setSortOrder(SortOrder.Descending);
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestSeries, 0, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
+                //Unwatched
+                StdItemQuery unwatchedSeries = new StdItemQuery();
+                unwatchedSeries.setIncludeItemTypes(new String[]{"Series"});
+                unwatchedSeries.setRecursive(true);
+                unwatchedSeries.setParentId(mFolder.getId());
+                unwatchedSeries.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
+                unwatchedSeries.setSortBy(new String[]{ItemSortBy.SortName});
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_unwatched), unwatchedSeries, 60, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback, ChangeTriggerType.LibraryUpdated}));
+
                 //All
                 StdItemQuery series = new StdItemQuery();
                 series.setIncludeItemTypes(new String[]{"Series"});
