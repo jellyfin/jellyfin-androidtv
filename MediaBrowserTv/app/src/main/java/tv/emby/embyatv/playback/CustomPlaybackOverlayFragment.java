@@ -380,7 +380,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
             boolean ret = false;
-            if (mPopupPanelVisible && keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B) {
+            if (mPopupPanelVisible && (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B)) {
                 //back should just hide the popup panel
                 hidePopupPanel();
                 return true;
