@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import tv.emby.embyatv.util.Utils;
+
 /**
  * Created by Eric on 12/19/2014.
  */
@@ -38,7 +40,9 @@ public abstract class MyAbstractDetailsPresenter extends Presenter {
             mSubtitle = (TextView) view.findViewById(android.support.v17.leanback.R.id.lb_details_description_subtitle);
             mActivity = (Activity) view.getContext();
             mInfoRow = new LinearLayout(mActivity);
-            mInfoRow.setLayoutParams(mSubtitle.getLayoutParams());
+            LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(Utils.convertDpToPixel(mActivity, 500), Utils.convertDpToPixel(mActivity,20));
+            layout.setMargins(0,15,0,0);
+            mInfoRow.setLayoutParams(layout);
             //Replace subtitle with our info row
             ViewGroup parent = (ViewGroup) view;
             int index = parent.indexOfChild(mSubtitle);
