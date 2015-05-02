@@ -42,7 +42,7 @@ public class InfoLayoutHelper {
     }
 
     private static void addSeasonEpisode(Activity activity, BaseItemDto item, LinearLayout layout) {
-            String text = "S"+item.getParentIndexNumber()+" E"+item.getIndexNumber()+"   ";
+            String text = "S"+item.getParentIndexNumber()+" E"+item.getIndexNumber()+"  ";
             TextView time = new TextView(activity);
             time.setTextSize(textSize);
             time.setText(text);
@@ -81,7 +81,7 @@ public class InfoLayoutHelper {
             layout.addView(amt);
 
         }
-        addSpacer(activity, layout, "    ");
+        addSpacer(activity, layout, "  ");
     }
 
     private static void addDate(Activity activity, BaseItemDto item, LinearLayout layout) {
@@ -102,11 +102,11 @@ public class InfoLayoutHelper {
                 if (item.getPremiereDate() != null) {
                     date.setText(new SimpleDateFormat("d MMM y").format(Utils.convertToLocalDate(item.getPremiereDate())));
                     layout.addView(date);
-                    addSpacer(activity, layout, "    ");
+                    addSpacer(activity, layout, "  ");
                 } else if (item.getProductionYear() != null && item.getProductionYear() > 0) {
                     date.setText(item.getProductionYear().toString());
                     layout.addView(date);
-                    addSpacer(activity, layout, "    ");
+                    addSpacer(activity, layout, "  ");
                 }
                 break;
         }
