@@ -41,6 +41,7 @@ import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
+import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.ChapterInfoDto;
@@ -81,6 +82,16 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     ListRow mChapterRow;
     ListRow mQueueRow;
     ProgressBar mCurrentProgress;
+
+    View mNextUpPanel;
+    Button mNextButton;
+    Button mCancelButton;
+    TextView mNextUpTitle;
+    TextView mNextUpSummary;
+    TextView mStartsIn;
+    LinearLayout mNextUpInfoRow;
+    ImageView mNextUpPoster;
+
     PlaybackController mPlaybackController;
     private List<BaseItemDto> mItemsToPlay = new ArrayList<>();
 
@@ -89,6 +100,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     Animation slideDown;
     Animation showPopup;
     Animation hidePopup;
+    Animation showNextUp;
+    Animation hideNextUp;
     Handler mHandler = new Handler();
     Runnable mHideTask;
 
@@ -101,6 +114,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     boolean mFadeEnabled = false;
     boolean mIsVisible = true;
     boolean mPopupPanelVisible = false;
+    boolean mNextUpPanelVisible = false;
 
     int mCurrentDuration;
 
@@ -177,9 +191,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mPoster = (ImageView) mActivity.findViewById(R.id.poster);
+        mNextUpPoster = (ImageView) mActivity.findViewById(R.id.nextUpPoster);
         mStudioImage = (ImageView) mActivity.findViewById(R.id.studioImg);
         mTopPanel = mActivity.findViewById(R.id.topPanel);
         mBottomPanel = mActivity.findViewById(R.id.bottomPanel);
+        mNextUpPanel = mActivity.findViewById(R.id.nextUpPanel);
         mPlayPauseBtn = (ImageButton) mActivity.findViewById(R.id.playPauseBtn);
         mPlayPauseBtn.setSecondaryImage(R.drawable.lb_ic_pause);
         mPlayPauseBtn.setPrimaryImage(R.drawable.play);
@@ -190,10 +206,15 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }
         });
         mInfoRow = (LinearLayout) mActivity.findViewById(R.id.infoRow);
+        mNextUpInfoRow = (LinearLayout) mActivity.findViewById(R.id.nextUpInfoRow);
         mButtonRow = (LinearLayout) mActivity.findViewById(R.id.buttonRow);
         mTitle = (TextView) mActivity.findViewById(R.id.title);
+        mNextUpTitle = (TextView) mActivity.findViewById(R.id.nextUpTitle);
+        mNextUpSummary = (TextView) mActivity.findViewById(R.id.nextUpSummary);
         Typeface font = Typeface.createFromAsset(mActivity.getAssets(), "fonts/Roboto-Light.ttf");
         mTitle.setTypeface(font);
+        mNextUpTitle.setTypeface(font);
+        mNextUpSummary.setTypeface(font);
         mEndTime = (TextView) mActivity.findViewById(R.id.endTime);
         mCurrentPos = (TextView) mActivity.findViewById(R.id.currentPos);
         mRemainingTime = (TextView) mActivity.findViewById(R.id.remainingTime);
@@ -201,6 +222,22 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mClock.setTypeface(font);
         mCurrentProgress = (ProgressBar) mActivity.findViewById(R.id.playerProgress);
         mPopupArea = (FrameLayout) mActivity.findViewById(R.id.popupArea);
+        mStartsIn = (TextView) mActivity.findViewById(R.id.startsIn);
+        mNextButton = (Button) mActivity.findViewById(R.id.nextButton);
+        mNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPlaybackController.next();
+                hideNextUpPanel();
+            }
+        });
+        mCancelButton = (Button) mActivity.findViewById(R.id.cancelButton);
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         //pre-load animations
         fadeOut = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_out);
@@ -208,16 +245,31 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         slideDown = AnimationUtils.loadAnimation(mActivity, R.anim.abc_slide_in_top);
         slideUp = AnimationUtils.loadAnimation(mActivity, R.anim.abc_slide_in_bottom);
         slideUp.setAnimationListener(showAnimationListener);
+        setupPopupAnimations();
+        setupNextUpAnimations();
+
+        updateDisplay();
+
+        Intent intent = mActivity.getIntent();
+        //start playing
+        int startPos = intent.getIntExtra("Position", 0);
+        mPlaybackController.play(startPos);
+
+        mPlayPauseBtn.requestFocus();
+
+    }
+
+    private void setupPopupAnimations() {
         showPopup = AnimationUtils.loadAnimation(mActivity, R.anim.abc_slide_in_bottom);
         showPopup.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
+                mPopupArea.setVisibility(View.VISIBLE);
 
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                mPopupArea.setVisibility(View.VISIBLE);
                 mPopupArea.requestFocus();
             }
 
@@ -246,14 +298,45 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         });
 
 
-        updateDisplay();
+    }
 
-        Intent intent = mActivity.getIntent();
-        //start playing
-        int startPos = intent.getIntExtra("Position", 0);
-        mPlaybackController.play(startPos);
+    private void setupNextUpAnimations() {
+        showNextUp = AnimationUtils.loadAnimation(mActivity, R.anim.abc_slide_in_bottom);
+        showNextUp.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                mNextUpPanel.setVisibility(View.VISIBLE);
 
-        mPlayPauseBtn.requestFocus();
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mNextButton.requestFocus();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        hideNextUp = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_out);
+        hideNextUp.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mNextUpPanel.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
 
     }
 
@@ -301,6 +384,14 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 //back should just hide the popup panel
                 hidePopupPanel();
                 return true;
+            }
+            if (mNextUpPanelVisible) {
+                if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B) {
+                    //back should just hide the popup panel
+                    hideNextUpPanel();
+                    return true;
+                }
+                return false;
             }
 
             if (keyCode != KeyEvent.KEYCODE_BACK && keyCode != KeyEvent.KEYCODE_BUTTON_B) {
@@ -393,6 +484,19 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mPopupPanelVisible = false;
     }
 
+    private void showNextUpPanel() {
+        if (mIsVisible) hide();
+        if (mPopupPanelVisible) hidePopupPanel();
+
+        mNextUpPanel.startAnimation(showNextUp);
+        mNextUpPanelVisible = true;
+    }
+
+    private void hideNextUpPanel(){
+        mNextUpPanel.startAnimation(hideNextUp);
+        mNextUpPanelVisible = false;
+    }
+
     private Animation.AnimationListener hideAnimationListener = new Animation.AnimationListener() {
         @Override
         public void onAnimationStart(Animation animation) {
@@ -429,11 +533,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         }
     };
 
-    private void updatePoster(BaseItemDto item) {
+    private void updatePoster(BaseItemDto item, ImageView target, boolean preferSeries) {
         int height = Utils.convertDpToPixel(getActivity(), 300);
         int width = Utils.convertDpToPixel(getActivity(), 150);
-        String posterImageUrl = Utils.getPrimaryImageUrl(item, mApplication.getApiClient(), false, false, false, true, height);
-        if (posterImageUrl != null) Picasso.with(getActivity()).load(posterImageUrl).skipMemoryCache().resize(width, height).centerInside().into(mPoster);
+        String posterImageUrl = Utils.getPrimaryImageUrl(item, mApplication.getApiClient(), false, false, false, preferSeries, height);
+        if (posterImageUrl != null) Picasso.with(getActivity()).load(posterImageUrl).skipMemoryCache().resize(width, height).centerInside().into(target);
 
     }
 
@@ -590,9 +694,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     @Override
     public void setCurrentTime(int time) {
-        mCurrentProgress.setProgress(time);
-        mCurrentPos.setText(Utils.formatMillis(time));
-        mRemainingTime.setText(mCurrentDuration > 0 ? "-"+Utils.formatMillis(mCurrentDuration - time) : "");
+        if (mNextUpPanelVisible) {
+            mStartsIn.setText(mCurrentDuration > 0 ? "Starts in " + Utils.formatMillis(mCurrentDuration - time) : "");
+        } else if (mIsVisible) {
+            mCurrentProgress.setProgress(time);
+            mCurrentPos.setText(Utils.formatMillis(time));
+            mRemainingTime.setText(mCurrentDuration > 0 ? "-"+Utils.formatMillis(mCurrentDuration - time) : "");
+        }
     }
 
     @Override
@@ -621,10 +729,24 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             //set other information
             mTitle.setText(current.getName());
             mInfoRow.removeAllViews();
-            updatePoster(current);
+            updatePoster(current, mPoster, true);
             updateStudio(current);
             addButtons(current);
             InfoLayoutHelper.addInfoRow(mActivity, current, mInfoRow, true);
+
+            if (mPlaybackController.hasNextItem()) {
+                //setup next up panel now - we need to retrieve full item for all info
+                mApplication.getApiClient().GetItemAsync(mPlaybackController.getNextItem().getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                    @Override
+                    public void onResponse(BaseItemDto response) {
+                        mNextUpTitle.setText("Up Next...  " + response.getName());
+                        mNextUpInfoRow.removeAllViews();
+                        mNextUpSummary.setText(response.getOverview());
+                        InfoLayoutHelper.addInfoRow(mActivity, response, mNextUpInfoRow, true);
+                        updatePoster(response, mNextUpPoster, true);
+                    }
+                });
+            }
         }
     }
 
@@ -636,7 +758,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Override
     public void nextItemThresholdHit(BaseItemDto nextItem) {
         mApplication.getLogger().Debug("Next Item is " + nextItem.getName());
-        Utils.showToast(mActivity, "Next Item...");
+        showNextUpPanel();
     }
 
     @Override
