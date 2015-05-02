@@ -405,7 +405,7 @@ public class Utils {
                         query.setMinIndexNumber(mainItem.getIndexNumber() + 1);
                         query.setSortBy(new String[] {ItemSortBy.SortName});
                         query.setIncludeItemTypes(new String[]{"Episode"});
-                        query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.Path, ItemFields.PrimaryImageAspectRatio});
+                        query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.Path, ItemFields.Chapters, ItemFields.PrimaryImageAspectRatio});
                         query.setUserId(TvApp.getApplication().getCurrentUser().getId());
                         TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
                             @Override

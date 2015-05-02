@@ -385,9 +385,9 @@ public class PlaybackController {
             mCurrentIndex++;
             mApplication.getLogger().Debug("Moving to index: "+mCurrentIndex+" out of "+mItems.size() + " total items.");
             mFragment.removeQueueItem(0);
-            mFragment.updateDisplay();
             spinnerOff = false;
             play(0);
+            mFragment.updateDisplay();
         }
     }
 
