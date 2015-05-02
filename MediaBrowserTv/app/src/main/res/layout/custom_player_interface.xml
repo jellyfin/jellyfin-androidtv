@@ -155,6 +155,107 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="206dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:id="@+id/nextUpPanel"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="165sp"
+            android:id="@+id/imageView14"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentBottom="true"
+            android:background="@color/black"
+            android:alpha=".95" />
+
+        <ImageView
+            android:layout_width="150sp"
+            android:layout_height="300sp"
+            android:id="@+id/nextUpPoster"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="30sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/nextUpTitle"
+            android:layout_alignTop="@+id/imageView14"
+            android:layout_toEndOf="@+id/nextUpPoster"
+            android:layout_toRightOf="@+id/nextUpPoster"
+            android:layout_marginTop="5sp"
+            android:layout_marginLeft="20sp"
+            android:maxWidth="600sp"
+            android:maxLines="1" />
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="600sp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/nextUpTitle"
+            android:id="@+id/nextUpInfoRow"
+            android:measureWithLargestChild="false"
+            android:layout_below="@+id/nextUpTitle"
+            android:layout_marginTop="5sp"
+            android:minHeight="30sp"></LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1:30"
+            android:id="@+id/startsIn"
+            android:layout_alignParentEnd="true"
+            android:textSize="18sp"
+            android:layout_alignBottom="@+id/nextUpTitle"
+            android:layout_marginRight="40sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="100sp"
+            android:id="@+id/nextUpSummary"
+            android:layout_below="@+id/nextUpInfoRow"
+            android:layout_toEndOf="@+id/nextUpInfoRow"
+            android:layout_alignParentEnd="false"
+            android:layout_alignLeft="@+id/nextUpTitle"
+            android:layout_marginTop="5sp"
+            android:layout_alignRight="@+id/nextUpInfoRow"
+            android:textSize="14sp"
+            android:maxLines="4"
+            android:ellipsize="end" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Now"
+            android:id="@+id/nextButton"
+            android:layout_below="@+id/nextUpInfoRow"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="20sp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:id="@+id/cancelButton"
+            android:layout_below="@+id/nextButton"
+            android:layout_alignEnd="@+id/nextButton"
+            android:minWidth="100sp"
+            android:layout_marginTop="5sp"
+            android:layout_alignStart="@+id/nextButton" />
+
+    </RelativeLayout>
+
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="275sp"
