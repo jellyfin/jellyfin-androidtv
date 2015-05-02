@@ -22,6 +22,7 @@ public class InfoLayoutHelper {
     private static int textSize = 16;
 
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime) {
+        if (item.getType().equals("Episode")) addSeasonEpisode(activity, item, layout);
         addCriticInfo(activity, item, layout);
         addDate(activity, item, layout);
         if (includeRuntime) addRuntime(activity, item, layout);
@@ -38,6 +39,14 @@ public class InfoLayoutHelper {
             time.setText(text);
             layout.addView(time);
         }
+    }
+
+    private static void addSeasonEpisode(Activity activity, BaseItemDto item, LinearLayout layout) {
+            String text = "S"+item.getParentIndexNumber()+" E"+item.getIndexNumber()+"   ";
+            TextView time = new TextView(activity);
+            time.setTextSize(textSize);
+            time.setText(text);
+            layout.addView(time);
     }
 
     private static void addCriticInfo(Activity activity, BaseItemDto item, LinearLayout layout) {
