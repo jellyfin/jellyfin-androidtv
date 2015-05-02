@@ -1,6 +1,7 @@
 package tv.emby.embyatv.presentation;
 
 import mediabrowser.model.dto.BaseItemDto;
+import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.Utils;
 
 public class DetailsDescriptionPresenter extends MyAbstractDetailsPresenter {
@@ -10,9 +11,8 @@ public class DetailsDescriptionPresenter extends MyAbstractDetailsPresenter {
 
         if (baseItem != null) {
             viewHolder.getTitle().setText(baseItem.getName());
-            viewHolder.getSubtitle().setText(Utils.getInfoRow(baseItem));
+            InfoLayoutHelper.addInfoRow(viewHolder.getActivity(), baseItem, viewHolder.getInfoRow(), true);
             viewHolder.getBody().setText(baseItem.getOverview());
-            viewHolder.getBody().setMaxLines(4);
         }
     }
 }

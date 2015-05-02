@@ -1,11 +1,13 @@
 package tv.emby.embyatv.presentation;
 
+import android.app.Activity;
 import android.graphics.Paint;
 import android.support.v17.leanback.widget.Presenter;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -16,6 +18,7 @@ public abstract class MyAbstractDetailsPresenter extends Presenter {
     public static class ViewHolder extends Presenter.ViewHolder {
         private final TextView mTitle;
         private final TextView mSubtitle;
+        private final LinearLayout mInfoRow;
         private final TextView mBody;
         private final int mTitleMargin;
         private final int mUnderTitleBaselineMargin;
@@ -24,6 +27,7 @@ public abstract class MyAbstractDetailsPresenter extends Presenter {
         private final int mBodyLineSpacing;
         private final int mBodyMaxLines;
         private final int mBodyMinLines;
+        private final Activity mActivity;
         private final Paint.FontMetricsInt mTitleFontMetricsInt;
         private final Paint.FontMetricsInt mSubtitleFontMetricsInt;
         private final Paint.FontMetricsInt mBodyFontMetricsInt;
@@ -32,6 +36,14 @@ public abstract class MyAbstractDetailsPresenter extends Presenter {
             super(view);
             mTitle = (TextView) view.findViewById(android.support.v17.leanback.R.id.lb_details_description_title);
             mSubtitle = (TextView) view.findViewById(android.support.v17.leanback.R.id.lb_details_description_subtitle);
+            mActivity = (Activity) view.getContext();
+            mInfoRow = new LinearLayout(mActivity);
+            mInfoRow.setLayoutParams(mSubtitle.getLayoutParams());
+            //Replace subtitle with our info row
+            ViewGroup parent = (ViewGroup) view;
+            int index = parent.indexOfChild(mSubtitle);
+            parent.removeView(mSubtitle);
+            parent.addView(mInfoRow, index);
             mBody = (TextView) view.findViewById(android.support.v17.leanback.R.id.lb_details_description_body);
 
             Paint.FontMetricsInt titleFontMetricsInt = getFontMetricsInt(mTitle);
@@ -69,6 +81,10 @@ public abstract class MyAbstractDetailsPresenter extends Presenter {
         public TextView getTitle() {
             return mTitle;
         }
+
+        public LinearLayout getInfoRow() { return mInfoRow; }
+
+        public Activity getActivity() { return mActivity; }
 
         public TextView getSubtitle() {
             return mSubtitle;
