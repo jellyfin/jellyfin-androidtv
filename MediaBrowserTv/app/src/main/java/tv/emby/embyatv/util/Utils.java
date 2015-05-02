@@ -546,7 +546,7 @@ public class Utils {
     }
 
     public static String getStoreUrl() {
-        return isFireTv() ? "TBD" : "https://play.google.com/store/apps/details?id=tv.emby.embyatv";
+        return isFireTv() ? "http://www.amazon.com/Emby-for-Fire-TV/dp/B00VVJKTW8/ref=sr_1_2?s=mobile-apps&ie=UTF8&qid=1430569449&sr=1-2" : "https://play.google.com/store/apps/details?id=tv.emby.embyatv";
     }
 
     private static void addMainItem(BaseItemDto mainItem, GsonJsonSerializer serializer, final List<String> items, final Response<String[]> outerResponse) {
