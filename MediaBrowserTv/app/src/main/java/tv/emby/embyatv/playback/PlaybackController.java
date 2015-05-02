@@ -223,7 +223,7 @@ public class PlaybackController {
             public void onResponse(StreamInfo response) {
                 mCurrentStreamInfo = response;
                 Long mbPos = (long) position * 10000;
-                if (!PreferenceManager.getDefaultSharedPreferences(mApplication).getBoolean("pref_enable_hls", true)) {
+                if (!"hls".equals(response.getSubProtocol())) {
                     response.setStartPositionTicks(mbPos);
                     mPositionOffset = position;
                 }
@@ -274,17 +274,15 @@ public class PlaybackController {
                     public void onResponse(StreamInfo response) {
                         mCurrentStreamInfo = response;
                         Long mbPos = (long)position * 10000;
-                        if (!PreferenceManager.getDefaultSharedPreferences(mApplication).getBoolean("pref_enable_hls",true)) {
+                        if (!"hls".equals(response.getSubProtocol())) {
                             response.setStartPositionTicks(mbPos);
                             mPositionOffset = position;
                         }
 
                         String path = response.ToUrl(TvApp.getApplication().getApiClient().getApiUrl(), TvApp.getApplication().getApiClient().getAccessToken());
+                        mStartPosition = position;
                         view.setVideoPath(path);
                         setPlaybackMethod(response.getPlayMethod());
-                        if (position > 0) {
-                            mApplication.getPlaybackController().seek(position);
-                        }
                         view.start();
 
                         PlaybackStartInfo startInfo = new PlaybackStartInfo();
