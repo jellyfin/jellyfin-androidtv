@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import mediabrowser.model.dto.BaseItemDto;
@@ -89,6 +90,29 @@ public class InfoLayoutHelper {
         TextView date = new TextView(activity);
         date.setTextSize(textSize);
         switch (item.getType()) {
+            case "Person":
+                StringBuilder sb = new StringBuilder();
+                if (item.getPremiereDate() != null) {
+                    sb.append(TvApp.getApplication().getString(R.string.lbl_born));
+                    sb.append(new SimpleDateFormat("d MMM y").format(Utils.convertToLocalDate(item.getPremiereDate())));
+                }
+                if (item.getEndDate() != null) {
+                    sb.append("  |  Died ");
+                    sb.append(new SimpleDateFormat("d MMM y").format(item.getEndDate()));
+                    sb.append(" (");
+                    sb.append(Utils.numYears(item.getPremiereDate(), item.getEndDate()));
+                    sb.append(")");
+                } else {
+                    if (item.getPremiereDate() != null) {
+                        sb.append(" (");
+                        sb.append(Utils.numYears(item.getPremiereDate(), Calendar.getInstance()));
+                        sb.append(")");
+                    }
+                }
+                date.setText(sb.toString());
+                layout.addView(date);
+                break;
+
             case "Program":
             case "TvChannel":
                 if (item.getPremiereDate() != null && item.getEndDate() != null) {
