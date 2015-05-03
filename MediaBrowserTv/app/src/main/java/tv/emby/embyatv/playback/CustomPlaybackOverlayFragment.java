@@ -733,7 +733,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             mCurrentProgress.setMax(mCurrentDuration);
             //set other information
             mTitle.setText(current.getName());
-            mInfoRow.removeAllViews();
             updatePoster(current, mPoster, true);
             updateStudio(current);
             addButtons(current);
@@ -745,7 +744,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     @Override
                     public void onResponse(BaseItemDto response) {
                         mNextUpTitle.setText("Up Next...  " + response.getName());
-                        mNextUpInfoRow.removeAllViews();
                         mNextUpSummary.setText(response.getOverview());
                         InfoLayoutHelper.addInfoRow(mActivity, response, mNextUpInfoRow, true);
                         updatePoster(response, mNextUpPoster, true);
