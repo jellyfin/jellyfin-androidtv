@@ -759,6 +759,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     }
                 });
             }
+
+            if (mIsVisible) mPlayPauseBtn.requestFocus();
         }
     }
 
