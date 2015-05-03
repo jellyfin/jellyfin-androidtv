@@ -694,6 +694,15 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         }
 
+        if (mPlaybackController.hasNextItem()) {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.lb_ic_skip_next, mButtonSize, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPlaybackController.next();
+                }
+            }));
+        }
+
     }
 
     @Override
