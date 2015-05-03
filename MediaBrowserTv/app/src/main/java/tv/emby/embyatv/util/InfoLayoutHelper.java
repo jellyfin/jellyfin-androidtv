@@ -22,6 +22,7 @@ public class InfoLayoutHelper {
     private static int textSize = 16;
 
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime) {
+        layout.removeAllViews();
         if (item.getType().equals("Episode")) addSeasonEpisode(activity, item, layout);
         addCriticInfo(activity, item, layout);
         addDate(activity, item, layout);
