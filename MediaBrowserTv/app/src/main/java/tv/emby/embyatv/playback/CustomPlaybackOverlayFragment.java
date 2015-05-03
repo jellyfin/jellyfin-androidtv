@@ -700,7 +700,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     public void setCurrentTime(int time) {
         if (mNextUpPanelVisible) {
             mStartsIn.setText(mCurrentDuration > 0 ? "Starts in " + Utils.formatMillis(mCurrentDuration - time) : "");
-        } else if (mIsVisible) {
+        } else {
             mCurrentProgress.setProgress(time);
             mCurrentPos.setText(Utils.formatMillis(time));
             mRemainingTime.setText(mCurrentDuration > 0 ? "-"+Utils.formatMillis(mCurrentDuration - time) : "");
