@@ -178,12 +178,9 @@ public class PlaybackController {
                         if (duration > 4500000) {
                             //longer than 1hr 15 it probably has pretty long credits
                             mNextItemThreshold = duration - 180000; // 3 min
-                        } else if (duration > 2700000) {
-                            //45 min show
-                            mNextItemThreshold = duration - 120000; // 2 min
                         } else {
                             //std 30 min episode or less
-                            mNextItemThreshold = duration - 60000; // 1 min
+                            mNextItemThreshold = duration - 50000; // 50 seconds
                         }
                         TvApp.getApplication().getLogger().Debug("Next item threshold set to "+ mNextItemThreshold);
                     } else {
