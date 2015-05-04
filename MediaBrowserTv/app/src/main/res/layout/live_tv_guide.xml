@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="230dp"
+        android:layout_height="match_parent"
+        android:id="@+id/channelScroller"
+        android:layout_gravity="top|left|center"
+        android:layout_marginTop="200sp" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/channels"></LinearLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/programVScroller"
+        android:layout_alignTop="@+id/channelScroller"
+        android:layout_toEndOf="@+id/channelScroller" >
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/programHScroller" >
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/programRows">
+
+            </LinearLayout>
+        </HorizontalScrollView>
+    </ScrollView>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:id="@+id/timelineHScroller"
+        android:layout_above="@+id/programVScroller"
+        android:layout_toEndOf="@+id/channelScroller" >
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/timeline"></LinearLayout>
+    </HorizontalScrollView>
+</RelativeLayout>
