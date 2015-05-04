@@ -19,6 +19,7 @@ import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.NextUpQuery;
 import tv.emby.embyatv.integration.RecommendationManager;
+import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.model.ChangeTriggerType;
 import tv.emby.embyatv.ui.GridButton;
 import tv.emby.embyatv.R;
@@ -120,6 +121,7 @@ public class HomeFragment extends StdBrowseFragment {
 
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         toolsRow = new ArrayObjectAdapter(mGridPresenter);
+        //toolsRow.add(new GridButton(4, "Live TV Guide", R.drawable.tv));
         toolsRow.add(new GridButton(SETTINGS, mApplication.getString(R.string.lbl_app_settings), R.drawable.gears));
         toolsRow.add(new GridButton(LOGOUT, mApplication.getString(R.string.lbl_logout) + TvApp.getApplication().getCurrentUser().getName(), R.drawable.logout));
         //give this some time to have validated
@@ -173,6 +175,10 @@ public class HomeFragment extends StdBrowseFragment {
                         break;
                     case REPORT:
                         Utils.reportError(getActivity(), "Send Log to Dev");
+                        break;
+                    case 4:
+                        Intent guide = new Intent(getActivity(), LiveTvGuideActivity.class);
+                        getActivity().startActivity(guide);
                         break;
                     default:
                         Toast.makeText(getActivity(), item.toString(), Toast.LENGTH_SHORT)
