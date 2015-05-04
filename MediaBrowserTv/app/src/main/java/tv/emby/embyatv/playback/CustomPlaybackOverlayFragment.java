@@ -439,6 +439,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mAudioManager.registerMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
         //TODO implement conditional logic for api 21+
 
+        if (!mIsVisible) show(); // in case we were paused during video playback
+
     }
 
     @Override
@@ -450,6 +452,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Override
     public void onPause() {
         mPlaybackController.stop();
+        setPlayPauseActionState(ImageButton.STATE_PRIMARY); // in case we come back
+
         //UnRegister the media button receiver
         mAudioManager.unregisterMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
         //TODO implement conditional logic for api 21+
