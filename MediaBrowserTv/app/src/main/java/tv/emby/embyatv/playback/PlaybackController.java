@@ -165,6 +165,7 @@ public class PlaybackController {
                 playInternal(getCurrentlyPlayingItem(), position, mVideoView, mCurrentOptions);
                 mPlaybackState = PlaybackState.BUFFERING;
                 if (mFragment != null) {
+                    mFragment.setPlayPauseActionState(ImageButton.STATE_SECONDARY);
                     mFragment.setFadingEnabled(true);
                     mFragment.setCurrentTime(position);
                 }
@@ -351,6 +352,7 @@ public class PlaybackController {
                 pause();
                 break;
             case PAUSED:
+            case IDLE:
                 play(getCurrentPosition());
                 break;
         }
