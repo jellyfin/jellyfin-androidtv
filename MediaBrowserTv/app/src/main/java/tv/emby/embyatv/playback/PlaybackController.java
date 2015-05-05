@@ -170,7 +170,7 @@ public class PlaybackController {
                     mFragment.setCurrentTime(position);
                 }
 
-                if (hasNextItem()) {
+                if (hasNextItem() && getCurrentlyPlayingItem().getRunTimeTicks() != null) {
                     // Determine the "next up" threshold
                     int duration = ((Long) (getCurrentlyPlayingItem().getRunTimeTicks() / 10000)).intValue();
                     if (duration > 600000) {
