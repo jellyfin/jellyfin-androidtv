@@ -410,9 +410,11 @@ public class Utils {
                         TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
                             @Override
                             public void onResponse(ItemsResult response) {
-                                for (BaseItemDto item : response.getItems()) {
-                                    if (item.getIndexNumber() > mainItem.getIndexNumber()) {
-                                        items.add(serializer.SerializeToString(item));
+                                if (response.getTotalRecordCount() > 0) {
+                                    for (BaseItemDto item : response.getItems()) {
+                                        if (item.getIndexNumber() > mainItem.getIndexNumber()) {
+                                            items.add(serializer.SerializeToString(item));
+                                        }
                                     }
                                 }
                                 outerResponse.onResponse(items.toArray(new String[items.size()]));
