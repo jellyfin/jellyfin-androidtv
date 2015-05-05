@@ -9,7 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import mediabrowser.model.livetv.ProgramInfoDto;
 import tv.emby.embyatv.R;
+import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.util.Utils;
 
 /**
  * Created by Eric on 5/4/2015.
@@ -18,33 +21,42 @@ public class ProgramGridCell extends RelativeLayout {
 
     private TextView mProgramName;
     private LinearLayout mInfoRow;
+    private ProgramInfoDto mProgram;
+    private int mBackgroundColor = 0;
 
-    public ProgramGridCell(Context context) {
+    public ProgramGridCell(Context context, ProgramInfoDto program) {
         super(context);
-        initComponent(context);
+        initComponent(context, program);
     }
 
-    public ProgramGridCell(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        initComponent(context);
-    }
-
-    public ProgramGridCell(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        initComponent(context);
-    }
-
-    private void initComponent(Context context) {
+    private void initComponent(Context context, ProgramInfoDto program) {
+        mProgram = program;
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.program_grid_cell, this, false);
         this.addView(v);
 
         mProgramName = (TextView) findViewById(R.id.programName);
         mInfoRow = (LinearLayout) findViewById(R.id.infoRow);
-    }
+        mProgramName.setText(program.getName());
 
-    public void setProgramName(String name) {
-        mProgramName.setText(name);
+        if (program.getIsMovie())
+            mBackgroundColor = getResources().getColor(R.color.guide_movie_bg);
+        else if (program.getIsNews())
+            mBackgroundColor = getResources().getColor(R.color.guide_news_bg);
+        else if (program.getIsSports())
+            mBackgroundColor = getResources().getColor(R.color.guide_sports_bg);
+        else if (program.getIsKids())
+            mBackgroundColor = getResources().getColor(R.color.guide_kids_bg);
+
+        setBackgroundColor(mBackgroundColor);
+
+        if (program.getStartDate() != null && program.getEndDate() != null) {
+            TextView time = new TextView(context);
+            time.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(program.getStartDate()))
+                    + "-" + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(program.getEndDate())));
+            mInfoRow.addView(time);
+        }
+
     }
 
     public void addInfo(View view) {
@@ -58,7 +70,7 @@ public class ProgramGridCell extends RelativeLayout {
         if (gainFocus) {
             setBackgroundColor(getResources().getColor(R.color.lb_default_brand_color));
         } else {
-            setBackgroundColor(0);
+            setBackgroundColor(mBackgroundColor);
         }
     }
 }

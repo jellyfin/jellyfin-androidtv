@@ -2,53 +2,43 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <ScrollView
+    <ListView
         android:layout_width="160sp"
         android:layout_height="match_parent"
-        android:id="@+id/channelScroller"
+        android:id="@+id/channels"
         android:layout_gravity="top|left|center"
         android:background="#ff201b1c"
         android:layout_marginTop="200sp"
         android:focusable="false"
         android:focusableInTouchMode="false">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:focusable="false"
-            android:id="@+id/channels"/>
-    </ScrollView>
 
-    <tv.emby.embyatv.ui.ObservableScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/programVScroller"
-        android:background="#ff0b0e14"
-        android:layout_alignTop="@+id/channelScroller"
-        android:layout_toEndOf="@+id/channelScroller" >
+    </ListView>
+
 
         <tv.emby.embyatv.ui.ObservableHorizontalScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/programHScroller" >
+            android:layout_width="fill_parent"
+            android:background="#ff0b0e14"
+            android:layout_height="fill_parent"
+            android:layout_alignTop="@+id/channels"
+            android:id="@+id/programHScroller"
+            android:layout_toRightOf="@+id/channels">
 
-            <LinearLayout
+            <ListView
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/programRows">
 
-            </LinearLayout>
+            </ListView>
         </tv.emby.embyatv.ui.ObservableHorizontalScrollView>
-    </tv.emby.embyatv.ui.ObservableScrollView>
 
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="30sp"
         android:id="@+id/timelineHScroller"
-        android:layout_above="@+id/programVScroller"
-        android:layout_toEndOf="@+id/channelScroller"
+        android:layout_above="@+id/programHScroller"
+        android:layout_toEndOf="@+id/channels"
         android:focusable="false"
         android:background="#ff007d8d"
         android:focusableInTouchMode="false">
@@ -58,6 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:id="@+id/timeline"
+            android:focusable="false"
             android:gravity="center_vertical" />
     </HorizontalScrollView>
 
@@ -66,13 +57,13 @@
         android:layout_height="30sp"
         android:text="Medium Text"
         android:id="@+id/displayDate"
-        android:layout_above="@+id/programVScroller"
         android:layout_toStartOf="@+id/timelineHScroller"
         android:background="#ff007d8d"
         android:gravity="center"
         android:layout_alignParentStart="true"
         android:textSize="14sp"
-        android:enabled="false" />
+        android:enabled="false"
+        android:layout_alignTop="@+id/timelineHScroller" />
 
     <TextClock
         android:layout_width="wrap_content"

@@ -19,4 +19,9 @@
     <color name="gray_gradient_start">#ff7c7c7c</color>
     <color name="gray_gradient_end">#ffbebebe</color>
     <color name="fastlane_fire">#ff161b21</color>
+
+    <color name="guide_movie_bg">#32053a05</color>
+    <color name="guide_sports_bg">#3228108e</color>
+    <color name="guide_news_bg">#1e05678e</color>
+    <color name="guide_kids_bg">#328e7e02</color>
 </resources>
