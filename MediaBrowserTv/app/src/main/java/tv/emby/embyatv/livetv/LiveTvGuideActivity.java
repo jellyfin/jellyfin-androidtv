@@ -35,7 +35,7 @@ import tv.emby.embyatv.util.Utils;
 public class LiveTvGuideActivity extends BaseActivity implements INotifyChannelsLoaded{
 
     public static final int ROW_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(),55);
-    public static final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(TvApp.getApplication(),7);
+    public static final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(TvApp.getApplication(),6);
 
     private TextView mDisplayDate;
     private LinearLayout mChannels;
@@ -118,7 +118,7 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
 
     private void fillTimeLine() {
         Calendar start = Calendar.getInstance();
-        start.set(Calendar.MINUTE, 0);
+        start.set(Calendar.MINUTE, start.get(Calendar.MINUTE) >= 30 ? 30 : 0);
         start.set(Calendar.SECOND, 0);
         start.set(Calendar.MILLISECOND, 0);
         mCurrentLocalGuideStart = start.getTimeInMillis();
@@ -127,14 +127,18 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
         Calendar current = (Calendar) start.clone();
         mCurrentGuideEnd = (Calendar) start.clone();
         int oneHour = 60 * PIXELS_PER_MINUTE;
+        int halfHour = 30 * PIXELS_PER_MINUTE;
+        int interval = current.get(Calendar.MINUTE) >= 30 ? 30 : 60;
         mCurrentGuideEnd.add(Calendar.HOUR, 12);
         mCurrentLocalGuideEnd = mCurrentGuideEnd.getTimeInMillis();
         while (current.before(mCurrentGuideEnd)) {
             TextView time = new TextView(this);
             time.setText(android.text.format.DateFormat.getTimeFormat(this).format(current.getTime()));
-            time.setWidth(oneHour);
+            time.setWidth(interval == 30 ? halfHour : oneHour);
             mTimeline.addView(time);
-            current.add(Calendar.HOUR_OF_DAY, 1);
+            current.add(Calendar.MINUTE, interval);
+            //after first one, we always go on hours
+            interval = 60;
         }
 
     }
@@ -149,7 +153,7 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
         end.setTimeZone(TimeZone.getTimeZone("Z"));
         query.setMaxStartDate(end.getTime());
         Calendar now = new GregorianCalendar(TimeZone.getTimeZone("Z"));
-        now.set(Calendar.MINUTE, 0);
+        now.set(Calendar.MINUTE, now.get(Calendar.MINUTE) >= 30 ? 30 : 0);
         now.set(Calendar.SECOND, 0);
         query.setMinEndDate(now.getTime());
 
