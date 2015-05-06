@@ -8,6 +8,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jakewharton.disklrucache.Util;
+
 import java.util.Date;
 
 import mediabrowser.model.livetv.ProgramInfoDto;
@@ -26,6 +28,7 @@ public class ProgramGridCell extends RelativeLayout {
     private LinearLayout mInfoRow;
     private ProgramInfoDto mProgram;
     private int mBackgroundColor = 0;
+    private final int IND_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 10);
 
     public ProgramGridCell(Context context, ProgramInfoDto program) {
         super(context);
@@ -68,6 +71,12 @@ public class ProgramGridCell extends RelativeLayout {
         if (program.getIsHD()) {
             InfoLayoutHelper.addSpacer(activity, mInfoRow, "  ", 10);
             InfoLayoutHelper.addBlockText(activity, mInfoRow, "HD", 10);
+        }
+
+        if (program.getSeriesTimerId() != null) {
+            InfoLayoutHelper.addResourceImage(activity, mInfoRow, R.drawable.recseries, 0, IND_HEIGHT);
+        } else if (program.getTimerId() != null) {
+            InfoLayoutHelper.addResourceImage(activity, mInfoRow, R.drawable.rec, 0, IND_HEIGHT);
         }
 
     }

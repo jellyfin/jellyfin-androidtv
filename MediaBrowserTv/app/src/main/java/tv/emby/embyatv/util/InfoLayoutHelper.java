@@ -178,7 +178,7 @@ public class InfoLayoutHelper {
     public static void addBlockText(Activity activity, LinearLayout layout, String text, int size) {
         TextView view = new TextView(activity);
         view.setTextSize(size);
-        view.setTextColor(Color.BLACK);
+        view.setTextColor(Color.DKGRAY);
         view.setText(" " + text + " ");
         view.setBackgroundResource(R.drawable.gray_gradient);
         layout.addView(view);
@@ -186,7 +186,7 @@ public class InfoLayoutHelper {
     }
 
     private static void addSpacer(Activity activity, LinearLayout layout, String sp) {
-        addBlockText(activity, layout, sp, textSize);
+        addSpacer(activity, layout, sp, textSize);
     }
 
     public static void addSpacer(Activity activity, LinearLayout layout, String sp, int size) {
@@ -195,6 +195,15 @@ public class InfoLayoutHelper {
         mSpacer.setText(sp);
         layout.addView(mSpacer);
 
+    }
+
+    public static void addResourceImage(Activity activity, LinearLayout layout, int imgResource, int width, int height) {
+        ImageView image = new ImageView(activity);
+        image.setImageResource(imgResource);
+        if (width > 0) image.setMaxWidth(width);
+        if (height > 0) image.setMaxHeight(height);
+        image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        layout.addView(image);
     }
 
 
