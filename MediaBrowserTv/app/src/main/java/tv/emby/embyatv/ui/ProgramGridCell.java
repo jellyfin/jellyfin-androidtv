@@ -2,7 +2,6 @@ package tv.emby.embyatv.ui;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -81,6 +80,6 @@ public class ProgramGridCell extends RelativeLayout {
             setBackgroundColor(mBackgroundColor);
         }
 
-        TvApp.getApplication().getLogger().Debug("Focus on "+mProgram.getName()+ " was " +(gainFocus ? "gained" : "lost"));
+        //TvApp.getApplication().getLogger().Debug("Focus on "+mProgram.getName()+ " was " +(gainFocus ? "gained" : "lost"));
     }
 }
