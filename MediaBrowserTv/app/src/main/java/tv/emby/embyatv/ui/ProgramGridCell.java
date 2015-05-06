@@ -14,6 +14,7 @@ import mediabrowser.model.livetv.ProgramInfoDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.livetv.LiveTvGuideActivity;
+import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -62,6 +63,11 @@ public class ProgramGridCell extends RelativeLayout {
             time.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(program.getStartDate()))
                     + "-" + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(program.getEndDate())));
             mInfoRow.addView(time);
+        }
+
+        if (program.getIsHD()) {
+            InfoLayoutHelper.addSpacer(activity, mInfoRow, "  ", 10);
+            InfoLayoutHelper.addBlockText(activity, mInfoRow, "HD", 10);
         }
 
     }
