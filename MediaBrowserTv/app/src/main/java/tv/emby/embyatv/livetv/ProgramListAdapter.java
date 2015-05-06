@@ -18,11 +18,11 @@ import tv.emby.embyatv.ui.ProgramGridCell;
  */
 public class ProgramListAdapter extends BaseAdapter {
 
-    Activity activity;
+    LiveTvGuideActivity activity;
     LinearLayout view;
     List<List<ProgramInfoDto>> rows = new ArrayList<>();
 
-    public ProgramListAdapter(Activity activity, LinearLayout view) {
+    public ProgramListAdapter(LiveTvGuideActivity activity, LinearLayout view) {
         this.activity = activity;
         this.view = view;
     }
@@ -57,11 +57,12 @@ public class ProgramListAdapter extends BaseAdapter {
         programRow.removeAllViews();
 
         for (ProgramInfoDto item : rows.get(position)) {
-            Long duration = item.getStartDate() != null && item.getEndDate() != null ? (item.getEndDate().getTime() - item.getStartDate().getTime()) / 60000 : 0;
+            long start = item.getStartDate() != null && item.getStartDate().getTime() >= activity.getCurrentStartDate().getTime().getTime() ? item.getStartDate().getTime() : activity.getCurrentStartDate().getTime().getTime();
+            Long duration = item.getEndDate() != null ? (item.getEndDate().getTime() - start) / 60000 : 0;
             //TvApp.getApplication().getLogger().Debug("Duration for "+item.getName()+" is "+duration.intValue());
             if (duration > 0) {
                 ProgramGridCell program = new ProgramGridCell(activity, item);
-                program.setLayoutParams(new ViewGroup.LayoutParams(duration.intValue() * LiveTvGuideActivity.PIXELS_PER_MINUTE, LiveTvGuideActivity.ROW_HEIGHT));
+                program.setLayoutParams(new ViewGroup.LayoutParams(duration.intValue() * activity.PIXELS_PER_MINUTE, activity.ROW_HEIGHT));
                 program.setFocusable(true);
 
                 programRow.addView(program);
