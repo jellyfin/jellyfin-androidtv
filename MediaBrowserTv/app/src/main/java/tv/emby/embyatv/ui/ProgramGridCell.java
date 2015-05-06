@@ -24,6 +24,7 @@ import tv.emby.embyatv.util.Utils;
  */
 public class ProgramGridCell extends RelativeLayout {
 
+    private LiveTvGuideActivity mActivity;
     private TextView mProgramName;
     private LinearLayout mInfoRow;
     private ProgramInfoDto mProgram;
@@ -36,6 +37,7 @@ public class ProgramGridCell extends RelativeLayout {
     }
 
     private void initComponent(LiveTvGuideActivity activity, ProgramInfoDto program) {
+        mActivity = activity;
         mProgram = program;
         LayoutInflater inflater = LayoutInflater.from(activity);
         View v = inflater.inflate(R.layout.program_grid_cell, this, false);
@@ -68,6 +70,11 @@ public class ProgramGridCell extends RelativeLayout {
             mInfoRow.addView(time);
         }
 
+        if (program.getOfficialRating() != null && !program.getOfficialRating().equals("0")) {
+            InfoLayoutHelper.addSpacer(activity, mInfoRow, "  ", 10);
+            InfoLayoutHelper.addBlockText(activity, mInfoRow, program.getOfficialRating(), 10);
+        }
+
         if (program.getIsHD()) {
             InfoLayoutHelper.addSpacer(activity, mInfoRow, "  ", 10);
             InfoLayoutHelper.addBlockText(activity, mInfoRow, "HD", 10);
@@ -81,16 +88,13 @@ public class ProgramGridCell extends RelativeLayout {
 
     }
 
-    public void addInfo(View view) {
-        mInfoRow.addView(view);
-    }
-
     @Override
     protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
 
         if (gainFocus) {
             setBackgroundColor(getResources().getColor(R.color.lb_default_brand_color));
+            mActivity.setSelectedProgram(mProgram);
         } else {
             setBackgroundColor(mBackgroundColor);
         }

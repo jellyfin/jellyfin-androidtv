@@ -86,11 +86,51 @@
         android:layout_marginTop="20sp"
         android:layout_marginRight="20sp" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/backdrop"
+        android:layout_above="@+id/timelineHScroller"
+        android:layout_alignParentTop="true"
+        android:alpha=".2"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:layout_width="150sp"
+        android:layout_height="150sp"
+        android:id="@+id/programImage"
+        android:layout_gravity="left|top"
+        android:layout_margin="15sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/title"
+        android:layout_alignTop="@+id/programImage"
+        android:layout_toEndOf="@+id/programImage"
+        android:textSize="25sp"
+        android:layout_toLeftOf="@+id/clock"
+        android:layout_marginRight="20sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/summary"
+        android:textSize="16sp"
+        android:layout_marginRight="20sp"
+        android:layout_below="@+id/title"
+        android:layout_toEndOf="@+id/programImage"
+        android:layout_above="@+id/timelineHScroller"
+        android:layout_toLeftOf="@+id/clock"
+        android:layout_marginBottom="10sp"
+        android:layout_marginTop="10sp" />
+
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/spinner"
-        android:background="@color/black_transparent">
+        android:background="@color/black_transparent"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -99,5 +139,6 @@
             android:text="@string/lbl_loading_elipses"
             android:id="@+id/textView9"
             android:layout_gravity="center" />
+
     </FrameLayout>
 </RelativeLayout>
