@@ -64,7 +64,7 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
     private ProgramListAdapter mProgramsAdapter;
 
     private Calendar mCurrentGuideEnd;
-    private Calendar mCurrentGuideStart;
+    private long mCurrentLocalGuideStart;
 
     private Typeface roboto;
 
@@ -89,7 +89,7 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
         programVScroller.setScrollViewListener(new ScrollViewListener() {
             @Override
             public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-                mChannelScroller.scrollTo(x,y);
+                mChannelScroller.scrollTo(x, y);
             }
         });
 
@@ -124,12 +124,13 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
     }
 
     private void fillTimeLine() {
-        mCurrentGuideStart = Calendar.getInstance(TimeZone.getTimeZone("Z"));
-        mCurrentGuideStart.set(Calendar.MINUTE, 0);
+        Calendar start = Calendar.getInstance();
+        start.set(Calendar.MINUTE, 0);
+        mCurrentLocalGuideStart = start.getTime().getTime();
 
-        mDisplayDate.setText(android.text.format.DateFormat.getDateFormat(this).format(mCurrentGuideStart.getTime()));
-        Calendar current = (Calendar) mCurrentGuideStart.clone();
-        mCurrentGuideEnd = (Calendar) mCurrentGuideStart.clone();
+        mDisplayDate.setText(android.text.format.DateFormat.getDateFormat(this).format(start.getTime()));
+        Calendar current = (Calendar) start.clone();
+        mCurrentGuideEnd = (Calendar) start.clone();
         int oneHour = 60 * PIXELS_PER_MINUTE;
         mCurrentGuideEnd.add(Calendar.HOUR, 24);
         while (current.before(mCurrentGuideEnd)) {
@@ -172,10 +173,11 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
     private List<ProgramInfoDto> getProgramsForChannel(String channelId, ProgramInfoDto[] programs) {
         List<ProgramInfoDto> results = new ArrayList<>();
         for (ProgramInfoDto program : programs) {
-            if (program.getChannelId().equals(channelId) && program.getEndDate().getTime() > mCurrentGuideStart.getTime().getTime()) results.add(program);
+            if (program.getChannelName().startsWith("WBTV")) TvApp.getApplication().getLogger().Debug(program.getName()+" program end date: "+Utils.convertToLocalDate(program.getEndDate()).getTime()+" guide start "+mCurrentLocalGuideStart);
+            if (program.getChannelId().equals(channelId) && Utils.convertToLocalDate(program.getEndDate()).getTime() > mCurrentLocalGuideStart) results.add(program);
         }
         return results;
     }
 
-    public Calendar getCurrentStartDate() { return mCurrentGuideStart; }
+    public long getCurrentLocalStartDate() { return mCurrentLocalGuideStart; }
 }
