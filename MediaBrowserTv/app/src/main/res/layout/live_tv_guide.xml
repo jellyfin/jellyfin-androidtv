@@ -92,13 +92,12 @@
         android:id="@+id/spinner"
         android:background="@color/black_transparent">
 
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/progressBar"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/lbl_loading_elipses"
+            android:id="@+id/textView9"
             android:layout_gravity="center" />
     </FrameLayout>
 </RelativeLayout>
