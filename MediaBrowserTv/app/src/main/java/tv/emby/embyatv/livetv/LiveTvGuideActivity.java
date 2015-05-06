@@ -1,13 +1,18 @@
 package tv.emby.embyatv.livetv;
 
+import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextClock;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,8 +41,15 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
 
     public static final int ROW_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(),55);
     public static final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(TvApp.getApplication(),6);
+    private static final int IMAGE_SIZE = Utils.convertDpToPixel(TvApp.getApplication(), 150);
+    private static final int BACKDROP_SIZE = Utils.convertDpToPixel(TvApp.getApplication(), 2000);
 
+    private Activity mActivity;
     private TextView mDisplayDate;
+    private TextView mTitle;
+    private TextView mSummary;
+    private ImageView mImage;
+    private ImageView mBackdrop;
     private LinearLayout mChannels;
     private LinearLayout mTimeline;
     private LinearLayout mProgramRows;
@@ -46,6 +58,8 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
     private HorizontalScrollView mTimelineScroller;
     private View mSpinner;
 
+    private ProgramInfoDto mSelectedProgram;
+
     private ChannelListAdapter mChannelAdapter;
     private ProgramListAdapter mProgramsAdapter;
 
@@ -53,21 +67,31 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
     private long mCurrentLocalGuideStart;
     private long mCurrentLocalGuideEnd;
 
+    private Handler mHandler = new Handler();
+
     private Typeface roboto;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mActivity = this;
         roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
 
         setContentView(R.layout.live_tv_guide);
 
         mDisplayDate = (TextView) findViewById(R.id.displayDate);
+        mTitle = (TextView) findViewById(R.id.title);
+        mTitle.setTypeface(roboto);
+        mSummary = (TextView) findViewById(R.id.summary);
+        mSummary.setTypeface(roboto);
+        mImage = (ImageView) findViewById(R.id.programImage);
+        mBackdrop = (ImageView) findViewById(R.id.backdrop);
         mChannels = (LinearLayout) findViewById(R.id.channels);
         mTimeline = (LinearLayout) findViewById(R.id.timeline);
         mProgramRows = (LinearLayout) findViewById(R.id.programRows);
         mSpinner = findViewById(R.id.spinner);
+        mSpinner.setVisibility(View.VISIBLE);
         mClock = (TextClock) findViewById(R.id.clock);
         mClock.setTypeface(roboto);
 
@@ -182,4 +206,37 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
 
     public long getCurrentLocalStartDate() { return mCurrentLocalGuideStart; }
     public long getCurrentLocalEndDate() { return mCurrentLocalGuideEnd; }
+
+    private Runnable detailUpdateTask = new Runnable() {
+        @Override
+        public void run() {
+            mTitle.setText(mSelectedProgram.getName());
+            mSummary.setText(mSelectedProgram.getOverview());
+            String url = Utils.getPrimaryImageUrl(mSelectedProgram, TvApp.getApplication().getApiClient());
+            Picasso.with(mActivity).load(url).resize(IMAGE_SIZE, IMAGE_SIZE).centerInside().into(mImage);
+
+
+            if (mSelectedProgram.getIsNews()) {
+                mBackdrop.setImageResource(R.drawable.newsbanner);
+
+            } else if (mSelectedProgram.getIsKids()) {
+                mBackdrop.setImageResource(R.drawable.kidsbanner);
+
+            } else if (mSelectedProgram.getIsSports()) {
+                mBackdrop.setImageResource(R.drawable.sportsbanner);
+
+            } else if (mSelectedProgram.getIsMovie()) {
+                mBackdrop.setImageResource(R.drawable.moviebanner);
+
+            } else {
+                mBackdrop.setImageResource(R.drawable.tvbanner);
+            }
+        }
+    };
+
+    public void setSelectedProgram(ProgramInfoDto program) {
+        mSelectedProgram = program;
+        mHandler.removeCallbacks(detailUpdateTask);
+        mHandler.postDelayed(detailUpdateTask, 500);
+    }
 }
