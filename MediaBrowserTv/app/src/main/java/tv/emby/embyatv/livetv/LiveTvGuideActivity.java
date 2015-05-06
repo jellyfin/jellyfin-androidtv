@@ -6,6 +6,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextClock;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
     private ScrollView mChannelScroller;
     private TextClock mClock;
     private HorizontalScrollView mTimelineScroller;
+    private View mSpinner;
 
     private ChannelListAdapter mChannelAdapter;
     private ProgramListAdapter mProgramsAdapter;
@@ -67,6 +69,7 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
         mChannels = (LinearLayout) findViewById(R.id.channels);
         mTimeline = (LinearLayout) findViewById(R.id.timeline);
         mProgramRows = (LinearLayout) findViewById(R.id.programRows);
+        mSpinner = findViewById(R.id.spinner);
         mClock = (TextClock) findViewById(R.id.clock);
         mClock.setTypeface(roboto);
 
@@ -160,6 +163,7 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
                     for (String id : channelIds) {
                         mProgramsAdapter.addRow(i++, getProgramsForChannel(id, response.getItems()));
                     }
+                    mSpinner.setVisibility(View.GONE);
                     mProgramRows.requestFocus();
                 }
             }
