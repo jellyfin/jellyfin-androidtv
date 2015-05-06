@@ -42,6 +42,8 @@ public class ProgramGridCell extends RelativeLayout {
         mInfoRow = (LinearLayout) findViewById(R.id.infoRow);
         mProgramName.setText(program.getName());
         mProgram = program;
+        mProgramName.setFocusable(false);
+        mInfoRow.setFocusable(false);
 
         if (program.getIsMovie())
             mBackgroundColor = getResources().getColor(R.color.guide_movie_bg);
