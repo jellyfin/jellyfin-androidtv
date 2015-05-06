@@ -9,9 +9,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.Date;
+
 import mediabrowser.model.livetv.ProgramInfoDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -26,12 +29,12 @@ public class ProgramGridCell extends RelativeLayout {
 
     public ProgramGridCell(Context context, ProgramInfoDto program) {
         super(context);
-        initComponent(context, program);
+        initComponent((LiveTvGuideActivity) context, program);
     }
 
-    private void initComponent(Context context, ProgramInfoDto program) {
+    private void initComponent(LiveTvGuideActivity activity, ProgramInfoDto program) {
         mProgram = program;
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(activity);
         View v = inflater.inflate(R.layout.program_grid_cell, this, false);
         this.addView(v);
 
@@ -52,7 +55,9 @@ public class ProgramGridCell extends RelativeLayout {
         setBackgroundColor(mBackgroundColor);
 
         if (program.getStartDate() != null && program.getEndDate() != null) {
-            TextView time = new TextView(context);
+            TextView time = new TextView(activity);
+            Date localStart = Utils.convertToLocalDate(program.getStartDate());
+            if (localStart.getTime() + 60000 < activity.getCurrentLocalStartDate()) mProgramName.setText("<< "+mProgramName.getText());
             time.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(program.getStartDate()))
                     + "-" + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(program.getEndDate())));
             mInfoRow.addView(time);

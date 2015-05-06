@@ -1,6 +1,5 @@
 package tv.emby.embyatv.livetv;
 
-import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -12,6 +11,7 @@ import java.util.List;
 import mediabrowser.model.livetv.ProgramInfoDto;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.ui.ProgramGridCell;
+import tv.emby.embyatv.util.Utils;
 
 /**
  * Created by Eric on 5/5/2015.
@@ -57,8 +57,9 @@ public class ProgramListAdapter extends BaseAdapter {
         programRow.removeAllViews();
 
         for (ProgramInfoDto item : rows.get(position)) {
-            long start = item.getStartDate() != null && item.getStartDate().getTime() >= activity.getCurrentStartDate().getTime().getTime() ? item.getStartDate().getTime() : activity.getCurrentStartDate().getTime().getTime();
-            Long duration = item.getEndDate() != null ? (item.getEndDate().getTime() - start) / 60000 : 0;
+            long start = item.getStartDate() != null ? Utils.convertToLocalDate(item.getStartDate()).getTime() : activity.getCurrentLocalStartDate();
+            if (start < activity.getCurrentLocalStartDate()) start = activity.getCurrentLocalStartDate();
+            Long duration = item.getEndDate() != null ? (Utils.convertToLocalDate(item.getEndDate()).getTime() - start) / 60000 : 0;
             //TvApp.getApplication().getLogger().Debug("Duration for "+item.getName()+" is "+duration.intValue());
             if (duration > 0) {
                 ProgramGridCell program = new ProgramGridCell(activity, item);
