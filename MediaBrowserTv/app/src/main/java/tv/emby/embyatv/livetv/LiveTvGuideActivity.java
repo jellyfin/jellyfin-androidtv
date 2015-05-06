@@ -1,31 +1,20 @@
 package tv.emby.embyatv.livetv;
 
-import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextClock;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Random;
 import java.util.TimeZone;
-import java.util.zip.Inflater;
 
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
@@ -35,13 +24,10 @@ import mediabrowser.model.results.ProgramInfoDtoResult;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
-import tv.emby.embyatv.ui.GuideChannelHeader;
 import tv.emby.embyatv.ui.HorizontalScrollViewListener;
 import tv.emby.embyatv.ui.ObservableHorizontalScrollView;
 import tv.emby.embyatv.ui.ObservableScrollView;
-import tv.emby.embyatv.ui.ProgramGridCell;
 import tv.emby.embyatv.ui.ScrollViewListener;
-import tv.emby.embyatv.util.DelayedMessage;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -50,7 +36,7 @@ import tv.emby.embyatv.util.Utils;
 public class LiveTvGuideActivity extends BaseActivity implements INotifyChannelsLoaded{
 
     public static final int ROW_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(),55);
-    public static final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(TvApp.getApplication(),6);
+    public static final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(TvApp.getApplication(),7);
 
     private TextView mDisplayDate;
     private LinearLayout mChannels;
@@ -65,6 +51,7 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
 
     private Calendar mCurrentGuideEnd;
     private long mCurrentLocalGuideStart;
+    private long mCurrentLocalGuideEnd;
 
     private Typeface roboto;
 
@@ -95,7 +82,11 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
 
         mTimelineScroller = (HorizontalScrollView) findViewById(R.id.timelineHScroller);
         mTimelineScroller.setFocusable(false);
+        mTimelineScroller.setFocusableInTouchMode(false);
         mTimeline.setFocusable(false);
+        mTimeline.setFocusableInTouchMode(false);
+        mChannelScroller.setFocusable(false);
+        mChannelScroller.setFocusableInTouchMode(false);
         ObservableHorizontalScrollView programHScroller = (ObservableHorizontalScrollView) findViewById(R.id.programHScroller);
         programHScroller.setScrollViewListener(new HorizontalScrollViewListener() {
             @Override
@@ -104,8 +95,9 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
             }
         });
 
-        programVScroller.setSmoothScrollingEnabled(true);
-        mChannelScroller.setSmoothScrollingEnabled(true);
+        programHScroller.setFocusable(false);
+        programHScroller.setFocusableInTouchMode(false);
+
         mChannels.setFocusable(false);
         mChannelScroller.setFocusable(false);
 
@@ -126,13 +118,16 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
     private void fillTimeLine() {
         Calendar start = Calendar.getInstance();
         start.set(Calendar.MINUTE, 0);
-        mCurrentLocalGuideStart = start.getTime().getTime();
+        start.set(Calendar.SECOND, 0);
+        start.set(Calendar.MILLISECOND, 0);
+        mCurrentLocalGuideStart = start.getTimeInMillis();
 
         mDisplayDate.setText(android.text.format.DateFormat.getDateFormat(this).format(start.getTime()));
         Calendar current = (Calendar) start.clone();
         mCurrentGuideEnd = (Calendar) start.clone();
         int oneHour = 60 * PIXELS_PER_MINUTE;
-        mCurrentGuideEnd.add(Calendar.HOUR, 24);
+        mCurrentGuideEnd.add(Calendar.HOUR, 12);
+        mCurrentLocalGuideEnd = mCurrentGuideEnd.getTimeInMillis();
         while (current.before(mCurrentGuideEnd)) {
             TextView time = new TextView(this);
             time.setText(android.text.format.DateFormat.getTimeFormat(this).format(current.getTime()));
@@ -154,6 +149,7 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
         query.setMaxStartDate(end.getTime());
         Calendar now = new GregorianCalendar(TimeZone.getTimeZone("Z"));
         now.set(Calendar.MINUTE, 0);
+        now.set(Calendar.SECOND, 0);
         query.setMinEndDate(now.getTime());
 
         TvApp.getApplication().getApiClient().GetLiveTvProgramsAsync(query, new Response<ProgramInfoDtoResult>() {
@@ -173,11 +169,11 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
     private List<ProgramInfoDto> getProgramsForChannel(String channelId, ProgramInfoDto[] programs) {
         List<ProgramInfoDto> results = new ArrayList<>();
         for (ProgramInfoDto program : programs) {
-            if (program.getChannelName().startsWith("WBTV")) TvApp.getApplication().getLogger().Debug(program.getName()+" program end date: "+Utils.convertToLocalDate(program.getEndDate()).getTime()+" guide start "+mCurrentLocalGuideStart);
             if (program.getChannelId().equals(channelId) && Utils.convertToLocalDate(program.getEndDate()).getTime() > mCurrentLocalGuideStart) results.add(program);
         }
         return results;
     }
 
     public long getCurrentLocalStartDate() { return mCurrentLocalGuideStart; }
+    public long getCurrentLocalEndDate() { return mCurrentLocalGuideEnd; }
 }
