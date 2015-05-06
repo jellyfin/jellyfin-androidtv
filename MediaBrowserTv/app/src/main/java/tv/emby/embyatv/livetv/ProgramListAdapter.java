@@ -59,7 +59,9 @@ public class ProgramListAdapter extends BaseAdapter {
         for (ProgramInfoDto item : rows.get(position)) {
             long start = item.getStartDate() != null ? Utils.convertToLocalDate(item.getStartDate()).getTime() : activity.getCurrentLocalStartDate();
             if (start < activity.getCurrentLocalStartDate()) start = activity.getCurrentLocalStartDate();
-            Long duration = item.getEndDate() != null ? (Utils.convertToLocalDate(item.getEndDate()).getTime() - start) / 60000 : 0;
+            long end = item.getEndDate() != null ? Utils.convertToLocalDate(item.getEndDate()).getTime() : activity.getCurrentLocalEndDate();
+            if (end > activity.getCurrentLocalEndDate()) end = activity.getCurrentLocalEndDate();
+            Long duration = (end - start) / 60000;
             //TvApp.getApplication().getLogger().Debug("Duration for "+item.getName()+" is "+duration.intValue());
             if (duration > 0) {
                 ProgramGridCell program = new ProgramGridCell(activity, item);
