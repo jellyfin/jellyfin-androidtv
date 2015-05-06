@@ -38,6 +38,7 @@ public class ProgramGridCell extends RelativeLayout {
         mProgramName = (TextView) findViewById(R.id.programName);
         mInfoRow = (LinearLayout) findViewById(R.id.infoRow);
         mProgramName.setText(program.getName());
+        mProgram = program;
 
         if (program.getIsMovie())
             mBackgroundColor = getResources().getColor(R.color.guide_movie_bg);
@@ -72,5 +73,7 @@ public class ProgramGridCell extends RelativeLayout {
         } else {
             setBackgroundColor(mBackgroundColor);
         }
+
+        TvApp.getApplication().getLogger().Debug("Focus on "+mProgram.getName()+ " was " +(gainFocus ? "gained" : "lost"));
     }
 }

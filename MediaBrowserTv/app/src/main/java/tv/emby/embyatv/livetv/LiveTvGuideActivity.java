@@ -64,6 +64,7 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
     private ProgramListAdapter mProgramsAdapter;
 
     private Calendar mCurrentGuideEnd;
+    private Calendar mCurrentGuideStart;
 
     private Typeface roboto;
 
@@ -123,12 +124,12 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
     }
 
     private void fillTimeLine() {
-        Calendar start = Calendar.getInstance();
-        start.set(Calendar.MINUTE, 0);
+        mCurrentGuideStart = Calendar.getInstance(TimeZone.getTimeZone("Z"));
+        mCurrentGuideStart.set(Calendar.MINUTE, 0);
 
-        mDisplayDate.setText(android.text.format.DateFormat.getDateFormat(this).format(start.getTime()));
-        Calendar current = (Calendar) start.clone();
-        mCurrentGuideEnd = (Calendar) start.clone();
+        mDisplayDate.setText(android.text.format.DateFormat.getDateFormat(this).format(mCurrentGuideStart.getTime()));
+        Calendar current = (Calendar) mCurrentGuideStart.clone();
+        mCurrentGuideEnd = (Calendar) mCurrentGuideStart.clone();
         int oneHour = 60 * PIXELS_PER_MINUTE;
         mCurrentGuideEnd.add(Calendar.HOUR, 24);
         while (current.before(mCurrentGuideEnd)) {
@@ -151,6 +152,7 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
         end.setTimeZone(TimeZone.getTimeZone("Z"));
         query.setMaxStartDate(end.getTime());
         Calendar now = new GregorianCalendar(TimeZone.getTimeZone("Z"));
+        now.set(Calendar.MINUTE, 0);
         query.setMinEndDate(now.getTime());
 
         TvApp.getApplication().getApiClient().GetLiveTvProgramsAsync(query, new Response<ProgramInfoDtoResult>() {
@@ -170,8 +172,10 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
     private List<ProgramInfoDto> getProgramsForChannel(String channelId, ProgramInfoDto[] programs) {
         List<ProgramInfoDto> results = new ArrayList<>();
         for (ProgramInfoDto program : programs) {
-            if (program.getChannelId().equals(channelId)) results.add(program);
+            if (program.getChannelId().equals(channelId) && program.getEndDate().getTime() > mCurrentGuideStart.getTime().getTime()) results.add(program);
         }
         return results;
     }
+
+    public Calendar getCurrentStartDate() { return mCurrentGuideStart; }
 }
