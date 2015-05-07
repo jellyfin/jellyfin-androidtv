@@ -8,7 +8,7 @@
         android:id="@+id/channelScroller"
         android:layout_gravity="top|left|center"
         android:background="#ff201b1c"
-        android:layout_marginTop="200sp"
+        android:layout_marginTop="210sp"
         android:focusable="false"
         android:focusableInTouchMode="false">
 
@@ -110,7 +110,19 @@
         android:layout_toEndOf="@+id/programImage"
         android:textSize="25sp"
         android:layout_toLeftOf="@+id/clock"
-        android:layout_marginRight="20sp" />
+        android:layout_marginRight="20sp"
+        android:ellipsize="end"
+        android:maxLines="1" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="20sp"
+        android:layout_alignParentEnd="false"
+        android:layout_below="@+id/title"
+        android:layout_alignLeft="@+id/title"
+        android:layout_alignRight="@+id/title"
+        android:id="@+id/infoRow"></LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -118,12 +130,14 @@
         android:id="@+id/summary"
         android:textSize="16sp"
         android:layout_marginRight="20sp"
-        android:layout_below="@+id/title"
+        android:layout_below="@+id/infoRow"
         android:layout_toEndOf="@+id/programImage"
         android:layout_above="@+id/timelineHScroller"
         android:layout_toLeftOf="@+id/clock"
         android:layout_marginBottom="10sp"
-        android:layout_marginTop="10sp" />
+        android:layout_marginTop="5sp"
+        android:ellipsize="end"
+        android:maxLines="5" />
 
     <FrameLayout
         android:layout_width="fill_parent"

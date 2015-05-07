@@ -32,6 +32,7 @@ import tv.emby.embyatv.ui.HorizontalScrollViewListener;
 import tv.emby.embyatv.ui.ObservableHorizontalScrollView;
 import tv.emby.embyatv.ui.ObservableScrollView;
 import tv.emby.embyatv.ui.ScrollViewListener;
+import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -50,6 +51,7 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
     private TextView mSummary;
     private ImageView mImage;
     private ImageView mBackdrop;
+    private LinearLayout mInfoRow;
     private LinearLayout mChannels;
     private LinearLayout mTimeline;
     private LinearLayout mProgramRows;
@@ -85,6 +87,7 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
         mTitle.setTypeface(roboto);
         mSummary = (TextView) findViewById(R.id.summary);
         mSummary.setTypeface(roboto);
+        mInfoRow = (LinearLayout) findViewById(R.id.infoRow);
         mImage = (ImageView) findViewById(R.id.programImage);
         mBackdrop = (ImageView) findViewById(R.id.backdrop);
         mChannels = (LinearLayout) findViewById(R.id.channels);
@@ -213,8 +216,17 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
             mTitle.setText(mSelectedProgram.getName());
             mSummary.setText(mSelectedProgram.getOverview());
             String url = Utils.getPrimaryImageUrl(mSelectedProgram, TvApp.getApplication().getApiClient());
+            //url = "https://image.tmdb.org/t/p/w396/zr2p353wrd6j3wjLgDT4TcaestB.jpg";
             Picasso.with(mActivity).load(url).resize(IMAGE_SIZE, IMAGE_SIZE).centerInside().into(mImage);
 
+            mInfoRow.removeAllViews();
+            // fake
+//            mSelectedProgram.setCommunityRating(7.5f);
+//            InfoLayoutHelper.addCriticInfo(mActivity, mSelectedProgram, mInfoRow);
+//            InfoLayoutHelper.addSpacer(mActivity, mInfoRow, " 1983  ", 14);
+//            InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "R", 12);
+//            InfoLayoutHelper.addSpacer(mActivity, mInfoRow, "  ", 10);
+            //
 
             if (mSelectedProgram.getIsNews()) {
                 mBackdrop.setImageResource(R.drawable.newsbanner);
