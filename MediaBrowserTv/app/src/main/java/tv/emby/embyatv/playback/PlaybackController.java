@@ -156,6 +156,7 @@ public class PlaybackController {
                 mCurrentOptions.setItemId(item.getId());
                 mCurrentOptions.setMediaSources(item.getMediaSources());
                 mCurrentOptions.setMaxBitrate(getMaxBitrate());
+                TvApp.getApplication().getLogger().Debug("Max bitrate is: "+getMaxBitrate());
 
                 // Create our profile and clear out subtitles so that they will burn in
                 AndroidProfile profile = new AndroidProfile(Utils.getProfileOptions());
@@ -198,7 +199,8 @@ public class PlaybackController {
     public int getMaxBitrate() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mApplication);
         String maxRate = sharedPref.getString("pref_max_bitrate", "15");
-        return Integer.parseInt(maxRate) * 1000000;
+        Float factor = Float.parseFloat(maxRate) * 10;
+        return (factor.intValue() * 100000);
     }
 
     private int getCurrentOffset(Date start) {
