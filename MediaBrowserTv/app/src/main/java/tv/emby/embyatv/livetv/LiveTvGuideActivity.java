@@ -192,20 +192,13 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
         @Override
         protected Void doInBackground(Object[]... params) {
 
+            final Object[] channels = params[0];
             final String[] channelIds = new String[params[0].length];
             int i = 0;
-            // Load Channel headers
+            // Get channel ids
             for (Object item : params[0]) {
                 ChannelInfoDto channel = (ChannelInfoDto) item;
-                final GuideChannelHeader header = new GuideChannelHeader(mActivity, channel);
                 channelIds[i++] = (channel).getId();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mChannels.addView(header);
-                        header.loadImage();
-                    }
-                });
             }
 
             //Load guide data for the given channels
@@ -224,7 +217,7 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
                 @Override
                 public void onResponse(ProgramInfoDtoResult response) {
                     if (response.getTotalRecordCount() > 0) {
-                        new displayProgramsTask().execute(channelIds, response.getItems());
+                        new displayProgramsTask().execute(channels, response.getItems());
                     }
                 }
             });
@@ -243,14 +236,22 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
                 allPrograms[i] = (ProgramInfoDto) params[1][i];
             }
 
-            for (Object id : params[0]) {
-                final LinearLayout row = getProgramRow(getProgramsForChannel((String) id, allPrograms));
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mProgramRows.addView(row);
-                    }
-                });
+            for (Object item : params[0]) {
+                ChannelInfoDto channel = (ChannelInfoDto) item;
+                List<ProgramInfoDto> programs = getProgramsForChannel(channel.getId(), allPrograms);
+                if (programs.size() > 0) {
+                    final GuideChannelHeader header = new GuideChannelHeader(mActivity, channel);
+                    final LinearLayout row = getProgramRow(programs);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mChannels.addView(header);
+                            header.loadImage();
+                            mProgramRows.addView(row);
+                        }
+                    });
+
+                }
             }
             return null;
         }
