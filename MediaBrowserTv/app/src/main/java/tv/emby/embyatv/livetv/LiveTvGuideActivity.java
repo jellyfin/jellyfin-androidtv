@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
@@ -155,7 +157,14 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
             @Override
             public void onResponse(ChannelInfoDtoResult response) {
                 if (response.getTotalRecordCount() > 0) {
-                    mAllChannels = Arrays.asList(response.getItems());
+                    mAllChannels = new ArrayList<>();
+                    mAllChannels.addAll(Arrays.asList(response.getItems()));
+                    //fake more channels
+                    mAllChannels.addAll(Arrays.asList(response.getItems()));
+                    mAllChannels.addAll(Arrays.asList(response.getItems()));
+                    mAllChannels.addAll(Arrays.asList(response.getItems()));
+                    mAllChannels.addAll(Arrays.asList(response.getItems()));
+                    //
                     displayChannels(0, mChannelPageSize);
                 } else {
                     mAllChannels.clear();
@@ -256,7 +265,16 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
 
     private LinearLayout getProgramRow(List<ProgramInfoDto> programs) {
 
-        LinearLayout programRow =new LinearLayout(this);
+        LinearLayout programRow = new LinearLayout(this);
+
+        if (programs.size() == 0) {
+            TextView empty = new TextView(this);
+            empty.setText("  <No Program Data Available>");
+            empty.setGravity(Gravity.CENTER);
+            empty.setHeight(ROW_HEIGHT);
+            programRow.addView(empty);
+            return programRow;
+        }
 
         for (ProgramInfoDto item : programs) {
             long start = item.getStartDate() != null ? Utils.convertToLocalDate(item.getStartDate()).getTime() : getCurrentLocalStartDate();
