@@ -22,6 +22,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -183,6 +184,20 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mPopupRowAdapter = new ArrayObjectAdapter(new ListRowPresenter());
         mPopupRowsFragment.setAdapter(mPopupRowAdapter);
         mPopupRowsFragment.setOnItemViewClickedListener(itemViewClickedListener);
+
+        root.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //if we're not visible, show us
+                if (!mIsVisible) show();
+
+                //and then manage our fade timer
+                if (mFadeEnabled) startFadeTimer();
+
+                TvApp.getApplication().getLogger().Debug("Got touch event.");
+                return false;
+            }
+        });
 
         return root;
     }
