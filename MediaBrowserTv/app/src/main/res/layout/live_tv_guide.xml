@@ -139,12 +139,11 @@
         android:ellipsize="end"
         android:maxLines="5" />
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/spinner"
-        android:background="@color/black_transparent"
-        android:visibility="gone">
+        android:background="@color/black_transparent">
 
         <TextView
             android:layout_width="wrap_content"
@@ -152,7 +151,19 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/lbl_loading_elipses"
             android:id="@+id/textView9"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="200sp" />
 
-    </FrameLayout>
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar3"
+            android:layout_gravity="center"
+            android:layout_below="@+id/textView9"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10sp" />
+
+    </RelativeLayout>
 </RelativeLayout>

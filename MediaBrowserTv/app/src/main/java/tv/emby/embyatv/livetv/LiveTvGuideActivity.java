@@ -1,10 +1,16 @@
 package tv.emby.embyatv.livetv;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Typeface;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,24 +21,28 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
 import mediabrowser.apiinteraction.Response;
+import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.ProgramInfoDto;
 import mediabrowser.model.livetv.ProgramQuery;
+import mediabrowser.model.results.ChannelInfoDtoResult;
 import mediabrowser.model.results.ProgramInfoDtoResult;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
+import tv.emby.embyatv.ui.GuideChannelHeader;
 import tv.emby.embyatv.ui.HorizontalScrollViewListener;
 import tv.emby.embyatv.ui.ObservableHorizontalScrollView;
 import tv.emby.embyatv.ui.ObservableScrollView;
+import tv.emby.embyatv.ui.ProgramGridCell;
 import tv.emby.embyatv.ui.ScrollViewListener;
-import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -43,9 +53,11 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
     public static final int ROW_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(),55);
     public static final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(TvApp.getApplication(),6);
     private static final int IMAGE_SIZE = Utils.convertDpToPixel(TvApp.getApplication(), 150);
-    private static final int BACKDROP_SIZE = Utils.convertDpToPixel(TvApp.getApplication(), 2000);
+
+    private int mChannelPageSize = 50;
 
     private Activity mActivity;
+    private LayoutInflater mInflater;
     private TextView mDisplayDate;
     private TextView mTitle;
     private TextView mSummary;
@@ -62,8 +74,7 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
 
     private ProgramInfoDto mSelectedProgram;
 
-    private ChannelListAdapter mChannelAdapter;
-    private ProgramListAdapter mProgramsAdapter;
+    private List<ChannelInfoDto> mAllChannels;
 
     private Calendar mCurrentGuideEnd;
     private long mCurrentLocalGuideStart;
@@ -78,6 +89,7 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
         super.onCreate(savedInstanceState);
 
         mActivity = this;
+        mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
 
         setContentView(R.layout.live_tv_guide);
@@ -129,21 +141,145 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
         mChannels.setFocusable(false);
         mChannelScroller.setFocusable(false);
 
-        fillTimeLine();
+        fillTimeLine(12);
+        loadAllChannels();
 
+    }
+
+    private void loadAllChannels() {
         //Get channels
         LiveTvChannelQuery query = new LiveTvChannelQuery();
         query.setUserId(TvApp.getApplication().getCurrentUser().getId());
         query.setEnableFavoriteSorting(true);
-        query.setLimit(50);
-        mChannelAdapter = new ChannelListAdapter(this, this, mChannels, query);
-        mChannelAdapter.Retrieve();
-
-        mProgramsAdapter = new ProgramListAdapter(this, mProgramRows);
+        TvApp.getApplication().getApiClient().GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
+            @Override
+            public void onResponse(ChannelInfoDtoResult response) {
+                if (response.getTotalRecordCount() > 0) {
+                    mAllChannels = Arrays.asList(response.getItems());
+                    displayChannels(0, mChannelPageSize);
+                } else {
+                    mAllChannels.clear();
+                }
+            }
+        });
 
     }
 
-    private void fillTimeLine() {
+    private void displayChannels(int start, int max) {
+        int end = max > mAllChannels.size() ? mAllChannels.size() - 1 : start + max - 1;
+
+        mDisplayChannelTask.execute(mAllChannels.subList(start, end).toArray());
+    }
+
+    private DisplayChannelTask mDisplayChannelTask = new DisplayChannelTask();
+    class DisplayChannelTask extends AsyncTask<Object[], Integer, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            mChannels.removeAllViews();
+            mProgramRows.removeAllViews();
+        }
+
+        @Override
+        protected Void doInBackground(Object[]... params) {
+
+            final String[] channelIds = new String[params[0].length];
+            int i = 0;
+            // Load Channel headers
+            for (Object item : params[0]) {
+                ChannelInfoDto channel = (ChannelInfoDto) item;
+                final GuideChannelHeader header = new GuideChannelHeader(mActivity, channel);
+                channelIds[i++] = (channel).getId();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mChannels.addView(header);
+                        header.loadImage();
+                    }
+                });
+            }
+
+            //Load guide data for the given channels
+            ProgramQuery query = new ProgramQuery();
+            query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+            query.setChannelIds(channelIds);
+            Calendar end = (Calendar) mCurrentGuideEnd.clone();
+            end.setTimeZone(TimeZone.getTimeZone("Z"));
+            query.setMaxStartDate(end.getTime());
+            Calendar now = new GregorianCalendar(TimeZone.getTimeZone("Z"));
+            now.set(Calendar.MINUTE, now.get(Calendar.MINUTE) >= 30 ? 30 : 0);
+            now.set(Calendar.SECOND, 0);
+            query.setMinEndDate(now.getTime());
+
+            TvApp.getApplication().getApiClient().GetLiveTvProgramsAsync(query, new Response<ProgramInfoDtoResult>() {
+                @Override
+                public void onResponse(ProgramInfoDtoResult response) {
+                    if (response.getTotalRecordCount() > 0) {
+                        new displayProgramsTask().execute(channelIds, response.getItems());
+                    }
+                }
+            });
+
+            return null;
+        }
+
+    }
+
+    class displayProgramsTask extends AsyncTask<Object[], Integer, Void> {
+
+        @Override
+        protected Void doInBackground(Object[]... params) {
+            ProgramInfoDto[] allPrograms = new ProgramInfoDto[params[1].length];
+            for (int i = 0; i < params[1].length; i++) {
+                allPrograms[i] = (ProgramInfoDto) params[1][i];
+            }
+
+            for (Object id : params[0]) {
+                final LinearLayout row = getProgramRow(getProgramsForChannel((String) id, allPrograms));
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mProgramRows.addView(row);
+                    }
+                });
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            mSpinner.setVisibility(View.GONE);
+            mProgramRows.requestFocus();
+
+        }
+    }
+
+    private LinearLayout getProgramRow(List<ProgramInfoDto> programs) {
+
+        LinearLayout programRow =new LinearLayout(this);
+
+        for (ProgramInfoDto item : programs) {
+            long start = item.getStartDate() != null ? Utils.convertToLocalDate(item.getStartDate()).getTime() : getCurrentLocalStartDate();
+            if (start < getCurrentLocalStartDate()) start = getCurrentLocalStartDate();
+            long end = item.getEndDate() != null ? Utils.convertToLocalDate(item.getEndDate()).getTime() : getCurrentLocalEndDate();
+            if (end > getCurrentLocalEndDate()) end = getCurrentLocalEndDate();
+            Long duration = (end - start) / 60000;
+            //TvApp.getApplication().getLogger().Debug("Duration for "+item.getName()+" is "+duration.intValue());
+            if (duration > 0) {
+                ProgramGridCell program = new ProgramGridCell(this, item);
+                program.setLayoutParams(new ViewGroup.LayoutParams(duration.intValue() * PIXELS_PER_MINUTE, ROW_HEIGHT));
+                program.setFocusable(true);
+
+                programRow.addView(program);
+
+            }
+
+        }
+
+        return programRow;
+    }
+
+    private void fillTimeLine(int hours) {
         Calendar start = Calendar.getInstance();
         start.set(Calendar.MINUTE, start.get(Calendar.MINUTE) >= 30 ? 30 : 0);
         start.set(Calendar.SECOND, 0);
@@ -156,7 +292,7 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
         int oneHour = 60 * PIXELS_PER_MINUTE;
         int halfHour = 30 * PIXELS_PER_MINUTE;
         int interval = current.get(Calendar.MINUTE) >= 30 ? 30 : 60;
-        mCurrentGuideEnd.add(Calendar.HOUR, 12);
+        mCurrentGuideEnd.add(Calendar.HOUR, hours);
         mCurrentLocalGuideEnd = mCurrentGuideEnd.getTimeInMillis();
         while (current.before(mCurrentGuideEnd)) {
             TextView time = new TextView(this);
@@ -172,31 +308,6 @@ public class LiveTvGuideActivity extends BaseActivity implements INotifyChannels
 
     @Override
     public void notifyChannelsLoaded(final int start, final String[] channelIds) {
-        //Load guide data for the given channels starting at the given index
-        ProgramQuery query = new ProgramQuery();
-        query.setUserId(TvApp.getApplication().getCurrentUser().getId());
-        query.setChannelIds(channelIds);
-        Calendar end = (Calendar) mCurrentGuideEnd.clone();
-        end.setTimeZone(TimeZone.getTimeZone("Z"));
-        query.setMaxStartDate(end.getTime());
-        Calendar now = new GregorianCalendar(TimeZone.getTimeZone("Z"));
-        now.set(Calendar.MINUTE, now.get(Calendar.MINUTE) >= 30 ? 30 : 0);
-        now.set(Calendar.SECOND, 0);
-        query.setMinEndDate(now.getTime());
-
-        TvApp.getApplication().getApiClient().GetLiveTvProgramsAsync(query, new Response<ProgramInfoDtoResult>() {
-            @Override
-            public void onResponse(ProgramInfoDtoResult response) {
-                if (response.getTotalRecordCount() > 0) {
-                    int i = start;
-                    for (String id : channelIds) {
-                        mProgramsAdapter.addRow(i++, getProgramsForChannel(id, response.getItems()));
-                    }
-                    mSpinner.setVisibility(View.GONE);
-                    mProgramRows.requestFocus();
-                }
-            }
-        });
     }
 
     private List<ProgramInfoDto> getProgramsForChannel(String channelId, ProgramInfoDto[] programs) {
