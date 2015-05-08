@@ -191,6 +191,7 @@
     <string name="msg_no_playable_items">No playable items</string>
     <string name="lbl_unwatched">Unwatched</string>
     <string name="lbl_series">Series</string>
+    <string name="lbl_load_channels">"Load Channels "</string>
 
 
 </resources>
