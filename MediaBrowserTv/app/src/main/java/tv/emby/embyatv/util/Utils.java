@@ -1010,6 +1010,7 @@ public class Utils {
         options.SupportsAc3 = isFireTv();
         options.SupportsHls = true;
         options.DefaultH264Level = 41;
+        options.ForceH264Level = isFireTv();
         return options;
     }
 
