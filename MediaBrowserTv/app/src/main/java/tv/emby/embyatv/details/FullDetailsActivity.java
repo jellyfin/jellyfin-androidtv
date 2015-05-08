@@ -252,7 +252,7 @@ public class FullDetailsActivity extends BaseActivity {
         if (mBaseItem.getCanResume()) {
             addResumeButton(layout, buttonSize);
         }
-        if (mBaseItem.getPlayAccess() == PlayAccess.Full) {
+        if (Utils.CanPlay(mBaseItem)) {
             ImageButton play = new ImageButton(this, R.drawable.play, buttonSize, getString(R.string.lbl_play), mButtonHelp, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
