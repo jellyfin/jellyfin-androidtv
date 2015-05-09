@@ -26,4 +26,5 @@
     <color name="guide_kids_bg">#328e7e02</color>
 
     <color name="black_transparent">#97000000</color>
+    <color name="pop_background">#ff373233</color>
 </resources>

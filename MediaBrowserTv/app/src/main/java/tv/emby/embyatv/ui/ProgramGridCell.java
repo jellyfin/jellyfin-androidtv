@@ -86,6 +86,13 @@ public class ProgramGridCell extends RelativeLayout {
             InfoLayoutHelper.addResourceImage(activity, mInfoRow, R.drawable.rec, 0, IND_HEIGHT);
         }
 
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.showProgramOptions();
+            }
+        });
+
     }
 
     @Override
