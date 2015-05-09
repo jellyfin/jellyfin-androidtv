@@ -43,19 +43,23 @@
         android:layout_height="30sp"
         android:layout_below="@+id/summary"
         android:layout_alignStart="@+id/summary"
-        android:id="@+id/infoLine"
-        android:layout_marginTop="5sp"></LinearLayout>
+        android:id="@+id/timeline"
+        android:layout_marginTop="5sp"
+        android:showDividers="middle"
+        android:divider="@drawable/blank10x10"
+        android:gravity="center"></LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="50sp"
         android:id="@+id/buttonRow"
-        android:layout_below="@+id/infoLine"
-        android:layout_alignStart="@+id/infoLine"
+        android:layout_below="@+id/timeline"
+        android:layout_alignStart="@+id/timeline"
         android:layout_marginTop="5sp"
         android:showDividers="middle"
-        android:divider="@drawable/blank10x10" />
+        android:divider="@drawable/blank10x10"
+        android:gravity="center" />
 
     <LinearLayout
         android:orientation="horizontal"

@@ -194,6 +194,7 @@
     <string name="lbl_load_channels">"Load Channels "</string>
     <string name="lbl_today">Today</string>
     <string name="lbl_tomorrow">Tomorrow</string>
+    <string name="lbl_on">On </string>
 
 
 </resources>
