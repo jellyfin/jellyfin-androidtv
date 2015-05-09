@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/pop_background">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/title"
+        android:textSize="25sp"
+        android:layout_marginRight="20sp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_marginLeft="20sp"
+        android:layout_centerHorizontal="true" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="20sp"
+        android:layout_alignParentEnd="false"
+        android:layout_below="@+id/title"
+        android:id="@+id/infoRow"
+        android:layout_marginLeft="20sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/summary"
+        android:textSize="16sp"
+        android:layout_marginRight="20sp"
+        android:layout_below="@+id/infoRow"
+        android:layout_marginBottom="10sp"
+        android:layout_marginTop="5sp"
+        android:ellipsize="end"
+        android:maxLines="10"
+        android:layout_marginLeft="20sp"
+        android:minHeight="220sp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="30sp"
+        android:layout_below="@+id/summary"
+        android:layout_alignStart="@+id/summary"
+        android:id="@+id/infoLine"
+        android:layout_marginTop="5sp"></LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="50sp"
+        android:id="@+id/buttonRow"
+        android:layout_below="@+id/infoLine"
+        android:layout_alignStart="@+id/infoLine"
+        android:layout_marginTop="5sp"
+        android:showDividers="middle"
+        android:divider="@drawable/blank10x10" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/buttonRow"
+        android:layout_below="@+id/buttonRow"
+        android:id="@+id/similarRow"></LinearLayout>
+
+</RelativeLayout>
