@@ -1014,6 +1014,18 @@ public class Utils {
         return options;
     }
 
+    public static String getFriendlyDate(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        Calendar now = Calendar.getInstance();
+        if (cal.get(Calendar.YEAR) == now.get(Calendar.YEAR)) {
+            if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)) return TvApp.getApplication().getString(R.string.lbl_today);
+            if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)+1) return TvApp.getApplication().getString(R.string.lbl_tomorrow);
+        }
+
+        return android.text.format.DateFormat.getDateFormat(TvApp.getApplication()).format(date);
+    }
+
     public static void reportError(final Context context, final String msg) {
         new AlertDialog.Builder(context)
                 .setTitle(msg)

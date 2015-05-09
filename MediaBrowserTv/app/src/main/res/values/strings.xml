@@ -192,6 +192,8 @@
     <string name="lbl_unwatched">Unwatched</string>
     <string name="lbl_series">Series</string>
     <string name="lbl_load_channels">"Load Channels "</string>
+    <string name="lbl_today">Today</string>
+    <string name="lbl_tomorrow">Tomorrow</string>
 
 
 </resources>

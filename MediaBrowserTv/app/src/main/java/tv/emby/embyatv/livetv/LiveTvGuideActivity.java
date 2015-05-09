@@ -3,18 +3,23 @@ package tv.emby.embyatv.livetv;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextClock;
 import android.widget.TextView;
@@ -61,7 +66,6 @@ public class LiveTvGuideActivity extends BaseActivity {
     public static final int PAGE_SIZE = 50;
 
     private LiveTvGuideActivity mActivity;
-    private LayoutInflater mInflater;
     private TextView mDisplayDate;
     private TextView mTitle;
     private TextView mSummary;
@@ -72,7 +76,6 @@ public class LiveTvGuideActivity extends BaseActivity {
     private LinearLayout mTimeline;
     private LinearLayout mProgramRows;
     private ScrollView mChannelScroller;
-    private TextClock mClock;
     private HorizontalScrollView mTimelineScroller;
     private View mSpinner;
 
@@ -95,7 +98,6 @@ public class LiveTvGuideActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         mActivity = this;
-        mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
 
         setContentView(R.layout.live_tv_guide);
@@ -113,8 +115,8 @@ public class LiveTvGuideActivity extends BaseActivity {
         mProgramRows = (LinearLayout) findViewById(R.id.programRows);
         mSpinner = findViewById(R.id.spinner);
         mSpinner.setVisibility(View.VISIBLE);
-        mClock = (TextClock) findViewById(R.id.clock);
-        mClock.setTypeface(roboto);
+        TextClock clock = (TextClock) findViewById(R.id.clock);
+        clock.setTypeface(roboto);
 
         mProgramRows.setFocusable(false);
         mChannelScroller = (ScrollView) findViewById(R.id.channelScroller);
@@ -164,6 +166,36 @@ public class LiveTvGuideActivity extends BaseActivity {
 
         if (mDisplayProgramsTask != null) mDisplayProgramsTask.cancel(true);
         if (mDisplayChannelTask != null) mDisplayChannelTask.cancel(true);
+    }
+
+    private PopupWindow mDetailPopup;
+    private boolean mDetailPopupVisible = false;
+
+    public void showProgramOptions() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.program_detail_popup, null);
+        mDetailPopup = new PopupWindow(layout, Utils.convertDpToPixel(this, 550), Utils.convertDpToPixel(this, 500));
+        TextView title = (TextView)layout.findViewById(R.id.title);
+        title.setTypeface(roboto);
+        title.setText(mSelectedProgram.getName());
+        TextView summary = (TextView)layout.findViewById(R.id.summary);
+        summary.setTypeface(roboto);
+        summary.setText(mSelectedProgram.getOverview());
+
+        mDetailPopup.showAtLocation(mImage, Gravity.NO_GRAVITY, mTitle.getLeft(), mTitle.getTop() - 10);
+        mDetailPopupVisible = true;
+        layout.requestFocus();
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (mDetailPopupVisible && keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_BACK) {
+            mDetailPopup.dismiss();
+            mDetailPopupVisible = false;
+            return true;
+        }
+
+        return super.onKeyUp(keyCode, event);
     }
 
     private void loadAllChannels() {
@@ -376,7 +408,7 @@ public class LiveTvGuideActivity extends BaseActivity {
         start.set(Calendar.MILLISECOND, 0);
         mCurrentLocalGuideStart = start.getTimeInMillis();
 
-        mDisplayDate.setText(android.text.format.DateFormat.getDateFormat(this).format(start.getTime()));
+        mDisplayDate.setText(Utils.getFriendlyDate(start.getTime()));
         Calendar current = (Calendar) start.clone();
         mCurrentGuideEnd = (Calendar) start.clone();
         int oneHour = 60 * PIXELS_PER_MINUTE;
@@ -412,6 +444,7 @@ public class LiveTvGuideActivity extends BaseActivity {
         public void run() {
             mTitle.setText(mSelectedProgram.getName());
             mSummary.setText(mSelectedProgram.getOverview());
+            mDisplayDate.setText(Utils.getFriendlyDate(Utils.convertToLocalDate(mSelectedProgram.getStartDate())));
             String url = Utils.getPrimaryImageUrl(mSelectedProgram, TvApp.getApplication().getApiClient());
             //url = "https://image.tmdb.org/t/p/w396/zr2p353wrd6j3wjLgDT4TcaestB.jpg";
             Picasso.with(mActivity).load(url).resize(IMAGE_SIZE, IMAGE_SIZE).centerInside().into(mImage);
