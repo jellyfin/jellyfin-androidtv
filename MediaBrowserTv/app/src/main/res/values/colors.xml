@@ -4,6 +4,7 @@
     <color name="fastlane_background">#ff1c4c1a</color>
     <color name="search_opaque">#ff007d8d</color>
     <color name="detail_background">#ff007d8d</color>
+    <color name="text_higlight">#ff007d8d</color>
     <color name="soft_opaque">#30000000</color>
     <color name="img_soft_opaque">#30FF0000</color>
     <color name="img_full_opaque">#00000000</color>
@@ -26,5 +27,5 @@
     <color name="guide_kids_bg">#328e7e02</color>
 
     <color name="black_transparent">#97000000</color>
-    <color name="pop_background">#ff373233</color>
+    <color name="pop_background">#ff221c1e</color>
 </resources>

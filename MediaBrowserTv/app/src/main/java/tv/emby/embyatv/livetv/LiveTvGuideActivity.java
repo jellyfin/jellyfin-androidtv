@@ -2,12 +2,14 @@ package tv.emby.embyatv.livetv;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
@@ -182,6 +185,20 @@ public class LiveTvGuideActivity extends BaseActivity {
         summary.setTypeface(roboto);
         summary.setText(mSelectedProgram.getOverview());
 
+        // build timeline info
+        LinearLayout timeline = (LinearLayout) layout.findViewById(R.id.timeline);
+        Date local = Utils.convertToLocalDate(mSelectedProgram.getStartDate());
+        TextView on = new TextView(this);
+        on.setText(getString(R.string.lbl_on));
+        timeline.addView(on);
+        TextView channel = new TextView(this);
+        channel.setText(mSelectedProgram.getChannelName());
+        channel.setTextColor(getResources().getColor(R.color.text_higlight));
+        timeline.addView(channel);
+        TextView datetime = new TextView(this);
+        datetime.setText(Utils.getFriendlyDate(local)+ " @ "+android.text.format.DateFormat.getTimeFormat(this).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
+        timeline.addView(datetime);
+
         mDetailPopup.showAtLocation(mImage, Gravity.NO_GRAVITY, mTitle.getLeft(), mTitle.getTop() - 10);
         mDetailPopupVisible = true;
         layout.requestFocus();
@@ -189,7 +206,7 @@ public class LiveTvGuideActivity extends BaseActivity {
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (mDetailPopupVisible && keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_BACK) {
+        if (mDetailPopupVisible && (keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_BACK)) {
             mDetailPopup.dismiss();
             mDetailPopupVisible = false;
             return true;
