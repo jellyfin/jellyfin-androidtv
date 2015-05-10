@@ -12,7 +12,8 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:layout_marginLeft="20sp"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20sp" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -54,12 +55,13 @@
         android:layout_width="fill_parent"
         android:layout_height="50sp"
         android:id="@+id/buttonRow"
-        android:layout_below="@+id/timeline"
         android:layout_alignStart="@+id/timeline"
-        android:layout_marginTop="5sp"
+        android:layout_marginTop="20sp"
         android:showDividers="middle"
         android:divider="@drawable/blank10x10"
-        android:gravity="center" />
+        android:gravity="center"
+        android:layout_alignParentBottom="false"
+        android:layout_below="@+id/timeline" />
 
     <LinearLayout
         android:orientation="horizontal"
