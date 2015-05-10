@@ -6,7 +6,7 @@
         android:endColor="@color/dark_gradient_end"
         android:angle="90" />
     <stroke
-        android:width="1sp"
-        android:color="@color/dark_gradient_end"
+        android:width="3sp"
+        android:color="@color/default_background"
         />
 </shape>

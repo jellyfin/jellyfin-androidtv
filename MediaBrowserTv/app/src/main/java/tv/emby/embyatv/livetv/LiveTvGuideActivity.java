@@ -172,75 +172,131 @@ public class LiveTvGuideActivity extends BaseActivity {
         if (mDisplayChannelTask != null) mDisplayChannelTask.cancel(true);
     }
 
-    private PopupWindow mDetailPopup;
+    private DetailPopup mDetailPopup;
+    class DetailPopup {
+        final int MOVIE_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 520);
+        final int NORMAL_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 400);
 
-    public void showProgramOptions() {
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.program_detail_popup, null);
-        mDetailPopup = new PopupWindow(layout, Utils.convertDpToPixel(this, 550), Utils.convertDpToPixel(this, 500));
-        mDetailPopup.setFocusable(true);
-        mDetailPopup.setOutsideTouchable(true);
-        mDetailPopup.setBackgroundDrawable(new BitmapDrawable()); // necessary for popup to dismiss
-        TextView title = (TextView)layout.findViewById(R.id.title);
-        title.setTypeface(roboto);
-        title.setText(mSelectedProgram.getName());
-        TextView summary = (TextView)layout.findViewById(R.id.summary);
-        summary.setTypeface(roboto);
-        summary.setText(mSelectedProgram.getOverview());
+        PopupWindow mPopup;
+        LiveTvGuideActivity mActivity;
+        TextView mDTitle;
+        TextView mDSummary;
+        TextView mDRecordInfo;
+        LinearLayout mDTimeline;
+        LinearLayout mDButtonRow;
+        Button mFirstButton;
 
-        // build timeline info
-        LinearLayout timeline = (LinearLayout) layout.findViewById(R.id.timeline);
-        Date local = Utils.convertToLocalDate(mSelectedProgram.getStartDate());
-        TextView on = new TextView(this);
-        on.setText(getString(R.string.lbl_on));
-        timeline.addView(on);
-        TextView channel = new TextView(this);
-        channel.setText(mSelectedProgram.getChannelName());
-        channel.setTypeface(null, Typeface.BOLD);
-        timeline.addView(channel);
-        TextView datetime = new TextView(this);
-        datetime.setText(Utils.getFriendlyDate(local)+ " @ "+android.text.format.DateFormat.getTimeFormat(this).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
-        timeline.addView(datetime);
+        DetailPopup(LiveTvGuideActivity activity) {
+            mActivity = activity;
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.program_detail_popup, null);
+            mPopup = new PopupWindow(layout, mSummary.getWidth(), NORMAL_HEIGHT);
+            mPopup.setFocusable(true);
+            mPopup.setOutsideTouchable(true);
+            mPopup.setBackgroundDrawable(new BitmapDrawable()); // necessary for popup to dismiss
+            mDTitle = (TextView)layout.findViewById(R.id.title);
+            mDTitle.setTypeface(roboto);
+            mDSummary = (TextView)layout.findViewById(R.id.summary);
+            mDSummary.setTypeface(roboto);
+            mDRecordInfo = (TextView) layout.findViewById(R.id.recordLine);
 
-        // buttons
-        LinearLayout buttonRow = (LinearLayout) layout.findViewById(R.id.buttonRow);
-        Button tune = addButton(buttonRow, R.string.lbl_tune_to_channel);
-        tune.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Utils.retrieveAndPlay(mSelectedProgram.getChannelId(), false, mActivity);
-                mDetailPopup.dismiss();
-            }
-        });
-        if (Utils.convertToLocalDate(mSelectedProgram.getEndDate()).getTime() > new Date().getTime()) {
-            if (mSelectedProgram.getTimerId() != null) {
-                // cancel button
-                Button cancel = new Button(this);
-                cancel.setText(getString(R.string.lbl_cancel));
-                buttonRow.addView(cancel);
-            } else {
-                // record button
-                Button rec = new Button(this);
-                rec.setText(getString(R.string.lbl_record));
-                buttonRow.addView(rec);
-            }
-            if (mSelectedProgram.getIsSeries()) {
-                if (mSelectedProgram.getSeriesTimerId() != null) {
-                    // cancel series button
-                    Button cancel = new Button(this);
-                    cancel.setText(getString(R.string.lbl_cancel_series));
-                    buttonRow.addView(cancel);
-                }else {
-                    // record series button
-                    Button rec = new Button(this);
-                    rec.setText(getString(R.string.lbl_record_series));
-                    buttonRow.addView(rec);
+            mDTimeline = (LinearLayout) layout.findViewById(R.id.timeline);
+            mDButtonRow = (LinearLayout) layout.findViewById(R.id.buttonRow);
+        }
+
+        public void setContent(ProgramInfoDto program) {
+            mDTitle.setText(program.getName());
+            mDSummary.setText(program.getOverview());
+
+            // build timeline info
+            mDTimeline.removeAllViews();
+            Date local = Utils.convertToLocalDate(program.getStartDate());
+            TextView on = new TextView(mActivity);
+            on.setText(getString(R.string.lbl_on));
+            mDTimeline.addView(on);
+            TextView channel = new TextView(mActivity);
+            channel.setText(program.getChannelName());
+            channel.setTypeface(null, Typeface.BOLD);
+            mDTimeline.addView(channel);
+            TextView datetime = new TextView(mActivity);
+            datetime.setText(Utils.getFriendlyDate(local)+ " @ "+android.text.format.DateFormat.getTimeFormat(mActivity).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
+            mDTimeline.addView(datetime);
+
+            //buttons
+            mFirstButton = null;
+            mDButtonRow.removeAllViews();
+            Date now = new Date();
+            if (Utils.convertToLocalDate(program.getEndDate()).getTime() > now.getTime()) {
+                if (local.getTime() <= now.getTime()) {
+                    // program in progress - tune first button
+                    mFirstButton = createTuneButton();
                 }
+
+                if (program.getTimerId() != null) {
+                    // cancel button
+                    Button cancel = new Button(mActivity);
+                    cancel.setText(getString(R.string.lbl_cancel_recording));
+                    mDButtonRow.addView(cancel);
+                    if (mFirstButton == null) mFirstButton = cancel;
+                    // recording info
+                    mDRecordInfo.setText(local.getTime() <= now.getTime() ? "Is Recording Now" : "Will Record");
+                } else {
+                    // record button
+                    Button rec = new Button(mActivity);
+                    rec.setText(getString(R.string.lbl_record));
+                    mDButtonRow.addView(rec);
+                    if (mFirstButton == null) mFirstButton = rec;
+                    mDRecordInfo.setText("");
+                }
+                if (program.getIsSeries()) {
+                    if (program.getSeriesTimerId() != null) {
+                        // cancel series button
+                        Button cancel = new Button(mActivity);
+                        cancel.setText(getString(R.string.lbl_cancel_series));
+                        mDButtonRow.addView(cancel);
+                    }else {
+                        // record series button
+                        Button rec = new Button(mActivity);
+                        rec.setText(getString(R.string.lbl_record_series));
+                        mDButtonRow.addView(rec);
+                    }
+                }
+
+                if (local.getTime() > now.getTime()) {
+                    // add tune to button for programs that haven't started yet
+                    createTuneButton();
+                }
+
+                mPopup.setHeight(program.getIsMovie() ? MOVIE_HEIGHT : NORMAL_HEIGHT);
+                
             }
         }
 
-        mDetailPopup.showAtLocation(mImage, Gravity.NO_GRAVITY, mTitle.getLeft(), mTitle.getTop() - 10);
-        tune.requestFocus();
+        public Button createTuneButton() {
+            Button tune = addButton(mDButtonRow, R.string.lbl_tune_to_channel);
+            tune.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Utils.retrieveAndPlay(mSelectedProgram.getChannelId(), false, mActivity);
+                    mPopup.dismiss();
+                }
+            });
+
+            return tune;
+        }
+
+        public void show() {
+            mPopup.showAtLocation(mImage, Gravity.NO_GRAVITY, mTitle.getLeft(), mTitle.getTop() - 10);
+            mFirstButton.requestFocus();
+
+        }
+    }
+    public void showProgramOptions() {
+
+        if (mDetailPopup == null) mDetailPopup = new DetailPopup(this);
+        mDetailPopup.setContent(mSelectedProgram);
+        mDetailPopup.show();
+
     }
 
     private Button addButton(LinearLayout layout, int stringResource) {
@@ -468,6 +524,7 @@ public class LiveTvGuideActivity extends BaseActivity {
         int interval = current.get(Calendar.MINUTE) >= 30 ? 30 : 60;
         mCurrentGuideEnd.add(Calendar.HOUR, hours);
         mCurrentLocalGuideEnd = mCurrentGuideEnd.getTimeInMillis();
+        mTimeline.removeAllViews();
         while (current.before(mCurrentGuideEnd)) {
             TextView time = new TextView(this);
             time.setText(android.text.format.DateFormat.getTimeFormat(this).format(current.getTime()));
