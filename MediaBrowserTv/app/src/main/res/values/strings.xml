@@ -97,6 +97,7 @@
     <string name="lbl_shuffle_all">Shuffle All</string>
     <string name="lbl_play">Play</string>
     <string name="lbl_cancel">Cancel</string>
+    <string name="lbl_cancel_recording">Cancel Recording</string>
     <string name="lbl_cancel_series">Cancel Series</string>
     <string name="lbl_record_series">Record Series</string>
     <string name="lbl_record">Record</string>
