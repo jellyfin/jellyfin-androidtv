@@ -55,6 +55,7 @@ import tv.emby.embyatv.ui.ObservableHorizontalScrollView;
 import tv.emby.embyatv.ui.ObservableScrollView;
 import tv.emby.embyatv.ui.ProgramGridCell;
 import tv.emby.embyatv.ui.ScrollViewListener;
+import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -174,7 +175,7 @@ public class LiveTvGuideActivity extends BaseActivity {
 
     private DetailPopup mDetailPopup;
     class DetailPopup {
-        final int MOVIE_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 520);
+        final int MOVIE_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 540);
         final int NORMAL_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 400);
 
         PopupWindow mPopup;
@@ -183,7 +184,9 @@ public class LiveTvGuideActivity extends BaseActivity {
         TextView mDSummary;
         TextView mDRecordInfo;
         LinearLayout mDTimeline;
+        LinearLayout mDInfoRow;
         LinearLayout mDButtonRow;
+        LinearLayout mDSimilarRow;
         Button mFirstButton;
 
         DetailPopup(LiveTvGuideActivity activity) {
@@ -202,6 +205,8 @@ public class LiveTvGuideActivity extends BaseActivity {
 
             mDTimeline = (LinearLayout) layout.findViewById(R.id.timeline);
             mDButtonRow = (LinearLayout) layout.findViewById(R.id.buttonRow);
+            mDInfoRow = (LinearLayout) layout.findViewById(R.id.infoRow);
+            mDSimilarRow = (LinearLayout) layout.findViewById(R.id.similarRow);
         }
 
         public void setContent(ProgramInfoDto program) {
@@ -221,6 +226,14 @@ public class LiveTvGuideActivity extends BaseActivity {
             TextView datetime = new TextView(mActivity);
             datetime.setText(Utils.getFriendlyDate(local)+ " @ "+android.text.format.DateFormat.getTimeFormat(mActivity).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
             mDTimeline.addView(datetime);
+
+            //fake info row
+//            mDInfoRow.removeAllViews();
+//            InfoLayoutHelper.addCriticInfo(mActivity, program, mDInfoRow);
+//            InfoLayoutHelper.addSpacer(mActivity, mDInfoRow, " 2003  ", 14);
+//            InfoLayoutHelper.addBlockText(mActivity, mDInfoRow, "R", 12);
+//            InfoLayoutHelper.addSpacer(mActivity, mDInfoRow, "  ", 10);
+            //
 
             //buttons
             mFirstButton = null;
@@ -267,8 +280,15 @@ public class LiveTvGuideActivity extends BaseActivity {
                     createTuneButton();
                 }
 
-                mPopup.setHeight(program.getIsMovie() ? MOVIE_HEIGHT : NORMAL_HEIGHT);
-                
+//                if (program.getIsMovie()) {
+//                    mDSimilarRow.setVisibility(View.VISIBLE);
+//                    mPopup.setHeight(MOVIE_HEIGHT);
+//                } else {
+                      mDSimilarRow.setVisibility(View.GONE);
+//                    mPopup.setHeight(NORMAL_HEIGHT);
+//
+//                }
+
             }
         }
 
@@ -562,7 +582,7 @@ public class LiveTvGuideActivity extends BaseActivity {
             // fake
 //            mSelectedProgram.setCommunityRating(7.5f);
 //            InfoLayoutHelper.addCriticInfo(mActivity, mSelectedProgram, mInfoRow);
-//            InfoLayoutHelper.addSpacer(mActivity, mInfoRow, " 1983  ", 14);
+//            InfoLayoutHelper.addSpacer(mActivity, mInfoRow, " 2003  ", 14);
 //            InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "R", 12);
 //            InfoLayoutHelper.addSpacer(mActivity, mInfoRow, "  ", 10);
             //

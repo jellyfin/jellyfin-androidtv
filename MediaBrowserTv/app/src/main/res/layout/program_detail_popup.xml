@@ -13,7 +13,7 @@
         android:maxLines="1"
         android:layout_marginLeft="20sp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20sp" />
+        android:layout_marginTop="10sp" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -22,26 +22,29 @@
         android:layout_alignParentEnd="false"
         android:layout_below="@+id/title"
         android:id="@+id/infoRow"
-        android:layout_marginLeft="20sp" />
+        android:layout_marginLeft="20sp"
+        android:gravity="center"
+        android:layout_marginTop="10sp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/summary"
         android:textSize="16sp"
-        android:layout_marginRight="20sp"
+        android:layout_marginRight="30sp"
         android:layout_below="@+id/infoRow"
         android:layout_marginBottom="10sp"
-        android:layout_marginTop="5sp"
+        android:layout_marginTop="10sp"
         android:ellipsize="end"
         android:maxLines="8"
-        android:layout_marginLeft="20sp"
-        android:minHeight="150sp" />
+        android:layout_marginLeft="30sp"
+        android:minHeight="150sp"
+        android:gravity="center_vertical" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="30sp"
+        android:layout_height="25sp"
         android:layout_below="@+id/summary"
         android:layout_alignStart="@+id/summary"
         android:id="@+id/timeline"
@@ -66,12 +69,12 @@
         android:layout_height="50sp"
         android:id="@+id/buttonRow"
         android:layout_alignStart="@+id/timeline"
-        android:layout_marginTop="20sp"
+        android:layout_marginTop="15sp"
         android:showDividers="middle"
         android:divider="@drawable/blank10x10"
-        android:gravity="center"
         android:layout_alignParentBottom="false"
-        android:layout_below="@+id/recordLine" />
+        android:layout_below="@+id/recordLine"
+        android:gravity="center" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -80,6 +83,15 @@
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/buttonRow"
         android:layout_below="@+id/buttonRow"
-        android:id="@+id/similarRow"></LinearLayout>
+        android:id="@+id/similarRow"
+        android:layout_marginTop="10sp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Similar Items in your Library"
+            android:id="@+id/textView10"
+            android:gravity="center" />
+    </LinearLayout>
 
 </RelativeLayout>
