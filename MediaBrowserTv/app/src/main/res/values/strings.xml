@@ -97,6 +97,8 @@
     <string name="lbl_shuffle_all">Shuffle All</string>
     <string name="lbl_play">Play</string>
     <string name="lbl_cancel">Cancel</string>
+    <string name="lbl_cancel_series">Cancel Series</string>
+    <string name="lbl_record_series">Record Series</string>
     <string name="lbl_record">Record</string>
     <string name="lbl_details">Details</string>
     <string name="msg_set_to_record">Program set to record</string>
@@ -195,6 +197,7 @@
     <string name="lbl_today">Today</string>
     <string name="lbl_tomorrow">Tomorrow</string>
     <string name="lbl_on">On </string>
+    <string name="lbl_tune_to_channel">Tune to Channel</string>
 
 
 </resources>

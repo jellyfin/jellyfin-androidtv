@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -172,12 +173,14 @@ public class LiveTvGuideActivity extends BaseActivity {
     }
 
     private PopupWindow mDetailPopup;
-    private boolean mDetailPopupVisible = false;
 
     public void showProgramOptions() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.program_detail_popup, null);
         mDetailPopup = new PopupWindow(layout, Utils.convertDpToPixel(this, 550), Utils.convertDpToPixel(this, 500));
+        mDetailPopup.setFocusable(true);
+        mDetailPopup.setOutsideTouchable(true);
+        mDetailPopup.setBackgroundDrawable(new BitmapDrawable()); // necessary for popup to dismiss
         TextView title = (TextView)layout.findViewById(R.id.title);
         title.setTypeface(roboto);
         title.setText(mSelectedProgram.getName());
@@ -193,26 +196,58 @@ public class LiveTvGuideActivity extends BaseActivity {
         timeline.addView(on);
         TextView channel = new TextView(this);
         channel.setText(mSelectedProgram.getChannelName());
-        channel.setTextColor(getResources().getColor(R.color.text_higlight));
+        channel.setTypeface(null, Typeface.BOLD);
         timeline.addView(channel);
         TextView datetime = new TextView(this);
         datetime.setText(Utils.getFriendlyDate(local)+ " @ "+android.text.format.DateFormat.getTimeFormat(this).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
         timeline.addView(datetime);
 
-        mDetailPopup.showAtLocation(mImage, Gravity.NO_GRAVITY, mTitle.getLeft(), mTitle.getTop() - 10);
-        mDetailPopupVisible = true;
-        layout.requestFocus();
-    }
-
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (mDetailPopupVisible && (keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_BACK)) {
-            mDetailPopup.dismiss();
-            mDetailPopupVisible = false;
-            return true;
+        // buttons
+        LinearLayout buttonRow = (LinearLayout) layout.findViewById(R.id.buttonRow);
+        Button tune = addButton(buttonRow, R.string.lbl_tune_to_channel);
+        tune.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.retrieveAndPlay(mSelectedProgram.getChannelId(), false, mActivity);
+                mDetailPopup.dismiss();
+            }
+        });
+        if (Utils.convertToLocalDate(mSelectedProgram.getEndDate()).getTime() > new Date().getTime()) {
+            if (mSelectedProgram.getTimerId() != null) {
+                // cancel button
+                Button cancel = new Button(this);
+                cancel.setText(getString(R.string.lbl_cancel));
+                buttonRow.addView(cancel);
+            } else {
+                // record button
+                Button rec = new Button(this);
+                rec.setText(getString(R.string.lbl_record));
+                buttonRow.addView(rec);
+            }
+            if (mSelectedProgram.getIsSeries()) {
+                if (mSelectedProgram.getSeriesTimerId() != null) {
+                    // cancel series button
+                    Button cancel = new Button(this);
+                    cancel.setText(getString(R.string.lbl_cancel_series));
+                    buttonRow.addView(cancel);
+                }else {
+                    // record series button
+                    Button rec = new Button(this);
+                    rec.setText(getString(R.string.lbl_record_series));
+                    buttonRow.addView(rec);
+                }
+            }
         }
 
-        return super.onKeyUp(keyCode, event);
+        mDetailPopup.showAtLocation(mImage, Gravity.NO_GRAVITY, mTitle.getLeft(), mTitle.getTop() - 10);
+        tune.requestFocus();
+    }
+
+    private Button addButton(LinearLayout layout, int stringResource) {
+        Button btn = new Button(this);
+        btn.setText(getString(stringResource));
+        layout.addView(btn);
+        return btn;
     }
 
     private void loadAllChannels() {
