@@ -28,4 +28,6 @@
 
     <color name="black_transparent">#97000000</color>
     <color name="pop_background">#ff221c1e</color>
+    <color name="dark_gradient_start">#ff060606</color>
+    <color name="dark_gradient_end">#ff181818</color>
 </resources>
