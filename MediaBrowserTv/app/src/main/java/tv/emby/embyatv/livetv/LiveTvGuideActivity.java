@@ -252,7 +252,7 @@ public class LiveTvGuideActivity extends BaseActivity {
                     mDButtonRow.addView(cancel);
                     if (mFirstButton == null) mFirstButton = cancel;
                     // recording info
-                    mDRecordInfo.setText(local.getTime() <= now.getTime() ? "Is Recording Now" : "Will Record");
+                    mDRecordInfo.setText(local.getTime() <= now.getTime() ? getString(R.string.msg_recording_now) : getString(R.string.msg_will_record));
                 } else {
                     // record button
                     Button rec = new Button(mActivity);
