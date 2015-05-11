@@ -43,6 +43,7 @@ public class ItemLauncher {
                 //specialized type handling
                 switch (baseItem.getType()) {
                     case "UserView":
+                        if (baseItem.getCollectionType() == null) baseItem.setCollectionType("unknown");
                         switch (baseItem.getCollectionType()) {
                             case "movies":
                             case "tvshows":
