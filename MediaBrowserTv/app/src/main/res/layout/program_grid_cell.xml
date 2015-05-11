@@ -17,7 +17,7 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_below="@+id/programName"
         android:layout_alignParentStart="true"
@@ -25,4 +25,15 @@
         android:layout_marginBottom="5sp"
         android:layout_marginRight="5sp"
         android:id="@+id/infoRow"></LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="10sp"
+        android:id="@+id/recIndicator"
+        android:layout_toEndOf="@+id/infoRow"
+        android:layout_marginLeft="5sp"
+        android:layout_toRightOf="@+id/infoRow"
+        android:layout_alignBottom="@+id/infoRow"
+        android:layout_alignTop="@+id/infoRow"
+        android:scaleType="fitCenter" />
 </RelativeLayout>

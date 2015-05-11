@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ public class ProgramGridCell extends RelativeLayout {
     private TextView mProgramName;
     private LinearLayout mInfoRow;
     private ProgramInfoDto mProgram;
+    private ImageView mRecIndicator;
     private int mBackgroundColor = 0;
     private final int IND_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 10);
 
@@ -49,6 +51,7 @@ public class ProgramGridCell extends RelativeLayout {
         mProgram = program;
         mProgramName.setFocusable(false);
         mInfoRow.setFocusable(false);
+        mRecIndicator = (ImageView) findViewById(R.id.recIndicator);
 
         if (program.getIsMovie())
             mBackgroundColor = getResources().getColor(R.color.guide_movie_bg);
@@ -81,9 +84,9 @@ public class ProgramGridCell extends RelativeLayout {
         }
 
         if (program.getSeriesTimerId() != null) {
-            InfoLayoutHelper.addResourceImage(activity, mInfoRow, R.drawable.recseries, 0, IND_HEIGHT);
+            mRecIndicator.setImageResource(R.drawable.recseries);
         } else if (program.getTimerId() != null) {
-            InfoLayoutHelper.addResourceImage(activity, mInfoRow, R.drawable.rec, 0, IND_HEIGHT);
+            mRecIndicator.setImageResource(R.drawable.rec);
         }
 
         setOnClickListener(new OnClickListener() {
@@ -101,11 +104,22 @@ public class ProgramGridCell extends RelativeLayout {
 
         if (gainFocus) {
             setBackgroundColor(getResources().getColor(R.color.lb_default_brand_color));
-            mActivity.setSelectedProgram(mProgram);
+            mActivity.setSelectedProgram(this);
         } else {
             setBackgroundColor(mBackgroundColor);
         }
 
         //TvApp.getApplication().getLogger().Debug("Focus on "+mProgram.getName()+ " was " +(gainFocus ? "gained" : "lost"));
+    }
+
+    public ProgramInfoDto getProgram() { return mProgram; }
+
+    public void setRecIndicator(boolean ind) {
+        mRecIndicator.setImageResource(ind ? R.drawable.rec : R.drawable.blank10x10);
+        if (!ind) mProgram.setTimerId(null);
+    }
+    public void setRecSeriesIndicator(boolean ind) {
+        mRecIndicator.setImageResource(ind ? R.drawable.recseries : R.drawable.blank10x10);
+        if (!ind) mProgram.setSeriesTimerId(null);
     }
 }

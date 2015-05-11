@@ -201,6 +201,10 @@
     <string name="lbl_tune_to_channel">Tune to Channel</string>
     <string name="msg_recording_now">Recording Now</string>
     <string name="msg_will_record">Will Record</string>
+    <string name="lbl_begin_padding">Begin Padding (mins)</string>
+    <string name="lbl_program_ended">Program Ended</string>
+    <string name="lbl_end_padding">End Padding (mins)</string>
+    <string name="lbl_required_to_record">Required to record</string>
 
 
 </resources>
