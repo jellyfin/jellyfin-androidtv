@@ -275,9 +275,10 @@ public class LiveTvGuideActivity extends BaseActivity {
                     }
                 }
 
-                if (local.getTime() > now.getTime()) {
-                    // add tune to button for programs that haven't started yet
-                    createTuneButton();
+                if (local.getTime() > now.getTime() || mFirstButton == null) {
+                    // add tune to button for programs that haven't started yet or are over
+                    Button tune = createTuneButton();
+                    if (mFirstButton == null) mFirstButton = tune;
                 }
 
 //                if (program.getIsMovie()) {
