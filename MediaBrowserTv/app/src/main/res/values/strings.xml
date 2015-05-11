@@ -199,6 +199,8 @@
     <string name="lbl_tomorrow">Tomorrow</string>
     <string name="lbl_on">On </string>
     <string name="lbl_tune_to_channel">Tune to Channel</string>
+    <string name="msg_recording_now">Recording Now</string>
+    <string name="msg_will_record">Will Record</string>
 
 
 </resources>
