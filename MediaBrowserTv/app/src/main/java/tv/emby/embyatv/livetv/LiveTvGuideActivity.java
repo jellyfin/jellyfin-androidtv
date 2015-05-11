@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -38,11 +40,13 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
+import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.ProgramInfoDto;
 import mediabrowser.model.livetv.ProgramQuery;
+import mediabrowser.model.livetv.SeriesTimerInfoDto;
 import mediabrowser.model.results.ChannelInfoDtoResult;
 import mediabrowser.model.results.ProgramInfoDtoResult;
 import tv.emby.embyatv.R;
@@ -85,6 +89,7 @@ public class LiveTvGuideActivity extends BaseActivity {
     private View mSpinner;
 
     private ProgramInfoDto mSelectedProgram;
+    private ProgramGridCell mSelectedProgramView;
 
     private List<ChannelInfoDto> mAllChannels;
 
@@ -212,20 +217,15 @@ public class LiveTvGuideActivity extends BaseActivity {
         public void setContent(ProgramInfoDto program) {
             mDTitle.setText(program.getName());
             mDSummary.setText(program.getOverview());
+            if (mDSummary.getLineCount() < 2) {
+                mDSummary.setGravity(Gravity.CENTER);
+            } else {
+                mDSummary.setGravity(Gravity.LEFT);
+            }
+            //TvApp.getApplication().getLogger().Debug("Text height: "+mDSummary.getHeight() + " (120 = "+Utils.convertDpToPixel(mActivity, 120)+")");
 
             // build timeline info
-            mDTimeline.removeAllViews();
-            Date local = Utils.convertToLocalDate(program.getStartDate());
-            TextView on = new TextView(mActivity);
-            on.setText(getString(R.string.lbl_on));
-            mDTimeline.addView(on);
-            TextView channel = new TextView(mActivity);
-            channel.setText(program.getChannelName());
-            channel.setTypeface(null, Typeface.BOLD);
-            mDTimeline.addView(channel);
-            TextView datetime = new TextView(mActivity);
-            datetime.setText(Utils.getFriendlyDate(local)+ " @ "+android.text.format.DateFormat.getTimeFormat(mActivity).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
-            mDTimeline.addView(datetime);
+            setTimelineRow(mDTimeline, program);
 
             //fake info row
 //            mDInfoRow.removeAllViews();
@@ -239,6 +239,7 @@ public class LiveTvGuideActivity extends BaseActivity {
             mFirstButton = null;
             mDButtonRow.removeAllViews();
             Date now = new Date();
+            Date local = Utils.convertToLocalDate(program.getStartDate());
             if (Utils.convertToLocalDate(program.getEndDate()).getTime() > now.getTime()) {
                 if (local.getTime() <= now.getTime()) {
                     // program in progress - tune first button
@@ -249,6 +250,24 @@ public class LiveTvGuideActivity extends BaseActivity {
                     // cancel button
                     Button cancel = new Button(mActivity);
                     cancel.setText(getString(R.string.lbl_cancel_recording));
+                    cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            TvApp.getApplication().getApiClient().CancelLiveTvTimerAsync(mSelectedProgram.getTimerId(), new EmptyResponse() {
+                                @Override
+                                public void onResponse() {
+                                    mSelectedProgramView.setRecIndicator(false);
+                                    dismiss();
+                                    Utils.showToast(mActivity, R.string.msg_recording_cancelled);
+                                }
+
+                                @Override
+                                public void onError(Exception ex) {
+                                    Utils.showToast(mActivity, R.string.msg_unable_to_cancel);
+                                }
+                            });
+                        }
+                    });
                     mDButtonRow.addView(cancel);
                     if (mFirstButton == null) mFirstButton = cancel;
                     // recording info
@@ -257,6 +276,12 @@ public class LiveTvGuideActivity extends BaseActivity {
                     // record button
                     Button rec = new Button(mActivity);
                     rec.setText(getString(R.string.lbl_record));
+                    rec.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showRecordingOptions(false);
+                        }
+                    });
                     mDButtonRow.addView(rec);
                     if (mFirstButton == null) mFirstButton = rec;
                     mDRecordInfo.setText("");
@@ -275,22 +300,25 @@ public class LiveTvGuideActivity extends BaseActivity {
                     }
                 }
 
-                if (local.getTime() > now.getTime() || mFirstButton == null) {
-                    // add tune to button for programs that haven't started yet or are over
-                    Button tune = createTuneButton();
-                    if (mFirstButton == null) mFirstButton = tune;
+                if (local.getTime() > now.getTime()) {
+                    // add tune to button for programs that haven't started yet
+                    createTuneButton();
                 }
 
+
+            } else {
+                // program has already ended
+                mDRecordInfo.setText(getString(R.string.lbl_program_ended));
+                mFirstButton = createTuneButton();
+            }
 //                if (program.getIsMovie()) {
 //                    mDSimilarRow.setVisibility(View.VISIBLE);
 //                    mPopup.setHeight(MOVIE_HEIGHT);
 //                } else {
-                      mDSimilarRow.setVisibility(View.GONE);
+            mDSimilarRow.setVisibility(View.GONE);
 //                    mPopup.setHeight(NORMAL_HEIGHT);
 //
 //                }
-
-            }
         }
 
         public Button createTuneButton() {
@@ -308,9 +336,164 @@ public class LiveTvGuideActivity extends BaseActivity {
 
         public void show() {
             mPopup.showAtLocation(mImage, Gravity.NO_GRAVITY, mTitle.getLeft(), mTitle.getTop() - 10);
-            mFirstButton.requestFocus();
+            if (mFirstButton != null) mFirstButton.requestFocus();
 
         }
+
+        public void dismiss() {
+            if (mPopup != null && mPopup.isShowing()) {
+                mPopup.dismiss();
+            }
+        }
+    }
+
+    private RecordPopup mRecordPopup;
+    class RecordPopup {
+        final int SERIES_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 540);
+        final int NORMAL_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 400);
+
+        PopupWindow mPopup;
+        String mProgramId;
+        boolean mRecordSeries;
+
+        LiveTvGuideActivity mActivity;
+        TextView mDTitle;
+        TextView mDSummary;
+        LinearLayout mDTimeline;
+        EditText mPrePadding;
+        EditText mPostPadding;
+        CheckBox mPreRequired;
+        CheckBox mPostRequired;
+        Button mOkButton;
+        Button mCancelButton;
+
+        RecordPopup(LiveTvGuideActivity activity) {
+            mActivity = activity;
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.program_record_popup, null);
+            mPopup = new PopupWindow(layout, mSummary.getWidth(), NORMAL_HEIGHT);
+            mPopup.setFocusable(true);
+            mPopup.setOutsideTouchable(true);
+            mPopup.setBackgroundDrawable(new BitmapDrawable()); // necessary for popup to dismiss
+            mDTitle = (TextView)layout.findViewById(R.id.title);
+            mDTitle.setTypeface(roboto);
+            mDSummary = (TextView)layout.findViewById(R.id.summary);
+            mDSummary.setTypeface(roboto);
+
+            mPrePadding = (EditText) layout.findViewById(R.id.prePadding);
+            mPostPadding = (EditText) layout.findViewById(R.id.postPadding);
+            mPreRequired = (CheckBox) layout.findViewById(R.id.prePadReq);
+            mPostRequired = (CheckBox) layout.findViewById(R.id.postPadReq);
+
+            mOkButton = (Button) layout.findViewById(R.id.okButton);
+            mOkButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TvApp.getApplication().getApiClient().GetDefaultLiveTvTimerInfo(mProgramId, new Response<SeriesTimerInfoDto>() {
+                        @Override
+                        public void onResponse(SeriesTimerInfoDto response) {
+                            response.setPrePaddingSeconds(Integer.valueOf(mPrePadding.getText().toString())*60);
+                            response.setPostPaddingSeconds(Integer.valueOf(mPostPadding.getText().toString())*60);
+                            response.setIsPrePaddingRequired(mPreRequired.isChecked());
+                            response.setIsPostPaddingRequired(mPostRequired.isChecked());
+
+                            if (mRecordSeries) {
+
+                            } else {
+                                TvApp.getApplication().getApiClient().CreateLiveTvTimerAsync(response, new EmptyResponse() {
+                                    @Override
+                                    public void onResponse() {
+                                        mPopup.dismiss();
+                                        dismissProgramOptions();
+                                        mSelectedProgramView.setRecIndicator(true);
+                                        Utils.showToast(mActivity, R.string.msg_set_to_record);
+                                    }
+
+                                    @Override
+                                    public void onError(Exception ex) {
+                                        Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+            mCancelButton = (Button) layout.findViewById(R.id.cancelButton);
+            mCancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPopup.dismiss();
+                }
+            });
+
+            mDTimeline = (LinearLayout) layout.findViewById(R.id.timeline);
+        }
+
+        public void setContent(ProgramInfoDto program, SeriesTimerInfoDto defaults, boolean recordSeries) {
+            mProgramId = program.getId();
+            mRecordSeries = recordSeries;
+
+            mDTitle.setText(program.getName());
+            mDSummary.setText(program.getOverview());
+            if (mDSummary.getLineCount() < 2) {
+                mDSummary.setGravity(Gravity.CENTER);
+            } else {
+                mDSummary.setGravity(Gravity.LEFT);
+            }
+
+            //if already started then can't require pre padding
+            Date local = Utils.convertToLocalDate(program.getStartDate());
+            Date now = new Date();
+            mPreRequired.setEnabled(local.getTime() > now.getTime());
+
+            // build timeline info
+            setTimelineRow(mDTimeline, program);
+
+            // set defaults
+            mPrePadding.setText(String.valueOf(defaults.getPrePaddingSeconds()/60));
+            mPostPadding.setText(String.valueOf(defaults.getPostPaddingSeconds()/60));
+            mPreRequired.setChecked(defaults.getIsPrePaddingRequired());
+            mPostRequired.setChecked(defaults.getIsPostPaddingRequired());
+
+        }
+
+        public void show() {
+            mPopup.showAtLocation(mImage, Gravity.NO_GRAVITY, mTitle.getLeft(), mTitle.getTop() - 10);
+            mOkButton.requestFocus();
+
+        }
+    }
+
+    private void setTimelineRow(LinearLayout timelineRow, ProgramInfoDto program) {
+        timelineRow.removeAllViews();
+        Date local = Utils.convertToLocalDate(program.getStartDate());
+        TextView on = new TextView(mActivity);
+        on.setText(getString(R.string.lbl_on));
+        timelineRow.addView(on);
+        TextView channel = new TextView(mActivity);
+        channel.setText(program.getChannelName());
+        channel.setTypeface(null, Typeface.BOLD);
+        timelineRow.addView(channel);
+        TextView datetime = new TextView(mActivity);
+        datetime.setText(Utils.getFriendlyDate(local)+ " @ "+android.text.format.DateFormat.getTimeFormat(mActivity).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
+        timelineRow.addView(datetime);
+
+    }
+
+    public void showRecordingOptions(final boolean recordSeries) {
+        if (mRecordPopup == null) mRecordPopup = new RecordPopup(this);
+        TvApp.getApplication().getApiClient().GetDefaultLiveTvTimerInfo(mSelectedProgram.getId(), new Response<SeriesTimerInfoDto>() {
+            @Override
+            public void onResponse(SeriesTimerInfoDto response) {
+                mRecordPopup.setContent(mSelectedProgram, response, recordSeries);
+                mRecordPopup.show();
+            }
+        });
+    }
+
+    public void dismissProgramOptions() {
+        if (mDetailPopup != null) mDetailPopup.dismiss();
     }
     public void showProgramOptions() {
 
@@ -606,8 +789,9 @@ public class LiveTvGuideActivity extends BaseActivity {
         }
     };
 
-    public void setSelectedProgram(ProgramInfoDto program) {
-        mSelectedProgram = program;
+    public void setSelectedProgram(ProgramGridCell programView) {
+        mSelectedProgramView = programView;
+        mSelectedProgram = programView.getProgram();
         mHandler.removeCallbacks(detailUpdateTask);
         mHandler.postDelayed(detailUpdateTask, 500);
     }
