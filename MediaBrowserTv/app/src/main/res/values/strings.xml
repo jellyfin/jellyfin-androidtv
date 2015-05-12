@@ -206,6 +206,13 @@
     <string name="lbl_program_ended">Program Ended</string>
     <string name="lbl_end_padding">End Padding (mins)</string>
     <string name="lbl_required_to_record">Required to record</string>
+    <string name="lbl_similar_items_library">Similar Items in your Library</string>
+    <string name="lbl_record_any_channel">Record on any channel</string>
+    <string name="lbl_record_any_time">Record at any time</string>
+    <string name="lbl_only_new_episodes">Only New Episodes</string>
+    <string name="lbl_repeat_options">Repeat Options</string>
+    <string name="lbl_days">Days</string>
+    <string name="msg_cancel_entire_series">Are you sure you want to cancel this ENTIRE SERIES?</string>
 
 
 </resources>
