@@ -54,6 +54,8 @@ public class TvApp extends Application {
     private PlaybackController playbackController;
     private ApiClient loginApiClient;
 
+    private boolean isConnectLogin = false;
+
     private boolean isPaid = false;
     private RegistrationInfo registrationInfo;
 
@@ -262,5 +264,13 @@ public class TvApp extends Application {
         }
 
         return getResources().getDrawable(id);
+    }
+
+    public boolean isConnectLogin() {
+        return isConnectLogin;
+    }
+
+    public void setConnectLogin(boolean isConnectLogin) {
+        this.isConnectLogin = isConnectLogin;
     }
 }

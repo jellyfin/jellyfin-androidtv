@@ -12,6 +12,7 @@ import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.widget.Toast;
 
+import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
 import mediabrowser.model.querying.ItemFields;
@@ -40,6 +41,7 @@ public class HomeFragment extends StdBrowseFragment {
     private static final int SETTINGS = 1;
     private static final int REPORT = 2;
     private static final int UNLOCK = 3;
+    private static final int LOGOUT_CONNECT = 4;
 
     private ArrayObjectAdapter toolsRow;
     private GridButton unlockButton;
@@ -121,9 +123,10 @@ public class HomeFragment extends StdBrowseFragment {
 
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         toolsRow = new ArrayObjectAdapter(mGridPresenter);
-        toolsRow.add(new GridButton(4, "Live TV Guide", R.drawable.tv));
+        //toolsRow.add(new GridButton(5, "Live TV Guide", R.drawable.tv));
         toolsRow.add(new GridButton(SETTINGS, mApplication.getString(R.string.lbl_app_settings), R.drawable.gears));
         toolsRow.add(new GridButton(LOGOUT, mApplication.getString(R.string.lbl_logout) + TvApp.getApplication().getCurrentUser().getName(), R.drawable.logout));
+        if (TvApp.getApplication().isConnectLogin()) toolsRow.add(new GridButton(LOGOUT_CONNECT, mApplication.getString(R.string.lbl_logout_connect), R.drawable.unlink));
         //give this some time to have validated
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -176,7 +179,15 @@ public class HomeFragment extends StdBrowseFragment {
                     case REPORT:
                         Utils.reportError(getActivity(), "Send Log to Dev");
                         break;
-                    case 4:
+                    case LOGOUT_CONNECT:
+                        TvApp.getApplication().getConnectionManager().Logout(new EmptyResponse() {
+                            @Override
+                            public void onResponse() {
+                                getActivity().finish();
+                            }
+                        });
+                        break;
+                    case 5:
                         Intent guide = new Intent(getActivity(), LiveTvGuideActivity.class);
                         getActivity().startActivity(guide);
                         break;
