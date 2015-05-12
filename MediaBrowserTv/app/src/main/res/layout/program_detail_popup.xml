@@ -13,7 +13,8 @@
         android:maxLines="1"
         android:layout_marginLeft="20sp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10sp" />
+        android:layout_marginTop="10sp"
+        android:textColor="@android:color/holo_blue_light" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -51,7 +52,7 @@
         android:layout_marginTop="5sp"
         android:showDividers="middle"
         android:divider="@drawable/blank10x10"
-        android:gravity="center"></LinearLayout>
+        android:gravity="center"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -89,7 +90,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Similar Items in your Library"
+            android:text="@string/lbl_similar_items_library"
             android:id="@+id/textView10"
             android:gravity="center" />
     </LinearLayout>
