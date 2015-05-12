@@ -243,91 +243,94 @@ public class LiveTvGuideActivity extends BaseActivity {
                     mFirstButton = createTuneButton();
                 }
 
-                if (program.getTimerId() != null) {
-                    // cancel button
-                    Button cancel = new Button(mActivity);
-                    cancel.setText(getString(R.string.lbl_cancel_recording));
-                    cancel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            TvApp.getApplication().getApiClient().CancelLiveTvTimerAsync(mSelectedProgram.getTimerId(), new EmptyResponse() {
-                                @Override
-                                public void onResponse() {
-                                    mSelectedProgramView.setRecTimer(null);
-                                    dismiss();
-                                    Utils.showToast(mActivity, R.string.msg_recording_cancelled);
-                                }
-
-                                @Override
-                                public void onError(Exception ex) {
-                                    Utils.showToast(mActivity, R.string.msg_unable_to_cancel);
-                                }
-                            });
-                        }
-                    });
-                    mDButtonRow.addView(cancel);
-                    if (mFirstButton == null) mFirstButton = cancel;
-                    // recording info
-                    mDRecordInfo.setText(local.getTime() <= now.getTime() ? getString(R.string.msg_recording_now) : getString(R.string.msg_will_record));
-                } else {
-                    // record button
-                    Button rec = new Button(mActivity);
-                    rec.setText(getString(R.string.lbl_record));
-                    rec.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showRecordingOptions(false);
-                        }
-                    });
-                    mDButtonRow.addView(rec);
-                    if (mFirstButton == null) mFirstButton = rec;
-                    mDRecordInfo.setText("");
-                }
-                if (program.getIsSeries()) {
-                    if (program.getSeriesTimerId() != null) {
-                        // cancel series button
+                if (TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvManagement()) {
+                    if (program.getTimerId() != null) {
+                        // cancel button
                         Button cancel = new Button(mActivity);
-                        cancel.setText(getString(R.string.lbl_cancel_series));
+                        cancel.setText(getString(R.string.lbl_cancel_recording));
                         cancel.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                new AlertDialog.Builder(mActivity)
-                                        .setTitle(getString(R.string.lbl_cancel_series))
-                                        .setMessage(getString(R.string.msg_cancel_entire_series))
-                                        .setNegativeButton(R.string.lbl_no, null)
-                                        .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                TvApp.getApplication().getApiClient().CancelLiveTvSeriesTimerAsync(program.getSeriesTimerId(), new EmptyResponse() {
-                                                    @Override
-                                                    public void onResponse() {
-                                                        mSelectedProgramView.setRecSeriesTimer(null);
-                                                        dismiss();
-                                                        Utils.showToast(mActivity, R.string.msg_recording_cancelled);
-                                                    }
+                                TvApp.getApplication().getApiClient().CancelLiveTvTimerAsync(mSelectedProgram.getTimerId(), new EmptyResponse() {
+                                    @Override
+                                    public void onResponse() {
+                                        mSelectedProgramView.setRecTimer(null);
+                                        dismiss();
+                                        Utils.showToast(mActivity, R.string.msg_recording_cancelled);
+                                    }
 
-                                                    @Override
-                                                    public void onError(Exception ex) {
-                                                        Utils.showToast(mActivity, R.string.msg_unable_to_cancel);
-                                                    }
-                                                });
-                                            }
-                                        }).show();
+                                    @Override
+                                    public void onError(Exception ex) {
+                                        Utils.showToast(mActivity, R.string.msg_unable_to_cancel);
+                                    }
+                                });
                             }
                         });
                         mDButtonRow.addView(cancel);
-                    }else {
-                        // record series button
+                        if (mFirstButton == null) mFirstButton = cancel;
+                        // recording info
+                        mDRecordInfo.setText(local.getTime() <= now.getTime() ? getString(R.string.msg_recording_now) : getString(R.string.msg_will_record));
+                    } else {
+                        // record button
                         Button rec = new Button(mActivity);
-                        rec.setText(getString(R.string.lbl_record_series));
+                        rec.setText(getString(R.string.lbl_record));
                         rec.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                showRecordingOptions(true);
+                                showRecordingOptions(false);
                             }
                         });
                         mDButtonRow.addView(rec);
+                        if (mFirstButton == null) mFirstButton = rec;
+                        mDRecordInfo.setText("");
                     }
+                    if (program.getIsSeries()) {
+                        if (program.getSeriesTimerId() != null) {
+                            // cancel series button
+                            Button cancel = new Button(mActivity);
+                            cancel.setText(getString(R.string.lbl_cancel_series));
+                            cancel.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    new AlertDialog.Builder(mActivity)
+                                            .setTitle(getString(R.string.lbl_cancel_series))
+                                            .setMessage(getString(R.string.msg_cancel_entire_series))
+                                            .setNegativeButton(R.string.lbl_no, null)
+                                            .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    TvApp.getApplication().getApiClient().CancelLiveTvSeriesTimerAsync(program.getSeriesTimerId(), new EmptyResponse() {
+                                                        @Override
+                                                        public void onResponse() {
+                                                            mSelectedProgramView.setRecSeriesTimer(null);
+                                                            dismiss();
+                                                            Utils.showToast(mActivity, R.string.msg_recording_cancelled);
+                                                        }
+
+                                                        @Override
+                                                        public void onError(Exception ex) {
+                                                            Utils.showToast(mActivity, R.string.msg_unable_to_cancel);
+                                                        }
+                                                    });
+                                                }
+                                            }).show();
+                                }
+                            });
+                            mDButtonRow.addView(cancel);
+                        }else {
+                            // record series button
+                            Button rec = new Button(mActivity);
+                            rec.setText(getString(R.string.lbl_record_series));
+                            rec.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    showRecordingOptions(true);
+                                }
+                            });
+                            mDButtonRow.addView(rec);
+                        }
+                    }
+                    
                 }
 
                 if (local.getTime() > now.getTime()) {
