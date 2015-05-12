@@ -114,12 +114,12 @@ public class ProgramGridCell extends RelativeLayout {
 
     public ProgramInfoDto getProgram() { return mProgram; }
 
-    public void setRecIndicator(boolean ind) {
-        mRecIndicator.setImageResource(ind ? R.drawable.rec : R.drawable.blank10x10);
-        if (!ind) mProgram.setTimerId(null);
+    public void setRecTimer(String id) {
+        mProgram.setTimerId(id);
+        mRecIndicator.setImageResource(id != null ? R.drawable.rec : R.drawable.blank10x10);
     }
-    public void setRecSeriesIndicator(boolean ind) {
-        mRecIndicator.setImageResource(ind ? R.drawable.recseries : R.drawable.blank10x10);
-        if (!ind) mProgram.setSeriesTimerId(null);
+    public void setRecSeriesTimer(String id) {
+        mProgram.setSeriesTimerId(id);
+        mRecIndicator.setImageResource(id != null ? R.drawable.recseries : R.drawable.blank10x10);
     }
 }

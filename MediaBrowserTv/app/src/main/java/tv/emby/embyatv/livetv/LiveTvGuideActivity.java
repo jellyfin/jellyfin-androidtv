@@ -1,33 +1,26 @@
 package tv.emby.embyatv.livetv;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateUtils;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextClock;
 import android.widget.TextView;
@@ -38,7 +31,6 @@ import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -63,7 +55,6 @@ import tv.emby.embyatv.ui.ObservableHorizontalScrollView;
 import tv.emby.embyatv.ui.ObservableScrollView;
 import tv.emby.embyatv.ui.ProgramGridCell;
 import tv.emby.embyatv.ui.ScrollViewListener;
-import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -262,7 +253,7 @@ public class LiveTvGuideActivity extends BaseActivity {
                             TvApp.getApplication().getApiClient().CancelLiveTvTimerAsync(mSelectedProgram.getTimerId(), new EmptyResponse() {
                                 @Override
                                 public void onResponse() {
-                                    mSelectedProgramView.setRecIndicator(false);
+                                    mSelectedProgramView.setRecTimer(null);
                                     dismiss();
                                     Utils.showToast(mActivity, R.string.msg_recording_cancelled);
                                 }
@@ -310,7 +301,7 @@ public class LiveTvGuideActivity extends BaseActivity {
                                                 TvApp.getApplication().getApiClient().CancelLiveTvSeriesTimerAsync(program.getSeriesTimerId(), new EmptyResponse() {
                                                     @Override
                                                     public void onResponse() {
-                                                        mSelectedProgramView.setRecSeriesIndicator(false);
+                                                        mSelectedProgramView.setRecSeriesTimer(null);
                                                         dismiss();
                                                         Utils.showToast(mActivity, R.string.msg_recording_cancelled);
                                                     }
@@ -477,7 +468,14 @@ public class LiveTvGuideActivity extends BaseActivity {
                                     public void onResponse() {
                                         mPopup.dismiss();
                                         dismissProgramOptions();
-                                        mSelectedProgramView.setRecSeriesIndicator(true);
+                                        // we have to re-retrieve the program to get the timer id
+                                        TvApp.getApplication().getApiClient().GetLiveTvProgramAsync(mProgramId, TvApp.getApplication().getCurrentUser().getId(), new Response<ProgramInfoDto>() {
+                                            @Override
+                                            public void onResponse(ProgramInfoDto response) {
+                                                mSelectedProgramView.setRecSeriesTimer(response.getSeriesTimerId());
+
+                                            }
+                                        });
                                         Utils.showToast(mActivity, R.string.msg_set_to_record);
                                     }
 
@@ -494,7 +492,13 @@ public class LiveTvGuideActivity extends BaseActivity {
                                     public void onResponse() {
                                         mPopup.dismiss();
                                         dismissProgramOptions();
-                                        mSelectedProgramView.setRecIndicator(true);
+                                        // we have to re-retrieve the program to get the timer id
+                                        TvApp.getApplication().getApiClient().GetLiveTvProgramAsync(mProgramId, TvApp.getApplication().getCurrentUser().getId(), new Response<ProgramInfoDto>() {
+                                            @Override
+                                            public void onResponse(ProgramInfoDto response) {
+                                                mSelectedProgramView.setRecTimer(response.getTimerId());
+                                            }
+                                        });
                                         Utils.showToast(mActivity, R.string.msg_set_to_record);
                                     }
 
