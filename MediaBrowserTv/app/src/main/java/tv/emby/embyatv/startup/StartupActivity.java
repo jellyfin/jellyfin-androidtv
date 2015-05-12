@@ -145,6 +145,7 @@ public class StartupActivity extends Activity {
         connectionManager.Connect(new Response<ConnectionResult>() {
             @Override
             public void onResponse(final ConnectionResult response) {
+                if (response.getConnectUser() != null) TvApp.getApplication().setConnectLogin(true);
                 switch (response.getState()) {
                     case ConnectSignIn:
                         logger.Debug("Sign in with connect...");

@@ -20,12 +20,14 @@ import mediabrowser.model.search.SearchHint;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.browsing.CollectionActivity;
 import tv.emby.embyatv.browsing.GenericFolderActivity;
+import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.browsing.UserViewActivity;
 import tv.emby.embyatv.details.DetailsActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.startup.DpadPwActivity;
 import tv.emby.embyatv.startup.SelectUserActivity;
+import tv.emby.embyatv.startup.StartupActivity;
 import tv.emby.embyatv.util.DelayedMessage;
 import tv.emby.embyatv.util.Utils;
 
@@ -307,7 +309,7 @@ public class ItemLauncher {
 
     }
 
-    public static void ServerSignIn(IConnectionManager connectionManager, ServerInfo serverInfo, final Activity activity) {
+    public static void ServerSignIn(final IConnectionManager connectionManager, final ServerInfo serverInfo, final Activity activity) {
         //Connect to the selected server
         final DelayedMessage message = new DelayedMessage(activity);
         connectionManager.Connect(serverInfo, new Response<ConnectionResult>() {
@@ -318,7 +320,20 @@ public class ItemLauncher {
                     case Unavailable:
                         Utils.showToast(activity, "Server unavailable");
                         break;
-                    case SignedIn: // never allow default "remember user"
+                    case SignedIn:
+                        if (serverInfo.getUserLinkType() != null) {
+                            // go straight in for connect only
+                            response.getApiClient().GetUserAsync(serverInfo.getUserId(), new Response<UserDto>() {
+                                @Override
+                                public void onResponse(UserDto response) {
+                                    TvApp.getApplication().setCurrentUser(response);
+                                    TvApp.getApplication().setConnectLogin(true);
+                                    Intent homeIntent = new Intent(activity, MainActivity.class);
+                                    activity.startActivity(homeIntent);
+                                }
+                            });
+                            break;
+                        }
                     case ServerSignIn:
                         //Set api client for login
                         TvApp.getApplication().setLoginApiClient(response.getApiClient());

@@ -38,6 +38,7 @@ public class SelectServerFragment extends CustomBrowseFragment {
     private static final int GRID_ITEM_HEIGHT = 200;
     private static final int ENTER_MANUALLY = 0;
     private static final int LOGIN_CONNECT = 1;
+    private static final int LOGOUT_CONNECT = 2;
     private List<ServerInfo> mServers = new ArrayList<>();
 
     @Override
@@ -69,7 +70,12 @@ public class SelectServerFragment extends CustomBrowseFragment {
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
         gridRowAdapter.add(new GridButton(ENTER_MANUALLY, mApplication.getString(R.string.lbl_enter_manually), R.drawable.edit));
-        gridRowAdapter.add(new GridButton(LOGIN_CONNECT, mApplication.getString(R.string.lbl_login_with_connect), R.drawable.chain));
+        if (TvApp.getApplication().isConnectLogin()) {
+            gridRowAdapter.add(new GridButton(LOGOUT_CONNECT, mApplication.getString(R.string.lbl_logout_connect), R.drawable.unlink));
+        } else {
+            gridRowAdapter.add(new GridButton(LOGIN_CONNECT, mApplication.getString(R.string.lbl_login_with_connect), R.drawable.chain));
+
+        }
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
 
