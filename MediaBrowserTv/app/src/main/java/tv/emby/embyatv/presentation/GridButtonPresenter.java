@@ -37,6 +37,7 @@ public class GridButtonPresenter extends Presenter {
 
         public void setItem(GridButton m) {
             mItem = m;
+            mCardView.setMainImageDimensions(cardWidth, cardHeight);
         }
 
         public GridButton getItem() {
