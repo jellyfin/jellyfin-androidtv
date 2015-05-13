@@ -101,7 +101,7 @@ public class HomeFragment extends StdBrowseFragment {
         RecommendedProgramQuery onNow = new RecommendedProgramQuery();
         onNow.setIsAiring(true);
         onNow.setUserId(TvApp.getApplication().getCurrentUser().getId());
-        onNow.setLimit(50);
+        onNow.setLimit(20);
         mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_on_now), onNow));
 
 //        StdItemQuery latestMusic = new StdItemQuery();
@@ -123,7 +123,6 @@ public class HomeFragment extends StdBrowseFragment {
 
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         toolsRow = new ArrayObjectAdapter(mGridPresenter);
-        toolsRow.add(new GridButton(5, "Live TV Guide", R.drawable.tv));
         toolsRow.add(new GridButton(SETTINGS, mApplication.getString(R.string.lbl_app_settings), R.drawable.gears));
         toolsRow.add(new GridButton(LOGOUT, mApplication.getString(R.string.lbl_logout) + TvApp.getApplication().getCurrentUser().getName(), R.drawable.logout));
         if (TvApp.getApplication().isConnectLogin()) toolsRow.add(new GridButton(LOGOUT_CONNECT, mApplication.getString(R.string.lbl_logout_connect), R.drawable.unlink));
@@ -186,10 +185,6 @@ public class HomeFragment extends StdBrowseFragment {
                                 getActivity().finish();
                             }
                         });
-                        break;
-                    case 5:
-                        Intent guide = new Intent(getActivity(), LiveTvGuideActivity.class);
-                        getActivity().startActivity(guide);
                         break;
                     default:
                         Toast.makeText(getActivity(), item.toString(), Toast.LENGTH_SHORT)

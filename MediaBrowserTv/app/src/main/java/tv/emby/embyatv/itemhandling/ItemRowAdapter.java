@@ -189,6 +189,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mTvProgramQuery = query;
         queryType = QueryType.LiveTvProgram;
+        staticHeight = true;
         add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
@@ -644,12 +645,17 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
                     if (adapter.size() > 0) adapter.clear();
+                    if (query.getIsAiring()) {
+                        // show guide option as first item
+                        adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_GUIDE_OPTION_ID, "Live TV Guide", R.drawable.guide)));
+                        i++;
+                    }
                     for (ProgramInfoDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(item));
+                        adapter.add(new BaseRowItem(item, staticHeight));
                         i++;
                     }
                     totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(itemsLoaded + i);
+                    setItemsLoaded(i);
                     if (i == 0) removeRow();
                 } else {
                     // no results - don't show us

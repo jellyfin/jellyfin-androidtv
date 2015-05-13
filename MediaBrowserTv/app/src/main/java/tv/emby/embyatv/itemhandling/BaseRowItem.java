@@ -67,9 +67,10 @@ public class BaseRowItem {
         type = ItemType.LiveTvChannel;
     }
 
-    public BaseRowItem(ProgramInfoDto program) {
+    public BaseRowItem(ProgramInfoDto program, boolean staticHeight) {
         this.programInfo = program;
         type = ItemType.LiveTvProgram;
+        this.staticHeight = staticHeight;
     }
 
     public BaseRowItem(RecordingInfoDto program) {
@@ -105,6 +106,7 @@ public class BaseRowItem {
     public BaseRowItem(GridButton button) {
         this.gridButton = button;
         type = ItemType.GridButton;
+        staticHeight = true;
     }
 
     public int getIndex() {
@@ -122,6 +124,7 @@ public class BaseRowItem {
     public ChannelInfoDto getChannelInfo() { return channelInfo; }
     public ProgramInfoDto getProgramInfo() { return programInfo; }
     public RecordingInfoDto getRecordingInfo() { return recordingInfo; }
+    public GridButton getGridButton() { return gridButton; }
 
     public boolean getIsChapter() { return type == ItemType.Chapter; }
     public boolean getIsPerson() { return type == ItemType.Person; }

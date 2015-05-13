@@ -43,6 +43,7 @@ import java.util.Calendar;
 public class TvApp extends Application {
 
     public static String FEATURE_CODE = "androidtv";
+    public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
 
     private ILogger logger;
     private IConnectionManager connectionManager;
