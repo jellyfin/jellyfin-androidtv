@@ -12,10 +12,10 @@ import android.support.v17.leanback.widget.RowPresenter;
 import android.widget.Toast;
 
 import mediabrowser.model.dto.BaseItemDto;
-import tv.emby.embyatv.ui.GridButton;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.presentation.GridButtonPresenter;
+import tv.emby.embyatv.ui.GridButton;
 
 /**
  * Created by Eric on 12/4/2014.

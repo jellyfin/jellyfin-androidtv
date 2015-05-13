@@ -110,7 +110,7 @@ public class CardPresenter extends Presenter {
                     ProgramInfoDto program = mItem.getProgramInfo();
                     Double programAspect = program.getPrimaryImageAspectRatio();
                     if (programAspect == null) programAspect = .7777777;
-                    cardHeight = programAspect > 1 ? 280 : 350;
+                    cardHeight = !m.isStaticHeight() ? programAspect > 1 ? 280 : 350 : 315;
                     cardWidth = (int)((programAspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
@@ -165,6 +165,14 @@ public class CardPresenter extends Presenter {
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.video);
                             break;
                     }
+                    break;
+                case GridButton:
+                    cardHeight = !m.isStaticHeight() ? 350 : 315;
+                    cardWidth = (int)(.777777777 * cardHeight);
+                    mCardView.setMainImageDimensions(cardWidth, cardHeight);
+                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.video);
+                    break;
+
             }
         }
 
@@ -174,6 +182,15 @@ public class CardPresenter extends Presenter {
 
         public ImageCardView getCardView() {
             return mCardView;
+        }
+
+        protected void updateCardViewImage(int image) {
+            Picasso.with(mContext)
+                    .load(image)
+                    .resize(cardWidth, cardHeight)
+                    .centerCrop()
+                    .error(mDefaultCardImage)
+                    .into(mImageCardViewTarget);
         }
 
         protected void updateCardViewImage(String url) {

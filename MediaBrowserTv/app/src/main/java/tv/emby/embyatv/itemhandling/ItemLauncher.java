@@ -23,6 +23,7 @@ import tv.emby.embyatv.browsing.GenericFolderActivity;
 import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.browsing.UserViewActivity;
 import tv.emby.embyatv.details.DetailsActivity;
+import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.startup.DpadPwActivity;
@@ -302,7 +303,18 @@ public class ItemLauncher {
                         }
                         break;
                 }
+                break;
 
+            case GridButton:
+                switch (rowItem.getGridButton().getId()) {
+                    case TvApp.LIVE_TV_GUIDE_OPTION_ID:
+                        Intent guide = new Intent(activity, LiveTvGuideActivity.class);
+                        activity.startActivity(guide);
+                        break;
+
+
+                }
+                break;
 
 
         }
