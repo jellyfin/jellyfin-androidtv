@@ -167,6 +167,18 @@ public class TvApp extends Application {
         return PreferenceManager.getDefaultSharedPreferences(this);
     }
 
+    public SharedPreferences getSystemPrefs() {
+        return getSharedPreferences("systemprefs", MODE_PRIVATE);
+    }
+
+    public String getLastLiveTvChannel() {
+        return getSystemPrefs().getString("sys_pref_last_tv_channel", null);
+    }
+
+    public void setLastLiveTvChannel(String id) {
+        getSystemPrefs().edit().putString("sys_pref_last_tv_channel", id).commit();
+    }
+
     public boolean getIsAutoLoginConfigured() {
         return getPrefs().getString("pref_login_behavior", "0").equals("1");
     }
