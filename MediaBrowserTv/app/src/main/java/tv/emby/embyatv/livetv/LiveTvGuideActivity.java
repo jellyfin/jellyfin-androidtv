@@ -67,7 +67,7 @@ public class LiveTvGuideActivity extends BaseActivity {
     private static final int IMAGE_SIZE = Utils.convertDpToPixel(TvApp.getApplication(), 150);
     public static final int PAGEBUTTON_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 20);
     public static final int PAGEBUTTON_WIDTH = 120 * PIXELS_PER_MINUTE;
-    public static final int PAGE_SIZE = 50;
+    public static final int PAGE_SIZE = 20;
 
     private LiveTvGuideActivity mActivity;
     private TextView mDisplayDate;
@@ -87,6 +87,7 @@ public class LiveTvGuideActivity extends BaseActivity {
     private ProgramGridCell mSelectedProgramView;
 
     private List<ChannelInfoDto> mAllChannels;
+    private String mFirstFocusChannelId;
 
     private Calendar mCurrentGuideEnd;
     private long mCurrentLocalGuideStart;
@@ -330,7 +331,7 @@ public class LiveTvGuideActivity extends BaseActivity {
                             mDButtonRow.addView(rec);
                         }
                     }
-                    
+
                 }
 
                 if (local.getTime() > now.getTime()) {
@@ -644,18 +645,39 @@ public class LiveTvGuideActivity extends BaseActivity {
                     mAllChannels = new ArrayList<>();
                     mAllChannels.addAll(Arrays.asList(response.getItems()));
                     //fake more channels
-                    mAllChannels.addAll(Arrays.asList(response.getItems()));
-                    mAllChannels.addAll(Arrays.asList(response.getItems()));
-                    mAllChannels.addAll(Arrays.asList(response.getItems()));
-                    mAllChannels.addAll(Arrays.asList(response.getItems()));
+//                    mAllChannels.addAll(Arrays.asList(response.getItems()));
+//                    mAllChannels.addAll(Arrays.asList(response.getItems()));
+//                    mAllChannels.addAll(Arrays.asList(response.getItems()));
+//                    mAllChannels.addAll(Arrays.asList(response.getItems()));
                     //
-                    displayChannels(0, PAGE_SIZE);
+
+                    mFirstFocusChannelId = TvApp.getApplication().getLastLiveTvChannel();
+                    int ndx = 0;
+                    if (mFirstFocusChannelId != null) {
+                        ndx = getAllChannelsIndex(mFirstFocusChannelId);
+                        if (ndx  >= PAGE_SIZE) {
+                            // last channel is not in first page so grab a set where it will be in the middle
+                            ndx = ndx - (PAGE_SIZE / 2);
+                        } else {
+                            ndx = 0; // just start at beginning
+                        }
+                    }
+
+                    displayChannels(ndx, PAGE_SIZE);
+
                 } else {
                     mAllChannels.clear();
                 }
             }
         });
 
+    }
+
+    private int getAllChannelsIndex(String id) {
+        for (int i = 0; i < mAllChannels.size(); i++) {
+            if (mAllChannels.get(i).getId().equals(id)) return i;
+        }
+        return -1;
     }
 
     public void displayChannels(int start, int max) {
@@ -767,6 +789,13 @@ public class LiveTvGuideActivity extends BaseActivity {
                         first = false;
                         firstRow = row;
                     }
+
+                    // put focus on the last tuned channel
+                    if (channel.getId().equals(mFirstFocusChannelId)) {
+                        firstRow = row;
+                        mFirstFocusChannelId = null; // only do this first time in not while paging around
+                    }
+
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

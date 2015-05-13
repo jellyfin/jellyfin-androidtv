@@ -216,6 +216,7 @@ public class PlaybackController {
         if (isLiveTv) {
             liveTvChannelName = " ("+item.getName()+")";
             updateTvProgramInfo();
+            mApplication.setLastLiveTvChannel(item.getId());
         }
 
         mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
