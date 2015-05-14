@@ -13,4 +13,12 @@
         <item name="android:maxHeight">5sp</item>
     </style>
 
+    <style name="PopupSlideInTop">
+        <item name="android:windowEnterAnimation">@anim/abc_slide_in_top</item>
+        <item name="android:windowExitAnimation">@anim/abc_slide_out_top</item>
+    </style>
+    <style name="PopupSlideInRight">
+        <item name="android:windowEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_right</item>
+    </style>
 </resources>

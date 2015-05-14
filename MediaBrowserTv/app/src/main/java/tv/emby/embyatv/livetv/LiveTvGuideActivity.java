@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateUtils;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,7 @@ import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.ui.GuideChannelHeader;
 import tv.emby.embyatv.ui.GuidePagingButton;
 import tv.emby.embyatv.ui.HorizontalScrollViewListener;
+import tv.emby.embyatv.ui.ImageButton;
 import tv.emby.embyatv.ui.ObservableHorizontalScrollView;
 import tv.emby.embyatv.ui.ObservableScrollView;
 import tv.emby.embyatv.ui.ProgramGridCell;
@@ -136,6 +138,13 @@ public class LiveTvGuideActivity extends BaseActivity {
         TextClock clock = (TextClock) findViewById(R.id.clock);
         clock.setTypeface(roboto);
 
+        findViewById(R.id.filterButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFilterOptions();
+            }
+        });
+
         mProgramRows.setFocusable(false);
         mChannelScroller = (ScrollView) findViewById(R.id.channelScroller);
         ObservableScrollView programVScroller = (ObservableScrollView) findViewById(R.id.programVScroller);
@@ -167,13 +176,6 @@ public class LiveTvGuideActivity extends BaseActivity {
         mChannels.setFocusable(false);
         mChannelScroller.setFocusable(false);
 
-        //test
-        mFilters.setMovies(true);
-//        mFilters.setKids(true);
-        mFilters.setSeries(true);
-//        mFilters.setSports(false);
-//        mFilters.setNews(true);
-//        mFilters.clear();
 
     }
 
@@ -181,12 +183,17 @@ public class LiveTvGuideActivity extends BaseActivity {
         return mFilters.any() ? FILTERED_HOURS : NORMAL_HOURS;
     }
 
+    private void load() {
+        fillTimeLine(getGuideHours());
+        loadAllChannels();
+
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
 
-        fillTimeLine(getGuideHours());
-        loadAllChannels();
+        load();
     }
 
     @Override
@@ -197,6 +204,27 @@ public class LiveTvGuideActivity extends BaseActivity {
         if (mDisplayChannelTask != null) mDisplayChannelTask.cancel(true);
         if (mDetailPopup != null) mDetailPopup.dismiss();
         if (mRecordPopup != null) mRecordPopup.dismiss();
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_MENU:
+                // bring up filter selection
+                showFilterOptions();
+                break;
+            case KeyEvent.KEYCODE_MEDIA_PLAY:
+            case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                if ((mDetailPopup == null || !mDetailPopup.isShowing()) && (mFilterPopup == null || !mFilterPopup.isShowing())
+                        && mSelectedProgram != null && mSelectedProgram.getChannelId() != null) {
+                    // tune to the current channel
+                    Utils.Beep();
+                    Utils.retrieveAndPlay(mSelectedProgram.getChannelId(), false, this);
+                    return true;
+                }
+        }
+
+        return super.onKeyUp(keyCode, event);
     }
 
     private DetailPopup mDetailPopup;
@@ -223,6 +251,7 @@ public class LiveTvGuideActivity extends BaseActivity {
             mPopup.setFocusable(true);
             mPopup.setOutsideTouchable(true);
             mPopup.setBackgroundDrawable(new BitmapDrawable()); // necessary for popup to dismiss
+            mPopup.setAnimationStyle(R.style.PopupSlideInTop);
             mDTitle = (TextView)layout.findViewById(R.id.title);
             mDTitle.setTypeface(roboto);
             mDSummary = (TextView)layout.findViewById(R.id.summary);
@@ -233,6 +262,10 @@ public class LiveTvGuideActivity extends BaseActivity {
             mDButtonRow = (LinearLayout) layout.findViewById(R.id.buttonRow);
             mDInfoRow = (LinearLayout) layout.findViewById(R.id.infoRow);
             mDSimilarRow = (LinearLayout) layout.findViewById(R.id.similarRow);
+        }
+
+        public boolean isShowing() {
+            return (mPopup != null && mPopup.isShowing());
         }
 
         public void setContent(final ProgramInfoDto program) {
@@ -404,6 +437,90 @@ public class LiveTvGuideActivity extends BaseActivity {
         }
     }
 
+    private FilterPopup mFilterPopup;
+    class FilterPopup {
+
+        final int WIDTH = Utils.convertDpToPixel(TvApp.getApplication(), 250);
+        final int HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 400);
+
+        PopupWindow mPopup;
+        LiveTvGuideActivity mActivity;
+        CheckBox mMovies;
+        CheckBox mNews;
+        CheckBox mSeries;
+        CheckBox mKids;
+        CheckBox mSports;
+        CheckBox mPremiere;
+
+        Button mFilterButton;
+        Button mClearButton;
+
+        FilterPopup(LiveTvGuideActivity activity) {
+            mActivity = activity;
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.guide_filter_popup, null);
+            mPopup = new PopupWindow(layout, WIDTH, HEIGHT);
+            mPopup.setFocusable(true);
+            mPopup.setOutsideTouchable(true);
+            mPopup.setBackgroundDrawable(new BitmapDrawable()); // necessary for popup to dismiss
+            mPopup.setAnimationStyle(R.style.PopupSlideInRight);
+            mMovies = (CheckBox) layout.findViewById(R.id.movies);
+            mSeries = (CheckBox) layout.findViewById(R.id.series);
+            mNews = (CheckBox) layout.findViewById(R.id.news);
+            mKids = (CheckBox) layout.findViewById(R.id.kids);
+            mSports = (CheckBox) layout.findViewById(R.id.sports);
+            mPremiere = (CheckBox) layout.findViewById(R.id.premiere);
+
+            mFilterButton = (Button) layout.findViewById(R.id.okButton);
+            mFilterButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mFilters.setMovies(mMovies.isChecked());
+                    mFilters.setSeries(mSeries.isChecked());
+                    mFilters.setNews(mNews.isChecked());
+                    mFilters.setKids(mKids.isChecked());
+                    mFilters.setSports(mSports.isChecked());
+                    mFilters.setPremiere(mPremiere.isChecked());
+
+                    load();
+                    mPopup.dismiss();
+                }
+            });
+            mClearButton = (Button) layout.findViewById(R.id.clearButton);
+            mClearButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mFilters.clear();
+                    load();
+                    mPopup.dismiss();
+                }
+            });
+
+        }
+
+        public boolean isShowing() {
+            return (mPopup != null && mPopup.isShowing());
+        }
+
+        public void show() {
+            mMovies.setChecked(mFilters.isMovies());
+            mSeries.setChecked(mFilters.isSeries());
+            mNews.setChecked(mFilters.isNews());
+            mKids.setChecked(mFilters.isKids());
+            mSports.setChecked(mFilters.isSports());
+            mPremiere.setChecked(mFilters.isPremiere());
+
+            mPopup.showAtLocation(mTimelineScroller, Gravity.NO_GRAVITY, mTimelineScroller.getRight(), mSummary.getTop());
+
+        }
+
+        public void dismiss() {
+            if (mPopup != null && mPopup.isShowing()) {
+                mPopup.dismiss();
+            }
+        }
+    }
+
     private RecordPopup mRecordPopup;
     class RecordPopup {
         final int SERIES_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 540);
@@ -550,6 +667,10 @@ public class LiveTvGuideActivity extends BaseActivity {
             mDTimeline = (LinearLayout) layout.findViewById(R.id.timeline);
         }
 
+        public boolean isShowing() {
+            return (mPopup != null && mPopup.isShowing());
+        }
+
         public void setContent(ProgramInfoDto program, SeriesTimerInfoDto defaults, boolean recordSeries) {
             mProgramId = program.getId();
             mRecordSeries = recordSeries;
@@ -649,6 +770,13 @@ public class LiveTvGuideActivity extends BaseActivity {
 
     }
 
+    public void showFilterOptions() {
+
+        if (mFilterPopup == null) mFilterPopup = new FilterPopup(this);
+        mFilterPopup.show();
+
+    }
+
     private Button addButton(LinearLayout layout, int stringResource) {
         Button btn = new Button(this);
         btn.setText(getString(stringResource));
@@ -724,6 +852,8 @@ public class LiveTvGuideActivity extends BaseActivity {
 
             mChannels.removeAllViews();
             mProgramRows.removeAllViews();
+            mChannelStatus.setText("");
+            mFilterStatus.setText("");
         }
 
         @Override
@@ -778,8 +908,6 @@ public class LiveTvGuideActivity extends BaseActivity {
         protected void onPreExecute() {
             mChannels.removeAllViews();
             mProgramRows.removeAllViews();
-            mChannelStatus.setText("");
-            mFilterStatus.setText("");
 
             if (mCurrentDisplayChannelStartNdx > 0 && !mFilters.any()) {
                 // Show a paging row for channels above
@@ -789,6 +917,7 @@ public class LiveTvGuideActivity extends BaseActivity {
                 TextView placeHolder = new TextView(mActivity);
                 placeHolder.setHeight(PAGEBUTTON_HEIGHT);
                 mChannels.addView(placeHolder);
+                displayedChannels = 0;
 
                 mProgramRows.addView(new GuidePagingButton(mActivity, pageUpStart, getString(R.string.lbl_load_channels)+mAllChannels.get(pageUpStart).getNumber() + " - "+mAllChannels.get(mCurrentDisplayChannelStartNdx-1).getNumber()));
             }
@@ -853,8 +982,9 @@ public class LiveTvGuideActivity extends BaseActivity {
                 mProgramRows.addView(new GuidePagingButton(mActivity, mCurrentDisplayChannelEndNdx + 1, getString(R.string.lbl_load_channels)+mAllChannels.get(mCurrentDisplayChannelEndNdx+1).getNumber() + " - "+mAllChannels.get(pageDnEnd).getNumber()));
             }
 
-            mChannelStatus.setText("Showing "+displayedChannels+" of "+mAllChannels.size()+" channels");
+            mChannelStatus.setText(displayedChannels+" of "+mAllChannels.size()+" channels");
             mFilterStatus.setText(mFilters.toString() + " for next "+getGuideHours()+" hours");
+            mFilterStatus.setTextColor(mFilters.any() ? Color.WHITE : Color.GRAY);
 
             mSpinner.setVisibility(View.GONE);
             if (firstRow != null) firstRow.requestFocus();
