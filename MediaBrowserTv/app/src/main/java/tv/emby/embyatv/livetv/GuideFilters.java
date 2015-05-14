@@ -36,12 +36,13 @@ public class GuideFilters {
 
     public boolean passesFilter(ProgramInfoDto program) {
         if (!any()) return true;
-        if (movies && program.getIsMovie()) return true;
-        if (news && program.getIsNews()) return true;
-        if (series && program.getIsSeries()) return true;
-        if (kids && program.getIsKids()) return true;
-        if (sports && program.getIsSports()) return true;
-        if (premiere && program.getIsPremiere()) return true;
+
+        if (movies && program.getIsMovie()) return !premiere || program.getIsPremiere();
+        if (news && program.getIsNews()) return !premiere || program.getIsPremiere() || program.getIsLive() || !program.getIsRepeat();
+        if (series && program.getIsSeries()) return !premiere || program.getIsPremiere() || !program.getIsRepeat();
+        if (kids && program.getIsKids()) return !premiere || program.getIsPremiere();
+        if (sports && program.getIsSports()) return !premiere || program.getIsPremiere() || program.getIsLive();
+        if (!movies && !news && !series && !kids && !sports) return (premiere && (program.getIsPremiere() || (program.getIsSeries() && !program.getIsRepeat()) || (program.getIsSports() && program.getIsLive())));
 
         return false;
 
@@ -68,7 +69,7 @@ public class GuideFilters {
         if (sports) filterString += getSeparator(filterString) + "sports";
         if (series) filterString += getSeparator(filterString) + "series";
         if (kids) filterString += getSeparator(filterString) + "kids";
-        if (premiere) filterString += getSeparator(filterString) + "premiers";
+        if (premiere) filterString += getSeparator(filterString) + "ONLY new";
 
         return filterString;
     }

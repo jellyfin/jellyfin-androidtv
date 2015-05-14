@@ -141,6 +141,42 @@
         android:ellipsize="end"
         android:maxLines="5" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/channelsStatus"
+        android:layout_alignStart="@+id/programImage"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="2sp"
+        android:layout_marginLeft="2sp"
+        android:textSize="12sp"
+        android:textColor="@color/gray_gradient_end" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/filterStatus"
+        android:layout_alignEnd="@+id/programVScroller"
+        android:gravity="right"
+        android:layout_alignRight="@+id/programVScroller"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="2sp"
+        android:layout_marginRight="10sp"
+        android:textStyle="bold"
+        android:textSize="12sp"
+        android:textColor="@color/gray_gradient_end" />
+
+    <ImageButton
+        android:layout_width="35sp"
+        android:layout_height="35sp"
+        android:id="@+id/filterButton"
+        android:layout_marginRight="10sp"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/timelineHScroller"
+        android:layout_marginBottom="10sp"
+        android:src="@drawable/filter"
+        android:scaleType="fitCenter" />
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -168,29 +204,4 @@
             android:layout_marginTop="10sp" />
 
     </RelativeLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/channelsStatus"
-        android:layout_alignStart="@+id/programImage"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="2sp"
-        android:layout_marginLeft="2sp"
-        android:textSize="12sp"
-        android:textColor="@color/gray_gradient_end" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/filterStatus"
-        android:layout_alignEnd="@+id/programVScroller"
-        android:gravity="right"
-        android:layout_alignRight="@+id/programVScroller"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="2sp"
-        android:layout_marginRight="10sp"
-        android:textStyle="bold"
-        android:textSize="12sp"
-        android:textColor="@color/gray_gradient_end" />
 </RelativeLayout>
