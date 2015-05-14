@@ -796,10 +796,10 @@ public class LiveTvGuideActivity extends BaseActivity {
                     mAllChannels = new ArrayList<>();
                     mAllChannels.addAll(Arrays.asList(response.getItems()));
                     //fake more channels
-                    mAllChannels.addAll(Arrays.asList(response.getItems()));
-                    mAllChannels.addAll(Arrays.asList(response.getItems()));
-                    mAllChannels.addAll(Arrays.asList(response.getItems()));
-                    mAllChannels.addAll(Arrays.asList(response.getItems()));
+//                    mAllChannels.addAll(Arrays.asList(response.getItems()));
+//                    mAllChannels.addAll(Arrays.asList(response.getItems()));
+//                    mAllChannels.addAll(Arrays.asList(response.getItems()));
+//                    mAllChannels.addAll(Arrays.asList(response.getItems()));
                     //
 
                     mFirstFocusChannelId = TvApp.getApplication().getLastLiveTvChannel();
