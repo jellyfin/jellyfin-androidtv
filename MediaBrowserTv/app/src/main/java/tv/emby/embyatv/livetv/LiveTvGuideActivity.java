@@ -3,6 +3,7 @@ package tv.emby.embyatv.livetv;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
@@ -67,11 +68,15 @@ public class LiveTvGuideActivity extends BaseActivity {
     private static final int IMAGE_SIZE = Utils.convertDpToPixel(TvApp.getApplication(), 150);
     public static final int PAGEBUTTON_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 20);
     public static final int PAGEBUTTON_WIDTH = 120 * PIXELS_PER_MINUTE;
-    public static final int PAGE_SIZE = 20;
+    public static final int PAGE_SIZE = 50;
+    public static final int NORMAL_HOURS = 12;
+    public static final int FILTERED_HOURS = 3;
 
     private LiveTvGuideActivity mActivity;
     private TextView mDisplayDate;
     private TextView mTitle;
+    private TextView mChannelStatus;
+    private TextView mFilterStatus;
     private TextView mSummary;
     private ImageView mImage;
     private ImageView mBackdrop;
@@ -88,6 +93,7 @@ public class LiveTvGuideActivity extends BaseActivity {
 
     private List<ChannelInfoDto> mAllChannels;
     private String mFirstFocusChannelId;
+    private GuideFilters mFilters = new GuideFilters();
 
     private Calendar mCurrentGuideEnd;
     private long mCurrentLocalGuideStart;
@@ -113,6 +119,12 @@ public class LiveTvGuideActivity extends BaseActivity {
         mTitle.setTypeface(roboto);
         mSummary = (TextView) findViewById(R.id.summary);
         mSummary.setTypeface(roboto);
+        mChannelStatus = (TextView) findViewById(R.id.channelsStatus);
+        mFilterStatus = (TextView) findViewById(R.id.filterStatus);
+        mChannelStatus.setTypeface(roboto);
+        mFilterStatus.setTypeface(roboto);
+        mChannelStatus.setTextColor(Color.GRAY);
+        mFilterStatus.setTextColor(Color.GRAY);
         mInfoRow = (LinearLayout) findViewById(R.id.infoRow);
         mImage = (ImageView) findViewById(R.id.programImage);
         mBackdrop = (ImageView) findViewById(R.id.backdrop);
@@ -155,14 +167,25 @@ public class LiveTvGuideActivity extends BaseActivity {
         mChannels.setFocusable(false);
         mChannelScroller.setFocusable(false);
 
+        //test
+        mFilters.setMovies(true);
+//        mFilters.setKids(true);
+        mFilters.setSeries(true);
+//        mFilters.setSports(false);
+//        mFilters.setNews(true);
+//        mFilters.clear();
 
+    }
+
+    private int getGuideHours() {
+        return mFilters.any() ? FILTERED_HOURS : NORMAL_HOURS;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        fillTimeLine(12);
+        fillTimeLine(getGuideHours());
         loadAllChannels();
     }
 
@@ -645,10 +668,10 @@ public class LiveTvGuideActivity extends BaseActivity {
                     mAllChannels = new ArrayList<>();
                     mAllChannels.addAll(Arrays.asList(response.getItems()));
                     //fake more channels
-//                    mAllChannels.addAll(Arrays.asList(response.getItems()));
-//                    mAllChannels.addAll(Arrays.asList(response.getItems()));
-//                    mAllChannels.addAll(Arrays.asList(response.getItems()));
-//                    mAllChannels.addAll(Arrays.asList(response.getItems()));
+                    mAllChannels.addAll(Arrays.asList(response.getItems()));
+                    mAllChannels.addAll(Arrays.asList(response.getItems()));
+                    mAllChannels.addAll(Arrays.asList(response.getItems()));
+                    mAllChannels.addAll(Arrays.asList(response.getItems()));
                     //
 
                     mFirstFocusChannelId = TvApp.getApplication().getLastLiveTvChannel();
@@ -688,7 +711,8 @@ public class LiveTvGuideActivity extends BaseActivity {
         mCurrentDisplayChannelEndNdx = end - 1;
         if (mDisplayChannelTask != null) mDisplayChannelTask.cancel(true);
         mDisplayChannelTask  = new DisplayChannelTask();
-        mDisplayChannelTask.execute(mAllChannels.subList(start, end).toArray());
+        // if we are filtered, then we need to get programs for all channels
+        mDisplayChannelTask.execute(mFilters.any() ? mAllChannels.toArray() : mAllChannels.subList(start, end).toArray());
     }
 
     private DisplayChannelTask mDisplayChannelTask;
@@ -748,13 +772,16 @@ public class LiveTvGuideActivity extends BaseActivity {
     class DisplayProgramsTask extends AsyncTask<Object[], Integer, Void> {
 
         View firstRow;
+        int displayedChannels = 0;
 
         @Override
         protected void onPreExecute() {
             mChannels.removeAllViews();
             mProgramRows.removeAllViews();
+            mChannelStatus.setText("");
+            mFilterStatus.setText("");
 
-            if (mCurrentDisplayChannelStartNdx > 0) {
+            if (mCurrentDisplayChannelStartNdx > 0 && !mFilters.any()) {
                 // Show a paging row for channels above
                 int pageUpStart = mCurrentDisplayChannelStartNdx - PAGE_SIZE;
                 if (pageUpStart < 0) pageUpStart = 0;
@@ -805,6 +832,8 @@ public class LiveTvGuideActivity extends BaseActivity {
                         }
                     });
 
+                    displayedChannels++;
+
                 }
             }
             return null;
@@ -812,7 +841,7 @@ public class LiveTvGuideActivity extends BaseActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if (mCurrentDisplayChannelEndNdx < mAllChannels.size()-1) {
+            if (mCurrentDisplayChannelEndNdx < mAllChannels.size()-1 && !mFilters.any()) {
                 // Show a paging row for channels below
                 int pageDnEnd = mCurrentDisplayChannelEndNdx + PAGE_SIZE;
                 if (pageDnEnd >= mAllChannels.size()) pageDnEnd = mAllChannels.size()-1;
@@ -823,6 +852,9 @@ public class LiveTvGuideActivity extends BaseActivity {
 
                 mProgramRows.addView(new GuidePagingButton(mActivity, mCurrentDisplayChannelEndNdx + 1, getString(R.string.lbl_load_channels)+mAllChannels.get(mCurrentDisplayChannelEndNdx+1).getNumber() + " - "+mAllChannels.get(pageDnEnd).getNumber()));
             }
+
+            mChannelStatus.setText("Showing "+displayedChannels+" of "+mAllChannels.size()+" channels");
+            mFilterStatus.setText(mFilters.toString() + " for next "+getGuideHours()+" hours");
 
             mSpinner.setVisibility(View.GONE);
             if (firstRow != null) firstRow.requestFocus();
@@ -894,11 +926,17 @@ public class LiveTvGuideActivity extends BaseActivity {
 
     private List<ProgramInfoDto> getProgramsForChannel(String channelId, ProgramInfoDto[] programs) {
         List<ProgramInfoDto> results = new ArrayList<>();
+        boolean passes = !mFilters.any();
         for (ProgramInfoDto program : programs) {
-            if (program.getChannelId().equals(channelId) && Utils.convertToLocalDate(program.getEndDate()).getTime() > mCurrentLocalGuideStart) results.add(program);
+            if (program.getChannelId().equals(channelId) && Utils.convertToLocalDate(program.getEndDate()).getTime() > mCurrentLocalGuideStart) {
+                results.add(program);
+                passes |= mFilters.passesFilter(program);
+            }
         }
-        return results;
+
+        return passes ? results : new ArrayList<ProgramInfoDto>();
     }
+
 
     public long getCurrentLocalStartDate() { return mCurrentLocalGuideStart; }
     public long getCurrentLocalEndDate() { return mCurrentLocalGuideEnd; }
