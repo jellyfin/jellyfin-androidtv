@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.AsyncTask;
@@ -24,9 +25,15 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.TextClock;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -156,6 +163,23 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
         setOnItemViewClickedListener(new ItemViewClickedListener());
         setOnItemViewSelectedListener(new ItemViewSelectedListener());
+
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        FrameLayout root = (FrameLayout) view;
+        TextClock clock = new TextClock(mActivity);
+        clock.setTextSize(40);
+        clock.setFormat12Hour("h:mm");
+        clock.setFormat24Hour("H:mm");
+        clock.setTypeface(Typeface.createFromAsset(mActivity.getAssets(), "fonts/Roboto-Light.ttf"));
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0,40,40,0);
+        params.gravity = Gravity.RIGHT;
+        root.addView(clock, params);
 
     }
 
