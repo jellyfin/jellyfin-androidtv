@@ -80,13 +80,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/clock"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentEnd="true"
         android:format12Hour="h:mm"
         android:format24Hour="H:mm"
         android:textSize="40sp"
-        android:layout_marginTop="20sp"
-        android:layout_marginRight="20sp" />
+        android:layout_marginRight="20sp"
+        android:layout_alignBaseline="@+id/title" />
 
     <ImageView
         android:layout_width="match_parent"
