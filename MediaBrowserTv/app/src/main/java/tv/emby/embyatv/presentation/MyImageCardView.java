@@ -23,6 +23,12 @@ public class MyImageCardView extends ImageCardView {
         this(context, null);
     }
 
+    public MyImageCardView(Context context, boolean showInfo) {
+        this(context);
+
+        if (!showInfo) setCardType(CARD_TYPE_MAIN_ONLY);
+    }
+
     public MyImageCardView(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.imageCardViewStyle);
     }
