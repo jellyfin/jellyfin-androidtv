@@ -174,7 +174,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
         TextClock clock = new TextClock(mActivity);
         clock.setTextSize(40);
         clock.setFormat12Hour("h:mm");
-        clock.setFormat24Hour("H:mm");
+        clock.setFormat24Hour("k:mm");
         clock.setTypeface(Typeface.createFromAsset(mActivity.getAssets(), "fonts/Roboto-Light.ttf"));
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.setMargins(0,40,40,0);
