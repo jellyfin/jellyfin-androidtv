@@ -25,9 +25,15 @@ public class CardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";
 
     private static Context mContext;
+    private boolean mShowInfo = true;
 
     public CardPresenter() {
         super();
+    }
+
+    public CardPresenter(boolean showInfo) {
+        this();
+        mShowInfo = showInfo;
     }
 
     static class ViewHolder extends Presenter.ViewHolder {
@@ -52,6 +58,10 @@ public class CardPresenter extends Presenter {
         }
 
         public void setItem(BaseRowItem m) {
+            setItem(m, 280, 350, 315);
+        }
+
+        public void setItem(BaseRowItem m, int lHeight, int pHeight, int sHeight) {
             mItem = m;
             switch (mItem.getItemType()) {
 
@@ -90,7 +100,7 @@ public class CardPresenter extends Presenter {
 
                     }
                     if (aspect == null) aspect = .77777;
-                    cardHeight = !m.isStaticHeight() ? aspect > 1 ? 280 : 350 : 315;
+                    cardHeight = !m.isStaticHeight() ? aspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((aspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
@@ -99,7 +109,7 @@ public class CardPresenter extends Presenter {
                     ChannelInfoDto channel = mItem.getChannelInfo();
                     Double tvAspect = channel.getPrimaryImageAspectRatio();
                     if (tvAspect == null) tvAspect = .7777777;
-                    cardHeight = !m.isStaticHeight() ? tvAspect > 1 ? 280 : 350 : 315;
+                    cardHeight = !m.isStaticHeight() ? tvAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((tvAspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
@@ -110,7 +120,7 @@ public class CardPresenter extends Presenter {
                     ProgramInfoDto program = mItem.getProgramInfo();
                     Double programAspect = program.getPrimaryImageAspectRatio();
                     if (programAspect == null) programAspect = .7777777;
-                    cardHeight = !m.isStaticHeight() ? programAspect > 1 ? 280 : 350 : 315;
+                    cardHeight = !m.isStaticHeight() ? programAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((programAspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
@@ -121,7 +131,7 @@ public class CardPresenter extends Presenter {
                     RecordingInfoDto recording = mItem.getRecordingInfo();
                     Double recordingAspect = recording.getPrimaryImageAspectRatio();
                     if (recordingAspect == null) recordingAspect = .7777777;
-                    cardHeight = !m.isStaticHeight() ? recordingAspect > 1 ? 280 : 350 : 315;
+                    cardHeight = !m.isStaticHeight() ? recordingAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((recordingAspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
@@ -167,7 +177,7 @@ public class CardPresenter extends Presenter {
                     }
                     break;
                 case GridButton:
-                    cardHeight = !m.isStaticHeight() ? 350 : 315;
+                    cardHeight = !m.isStaticHeight() ? pHeight : sHeight;
                     cardWidth = (int)(.777777777 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.video);
@@ -230,7 +240,7 @@ public class CardPresenter extends Presenter {
         //Log.d(TAG, "onCreateViewHolder");
         mContext = parent.getContext();
 
-        MyImageCardView cardView = new MyImageCardView(mContext);
+        MyImageCardView cardView = new MyImageCardView(mContext, mShowInfo);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
         cardView.setBackgroundColor(mContext.getResources().getColor(R.color.lb_basic_card_info_bg_color));
