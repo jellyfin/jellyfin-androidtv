@@ -83,7 +83,7 @@
         android:layout_alignParentTop="false"
         android:layout_alignParentEnd="true"
         android:format12Hour="h:mm"
-        android:format24Hour="H:mm"
+        android:format24Hour="k:mm"
         android:textSize="40sp"
         android:layout_marginRight="20sp"
         android:layout_alignBaseline="@+id/title" />
