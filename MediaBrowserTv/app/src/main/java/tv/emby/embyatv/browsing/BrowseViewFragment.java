@@ -25,7 +25,7 @@ import tv.emby.embyatv.querying.StdItemQuery;
 /**
  * Created by Eric on 12/4/2014.
  */
-public class BrowseViewFragment extends BrowseFolderFragment {
+public class BrowseViewFragment extends EnhancedBrowseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -104,7 +104,7 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                 nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 nextUpQuery.setLimit(50);
                 nextUpQuery.setParentId(mFolder.getId());
-                nextUpQuery.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
+                nextUpQuery.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
                 mRows.add(new BrowseRowDef(mApplication.getResources().getString(R.string.lbl_next_up), nextUpQuery, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}));
 
                 //Latest content added
@@ -199,10 +199,9 @@ public class BrowseViewFragment extends BrowseFolderFragment {
                     public void onResponse(ItemsResult response) {
                         if (response.getTotalRecordCount() > 0) {
                             for (BaseItemDto item : response.getItems()) {
-                                ItemQuery rowQuery = new ItemQuery();
+                                ItemQuery rowQuery = new StdItemQuery();
                                 rowQuery.setParentId(item.getId());
                                 rowQuery.setUserId(userId);
-                                rowQuery.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
                                 rows.add(new BrowseRowDef(item.getName(), rowQuery, 60, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
                             }
                         }

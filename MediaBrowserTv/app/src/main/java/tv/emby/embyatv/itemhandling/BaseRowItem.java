@@ -188,6 +188,34 @@ public class BaseRowItem {
         return TvApp.getApplication().getString(R.string.lbl_bracket_unknown);
     }
 
+    public String getName() {
+        switch (type) {
+
+            case BaseItem:
+                return baseItem.getName();
+            case Person:
+                return person.getName();
+            case Server:
+                return serverInfo.getName();
+            case User:
+                return user.getName();
+            case Chapter:
+                return chapterInfo.getName();
+            case SearchHint:
+                return searchHint.getName();
+            case LiveTvChannel:
+                return channelInfo.getName();
+            case LiveTvRecording:
+                return recordingInfo.getName();
+            case GridButton:
+                return gridButton.getText();
+            case LiveTvProgram:
+                return programInfo.getName();
+        }
+
+        return TvApp.getApplication().getString(R.string.lbl_bracket_unknown);
+    }
+
     public String getItemId() {
         switch (type) {
 
@@ -244,6 +272,34 @@ public class BaseRowItem {
                 return date != null ? DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(date).getTime()).toString() : TvApp.getApplication().getString(R.string.lbl_never);
             case SearchHint:
                 return searchHint.getType();
+        }
+
+        return "";
+    }
+
+    public String getSummary() {
+        switch (type) {
+
+            case BaseItem:
+                return baseItem.getOverview();
+            case Person:
+                break;
+            case Server:
+                break;
+            case User:
+                break;
+            case Chapter:
+                break;
+            case SearchHint:
+                break;
+            case LiveTvChannel:
+                break;
+            case LiveTvRecording:
+                return recordingInfo.getOverview();
+            case GridButton:
+                break;
+            case LiveTvProgram:
+                return programInfo.getOverview();
         }
 
         return "";

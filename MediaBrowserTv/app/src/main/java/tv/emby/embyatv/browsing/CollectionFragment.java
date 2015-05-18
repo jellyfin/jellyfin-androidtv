@@ -8,7 +8,7 @@ import tv.emby.embyatv.querying.StdItemQuery;
 /**
  * Created by Eric on 12/4/2014.
  */
-public class CollectionFragment extends BrowseFolderFragment {
+public class CollectionFragment extends EnhancedBrowseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -39,7 +39,6 @@ public class CollectionFragment extends BrowseFolderFragment {
             rowLoader.loadRows(mRows);
         }
 
-        setHeadersState(HEADERS_DISABLED);
 
     }
 

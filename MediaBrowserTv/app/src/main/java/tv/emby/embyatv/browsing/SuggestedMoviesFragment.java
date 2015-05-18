@@ -17,19 +17,16 @@ import tv.emby.embyatv.querying.StdItemQuery;
 /**
  * Created by Eric on 12/4/2014.
  */
-public class SuggestedMoviesFragment extends CustomViewFragment {
+public class SuggestedMoviesFragment extends EnhancedBrowseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        MainTitle = TvApp.getApplication().getString(R.string.lbl_suggested_movies);
         super.onActivityCreated(savedInstanceState);
 
     }
 
     @Override
     protected void setupQueries(final IRowLoader rowLoader) {
-
-        setHeadersState(HEADERS_DISABLED);
 
         StdItemQuery lastPlayed = new StdItemQuery();
         lastPlayed.setParentId(mFolder.getId());
@@ -46,7 +43,7 @@ public class SuggestedMoviesFragment extends CustomViewFragment {
                 for (BaseItemDto item : response.getItems()) {
                     SimilarItemsQuery similar = new SimilarItemsQuery();
                     similar.setId(item.getId());
-                    similar.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
+                    similar.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
                     similar.setLimit(7);
                     mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_because_you_watched)+item.getName(), similar, QueryType.SimilarMovies));
                 }

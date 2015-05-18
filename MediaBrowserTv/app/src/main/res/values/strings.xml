@@ -78,6 +78,7 @@
     <string name="lbl_suggested">Suggested</string>
     <string name="lbl_genres">Genres</string>
     <string name="lbl_performers">Performers</string>
+    <string name="lbl_search">Search</string>
     <string name="msg_not_implemented">" not implemented"</string>
     <string name="lbl_latest">Latest</string>
     <string name="lbl_by_name">By Name</string>

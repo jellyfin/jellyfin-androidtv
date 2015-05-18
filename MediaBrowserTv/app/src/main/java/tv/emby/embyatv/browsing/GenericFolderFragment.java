@@ -13,7 +13,7 @@ import tv.emby.embyatv.querying.StdItemQuery;
 /**
  * Created by Eric on 12/4/2014.
  */
-public class GenericFolderFragment extends BrowseFolderFragment {
+public class GenericFolderFragment extends EnhancedBrowseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -56,13 +56,8 @@ public class GenericFolderFragment extends BrowseFolderFragment {
             byName.setSortBy(new String[]{ItemSortBy.SortName});
             mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_by_name), byName, 100));
 
-            if (mRows.size() < 3) setHeadersState(HEADERS_DISABLED);
-
             rowLoader.loadRows(mRows);
 
-        }
-        else {
-            setHeadersState(HEADERS_DISABLED);
         }
     }
 
