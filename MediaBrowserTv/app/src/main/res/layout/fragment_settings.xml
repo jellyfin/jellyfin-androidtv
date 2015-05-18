@@ -9,7 +9,7 @@
         android:id="@+id/imageView7"
         android:layout_gravity="center"
         android:src="@drawable/moviebg"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitXY" />
 
 
     <SurfaceView
