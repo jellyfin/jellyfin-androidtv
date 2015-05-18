@@ -28,7 +28,7 @@
         android:id="@+id/infoRow"></LinearLayout>
 
     <TextView
-        android:layout_width="550sp"
+        android:layout_width="570sp"
         android:layout_height="150sp"
         android:id="@+id/summary"
         android:layout_below="@+id/infoRow"
@@ -36,7 +36,7 @@
         android:ellipsize="end"
         android:textSize="16sp"
         android:layout_marginTop="15sp"
-        android:maxLines="9" />
+        android:maxLines="8" />
 
     <FrameLayout
         android:layout_width="fill_parent"
