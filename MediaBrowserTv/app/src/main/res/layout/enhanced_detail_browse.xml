@@ -9,7 +9,7 @@
         android:id="@+id/title"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="20sp"
+        android:layout_marginLeft="30sp"
         android:layout_marginTop="20sp"
         android:textSize="28sp"
         android:shadowColor="#ff000000"
@@ -35,7 +35,7 @@
         android:layout_alignStart="@+id/infoRow"
         android:ellipsize="end"
         android:textSize="16sp"
-        android:layout_marginTop="15sp"
+        android:layout_marginTop="12sp"
         android:maxLines="8" />
 
     <FrameLayout
@@ -43,7 +43,8 @@
         android:layout_height="fill_parent"
         android:layout_below="@+id/summary"
         android:id="@+id/rowsFragment"
-        android:layout_alignParentStart="true"></FrameLayout>
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5sp"></FrameLayout>
 
     <TextClock
         android:layout_width="wrap_content"
