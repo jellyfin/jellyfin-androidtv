@@ -71,6 +71,7 @@
         <activity android:name=".details.FullDetailsActivity" />
         <activity android:name=".startup.DirectEntryActivity" />
         <activity android:name=".livetv.LiveTvGuideActivity" />
+        <activity android:name=".browsing.EnhancedBrowseActivity" />
         <activity
             android:name=".startup.DpadPwActivity"
             android:label="@string/title_activity_dpad_pw" >

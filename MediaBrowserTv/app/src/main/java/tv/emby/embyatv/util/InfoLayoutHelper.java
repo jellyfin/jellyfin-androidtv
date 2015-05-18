@@ -15,6 +15,7 @@ import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.livetv.ProgramInfoDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.itemhandling.BaseRowItem;
 
 /**
  * Created by Eric on 4/29/2015.
@@ -22,6 +23,18 @@ import tv.emby.embyatv.TvApp;
 public class InfoLayoutHelper {
 
     private static int textSize = 16;
+
+    public static void addInfoRow(Activity activity, BaseRowItem item, LinearLayout layout, boolean includeRuntime) {
+        switch (item.getItemType()) {
+
+            case BaseItem:
+                addInfoRow(activity, item.getBaseItem(), layout, includeRuntime);
+                break;
+            default:
+                layout.removeAllViews();
+                break;
+        }
+    }
 
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime) {
         layout.removeAllViews();

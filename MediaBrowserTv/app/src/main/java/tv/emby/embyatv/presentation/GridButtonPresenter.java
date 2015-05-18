@@ -20,8 +20,8 @@ public class GridButtonPresenter extends Presenter {
     private static Context mContext;
 
     static class ViewHolder extends Presenter.ViewHolder {
-        private int cardWidth = 240;
-        private int cardHeight = 240;
+        private int cardWidth = 220;
+        private int cardHeight = 220;
         private GridButton mItem;
         private MyImageCardView mCardView;
         private Drawable mDefaultCardImage;
