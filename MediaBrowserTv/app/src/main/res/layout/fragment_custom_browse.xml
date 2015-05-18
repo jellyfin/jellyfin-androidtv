@@ -9,7 +9,8 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:src="@drawable/moviebg"
-        android:alpha=".5" />
+        android:alpha=".3"
+        android:scaleType="fitXY" />
 
     <ImageView
         android:layout_width="200sp"

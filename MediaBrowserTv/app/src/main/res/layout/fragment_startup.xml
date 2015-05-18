@@ -11,7 +11,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:alpha=".45"
+        android:scaleType="fitXY" />
 
 
     <ImageView
