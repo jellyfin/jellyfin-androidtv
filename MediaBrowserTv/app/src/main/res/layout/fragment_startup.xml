@@ -1,7 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="tv.emby.embyatv.startup.StartupActivity.StartupFragment">
+    tools:context="tv.emby.embyatv.startup.StartupActivity.StartupFragment"
+    android:background="#ff000000">
 
     <ImageView
         android:layout_width="match_parent"
@@ -12,8 +13,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:alpha=".45"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY"
+        android:alpha=".45" />
 
 
     <ImageView
