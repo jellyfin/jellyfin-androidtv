@@ -9,7 +9,6 @@ import tv.emby.embyatv.util.Utils;
  * Created by Eric on 3/23/2015.
  */
 public class DetailItemLoadResponse extends Response<BaseItemDto> {
-    private Response<BaseItemDto> response;
     private BaseItemDetailsFragment detailFragment;
 
     public DetailItemLoadResponse(BaseItemDetailsFragment fragment) {
