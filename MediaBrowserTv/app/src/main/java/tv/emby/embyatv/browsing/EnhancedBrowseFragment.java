@@ -21,6 +21,7 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,9 +39,14 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.model.dto.BaseItemDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.base.BaseActivity;
+import tv.emby.embyatv.base.CustomMessage;
+import tv.emby.embyatv.base.IKeyListener;
+import tv.emby.embyatv.base.IMessageListener;
 import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
@@ -52,6 +58,7 @@ import tv.emby.embyatv.querying.ViewQuery;
 import tv.emby.embyatv.search.SearchActivity;
 import tv.emby.embyatv.ui.GridButton;
 import tv.emby.embyatv.util.InfoLayoutHelper;
+import tv.emby.embyatv.util.KeyProcessor;
 
 /**
  * Created by Eric on 5/17/2015.
@@ -59,13 +66,12 @@ import tv.emby.embyatv.util.InfoLayoutHelper;
 public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     private static final int BACKGROUND_UPDATE_DELAY = 100;
     Typeface roboto;
-    Activity mActivity;
+    BaseActivity mActivity;
     TvApp mApplication;
 
     TextView mTitle;
     LinearLayout mInfoRow;
     TextView mSummary;
-    ImageView mBackdrop;
     TextClock mClock;
 
     protected static final int BY_LETTER = 0;
@@ -91,7 +97,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     private String mBackgroundUrl;
     protected ArrayList<BrowseRowDef> mRows = new ArrayList<>();
     CardPresenter mCardPresenter;
-    private BaseRowItem mCurrentItem;
+    protected BaseRowItem mCurrentItem;
+    protected Row mCurrentRow;
 
     @Nullable
     @Override
@@ -99,7 +106,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
         View root = inflater.inflate(R.layout.enhanced_detail_browse, container, false);
 
-        mActivity = getActivity();
+        mActivity = (BaseActivity) getActivity();
         roboto = Typeface.createFromAsset(mActivity.getAssets(), "fonts/Roboto-Light.ttf");
 
         mTitle = (TextView) root.findViewById(R.id.title);
@@ -290,6 +297,33 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
         mRowsFragment.setOnItemViewSelectedListener(mSelectedListener);
         mSelectedListener.registerListener(new ItemViewSelectedListener());
+        if (mActivity != null) {
+            mActivity.registerKeyListener(new IKeyListener() {
+                @Override
+                public boolean onKeyUp(int key, KeyEvent event) {
+                    return KeyProcessor.HandleKey(key, mCurrentItem, mActivity);
+                }
+            });
+
+            mActivity.registerMessageListener(new IMessageListener() {
+                @Override
+                public void onMessageReceived(CustomMessage message) {
+                    switch (message) {
+
+                        case RefreshCurrentItem:
+                            TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
+                            mCurrentItem.refresh(new EmptyResponse() {
+                                @Override
+                                public void onResponse() {
+                                    ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)mCurrentRow).getAdapter();
+                                    adapter.notifyArrayItemRangeChanged(adapter.indexOf(mCurrentItem), 1);
+                                }
+                            });
+                            break;
+                    }
+                }
+            });
+        }
     }
 
     private final class SpecialViewClickedListener implements OnItemViewClickedListener {
@@ -371,6 +405,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             BaseRowItem rowItem = (BaseRowItem) item;
 
             mCurrentItem = rowItem;
+            mCurrentRow = row;
             mHandler.removeCallbacks(updateContentTask);
             mHandler.postDelayed(updateContentTask, 500);
 
