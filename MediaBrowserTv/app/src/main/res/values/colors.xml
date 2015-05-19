@@ -1,7 +1,7 @@
 <resources>
     <color name="background_gradient_start">#000000</color>
     <color name="background_gradient_end">#d0484848</color>
-    <color name="fastlane_background">#ff090b35</color>
+    <color name="fastlane_background">#ff082804</color>
     <color name="search_opaque">#ff007d8d</color>
     <color name="detail_background">#ff007d8d</color>
     <color name="text_higlight">#ff007d8d</color>
