@@ -11,6 +11,6 @@ public class StdItemQuery extends ItemQuery {
 
     public StdItemQuery() {
         setUserId(TvApp.getApplication().getCurrentUser().getId());
-        setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
+        setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Overview, ItemFields.ItemCounts});
     }
 }

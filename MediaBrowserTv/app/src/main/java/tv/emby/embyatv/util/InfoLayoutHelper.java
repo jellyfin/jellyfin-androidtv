@@ -31,19 +31,74 @@ public class InfoLayoutHelper {
                 addInfoRow(activity, item.getBaseItem(), layout, includeRuntime);
                 break;
             default:
-                layout.removeAllViews();
+                addSubText(activity, item, layout);
                 break;
         }
     }
 
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime) {
         layout.removeAllViews();
-        if (item.getType().equals("Episode")) addSeasonEpisode(activity, item, layout);
         addCriticInfo(activity, item, layout);
+        switch (item.getType()) {
+            case "Episode":
+                addSeasonEpisode(activity, item, layout);
+                break;
+            case "BoxSet":
+                addBoxSetCounts(activity, item, layout);
+                break;
+            case "Series":
+                addSeasonCount(activity, item, layout);
+                break;
+        }
         addDate(activity, item, layout);
         if (includeRuntime) addRuntime(activity, item, layout);
         addRatingAndRes(activity, item, layout);
         addMediaDetails(activity, item, layout);
+    }
+
+    private static void addBoxSetCounts(Activity activity, BaseItemDto item, LinearLayout layout) {
+        boolean hasSpecificCounts = false;
+        if (item.getMovieCount() != null && item.getMovieCount() > 0) {
+            TextView amt = new TextView(activity);
+            amt.setTextSize(textSize);
+            amt.setText(item.getMovieCount().toString()+" "+activity.getResources().getString(R.string.lbl_movies)+"  ");
+            layout.addView(amt);
+            hasSpecificCounts = true;
+
+        }
+        if (item.getSeriesCount() != null && item.getSeriesCount() > 0) {
+            TextView amt = new TextView(activity);
+            amt.setTextSize(textSize);
+            amt.setText(item.getSeriesCount().toString()+" "+activity.getResources().getString(R.string.lbl_tv_series)+"  ");
+            layout.addView(amt);
+            hasSpecificCounts = true;
+        }
+        if (!hasSpecificCounts && item.getChildCount() != null && item.getChildCount() > 0) {
+            TextView amt = new TextView(activity);
+            amt.setTextSize(textSize);
+            amt.setText(item.getChildCount().toString()+" "+ activity.getResources().getString(item.getChildCount() > 1 ? R.string.lbl_items : R.string.lbl_item) +"  ");
+            layout.addView(amt);
+
+        }
+    }
+
+    private static void addSeasonCount(Activity activity, BaseItemDto item, LinearLayout layout) {
+        if (item.getSeasonCount() != null && item.getSeasonCount() > 0) {
+            TextView amt = new TextView(activity);
+            amt.setTextSize(textSize);
+            amt.setText(item.getSeasonCount().toString()+" "+activity.getResources().getString(R.string.lbl_seasons)+"  ");
+            layout.addView(amt);
+
+        }
+    }
+
+    private static void addSubText(Activity activity, BaseRowItem item, LinearLayout layout) {
+        layout.removeAllViews();
+        TextView text = new TextView(activity);
+        text.setTextSize(textSize);
+        text.setText(item.getSubText() + " ");
+        layout.addView(text);
+
     }
 
     private static void addRuntime(Activity activity, BaseItemDto item, LinearLayout layout) {
@@ -78,6 +133,7 @@ public class InfoLayoutHelper {
         int imagesize = Utils.convertDpToPixel(activity,textSize+2);
         LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(imagesize,imagesize);
         imageParams.setMargins(0, 5, 10, 0);
+        boolean hasSomething = false;
         if (item.getCommunityRating() != null) {
             ImageView star = new ImageView(activity);
             star.setImageResource(R.drawable.star);
@@ -88,6 +144,8 @@ public class InfoLayoutHelper {
             amt.setTextSize(textSize);
             amt.setText(item.getCommunityRating().toString()+" ");
             layout.addView(amt);
+
+            hasSomething = true;
         }
 
         if (item.getCriticRating() != null) {
@@ -105,8 +163,11 @@ public class InfoLayoutHelper {
             amt.setText(item.getCriticRating().toString() + "% ");
             layout.addView(amt);
 
+            hasSomething = true;
+
         }
-        addSpacer(activity, layout, "  ");
+
+        if (hasSomething) addSpacer(activity, layout, "  ");
     }
 
     private static void addDate(Activity activity, BaseItemDto item, LinearLayout layout) {
@@ -145,7 +206,13 @@ public class InfoLayoutHelper {
                     addSpacer(activity, layout, "    ");
                 }
                 break;
-
+            case "Series":
+                if (item.getProductionYear() != null && item.getProductionYear() > 0) {
+                    date.setText(item.getProductionYear().toString());
+                    layout.addView(date);
+                    addSpacer(activity, layout, "  ");
+                }
+                break;
             default:
                 if (item.getPremiereDate() != null) {
                     date.setText(new SimpleDateFormat("d MMM y").format(Utils.convertToLocalDate(item.getPremiereDate())));

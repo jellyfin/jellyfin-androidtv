@@ -25,7 +25,8 @@
         android:layout_below="@+id/title"
         android:layout_alignStart="@+id/title"
         android:layout_marginTop="3sp"
-        android:id="@+id/infoRow"></LinearLayout>
+        android:id="@+id/infoRow"
+        android:layout_toLeftOf="@+id/clock"></LinearLayout>
 
     <TextView
         android:layout_width="570sp"

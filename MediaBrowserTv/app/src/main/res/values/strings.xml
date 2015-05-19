@@ -112,6 +112,8 @@
     <string name="lbl_chapters">Chapters</string>
     <string name="lbl_specials">Specials</string>
     <string name="lbl_trailers">Trailers</string>
+    <string name="lbl_items">Items</string>
+    <string name="lbl_item">Item</string>
     <string name="lbl_similar_movies">Similar Movies</string>
     <string name="lbl_seasons">Seasons</string>
     <string name="lbl_upcoming">Upcoming</string>
