@@ -21,6 +21,7 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.model.ChangeTriggerType;
 import tv.emby.embyatv.querying.StdItemQuery;
+import tv.emby.embyatv.util.Utils;
 
 /**
  * Created by Eric on 12/4/2014.
@@ -34,7 +35,8 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
     @Override
     protected void setupQueries(final IRowLoader rowLoader) {
-        switch (mFolder.getCollectionType().toLowerCase())
+        String type = mFolder.getCollectionType() != null ? mFolder.getCollectionType().toLowerCase() : "";
+        switch (type)
         {
             case "movies":
                 itemTypeString = "Movie";
