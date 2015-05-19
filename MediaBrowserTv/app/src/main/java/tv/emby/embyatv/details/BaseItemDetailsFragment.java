@@ -340,7 +340,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
             ClassPresenterSelector ps = new ClassPresenterSelector();
             // set detail background and style
-            mDorPresenter.setBackgroundColor(getResources().getColor(R.color.detail_background));
+            mDorPresenter.setBackgroundColor(TvApp.getApplication().getResources().getColor(R.color.detail_background));
             mDorPresenter.setStyleLarge(true);
             mDorPresenter.setOnActionClickedListener(new OnActionClickedListener() {
                 @Override
@@ -403,6 +403,8 @@ public class BaseItemDetailsFragment extends DetailsFragment {
             final ArrayObjectAdapter adapter = new ArrayObjectAdapter(ps);
             adapter.add(detailRow);
 
+            if (cancelled) return;
+            
             setAdapter(adapter);
 
             addAdditionalRows(adapter);
