@@ -392,6 +392,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         @Override
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
+            mHandler.removeCallbacks(updateContentTask);
             if (!(item instanceof BaseRowItem)) {
                 mTitle.setText(mFolder.getName());
                 mInfoRow.removeAllViews();
@@ -406,7 +407,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
             mCurrentItem = rowItem;
             mCurrentRow = row;
-            mHandler.removeCallbacks(updateContentTask);
             mHandler.postDelayed(updateContentTask, 500);
 
             //mApplication.getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));
