@@ -1009,8 +1009,8 @@ public class Utils {
         AndroidProfileOptions options = new AndroidProfileOptions();
         options.SupportsAc3 = isFireTv();
         options.SupportsHls = true;
-        options.DefaultH264Level = 41;
-        options.ForceH264Level = isFireTv();
+        options.DefaultH264Level = isFireTv() ? 40 : 41;
+        options.ForceH264Level = false;
         return options;
     }
 
