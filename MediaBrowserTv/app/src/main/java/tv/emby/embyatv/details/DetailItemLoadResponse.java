@@ -23,6 +23,5 @@ public class DetailItemLoadResponse extends Response<BaseItemDto> {
     @Override
     public void onError(Exception exception) {
         TvApp.getApplication().getLogger().ErrorException("Error retrieving full object", exception);
-        Utils.reportError(detailFragment.getActivity(), "Error retrieving item");
     }
 }

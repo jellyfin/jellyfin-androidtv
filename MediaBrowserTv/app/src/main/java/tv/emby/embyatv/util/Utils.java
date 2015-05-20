@@ -1027,6 +1027,7 @@ public class Utils {
     }
 
     public static void reportError(final Context context, final String msg) {
+        if (context == null) return;
         new AlertDialog.Builder(context)
                 .setTitle(msg)
                 .setMessage(context.getString(R.string.lbl_report_msg_question))

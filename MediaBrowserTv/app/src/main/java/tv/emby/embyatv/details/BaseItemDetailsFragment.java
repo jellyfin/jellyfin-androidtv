@@ -404,7 +404,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
             adapter.add(detailRow);
 
             if (cancelled) return;
-            
+
             setAdapter(adapter);
 
             addAdditionalRows(adapter);
