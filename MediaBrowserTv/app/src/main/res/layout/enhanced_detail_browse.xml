@@ -11,12 +11,13 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="30sp"
         android:layout_marginTop="20sp"
-        android:textSize="28sp"
+        android:textSize="35sp"
         android:shadowColor="#ff000000"
         android:layout_toLeftOf="@+id/clock"
         android:layout_marginRight="10sp"
         android:maxLines="1"
-        android:ellipsize="end" />
+        android:ellipsize="end"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:orientation="horizontal"

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
@@ -15,16 +14,18 @@ import android.text.format.DateUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -35,9 +36,7 @@ import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.UserItemDataDto;
-import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.PersonType;
-import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.ProgramInfoDto;
 import tv.emby.embyatv.R;
@@ -61,6 +60,7 @@ public class FullDetailsActivity extends BaseActivity {
     private TextView mButtonHelp;
     private TextView mLastPlayedText;
     private TextView mTimeLine;
+    private TextView mSummary;
     private LinearLayout mButtonRow;
     private LinearLayout mGenreRow;
     private ImageButton mResumeButton;
@@ -109,6 +109,8 @@ public class FullDetailsActivity extends BaseActivity {
         mTitle.setTypeface(roboto);
         mTitle.setShadowLayer(5, 5, 5, Color.BLACK);
         mLastPlayedText.setTypeface(roboto);
+        mSummary = (TextView)findViewById(R.id.fdSummaryText);
+        mSummary.setTypeface(roboto);
         clock.setTypeface(roboto);
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         backgroundManager.attach(getWindow());
@@ -191,6 +193,11 @@ public class FullDetailsActivity extends BaseActivity {
         }
     }
 
+    private static String[] playableTypes = new String[] {"Episode","Movie","Series","Season","Folder","Video"};
+    private static List<String> playableTypeList = Arrays.asList(playableTypes);
+    private static String[] directPlayableTypes = new String[] {"Episode","Movie","Video"};
+    private static List<String> directPlayableTypeList = Arrays.asList(directPlayableTypes);
+
     private void loadItem(String id) {
         final FullDetailsActivity us = this;
         if (mChannelId != null) {
@@ -231,16 +238,13 @@ public class FullDetailsActivity extends BaseActivity {
             // scale down the title so more will fit
             mTitle.setTextSize(32);
         }
-        TextView summary = (TextView)findViewById(R.id.fdSummaryText);
-        summary.setTypeface(roboto);
-        summary.setMovementMethod(new ScrollingMovementMethod());
-        summary.setText(item.getOverview());
+        mSummary.setText(item.getOverview());
         setSummaryTitles();
         LinearLayout mainInfoRow = (LinearLayout)findViewById(R.id.fdMainInfoRow);
 
         InfoLayoutHelper.addInfoRow(this, item, mainInfoRow, false);
         addGenres(mGenreRow);
-        addButtons(mButtonRow, BUTTON_SIZE);
+        if (playableTypeList.contains(item.getType())) addButtons(mButtonRow, BUTTON_SIZE);
         updatePlayedDate();
 
         updatePoster();
@@ -260,9 +264,13 @@ public class FullDetailsActivity extends BaseActivity {
     }
 
     private void updatePlayedDate() {
-        mLastPlayedText.setText(mBaseItem.getUserData() != null && mBaseItem.getUserData().getLastPlayedDate() != null ?
-                getString(R.string.lbl_last_played)+ DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(mBaseItem.getUserData().getLastPlayedDate()).getTime()).toString()
-                : getString(R.string.lbl_never_played));
+        if (directPlayableTypeList.contains(mBaseItem.getType())) {
+            mLastPlayedText.setText(mBaseItem.getUserData() != null && mBaseItem.getUserData().getLastPlayedDate() != null ?
+                    getString(R.string.lbl_last_played)+ DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(mBaseItem.getUserData().getLastPlayedDate()).getTime()).toString()
+                    : getString(R.string.lbl_never_played));
+        } else {
+            mLastPlayedText.setText("");
+        }
     }
 
     private void updatePoster() {
@@ -281,17 +289,23 @@ public class FullDetailsActivity extends BaseActivity {
                 .skipMemoryCache()
                 .resize(width, height)
                 .centerInside()
-                .error(getResources().getDrawable(R.drawable.video))
+                .error(getResources().getDrawable(R.drawable.blank30x30))
                 .into(mPoster);
 
     }
 
     private void setSummaryTitles() {
+        TextView topLine = (TextView) findViewById(R.id.fdSummaryTitle);
         switch (mBaseItem.getType()) {
             case "Person":
+                mSummary.setX(topLine.getX());
+                mSummary.setY(topLine.getY()+10);
+                mSummary.setHeight(mPoster.getHeight()-20);
+                topLine.setVisibility(View.GONE);
+                mTimeLine.setVisibility(View.GONE);
+
                 break;
             default:
-                TextView topLine = (TextView) findViewById(R.id.fdSummaryTitle);
 
                 BaseItemPerson director = Utils.GetFirstPerson(mBaseItem, PersonType.Director);
                 if (director != null) {
