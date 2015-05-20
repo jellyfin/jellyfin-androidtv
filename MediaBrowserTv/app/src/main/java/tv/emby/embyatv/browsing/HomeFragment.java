@@ -74,7 +74,7 @@ public class HomeFragment extends StdBrowseFragment {
         mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_library), new ViewQuery()));
 
         StdItemQuery resumeItems = new StdItemQuery();
-        resumeItems.setIncludeItemTypes(new String[]{"Movie", "Episode"});
+        resumeItems.setIncludeItemTypes(new String[]{"Movie", "Episode", "Video", "Program"});
         resumeItems.setRecursive(true);
         resumeItems.setLimit(50);
         resumeItems.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
