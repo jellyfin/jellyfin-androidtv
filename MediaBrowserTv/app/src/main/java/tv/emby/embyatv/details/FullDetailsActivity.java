@@ -14,6 +14,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -50,7 +51,6 @@ public class FullDetailsActivity extends BaseActivity {
     private TextView mButtonHelp;
     private TextView mLastPlayedText;
     private TextView mTimeLine;
-    private TextView mClock;
     private LinearLayout mButtonRow;
     private ImageButton mResumeButton;
 
@@ -86,12 +86,12 @@ public class FullDetailsActivity extends BaseActivity {
         mButtonRow = (LinearLayout) findViewById(R.id.fdButtonRow);
         LinearLayout genreRow = (LinearLayout) findViewById(R.id.fdGenreRow);
         mTimeLine = (TextView) findViewById(R.id.fdSummarySubTitle);
-        mClock = (TextView) findViewById(R.id.fdClock);
+        TextClock clock = (TextClock) findViewById(R.id.fdClock);
 
         roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
         mTitle.setTypeface(roboto);
         mLastPlayedText.setTypeface(roboto);
-        mClock.setTypeface(roboto);
+        clock.setTypeface(roboto);
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         backgroundManager.attach(getWindow());
         mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
@@ -138,7 +138,6 @@ public class FullDetailsActivity extends BaseActivity {
         super.onResume();
 
         rotateBackdrops();
-        startClock();
 
         //Update information that may have changed
         if (mApplication.getLastPlayback().after(mLastUpdated)) {
@@ -161,14 +160,12 @@ public class FullDetailsActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         stopRotate();
-        stopClock();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         stopRotate();
-        stopClock();
     }
 
     public void setTitle(String title) {
@@ -233,10 +230,6 @@ public class FullDetailsActivity extends BaseActivity {
             mTimeLine.setText(text);
         }
 
-    }
-
-    private void updateClock() {
-        mClock.setText(Utils.getCurrentFormattedTime());
     }
 
     private void addGenres(LinearLayout layout) {
@@ -380,26 +373,6 @@ public class FullDetailsActivity extends BaseActivity {
     private void stopRotate() {
         if (mLoopHandler != null && mBackdropLoop != null) {
             mLoopHandler.removeCallbacks(mBackdropLoop);
-        }
-    }
-
-    private void startClock() {
-        updateClock();
-        mClockLoop = new Runnable() {
-            @Override
-            public void run() {
-                updateClock();
-                setEndTime();
-                mLoopHandler.postDelayed(this, 15000);
-            }
-        };
-
-        mLoopHandler.postDelayed(mClockLoop, 15000);
-    }
-
-    private void stopClock() {
-        if (mLoopHandler != null && mClockLoop != null) {
-            mLoopHandler.removeCallbacks(mClockLoop);
         }
     }
 
