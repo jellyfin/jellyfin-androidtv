@@ -23,6 +23,7 @@ import tv.emby.embyatv.browsing.GenericFolderActivity;
 import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.browsing.UserViewActivity;
 import tv.emby.embyatv.details.DetailsActivity;
+import tv.emby.embyatv.details.FullDetailsActivity;
 import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
@@ -67,7 +68,7 @@ public class ItemLauncher {
                         return;
                     case "Series":
                         //Start activity for details display
-                        Intent intent = new Intent(activity, DetailsActivity.class);
+                        Intent intent = new Intent(activity, FullDetailsActivity.class);
                         intent.putExtra("ItemId", baseItem.getId());
 
                         activity.startActivity(intent);
@@ -96,17 +97,9 @@ public class ItemLauncher {
 
                         case ShowDetails:
                             //Start details fragment for display and playback
-                            Intent intent = new Intent(activity, DetailsActivity.class);
+                            Intent intent = new Intent(activity, FullDetailsActivity.class);
                             intent.putExtra("ItemId", baseItem.getId());
-                            if (baseItem.getHasPrimaryImage()) {
-                                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                        activity,
-                                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                                activity.startActivity(intent, bundle);
-                            } else {
-                                activity.startActivity(intent);
-                            }
+                            activity.startActivity(intent);
                             break;
                         case Play:
                             if (baseItem.getPlayAccess() == PlayAccess.Full) {
@@ -129,18 +122,10 @@ public class ItemLauncher {
                 break;
             case Person:
                 //Start details fragment
-                Intent intent = new Intent(activity, DetailsActivity.class);
+                Intent intent = new Intent(activity, FullDetailsActivity.class);
                 intent.putExtra("ItemId", rowItem.getPerson().getId());
 
-                if (rowItem.getPerson().getHasPrimaryImage()) {
-                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            activity,
-                            ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                            DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                    activity.startActivity(intent, bundle);
-                } else {
-                    activity.startActivity(intent);
-                }
+                activity.startActivity(intent);
 
                 break;
             case Chapter:
@@ -188,17 +173,9 @@ public class ItemLauncher {
                             activity.startActivity(intent);
 
                         } else {
-                            Intent intent = new Intent(activity, DetailsActivity.class);
+                            Intent intent = new Intent(activity, FullDetailsActivity.class);
                             intent.putExtra("ItemId", response.getId());
-                            if (response.getHasPrimaryImage()) {
-                                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                        activity,
-                                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                                activity.startActivity(intent, bundle);
-                            } else {
-                                activity.startActivity(intent);
-                            }
+                            activity.startActivity(intent);
                         }
                     }
 
@@ -215,21 +192,13 @@ public class ItemLauncher {
 
                     case ShowDetails:
                         //Start details fragment for display and playback
-                        Intent programIntent = new Intent(activity, DetailsActivity.class);
+                        Intent programIntent = new Intent(activity, FullDetailsActivity.class);
                         programIntent.putExtra("ItemId", program.getId());
                         programIntent.putExtra("ItemType", program.getType());
                         programIntent.putExtra("ChannelId", program.getChannelId());
                         programIntent.putExtra("ProgramInfo", TvApp.getApplication().getSerializer().SerializeToString(program));
 
-                        if (program.getHasPrimaryImage()) {
-                            Bundle programBundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                    activity,
-                                    ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                                    DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                            activity.startActivity(programIntent, programBundle);
-                        } else {
                             activity.startActivity(programIntent);
-                        }
                         break;
                     case Play:
                         if (program.getPlayAccess() == PlayAccess.Full) {
@@ -276,14 +245,10 @@ public class ItemLauncher {
 
                     case ShowDetails:
                         //Start details fragment for display and playback
-                        Intent recIntent = new Intent(activity, DetailsActivity.class);
+                        Intent recIntent = new Intent(activity, FullDetailsActivity.class);
                         recIntent.putExtra("ItemId", rowItem.getRecordingInfo().getId());
 
-                        Bundle recBundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                activity,
-                                ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                                DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                        activity.startActivity(recIntent, recBundle);
+                        activity.startActivity(recIntent);
                         break;
                     case Play:
                         if (rowItem.getRecordingInfo().getPlayAccess() == PlayAccess.Full) {

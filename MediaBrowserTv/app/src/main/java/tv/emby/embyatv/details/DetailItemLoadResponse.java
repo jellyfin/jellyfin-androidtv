@@ -9,15 +9,15 @@ import tv.emby.embyatv.util.Utils;
  * Created by Eric on 3/23/2015.
  */
 public class DetailItemLoadResponse extends Response<BaseItemDto> {
-    private BaseItemDetailsFragment detailFragment;
+    private FullDetailsActivity activity;
 
-    public DetailItemLoadResponse(BaseItemDetailsFragment fragment) {
-        this.detailFragment = fragment;
+    public DetailItemLoadResponse(FullDetailsActivity activity) {
+        this.activity = activity;
     }
 
     @Override
     public void onResponse(BaseItemDto response) {
-        detailFragment.setBaseItem(response);
+        activity.setBaseItem(response);
     }
 
     @Override

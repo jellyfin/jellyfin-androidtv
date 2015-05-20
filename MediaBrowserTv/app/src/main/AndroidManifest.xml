@@ -29,9 +29,6 @@
             android:logo="@drawable/app_icon"
             android:screenOrientation="landscape" >
         </activity>
-        <activity
-            android:name=".playback.PlayerActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity android:name=".details.DetailsActivity" />
         <activity
             android:name=".startup.StartupActivity"
