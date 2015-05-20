@@ -137,6 +137,7 @@ public class FullDetailsActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
+        startClock();
         rotateBackdrops();
 
         //Update information that may have changed
@@ -159,15 +160,34 @@ public class FullDetailsActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        stopClock();
         stopRotate();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        stopClock();
         stopRotate();
     }
 
+    private void startClock() {
+        mClockLoop = new Runnable() {
+            @Override
+            public void run() {
+                setEndTime();
+                mLoopHandler.postDelayed(this, 15000);
+            }
+        };
+
+        mLoopHandler.postDelayed(mClockLoop, 15000);
+    }
+
+    private void stopClock() {
+        if (mLoopHandler != null && mClockLoop != null) {
+            mLoopHandler.removeCallbacks(mClockLoop);
+        }
+    }
     public void setTitle(String title) {
         mTitle.setText(title);
     }
