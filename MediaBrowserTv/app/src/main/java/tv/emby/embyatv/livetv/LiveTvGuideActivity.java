@@ -792,8 +792,8 @@ public class LiveTvGuideActivity extends BaseActivity {
         TvApp.getApplication().getApiClient().GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
             @Override
             public void onResponse(ChannelInfoDtoResult response) {
+                mAllChannels = new ArrayList<>();
                 if (response.getTotalRecordCount() > 0) {
-                    mAllChannels = new ArrayList<>();
                     mAllChannels.addAll(Arrays.asList(response.getItems()));
                     //fake more channels
 //                    mAllChannels.addAll(Arrays.asList(response.getItems()));
@@ -817,7 +817,7 @@ public class LiveTvGuideActivity extends BaseActivity {
                     displayChannels(ndx, PAGE_SIZE);
 
                 } else {
-                    mAllChannels.clear();
+                    mSpinner.setVisibility(View.GONE);
                 }
             }
         });
