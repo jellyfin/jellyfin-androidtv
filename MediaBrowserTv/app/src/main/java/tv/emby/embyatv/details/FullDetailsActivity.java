@@ -90,6 +90,7 @@ public class FullDetailsActivity extends BaseActivity {
 
         roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
         mTitle.setTypeface(roboto);
+        mTitle.setShadowLayer(5, 5, 5, Color.BLACK);
         mLastPlayedText.setTypeface(roboto);
         clock.setTypeface(roboto);
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
@@ -162,6 +163,7 @@ public class FullDetailsActivity extends BaseActivity {
         super.onPause();
         stopClock();
         stopRotate();
+        BackgroundManager.getInstance(this).release();
     }
 
     @Override
@@ -254,8 +256,10 @@ public class FullDetailsActivity extends BaseActivity {
 
     private void addGenres(LinearLayout layout) {
         if (mBaseItem.getGenres() != null && mBaseItem.getGenres().size() > 0) {
-            int i = 0;
+            boolean first = true;
             for (String genre : mBaseItem.getGenres()) {
+                if (!first) InfoLayoutHelper.addSpacer(this, layout, " / ", 14);
+                first = false;
                 layout.addView(new GenreButton(this, roboto, 16, genre, mBaseItem.getType()));
             }
         }

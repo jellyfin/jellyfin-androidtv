@@ -57,6 +57,7 @@
         android:format24Hour="k:mm"
         android:layout_marginRight="40sp"
         android:shadowColor="#ff000000"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:alpha=".8" />
 
 </RelativeLayout>

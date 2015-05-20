@@ -6,15 +6,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/summaryBg"
-        android:maxHeight="310sp"
-        android:maxWidth="500sp"
-        android:minHeight="310sp"
-        android:minWidth="500sp"
+        android:maxHeight="300sp"
+        android:minHeight="300sp"
         android:src="@color/semi_trans_dark"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="80sp"
+        android:layout_marginTop="50sp"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/fdTitle" />
+        android:layout_below="@+id/fdMainInfoRow" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -30,16 +28,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/fdPoster"
-        android:layout_marginLeft="45sp"
         android:adjustViewBounds="false"
-        android:scaleType="centerInside"
+        android:scaleType="fitCenter"
         android:layout_alignParentBottom="false"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentStart="false"
         android:layout_alignTop="@+id/summaryBg"
-        android:minHeight="300sp"
-        android:minWidth="230sp"
-        android:layout_marginTop="5sp"
-        android:layout_marginBottom="5sp" />
+        android:minWidth="210dp"
+        android:layout_alignLeft="@+id/summaryBg"
+        android:layout_alignBottom="@+id/summaryBg"
+        android:maxWidth="250sp"
+        android:layout_marginLeft="50sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -48,20 +46,20 @@
         android:text="Title"
         android:id="@+id/fdTitle"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/fdPoster"
-        android:layout_marginTop="30sp"
+        android:layout_marginTop="20sp"
         android:textSize="44sp"
         android:shadowColor="#d00d0d0d"
         android:fontFamily="Roboto Light"
         android:textStyle="bold"
         android:maxLines="1"
         android:ellipsize="end"
-        android:layout_marginRight="160sp" />
+        android:layout_marginRight="160sp"
+        android:layout_marginLeft="50sp" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="20sp"
         android:id="@+id/fdMainInfoRow"
         android:dividerPadding="4sp"
         android:layout_below="@+id/fdTitle"
@@ -76,11 +74,14 @@
         android:height="195sp"
         android:textSize="16sp"
         android:layout_alignTop="@+id/summaryBg"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="145sp"
+        android:layout_alignParentRight="false"
+        android:layout_marginRight="150sp"
         android:layout_marginTop="65sp"
         android:layout_toRightOf="@+id/fdPoster"
-        android:layout_marginLeft="30sp" />
+        android:layout_marginLeft="40sp"
+        android:layout_alignRight="@+id/summaryBg"
+        android:maxLines="9"
+        android:ellipsize="end" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -99,28 +100,26 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="20sp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Button Help"
         android:id="@+id/fdButtonHelp"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentBottom="false"
         android:layout_below="@+id/summaryBg"
         android:layout_alignStart="@+id/fdButtonRow"
         android:layout_alignEnd="@+id/fdButtonRow"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="30sp" />
+        android:gravity="center_horizontal" />
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30sp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:id="@+id/fdLastPlayedText"
         android:layout_alignStart="@+id/fdPoster"
         android:gravity="center"
         android:layout_below="@+id/summaryBg"
         android:layout_alignEnd="@+id/fdPoster"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="15sp" />
+        android:layout_alignParentBottom="false" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -152,6 +151,7 @@
         android:textSize="40sp"
         android:layout_marginRight="40sp"
         android:format12Hour="h:mm"
-        android:format24Hour="k:mm" />
+        android:format24Hour="k:mm"
+        android:alpha=".8" />
 
 </RelativeLayout>
