@@ -198,20 +198,20 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
     private void loadItem(String id) {
         final BaseItemDetailsFragment us = this;
-        if (mChannelId != null) {
-            // if we are displaying a live tv channel - we want to get whatever is showing now on that channel
-            mApplication.getApiClient().GetLiveTvChannelAsync(mChannelId, TvApp.getApplication().getCurrentUser().getId(), new Response<ChannelInfoDto>() {
-                @Override
-                public void onResponse(ChannelInfoDto response) {
-                    mProgramInfo = response.getCurrentProgram();
-                    mItemId = mProgramInfo.getId();
-                    mApplication.getApiClient().GetItemAsync(mItemId, mApplication.getCurrentUser().getId(), new DetailItemLoadResponse(us));
-
-                }
-            });
-        } else {
-            mApplication.getApiClient().GetItemAsync(id, mApplication.getCurrentUser().getId(), new DetailItemLoadResponse(this));
-        }
+//        if (mChannelId != null) {
+//            // if we are displaying a live tv channel - we want to get whatever is showing now on that channel
+//            mApplication.getApiClient().GetLiveTvChannelAsync(mChannelId, TvApp.getApplication().getCurrentUser().getId(), new Response<ChannelInfoDto>() {
+//                @Override
+//                public void onResponse(ChannelInfoDto response) {
+//                    mProgramInfo = response.getCurrentProgram();
+//                    mItemId = mProgramInfo.getId();
+//                    mApplication.getApiClient().GetItemAsync(mItemId, mApplication.getCurrentUser().getId(), new DetailItemLoadResponse(us));
+//
+//                }
+//            });
+//        } else {
+//            mApplication.getApiClient().GetItemAsync(id, mApplication.getCurrentUser().getId(), new DetailItemLoadResponse(this));
+//        }
 
         lastLoaded = Calendar.getInstance();
     }

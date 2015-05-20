@@ -85,6 +85,7 @@ import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.details.DetailsActivity;
+import tv.emby.embyatv.details.FullDetailsActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.startup.DpadPwActivity;
@@ -1062,7 +1063,7 @@ public class Utils {
                         Intent intent = new Intent(activity, MainActivity.class);
                         activity.startActivity(intent);
                     } else {
-                        Intent intent = new Intent(activity, DetailsActivity.class);
+                        Intent intent = new Intent(activity, FullDetailsActivity.class);
                         intent.putExtra("ItemId", directEntryItemId);
                         activity.startActivity(intent);
                     }
