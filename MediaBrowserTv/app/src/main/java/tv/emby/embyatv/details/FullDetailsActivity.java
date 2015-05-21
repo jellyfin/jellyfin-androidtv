@@ -10,11 +10,17 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
+import android.support.v17.leanback.app.RowsFragment;
+import android.support.v17.leanback.widget.ArrayObjectAdapter;
+import android.support.v17.leanback.widget.HeaderItem;
+import android.support.v17.leanback.widget.ListRow;
+import android.support.v17.leanback.widget.ListRowPresenter;
 import android.text.format.DateUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -39,12 +45,24 @@ import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.PersonType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.ProgramInfoDto;
+import mediabrowser.model.querying.ItemFields;
+import mediabrowser.model.querying.ItemQuery;
+import mediabrowser.model.querying.NextUpQuery;
+import mediabrowser.model.querying.SeasonQuery;
+import mediabrowser.model.querying.SimilarItemsQuery;
+import mediabrowser.model.querying.UpcomingEpisodesQuery;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
+import tv.emby.embyatv.itemhandling.ItemRowAdapter;
+import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
+import tv.emby.embyatv.presentation.CardPresenter;
+import tv.emby.embyatv.querying.QueryType;
+import tv.emby.embyatv.querying.SpecialsQuery;
+import tv.emby.embyatv.querying.TrailersQuery;
 import tv.emby.embyatv.ui.GenreButton;
 import tv.emby.embyatv.ui.ImageButton;
 import tv.emby.embyatv.util.InfoLayoutHelper;
@@ -61,6 +79,8 @@ public class FullDetailsActivity extends BaseActivity {
     private TextView mLastPlayedText;
     private TextView mTimeLine;
     private TextView mSummary;
+    private RelativeLayout mDetailsFrame;
+    private FrameLayout mRowsFrame;
     private LinearLayout mButtonRow;
     private LinearLayout mGenreRow;
     private ImageButton mResumeButton;
@@ -76,6 +96,9 @@ public class FullDetailsActivity extends BaseActivity {
     protected String mChannelId;
     protected BaseRowItem mCurrentItem;
     private Calendar mLastUpdated;
+
+    private RowsFragment mRowsFragment;
+    private ArrayObjectAdapter mRowsAdapter;
 
     private TvApp mApplication;
     private FullDetailsActivity mActivity;
@@ -117,6 +140,15 @@ public class FullDetailsActivity extends BaseActivity {
         mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
         mMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
+
+        mRowsFragment = new RowsFragment();
+        getFragmentManager().beginTransaction().add(R.id.rowsFragment, mRowsFragment).commit();
+
+        mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+        mRowsFragment.setAdapter(mRowsAdapter);
+
+        mRowsFrame = (FrameLayout) findViewById(R.id.rowsFragment);
+        mDetailsFrame = (RelativeLayout) findViewById(R.id.detailsFrame);
 
         mDefaultBackground = getResources().getDrawable(R.drawable.default_background);
 
@@ -229,7 +261,114 @@ public class FullDetailsActivity extends BaseActivity {
             }
 
             updateInfo(mBaseItem);
+            addAdditionalRows(mRowsAdapter);
         }
+    }
+
+    protected void addItemRow(ArrayObjectAdapter parent, ItemRowAdapter row, int index, String headerText) {
+        HeaderItem header = new HeaderItem(index, headerText, null);
+        ListRow listRow = new ListRow(header, row);
+        parent.add(listRow);
+        row.setRow(listRow);
+        row.Retrieve();
+    }
+
+    protected void addAdditionalRows(ArrayObjectAdapter adapter) {
+        switch (mBaseItem.getType()) {
+            case "Movie":
+
+                //Cast/Crew
+                if (mBaseItem.getPeople() != null) {
+                    ItemRowAdapter castAdapter = new ItemRowAdapter(mBaseItem.getPeople(), new CardPresenter(), adapter);
+                    addItemRow(adapter, castAdapter, 0, mActivity.getString(R.string.lbl_cast_crew));
+                }
+
+                //Specials
+                if (mBaseItem.getSpecialFeatureCount() != null && mBaseItem.getSpecialFeatureCount() > 0) {
+                    addItemRow(adapter, new ItemRowAdapter(new SpecialsQuery(mBaseItem.getId()), new CardPresenter(), adapter), 2, mActivity.getString(R.string.lbl_specials));
+                }
+
+                //Trailers
+                if (mBaseItem.getLocalTrailerCount() != null && mBaseItem.getLocalTrailerCount() > 1) {
+                    addItemRow(adapter, new ItemRowAdapter(new TrailersQuery(mBaseItem.getId()), new CardPresenter(), adapter), 3, mActivity.getString(R.string.lbl_trailers));
+                }
+
+                //Chapters
+                if (mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
+                    List<ChapterItemInfo> chapters = Utils.buildChapterItems(mBaseItem);
+                    ItemRowAdapter chapterAdapter = new ItemRowAdapter(chapters, new CardPresenter(), adapter);
+                    addItemRow(adapter, chapterAdapter, 1, mActivity.getString(R.string.lbl_chapters));
+                }
+
+                //Similar
+                SimilarItemsQuery similar = new SimilarItemsQuery();
+                similar.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
+                similar.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                similar.setId(mBaseItem.getId());
+                similar.setLimit(10);
+
+                ItemRowAdapter similarMoviesAdapter = new ItemRowAdapter(similar, QueryType.SimilarMovies, new CardPresenter(), adapter);
+                addItemRow(adapter, similarMoviesAdapter, 4, mActivity.getString(R.string.lbl_similar_movies));
+                break;
+            case "Person":
+
+                ItemQuery personMovies = new ItemQuery();
+                personMovies.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
+                personMovies.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                personMovies.setPersonIds(new String[] {mBaseItem.getId()});
+                personMovies.setRecursive(true);
+                personMovies.setIncludeItemTypes(new String[] {"Movie"});
+                ItemRowAdapter personMoviesAdapter = new ItemRowAdapter(personMovies, 100, false, new CardPresenter(), adapter);
+                addItemRow(adapter, personMoviesAdapter, 0, mApplication.getString(R.string.lbl_movies));
+
+                ItemQuery personSeries = new ItemQuery();
+                personSeries.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
+                personSeries.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                personSeries.setPersonIds(new String[] {mBaseItem.getId()});
+                personSeries.setRecursive(true);
+                personSeries.setIncludeItemTypes(new String[] {"Series", "Episode"});
+                ItemRowAdapter personSeriesAdapter = new ItemRowAdapter(personSeries, 100, false, new CardPresenter(), adapter);
+                addItemRow(adapter, personSeriesAdapter, 1, mApplication.getString(R.string.lbl_tv_series));
+
+                break;
+            case "Series":
+                NextUpQuery nextUpQuery = new NextUpQuery();
+                nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                nextUpQuery.setSeriesId(mBaseItem.getId());
+                nextUpQuery.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
+                ItemRowAdapter nextUpAdapter = new ItemRowAdapter(nextUpQuery, false, new CardPresenter(), adapter);
+                addItemRow(adapter, nextUpAdapter, 0, mApplication.getString(R.string.lbl_next_up));
+
+                SeasonQuery seasons = new SeasonQuery();
+                seasons.setSeriesId(mBaseItem.getId());
+                seasons.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                ItemRowAdapter seasonsAdapter = new ItemRowAdapter(seasons, new CardPresenter(), adapter);
+                addItemRow(adapter, seasonsAdapter, 1, mActivity.getString(R.string.lbl_seasons));
+
+                UpcomingEpisodesQuery upcoming = new UpcomingEpisodesQuery();
+                upcoming.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                upcoming.setParentId(mBaseItem.getId());
+                upcoming.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
+                ItemRowAdapter upcomingAdapter = new ItemRowAdapter(upcoming, new CardPresenter(), adapter);
+                addItemRow(adapter, upcomingAdapter, 2, mActivity.getString(R.string.lbl_upcoming));
+
+                if (mBaseItem.getPeople() != null) {
+                    ItemRowAdapter seriesCastAdapter = new ItemRowAdapter(mBaseItem.getPeople(), new CardPresenter(), adapter);
+                    addItemRow(adapter, seriesCastAdapter, 3, mApplication.getString(R.string.lbl_cast_crew));
+
+                }
+
+                SimilarItemsQuery similarSeries = new SimilarItemsQuery();
+                similarSeries.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
+                similarSeries.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                similarSeries.setId(mBaseItem.getId());
+                similarSeries.setLimit(20);
+                ItemRowAdapter similarAdapter = new ItemRowAdapter(similarSeries, QueryType.SimilarSeries, new CardPresenter(), adapter);
+                addItemRow(adapter, similarAdapter, 4, mActivity.getString(R.string.lbl_similar_series));
+                break;
+        }
+
+
     }
 
     private void updateInfo(BaseItemDto item) {
@@ -248,6 +387,7 @@ public class FullDetailsActivity extends BaseActivity {
         updatePlayedDate();
 
         updatePoster();
+        updateBackground(Utils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
 
         mButtonRow.requestFocus();
 
