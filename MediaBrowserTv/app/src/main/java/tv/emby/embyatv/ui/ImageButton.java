@@ -45,6 +45,10 @@ public class ImageButton extends ImageView {
 
     }
 
+    public void setHelpView(TextView view) {
+        mHelpView = view;
+    }
+
     public void setState(int state) {
         mState = state;
         if (mSecondaryImage > 0) setImageResource(mState == STATE_SECONDARY ? mSecondaryImage : mPrimaryImage);
