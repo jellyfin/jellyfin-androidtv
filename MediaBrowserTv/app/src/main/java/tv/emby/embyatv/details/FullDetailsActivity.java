@@ -19,9 +19,15 @@ import android.support.v17.leanback.widget.DetailsOverviewRow;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
+import android.support.v17.leanback.widget.OnItemViewClickedListener;
+import android.support.v17.leanback.widget.OnItemViewSelectedListener;
+import android.support.v17.leanback.widget.Presenter;
+import android.support.v17.leanback.widget.Row;
+import android.support.v17.leanback.widget.RowPresenter;
 import android.text.format.DateUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -61,6 +67,7 @@ import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
+import tv.emby.embyatv.itemhandling.ItemLauncher;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
@@ -72,6 +79,7 @@ import tv.emby.embyatv.querying.TrailersQuery;
 import tv.emby.embyatv.ui.GenreButton;
 import tv.emby.embyatv.ui.ImageButton;
 import tv.emby.embyatv.util.InfoLayoutHelper;
+import tv.emby.embyatv.util.KeyProcessor;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -137,6 +145,9 @@ public class FullDetailsActivity extends BaseActivity {
         mRowsFragment = new RowsFragment();
         getFragmentManager().beginTransaction().add(R.id.rowsFragment, mRowsFragment).commit();
 
+        mRowsFragment.setOnItemViewClickedListener(new ItemViewClickedListener());
+        mRowsFragment.setOnItemViewSelectedListener(new ItemViewSelectedListener());
+
         mDorPresenter = new MyDetailsOverviewRowPresenter();
 
         mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
@@ -164,8 +175,8 @@ public class FullDetailsActivity extends BaseActivity {
                 @Override
                 public void onResponse(BaseItemDto response) {
                     mBaseItem = response;
-                    if ((mResumeButton == null || mResumeButton.getVisibility() == View.GONE) && mBaseItem.getCanResume()) {
-                        addResumeButton(BUTTON_SIZE);
+                    if (mResumeButton != null) {
+                        mResumeButton.setVisibility(response.getCanResume() ? View.VISIBLE : View.GONE);
                     }
                     updatePlayedDate();
                 }
@@ -185,6 +196,22 @@ public class FullDetailsActivity extends BaseActivity {
         super.onStop();
         stopClock();
         stopRotate();
+    }
+
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (mCurrentItem != null) {
+            return KeyProcessor.HandleKey(keyCode, mCurrentItem, this) || super.onKeyUp(keyCode, event);
+
+        } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) {
+            //default play action
+            Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
+            play(mBaseItem, pos.intValue() , false);
+            return true;
+        }
+
+        return super.onKeyUp(keyCode, event);
     }
 
     private void startClock() {
@@ -474,10 +501,18 @@ public class FullDetailsActivity extends BaseActivity {
     }
 
     private void addButtons(int buttonSize) {
-        if (mBaseItem.getCanResume()) {
-            addResumeButton(buttonSize);
-        }
+        mResumeButton = new ImageButton(this, R.drawable.resume, buttonSize, getString(R.string.lbl_resume), null, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
+                play(mBaseItem, pos.intValue(), false);
+            }
+        });
+
         if (Utils.CanPlay(mBaseItem)) {
+            mDetailsOverviewRow.addAction(mResumeButton);
+            mResumeButton.setVisibility(mBaseItem.getCanResume() ? View.VISIBLE : View.GONE);
+
             ImageButton play = new ImageButton(this, R.drawable.play, buttonSize, getString(mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), null, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -545,6 +580,28 @@ public class FullDetailsActivity extends BaseActivity {
         }
     }
 
+    private final class ItemViewClickedListener implements OnItemViewClickedListener {
+        @Override
+        public void onItemClicked(final Presenter.ViewHolder itemViewHolder, Object item,
+                                  RowPresenter.ViewHolder rowViewHolder, Row row) {
+
+            if (!(item instanceof BaseRowItem)) return;
+            ItemLauncher.launch((BaseRowItem) item, mApplication, mActivity, itemViewHolder);
+        }
+    }
+
+    private final class ItemViewSelectedListener implements OnItemViewSelectedListener {
+        @Override
+        public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
+                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
+            if (!(item instanceof BaseRowItem)) {
+                mCurrentItem = null;
+            } else {
+                mCurrentItem = (BaseRowItem)item;
+            }
+        }
+    }
+
     private View.OnClickListener markWatchedListener = new View.OnClickListener() {
         @Override
         public void onClick(final View v) {
@@ -604,21 +661,6 @@ public class FullDetailsActivity extends BaseActivity {
             }
         });
 
-    }
-
-    private void addResumeButton(int buttonSize) {
-        if (mResumeButton != null) {
-            mResumeButton.setVisibility(View.VISIBLE);
-        } else {
-            mResumeButton = new ImageButton(this, R.drawable.resume, buttonSize, getString(R.string.lbl_resume), null, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
-                    play(mBaseItem, pos.intValue(), false);
-                }
-            });
-            mDetailsOverviewRow.addAction(0, mResumeButton);
-        }
     }
 
     protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
