@@ -139,7 +139,7 @@ public class FullDetailsActivity extends BaseActivity {
 
         mDorPresenter = new MyDetailsOverviewRowPresenter();
 
-        mDefaultBackground = getResources().getDrawable(R.drawable.default_background);
+        mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
 
         mItemId = getIntent().getStringExtra("ItemId");
         mChannelId = getIntent().getStringExtra("ChannelId");
@@ -178,7 +178,6 @@ public class FullDetailsActivity extends BaseActivity {
         super.onPause();
         stopClock();
         stopRotate();
-        BackgroundManager.getInstance(this).release();
     }
 
     @Override
@@ -237,6 +236,13 @@ public class FullDetailsActivity extends BaseActivity {
         protected MyDetailsOverviewRow doInBackground(BaseItemDto... params) {
             BaseItemDto item = params[0];
 
+            // Figure image size
+            Double aspect = Utils.getImageAspectRatio(item, false);
+            int height = aspect > 1 ? Utils.convertDpToPixel(mActivity, 170) : Utils.convertDpToPixel(mActivity, 300);
+            int width = (int)((aspect) * height);
+            if (width < 10) width = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
+
+            String primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(),false, false, height);
             mDetailsOverviewRow = new MyDetailsOverviewRow(item);
 
             mDetailsOverviewRow.setSummary(item.getOverview());
@@ -252,15 +258,9 @@ public class FullDetailsActivity extends BaseActivity {
                     }
                     mDetailsOverviewRow.setSummarySubTitle(getEndTime());
             }
-            // Figure image size
-            Double aspect = Utils.getImageAspectRatio(item, false);
-            int height = aspect > 1 ? Utils.convertDpToPixel(mActivity, 170) : Utils.convertDpToPixel(mActivity, 300);
-            int width = (int)((aspect) * height);
-            if (width < 10) width = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
-
             try {
                 Bitmap poster = Picasso.with(mActivity)
-                        .load(Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(),false, false, height))
+                        .load(primaryImageUrl)
                         .skipMemoryCache()
                         .resize(width, height)
                         .centerInside()
@@ -284,7 +284,9 @@ public class FullDetailsActivity extends BaseActivity {
             ps.addClassPresenter(ListRow.class, new ListRowPresenter());
             mRowsAdapter = new ArrayObjectAdapter(ps);
             mRowsFragment.setAdapter(mRowsAdapter);
-            mRowsAdapter.add(detailsOverviewRow);
+            if (detailsOverviewRow.getItem().getHasPrimaryImage() || detailsOverviewRow.getSummary() != null || detailsOverviewRow.getSummaryTitle() != null) {
+                mRowsAdapter.add(detailsOverviewRow);
+            }
 
             updateInfo(detailsOverviewRow.getItem());
             addAdditionalRows(mRowsAdapter);
@@ -668,12 +670,16 @@ public class FullDetailsActivity extends BaseActivity {
     }
 
     protected void updateBackground(String url) {
-        Picasso.with(this)
-                .load(url)
-                .skipMemoryCache()
-                .resize(mMetrics.widthPixels, mMetrics.heightPixels)
-                .error(mDefaultBackground)
-                .into(mBackgroundTarget);
+        if (url == null) {
+            BackgroundManager.getInstance(this).setDrawable(mDefaultBackground);
+        } else {
+            Picasso.with(this)
+                    .load(url)
+                    .skipMemoryCache()
+                    .resize(mMetrics.widthPixels, mMetrics.heightPixels)
+                    .error(mDefaultBackground)
+                    .into(mBackgroundTarget);
+        }
     }
 
 }
