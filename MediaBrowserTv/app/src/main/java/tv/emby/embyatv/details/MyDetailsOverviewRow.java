@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v17.leanback.widget.Row;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,9 +54,23 @@ public class MyDetailsOverviewRow extends Row {
         this.mSummarySubTitle = mSummarySubTitle;
     }
 
+    public List<ImageButton> getActions() { return mActions; }
+
     public BaseItemDto getItem() { return mItem; }
     public Drawable getImageDrawable() { return mImageDrawable; }
 
     public void setImageDrawable(Drawable drawable) { mImageDrawable = drawable; }
     public void setImageBitmap(Context context, Bitmap bm) { mImageDrawable = new BitmapDrawable(context.getResources(), bm); }
+
+    public void addAction(ImageButton button) {
+        mActions.add(button);
+    }
+
+    public void addAction(int ndx, ImageButton button) {
+        mActions.add(ndx, button);
+    }
+
+    public void hideAction(ImageButton button) {
+        button.setVisibility(View.GONE);
+    }
 }

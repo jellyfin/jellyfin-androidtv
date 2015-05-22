@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.details.MyDetailsOverviewRow;
+import tv.emby.embyatv.ui.ImageButton;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -23,8 +24,6 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
     private ViewHolder viewHolder;
 
     public final class ViewHolder extends RowPresenter.ViewHolder {
-        private int BUTTON_SIZE;
-
         private ImageView mPoster;
         private TextView mButtonHelp;
         private TextView mLastPlayedText;
@@ -42,7 +41,6 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
          */
         public ViewHolder(View rootView) {
             super(rootView);
-            BUTTON_SIZE = Utils.convertDpToPixel(rootView.getContext(), 35);
             roboto = Typeface.createFromAsset(rootView.getContext().getAssets(), "fonts/Roboto-Light.ttf");
 
             mPoster = (ImageView) rootView.findViewById(R.id.fdPoster);
@@ -97,13 +95,20 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
                 break;
 
             default:
-
-
+                vh.mButtonRow.removeAllViews();
+                for (ImageButton button : row.getActions()) {
+                    button.setHelpView(vh.mButtonHelp);
+                    vh.mButtonRow.addView(button);
+                }
+                break;
         }
 
         vh.mTimeLine.setText(row.getSummarySubTitle());
 
     }
+
+    public LinearLayout getButtonRow() { return viewHolder.mButtonRow; }
+    public TextView getButtonHelpView() { return viewHolder.mButtonHelp; }
 
     public void updateEndTime(String text) {
         viewHolder.mTimeLine.setText(text);
