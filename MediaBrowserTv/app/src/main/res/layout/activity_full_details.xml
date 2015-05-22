@@ -39,7 +39,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="false"
         android:id="@+id/rowsFragment"
-        android:layout_below="@+id/fdGenreRow">
+        android:layout_below="@+id/fdGenreRow"
+        android:layout_marginTop="10sp">
 
     </FrameLayout>
 
