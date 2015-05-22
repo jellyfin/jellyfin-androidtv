@@ -17,7 +17,7 @@
         android:layout_marginRight="10sp"
         android:maxLines="1"
         android:ellipsize="end"
-        android:textStyle="bold" />
+         />
 
     <LinearLayout
         android:orientation="horizontal"
