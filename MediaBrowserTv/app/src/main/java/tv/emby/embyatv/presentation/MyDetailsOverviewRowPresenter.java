@@ -9,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import tv.emby.embyatv.R;
+import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.details.MyDetailsOverviewRow;
 import tv.emby.embyatv.ui.ImageButton;
 import tv.emby.embyatv.util.Utils;
@@ -86,9 +88,9 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
         vh.mSummaryTitle.setText(row.getSummaryTitle());
         switch (row.getItem().getType()) {
             case "Person":
-                vh.mSummary.setX(vh.mSummaryTitle.getX());
-                vh.mSummary.setY(vh.mSummaryTitle.getY()+10);
-                vh.mSummary.setHeight(vh.mPoster.getHeight()-20);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) vh.mSummary.getLayoutParams();
+                params.topMargin = 10;
+                vh.mSummary.setHeight(Utils.convertDpToPixel(TvApp.getApplication(), 290));
                 vh.mSummaryTitle.setVisibility(View.GONE);
                 vh.mTimeLine.setVisibility(View.GONE);
 
