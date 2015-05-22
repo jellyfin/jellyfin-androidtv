@@ -4,14 +4,18 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.RowsFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
+import android.support.v17.leanback.widget.ClassPresenterSelector;
+import android.support.v17.leanback.widget.DetailsOverviewRow;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
@@ -30,6 +34,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -60,6 +65,7 @@ import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.presentation.CardPresenter;
+import tv.emby.embyatv.presentation.MyDetailsOverviewRowPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.SpecialsQuery;
 import tv.emby.embyatv.querying.TrailersQuery;
@@ -73,19 +79,7 @@ import tv.emby.embyatv.util.Utils;
  */
 public class FullDetailsActivity extends BaseActivity {
 
-    private ImageView mPoster;
-    private TextView mTitle;
-    private TextView mButtonHelp;
-    private TextView mLastPlayedText;
-    private TextView mTimeLine;
-    private TextView mSummary;
-    private RelativeLayout mDetailsFrame;
-    private FrameLayout mRowsFrame;
-    private LinearLayout mButtonRow;
     private LinearLayout mGenreRow;
-    private ImageButton mResumeButton;
-
-    private int BUTTON_SIZE;
 
     private Target mBackgroundTarget;
     private Drawable mDefaultBackground;
@@ -97,8 +91,12 @@ public class FullDetailsActivity extends BaseActivity {
     protected BaseRowItem mCurrentItem;
     private Calendar mLastUpdated;
 
+    private TextView mTitle;
     private RowsFragment mRowsFragment;
     private ArrayObjectAdapter mRowsAdapter;
+
+    private MyDetailsOverviewRowPresenter mDorPresenter;
+    private MyDetailsOverviewRow mDetailsOverviewRow;
 
     private TvApp mApplication;
     private FullDetailsActivity mActivity;
@@ -117,23 +115,14 @@ public class FullDetailsActivity extends BaseActivity {
 
         mApplication = TvApp.getApplication();
         mActivity = this;
-        BUTTON_SIZE = Utils.convertDpToPixel(mApplication, 35);
-
-        mPoster = (ImageView) findViewById(R.id.fdPoster);
-        mTitle = (TextView) findViewById(R.id.fdTitle);
-        mButtonHelp = (TextView) findViewById(R.id.fdButtonHelp);
-        mLastPlayedText = (TextView) findViewById(R.id.fdLastPlayedText);
-        mButtonRow = (LinearLayout) findViewById(R.id.fdButtonRow);
-        mGenreRow = (LinearLayout) findViewById(R.id.fdGenreRow);
-        mTimeLine = (TextView) findViewById(R.id.fdSummarySubTitle);
-        TextClock clock = (TextClock) findViewById(R.id.fdClock);
-
         roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
+        
+        mTitle = (TextView) findViewById(R.id.fdTitle);
         mTitle.setTypeface(roboto);
         mTitle.setShadowLayer(5, 5, 5, Color.BLACK);
-        mLastPlayedText.setTypeface(roboto);
-        mSummary = (TextView)findViewById(R.id.fdSummaryText);
-        mSummary.setTypeface(roboto);
+        mGenreRow = (LinearLayout) findViewById(R.id.fdGenreRow);
+        TextClock clock = (TextClock) findViewById(R.id.fdClock);
+
         clock.setTypeface(roboto);
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         backgroundManager.attach(getWindow());
@@ -144,20 +133,9 @@ public class FullDetailsActivity extends BaseActivity {
         mRowsFragment = new RowsFragment();
         getFragmentManager().beginTransaction().add(R.id.rowsFragment, mRowsFragment).commit();
 
-        mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
-        mRowsFragment.setAdapter(mRowsAdapter);
-
-        mRowsFrame = (FrameLayout) findViewById(R.id.rowsFragment);
-        mDetailsFrame = (RelativeLayout) findViewById(R.id.detailsFrame);
+        mDorPresenter = new MyDetailsOverviewRowPresenter();
 
         mDefaultBackground = getResources().getDrawable(R.drawable.default_background);
-
-        mButtonRow.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) mButtonHelp.setText("");
-            }
-        });
 
         mItemId = getIntent().getStringExtra("ItemId");
         mChannelId = getIntent().getStringExtra("ChannelId");
@@ -183,9 +161,9 @@ public class FullDetailsActivity extends BaseActivity {
                 public void onResponse(BaseItemDto response) {
                     mBaseItem = response;
                     updatePoster();
-                    if ((mResumeButton == null || mResumeButton.getVisibility() == View.GONE) && mBaseItem.getCanResume()) {
-                        addResumeButton(mButtonRow, BUTTON_SIZE);
-                    }
+//                    if ((mResumeButton == null || mResumeButton.getVisibility() == View.GONE) && mBaseItem.getCanResume()) {
+//                        addResumeButton(mButtonRow, BUTTON_SIZE);
+//                    }
                     updatePlayedDate();
                 }
             });
@@ -211,7 +189,7 @@ public class FullDetailsActivity extends BaseActivity {
         mClockLoop = new Runnable() {
             @Override
             public void run() {
-                setEndTime();
+                mDorPresenter.updateEndTime(getEndTime());
                 mLoopHandler.postDelayed(this, 15000);
             }
         };
@@ -250,6 +228,49 @@ public class FullDetailsActivity extends BaseActivity {
         mLastUpdated = Calendar.getInstance();
     }
 
+    private class BuildDorTask extends AsyncTask<BaseItemDto, Integer, MyDetailsOverviewRow> {
+
+        @Override
+        protected MyDetailsOverviewRow doInBackground(BaseItemDto... params) {
+            BaseItemDto item = params[0];
+
+            mDetailsOverviewRow = new MyDetailsOverviewRow(item);
+
+            mDetailsOverviewRow.setSummary(item.getOverview());
+            switch (item.getType()) {
+                case "Person":
+                    mDetailsOverviewRow.setSummarySubTitle("");
+                    break;
+                default:
+
+                    BaseItemPerson director = Utils.GetFirstPerson(mBaseItem, PersonType.Director);
+                    if (director != null) {
+                        mDetailsOverviewRow.setSummaryTitle(getString(R.string.lbl_directed_by)+director.getName());
+                    }
+                    mDetailsOverviewRow.setSummarySubTitle(getEndTime());
+            }
+            updatePoster();
+
+            return mDetailsOverviewRow;
+        }
+
+        @Override
+        protected void onPostExecute(MyDetailsOverviewRow detailsOverviewRow) {
+            super.onPostExecute(detailsOverviewRow);
+
+            ClassPresenterSelector ps = new ClassPresenterSelector();
+            ps.addClassPresenter(MyDetailsOverviewRow.class, mDorPresenter);
+            ps.addClassPresenter(ListRow.class, new ListRowPresenter());
+            mRowsAdapter = new ArrayObjectAdapter(ps);
+            mRowsFragment.setAdapter(mRowsAdapter);
+            mRowsAdapter.add(mDetailsOverviewRow);
+
+            updateInfo(mBaseItem);
+            addAdditionalRows(mRowsAdapter);
+
+        }
+    }
+
     public void setBaseItem(BaseItemDto item) {
         mBaseItem = item;
         if (mBaseItem != null) {
@@ -259,9 +280,7 @@ public class FullDetailsActivity extends BaseActivity {
                 mBaseItem.setEndDate(mProgramInfo.getEndDate());
                 mBaseItem.setRunTimeTicks(mProgramInfo.getRunTimeTicks());
             }
-
-            updateInfo(mBaseItem);
-            addAdditionalRows(mRowsAdapter);
+            new BuildDorTask().execute(item);
         }
     }
 
@@ -377,19 +396,17 @@ public class FullDetailsActivity extends BaseActivity {
             // scale down the title so more will fit
             mTitle.setTextSize(32);
         }
-        mSummary.setText(item.getOverview());
-        setSummaryTitles();
+
         LinearLayout mainInfoRow = (LinearLayout)findViewById(R.id.fdMainInfoRow);
 
         InfoLayoutHelper.addInfoRow(this, item, mainInfoRow, false);
         addGenres(mGenreRow);
-        if (playableTypeList.contains(item.getType())) addButtons(mButtonRow, BUTTON_SIZE);
-        updatePlayedDate();
-
-        updatePoster();
+//        if (playableTypeList.contains(item.getType())) addButtons(mButtonRow, BUTTON_SIZE);
+//        updatePlayedDate();
+//
         updateBackground(Utils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
-
-        mButtonRow.requestFocus();
+//
+//        mButtonRow.requestFocus();
 
         mLastUpdated = Calendar.getInstance();
 
@@ -399,63 +416,48 @@ public class FullDetailsActivity extends BaseActivity {
         mTitle.setText(title);
     }
 
-    public ImageView getPosterView() {
-        return mPoster;
-    }
+//    public ImageView getPosterView() {
+//        return mPoster;
+//    }
 
     private void updatePlayedDate() {
-        if (directPlayableTypeList.contains(mBaseItem.getType())) {
-            mLastPlayedText.setText(mBaseItem.getUserData() != null && mBaseItem.getUserData().getLastPlayedDate() != null ?
-                    getString(R.string.lbl_last_played)+ DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(mBaseItem.getUserData().getLastPlayedDate()).getTime()).toString()
-                    : getString(R.string.lbl_never_played));
-        } else {
-            mLastPlayedText.setText("");
-        }
+//        if (directPlayableTypeList.contains(mBaseItem.getType())) {
+//            mLastPlayedText.setText(mBaseItem.getUserData() != null && mBaseItem.getUserData().getLastPlayedDate() != null ?
+//                    getString(R.string.lbl_last_played)+ DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(mBaseItem.getUserData().getLastPlayedDate()).getTime()).toString()
+//                    : getString(R.string.lbl_never_played));
+//        } else {
+//            mLastPlayedText.setText("");
+//        }
     }
 
     private void updatePoster() {
         // Figure image size
         Double aspect = Utils.getImageAspectRatio(mBaseItem, false);
         int height = aspect > 1 ? Utils.convertDpToPixel(this, 170) : Utils.convertDpToPixel(this, 300);
-        if (aspect > 1) {
-            //Adjust min width of poster area so text doesn't jump over after loading of image
-            mPoster.setMinimumWidth(Utils.convertDpToPixel(this, 255));
-        }
         int width = (int)((aspect) * height);
         if (width < 10) width = Utils.convertDpToPixel(this, 150);  //Guard against zero size images causing picasso to barf
 
-        Picasso.with(this)
-                .load(Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(),false, false, height))
-                .skipMemoryCache()
-                .resize(width, height)
-                .centerInside()
-                .error(getResources().getDrawable(R.drawable.blank30x30))
-                .into(mPoster);
+        try {
+            Bitmap poster = Picasso.with(this)
+                    .load(Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(),false, false, height))
+                    .skipMemoryCache()
+                    .resize(width, height)
+                    .centerInside()
+                    .error(getResources().getDrawable(R.drawable.blank30x30))
+                    .get();
+            mDetailsOverviewRow.setImageBitmap(this, poster);
+        } catch (IOException e) {
+            TvApp.getApplication().getLogger().ErrorException("Error loading image", e);
 
-    }
-
-    private void setSummaryTitles() {
-        TextView topLine = (TextView) findViewById(R.id.fdSummaryTitle);
-        switch (mBaseItem.getType()) {
-            case "Person":
-                mSummary.setX(topLine.getX());
-                mSummary.setY(topLine.getY()+10);
-                mSummary.setHeight(mPoster.getHeight()-20);
-                topLine.setVisibility(View.GONE);
-                mTimeLine.setVisibility(View.GONE);
-
-                break;
-            default:
-
-                BaseItemPerson director = Utils.GetFirstPerson(mBaseItem, PersonType.Director);
-                if (director != null) {
-                    topLine.setText(getString(R.string.lbl_directed_by)+director.getName());
-                }
-                setEndTime();
         }
+
     }
 
-    private void setEndTime() {
+//    private void setSummaryTitles() {
+//        TextView topLine = (TextView) findViewById(R.id.fdSummaryTitle);
+//    }
+
+    private String getEndTime() {
         Long runtime = Utils.NullCoalesce(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
         if (runtime != null && runtime > 0) {
             long endTimeTicks = System.currentTimeMillis() + runtime / 10000;
@@ -464,9 +466,10 @@ public class FullDetailsActivity extends BaseActivity {
                 endTimeTicks = System.currentTimeMillis() + ((runtime - mBaseItem.getUserData().getPlaybackPositionTicks()) / 10000);
                 text += " ("+android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks))+getString(R.string.lbl_if_resumed);
             }
-            mTimeLine.setText(text);
-        }
 
+            return text;
+        }
+        return "";
     }
 
     private void addGenres(LinearLayout layout) {
@@ -482,48 +485,48 @@ public class FullDetailsActivity extends BaseActivity {
 
     private void addButtons(LinearLayout layout, int buttonSize) {
         if (mBaseItem.getCanResume()) {
-            addResumeButton(layout, buttonSize);
+            //addResumeButton(layout, buttonSize);
         }
-        if (Utils.CanPlay(mBaseItem)) {
-            ImageButton play = new ImageButton(this, R.drawable.play, buttonSize, getString(mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), mButtonHelp, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    play(mBaseItem, 0, false);
-                }
-            });
-            layout.addView(play);
-            if (mBaseItem.getIsFolder()) {
-                ImageButton shuffle = new ImageButton(this, R.drawable.shuffle, buttonSize, getString(R.string.lbl_shuffle_all), mButtonHelp, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        play(mBaseItem, 0, true);
-                    }
-                });
-                layout.addView(shuffle);
-            }
-        }
+//        if (Utils.CanPlay(mBaseItem)) {
+//            ImageButton play = new ImageButton(this, R.drawable.play, buttonSize, getString(mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), mButtonHelp, new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    play(mBaseItem, 0, false);
+//                }
+//            });
+//            layout.addView(play);
+//            if (mBaseItem.getIsFolder()) {
+//                ImageButton shuffle = new ImageButton(this, R.drawable.shuffle, buttonSize, getString(R.string.lbl_shuffle_all), mButtonHelp, new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        play(mBaseItem, 0, true);
+//                    }
+//                });
+//                layout.addView(shuffle);
+//            }
+//        }
 
         UserItemDataDto userData = mBaseItem.getUserData();
-        if (userData != null) {
-            final ImageButton watched = new ImageButton(this, userData.getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck, buttonSize, getString(R.string.lbl_toggle_watched), mButtonHelp, markWatchedListener);
-            layout.addView(watched);
-
-            //Favorite
-            ImageButton fav = new ImageButton(this, userData.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, getString(R.string.lbl_toggle_favorite), mButtonHelp, new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    UserItemDataDto data = mBaseItem.getUserData();
-                        mApplication.getApiClient().UpdateFavoriteStatusAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
-                            @Override
-                            public void onResponse(UserItemDataDto response) {
-                                mBaseItem.setUserData(response);
-                                ((ImageButton)v).setImageResource(response.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart);
-                            }
-                        });
-                }
-            });
-            layout.addView(fav);
-        }
+//        if (userData != null) {
+//            final ImageButton watched = new ImageButton(this, userData.getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck, buttonSize, getString(R.string.lbl_toggle_watched), mButtonHelp, markWatchedListener);
+//            layout.addView(watched);
+//
+//            //Favorite
+//            ImageButton fav = new ImageButton(this, userData.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, getString(R.string.lbl_toggle_favorite), mButtonHelp, new View.OnClickListener() {
+//                @Override
+//                public void onClick(final View v) {
+//                    UserItemDataDto data = mBaseItem.getUserData();
+//                        mApplication.getApiClient().UpdateFavoriteStatusAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
+//                            @Override
+//                            public void onResponse(UserItemDataDto response) {
+//                                mBaseItem.setUserData(response);
+//                                ((ImageButton)v).setImageResource(response.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart);
+//                            }
+//                        });
+//                }
+//            });
+//            layout.addView(fav);
+//        }
 
 //        if (mBaseItem.getCanDelete()) {
 //            final Activity activity = this;
@@ -568,61 +571,61 @@ public class FullDetailsActivity extends BaseActivity {
                         }).setPositiveButton(getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                            if (data.getPlayed())  markUnPlayed(v); else markPlayed(v);
+                            //if (data.getPlayed())  markUnPlayed(v); else markPlayed(v);
                     }
                 }).show();
 
             } else {
                 if (data.getPlayed()) {
-                    markUnPlayed(v);
+                   // markUnPlayed(v);
                 } else {
-                    markPlayed(v);
+                    //markPlayed(v);
                 }
             }
 
         }
     };
 
-    private void markPlayed(final View v) {
-        mApplication.getApiClient().MarkPlayedAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), null, new Response<UserItemDataDto>() {
-            @Override
-            public void onResponse(UserItemDataDto response) {
-                mBaseItem.setUserData(response);
-                ((ImageButton)v).setImageResource(R.drawable.redcheck);
-                //adjust resume
-                if (mResumeButton != null && !mBaseItem.getCanResume()) mResumeButton.setVisibility(View.GONE);
-                //force lists to re-fetch
-                TvApp.getApplication().setLastPlayback(Calendar.getInstance());
-            }
-        });
+//    private void markPlayed(final View v) {
+//        mApplication.getApiClient().MarkPlayedAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), null, new Response<UserItemDataDto>() {
+//            @Override
+//            public void onResponse(UserItemDataDto response) {
+//                mBaseItem.setUserData(response);
+//                ((ImageButton)v).setImageResource(R.drawable.redcheck);
+//                //adjust resume
+//                if (mResumeButton != null && !mBaseItem.getCanResume()) mResumeButton.setVisibility(View.GONE);
+//                //force lists to re-fetch
+//                TvApp.getApplication().setLastPlayback(Calendar.getInstance());
+//            }
+//        });
+//
+//    }
 
-    }
+//    private void markUnPlayed(final View v) {
+//        mApplication.getApiClient().MarkUnplayedAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), new Response<UserItemDataDto>() {
+//            @Override
+//            public void onResponse(UserItemDataDto response) {
+//                mBaseItem.setUserData(response);
+//                ((ImageButton)v).setImageResource(R.drawable.whitecheck);
+//                //adjust resume
+//                if (mResumeButton != null && !mBaseItem.getCanResume()) mResumeButton.setVisibility(View.GONE);
+//                //force lists to re-fetch
+//                TvApp.getApplication().setLastPlayback(Calendar.getInstance());
+//            }
+//        });
+//
+//    }
 
-    private void markUnPlayed(final View v) {
-        mApplication.getApiClient().MarkUnplayedAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), new Response<UserItemDataDto>() {
-            @Override
-            public void onResponse(UserItemDataDto response) {
-                mBaseItem.setUserData(response);
-                ((ImageButton)v).setImageResource(R.drawable.whitecheck);
-                //adjust resume
-                if (mResumeButton != null && !mBaseItem.getCanResume()) mResumeButton.setVisibility(View.GONE);
-                //force lists to re-fetch
-                TvApp.getApplication().setLastPlayback(Calendar.getInstance());
-            }
-        });
-
-    }
-
-    private void addResumeButton(LinearLayout layout, int buttonSize) {
-        mResumeButton = new ImageButton(this, R.drawable.resume, buttonSize, getString(R.string.lbl_resume), mButtonHelp, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
-                play(mBaseItem, pos.intValue(), false);
-            }
-        });
-        layout.addView(mResumeButton, 0);
-    }
+//    private void addResumeButton(LinearLayout layout, int buttonSize) {
+//        mResumeButton = new ImageButton(this, R.drawable.resume, buttonSize, getString(R.string.lbl_resume), mButtonHelp, new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
+//                play(mBaseItem, pos.intValue(), false);
+//            }
+//        });
+//        layout.addView(mResumeButton, 0);
+//    }
 
     protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
         final Activity activity = this;
