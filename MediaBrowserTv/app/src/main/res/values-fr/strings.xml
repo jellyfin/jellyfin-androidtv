@@ -62,6 +62,7 @@
     <string name="lbl_settings">Paramètres</string>
     <string name="lbl_app_settings">Paramètre de l\'application</string>
     <string name="lbl_logout">"Déconnexion "</string>
+    <string name="lbl_logout_connect">Déconnexion de Connect</string>
     <string name="lbl_send_logs">Envoyer les journaux d\'événements</string>
     <string name="lbl_library">Bibliothèque</string>
     <string name="lbl_continue_watching">Continuer la lecture</string>
@@ -74,6 +75,7 @@
     <string name="lbl_suggested">Suggérés</string>
     <string name="lbl_genres">Genres</string>
     <string name="lbl_performers">Acteurs</string>
+    <string name="lbl_search">Rechercher</string>
     <string name="msg_not_implemented">" non implémentés"</string>
     <string name="lbl_latest">Derniers</string>
     <string name="lbl_by_name">Par nom</string>
@@ -94,6 +96,9 @@
     <string name="lbl_shuffle_all">Lecture aléatoire</string>
     <string name="lbl_play">Lecture</string>
     <string name="lbl_cancel">Annuler</string>
+    <string name="lbl_cancel_recording">Annuler l\'enregistrement</string>
+    <string name="lbl_cancel_series">Annuler la série</string>
+    <string name="lbl_record_series">Enregistrer la série</string>
     <string name="lbl_record">Enregistrer</string>
     <string name="lbl_details">Détails</string>
     <string name="msg_set_to_record">Programme marqué pour l\'enregistrement</string>
@@ -104,6 +109,8 @@
     <string name="lbl_chapters">Chapitres</string>
     <string name="lbl_specials">Episodes spéciaux</string>
     <string name="lbl_trailers">Bandes-annonces</string>
+    <string name="lbl_items">Eléments</string>
+    <string name="lbl_item">Elément</string>
     <string name="lbl_similar_movies">Films similaires</string>
     <string name="lbl_seasons">Saisons</string>
     <string name="lbl_upcoming">A venir</string>
@@ -186,4 +193,24 @@
     <string name="lbl_remove_dislike">Supprimer dislike</string>
     <string name="lbl_confirm_mark_unwatched">Cette action marquera tout le contenu comme non vu. Etes-vous VRAIMENT sûr ?</string>
     <string name="msg_no_playable_items">Aucun élément à lire</string>
+    <string name="lbl_unwatched">Non lu</string>
+    <string name="lbl_series">Série</string>
+    <string name="lbl_load_channels">"Charger les chaînes "</string>
+    <string name="lbl_today">Aujourd\'hui</string>
+    <string name="lbl_tomorrow">Demain</string>
+    <string name="lbl_on">On</string>
+    <string name="lbl_tune_to_channel">Changer de chaîne</string>
+    <string name="msg_recording_now">Enregistrement en cours</string>
+    <string name="msg_will_record">Enregistrement prévu</string>
+    <string name="lbl_begin_padding">Padding de début (minutes)</string>
+    <string name="lbl_program_ended">Programme terminé</string>
+    <string name="lbl_end_padding">Padding de fin (minutes)</string>
+    <string name="lbl_required_to_record">Requis pour enregistrer</string>
+    <string name="lbl_similar_items_library">Eléments semblables dans votre bibliothèque</string>
+    <string name="lbl_record_any_channel">Enregistrer n\'importe chaîne</string>
+    <string name="lbl_record_any_time">Enregistrer à n\'importe quelle heure</string>
+    <string name="lbl_only_new_episodes">Uniquement les nouveaux épisodes</string>
+    <string name="lbl_repeat_options">Options de répétition</string>
+    <string name="lbl_days">Jours</string>
+    <string name="msg_cancel_entire_series">Etes-vous sûr de vouloir annuler cette SERIE ENTIERE ?</string>
 </resources>

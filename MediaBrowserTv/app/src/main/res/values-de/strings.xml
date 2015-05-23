@@ -62,6 +62,7 @@
     <string name="lbl_settings">Einstellungen</string>
     <string name="lbl_app_settings">App Einstellungen</string>
     <string name="lbl_logout">"Ausloggen "</string>
+    <string name="lbl_logout_connect">Ausloggen von Connect</string>
     <string name="lbl_send_logs">Sende Berichte</string>
     <string name="lbl_library">Bibliothek</string>
     <string name="lbl_continue_watching">Weiter anschauen</string>
@@ -74,6 +75,7 @@
     <string name="lbl_suggested">Empfohlen</string>
     <string name="lbl_genres">Genres</string>
     <string name="lbl_performers">Darsteller</string>
+    <string name="lbl_search">Suche</string>
     <string name="msg_not_implemented">" nicht verfügbar"</string>
     <string name="lbl_latest">Zuletzt</string>
     <string name="lbl_by_name">Nach Name</string>
@@ -88,12 +90,15 @@
     <string name="lbl_other">Sonstiges</string>
     <string name="lbl_latest_additions">Zuletzt hinzugefügt</string>
     <string name="lbl_suggested_movies">Empfohlene Filme</string>
-    <string name="lbl_because_you_watched">"Wie Sie sahen "</string>
+    <string name="lbl_because_you_watched">"Weil Sie Folgendes gesehen haben: "</string>
     <string name="lbl_resume">Fortsetzen</string>
     <string name="lbl_play_all">Spiele alles</string>
     <string name="lbl_shuffle_all">Zufällige Wiedergabe</string>
     <string name="lbl_play">Play</string>
     <string name="lbl_cancel">Abbruch</string>
+    <string name="lbl_cancel_recording">Aufnahme abbrechen</string>
+    <string name="lbl_cancel_series">Serien abbrechen</string>
+    <string name="lbl_record_series">Serien aufzeichnen</string>
     <string name="lbl_record">Aufnahme</string>
     <string name="lbl_details">Details</string>
     <string name="msg_set_to_record">Sender wird aufgezeichnet</string>
@@ -104,6 +109,8 @@
     <string name="lbl_chapters">Kapitel</string>
     <string name="lbl_specials">Extras</string>
     <string name="lbl_trailers">Trailer</string>
+    <string name="lbl_items">Einträge</string>
+    <string name="lbl_item">Eintrag</string>
     <string name="lbl_similar_movies">Ähnliche Filme</string>
     <string name="lbl_seasons">Staffeln</string>
     <string name="lbl_upcoming">Als nächstes</string>
@@ -112,7 +119,7 @@
     <string name="lbl_toggle_watched">wechsel zu abgespielte</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_if_resumed">" wenn wiedergegeben)"</string>
-    <string name="lbl_runs">"Lief: "</string>
+    <string name="lbl_runs">"Laufzeit: "</string>
     <string name="lbl_min">" min "</string>
     <string name="lbl_ends">"Endet: "</string>
     <string name="lbl_directed_by">"Regie: "</string>
@@ -125,7 +132,7 @@
     <string name="lbl_select_user">Wähle einen Benutzer</string>
     <string name="lbl_paren_login_as">" (einloggen als "</string>
     <string name="lbl_to_change_paren">" zum wechseln)"</string>
-    <string name="lbl_login_as">"Einloggen als "</string>
+    <string name="lbl_login_as">"Anmelden als "</string>
     <string name="lbl_tv">TV</string>
     <string name="lbl_people">Personen</string>
     <string name="lbl_parens_external">" (extern)"</string>
@@ -154,7 +161,7 @@
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Geburtstag "</string>
     <string name="lbl_loading_elipses">Lade...</string>
-    <string name="lbl_unlock">Freigeben</string>
+    <string name="lbl_unlock">Freischalten</string>
     <string name="msg_playback_not_allowed">Wiedergabe zu dieser Zeit nicht erlaubt</string>
     <string name="msg_playback_restricted">Die Wiedergabe dieser Datei zu dieser Zeit wurde durch den Administrator beschränkt.</string>
     <string name="msg_playback_incompatible">Video Format kann nicht wiedergegeben werden</string>
@@ -186,4 +193,24 @@
     <string name="lbl_remove_dislike">Entferne \"mag ich nicht\"</string>
     <string name="lbl_confirm_mark_unwatched">Dies markiert alle Inhalte als ungesehen. Sind Sie sich SEHR sicher?</string>
     <string name="msg_no_playable_items">Keine abspielbaren Einträge</string>
+    <string name="lbl_unwatched">Ungesehen</string>
+    <string name="lbl_series">Serien</string>
+    <string name="lbl_load_channels">"Lade Kanäle "</string>
+    <string name="lbl_today">Heute</string>
+    <string name="lbl_tomorrow">Morgen</string>
+    <string name="lbl_on">am</string>
+    <string name="lbl_tune_to_channel">Wechsle zu Kanal</string>
+    <string name="msg_recording_now">nehme auf</string>
+    <string name="msg_will_record">wird aufgenommen</string>
+    <string name="lbl_begin_padding">Vorlauf (Minuten)</string>
+    <string name="lbl_program_ended">Programm beendet</string>
+    <string name="lbl_end_padding">Nachlauf (Min)</string>
+    <string name="lbl_required_to_record">Benötigt für Aufnbahme</string>
+    <string name="lbl_similar_items_library">Ähnliche Einträge in Ihrer Bibliothek</string>
+    <string name="lbl_record_any_channel">Aufnahme auf jedem Kanal</string>
+    <string name="lbl_record_any_time">Aufnahme zu jeder Zeit</string>
+    <string name="lbl_only_new_episodes">Nur neue Episoden</string>
+    <string name="lbl_repeat_options">Wiederholungsoptionen</string>
+    <string name="lbl_days">Tage</string>
+    <string name="msg_cancel_entire_series">Möchten Sie diese Serie wirklich abbrechen?</string>
 </resources>

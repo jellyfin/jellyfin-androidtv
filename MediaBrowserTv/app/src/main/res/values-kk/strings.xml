@@ -62,6 +62,7 @@
     <string name="lbl_settings">Параметрлер</string>
     <string name="lbl_app_settings">Қолданба параметрлері</string>
     <string name="lbl_logout">"Шығу "</string>
+    <string name="lbl_logout_connect">Connect ішінен шығу</string>
     <string name="lbl_send_logs">Жіберу жұрналдары</string>
     <string name="lbl_library">Тасығышхана</string>
     <string name="lbl_continue_watching">Қарауды жалғастыру</string>
@@ -74,6 +75,7 @@
     <string name="lbl_suggested">Ұсынылған</string>
     <string name="lbl_genres">Жанрлар</string>
     <string name="lbl_performers">Орындаушылар</string>
+    <string name="lbl_search">Іздеу</string>
     <string name="msg_not_implemented">"жүзеге асырылмаған"</string>
     <string name="lbl_latest">Ең кейінгі</string>
     <string name="lbl_by_name">Атымен</string>
@@ -94,6 +96,9 @@
     <string name="lbl_shuffle_all">Бәрін араластыру</string>
     <string name="lbl_play">Ойнату</string>
     <string name="lbl_cancel">Болдырмау</string>
+    <string name="lbl_cancel_recording">Жазуды болдырмау</string>
+    <string name="lbl_cancel_series">Телехикаяны болдырмау</string>
+    <string name="lbl_record_series">Телехикаяны жазу</string>
     <string name="lbl_record">Жазу</string>
     <string name="lbl_details">Толық мәліметтер</string>
     <string name="msg_set_to_record">Берілім жазуы орнатылды</string>
@@ -104,6 +109,8 @@
     <string name="lbl_chapters">Сахналар</string>
     <string name="lbl_specials">Арнайылар</string>
     <string name="lbl_trailers">Трейлерлер</string>
+    <string name="lbl_items">Тармақтар</string>
+    <string name="lbl_item">Тармақ</string>
     <string name="lbl_similar_movies">Ұқсас фильмдер</string>
     <string name="lbl_seasons">Маусымдар</string>
     <string name="lbl_upcoming">Күтілген</string>
@@ -186,4 +193,24 @@
     <string name="lbl_remove_dislike">Ұнамайды дегенді аластау</string>
     <string name="lbl_confirm_mark_unwatched">Бұл барлық мазмұнды ойнатылмаған деп белгілейді. Сіз оған ӘБДЕН сенімдісіз бе?</string>
     <string name="msg_no_playable_items">Ойнатылатын тармақтар жоқ</string>
+    <string name="lbl_unwatched">Қаралмаған</string>
+    <string name="lbl_series">Телехикая</string>
+    <string name="lbl_load_channels">"Арналарды жүктеу "</string>
+    <string name="lbl_today">Бүгін</string>
+    <string name="lbl_tomorrow">Ертең</string>
+    <string name="lbl_on">-</string>
+    <string name="lbl_tune_to_channel">Арнаны теңшеу</string>
+    <string name="msg_recording_now">Қазір жазу</string>
+    <string name="msg_will_record">Жазылады</string>
+    <string name="lbl_begin_padding">Алға шегініс, мин</string>
+    <string name="lbl_program_ended">Берілім аяқталды</string>
+    <string name="lbl_end_padding">Артқа шегініс, мин</string>
+    <string name="lbl_required_to_record">Жазу үшін қажет</string>
+    <string name="lbl_similar_items_library">Тасығышханаңыздағы ұқсас тармақтар</string>
+    <string name="lbl_record_any_channel">Қайсыбір арнадан жазу</string>
+    <string name="lbl_record_any_time">Қайсыбір уақытта жазу</string>
+    <string name="lbl_only_new_episodes">Тек қана жаңа бөлімдерді</string>
+    <string name="lbl_repeat_options">Қайталау нұсқалары</string>
+    <string name="lbl_days">Күндер</string>
+    <string name="msg_cancel_entire_series">Шынымен осы ТЕЛЕХИКАЯНЫҢ БӘРІН болдырмау қажет пе?</string>
 </resources>
