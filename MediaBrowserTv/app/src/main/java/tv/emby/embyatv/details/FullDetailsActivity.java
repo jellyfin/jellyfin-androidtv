@@ -553,31 +553,31 @@ public class FullDetailsActivity extends BaseActivity {
             mDetailsOverviewRow.addAction(fav);
         }
 
-        if (mBaseItem.getCanDelete()) {
-            final Activity activity = this;
-            ImageButton del = new ImageButton(this, R.drawable.trash, buttonSize, "Delete", null, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new AlertDialog.Builder(activity)
-                            .setTitle("Delete")
-                            .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
-                            .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    Utils.showToast(activity, "Would delete...");
-                                }
-                            })
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Utils.showToast(activity, "Item NOT Deleted");
-                                }
-                            })
-                            .show();
-
-                }
-            });
-            mDetailsOverviewRow.addAction(del);
-        }
+//        if (mBaseItem.getCanDelete()) {
+//            final Activity activity = this;
+//            ImageButton del = new ImageButton(this, R.drawable.trash, buttonSize, "Delete", null, new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    new AlertDialog.Builder(activity)
+//                            .setTitle("Delete")
+//                            .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
+//                            .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int whichButton) {
+//                                    Utils.showToast(activity, "Would delete...");
+//                                }
+//                            })
+//                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    Utils.showToast(activity, "Item NOT Deleted");
+//                                }
+//                            })
+//                            .show();
+//
+//                }
+//            });
+//            mDetailsOverviewRow.addAction(del);
+//        }
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
