@@ -531,6 +531,29 @@ public class FullDetailsActivity extends BaseActivity {
             }
         }
 
+        if (mBaseItem.getLocalTrailerCount() != null && mBaseItem.getLocalTrailerCount() > 0) {
+            ImageButton trailer = new ImageButton(this, R.drawable.trailer, buttonSize, getString(R.string.lbl_play_trailers), null, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TvApp.getApplication().getApiClient().GetLocalTrailersAsync(TvApp.getApplication().getCurrentUser().getId(), mBaseItem.getId(), new Response<BaseItemDto[]>() {
+                        @Override
+                        public void onResponse(BaseItemDto[] response) {
+                            play(response, 0 , false);
+                        }
+
+                        @Override
+                        public void onError(Exception exception) {
+                            TvApp.getApplication().getLogger().ErrorException("Error retrieving trailers for playback", exception);
+                            Utils.showToast(mActivity, R.string.msg_video_playback_error);
+                        }
+                    });
+
+                }
+            });
+            
+            mDetailsOverviewRow.addAction(trailer);
+        }
+
         UserItemDataDto userData = mBaseItem.getUserData();
         if (userData != null) {
             final ImageButton watched = new ImageButton(this, userData.getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck, buttonSize, getString(R.string.lbl_toggle_watched), null, markWatchedListener);
