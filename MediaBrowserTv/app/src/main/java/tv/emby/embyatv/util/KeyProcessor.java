@@ -49,11 +49,11 @@ public class KeyProcessor {
         switch (key) {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-
                 switch (rowItem.getItemType()) {
 
                     case BaseItem:
                         BaseItemDto item = rowItem.getBaseItem();
+                        if (!Utils.CanPlay(item)) return false;
                         switch (item.getType()) {
                             case "Movie":
                             case "Episode":

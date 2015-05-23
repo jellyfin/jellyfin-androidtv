@@ -204,7 +204,7 @@ public class FullDetailsActivity extends BaseActivity {
         if (mCurrentItem != null) {
             return KeyProcessor.HandleKey(keyCode, mCurrentItem, this) || super.onKeyUp(keyCode, event);
 
-        } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) {
+        } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) && Utils.CanPlay(mBaseItem)) {
             //default play action
             Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
             play(mBaseItem, pos.intValue() , false);
