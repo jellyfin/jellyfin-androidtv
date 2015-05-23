@@ -146,6 +146,7 @@
     <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>
     <string name="msg_access_restricted">Access Restricted at this time</string>
     <string name="lbl_trailer">"Trailer "</string>
+    <string name="lbl_play_trailers">Play Trailer(s)</string>
     <string name="lbl_please_wait">Please Wait</string>
     <string name="lbl_enter_user_name">Enter user name</string>
     <string name="lbl_enter_user_pw">Enter user password</string>
