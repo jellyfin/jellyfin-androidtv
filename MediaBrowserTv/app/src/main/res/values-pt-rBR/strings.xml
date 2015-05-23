@@ -62,6 +62,7 @@
     <string name="lbl_settings">Ajustes</string>
     <string name="lbl_app_settings">Ajustes da App</string>
     <string name="lbl_logout">"Sair"</string>
+    <string name="lbl_logout_connect">Sair do Connect</string>
     <string name="lbl_send_logs">Enviar Logs</string>
     <string name="lbl_library">Biblioteca</string>
     <string name="lbl_continue_watching">Continuar Assistindo</string>
@@ -74,6 +75,7 @@
     <string name="lbl_suggested">Sugeridos</string>
     <string name="lbl_genres">Gêneros</string>
     <string name="lbl_performers">Artistas</string>
+    <string name="lbl_search">Busca</string>
     <string name="msg_not_implemented">"não implementado"</string>
     <string name="lbl_latest">Recentes</string>
     <string name="lbl_by_name">Por Nome</string>
@@ -94,6 +96,9 @@
     <string name="lbl_shuffle_all">Misturar Todos</string>
     <string name="lbl_play">Reproduzir</string>
     <string name="lbl_cancel">Cancelar</string>
+    <string name="lbl_cancel_recording">Cancelar Gravação</string>
+    <string name="lbl_cancel_series">Cancelar Série</string>
+    <string name="lbl_record_series">Gravar Série</string>
     <string name="lbl_record">Gravar</string>
     <string name="lbl_details">Detalhes</string>
     <string name="msg_set_to_record">Programa definido para gravar</string>
@@ -104,6 +109,8 @@
     <string name="lbl_chapters">Capítulos</string>
     <string name="lbl_specials">Especiais</string>
     <string name="lbl_trailers">Trailers</string>
+    <string name="lbl_items">Itens</string>
+    <string name="lbl_item">Item</string>
     <string name="lbl_similar_movies">Filmes Similares</string>
     <string name="lbl_seasons">Temporadas</string>
     <string name="lbl_upcoming">Em Breve</string>
@@ -186,4 +193,24 @@
     <string name="lbl_remove_dislike">Remover Não Curtir</string>
     <string name="lbl_confirm_mark_unwatched">Esta opção irá marcar todo conteúdo como não-reproduzido. Tem certeza REALMENTE?</string>
     <string name="msg_no_playable_items">Não existem itens para reproduzir</string>
+    <string name="lbl_unwatched">Não-assistido</string>
+    <string name="lbl_series">Série</string>
+    <string name="lbl_load_channels">"Carregar Canais "</string>
+    <string name="lbl_today">Hoje</string>
+    <string name="lbl_tomorrow">Amanhã</string>
+    <string name="lbl_on">Na</string>
+    <string name="lbl_tune_to_channel">Sintonizar Canal</string>
+    <string name="msg_recording_now">Gravando Agora</string>
+    <string name="msg_will_record">Irá Gravar</string>
+    <string name="lbl_begin_padding">Padding de início (mins)</string>
+    <string name="lbl_program_ended">Programa Encerrado</string>
+    <string name="lbl_end_padding">Padding de Término (mins)</string>
+    <string name="lbl_required_to_record">Necessário para grava</string>
+    <string name="lbl_similar_items_library">Itens Similares em sua Biblioteca</string>
+    <string name="lbl_record_any_channel">Gravar em qualquer canal</string>
+    <string name="lbl_record_any_time">Gravar a qualquer hora</string>
+    <string name="lbl_only_new_episodes">Apenas Novos Episódios</string>
+    <string name="lbl_repeat_options">Repetir Opções</string>
+    <string name="lbl_days">Dias</string>
+    <string name="msg_cancel_entire_series">Deseja realmente cancelar esta SÉRIE COMPLETA?</string>
 </resources>
