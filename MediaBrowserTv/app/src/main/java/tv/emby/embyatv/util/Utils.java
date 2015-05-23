@@ -570,8 +570,7 @@ public class Utils {
 
     public static boolean CanPlay(BaseItemDto item) {
         return item.getPlayAccess().equals(PlayAccess.Full)
-                && (item.getLocationType().equals(LocationType.FileSystem)
-                || item.getLocationType().equals(LocationType.Remote));
+                && ((item.getIsPlaceHolder() == null || !item.getIsPlaceHolder()) && (!item.getType().equals("Episode") || !item.getLocationType().equals(LocationType.Virtual)));
     }
 
     private static String divider = "   |   ";
