@@ -56,7 +56,6 @@
             android:layout_height="wrap_content"
             android:text="@string/lbl_record"
             android:id="@+id/okButton"
-            android:layout_alignParentBottom="true"
             android:layout_marginRight="10sp" />
 
         <Button
@@ -64,8 +63,6 @@
             android:layout_height="wrap_content"
             android:text="@string/lbl_cancel"
             android:id="@+id/cancelButton"
-            android:layout_alignParentBottom="true"
-            android:layout_toEndOf="@+id/okButton"
             android:layout_marginLeft="10sp" />
     </LinearLayout>
 
@@ -103,10 +100,9 @@
                 android:layout_width="40sp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:ems="10"
                 android:id="@+id/prePadding"
                 android:layout_alignParentStart="false"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:layout_toRightOf="@+id/textView1"
                 android:layout_alignBottom="@+id/textView1"
                 android:layout_marginLeft="5sp" />
@@ -147,10 +143,9 @@
                 android:layout_width="40sp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:ems="10"
                 android:id="@+id/postPadding"
                 android:layout_alignParentStart="false"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:layout_alignBottom="@+id/textView2"
                 android:layout_toRightOf="@+id/textView2"
                 android:layout_marginLeft="5sp" />

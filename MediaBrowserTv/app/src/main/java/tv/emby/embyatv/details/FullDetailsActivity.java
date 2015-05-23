@@ -550,7 +550,7 @@ public class FullDetailsActivity extends BaseActivity {
 
                 }
             });
-            
+
             mDetailsOverviewRow.addAction(trailer);
         }
 
