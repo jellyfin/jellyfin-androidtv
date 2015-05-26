@@ -16,7 +16,7 @@
         android:layout_width="200sp"
         android:layout_height="60sp"
         android:id="@+id/imageView12"
-        android:src="@drawable/mblogo"
+        android:src="@drawable/logob400"
         android:scaleType="fitCenter"
         android:layout_marginLeft="40sp"
         android:layout_marginRight="40sp"

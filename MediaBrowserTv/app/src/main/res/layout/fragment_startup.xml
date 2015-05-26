@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView2"
         android:layout_marginTop="20sp"
-        android:src="@drawable/mblogo"
+        android:src="@drawable/logob400"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="40sp" />
