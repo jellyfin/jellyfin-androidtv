@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
-        android:src="@drawable/mblogo"
+        android:src="@drawable/logob400"
         android:layout_alignTop="@+id/imageView4"
         android:layout_alignParentStart="true"
         android:layout_marginTop="20sp"
