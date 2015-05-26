@@ -143,6 +143,7 @@
     <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>
     <string name="msg_access_restricted">Accès restreint pour le moment</string>
     <string name="lbl_trailer">"Bande-annonce "</string>
+    <string name="lbl_play_trailers">Lire la (les) bande(s)-annonce(s)</string>
     <string name="lbl_please_wait">Veuillez patienter</string>
     <string name="lbl_enter_user_name">Entrez le nom d\'utilisateur</string>
     <string name="lbl_enter_user_pw">Entrez le mot de passe utilisateur</string>
@@ -167,7 +168,7 @@
     <string name="msg_playback_incompatible">Impossible de lire ce format vidéo</string>
     <string name="lbl_never">Jamais</string>
     <string name="lbl_unlock_app">Déverrouiller l\'application</string>
-    <string name="lbl_unlock_desc">Déverrouillez l\'application et accédez à toutes les fonctionnalités en l\'achetant ici. Si vous êtes un membre supporteur actif, vous ne devriez pas voir ce message. Assurez-vous que votre serveur a bien été configuré avec votre clé de supporteur, ou bien que vous utilisez Emby Connect pour vous connecter.</string>
+    <string name="lbl_unlock_desc">Si vous êtes un membre supporteur actif, vous ne devriez pas voir ce message. Assurez-vous que votre serveur a bien été configuré avec votre clé de supporteur.</string>
     <string name="btn_next">Suivant</string>
     <string name="msg_invalid_purchase">Tentative d\'achat invalide.</string>
     <string name="msg_thank_you_unlocked">Merci. L\'application est maintenant déverrouillée.</string>

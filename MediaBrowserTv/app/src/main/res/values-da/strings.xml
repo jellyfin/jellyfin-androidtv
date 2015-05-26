@@ -143,6 +143,7 @@
     <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>
     <string name="msg_access_restricted">Adgang nægtet på nuværende tidspunkt</string>
     <string name="lbl_trailer">"Trailer "</string>
+    <string name="lbl_play_trailers">Afspil trailer</string>
     <string name="lbl_please_wait">Vent venligst</string>
     <string name="lbl_enter_user_name">Indtast brugernavn</string>
     <string name="lbl_enter_user_pw">Indtast bruger kodeord</string>
@@ -167,7 +168,7 @@
     <string name="msg_playback_incompatible">Kan ikke afspille dette video format</string>
     <string name="lbl_never">Aldrig</string>
     <string name="lbl_unlock_app">Oplås app</string>
-    <string name="lbl_unlock_desc">Lås appen op og opnå fuld funktionalitet ved at købe den her. Hvis du er en aktiv støtter af Emby burde dette ikke være nødvendigt. Sikre dig at din server har din \"supporter\" nøgle opsat korrekt, eller at du er logget ind via \"Connect\" hvis du benytter fjernadgang.</string>
+    <string name="lbl_unlock_desc">Køb app\'en her for at oplåse alle funktioner. Hvis du har status som aktiv supporter og bruger en lokal server burde dette ikke være nødvendigt. Vær sikker på at din server har din supporter nøgle placeret korrekt.</string>
     <string name="btn_next">Næste</string>
     <string name="msg_invalid_purchase">Ugyldigt købsforsøg.</string>
     <string name="msg_thank_you_unlocked">Tak! Appen er nu låst op.</string>
