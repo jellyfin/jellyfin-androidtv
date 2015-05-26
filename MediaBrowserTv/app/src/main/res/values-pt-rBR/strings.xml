@@ -143,6 +143,7 @@
     <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>
     <string name="msg_access_restricted">Acesso Restrito no momento</string>
     <string name="lbl_trailer">"Trailer "</string>
+    <string name="lbl_play_trailers">Reproduzir Trailer(s)</string>
     <string name="lbl_please_wait">Por Favor Aguarde</string>
     <string name="lbl_enter_user_name">Inserir nome do usuário</string>
     <string name="lbl_enter_user_pw">Inserir senha do usuário</string>
@@ -167,7 +168,7 @@
     <string name="msg_playback_incompatible">Não pode reproduzir este formato de vídeo</string>
     <string name="lbl_never">Nunca</string>
     <string name="lbl_unlock_app">Desbloquear App</string>
-    <string name="lbl_unlock_desc">Desbloqueie a app para ter todas as funcionalidades comprando aqui. Se for um colaborador ativo não é necessário fazer isto. Certifique-se que seu servidor tem a chave de colaborador inserida ou, se estiver remoto, que está usando o Connect para entrar.</string>
+    <string name="lbl_unlock_desc">Desbloqueie a app para ter todas as funcionalidades comprando aqui. Se for um colaborador ativo usando um servidor local, não é necessário fazer isto. Certifique-se que seu servidor tem a chave de colaborador inserida.</string>
     <string name="btn_next">Próximo</string>
     <string name="msg_invalid_purchase">Tentativa de compra inválida.</string>
     <string name="msg_thank_you_unlocked">Obrigado. A app já está desbloqueada.</string>
