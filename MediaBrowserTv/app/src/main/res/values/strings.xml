@@ -171,7 +171,7 @@
     <string name="msg_playback_incompatible">Cannot play this video format</string>
     <string name="lbl_never">Never</string>
     <string name="lbl_unlock_app">Unlock App</string>
-    <string name="lbl_unlock_desc">Unlock the app for full functionality by purchasing it here. If you are an active Supporter you should not need to do this. Be sure your server has your supporter key in place or, if you are remote, that you are using Connect to log in.</string>
+    <string name="lbl_unlock_desc">Unlock the app for full functionality by purchasing it here. If you are an active Supporter using a local server you should not need to do this. Be sure your server has your supporter key in place.</string>
     <string name="btn_next">Next</string>
     <string name="msg_invalid_purchase">Invalid purchase attempt.</string>
     <string name="msg_thank_you_unlocked">Thank You. App is now unlocked.</string>
