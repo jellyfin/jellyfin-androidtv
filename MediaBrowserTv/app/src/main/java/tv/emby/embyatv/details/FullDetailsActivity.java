@@ -239,7 +239,7 @@ public class FullDetailsActivity extends BaseActivity {
 
     private void loadItem(String id) {
         final FullDetailsActivity us = this;
-        if (mChannelId != null) {
+        if (mChannelId != null && mProgramInfo == null) {
             // if we are displaying a live tv channel - we want to get whatever is showing now on that channel
             mApplication.getApiClient().GetLiveTvChannelAsync(mChannelId, TvApp.getApplication().getCurrentUser().getId(), new Response<ChannelInfoDto>() {
                 @Override
@@ -477,7 +477,7 @@ public class FullDetailsActivity extends BaseActivity {
     private String getEndTime() {
         Long runtime = Utils.NullCoalesce(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
         if (runtime != null && runtime > 0) {
-            long endTimeTicks = System.currentTimeMillis() + runtime / 10000;
+            long endTimeTicks = mBaseItem.getEndDate() != null ? Utils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
             String text = getString(R.string.lbl_runs) + runtime / 600000000 + getString(R.string.lbl_min) + "  " + getString(R.string.lbl_ends) + android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks));
             if (mBaseItem.getCanResume()) {
                 endTimeTicks = System.currentTimeMillis() + ((runtime - mBaseItem.getUserData().getPlaybackPositionTicks()) / 10000);
