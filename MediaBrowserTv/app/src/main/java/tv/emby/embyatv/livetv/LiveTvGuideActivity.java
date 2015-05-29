@@ -763,6 +763,7 @@ public class LiveTvGuideActivity extends BaseActivity {
         if (mDetailPopup != null) mDetailPopup.dismiss();
     }
     public void showProgramOptions() {
+        if (mSelectedProgram == null) return;
 
         if (mDetailPopup == null) mDetailPopup = new DetailPopup(this);
         mDetailPopup.setContent(mSelectedProgram);
