@@ -78,7 +78,7 @@ public class ProgramGridCell extends RelativeLayout {
             InfoLayoutHelper.addBlockText(activity, mInfoRow, program.getOfficialRating(), 10);
         }
 
-        if (program.getIsHD()) {
+        if (program.getIsHD() != null && program.getIsHD()) {
             InfoLayoutHelper.addSpacer(activity, mInfoRow, "  ", 10);
             InfoLayoutHelper.addBlockText(activity, mInfoRow, "HD", 10);
         }
