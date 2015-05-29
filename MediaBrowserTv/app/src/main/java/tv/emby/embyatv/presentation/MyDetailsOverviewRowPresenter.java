@@ -113,6 +113,6 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
     public TextView getButtonHelpView() { return viewHolder.mButtonHelp; }
 
     public void updateEndTime(String text) {
-        viewHolder.mTimeLine.setText(text);
+        if (viewHolder != null && viewHolder.mTimeLine != null) viewHolder.mTimeLine.setText(text);
     }
 }
