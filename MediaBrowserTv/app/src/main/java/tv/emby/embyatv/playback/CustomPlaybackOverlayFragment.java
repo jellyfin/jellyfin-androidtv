@@ -146,7 +146,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         }
 
         if (mItemsToPlay.size() == 0) {
-            Utils.showToast(mActivity, mApplication.getString(R.string.msg_no_playable_items));
+            Utils.showToast(mApplication, mApplication.getString(R.string.msg_no_playable_items));
+            mActivity.finish();
             return;
         }
 
@@ -205,6 +206,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if (mItemsToPlay.size() == 0) return;
+
         mPoster = (ImageView) mActivity.findViewById(R.id.poster);
         mNextUpPoster = (ImageView) mActivity.findViewById(R.id.nextUpPoster);
         mStudioImage = (ImageView) mActivity.findViewById(R.id.studioImg);
@@ -460,7 +463,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     @Override
     public void onDestroy() {
-        RecommendationManager.getInstance().recommend(mPlaybackController.getCurrentlyPlayingItem().getId());
+        if (mPlaybackController != null && mPlaybackController.getCurrentlyPlayingItem() != null) RecommendationManager.getInstance().recommend(mPlaybackController.getCurrentlyPlayingItem().getId());
         super.onDestroy();
     }
 

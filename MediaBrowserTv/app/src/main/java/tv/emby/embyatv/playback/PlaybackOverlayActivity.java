@@ -89,8 +89,10 @@ public class PlaybackOverlayActivity extends Activity {
     }
 
     private void loadViews() {
-        mVideoView = (VideoView) findViewById(R.id.videoView);
-        mApplication.getPlaybackController().init(mVideoView, findViewById(R.id.bufferingProgress));
+        if (mApplication.getPlaybackController() != null) {
+            mVideoView = (VideoView) findViewById(R.id.videoView);
+            mApplication.getPlaybackController().init(mVideoView, findViewById(R.id.bufferingProgress));
+        }
     }
 
     public void setLogo(String url) {

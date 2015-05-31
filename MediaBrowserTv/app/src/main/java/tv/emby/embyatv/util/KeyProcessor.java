@@ -133,13 +133,11 @@ public class KeyProcessor {
                             case "Video":
                             case "Program":
                             case "ChannelVideoItem":
-                                // generate a standard item menu
-                                createItemMenu(rowItem.getItemId(), item.getUserData(), false, activity);
-                                break;
                             case "Series":
                             case "Season":
                             case "BoxSet":
-                                createItemMenu(rowItem.getItemId(), item.getUserData(), true, activity);
+                                // generate a standard item menu
+                                createItemMenu(rowItem.getBaseItem(), item.getUserData(), activity);
                                 break;
                         }
                         break;
@@ -167,13 +165,16 @@ public class KeyProcessor {
         return false;
     }
 
-    private static void createItemMenu(String itemId, UserItemDataDto userData, boolean isFolder, BaseActivity activity) {
+    private static void createItemMenu(BaseItemDto item, UserItemDataDto userData, BaseActivity activity) {
         PopupMenu menu = Utils.createPopupMenu(activity, activity.getCurrentFocus(), Gravity.RIGHT);
         int order = 0;
 
-        if (isFolder) menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
-        menu.getMenu().add(0, MENU_PLAY, order++, R.string.lbl_play);
-        if (isFolder) menu.getMenu().add(0, MENU_PLAY_SHUFFLE, order++, R.string.lbl_shuffle_all);
+        if (Utils.CanPlay(item)) {
+            if (item.getIsFolder() && userData.getUnplayedItemCount() !=null && userData.getUnplayedItemCount() > 0) menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
+            menu.getMenu().add(0, MENU_PLAY, order++, item.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play);
+            if (item.getIsFolder()) menu.getMenu().add(0, MENU_PLAY_SHUFFLE, order++, R.string.lbl_shuffle_all);
+
+        }
 
         if (userData.getPlayed())
             menu.getMenu().add(0, MENU_UNMARK_PLAYED, order++, activity.getString(R.string.lbl_mark_unplayed));
@@ -198,9 +199,9 @@ public class KeyProcessor {
 
         //Not sure I like this but I either duplicate processing with in-line events or do this and
         // use a single event handler
-        mCurrentItemId = itemId;
+        mCurrentItemId = item.getId();
         mCurrentActivity = activity;
-        currentItemIsFolder = isFolder;
+        currentItemIsFolder = item.getIsFolder();
 
         menu.setOnMenuItemClickListener(menuItemClickListener);
         menu.show();
