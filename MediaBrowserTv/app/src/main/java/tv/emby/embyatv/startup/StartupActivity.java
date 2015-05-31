@@ -83,6 +83,7 @@ public class StartupActivity extends Activity {
                 volleyHttpClient,
                 "AndroidTv",
                 BuildConfig.VERSION_NAME,
+                new AndroidDevice(application),
                 capabilities,
                 apiEventListener);
 
