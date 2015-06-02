@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.ProgramInfoDto;
 import mediabrowser.model.livetv.RecordingInfoDto;
@@ -82,6 +83,19 @@ public class CardPresenter extends Presenter {
                         case "Episode":
                             //TvApp.getApplication().getLogger().Debug("**** Image width: "+ cardWidth + " Aspect: " + Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()) + " Item: "+itemDto.getName());
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.tv);
+                            switch (itemDto.getLocationType()) {
+
+                                case FileSystem:
+                                    break;
+                                case Remote:
+                                    break;
+                                case Virtual:
+                                    mCardView.setBanner(Utils.convertToLocalDate(itemDto.getPremiereDate()).getTime() > System.currentTimeMillis() ? R.drawable.futurebanner : R.drawable.missingbanner);
+                                    break;
+                                case Offline:
+                                    mCardView.setBanner(R.drawable.offlinebanner);
+                                    break;
+                            }
                             break;
                         case "CollectionFolder":
                             if (aspect == null) aspect = 1.779;
@@ -103,6 +117,8 @@ public class CardPresenter extends Presenter {
                     cardHeight = !m.isStaticHeight() ? aspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((aspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
+                    if (itemDto.getLocationType() == LocationType.Offline) mCardView.setBanner(R.drawable.offlinebanner);
+                    if (itemDto.getIsPlaceHolder() != null && itemDto.getIsPlaceHolder()) mCardView.setBanner(R.drawable.externaldiscbanner);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     break;
                 case LiveTvChannel:
@@ -224,6 +240,7 @@ public class CardPresenter extends Presenter {
         }
 
         protected void resetCardViewImage() {
+            mCardView.clearBanner();
             Picasso.with(mContext)
                     .load(Uri.parse("android.resource://tv.emby.embyatv/drawable/loading"))
                     .skipMemoryCache()
