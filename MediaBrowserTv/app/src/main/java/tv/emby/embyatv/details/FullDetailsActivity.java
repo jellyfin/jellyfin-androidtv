@@ -2,10 +2,12 @@ package tv.emby.embyatv.details;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -48,6 +50,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
@@ -56,6 +59,7 @@ import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.PersonType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.ProgramInfoDto;
+import mediabrowser.model.livetv.SeriesTimerInfoDto;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.NextUpQuery;
@@ -77,7 +81,9 @@ import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.SpecialsQuery;
 import tv.emby.embyatv.querying.TrailersQuery;
 import tv.emby.embyatv.ui.GenreButton;
+import tv.emby.embyatv.ui.IRecordingIndicatorView;
 import tv.emby.embyatv.ui.ImageButton;
+import tv.emby.embyatv.ui.RecordPopup;
 import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.KeyProcessor;
 import tv.emby.embyatv.util.Utils;
@@ -85,12 +91,14 @@ import tv.emby.embyatv.util.Utils;
 /**
  * Created by Eric on 2/19/2015.
  */
-public class FullDetailsActivity extends BaseActivity {
+public class FullDetailsActivity extends BaseActivity implements IRecordingIndicatorView {
 
     private int BUTTON_SIZE;
 
     private LinearLayout mGenreRow;
     private ImageButton mResumeButton;
+    private ImageButton mRecordButton;
+    private ImageButton mRecSeriesButton;
 
     private Target mBackgroundTarget;
     private Drawable mDefaultBackground;
@@ -255,6 +263,18 @@ public class FullDetailsActivity extends BaseActivity {
         }
 
         mLastUpdated = Calendar.getInstance();
+    }
+
+    @Override
+    public void setRecTimer(String id) {
+        mProgramInfo.setTimerId(id);
+        if (mRecordButton != null) mRecordButton.setImageResource(id == null ? R.drawable.recwhite : R.drawable.rec);
+    }
+
+    @Override
+    public void setRecSeriesTimer(String id) {
+        mProgramInfo.setSeriesTimerId(id);
+        if (mRecSeriesButton != null) mRecSeriesButton.setImageResource(id == null ? R.drawable.recserieswhite : R.drawable.recseries);
     }
 
     private class BuildDorTask extends AsyncTask<BaseItemDto, Integer, MyDetailsOverviewRow> {
@@ -554,6 +574,72 @@ public class FullDetailsActivity extends BaseActivity {
             mDetailsOverviewRow.addAction(trailer);
         }
 
+        if (mProgramInfo != null) {
+            if (Utils.convertToLocalDate(mBaseItem.getEndDate()).getTime() > System.currentTimeMillis()) {
+                //Record button
+                mRecordButton = new ImageButton(this, mProgramInfo.getTimerId() != null ? R.drawable.rec : R.drawable.recwhite, buttonSize, getString(R.string.lbl_record), null, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mProgramInfo.getTimerId() == null) {
+                            showRecordingOptions(false);
+                        } else {
+                            TvApp.getApplication().getApiClient().CancelLiveTvTimerAsync(mProgramInfo.getTimerId(), new EmptyResponse() {
+                                @Override
+                                public void onResponse() {
+                                    setRecTimer(null);
+                                    Utils.showToast(mActivity, R.string.msg_recording_cancelled);
+                                }
+
+                                @Override
+                                public void onError(Exception ex) {
+                                    Utils.showToast(mActivity, R.string.msg_unable_to_cancel);
+                                }
+                            });
+
+                        }
+                    }
+                });
+
+                mDetailsOverviewRow.addAction(mRecordButton);
+            }
+
+            if (mProgramInfo.getIsSeries()) {
+                mRecSeriesButton= new ImageButton(this, mProgramInfo.getSeriesTimerId() != null ? R.drawable.recseries : R.drawable.recserieswhite, buttonSize, getString(R.string.lbl_record_series), null, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mProgramInfo.getSeriesTimerId() == null) {
+                            showRecordingOptions(true);
+                        } else {
+                            new AlertDialog.Builder(mActivity)
+                                    .setTitle(getString(R.string.lbl_cancel_series))
+                                    .setMessage(getString(R.string.msg_cancel_entire_series))
+                                    .setNegativeButton(R.string.lbl_no, null)
+                                    .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            TvApp.getApplication().getApiClient().CancelLiveTvSeriesTimerAsync(mProgramInfo.getSeriesTimerId(), new EmptyResponse() {
+                                                @Override
+                                                public void onResponse() {
+                                                    setRecSeriesTimer(null);
+                                                    Utils.showToast(mActivity, R.string.msg_recording_cancelled);
+                                                }
+
+                                                @Override
+                                                public void onError(Exception ex) {
+                                                    Utils.showToast(mActivity, R.string.msg_unable_to_cancel);
+                                                }
+                                            });
+                                        }
+                                    }).show();
+
+                        }
+                    }
+                });
+
+                mDetailsOverviewRow.addAction(mRecSeriesButton);
+            }
+        }
+
         UserItemDataDto userData = mBaseItem.getUserData();
         if (userData != null) {
             final ImageButton watched = new ImageButton(this, userData.getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck, buttonSize, getString(R.string.lbl_toggle_watched), null, markWatchedListener);
@@ -602,6 +688,25 @@ public class FullDetailsActivity extends BaseActivity {
 //            mDetailsOverviewRow.addAction(del);
 //        }
     }
+
+    RecordPopup mRecordPopup;
+    public void showRecordingOptions(final boolean recordSeries) {
+        if (mRecordPopup == null) {
+            int width = Utils.convertDpToPixel(this, 600);
+            Point size = new Point();
+            getWindowManager().getDefaultDisplay().getSize(size);
+            mRecordPopup = new RecordPopup(this, mTitle, (size.x/2) - (width/2), mTitle.getTop(), width);
+        }
+        TvApp.getApplication().getApiClient().GetDefaultLiveTvTimerInfo(mProgramInfo.getId(), new Response<SeriesTimerInfoDto>() {
+            @Override
+            public void onResponse(SeriesTimerInfoDto response) {
+                mRecordPopup.setContent(mProgramInfo, response, mActivity, recordSeries);
+                mRecordPopup.show();
+            }
+        });
+    }
+
+
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
         @Override
