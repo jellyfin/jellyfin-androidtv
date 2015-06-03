@@ -143,6 +143,7 @@
     <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>
     <string name="msg_access_restricted">Қазіргі уақытта қатынау шектелген</string>
     <string name="lbl_trailer">"Трейлер "</string>
+    <string name="lbl_play_trailers">Трейлер(лер)ді ойнату</string>
     <string name="lbl_please_wait">Күтіңіз</string>
     <string name="lbl_enter_user_name">Пайдаланушы атын енгізу</string>
     <string name="lbl_enter_user_pw">Пайдаланушы құпия сөзін енгізу</string>
@@ -167,7 +168,7 @@
     <string name="msg_playback_incompatible">Осы бейне пішімін ойнату мүмкін емес</string>
     <string name="lbl_never">Ешқашан</string>
     <string name="lbl_unlock_app">Қолданбаны құрсаудан босату</string>
-    <string name="lbl_unlock_desc">Толық жұмыс істеушілігі үшін мұнда сатып алу арқылы қолданбаны құрсаудан босатыңыз. Егер белсенді жақтаушы болып табылсаңыз, онда бұл әрекетті орындау үшін қажет емес. Серверде жақтаушы кілтіңіз орынында болуын, немесе, егер қашықтан кірсеңіз, Connect пайдалануын көз жеткізіңіз.</string>
+    <string name="lbl_unlock_desc">Толық жұмыстығы үшін мынадан сатып алу арқылы қолданбаны құрсаудан босатыңыз. Егер жергілікті серверді пайдаланған белсенді жақтаушы болып табылсаңыз, онда осы әрекет қажет емес. Серверде жақтаушы кілтіңіз болғанына көз жеткізіңіз.</string>
     <string name="btn_next">Келесі</string>
     <string name="msg_invalid_purchase">Сатып алудың жарамсыз әрекеті.</string>
     <string name="msg_thank_you_unlocked">Қолданба енді құрсаудан босатылды.</string>
