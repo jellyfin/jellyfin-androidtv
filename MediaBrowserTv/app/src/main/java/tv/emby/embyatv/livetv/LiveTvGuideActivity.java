@@ -50,13 +50,16 @@ import mediabrowser.model.results.ProgramInfoDtoResult;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
+import tv.emby.embyatv.base.CustomMessage;
+import tv.emby.embyatv.base.IMessageListener;
 import tv.emby.embyatv.ui.GuideChannelHeader;
 import tv.emby.embyatv.ui.GuidePagingButton;
 import tv.emby.embyatv.ui.HorizontalScrollViewListener;
-import tv.emby.embyatv.ui.ImageButton;
+import tv.emby.embyatv.ui.IRecordingIndicatorView;
 import tv.emby.embyatv.ui.ObservableHorizontalScrollView;
 import tv.emby.embyatv.ui.ObservableScrollView;
 import tv.emby.embyatv.ui.ProgramGridCell;
+import tv.emby.embyatv.ui.RecordPopup;
 import tv.emby.embyatv.ui.ScrollViewListener;
 import tv.emby.embyatv.util.Utils;
 
@@ -175,6 +178,14 @@ public class LiveTvGuideActivity extends BaseActivity {
 
         mChannels.setFocusable(false);
         mChannelScroller.setFocusable(false);
+
+        //Register to receive message from popup
+        registerMessageListener(new IMessageListener() {
+            @Override
+            public void onMessageReceived(CustomMessage message) {
+                if (message.equals(CustomMessage.ActionComplete)) dismissProgramOptions();
+            }
+        });
 
 
     }
@@ -522,214 +533,6 @@ public class LiveTvGuideActivity extends BaseActivity {
     }
 
     private RecordPopup mRecordPopup;
-    class RecordPopup {
-        final int SERIES_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 540);
-        final int NORMAL_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 400);
-        final List<String> DayValues = Arrays.asList("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
-
-        PopupWindow mPopup;
-        String mProgramId;
-        boolean mRecordSeries;
-
-        LiveTvGuideActivity mActivity;
-        TextView mDTitle;
-        TextView mDSummary;
-        LinearLayout mDTimeline;
-        View mSeriesOptions;
-        GridLayout mWeekdayOptions;
-        CheckBox[] mWeekdayChecks = new CheckBox[7];
-        EditText mPrePadding;
-        EditText mPostPadding;
-        CheckBox mPreRequired;
-        CheckBox mPostRequired;
-        CheckBox mOnlyNew;
-        CheckBox mAnyTime;
-        CheckBox mAnyChannel;
-        Button mOkButton;
-        Button mCancelButton;
-
-        RecordPopup(LiveTvGuideActivity activity) {
-            mActivity = activity;
-            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View layout = inflater.inflate(R.layout.program_record_popup, null);
-            mPopup = new PopupWindow(layout, mSummary.getWidth(), NORMAL_HEIGHT);
-            mPopup.setFocusable(true);
-            mPopup.setOutsideTouchable(true);
-            mPopup.setBackgroundDrawable(new BitmapDrawable()); // necessary for popup to dismiss
-            mDTitle = (TextView)layout.findViewById(R.id.title);
-            mDTitle.setTypeface(roboto);
-            mDSummary = (TextView)layout.findViewById(R.id.summary);
-            mDSummary.setTypeface(roboto);
-
-            mPrePadding = (EditText) layout.findViewById(R.id.prePadding);
-            mPostPadding = (EditText) layout.findViewById(R.id.postPadding);
-            mPreRequired = (CheckBox) layout.findViewById(R.id.prePadReq);
-            mPostRequired = (CheckBox) layout.findViewById(R.id.postPadReq);
-
-            mOnlyNew = (CheckBox) layout.findViewById(R.id.onlyNew);
-            mAnyChannel = (CheckBox) layout.findViewById(R.id.anyChannel);
-            mAnyTime = (CheckBox) layout.findViewById(R.id.anyTime);
-
-            mSeriesOptions = layout.findViewById(R.id.seriesOptions);
-            mWeekdayOptions = (GridLayout) layout.findViewById(R.id.weekdayOptions);
-            int i = -1;
-            for (String day : DateFormatSymbols.getInstance().getWeekdays()) {
-                if (i < 0) {
-                    //first one is blank
-                    i++;
-                    continue;
-                }
-                CheckBox cbx = new CheckBox(mActivity);
-                cbx.setText(day);
-                cbx.setTextSize(14);
-                mWeekdayChecks[i++] = cbx;
-                mWeekdayOptions.addView(cbx);
-            }
-
-            mOkButton = (Button) layout.findViewById(R.id.okButton);
-            mOkButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    TvApp.getApplication().getApiClient().GetDefaultLiveTvTimerInfo(mProgramId, new Response<SeriesTimerInfoDto>() {
-                        @Override
-                        public void onResponse(SeriesTimerInfoDto response) {
-                            response.setPrePaddingSeconds(Integer.valueOf(mPrePadding.getText().toString())*60);
-                            response.setPostPaddingSeconds(Integer.valueOf(mPostPadding.getText().toString())*60);
-                            response.setIsPrePaddingRequired(mPreRequired.isChecked());
-                            response.setIsPostPaddingRequired(mPostRequired.isChecked());
-
-                            if (mRecordSeries) {
-                                response.setDays(new ArrayList<String>());
-                                for (int i = 0; i < 7; i++) {
-                                    if (mWeekdayChecks[i].isChecked()) response.getDays().add(DayValues.get(i));
-                                }
-                                response.setRecordNewOnly(mOnlyNew.isChecked());
-                                response.setRecordAnyChannel(mAnyChannel.isChecked());
-                                response.setRecordAnyTime(mAnyTime.isChecked());
-
-                                TvApp.getApplication().getApiClient().CreateLiveTvSeriesTimerAsync(response, new EmptyResponse() {
-                                    @Override
-                                    public void onResponse() {
-                                        mPopup.dismiss();
-                                        dismissProgramOptions();
-                                        // we have to re-retrieve the program to get the timer id
-                                        TvApp.getApplication().getApiClient().GetLiveTvProgramAsync(mProgramId, TvApp.getApplication().getCurrentUser().getId(), new Response<ProgramInfoDto>() {
-                                            @Override
-                                            public void onResponse(ProgramInfoDto response) {
-                                                mSelectedProgramView.setRecSeriesTimer(response.getSeriesTimerId());
-
-                                            }
-                                        });
-                                        Utils.showToast(mActivity, R.string.msg_set_to_record);
-                                    }
-
-                                    @Override
-                                    public void onError(Exception ex) {
-                                        Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
-                                    }
-
-                                });
-
-                            } else {
-                                TvApp.getApplication().getApiClient().CreateLiveTvTimerAsync(response, new EmptyResponse() {
-                                    @Override
-                                    public void onResponse() {
-                                        mPopup.dismiss();
-                                        dismissProgramOptions();
-                                        // we have to re-retrieve the program to get the timer id
-                                        TvApp.getApplication().getApiClient().GetLiveTvProgramAsync(mProgramId, TvApp.getApplication().getCurrentUser().getId(), new Response<ProgramInfoDto>() {
-                                            @Override
-                                            public void onResponse(ProgramInfoDto response) {
-                                                mSelectedProgramView.setRecTimer(response.getTimerId());
-                                            }
-                                        });
-                                        Utils.showToast(mActivity, R.string.msg_set_to_record);
-                                    }
-
-                                    @Override
-                                    public void onError(Exception ex) {
-                                        Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
-                                    }
-                                });
-                            }
-                        }
-                    });
-                }
-            });
-            mCancelButton = (Button) layout.findViewById(R.id.cancelButton);
-            mCancelButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mPopup.dismiss();
-                }
-            });
-
-            mDTimeline = (LinearLayout) layout.findViewById(R.id.timeline);
-        }
-
-        public boolean isShowing() {
-            return (mPopup != null && mPopup.isShowing());
-        }
-
-        public void setContent(ProgramInfoDto program, SeriesTimerInfoDto defaults, boolean recordSeries) {
-            mProgramId = program.getId();
-            mRecordSeries = recordSeries;
-
-            mDTitle.setText(program.getName());
-            mDSummary.setText(program.getOverview());
-            if (mDSummary.getLineCount() < 2) {
-                mDSummary.setGravity(Gravity.CENTER);
-            } else {
-                mDSummary.setGravity(Gravity.LEFT);
-            }
-
-            //if already started then can't require pre padding
-            Date local = Utils.convertToLocalDate(program.getStartDate());
-            Date now = new Date();
-            mPreRequired.setEnabled(local.getTime() > now.getTime());
-
-            // build timeline info
-            setTimelineRow(mDTimeline, program);
-
-            // set defaults
-            mPrePadding.setText(String.valueOf(defaults.getPrePaddingSeconds()/60));
-            mPostPadding.setText(String.valueOf(defaults.getPostPaddingSeconds()/60));
-            mPreRequired.setChecked(defaults.getIsPrePaddingRequired());
-            mPostRequired.setChecked(defaults.getIsPostPaddingRequired());
-
-            if (recordSeries) {
-                mPopup.setHeight(SERIES_HEIGHT);
-                mSeriesOptions.setVisibility(View.VISIBLE);
-
-                // select proper days
-                int i = 0;
-                for (CheckBox day : mWeekdayChecks) {
-                    day.setChecked(defaults.getDays().contains(DayValues.get(i)));
-                    i++;
-                }
-
-                // and other options
-                mAnyChannel.setChecked(defaults.getRecordAnyChannel());
-                mOnlyNew.setChecked(defaults.getRecordNewOnly());
-                mAnyTime.setChecked(defaults.getRecordAnyTime());
-
-            } else {
-                mPopup.setHeight(NORMAL_HEIGHT);
-                mSeriesOptions.setVisibility(View.GONE);
-            }
-
-        }
-
-        public void show() {
-            mPopup.showAtLocation(mImage, Gravity.NO_GRAVITY, mTitle.getLeft(), mTitle.getTop() - 10);
-            mOkButton.requestFocus();
-
-        }
-
-        public void dismiss() {
-            if (mPopup != null && mPopup.isShowing()) mPopup.dismiss();
-        }
-    }
 
     private void setTimelineRow(LinearLayout timelineRow, ProgramInfoDto program) {
         timelineRow.removeAllViews();
@@ -749,11 +552,11 @@ public class LiveTvGuideActivity extends BaseActivity {
     }
 
     public void showRecordingOptions(final boolean recordSeries) {
-        if (mRecordPopup == null) mRecordPopup = new RecordPopup(this);
+        if (mRecordPopup == null) mRecordPopup = new RecordPopup(this, mImage, mTitle.getLeft(), mTitle.getTop() - 10, mSummary.getWidth());
         TvApp.getApplication().getApiClient().GetDefaultLiveTvTimerInfo(mSelectedProgram.getId(), new Response<SeriesTimerInfoDto>() {
             @Override
             public void onResponse(SeriesTimerInfoDto response) {
-                mRecordPopup.setContent(mSelectedProgram, response, recordSeries);
+                mRecordPopup.setContent(mSelectedProgram, response, mSelectedProgramView, recordSeries);
                 mRecordPopup.show();
             }
         });
