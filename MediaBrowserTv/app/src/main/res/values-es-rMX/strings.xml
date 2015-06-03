@@ -62,6 +62,7 @@
     <string name="lbl_settings">Configuraciones</string>
     <string name="lbl_app_settings">Configuraciones del App</string>
     <string name="lbl_logout">"Cerrar Sesión "</string>
+    <string name="lbl_logout_connect">Cerrar Sesión de Connect</string>
     <string name="lbl_send_logs">Enviar Bitácoras</string>
     <string name="lbl_library">Biblioteca</string>
     <string name="lbl_continue_watching">Continuar Viendo</string>
@@ -74,6 +75,7 @@
     <string name="lbl_suggested">Sugerencias</string>
     <string name="lbl_genres">Géneros</string>
     <string name="lbl_performers">Intérpretes</string>
+    <string name="lbl_search">Buscar</string>
     <string name="msg_not_implemented">" no implementado"</string>
     <string name="lbl_latest">Recientes</string>
     <string name="lbl_by_name">Por Nombre</string>
@@ -94,6 +96,9 @@
     <string name="lbl_shuffle_all">Mezclar Todos</string>
     <string name="lbl_play">Reproducir</string>
     <string name="lbl_cancel">Cancelar</string>
+    <string name="lbl_cancel_recording">Cancelar Grabación</string>
+    <string name="lbl_cancel_series">Cancelar Serie</string>
+    <string name="lbl_record_series">Grabar Serie</string>
     <string name="lbl_record">Grabar</string>
     <string name="lbl_details">Detalles</string>
     <string name="msg_set_to_record">Programa establecido para grabar</string>
@@ -103,7 +108,9 @@
     <string name="lbl_cast_crew">Reparto/Personal</string>
     <string name="lbl_chapters">Capítulos</string>
     <string name="lbl_specials">Epeciales</string>
-    <string name="lbl_trailers">Avances</string>
+    <string name="lbl_trailers">Tráilers</string>
+    <string name="lbl_items">Ítems</string>
+    <string name="lbl_item">Ítem</string>
     <string name="lbl_similar_movies">Películas Similares</string>
     <string name="lbl_seasons">Temporadas</string>
     <string name="lbl_upcoming">Por Estrenar</string>
@@ -135,7 +142,8 @@
     <string name="msg_video_playback_error">"Error de reproducción de video - "</string>
     <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>
     <string name="msg_access_restricted">Acceso Restingido en este momento</string>
-    <string name="lbl_trailer">"Avance "</string>
+    <string name="lbl_trailer">"Tráiler "</string>
+    <string name="lbl_play_trailers">Reproducir Tráiler(s)</string>
     <string name="lbl_please_wait">Espere Por Favor</string>
     <string name="lbl_enter_user_name">Introducir nombre del usuario</string>
     <string name="lbl_enter_user_pw">Introducir contraseña del usuario</string>
@@ -160,7 +168,7 @@
     <string name="msg_playback_incompatible">No es posible reproducir este formato de video.</string>
     <string name="lbl_never">Nunca</string>
     <string name="lbl_unlock_app">Desbloquear App</string>
-    <string name="lbl_unlock_desc">Desbloquear la app para obtener todas las funciones al comprarla en este lugar. Si usted es un Aficionado activo no necesitará hacer esto. Asegúrese de que su servidor tiene registrada su clave de aficionado o, si se encuentra remoto, que ha empleado Connect para iniciar sesión.</string>
+    <string name="lbl_unlock_desc">Desbloquee la app para obtener todas las funciones al comprarla en aquí. Si usted es un Aficionado activo que emplea un servidor local no necesitará hacer esto. Asegúrese de que su servidor tenga registrada su clave de aficionado.</string>
     <string name="btn_next">Siguiente</string>
     <string name="msg_invalid_purchase">Intento de compra inválido.</string>
     <string name="msg_thank_you_unlocked">Gracias. La App ha sido desbloqueada.</string>
@@ -186,4 +194,24 @@
     <string name="lbl_remove_dislike">Remover Me disgusta</string>
     <string name="lbl_confirm_mark_unwatched">Esto marcará a todo el contenido como no reproducido. ¿Está usted MUY seguro?</string>
     <string name="msg_no_playable_items">No hay ítems reproducibles</string>
+    <string name="lbl_unwatched">No Visto</string>
+    <string name="lbl_series">Series</string>
+    <string name="lbl_load_channels">"Cargar Canales "</string>
+    <string name="lbl_today">Hoy</string>
+    <string name="lbl_tomorrow">Mañana</string>
+    <string name="lbl_on">En</string>
+    <string name="lbl_tune_to_channel">Sintonizar Canal</string>
+    <string name="msg_recording_now">Grabando Ahora</string>
+    <string name="msg_will_record">Se Grabará</string>
+    <string name="lbl_begin_padding">Comenzar protección (mins)</string>
+    <string name="lbl_program_ended">Programa Finalizado</string>
+    <string name="lbl_end_padding">Finalizar Protección (mins)</string>
+    <string name="lbl_required_to_record">Requerido para grabar</string>
+    <string name="lbl_similar_items_library">Ítems similares en su Biblioteca</string>
+    <string name="lbl_record_any_channel">Grabar en cualquier canal</string>
+    <string name="lbl_record_any_time">Grabar en cualquier momento</string>
+    <string name="lbl_only_new_episodes">Solo Episodios Nuevos</string>
+    <string name="lbl_repeat_options">Repetir Opciones</string>
+    <string name="lbl_days">Días</string>
+    <string name="msg_cancel_entire_series">¿Está seguro de querer cancelar esta SERIE COMPLETA?</string>
 </resources>

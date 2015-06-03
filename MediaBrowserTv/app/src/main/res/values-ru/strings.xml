@@ -143,6 +143,7 @@
     <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>
     <string name="msg_access_restricted">Доступ запрещён в настоящее время</string>
     <string name="lbl_trailer">"Трейлер "</string>
+    <string name="lbl_play_trailers">Воспр. трейлер(ы)</string>
     <string name="lbl_please_wait">Подождите</string>
     <string name="lbl_enter_user_name">Ввести имя пользователя</string>
     <string name="lbl_enter_user_pw">Ввести пароль пользователя</string>
@@ -167,7 +168,7 @@
     <string name="msg_playback_incompatible">Невозможно воспроизвести данный видеоформат</string>
     <string name="lbl_never">Никогда</string>
     <string name="lbl_unlock_app">Разблокировать приложение</string>
-    <string name="lbl_unlock_desc">Для полной функциональности разблокируйте приложение путём покупки здесь. Если вы действительный спонсор, то вам не нужно этого делать. Удостоверьтесь, что на сервере имеется на месте ваш ключ спонсора, или же, если вы находитесь вне, что вы используете Connect для входа.</string>
+    <string name="lbl_unlock_desc">Полная функциональность приложения разблокируется оплатой отсюда. Если вы действительный спонсор, использующий локальный сервер, то вам не придётся этого делать. Удостоверьтесь, что на сервере присутствует ваш ключ спонсора.</string>
     <string name="btn_next">Далее...</string>
     <string name="msg_invalid_purchase">Неверная попытка покупки.</string>
     <string name="msg_thank_you_unlocked">Приложение теперь разблокировано.</string>
