@@ -23,7 +23,7 @@ import tv.emby.embyatv.util.Utils;
 /**
  * Created by Eric on 5/4/2015.
  */
-public class ProgramGridCell extends RelativeLayout {
+public class ProgramGridCell extends RelativeLayout implements IRecordingIndicatorView {
 
     private LiveTvGuideActivity mActivity;
     private TextView mProgramName;
