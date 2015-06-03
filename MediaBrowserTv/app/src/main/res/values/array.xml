@@ -22,6 +22,8 @@
         <item>2 Mbits/sec</item>
         <item>1.5 Mbits/sec</item>
         <item>1 Mbit/sec</item>
+        <item>720 Kbits/sec</item>
+        <item>420 Kbits/sec</item>
     </string-array>
     <string-array name="pref_bitrate_values" >
         <item>40</item>
@@ -34,6 +36,8 @@
         <item>2</item>
         <item>1.5</item>
         <item>1</item>
+        <item>0.72</item>
+        <item>0.42</item>
     </string-array>
     <string-array name="pref_timeout_entries" >
         <item>30 Minutes</item>
