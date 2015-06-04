@@ -700,8 +700,31 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         TvApp.getApplication().getApiClient().GetDefaultLiveTvTimerInfo(mProgramInfo.getId(), new Response<SeriesTimerInfoDto>() {
             @Override
             public void onResponse(SeriesTimerInfoDto response) {
-                mRecordPopup.setContent(mProgramInfo, response, mActivity, recordSeries);
-                mRecordPopup.show();
+                if (recordSeries || mProgramInfo.getIsSports()){
+                    mRecordPopup.setContent(mProgramInfo, response, mActivity, recordSeries);
+                    mRecordPopup.show();
+                } else {
+                    //just record with defaults
+                    TvApp.getApplication().getApiClient().CreateLiveTvTimerAsync(response, new EmptyResponse() {
+                        @Override
+                        public void onResponse() {
+                            // we have to re-retrieve the program to get the timer id
+                            TvApp.getApplication().getApiClient().GetLiveTvProgramAsync(mProgramInfo.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ProgramInfoDto>() {
+                                @Override
+                                public void onResponse(ProgramInfoDto response) {
+                                    setRecTimer(response.getTimerId());
+                                }
+                            });
+                            Utils.showToast(mActivity, R.string.msg_set_to_record);
+                        }
+
+                        @Override
+                        public void onError(Exception ex) {
+                            Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
+                        }
+                    });
+
+                }
             }
         });
     }
