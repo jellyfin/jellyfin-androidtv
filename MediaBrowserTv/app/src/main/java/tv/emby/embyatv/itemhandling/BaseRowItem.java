@@ -259,11 +259,11 @@ public class BaseRowItem {
             case LiveTvChannel:
                 return channelInfo.getNumber();
             case LiveTvProgram:
-                return (programInfo.getEpisodeTitle() != null ? programInfo.getEpisodeTitle() : programInfo.getChannelName()) + " " +
+                return programInfo.getChannelName() + " " + (programInfo.getEpisodeTitle() != null ? programInfo.getEpisodeTitle() : "") + " " +
                         (android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(programInfo.getStartDate())) + "-"
                         + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(programInfo.getEndDate())));
             case LiveTvRecording:
-                return (recordingInfo.getEpisodeTitle() != null ? recordingInfo.getEpisodeTitle() : recordingInfo.getChannelName()) + " " +
+                return recordingInfo.getChannelName() + " " + (recordingInfo.getEpisodeTitle() != null ? recordingInfo.getEpisodeTitle() : "") + " " +
                         new SimpleDateFormat("d MMM").format(Utils.convertToLocalDate(recordingInfo.getStartDate())) + " " +
                         (android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(recordingInfo.getStartDate())) + "-"
                                 + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(recordingInfo.getEndDate())));

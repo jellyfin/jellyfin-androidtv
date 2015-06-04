@@ -49,6 +49,8 @@ public class InfoLayoutHelper {
             case "Series":
                 addSeasonCount(activity, item, layout);
                 break;
+            case "Program":
+                addChannelName(activity, item, layout);
         }
         addDate(activity, item, layout);
         if (includeRuntime) addRuntime(activity, item, layout);
@@ -88,6 +90,16 @@ public class InfoLayoutHelper {
             amt.setTextSize(textSize);
             amt.setText(item.getSeasonCount().toString()+" "+activity.getResources().getString(R.string.lbl_seasons)+"  ");
             layout.addView(amt);
+
+        }
+    }
+
+    private static void addChannelName(Activity activity, BaseItemDto item, LinearLayout layout) {
+        if (item.getChannelName() != null) {
+            TextView name = new TextView(activity);
+            name.setTextSize(textSize);
+            name.setText(item.getChannelName() + "  ");
+            layout.addView(name);
 
         }
     }
