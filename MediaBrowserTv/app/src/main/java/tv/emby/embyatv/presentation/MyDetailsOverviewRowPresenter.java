@@ -111,6 +111,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
 
     public LinearLayout getButtonRow() { return viewHolder.mButtonRow; }
     public TextView getButtonHelpView() { return viewHolder.mButtonHelp; }
+    public ImageView getPosterView() { return viewHolder.mPoster; }
 
     public void updateEndTime(String text) {
         if (viewHolder != null && viewHolder.mTimeLine != null) viewHolder.mTimeLine.setText(text);

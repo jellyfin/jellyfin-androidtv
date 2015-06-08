@@ -176,19 +176,27 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         startClock();
         rotateBackdrops();
 
-        //Update information that may have changed
+        //Update information that may have changed - delay slightly to allow changes to take on the server
         if (mApplication.getLastPlayback().after(mLastUpdated)) {
-            mApplication.getLogger().Debug("Updating info after playback");
-            mApplication.getApiClient().GetItemAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+            new Handler().postDelayed(new Runnable() {
                 @Override
-                public void onResponse(BaseItemDto response) {
-                    mBaseItem = response;
-                    if (mResumeButton != null) {
-                        mResumeButton.setVisibility(response.getCanResume() ? View.VISIBLE : View.GONE);
-                    }
-                    updatePlayedDate();
+                public void run() {
+                    mApplication.getLogger().Debug("Updating info after playback");
+                    mApplication.getApiClient().GetItemAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                        @Override
+                        public void onResponse(BaseItemDto response) {
+                            mBaseItem = response;
+                            if (mResumeButton != null) {
+                                mResumeButton.setVisibility(response.getCanResume() ? View.VISIBLE : View.GONE);
+                            }
+                            updatePlayedDate();
+                            updatePoster();
+                            mLastUpdated = Calendar.getInstance();
+                        }
+                    });
+
                 }
-            });
+            }, 750);
         }
     }
 
@@ -245,6 +253,16 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private static String[] directPlayableTypes = new String[] {"Episode","Movie","Video","Recording","Program"};
     private static List<String> directPlayableTypeList = Arrays.asList(directPlayableTypes);
 
+    private void updatePoster() {
+        Picasso.with(mActivity)
+                .load(Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(),false, false, posterHeight))
+                .skipMemoryCache()
+                .resize(posterWidth, posterHeight)
+                .centerInside()
+                .error(getResources().getDrawable(R.drawable.blank30x30))
+                .into(mDorPresenter.getPosterView());
+    }
+
     private void loadItem(String id) {
         final FullDetailsActivity us = this;
         if (mChannelId != null && mProgramInfo == null) {
@@ -271,6 +289,9 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         if (mRecordButton != null) mRecordButton.setImageResource(id == null ? R.drawable.recwhite : R.drawable.rec);
     }
 
+    private int posterWidth;
+    private int posterHeight;
+
     @Override
     public void setRecSeriesTimer(String id) {
         mProgramInfo.setSeriesTimerId(id);
@@ -285,11 +306,11 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
             // Figure image size
             Double aspect = Utils.getImageAspectRatio(item, false);
-            int height = aspect > 1 ? Utils.convertDpToPixel(mActivity, 170) : Utils.convertDpToPixel(mActivity, 300);
-            int width = (int)((aspect) * height);
-            if (width < 10) width = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
+            posterHeight = aspect > 1 ? Utils.convertDpToPixel(mActivity, 170) : Utils.convertDpToPixel(mActivity, 300);
+            posterWidth = (int)((aspect) * posterHeight);
+            if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
-            String primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(),false, false, height);
+            String primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(),false, false, posterHeight);
             mDetailsOverviewRow = new MyDetailsOverviewRow(item);
 
             mDetailsOverviewRow.setSummary(item.getOverview());
@@ -309,7 +330,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 Bitmap poster = Picasso.with(mActivity)
                         .load(primaryImageUrl)
                         .skipMemoryCache()
-                        .resize(width, height)
+                        .resize(posterWidth, posterHeight)
                         .centerInside()
                         .error(getResources().getDrawable(R.drawable.blank30x30))
                         .get();
