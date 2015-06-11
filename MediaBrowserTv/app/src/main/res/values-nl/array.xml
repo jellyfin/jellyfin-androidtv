@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string-array name="pref_startup_entries">
         <item>@string/pref_show_login</item>
         <item>@string/pref_auto_login</item>
@@ -16,6 +16,11 @@
         <item>10 Mbits/sec</item>
         <item>5 Mbits/sec</item>
         <item>2 Mbits/sec</item>
+        <item>2 Mbit/sec</item>
+        <item>1.5 Mbit/sec</item>
+        <item>1 Mbit/sec</item>
+        <item>720 Kbit/sec</item>
+        <item>420 Kbit/sec</item>
     </string-array>
     <string-array name="pref_bitrate_values">
         <item>40</item>
@@ -25,6 +30,11 @@
         <item>10</item>
         <item>5</item>
         <item>2</item>
+        <item>2</item>
+        <item>1.5</item>
+        <item>1</item>
+        <item>0.72</item>
+        <item>0.42</item>
     </string-array>
     <string-array name="pref_timeout_entries">
         <item>30 Minuten</item>

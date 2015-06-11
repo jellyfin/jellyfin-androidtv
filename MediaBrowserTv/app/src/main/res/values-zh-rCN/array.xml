@@ -9,18 +9,13 @@
         <item>1</item>
     </string-array>
     <string-array name="pref_bitrate_entries">
-        <item>40 Mbit/sek</item>
-        <item>30 Mbits/sek</item>
-        <item>21 Mbits/sek</item>
-        <item>15 Mbits/sek</item>
-        <item>10 Mbits/sek</item>
-        <item>5 Mbits/sek</item>
-        <item>2 Mbits/sek</item>
-        <item>2 Mbits/Sek</item>
-        <item>1.5 Mbits/Sek</item>
-        <item>1 Mbit/Sek</item>
-        <item>720 Kbits/sek</item>
-        <item>420 Kbits/sek</item>
+        <item>40M 位/秒</item>
+        <item>30M 位/秒</item>
+        <item>21M 位/秒</item>
+        <item>15M 位/秒</item>
+        <item>10M 位/秒</item>
+        <item>5M 位/秒</item>
+        <item>2M 位/秒</item>
     </string-array>
     <string-array name="pref_bitrate_values">
         <item>40</item>
@@ -30,19 +25,14 @@
         <item>10</item>
         <item>5</item>
         <item>2</item>
-        <item>2</item>
-        <item>1.5</item>
-        <item>1</item>
-        <item>0.72</item>
-        <item>0.42</item>
     </string-array>
     <string-array name="pref_timeout_entries">
-        <item>30 Minuten</item>
-        <item>Eine Stunde</item>
-        <item>2 Stunden</item>
-        <item>3 Stunden</item>
-        <item>6 Stunden</item>
-        <item>24 Stunden</item>
+        <item>30 分钟</item>
+        <item>1 小时</item>
+        <item>2 小时</item>
+        <item>3 小时</item>
+        <item>6 小时</item>
+        <item>24 小时</item>
     </string-array>
     <string-array name="pref_timeout_values">
         <item>1800000</item>
