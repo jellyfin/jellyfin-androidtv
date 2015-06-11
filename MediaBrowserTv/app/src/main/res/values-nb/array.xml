@@ -1,26 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string-array name="pref_startup_entries">
-        <item>@string/pref_show_login</item>
-        <item>@string/pref_auto_login</item>
-    </string-array>
     <string-array name="pref_startup_values">
         <item>0</item>
         <item>1</item>
     </string-array>
     <string-array name="pref_bitrate_entries">
-        <item>40 Mbit/sek</item>
+        <item>40 Mbits/sek</item>
         <item>30 Mbits/sek</item>
         <item>21 Mbits/sek</item>
         <item>15 Mbits/sek</item>
         <item>10 Mbits/sek</item>
         <item>5 Mbits/sek</item>
+        <item>3 Mbits/sek</item>
         <item>2 Mbits/sek</item>
-        <item>2 Mbits/Sek</item>
-        <item>1.5 Mbits/Sek</item>
-        <item>1 Mbit/Sek</item>
-        <item>720 Kbits/sek</item>
-        <item>420 Kbits/sek</item>
+        <item>1.5 Mbits/sek</item>
+        <item>1 Mbits/sek</item>
     </string-array>
     <string-array name="pref_bitrate_values">
         <item>40</item>
@@ -29,20 +23,18 @@
         <item>15</item>
         <item>10</item>
         <item>5</item>
+        <item>3</item>
         <item>2</item>
-        <item>2</item>
-        <item>1.5</item>
+        <item>1,5</item>
         <item>1</item>
-        <item>0.72</item>
-        <item>0.42</item>
     </string-array>
     <string-array name="pref_timeout_entries">
-        <item>30 Minuten</item>
-        <item>Eine Stunde</item>
-        <item>2 Stunden</item>
-        <item>3 Stunden</item>
-        <item>6 Stunden</item>
-        <item>24 Stunden</item>
+        <item>30 minutter</item>
+        <item>1 time</item>
+        <item>2 timer</item>
+        <item>3 timer</item>
+        <item>6 timer</item>
+        <item>20 timer</item>
     </string-array>
     <string-array name="pref_timeout_values">
         <item>1800000</item>
