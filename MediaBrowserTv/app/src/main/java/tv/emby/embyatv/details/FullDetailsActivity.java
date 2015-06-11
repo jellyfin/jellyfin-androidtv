@@ -352,9 +352,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             ps.addClassPresenter(ListRow.class, new ListRowPresenter());
             mRowsAdapter = new ArrayObjectAdapter(ps);
             mRowsFragment.setAdapter(mRowsAdapter);
-            if (detailsOverviewRow.getItem().getHasPrimaryImage() || detailsOverviewRow.getSummary() != null || detailsOverviewRow.getSummaryTitle() != null) {
-                mRowsAdapter.add(detailsOverviewRow);
-            }
+            mRowsAdapter.add(detailsOverviewRow);
 
             updateInfo(detailsOverviewRow.getItem());
             addAdditionalRows(mRowsAdapter);
