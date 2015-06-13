@@ -239,7 +239,7 @@ public class PlaybackController {
                 startInfo.setItemId(item.getId());
                 startInfo.setPositionTicks(mbPos);
                 TvApp.getApplication().getPlaybackManager().reportPlaybackStart(startInfo, false, apiClient, new EmptyResponse());
-                TvApp.getApplication().getLogger().Info("Playback of " + item.getName() + "(" + path + ") started.");
+                //TvApp.getApplication().getLogger().Info("Playback of " + item.getName() + "(" + path + ") started.");
             }
 
             @Override
@@ -599,12 +599,12 @@ public class PlaybackController {
             public void onPrepared(MediaPlayer mp) {
 
                 //mFreezeCheckPoint = mp.getDuration() > 60000 ? mp.getDuration() - 9000 : Integer.MAX_VALUE;
-                mp.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
+                mVideoView.setOnSeekCompleteListener(mp, new MediaPlayer.OnSeekCompleteListener() {
                     @Override
                     public void onSeekComplete(MediaPlayer mp) {
                         mApplication.getLogger().Debug("Seek complete...");
                         mPlaybackState = PlaybackState.PLAYING;
-                        mFragment.setCurrentTime(mp.getCurrentPosition());
+                        mFragment.setCurrentTime(mVideoView.getCurrentPosition());
                         startProgressAutomation();
                         startReportLoop();
                     }
