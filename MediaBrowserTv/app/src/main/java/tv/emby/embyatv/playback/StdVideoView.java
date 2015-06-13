@@ -1,6 +1,7 @@
 package tv.emby.embyatv.playback;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.util.AttributeSet;
 import android.widget.VideoView;
 
@@ -20,4 +21,8 @@ public class StdVideoView extends VideoView implements IVideoView {
         super(context, attrs, defStyleAttr);
     }
 
+    @Override
+    public void setOnSeekCompleteListener(MediaPlayer mp, MediaPlayer.OnSeekCompleteListener listener) {
+        mp.setOnSeekCompleteListener(listener);
+    }
 }

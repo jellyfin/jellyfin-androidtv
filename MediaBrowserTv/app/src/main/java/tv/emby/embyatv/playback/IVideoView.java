@@ -19,5 +19,6 @@ public interface IVideoView {
     public void setOnErrorListener(MediaPlayer.OnErrorListener listener);
     public void setOnCompletionListener(MediaPlayer.OnCompletionListener listener);
     public void setOnPreparedListener(MediaPlayer.OnPreparedListener listener);
+    public void setOnSeekCompleteListener(MediaPlayer mp, MediaPlayer.OnSeekCompleteListener listener);
 
 }
