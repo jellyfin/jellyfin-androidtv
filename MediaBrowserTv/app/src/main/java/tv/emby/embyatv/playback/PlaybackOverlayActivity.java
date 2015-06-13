@@ -39,7 +39,7 @@ public class PlaybackOverlayActivity extends Activity {
     private static final double MEDIA_BOTTOM_MARGIN = 0.025;
     private static final double MEDIA_LEFT_MARGIN = 0.025;
 
-    private VideoView mVideoView;
+    private IVideoView mVideoView;
     private TvApp mApplication;
 
     private View.OnKeyListener mKeyListener;
@@ -90,17 +90,8 @@ public class PlaybackOverlayActivity extends Activity {
 
     private void loadViews() {
         if (mApplication.getPlaybackController() != null) {
-            mVideoView = (VideoView) findViewById(R.id.videoView);
+            mVideoView = (IVideoView) findViewById(R.id.videoView);
             mApplication.getPlaybackController().init(mVideoView, findViewById(R.id.bufferingProgress));
-        }
-    }
-
-    public void setLogo(String url) {
-        if (url != null) {
-            ImageView logo = (ImageView) findViewById(R.id.npLogoImage);
-            if (logo != null) {
-                logo.setImageURI(Uri.parse(url));
-            }
         }
     }
 

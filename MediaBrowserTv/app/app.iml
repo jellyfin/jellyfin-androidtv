@@ -118,6 +118,7 @@
     <orderEntry type="library" exported="" name="okhttp-urlconnection-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="emby.apiclient" level="project" />
     <orderEntry type="library" exported="" name="acra-4.6.1" level="project" />
+    <orderEntry type="library" exported="" name="vlc-android-sdk-1.0.6" level="project" />
     <orderEntry type="library" exported="" name="emby.apiclient.android" level="project" />
     <orderEntry type="library" exported="" name="volley" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-21.0.2" level="project" />

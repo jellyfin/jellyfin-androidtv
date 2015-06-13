@@ -35,7 +35,7 @@ import tv.emby.embyatv.util.Utils;
  */
 public class PlaybackController {
     List<BaseItemDto> mItems;
-    VideoView mVideoView;
+    IVideoView mVideoView;
     int mCurrentIndex = 0;
     private int mCurrentPosition = 0;
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
@@ -78,7 +78,7 @@ public class PlaybackController {
 
     }
 
-    public void init(VideoView view, View spinner) {
+    public void init(IVideoView view, View spinner) {
         mVideoView = view;
         mSpinner = spinner;
         setupCallbacks();
@@ -208,7 +208,7 @@ public class PlaybackController {
         return millis.intValue();
     }
 
-    private void playInternal(final BaseItemDto item, final int position, final VideoView view, VideoOptions options) {
+    private void playInternal(final BaseItemDto item, final int position, final IVideoView view, VideoOptions options) {
         final ApiClient apiClient = mApplication.getApiClient();
         mPositionOffset = 0;
         mApplication.setCurrentPlayingItem(item);
@@ -263,7 +263,7 @@ public class PlaybackController {
 
     }
 
-    private void switchStreamInternal(final StreamInfo current, final int position, final VideoView view) {
+    private void switchStreamInternal(final StreamInfo current, final int position, final IVideoView view) {
 
         TvApp.getApplication().getPlaybackManager().changeVideoStream(
                 current,
