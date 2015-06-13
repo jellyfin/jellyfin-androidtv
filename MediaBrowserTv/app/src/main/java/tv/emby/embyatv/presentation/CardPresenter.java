@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.util.Date;
+
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.livetv.ChannelInfoDto;
@@ -90,7 +92,7 @@ public class CardPresenter extends Presenter {
                                 case Remote:
                                     break;
                                 case Virtual:
-                                    mCardView.setBanner(Utils.convertToLocalDate(itemDto.getPremiereDate()).getTime() > System.currentTimeMillis() ? R.drawable.futurebanner : R.drawable.missingbanner);
+                                    mCardView.setBanner(Utils.convertToLocalDate(itemDto.getPremiereDate() != null ? itemDto.getPremiereDate() : new Date(System.currentTimeMillis()+1)).getTime() > System.currentTimeMillis() ? R.drawable.futurebanner : R.drawable.missingbanner);
                                     break;
                                 case Offline:
                                     mCardView.setBanner(R.drawable.offlinebanner);
