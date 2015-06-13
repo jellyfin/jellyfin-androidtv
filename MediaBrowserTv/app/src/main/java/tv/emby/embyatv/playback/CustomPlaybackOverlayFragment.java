@@ -170,7 +170,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.custom_player_interface, container);
+        View root = inflater.inflate(R.layout.vlc_player_interface, container);
 
         // Inject the RowsFragment in the popup container
         if (getChildFragmentManager().findFragmentById(R.id.rows_area) == null) {
