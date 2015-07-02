@@ -526,7 +526,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                 return text;
             }
-            
+
         }
         return "";
     }
