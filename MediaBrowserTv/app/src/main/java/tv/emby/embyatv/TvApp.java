@@ -272,9 +272,9 @@ public class TvApp extends Application {
     }
 
     public Drawable getDrawableCompat(int id) {
-        if (Build.VERSION.SDK_INT >= 21) {
-            return getDrawable(id);
-        }
+//        if (Build.VERSION.SDK_INT >= 21) {
+//            return getDrawable(id);
+//        }
 
         return getResources().getDrawable(id);
     }
