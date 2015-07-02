@@ -229,7 +229,7 @@ public class PlaybackController {
                     mPositionOffset = position;
                 }
 
-                String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken());
+                String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()); //apiClient.getApiUrl()+"/videos/"+item.getId()+"?static=true&mediasourceid="+response.getMediaSourceId()+"&api_key="+apiClient.getAccessToken(); 
                 view.setVideoPath(path);
                 setPlaybackMethod(response.getPlayMethod());
                 view.start();
