@@ -1,6 +1,5 @@
 package tv.emby.embyatv.browsing;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Color;
@@ -25,7 +24,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
@@ -384,7 +382,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            ItemLauncher.launch((BaseRowItem) item, mApplication, getActivity(), itemViewHolder);
+            ItemLauncher.launch((BaseRowItem) item, mApplication, getActivity());
         }
     }
 

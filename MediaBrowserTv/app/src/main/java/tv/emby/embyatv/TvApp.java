@@ -1,5 +1,6 @@
 package tv.emby.embyatv;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -17,6 +18,7 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.registration.RegistrationInfo;
+import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.playback.PlaybackController;
 import tv.emby.embyatv.startup.LogonCredentials;
 import tv.emby.embyatv.util.Utils;
@@ -65,6 +67,8 @@ public class TvApp extends Application {
     private Calendar lastTvPlayback = Calendar.getInstance();
     private Calendar lastLibraryChange = Calendar.getInstance();
     private long lastUserInteraction = System.currentTimeMillis();
+
+    private BaseActivity currentActivity;
 
     private LogonCredentials configuredAutoCredentials;
 
@@ -133,6 +137,14 @@ public class TvApp extends Application {
 
     public BaseItemDto getCurrentPlayingItem() {
         return currentPlayingItem;
+    }
+
+    public BaseActivity getCurrentActivity() {
+        return currentActivity;
+    }
+
+    public void setCurrentActivity(BaseActivity activity) {
+        currentActivity = activity;
     }
 
     public void setCurrentPlayingItem(BaseItemDto currentPlayingItem) {

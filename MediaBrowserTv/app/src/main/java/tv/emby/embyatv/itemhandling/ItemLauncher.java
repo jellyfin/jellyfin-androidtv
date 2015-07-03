@@ -37,7 +37,11 @@ import tv.emby.embyatv.util.Utils;
  * Created by Eric on 12/21/2014.
  */
 public class ItemLauncher {
-    public static void launch(BaseRowItem rowItem, final TvApp application, final Activity activity, final Presenter.ViewHolder itemViewHolder) {
+    public static void launch(BaseRowItem rowItem, final TvApp application, final Activity activity) {
+        launch(rowItem, application, activity, false);
+    }
+
+    public static void launch(BaseRowItem rowItem, final TvApp application, final Activity activity, boolean noHistory) {
         switch (rowItem.getItemType()) {
 
             case BaseItem:
@@ -70,6 +74,7 @@ public class ItemLauncher {
                         //Start activity for details display
                         Intent intent = new Intent(activity, FullDetailsActivity.class);
                         intent.putExtra("ItemId", baseItem.getId());
+                        if (noHistory) intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
                         activity.startActivity(intent);
 
@@ -79,6 +84,7 @@ public class ItemLauncher {
                         // open collection browsing
                         Intent collectionIntent = new Intent(activity, CollectionActivity.class);
                         collectionIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+                        if (noHistory) collectionIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
                         activity.startActivity(collectionIntent);
                         return;
@@ -90,6 +96,7 @@ public class ItemLauncher {
                     // open generic folder browsing
                     Intent intent = new Intent(activity, GenericFolderActivity.class);
                     intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+                    if (noHistory) intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
                     activity.startActivity(intent);
                 } else {
@@ -99,6 +106,7 @@ public class ItemLauncher {
                             //Start details fragment for display and playback
                             Intent intent = new Intent(activity, FullDetailsActivity.class);
                             intent.putExtra("ItemId", baseItem.getId());
+                            if (noHistory) intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                             activity.startActivity(intent);
                             break;
                         case Play:
@@ -124,6 +132,7 @@ public class ItemLauncher {
                 //Start details fragment
                 Intent intent = new Intent(activity, FullDetailsActivity.class);
                 intent.putExtra("ItemId", rowItem.getPerson().getId());
+                if (noHistory) intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
                 activity.startActivity(intent);
 

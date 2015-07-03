@@ -25,7 +25,6 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
-import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -50,11 +49,7 @@ import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.dto.ChapterInfoDto;
-import mediabrowser.model.dto.ImageOptions;
 import mediabrowser.model.dto.UserItemDataDto;
-import mediabrowser.model.entities.ImageType;
-import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.ProgramInfoDto;
 import mediabrowser.model.livetv.SeriesTimerInfoDto;
 import mediabrowser.model.querying.ItemFields;
@@ -568,7 +563,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            ItemLauncher.launch((BaseRowItem) item, mApplication, getActivity(), itemViewHolder);
+            ItemLauncher.launch((BaseRowItem) item, mApplication, getActivity());
         }
     }
 

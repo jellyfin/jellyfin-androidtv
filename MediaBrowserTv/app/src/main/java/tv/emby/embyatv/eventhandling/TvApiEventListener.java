@@ -4,8 +4,15 @@ import java.util.Calendar;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.ApiEventListener;
+import mediabrowser.apiinteraction.Response;
+import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.session.BrowseRequest;
+import mediabrowser.model.session.GeneralCommand;
+import mediabrowser.model.session.GeneralCommandType;
 import mediabrowser.model.session.SessionInfoDto;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.itemhandling.BaseRowItem;
+import tv.emby.embyatv.itemhandling.ItemLauncher;
 
 /**
  * Created by Eric on 2/14/2015.
@@ -29,5 +36,28 @@ public class TvApiEventListener extends ApiEventListener {
 
             }
         }
+    }
+
+    @Override
+    public void onGeneralCommand(ApiClient client, GeneralCommand command) {
+        switch (command.getName().toLowerCase()) {
+
+        }
+    }
+
+    @Override
+    public void onBrowseCommand(ApiClient client, BrowseRequest command) {
+        TvApp.getApplication().getLogger().Debug("Browse command received");
+        if (TvApp.getApplication().getCurrentActivity() == null || (TvApp.getApplication().getPlaybackController() != null && TvApp.getApplication().getPlaybackController().isPlaying())) {
+            TvApp.getApplication().getLogger().Info("Command ignored due to no activity or playback in progress");
+            return;
+        }
+        client.GetItemAsync(command.getItemId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+            @Override
+            public void onResponse(BaseItemDto response) {
+                //Create a rowItem and pass to our handler
+                ItemLauncher.launch(new BaseRowItem(0, response), TvApp.getApplication(), TvApp.getApplication().getCurrentActivity(), true);
+            }
+        });
     }
 }
