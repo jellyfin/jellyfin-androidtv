@@ -28,6 +28,7 @@ import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.serialization.IJsonSerializer;
 import mediabrowser.model.session.ClientCapabilities;
+import mediabrowser.model.session.GeneralCommandType;
 import tv.emby.embyatv.BuildConfig;
 import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.R;
@@ -63,12 +64,15 @@ public class StartupActivity extends Activity {
         ClientCapabilities capabilities = new ClientCapabilities();
         ArrayList<String> playableTypes = new ArrayList<>();
         playableTypes.add("Video");
+        ArrayList<String> supportedCommands = new ArrayList<>();
+        supportedCommands.add(GeneralCommandType.DisplayContent.toString());
 
         capabilities.setPlayableMediaTypes(playableTypes);
         capabilities.setSupportsContentUploading(false);
         capabilities.setSupportsSync(false);
         capabilities.setDeviceProfile(new AndroidProfile(Utils.getProfileOptions()));
-        capabilities.setSupportsMediaControl(false);
+        capabilities.setSupportsMediaControl(true);
+        capabilities.setSupportedCommands(supportedCommands);
         capabilities.setAppStoreUrl(Utils.getStoreUrl());
         capabilities.setIconUrl("https://raw.githubusercontent.com/MediaBrowser/MediaBrowser.Android/master/servericon.png");
 

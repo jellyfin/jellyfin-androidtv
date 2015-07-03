@@ -287,7 +287,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            ItemLauncher.launch((BaseRowItem) item, mApplication, getActivity(), itemViewHolder);
+            ItemLauncher.launch((BaseRowItem) item, mApplication, getActivity());
         }
     }
 
