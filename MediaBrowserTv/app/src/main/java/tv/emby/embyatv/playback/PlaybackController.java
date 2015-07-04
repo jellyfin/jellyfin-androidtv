@@ -127,12 +127,18 @@ public class PlaybackController {
                 mVideoView.start();
                 mPlaybackState = PlaybackState.PLAYING;
                 startProgressAutomation();
-                if (mFragment != null) {
-                    mFragment.setFadingEnabled(true);
-                    mFragment.setPlayPauseActionState(ImageButton.STATE_SECONDARY);
-                    Long mbRuntime = getCurrentlyPlayingItem().getRunTimeTicks();
-                    Long andDuration = mbRuntime != null ? mbRuntime / 10000: 0;
-                    mFragment.updateEndTime(andDuration.intValue() - getCurrentPosition());
+                if (mFragment != null && TvApp.getApplication().getCurrentActivity() != null) {
+                    TvApp.getApplication().getCurrentActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mFragment.setFadingEnabled(true);
+                            mFragment.setPlayPauseActionState(ImageButton.STATE_SECONDARY);
+                            Long mbRuntime = getCurrentlyPlayingItem().getRunTimeTicks();
+                            Long andDuration = mbRuntime != null ? mbRuntime / 10000 : 0;
+                            mFragment.updateEndTime(andDuration.intValue() - getCurrentPosition());
+
+                        }
+                    });
                 }
                 startReportLoop();
                 break;
@@ -340,11 +346,20 @@ public class PlaybackController {
         mPlaybackState = PlaybackState.PAUSED;
         stopProgressAutomation();
         mVideoView.pause();
-        if (mFragment != null) {
-            mFragment.setFadingEnabled(false);
-            mFragment.setPlayPauseActionState(ImageButton.STATE_PRIMARY);
+        if (mFragment != null && TvApp.getApplication().getCurrentActivity() != null) {
+            TvApp.getApplication().getCurrentActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mFragment.setFadingEnabled(false);
+                    mFragment.setPlayPauseActionState(ImageButton.STATE_PRIMARY);
+
+                }
+            });
         }
+
         stopReportLoop();
+        // call once more to be sure everything up to date
+        Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), (long) mVideoView.getCurrentPosition() * 10000, true);
 
     }
 
@@ -523,13 +538,14 @@ public class PlaybackController {
 
 
     private void startReportLoop() {
+        Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), (long)mVideoView.getCurrentPosition() * 10000, false);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
                 if (mPlaybackState == PlaybackState.PLAYING) {
                     int currentTime = mVideoView.getCurrentPosition();
 
-                    Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), (long)currentTime * 10000);
+                    Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), (long)currentTime * 10000, false);
 
                     //Do this next up processing here because every 3 seconds is good enough
                     if (!nextItemReported && hasNextItem() && currentTime >= mNextItemThreshold){
@@ -547,6 +563,7 @@ public class PlaybackController {
     private void stopReportLoop() {
         if (mHandler != null && mReportLoop != null) {
             mHandler.removeCallbacks(mReportLoop);
+
         }
 
     }

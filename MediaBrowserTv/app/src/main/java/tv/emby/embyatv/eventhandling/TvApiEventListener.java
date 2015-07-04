@@ -12,6 +12,7 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.session.BrowseRequest;
 import mediabrowser.model.session.GeneralCommand;
 import mediabrowser.model.session.PlayRequest;
+import mediabrowser.model.session.PlaystateRequest;
 import mediabrowser.model.session.SessionInfoDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
@@ -51,6 +52,32 @@ public class TvApiEventListener extends ApiEventListener {
                 break;
             case "unmute":
                 TvApp.getApplication().setAudioMuted(false);
+        }
+    }
+
+    @Override
+    public void onPlaystateCommand(ApiClient client, PlaystateRequest command) {
+        switch (command.getCommand()) {
+
+            case Stop:
+                TvApp.getApplication().stopPlayback();
+                break;
+            case Pause:
+                TvApp.getApplication().pausePlayback();
+                break;
+            case Unpause:
+                TvApp.getApplication().unPausePlayback();
+                break;
+            case NextTrack:
+                break;
+            case PreviousTrack:
+                break;
+            case Seek:
+                break;
+            case Rewind:
+                break;
+            case FastForward:
+                break;
         }
     }
 
