@@ -2,8 +2,10 @@ package tv.emby.embyatv;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
@@ -56,6 +58,7 @@ public class TvApp extends Application {
     private BaseItemDto currentPlayingItem;
     private PlaybackController playbackController;
     private ApiClient loginApiClient;
+    private AudioManager audioManager;
 
     private boolean isConnectLogin = false;
 
@@ -68,6 +71,8 @@ public class TvApp extends Application {
     private Calendar lastLibraryChange = Calendar.getInstance();
     private long lastUserInteraction = System.currentTimeMillis();
 
+    private boolean audioMuted;
+
     private BaseActivity currentActivity;
 
     private LogonCredentials configuredAutoCredentials;
@@ -77,6 +82,7 @@ public class TvApp extends Application {
         super.onCreate();
         logger = new ConsoleLogger();
         app = (TvApp)getApplicationContext();
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
         ACRA.init(this);
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
@@ -159,6 +165,12 @@ public class TvApp extends Application {
         this.loginApiClient = loginApiClient;
     }
 
+    public void setAudioMuted(boolean value) {
+        audioMuted = value;
+        audioManager.setStreamMute(AudioManager.STREAM_MUSIC, audioMuted);
+    }
+
+    public boolean isAudioMuted() { return audioMuted; }
 
     public PlaybackController getPlaybackController() {
         return playbackController;

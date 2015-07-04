@@ -5,7 +5,6 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.VideoView;
 
 import java.util.Date;
 import java.util.List;
@@ -375,6 +374,9 @@ public class PlaybackController {
             }
             Long mbPos = (long)mCurrentPosition * 10000;
             Utils.ReportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
+            // be sure to unmute audio in case it was muted
+            TvApp.getApplication().setAudioMuted(false);
+
         }
     }
 
