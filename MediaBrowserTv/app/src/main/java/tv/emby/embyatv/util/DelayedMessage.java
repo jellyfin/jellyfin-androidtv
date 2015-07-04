@@ -2,6 +2,7 @@ package tv.emby.embyatv.util;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Handler;
 
 import tv.emby.embyatv.R;
@@ -18,7 +19,7 @@ public class DelayedMessage {
     private ProgressDialog dialog;
     private Handler handler;
 
-    public DelayedMessage(final Activity activity) {
+    public DelayedMessage(final Context activity) {
         handler = new Handler();
         runnable = new Runnable() {
             @Override

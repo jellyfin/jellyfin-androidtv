@@ -217,6 +217,7 @@
     <string name="lbl_repeat_options">Repeat Options</string>
     <string name="lbl_days">Days</string>
     <string name="msg_cancel_entire_series">Are you sure you want to cancel this ENTIRE SERIES?</string>
+    <string name="msg_remote_already_playing">Remote play request ignored.  Please stop current item first.</string>
 
 
 </resources>

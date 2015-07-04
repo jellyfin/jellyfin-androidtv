@@ -487,6 +487,7 @@ public class PlaybackController {
                     if (!spinnerOff) {
                         stopSpinner();
                     }
+                    mApplication.setLastUserInteraction(System.currentTimeMillis()); // don't want to auto logoff during playback
                     if (isLiveTv && mCurrentProgramEndTime > 0 && System.currentTimeMillis() >= mCurrentProgramEndTime) {
                         // crossed fire off an async routine to update the program info
                         updateTvProgramInfo();
