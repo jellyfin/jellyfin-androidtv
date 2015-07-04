@@ -25,11 +25,12 @@ import android.widget.VideoView;
 
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.base.BaseActivity;
 
 /**
  * PlaybackOverlayActivity for video playback that loads PlaybackOverlayFragment
  */
-public class PlaybackOverlayActivity extends Activity {
+public class PlaybackOverlayActivity extends BaseActivity {
     private static final String TAG = "PlaybackOverlayActivity";
 
     private static final double MEDIA_HEIGHT = 0.95;
