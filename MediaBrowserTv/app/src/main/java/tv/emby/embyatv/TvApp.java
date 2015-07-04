@@ -22,6 +22,7 @@ import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.registration.RegistrationInfo;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.playback.PlaybackController;
+import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.startup.LogonCredentials;
 import tv.emby.embyatv.util.Utils;
 import tv.emby.embyatv.validation.AppValidator;
@@ -309,5 +310,22 @@ public class TvApp extends Application {
 
     public void setConnectLogin(boolean isConnectLogin) {
         this.isConnectLogin = isConnectLogin;
+    }
+
+    public void stopPlayback() {
+        if (playbackController != null && currentActivity != null && currentActivity instanceof PlaybackOverlayActivity) {
+            currentActivity.finish();
+        }
+    }
+
+    public void pausePlayback() {
+        if (playbackController != null) {
+            playbackController.playPause();
+        }
+    }
+    public void unPausePlayback() {
+        if (playbackController != null) {
+            playbackController.playPause();
+        }
     }
 }
