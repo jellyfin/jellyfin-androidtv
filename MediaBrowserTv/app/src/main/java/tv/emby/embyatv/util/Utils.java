@@ -912,6 +912,8 @@ public class Utils {
             ApiClient apiClient = TvApp.getApplication().getApiClient();
             info.setItemId(item.getId());
             info.setPositionTicks(position);
+            info.setIsPaused(TvApp.getApplication().getPlaybackController().isPaused());
+            info.setIsMuted(TvApp.getApplication().isAudioMuted());
             info.setPlayMethod(TvApp.getApplication().getPlaybackController().getPlaybackMethod());
             TvApp.getApplication().getPlaybackManager().reportPlaybackProgress(info, currentStreamInfo, false, apiClient, new EmptyResponse());
         }

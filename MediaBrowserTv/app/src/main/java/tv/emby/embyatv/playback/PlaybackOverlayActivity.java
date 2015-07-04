@@ -15,6 +15,7 @@ package tv.emby.embyatv.playback;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v17.leanback.widget.PlaybackControlsRow;
@@ -54,6 +55,13 @@ public class PlaybackOverlayActivity extends BaseActivity {
         setContentView(R.layout.activity_playback_overlay);
         mApplication = TvApp.getApplication();
         loadViews();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // be sure to unmute audio in case it was muted
+        TvApp.getApplication().setAudioMuted(false);
     }
 
     @Override

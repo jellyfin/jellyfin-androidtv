@@ -66,6 +66,8 @@ public class StartupActivity extends Activity {
         playableTypes.add("Video");
         ArrayList<String> supportedCommands = new ArrayList<>();
         supportedCommands.add(GeneralCommandType.DisplayContent.toString());
+        supportedCommands.add(GeneralCommandType.Mute.toString());
+        supportedCommands.add(GeneralCommandType.Unmute.toString());
 
         capabilities.setPlayableMediaTypes(playableTypes);
         capabilities.setSupportsContentUploading(false);

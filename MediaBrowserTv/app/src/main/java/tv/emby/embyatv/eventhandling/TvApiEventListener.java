@@ -1,6 +1,7 @@
 package tv.emby.embyatv.eventhandling;
 
 import android.content.Context;
+import android.media.AudioManager;
 
 import java.util.Calendar;
 
@@ -45,7 +46,11 @@ public class TvApiEventListener extends ApiEventListener {
     @Override
     public void onGeneralCommand(ApiClient client, GeneralCommand command) {
         switch (command.getName().toLowerCase()) {
-
+            case "mute":
+                TvApp.getApplication().setAudioMuted(true);
+                break;
+            case "unmute":
+                TvApp.getApplication().setAudioMuted(false);
         }
     }
 
