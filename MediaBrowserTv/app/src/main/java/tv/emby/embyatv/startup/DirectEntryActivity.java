@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import org.acra.ACRA;
+
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.details.DetailsActivity;
@@ -22,11 +24,13 @@ public class DirectEntryActivity extends Activity {
 
         if (TvApp.getApplication() == null) {
             Log.d("DirectEntry", "Application is null");
+            ACRA.getErrorReporter().handleException(new Exception("Application is null in direct entry"));
             finish();
         }
 
         if (TvApp.getApplication().getCurrentUser() == null) {
             Log.d("DirectEntry", "Current User is null");
+            ACRA.getErrorReporter().handleException(new Exception("Current user is null in direct entry"));
             finish();
         }
 
