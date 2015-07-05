@@ -127,18 +127,12 @@ public class PlaybackController {
                 mVideoView.start();
                 mPlaybackState = PlaybackState.PLAYING;
                 startProgressAutomation();
-                if (mFragment != null && TvApp.getApplication().getCurrentActivity() != null) {
-                    TvApp.getApplication().getCurrentActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mFragment.setFadingEnabled(true);
-                            mFragment.setPlayPauseActionState(ImageButton.STATE_SECONDARY);
-                            Long mbRuntime = getCurrentlyPlayingItem().getRunTimeTicks();
-                            Long andDuration = mbRuntime != null ? mbRuntime / 10000 : 0;
-                            mFragment.updateEndTime(andDuration.intValue() - getCurrentPosition());
-
-                        }
-                    });
+                if (mFragment != null) {
+                    mFragment.setFadingEnabled(true);
+                    mFragment.setPlayPauseActionState(ImageButton.STATE_SECONDARY);
+                    Long mbRuntime = getCurrentlyPlayingItem().getRunTimeTicks();
+                    Long andDuration = mbRuntime != null ? mbRuntime / 10000 : 0;
+                    mFragment.updateEndTime(andDuration.intValue() - getCurrentPosition());
                 }
                 startReportLoop();
                 break;
@@ -346,15 +340,9 @@ public class PlaybackController {
         mPlaybackState = PlaybackState.PAUSED;
         stopProgressAutomation();
         mVideoView.pause();
-        if (mFragment != null && TvApp.getApplication().getCurrentActivity() != null) {
-            TvApp.getApplication().getCurrentActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mFragment.setFadingEnabled(false);
-                    mFragment.setPlayPauseActionState(ImageButton.STATE_PRIMARY);
-
-                }
-            });
+        if (mFragment != null) {
+            mFragment.setFadingEnabled(false);
+            mFragment.setPlayPauseActionState(ImageButton.STATE_PRIMARY);
         }
 
         stopReportLoop();
@@ -396,9 +384,9 @@ public class PlaybackController {
     }
 
     public void next() {
-        stop();
         mApplication.getLogger().Debug("Next called.");
         if (mCurrentIndex < mItems.size() - 1) {
+            stop();
             mCurrentIndex++;
             mApplication.getLogger().Debug("Moving to index: "+mCurrentIndex+" out of "+mItems.size() + " total items.");
             mFragment.removeQueueItem(0);
@@ -412,14 +400,22 @@ public class PlaybackController {
 
     }
 
-    public void seek(int pos) {
+    public void seek(final int pos) {
         stopReportLoop();
         stopProgressAutomation();
         mPlaybackState = PlaybackState.SEEKING;
-        mApplication.getLogger().Debug("Seeking to "+pos);
-        startSpinner();
+        mApplication.getLogger().Debug("Seeking to " + pos);
+        mApplication.getCurrentActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                startSpinner();
+            }
+        });
+
         mVideoView.seekTo(pos);
-        mFragment.updateEndTime(mVideoView.getDuration() - pos);
+        if (mFragment != null) {
+            mFragment.updateEndTime(mVideoView.getDuration() - pos);
+        }
 
     }
 
