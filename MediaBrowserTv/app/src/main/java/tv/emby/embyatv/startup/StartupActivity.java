@@ -68,6 +68,7 @@ public class StartupActivity extends Activity {
         supportedCommands.add(GeneralCommandType.DisplayContent.toString());
         supportedCommands.add(GeneralCommandType.Mute.toString());
         supportedCommands.add(GeneralCommandType.Unmute.toString());
+        supportedCommands.add(GeneralCommandType.ToggleMute.toString());
 
         capabilities.setPlayableMediaTypes(playableTypes);
         capabilities.setSupportsContentUploading(false);
