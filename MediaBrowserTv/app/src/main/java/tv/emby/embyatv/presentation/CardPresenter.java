@@ -115,7 +115,7 @@ public class CardPresenter extends Presenter {
                             break;
 
                     }
-                    if (aspect == null) aspect = .77777;
+                    if (aspect == null) aspect = .7777777;
                     cardHeight = !m.isStaticHeight() ? aspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((aspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf

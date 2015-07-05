@@ -5,7 +5,6 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.VideoView;
 
 import java.util.Date;
 import java.util.List;
@@ -132,7 +131,7 @@ public class PlaybackController {
                     mFragment.setFadingEnabled(true);
                     mFragment.setPlayPauseActionState(ImageButton.STATE_SECONDARY);
                     Long mbRuntime = getCurrentlyPlayingItem().getRunTimeTicks();
-                    Long andDuration = mbRuntime != null ? mbRuntime / 10000: 0;
+                    Long andDuration = mbRuntime != null ? mbRuntime / 10000 : 0;
                     mFragment.updateEndTime(andDuration.intValue() - getCurrentPosition());
                 }
                 startReportLoop();
@@ -345,7 +344,10 @@ public class PlaybackController {
             mFragment.setFadingEnabled(false);
             mFragment.setPlayPauseActionState(ImageButton.STATE_PRIMARY);
         }
+
         stopReportLoop();
+        // call once more to be sure everything up to date
+        Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), (long) mVideoView.getCurrentPosition() * 10000, true);
 
     }
 
@@ -375,13 +377,16 @@ public class PlaybackController {
             }
             Long mbPos = (long)mCurrentPosition * 10000;
             Utils.ReportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
+            // be sure to unmute audio in case it was muted
+            TvApp.getApplication().setAudioMuted(false);
+
         }
     }
 
     public void next() {
-        stop();
         mApplication.getLogger().Debug("Next called.");
         if (mCurrentIndex < mItems.size() - 1) {
+            stop();
             mCurrentIndex++;
             mApplication.getLogger().Debug("Moving to index: "+mCurrentIndex+" out of "+mItems.size() + " total items.");
             mFragment.removeQueueItem(0);
@@ -395,14 +400,22 @@ public class PlaybackController {
 
     }
 
-    public void seek(int pos) {
+    public void seek(final int pos) {
         stopReportLoop();
         stopProgressAutomation();
         mPlaybackState = PlaybackState.SEEKING;
-        mApplication.getLogger().Debug("Seeking to "+pos);
-        startSpinner();
+        mApplication.getLogger().Debug("Seeking to " + pos);
+        mApplication.getCurrentActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                startSpinner();
+            }
+        });
+
         mVideoView.seekTo(pos);
-        mFragment.updateEndTime(mVideoView.getDuration() - pos);
+        if (mFragment != null) {
+            mFragment.updateEndTime(mVideoView.getDuration() - pos);
+        }
 
     }
 
@@ -487,6 +500,7 @@ public class PlaybackController {
                     if (!spinnerOff) {
                         stopSpinner();
                     }
+                    mApplication.setLastUserInteraction(System.currentTimeMillis()); // don't want to auto logoff during playback
                     if (isLiveTv && mCurrentProgramEndTime > 0 && System.currentTimeMillis() >= mCurrentProgramEndTime) {
                         // crossed fire off an async routine to update the program info
                         updateTvProgramInfo();
@@ -520,13 +534,14 @@ public class PlaybackController {
 
 
     private void startReportLoop() {
+        Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), (long)mVideoView.getCurrentPosition() * 10000, false);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
                 if (mPlaybackState == PlaybackState.PLAYING) {
                     int currentTime = mVideoView.getCurrentPosition();
 
-                    Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), (long)currentTime * 10000);
+                    Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), (long)currentTime * 10000, false);
 
                     //Do this next up processing here because every 3 seconds is good enough
                     if (!nextItemReported && hasNextItem() && currentTime >= mNextItemThreshold){
@@ -544,6 +559,7 @@ public class PlaybackController {
     private void stopReportLoop() {
         if (mHandler != null && mReportLoop != null) {
             mHandler.removeCallbacks(mReportLoop);
+
         }
 
     }

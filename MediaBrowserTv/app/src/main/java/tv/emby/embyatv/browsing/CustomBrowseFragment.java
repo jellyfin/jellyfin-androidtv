@@ -1,7 +1,6 @@
 package tv.emby.embyatv.browsing;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,8 +37,6 @@ import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.ViewQuery;
-import tv.emby.embyatv.search.SearchActivity;
-import tv.emby.embyatv.util.Utils;
 
 /**
  * Created by Eric on 4/15/2015.
@@ -224,7 +221,7 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            ItemLauncher.launch((BaseRowItem) item, mApplication, getActivity(), itemViewHolder);
+            ItemLauncher.launch((BaseRowItem) item, mApplication, getActivity());
         }
     }
 
