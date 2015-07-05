@@ -55,8 +55,8 @@ public class HomeFragment extends StdBrowseFragment {
 
         super.onActivityCreated(savedInstanceState);
 
-        //Validate recommendations
-        RecommendationManager.getInstance().validate();
+        //Init recommendations
+        RecommendationManager.init();
 
     }
 

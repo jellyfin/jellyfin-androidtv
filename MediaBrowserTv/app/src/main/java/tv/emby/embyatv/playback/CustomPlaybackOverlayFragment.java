@@ -579,11 +579,16 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     }
 
-    public void updateEndTime(int timeLeft) {
-        mEndTime.setText( timeLeft > 0 ?
-                mApplication.getString(R.string.lbl_ends) + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(System.currentTimeMillis() + timeLeft)
-                : ""
-        );
+    public void updateEndTime(final int timeLeft) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mEndTime.setText(timeLeft > 0 ?
+                                mApplication.getString(R.string.lbl_ends) + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(System.currentTimeMillis() + timeLeft)
+                                : ""
+                );
+            }
+        });
 
     }
 
@@ -745,13 +750,23 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             if (mIsVisible) startFadeTimer();
         } else {
             mHandler.removeCallbacks(mHideTask);
-            if (!mIsVisible) show();
+            if (!mIsVisible) getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    show();
+                }
+            });
         }
     }
 
     @Override
-    public void setPlayPauseActionState(int state) {
-        mPlayPauseBtn.setState(state);
+    public void setPlayPauseActionState(final int state) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mPlayPauseBtn.setState(state);
+            }
+        });
     }
 
     @Override

@@ -2,7 +2,6 @@ package tv.emby.embyatv.details;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,7 +16,6 @@ import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.RowsFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.ClassPresenterSelector;
-import android.support.v17.leanback.widget.DetailsOverviewRow;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
@@ -26,16 +24,10 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
-import android.text.format.DateUtils;
-import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
 
@@ -514,16 +506,19 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     private String getEndTime() {
-        Long runtime = Utils.NullCoalesce(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
-        if (runtime != null && runtime > 0) {
-            long endTimeTicks = mBaseItem.getEndDate() != null ? Utils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
-            String text = getString(R.string.lbl_runs) + runtime / 600000000 + getString(R.string.lbl_min) + "  " + getString(R.string.lbl_ends) + android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks));
-            if (mBaseItem.getCanResume()) {
-                endTimeTicks = System.currentTimeMillis() + ((runtime - mBaseItem.getUserData().getPlaybackPositionTicks()) / 10000);
-                text += " ("+android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks))+getString(R.string.lbl_if_resumed);
+        if (mBaseItem != null) {
+            Long runtime = Utils.NullCoalesce(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
+            if (runtime != null && runtime > 0) {
+                long endTimeTicks = mBaseItem.getEndDate() != null ? Utils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
+                String text = getString(R.string.lbl_runs) + runtime / 600000000 + getString(R.string.lbl_min) + "  " + getString(R.string.lbl_ends) + android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks));
+                if (mBaseItem.getCanResume()) {
+                    endTimeTicks = System.currentTimeMillis() + ((runtime - mBaseItem.getUserData().getPlaybackPositionTicks()) / 10000);
+                    text += " ("+android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks))+getString(R.string.lbl_if_resumed);
+                }
+
+                return text;
             }
 
-            return text;
         }
         return "";
     }
@@ -756,7 +751,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            ItemLauncher.launch((BaseRowItem) item, mApplication, mActivity, itemViewHolder);
+            ItemLauncher.launch((BaseRowItem) item, mApplication, mActivity);
         }
     }
 

@@ -516,7 +516,7 @@ public class Utils {
         }
     }
 
-    public static void play(final BaseItemDto item, final int pos, final boolean shuffle, final Activity activity) {
+    public static void play(final BaseItemDto item, final int pos, final boolean shuffle, final Context activity) {
         final DelayedMessage msg = new DelayedMessage(activity);
         Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), shuffle, new Response<String[]>() {
             @Override
@@ -524,6 +524,7 @@ public class Utils {
                 Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
                 intent.putExtra("Items", response);
                 intent.putExtra("Position", pos);
+                if (!(activity instanceof Activity)) intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 activity.startActivity(intent);
                 msg.Cancel();
             }
@@ -531,7 +532,7 @@ public class Utils {
 
     }
 
-    public static void retrieveAndPlay(String id, final boolean shuffle, final Activity activity) {
+    public static void retrieveAndPlay(String id, final boolean shuffle, final Context activity) {
         TvApp.getApplication().getApiClient().GetItemAsync(id, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
             @Override
             public void onResponse(BaseItemDto response) {
@@ -905,12 +906,15 @@ public class Utils {
         ToneHandler.startTone(type, ms);
     }
 
-    public static void ReportProgress(BaseItemDto item, StreamInfo currentStreamInfo, long position) {
+    public static void ReportProgress(BaseItemDto item, StreamInfo currentStreamInfo, long position, boolean isPaused) {
         if (item != null) {
             PlaybackProgressInfo info = new PlaybackProgressInfo();
             ApiClient apiClient = TvApp.getApplication().getApiClient();
             info.setItemId(item.getId());
             info.setPositionTicks(position);
+            info.setIsPaused(isPaused);
+            info.setCanSeek(currentStreamInfo.getRunTimeTicks() != null && currentStreamInfo.getRunTimeTicks() > 0);
+            info.setIsMuted(TvApp.getApplication().isAudioMuted());
             info.setPlayMethod(TvApp.getApplication().getPlaybackController().getPlaybackMethod());
             TvApp.getApplication().getPlaybackManager().reportPlaybackProgress(info, currentStreamInfo, false, apiClient, new EmptyResponse());
         }

@@ -31,6 +31,18 @@ public class BaseActivity extends Activity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        TvApp.getApplication().setCurrentActivity(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TvApp.getApplication().setCurrentActivity(null);
+    }
+
+    @Override
     protected void onDestroy() {
         if (autoLogoutHandler != null && loop != null) autoLogoutHandler.removeCallbacks(loop);
         super.onDestroy();

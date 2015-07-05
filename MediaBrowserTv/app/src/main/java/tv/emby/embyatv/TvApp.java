@@ -1,8 +1,11 @@
 package tv.emby.embyatv;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
@@ -17,7 +20,9 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.registration.RegistrationInfo;
+import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.playback.PlaybackController;
+import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.startup.LogonCredentials;
 import tv.emby.embyatv.util.Utils;
 import tv.emby.embyatv.validation.AppValidator;
@@ -54,6 +59,7 @@ public class TvApp extends Application {
     private BaseItemDto currentPlayingItem;
     private PlaybackController playbackController;
     private ApiClient loginApiClient;
+    private AudioManager audioManager;
 
     private boolean isConnectLogin = false;
 
@@ -66,6 +72,10 @@ public class TvApp extends Application {
     private Calendar lastLibraryChange = Calendar.getInstance();
     private long lastUserInteraction = System.currentTimeMillis();
 
+    private boolean audioMuted;
+
+    private BaseActivity currentActivity;
+
     private LogonCredentials configuredAutoCredentials;
 
     @Override
@@ -73,6 +83,7 @@ public class TvApp extends Application {
         super.onCreate();
         logger = new ConsoleLogger();
         app = (TvApp)getApplicationContext();
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
         ACRA.init(this);
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
@@ -135,6 +146,14 @@ public class TvApp extends Application {
         return currentPlayingItem;
     }
 
+    public BaseActivity getCurrentActivity() {
+        return currentActivity;
+    }
+
+    public void setCurrentActivity(BaseActivity activity) {
+        currentActivity = activity;
+    }
+
     public void setCurrentPlayingItem(BaseItemDto currentPlayingItem) {
         this.currentPlayingItem = currentPlayingItem;
     }
@@ -147,6 +166,12 @@ public class TvApp extends Application {
         this.loginApiClient = loginApiClient;
     }
 
+    public void setAudioMuted(boolean value) {
+        audioMuted = value;
+        audioManager.setStreamMute(AudioManager.STREAM_MUSIC, audioMuted);
+    }
+
+    public boolean isAudioMuted() { return audioMuted; }
 
     public PlaybackController getPlaybackController() {
         return playbackController;
@@ -286,4 +311,54 @@ public class TvApp extends Application {
     public void setConnectLogin(boolean isConnectLogin) {
         this.isConnectLogin = isConnectLogin;
     }
+
+    public void stopPlayback() {
+        if (playbackController != null && currentActivity != null && currentActivity instanceof PlaybackOverlayActivity) {
+            currentActivity.finish();
+        }
+    }
+
+    public void pausePlayback() {
+        if (playbackController != null) {
+            playbackController.playPause();
+        }
+    }
+    public void unPausePlayback() {
+        if (playbackController != null) {
+            playbackController.playPause();
+        }
+    }
+
+    public void playbackNext() {
+        if (playbackController != null) {
+            playbackController.next();
+        }
+    }
+
+    public void playbackPrev() {
+        if (playbackController != null) {
+            playbackController.prev();
+        }
+    }
+
+    public void playbackSeek(int pos) {
+        if (playbackController != null) {
+            playbackController.seek(pos);
+        }
+    }
+
+    public void playbackJump() {
+        if (playbackController != null) {
+            playbackController.skip(30000);
+        }
+    }
+
+    public void playbackJumpBack() {
+        if (playbackController != null) {
+            playbackController.skip(-11000);
+        }
+    }
+
+
+
 }

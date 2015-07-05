@@ -57,6 +57,14 @@ public class RecommendationManager {
         return instance;
     }
 
+    public static void init() {
+        if (instance == null) {
+            getInstance();
+        } else {
+            instance.validate();
+        }
+    }
+
     private Recommendations loadRecs() {
         if (isEnabled) {
             try {

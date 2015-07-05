@@ -63,7 +63,7 @@ public class MySearchFragmentNoSpeech extends Fragment {
             @Override
             public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
                 if (!(item instanceof BaseRowItem)) return;
-                ItemLauncher.launch((BaseRowItem) item, TvApp.getApplication(), getActivity(), itemViewHolder);
+                ItemLauncher.launch((BaseRowItem) item, TvApp.getApplication(), getActivity());
             }
         });
 
