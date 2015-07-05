@@ -913,6 +913,7 @@ public class Utils {
             info.setItemId(item.getId());
             info.setPositionTicks(position);
             info.setIsPaused(isPaused);
+            info.setCanSeek(currentStreamInfo.getRunTimeTicks() != null && currentStreamInfo.getRunTimeTicks() > 0);
             info.setIsMuted(TvApp.getApplication().isAudioMuted());
             info.setPlayMethod(TvApp.getApplication().getPlaybackController().getPlaybackMethod());
             TvApp.getApplication().getPlaybackManager().reportPlaybackProgress(info, currentStreamInfo, false, apiClient, new EmptyResponse());

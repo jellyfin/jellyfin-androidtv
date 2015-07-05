@@ -69,14 +69,20 @@ public class TvApiEventListener extends ApiEventListener {
                 TvApp.getApplication().unPausePlayback();
                 break;
             case NextTrack:
+                TvApp.getApplication().playbackNext();
                 break;
             case PreviousTrack:
+                TvApp.getApplication().playbackPrev();
                 break;
             case Seek:
+                Long pos = command.getSeekPositionTicks() / 10000;
+                TvApp.getApplication().playbackSeek(pos.intValue());
                 break;
             case Rewind:
+                TvApp.getApplication().playbackJumpBack();
                 break;
             case FastForward:
+                TvApp.getApplication().playbackJump();
                 break;
         }
     }

@@ -328,4 +328,37 @@ public class TvApp extends Application {
             playbackController.playPause();
         }
     }
+
+    public void playbackNext() {
+        if (playbackController != null) {
+            playbackController.next();
+        }
+    }
+
+    public void playbackPrev() {
+        if (playbackController != null) {
+            playbackController.prev();
+        }
+    }
+
+    public void playbackSeek(int pos) {
+        if (playbackController != null) {
+            playbackController.seek(pos);
+        }
+    }
+
+    public void playbackJump() {
+        if (playbackController != null) {
+            playbackController.skip(30000);
+        }
+    }
+
+    public void playbackJumpBack() {
+        if (playbackController != null) {
+            playbackController.skip(-11000);
+        }
+    }
+
+
+
 }
