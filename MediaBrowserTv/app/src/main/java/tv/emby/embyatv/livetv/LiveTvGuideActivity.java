@@ -875,6 +875,7 @@ public class LiveTvGuideActivity extends BaseActivity {
     }
 
     private void buildProgramsDict(ProgramInfoDto[] programs) {
+        mProgramsDict = new HashMap<>();
         for (ProgramInfoDto program : programs) {
             String id = program.getChannelId();
             if (!mProgramsDict.containsKey(id)) mProgramsDict.put(id, new ArrayList<ProgramInfoDto>());
