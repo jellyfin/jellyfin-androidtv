@@ -35,6 +35,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -97,6 +98,7 @@ public class LiveTvGuideActivity extends BaseActivity {
     private ProgramGridCell mSelectedProgramView;
 
     private List<ChannelInfoDto> mAllChannels;
+    private HashMap<String, ArrayList<ProgramInfoDto>> mProgramsDict = new HashMap<>();
     private String mFirstFocusChannelId;
     private GuideFilters mFilters = new GuideFilters();
 
@@ -736,12 +738,14 @@ public class LiveTvGuideActivity extends BaseActivity {
                 allPrograms[i] = (ProgramInfoDto) params[1][i];
             }
 
+            buildProgramsDict(allPrograms);
+
             boolean first = true;
 
             for (Object item : params[0]) {
                 if (isCancelled()) return null;
                 ChannelInfoDto channel = (ChannelInfoDto) item;
-                List<ProgramInfoDto> programs = getProgramsForChannel(channel.getId(), allPrograms);
+                List<ProgramInfoDto> programs = getProgramsForChannel(channel.getId());
                 if (programs.size() > 0) {
                     final GuideChannelHeader header = new GuideChannelHeader(mActivity, channel);
                     final LinearLayout row = getProgramRow(programs);
@@ -870,14 +874,24 @@ public class LiveTvGuideActivity extends BaseActivity {
 
     }
 
-    private List<ProgramInfoDto> getProgramsForChannel(String channelId, ProgramInfoDto[] programs) {
-        List<ProgramInfoDto> results = new ArrayList<>();
-        boolean passes = !mFilters.any();
+    private void buildProgramsDict(ProgramInfoDto[] programs) {
         for (ProgramInfoDto program : programs) {
-            if (program.getChannelId().equals(channelId) && Utils.convertToLocalDate(program.getEndDate()).getTime() > mCurrentLocalGuideStart) {
-                results.add(program);
-                passes |= mFilters.passesFilter(program);
-            }
+            String id = program.getChannelId();
+            if (!mProgramsDict.containsKey(id)) mProgramsDict.put(id, new ArrayList<ProgramInfoDto>());
+            if (Utils.convertToLocalDate(program.getEndDate()).getTime() > mCurrentLocalGuideStart) mProgramsDict.get(id).add(program);
+        }
+    }
+
+    private List<ProgramInfoDto> getProgramsForChannel(String channelId) {
+        if (!mProgramsDict.containsKey(channelId)) return new ArrayList<>();
+
+        List<ProgramInfoDto> results = mProgramsDict.get(channelId);
+        boolean passes = !mFilters.any();
+        if (passes) return results;
+
+        // There are filters - check them
+        for (ProgramInfoDto program : results) {
+            passes |= mFilters.passesFilter(program);
         }
 
         return passes ? results : new ArrayList<ProgramInfoDto>();
