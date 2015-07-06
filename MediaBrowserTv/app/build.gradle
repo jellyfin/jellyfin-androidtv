@@ -9,7 +9,7 @@ android {
         applicationId "tv.emby.embyatv"
         minSdkVersion 17
         targetSdkVersion 21
-        versionCode 1055
+        versionCode 1056
     }
 
     compileOptions {
@@ -26,10 +26,10 @@ android {
 
     productFlavors {
         google {
-            versionName = "1.0.55g"
+            versionName = "1.0.56g"
         }
         amazon {
-            versionName = "1.0.55a"
+            versionName = "1.0.56a"
         }
     }
 
