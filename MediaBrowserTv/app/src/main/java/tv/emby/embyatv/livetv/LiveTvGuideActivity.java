@@ -96,6 +96,7 @@ public class LiveTvGuideActivity extends BaseActivity {
 
     private ProgramInfoDto mSelectedProgram;
     private ProgramGridCell mSelectedProgramView;
+    private long mLastLoad = 0;
 
     private List<ChannelInfoDto> mAllChannels;
     private HashMap<String, ArrayList<ProgramInfoDto>> mProgramsDict = new HashMap<>();
@@ -189,7 +190,6 @@ public class LiveTvGuideActivity extends BaseActivity {
             }
         });
 
-
     }
 
     private int getGuideHours() {
@@ -199,14 +199,14 @@ public class LiveTvGuideActivity extends BaseActivity {
     private void load() {
         fillTimeLine(getGuideHours());
         loadAllChannels();
-
+        mLastLoad = System.currentTimeMillis();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        load();
+        if (System.currentTimeMillis() > mLastLoad + 3600000) load();
     }
 
     @Override
