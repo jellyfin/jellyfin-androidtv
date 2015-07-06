@@ -21,8 +21,8 @@ public class SuggestedMoviesFragment extends EnhancedBrowseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        showViews = false;
         super.onActivityCreated(savedInstanceState);
-
     }
 
     @Override
