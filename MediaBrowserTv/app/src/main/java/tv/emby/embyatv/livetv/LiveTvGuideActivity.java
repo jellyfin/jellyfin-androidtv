@@ -809,11 +809,23 @@ public class LiveTvGuideActivity extends BaseActivity {
             return programRow;
         }
 
+        long prevEnd = getCurrentLocalStartDate();
         for (ProgramInfoDto item : programs) {
             long start = item.getStartDate() != null ? Utils.convertToLocalDate(item.getStartDate()).getTime() : getCurrentLocalStartDate();
             if (start < getCurrentLocalStartDate()) start = getCurrentLocalStartDate();
+            if (start > prevEnd) {
+                // fill empty time slot
+                TextView empty = new TextView(this);
+                empty.setText("  <No Program Data Available>");
+                empty.setGravity(Gravity.CENTER);
+                empty.setHeight(ROW_HEIGHT);
+                Long duration = (start - prevEnd) / 60000;
+                empty.setWidth(duration.intValue() * PIXELS_PER_MINUTE);
+                programRow.addView(empty);
+            }
             long end = item.getEndDate() != null ? Utils.convertToLocalDate(item.getEndDate()).getTime() : getCurrentLocalEndDate();
             if (end > getCurrentLocalEndDate()) end = getCurrentLocalEndDate();
+            prevEnd = end;
             Long duration = (end - start) / 60000;
             //TvApp.getApplication().getLogger().Debug("Duration for "+item.getName()+" is "+duration.intValue());
             if (duration > 0) {
