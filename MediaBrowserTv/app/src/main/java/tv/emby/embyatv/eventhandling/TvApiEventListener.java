@@ -52,6 +52,10 @@ public class TvApiEventListener extends ApiEventListener {
                 break;
             case "unmute":
                 TvApp.getApplication().setAudioMuted(false);
+                break;
+            case "togglemute":
+                TvApp.getApplication().setAudioMuted(!TvApp.getApplication().isAudioMuted());
+                break;
         }
     }
 
