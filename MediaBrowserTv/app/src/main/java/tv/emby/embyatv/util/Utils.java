@@ -507,6 +507,12 @@ public class Utils {
                             //Finally, the main item including subsequent parts
                             addMainItem(mainItem, serializer, items, outerResponse);
                         }
+
+                        @Override
+                        public void onError(Exception exception) {
+                            TvApp.getApplication().getLogger().ErrorException("Error retrieving intros", exception);
+                            addMainItem(mainItem, serializer, items, outerResponse);
+                        }
                     });
 
                 } else {

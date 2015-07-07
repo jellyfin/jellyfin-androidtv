@@ -85,6 +85,8 @@ public class TvApp extends Application {
         app = (TvApp)getApplicationContext();
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
+        logger.Info("Application object created");
+
         ACRA.init(this);
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override

@@ -91,6 +91,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private ImageButton mResumeButton;
     private ImageButton mRecordButton;
     private ImageButton mRecSeriesButton;
+    private ImageButton mWatchedToggleButton;
 
     private Target mBackgroundTarget;
     private Drawable mDefaultBackground;
@@ -177,13 +178,17 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     mApplication.getApiClient().GetItemAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
                         @Override
                         public void onResponse(BaseItemDto response) {
-                            mBaseItem = response;
-                            if (mResumeButton != null) {
-                                mResumeButton.setVisibility(response.getCanResume() ? View.VISIBLE : View.GONE);
+                            if (!isFinishing()) {
+                                mBaseItem = response;
+                                if (mResumeButton != null) {
+                                    mResumeButton.setVisibility(response.getCanResume() ? View.VISIBLE : View.GONE);
+                                }
+                                updatePlayedDate();
+                                updateWatched();
+                                updatePoster();
+                                mLastUpdated = Calendar.getInstance();
+
                             }
-                            updatePlayedDate();
-                            updatePoster();
-                            mLastUpdated = Calendar.getInstance();
                         }
                     });
 
@@ -253,6 +258,12 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 .centerInside()
                 .error(getResources().getDrawable(R.drawable.blank30x30))
                 .into(mDorPresenter.getPosterView());
+    }
+
+    private void updateWatched() {
+        if (mBaseItem != null && mBaseItem.getUserData() != null && !isFinishing()) {
+            mWatchedToggleButton.setImageResource(mBaseItem.getUserData().getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck);
+        }
     }
 
     private void loadItem(String id) {
@@ -656,8 +667,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         UserItemDataDto userData = mBaseItem.getUserData();
         if (userData != null) {
-            final ImageButton watched = new ImageButton(this, userData.getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck, buttonSize, getString(R.string.lbl_toggle_watched), null, markWatchedListener);
-            mDetailsOverviewRow.addAction(watched);
+            mWatchedToggleButton = new ImageButton(this, userData.getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck, buttonSize, getString(R.string.lbl_toggle_watched), null, markWatchedListener);
+            mDetailsOverviewRow.addAction(mWatchedToggleButton);
 
             //Favorite
             ImageButton fav = new ImageButton(this, userData.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, getString(R.string.lbl_toggle_favorite), null, new View.OnClickListener() {

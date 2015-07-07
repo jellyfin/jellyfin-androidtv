@@ -28,7 +28,12 @@ public class PicassoBackgroundManagerTarget implements Target {
 
     @Override
     public void onBitmapFailed(Drawable drawable) {
-        this.mBackgroundManager.setDrawable(drawable);
+        try {
+            this.mBackgroundManager.setDrawable(drawable);
+
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
