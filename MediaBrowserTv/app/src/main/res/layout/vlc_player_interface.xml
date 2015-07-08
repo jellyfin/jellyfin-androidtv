@@ -4,8 +4,9 @@
     android:background="@color/black">
 
     <tv.emby.embyatv.playback.VlcVideoView android:id="@+id/videoView" android:layout_width="fill_parent"
-        android:layout_height="match_parent" android:layout_gravity="center"
-        android:layout_centerInParent="true" android:layout_centerVertical="true"></tv.emby.embyatv.playback.VlcVideoView>
+        android:layout_height="match_parent" android:layout_gravity="center">
+
+    </tv.emby.embyatv.playback.VlcVideoView>
 
 
     <ProgressBar
