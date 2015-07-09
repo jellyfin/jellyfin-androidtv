@@ -58,6 +58,9 @@ public class HomeFragment extends StdBrowseFragment {
         //Init recommendations
         RecommendationManager.init();
 
+        //Get auto bitrate
+        TvApp.getApplication().determineAutoBitrate();
+
     }
 
     @Override
