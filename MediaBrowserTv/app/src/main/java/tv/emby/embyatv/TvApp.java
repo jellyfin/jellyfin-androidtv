@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
@@ -13,6 +14,7 @@ import android.util.Log;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.IConnectionManager;
+import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.apiinteraction.playback.PlaybackManager;
 import mediabrowser.logging.ConsoleLogger;
@@ -60,6 +62,8 @@ public class TvApp extends Application {
     private PlaybackController playbackController;
     private ApiClient loginApiClient;
     private AudioManager audioManager;
+
+    private int autoBitrate;
 
     private boolean isConnectLogin = false;
 
@@ -361,6 +365,26 @@ public class TvApp extends Application {
         }
     }
 
+
+    public int getAutoBitrate() {
+        return autoBitrate;
+    }
+
+    public void determineAutoBitrate() {
+        if (getApiClient() == null) return;
+        final long start = System.currentTimeMillis();
+        getApiClient().detectBitrate(new Response<Long>() {
+            @Override
+            public void onResponse(Long response) {
+                long myTime = System.currentTimeMillis() - start;
+                double secs = myTime / 1000;
+                logger.Info("My secs: "+ secs + " My start: "+start+" My millis: "+myTime);
+                logger.Info("My rate: "+ (40000000 / myTime) * 1000);
+                autoBitrate = response.intValue();
+                logger.Info("Auto bitrate set to: "+autoBitrate);
+            }
+        });
+    }
 
 
 }
