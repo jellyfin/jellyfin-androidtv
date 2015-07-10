@@ -22,6 +22,11 @@ public class StdVideoView extends VideoView implements IVideoView {
     }
 
     @Override
+    public void onActivityCreated(PlaybackOverlayActivity activity) {
+
+    }
+
+    @Override
     public void setOnSeekCompleteListener(MediaPlayer mp, MediaPlayer.OnSeekCompleteListener listener) {
         mp.setOnSeekCompleteListener(listener);
     }

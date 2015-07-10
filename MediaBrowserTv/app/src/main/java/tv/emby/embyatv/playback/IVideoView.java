@@ -16,6 +16,7 @@ public interface IVideoView {
     public void seekTo(int pos);
     public void setVideoPath(String path);
 
+    public void onActivityCreated(PlaybackOverlayActivity activity);
     public void setOnErrorListener(MediaPlayer.OnErrorListener listener);
     public void setOnCompletionListener(MediaPlayer.OnCompletionListener listener);
     public void setOnPreparedListener(MediaPlayer.OnPreparedListener listener);
