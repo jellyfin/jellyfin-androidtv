@@ -55,6 +55,7 @@ public class PlaybackOverlayActivity extends BaseActivity {
         setContentView(R.layout.activity_playback_overlay);
         mApplication = TvApp.getApplication();
         loadViews();
+        mVideoView.onActivityCreated(this);
     }
 
     @Override
