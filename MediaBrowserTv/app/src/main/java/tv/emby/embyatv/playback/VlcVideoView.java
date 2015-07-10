@@ -22,12 +22,15 @@ import tv.emby.embyatv.util.Utils;
 /**
  * Created by Eric on 6/13/2015.
  */
-public class VlcVideoView extends SurfaceView implements IVideoView, SurfaceHolder.Callback, IVideoPlayer {
+public class VlcVideoView extends SurfaceView implements IVideoView, IVideoPlayer {
 
+    private PlaybackOverlayActivity mActivity;
     private SurfaceHolder mSurfaceHolder;
     private SurfaceView mSurfaceView;
     private LibVLC mLibVLC;
     private String mCurrentVideoPath;
+    private String mCurrentVideoMRL;
+    private Media mCurrentMedia;
     private VlcEventHandler mHandler = new VlcEventHandler();
     private int mVideoHeight;
     private int mVideoWidth;
@@ -35,6 +38,8 @@ public class VlcVideoView extends SurfaceView implements IVideoView, SurfaceHold
     private int mVideoVisibleWidth;
     private int mSarNum;
     private int mSarDen;
+
+    private boolean mSurfaceReady = false;
 
     public VlcVideoView(Context context) {
         super(context);
@@ -52,10 +57,12 @@ public class VlcVideoView extends SurfaceView implements IVideoView, SurfaceHold
     }
 
     private void init() {
-        mSurfaceView = this;
-        mSurfaceHolder = getHolder();
-        mSurfaceHolder.addCallback(this);
-        createPlayer();
+        if (!isInEditMode()) {
+            mSurfaceView = this;
+            mSurfaceHolder = getHolder();
+            createPlayer();
+            
+        }
     }
 
     @Override
@@ -75,6 +82,15 @@ public class VlcVideoView extends SurfaceView implements IVideoView, SurfaceHold
 
     @Override
     public void start() {
+        if (!mSurfaceReady) {
+            TvApp.getApplication().getLogger().Error("Attempt to play before surface ready");
+            return;
+        }
+
+        if (!mLibVLC.isPlaying()) {
+            String[] options = mLibVLC.getMediaOptions(0);
+            mLibVLC.playMRL(mCurrentVideoMRL, options);
+        }
 
     }
 
@@ -98,17 +114,21 @@ public class VlcVideoView extends SurfaceView implements IVideoView, SurfaceHold
         mCurrentVideoPath = path;
         mSurfaceHolder.setKeepScreenOn(true);
 
-        changeSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
+        //changeSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
 
-        Media media = new Media(mLibVLC, path);
-        media.parse();
-        media.release();
-        mLibVLC.playMRL(media.getMrl());
+        mCurrentMedia = new Media(mLibVLC, path);
+        mCurrentMedia.parse();
+        mCurrentMedia.release();
+        mCurrentVideoMRL = mCurrentMedia.getMrl();
 
     }
 
+    @Override
+    public void onActivityCreated(PlaybackOverlayActivity activity) {
+        mActivity = activity;
+    }
+
     private void createPlayer() {
-        releasePlayer();
         try {
 
             // Create a new media player
@@ -124,15 +144,18 @@ public class VlcVideoView extends SurfaceView implements IVideoView, SurfaceHold
             TvApp.getApplication().getLogger().Debug("Hardware acceleration mode: "
                     + Integer.toString(mLibVLC.getHardwareAcceleration()));
 
+            mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_AUTOMATIC);
+            mLibVLC.setDevHardwareDecoder(-1);
+            mLibVLC.setNetworkCaching(60000);
 
-            mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_DISABLED);
-            mLibVLC.setVout(LibVLC.VOUT_ANDROID_WINDOW);
-//            mLibVLC.setSubtitlesEncoding("");
-//            mLibVLC.setAout(LibVLC.AOUT_OPENSLES);
-//            mLibVLC.setTimeStretching(true);
-//            mLibVLC.setVerboseMode(true);
+            mLibVLC.setVout(-1);
+            mLibVLC.setSubtitlesEncoding("");
+            mLibVLC.setAout(LibVLC.AOUT_OPENSLES);
+            mLibVLC.setTimeStretching(true);
+            mLibVLC.setVerboseMode(true);
 //            mLibVLC.setHdmiAudioEnabled(true); //TODO: figure out how to know this
 
+            mSurfaceHolder.addCallback(mSurfaceCallback);
             EventHandler.getInstance().addHandler(mHandler);
 
         } catch (Exception e) {
@@ -240,25 +263,34 @@ public class VlcVideoView extends SurfaceView implements IVideoView, SurfaceHold
 
     }
 
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
+    private Surface mSurface;
+    private SurfaceHolder.Callback mSurfaceCallback = new SurfaceHolder.Callback() {
+        @Override
+        public void surfaceCreated(SurfaceHolder holder) {
 
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-        if (mLibVLC != null) {
-            mLibVLC.attachSurface(holder.getSurface(), this);
-            TvApp.getApplication().getLogger().Debug("Surface attached");
         }
 
-    }
+        @Override
+        public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            if (mLibVLC != null) {
+                final Surface newSurface = holder.getSurface();
+                if (mSurface != newSurface) {
+                    mSurface = newSurface;
+                    mLibVLC.attachSurface(mSurface, VlcVideoView.this);
+                    TvApp.getApplication().getLogger().Debug("Surface attached");
+                    mSurfaceReady = true;
+                }
+            }
 
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-        if (mLibVLC != null) mLibVLC.detachSurface();
-    }
+        }
+
+        @Override
+        public void surfaceDestroyed(SurfaceHolder holder) {
+            if (mLibVLC != null) mLibVLC.detachSurface();
+            mSurfaceReady = false;
+
+        }
+    };
 
     @Override
     public void setSurfaceLayout(int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
@@ -273,7 +305,7 @@ public class VlcVideoView extends SurfaceView implements IVideoView, SurfaceHold
         mSarNum = sarNum;
         mSarDen = sarDen;
 
-        TvApp.getApplication().getCurrentActivity().runOnUiThread(new Runnable() {
+        mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 changeSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
