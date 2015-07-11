@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -129,7 +128,6 @@ public class PlaybackController {
                 // just resume
                 mVideoManager.start();
                 mPlaybackState = PlaybackState.PLAYING;
-                startProgressAutomation();
                 if (mFragment != null) {
                     mFragment.setFadingEnabled(true);
                     mFragment.setPlayPauseActionState(ImageButton.STATE_SECONDARY);
@@ -347,7 +345,6 @@ public class PlaybackController {
 
     public void pause() {
         mPlaybackState = PlaybackState.PAUSED;
-        stopProgressAutomation();
         mVideoManager.pause();
         if (mFragment != null) {
             mFragment.setFadingEnabled(false);
@@ -376,7 +373,6 @@ public class PlaybackController {
         if (mPlaybackState != PlaybackState.IDLE && mPlaybackState != PlaybackState.UNDEFINED) {
             mPlaybackState = PlaybackState.IDLE;
             stopReportLoop();
-            stopProgressAutomation();
             if (mVideoManager.isPlaying()) mVideoManager.stopPlayback();
             //give it a just a beat to actually stop - this keeps it from re-requesting the stream after we tell the server we've stopped
             try {
@@ -411,7 +407,6 @@ public class PlaybackController {
 
     public void seek(final int pos) {
         stopReportLoop();
-        stopProgressAutomation();
         mPlaybackState = PlaybackState.SEEKING;
         mApplication.getLogger().Debug("Seeking to " + pos);
         mApplication.getCurrentActivity().runOnUiThread(new Runnable() {
@@ -440,7 +435,6 @@ public class PlaybackController {
     public void skip(int msec) {
         if (isPlaying()) {
             mHandler.removeCallbacks(skipRunnable);
-            stopProgressAutomation();
             stopReportLoop();
             currentSkipAmt += msec;
             mFragment.setCurrentTime(mVideoManager.getCurrentPosition() + currentSkipAmt);
@@ -500,40 +494,6 @@ public class PlaybackController {
         });
     }
 
-    private void startProgressAutomation() {
-        mProgressLoop = new Runnable() {
-            @Override
-            public void run() {
-                int updatePeriod = getUpdatePeriod();
-                if (isPlaying()) {
-                    if (!spinnerOff) {
-                        stopSpinner();
-                    }
-                    mApplication.setLastUserInteraction(System.currentTimeMillis()); // don't want to auto logoff during playback
-                    if (isLiveTv && mCurrentProgramEndTime > 0 && System.currentTimeMillis() >= mCurrentProgramEndTime) {
-                        // crossed fire off an async routine to update the program info
-                        updateTvProgramInfo();
-                    }
-                    final int currentTime = isLiveTv && mCurrentProgramStartTime > 0 ? getRealTimeProgress() : mVideoManager.getCurrentPosition() + mPositionOffset;
-                    mFragment.setCurrentTime(currentTime);
-                    mCurrentPosition = currentTime;
-                    mLastReportedTime = currentTime;
-                    mHandler.postDelayed(this, updatePeriod);
-                } else {
-                    mHandler.postDelayed(this, updatePeriod);
-                }
-            }
-        };
-        mHandler.postDelayed(mProgressLoop, getUpdatePeriod());
-    }
-
-    public void stopProgressAutomation() {
-        if (mHandler != null && mProgressLoop != null) {
-            mHandler.removeCallbacks(mProgressLoop);
-        }
-    }
-
-
     private void startReportLoop() {
         Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), (long) mVideoManager.getCurrentPosition() * 10000, false);
         mReportLoop = new Runnable() {
@@ -568,7 +528,6 @@ public class PlaybackController {
     private void itemComplete() {
         mayBeFrozen = false;
         mPlaybackState = PlaybackState.IDLE;
-        stopProgressAutomation();
         stopReportLoop();
         Long mbPos = (long) mVideoManager.getCurrentPosition() * 10000;
         Utils.ReportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
@@ -589,43 +548,23 @@ public class PlaybackController {
 
     private void setupCallbacks() {
 
-        mVideoManager.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+        mVideoManager.setOnErrorListener(new PlaybackListener() {
 
             @Override
-            public boolean onError(MediaPlayer mp, int what, int extra) {
-                String msg = "";
-                if (extra == MediaPlayer.MEDIA_ERROR_TIMED_OUT) {
-                    msg = mApplication.getString(R.string.video_error_media_load_timeout);
-                } else if (what == MediaPlayer.MEDIA_ERROR_SERVER_DIED) {
-                    msg = mApplication.getString(R.string.video_error_server_inaccessible);
-                } else {
-                    msg = mApplication.getString(R.string.video_error_unknown_error);
-                }
+            public void onEvent() {
+                String msg =  mApplication.getString(R.string.video_error_unknown_error);
                 Utils.showToast(mApplication, mApplication.getString(R.string.msg_video_playback_error) + msg);
                 mApplication.getLogger().Error("Playback error - " + msg);
                 mPlaybackState = PlaybackState.IDLE;
-                stopProgressAutomation();
                 stopReportLoop();
-                return true;
+
             }
         });
 
 
-        mVideoManager.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        mVideoManager.setOnPreparedListener(new PlaybackListener() {
             @Override
-            public void onPrepared(MediaPlayer mp) {
-
-                //mFreezeCheckPoint = mp.getDuration() > 60000 ? mp.getDuration() - 9000 : Integer.MAX_VALUE;
-                mVideoManager.setOnSeekCompleteListener(mp, new MediaPlayer.OnSeekCompleteListener() {
-                    @Override
-                    public void onSeekComplete(MediaPlayer mp) {
-                        mApplication.getLogger().Debug("Seek complete...");
-                        mPlaybackState = PlaybackState.PLAYING;
-                        mFragment.setCurrentTime(mVideoManager.getCurrentPosition());
-                        startProgressAutomation();
-                        startReportLoop();
-                    }
-                });
+            public void onEvent() {
 
                 if (mStartPosition > 0) {
                     if (Utils.is50()) {
@@ -637,21 +576,40 @@ public class PlaybackController {
                     Long andDuration = mbRuntime != null ? mbRuntime / 10000 : 0;
                     mFragment.updateEndTime(andDuration.intValue() - mStartPosition);
                     mStartPosition = 0; // clear for next item
-                } else {
-                    if (mPlaybackState == PlaybackState.BUFFERING) {
-                        mPlaybackState = PlaybackState.PLAYING;
-                        mFragment.updateEndTime(mVideoManager.getDuration());
-                        startProgressAutomation();
-                        startReportLoop();
+                }
+                if (mPlaybackState == PlaybackState.BUFFERING) {
+                    mPlaybackState = PlaybackState.PLAYING;
+                    mFragment.updateEndTime(mVideoManager.getDuration());
+                    startReportLoop();
+                }
+                TvApp.getApplication().getLogger().Info("VLC status: ", mVideoManager.getState());
+
+            }
+        });
+
+        mVideoManager.setOnProgressListener(new PlaybackListener() {
+            @Override
+            public void onEvent() {
+                if (isPlaying()) {
+                    if (!spinnerOff) {
+                        stopSpinner();
                     }
+                    mApplication.setLastUserInteraction(System.currentTimeMillis()); // don't want to auto logoff during playback
+                    if (isLiveTv && mCurrentProgramEndTime > 0 && System.currentTimeMillis() >= mCurrentProgramEndTime) {
+                        // crossed fire off an async routine to update the program info
+                        updateTvProgramInfo();
+                    }
+                    final int currentTime = isLiveTv && mCurrentProgramStartTime > 0 ? getRealTimeProgress() : mVideoManager.getCurrentPosition() + mPositionOffset;
+                    mFragment.setCurrentTime(currentTime);
+                    mCurrentPosition = currentTime;
+                    mLastReportedTime = currentTime;
                 }
             }
         });
 
-
-        mVideoManager.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        mVideoManager.setOnCompletionListener(new PlaybackListener() {
             @Override
-            public void onCompletion(MediaPlayer mp) {
+            public void onEvent() {
                 TvApp.getApplication().getLogger().Debug("On Completion fired");
                 itemComplete();
             }

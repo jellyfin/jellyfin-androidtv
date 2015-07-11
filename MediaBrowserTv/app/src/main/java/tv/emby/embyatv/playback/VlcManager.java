@@ -56,11 +56,15 @@ public class VlcManager implements IVideoPlayer {
     }
 
     public int getCurrentPosition() {
-        return mLibVLC != null ? ((Float) mLibVLC.getPosition()).intValue() : -1;
+        return mLibVLC != null ? ((Long)mLibVLC.getTime()).intValue() : -1;
     }
 
     public boolean isPlaying() {
         return mLibVLC != null && mLibVLC.isPlaying();
+    }
+
+    public int getState() {
+        return mLibVLC.getPlayerState();
     }
 
     public void start() {
@@ -84,7 +88,8 @@ public class VlcManager implements IVideoPlayer {
     }
 
     public void seekTo(int pos) {
-
+        if (mLibVLC == null) return;
+        mLibVLC.setPosition((float)pos);
     }
 
     public void setVideoPath(String path) {
@@ -220,16 +225,20 @@ public class VlcManager implements IVideoPlayer {
 //        subtitlesSurface.invalidate();
     }
 
-    public void setOnErrorListener(MediaPlayer.OnErrorListener listener) {
+    public void setOnErrorListener(PlaybackListener listener) {
         mHandler.setOnErrorListener(listener);
     }
 
-    public void setOnCompletionListener(MediaPlayer.OnCompletionListener listener) {
+    public void setOnCompletionListener(PlaybackListener listener) {
         mHandler.setOnCompletionListener(listener);
     }
 
-    public void setOnPreparedListener(MediaPlayer.OnPreparedListener listener) {
+    public void setOnPreparedListener(PlaybackListener listener) {
         mHandler.setOnPreparedListener(listener);
+    }
+
+    public void setOnProgressListener(PlaybackListener listener) {
+        mHandler.setOnProgressListener(listener);
     }
 
     public void setOnSeekCompleteListener(MediaPlayer mp, MediaPlayer.OnSeekCompleteListener listener) {

@@ -7,31 +7,36 @@ import android.os.Message;
 
 import org.videolan.libvlc.EventHandler;
 
+import tv.emby.embyatv.TvApp;
+
 /**
  * Created by Eric on 6/13/2015.
  */
 public class VlcEventHandler extends Handler {
 
-    private MediaPlayer.OnCompletionListener onCompletionListener;
-    private MediaPlayer.OnErrorListener onErrorListener;
-    private MediaPlayer.OnPreparedListener onPreparedListener;
+    private PlaybackListener onCompletionListener;
+    private PlaybackListener onErrorListener;
+    private PlaybackListener onPreparedListener;
+    private PlaybackListener onProgressListener;
 
-    public void setOnCompletionListener(MediaPlayer.OnCompletionListener listener) { onCompletionListener = listener; }
-    public void setOnErrorListener(MediaPlayer.OnErrorListener listener) { onErrorListener = listener; }
-    public void setOnPreparedListener(MediaPlayer.OnPreparedListener listener) { onPreparedListener = listener; }
+    public void setOnCompletionListener(PlaybackListener listener) { onCompletionListener = listener; }
+    public void setOnErrorListener(PlaybackListener listener) { onErrorListener = listener; }
+    public void setOnPreparedListener(PlaybackListener listener) { onPreparedListener = listener; }
+    public void setOnProgressListener(PlaybackListener listener) { onProgressListener = listener; }
 
     public void handleMessage(Message msg) {
         // Libvlc events
         Bundle b = msg.getData();
         switch (b.getInt("event")) {
             case EventHandler.MediaPlayerEndReached:
-                if (onCompletionListener != null) onCompletionListener.onCompletion(null);
+                if (onCompletionListener != null) onCompletionListener.onEvent();
                 break;
             case EventHandler.MediaPlayerPlaying:
-                if (onPreparedListener != null) onPreparedListener.onPrepared(null);
+                if (onPreparedListener != null) onPreparedListener.onEvent();
                 break;
             case EventHandler.MediaPlayerPositionChanged:
-
+                if (onProgressListener != null) onProgressListener.onEvent();
+                break;
             case EventHandler.MediaPlayerPaused:
             case EventHandler.MediaPlayerStopped:
             default:
