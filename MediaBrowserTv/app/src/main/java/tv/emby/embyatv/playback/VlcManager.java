@@ -79,7 +79,14 @@ public class VlcManager implements IVideoPlayer {
 
     }
 
+    public void play() {
+        mLibVLC.play();
+        mSurfaceView.setKeepScreenOn(true);
+    }
+
     public void pause() {
+        mLibVLC.pause();
+        mSurfaceView.setKeepScreenOn(false);
 
     }
 
@@ -151,7 +158,7 @@ public class VlcManager implements IVideoPlayer {
         mLibVLC.stop();
         mLibVLC.detachSurface();
         mLibVLC = null;
-        mSurfaceHolder.setKeepScreenOn(false);
+        mSurfaceView.setKeepScreenOn(false);
 
     }
 

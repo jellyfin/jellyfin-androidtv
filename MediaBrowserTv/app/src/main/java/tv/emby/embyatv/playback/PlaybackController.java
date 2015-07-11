@@ -126,7 +126,7 @@ public class PlaybackController {
                 break;
             case PAUSED:
                 // just resume
-                mVideoManager.start();
+                mVideoManager.play();
                 mPlaybackState = PlaybackState.PLAYING;
                 if (mFragment != null) {
                     mFragment.setFadingEnabled(true);
