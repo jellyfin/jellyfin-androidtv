@@ -55,7 +55,6 @@ public class PlaybackOverlayActivity extends BaseActivity {
         setContentView(R.layout.activity_playback_overlay);
         mApplication = TvApp.getApplication();
         loadViews();
-        mVideoView.onActivityCreated(this);
     }
 
     @Override
@@ -100,8 +99,7 @@ public class PlaybackOverlayActivity extends BaseActivity {
 
     private void loadViews() {
         if (mApplication.getPlaybackController() != null) {
-            mVideoView = (IVideoView) findViewById(R.id.videoView);
-            mApplication.getPlaybackController().init(mVideoView, findViewById(R.id.bufferingProgress));
+            mApplication.getPlaybackController().init(new VlcManager(this, findViewById(android.R.id.content)), findViewById(R.id.bufferingProgress));
         }
     }
 

@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,8 @@ import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
+import mediabrowser.model.dlna.DirectPlayProfile;
+import mediabrowser.model.dlna.DlnaProfileType;
 import mediabrowser.model.dlna.PlaybackException;
 import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dlna.SubtitleProfile;
@@ -34,7 +37,7 @@ import tv.emby.embyatv.util.Utils;
  */
 public class PlaybackController {
     List<BaseItemDto> mItems;
-    IVideoView mVideoView;
+    VlcManager mVideoManager;
     int mCurrentIndex = 0;
     private int mCurrentPosition = 0;
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
@@ -77,8 +80,8 @@ public class PlaybackController {
 
     }
 
-    public void init(IVideoView view, View spinner) {
-        mVideoView = view;
+    public void init(VlcManager mgr, View spinner) {
+        mVideoManager = mgr;
         mSpinner = spinner;
         setupCallbacks();
     }
@@ -124,7 +127,7 @@ public class PlaybackController {
                 break;
             case PAUSED:
                 // just resume
-                mVideoView.start();
+                mVideoManager.start();
                 mPlaybackState = PlaybackState.PLAYING;
                 startProgressAutomation();
                 if (mFragment != null) {
@@ -155,14 +158,20 @@ public class PlaybackController {
                 mCurrentOptions.setItemId(item.getId());
                 mCurrentOptions.setMediaSources(item.getMediaSources());
                 mCurrentOptions.setMaxBitrate(getMaxBitrate());
-                TvApp.getApplication().getLogger().Debug("Max bitrate is: "+getMaxBitrate());
+                TvApp.getApplication().getLogger().Debug("Max bitrate is: " + getMaxBitrate());
 
                 // Create our profile and clear out subtitles so that they will burn in
                 AndroidProfile profile = new AndroidProfile(Utils.getProfileOptions());
-                profile.setSubtitleProfiles(new SubtitleProfile[] {});
+                profile.setSubtitleProfiles(new SubtitleProfile[]{});
+                DirectPlayProfile dp = new DirectPlayProfile();
+                dp.setType(DlnaProfileType.Video);
+                dp.setContainer("mkv,avi,ts,mp4");
+                DirectPlayProfile[] directPlayProfiles = new DirectPlayProfile[1];
+                directPlayProfiles[0] = dp;
+                profile.setDirectPlayProfiles(directPlayProfiles);
                 mCurrentOptions.setProfile(profile);
 
-                playInternal(getCurrentlyPlayingItem(), position, mVideoView, mCurrentOptions);
+                playInternal(getCurrentlyPlayingItem(), position, mVideoManager, mCurrentOptions);
                 mPlaybackState = PlaybackState.BUFFERING;
                 if (mFragment != null) {
                     mFragment.setPlayPauseActionState(ImageButton.STATE_SECONDARY);
@@ -207,7 +216,7 @@ public class PlaybackController {
         return millis.intValue();
     }
 
-    private void playInternal(final BaseItemDto item, final int position, final IVideoView view, VideoOptions options) {
+    private void playInternal(final BaseItemDto item, final int position, final VlcManager vlcManager, VideoOptions options) {
         final ApiClient apiClient = mApplication.getApiClient();
         mPositionOffset = 0;
         mApplication.setCurrentPlayingItem(item);
@@ -229,9 +238,9 @@ public class PlaybackController {
                 }
 
                 String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()); //apiClient.getApiUrl()+"/videos/"+item.getId()+"?static=true&mediasourceid="+response.getMediaSourceId()+"&api_key="+apiClient.getAccessToken(); 
-                view.setVideoPath(path);
+                vlcManager.setVideoPath(path);
                 setPlaybackMethod(response.getPlayMethod());
-                view.start();
+                vlcManager.start();
                 mStartPosition = position;
 
                 PlaybackStartInfo startInfo = new PlaybackStartInfo();
@@ -262,7 +271,7 @@ public class PlaybackController {
 
     }
 
-    private void switchStreamInternal(final StreamInfo current, final int position, final IVideoView view) {
+    private void switchStreamInternal(final StreamInfo current, final int position, final VlcManager vlcManager) {
 
         TvApp.getApplication().getPlaybackManager().changeVideoStream(
                 current,
@@ -281,9 +290,9 @@ public class PlaybackController {
 
                         String path = response.ToUrl(TvApp.getApplication().getApiClient().getApiUrl(), TvApp.getApplication().getApiClient().getAccessToken());
                         mStartPosition = position;
-                        view.setVideoPath(path);
+                        vlcManager.setVideoPath(path);
                         setPlaybackMethod(response.getPlayMethod());
-                        view.start();
+                        vlcManager.start();
 
                         PlaybackStartInfo startInfo = new PlaybackStartInfo();
 
@@ -321,7 +330,7 @@ public class PlaybackController {
         mApplication.getLogger().Debug("Setting audio index to: " + index);
         mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
         stop();
-        switchStreamInternal(mCurrentStreamInfo, mCurrentPosition, mVideoView);
+        switchStreamInternal(mCurrentStreamInfo, mCurrentPosition, mVideoManager);
     }
 
     public void switchSubtitleStream(int index) {
@@ -332,14 +341,14 @@ public class PlaybackController {
         mApplication.getLogger().Debug("Setting subtitle index to: " + index);
         mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
         stop();
-        //playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mVideoView, mCurrentOptions);
-        switchStreamInternal(mCurrentStreamInfo, mCurrentPosition, mVideoView);
+        //playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mVideoManager, mCurrentOptions);
+        switchStreamInternal(mCurrentStreamInfo, mCurrentPosition, mVideoManager);
     }
 
     public void pause() {
         mPlaybackState = PlaybackState.PAUSED;
         stopProgressAutomation();
-        mVideoView.pause();
+        mVideoManager.pause();
         if (mFragment != null) {
             mFragment.setFadingEnabled(false);
             mFragment.setPlayPauseActionState(ImageButton.STATE_PRIMARY);
@@ -347,7 +356,7 @@ public class PlaybackController {
 
         stopReportLoop();
         // call once more to be sure everything up to date
-        Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), (long) mVideoView.getCurrentPosition() * 10000, true);
+        Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), (long) mVideoManager.getCurrentPosition() * 10000, true);
 
     }
 
@@ -368,7 +377,7 @@ public class PlaybackController {
             mPlaybackState = PlaybackState.IDLE;
             stopReportLoop();
             stopProgressAutomation();
-            if (mVideoView.isPlaying()) mVideoView.stopPlayback();
+            if (mVideoManager.isPlaying()) mVideoManager.stopPlayback();
             //give it a just a beat to actually stop - this keeps it from re-requesting the stream after we tell the server we've stopped
             try {
                 Thread.sleep(150);
@@ -412,9 +421,9 @@ public class PlaybackController {
             }
         });
 
-        mVideoView.seekTo(pos);
+        mVideoManager.seekTo(pos);
         if (mFragment != null) {
-            mFragment.updateEndTime(mVideoView.getDuration() - pos);
+            mFragment.updateEndTime(mVideoManager.getDuration() - pos);
         }
 
     }
@@ -423,7 +432,7 @@ public class PlaybackController {
     private Runnable skipRunnable = new Runnable() {
         @Override
         public void run() {
-            seek(mVideoView.getCurrentPosition() + currentSkipAmt);
+            seek(mVideoManager.getCurrentPosition() + currentSkipAmt);
             currentSkipAmt = 0;
         }
     };
@@ -434,7 +443,7 @@ public class PlaybackController {
             stopProgressAutomation();
             stopReportLoop();
             currentSkipAmt += msec;
-            mFragment.setCurrentTime(mVideoView.getCurrentPosition() + currentSkipAmt);
+            mFragment.setCurrentTime(mVideoManager.getCurrentPosition() + currentSkipAmt);
             mHandler.postDelayed(skipRunnable, 800);
         }
     }
@@ -479,12 +488,12 @@ public class PlaybackController {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (mVideoView.getDuration() <= 0) {
+                if (mVideoManager.getDuration() <= 0) {
                     // wait until we have valid duration
                     mHandler.postDelayed(this, 25);
                 } else {
                     // do the seek
-                    mVideoView.seekTo(position);
+                    mVideoManager.seekTo(position);
                     TvApp.getApplication().getLogger().Info("Delayed seek to " + position + " successful");
                 }
             }
@@ -505,19 +514,11 @@ public class PlaybackController {
                         // crossed fire off an async routine to update the program info
                         updateTvProgramInfo();
                     }
-                    final int currentTime = isLiveTv && mCurrentProgramStartTime > 0 ? getRealTimeProgress() : mVideoView.getCurrentPosition() + mPositionOffset;
+                    final int currentTime = isLiveTv && mCurrentProgramStartTime > 0 ? getRealTimeProgress() : mVideoManager.getCurrentPosition() + mPositionOffset;
                     mFragment.setCurrentTime(currentTime);
                     mCurrentPosition = currentTime;
-                    //The very end of some videos over hls cause the VideoView to freeze which freezes our whole app
-                    //Try and avoid this by skipping the last few seconds of the video
-                    if (currentTime >= mFreezeCheckPoint && mCurrentStreamInfo.getSubProtocol() != null && mCurrentStreamInfo.getSubProtocol().equals("hls")) {
-                        mVideoView.stopPlayback();
-                        itemComplete();
-
-                    } else {
-                        mLastReportedTime = currentTime;
-                        mHandler.postDelayed(this, updatePeriod);
-                    }
+                    mLastReportedTime = currentTime;
+                    mHandler.postDelayed(this, updatePeriod);
                 } else {
                     mHandler.postDelayed(this, updatePeriod);
                 }
@@ -534,12 +535,12 @@ public class PlaybackController {
 
 
     private void startReportLoop() {
-        Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), (long)mVideoView.getCurrentPosition() * 10000, false);
+        Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), (long) mVideoManager.getCurrentPosition() * 10000, false);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
                 if (mPlaybackState == PlaybackState.PLAYING) {
-                    int currentTime = mVideoView.getCurrentPosition();
+                    int currentTime = mVideoManager.getCurrentPosition();
 
                     Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), (long)currentTime * 10000, false);
 
@@ -569,7 +570,7 @@ public class PlaybackController {
         mPlaybackState = PlaybackState.IDLE;
         stopProgressAutomation();
         stopReportLoop();
-        Long mbPos = (long) mVideoView.getCurrentPosition() * 10000;
+        Long mbPos = (long) mVideoManager.getCurrentPosition() * 10000;
         Utils.ReportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
         if (mCurrentIndex < mItems.size() - 1) {
             // move to next in queue
@@ -588,7 +589,7 @@ public class PlaybackController {
 
     private void setupCallbacks() {
 
-        mVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+        mVideoManager.setOnErrorListener(new MediaPlayer.OnErrorListener() {
 
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
@@ -610,17 +611,17 @@ public class PlaybackController {
         });
 
 
-        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        mVideoManager.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
 
                 //mFreezeCheckPoint = mp.getDuration() > 60000 ? mp.getDuration() - 9000 : Integer.MAX_VALUE;
-                mVideoView.setOnSeekCompleteListener(mp, new MediaPlayer.OnSeekCompleteListener() {
+                mVideoManager.setOnSeekCompleteListener(mp, new MediaPlayer.OnSeekCompleteListener() {
                     @Override
                     public void onSeekComplete(MediaPlayer mp) {
                         mApplication.getLogger().Debug("Seek complete...");
                         mPlaybackState = PlaybackState.PLAYING;
-                        mFragment.setCurrentTime(mVideoView.getCurrentPosition());
+                        mFragment.setCurrentTime(mVideoManager.getCurrentPosition());
                         startProgressAutomation();
                         startReportLoop();
                     }
@@ -628,18 +629,18 @@ public class PlaybackController {
 
                 if (mStartPosition > 0) {
                     if (Utils.is50()) {
-                        mVideoView.seekTo(mStartPosition);
+                        mVideoManager.seekTo(mStartPosition);
                     } else {
                         delayedSeek(mStartPosition);
                     }
                     Long mbRuntime = getCurrentlyPlayingItem().getRunTimeTicks();
-                    Long andDuration = mbRuntime != null ? mbRuntime / 10000: 0;
+                    Long andDuration = mbRuntime != null ? mbRuntime / 10000 : 0;
                     mFragment.updateEndTime(andDuration.intValue() - mStartPosition);
                     mStartPosition = 0; // clear for next item
                 } else {
                     if (mPlaybackState == PlaybackState.BUFFERING) {
                         mPlaybackState = PlaybackState.PLAYING;
-                        mFragment.updateEndTime(mp.getDuration());
+                        mFragment.updateEndTime(mVideoManager.getDuration());
                         startProgressAutomation();
                         startReportLoop();
                     }
@@ -648,7 +649,7 @@ public class PlaybackController {
         });
 
 
-        mVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        mVideoManager.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 TvApp.getApplication().getLogger().Debug("On Completion fired");

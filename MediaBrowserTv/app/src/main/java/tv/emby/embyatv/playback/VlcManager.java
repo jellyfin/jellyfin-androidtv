@@ -1,14 +1,14 @@
 package tv.emby.embyatv.playback;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
-import android.util.AttributeSet;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import org.videolan.libvlc.EventHandler;
 import org.videolan.libvlc.IVideoPlayer;
@@ -20,13 +20,14 @@ import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.util.Utils;
 
 /**
- * Created by Eric on 6/13/2015.
+ * Created by Eric on 7/11/2015.
  */
-public class VlcVideoView extends SurfaceView implements IVideoView, IVideoPlayer {
+public class VlcManager implements IVideoPlayer {
 
     private PlaybackOverlayActivity mActivity;
     private SurfaceHolder mSurfaceHolder;
     private SurfaceView mSurfaceView;
+    private FrameLayout mSurfaceFrame;
     private LibVLC mLibVLC;
     private String mCurrentVideoPath;
     private String mCurrentVideoMRL;
@@ -41,46 +42,27 @@ public class VlcVideoView extends SurfaceView implements IVideoView, IVideoPlaye
 
     private boolean mSurfaceReady = false;
 
-    public VlcVideoView(Context context) {
-        super(context);
-        init();
+    public VlcManager(PlaybackOverlayActivity activity, View view) {
+        mActivity = activity;
+        mSurfaceView = (SurfaceView) view.findViewById(R.id.player_surface);
+        mSurfaceHolder = mSurfaceView.getHolder();
+        mSurfaceFrame = (FrameLayout) view.findViewById(R.id.player_surface_frame);
+        createPlayer();
+
     }
 
-    public VlcVideoView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
-
-    public VlcVideoView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
-    }
-
-    private void init() {
-        if (!isInEditMode()) {
-            mSurfaceView = this;
-            mSurfaceHolder = getHolder();
-            createPlayer();
-            
-        }
-    }
-
-    @Override
     public int getDuration() {
         return mLibVLC != null ? ((Long) mLibVLC.getLength()).intValue() : -1;
     }
 
-    @Override
     public int getCurrentPosition() {
         return mLibVLC != null ? ((Float) mLibVLC.getPosition()).intValue() : -1;
     }
 
-    @Override
     public boolean isPlaying() {
         return mLibVLC != null && mLibVLC.isPlaying();
     }
 
-    @Override
     public void start() {
         if (!mSurfaceReady) {
             TvApp.getApplication().getLogger().Error("Attempt to play before surface ready");
@@ -88,28 +70,23 @@ public class VlcVideoView extends SurfaceView implements IVideoView, IVideoPlaye
         }
 
         if (!mLibVLC.isPlaying()) {
-            String[] options = mLibVLC.getMediaOptions(0);
-            mLibVLC.playMRL(mCurrentVideoMRL, options);
+            mLibVLC.playMRL(mCurrentVideoMRL);
         }
 
     }
 
-    @Override
     public void pause() {
 
     }
 
-    @Override
     public void stopPlayback() {
         releasePlayer();
     }
 
-    @Override
     public void seekTo(int pos) {
 
     }
 
-    @Override
     public void setVideoPath(String path) {
         mCurrentVideoPath = path;
         mSurfaceHolder.setKeepScreenOn(true);
@@ -123,17 +100,13 @@ public class VlcVideoView extends SurfaceView implements IVideoView, IVideoPlaye
 
     }
 
-    @Override
-    public void onActivityCreated(PlaybackOverlayActivity activity) {
-        mActivity = activity;
-    }
+
 
     private void createPlayer() {
         try {
 
             // Create a new media player
             mLibVLC = new LibVLC();
-            mLibVLC.init(getContext());
             LibVLC.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
                 @Override
                 public void onNativeCrash() {
@@ -145,6 +118,7 @@ public class VlcVideoView extends SurfaceView implements IVideoView, IVideoPlaye
                     + Integer.toString(mLibVLC.getHardwareAcceleration()));
 
             mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_AUTOMATIC);
+            mLibVLC.setDeblocking(-1);
             mLibVLC.setDevHardwareDecoder(-1);
             mLibVLC.setNetworkCaching(60000);
 
@@ -155,6 +129,7 @@ public class VlcVideoView extends SurfaceView implements IVideoView, IVideoPlaye
             mLibVLC.setVerboseMode(true);
 //            mLibVLC.setHdmiAudioEnabled(true); //TODO: figure out how to know this
 
+            mLibVLC.init(TvApp.getApplication());
             mSurfaceHolder.addCallback(mSurfaceCallback);
             EventHandler.getInstance().addHandler(mHandler);
 
@@ -191,7 +166,7 @@ public class VlcVideoView extends SurfaceView implements IVideoView, IVideoPlaye
         double dw = sw, dh = sh;
         boolean isPortrait;
 
-        isPortrait = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+        isPortrait = mActivity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
 
         if (sw > sh && isPortrait || sw < sh && !isPortrait) {
             dw = sh;
@@ -233,32 +208,30 @@ public class VlcVideoView extends SurfaceView implements IVideoView, IVideoPlaye
         //subtitlesSurface.setLayoutParams(lp);
 
         // set frame size (crop if necessary)
-//        lp = surfaceFrame.getLayoutParams();
-//        lp.width = (int) Math.floor(dw);
-//        lp.height = (int) Math.floor(dh);
-//        surfaceFrame.setLayoutParams(lp);
+        if (mSurfaceFrame != null) {
+            lp = mSurfaceFrame.getLayoutParams();
+            lp.width = (int) Math.floor(dw);
+            lp.height = (int) Math.floor(dh);
+            mSurfaceFrame.setLayoutParams(lp);
+
+        }
 
         mSurfaceView.invalidate();
 //        subtitlesSurface.invalidate();
     }
 
-
-    @Override
     public void setOnErrorListener(MediaPlayer.OnErrorListener listener) {
         mHandler.setOnErrorListener(listener);
     }
 
-    @Override
     public void setOnCompletionListener(MediaPlayer.OnCompletionListener listener) {
         mHandler.setOnCompletionListener(listener);
     }
 
-    @Override
     public void setOnPreparedListener(MediaPlayer.OnPreparedListener listener) {
         mHandler.setOnPreparedListener(listener);
     }
 
-    @Override
     public void setOnSeekCompleteListener(MediaPlayer mp, MediaPlayer.OnSeekCompleteListener listener) {
 
     }
@@ -276,7 +249,7 @@ public class VlcVideoView extends SurfaceView implements IVideoView, IVideoPlaye
                 final Surface newSurface = holder.getSurface();
                 if (mSurface != newSurface) {
                     mSurface = newSurface;
-                    mLibVLC.attachSurface(mSurface, VlcVideoView.this);
+                    mLibVLC.attachSurface(mSurface, VlcManager.this);
                     TvApp.getApplication().getLogger().Debug("Surface attached");
                     mSurfaceReady = true;
                 }
@@ -322,6 +295,6 @@ public class VlcVideoView extends SurfaceView implements IVideoView, IVideoPlaye
     @Override
     public void eventHardwareAccelerationError() {
         TvApp.getApplication().getLogger().Error("Hardware Acceleration Error");
-        Utils.showToast(getContext(), "Hardware Acceleration Error");
+        Utils.showToast(mActivity, "Hardware Acceleration Error");
     }
 }

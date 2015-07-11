@@ -25,9 +25,13 @@ public class VlcEventHandler extends Handler {
         Bundle b = msg.getData();
         switch (b.getInt("event")) {
             case EventHandler.MediaPlayerEndReached:
-                if (onCompletionListener != null) onCompletionListener.onCompletion(new MediaPlayer());
+                if (onCompletionListener != null) onCompletionListener.onCompletion(null);
                 break;
             case EventHandler.MediaPlayerPlaying:
+                if (onPreparedListener != null) onPreparedListener.onPrepared(null);
+                break;
+            case EventHandler.MediaPlayerPositionChanged:
+
             case EventHandler.MediaPlayerPaused:
             case EventHandler.MediaPlayerStopped:
             default:
