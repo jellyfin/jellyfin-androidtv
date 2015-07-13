@@ -130,16 +130,16 @@ public class VlcManager implements IVideoPlayer {
                     + Integer.toString(mLibVLC.getHardwareAcceleration()));
 
             mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_AUTOMATIC);
-            mLibVLC.setDeblocking(-1);
-            mLibVLC.setDevHardwareDecoder(-1);
-            mLibVLC.setNetworkCaching(60000);
-
-            mLibVLC.setVout(-1);
-            mLibVLC.setSubtitlesEncoding("");
-            mLibVLC.setAout(LibVLC.AOUT_OPENSLES);
-            mLibVLC.setTimeStretching(true);
-            mLibVLC.setVerboseMode(true);
-//            mLibVLC.setHdmiAudioEnabled(true); //TODO: figure out how to know this
+//            mLibVLC.setDeblocking(-1);
+            mLibVLC.setDevHardwareDecoder(LibVLC.DEV_HW_DECODER_AUTOMATIC);
+            mLibVLC.setNetworkCaching(30000);
+//
+            mLibVLC.setVout(LibVLC.VOUT_ANDROID_SURFACE);
+//            mLibVLC.setSubtitlesEncoding("");
+//            mLibVLC.setAout(LibVLC.AOUT_OPENSLES);
+            mLibVLC.setTimeStretching(false);
+            mLibVLC.setVerboseMode(false);
+            mLibVLC.setHdmiAudioEnabled(true); //TODO: figure out how to know this
 
             mLibVLC.init(TvApp.getApplication());
             mSurfaceHolder.addCallback(mSurfaceCallback);
