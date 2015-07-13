@@ -38,7 +38,7 @@ public class PlaybackController {
     List<BaseItemDto> mItems;
     VlcManager mVideoManager;
     int mCurrentIndex = 0;
-    private int mCurrentPosition = 0;
+    private long mCurrentPosition = 0;
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
     private TvApp mApplication;
 
@@ -60,16 +60,18 @@ public class PlaybackController {
     private static final int UPDATE_PERIOD = 500;
 
     private int mFreezeCheckPoint = Integer.MAX_VALUE;
-    private int mNextItemThreshold = Integer.MAX_VALUE;
+    private long mNextItemThreshold = Long.MAX_VALUE;
     private boolean nextItemReported;
-    private int mLastReportedTime;
+    private long mLastReportedTime;
     private boolean mayBeFrozen = false;
-    private int mPositionOffset = 0;
-    private int mStartPosition = 0;
+    private long mPositionOffset = 0;
+    private long mStartPosition = 0;
     private long mCurrentProgramEndTime;
     private long mCurrentProgramStartTime;
     private boolean isLiveTv;
     private String liveTvChannelName = "";
+
+    private boolean updateProgress = true;
 
     public PlaybackController(List<BaseItemDto> items, IPlaybackOverlayFragment fragment) {
         mItems = items;
@@ -107,7 +109,7 @@ public class PlaybackController {
         return mPlaybackState == PlaybackState.PLAYING;
     }
 
-    public void play(int position) {
+    public void play(long position) {
         if (!TvApp.getApplication().isValid()) {
             Utils.showToast(TvApp.getApplication(), "Playback not supported. Please unlock or become a supporter.");
             return;
@@ -133,7 +135,7 @@ public class PlaybackController {
                     mFragment.setPlayPauseActionState(ImageButton.STATE_SECONDARY);
                     Long mbRuntime = getCurrentlyPlayingItem().getRunTimeTicks();
                     Long andDuration = mbRuntime != null ? mbRuntime / 10000 : 0;
-                    mFragment.updateEndTime(andDuration.intValue() - getCurrentPosition());
+                    mFragment.updateEndTime(andDuration - getCurrentPosition());
                 }
                 startReportLoop();
                 break;
@@ -173,7 +175,7 @@ public class PlaybackController {
 
                 if (hasNextItem() && getCurrentlyPlayingItem().getRunTimeTicks() != null) {
                     // Determine the "next up" threshold
-                    int duration = ((Long) (getCurrentlyPlayingItem().getRunTimeTicks() / 10000)).intValue();
+                    long duration = getCurrentlyPlayingItem().getRunTimeTicks() / 10000;
                     if (duration > 600000) {
                         //only items longer than 10min to have this feature
                         nextItemReported = false;
@@ -186,10 +188,10 @@ public class PlaybackController {
                         }
                         TvApp.getApplication().getLogger().Debug("Next item threshold set to "+ mNextItemThreshold);
                     } else {
-                        mNextItemThreshold = Integer.MAX_VALUE;
+                        mNextItemThreshold = Long.MAX_VALUE;
                     }
                 } else {
-                    mNextItemThreshold = Integer.MAX_VALUE;
+                    mNextItemThreshold = Long.MAX_VALUE;
                 }
 
                 break;
@@ -208,9 +210,8 @@ public class PlaybackController {
         return millis.intValue();
     }
 
-    private void playInternal(final BaseItemDto item, final int position, final VlcManager vlcManager, VideoOptions options) {
+    private void playInternal(final BaseItemDto item, final long position, final VlcManager vlcManager, VideoOptions options) {
         final ApiClient apiClient = mApplication.getApiClient();
-        mPositionOffset = 0;
         mApplication.setCurrentPlayingItem(item);
         isLiveTv = item.getType().equals("TvChannel");
         if (isLiveTv) {
@@ -223,11 +224,7 @@ public class PlaybackController {
             @Override
             public void onResponse(StreamInfo response) {
                 mCurrentStreamInfo = response;
-                Long mbPos = (long) position * 10000;
-                if (!"hls".equals(response.getSubProtocol())) {
-                    response.setStartPositionTicks(mbPos);
-                    mPositionOffset = position;
-                }
+                Long mbPos = position * 10000;
 
                 String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()); //apiClient.getApiUrl()+"/videos/"+item.getId()+"?static=true&mediasourceid="+response.getMediaSourceId()+"&api_key="+apiClient.getAccessToken(); 
                 vlcManager.setVideoPath(path);
@@ -263,7 +260,7 @@ public class PlaybackController {
 
     }
 
-    private void switchStreamInternal(final StreamInfo current, final int position, final VlcManager vlcManager) {
+    private void switchStreamInternal(final StreamInfo current, final long position, final VlcManager vlcManager) {
 
         TvApp.getApplication().getPlaybackManager().changeVideoStream(
                 current,
@@ -274,11 +271,7 @@ public class PlaybackController {
                     @Override
                     public void onResponse(StreamInfo response) {
                         mCurrentStreamInfo = response;
-                        Long mbPos = (long)position * 10000;
-                        if (!"hls".equals(response.getSubProtocol())) {
-                            response.setStartPositionTicks(mbPos);
-                            mPositionOffset = position;
-                        }
+                        Long mbPos = position * 10000;
 
                         String path = response.ToUrl(TvApp.getApplication().getApiClient().getApiUrl(), TvApp.getApplication().getApiClient().getAccessToken());
                         mStartPosition = position;
@@ -374,7 +367,7 @@ public class PlaybackController {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            Long mbPos = (long)mCurrentPosition * 10000;
+            Long mbPos = mCurrentPosition * 10000;
             Utils.ReportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
             // be sure to unmute audio in case it was muted
             TvApp.getApplication().setAudioMuted(false);
@@ -399,17 +392,8 @@ public class PlaybackController {
 
     }
 
-    public void seek(final int pos) {
-        stopReportLoop();
-        mPlaybackState = PlaybackState.SEEKING;
+    public void seek(final long pos) {
         mApplication.getLogger().Debug("Seeking to " + pos);
-        mApplication.getCurrentActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                startSpinner();
-            }
-        });
-
         mVideoManager.seekTo(pos);
         if (mFragment != null) {
             mFragment.updateEndTime(mVideoManager.getDuration() - pos);
@@ -417,12 +401,13 @@ public class PlaybackController {
 
     }
 
-    private int currentSkipAmt = 0;
+    private long currentSkipAmt = 0;
     private Runnable skipRunnable = new Runnable() {
         @Override
         public void run() {
             seek(mVideoManager.getCurrentPosition() + currentSkipAmt);
             currentSkipAmt = 0;
+            updateProgress = true; // re-enable true progress updates
         }
     };
 
@@ -431,6 +416,7 @@ public class PlaybackController {
             mHandler.removeCallbacks(skipRunnable);
             stopReportLoop();
             currentSkipAmt += msec;
+            updateProgress = false; // turn this off so we can show where it will be jumping to
             mFragment.setCurrentTime(mVideoManager.getCurrentPosition() + currentSkipAmt);
             mHandler.postDelayed(skipRunnable, 800);
         }
@@ -467,12 +453,11 @@ public class PlaybackController {
         }
     }
 
-    private int getRealTimeProgress() {
-        Long time = System.currentTimeMillis() - mCurrentProgramStartTime;
-        return time.intValue();
+    private long getRealTimeProgress() {
+        return System.currentTimeMillis() - mCurrentProgramStartTime;
     }
 
-    private void delayedSeek(final int position) {
+    private void delayedSeek(final long position) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -489,14 +474,14 @@ public class PlaybackController {
     }
 
     private void startReportLoop() {
-        Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), (long) mVideoManager.getCurrentPosition() * 10000, false);
+        Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
                 if (mPlaybackState == PlaybackState.PLAYING) {
-                    int currentTime = mVideoManager.getCurrentPosition();
+                    long currentTime = mVideoManager.getCurrentPosition();
 
-                    Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), (long)currentTime * 10000, false);
+                    Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, false);
 
                     //Do this next up processing here because every 3 seconds is good enough
                     if (!nextItemReported && hasNextItem() && currentTime >= mNextItemThreshold){
@@ -561,14 +546,7 @@ public class PlaybackController {
             public void onEvent() {
 
                 if (mStartPosition > 0) {
-                    if (Utils.is50()) {
-                        mVideoManager.seekTo(mStartPosition);
-                    } else {
-                        delayedSeek(mStartPosition);
-                    }
-                    Long mbRuntime = getCurrentlyPlayingItem().getRunTimeTicks();
-                    Long andDuration = mbRuntime != null ? mbRuntime / 10000 : 0;
-                    mFragment.updateEndTime(andDuration.intValue() - mStartPosition);
+                    seek(mStartPosition);
                     mStartPosition = 0; // clear for next item
                 }
                 if (mPlaybackState == PlaybackState.BUFFERING) {
@@ -584,7 +562,7 @@ public class PlaybackController {
         mVideoManager.setOnProgressListener(new PlaybackListener() {
             @Override
             public void onEvent() {
-                if (isPlaying()) {
+                if (isPlaying() && updateProgress) {
                     if (!spinnerOff) {
                         stopSpinner();
                     }
@@ -593,10 +571,9 @@ public class PlaybackController {
                         // crossed fire off an async routine to update the program info
                         updateTvProgramInfo();
                     }
-                    final int currentTime = isLiveTv && mCurrentProgramStartTime > 0 ? getRealTimeProgress() : mVideoManager.getCurrentPosition() + mPositionOffset;
+                    final Long currentTime = isLiveTv && mCurrentProgramStartTime > 0 ? getRealTimeProgress() : mVideoManager.getCurrentPosition();
                     mFragment.setCurrentTime(currentTime);
                     mCurrentPosition = currentTime;
-                    mLastReportedTime = currentTime;
                 }
             }
         });
@@ -611,7 +588,7 @@ public class PlaybackController {
 
     }
 
-    public int getCurrentPosition() {
+    public long getCurrentPosition() {
         return mCurrentPosition;
     }
 

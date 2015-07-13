@@ -385,7 +385,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
                     case Chapter:
                         Long start = rowItem.getChapterInfo().getStartPositionTicks() / 10000;
-                        mPlaybackController.seek(start.intValue());
+                        mPlaybackController.seek(start);
                         hidePopupPanel();
                         break;
                 }
@@ -579,7 +579,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     }
 
-    public void updateEndTime(final int timeLeft) {
+    public void updateEndTime(final long timeLeft) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -733,11 +733,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     @Override
-    public void setCurrentTime(int time) {
+    public void setCurrentTime(long time) {
         if (mNextUpPanelVisible) {
             mStartsIn.setText(mCurrentDuration > 0 ? "Starts in " + Utils.formatMillis(mCurrentDuration - time) : "");
         } else {
-            mCurrentProgress.setProgress(time);
+            mCurrentProgress.setProgress(((Long)time).intValue());
             mCurrentPos.setText(Utils.formatMillis(time));
             mRemainingTime.setText(mCurrentDuration > 0 ? "-"+Utils.formatMillis(mCurrentDuration - time) : "");
         }

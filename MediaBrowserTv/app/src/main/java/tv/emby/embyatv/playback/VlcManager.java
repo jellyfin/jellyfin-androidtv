@@ -40,6 +40,10 @@ public class VlcManager implements IVideoPlayer {
     private int mSarNum;
     private int mSarDen;
 
+    private long mForcedTime = -1;
+    private long mLastTime = -1;
+
+
     private boolean mSurfaceReady = false;
 
     public VlcManager(PlaybackOverlayActivity activity, View view) {
@@ -51,12 +55,28 @@ public class VlcManager implements IVideoPlayer {
 
     }
 
-    public int getDuration() {
-        return mLibVLC != null ? ((Long) mLibVLC.getLength()).intValue() : -1;
+    public long getDuration() {
+        return mLibVLC != null ? mLibVLC.getLength() : -1;
     }
 
-    public int getCurrentPosition() {
-        return mLibVLC != null ? ((Long)mLibVLC.getTime()).intValue() : -1;
+    public long getCurrentPosition() {
+        long time = mLibVLC.getTime();
+        if (mForcedTime != -1 && mLastTime != -1) {
+            /* XXX: After a seek, mLibVLC.getTime can return the position before or after
+             * the seek position. Therefore we return mForcedTime in order to avoid the seekBar
+             * to move between seek position and the actual position.
+             * We have to wait for a valid position (that is after the seek position).
+             * to re-init mLastTime and mForcedTime to -1 and return the actual position.
+             */
+            if (mLastTime > mForcedTime) {
+                if (time <= mLastTime && time > mForcedTime)
+                    mLastTime = mForcedTime = -1;
+            } else {
+                if (time > mForcedTime)
+                    mLastTime = mForcedTime = -1;
+            }
+        }
+        return mForcedTime == -1 ? time : mForcedTime;
     }
 
     public boolean isPlaying() {
@@ -94,9 +114,12 @@ public class VlcManager implements IVideoPlayer {
         releasePlayer();
     }
 
-    public void seekTo(int pos) {
+    public void seekTo(long pos) {
         if (mLibVLC == null) return;
-        mLibVLC.setPosition((float)pos);
+        mForcedTime = pos;
+        mLastTime = mLibVLC.getTime();
+
+        mLibVLC.setTime(pos);
     }
 
     public void setVideoPath(String path) {
