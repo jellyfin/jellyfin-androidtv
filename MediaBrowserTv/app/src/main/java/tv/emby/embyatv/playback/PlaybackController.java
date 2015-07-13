@@ -1,20 +1,16 @@
 package tv.emby.embyatv.playback;
 
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.View;
 
-import java.util.Date;
 import java.util.List;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
-import mediabrowser.model.dlna.DirectPlayProfile;
-import mediabrowser.model.dlna.DlnaProfileType;
 import mediabrowser.model.dlna.PlaybackException;
 import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dlna.SubtitleProfile;
@@ -53,18 +49,11 @@ public class PlaybackController {
     private PlayMethod mPlaybackMethod = PlayMethod.Transcode;
 
     private Runnable mReportLoop;
-    private Runnable mProgressLoop;
     private Handler mHandler;
     private static int REPORT_INTERVAL = 3000;
-    private static final int DEFAULT_UPDATE_PERIOD = 1000;
-    private static final int UPDATE_PERIOD = 500;
 
-    private int mFreezeCheckPoint = Integer.MAX_VALUE;
     private long mNextItemThreshold = Long.MAX_VALUE;
     private boolean nextItemReported;
-    private long mLastReportedTime;
-    private boolean mayBeFrozen = false;
-    private long mPositionOffset = 0;
     private long mStartPosition = 0;
     private long mCurrentProgramEndTime;
     private long mCurrentProgramStartTime;
@@ -120,7 +109,6 @@ public class PlaybackController {
 
         }
 
-        mayBeFrozen = false;
         mApplication.getLogger().Debug("Play called with pos: "+position);
         switch (mPlaybackState) {
             case PLAYING:
@@ -203,11 +191,6 @@ public class PlaybackController {
         String maxRate = sharedPref.getString("pref_max_bitrate", "15");
         Float factor = Float.parseFloat(maxRate) * 10;
         return (factor.intValue() * 100000);
-    }
-
-    private int getCurrentOffset(Date start) {
-        Long millis = System.currentTimeMillis() - start.getTime();
-        return millis.intValue();
     }
 
     private void playInternal(final BaseItemDto item, final long position, final VlcManager vlcManager, VideoOptions options) {
@@ -303,10 +286,6 @@ public class PlaybackController {
 
     }
 
-    public void setPlayPauseIndicatorState(int state) {
-        mFragment.setPlayPauseActionState(state);
-
-    }
     public void switchAudioStream(int index) {
         if (!isPlaying()) return;
 
@@ -340,7 +319,7 @@ public class PlaybackController {
 
         stopReportLoop();
         // call once more to be sure everything up to date
-        Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), (long) mVideoManager.getCurrentPosition() * 10000, true);
+        Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, true);
 
     }
 
@@ -422,13 +401,6 @@ public class PlaybackController {
         }
     }
 
-    private int getUpdatePeriod() {
-        if (mPlaybackState != PlaybackState.PLAYING) {
-            return DEFAULT_UPDATE_PERIOD;
-        }
-        return UPDATE_PERIOD;
-    }
-
     private void updateTvProgramInfo() {
         // Get the current program info when playing a live TV channel
         final BaseItemDto channel = getCurrentlyPlayingItem();
@@ -455,22 +427,6 @@ public class PlaybackController {
 
     private long getRealTimeProgress() {
         return System.currentTimeMillis() - mCurrentProgramStartTime;
-    }
-
-    private void delayedSeek(final long position) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (mVideoManager.getDuration() <= 0) {
-                    // wait until we have valid duration
-                    mHandler.postDelayed(this, 25);
-                } else {
-                    // do the seek
-                    mVideoManager.seekTo(position);
-                    TvApp.getApplication().getLogger().Info("Delayed seek to " + position + " successful");
-                }
-            }
-        });
     }
 
     private void startReportLoop() {
@@ -505,10 +461,9 @@ public class PlaybackController {
     }
 
     private void itemComplete() {
-        mayBeFrozen = false;
         mPlaybackState = PlaybackState.IDLE;
         stopReportLoop();
-        Long mbPos = (long) mVideoManager.getCurrentPosition() * 10000;
+        Long mbPos = mVideoManager.getCurrentPosition() * 10000;
         Utils.ReportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
         if (mCurrentIndex < mItems.size() - 1) {
             // move to next in queue
@@ -604,7 +559,7 @@ public class PlaybackController {
     /*
  * List of various states that we can be in
  */
-    public static enum PlaybackState {
+    public enum PlaybackState {
         PLAYING, PAUSED, BUFFERING, IDLE, SEEKING, UNDEFINED;
     }
 
