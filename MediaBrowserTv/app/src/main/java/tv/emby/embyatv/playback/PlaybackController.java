@@ -159,14 +159,8 @@ public class PlaybackController {
                 TvApp.getApplication().getLogger().Debug("Max bitrate is: " + getMaxBitrate());
 
                 // Create our profile and clear out subtitles so that they will burn in
-                AndroidProfile profile = new AndroidProfile(Utils.getProfileOptions());
+                AndroidProfile profile = new AndroidProfile("vlc");
                 profile.setSubtitleProfiles(new SubtitleProfile[]{});
-                DirectPlayProfile dp = new DirectPlayProfile();
-                dp.setType(DlnaProfileType.Video);
-                dp.setContainer("mkv,avi,ts,mp4");
-                DirectPlayProfile[] directPlayProfiles = new DirectPlayProfile[1];
-                directPlayProfiles[0] = dp;
-                profile.setDirectPlayProfiles(directPlayProfiles);
                 mCurrentOptions.setProfile(profile);
 
                 playInternal(getCurrentlyPlayingItem(), position, mVideoManager, mCurrentOptions);

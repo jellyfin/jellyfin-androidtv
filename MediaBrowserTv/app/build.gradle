@@ -2,28 +2,26 @@ apply plugin: 'com.android.application'
 
 
 android {
+    signingConfigs {
+    }
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
-
     defaultConfig {
         applicationId "tv.emby.embyatv"
         minSdkVersion 17
         targetSdkVersion 21
         versionCode 1056
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     productFlavors {
         google {
             versionName = "1.0.56g"
@@ -32,7 +30,6 @@ android {
             versionName = "1.0.56a"
         }
     }
-
 }
 
 dependencies {
@@ -48,4 +45,4 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.1.0'
     compile 'com.squareup.okio:okio:1.0.1'
     compile 'de.mrmaffen:vlc-android-sdk:1.0.6'
-    }
+}
