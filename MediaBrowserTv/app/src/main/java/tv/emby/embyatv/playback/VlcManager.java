@@ -95,6 +95,7 @@ public class VlcManager implements IVideoPlayer {
 
         if (!mLibVLC.isPlaying()) {
             mLibVLC.playMRL(mCurrentVideoMRL);
+            mLibVLC.setSpuTrack(-2);
         }
 
     }
@@ -110,8 +111,12 @@ public class VlcManager implements IVideoPlayer {
 
     }
 
+    public void setPlaySpeed(float speed) {
+        mLibVLC.setRate(speed);
+    }
+
     public void stopPlayback() {
-        releasePlayer();
+        mLibVLC.stop();
     }
 
     public void seekTo(long pos) {
@@ -135,7 +140,9 @@ public class VlcManager implements IVideoPlayer {
 
     }
 
-
+    public void destroy() {
+        releasePlayer();
+    }
 
     private void createPlayer() {
         try {
