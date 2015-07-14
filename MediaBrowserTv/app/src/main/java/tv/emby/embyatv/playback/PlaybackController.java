@@ -124,9 +124,7 @@ public class PlaybackController {
                 if (mFragment != null) {
                     mFragment.setFadingEnabled(true);
                     mFragment.setPlayPauseActionState(ImageButton.STATE_SECONDARY);
-                    Long mbRuntime = getCurrentlyPlayingItem().getRunTimeTicks();
-                    Long andDuration = mbRuntime != null ? mbRuntime / 10000 : 0;
-                    mFragment.updateEndTime(andDuration - getCurrentPosition());
+                    mFragment.updateEndTime(mVideoManager.getDuration() - getCurrentPosition());
                 }
                 startReportLoop();
                 break;
@@ -524,14 +522,15 @@ public class PlaybackController {
             @Override
             public void onEvent() {
 
+                long timeLeft = mVideoManager.getDuration();
                 if (mStartPosition > 0) {
                     seek(mStartPosition);
+                    timeLeft -= mStartPosition;
                     mStartPosition = 0; // clear for next item
                 }
                 if (mPlaybackState == PlaybackState.BUFFERING) {
                     mPlaybackState = PlaybackState.PLAYING;
-                    mFragment.updateEndTime(mVideoManager.getDuration());
-                    mApplication.getLogger().Debug("Subs: "+mVideoManager.getSubtitleTracks());
+                    mFragment.updateEndTime(timeLeft);
                     startReportLoop();
                 }
                 TvApp.getApplication().getLogger().Info("VLC status: ", mVideoManager.getState());
