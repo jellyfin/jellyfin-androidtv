@@ -41,7 +41,7 @@ public class PlaybackOverlayActivity extends BaseActivity {
     private static final double MEDIA_BOTTOM_MARGIN = 0.025;
     private static final double MEDIA_LEFT_MARGIN = 0.025;
 
-    private IVideoView mVideoView;
+    private VlcManager mVideoManager;
     private TvApp mApplication;
 
     private View.OnKeyListener mKeyListener;
@@ -67,6 +67,9 @@ public class PlaybackOverlayActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (mVideoManager != null) {
+            mVideoManager.destroy();
+        }
     }
 
     @Override
@@ -99,7 +102,8 @@ public class PlaybackOverlayActivity extends BaseActivity {
 
     private void loadViews() {
         if (mApplication.getPlaybackController() != null) {
-            mApplication.getPlaybackController().init(new VlcManager(this, findViewById(android.R.id.content)), findViewById(R.id.bufferingProgress));
+            mVideoManager = new VlcManager(this, findViewById(android.R.id.content));
+            mApplication.getPlaybackController().init(mVideoManager, findViewById(R.id.bufferingProgress));
         }
     }
 
