@@ -15,6 +15,8 @@ import org.videolan.libvlc.IVideoPlayer;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 
+import java.util.Map;
+
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.util.Utils;
@@ -95,7 +97,6 @@ public class VlcManager implements IVideoPlayer {
 
         if (!mLibVLC.isPlaying()) {
             mLibVLC.playMRL(mCurrentVideoMRL);
-            mLibVLC.setSpuTrack(-2);
         }
 
     }
@@ -138,6 +139,19 @@ public class VlcManager implements IVideoPlayer {
         mCurrentMedia.release();
         mCurrentVideoMRL = mCurrentMedia.getMrl();
 
+    }
+
+    public void setSubtitleTrack(int id) {
+        mLibVLC.setSpuTrack(id);
+
+    }
+
+    public void setAudioTrack(int id) {
+        mLibVLC.setAudioTrack(id);
+    }
+
+    public Map<Integer, String> getSubtitleTracks() {
+        return mLibVLC.getSpuTrackDescription();
     }
 
     public void destroy() {

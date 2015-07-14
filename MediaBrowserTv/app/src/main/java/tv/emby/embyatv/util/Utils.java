@@ -815,6 +815,14 @@ public class Utils {
 
     }
 
+    public static MediaStream GetMediaStream(MediaSourceInfo mediaSource, int index) {
+        if (mediaSource.getMediaStreams() == null || mediaSource.getMediaStreams().size() == 0) return null;
+        for (MediaStream stream : mediaSource.getMediaStreams()) {
+            if (stream.getIndex() == index) return stream;
+        }
+        return null;
+    }
+
     public static List<MediaStream> GetSubtitleStreams(MediaSourceInfo mediaSource) {
         return GetStreams(mediaSource, MediaStreamType.Subtitle);
     }

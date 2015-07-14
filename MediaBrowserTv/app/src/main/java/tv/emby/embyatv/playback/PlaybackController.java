@@ -17,6 +17,7 @@ import mediabrowser.model.dlna.SubtitleProfile;
 import mediabrowser.model.dlna.VideoOptions;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.MediaSourceInfo;
+import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.ProgramInfoDto;
@@ -90,6 +91,8 @@ public class PlaybackController {
     public MediaSourceInfo getCurrentMediaSource() { return mCurrentStreamInfo != null && mCurrentStreamInfo.getMediaSource() != null ? mCurrentStreamInfo.getMediaSource() : getCurrentlyPlayingItem().getMediaSources().get(0);}
     public StreamInfo getCurrentStreamInfo() { return mCurrentStreamInfo; }
     public boolean canSeek() {return getCurrentlyPlayingItem() != null && !"TvChannel".equals(getCurrentlyPlayingItem().getType());}
+    public int getSubtitleStreamIndex() {return (mCurrentOptions != null && mCurrentOptions.getSubtitleStreamIndex() != null) ? mCurrentOptions.getSubtitleStreamIndex() : -1; }
+    public int getAudioStreamIndex() {return (mCurrentOptions != null) ? mCurrentOptions.getAudioStreamIndex() : 0; }
 
     public boolean hasNextItem() { return mCurrentIndex < mItems.size() - 1; }
     public BaseItemDto getNextItem() { return hasNextItem() ? mItems.get(mCurrentIndex+1) : null; }
@@ -150,7 +153,6 @@ public class PlaybackController {
 
                 // Create our profile and clear out subtitles so that they will burn in
                 AndroidProfile profile = new AndroidProfile("vlc");
-                profile.setSubtitleProfiles(new SubtitleProfile[]{});
                 mCurrentOptions.setProfile(profile);
 
                 playInternal(getCurrentlyPlayingItem(), position, mVideoManager, mCurrentOptions);
@@ -213,6 +215,10 @@ public class PlaybackController {
                 String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()); //apiClient.getApiUrl()+"/videos/"+item.getId()+"?static=true&mediasourceid="+response.getMediaSourceId()+"&api_key="+apiClient.getAccessToken(); 
                 vlcManager.setVideoPath(path);
                 setPlaybackMethod(response.getPlayMethod());
+                if (mPlaybackMethod != PlayMethod.Transcode) {
+                    mCurrentOptions.setAudioStreamIndex(response.getMediaSource().getDefaultAudioStreamIndex());
+                    mCurrentOptions.setSubtitleStreamIndex(response.getMediaSource().getDefaultSubtitleStreamIndex());
+                }
                 vlcManager.start();
                 mStartPosition = position;
 
@@ -290,24 +296,36 @@ public class PlaybackController {
     public void switchAudioStream(int index) {
         if (!isPlaying()) return;
 
-        startSpinner();
         mCurrentOptions.setAudioStreamIndex(index);
-        mApplication.getLogger().Debug("Setting audio index to: " + index);
-        mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
-        stop();
-        switchStreamInternal(mCurrentStreamInfo, mCurrentPosition, mVideoManager);
+        if (mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode) {
+            startSpinner();
+            mApplication.getLogger().Debug("Setting audio index to: " + index);
+            mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
+            stop();
+            switchStreamInternal(mCurrentStreamInfo, mCurrentPosition, mVideoManager);
+        } else {
+            mVideoManager.setAudioTrack(index);
+        }
     }
 
     public void switchSubtitleStream(int index) {
         if (!isPlaying()) return;
-
-        startSpinner();
         mCurrentOptions.setSubtitleStreamIndex(index >= 0 ? index : null);
-        mApplication.getLogger().Debug("Setting subtitle index to: " + index);
-        mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
-        stop();
-        //playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mVideoManager, mCurrentOptions);
-        switchStreamInternal(mCurrentStreamInfo, mCurrentPosition, mVideoManager);
+        if (mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode) {
+            startSpinner();
+            mApplication.getLogger().Debug("Setting subtitle index to: " + index);
+            mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
+            stop();
+            switchStreamInternal(mCurrentStreamInfo, mCurrentPosition, mVideoManager);
+
+        } else  {
+            MediaStream stream = Utils.GetMediaStream(getCurrentMediaSource(), index);
+            if (index == -1 || (stream != null && !stream.getIsExternal())) {
+                mVideoManager.setSubtitleTrack(index);
+            } else {
+                Utils.showToast(mApplication, "External subs not supported yet");
+            }
+        }
     }
 
     public void pause() {
@@ -513,6 +531,7 @@ public class PlaybackController {
                 if (mPlaybackState == PlaybackState.BUFFERING) {
                     mPlaybackState = PlaybackState.PLAYING;
                     mFragment.updateEndTime(mVideoManager.getDuration());
+                    mApplication.getLogger().Debug("Subs: "+mVideoManager.getSubtitleTracks());
                     startReportLoop();
                 }
                 TvApp.getApplication().getLogger().Info("VLC status: ", mVideoManager.getState());
@@ -526,6 +545,8 @@ public class PlaybackController {
                 if (isPlaying() && updateProgress) {
                     if (!spinnerOff) {
                         stopSpinner();
+                        mVideoManager.setSubtitleTrack(mCurrentOptions.getSubtitleStreamIndex() != null ? mCurrentOptions.getSubtitleStreamIndex() : -1);
+                        mVideoManager.setAudioTrack(mCurrentOptions.getAudioStreamIndex() != null ? mCurrentOptions.getAudioStreamIndex() : 0);
                     }
                     mApplication.setLastUserInteraction(System.currentTimeMillis()); // don't want to auto logoff during playback
                     if (isLiveTv && mCurrentProgramEndTime > 0 && System.currentTimeMillis() >= mCurrentProgramEndTime) {
