@@ -207,6 +207,7 @@ public class PlaybackController {
             @Override
             public void onResponse(StreamInfo response) {
                 mCurrentStreamInfo = response;
+                mFragment.updateDisplay();
                 Long mbPos = position * 10000;
 
                 String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()); //apiClient.getApiUrl()+"/videos/"+item.getId()+"?static=true&mediasourceid="+response.getMediaSourceId()+"&api_key="+apiClient.getAccessToken(); 
@@ -359,11 +360,10 @@ public class PlaybackController {
         if (mCurrentIndex < mItems.size() - 1) {
             stop();
             mCurrentIndex++;
-            mApplication.getLogger().Debug("Moving to index: "+mCurrentIndex+" out of "+mItems.size() + " total items.");
+            mApplication.getLogger().Debug("Moving to index: " + mCurrentIndex + " out of " + mItems.size() + " total items.");
             mFragment.removeQueueItem(0);
             spinnerOff = false;
             play(0);
-            mFragment.updateDisplay();
         }
     }
 
@@ -389,6 +389,13 @@ public class PlaybackController {
             updateProgress = true; // re-enable true progress updates
         }
     };
+
+    private float playSpeed = 1;
+    public void togglePlaySpeed() {
+        if (playSpeed < 4) playSpeed += 1f;
+        else playSpeed = 1;
+        mVideoManager.setPlaySpeed(playSpeed);
+    }
 
     public void skip(int msec) {
         if (isPlaying()) {
@@ -470,7 +477,6 @@ public class PlaybackController {
             mCurrentIndex++;
             mApplication.getLogger().Debug("Moving to next queue item. Index: "+mCurrentIndex);
             mFragment.removeQueueItem(0);
-            mFragment.updateDisplay();
             spinnerOff = false;
             play(0);
         } else {
