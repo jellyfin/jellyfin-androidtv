@@ -265,8 +265,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         setupPopupAnimations();
         setupNextUpAnimations();
 
-        updateDisplay();
-
         Intent intent = mActivity.getIntent();
         //start playing
         int startPos = intent.getIntExtra("Position", 0);
@@ -627,6 +625,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         Boolean hasMultiAudio = Utils.GetAudioStreams(mPlaybackController.getCurrentMediaSource()).size() > 1;
 
         if (hasMultiAudio) {
+            mApplication.getLogger().Debug("Multiple Audio tracks found: "+Utils.GetAudioStreams(mPlaybackController.getCurrentMediaSource()).size());
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.audiosel, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -663,9 +662,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
                 }
             }));
+        } else {
+            mApplication.getLogger().Debug("Only one audio track.");
         }
 
         if (hasSubs) {
+            mApplication.getLogger().Debug("Subtitle tracks found: "+Utils.GetSubtitleStreams(mPlaybackController.getCurrentMediaSource()).size());
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.subt, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -703,6 +705,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
                 }
             }));
+        } else {
+            mApplication.getLogger().Debug("No sub tracks found. Media Source: "+mPlaybackController.getCurrentMediaSource().getPath());
         }
 
         List<ChapterInfoDto> chapters = item.getChapters();
