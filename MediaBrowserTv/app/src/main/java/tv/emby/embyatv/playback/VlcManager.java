@@ -159,7 +159,8 @@ public class VlcManager implements IVideoPlayer {
 //
             mLibVLC.setVout(LibVLC.VOUT_ANDROID_SURFACE);
 //            mLibVLC.setSubtitlesEncoding("");
-//            mLibVLC.setAout(LibVLC.AOUT_OPENSLES);
+            mLibVLC.setAout(LibVLC.AOUT_AUDIOTRACK);
+
             mLibVLC.setTimeStretching(false);
             mLibVLC.setVerboseMode(false);
             mLibVLC.setHdmiAudioEnabled(true); //TODO: figure out how to know this
