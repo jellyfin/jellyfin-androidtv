@@ -637,7 +637,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     setFadingEnabled(false);
 
                     List<MediaStream> audioTracks = TvApp.getApplication().getPlaybackManager().getInPlaybackSelectableAudioStreams(mPlaybackController.getCurrentStreamInfo());
-                    int currentAudioIndex = Utils.NullCoalesce(mPlaybackController.getCurrentStreamInfo().getAudioStreamIndex(), 0);
+                    int currentAudioIndex = mPlaybackController.getAudioStreamIndex();
                     PopupMenu audioMenu = Utils.createPopupMenu(getActivity(), v, Gravity.RIGHT);
                     for (MediaStream audio : audioTracks) {
                         MenuItem item = audioMenu.getMenu().add(0, audio.getIndex(), audio.getIndex(), Utils.SafeToUpper(audio.getLanguage()) + " " + Utils.SafeToUpper(audio.getCodec()) + " (" + audio.getChannelLayout() + ")");
@@ -680,7 +680,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     List<MediaStream> subtitles = TvApp.getApplication().getPlaybackManager().getInPlaybackSelectableSubtitleStreams(mPlaybackController.getCurrentStreamInfo());
                     PopupMenu subMenu = Utils.createPopupMenu(getActivity(), v, Gravity.RIGHT);
                     MenuItem none = subMenu.getMenu().add(0, -1, 0, mApplication.getString(R.string.lbl_none));
-                    int currentSubIndex = Utils.NullCoalesce(mPlaybackController.getCurrentStreamInfo().getSubtitleStreamIndex(), -1);
+                    int currentSubIndex = mPlaybackController.getSubtitleStreamIndex();
                     if (currentSubIndex < 0) none.setChecked(true);
                     for (MediaStream sub : subtitles) {
                         MenuItem item = subMenu.getMenu().add(0, sub.getIndex(), sub.getIndex(), sub.getLanguage() + (sub.getIsExternal() ? mApplication.getString(R.string.lbl_parens_external) : mApplication.getString(R.string.lbl_parens_internal)) + (sub.getIsForced() ? mApplication.getString(R.string.lbl_parens_forced) : ""));
