@@ -92,7 +92,11 @@ public class PlaybackController {
     public StreamInfo getCurrentStreamInfo() { return mCurrentStreamInfo; }
     public boolean canSeek() {return getCurrentlyPlayingItem() != null && !"TvChannel".equals(getCurrentlyPlayingItem().getType());}
     public int getSubtitleStreamIndex() {return (mCurrentOptions != null && mCurrentOptions.getSubtitleStreamIndex() != null) ? mCurrentOptions.getSubtitleStreamIndex() : -1; }
-    public int getAudioStreamIndex() {return (mCurrentOptions != null) ? mCurrentOptions.getAudioStreamIndex() : 0; }
+    public Integer getAudioStreamIndex() {
+        return isTranscoding() ? mCurrentStreamInfo.getAudioStreamIndex() != null ? mCurrentStreamInfo.getAudioStreamIndex() : mCurrentOptions.getAudioStreamIndex() : Integer.valueOf(mVideoManager.getAudioTrack());
+    }
+
+    public boolean isTranscoding() { return mCurrentStreamInfo != null && mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode; }
 
     public boolean hasNextItem() { return mCurrentIndex < mItems.size() - 1; }
     public BaseItemDto getNextItem() { return hasNextItem() ? mItems.get(mCurrentIndex+1) : null; }
@@ -216,6 +220,7 @@ public class PlaybackController {
                 if (mPlaybackMethod != PlayMethod.Transcode) {
                     mCurrentOptions.setAudioStreamIndex(response.getMediaSource().getDefaultAudioStreamIndex());
                     mCurrentOptions.setSubtitleStreamIndex(response.getMediaSource().getDefaultSubtitleStreamIndex());
+                    TvApp.getApplication().getLogger().Debug("Default audio track: "+mCurrentOptions.getAudioStreamIndex()+" subtitle: "+mCurrentOptions.getSubtitleStreamIndex());
                 }
                 vlcManager.start();
                 mStartPosition = position;
@@ -533,7 +538,7 @@ public class PlaybackController {
                     mFragment.updateEndTime(timeLeft);
                     startReportLoop();
                 }
-                TvApp.getApplication().getLogger().Info("VLC status: ", mVideoManager.getState());
+                TvApp.getApplication().getLogger().Info("Play method: ", mCurrentStreamInfo.getPlayMethod());
 
             }
         });
@@ -545,7 +550,7 @@ public class PlaybackController {
                     if (!spinnerOff) {
                         stopSpinner();
                         mVideoManager.setSubtitleTrack(mCurrentOptions.getSubtitleStreamIndex() != null ? mCurrentOptions.getSubtitleStreamIndex() : -1);
-                        mVideoManager.setAudioTrack(mCurrentOptions.getAudioStreamIndex() != null ? mCurrentOptions.getAudioStreamIndex() : 0);
+                        if (mCurrentOptions.getAudioStreamIndex() != null) mVideoManager.setAudioTrack(mCurrentOptions.getAudioStreamIndex());
                     }
                     mApplication.setLastUserInteraction(System.currentTimeMillis()); // don't want to auto logoff during playback
                     if (isLiveTv && mCurrentProgramEndTime > 0 && System.currentTimeMillis() >= mCurrentProgramEndTime) {

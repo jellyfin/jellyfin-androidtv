@@ -38,7 +38,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +45,6 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.ChapterInfoDto;
-import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.MediaStream;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
@@ -55,7 +53,6 @@ import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.ui.ImageButton;
-import tv.emby.embyatv.ui.TextButton;
 import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.RemoteControlReceiver;
 import tv.emby.embyatv.util.Utils;
@@ -637,11 +634,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     setFadingEnabled(false);
 
                     List<MediaStream> audioTracks = TvApp.getApplication().getPlaybackManager().getInPlaybackSelectableAudioStreams(mPlaybackController.getCurrentStreamInfo());
-                    int currentAudioIndex = mPlaybackController.getAudioStreamIndex();
+                    Integer currentAudioIndex = mPlaybackController.getAudioStreamIndex();
+
                     PopupMenu audioMenu = Utils.createPopupMenu(getActivity(), v, Gravity.RIGHT);
                     for (MediaStream audio : audioTracks) {
                         MenuItem item = audioMenu.getMenu().add(0, audio.getIndex(), audio.getIndex(), Utils.SafeToUpper(audio.getLanguage()) + " " + Utils.SafeToUpper(audio.getCodec()) + " (" + audio.getChannelLayout() + ")");
-                        if (currentAudioIndex == audio.getIndex()) item.setChecked(true);
+                        if (currentAudioIndex != null && currentAudioIndex == audio.getIndex()) item.setChecked(true);
                     }
                     audioMenu.getMenu().setGroupCheckable(0, true, false);
                     audioMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
