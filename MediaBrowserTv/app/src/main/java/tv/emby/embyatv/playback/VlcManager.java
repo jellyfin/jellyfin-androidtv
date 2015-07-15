@@ -146,6 +146,10 @@ public class VlcManager implements IVideoPlayer {
 
     }
 
+    public int getAudioTrack() {
+        return mLibVLC.getAudioTrack();
+    }
+
     public void setAudioTrack(int id) {
         mLibVLC.setAudioTrack(id);
     }
