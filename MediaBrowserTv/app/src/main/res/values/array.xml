@@ -39,6 +39,34 @@
         <item>0.72</item>
         <item>0.42</item>
     </string-array>
+    <string-array name="pref_buffer_entries" >
+        <item>60 seconds</item>
+        <item>50 seconds</item>
+        <item>40 seconds</item>
+        <item>30 seconds</item>
+        <item>20 seconds</item>
+        <item>15 seconds</item>
+        <item>10 seconds</item>
+        <item>7 seconds</item>
+        <item>5 seconds</item>
+        <item>3 seconds</item>
+        <item>1 second</item>
+        <item>0.6 seconds</item>
+    </string-array>
+    <string-array name="pref_buffer_values" >
+        <item>60</item>
+        <item>50</item>
+        <item>40</item>
+        <item>30</item>
+        <item>20</item>
+        <item>15</item>
+        <item>10</item>
+        <item>7</item>
+        <item>5</item>
+        <item>3</item>
+        <item>1</item>
+        <item>0.6</item>
+    </string-array>
     <string-array name="pref_timeout_entries" >
         <item>30 Minutes</item>
         <item>1 Hour</item>

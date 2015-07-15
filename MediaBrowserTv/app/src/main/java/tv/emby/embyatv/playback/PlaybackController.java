@@ -197,6 +197,13 @@ public class PlaybackController {
         return (factor.intValue() * 100000);
     }
 
+    public static int getBufferAmount() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(TvApp.getApplication());
+        String buffer = sharedPref.getString("pref_net_buffer", "30");
+        Float factor = Float.parseFloat(buffer) * 10;
+        return (factor.intValue() * 100);
+    }
+
     private void playInternal(final BaseItemDto item, final long position, final VlcManager vlcManager, VideoOptions options) {
         final ApiClient apiClient = mApplication.getApiClient();
         mApplication.setCurrentPlayingItem(item);
