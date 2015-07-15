@@ -48,12 +48,12 @@ public class VlcManager implements IVideoPlayer {
 
     private boolean mSurfaceReady = false;
 
-    public VlcManager(PlaybackOverlayActivity activity, View view) {
+    public VlcManager(PlaybackOverlayActivity activity, View view, int buffer) {
         mActivity = activity;
         mSurfaceView = (SurfaceView) view.findViewById(R.id.player_surface);
         mSurfaceHolder = mSurfaceView.getHolder();
         mSurfaceFrame = (FrameLayout) view.findViewById(R.id.player_surface_frame);
-        createPlayer();
+        createPlayer(buffer);
 
     }
 
@@ -162,7 +162,7 @@ public class VlcManager implements IVideoPlayer {
         releasePlayer();
     }
 
-    private void createPlayer() {
+    private void createPlayer(int buffer) {
         try {
 
             // Create a new media player
@@ -180,7 +180,8 @@ public class VlcManager implements IVideoPlayer {
             mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_AUTOMATIC);
 //            mLibVLC.setDeblocking(-1);
             mLibVLC.setDevHardwareDecoder(LibVLC.DEV_HW_DECODER_AUTOMATIC);
-            mLibVLC.setNetworkCaching(30000);
+            mLibVLC.setNetworkCaching(buffer);
+            TvApp.getApplication().getLogger().Info("Network buffer set to "+buffer);
 //
             mLibVLC.setVout(LibVLC.VOUT_ANDROID_SURFACE);
 //            mLibVLC.setSubtitlesEncoding("");
