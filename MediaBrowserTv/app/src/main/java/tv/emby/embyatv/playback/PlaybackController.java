@@ -155,8 +155,12 @@ public class PlaybackController {
                 // Create our profile - fudge to transcode for hi-res content (VLC stutters)
                 boolean useDirectPlay = true;
                 if (item.getMediaSources() != null && item.getMediaSources().size() > 0) {
-                    MediaStream video = Utils.GetVideoStreams(item.getMediaSources().get(0)).get(0);
-                    if (video != null && video.getWidth() > 1300) useDirectPlay = false;
+                    List<MediaStream> videoStreams = Utils.GetVideoStreams(item.getMediaSources().get(0));
+                    MediaStream video = videoStreams != null && videoStreams.size() > 0 ? videoStreams.get(0) : null;
+                    if (video != null && video.getWidth() > 1300) {
+                        useDirectPlay = false;
+                        mApplication.getLogger().Info("Forcing a transcode of high-res content");
+                    }
                 }
                 AndroidProfile profile = useDirectPlay ? new AndroidProfile("vlc") : new AndroidProfile(Utils.getProfileOptions());
                 mCurrentOptions.setProfile(profile);
