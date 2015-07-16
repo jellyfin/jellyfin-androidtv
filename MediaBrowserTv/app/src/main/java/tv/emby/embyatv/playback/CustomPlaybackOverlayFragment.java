@@ -593,10 +593,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mCurrentDuration = andDuration.intValue();
     }
 
-    private int getDuration() {
-        return mCurrentDuration;
-    }
-
     private void addButtons(BaseItemDto item) {
         mButtonRow.removeAllViews();
 
