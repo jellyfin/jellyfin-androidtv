@@ -3,6 +3,7 @@ package tv.emby.embyatv.playback;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -44,6 +45,7 @@ public class VlcManager implements IVideoPlayer {
 
     private long mForcedTime = -1;
     private long mLastTime = -1;
+    private long mMetaDuration = -1;
 
 
     private boolean mSurfaceReady = false;
@@ -57,8 +59,12 @@ public class VlcManager implements IVideoPlayer {
 
     }
 
+    public void setMetaDuration(long duration) {
+        mMetaDuration = duration;
+    }
+
     public long getDuration() {
-        return mLibVLC != null ? mLibVLC.getLength() : -1;
+        return mLibVLC.getLength() > 0 ? mLibVLC.getLength() : mMetaDuration;
     }
 
     public long getCurrentPosition() {
@@ -96,7 +102,8 @@ public class VlcManager implements IVideoPlayer {
         }
 
         if (!mLibVLC.isPlaying()) {
-            mLibVLC.playMRL(mCurrentVideoMRL);
+            String[] options = mLibVLC.getMediaOptions(0);
+            mLibVLC.playMRL(mCurrentVideoMRL, options);
         }
 
     }
@@ -124,8 +131,8 @@ public class VlcManager implements IVideoPlayer {
         if (mLibVLC == null) return;
         mForcedTime = pos;
         mLastTime = mLibVLC.getTime();
-
-        mLibVLC.setTime(pos);
+        TvApp.getApplication().getLogger().Info("Duration in seek is: "+getDuration());
+        if (getDuration() > 0) mLibVLC.setPosition((float)pos / getDuration()); else mLibVLC.setTime(pos);
     }
 
     public void setVideoPath(String path) {
@@ -170,21 +177,21 @@ public class VlcManager implements IVideoPlayer {
             LibVLC.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
                 @Override
                 public void onNativeCrash() {
-                    TvApp.getApplication().getLogger().Error("Error in LibVLC");
+                    TvApp.getApplication().getLogger().Error("Error in LibVLC: "+ Log.getStackTraceString(new Exception()));
                 }
             });
 
             TvApp.getApplication().getLogger().Debug("Hardware acceleration mode: "
                     + Integer.toString(mLibVLC.getHardwareAcceleration()));
 
-            mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_AUTOMATIC);
-//            mLibVLC.setDeblocking(-1);
-            mLibVLC.setDevHardwareDecoder(LibVLC.DEV_HW_DECODER_AUTOMATIC);
+            mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_DISABLED);
+            mLibVLC.setDeblocking(-1);
+            mLibVLC.setDevHardwareDecoder(-1);
             mLibVLC.setNetworkCaching(buffer);
             TvApp.getApplication().getLogger().Info("Network buffer set to "+buffer);
-//
+
             mLibVLC.setVout(LibVLC.VOUT_ANDROID_SURFACE);
-//            mLibVLC.setSubtitlesEncoding("");
+            mLibVLC.setSubtitlesEncoding("");
             mLibVLC.setAout(LibVLC.AOUT_AUDIOTRACK);
 
             mLibVLC.setTimeStretching(false);

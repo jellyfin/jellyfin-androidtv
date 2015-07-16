@@ -13,7 +13,6 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.model.dlna.PlaybackException;
 import mediabrowser.model.dlna.StreamInfo;
-import mediabrowser.model.dlna.SubtitleProfile;
 import mediabrowser.model.dlna.VideoOptions;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.MediaSourceInfo;
@@ -153,8 +152,13 @@ public class PlaybackController {
                 mCurrentOptions.setMaxBitrate(getMaxBitrate());
                 TvApp.getApplication().getLogger().Debug("Max bitrate is: " + getMaxBitrate());
 
-                // Create our profile and clear out subtitles so that they will burn in
-                AndroidProfile profile = new AndroidProfile("vlc");
+                // Create our profile - fudge to transcode for hi-res content (VLC stutters)
+                boolean useDirectPlay = true;
+                if (item.getMediaSources() != null && item.getMediaSources().size() > 0) {
+                    MediaStream video = Utils.GetVideoStreams(item.getMediaSources().get(0)).get(0);
+                    if (video != null && video.getWidth() > 1300) useDirectPlay = false;
+                }
+                AndroidProfile profile = useDirectPlay ? new AndroidProfile("vlc") : new AndroidProfile(Utils.getProfileOptions());
                 mCurrentOptions.setProfile(profile);
 
                 playInternal(getCurrentlyPlayingItem(), position, mVideoManager, mCurrentOptions);
@@ -165,9 +169,11 @@ public class PlaybackController {
                     mFragment.setCurrentTime(position);
                 }
 
-                if (hasNextItem() && getCurrentlyPlayingItem().getRunTimeTicks() != null) {
+                long duration = getCurrentlyPlayingItem().getRunTimeTicks()!= null ? getCurrentlyPlayingItem().getRunTimeTicks() / 10000 : -1;
+                mVideoManager.setMetaDuration(duration);
+
+                if (hasNextItem()) {
                     // Determine the "next up" threshold
-                    long duration = getCurrentlyPlayingItem().getRunTimeTicks() / 10000;
                     if (duration > 600000) {
                         //only items longer than 10min to have this feature
                         nextItemReported = false;
@@ -227,7 +233,7 @@ public class PlaybackController {
                 if (mPlaybackMethod != PlayMethod.Transcode) {
                     mCurrentOptions.setAudioStreamIndex(response.getMediaSource().getDefaultAudioStreamIndex());
                     mCurrentOptions.setSubtitleStreamIndex(response.getMediaSource().getDefaultSubtitleStreamIndex());
-                    TvApp.getApplication().getLogger().Debug("Default audio track: "+mCurrentOptions.getAudioStreamIndex()+" subtitle: "+mCurrentOptions.getSubtitleStreamIndex());
+                    TvApp.getApplication().getLogger().Debug("Default audio track: " + mCurrentOptions.getAudioStreamIndex() + " subtitle: " + mCurrentOptions.getSubtitleStreamIndex());
                 }
                 vlcManager.start();
                 mStartPosition = position;
@@ -284,7 +290,7 @@ public class PlaybackController {
                         startInfo.setItemId(current.getItemId());
                         startInfo.setPositionTicks(mbPos);
                         TvApp.getApplication().getPlaybackManager().reportPlaybackStart(startInfo, false, TvApp.getApplication().getApiClient(), new EmptyResponse());
-                        TvApp.getApplication().getLogger().Info("Playback of "+getCurrentlyPlayingItem().getName()+"("+path+") re-started.");
+                        TvApp.getApplication().getLogger().Info("Playback of " + getCurrentlyPlayingItem().getName() + "(" + path + ") re-started.");
                     }
                 }
         );
@@ -536,9 +542,11 @@ public class PlaybackController {
 
                 long timeLeft = mVideoManager.getDuration();
                 if (mStartPosition > 0) {
-                    seek(mStartPosition);
                     timeLeft -= mStartPosition;
-                    mStartPosition = 0; // clear for next item
+                    if (mPlaybackMethod != PlayMethod.Transcode) {
+                        seek(mStartPosition);
+                        mStartPosition = 0; // clear for next item
+                    }
                 }
                 if (mPlaybackState == PlaybackState.BUFFERING) {
                     mPlaybackState = PlaybackState.PLAYING;
@@ -554,8 +562,14 @@ public class PlaybackController {
             @Override
             public void onEvent() {
                 if (isPlaying() && updateProgress) {
+                    updateProgress = false;
                     if (!spinnerOff) {
-                        stopSpinner();
+                        if (mStartPosition > 0) {
+                            seek(mStartPosition);
+                            mStartPosition = 0;
+                        } else {
+                            stopSpinner();
+                        }
                         mVideoManager.setSubtitleTrack(mCurrentOptions.getSubtitleStreamIndex() != null ? mCurrentOptions.getSubtitleStreamIndex() : -1);
                         if (mCurrentOptions.getAudioStreamIndex() != null) mVideoManager.setAudioTrack(mCurrentOptions.getAudioStreamIndex());
                     }
@@ -567,6 +581,7 @@ public class PlaybackController {
                     final Long currentTime = isLiveTv && mCurrentProgramStartTime > 0 ? getRealTimeProgress() : mVideoManager.getCurrentPosition();
                     mFragment.setCurrentTime(currentTime);
                     mCurrentPosition = currentTime;
+                    updateProgress = true;
                 }
             }
         });
