@@ -138,6 +138,8 @@
     <string name="lbl_login_as">"Login as "</string>
     <string name="lbl_tv">TV</string>
     <string name="lbl_people">People</string>
+    <string name="lbl_videos">Videos</string>
+    <string name="lbl_recordings">Recordings</string>
     <string name="lbl_parens_external">" (external)"</string>
     <string name="lbl_parens_internal">" (internal)"</string>
     <string name="lbl_parens_forced">" (forced)"</string>
