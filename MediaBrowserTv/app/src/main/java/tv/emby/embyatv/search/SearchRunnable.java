@@ -38,17 +38,29 @@ public class SearchRunnable implements Runnable {
         peopleAdapter.setRow(peopleRow);
         peopleAdapter.Retrieve();
 
+        SearchQuery movies = getSearchQuery(new String[] {"Movie", "BoxSet"});
+        ItemRowAdapter movieAdapter = new ItemRowAdapter(movies, new CardPresenter(), mRowsAdapter);
+        ListRow movieRow = new ListRow(new HeaderItem(activity.getString(R.string.lbl_movies),""), movieAdapter);
+        movieAdapter.setRow(movieRow);
+        movieAdapter.Retrieve();
+
         SearchQuery tv = getSearchQuery(new String[] {"Series","Episode"});
         ItemRowAdapter tvAdapter = new ItemRowAdapter(tv, new CardPresenter(), mRowsAdapter);
         ListRow tvRow = new ListRow(new HeaderItem(activity.getString(R.string.lbl_tv),""), tvAdapter);
         tvAdapter.setRow(tvRow);
         tvAdapter.Retrieve();
 
-        SearchQuery movies = getSearchQuery(new String[] {"Movie", "BoxSet"});
-        ItemRowAdapter movieAdapter = new ItemRowAdapter(movies, new CardPresenter(), mRowsAdapter);
-        ListRow movieRow = new ListRow(new HeaderItem(activity.getString(R.string.lbl_movies),""), movieAdapter);
-        movieAdapter.setRow(movieRow);
-        movieAdapter.Retrieve();
+        SearchQuery videos = getSearchQuery(new String[] {"Video"});
+        ItemRowAdapter videoAdapter = new ItemRowAdapter(videos, new CardPresenter(), mRowsAdapter);
+        ListRow videoRow = new ListRow(new HeaderItem(activity.getString(R.string.lbl_videos),""), videoAdapter);
+        videoAdapter.setRow(videoRow);
+        videoAdapter.Retrieve();
+
+        SearchQuery recordings = getSearchQuery(new String[] {"Recording"});
+        ItemRowAdapter recordingAdapter = new ItemRowAdapter(recordings, new CardPresenter(), mRowsAdapter);
+        ListRow recordingRow = new ListRow(new HeaderItem(activity.getString(R.string.lbl_recordings),""), recordingAdapter);
+        recordingAdapter.setRow(recordingRow);
+        recordingAdapter.Retrieve();
 
     }
 
