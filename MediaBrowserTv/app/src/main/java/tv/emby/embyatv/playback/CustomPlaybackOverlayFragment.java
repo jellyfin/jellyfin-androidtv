@@ -18,6 +18,8 @@ import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.text.Html;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -46,6 +48,8 @@ import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.ChapterInfoDto;
 import mediabrowser.model.entities.MediaStream;
+import mediabrowser.model.mediainfo.SubtitleTrackEvent;
+import mediabrowser.model.mediainfo.SubtitleTrackInfo;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.integration.RecommendationManager;
@@ -89,6 +93,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     TextView mStartsIn;
     LinearLayout mNextUpInfoRow;
     ImageView mNextUpPoster;
+    TextView subtitleText;
 
     PlaybackController mPlaybackController;
     private List<BaseItemDto> mItemsToPlay = new ArrayList<>();
@@ -252,6 +257,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 finish();
             }
         });
+
+        subtitleText = (TextView) mActivity.findViewById(R.id.offLine_subtitleText);
+        updateManualSubtitlePosition();
+
 
         //pre-load animations
         fadeOut = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_out);
@@ -700,7 +709,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 }
             }));
         } else {
-            mApplication.getLogger().Debug("No sub tracks found. Media Source: "+mPlaybackController.getCurrentMediaSource().getPath());
+            mApplication.getLogger().Debug("No sub tracks found.");
         }
 
         List<ChapterInfoDto> chapters = item.getChapters();
@@ -737,7 +746,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         } else {
             mCurrentProgress.setProgress(((Long)time).intValue());
             mCurrentPos.setText(Utils.formatMillis(time));
-            mRemainingTime.setText(mCurrentDuration > 0 ? "-"+Utils.formatMillis(mCurrentDuration - time) : "");
+            mRemainingTime.setText(mCurrentDuration > 0 ? "-" + Utils.formatMillis(mCurrentDuration - time) : "");
         }
     }
 
@@ -814,4 +823,80 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     public void finish() {
         getActivity().finish();
     }
-}
+
+    private void updateManualSubtitlePosition() {
+
+        /*
+		 * Adjust subtitles margin based on Screen dimes
+		 */
+        FrameLayout.LayoutParams rl2 = (FrameLayout.LayoutParams) subtitleText.getLayoutParams();
+        DisplayMetrics dm = new DisplayMetrics();
+        mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        rl2.topMargin = (dm.heightPixels / 2) - 70;
+        subtitleText.setLayoutParams(rl2);
+    }
+
+
+    private SubtitleTrackInfo timedTextObject;
+    private long lastReportedPositionMs = 0;
+
+    public void updateExternalSubtitles(SubtitleTrackInfo timedTextObject) {
+
+        lastReportedPositionMs = 0;
+        this.timedTextObject = timedTextObject;
+
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                subtitleText.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+
+    public void updateSubtitles(long positionMs) {
+
+        if (lastReportedPositionMs > 0){
+            if (Math.abs(lastReportedPositionMs - positionMs) < 500) {
+                return;
+            }
+        }
+        SubtitleTrackInfo info = timedTextObject;
+
+        if (info == null) {
+            return;
+        }
+
+        long positionTicks = positionMs * 10000;
+
+        for (SubtitleTrackEvent caption : info.getTrackEvents()) {
+            if (positionTicks >= caption.getStartPositionTicks() && positionTicks <= caption.getEndPositionTicks()) {
+                setTimedText(caption);
+                return;
+            }
+        }
+
+        setTimedText(null);
+    }
+
+    private void setTimedText(final SubtitleTrackEvent textObj) {
+
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (textObj == null) {
+                    subtitleText.setVisibility(View.INVISIBLE);
+                    return;
+                }
+
+                String text = textObj.getText();
+
+                if (text == null || text.length() == 0) {
+                    subtitleText.setVisibility(View.INVISIBLE);
+                    return;
+                }
+
+                subtitleText.setText(Html.fromHtml(text));
+                subtitleText.setVisibility(View.VISIBLE);
+            }
+        });
+    }}

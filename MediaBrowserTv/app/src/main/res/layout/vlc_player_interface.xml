@@ -26,6 +26,17 @@
                 android:id="@+id/subtitles_surface"
                 android:layout_width="1dp"
                 android:layout_height="1dp" />
+
+            <TextView
+                android:id="@+id/offLine_subtitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:ellipsize="middle"
+                android:gravity="center"
+                android:background="#A0000000"
+                android:padding="3dp"/>
+
         </FrameLayout>
     </FrameLayout>
 

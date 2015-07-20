@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import org.acra.ACRA;
 import org.videolan.libvlc.EventHandler;
 import org.videolan.libvlc.IVideoPlayer;
 import org.videolan.libvlc.LibVLC;
@@ -131,7 +132,7 @@ public class VlcManager implements IVideoPlayer {
         if (mLibVLC == null) return;
         mForcedTime = pos;
         mLastTime = mLibVLC.getTime();
-        TvApp.getApplication().getLogger().Info("Duration in seek is: "+getDuration());
+        TvApp.getApplication().getLogger().Info("Duration in seek is: " + getDuration());
         if (getDuration() > 0) mLibVLC.setPosition((float)pos / getDuration()); else mLibVLC.setTime(pos);
     }
 
@@ -151,6 +152,10 @@ public class VlcManager implements IVideoPlayer {
     public void setSubtitleTrack(int id) {
         mLibVLC.setSpuTrack(id);
 
+    }
+
+    public int addSubtitleTrack(String path) {
+        return mLibVLC.addSubtitleTrack(path);
     }
 
     public int getAudioTrack() {
@@ -178,6 +183,8 @@ public class VlcManager implements IVideoPlayer {
                 @Override
                 public void onNativeCrash() {
                     TvApp.getApplication().getLogger().Error("Error in LibVLC: "+ Log.getStackTraceString(new Exception()));
+                    Utils.PutCustomAcraData();
+                    ACRA.getErrorReporter().handleException(new Exception("Error in LibVLC"), true);
                 }
             });
 
