@@ -35,6 +35,7 @@
                 android:ellipsize="middle"
                 android:gravity="center"
                 android:background="#A0000000"
+                android:visibility="invisible"
                 android:padding="3dp"/>
 
         </FrameLayout>
