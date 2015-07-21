@@ -3,6 +3,7 @@ package tv.emby.embyatv.playback;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -10,6 +11,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.VideoView;
 
 import org.acra.ACRA;
 import org.videolan.libvlc.EventHandler;
@@ -26,17 +28,19 @@ import tv.emby.embyatv.util.Utils;
 /**
  * Created by Eric on 7/11/2015.
  */
-public class VlcManager implements IVideoPlayer {
+public class VideoManager implements IVideoPlayer {
 
     private PlaybackOverlayActivity mActivity;
     private SurfaceHolder mSurfaceHolder;
     private SurfaceView mSurfaceView;
     private FrameLayout mSurfaceFrame;
+    private VideoView mVideoView;
     private LibVLC mLibVLC;
     private String mCurrentVideoPath;
     private String mCurrentVideoMRL;
     private Media mCurrentMedia;
-    private VlcEventHandler mHandler = new VlcEventHandler();
+    private VlcEventHandler mVlcHandler = new VlcEventHandler();
+    private Handler mHandler = new Handler();
     private int mVideoHeight;
     private int mVideoWidth;
     private int mVideoVisibleHeight;
@@ -48,27 +52,42 @@ public class VlcManager implements IVideoPlayer {
     private long mLastTime = -1;
     private long mMetaDuration = -1;
 
-
+    private boolean nativeMode = false;
     private boolean mSurfaceReady = false;
 
-    public VlcManager(PlaybackOverlayActivity activity, View view, int buffer) {
+    public VideoManager(PlaybackOverlayActivity activity, View view, int buffer) {
         mActivity = activity;
         mSurfaceView = (SurfaceView) view.findViewById(R.id.player_surface);
         mSurfaceHolder = mSurfaceView.getHolder();
         mSurfaceFrame = (FrameLayout) view.findViewById(R.id.player_surface_frame);
+        mVideoView = (VideoView) view.findViewById(R.id.videoView);
+
         createPlayer(buffer);
 
     }
+
+    public void setNativeMode(boolean value) {
+        nativeMode = value;
+        if (nativeMode) {
+            mVideoView.setVisibility(View.VISIBLE);
+        } else {
+            mVideoView.setVisibility(View.GONE);
+        }
+    }
+
+    public boolean isNativeMode() { return nativeMode; }
 
     public void setMetaDuration(long duration) {
         mMetaDuration = duration;
     }
 
     public long getDuration() {
-        return mLibVLC.getLength() > 0 ? mLibVLC.getLength() : mMetaDuration;
+        return nativeMode ? mVideoView.getDuration() : mLibVLC.getLength() > 0 ? mLibVLC.getLength() : mMetaDuration;
     }
 
     public long getCurrentPosition() {
+        if (nativeMode) return mVideoView.getCurrentPosition();
+
         long time = mLibVLC.getTime();
         if (mForcedTime != -1 && mLastTime != -1) {
             /* XXX: After a seek, mLibVLC.getTime can return the position before or after
@@ -89,85 +108,105 @@ public class VlcManager implements IVideoPlayer {
     }
 
     public boolean isPlaying() {
-        return mLibVLC != null && mLibVLC.isPlaying();
-    }
-
-    public int getState() {
-        return mLibVLC.getPlayerState();
+        return nativeMode ? mVideoView.isPlaying() : mLibVLC != null && mLibVLC.isPlaying();
     }
 
     public void start() {
-        if (!mSurfaceReady) {
-            TvApp.getApplication().getLogger().Error("Attempt to play before surface ready");
-            return;
-        }
+        if (nativeMode) {
+            mVideoView.start();
+        } else {
+            if (!mSurfaceReady) {
+                TvApp.getApplication().getLogger().Error("Attempt to play before surface ready");
+                return;
+            }
 
-        if (!mLibVLC.isPlaying()) {
-            String[] options = mLibVLC.getMediaOptions(0);
-            mLibVLC.playMRL(mCurrentVideoMRL, options);
+            if (!mLibVLC.isPlaying()) {
+                String[] options = mLibVLC.getMediaOptions(0);
+                mLibVLC.playMRL(mCurrentVideoMRL, options);
+            }
         }
 
     }
 
     public void play() {
-        mLibVLC.play();
-        mSurfaceView.setKeepScreenOn(true);
+        if (nativeMode) {
+            mVideoView.start();
+        } else {
+            mLibVLC.play();
+            mSurfaceView.setKeepScreenOn(true);
+        }
     }
 
     public void pause() {
-        mLibVLC.pause();
-        mSurfaceView.setKeepScreenOn(false);
+        if (nativeMode) {
+            mVideoView.pause();
+        } else {
+            mLibVLC.pause();
+            mSurfaceView.setKeepScreenOn(false);
+        }
 
     }
 
     public void setPlaySpeed(float speed) {
-        mLibVLC.setRate(speed);
+        if (!nativeMode) mLibVLC.setRate(speed);
     }
 
     public void stopPlayback() {
-        mLibVLC.stop();
+        if (nativeMode) {
+            mVideoView.stopPlayback();
+        } else {
+            mLibVLC.stop();
+        }
     }
 
     public void seekTo(long pos) {
-        if (mLibVLC == null) return;
-        mForcedTime = pos;
-        mLastTime = mLibVLC.getTime();
-        TvApp.getApplication().getLogger().Info("Duration in seek is: " + getDuration());
-        if (getDuration() > 0) mLibVLC.setPosition((float)pos / getDuration()); else mLibVLC.setTime(pos);
+        if (nativeMode) {
+            Long intPos = pos;
+            mVideoView.seekTo(intPos.intValue());
+        } else {
+            if (mLibVLC == null) return;
+            mForcedTime = pos;
+            mLastTime = mLibVLC.getTime();
+            TvApp.getApplication().getLogger().Info("Duration in seek is: " + getDuration());
+            if (getDuration() > 0) mLibVLC.setPosition((float)pos / getDuration()); else mLibVLC.setTime(pos);
+        }
     }
 
     public void setVideoPath(String path) {
         mCurrentVideoPath = path;
-        mSurfaceHolder.setKeepScreenOn(true);
 
-        //changeSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
+        if (nativeMode) {
+            mVideoView.setVideoPath(path);
+        } else {
+            mSurfaceHolder.setKeepScreenOn(true);
 
-        mCurrentMedia = new Media(mLibVLC, path);
-        mCurrentMedia.parse();
-        mCurrentMedia.release();
-        mCurrentVideoMRL = mCurrentMedia.getMrl();
+            mCurrentMedia = new Media(mLibVLC, path);
+            mCurrentMedia.parse();
+            mCurrentMedia.release();
+            mCurrentVideoMRL = mCurrentMedia.getMrl();
+        }
 
     }
 
     public void setSubtitleTrack(int id) {
-        mLibVLC.setSpuTrack(id);
+        if (!nativeMode) mLibVLC.setSpuTrack(id);
 
     }
 
     public int addSubtitleTrack(String path) {
-        return mLibVLC.addSubtitleTrack(path);
+        return nativeMode ? -1 : mLibVLC.addSubtitleTrack(path);
     }
 
     public int getAudioTrack() {
-        return mLibVLC.getAudioTrack();
+        return nativeMode ? -1 : mLibVLC.getAudioTrack();
     }
 
     public void setAudioTrack(int id) {
-        mLibVLC.setAudioTrack(id);
+        if (!nativeMode) mLibVLC.setAudioTrack(id);
     }
 
     public Map<Integer, String> getSubtitleTracks() {
-        return mLibVLC.getSpuTrackDescription();
+        return nativeMode ? null : mLibVLC.getSpuTrackDescription();
     }
 
     public void destroy() {
@@ -207,7 +246,7 @@ public class VlcManager implements IVideoPlayer {
 
             mLibVLC.init(TvApp.getApplication());
             mSurfaceHolder.addCallback(mSurfaceCallback);
-            EventHandler.getInstance().addHandler(mHandler);
+            EventHandler.getInstance().addHandler(mVlcHandler);
 
         } catch (Exception e) {
             TvApp.getApplication().getLogger().ErrorException("Error creating VLC player", e);
@@ -216,9 +255,9 @@ public class VlcManager implements IVideoPlayer {
     }
 
     private void releasePlayer() {
-        if (mLibVLC == null)
-            return;
-        EventHandler.getInstance().removeHandler(mHandler);
+        if (mLibVLC == null) return;
+
+        EventHandler.getInstance().removeHandler(mVlcHandler);
         mLibVLC.stop();
         mLibVLC.detachSurface();
         mLibVLC = null;
@@ -296,24 +335,65 @@ public class VlcManager implements IVideoPlayer {
 //        subtitlesSurface.invalidate();
     }
 
-    public void setOnErrorListener(PlaybackListener listener) {
-        mHandler.setOnErrorListener(listener);
+    public void setOnErrorListener(final PlaybackListener listener) {
+        mVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                listener.onEvent();
+                stopProgressLoop();
+                return true;
+            }
+        });
+
+        mVlcHandler.setOnErrorListener(listener);
     }
 
-    public void setOnCompletionListener(PlaybackListener listener) {
-        mHandler.setOnCompletionListener(listener);
+    public void setOnCompletionListener(final PlaybackListener listener) {
+        mVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                listener.onEvent();
+                stopProgressLoop();
+            }
+        });
+
+        mVlcHandler.setOnCompletionListener(listener);
     }
 
-    public void setOnPreparedListener(PlaybackListener listener) {
-        mHandler.setOnPreparedListener(listener);
+    public void setOnPreparedListener(final PlaybackListener listener) {
+        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                listener.onEvent();
+                startProgressLoop();
+            }
+        });
+
+        mVlcHandler.setOnPreparedListener(listener);
     }
 
     public void setOnProgressListener(PlaybackListener listener) {
-        mHandler.setOnProgressListener(listener);
+        progressListener = listener;
+        mVlcHandler.setOnProgressListener(listener);
     }
 
-    public void setOnSeekCompleteListener(MediaPlayer mp, MediaPlayer.OnSeekCompleteListener listener) {
+    private PlaybackListener progressListener;
+    private Runnable progressLoop;
+    private void startProgressLoop() {
+        progressLoop = new Runnable() {
+            @Override
+            public void run() {
+                if (progressListener != null) progressListener.onEvent();
+                mHandler.postDelayed(this, 500);
+            }
+        };
+        mHandler.post(progressLoop);
+    }
 
+    private void stopProgressLoop() {
+        if (progressLoop != null) {
+            mHandler.removeCallbacks(progressLoop);
+        }
     }
 
     private Surface mSurface;
@@ -329,7 +409,7 @@ public class VlcManager implements IVideoPlayer {
                 final Surface newSurface = holder.getSurface();
                 if (mSurface != newSurface) {
                     mSurface = newSurface;
-                    mLibVLC.attachSurface(mSurface, VlcManager.this);
+                    mLibVLC.attachSurface(mSurface, VideoManager.this);
                     TvApp.getApplication().getLogger().Debug("Surface attached");
                     mSurfaceReady = true;
                 }

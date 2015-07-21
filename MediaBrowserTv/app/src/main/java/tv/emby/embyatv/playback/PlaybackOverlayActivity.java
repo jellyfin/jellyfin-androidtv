@@ -13,16 +13,9 @@
  */
 package tv.emby.embyatv.playback;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v17.leanback.widget.PlaybackControlsRow;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.VideoView;
 
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
@@ -41,7 +34,7 @@ public class PlaybackOverlayActivity extends BaseActivity {
     private static final double MEDIA_BOTTOM_MARGIN = 0.025;
     private static final double MEDIA_LEFT_MARGIN = 0.025;
 
-    private VlcManager mVideoManager;
+    private VideoManager mVideoManager;
     private TvApp mApplication;
 
     private View.OnKeyListener mKeyListener;
@@ -102,7 +95,7 @@ public class PlaybackOverlayActivity extends BaseActivity {
 
     private void loadViews() {
         if (mApplication.getPlaybackController() != null) {
-            mVideoManager = new VlcManager(this, findViewById(android.R.id.content), PlaybackController.getBufferAmount());
+            mVideoManager = new VideoManager(this, findViewById(android.R.id.content), PlaybackController.getBufferAmount());
             mApplication.getPlaybackController().init(mVideoManager, findViewById(R.id.bufferingProgress));
         }
     }
