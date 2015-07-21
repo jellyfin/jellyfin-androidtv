@@ -93,7 +93,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     TextView mStartsIn;
     LinearLayout mNextUpInfoRow;
     ImageView mNextUpPoster;
-    TextView subtitleText;
 
     PlaybackController mPlaybackController;
     private List<BaseItemDto> mItemsToPlay = new ArrayList<>();
@@ -257,10 +256,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 finish();
             }
         });
-
-        subtitleText = (TextView) mActivity.findViewById(R.id.offLine_subtitleText);
-        updateManualSubtitlePosition();
-
 
         //pre-load animations
         fadeOut = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_out);
@@ -824,79 +819,4 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         getActivity().finish();
     }
 
-    private void updateManualSubtitlePosition() {
-
-        /*
-		 * Adjust subtitles margin based on Screen dimes
-		 */
-        FrameLayout.LayoutParams rl2 = (FrameLayout.LayoutParams) subtitleText.getLayoutParams();
-        DisplayMetrics dm = new DisplayMetrics();
-        mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-        rl2.topMargin = (dm.heightPixels / 2) - 70;
-        subtitleText.setLayoutParams(rl2);
-    }
-
-
-    private SubtitleTrackInfo timedTextObject;
-    private long lastReportedPositionMs = 0;
-
-    public void updateExternalSubtitles(SubtitleTrackInfo timedTextObject) {
-
-        lastReportedPositionMs = 0;
-        this.timedTextObject = timedTextObject;
-
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                subtitleText.setVisibility(View.INVISIBLE);
-            }
-        });
-    }
-
-    public void updateSubtitles(long positionMs) {
-
-        if (lastReportedPositionMs > 0){
-            if (Math.abs(lastReportedPositionMs - positionMs) < 500) {
-                return;
-            }
-        }
-        SubtitleTrackInfo info = timedTextObject;
-
-        if (info == null) {
-            return;
-        }
-
-        long positionTicks = positionMs * 10000;
-
-        for (SubtitleTrackEvent caption : info.getTrackEvents()) {
-            if (positionTicks >= caption.getStartPositionTicks() && positionTicks <= caption.getEndPositionTicks()) {
-                setTimedText(caption);
-                return;
-            }
-        }
-
-        setTimedText(null);
-    }
-
-    private void setTimedText(final SubtitleTrackEvent textObj) {
-
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (textObj == null) {
-                    subtitleText.setVisibility(View.INVISIBLE);
-                    return;
-                }
-
-                String text = textObj.getText();
-
-                if (text == null || text.length() == 0) {
-                    subtitleText.setVisibility(View.INVISIBLE);
-                    return;
-                }
-
-                subtitleText.setText(Html.fromHtml(text));
-                subtitleText.setVisibility(View.VISIBLE);
-            }
-        });
-    }}
+}

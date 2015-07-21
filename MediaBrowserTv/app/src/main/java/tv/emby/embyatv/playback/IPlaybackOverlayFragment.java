@@ -14,7 +14,5 @@ public interface IPlaybackOverlayFragment {
     void updateEndTime(long timeLeft);
     void removeQueueItem(int pos);
     void nextItemThresholdHit(BaseItemDto nextItem);
-    void updateExternalSubtitles(SubtitleTrackInfo timedTextObject);
-    void updateSubtitles(long positionMs);
     void finish();
 }
