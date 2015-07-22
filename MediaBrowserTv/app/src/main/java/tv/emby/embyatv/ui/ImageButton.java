@@ -36,6 +36,7 @@ public class ImageButton extends ImageView {
         setImageResource(imageResource);
         setMaxHeight(size);
         setAdjustViewBounds(true);
+        setAlpha(.8f);
         setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         setFocusable(true);
         setOnClickListener(clicked);
