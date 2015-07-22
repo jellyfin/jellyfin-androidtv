@@ -40,6 +40,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +49,8 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.ChapterInfoDto;
+import mediabrowser.model.dto.ImageOptions;
+import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.mediainfo.SubtitleTrackEvent;
 import mediabrowser.model.mediainfo.SubtitleTrackInfo;
@@ -562,13 +566,28 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     private void updateStudio(BaseItemDto item) {
+        int height = Utils.convertDpToPixel(mActivity, 45);
+        int width = Utils.convertDpToPixel(mActivity, 70);
         if (item.getStudios() != null && item.getStudios().length > 0 && item.getStudios()[0].getHasPrimaryImage()) {
-            int height = Utils.convertDpToPixel(mActivity, 45);
-            int width = Utils.convertDpToPixel(mActivity, 70);
             String studioImageUrl = Utils.getPrimaryImageUrl(item.getStudios()[0], mApplication.getApiClient(), height);
             if (studioImageUrl != null) Picasso.with(mActivity).load(studioImageUrl).resize(width, height).centerInside().into(mStudioImage);
         } else {
-            mStudioImage.setImageResource(R.drawable.blank30x30);
+            if (item.getSeriesStudio() != null) {
+                String studioImageUrl = null;
+                try {
+                    ImageOptions options = new ImageOptions();
+                    options.setMaxHeight(height);
+                    options.setImageType(ImageType.Primary);
+                    studioImageUrl = mApplication.getApiClient().GetStudioImageUrl(URLEncoder.encode(item.getSeriesStudio(), "utf-8"), options);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                if (studioImageUrl != null) Picasso.with(mActivity).load(studioImageUrl).resize(width, height).centerInside().into(mStudioImage);
+
+            } else {
+                mStudioImage.setImageResource(R.drawable.blank30x30);
+
+            }
         }
 
     }
