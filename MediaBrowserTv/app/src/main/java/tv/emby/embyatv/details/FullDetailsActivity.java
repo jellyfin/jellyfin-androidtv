@@ -258,7 +258,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     private void updateWatched() {
-        if (mBaseItem != null && mBaseItem.getUserData() != null && !isFinishing()) {
+        if (mWatchedToggleButton != null && mBaseItem != null && mBaseItem.getUserData() != null && !isFinishing()) {
             mWatchedToggleButton.setImageResource(mBaseItem.getUserData().getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck);
         }
     }
