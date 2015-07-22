@@ -570,7 +570,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             int height = Utils.convertDpToPixel(mActivity, 45);
             int width = Utils.convertDpToPixel(mActivity, 70);
             String studioImageUrl = Utils.getPrimaryImageUrl(item.getStudios()[0], mApplication.getApiClient(), height);
-            if (studioImageUrl != null) Picasso.with(mActivity).load(studioImageUrl).resize(width, height).into(mStudioImage);
+            if (studioImageUrl != null) Picasso.with(mActivity).load(studioImageUrl).resize(width, height).centerInside().into(mStudioImage);
         } else {
             mStudioImage.setImageResource(R.drawable.blank30x30);
         }
