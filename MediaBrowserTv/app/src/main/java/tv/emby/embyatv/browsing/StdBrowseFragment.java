@@ -33,9 +33,15 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.jakewharton.disklrucache.Util;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -59,6 +65,7 @@ import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.ViewQuery;
 import tv.emby.embyatv.search.SearchActivity;
+import tv.emby.embyatv.ui.ClockUserView;
 import tv.emby.embyatv.util.KeyProcessor;
 import tv.emby.embyatv.util.RemoteControlReceiver;
 import tv.emby.embyatv.util.Utils;
@@ -225,10 +232,33 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
     protected void setupUIElements() {
         if (ShowBadge) setBadgeDrawable(getActivity().getResources().getDrawable(R.drawable.logob400));
-        setTitle(MainTitle); // Badge, when set, takes precedent
-        // over title
+        setTitle(MainTitle); // Badge, when set, takes precedent over title
         setHeadersState(HEADERS_ENABLED);
         setHeadersTransitionOnBackEnabled(true);
+
+        // move the badge/title to the left to make way for our clock/user bug
+        ImageView badge = (ImageView) getActivity().findViewById(R.id.browse_badge);
+        if (badge != null) {
+            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) badge.getLayoutParams();
+            lp.rightMargin = Utils.convertDpToPixel(getActivity(), 120);
+            lp.width = Utils.convertDpToPixel(getActivity(), 250);
+            badge.setLayoutParams(lp);
+        }
+        TextView title = (TextView) getActivity().findViewById(R.id.browse_title);
+        if (title != null) {
+            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) title.getLayoutParams();
+            lp.rightMargin = Utils.convertDpToPixel(getActivity(), 120);
+            lp.width = Utils.convertDpToPixel(getActivity(), 250);
+            title.setLayoutParams(lp);
+        }
+        // and add the clock element
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(Utils.convertDpToPixel(getActivity(), 100), Utils.convertDpToPixel(getActivity(), 80));
+        ClockUserView clock = new ClockUserView(getActivity());
+        layoutParams.gravity = Gravity.TOP | Gravity.RIGHT;
+        layoutParams.rightMargin = Utils.convertDpToPixel(getActivity(), 20);
+        layoutParams.topMargin = Utils.convertDpToPixel(getActivity(), 20);
+        clock.setLayoutParams(layoutParams);
+        ((ViewGroup) getActivity().findViewById(android.R.id.content)).addView(clock);
 
         // set fastLane (or headers) background color
         setBrandColor(Utils.getBrandColor());
