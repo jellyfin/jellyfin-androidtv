@@ -158,8 +158,8 @@
             android:layout_alignParentRight="true" />
 
         <view
-            android:layout_width="32sp"
-            android:layout_height="32sp"
+            android:layout_width="28sp"
+            android:layout_height="28sp"
             class="tv.emby.embyatv.ui.ImageButton"
             android:id="@+id/playPauseBtn"
             android:layout_alignStart="@+id/infoRow"
