@@ -27,12 +27,13 @@
                 android:layout_width="1dp"
                 android:layout_height="1dp" />
 
-            <VideoView
-                android:id="@+id/videoView" android:layout_width="fill_parent"
-                android:layout_height="match_parent" android:layout_gravity="center" android:visibility="gone"
-                android:layout_centerInParent="true" android:layout_centerVertical="true" />
-
         </FrameLayout>
+        
+        <VideoView
+            android:id="@+id/videoView" android:layout_width="fill_parent"
+            android:layout_height="match_parent" android:layout_gravity="center" android:visibility="gone"
+            android:layout_centerInParent="true" android:layout_centerVertical="true" />
+
     </FrameLayout>
 
 
