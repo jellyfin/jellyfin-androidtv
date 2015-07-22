@@ -70,7 +70,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     TextView mTitle;
     LinearLayout mInfoRow;
     TextView mSummary;
-    TextClock mClock;
 
     protected static final int BY_LETTER = 0;
     protected static final int GENRES = 1;
@@ -114,9 +113,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         mSummary = (TextView) root.findViewById(R.id.summary);
         mSummary.setTypeface(roboto);
         mSummary.setShadowLayer(5, 5, 5, Color.BLACK);
-        mClock = (TextClock) root.findViewById(R.id.clock);
-        mClock.setTypeface(roboto);
-        mClock.setShadowLayer(5, 5, 5, Color.BLACK);
 
         // Inject the RowsFragment in the results container
         if (getChildFragmentManager().findFragmentById(R.id.rowsFragment) == null) {

@@ -134,9 +134,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         mTitle.setTypeface(roboto);
         mTitle.setShadowLayer(5, 5, 5, Color.BLACK);
         mGenreRow = (LinearLayout) findViewById(R.id.fdGenreRow);
-        TextClock clock = (TextClock) findViewById(R.id.fdClock);
-
-        clock.setTypeface(roboto);
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         backgroundManager.attach(getWindow());
         mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
