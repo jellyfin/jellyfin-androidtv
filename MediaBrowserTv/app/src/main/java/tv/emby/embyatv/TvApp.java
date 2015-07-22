@@ -97,12 +97,14 @@ public class TvApp extends Application {
             public void uncaughtException(Thread thread, Throwable ex) {
                 if (!getApiClient().getServerInfo().getName().equals("Dev Server")) {
                     Utils.PutCustomAcraData();
-                    ACRA.getErrorReporter().handleException(ex, true);
+                    ACRA.getErrorReporter().handleException(ex, false);
                 } else {
                     Log.e("MediaBrowserTv", "Uncaught exception is: ", ex);
                     ex.printStackTrace();
 
                 }
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(10);
             }
                       });
 

@@ -28,7 +28,7 @@
                 android:layout_height="1dp" />
 
         </FrameLayout>
-        
+
         <VideoView
             android:id="@+id/videoView" android:layout_width="fill_parent"
             android:layout_height="match_parent" android:layout_gravity="center" android:visibility="gone"

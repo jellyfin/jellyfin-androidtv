@@ -165,7 +165,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }
         };
 
-
     }
 
     @Nullable
