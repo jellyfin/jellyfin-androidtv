@@ -76,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
+            android:text=""
             android:id="@+id/title"
             android:layout_alignTop="@+id/imageView13"
             android:layout_toEndOf="@+id/poster"
@@ -107,7 +107,7 @@
             android:layout_alignEnd="@+id/endTime"
             android:layout_below="@+id/title"
             android:layout_marginTop="5sp"
-            android:minHeight="30sp"></LinearLayout>
+            android:minHeight="30sp"/>
 
         <ProgressBar
             style="@style/player_progress"
