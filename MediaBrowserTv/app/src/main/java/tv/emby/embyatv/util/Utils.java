@@ -276,7 +276,7 @@ public class Utils {
         options.setTag(studio.getPrimaryImageTag());
         options.setMaxHeight(maxHeight);
         options.setImageType(ImageType.Primary);
-        return apiClient.GetStudioImageUrl(studio.getName(), options);
+        return apiClient.GetImageUrl(studio.getId(), options);
     }
 
     public static String getPrimaryImageUrl(UserDto item, ApiClient apiClient) {
