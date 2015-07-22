@@ -311,16 +311,13 @@
         android:id="@+id/topPanel"
         android:clickable="false">
 
-        <TextClock
+        <tv.emby.embyatv.ui.ClockUserView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textClock"
             android:layout_gravity="right|top"
             android:layout_marginTop="40sp"
             android:layout_marginRight="40sp"
-            android:typeface="sans"
-            android:textSize="40sp"
-            android:format12Hour="h:mm"
             android:layout_alignParentEnd="true" />
 
     </RelativeLayout>

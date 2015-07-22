@@ -72,7 +72,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     TextView mEndTime;
     TextView mCurrentPos;
     TextView mRemainingTime;
-    TextClock mClock;
     View mTopPanel;
     View mBottomPanel;
     ImageButton mPlayPauseBtn;
@@ -82,7 +81,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     RowsFragment mPopupRowsFragment;
     ArrayObjectAdapter mPopupRowAdapter;
     ListRow mChapterRow;
-    ListRow mQueueRow;
     ProgressBar mCurrentProgress;
 
     View mNextUpPanel;
@@ -236,8 +234,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mEndTime = (TextView) mActivity.findViewById(R.id.endTime);
         mCurrentPos = (TextView) mActivity.findViewById(R.id.currentPos);
         mRemainingTime = (TextView) mActivity.findViewById(R.id.remainingTime);
-        mClock = (TextClock) mActivity.findViewById(R.id.textClock);
-        mClock.setTypeface(font);
         mCurrentProgress = (ProgressBar) mActivity.findViewById(R.id.playerProgress);
         mPopupArea = (FrameLayout) mActivity.findViewById(R.id.popupArea);
         mStartsIn = (TextView) mActivity.findViewById(R.id.startsIn);
