@@ -152,7 +152,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             return;
         }
 
-        mButtonSize = Utils.convertDpToPixel(mActivity, 32);
+        mButtonSize = Utils.convertDpToPixel(mActivity, 28);
 
         mApplication.setPlaybackController(new PlaybackController(mItemsToPlay, this));
         mPlaybackController = mApplication.getPlaybackController();
