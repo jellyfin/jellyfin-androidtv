@@ -36,6 +36,8 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -48,7 +50,9 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
+import mediabrowser.model.dto.ImageOptions;
 import mediabrowser.model.dto.UserItemDataDto;
+import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.PersonType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.ProgramInfoDto;
@@ -250,12 +254,12 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private static List<String> directPlayableTypeList = Arrays.asList(directPlayableTypes);
 
     private void updatePoster() {
+        if (isFinishing()) return;
         Picasso.with(mActivity)
                 .load(Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(),false, false, posterHeight))
                 .skipMemoryCache()
                 .resize(posterWidth, posterHeight)
                 .centerInside()
-                .error(getResources().getDrawable(R.drawable.blank30x30))
                 .into(mDorPresenter.getPosterView());
     }
 
@@ -329,14 +333,37 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     mDetailsOverviewRow.setSummarySubTitle(getEndTime());
             }
             try {
+                //Main image
                 Bitmap poster = Picasso.with(mActivity)
                         .load(primaryImageUrl)
                         .skipMemoryCache()
                         .resize(posterWidth, posterHeight)
                         .centerInside()
-                        .error(getResources().getDrawable(R.drawable.blank30x30))
                         .get();
                 mDetailsOverviewRow.setImageBitmap(mActivity, poster);
+
+                //Studio image
+                int height = Utils.convertDpToPixel(mActivity, 40);
+                int width = Utils.convertDpToPixel(mActivity, 100);
+                if (item.getStudios() != null && item.getStudios().length > 0 && item.getStudios()[0].getHasPrimaryImage()) {
+                    String studioImageUrl = Utils.getPrimaryImageUrl(item.getStudios()[0], mApplication.getApiClient(), height);
+                    if (studioImageUrl != null) mDetailsOverviewRow.setStudioBitmap(mActivity, Picasso.with(mActivity).load(studioImageUrl).resize(width, height).centerInside().get());
+                } else {
+                    if (item.getSeriesStudio() != null) {
+                        String studioImageUrl = null;
+                        try {
+                            ImageOptions options = new ImageOptions();
+                            options.setMaxHeight(height);
+                            options.setImageType(ImageType.Primary);
+                            studioImageUrl = mApplication.getApiClient().GetStudioImageUrl(URLEncoder.encode(item.getSeriesStudio(), "utf-8"), options);
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                        if (studioImageUrl != null) mDetailsOverviewRow.setStudioBitmap(mActivity, Picasso.with(mActivity).load(studioImageUrl).resize(width, height).centerInside().get());
+
+                    }
+                }
+
             } catch (IOException e) {
                 TvApp.getApplication().getLogger().ErrorException("Error loading image", e);
 
@@ -348,6 +375,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         @Override
         protected void onPostExecute(MyDetailsOverviewRow detailsOverviewRow) {
             super.onPostExecute(detailsOverviewRow);
+
+            if (isFinishing()) return;
 
             ClassPresenterSelector ps = new ClassPresenterSelector();
             ps.addClassPresenter(MyDetailsOverviewRow.class, mDorPresenter);

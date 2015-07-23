@@ -31,7 +31,7 @@
             android:layout_alignLeft="@+id/summaryBg"
             android:layout_alignBottom="@+id/summaryBg"
             android:maxWidth="250sp"
-            android:layout_marginLeft="50sp" />
+            android:layout_marginLeft="40sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -105,6 +105,15 @@
             android:layout_below="@+id/summaryBg"
             android:layout_alignEnd="@+id/fdPoster"
             android:layout_alignParentBottom="false" />
+
+        <ImageView
+            android:layout_width="100sp"
+            android:layout_height="40sp"
+            android:id="@+id/studioImage"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="20sp"
+            android:layout_alignBottom="@+id/fdButtonRow"
+            android:alpha=".75" />
 
     </RelativeLayout>
 
