@@ -33,6 +33,12 @@
             android:entries="@array/pref_buffer_entries"
             android:entryValues="@array/pref_buffer_values"
             />
+        <ListPreference android:key="pref_audio_option"
+            android:title="@string/lbl_audio_output"
+            android:defaultValue="0"
+            android:entries="@array/pref_audio_options"
+            android:entryValues="@array/pref_audio_values"
+            />
         <CheckBoxPreference android:key="pref_enable_tv_queuing"
             android:title="@string/lbl_tv_queuing"
             android:defaultValue="true"

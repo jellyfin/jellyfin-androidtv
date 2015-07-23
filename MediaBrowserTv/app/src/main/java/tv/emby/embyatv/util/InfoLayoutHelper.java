@@ -273,7 +273,7 @@ public class InfoLayoutHelper {
         }
     }
 
-    private static void addBlockText(Activity activity, LinearLayout layout, String text) {
+    public static void addBlockText(Activity activity, LinearLayout layout, String text) {
         addBlockText(activity, layout, text, textSize-4);
     }
 

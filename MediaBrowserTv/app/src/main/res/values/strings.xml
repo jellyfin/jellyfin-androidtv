@@ -221,6 +221,9 @@
     <string name="msg_cancel_entire_series">Are you sure you want to cancel this ENTIRE SERIES?</string>
     <string name="msg_remote_already_playing">Remote play request ignored.  Please stop current item first.</string>
     <string name="lbl_buffering_amount">Buffering Amount</string>
+    <string name="pref_audio_direct">Direct</string>
+    <string name="pref_audio_compat">Compatible</string>
+    <string name="lbl_audio_output">Audio Output</string>
 
 
 </resources>

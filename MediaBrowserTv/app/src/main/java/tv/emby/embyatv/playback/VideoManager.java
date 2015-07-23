@@ -1,6 +1,7 @@
 package tv.emby.embyatv.playback;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Handler;
@@ -221,7 +222,7 @@ public class VideoManager implements IVideoPlayer {
             LibVLC.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
                 @Override
                 public void onNativeCrash() {
-                    TvApp.getApplication().getLogger().Error("Error in LibVLC: "+ Log.getStackTraceString(new Exception()));
+                    TvApp.getApplication().getLogger().Error("Error in LibVLC: " + Log.getStackTraceString(new Exception()));
                     Utils.PutCustomAcraData();
                     ACRA.getErrorReporter().handleException(new Exception("Error in LibVLC"), false);
                     android.os.Process.killProcess(android.os.Process.myPid());
@@ -236,11 +237,13 @@ public class VideoManager implements IVideoPlayer {
             mLibVLC.setDeblocking(-1);
             mLibVLC.setDevHardwareDecoder(-1);
             mLibVLC.setNetworkCaching(buffer);
-            TvApp.getApplication().getLogger().Info("Network buffer set to "+buffer);
+            TvApp.getApplication().getLogger().Info("Network buffer set to " + buffer);
 
             mLibVLC.setVout(LibVLC.VOUT_ANDROID_SURFACE);
             mLibVLC.setSubtitlesEncoding("");
-            mLibVLC.setAout(LibVLC.AOUT_AUDIOTRACK);
+            SharedPreferences prefs = TvApp.getApplication().getPrefs();
+            String audioOption = prefs.getString("pref_audio_option","0");
+            mLibVLC.setAout(audioOption == "0" ? LibVLC.AOUT_AUDIOTRACK : LibVLC.AOUT_OPENSLES);
 
             mLibVLC.setTimeStretching(false);
             mLibVLC.setVerboseMode(false);
