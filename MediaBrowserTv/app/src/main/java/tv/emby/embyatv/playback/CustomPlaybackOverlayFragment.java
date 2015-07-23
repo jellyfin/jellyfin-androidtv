@@ -47,6 +47,7 @@ import java.util.List;
 
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
+import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.ChapterInfoDto;
 import mediabrowser.model.dto.ImageOptions;
@@ -799,6 +800,23 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             updateStudio(current);
             addButtons(current);
             InfoLayoutHelper.addInfoRow(mActivity, current, mInfoRow, true);
+
+            StreamInfo stream = mPlaybackController.getCurrentStreamInfo();
+            if (stream != null) {
+                switch (stream.getPlayMethod()) {
+
+                    case Transcode:
+                        Integer rate = stream.getVideoBitrate() != null ? stream.getVideoBitrate() : -1;
+                        String rateString = rate > 0 ? ": " + ((float)rate/1000000) + "Mbs" : "";
+
+                        InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Trans"+rateString);
+                        break;
+                    case DirectStream:
+                    case DirectPlay:
+                        InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Direct");
+                        break;
+                }
+            }
 
             if (mPlaybackController.hasNextItem()) {
                 //setup next up panel now - we need to retrieve full item for all info
