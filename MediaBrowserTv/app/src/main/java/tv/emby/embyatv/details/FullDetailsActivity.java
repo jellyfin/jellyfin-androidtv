@@ -72,6 +72,7 @@ import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.presentation.MyDetailsOverviewRowPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.SpecialsQuery;
+import tv.emby.embyatv.querying.StdItemQuery;
 import tv.emby.embyatv.querying.TrailersQuery;
 import tv.emby.embyatv.ui.GenreButton;
 import tv.emby.embyatv.ui.IRecordingIndicatorView;
@@ -387,7 +388,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             case "Movie":
 
                 //Cast/Crew
-                if (mBaseItem.getPeople() != null) {
+                if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
                     ItemRowAdapter castAdapter = new ItemRowAdapter(mBaseItem.getPeople(), new CardPresenter(), adapter);
                     addItemRow(adapter, castAdapter, 0, mActivity.getString(R.string.lbl_cast_crew));
                 }
@@ -461,7 +462,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 ItemRowAdapter upcomingAdapter = new ItemRowAdapter(upcoming, new CardPresenter(), adapter);
                 addItemRow(adapter, upcomingAdapter, 2, mActivity.getString(R.string.lbl_upcoming));
 
-                if (mBaseItem.getPeople() != null) {
+                if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
                     ItemRowAdapter seriesCastAdapter = new ItemRowAdapter(mBaseItem.getPeople(), new CardPresenter(), adapter);
                     addItemRow(adapter, seriesCastAdapter, 3, mApplication.getString(R.string.lbl_cast_crew));
 
@@ -474,6 +475,18 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 similarSeries.setLimit(20);
                 ItemRowAdapter similarAdapter = new ItemRowAdapter(similarSeries, QueryType.SimilarSeries, new CardPresenter(), adapter);
                 addItemRow(adapter, similarAdapter, 4, mActivity.getString(R.string.lbl_similar_series));
+                break;
+
+            case "Episode":
+                if (mBaseItem.getSeasonId() != null && mBaseItem.getIndexNumber() != null) {
+                    StdItemQuery nextEpisodes = new StdItemQuery();
+                    nextEpisodes.setParentId(mBaseItem.getSeasonId());
+                    nextEpisodes.setIncludeItemTypes(new String[]{"Episode"});
+                    nextEpisodes.setStartIndex(mBaseItem.getIndexNumber()); // query index is zero-based but episode no is not
+                    nextEpisodes.setLimit(20);
+                    ItemRowAdapter nextAdapter = new ItemRowAdapter(nextEpisodes, 0 , false, true, new CardPresenter(), adapter);
+                    addItemRow(adapter, nextAdapter, 5, "Next Episodes");
+                }
                 break;
         }
 
