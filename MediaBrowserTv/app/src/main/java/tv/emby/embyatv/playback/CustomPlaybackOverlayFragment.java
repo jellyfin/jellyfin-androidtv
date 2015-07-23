@@ -806,10 +806,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 switch (stream.getPlayMethod()) {
 
                     case Transcode:
-                        Integer rate = stream.getVideoBitrate() != null ? stream.getVideoBitrate() : -1;
-                        String rateString = rate > 0 ? ": " + ((float)rate/1000000) + "Mbs" : "";
-
-                        InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Trans"+rateString);
+                        InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Trans");
                         break;
                     case DirectStream:
                     case DirectPlay:
