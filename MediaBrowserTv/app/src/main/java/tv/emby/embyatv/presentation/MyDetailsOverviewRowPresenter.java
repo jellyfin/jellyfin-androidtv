@@ -33,6 +33,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
         private TextView mTimeLine;
         private TextView mSummary;
         private LinearLayout mButtonRow;
+        private ImageView mStudioImage;
 
         private Typeface roboto;
 
@@ -46,6 +47,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
             roboto = Typeface.createFromAsset(rootView.getContext().getAssets(), "fonts/Roboto-Light.ttf");
 
             mPoster = (ImageView) rootView.findViewById(R.id.fdPoster);
+            mStudioImage = (ImageView) rootView.findViewById(R.id.studioImage);
             mButtonHelp = (TextView) rootView.findViewById(R.id.fdButtonHelp);
             mLastPlayedText = (TextView) rootView.findViewById(R.id.fdLastPlayedText);
             mButtonRow = (LinearLayout) rootView.findViewById(R.id.fdButtonRow);
@@ -84,6 +86,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
         ViewHolder vh = (ViewHolder) holder;
 
         vh.mPoster.setImageDrawable(row.getImageDrawable());
+        vh.mStudioImage.setImageDrawable(row.getStudioDrawable());
         vh.mSummary.setText(row.getSummary());
         vh.mSummaryTitle.setText(row.getSummaryTitle());
         switch (row.getItem().getType()) {

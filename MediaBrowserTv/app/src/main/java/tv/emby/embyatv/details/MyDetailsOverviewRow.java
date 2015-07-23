@@ -19,6 +19,7 @@ import tv.emby.embyatv.ui.ImageButton;
 public class MyDetailsOverviewRow extends Row {
     private BaseItemDto mItem;
     private Drawable mImageDrawable;
+    private Drawable mStudioDrawable;
     private String mSummary;
     private String mSummaryTitle;
     private String mSummarySubTitle;
@@ -58,9 +59,11 @@ public class MyDetailsOverviewRow extends Row {
 
     public BaseItemDto getItem() { return mItem; }
     public Drawable getImageDrawable() { return mImageDrawable; }
+    public Drawable getStudioDrawable() { return mStudioDrawable; }
 
     public void setImageDrawable(Drawable drawable) { mImageDrawable = drawable; }
     public void setImageBitmap(Context context, Bitmap bm) { mImageDrawable = new BitmapDrawable(context.getResources(), bm); }
+    public void setStudioBitmap(Context context, Bitmap bm) { mStudioDrawable = new BitmapDrawable(context.getResources(), bm); }
 
     public void addAction(ImageButton button) {
         mActions.add(button);
