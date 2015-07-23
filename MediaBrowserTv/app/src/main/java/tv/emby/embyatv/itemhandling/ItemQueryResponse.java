@@ -31,6 +31,7 @@ public class ItemQueryResponse extends Response<ItemsResult> {
             }
             adapter.setTotalItems(response.getTotalRecordCount());
             adapter.setItemsLoaded(i);
+            if (i == 0) adapter.removeRow();
         } else {
             // no results - don't show us
             adapter.removeRow();
