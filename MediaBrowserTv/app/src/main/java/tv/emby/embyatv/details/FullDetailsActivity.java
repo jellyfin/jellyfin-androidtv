@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -580,7 +581,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     TvApp.getApplication().getApiClient().GetLocalTrailersAsync(TvApp.getApplication().getCurrentUser().getId(), mBaseItem.getId(), new Response<BaseItemDto[]>() {
                         @Override
                         public void onResponse(BaseItemDto[] response) {
-                            play(response, 0 , false);
+                            play(response, 0, false);
                         }
 
                         @Override
@@ -682,6 +683,18 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 }
             });
             mDetailsOverviewRow.addAction(fav);
+        }
+
+        if ("Episode".equals(mBaseItem.getType()) && mBaseItem.getSeriesId() != null) {
+            ImageButton series = new ImageButton(this, R.drawable.tvicon, buttonSize, getString(R.string.lbl_goto_series), null, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mActivity, FullDetailsActivity.class);
+                    intent.putExtra("ItemId", mBaseItem.getSeriesId());
+                    mActivity.startActivity(intent);
+                }
+            });
+            mDetailsOverviewRow.addAction(series);
         }
 
 //        if (mBaseItem.getCanDelete()) {

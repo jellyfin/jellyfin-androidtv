@@ -224,6 +224,7 @@
     <string name="pref_audio_direct">Direct</string>
     <string name="pref_audio_compat">Compatible</string>
     <string name="lbl_audio_output">Audio Output</string>
+    <string name="lbl_goto_series">Go to Series</string>
 
 
 </resources>
