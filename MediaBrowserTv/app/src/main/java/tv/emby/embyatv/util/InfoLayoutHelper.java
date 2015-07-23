@@ -262,7 +262,7 @@ public class InfoLayoutHelper {
 
         if (stream != null) {
             if (stream.getCodec() != null) {
-                String codec = stream.getCodec().equals("dca") ? "DTS" : stream.getCodec().toUpperCase();
+                String codec = stream.getCodec().equals("dca") ? "DTS" : stream.getCodec().equals("ac3") ? "Dolby" : stream.getCodec().toUpperCase();
                 addBlockText(activity, layout, codec);
                 addSpacer(activity, layout, " ");
             }
