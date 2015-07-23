@@ -567,8 +567,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     private void updateStudio(BaseItemDto item) {
-        int height = Utils.convertDpToPixel(mActivity, 40);
-        int width = Utils.convertDpToPixel(mActivity, 50);
+        int height = Utils.convertDpToPixel(mActivity, 30);
+        int width = Utils.convertDpToPixel(mActivity, 70);
         if (item.getStudios() != null && item.getStudios().length > 0 && item.getStudios()[0].getHasPrimaryImage()) {
             String studioImageUrl = Utils.getPrimaryImageUrl(item.getStudios()[0], mApplication.getApiClient(), height);
             if (studioImageUrl != null) Picasso.with(mActivity).load(studioImageUrl).resize(width, height).centerInside().into(mStudioImage);
