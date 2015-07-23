@@ -153,7 +153,7 @@
             android:layout_alignParentBottom="false"
             android:layout_alignEnd="@+id/remainingTime"
             android:layout_alignTop="@+id/playerProgress"
-            android:layout_marginTop="30sp"
+            android:layout_marginTop="25sp"
             android:layout_marginRight="30sp"
             android:layout_alignParentRight="true" />
 
