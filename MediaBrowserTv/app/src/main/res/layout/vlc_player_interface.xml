@@ -147,13 +147,13 @@
             android:textSize="16sp" />
 
         <ImageView
-            android:layout_width="100sp"
-            android:layout_height="40sp"
+            android:layout_width="70sp"
+            android:layout_height="30sp"
             android:id="@+id/studioImg"
             android:layout_alignParentBottom="false"
             android:layout_alignEnd="@+id/remainingTime"
             android:layout_alignTop="@+id/playerProgress"
-            android:layout_marginTop="25sp"
+            android:layout_marginTop="30sp"
             android:layout_marginRight="30sp"
             android:layout_alignParentRight="true" />
 
