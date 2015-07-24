@@ -144,9 +144,10 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    if (mActivity.isFinishing()) return;
                     for (int i = 0; i < mRowsAdapter.size(); i++) {
                         if (mRowsAdapter.get(i) instanceof ListRow) {
-                            if (((ListRow) mRowsAdapter.get(i)).getAdapter() instanceof ItemRowAdapter) {
+                            if (((ListRow) mRowsAdapter.get(i)).getAdapter() instanceof ItemRowAdapter && !mActivity.isFinishing()) {
                                 ((ItemRowAdapter) ((ListRow) mRowsAdapter.get(i)).getAdapter()).ReRetrieveIfNeeded();
                             }
                         }
