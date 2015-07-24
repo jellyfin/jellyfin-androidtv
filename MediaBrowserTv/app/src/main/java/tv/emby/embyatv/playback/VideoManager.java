@@ -169,7 +169,13 @@ public class VideoManager implements IVideoPlayer {
             mForcedTime = pos;
             mLastTime = mLibVLC.getTime();
             TvApp.getApplication().getLogger().Info("Duration in seek is: " + getDuration());
-            if (getDuration() > 0) mLibVLC.setPosition((float)pos / getDuration()); else mLibVLC.setTime(pos);
+            try {
+                if (getDuration() > 0) mLibVLC.setPosition((float)pos / getDuration()); else mLibVLC.setTime(pos);
+
+            } catch (Exception e) {
+                TvApp.getApplication().getLogger().ErrorException("Error seeking in VLC", e);
+                Utils.showToast(mActivity, "Unable to seek");
+            }
         }
     }
 
