@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Media Browser</string>
+    <string name="app_name">Emby</string>
     <string name="error">Erro</string>
     <string name="ok">OK</string>
     <string name="pause">Pausar</string>
@@ -78,7 +78,7 @@
     <string name="lbl_no">Não</string>
     <string name="lbl_yes">Sim</string>
     <string name="lbl_version_colon">"Versão: "</string>
-    <string name="lbl_ip_hint">Endereço IP ou nome do domínio completo</string>
+    <string name="lbl_ip_hint">192.168.1.1 ou https://myserver.com</string>
     <string name="lbl_enter_server_address">Insira o Endereço do Servidor</string>
     <string name="lbl_ok">Ok</string>
 </resources>
