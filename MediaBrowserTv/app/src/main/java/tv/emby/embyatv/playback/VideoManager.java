@@ -222,9 +222,10 @@ public class VideoManager implements IVideoPlayer {
             LibVLC.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
                 @Override
                 public void onNativeCrash() {
-                    TvApp.getApplication().getLogger().Error("Error in LibVLC: " + Log.getStackTraceString(new Exception()));
+                    new Exception().printStackTrace();
                     Utils.PutCustomAcraData();
                     ACRA.getErrorReporter().handleException(new Exception("Error in LibVLC"), false);
+                    mActivity.finish();
                     android.os.Process.killProcess(android.os.Process.myPid());
                     System.exit(10);
                 }
