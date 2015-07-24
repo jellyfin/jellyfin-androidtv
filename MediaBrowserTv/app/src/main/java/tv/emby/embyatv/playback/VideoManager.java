@@ -243,7 +243,7 @@ public class VideoManager implements IVideoPlayer {
             mLibVLC.setSubtitlesEncoding("");
             SharedPreferences prefs = TvApp.getApplication().getPrefs();
             String audioOption = prefs.getString("pref_audio_option","0");
-            mLibVLC.setAout(audioOption == "0" ? LibVLC.AOUT_AUDIOTRACK : LibVLC.AOUT_OPENSLES);
+            mLibVLC.setAout("0".equals(audioOption) ? LibVLC.AOUT_AUDIOTRACK : LibVLC.AOUT_OPENSLES);
 
             mLibVLC.setTimeStretching(false);
             mLibVLC.setVerboseMode(false);
