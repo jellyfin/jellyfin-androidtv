@@ -608,17 +608,9 @@ public class PlaybackController {
             @Override
             public void onEvent() {
 
-                long timeLeft = mVideoManager.getDuration();
-                if (mStartPosition > 0) {
-                    timeLeft -= mStartPosition;
-                    if (mPlaybackMethod != PlayMethod.Transcode) {
-                        seek(mStartPosition);
-                        mStartPosition = 0; // clear for next item
-                    }
-                }
                 if (mPlaybackState == PlaybackState.BUFFERING) {
                     mPlaybackState = PlaybackState.PLAYING;
-                    mFragment.updateEndTime(timeLeft);
+                    mFragment.updateEndTime(mVideoManager.getDuration() - mStartPosition);
                     startReportLoop();
                 }
                 TvApp.getApplication().getLogger().Info("Play method: ", mCurrentStreamInfo.getPlayMethod());
