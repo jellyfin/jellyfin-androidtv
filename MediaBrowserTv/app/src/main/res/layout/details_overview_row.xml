@@ -111,7 +111,7 @@
             android:layout_height="40sp"
             android:id="@+id/studioImage"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="20sp"
+            android:layout_marginRight="40sp"
             android:layout_alignBottom="@+id/fdButtonRow"
             android:alpha=".75" />
 
