@@ -101,11 +101,13 @@ public class HomeFragment extends StdBrowseFragment {
         mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_next_up_tv), nextUpQuery, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}));
 
         //On now
-        RecommendedProgramQuery onNow = new RecommendedProgramQuery();
-        onNow.setIsAiring(true);
-        onNow.setUserId(TvApp.getApplication().getCurrentUser().getId());
-        onNow.setLimit(20);
-        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_on_now), onNow));
+        if (TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvAccess()) {
+            RecommendedProgramQuery onNow = new RecommendedProgramQuery();
+            onNow.setIsAiring(true);
+            onNow.setUserId(TvApp.getApplication().getCurrentUser().getId());
+            onNow.setLimit(20);
+            mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_on_now), onNow));
+        }
 
 //        StdItemQuery latestMusic = new StdItemQuery();
 //        latestMusic.setIncludeItemTypes(new String[]{"MusicAlbum"});
