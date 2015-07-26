@@ -626,14 +626,9 @@ public class PlaybackController {
                     boolean continueUpdate = true;
                     if (!spinnerOff) {
                         if (mStartPosition > 0) {
-                            if (Utils.isFireTv()) {
-                                mPlaybackState = PlaybackState.SEEKING;
-                                delayedSeek(mStartPosition);
-                                continueUpdate = false;
-                            }
-                            else {
-                                seek(mStartPosition);
-                            }
+                            mPlaybackState = PlaybackState.SEEKING;
+                            delayedSeek(mStartPosition);
+                            continueUpdate = false;
                             mStartPosition = 0;
                         } else {
                             stopSpinner();
