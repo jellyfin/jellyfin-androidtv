@@ -80,13 +80,6 @@ public class MySearchFragment extends SearchFragment
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if (!Utils.IsEmpty(query)) {
-            mHandler.removeCallbacks(mDelayedLoad);
-            mDelayedLoad.setQueryString(query);
-            mHandler.postDelayed(mDelayedLoad, SEARCH_DELAY_MS);
-        } else {
-            mRowsAdapter.clear();
-        }
         return true;
     }
 
