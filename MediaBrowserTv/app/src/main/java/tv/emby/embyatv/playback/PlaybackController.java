@@ -63,6 +63,7 @@ public class PlaybackController {
     private long mCurrentProgramStartTime;
     private boolean isLiveTv;
     private String liveTvChannelName = "";
+    private boolean useVlc = false;
 
     private boolean updateProgress = true;
 
@@ -157,18 +158,18 @@ public class PlaybackController {
                 mCurrentOptions.setMaxBitrate(getMaxBitrate());
                 TvApp.getApplication().getLogger().Debug("Max bitrate is: " + getMaxBitrate());
 
-                // Create our profile - fudge to transcode for hi-res content (VLC stutters)
-                boolean useDirectPlay = true;
-                if (item.getMediaSources() != null && item.getMediaSources().size() > 0) {
+                // Create our profile - fudge to transcode for hi-res content (VLC stutters) if using vlc
+                useVlc = mApplication.getPrefs().getBoolean("pref_enable_vlc", false);
+                if (useVlc && item.getMediaSources() != null && item.getMediaSources().size() > 0) {
                     List<MediaStream> videoStreams = Utils.GetVideoStreams(item.getMediaSources().get(0));
                     MediaStream video = videoStreams != null && videoStreams.size() > 0 ? videoStreams.get(0) : null;
                     if (video != null && video.getWidth() > 1300) {
-                        useDirectPlay = false;
+                        useVlc = false;
                         mApplication.getLogger().Info("Forcing a transcode of high-res content");
                     }
                 }
-                AndroidProfile profile = useDirectPlay ? new AndroidProfile("vlc") : new AndroidProfile(Utils.getProfileOptions());
-                if (!useDirectPlay) profile.setSubtitleProfiles(new SubtitleProfile[]{});
+                AndroidProfile profile = useVlc ? new AndroidProfile("vlc") : new AndroidProfile(Utils.getProfileOptions());
+                if (!useVlc) profile.setSubtitleProfiles(new SubtitleProfile[]{});
                 mCurrentOptions.setProfile(profile);
 
                 playInternal(getCurrentlyPlayingItem(), position, mVideoManager, mCurrentOptions);
@@ -239,7 +240,7 @@ public class PlaybackController {
 
                 setPlaybackMethod(response.getPlayMethod());
 
-                if (mPlaybackMethod != PlayMethod.Transcode) {
+                if (useVlc && mPlaybackMethod != PlayMethod.Transcode) {
                     mVideoManager.setNativeMode(false);
                     mCurrentOptions.setAudioStreamIndex(response.getMediaSource().getDefaultAudioStreamIndex());
                     mCurrentOptions.setSubtitleStreamIndex(response.getMediaSource().getDefaultSubtitleStreamIndex());

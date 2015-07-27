@@ -225,6 +225,8 @@
     <string name="pref_audio_compat">Compatible</string>
     <string name="lbl_audio_output">Audio Output</string>
     <string name="lbl_goto_series">Go to Series</string>
+    <string name="lbl_use_vlc">Use VLC for playback (experimental)</string>
+    <string name="desc_use_vlc">Use an embedded VLC player for direct playback of content</string>
 
 
 </resources>
