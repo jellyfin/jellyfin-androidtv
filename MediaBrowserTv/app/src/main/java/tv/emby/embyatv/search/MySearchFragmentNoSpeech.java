@@ -27,7 +27,7 @@ import tv.emby.embyatv.itemhandling.ItemLauncher;
  */
 public class MySearchFragmentNoSpeech extends Fragment {
 
-    private static final int SEARCH_DELAY_MS = 800;
+    private static final int SEARCH_DELAY_MS = 1500;
 
     private RowsFragment mRowsFragment;
     private EditText mSearchField;
