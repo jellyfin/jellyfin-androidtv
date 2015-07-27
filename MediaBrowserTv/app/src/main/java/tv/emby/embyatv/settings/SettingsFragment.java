@@ -110,6 +110,17 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 listPreference.setSummary(listPreference.getEntry());
             }
         }
+        
+        if (preference instanceof CheckBoxPreference) {
+            CheckBoxPreference cb = (CheckBoxPreference) preference;
+            if (cb.getKey().equals("pref_enable_vlc")) {
+                // enable other vlc only options
+                ListPreference buffer = (ListPreference) findPreference("pref_net_buffer");
+                buffer.setEnabled(cb.isChecked());
+                ListPreference audio = (ListPreference) findPreference("pref_audio_option");
+                audio.setEnabled(cb.isChecked());
+            }
+        }
     }
 }
 
