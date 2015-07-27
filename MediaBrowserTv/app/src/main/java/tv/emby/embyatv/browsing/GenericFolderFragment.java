@@ -26,7 +26,7 @@ public class GenericFolderFragment extends EnhancedBrowseFragment {
     @Override
     protected void setupQueries(IRowLoader rowLoader) {
 
-        if (mFolder.getChildCount() > 0 || mFolder.getType().equals("Channel") || mFolder.getType().equals("ChannelFolderItem")) {
+        if (mFolder.getChildCount() > 0 || mFolder.getType().equals("Channel") || mFolder.getType().equals("ChannelFolderItem") || mFolder.getType().equals("UserView")) {
             boolean showSpecialViews = Arrays.asList(showSpecialViewTypes).contains(mFolder.getType()) && !"channels".equals(mFolder.getCollectionType());
 
             if (showSpecialViews) {
