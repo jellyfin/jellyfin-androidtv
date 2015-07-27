@@ -61,7 +61,7 @@ public class CardPresenter extends Presenter {
         }
 
         public void setItem(BaseRowItem m) {
-            setItem(m, 260, 330, 300);
+            setItem(m, 260, 300, 300);
         }
 
         public void setItem(BaseRowItem m, int lHeight, int pHeight, int sHeight) {

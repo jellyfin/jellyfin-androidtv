@@ -99,7 +99,7 @@ public class HomeFragment extends StdBrowseFragment {
         NextUpQuery nextUpQuery = new NextUpQuery();
         nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         nextUpQuery.setLimit(50);
-        nextUpQuery.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
+        nextUpQuery.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
         mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_next_up_tv), nextUpQuery, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}));
 
         //On now

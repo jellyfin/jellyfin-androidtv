@@ -131,6 +131,7 @@ public class BaseRowItem {
     public boolean getIsBaseItem() { return type == ItemType.BaseItem; }
     public boolean getPreferParentThumb() { return preferParentThumb; }
     public ItemType getItemType() { return type; }
+    public boolean isFolder() { return type == ItemType.BaseItem && baseItem != null && baseItem.getIsFolder(); }
 
     public String getPrimaryImageUrl(int maxHeight) {
         switch (type) {

@@ -37,8 +37,11 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jakewharton.disklrucache.Util;
@@ -66,6 +69,7 @@ import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.ViewQuery;
 import tv.emby.embyatv.search.SearchActivity;
 import tv.emby.embyatv.ui.ClockUserView;
+import tv.emby.embyatv.ui.ItemPanel;
 import tv.emby.embyatv.util.KeyProcessor;
 import tv.emby.embyatv.util.RemoteControlReceiver;
 import tv.emby.embyatv.util.Utils;
@@ -92,6 +96,10 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     private String mBackgroundUrl;
     protected ArrayList<BrowseRowDef> mRows = new ArrayList<>();
     CardPresenter mCardPresenter;
+
+    private ItemPanel mItemPanel;
+    private Animation fadeInPanel;
+    private Animation fadeOutPanel;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -252,6 +260,9 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
             lp.width = Utils.convertDpToPixel(getActivity(), 250);
             title.setLayoutParams(lp);
         }
+
+        ViewGroup root = (ViewGroup) getActivity().findViewById(android.R.id.content);
+
         // and add the clock element
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         ClockUserView clock = new ClockUserView(getActivity());
@@ -259,13 +270,80 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         layoutParams.rightMargin = Utils.convertDpToPixel(getActivity(), 40);
         layoutParams.topMargin = Utils.convertDpToPixel(getActivity(), 20);
         clock.setLayoutParams(layoutParams);
-        ((ViewGroup) getActivity().findViewById(android.R.id.content)).addView(clock);
+        root.addView(clock);
+
+        // add item panel
+        mItemPanel = new ItemPanel(getActivity());
+        FrameLayout.LayoutParams panelLayout = new FrameLayout.LayoutParams(Utils.convertDpToPixel(TvApp.getApplication(), 700), Utils.convertDpToPixel(TvApp.getApplication(), 150));
+        panelLayout.gravity = Gravity.BOTTOM | Gravity.RIGHT;
+        panelLayout.rightMargin = Utils.convertDpToPixel(getActivity(), 20);
+        mItemPanel.setLayoutParams(panelLayout);
+        mItemPanel.setVisibility(View.INVISIBLE);
+        root.addView(mItemPanel);
+
+        // load animation
+        fadeInPanel = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_in);
+        fadeInPanel.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mItemPanel.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        fadeOutPanel = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_out);
+        fadeOutPanel.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mItemPanel.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
 
         // set fastLane (or headers) background color
         setBrandColor(Utils.getBrandColor());
         // set search icon color
         setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
     }
+
+    private Runnable showItemPanel = new Runnable() {
+        @Override
+        public void run() {
+            if (mCurrentItem != null && !mCurrentItem.isFolder()) {
+                mItemPanel.setItem(mCurrentItem);
+                mItemPanel.startAnimation(fadeInPanel);
+                mHandler.removeCallbacks(hideItemPanel);
+                mHandler.postDelayed(hideItemPanel, 20000);
+            } else {
+                mItemPanel.setVisibility(View.INVISIBLE);
+            }
+        }
+    };
+
+    private Runnable hideItemPanel = new Runnable() {
+        @Override
+        public void run() {
+            mItemPanel.startAnimation(fadeOutPanel);
+        }
+    };
 
     protected void setupEventListeners() {
         setOnSearchClickedListener(new View.OnClickListener() {
@@ -326,7 +404,12 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         @Override
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
-            if (!(item instanceof BaseRowItem)) {
+
+            // cancel any delayed showing and hide item panel
+            mHandler.removeCallbacks(showItemPanel);
+            mItemPanel.setVisibility(View.INVISIBLE);
+
+            if (!(item instanceof BaseRowItem) || isShowingHeaders()) {
                 mCurrentItem = null;
                 //fill in default background
                 mBackgroundUrl = null;
@@ -334,6 +417,8 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                 return;
             } else {
                 mCurrentItem = (BaseRowItem)item;
+                // delay show the item panel
+                mHandler.postDelayed(showItemPanel, 1000);
             }
 
             mCurrentRow = row;
