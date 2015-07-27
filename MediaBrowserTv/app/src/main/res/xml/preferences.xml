@@ -60,6 +60,11 @@
             android:entries="@array/pref_timeout_entries"
             android:entryValues="@array/pref_timeout_values"
             />
+        <CheckBoxPreference android:key="pref_enable_debug"
+            android:title="Enable debug options"
+            android:defaultValue="false"
+            android:summary="Show a send logs button on the home screen"
+            />
 
     </PreferenceCategory>
 </PreferenceScreen>

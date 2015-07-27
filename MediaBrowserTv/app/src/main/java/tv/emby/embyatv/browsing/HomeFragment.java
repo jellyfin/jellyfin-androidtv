@@ -45,6 +45,7 @@ public class HomeFragment extends StdBrowseFragment {
 
     private ArrayObjectAdapter toolsRow;
     private GridButton unlockButton;
+    private GridButton sendLogsButton;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class HomeFragment extends StdBrowseFragment {
 
         //if we were locked before and have just unlocked, remove the button
         if (unlockButton != null && (TvApp.getApplication().isRegistered() || TvApp.getApplication().isPaid())) toolsRow.remove(unlockButton);
+        addLogsButton();
     }
 
     @Override
@@ -141,8 +143,18 @@ public class HomeFragment extends StdBrowseFragment {
                 }
             }
         }, 5000);
-        //toolsRow.add(new GridButton(REPORT, mApplication.getString(R.string.lbl_send_logs), R.drawable.upload));
+
+        sendLogsButton = new GridButton(REPORT, mApplication.getString(R.string.lbl_send_logs), R.drawable.upload);
         rowAdapter.add(new ListRow(gridHeader, toolsRow));
+    }
+
+    private void addLogsButton() {
+        if (TvApp.getApplication().getPrefs().getBoolean("pref_enable_debug",false) && !Utils.isFireTv()) {
+                if (toolsRow.indexOf(sendLogsButton) < 0) toolsRow.add(sendLogsButton);
+            } else {
+                if (toolsRow.indexOf(sendLogsButton) > -1) toolsRow.remove(sendLogsButton);
+        }
+
     }
 
     @Override
