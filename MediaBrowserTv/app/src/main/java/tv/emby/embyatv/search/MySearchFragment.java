@@ -31,7 +31,7 @@ import tv.emby.embyatv.util.Utils;
 public class MySearchFragment extends SearchFragment
         implements SearchFragment.SearchResultProvider {
 
-    private static final int SEARCH_DELAY_MS = 800;
+    private static final int SEARCH_DELAY_MS = 1500;
     private final Handler mHandler = new Handler();
     private ArrayObjectAdapter mRowsAdapter;
     private SearchRunnable mDelayedLoad;
