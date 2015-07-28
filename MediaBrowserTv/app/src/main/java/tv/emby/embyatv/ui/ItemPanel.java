@@ -1,6 +1,7 @@
 package tv.emby.embyatv.ui;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,9 @@ public class ItemPanel extends RelativeLayout {
             title = (TextView) v.findViewById(R.id.title);
             infoRow = (LinearLayout) v.findViewById(R.id.infoRow);
             summary = (TextView) v.findViewById(R.id.summary);
+            Typeface roboto = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Light.ttf");
+            title.setTypeface(roboto);
+            summary.setTypeface(roboto);
         }
     }
 
