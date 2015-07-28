@@ -227,6 +227,9 @@
     <string name="lbl_goto_series">Go to Series</string>
     <string name="lbl_use_vlc">Use VLC for playback (experimental)</string>
     <string name="desc_use_vlc">Use an embedded VLC player for direct playback of content</string>
+    <string name="lbl_select_color">Select Color</string>
+    <string name="lbl_sideline_color">Sideline Color</string>
+    <string name="desc_sideline_color">Color of the category sideline panel</string>
 
 
 </resources>

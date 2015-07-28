@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/tv.emby.embyatv">
 
     <PreferenceCategory android:title="@string/pref_startup_cat" >
         <ListPreference android:key="pref_login_behavior"
@@ -18,6 +19,31 @@
             android:summary="@string/pref_alt_pw_entry_desc"
             android:defaultValue="false"
             />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_general" >
+        <ListPreference android:key="pref_auto_logoff_timeout"
+            android:title="@string/pref_auto_logoff_title"
+            android:defaultValue="3600000"
+            android:entries="@array/pref_timeout_entries"
+            android:entryValues="@array/pref_timeout_values"
+            />
+        <tv.emby.embyatv.settings.ColorPreference
+            android:key="pref_sideline_color"
+            android:title="@string/lbl_sideline_color"
+            android:summary="@string/desc_sideline_color"
+            android:defaultValue="@null"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            app:numColumns="5"
+            app:itemLayout="@layout/dash_grid_item_color"
+            />
+        <CheckBoxPreference android:key="pref_enable_debug"
+            android:title="Enable debug options"
+            android:defaultValue="false"
+            android:summary="Show a send logs button on the home screen"
+            />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_playback" >
@@ -53,18 +79,4 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_general" >
-        <ListPreference android:key="pref_auto_logoff_timeout"
-            android:title="@string/pref_auto_logoff_title"
-            android:defaultValue="3600000"
-            android:entries="@array/pref_timeout_entries"
-            android:entryValues="@array/pref_timeout_values"
-            />
-        <CheckBoxPreference android:key="pref_enable_debug"
-            android:title="Enable debug options"
-            android:defaultValue="false"
-            android:summary="Show a send logs button on the home screen"
-            />
-
-    </PreferenceCategory>
 </PreferenceScreen>

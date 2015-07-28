@@ -91,4 +91,21 @@
         <item>0</item>
         <item>1</item>
     </string-array>
+    <string-array name="default_color_choice_values" translatable="false">
+        <item>#082804</item>
+        <item>#43A047</item>
+        <item>#009688</item>
+        <item>#1A237E</item>
+        <item>#303F9F</item>
+        <item>#0288D1</item>
+        <item>#9933cc</item>
+        <item>#450000</item>
+        <item>#cc0000</item>
+        <item>#D32F2F</item>
+        <item>#ff8800</item>
+        <item>#FFC127</item>
+        <item>#161b21</item>
+        <item>#333333</item>
+        <item>#455A64</item>
+    </string-array>
 </resources>

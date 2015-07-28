@@ -1227,9 +1227,9 @@ public class Utils {
     }
 
     public static int getBrandColor() {
-        return isFireTv() ?
+        return TvApp.getApplication().getPrefs().getInt("pref_sideline_color", isFireTv() ?
                 TvApp.getApplication().getResources().getColor(R.color.fastlane_fire) :
-                TvApp.getApplication().getResources().getColor(R.color.fastlane_background);
+                TvApp.getApplication().getResources().getColor(R.color.fastlane_background));
     }
 
     public static void processPasswordEntry(Activity activity, UserDto user) {

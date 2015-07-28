@@ -16,15 +16,16 @@
 
     <SurfaceView
         android:layout_width="520sp"
-        android:layout_height="400sp"
+        android:layout_height="420sp"
         android:id="@+id/surfaceView"
         android:layout_gravity="center"
-        android:background="@drawable/default_background" />
+        android:background="@drawable/default_background"
+        android:layout_marginTop="10sp" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="478dp"
         android:layout_marginTop="80sp"
-        android:layout_marginBottom="80sp"
+        android:layout_marginBottom="50sp"
         android:layout_marginLeft="240sp"
         android:layout_marginRight="240sp"
         android:layout_height="match_parent" android:id="@+id/fragment_settings"
