@@ -263,6 +263,15 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
         ViewGroup root = (ViewGroup) getActivity().findViewById(android.R.id.content);
 
+        // add item panel
+        mItemPanel = new ItemPanel(getActivity());
+        FrameLayout.LayoutParams panelLayout = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.convertDpToPixel(TvApp.getApplication(), 145));
+        panelLayout.gravity = Gravity.BOTTOM;
+        panelLayout.bottomMargin = -10;
+        mItemPanel.setLayoutParams(panelLayout);
+        root.addView(mItemPanel);
+        mItemPanel.setVisibility(View.INVISIBLE);
+
         // and add the clock element
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         ClockUserView clock = new ClockUserView(getActivity());
@@ -272,16 +281,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         clock.setLayoutParams(layoutParams);
         root.addView(clock);
 
-        // add item panel
-        mItemPanel = new ItemPanel(getActivity());
-        FrameLayout.LayoutParams panelLayout = new FrameLayout.LayoutParams(Utils.convertDpToPixel(TvApp.getApplication(), 700), Utils.convertDpToPixel(TvApp.getApplication(), 150));
-        panelLayout.gravity = Gravity.BOTTOM | Gravity.RIGHT;
-        panelLayout.rightMargin = Utils.convertDpToPixel(getActivity(), 20);
-        mItemPanel.setLayoutParams(panelLayout);
-        mItemPanel.setVisibility(View.INVISIBLE);
-        root.addView(mItemPanel);
-
-        // load animation
+        // load item panel animation
         fadeInPanel = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_in);
         fadeInPanel.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -411,6 +411,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
             if (!(item instanceof BaseRowItem) || isShowingHeaders()) {
                 mCurrentItem = null;
+                mHandler.removeCallbacks(hideItemPanel);
                 //fill in default background
                 mBackgroundUrl = null;
                 startBackgroundTimer();
