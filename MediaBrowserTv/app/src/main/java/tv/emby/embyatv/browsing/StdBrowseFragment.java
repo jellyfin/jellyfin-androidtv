@@ -142,6 +142,9 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     public void onResume() {
         super.onResume();
 
+        // set fastLane (or headers) background color
+        setBrandColor(Utils.getBrandColor());
+
         //Register a media button receiver so that all media button presses will come to us and not another app
         AudioManager audioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
         audioManager.registerMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
@@ -318,8 +321,6 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
             }
         });
 
-        // set fastLane (or headers) background color
-        setBrandColor(Utils.getBrandColor());
         // set search icon color
         setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
     }
