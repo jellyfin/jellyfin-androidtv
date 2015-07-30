@@ -83,6 +83,16 @@
         <item>21600000</item>
         <item>86400000</item>
     </string-array>
+    <string-array name="pref_vlc_max_entries" >
+        <item>All</item>
+        <item>720p and Below</item>
+        <item>SD Only</item>
+    </string-array>
+    <string-array name="pref_vlc_max_values" >
+        <item>2900</item>
+        <item>1300</item>
+        <item>730</item>
+    </string-array>
     <string-array name="pref_audio_options" >
         <item>@string/pref_audio_direct</item>
         <item>@string/pref_audio_compat</item>

@@ -119,6 +119,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 buffer.setEnabled(cb.isChecked());
                 ListPreference audio = (ListPreference) findPreference("pref_audio_option");
                 audio.setEnabled(cb.isChecked());
+                ListPreference res = (ListPreference) findPreference("pref_vlc_max_res");
+                res.setEnabled(cb.isChecked());
             }
         }
     }
