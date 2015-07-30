@@ -225,11 +225,12 @@
     <string name="pref_audio_compat">Compatible</string>
     <string name="lbl_audio_output">Audio Output</string>
     <string name="lbl_goto_series">Go to Series</string>
-    <string name="lbl_use_vlc">Use VLC for playback (experimental)</string>
+    <string name="lbl_use_vlc">Use VLC for playback</string>
     <string name="desc_use_vlc">Use an embedded VLC player for direct playback of content</string>
     <string name="lbl_select_color">Select Color</string>
     <string name="lbl_sideline_color">Sideline Color</string>
     <string name="desc_sideline_color">Color of the category sideline panel</string>
+    <string name="lbl_vlc_max_res">Max resolution to use VLC</string>
 
 
 </resources>

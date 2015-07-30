@@ -60,7 +60,7 @@
             />
         <CheckBoxPreference android:key="pref_enable_vlc"
             android:title="@string/lbl_use_vlc"
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:summary="@string/desc_use_vlc"
             />
         <ListPreference android:key="pref_net_buffer"
@@ -68,6 +68,12 @@
             android:defaultValue="7"
             android:entries="@array/pref_buffer_entries"
             android:entryValues="@array/pref_buffer_values"
+            />
+        <ListPreference android:key="pref_vlc_max_res"
+            android:title="@string/lbl_vlc_max_res"
+            android:defaultValue="730"
+            android:entries="@array/pref_vlc_max_entries"
+            android:entryValues="@array/pref_vlc_max_values"
             />
         <ListPreference android:key="pref_audio_option"
             android:title="@string/lbl_audio_output"
