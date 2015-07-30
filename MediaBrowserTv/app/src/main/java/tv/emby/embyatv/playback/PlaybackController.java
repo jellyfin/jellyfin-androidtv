@@ -157,6 +157,7 @@ public class PlaybackController {
                 mCurrentOptions.setMediaSources(item.getMediaSources());
                 mCurrentOptions.setMaxBitrate(getMaxBitrate());
                 TvApp.getApplication().getLogger().Debug("Max bitrate is: " + getMaxBitrate());
+                isLiveTv = item.getType().equals("TvChannel");
 
                 // Create our profile - fudge to transcode for hi-res content (VLC stutters) if using vlc
                 useVlc = !isLiveTv && mApplication.getPrefs().getBoolean("pref_enable_vlc", false);
@@ -224,7 +225,6 @@ public class PlaybackController {
     private void playInternal(final BaseItemDto item, final long position, final VideoManager videoManager, VideoOptions options) {
         final ApiClient apiClient = mApplication.getApiClient();
         mApplication.setCurrentPlayingItem(item);
-        isLiveTv = item.getType().equals("TvChannel");
         if (isLiveTv) {
             liveTvChannelName = " ("+item.getName()+")";
             updateTvProgramInfo();
