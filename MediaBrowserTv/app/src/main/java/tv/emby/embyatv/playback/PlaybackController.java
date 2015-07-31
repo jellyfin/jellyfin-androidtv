@@ -240,7 +240,7 @@ public class PlaybackController {
 
                 setPlaybackMethod(response.getPlayMethod());
 
-                if (useVlc && mPlaybackMethod != PlayMethod.Transcode) {
+                if (useVlc && (mApplication.getPrefs().getBoolean("pref_allow_vlc_transcode", false) || mPlaybackMethod != PlayMethod.Transcode)) {
                     mVideoManager.setNativeMode(false);
                     mCurrentOptions.setAudioStreamIndex(response.getMediaSource().getDefaultAudioStreamIndex());
                     mCurrentOptions.setSubtitleStreamIndex(response.getMediaSource().getDefaultSubtitleStreamIndex());

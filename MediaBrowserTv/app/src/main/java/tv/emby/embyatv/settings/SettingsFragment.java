@@ -121,6 +121,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 audio.setEnabled(cb.isChecked());
                 ListPreference res = (ListPreference) findPreference("pref_vlc_max_res");
                 res.setEnabled(cb.isChecked());
+                CheckBoxPreference trans = (CheckBoxPreference) findPreference("pref_allow_vlc_transcode");
+                trans.setEnabled(cb.isChecked());
             }
         }
     }
