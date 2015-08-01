@@ -159,7 +159,7 @@ public class PlaybackController {
                 isLiveTv = item.getType().equals("TvChannel");
 
                 // Create our profile - fudge to transcode for hi-res content (VLC stutters) if using vlc
-                useVlc = !isLiveTv && mApplication.getPrefs().getBoolean("pref_enable_vlc", false);
+                useVlc = mApplication.getPrefs().getBoolean("pref_enable_vlc", false);
                 if (useVlc && item.getMediaSources() != null && item.getMediaSources().size() > 0) {
                     List<MediaStream> videoStreams = Utils.GetVideoStreams(item.getMediaSources().get(0));
                     MediaStream video = videoStreams != null && videoStreams.size() > 0 ? videoStreams.get(0) : null;

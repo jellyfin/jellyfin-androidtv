@@ -806,11 +806,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 switch (stream.getPlayMethod()) {
 
                     case Transcode:
-                        InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Trans");
+                        InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Trans" + (mPlaybackController.mVideoManager.isNativeMode() ? "/I" : "/V"));
                         break;
                     case DirectStream:
                     case DirectPlay:
-                        InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Direct");
+                        InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Direct" + (mPlaybackController.mVideoManager.isNativeMode() ? "/I" : "/V"));
                         break;
                 }
             }
