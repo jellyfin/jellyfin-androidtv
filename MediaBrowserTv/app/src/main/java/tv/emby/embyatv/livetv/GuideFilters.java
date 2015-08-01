@@ -2,7 +2,7 @@ package tv.emby.embyatv.livetv;
 
 import android.content.SharedPreferences;
 
-import mediabrowser.model.livetv.ProgramInfoDto;
+import mediabrowser.model.dto.BaseItemDto;
 import tv.emby.embyatv.TvApp;
 
 /**
@@ -34,7 +34,7 @@ public class GuideFilters {
 
     public boolean any() { return movies || news || series || kids || sports || premiere; }
 
-    public boolean passesFilter(ProgramInfoDto program) {
+    public boolean passesFilter(BaseItemDto program) {
         if (!any()) return true;
 
         if (movies && program.getIsMovie()) return !premiere || program.getIsPremiere();

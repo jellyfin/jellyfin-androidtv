@@ -13,7 +13,7 @@ import com.jakewharton.disklrucache.Util;
 
 import java.util.Date;
 
-import mediabrowser.model.livetv.ProgramInfoDto;
+import mediabrowser.model.dto.BaseItemDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.livetv.LiveTvGuideActivity;
@@ -28,17 +28,17 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
     private LiveTvGuideActivity mActivity;
     private TextView mProgramName;
     private LinearLayout mInfoRow;
-    private ProgramInfoDto mProgram;
+    private BaseItemDto mProgram;
     private ImageView mRecIndicator;
     private int mBackgroundColor = 0;
     private final int IND_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 10);
 
-    public ProgramGridCell(Context context, ProgramInfoDto program) {
+    public ProgramGridCell(Context context, BaseItemDto program) {
         super(context);
         initComponent((LiveTvGuideActivity) context, program);
     }
 
-    private void initComponent(LiveTvGuideActivity activity, ProgramInfoDto program) {
+    private void initComponent(LiveTvGuideActivity activity, BaseItemDto program) {
         mActivity = activity;
         mProgram = program;
         LayoutInflater inflater = LayoutInflater.from(activity);
@@ -112,7 +112,7 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
         //TvApp.getApplication().getLogger().Debug("Focus on "+mProgram.getName()+ " was " +(gainFocus ? "gained" : "lost"));
     }
 
-    public ProgramInfoDto getProgram() { return mProgram; }
+    public BaseItemDto getProgram() { return mProgram; }
 
     public void setRecTimer(String id) {
         mProgram.setTimerId(id);

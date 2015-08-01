@@ -13,10 +13,7 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.entities.ImageType;
-import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.livetv.ChannelInfoDto;
-import mediabrowser.model.livetv.ProgramInfoDto;
-import mediabrowser.model.livetv.RecordingInfoDto;
 import mediabrowser.model.search.SearchHint;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
@@ -36,8 +33,6 @@ public class BaseRowItem {
     private UserDto user;
     private SearchHint searchHint;
     private ChannelInfoDto channelInfo;
-    private ProgramInfoDto programInfo;
-    private RecordingInfoDto recordingInfo;
     private GridButton gridButton;
     private ItemType type;
     private boolean preferParentThumb = false;
@@ -55,7 +50,7 @@ public class BaseRowItem {
     public BaseRowItem(int index, BaseItemDto item, boolean preferParentThumb, boolean staticHeight, SelectAction selectAction) {
         this.index = index;
         this.baseItem = item;
-        type = ItemType.BaseItem;
+        type = item.getType().equals("Program") ? ItemType.LiveTvProgram : item.getType().equals("Recording") ? ItemType.LiveTvRecording : ItemType.BaseItem;
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = staticHeight;
         this.selectAction = selectAction;
@@ -67,15 +62,10 @@ public class BaseRowItem {
         type = ItemType.LiveTvChannel;
     }
 
-    public BaseRowItem(ProgramInfoDto program, boolean staticHeight) {
-        this.programInfo = program;
-        type = ItemType.LiveTvProgram;
-        this.staticHeight = staticHeight;
-    }
+    public BaseRowItem(BaseItemDto program, boolean staticHeight) { this(0, program, false, staticHeight);    }
 
-    public BaseRowItem(RecordingInfoDto program) {
-        this.recordingInfo = program;
-        type = ItemType.LiveTvRecording;
+    public BaseRowItem(BaseItemDto program) {
+        this(0, program);
     }
 
     public BaseRowItem(ServerInfo server) {
@@ -122,8 +112,8 @@ public class BaseRowItem {
     public UserDto getUser() { return user; }
     public SearchHint getSearchHint() { return searchHint; }
     public ChannelInfoDto getChannelInfo() { return channelInfo; }
-    public ProgramInfoDto getProgramInfo() { return programInfo; }
-    public RecordingInfoDto getRecordingInfo() { return recordingInfo; }
+    public BaseItemDto getProgramInfo() { return baseItem; }
+    public BaseItemDto getRecordingInfo() { return baseItem; }
     public GridButton getGridButton() { return gridButton; }
 
     public boolean getIsChapter() { return type == ItemType.Chapter; }
@@ -137,6 +127,8 @@ public class BaseRowItem {
         switch (type) {
 
             case BaseItem:
+            case LiveTvProgram:
+            case LiveTvRecording:
                 return Utils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(), true, preferParentThumb, maxHeight);
             case Person:
                 return Utils.getPrimaryImageUrl(person, TvApp.getApplication().getApiClient(), maxHeight);
@@ -146,10 +138,6 @@ public class BaseRowItem {
                 return chapterInfo.getImagePath();
             case LiveTvChannel:
                 return Utils.getPrimaryImageUrl(channelInfo, TvApp.getApplication().getApiClient());
-            case LiveTvProgram:
-                return Utils.getPrimaryImageUrl(programInfo, TvApp.getApplication().getApiClient());
-            case LiveTvRecording:
-                return Utils.getPrimaryImageUrl(recordingInfo, TvApp.getApplication().getApiClient());
             case Server:
                 return "android.resource://tv.emby.embyatv/" + R.drawable.server;
             case GridButton:
@@ -165,6 +153,8 @@ public class BaseRowItem {
         switch (type) {
 
             case BaseItem:
+            case LiveTvProgram:
+            case LiveTvRecording:
                 return Utils.GetFullName(baseItem);
             case Person:
                 return person.getName();
@@ -176,10 +166,6 @@ public class BaseRowItem {
                 return user.getName();
             case LiveTvChannel:
                 return channelInfo.getName();
-            case LiveTvProgram:
-                return programInfo.getName();
-            case LiveTvRecording:
-                return recordingInfo.getName();
             case GridButton:
                 return gridButton.getText();
             case SearchHint:
@@ -193,6 +179,8 @@ public class BaseRowItem {
         switch (type) {
 
             case BaseItem:
+            case LiveTvRecording:
+            case LiveTvProgram:
                 return baseItem.getName();
             case Person:
                 return person.getName();
@@ -206,12 +194,8 @@ public class BaseRowItem {
                 return searchHint.getName();
             case LiveTvChannel:
                 return channelInfo.getName();
-            case LiveTvRecording:
-                return recordingInfo.getName();
             case GridButton:
                 return gridButton.getText();
-            case LiveTvProgram:
-                return programInfo.getName();
         }
 
         return TvApp.getApplication().getString(R.string.lbl_bracket_unknown);
@@ -221,6 +205,8 @@ public class BaseRowItem {
         switch (type) {
 
             case BaseItem:
+            case LiveTvProgram:
+            case LiveTvRecording:
                 return baseItem.getId();
             case Person:
                 return person.getId();
@@ -232,10 +218,6 @@ public class BaseRowItem {
                 return user.getId();
             case LiveTvChannel:
                 return channelInfo.getId();
-            case LiveTvProgram:
-                return programInfo.getId();
-            case LiveTvRecording:
-                return recordingInfo.getId();
             case GridButton:
                 return null;
             case SearchHint:
@@ -260,14 +242,14 @@ public class BaseRowItem {
             case LiveTvChannel:
                 return channelInfo.getNumber();
             case LiveTvProgram:
-                return programInfo.getChannelName() + " " + (programInfo.getEpisodeTitle() != null ? programInfo.getEpisodeTitle() : "") + " " +
-                        (android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(programInfo.getStartDate())) + "-"
-                        + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(programInfo.getEndDate())));
+                return baseItem.getChannelName() + " " + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
+                        (android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getStartDate())) + "-"
+                        + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getEndDate())));
             case LiveTvRecording:
-                return recordingInfo.getChannelName() + " " + (recordingInfo.getEpisodeTitle() != null ? recordingInfo.getEpisodeTitle() : "") + " " +
-                        new SimpleDateFormat("d MMM").format(Utils.convertToLocalDate(recordingInfo.getStartDate())) + " " +
-                        (android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(recordingInfo.getStartDate())) + "-"
-                                + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(recordingInfo.getEndDate())));
+                return baseItem.getChannelName() + " " + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
+                        new SimpleDateFormat("d MMM").format(Utils.convertToLocalDate(baseItem.getStartDate())) + " " +
+                        (android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getStartDate())) + "-"
+                                + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getEndDate())));
             case User:
                 Date date = user.getLastActivityDate();
                 return date != null ? DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(date).getTime()).toString() : TvApp.getApplication().getString(R.string.lbl_never);
@@ -282,6 +264,8 @@ public class BaseRowItem {
         switch (type) {
 
             case BaseItem:
+            case LiveTvRecording:
+            case LiveTvProgram:
                 return baseItem.getOverview();
             case Person:
                 break;
@@ -295,12 +279,8 @@ public class BaseRowItem {
                 break;
             case LiveTvChannel:
                 break;
-            case LiveTvRecording:
-                return recordingInfo.getOverview();
             case GridButton:
                 break;
-            case LiveTvProgram:
-                return programInfo.getOverview();
         }
 
         return "";

@@ -18,8 +18,6 @@ import java.util.Date;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.livetv.ChannelInfoDto;
-import mediabrowser.model.livetv.ProgramInfoDto;
-import mediabrowser.model.livetv.RecordingInfoDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.util.Utils;
@@ -135,7 +133,7 @@ public class CardPresenter extends Presenter {
                     break;
 
                 case LiveTvProgram:
-                    ProgramInfoDto program = mItem.getProgramInfo();
+                    BaseItemDto program = mItem.getProgramInfo();
                     Double programAspect = program.getPrimaryImageAspectRatio();
                     if (programAspect == null) programAspect = .7777777;
                     cardHeight = !m.isStaticHeight() ? programAspect > 1 ? lHeight : pHeight : sHeight;
@@ -146,7 +144,7 @@ public class CardPresenter extends Presenter {
                     break;
 
                 case LiveTvRecording:
-                    RecordingInfoDto recording = mItem.getRecordingInfo();
+                    BaseItemDto recording = mItem.getRecordingInfo();
                     Double recordingAspect = recording.getPrimaryImageAspectRatio();
                     if (recordingAspect == null) recordingAspect = .7777777;
                     cardHeight = !m.isStaticHeight() ? recordingAspect > 1 ? lHeight : pHeight : sHeight;

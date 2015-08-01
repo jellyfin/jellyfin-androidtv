@@ -22,7 +22,6 @@ import mediabrowser.model.dto.MediaSourceInfo;
 import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
-import mediabrowser.model.livetv.ProgramInfoDto;
 import mediabrowser.model.session.PlayMethod;
 import mediabrowser.model.session.PlaybackStartInfo;
 import tv.emby.embyatv.R;
@@ -497,7 +496,7 @@ public class PlaybackController {
             TvApp.getApplication().getApiClient().GetLiveTvChannelAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ChannelInfoDto>() {
                 @Override
                 public void onResponse(ChannelInfoDto response) {
-                    ProgramInfoDto program = response.getCurrentProgram();
+                    BaseItemDto program = response.getCurrentProgram();
                     if (program != null) {
                         channel.setName(program.getName() + liveTvChannelName);
                         channel.setPremiereDate(program.getStartDate());
