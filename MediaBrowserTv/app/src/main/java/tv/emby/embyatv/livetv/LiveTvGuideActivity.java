@@ -17,8 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,7 +27,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -41,13 +38,13 @@ import java.util.TimeZone;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
+import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
-import mediabrowser.model.livetv.ProgramInfoDto;
 import mediabrowser.model.livetv.ProgramQuery;
 import mediabrowser.model.livetv.SeriesTimerInfoDto;
+import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.results.ChannelInfoDtoResult;
-import mediabrowser.model.results.ProgramInfoDtoResult;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
@@ -56,7 +53,6 @@ import tv.emby.embyatv.base.IMessageListener;
 import tv.emby.embyatv.ui.GuideChannelHeader;
 import tv.emby.embyatv.ui.GuidePagingButton;
 import tv.emby.embyatv.ui.HorizontalScrollViewListener;
-import tv.emby.embyatv.ui.IRecordingIndicatorView;
 import tv.emby.embyatv.ui.ObservableHorizontalScrollView;
 import tv.emby.embyatv.ui.ObservableScrollView;
 import tv.emby.embyatv.ui.ProgramGridCell;
@@ -94,12 +90,12 @@ public class LiveTvGuideActivity extends BaseActivity {
     private HorizontalScrollView mTimelineScroller;
     private View mSpinner;
 
-    private ProgramInfoDto mSelectedProgram;
+    private BaseItemDto mSelectedProgram;
     private ProgramGridCell mSelectedProgramView;
     private long mLastLoad = 0;
 
     private List<ChannelInfoDto> mAllChannels;
-    private HashMap<String, ArrayList<ProgramInfoDto>> mProgramsDict = new HashMap<>();
+    private HashMap<String, ArrayList<BaseItemDto>> mProgramsDict = new HashMap<>();
     private String mFirstFocusChannelId;
     private GuideFilters mFilters = new GuideFilters();
 
@@ -281,7 +277,7 @@ public class LiveTvGuideActivity extends BaseActivity {
             return (mPopup != null && mPopup.isShowing());
         }
 
-        public void setContent(final ProgramInfoDto program) {
+        public void setContent(final BaseItemDto program) {
             mDTitle.setText(program.getName());
             mDSummary.setText(program.getOverview());
             if (mDSummary.getLineCount() < 2) {
@@ -536,7 +532,7 @@ public class LiveTvGuideActivity extends BaseActivity {
 
     private RecordPopup mRecordPopup;
 
-    private void setTimelineRow(LinearLayout timelineRow, ProgramInfoDto program) {
+    private void setTimelineRow(LinearLayout timelineRow, BaseItemDto program) {
         timelineRow.removeAllViews();
         Date local = Utils.convertToLocalDate(program.getStartDate());
         TextView on = new TextView(mActivity);
@@ -687,9 +683,9 @@ public class LiveTvGuideActivity extends BaseActivity {
             now.set(Calendar.SECOND, 0);
             query.setMinEndDate(now.getTime());
 
-            TvApp.getApplication().getApiClient().GetLiveTvProgramsAsync(query, new Response<ProgramInfoDtoResult>() {
+            TvApp.getApplication().getApiClient().GetLiveTvProgramsAsync(query, new Response<ItemsResult>() {
                 @Override
-                public void onResponse(ProgramInfoDtoResult response) {
+                public void onResponse(ItemsResult response) {
                     if (isCancelled()) return;
                     if (response.getTotalRecordCount() > 0) {
                         if (mDisplayProgramsTask != null) mDisplayProgramsTask.cancel(true);
@@ -733,9 +729,9 @@ public class LiveTvGuideActivity extends BaseActivity {
 
         @Override
         protected Void doInBackground(Object[]... params) {
-            ProgramInfoDto[] allPrograms = new ProgramInfoDto[params[1].length];
+            BaseItemDto[] allPrograms = new BaseItemDto[params[1].length];
             for (int i = 0; i < params[1].length; i++) {
-                allPrograms[i] = (ProgramInfoDto) params[1][i];
+                allPrograms[i] = (BaseItemDto) params[1][i];
             }
 
             buildProgramsDict(allPrograms);
@@ -745,7 +741,7 @@ public class LiveTvGuideActivity extends BaseActivity {
             for (Object item : params[0]) {
                 if (isCancelled()) return null;
                 ChannelInfoDto channel = (ChannelInfoDto) item;
-                List<ProgramInfoDto> programs = getProgramsForChannel(channel.getId());
+                List<BaseItemDto> programs = getProgramsForChannel(channel.getId());
                 if (programs.size() > 0) {
                     final GuideChannelHeader header = new GuideChannelHeader(mActivity, channel);
                     final LinearLayout row = getProgramRow(programs);
@@ -800,7 +796,7 @@ public class LiveTvGuideActivity extends BaseActivity {
         }
     }
 
-    private LinearLayout getProgramRow(List<ProgramInfoDto> programs) {
+    private LinearLayout getProgramRow(List<BaseItemDto> programs) {
 
         LinearLayout programRow = new LinearLayout(this);
 
@@ -814,7 +810,7 @@ public class LiveTvGuideActivity extends BaseActivity {
         }
 
         long prevEnd = getCurrentLocalStartDate();
-        for (ProgramInfoDto item : programs) {
+        for (BaseItemDto item : programs) {
             long start = item.getStartDate() != null ? Utils.convertToLocalDate(item.getStartDate()).getTime() : getCurrentLocalStartDate();
             if (start < getCurrentLocalStartDate()) start = getCurrentLocalStartDate();
             if (start > prevEnd) {
@@ -874,28 +870,28 @@ public class LiveTvGuideActivity extends BaseActivity {
 
     }
 
-    private void buildProgramsDict(ProgramInfoDto[] programs) {
+    private void buildProgramsDict(BaseItemDto[] programs) {
         mProgramsDict = new HashMap<>();
-        for (ProgramInfoDto program : programs) {
+        for (BaseItemDto program : programs) {
             String id = program.getChannelId();
-            if (!mProgramsDict.containsKey(id)) mProgramsDict.put(id, new ArrayList<ProgramInfoDto>());
+            if (!mProgramsDict.containsKey(id)) mProgramsDict.put(id, new ArrayList<BaseItemDto>());
             if (Utils.convertToLocalDate(program.getEndDate()).getTime() > mCurrentLocalGuideStart) mProgramsDict.get(id).add(program);
         }
     }
 
-    private List<ProgramInfoDto> getProgramsForChannel(String channelId) {
+    private List<BaseItemDto> getProgramsForChannel(String channelId) {
         if (!mProgramsDict.containsKey(channelId)) return new ArrayList<>();
 
-        List<ProgramInfoDto> results = mProgramsDict.get(channelId);
+        List<BaseItemDto> results = mProgramsDict.get(channelId);
         boolean passes = !mFilters.any();
         if (passes) return results;
 
         // There are filters - check them
-        for (ProgramInfoDto program : results) {
+        for (BaseItemDto program : results) {
             passes |= mFilters.passesFilter(program);
         }
 
-        return passes ? results : new ArrayList<ProgramInfoDto>();
+        return passes ? results : new ArrayList<BaseItemDto>();
     }
 
 
@@ -909,7 +905,6 @@ public class LiveTvGuideActivity extends BaseActivity {
             mSummary.setText(mSelectedProgram.getOverview());
             mDisplayDate.setText(Utils.getFriendlyDate(Utils.convertToLocalDate(mSelectedProgram.getStartDate())));
             String url = Utils.getPrimaryImageUrl(mSelectedProgram, TvApp.getApplication().getApiClient());
-            //url = "https://image.tmdb.org/t/p/w396/zr2p353wrd6j3wjLgDT4TcaestB.jpg";
             Picasso.with(mActivity).load(url).resize(IMAGE_SIZE, IMAGE_SIZE).centerInside().into(mImage);
 
             mInfoRow.removeAllViews();

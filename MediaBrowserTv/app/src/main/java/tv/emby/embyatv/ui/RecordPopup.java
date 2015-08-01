@@ -1,6 +1,5 @@
 package tv.emby.embyatv.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
@@ -24,7 +23,7 @@ import java.util.List;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.livetv.ProgramInfoDto;
+import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.livetv.SeriesTimerInfoDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
@@ -134,9 +133,9 @@ public class RecordPopup {
                                     mPopup.dismiss();
                                     mActivity.sendMessage(CustomMessage.ActionComplete);
                                     // we have to re-retrieve the program to get the timer id
-                                    TvApp.getApplication().getApiClient().GetLiveTvProgramAsync(mProgramId, TvApp.getApplication().getCurrentUser().getId(), new Response<ProgramInfoDto>() {
+                                    TvApp.getApplication().getApiClient().GetLiveTvProgramAsync(mProgramId, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                                         @Override
-                                        public void onResponse(ProgramInfoDto response) {
+                                        public void onResponse(BaseItemDto response) {
                                             mSelectedView.setRecSeriesTimer(response.getSeriesTimerId());
 
                                         }
@@ -158,9 +157,9 @@ public class RecordPopup {
                                     mPopup.dismiss();
                                     mActivity.sendMessage(CustomMessage.ActionComplete);
                                     // we have to re-retrieve the program to get the timer id
-                                    TvApp.getApplication().getApiClient().GetLiveTvProgramAsync(mProgramId, TvApp.getApplication().getCurrentUser().getId(), new Response<ProgramInfoDto>() {
+                                    TvApp.getApplication().getApiClient().GetLiveTvProgramAsync(mProgramId, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                                         @Override
-                                        public void onResponse(ProgramInfoDto response) {
+                                        public void onResponse(BaseItemDto response) {
                                             mSelectedView.setRecTimer(response.getTimerId());
                                         }
                                     });
@@ -192,7 +191,7 @@ public class RecordPopup {
         return (mPopup != null && mPopup.isShowing());
     }
 
-    public void setContent(ProgramInfoDto program, SeriesTimerInfoDto defaults, IRecordingIndicatorView selectedView, boolean recordSeries) {
+    public void setContent(BaseItemDto program, SeriesTimerInfoDto defaults, IRecordingIndicatorView selectedView, boolean recordSeries) {
         mProgramId = program.getId();
         mRecordSeries = recordSeries;
         mSelectedView = selectedView;
@@ -252,7 +251,7 @@ public class RecordPopup {
         if (mPopup != null && mPopup.isShowing()) mPopup.dismiss();
     }
 
-    private void setTimelineRow(LinearLayout timelineRow, ProgramInfoDto program) {
+    private void setTimelineRow(LinearLayout timelineRow, BaseItemDto program) {
         timelineRow.removeAllViews();
         Date local = Utils.convertToLocalDate(program.getStartDate());
         TextView on = new TextView(mActivity);

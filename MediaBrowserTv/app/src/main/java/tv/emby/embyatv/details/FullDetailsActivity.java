@@ -55,7 +55,6 @@ import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.PersonType;
 import mediabrowser.model.livetv.ChannelInfoDto;
-import mediabrowser.model.livetv.ProgramInfoDto;
 import mediabrowser.model.livetv.SeriesTimerInfoDto;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
@@ -103,7 +102,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private Drawable mDefaultBackground;
     private DisplayMetrics mMetrics;
 
-    protected ProgramInfoDto mProgramInfo;
+    protected BaseItemDto mProgramInfo;
     protected String mItemId;
     protected String mChannelId;
     protected BaseRowItem mCurrentItem;
@@ -159,7 +158,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         mItemId = getIntent().getStringExtra("ItemId");
         mChannelId = getIntent().getStringExtra("ChannelId");
         String programJson = getIntent().getStringExtra("ProgramInfo");
-        if (programJson != null) mProgramInfo = mApplication.getSerializer().DeserializeFromString(programJson, ProgramInfoDto.class);
+        if (programJson != null) mProgramInfo = mApplication.getSerializer().DeserializeFromString(programJson, BaseItemDto.class);
 
         loadItem(mItemId);
 
@@ -786,9 +785,9 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                         @Override
                         public void onResponse() {
                             // we have to re-retrieve the program to get the timer id
-                            TvApp.getApplication().getApiClient().GetLiveTvProgramAsync(mProgramInfo.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ProgramInfoDto>() {
+                            TvApp.getApplication().getApiClient().GetLiveTvProgramAsync(mProgramInfo.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                                 @Override
-                                public void onResponse(ProgramInfoDto response) {
+                                public void onResponse(BaseItemDto response) {
                                     setRecTimer(response.getTimerId());
                                 }
                             });

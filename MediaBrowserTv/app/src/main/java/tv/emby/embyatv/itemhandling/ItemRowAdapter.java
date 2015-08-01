@@ -17,11 +17,8 @@ import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
-import mediabrowser.model.livetv.ProgramInfoDto;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
-import mediabrowser.model.livetv.RecordingInfoDto;
 import mediabrowser.model.livetv.RecordingQuery;
-import mediabrowser.model.net.HttpException;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
@@ -30,8 +27,6 @@ import mediabrowser.model.querying.SeasonQuery;
 import mediabrowser.model.querying.SimilarItemsQuery;
 import mediabrowser.model.querying.UpcomingEpisodesQuery;
 import mediabrowser.model.results.ChannelInfoDtoResult;
-import mediabrowser.model.results.ProgramInfoDtoResult;
-import mediabrowser.model.results.RecordingInfoDtoResult;
 import mediabrowser.model.search.SearchHint;
 import mediabrowser.model.search.SearchHintResult;
 import mediabrowser.model.search.SearchQuery;
@@ -39,7 +34,6 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.model.ChangeTriggerType;
 import tv.emby.embyatv.model.ChapterItemInfo;
-import tv.emby.embyatv.presentation.GridItemPresenter;
 import tv.emby.embyatv.presentation.TextItemPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.SpecialsQuery;
@@ -639,9 +633,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     public void Retrieve(final RecommendedProgramQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetRecommendedLiveTvProgramsAsync(query, new Response<ProgramInfoDtoResult>() {
+        TvApp.getApplication().getApiClient().GetRecommendedLiveTvProgramsAsync(query, new Response<ItemsResult>() {
             @Override
-            public void onResponse(ProgramInfoDtoResult response) {
+            public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
                     if (adapter.size() > 0) adapter.clear();
@@ -650,7 +644,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                         adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_GUIDE_OPTION_ID, "Live TV Guide", R.drawable.guide)));
                         i++;
                     }
-                    for (ProgramInfoDto item : response.getItems()) {
+                    for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(item, staticHeight));
                         i++;
                     }
@@ -679,13 +673,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     public void Retrieve(final RecordingQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetLiveTvRecordingsAsync(query, new Response<RecordingInfoDtoResult>() {
+        TvApp.getApplication().getApiClient().GetLiveTvRecordingsAsync(query, new Response<ItemsResult>() {
             @Override
-            public void onResponse(RecordingInfoDtoResult response) {
+            public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
                     if (adapter.size() > 0) adapter.clear();
-                    for (RecordingInfoDto item : response.getItems()) {
+                    for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(item));
                         i++;
                     }

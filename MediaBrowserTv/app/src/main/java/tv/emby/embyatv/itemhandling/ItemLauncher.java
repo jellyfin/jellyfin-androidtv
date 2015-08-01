@@ -2,10 +2,6 @@ package tv.emby.embyatv.itemhandling;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v17.leanback.widget.ImageCardView;
-import android.support.v17.leanback.widget.Presenter;
-import android.support.v4.app.ActivityOptionsCompat;
 
 import mediabrowser.apiinteraction.ConnectionResult;
 import mediabrowser.apiinteraction.IConnectionManager;
@@ -15,21 +11,17 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
-import mediabrowser.model.livetv.ProgramInfoDto;
 import mediabrowser.model.search.SearchHint;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.browsing.CollectionActivity;
 import tv.emby.embyatv.browsing.GenericFolderActivity;
 import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.browsing.UserViewActivity;
-import tv.emby.embyatv.details.DetailsActivity;
 import tv.emby.embyatv.details.FullDetailsActivity;
 import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
-import tv.emby.embyatv.startup.DpadPwActivity;
 import tv.emby.embyatv.startup.SelectUserActivity;
-import tv.emby.embyatv.startup.StartupActivity;
 import tv.emby.embyatv.util.DelayedMessage;
 import tv.emby.embyatv.util.Utils;
 
@@ -196,7 +188,7 @@ public class ItemLauncher {
                 });
                 break;
             case LiveTvProgram:
-                ProgramInfoDto program = rowItem.getProgramInfo();
+                BaseItemDto program = rowItem.getProgramInfo();
                 switch (rowItem.getSelectAction()) {
 
                     case ShowDetails:

@@ -17,11 +17,9 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Display;
-import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -41,7 +39,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -64,15 +61,12 @@ import mediabrowser.model.dto.MediaSourceInfo;
 import mediabrowser.model.dto.StudioDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.dto.UserItemDataDto;
-import mediabrowser.model.entities.ChapterInfo;
 import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.MediaStreamType;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
-import mediabrowser.model.livetv.ProgramInfoDto;
-import mediabrowser.model.livetv.RecordingInfoDto;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemSortBy;
@@ -81,10 +75,9 @@ import mediabrowser.model.session.PlaybackProgressInfo;
 import mediabrowser.model.session.PlaybackStopInfo;
 import mediabrowser.model.users.AuthenticationResult;
 import tv.emby.embyatv.BuildConfig;
-import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.details.DetailsActivity;
+import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.details.FullDetailsActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
@@ -287,16 +280,7 @@ public class Utils {
         return apiClient.GetUserImageUrl(item, options);
     }
 
-    public static String getPrimaryImageUrl(ProgramInfoDto item, ApiClient apiClient) {
-        if (!item.getHasPrimaryImage()) return null;
-        ImageOptions options = new ImageOptions();
-        options.setTag(item.getImageTags().get(ImageType.Primary));
-        options.setMaxHeight(maxPrimaryImageHeight);
-        options.setImageType(ImageType.Primary);
-        return apiClient.GetImageUrl(item, options);
-    }
-
-    public static String getPrimaryImageUrl(RecordingInfoDto item, ApiClient apiClient) {
+    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient) {
         if (!item.getHasPrimaryImage()) return null;
         ImageOptions options = new ImageOptions();
         options.setTag(item.getImageTags().get(ImageType.Primary));
@@ -511,7 +495,7 @@ public class Utils {
                     @Override
                     public void onResponse(ChannelInfoDto response) {
                         // get current program info and fill it into our item
-                        ProgramInfoDto program = response.getCurrentProgram();
+                        BaseItemDto program = response.getCurrentProgram();
                         if (program != null) {
                             mainItem.setPremiereDate(program.getStartDate());
                             mainItem.setEndDate(program.getEndDate());

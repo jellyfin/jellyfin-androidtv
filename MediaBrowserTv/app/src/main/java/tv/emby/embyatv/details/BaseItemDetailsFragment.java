@@ -50,7 +50,6 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserItemDataDto;
-import mediabrowser.model.livetv.ProgramInfoDto;
 import mediabrowser.model.livetv.SeriesTimerInfoDto;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
@@ -96,7 +95,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
     private static final int THUMB_HEIGHT = 200;
 
     protected BaseItemDto mBaseItem;
-    protected ProgramInfoDto mProgramInfo;
+    protected BaseItemDto mProgramInfo;
     protected String mItemId;
     protected String mChannelId;
     protected BaseRowItem mCurrentItem;
@@ -152,7 +151,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
         mItemId = mActivity.getIntent().getStringExtra("ItemId");
         mChannelId = mActivity.getIntent().getStringExtra("ChannelId");
         String programJson = mActivity.getIntent().getStringExtra("ProgramInfo");
-        if (programJson != null) mProgramInfo = mApplication.getSerializer().DeserializeFromString(programJson, ProgramInfoDto.class);
+        if (programJson != null) mProgramInfo = mApplication.getSerializer().DeserializeFromString(programJson, BaseItemDto.class);
         mDorPresenter.setSharedElementEnterTransition(getActivity(),
                 DetailsActivity.SHARED_ELEMENT_NAME);
 
@@ -407,7 +406,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
 
     }
 
-    protected void recordProgram(ProgramInfoDto program) {
+    protected void recordProgram(BaseItemDto program) {
         //Create timer with default settings
         TvApp.getApplication().getApiClient().GetDefaultLiveTvTimerInfo(program.getId(), new Response<SeriesTimerInfoDto>() {
             @Override
@@ -428,7 +427,7 @@ public class BaseItemDetailsFragment extends DetailsFragment {
         });
     }
 
-    protected void cancelRecording(ProgramInfoDto program) {
+    protected void cancelRecording(BaseItemDto program) {
         TvApp.getApplication().getApiClient().CancelLiveTvTimerAsync(program.getTimerId(), new EmptyResponse() {
             @Override
             public void onResponse() {

@@ -8,11 +8,9 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.MediaStream;
-import mediabrowser.model.livetv.ProgramInfoDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
@@ -130,15 +128,6 @@ public class InfoLayoutHelper {
             time.setTextSize(textSize);
             time.setText(text);
             layout.addView(time);
-    }
-
-    public static void addCriticInfo(Activity activity, ProgramInfoDto program, LinearLayout layout) {
-        BaseItemDto item = new BaseItemDto();
-        item.setType(program.getType());
-        item.setCriticRating(70f);
-        item.setCommunityRating(program.getCommunityRating());
-        addCriticInfo(activity, item, layout);
-
     }
 
     private static void addCriticInfo(Activity activity, BaseItemDto item, LinearLayout layout) {
