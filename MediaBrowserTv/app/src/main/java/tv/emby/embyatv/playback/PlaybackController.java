@@ -168,7 +168,7 @@ public class PlaybackController {
                         mApplication.getLogger().Info("Forcing a transcode of high-res content");
                     }
                 }
-                AndroidProfile profile = useVlc ? new AndroidProfile("vlc") : new AndroidProfile(Utils.getProfileOptions());
+                AndroidProfile profile = useVlc && !isLiveTv ? new AndroidProfile("vlc") : new AndroidProfile(Utils.getProfileOptions());
                 if (!useVlc) profile.setSubtitleProfiles(new SubtitleProfile[]{});
                 mCurrentOptions.setProfile(profile);
 
