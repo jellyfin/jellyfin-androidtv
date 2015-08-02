@@ -230,7 +230,7 @@
     <string name="lbl_select_color">Select Color</string>
     <string name="lbl_sideline_color">Sideline Color</string>
     <string name="desc_sideline_color">Color of the category sideline panel</string>
-    <string name="lbl_vlc_max_res">Max resolution to use VLC</string>
+    <string name="lbl_vlc_max_res">Max resolution to attempt direct stream</string>
     <string name="lbl_allow_vlc_transcode">Use VLC for transcoded streams</string>
     <string name="desc_allow_vlc_transcode">VLC has trouble with some transcoded streams. Turn this off to force all transcodes to the native player.</string>
 
