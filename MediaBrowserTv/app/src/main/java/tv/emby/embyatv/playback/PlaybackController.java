@@ -234,7 +234,6 @@ public class PlaybackController {
             @Override
             public void onResponse(StreamInfo response) {
                 mCurrentStreamInfo = response;
-                mFragment.updateDisplay();
                 Long mbPos = position * 10000;
 
                 setPlaybackMethod(response.getPlayMethod());
@@ -249,6 +248,7 @@ public class PlaybackController {
                     TvApp.getApplication().getLogger().Info("Playing back in native mode.");
                 }
 
+                mFragment.updateDisplay();
                 String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken());
                 videoManager.setVideoPath(path);
                 videoManager.start();
