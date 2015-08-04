@@ -81,6 +81,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
     protected String MainTitle;
     protected boolean ShowBadge = true;
+    protected boolean ShowInfoPanel = true;
     protected TvApp mApplication;
     protected BaseActivity mActivity;
     protected BaseRowItem mCurrentItem;
@@ -136,6 +137,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         audioManager.unregisterMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
 
         super.onPause();
+
     }
 
     @Override
@@ -144,6 +146,9 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
         // set fastLane (or headers) background color
         setBrandColor(Utils.getBrandColor());
+
+        // set info panel option
+        ShowInfoPanel = mApplication.getPrefs().getBoolean("pref_enable_info_panel", true);
 
         //Register a media button receiver so that all media button presses will come to us and not another app
         AudioManager audioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
@@ -323,6 +328,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
         // set search icon color
         setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
+
     }
 
     private Runnable showItemPanel = new Runnable() {
@@ -406,9 +412,11 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
 
-            // cancel any delayed showing and hide item panel
-            mHandler.removeCallbacks(showItemPanel);
-            mItemPanel.setVisibility(View.INVISIBLE);
+            if (ShowInfoPanel) {
+                // cancel any delayed showing and hide item panel
+                mHandler.removeCallbacks(showItemPanel);
+                mItemPanel.setVisibility(View.INVISIBLE);
+            }
 
             if (!(item instanceof BaseRowItem) || isShowingHeaders()) {
                 mCurrentItem = null;
@@ -419,8 +427,10 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                 return;
             } else {
                 mCurrentItem = (BaseRowItem)item;
-                // delay show the item panel
-                mHandler.postDelayed(showItemPanel, 1000);
+                if (ShowInfoPanel) {
+                    // delay show the item panel
+                    mHandler.postDelayed(showItemPanel, 1000);
+                }
             }
 
             mCurrentRow = row;

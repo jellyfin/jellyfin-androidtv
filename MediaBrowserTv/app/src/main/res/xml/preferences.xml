@@ -38,10 +38,15 @@
             app:numColumns="5"
             app:itemLayout="@layout/dash_grid_item_color"
             />
+        <CheckBoxPreference android:key="pref_enable_info_panel"
+            android:title="@string/lbl_show_info_panel"
+            android:defaultValue="true"
+            android:summary="@string/desc_info_panel"
+            />
         <CheckBoxPreference android:key="pref_enable_debug"
-            android:title="Enable debug options"
+            android:title="@string/lbl_enable_debug"
             android:defaultValue="false"
-            android:summary="Show a send logs button on the home screen"
+            android:summary="@string/desc_debug"
             />
 
     </PreferenceCategory>
