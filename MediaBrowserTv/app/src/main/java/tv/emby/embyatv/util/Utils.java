@@ -318,7 +318,10 @@ public class Utils {
         String itemId = item.getId();
         String imageTag = item.getImageTags().get(ImageType.Primary);
         ImageType imageType = ImageType.Primary;
-        if (preferSeriesPoster && item.getType().equals("Episode") && item.getSeriesPrimaryImageTag() != null && item.getSeriesId() != null) {
+        if (preferSeriesPoster && item.getType().equals("Episode") && item.getSeasonId() != null) {
+            imageTag = null;
+            itemId = item.getSeasonId();
+        } else if (preferSeriesPoster && item.getType().equals("Episode") && item.getSeriesPrimaryImageTag() != null && item.getSeriesId() != null) {
             imageTag = item.getSeriesPrimaryImageTag();
             itemId = item.getSeriesId();
         } else if (preferParentThumb || (item.getType().equals("Episode") && imageTag == null)) {
