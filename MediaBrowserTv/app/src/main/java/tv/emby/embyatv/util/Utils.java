@@ -366,7 +366,7 @@ public class Utils {
     public static String getLogoImageUrl(BaseItemDto item, ApiClient apiClient) {
         if (item != null) {
             ImageOptions options = new ImageOptions();
-            options.setMaxWidth(400);
+            options.setMaxWidth(440);
             options.setImageType(ImageType.Logo);
             if (item.getHasLogo()) {
                 options.setTag(item.getImageTags().get(ImageType.Logo));
@@ -374,6 +374,9 @@ public class Utils {
             } else if (item.getParentLogoImageTag() != null) {
                 options.setTag(item.getParentLogoImageTag());
                 return apiClient.GetImageUrl(item.getParentLogoItemId(), options);
+            } else if (item.getSeriesId() != null) {
+                options.setTag(null);
+                return apiClient.GetImageUrl(item.getSeriesId(), options);
             }
         }
 

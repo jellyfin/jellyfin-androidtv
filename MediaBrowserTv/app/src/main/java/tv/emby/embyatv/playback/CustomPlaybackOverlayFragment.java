@@ -73,6 +73,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     ImageView mPoster;
     ImageView mStudioImage;
+    ImageView mLogoImage;
     TextView mTitle;
     TextView mEndTime;
     TextView mCurrentPos;
@@ -214,6 +215,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mPoster = (ImageView) mActivity.findViewById(R.id.poster);
         mNextUpPoster = (ImageView) mActivity.findViewById(R.id.nextUpPoster);
         mStudioImage = (ImageView) mActivity.findViewById(R.id.studioImg);
+        mLogoImage = (ImageView) mActivity.findViewById(R.id.logoImage);
         mTopPanel = mActivity.findViewById(R.id.topPanel);
         mBottomPanel = mActivity.findViewById(R.id.bottomPanel);
         mNextUpPanel = mActivity.findViewById(R.id.nextUpPanel);
@@ -566,6 +568,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     }
 
+    private void updateLogo(BaseItemDto item, ImageView target) {
+        int height = Utils.convertDpToPixel(getActivity(), 60);
+        int width = Utils.convertDpToPixel(getActivity(), 180);
+        String imageUrl = Utils.getLogoImageUrl(item, mApplication.getApiClient());
+        if (imageUrl != null) Picasso.with(getActivity()).load(imageUrl).skipMemoryCache().resize(width, height).centerInside().into(target);
+    }
+
     private void updateStudio(BaseItemDto item) {
         int height = Utils.convertDpToPixel(mActivity, 30);
         int width = Utils.convertDpToPixel(mActivity, 70);
@@ -797,6 +806,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             //set other information
             mTitle.setText(current.getName());
             updatePoster(current, mPoster, true);
+            updateLogo(current, mLogoImage);
             updateStudio(current);
             addButtons(current);
             InfoLayoutHelper.addInfoRow(mActivity, current, mInfoRow, true);
