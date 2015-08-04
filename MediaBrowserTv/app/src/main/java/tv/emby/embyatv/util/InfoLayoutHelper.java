@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.MediaStream;
@@ -114,7 +115,8 @@ public class InfoLayoutHelper {
     private static void addRuntime(Activity activity, BaseItemDto item, LinearLayout layout) {
         Long runtime = Utils.NullCoalesce(item.getRunTimeTicks(), item.getOriginalRunTimeTicks());
         if (runtime != null && runtime > 0) {
-            String text = runtime / 600000000 + activity.getString(R.string.lbl_min) + "  ";
+            long endTime = System.currentTimeMillis() + runtime / 10000 - (item.getUserData() != null && item.getCanResume() ? item.getUserData().getPlaybackPositionTicks()/10000 : 0);
+            String text = runtime / 600000000 + activity.getString(R.string.lbl_min) + " (" + activity.getResources().getString(R.string.lbl_ends) + " " + android.text.format.DateFormat.getTimeFormat(activity).format(new Date(endTime)) + ")  ";
             TextView time = new TextView(activity);
             time.setTextSize(textSize);
             time.setText(text);
