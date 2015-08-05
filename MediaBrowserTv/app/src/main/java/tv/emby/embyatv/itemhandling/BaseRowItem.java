@@ -286,6 +286,33 @@ public class BaseRowItem {
         return "";
     }
 
+    public long getRuntimeTicks() {
+        switch (type) {
+
+            case LiveTvRecording:
+            case BaseItem:
+                return baseItem.getRunTimeTicks();
+            case Person:
+                break;
+            case Server:
+                break;
+            case User:
+                break;
+            case Chapter:
+                break;
+            case SearchHint:
+                break;
+            case LiveTvChannel:
+                break;
+            case GridButton:
+                break;
+            case LiveTvProgram:
+                break;
+        }
+
+        return 0;
+    }
+
     public String getBackdropImageUrl() {
         switch (type) {
             case BaseItem:

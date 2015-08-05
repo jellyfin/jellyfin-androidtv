@@ -334,7 +334,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     private Runnable showItemPanel = new Runnable() {
         @Override
         public void run() {
-            if (mCurrentItem != null && !mCurrentItem.isFolder() && mCurrentItem.getSummary() != null && mCurrentItem.getSummary().length() > 0) {
+            if (mCurrentItem != null && !mCurrentItem.isFolder() && (mCurrentItem.getRuntimeTicks() > 0 ||  (mCurrentItem.getSummary() != null && mCurrentItem.getSummary().length() > 0))) {
                 mItemPanel.setItem(mCurrentItem);
                 mItemPanel.startAnimation(fadeInPanel);
                 mHandler.removeCallbacks(hideItemPanel);
