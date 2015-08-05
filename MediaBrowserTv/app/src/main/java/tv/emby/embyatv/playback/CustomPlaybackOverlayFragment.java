@@ -809,7 +809,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             updateLogo(current, mLogoImage);
             updateStudio(current);
             addButtons(current);
-            InfoLayoutHelper.addInfoRow(mActivity, current, mInfoRow, true);
+            InfoLayoutHelper.addInfoRow(mActivity, current, mInfoRow, true, false);
 
             StreamInfo stream = mPlaybackController.getCurrentStreamInfo();
             if (stream != null) {
@@ -832,7 +832,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     public void onResponse(BaseItemDto response) {
                         mNextUpTitle.setText("Up Next...  " + response.getName());
                         mNextUpSummary.setText(response.getOverview());
-                        InfoLayoutHelper.addInfoRow(mActivity, response, mNextUpInfoRow, true);
+                        InfoLayoutHelper.addInfoRow(mActivity, response, mNextUpInfoRow, true, true);
                         updatePoster(response, mNextUpPoster, true);
                     }
                 });

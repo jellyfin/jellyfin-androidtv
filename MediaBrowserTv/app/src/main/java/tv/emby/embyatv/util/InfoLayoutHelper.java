@@ -23,11 +23,11 @@ public class InfoLayoutHelper {
 
     private static int textSize = 16;
 
-    public static void addInfoRow(Activity activity, BaseRowItem item, LinearLayout layout, boolean includeRuntime) {
+    public static void addInfoRow(Activity activity, BaseRowItem item, LinearLayout layout, boolean includeRuntime, boolean includeEndtime) {
         switch (item.getItemType()) {
 
             case BaseItem:
-                addInfoRow(activity, item.getBaseItem(), layout, includeRuntime);
+                addInfoRow(activity, item.getBaseItem(), layout, includeRuntime, includeEndtime);
                 break;
             default:
                 addSubText(activity, item, layout);
@@ -35,7 +35,7 @@ public class InfoLayoutHelper {
         }
     }
 
-    public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime) {
+    public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
         layout.removeAllViews();
         addCriticInfo(activity, item, layout);
         switch (item.getType()) {
@@ -52,7 +52,7 @@ public class InfoLayoutHelper {
                 addChannelName(activity, item, layout);
         }
         addDate(activity, item, layout);
-        if (includeRuntime) addRuntime(activity, item, layout);
+        if (includeRuntime) addRuntime(activity, item, layout, includeEndTime);
         addRatingAndRes(activity, item, layout);
         addMediaDetails(activity, item, layout);
     }
@@ -112,11 +112,11 @@ public class InfoLayoutHelper {
 
     }
 
-    private static void addRuntime(Activity activity, BaseItemDto item, LinearLayout layout) {
+    private static void addRuntime(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeEndtime) {
         Long runtime = Utils.NullCoalesce(item.getRunTimeTicks(), item.getOriginalRunTimeTicks());
         if (runtime != null && runtime > 0) {
-            long endTime = System.currentTimeMillis() + runtime / 10000 - (item.getUserData() != null && item.getCanResume() ? item.getUserData().getPlaybackPositionTicks()/10000 : 0);
-            String text = runtime / 600000000 + activity.getString(R.string.lbl_min) + " (" + activity.getResources().getString(R.string.lbl_ends) + " " + android.text.format.DateFormat.getTimeFormat(activity).format(new Date(endTime)) + ")  ";
+            long endTime = includeEndtime ? System.currentTimeMillis() + runtime / 10000 - (item.getUserData() != null && item.getCanResume() ? item.getUserData().getPlaybackPositionTicks()/10000 : 0) : 0;
+            String text = runtime / 600000000 + activity.getString(R.string.lbl_min) + (endTime > 0 ? " (" + activity.getResources().getString(R.string.lbl_ends) + " " + android.text.format.DateFormat.getTimeFormat(activity).format(new Date(endTime)) + ")  " : "  ");
             TextView time = new TextView(activity);
             time.setTextSize(textSize);
             time.setText(text);

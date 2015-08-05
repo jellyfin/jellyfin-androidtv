@@ -530,7 +530,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         LinearLayout mainInfoRow = (LinearLayout)findViewById(R.id.fdMainInfoRow);
 
-        InfoLayoutHelper.addInfoRow(this, item, mainInfoRow, false);
+        InfoLayoutHelper.addInfoRow(this, item, mainInfoRow, false, false);
         addGenres(mGenreRow);
         if (playableTypeList.contains(item.getType())) addButtons(BUTTON_SIZE);
 //        updatePlayedDate();
