@@ -50,7 +50,7 @@ public class ItemPanel extends RelativeLayout {
     public void setItem(BaseRowItem item) {
         if (item != null) {
             title.setText(item.getFullName());
-            if (TvApp.getApplication().getCurrentActivity() != null) InfoLayoutHelper.addInfoRow(TvApp.getApplication().getCurrentActivity(), item, infoRow, true);
+            if (TvApp.getApplication().getCurrentActivity() != null) InfoLayoutHelper.addInfoRow(TvApp.getApplication().getCurrentActivity(), item, infoRow, true, true);
             summary.setText(item.getSummary());
         }
     }

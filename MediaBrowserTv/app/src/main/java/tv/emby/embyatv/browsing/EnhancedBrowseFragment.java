@@ -420,7 +420,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             if (mCurrentItem == null) return;
             mTitle.setText(mCurrentItem.getName());
             mSummary.setText(mCurrentItem.getSummary());
-            InfoLayoutHelper.addInfoRow(mActivity, mCurrentItem, mInfoRow, true);
+            InfoLayoutHelper.addInfoRow(mActivity, mCurrentItem, mInfoRow, true, true);
 
         }
     };

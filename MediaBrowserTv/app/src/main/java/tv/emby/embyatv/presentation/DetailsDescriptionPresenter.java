@@ -11,7 +11,7 @@ public class DetailsDescriptionPresenter extends MyAbstractDetailsPresenter {
 
         if (baseItem != null) {
             viewHolder.getTitle().setText(baseItem.getName());
-            InfoLayoutHelper.addInfoRow(viewHolder.getActivity(), baseItem, viewHolder.getInfoRow(), true);
+            InfoLayoutHelper.addInfoRow(viewHolder.getActivity(), baseItem, viewHolder.getInfoRow(), true, true);
             viewHolder.getBody().setText(baseItem.getOverview());
         }
     }
