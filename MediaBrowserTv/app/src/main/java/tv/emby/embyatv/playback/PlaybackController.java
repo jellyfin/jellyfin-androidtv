@@ -160,15 +160,16 @@ public class PlaybackController {
 
                 // Create our profile - fudge to transcode for hi-res content (VLC stutters) if using vlc
                 useVlc = mApplication.getPrefs().getBoolean("pref_enable_vlc", false);
+                boolean useDirectProfile = useVlc && !isLiveTv;
                 if (useVlc && item.getMediaSources() != null && item.getMediaSources().size() > 0) {
                     List<MediaStream> videoStreams = Utils.GetVideoStreams(item.getMediaSources().get(0));
                     MediaStream video = videoStreams != null && videoStreams.size() > 0 ? videoStreams.get(0) : null;
                     if (video != null && video.getWidth() > Integer.parseInt(mApplication.getPrefs().getString("pref_vlc_max_res", "730"))) {
-                        useVlc = false;
+                        useDirectProfile = false;
                         mApplication.getLogger().Info("Forcing a transcode of high-res content");
                     }
                 }
-                AndroidProfile profile = useVlc && !isLiveTv ? new AndroidProfile("vlc") : new AndroidProfile(Utils.getProfileOptions());
+                AndroidProfile profile = useDirectProfile ? new AndroidProfile("vlc") : new AndroidProfile(Utils.getProfileOptions());
                 if (!useVlc) profile.setSubtitleProfiles(new SubtitleProfile[]{});
                 mCurrentOptions.setProfile(profile);
 
