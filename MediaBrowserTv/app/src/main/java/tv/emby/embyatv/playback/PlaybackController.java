@@ -214,7 +214,13 @@ public class PlaybackController {
         return (factor.intValue() * 100000);
     }
 
-    public static int getBufferAmount() {
+    public int getBufferAmount() {
+        if (getCurrentlyPlayingItem() != null && getCurrentlyPlayingItem().getType().equals("TvChannel")) {
+            // force live tv to a small buffer so it doesn't take forever to load
+            mApplication.getLogger().Info("Forcing vlc buffer to 1500 for live tv");
+            return 1500;
+        }
+
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(TvApp.getApplication());
         String buffer = sharedPref.getString("pref_net_buffer", "30");
         Float factor = Float.parseFloat(buffer) * 10;
