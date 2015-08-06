@@ -1163,6 +1163,11 @@ public class Utils {
         return value.toUpperCase();
     }
 
+    public static String FirstToUpper(String value) {
+        if (value == null || value.length() == 0) return "";
+        return value.substring(0,1).toUpperCase() + (value.length() > 1 ? value.substring(1) : "");
+    }
+
     public static int NullCoalesce(Integer obj, int def) {
         if (obj == null) return def;
         return obj;
@@ -1180,7 +1185,7 @@ public class Utils {
     public static void PutCustomAcraData() {
         TvApp app = TvApp.getApplication();
         ApiClient apiClient = app.getApiClient();
-        if (app != null && apiClient != null) {
+        if (apiClient != null) {
             if (app.getCurrentUser() != null) ACRA.getErrorReporter().putCustomData("mbUser", app.getCurrentUser().getName());
             ACRA.getErrorReporter().putCustomData("serverInfo", app.getSerializer().SerializeToString(apiClient.getServerInfo()));
         }

@@ -16,6 +16,7 @@ import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.model.dlna.PlaybackException;
 import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dlna.SubtitleProfile;
+import mediabrowser.model.dlna.SubtitleStreamInfo;
 import mediabrowser.model.dlna.VideoOptions;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.MediaSourceInfo;
@@ -42,6 +43,7 @@ public class PlaybackController {
     private TvApp mApplication;
 
     private StreamInfo mCurrentStreamInfo;
+    private List<SubtitleStreamInfo> mSubtitleStreams;
 
     private IPlaybackOverlayFragment mFragment;
     private View mSpinner;
@@ -99,6 +101,14 @@ public class PlaybackController {
     public Integer getAudioStreamIndex() {
         return isTranscoding() ? mCurrentStreamInfo.getAudioStreamIndex() != null ? mCurrentStreamInfo.getAudioStreamIndex() : mCurrentOptions.getAudioStreamIndex() : Integer.valueOf(mVideoManager.getAudioTrack());
     }
+    public List<SubtitleStreamInfo> getSubtitleStreams() { return mSubtitleStreams; }
+    public SubtitleStreamInfo getSubtitleStreamInfo(int index) {
+        for (SubtitleStreamInfo info : mSubtitleStreams) {
+            if (info.getIndex() == index) return info;
+        }
+
+        return null;
+    }
 
     public boolean isTranscoding() { return mCurrentStreamInfo != null && mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode; }
 
@@ -110,6 +120,10 @@ public class PlaybackController {
     }
 
     public void play(long position) {
+        play(position, -1);
+    }
+
+    private void play(long position, int transcodedSubtitle) {
         if (!TvApp.getApplication().isValid()) {
             Utils.showToast(TvApp.getApplication(), "Playback not supported. Please unlock or become a supporter.");
             return;
@@ -155,12 +169,14 @@ public class PlaybackController {
                 mCurrentOptions.setItemId(item.getId());
                 mCurrentOptions.setMediaSources(item.getMediaSources());
                 mCurrentOptions.setMaxBitrate(getMaxBitrate());
+                mCurrentOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
+                mCurrentOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
                 TvApp.getApplication().getLogger().Debug("Max bitrate is: " + getMaxBitrate());
                 isLiveTv = item.getType().equals("TvChannel");
 
                 // Create our profile - fudge to transcode for hi-res content (VLC stutters) if using vlc
                 useVlc = mApplication.getPrefs().getBoolean("pref_enable_vlc", false);
-                boolean useDirectProfile = useVlc && !isLiveTv;
+                boolean useDirectProfile = transcodedSubtitle < 0 && useVlc && !isLiveTv;
                 if (useVlc && item.getMediaSources() != null && item.getMediaSources().size() > 0) {
                     List<MediaStream> videoStreams = Utils.GetVideoStreams(item.getMediaSources().get(0));
                     MediaStream video = videoStreams != null && videoStreams.size() > 0 ? videoStreams.get(0) : null;
@@ -170,7 +186,7 @@ public class PlaybackController {
                     }
                 }
                 AndroidProfile profile = useDirectProfile ? new AndroidProfile("vlc") : new AndroidProfile(Utils.getProfileOptions());
-                if (!useVlc) profile.setSubtitleProfiles(new SubtitleProfile[]{});
+                if (!useDirectProfile) profile.setSubtitleProfiles(new SubtitleProfile[]{}); //todo remove this once sub downloading works
                 mCurrentOptions.setProfile(profile);
 
                 playInternal(getCurrentlyPlayingItem(), position, mVideoManager, mCurrentOptions);
@@ -247,16 +263,20 @@ public class PlaybackController {
 
                 if (useVlc && (mApplication.getPrefs().getBoolean("pref_allow_vlc_transcode", false) || mPlaybackMethod != PlayMethod.Transcode)) {
                     mVideoManager.setNativeMode(false);
-                    mCurrentOptions.setAudioStreamIndex(response.getMediaSource().getDefaultAudioStreamIndex());
-                    mCurrentOptions.setSubtitleStreamIndex(response.getMediaSource().getDefaultSubtitleStreamIndex());
+                    if (mCurrentOptions.getAudioStreamIndex() == null) mCurrentOptions.setAudioStreamIndex(response.getMediaSource().getDefaultAudioStreamIndex());
+                    if (mCurrentOptions.getSubtitleStreamIndex() == null) mCurrentOptions.setSubtitleStreamIndex(response.getMediaSource().getDefaultSubtitleStreamIndex());
                     TvApp.getApplication().getLogger().Debug("Default audio track: " + mCurrentOptions.getAudioStreamIndex() + " subtitle: " + mCurrentOptions.getSubtitleStreamIndex());
                 } else {
                     mVideoManager.setNativeMode(true);
                     TvApp.getApplication().getLogger().Info("Playing back in native mode.");
                 }
 
+                // get subtitle info
+                mSubtitleStreams = response.GetSubtitleProfiles(false, mApplication.getApiClient().getApiUrl(), mApplication.getApiClient().getAccessToken());
+
                 mFragment.updateDisplay();
                 String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken());
+
                 videoManager.setVideoPath(path);
                 videoManager.start();
                 mStartPosition = position;
@@ -369,47 +389,82 @@ public class PlaybackController {
         if (!isPlaying()) return;
         mApplication.getLogger().Debug("Setting subtitle index to: " + index);
         mCurrentOptions.setSubtitleStreamIndex(index >= 0 ? index : null);
+
         if (mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode) {
             startSpinner();
+            Utils.showToast(mApplication, "Burned in subs can take a few minutes. Please be patient...");
             mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
             stop();
             playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mVideoManager, mCurrentOptions);
             mPlaybackState = PlaybackState.BUFFERING;
 
-        } else  {
+        } else {
+            if (index < 0) {
+                mVideoManager.setSubtitleTrack(-1);
+                return;
+            }
+
             MediaStream stream = Utils.GetMediaStream(getCurrentMediaSource(), index);
-            if (index == -1 || (stream != null && !stream.getIsExternal())) {
+            if (stream == null) {
+                Utils.showToast(mApplication, "Unable to select subtitle");
+                return;
+            }
+
+            if (!stream.getIsExternal()) {
+                // not transcoding and internal sub - can just switch to it
                 mVideoManager.setSubtitleTrack(index);
             } else {
-                mSubHelper.downloadExternalSubtitleTrack(stream, new Response<File>() {
+                // handle according to delivery method
+                SubtitleStreamInfo streamInfo = getSubtitleStreamInfo(index);
+                if (streamInfo == null) {
+                    Utils.showToast(mApplication, "Unable to load subtitle");
+                } else {
+                    switch (streamInfo.getDeliveryMethod()) {
 
-                    @Override
-                    public void onResponse(final File newFile) {
+                        case Encode:
+                        case Embed:
+                            // Gonna need to burn in so start a transcode with the sub index
+                            stop();
+                            Utils.showToast(mApplication, "Burned in subs can take a few minutes. Please be patient...");
+                            play(mCurrentPosition, index);
+                            break;
+                        case External:
+                            stream.setDeliveryMethod(streamInfo.getDeliveryMethod());
+                            stream.setDeliveryUrl(streamInfo.getUrl());
+                            mSubHelper.downloadExternalSubtitleTrack(stream, new Response<File>() {
 
-                        if (newFile.exists()) {
-
-                            TvApp.getApplication().getCurrentActivity().runOnUiThread(new Runnable() {
                                 @Override
-                                public void run() {
-                                    TvApp.getApplication().getLogger().Debug("Adding subtitle track to vlc %s", Uri.fromFile(newFile).getPath());
-                                    int id = mVideoManager.addSubtitleTrack(Uri.fromFile(newFile).getPath());
-                                    TvApp.getApplication().getLogger().Debug("New subtitle track list: %s", TvApp.getApplication().getSerializer().SerializeToString(mVideoManager.getSubtitleTracks()));
-                                    TvApp.getApplication().getLogger().Debug("Setting new subtitle track id: %s", id);
-                                    mVideoManager.setSubtitleTrack(id);
+                                public void onResponse(final File newFile) {
+
+                                    if (newFile.exists()) {
+
+                                        TvApp.getApplication().getCurrentActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                TvApp.getApplication().getLogger().Debug("Adding subtitle track to player %s", Uri.fromFile(newFile).getPath());
+                                                int id = mVideoManager.addSubtitleTrack(Uri.fromFile(newFile).getPath());
+                                                TvApp.getApplication().getLogger().Debug("New subtitle track list: %s", TvApp.getApplication().getSerializer().SerializeToString(mVideoManager.getSubtitleTracks()));
+                                                TvApp.getApplication().getLogger().Debug("Setting new subtitle track id: %s", id);
+                                                mVideoManager.setSubtitleTrack(id);
+                                            }
+                                        });
+                                    } else {
+                                        TvApp.getApplication().getLogger().Error("Subtitles were downloaded but file doesn't exist!");
+                                    }
                                 }
+
+                                @Override
+                                public void onError(Exception ex) {
+                                    TvApp.getApplication().getLogger().ErrorException("Error downloading subtitles", ex);
+                                    Utils.showToast(mApplication, "Unable to select subtitle");
+                                }
+
                             });
-                        } else {
-                            TvApp.getApplication().getLogger().Error("Subtitles were downloaded but file doesn't exist!");
-                        }
+                            break;
+                        case Hls:
+                            break;
                     }
-
-                    @Override
-                    public void onError(Exception ex) {
-                        TvApp.getApplication().getLogger().ErrorException("Error downloading subtitles", ex);
-                    }
-
-                });
-
+                }
             }
         }
     }

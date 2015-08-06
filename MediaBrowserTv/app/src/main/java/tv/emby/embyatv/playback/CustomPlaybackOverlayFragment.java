@@ -48,6 +48,7 @@ import java.util.List;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dlna.StreamInfo;
+import mediabrowser.model.dlna.SubtitleStreamInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.ChapterInfoDto;
 import mediabrowser.model.dto.ImageOptions;
@@ -689,7 +690,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         }
 
         if (hasSubs) {
-            mApplication.getLogger().Debug("Subtitle tracks found: "+Utils.GetSubtitleStreams(mPlaybackController.getCurrentMediaSource()).size());
+            mApplication.getLogger().Debug("Subtitle tracks found: " + mPlaybackController.getSubtitleStreams().size());
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.subt, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -699,13 +700,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         return;
                     }
                     setFadingEnabled(false);
-                    List<MediaStream> subtitles = TvApp.getApplication().getPlaybackManager().getInPlaybackSelectableSubtitleStreams(mPlaybackController.getCurrentStreamInfo());
+                    List<SubtitleStreamInfo> subtitles = mPlaybackController.getSubtitleStreams();
                     PopupMenu subMenu = Utils.createPopupMenu(getActivity(), v, Gravity.RIGHT);
                     MenuItem none = subMenu.getMenu().add(0, -1, 0, mApplication.getString(R.string.lbl_none));
                     int currentSubIndex = mPlaybackController.getSubtitleStreamIndex();
                     if (currentSubIndex < 0) none.setChecked(true);
-                    for (MediaStream sub : subtitles) {
-                        MenuItem item = subMenu.getMenu().add(0, sub.getIndex(), sub.getIndex(), sub.getLanguage() + (sub.getIsExternal() ? mApplication.getString(R.string.lbl_parens_external) : mApplication.getString(R.string.lbl_parens_internal)) + (sub.getIsForced() ? mApplication.getString(R.string.lbl_parens_forced) : ""));
+                    for (SubtitleStreamInfo sub : subtitles) {
+                        MenuItem item = subMenu.getMenu().add(0, sub.getIndex(), sub.getIndex(), Utils.FirstToUpper(sub.getName() != null ? sub.getName() : sub.getLanguage()) + (sub.getIsForced() ? mApplication.getString(R.string.lbl_parens_forced) : ""));
                         if (currentSubIndex == sub.getIndex()) item.setChecked(true);
                     }
                     subMenu.getMenu().setGroupCheckable(0, true, false);
