@@ -315,14 +315,30 @@ public class PlaybackController {
     }
 
     public void startSpinner() {
-        if (mSpinner != null) mSpinner.setVisibility(View.VISIBLE);
-        spinnerOff = false;
+        if (mApplication.getCurrentActivity() != null) {
+            mApplication.getCurrentActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mSpinner != null) mSpinner.setVisibility(View.VISIBLE);
+                    spinnerOff = false;
+                }
+            });
+
+        }
 
     }
 
     public void stopSpinner() {
-        spinnerOff = true;
-        if (mSpinner != null) mSpinner.setVisibility(View.GONE);
+        if (mApplication.getCurrentActivity() != null) {
+            mApplication.getCurrentActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    spinnerOff = true;
+                    if (mSpinner != null) mSpinner.setVisibility(View.GONE);
+                }
+            });
+
+        }
 
     }
 
