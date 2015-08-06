@@ -310,7 +310,7 @@ public class Utils {
     }
 
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched, boolean preferParentThumb, int maxHeight) {
-        return getPrimaryImageUrl(item, apiClient,showWatched, true, preferParentThumb, false, maxHeight);
+        return getPrimaryImageUrl(item, apiClient, showWatched, true, preferParentThumb, false, maxHeight);
     }
 
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched, boolean showProgress, boolean preferParentThumb, boolean preferSeriesPoster, int maxHeight) {
@@ -559,11 +559,15 @@ public class Utils {
 
     }
 
-    public static void retrieveAndPlay(String id, final boolean shuffle, final Context activity) {
+    public static void retrieveAndPlay(String id, boolean shuffle, Context activity) {
+        retrieveAndPlay(id, shuffle, null, activity);
+    }
+
+    public static void retrieveAndPlay(String id, final boolean shuffle, final Long position, final Context activity) {
         TvApp.getApplication().getApiClient().GetItemAsync(id, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
             @Override
             public void onResponse(BaseItemDto response) {
-                Long pos = response.getUserData() != null ? response.getUserData().getPlaybackPositionTicks() / 10000 : 0;
+                Long pos = position != null ? position / 10000 : response.getUserData() != null ? response.getUserData().getPlaybackPositionTicks() / 10000 : 0;
                 play(response, pos.intValue(), shuffle, activity);
             }
 
