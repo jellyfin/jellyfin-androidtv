@@ -130,7 +130,7 @@ public class TvApiEventListener extends ApiEventListener {
             if (command.getItemIds().length > 0) {
                 TvApp.getApplication().getLogger().Info("Playing single item by remote request");
                 Context context = TvApp.getApplication().getCurrentActivity() != null ? TvApp.getApplication().getCurrentActivity() : TvApp.getApplication();
-                Utils.retrieveAndPlay(command.getItemIds()[0], false, context);
+                Utils.retrieveAndPlay(command.getItemIds()[0], false, command.getStartPositionTicks() != null ? command.getStartPositionTicks() : 0, context);
             }
         }
     }
