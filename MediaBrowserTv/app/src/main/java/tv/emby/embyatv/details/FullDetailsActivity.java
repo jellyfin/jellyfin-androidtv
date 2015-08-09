@@ -667,7 +667,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 mDetailsOverviewRow.addAction(mRecordButton);
             }
 
-            if (mProgramInfo.getIsSeries()) {
+            if (mProgramInfo.getIsSeries() != null && mProgramInfo.getIsSeries()) {
                 mRecSeriesButton= new ImageButton(this, mProgramInfo.getSeriesTimerId() != null ? R.drawable.recseries : R.drawable.recserieswhite, buttonSize, getString(R.string.lbl_record_series), null, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
