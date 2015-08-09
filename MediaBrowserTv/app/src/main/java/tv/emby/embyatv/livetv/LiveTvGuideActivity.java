@@ -350,7 +350,7 @@ public class LiveTvGuideActivity extends BaseActivity {
                         if (mFirstButton == null) mFirstButton = rec;
                         mDRecordInfo.setText("");
                     }
-                    if (program.getIsSeries()) {
+                    if (Utils.isTrue(program.getIsSeries())) {
                         if (program.getSeriesTimerId() != null) {
                             // cancel series button
                             Button cancel = new Button(mActivity);
@@ -916,16 +916,16 @@ public class LiveTvGuideActivity extends BaseActivity {
 //            InfoLayoutHelper.addSpacer(mActivity, mInfoRow, "  ", 10);
             //
 
-            if (mSelectedProgram.getIsNews()) {
+            if (Utils.isTrue(mSelectedProgram.getIsNews())) {
                 mBackdrop.setImageResource(R.drawable.newsbanner);
 
-            } else if (mSelectedProgram.getIsKids()) {
+            } else if (Utils.isTrue(mSelectedProgram.getIsKids())) {
                 mBackdrop.setImageResource(R.drawable.kidsbanner);
 
-            } else if (mSelectedProgram.getIsSports()) {
+            } else if (Utils.isTrue(mSelectedProgram.getIsSports())) {
                 mBackdrop.setImageResource(R.drawable.sportsbanner);
 
-            } else if (mSelectedProgram.getIsMovie()) {
+            } else if (Utils.isTrue(mSelectedProgram.getIsMovie())) {
                 mBackdrop.setImageResource(R.drawable.moviebanner);
 
             } else {
