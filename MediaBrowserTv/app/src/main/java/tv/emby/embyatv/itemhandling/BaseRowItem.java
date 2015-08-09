@@ -307,7 +307,7 @@ public class BaseRowItem {
             case GridButton:
                 break;
             case LiveTvProgram:
-                break;
+                return ((baseItem.getStartDate() != null) && (baseItem.getEndDate() != null)) ? (baseItem.getEndDate().getTime() - (baseItem.getStartDate().getTime() * 10000)) : 0;
         }
 
         return 0;
