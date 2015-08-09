@@ -291,7 +291,7 @@ public class BaseRowItem {
 
             case LiveTvRecording:
             case BaseItem:
-                return baseItem.getRunTimeTicks();
+                return baseItem.getRunTimeTicks() != null ? baseItem.getRunTimeTicks() : 0;
             case Person:
                 break;
             case Server:
