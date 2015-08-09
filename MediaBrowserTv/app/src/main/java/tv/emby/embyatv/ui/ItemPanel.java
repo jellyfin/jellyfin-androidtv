@@ -49,7 +49,7 @@ public class ItemPanel extends RelativeLayout {
 
     public void setItem(BaseRowItem item) {
         if (item != null) {
-            title.setText(item.getFullName());
+            title.setText(item.getFullName() + (item.getItemType() == BaseRowItem.ItemType.BaseItem && "Episode".equals(item.getBaseItem().getType()) ? " - " + item.getName() : ""));
             if (TvApp.getApplication().getCurrentActivity() != null) InfoLayoutHelper.addInfoRow(TvApp.getApplication().getCurrentActivity(), item, infoRow, true, true);
             summary.setText(item.getSummary());
         }
