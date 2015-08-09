@@ -53,13 +53,13 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
         mInfoRow.setFocusable(false);
         mRecIndicator = (ImageView) findViewById(R.id.recIndicator);
 
-        if (program.getIsMovie())
+        if (Utils.isTrue(program.getIsMovie()))
             mBackgroundColor = getResources().getColor(R.color.guide_movie_bg);
-        else if (program.getIsNews())
+        else if (Utils.isTrue(program.getIsNews()))
             mBackgroundColor = getResources().getColor(R.color.guide_news_bg);
-        else if (program.getIsSports())
+        else if (Utils.isTrue(program.getIsSports()))
             mBackgroundColor = getResources().getColor(R.color.guide_sports_bg);
-        else if (program.getIsKids())
+        else if (Utils.isTrue(program.getIsKids()))
             mBackgroundColor = getResources().getColor(R.color.guide_kids_bg);
 
         setBackgroundColor(mBackgroundColor);

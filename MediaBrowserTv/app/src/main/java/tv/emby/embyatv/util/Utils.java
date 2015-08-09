@@ -959,6 +959,10 @@ public class Utils {
 
     }
 
+    public static boolean isTrue(Boolean value) {
+        return value != null && value;
+    }
+
     public static Date convertToLocalDate(Date utcDate) {
 
 
