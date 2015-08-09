@@ -1,5 +1,7 @@
 package tv.emby.embyatv.playback;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Handler;
@@ -20,6 +22,7 @@ import mediabrowser.model.dlna.SubtitleStreamInfo;
 import mediabrowser.model.dlna.VideoOptions;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.MediaSourceInfo;
+import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
@@ -156,6 +159,45 @@ public class PlaybackController {
             case IDLE:
                 // start new playback
                 BaseItemDto item = getCurrentlyPlayingItem();
+
+                // make sure item isn't missing
+                if (item.getLocationType() == LocationType.Virtual) {
+                    if (hasNextItem()) {
+                        new AlertDialog.Builder(mApplication.getCurrentActivity())
+                                .setTitle("Episode Missing")
+                                .setMessage("This episode is missing from your library.  Would you like to skip it and continue to the next one?")
+                                .setPositiveButton(mApplication.getResources().getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        next();
+                                    }
+                                })
+                                .setNegativeButton(mApplication.getResources().getString(R.string.lbl_no), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mApplication.getCurrentActivity().finish();
+                                    }
+                                })
+                                .create()
+                                .show();
+                        return;
+                    } else {
+                        new AlertDialog.Builder(mApplication.getCurrentActivity())
+                                .setTitle("Episode Missing")
+                                .setMessage("This episode is missing from your library.  Playback will stop.")
+                                .setPositiveButton(mApplication.getResources().getString(R.string.lbl_ok), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mApplication.getCurrentActivity().finish();
+                                    }
+                                })
+                                .create()
+                                .show();
+                        return;
+
+                    }
+                }
+
                 // confirm we actually can play
                 if (item.getPlayAccess() != PlayAccess.Full) {
                     String msg = item.getIsPlaceHolder() ? mApplication.getString(R.string.msg_cannot_play) : mApplication.getString(R.string.msg_cannot_play_time);

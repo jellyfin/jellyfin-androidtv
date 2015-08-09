@@ -422,7 +422,6 @@ public class Utils {
                     //add subsequent episodes
                     if (mainItem.getSeasonId() != null && mainItem.getIndexNumber() != null) {
                         query.setParentId(mainItem.getSeasonId());
-                        query.setIsMissing(false);
                         query.setIsVirtualUnaired(false);
                         query.setMinIndexNumber(mainItem.getIndexNumber() + 1);
                         query.setSortBy(new String[] {ItemSortBy.SortName});
