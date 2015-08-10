@@ -135,6 +135,8 @@
     <string name="lbl_login_as">"Se connecter en tant que"</string>
     <string name="lbl_tv">TV</string>
     <string name="lbl_people">Personnes</string>
+    <string name="lbl_videos">Vidéos</string>
+    <string name="lbl_recordings">Enregistrements</string>
     <string name="lbl_parens_external">" (externe)"</string>
     <string name="lbl_parens_internal">" (interne)"</string>
     <string name="lbl_parens_forced">" (forcé)"</string>
@@ -214,4 +216,22 @@
     <string name="lbl_repeat_options">Options de répétition</string>
     <string name="lbl_days">Jours</string>
     <string name="msg_cancel_entire_series">Etes-vous sûr de vouloir annuler cette SERIE ENTIERE ?</string>
+    <string name="msg_remote_already_playing">Requête de lecture à distance ignorée. Veuillez arrêter la lecture de l\'élément en cours d\'abord.</string>
+    <string name="lbl_buffering_amount">Taille du buffering</string>
+    <string name="pref_audio_direct">Direct</string>
+    <string name="pref_audio_compat">Compatible</string>
+    <string name="lbl_audio_output">Sortie audio</string>
+    <string name="lbl_goto_series">Aller vers les séries</string>
+    <string name="lbl_use_vlc">Utiliser VLC pour la lecture</string>
+    <string name="desc_use_vlc">Utiliser un lecteur VLC embarqué pour la lecture directe du contenu</string>
+    <string name="lbl_select_color">Choisissez la couleur</string>
+    <string name="lbl_sideline_color">Couleur de la bordure</string>
+    <string name="desc_sideline_color">Couleur du panneau latéral de catégories</string>
+    <string name="lbl_vlc_max_res">Résolution max pour une tentative de streaming direct</string>
+    <string name="lbl_allow_vlc_transcode">Utiliser VLC pour les flux transcodés</string>
+    <string name="desc_allow_vlc_transcode">VLC rencontre des difficultés avec certains flux transcodés. Désactivez cette fonctionnalité pour forcer la lecture de tous les transcodages avec le lecteur natif.</string>
+    <string name="lbl_show_info_panel">Afficher le panneau d\'information</string>
+    <string name="lbl_enable_debug">Activer les options de debuggage</string>
+    <string name="desc_info_panel">Affiche un panneau de détails sur l\'élément courant pour les écrans qui ne montrent pas d\'information détaillée</string>
+    <string name="desc_debug">Affiche un bouton d\'envoi des logs sur l\'écran de la page d\'accueil</string>
 </resources>

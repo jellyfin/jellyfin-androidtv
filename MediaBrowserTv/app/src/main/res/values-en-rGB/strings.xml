@@ -6,4 +6,6 @@
     <string name="lbl_toggle_favorite">Toggle Favourite</string>
     <string name="lbl_remove_favorite">Remove Favourite</string>
     <string name="lbl_add_favorite">Add Favourite</string>
+    <string name="lbl_sideline_color">Sideline Colour</string>
+    <string name="desc_sideline_color">Colour of the category sideline panel</string>
 </resources>

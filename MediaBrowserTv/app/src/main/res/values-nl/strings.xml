@@ -135,6 +135,8 @@
     <string name="lbl_login_as">"Inloggen als "</string>
     <string name="lbl_tv">TV</string>
     <string name="lbl_people">Mensen</string>
+    <string name="lbl_videos">Videos</string>
+    <string name="lbl_recordings">Opnamen</string>
     <string name="lbl_parens_external">" (extern)"</string>
     <string name="lbl_parens_internal">" (intern)"</string>
     <string name="lbl_parens_forced">" (geforceerd)"</string>
@@ -214,4 +216,11 @@
     <string name="lbl_repeat_options">Herhalings instellingen</string>
     <string name="lbl_days">Dagen</string>
     <string name="msg_cancel_entire_series">Weet je zeker dat je de hele serie wilt annuleren?</string>
+    <string name="pref_audio_direct">Direct</string>
+    <string name="pref_audio_compat">Compatible</string>
+    <string name="lbl_audio_output">Geluid uitgang</string>
+    <string name="lbl_goto_series">Ga naar serie</string>
+    <string name="lbl_use_vlc">Gebruik VLC om af te spelen</string>
+    <string name="desc_use_vlc">Gebruik de interne VLC speler om media af te spelen</string>
+    <string name="lbl_select_color">Selecteer kleur</string>
 </resources>

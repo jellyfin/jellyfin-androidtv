@@ -135,6 +135,8 @@
     <string name="lbl_login_as">"Iniciar Sesión como "</string>
     <string name="lbl_tv">TV</string>
     <string name="lbl_people">Gente</string>
+    <string name="lbl_videos">Videos</string>
+    <string name="lbl_recordings">Grabaciones</string>
     <string name="lbl_parens_external">" (externo)"</string>
     <string name="lbl_parens_internal">" (interno)"</string>
     <string name="lbl_parens_forced">" (forzado)"</string>
@@ -214,4 +216,22 @@
     <string name="lbl_repeat_options">Repetir Opciones</string>
     <string name="lbl_days">Días</string>
     <string name="msg_cancel_entire_series">¿Está seguro de querer cancelar esta SERIE COMPLETA?</string>
+    <string name="msg_remote_already_playing">Solicitud de reproducción remota ignorada. Por favor primero detenga el ítem actual.</string>
+    <string name="lbl_buffering_amount">Cantidad de búffer</string>
+    <string name="pref_audio_direct">Directo</string>
+    <string name="pref_audio_compat">Compatible</string>
+    <string name="lbl_audio_output">Salida de Audio</string>
+    <string name="lbl_goto_series">Ir a Series</string>
+    <string name="lbl_use_vlc">Emplear VLC para reproducción</string>
+    <string name="desc_use_vlc">Emplear un reproductor VLC embebido para reproducción directa de contenidos</string>
+    <string name="lbl_select_color">Seleccionar Color</string>
+    <string name="lbl_sideline_color">Color de Línea Lateral</string>
+    <string name="desc_sideline_color">Color de la línea lateral del panel de categorías</string>
+    <string name="lbl_vlc_max_res">Máxima resolución para intentar transmisión directa</string>
+    <string name="lbl_allow_vlc_transcode">Emplear VLC para transferencias transcodificadas</string>
+    <string name="desc_allow_vlc_transcode">VLC tiene problemas con algunas transferencias transcodificadas. Desactive esto para forzar todas las transcodificaciones hacia el reproductor nativo.</string>
+    <string name="lbl_show_info_panel">Mostrar Panel de Información</string>
+    <string name="lbl_enable_debug">Habilitar opciones de depuración</string>
+    <string name="desc_info_panel">Mostrar un panel con detalles del ítem actual en las pantallas que no cuentan con información detallada.</string>
+    <string name="desc_debug">Mostrar un botón de envío de bitácoras en la pantalla de inicio.</string>
 </resources>

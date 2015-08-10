@@ -135,6 +135,8 @@
     <string name="lbl_login_as">"Anmelden als "</string>
     <string name="lbl_tv">TV</string>
     <string name="lbl_people">Personen</string>
+    <string name="lbl_videos">Videos</string>
+    <string name="lbl_recordings">Aufnahmen</string>
     <string name="lbl_parens_external">" (extern)"</string>
     <string name="lbl_parens_internal">" (intern)"</string>
     <string name="lbl_parens_forced">" (erzwungen)"</string>
@@ -168,7 +170,7 @@
     <string name="msg_playback_incompatible">Video Format kann nicht wiedergegeben werden</string>
     <string name="lbl_never">Niemals</string>
     <string name="lbl_unlock_app">App freischalten</string>
-    <string name="lbl_unlock_desc">Schalten Sie alle Funktionen der App durch einen Kauf frei. Wenn Sie ein aktiver Unterstützer sind benötigen Sie dies nicht. Achten Sie darauf, dass Ihr Server Ihren Unterstützer-Schlüssel kennt oder, wenn Sie sich aus der Ferne anmelden, die Connect Funktion zum Login verwenden.</string>
+    <string name="lbl_unlock_desc">Entsperren Sie die App für volle Funktionalität durch den Kauf hier. Wenn Sie ein aktiver Unterstützer mit einem lokalen Server sind sollten Sie nicht brauchen, um dies zu tun. Seien Sie sicher, dass Ihr Server hat Ihre Fan-Taste vorhanden.</string>
     <string name="btn_next">Weiter</string>
     <string name="msg_invalid_purchase">Ungültige Kauf anfrage.</string>
     <string name="msg_thank_you_unlocked">Vielen Dank. Ihre App ist nun freigeschaltet.</string>
@@ -214,4 +216,22 @@
     <string name="lbl_repeat_options">Wiederholungsoptionen</string>
     <string name="lbl_days">Tage</string>
     <string name="msg_cancel_entire_series">Möchten Sie diese Serie wirklich abbrechen?</string>
+    <string name="msg_remote_already_playing">Ferngesteuerte Wiedergabe ignoriert. Bitte stoppel Sie die aktuelle Wiedergabe.</string>
+    <string name="lbl_buffering_amount">Zwischenspeicherung</string>
+    <string name="pref_audio_direct">Direkt</string>
+    <string name="pref_audio_compat">Kompatibel</string>
+    <string name="lbl_audio_output">Audio Ausgabe</string>
+    <string name="lbl_goto_series">Gehe zu Serien</string>
+    <string name="lbl_use_vlc">Benutze VLC für Wiedergabe</string>
+    <string name="desc_use_vlc">Verwende eingebauten VLC Player für direkte Wiedergaben</string>
+    <string name="lbl_select_color">Wähle Farbe</string>
+    <string name="lbl_sideline_color">Seitenfarbe</string>
+    <string name="desc_sideline_color">Farbe der Kategorie der Seitenfarbe</string>
+    <string name="lbl_vlc_max_res">Maximale Auflösung für Versuch direktes Streaming</string>
+    <string name="lbl_allow_vlc_transcode">Verwende VLC für transkodierte Streams</string>
+    <string name="desc_allow_vlc_transcode">VLC hat Probleme mit einigen transkodierten Streams. Schalten Sie dies aus um alle transkodierten Wiedergaben über den nativen Player durchzuführen.</string>
+    <string name="lbl_show_info_panel">Zeige Info Seite</string>
+    <string name="lbl_enable_debug">Aktiviere Debug Optionen</string>
+    <string name="desc_info_panel">Zeige eine Tafel mit Details zum aktuellen Medium auf Ansichten ohne Detailinformationen.</string>
+    <string name="desc_debug">Zeige eine \"Sende Logfiles\" Schaltfläche auf dem Startbildschirm</string>
 </resources>
