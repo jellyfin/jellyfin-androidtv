@@ -135,6 +135,8 @@
     <string name="lbl_login_as">"Входить как "</string>
     <string name="lbl_tv">ТВ</string>
     <string name="lbl_people">Люди</string>
+    <string name="lbl_videos">Видео</string>
+    <string name="lbl_recordings">Записи</string>
     <string name="lbl_parens_external">" (внешние)"</string>
     <string name="lbl_parens_internal">" (внутренние)"</string>
     <string name="lbl_parens_forced">" (форсированные)"</string>
@@ -214,4 +216,22 @@
     <string name="lbl_repeat_options">Параметры повтора</string>
     <string name="lbl_days">Дни</string>
     <string name="msg_cancel_entire_series">Вы действительно хотите отменить этот ВЕСЬ СЕРИАЛ?</string>
+    <string name="msg_remote_already_playing">Отклонён удалённый запрос на воспроизведение. Сначала остановите текущий элемент.</string>
+    <string name="lbl_buffering_amount">Общий размер буфера</string>
+    <string name="pref_audio_direct">Напрямую</string>
+    <string name="pref_audio_compat">Совместимо</string>
+    <string name="lbl_audio_output">Выход звука</string>
+    <string name="lbl_goto_series">Перейти к сериям</string>
+    <string name="lbl_use_vlc">Использовать VLC для воспроизведения</string>
+    <string name="desc_use_vlc">Используется встроенный VLC-проигрыватель для прямого воспроизведения содержания</string>
+    <string name="lbl_select_color">Выбрать цвет</string>
+    <string name="lbl_sideline_color">Цвет боковой линии</string>
+    <string name="desc_sideline_color">Цвет категории боковой панели</string>
+    <string name="lbl_vlc_max_res">Максимальное разрешение для попытки прямой трансляции</string>
+    <string name="lbl_allow_vlc_transcode">Использовать VLC для перекодированных потоков</string>
+    <string name="desc_allow_vlc_transcode">В VLC имеются проблемы с некоторыми перекодированными потоками. Выключите это, чтобы принудительно направить всё перекодированное на внутренний проигрыватель.</string>
+    <string name="lbl_show_info_panel">Показывать инфо-панель</string>
+    <string name="lbl_enable_debug">Включить отладочные параметры</string>
+    <string name="desc_info_panel">Показывается панель с подробными сведениями о текущем элементе на экранах без подробной информации</string>
+    <string name="desc_debug">Показывать кнопку Отправить журналы на главном экране</string>
 </resources>

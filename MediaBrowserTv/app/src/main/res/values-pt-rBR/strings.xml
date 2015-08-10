@@ -135,6 +135,8 @@
     <string name="lbl_login_as">"Entrar como "</string>
     <string name="lbl_tv">TV</string>
     <string name="lbl_people">Pessoas</string>
+    <string name="lbl_videos">Vídeos</string>
+    <string name="lbl_recordings">Gravações</string>
     <string name="lbl_parens_external">" (externo)"</string>
     <string name="lbl_parens_internal">" (interno)"</string>
     <string name="lbl_parens_forced">" (forçado)"</string>
@@ -214,4 +216,22 @@
     <string name="lbl_repeat_options">Repetir Opções</string>
     <string name="lbl_days">Dias</string>
     <string name="msg_cancel_entire_series">Deseja realmente cancelar esta SÉRIE COMPLETA?</string>
+    <string name="msg_remote_already_playing">Pedido de reprodução remota ignorado. Por favor, primeiro pare o item atual.</string>
+    <string name="lbl_buffering_amount">Quantidade de Buffering</string>
+    <string name="pref_audio_direct">Direta</string>
+    <string name="pref_audio_compat">Compatível</string>
+    <string name="lbl_audio_output">Saída de Áudio</string>
+    <string name="lbl_goto_series">Ir para Séries</string>
+    <string name="lbl_use_vlc">Usar VLC para reprodução</string>
+    <string name="desc_use_vlc">Usar um reprodutor VLC embarcado para reprodução direta de conteúdo</string>
+    <string name="lbl_select_color">Selecionar Cor</string>
+    <string name="lbl_sideline_color">Cor Lateral</string>
+    <string name="desc_sideline_color">Cor do painel de categoria lateral</string>
+    <string name="lbl_vlc_max_res">Máxima resolução para tentar um stream direto</string>
+    <string name="lbl_allow_vlc_transcode">Usar VLC para streams transcodificados</string>
+    <string name="desc_allow_vlc_transcode">VLC apresenta problemas com alguns streams transcodificados. Desative esta opção para forçar todas as transcodificações para o reprodutor nativo</string>
+    <string name="lbl_show_info_panel">Exibir Painel de Informações</string>
+    <string name="lbl_enable_debug">Ativar opções de depuração</string>
+    <string name="desc_info_panel">Exibir um painel com detalhes do item atual nas telas sem as informações detalhadas</string>
+    <string name="desc_debug">Exibir um botão de enviar logs na tela inicial</string>
 </resources>

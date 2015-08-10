@@ -135,6 +135,8 @@
     <string name="lbl_login_as">"Басқаша кіру "</string>
     <string name="lbl_tv">ТД</string>
     <string name="lbl_people">Адамдар</string>
+    <string name="lbl_videos">Бейнелер</string>
+    <string name="lbl_recordings">Жазбалар</string>
     <string name="lbl_parens_external">" (сыртқы)"</string>
     <string name="lbl_parens_internal">" (ішкі)"</string>
     <string name="lbl_parens_forced">" (мәжбүрлі)"</string>
@@ -214,4 +216,22 @@
     <string name="lbl_repeat_options">Қайталау нұсқалары</string>
     <string name="lbl_days">Күндер</string>
     <string name="msg_cancel_entire_series">Шынымен осы ТЕЛЕХИКАЯНЫҢ БӘРІН болдырмау қажет пе?</string>
+    <string name="msg_remote_already_playing">Қашықтан ойнату сұранысы еленбейді. Алдынан ағымдағы элементті тоқтатыңыз.</string>
+    <string name="lbl_buffering_amount">Буферлеу мөлшері</string>
+    <string name="pref_audio_direct">Тікелей</string>
+    <string name="pref_audio_compat">Сыйсымды</string>
+    <string name="lbl_audio_output">Дыбыс шығысы</string>
+    <string name="lbl_goto_series">Телехикаяларға өту</string>
+    <string name="lbl_use_vlc">Ойнату үшін VLC пайдалану</string>
+    <string name="desc_use_vlc">Мазмқнды тікелей ойнату үшін кіріктірілген VLC-ойнатқышты пайдану</string>
+    <string name="lbl_select_color">Түсті таңдау</string>
+    <string name="lbl_sideline_color">Бүйірлік сызық түсі</string>
+    <string name="desc_sideline_color">Бүйрлік тақтасынындағы санат түсі</string>
+    <string name="lbl_vlc_max_res">Тікелей ағынмен тасымалдау әрекеті үшін ең жоғарғы ажыратымдылығы</string>
+    <string name="lbl_allow_vlc_transcode">Қайта кодталған ағындар үшін VLC пайдалану</string>
+    <string name="desc_allow_vlc_transcode">Кейбір қайта кодталған ағындармен VLC үшін ақаулықтар болды.</string>
+    <string name="lbl_show_info_panel">Ақпар тақтасын көрсету</string>
+    <string name="lbl_enable_debug">Күйкелтіру параметрлерін қосу</string>
+    <string name="desc_info_panel">Толық ақпараты жоқ экрандардағы ағымдық тармақта мәліметтері бар тақтаны көрсету</string>
+    <string name="desc_debug">Басты экранда Жұрналдарды жіберу түймешігін көрсету</string>
 </resources>
