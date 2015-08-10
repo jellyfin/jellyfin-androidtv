@@ -43,6 +43,7 @@ import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.ProgramQuery;
 import mediabrowser.model.livetv.SeriesTimerInfoDto;
+import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.results.ChannelInfoDtoResult;
 import tv.emby.embyatv.R;
@@ -675,6 +676,7 @@ public class LiveTvGuideActivity extends BaseActivity {
             ProgramQuery query = new ProgramQuery();
             query.setUserId(TvApp.getApplication().getCurrentUser().getId());
             query.setChannelIds(channelIds);
+            query.setFields(new ItemFields[] {ItemFields.Overview});
             Calendar end = (Calendar) mCurrentGuideEnd.clone();
             end.setTimeZone(TimeZone.getTimeZone("Z"));
             query.setMaxStartDate(end.getTime());
