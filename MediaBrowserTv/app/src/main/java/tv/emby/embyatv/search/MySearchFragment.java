@@ -66,8 +66,11 @@ public class MySearchFragment extends SearchFragment
         return mRowsAdapter;
     }
 
+    private boolean textEdited = false;
+
     @Override
     public boolean onQueryTextChange(String newQuery) {
+        textEdited = true;
         if (!Utils.IsEmpty(newQuery)) {
             mHandler.removeCallbacks(mDelayedLoad);
             mDelayedLoad.setQueryString(newQuery);
@@ -80,6 +83,15 @@ public class MySearchFragment extends SearchFragment
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        if (!textEdited) {
+            if (!Utils.IsEmpty(query)) {
+                mHandler.removeCallbacks(mDelayedLoad);
+                mDelayedLoad.setQueryString(query);
+                mHandler.postDelayed(mDelayedLoad, SEARCH_DELAY_MS);
+            } else {
+                mRowsAdapter.clear();
+            }
+        }
         return true;
     }
 
