@@ -82,7 +82,7 @@
             />
         <CheckBoxPreference android:key="pref_allow_vlc_transcode"
             android:title="@string/lbl_allow_vlc_transcode"
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:summary="@string/desc_allow_vlc_transcode"
             />
         <ListPreference android:key="pref_audio_option"
