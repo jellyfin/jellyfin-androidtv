@@ -766,7 +766,7 @@ public class Utils {
     public static String GetSubName(BaseItemDto item) {
         switch (item.getType()) {
             case "Episode":
-                String addendum = item.getLocationType().equals(LocationType.Virtual) ? " (" +  new SimpleDateFormat("d MMM y").format(Utils.convertToLocalDate(item.getPremiereDate())) + ")" : "";
+                String addendum = item.getLocationType().equals(LocationType.Virtual) && item.getPremiereDate() != null ? " (" +  new SimpleDateFormat("d MMM y").format(Utils.convertToLocalDate(item.getPremiereDate())) + ")" : "";
                 return item.getName() + addendum;
             case "Season":
                 return item.getChildCount() != null && item.getChildCount() > 0 ? item.getChildCount() + " Episodes" : "";
