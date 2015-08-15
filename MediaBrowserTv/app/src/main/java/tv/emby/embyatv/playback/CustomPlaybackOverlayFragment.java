@@ -562,10 +562,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     };
 
     private void updatePoster(BaseItemDto item, ImageView target, boolean preferSeries) {
-        int height = Utils.convertDpToPixel(getActivity(), 300);
-        int width = Utils.convertDpToPixel(getActivity(), 150);
-        String posterImageUrl = Utils.getPrimaryImageUrl(item, mApplication.getApiClient(), false, false, false, preferSeries, height);
-        if (posterImageUrl != null) Picasso.with(getActivity()).load(posterImageUrl).skipMemoryCache().resize(width, height).centerInside().into(target);
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            int height = Utils.convertDpToPixel(getActivity(), 300);
+            int width = Utils.convertDpToPixel(getActivity(), 150);
+            String posterImageUrl = Utils.getPrimaryImageUrl(item, mApplication.getApiClient(), false, false, false, preferSeries, height);
+            if (posterImageUrl != null) Picasso.with(getActivity()).load(posterImageUrl).skipMemoryCache().resize(width, height).centerInside().into(target);
+
+        }
 
     }
 
@@ -799,7 +802,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Override
     public void updateDisplay() {
         BaseItemDto current = mPlaybackController.getCurrentlyPlayingItem();
-        if (current != null) {
+        if (current != null & mActivity != null && !mActivity.isFinishing()) {
             if (mNextUpPanelVisible) hideNextUpPanel();
             updateCurrentDuration(current);
             //set progress to match duration
