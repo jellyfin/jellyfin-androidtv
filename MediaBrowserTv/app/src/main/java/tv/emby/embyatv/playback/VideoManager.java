@@ -183,7 +183,11 @@ public class VideoManager implements IVideoPlayer {
         mCurrentVideoPath = path;
 
         if (nativeMode) {
-            mVideoView.setVideoPath(path);
+            try {
+                mVideoView.setVideoPath(path);
+            } catch (IllegalStateException e) {
+                TvApp.getApplication().getLogger().ErrorException("Unable to set video path.  Probably backing out.", e);
+            }
         } else {
             mSurfaceHolder.setKeepScreenOn(true);
 
