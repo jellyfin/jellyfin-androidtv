@@ -1123,18 +1123,18 @@ public class Utils {
         }
     }
 
-    public static void SaveLoginCredentials(LogonCredentials creds) throws IOException {
+    public static void SaveLoginCredentials(LogonCredentials creds, String fileName) throws IOException {
         TvApp app = TvApp.getApplication();
-        OutputStream credsFile = app.openFileOutput("tv.mediabrowser.login.json", Context.MODE_PRIVATE);
+        OutputStream credsFile = app.openFileOutput(fileName, Context.MODE_PRIVATE);
         credsFile.write(app.getSerializer().SerializeToString(creds).getBytes());
         credsFile.close();
         app.setConfiguredAutoCredentials(creds);
     }
 
-    public static LogonCredentials GetSavedLoginCredentials(){
+    public static LogonCredentials GetSavedLoginCredentials(String fileName){
         TvApp app = TvApp.getApplication();
         try {
-            InputStream credsFile = app.openFileInput("tv.mediabrowser.login.json");
+            InputStream credsFile = app.openFileInput(fileName);
             String json = ReadStringFromFile(credsFile);
             credsFile.close();
             return (LogonCredentials) app.getSerializer().DeserializeFromString(json, LogonCredentials.class);

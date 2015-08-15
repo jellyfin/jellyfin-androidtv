@@ -24,8 +24,9 @@ import mediabrowser.model.querying.NextUpQuery;
 import mediabrowser.model.querying.SimilarItemsQuery;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.querying.StdItemQuery;
-import tv.emby.embyatv.startup.DirectEntryActivity;
+import tv.emby.embyatv.startup.StartupActivity;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -95,6 +96,7 @@ public class RecommendationManager {
 
             createAll();
             TvApp.getApplication().getLogger().Info("Recommendations re-created for user "+TvApp.getApplication().getCurrentUser().getName());
+
         }
 
         return true;
@@ -287,7 +289,7 @@ public class RecommendationManager {
                     .setContext(TvApp.getApplication())
                     .setSmallIcon(R.drawable.logoicon114);
 
-            Notification recommendation = builder.setId(rec.getRecId())
+            Notification recommendation = builder
                     .setId(rec.getRecId())
                     .setPriority(0)
                     .setTitle(item.getName())
@@ -308,19 +310,18 @@ public class RecommendationManager {
     }
 
     private PendingIntent buildPendingIntent(BaseItemDto item) {
-        Intent directIntent = new Intent(TvApp.getApplication(), DirectEntryActivity.class);
+        Intent directIntent = new Intent(TvApp.getApplication(), StartupActivity.class);
         directIntent.putExtra("ItemId", item.getId());
         directIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(TvApp.getApplication());
-        stackBuilder.addParentStack(DirectEntryActivity.class);
+        stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(directIntent);
         // Ensure a unique PendingIntents, otherwise all recommendations end up with the same
         // PendingIntent
         directIntent.setAction(item.getId());
 
-        PendingIntent intent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        return intent;
+        return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
 }

@@ -64,6 +64,7 @@ public class TvApp extends Application {
     private AudioManager audioManager;
 
     private int autoBitrate;
+    private String directItemId;
 
     private boolean isConnectLogin = false;
 
@@ -389,4 +390,11 @@ public class TvApp extends Application {
     }
 
 
+    public String getDirectItemId() {
+        return directItemId;
+    }
+
+    public void setDirectItemId(String directItemId) {
+        this.directItemId = directItemId;
+    }
 }
