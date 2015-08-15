@@ -9,6 +9,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import tv.emby.embyatv.R;
+import tv.emby.embyatv.util.Utils;
 
 /**
  * Created by Eric on 3/1/2015.
@@ -92,7 +93,7 @@ public class RecommendationBuilder {
                         .setPriority(mPriority)
                         .setLocalOnly(true)
                         .setOngoing(true)
-                        .setColor(mContext.getResources().getColor(R.color.fastlane_background))
+                        .setColor(Utils.getBrandColor())
                         .setCategory(Notification.CATEGORY_RECOMMENDATION)
                         .setLargeIcon(mBitmap)
                         .setSmallIcon(mSmallIcon)

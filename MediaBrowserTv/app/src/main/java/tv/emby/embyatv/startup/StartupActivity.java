@@ -9,8 +9,6 @@ import android.preference.PreferenceManager;
 import org.acra.ACRA;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import mediabrowser.apiinteraction.ApiEventListener;
@@ -30,10 +28,11 @@ import mediabrowser.model.serialization.IJsonSerializer;
 import mediabrowser.model.session.ClientCapabilities;
 import mediabrowser.model.session.GeneralCommandType;
 import tv.emby.embyatv.BuildConfig;
-import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.R;
-import tv.emby.embyatv.eventhandling.TvApiEventListener;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.browsing.MainActivity;
+import tv.emby.embyatv.details.FullDetailsActivity;
+import tv.emby.embyatv.eventhandling.TvApiEventListener;
 import tv.emby.embyatv.util.Utils;
 
 
@@ -95,15 +94,18 @@ public class StartupActivity extends Activity {
                 apiEventListener);
 
         application.setConnectionManager(connectionManager);
-        application.setSerializer((GsonJsonSerializer)jsonSerializer);
+        application.setSerializer((GsonJsonSerializer) jsonSerializer);
 
         application.setPlaybackManager(new PlaybackManager(new AndroidDevice(application), logger));
 
+        //See if we are coming in via direct entry
+        application.setDirectItemId(getIntent().getStringExtra("ItemId"));
+
         //Load any saved login creds
-        application.setConfiguredAutoCredentials(Utils.GetSavedLoginCredentials());
+        application.setConfiguredAutoCredentials(Utils.GetSavedLoginCredentials(application.getDirectItemId() == null ? "tv.mediabrowser.login.json" : "tv.emby.lastlogin.json"));
 
         //And use those credentials if option is set
-        if (application.getIsAutoLoginConfigured()) {
+        if (application.getIsAutoLoginConfigured() || application.getDirectItemId() != null) {
             //Auto login as configured user - first connect to server
             connectionManager.Connect(application.getConfiguredAutoCredentials().getServerInfo(), new Response<ConnectionResult>() {
                 @Override
@@ -113,13 +115,28 @@ public class StartupActivity extends Activity {
                     response.getApiClient().GetUserAsync(application.getConfiguredAutoCredentials().getUserDto().getId(), new Response<UserDto>() {
                         @Override
                         public void onResponse(final UserDto response) {
-                            if (response.getHasPassword() && application.getPrefs().getBoolean("pref_auto_pw_prompt", false)) {
-                                Utils.processPasswordEntry(activity, response);
+                            application.setCurrentUser(response);
+                            if (application.getDirectItemId() != null) {
+                                if (response.getHasPassword()
+                                        && (!application.getIsAutoLoginConfigured()
+                                        || (application.getPrefs().getBoolean("pref_auto_pw_prompt", false)))) {
+                                    //Need to prompt for pw
+                                    Utils.processPasswordEntry(activity, response, application.getDirectItemId());
+                                } else {
+                                    //Can just go right into details
+                                    Intent detailsIntent = new Intent(activity, FullDetailsActivity.class);
+                                    detailsIntent.putExtra("ItemId", application.getDirectItemId());
+                                    startActivity(detailsIntent);
+                                }
 
                             } else {
-                                application.setCurrentUser(response);
-                                Intent intent = new Intent(activity, MainActivity.class);
-                                activity.startActivity(intent);
+                                if (response.getHasPassword() && application.getPrefs().getBoolean("pref_auto_pw_prompt", false)) {
+                                    Utils.processPasswordEntry(activity, response);
+
+                                } else {
+                                    Intent intent = new Intent(activity, MainActivity.class);
+                                    activity.startActivity(intent);
+                                }
                             }
                         }
 

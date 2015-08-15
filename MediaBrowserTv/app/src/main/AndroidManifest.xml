@@ -66,7 +66,6 @@
         <activity android:name=".browsing.BrowsePersonsActivity" />
         <activity android:name=".search.SearchActivity" />
         <activity android:name=".details.FullDetailsActivity" />
-        <activity android:name=".startup.DirectEntryActivity" />
         <activity android:name=".livetv.LiveTvGuideActivity" />
         <activity
             android:name=".startup.DpadPwActivity"

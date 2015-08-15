@@ -12,6 +12,8 @@ import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
@@ -22,6 +24,7 @@ import mediabrowser.model.querying.NextUpQuery;
 import tv.emby.embyatv.integration.RecommendationManager;
 import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.model.ChangeTriggerType;
+import tv.emby.embyatv.startup.LogonCredentials;
 import tv.emby.embyatv.ui.GridButton;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
@@ -55,6 +58,13 @@ public class HomeFragment extends StdBrowseFragment {
         TvApp.getApplication().validate();
 
         super.onActivityCreated(savedInstanceState);
+
+        //Save last login so we can get back proper context on entry
+        try {
+            Utils.SaveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), "tv.emby.lastlogin.json");
+        } catch (IOException e) {
+            TvApp.getApplication().getLogger().ErrorException("Unable to save login creds", e);
+        }
 
         //Init recommendations
         RecommendationManager.init();
