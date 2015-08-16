@@ -829,19 +829,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 }
             }
 
-            if (mPlaybackController.hasNextItem()) {
-                //setup next up panel now - we need to retrieve full item for all info
-                mApplication.getApiClient().GetItemAsync(mPlaybackController.getNextItem().getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
-                    @Override
-                    public void onResponse(BaseItemDto response) {
-                        mNextUpTitle.setText("Up Next...  " + response.getName());
-                        mNextUpSummary.setText(response.getOverview());
-                        InfoLayoutHelper.addInfoRow(mActivity, response, mNextUpInfoRow, true, true);
-                        updatePoster(response, mNextUpPoster, true);
-                    }
-                });
-            }
-
             if (mIsVisible) mPlayPauseBtn.requestFocus();
         }
     }
@@ -854,7 +841,17 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Override
     public void nextItemThresholdHit(BaseItemDto nextItem) {
         mApplication.getLogger().Debug("Next Item is " + nextItem.getName());
-        showNextUpPanel();
+        //we need to retrieve full item for all info
+        mApplication.getApiClient().GetItemAsync(mPlaybackController.getNextItem().getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+            @Override
+            public void onResponse(BaseItemDto response) {
+                mNextUpTitle.setText("Up Next...  " + response.getName());
+                mNextUpSummary.setText(response.getOverview());
+                InfoLayoutHelper.addInfoRow(mActivity, response, mNextUpInfoRow, true, true);
+                updatePoster(response, mNextUpPoster, true);
+                showNextUpPanel();
+            }
+        });
     }
 
     @Override
