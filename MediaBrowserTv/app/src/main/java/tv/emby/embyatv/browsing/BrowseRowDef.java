@@ -41,12 +41,16 @@ public class BrowseRowDef {
     public BrowseRowDef(String header, ItemQuery query, int chunkSize) {
         this(header, query, chunkSize, false);
     }
-
     public BrowseRowDef(String header, ItemQuery query, int chunkSize, boolean preferParentThumb) {
+        this(header, query, chunkSize, preferParentThumb, false);
+    }
+
+    public BrowseRowDef(String header, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight) {
         headerText = header;
         this.query = query;
         this.chunkSize = chunkSize;
         this.preferParentThumb = preferParentThumb;
+        this.staticHeight = staticHeight;
         this.queryType = QueryType.Items;
     }
 
