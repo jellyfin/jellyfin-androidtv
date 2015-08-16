@@ -24,6 +24,7 @@ import tv.emby.embyatv.util.Utils;
 
 public class CardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";
+    private int mStaticHeight = 300;
 
     private static Context mContext;
     private boolean mShowInfo = true;
@@ -35,6 +36,11 @@ public class CardPresenter extends Presenter {
     public CardPresenter(boolean showInfo) {
         this();
         mShowInfo = showInfo;
+    }
+
+    public CardPresenter(boolean showInfo, int staticHeight) {
+        this(showInfo);
+        mStaticHeight = staticHeight;
     }
 
     static class ViewHolder extends Presenter.ViewHolder {
@@ -269,7 +275,7 @@ public class CardPresenter extends Presenter {
         if (!(item instanceof BaseRowItem)) return;
         BaseRowItem rowItem = (BaseRowItem) item;
 
-        ((ViewHolder) viewHolder).setItem(rowItem);
+        ((ViewHolder) viewHolder).setItem(rowItem, 260, 300, mStaticHeight);
 
         //Log.d(TAG, "onBindViewHolder");
         ((ViewHolder) viewHolder).mCardView.setTitleText(rowItem.getFullName());

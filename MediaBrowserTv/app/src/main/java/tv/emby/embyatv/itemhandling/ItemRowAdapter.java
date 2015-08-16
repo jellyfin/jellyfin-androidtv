@@ -278,6 +278,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     public void removeRow() {
+        if (mParent == null) return;
+
         if (mParent.size() == 1) {
             // we will be removing the last row - show something and prevent the framework from crashing
             // because there is nowhere for focus to land
@@ -544,7 +546,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
-                    if (itemsLoaded > 0) mParent.add(mRow);
+                    if (itemsLoaded > 0 && mParent != null) mParent.add(mRow);
                 }
 
                 currentlyRetrieving = false;

@@ -128,7 +128,7 @@ public class HomeFragment extends StdBrowseFragment {
 //        latestMusic.setLimit(50);
 //        latestMusic.setSortBy(new String[]{ItemSortBy.DateCreated});
 //        latestMusic.setSortOrder(SortOrder.Descending);
-//        mRows.add(new BrowseRowDef("Latest Albums", latestMusic, 0));
+//        mRowDef.add(new BrowseRowDef("Latest Albums", latestMusic, 0));
 
         rowLoader.loadRows(mRows);
     }

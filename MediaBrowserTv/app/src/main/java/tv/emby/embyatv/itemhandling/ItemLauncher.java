@@ -15,6 +15,7 @@ import mediabrowser.model.search.SearchHint;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.browsing.CollectionActivity;
 import tv.emby.embyatv.browsing.GenericFolderActivity;
+import tv.emby.embyatv.browsing.GenericGridActivity;
 import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.browsing.UserViewActivity;
 import tv.emby.embyatv.details.FullDetailsActivity;
@@ -57,8 +58,9 @@ public class ItemLauncher {
                                 break;
                             default:
                                 // open generic folder browsing
-                                Intent folderIntent = new Intent(activity, GenericFolderActivity.class);
-                                folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+                                Intent folderIntent = new Intent(activity, GenericGridActivity.class);
+                                folderIntent.putExtra("ParentId", baseItem.getId());
+                                folderIntent.putExtra("Title", baseItem.getName());
                                 activity.startActivity(folderIntent);
                         }
                         return;
