@@ -87,7 +87,7 @@ public class ItemLauncher {
                 // or generic handling
                 if (baseItem.getIsFolder()) {
                     // open generic folder browsing
-                    Intent intent = new Intent(activity, GenericFolderActivity.class);
+                    Intent intent = new Intent(activity, GenericGridActivity.class);
                     intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
                     if (noHistory) intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
