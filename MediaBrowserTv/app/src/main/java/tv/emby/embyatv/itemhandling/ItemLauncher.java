@@ -59,8 +59,7 @@ public class ItemLauncher {
                             default:
                                 // open generic folder browsing
                                 Intent folderIntent = new Intent(activity, GenericGridActivity.class);
-                                folderIntent.putExtra("ParentId", baseItem.getId());
-                                folderIntent.putExtra("Title", baseItem.getName());
+                                folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
                                 activity.startActivity(folderIntent);
                         }
                         return;

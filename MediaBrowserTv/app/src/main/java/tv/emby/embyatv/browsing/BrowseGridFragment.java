@@ -2,6 +2,7 @@ package tv.emby.embyatv.browsing;
 
 import android.os.Bundle;
 
+import mediabrowser.model.dto.BaseItemDto;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.querying.StdItemQuery;
 
@@ -11,11 +12,13 @@ import tv.emby.embyatv.querying.StdItemQuery;
 public class BrowseGridFragment extends StdGridFragment {
 
     private String mParentId;
+    private BaseItemDto mFolder;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        mParentId = getActivity().getIntent().getStringExtra("ParentId");
-        MainTitle = getActivity().getIntent().getStringExtra("Title");
+        mFolder = TvApp.getApplication().getSerializer().DeserializeFromString(getActivity().getIntent().getStringExtra("Folder"), BaseItemDto.class);
+        mParentId = mFolder.getId();
+        MainTitle = mFolder.getName();
         super.onCreate(savedInstanceState);
     }
 
