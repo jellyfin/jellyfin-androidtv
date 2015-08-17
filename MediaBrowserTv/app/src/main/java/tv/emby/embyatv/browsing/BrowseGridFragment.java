@@ -2,6 +2,7 @@ package tv.emby.embyatv.browsing;
 
 import android.os.Bundle;
 
+import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.querying.StdItemQuery;
 
 /**
@@ -12,12 +13,26 @@ public class BrowseGridFragment extends StdGridFragment {
     private String mParentId;
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         mParentId = getActivity().getIntent().getStringExtra("ParentId");
         MainTitle = getActivity().getIntent().getStringExtra("Title");
-        ShowBadge = MainTitle == null;
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+    }
+
+    @Override
+    protected void setupUIElements() {
+        super.setupUIElements();
+
+        TvApp.getApplication().getLogger().Debug("Parent ID is: "+mParentId);
+
+        // calculate number of rows based on card height
+        getGridPresenter().setNumberOfRows(getGridHeight() / getCardHeight());
     }
 
     @Override

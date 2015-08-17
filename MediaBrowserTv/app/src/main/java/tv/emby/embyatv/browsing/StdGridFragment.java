@@ -61,23 +61,23 @@ import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.presentation.CardPresenter;
+import tv.emby.embyatv.presentation.HorizontalGridPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.ViewQuery;
 import tv.emby.embyatv.search.SearchActivity;
 import tv.emby.embyatv.ui.ClockUserView;
+import tv.emby.embyatv.ui.HorizontalGridFragment;
 import tv.emby.embyatv.ui.ItemPanel;
 import tv.emby.embyatv.util.KeyProcessor;
 import tv.emby.embyatv.util.RemoteControlReceiver;
 import tv.emby.embyatv.util.Utils;
 
-public class StdGridFragment extends VerticalGridFragment implements IGridLoader {
+public class StdGridFragment extends HorizontalGridFragment implements IGridLoader {
     private static final String TAG = "StdGridFragment";
 
     private static final int BACKGROUND_UPDATE_DELAY = 100;
 
     protected String MainTitle;
-    protected boolean ShowBadge = true;
-    protected boolean ShowInfoPanel = true;
     protected TvApp mApplication;
     protected BaseActivity mActivity;
     protected BaseRowItem mCurrentItem;
@@ -93,16 +93,13 @@ public class StdGridFragment extends VerticalGridFragment implements IGridLoader
     protected BrowseRowDef mRowDef;
     CardPresenter mCardPresenter;
 
-    private ItemPanel mItemPanel;
-    private Animation fadeInPanel;
-    private Animation fadeOutPanel;
+    private int mCardHeight = 260;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        VerticalGridPresenter gridPresenter = new VerticalGridPresenter();
-        gridPresenter.setNumberOfColumns(5);
-        setGridPresenter(gridPresenter);
+
+        setupUIElements();
 
     }
 
@@ -114,8 +111,6 @@ public class StdGridFragment extends VerticalGridFragment implements IGridLoader
         if (getActivity() instanceof BaseActivity) mActivity = (BaseActivity)getActivity();
 
         prepareBackgroundManager();
-
-        setupUIElements();
 
         setupQueries(this);
 
@@ -148,9 +143,6 @@ public class StdGridFragment extends VerticalGridFragment implements IGridLoader
     public void onResume() {
         super.onResume();
 
-        // set info panel option
-        ShowInfoPanel = mApplication.getPrefs().getBoolean("pref_enable_info_panel", true);
-
         //Register a media button receiver so that all media button presses will come to us and not another app
         AudioManager audioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
         audioManager.registerMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
@@ -170,9 +162,17 @@ public class StdGridFragment extends VerticalGridFragment implements IGridLoader
         }
     }
 
+    public void setCardHeight(int height) {
+        mCardHeight = height;
+    }
+
+    public int getCardHeight() {
+        return mCardHeight;
+    }
+
     public void loadGrid(BrowseRowDef rowDef) {
 
-        mCardPresenter = new CardPresenter(!ShowInfoPanel, 260);
+        mCardPresenter = new CardPresenter(false, mCardHeight);
 
         switch (mRowDef.getQueryType()) {
             case NextUp:
@@ -229,105 +229,13 @@ public class StdGridFragment extends VerticalGridFragment implements IGridLoader
     }
 
     protected void setupUIElements() {
-        if (ShowBadge) setBadgeDrawable(getActivity().getResources().getDrawable(R.drawable.logob400));
-        setTitle(MainTitle); // Badge, when set, takes precedent over title
 
-        // move the badge/title to the left to make way for our clock/user bug
-        ImageView badge = (ImageView) getActivity().findViewById(R.id.browse_badge);
-        if (badge != null) {
-            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) badge.getLayoutParams();
-            lp.rightMargin = Utils.convertDpToPixel(getActivity(), 120);
-            lp.width = Utils.convertDpToPixel(getActivity(), 250);
-            badge.setLayoutParams(lp);
-        }
-        TextView title = (TextView) getActivity().findViewById(R.id.browse_title);
-        if (title != null) {
-            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) title.getLayoutParams();
-            lp.rightMargin = Utils.convertDpToPixel(getActivity(), 120);
-            lp.width = Utils.convertDpToPixel(getActivity(), 250);
-            title.setLayoutParams(lp);
-        }
-
-        ViewGroup root = (ViewGroup) getActivity().findViewById(android.R.id.content);
-
-        // add item panel
-        mItemPanel = new ItemPanel(getActivity());
-        FrameLayout.LayoutParams panelLayout = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.convertDpToPixel(TvApp.getApplication(), 145));
-        panelLayout.gravity = Gravity.BOTTOM;
-        panelLayout.bottomMargin = -10;
-        mItemPanel.setLayoutParams(panelLayout);
-        root.addView(mItemPanel);
-        mItemPanel.setVisibility(View.INVISIBLE);
-
-        // and add the clock element
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        ClockUserView clock = new ClockUserView(getActivity());
-        layoutParams.gravity = Gravity.TOP | Gravity.RIGHT;
-        layoutParams.rightMargin = Utils.convertDpToPixel(getActivity(), 40);
-        layoutParams.topMargin = Utils.convertDpToPixel(getActivity(), 20);
-        clock.setLayoutParams(layoutParams);
-        root.addView(clock);
-
-        // load item panel animation
-        fadeInPanel = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_in);
-        fadeInPanel.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                mItemPanel.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-        fadeOutPanel = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_out);
-        fadeOutPanel.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                mItemPanel.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
+        HorizontalGridPresenter gridPresenter = new HorizontalGridPresenter();
+        gridPresenter.setNumberOfRows(3); //default - subclass should calculate
+        setGridPresenter(gridPresenter);
 
 
     }
-
-    private Runnable showItemPanel = new Runnable() {
-        @Override
-        public void run() {
-            if (mCurrentItem != null && !mCurrentItem.isFolder() && (mCurrentItem.getRuntimeTicks() > 0 ||  (mCurrentItem.getSummary() != null && mCurrentItem.getSummary().length() > 0))) {
-                mItemPanel.setItem(mCurrentItem);
-                mItemPanel.startAnimation(fadeInPanel);
-                mHandler.removeCallbacks(hideItemPanel);
-                mHandler.postDelayed(hideItemPanel, 20000);
-            } else {
-                mItemPanel.setVisibility(View.INVISIBLE);
-            }
-        }
-    };
-
-    private Runnable hideItemPanel = new Runnable() {
-        @Override
-        public void run() {
-            mItemPanel.startAnimation(fadeOutPanel);
-        }
-    };
 
     protected void setupEventListeners() {
 //        setOnSearchClickedListener(new View.OnClickListener() {
@@ -389,34 +297,21 @@ public class StdGridFragment extends VerticalGridFragment implements IGridLoader
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
 
-            if (ShowInfoPanel) {
-                // cancel any delayed showing and hide item panel
-                mHandler.removeCallbacks(showItemPanel);
-                mItemPanel.setVisibility(View.INVISIBLE);
-            }
-
             if (!(item instanceof BaseRowItem)) {
                 mCurrentItem = null;
-                mHandler.removeCallbacks(hideItemPanel);
+                setTitle(MainTitle);
                 //fill in default background
                 mBackgroundUrl = null;
                 startBackgroundTimer();
                 return;
             } else {
                 mCurrentItem = (BaseRowItem)item;
-                if (ShowInfoPanel) {
-                    // delay show the item panel
-                    mHandler.postDelayed(showItemPanel, 1000);
-                }
+                setItem(mCurrentItem);
+                mGridAdapter.loadMoreItemsIfNeeded(mCurrentItem.getIndex());
+
+                mBackgroundUrl = mCurrentItem.getBackdropImageUrl();
+                startBackgroundTimer();
             }
-
-            BaseRowItem rowItem = (BaseRowItem) item;
-
-            //mApplication.getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));
-            mGridAdapter.loadMoreItemsIfNeeded(rowItem.getIndex());
-
-            mBackgroundUrl = rowItem.getBackdropImageUrl();
-            startBackgroundTimer();
 
         }
     }

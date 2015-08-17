@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.AsyncTask;
@@ -65,6 +66,7 @@ public class TvApp extends Application {
 
     private int autoBitrate;
     private String directItemId;
+    private Typeface roboto;
 
     private boolean isConnectLogin = false;
 
@@ -89,6 +91,7 @@ public class TvApp extends Application {
         logger = new ConsoleLogger();
         app = (TvApp)getApplicationContext();
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
 
         logger.Info("Application object created");
 
@@ -122,6 +125,8 @@ public class TvApp extends Application {
     public void setLogger(ILogger value) {
         logger = value;
     }
+
+    public Typeface getDefaultFont() { return roboto; }
 
     public IConnectionManager getConnectionManager() {
         return connectionManager;

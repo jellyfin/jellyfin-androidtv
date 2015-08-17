@@ -104,7 +104,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         View root = inflater.inflate(R.layout.enhanced_detail_browse, container, false);
 
         mActivity = (BaseActivity) getActivity();
-        roboto = Typeface.createFromAsset(mActivity.getAssets(), "fonts/Roboto-Light.ttf");
+        roboto = TvApp.getApplication().getDefaultFont();
 
         mTitle = (TextView) root.findViewById(R.id.title);
         mTitle.setTypeface(roboto);
