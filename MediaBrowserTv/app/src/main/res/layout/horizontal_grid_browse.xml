@@ -33,11 +33,11 @@
         android:layout_width="match_parent"
         android:layout_height="50sp"
         android:layout_below="@+id/infoRow"
-        android:id="@+id/toolBar"></RelativeLayout>
+        android:id="@+id/toolBar"/>
 
     <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/rowsFragment"
         android:layout_alignParentStart="true"
         android:layout_marginTop="5sp"

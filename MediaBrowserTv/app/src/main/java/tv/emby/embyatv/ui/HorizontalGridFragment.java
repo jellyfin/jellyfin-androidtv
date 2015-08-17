@@ -79,7 +79,7 @@ public class HorizontalGridFragment extends Fragment {
     }
 
     public int getGridHeight() {
-        return Utils.convertDpToPixel(TvApp.getApplication(), 500);
+        return Utils.convertDpToPixel(TvApp.getApplication(), 350);
     }
 
     public void setItem(BaseRowItem item) {
