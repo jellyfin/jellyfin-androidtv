@@ -41,6 +41,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -67,6 +68,7 @@ import tv.emby.embyatv.querying.ViewQuery;
 import tv.emby.embyatv.search.SearchActivity;
 import tv.emby.embyatv.ui.ClockUserView;
 import tv.emby.embyatv.ui.HorizontalGridFragment;
+import tv.emby.embyatv.ui.ImageButton;
 import tv.emby.embyatv.ui.ItemPanel;
 import tv.emby.embyatv.util.KeyProcessor;
 import tv.emby.embyatv.util.RemoteControlReceiver;
@@ -111,6 +113,8 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         if (getActivity() instanceof BaseActivity) mActivity = (BaseActivity)getActivity();
 
         prepareBackgroundManager();
+
+        addTools();
 
         setupQueries(this);
 
@@ -233,6 +237,40 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         HorizontalGridPresenter gridPresenter = new HorizontalGridPresenter();
         gridPresenter.setNumberOfRows(3); //default - subclass should calculate
         setGridPresenter(gridPresenter);
+    }
+
+    protected void addTools() {
+        //Add tools
+        LinearLayout toolBar = getToolBar();
+        int size = Utils.convertDpToPixel(getActivity(), 20);
+
+        toolBar.addView(new ImageButton(getActivity(), R.drawable.sort, size, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TvApp.getApplication().getLogger().Debug("Sort...");
+            }
+        }));
+
+        toolBar.addView(new ImageButton(getActivity(), R.drawable.filter, size, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TvApp.getApplication().getLogger().Debug("Filter...");
+            }
+        }));
+
+        toolBar.addView(new ImageButton(getActivity(), R.drawable.search2, size, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TvApp.getApplication().getLogger().Debug("Search...");
+            }
+        }));
+
+        toolBar.addView(new ImageButton(getActivity(), R.drawable.cog, size, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TvApp.getApplication().getLogger().Debug("Options...");
+            }
+        }));
 
 
     }
