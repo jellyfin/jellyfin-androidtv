@@ -133,7 +133,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         BUTTON_SIZE = Utils.convertDpToPixel(this, 35);
         mApplication = TvApp.getApplication();
         mActivity = this;
-        roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
+        roboto = mApplication.getDefaultFont();
 
         mTitle = (TextView) findViewById(R.id.fdTitle);
         mTitle.setTypeface(roboto);

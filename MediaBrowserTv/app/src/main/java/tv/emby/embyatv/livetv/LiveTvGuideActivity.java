@@ -115,7 +115,7 @@ public class LiveTvGuideActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         mActivity = this;
-        roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
+        roboto = TvApp.getApplication().getDefaultFont();
 
         setContentView(R.layout.live_tv_guide);
 

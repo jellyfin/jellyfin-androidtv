@@ -44,7 +44,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
          */
         public ViewHolder(View rootView) {
             super(rootView);
-            roboto = Typeface.createFromAsset(rootView.getContext().getAssets(), "fonts/Roboto-Light.ttf");
+            roboto = TvApp.getApplication().getDefaultFont();
 
             mPoster = (ImageView) rootView.findViewById(R.id.fdPoster);
             mStudioImage = (ImageView) rootView.findViewById(R.id.studioImage);
