@@ -1,6 +1,7 @@
 package tv.emby.embyatv.ui;
 
 import android.app.Fragment;
+import android.content.ClipData;
 import android.os.Bundle;
 import android.support.v17.leanback.widget.ObjectAdapter;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
+import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.presentation.HorizontalGridPresenter;
 import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.Utils;
@@ -32,10 +34,11 @@ public class HorizontalGridFragment extends Fragment {
     private static boolean DEBUG = false;
 
     private TextView mTitleView;
+    private TextView mCounter;
     private LinearLayout mInfoRow;
     private RelativeLayout mToolBar;
     private FrameLayout mGridArea;
-    private ObjectAdapter mAdapter;
+    private ItemRowAdapter mAdapter;
     private HorizontalGridPresenter mGridPresenter;
     private HorizontalGridPresenter.ViewHolder mGridViewHolder;
     private OnItemViewSelectedListener mOnItemViewSelectedListener;
@@ -66,7 +69,7 @@ public class HorizontalGridFragment extends Fragment {
     /**
      * Sets the object adapter for the fragment.
      */
-    public void setAdapter(ObjectAdapter adapter) {
+    public void setAdapter(ItemRowAdapter adapter) {
         mAdapter = adapter;
         updateAdapter();
     }
@@ -122,6 +125,10 @@ public class HorizontalGridFragment extends Fragment {
         if (position != mSelectedPosition) {
             mSelectedPosition = position;
         }
+        // Update the counter
+        if (mAdapter != null) {
+            mCounter.setText((position+1)+" | "+ mAdapter.getTotalItems());
+        }
     }
 
     /**
@@ -152,6 +159,8 @@ public class HorizontalGridFragment extends Fragment {
         mInfoRow = (LinearLayout) root.findViewById(R.id.infoRow);
         mToolBar = (RelativeLayout) root.findViewById(R.id.toolBar);
         mGridArea = (FrameLayout) root.findViewById(R.id.rowsFragment);
+        mCounter = (TextView) root.findViewById(R.id.counter);
+        mCounter.setTypeface(TvApp.getApplication().getDefaultFont());
 
         return root;
     }

@@ -30,7 +30,7 @@
         android:layout_toLeftOf="@+id/clock"/>
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="600dp"
         android:layout_height="40dp"
         android:layout_below="@+id/infoRow"
         android:id="@+id/toolBar"/>
@@ -52,5 +52,15 @@
         android:layout_marginRight="40sp"
         android:layout_alignParentEnd="true"
         android:alpha=".9" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0 | 0"
+        android:id="@+id/counter"
+        android:layout_alignEnd="@+id/clock"
+        android:layout_alignBottom="@+id/toolBar"
+        android:textAlignment="viewEnd"
+        android:textSize="18sp" />
 
 </RelativeLayout>
