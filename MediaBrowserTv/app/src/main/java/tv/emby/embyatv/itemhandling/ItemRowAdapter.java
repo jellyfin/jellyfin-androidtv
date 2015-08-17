@@ -277,6 +277,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         totalItems = amt;
     }
 
+    public int getTotalItems() { return totalItems; }
+
     public void removeRow() {
         if (mParent == null) return;
 
