@@ -35,7 +35,11 @@
         android:layout_below="@+id/infoRow"
         android:id="@+id/toolBar"
         android:layout_alignLeft="@+id/title"
-        android:orientation="horizontal" />
+        android:orientation="horizontal"
+        android:divider="@drawable/blank30x30"
+        android:showDividers="middle"
+        android:gravity="bottom"
+        android:alpha=".6" />
 
     <FrameLayout
         android:layout_width="match_parent"
