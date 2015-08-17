@@ -93,7 +93,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     protected BrowseRowDef mRowDef;
     CardPresenter mCardPresenter;
 
-    private int mCardHeight = 225;
+    private int mCardHeight = 235;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
