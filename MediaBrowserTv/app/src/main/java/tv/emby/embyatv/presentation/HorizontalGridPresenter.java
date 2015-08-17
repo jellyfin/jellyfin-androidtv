@@ -181,6 +181,9 @@ public class HorizontalGridPresenter extends Presenter {
         }
         if (DEBUG) Log.v(TAG, "mNumRows " + mNumRows);
         vh.getGridView().setNumRows(mNumRows);
+        vh.getGridView().setFadingRightEdge(true);
+        vh.getGridView().setFadingRightEdgeLength(60);
+        vh.getGridView().setItemMargin(10);
         vh.mInitialized = true;
 
         vh.mItemBridgeAdapter.setWrapper(mWrapper);
