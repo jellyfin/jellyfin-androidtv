@@ -36,8 +36,7 @@ public class HorizontalGridFragment extends Fragment {
     private TextView mTitleView;
     private TextView mCounter;
     private LinearLayout mInfoRow;
-    private RelativeLayout mToolBar;
-    private FrameLayout mGridArea;
+    private LinearLayout mToolBar;
     private ItemRowAdapter mAdapter;
     private HorizontalGridPresenter mGridPresenter;
     private HorizontalGridPresenter.ViewHolder mGridViewHolder;
@@ -99,6 +98,8 @@ public class HorizontalGridFragment extends Fragment {
         mTitleView.setText(text);
     }
 
+    public LinearLayout getToolBar() { return mToolBar; }
+
     final private OnItemViewSelectedListener mRowSelectedListener =
             new OnItemViewSelectedListener() {
                 @Override
@@ -157,8 +158,7 @@ public class HorizontalGridFragment extends Fragment {
         mTitleView = (TextView) root.findViewById(R.id.title);
         mTitleView.setTypeface(TvApp.getApplication().getDefaultFont());
         mInfoRow = (LinearLayout) root.findViewById(R.id.infoRow);
-        mToolBar = (RelativeLayout) root.findViewById(R.id.toolBar);
-        mGridArea = (FrameLayout) root.findViewById(R.id.rowsFragment);
+        mToolBar = (LinearLayout) root.findViewById(R.id.toolBar);
         mCounter = (TextView) root.findViewById(R.id.counter);
         mCounter.setTypeface(TvApp.getApplication().getDefaultFont());
 
@@ -169,6 +169,7 @@ public class HorizontalGridFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         ViewGroup gridDock = (ViewGroup) view.findViewById(R.id.rowsFragment);
         mGridViewHolder = mGridPresenter.onCreateViewHolder(gridDock);
+        mGridViewHolder.getGridView().setFocusable(true);
         gridDock.addView(mGridViewHolder.view);
 
         updateAdapter();
