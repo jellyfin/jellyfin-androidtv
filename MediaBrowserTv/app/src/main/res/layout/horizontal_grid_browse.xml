@@ -31,7 +31,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50sp"
+        android:layout_height="40dp"
         android:layout_below="@+id/infoRow"
         android:id="@+id/toolBar"/>
 
@@ -40,7 +40,6 @@
         android:layout_height="match_parent"
         android:id="@+id/rowsFragment"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="5sp"
         android:layout_below="@+id/toolBar"
         android:layout_marginLeft="20sp"
         android:layout_marginBottom="10sp" />
