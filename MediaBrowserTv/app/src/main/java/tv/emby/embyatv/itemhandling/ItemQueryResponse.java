@@ -29,7 +29,6 @@ public class ItemQueryResponse extends Response<ItemsResult> {
             for (BaseItemDto item : response.getItems()) {
                 adapter.add(new BaseRowItem(i++, item, adapter.getPreferParentThumb(), adapter.isStaticHeight()));
             }
-            adapter.setTotalItems(response.getTotalRecordCount());
             adapter.setItemsLoaded(i);
             if (i == 0) adapter.removeRow();
         } else {
@@ -37,7 +36,9 @@ public class ItemQueryResponse extends Response<ItemsResult> {
             adapter.removeRow();
         }
 
+        adapter.setTotalItems(response.getTotalRecordCount());
         adapter.setCurrentlyRetrieving(false);
+        adapter.notifyRetrieveFinished();
     }
 
     @Override

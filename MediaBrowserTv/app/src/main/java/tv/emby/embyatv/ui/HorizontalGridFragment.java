@@ -22,6 +22,7 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
+import tv.emby.embyatv.model.FilterOptions;
 import tv.emby.embyatv.presentation.HorizontalGridPresenter;
 import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.Utils;
@@ -99,7 +100,22 @@ public class HorizontalGridFragment extends Fragment {
         mTitleView.setText(text);
     }
 
-    public void setStatusText(String text) {
+    public void setStatusText(String folderName) {
+        String text = TvApp.getApplication().getResources().getString(R.string.lbl_showing) + " ";
+        FilterOptions filters = mAdapter.getFilters();
+        if (filters == null || (!filters.isFavoriteOnly() && !filters.isUnwatchedOnly())) {
+            text += TvApp.getApplication().getResources().getString(R.string.lbl_all_items);
+        } else {
+            text += (filters.isUnwatchedOnly() ? TvApp.getApplication().getResources().getString(R.string.lbl_unwatched) : "") + " " +
+                    (filters.isFavoriteOnly() ? TvApp.getApplication().getResources().getString(R.string.lbl_favorites) : "");
+        }
+
+        text += " " + TvApp.getApplication().getString(R.string.lbl_from) + " '" + folderName + "' " + TvApp.getApplication().getString(R.string.lbl_sorted_by) + " ";
+        switch (mAdapter.getSortBy()) {
+            case "SortName":
+                text += TvApp.getApplication().getString(R.string.lbl_name);
+        }
+
         mStatusText.setText(text);
     }
 
@@ -132,9 +148,14 @@ public class HorizontalGridFragment extends Fragment {
             mSelectedPosition = position;
         }
         // Update the counter
+        updateCounter(position+1);
+    }
+
+    public void updateCounter(int position) {
         if (mAdapter != null) {
-            mCounter.setText((position+1)+" | "+ mAdapter.getTotalItems());
+            mCounter.setText((position)+" | "+ mAdapter.getTotalItems());
         }
+
     }
 
     /**

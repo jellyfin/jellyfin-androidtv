@@ -237,6 +237,11 @@
     <string name="lbl_enable_debug">Enable debug options</string>
     <string name="desc_info_panel">Show a panel with details on the current item on screens without detail information</string>
     <string name="desc_debug">Show a send logs button on the home screen</string>
+    <string name="lbl_showing">Showing</string>
+    <string name="lbl_all_items">All Items</string>
+    <string name="lbl_sorted_by">sorted by</string>
+    <string name="lbl_from">from</string>
+    <string name="lbl_name">Name</string>
 
 
 </resources>
