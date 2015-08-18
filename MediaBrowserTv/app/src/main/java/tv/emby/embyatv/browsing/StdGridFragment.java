@@ -95,7 +95,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     protected BrowseRowDef mRowDef;
     CardPresenter mCardPresenter;
 
-    private int mCardHeight = 235;
+    private int mCardHeight = Utils.convertDpToPixel(TvApp.getApplication(), 115);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

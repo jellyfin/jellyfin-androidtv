@@ -54,9 +54,10 @@ public class BrowseGridFragment extends StdGridFragment {
                     break;
             }
         }
-        
+
         mRowDef = new BrowseRowDef("", query, 150, false, true);
 
         loadGrid(mRowDef);
+        setStatusText("Showing all items from '"+mFolder.getName()+"' sorted by Name");
     }
 }

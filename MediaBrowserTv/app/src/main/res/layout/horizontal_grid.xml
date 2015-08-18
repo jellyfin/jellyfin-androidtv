@@ -2,7 +2,10 @@
 <android.support.v17.leanback.widget.HorizontalGridView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:id="@+id/horizontal_grid"
-    android:layout_marginTop="20dp"
-    android:layout_marginLeft="15sp">
+    android:layout_gravity="center"
+
+    android:clipToPadding="false"
+    focusOutFront="true"
+    android:padding="20dp">
 
 </android.support.v17.leanback.widget.HorizontalGridView>
