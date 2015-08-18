@@ -51,6 +51,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.model.querying.ItemSortBy;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
@@ -61,6 +62,7 @@ import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
+import tv.emby.embyatv.model.FilterOptions;
 import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.presentation.HorizontalGridPresenter;
 import tv.emby.embyatv.querying.QueryType;
@@ -95,7 +97,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     protected BrowseRowDef mRowDef;
     CardPresenter mCardPresenter;
 
-    private int mCardHeight = Utils.convertDpToPixel(TvApp.getApplication(), 115);
+    private int mCardHeight = Utils.convertDpToPixel(TvApp.getApplication(), 116);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -214,7 +216,8 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                 break;
         }
 
-        mGridAdapter.Retrieve();
+        //todo - obtain sort order from display prefs
+        mGridAdapter.setSortBy(ItemSortBy.SortName);  //this will cause a retrieve
 
         setAdapter(mGridAdapter);
 
@@ -239,10 +242,13 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         setGridPresenter(gridPresenter);
     }
 
+    protected ImageButton mUnwatchedButton;
+    protected ImageButton mFavoriteButton;
+
     protected void addTools() {
         //Add tools
         LinearLayout toolBar = getToolBar();
-        int size = Utils.convertDpToPixel(getActivity(), 15);
+        int size = Utils.convertDpToPixel(getActivity(), 16);
 
         toolBar.addView(new ImageButton(getActivity(), R.drawable.sort, size, new View.OnClickListener() {
             @Override
@@ -251,12 +257,31 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             }
         }));
 
-        toolBar.addView(new ImageButton(getActivity(), R.drawable.filter, size, new View.OnClickListener() {
+        mUnwatchedButton =new ImageButton(getActivity(), R.drawable.unwatchedwhite, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TvApp.getApplication().getLogger().Debug("Filter...");
+                FilterOptions filters = mGridAdapter.getFilters();
+                if (filters == null) filters = new FilterOptions();
+
+                filters.setUnwatchedOnly(!filters.isUnwatchedOnly());
+                mGridAdapter.setFilters(filters);
+                mUnwatchedButton.setImageResource(filters.isUnwatchedOnly() ? R.drawable.unwatchedred : R.drawable.unwatchedwhite);
             }
-        }));
+        });
+        toolBar.addView(mUnwatchedButton);
+
+        mFavoriteButton =new ImageButton(getActivity(), R.drawable.whiteheartbig, size, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FilterOptions filters = mGridAdapter.getFilters();
+                if (filters == null) filters = new FilterOptions();
+
+                filters.setFavoriteOnly(!filters.isFavoriteOnly());
+                mGridAdapter.setFilters(filters);
+                mFavoriteButton.setImageResource(filters.isFavoriteOnly() ? R.drawable.redheartbig : R.drawable.whiteheartbig);
+            }
+        });
+        toolBar.addView(mFavoriteButton);
 
         toolBar.addView(new ImageButton(getActivity(), R.drawable.search2, size, new View.OnClickListener() {
             @Override

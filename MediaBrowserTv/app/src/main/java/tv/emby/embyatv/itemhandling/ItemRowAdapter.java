@@ -1,6 +1,5 @@
 package tv.emby.embyatv.itemhandling;
 
-import android.os.Handler;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
@@ -10,6 +9,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.BaseItemDto;
@@ -34,6 +34,7 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.model.ChangeTriggerType;
 import tv.emby.embyatv.model.ChapterItemInfo;
+import tv.emby.embyatv.model.FilterOptions;
 import tv.emby.embyatv.presentation.TextItemPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.SpecialsQuery;
@@ -59,6 +60,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private RecommendedProgramQuery mTvProgramQuery;
     private RecordingQuery mTvRecordingQuery;
     private QueryType queryType;
+
+    private String mSortBy;
+    private FilterOptions mFilters;
+
+    private EmptyResponse mRetrieveFinishedResponse;
 
     private ChangeTriggerType[] reRetrieveTriggers = new ChangeTriggerType[] {};
     private Calendar lastFullRetrieve;
@@ -118,7 +124,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.staticHeight = staticHeight;
         if (chunkSize > 0) mQuery.setLimit(chunkSize);
         queryType = QueryType.Items;
-        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(NextUpQuery query, boolean preferParentThumb, Presenter presenter, ArrayObjectAdapter parent) {
@@ -279,8 +285,35 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     public int getTotalItems() { return totalItems; }
 
+    public void setSortBy(String order) {
+        if (order == null || !order.equals(mSortBy)) {
+            mSortBy = order;
+            if (mSortBy != null) mQuery.setSortBy(new String[] {order});
+            Retrieve();
+        }
+    }
+
+    public String getSortBy() { return mSortBy; }
+
+    public FilterOptions getFilters() { return mFilters; }
+
+    public void setFilters(FilterOptions filters) {
+        mFilters = filters;
+        if (mFilters != null) {
+            mQuery.setFilters(mFilters.getFilters());
+        } else {
+            mQuery.setFilters(null);
+        }
+
+        Retrieve();
+    }
+
     public void removeRow() {
-        if (mParent == null) return;
+        if (mParent == null) {
+            // just clear us
+            clear();
+            return;
+        };
 
         if (mParent.size() == 1) {
             // we will be removing the last row - show something and prevent the framework from crashing
@@ -940,4 +973,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     }
 
+    public void notifyRetrieveFinished() {
+        if (mRetrieveFinishedResponse != null) {
+            mRetrieveFinishedResponse.onResponse();
+        }
+    }
+
+    public void setRetrieveFinishedResponse(EmptyResponse response) {
+        this.mRetrieveFinishedResponse = response;
+    }
 }

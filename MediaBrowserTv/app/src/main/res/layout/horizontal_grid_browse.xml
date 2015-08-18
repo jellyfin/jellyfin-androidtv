@@ -46,7 +46,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="405dp"
         android:id="@+id/rowsFragment"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/infoRow"

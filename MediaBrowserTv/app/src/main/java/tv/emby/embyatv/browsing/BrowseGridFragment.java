@@ -2,6 +2,7 @@ package tv.emby.embyatv.browsing;
 
 import android.os.Bundle;
 
+import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.model.dto.BaseItemDto;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.querying.StdItemQuery;
@@ -58,6 +59,20 @@ public class BrowseGridFragment extends StdGridFragment {
         mRowDef = new BrowseRowDef("", query, 150, false, true);
 
         loadGrid(mRowDef);
-        setStatusText("Showing all items from '"+mFolder.getName()+"' sorted by Name");
     }
+
+    @Override
+    protected void setupEventListeners() {
+        super.setupEventListeners();
+        mGridAdapter.setRetrieveFinishedResponse(new EmptyResponse() {
+            @Override
+            public void onResponse() {
+                setStatusText(mFolder.getName());
+                updateCounter(mGridAdapter.getTotalItems() > 0 ? 1 : 0);
+                setItem(null);
+                setTitle(mFolder.getName());
+            }
+        });
+    }
+
 }
