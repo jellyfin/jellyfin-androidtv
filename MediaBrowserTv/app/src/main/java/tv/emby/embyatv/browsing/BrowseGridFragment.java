@@ -41,7 +41,7 @@ public class BrowseGridFragment extends StdGridFragment {
 
     @Override
     protected void setupQueries(IGridLoader gridLoader) {
-        StdItemQuery query = new StdItemQuery();
+        StdItemQuery query = new StdItemQuery(false);
         query.setParentId(mParentId);
         if (mFolder.getType().equals("UserView")) {
             String type = mFolder.getCollectionType() != null ? mFolder.getCollectionType().toLowerCase() : "";
