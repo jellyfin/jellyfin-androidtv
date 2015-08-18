@@ -34,6 +34,7 @@ public class HorizontalGridFragment extends Fragment {
     private static boolean DEBUG = false;
 
     private TextView mTitleView;
+    private TextView mStatusText;
     private TextView mCounter;
     private LinearLayout mInfoRow;
     private LinearLayout mToolBar;
@@ -81,7 +82,7 @@ public class HorizontalGridFragment extends Fragment {
     }
 
     public int getGridHeight() {
-        return Utils.convertDpToPixel(TvApp.getApplication(), 370);
+        return Utils.convertDpToPixel(TvApp.getApplication(), 400);
     }
 
     public void setItem(BaseRowItem item) {
@@ -96,6 +97,10 @@ public class HorizontalGridFragment extends Fragment {
 
     public void setTitle(String text) {
         mTitleView.setText(text);
+    }
+
+    public void setStatusText(String text) {
+        mStatusText.setText(text);
     }
 
     public LinearLayout getToolBar() { return mToolBar; }
@@ -157,6 +162,8 @@ public class HorizontalGridFragment extends Fragment {
 
         mTitleView = (TextView) root.findViewById(R.id.title);
         mTitleView.setTypeface(TvApp.getApplication().getDefaultFont());
+        mStatusText = (TextView) root.findViewById(R.id.statusText);
+        mStatusText.setTypeface(TvApp.getApplication().getDefaultFont());
         mInfoRow = (LinearLayout) root.findViewById(R.id.infoRow);
         mToolBar = (LinearLayout) root.findViewById(R.id.toolBar);
         mCounter = (TextView) root.findViewById(R.id.counter);
