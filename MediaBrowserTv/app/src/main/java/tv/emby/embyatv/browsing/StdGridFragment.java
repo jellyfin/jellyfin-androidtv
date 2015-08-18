@@ -242,7 +242,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     protected void addTools() {
         //Add tools
         LinearLayout toolBar = getToolBar();
-        int size = Utils.convertDpToPixel(getActivity(), 20);
+        int size = Utils.convertDpToPixel(getActivity(), 15);
 
         toolBar.addView(new ImageButton(getActivity(), R.drawable.sort, size, new View.OnClickListener() {
             @Override
