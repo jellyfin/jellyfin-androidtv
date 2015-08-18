@@ -77,6 +77,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     protected static final int PERSONS = 3;
     protected static final int SUGGESTED = 4;
     protected static final int SEARCH = 5;
+    protected static final int GRID = 6;
     protected BaseItemDto mFolder;
     protected String itemTypeString;
     protected boolean showViews = true;
@@ -269,6 +270,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
             GridButtonPresenter mGridPresenter = new GridButtonPresenter();
             ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
+            gridRowAdapter.add(new GridButton(GRID, "All Items", R.drawable.grid));
             gridRowAdapter.add(new GridButton(BY_LETTER, mApplication.getString(R.string.lbl_by_letter), R.drawable.byletter));
             if (itemTypeString != null && itemTypeString.equals("Movie"))
                 gridRowAdapter.add(new GridButton(SUGGESTED, mApplication.getString(R.string.lbl_suggested), R.drawable.suggestions));
@@ -328,6 +330,12 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
             if (item instanceof GridButton) {
                 switch (((GridButton) item).getId()) {
+                    case GRID:
+                        Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
+                        folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
+                        getActivity().startActivity(folderIntent);
+                        break;
+
                     case BY_LETTER:
                         Intent intent = new Intent(getActivity(), ByLetterActivity.class);
                         intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));

@@ -42,6 +42,19 @@ public class BrowseGridFragment extends StdGridFragment {
     protected void setupQueries(IGridLoader gridLoader) {
         StdItemQuery query = new StdItemQuery();
         query.setParentId(mParentId);
+        if (mFolder.getType().equals("UserView")) {
+            String type = mFolder.getCollectionType() != null ? mFolder.getCollectionType().toLowerCase() : "";
+            query.setRecursive(true);
+            switch (type) {
+                case "movies":
+                    query.setIncludeItemTypes(new String[]{"Movie"});
+                    break;
+                case "tvshows":
+                    query.setIncludeItemTypes(new String[]{"Series"});
+                    break;
+            }
+        }
+        
         mRowDef = new BrowseRowDef("", query, 150, false, true);
 
         loadGrid(mRowDef);

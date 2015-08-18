@@ -36,10 +36,12 @@
         android:id="@+id/toolBar"
         android:layout_alignLeft="@+id/title"
         android:orientation="horizontal"
-        android:divider="@drawable/blank30x30"
+        android:divider="@drawable/blank10x10"
         android:showDividers="middle"
         android:gravity="bottom"
-        android:alpha=".6" />
+        android:alpha=".6"
+        android:paddingLeft="15dp"
+        android:dividerPadding="5dp" />
 
     <FrameLayout
         android:layout_width="match_parent"
