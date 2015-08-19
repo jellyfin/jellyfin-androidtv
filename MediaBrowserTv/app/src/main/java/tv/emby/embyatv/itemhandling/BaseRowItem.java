@@ -149,6 +149,58 @@ public class BaseRowItem {
         return null;
     }
 
+    public boolean isFavorite() {
+        switch (type) {
+
+            case BaseItem:
+            case LiveTvRecording:
+            case LiveTvProgram:
+                return baseItem.getUserData() != null && baseItem.getUserData().getIsFavorite();
+            case Person:
+                break;
+            case Server:
+                break;
+            case User:
+                break;
+            case Chapter:
+                break;
+            case SearchHint:
+                break;
+            case LiveTvChannel:
+                break;
+            case GridButton:
+                break;
+        }
+
+        return false;
+    }
+
+    public boolean isPlayed() {
+        switch (type) {
+            case BaseItem:
+            case LiveTvRecording:
+            case LiveTvProgram:
+                return baseItem.getUserData() != null && baseItem.getUserData().getPlayed();
+            case Person:
+                break;
+            case Server:
+                break;
+            case User:
+                break;
+            case Chapter:
+                break;
+            case SearchHint:
+                break;
+            case LiveTvChannel:
+                break;
+            case GridButton:
+                break;
+
+        }
+
+        return false;
+    }
+
     public String getFullName() {
         switch (type) {
 
