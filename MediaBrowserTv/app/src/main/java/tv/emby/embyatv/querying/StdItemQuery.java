@@ -9,13 +9,13 @@ import tv.emby.embyatv.TvApp;
  */
 public class StdItemQuery extends ItemQuery {
 
-    public StdItemQuery(boolean includeOverview) {
+    public StdItemQuery(ItemFields[] fields) {
+        if (fields == null) fields = new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Overview, ItemFields.ItemCounts};
         setUserId(TvApp.getApplication().getCurrentUser().getId());
-        setFields(includeOverview ? new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Overview, ItemFields.ItemCounts} :
-                                    new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.ItemCounts});
+        setFields(fields);
     }
 
     public StdItemQuery() {
-        this(true);
+        this(null);
     }
 }
