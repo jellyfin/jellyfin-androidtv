@@ -38,7 +38,7 @@ public class HorizontalGridFragment extends Fragment {
     private TextView mStatusText;
     private TextView mCounter;
     private LinearLayout mInfoRow;
-    private LinearLayout mToolBar;
+    protected LinearLayout mToolBar;
     private ItemRowAdapter mAdapter;
     private HorizontalGridPresenter mGridPresenter;
     private HorizontalGridPresenter.ViewHolder mGridViewHolder;
