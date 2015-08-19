@@ -349,7 +349,11 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                     //Now - if filtered make sure we still pass
                     if (mGridAdapter.getFilters() != null) {
                         if ((mGridAdapter.getFilters().isFavoriteOnly() && !mCurrentItem.isFavorite()) || (mGridAdapter.getFilters().isUnwatchedOnly() && mCurrentItem.isPlayed())) {
+                            //if we are about to remove last item, throw focus to toolbar so framework doesn't crash
+                            if (mGridAdapter.size() == 1) mToolBar.requestFocus();
                             mGridAdapter.remove(mCurrentItem);
+                            mGridAdapter.setTotalItems(mGridAdapter.getTotalItems() - 1);
+                            updateCounter(mCurrentItem.getIndex());
                         }
                     }
                 }
