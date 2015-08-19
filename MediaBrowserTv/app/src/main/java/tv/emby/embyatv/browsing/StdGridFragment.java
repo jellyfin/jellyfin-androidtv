@@ -321,7 +321,8 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         toolBar.addView(new ImageButton(getActivity(), R.drawable.search2, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TvApp.getApplication().getLogger().Debug("Search...");
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                getActivity().startActivity(intent);
             }
         }));
 
@@ -336,14 +337,6 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     }
 
     protected void setupEventListeners() {
-//        setOnSearchClickedListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), SearchActivity.class);
-//                getActivity().startActivity(intent);
-//            }
-//        });
 
         setOnItemViewClickedListener(mClickedListener);
         mClickedListener.registerListener(new ItemViewClickedListener());
