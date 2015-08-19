@@ -399,7 +399,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     }
 
     private void refreshCurrentItem() {
-        if (mCurrentItem != null) {
+        if (mCurrentItem != null && !mCurrentItem.getType().equals("UserView")) {
             TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override

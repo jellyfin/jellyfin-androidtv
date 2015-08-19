@@ -312,6 +312,33 @@ public class BaseRowItem {
         return "";
     }
 
+    public String getType() {
+        switch (type) {
+
+            case BaseItem:
+            case LiveTvRecording:
+            case LiveTvProgram:
+                return baseItem.getType();
+            case Person:
+                return person.getType();
+            case Server:
+                break;
+            case User:
+                break;
+            case Chapter:
+                break;
+            case SearchHint:
+                return searchHint.getType();
+            case LiveTvChannel:
+                return channelInfo.getType();
+            case GridButton:
+                return "GridButton";
+        }
+
+        return "";
+
+    }
+
     public String getSummary() {
         switch (type) {
 
