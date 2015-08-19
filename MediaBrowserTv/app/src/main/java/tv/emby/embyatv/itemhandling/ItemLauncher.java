@@ -9,6 +9,7 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
+import mediabrowser.model.entities.DisplayPreferences;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.search.SearchHint;
@@ -34,7 +35,7 @@ public class ItemLauncher {
         launch(rowItem, application, activity, false);
     }
 
-    public static void launch(BaseRowItem rowItem, final TvApp application, final Activity activity, boolean noHistory) {
+    public static void launch(BaseRowItem rowItem, final TvApp application, final Activity activity, final boolean noHistory) {
         switch (rowItem.getItemType()) {
 
             case BaseItem:
@@ -44,24 +45,33 @@ public class ItemLauncher {
                 //specialized type handling
                 switch (baseItem.getType()) {
                     case "UserView":
-                        if (baseItem.getCollectionType() == null) baseItem.setCollectionType("unknown");
-                        switch (baseItem.getCollectionType()) {
-                            case "movies":
-                            case "tvshows":
-                            case "music":
-                            case "livetv":
-                                // open user view browsing
-                                Intent intent = new Intent(activity, UserViewActivity.class);
-                                intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+                        //We need to get display prefs...
+                        TvApp.getApplication().getDisplayPrefsAsync(baseItem.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
+                            @Override
+                            public void onResponse(DisplayPreferences response) {
+                                //todo check displayprefs for type of view...
 
-                                activity.startActivity(intent);
-                                break;
-                            default:
-                                // open generic folder browsing
-                                Intent folderIntent = new Intent(activity, GenericGridActivity.class);
-                                folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
-                                activity.startActivity(folderIntent);
-                        }
+                                if (baseItem.getCollectionType() == null) baseItem.setCollectionType("unknown");
+                                switch (baseItem.getCollectionType()) {
+                                    case "movies":
+                                    case "tvshows":
+                                    case "music":
+                                    case "livetv":
+                                        // open user view browsing
+                                        Intent intent = new Intent(activity, UserViewActivity.class);
+                                        intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+
+                                        activity.startActivity(intent);
+                                        break;
+                                    default:
+                                        // open generic folder browsing
+                                        Intent folderIntent = new Intent(activity, GenericGridActivity.class);
+                                        folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+                                        activity.startActivity(folderIntent);
+                                }
+
+                            }
+                        });
                         return;
                     case "Series":
                         //Start activity for details display
@@ -86,12 +96,18 @@ public class ItemLauncher {
 
                 // or generic handling
                 if (baseItem.getIsFolder()) {
-                    // open generic folder browsing
-                    Intent intent = new Intent(activity, GenericGridActivity.class);
-                    intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
-                    if (noHistory) intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    // open generic folder browsing - but need display prefs
+                    TvApp.getApplication().getDisplayPrefsAsync(baseItem.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
+                        @Override
+                        public void onResponse(DisplayPreferences response) {
+                            Intent intent = new Intent(activity, GenericGridActivity.class);
+                            intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+                            if (noHistory) intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
-                    activity.startActivity(intent);
+                            activity.startActivity(intent);
+
+                        }
+                    });
                 } else {
                     switch (rowItem.getSelectAction()) {
 

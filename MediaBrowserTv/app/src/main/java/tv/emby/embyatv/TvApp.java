@@ -14,6 +14,7 @@ import android.text.format.DateUtils;
 import android.util.Log;
 
 import mediabrowser.apiinteraction.ApiClient;
+import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.IConnectionManager;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
@@ -21,6 +22,7 @@ import mediabrowser.apiinteraction.playback.PlaybackManager;
 import mediabrowser.logging.ConsoleLogger;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
+import mediabrowser.model.entities.DisplayPreferences;
 import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.registration.RegistrationInfo;
 import tv.emby.embyatv.base.BaseActivity;
@@ -35,6 +37,8 @@ import org.acra.annotation.*;
 import org.acra.sender.HttpSender;
 
 import java.util.Calendar;
+import java.util.Dictionary;
+import java.util.HashMap;
 
 /**
  * Created by Eric on 11/24/2014.
@@ -67,6 +71,8 @@ public class TvApp extends Application {
     private int autoBitrate;
     private String directItemId;
     private Typeface roboto;
+
+    private HashMap<String, DisplayPreferences> displayPrefsCache = new HashMap<>();
 
     private boolean isConnectLogin = false;
 
@@ -370,6 +376,41 @@ public class TvApp extends Application {
     public void playbackJumpBack() {
         if (playbackController != null) {
             playbackController.skip(-11000);
+        }
+    }
+
+    public DisplayPreferences getCachedDisplayPrefs(String key) {
+        return displayPrefsCache.containsKey(key) ? displayPrefsCache.get(key) : new DisplayPreferences();
+    }
+
+    public void updateDisplayPrefs(DisplayPreferences preferences) {
+        displayPrefsCache.put(preferences.getId(), preferences);
+        getApiClient().UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), "ATV", new EmptyResponse());
+        logger.Debug("Display prefs updated isFavorite: "+preferences.getCustomPrefs().get("FavoriteOnly"));
+    }
+
+    public void getDisplayPrefsAsync(final String key, final Response<DisplayPreferences> outerResponse) {
+        if (displayPrefsCache.containsKey(key)) {
+            logger.Debug("Display prefs loaded from cache "+key);
+            outerResponse.onResponse(displayPrefsCache.get(key));
+        } else {
+            getApiClient().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), "ATV", new Response<DisplayPreferences>(){
+                @Override
+                public void onResponse(DisplayPreferences response) {
+                    displayPrefsCache.put(key, response);
+                    logger.Debug("Display prefs loaded and saved in cache " + key);
+                    outerResponse.onResponse(response);
+                }
+
+                @Override
+                public void onError(Exception exception) {
+                    //Continue with defaults
+                    logger.ErrorException("Unable to load display prefs ", exception);
+                    DisplayPreferences prefs = new DisplayPreferences();
+                    prefs.setId(key);
+                    outerResponse.onResponse(prefs);
+                }
+            });
         }
     }
 

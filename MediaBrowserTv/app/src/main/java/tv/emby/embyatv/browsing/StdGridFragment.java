@@ -47,10 +47,13 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.entities.DisplayPreferences;
 import mediabrowser.model.querying.ItemSortBy;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
@@ -97,11 +100,20 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     protected BrowseRowDef mRowDef;
     CardPresenter mCardPresenter;
 
+    protected String mParentId;
+    protected BaseItemDto mFolder;
+    protected DisplayPreferences mDisplayPrefs;
+
     private int mCardHeight = Utils.convertDpToPixel(TvApp.getApplication(), 116);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mFolder = TvApp.getApplication().getSerializer().DeserializeFromString(getActivity().getIntent().getStringExtra("Folder"), BaseItemDto.class);
+        mParentId = mFolder.getId();
+        MainTitle = mFolder.getName();
+        mDisplayPrefs = TvApp.getApplication().getCachedDisplayPrefs(mFolder.getDisplayPreferencesId()); //These should have already been loaded
 
         setupUIElements();
 
@@ -245,6 +257,13 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     protected ImageButton mUnwatchedButton;
     protected ImageButton mFavoriteButton;
 
+    protected void updateDisplayPrefs() {
+        if (mDisplayPrefs.getCustomPrefs() == null) mDisplayPrefs.setCustomPrefs(new HashMap<String, String>());
+        mDisplayPrefs.getCustomPrefs().put("UnwatchedOnly", mGridAdapter.getFilters().isUnwatchedOnly() ? "true" : "false");
+        mDisplayPrefs.getCustomPrefs().put("FavoriteOnly", mGridAdapter.getFilters().isFavoriteOnly() ? "true" : "false");
+        TvApp.getApplication().updateDisplayPrefs(mDisplayPrefs);
+    }
+
     protected void addTools() {
         //Add tools
         LinearLayout toolBar = getToolBar();
@@ -266,6 +285,9 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                 filters.setUnwatchedOnly(!filters.isUnwatchedOnly());
                 mGridAdapter.setFilters(filters);
                 mUnwatchedButton.setImageResource(filters.isUnwatchedOnly() ? R.drawable.unwatchedred : R.drawable.unwatchedwhite);
+
+                updateDisplayPrefs();
+
             }
         });
         toolBar.addView(mUnwatchedButton);
@@ -279,6 +301,8 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                 filters.setFavoriteOnly(!filters.isFavoriteOnly());
                 mGridAdapter.setFilters(filters);
                 mFavoriteButton.setImageResource(filters.isFavoriteOnly() ? R.drawable.redheartbig : R.drawable.whiteheartbig);
+
+                updateDisplayPrefs();
             }
         });
         toolBar.addView(mFavoriteButton);
