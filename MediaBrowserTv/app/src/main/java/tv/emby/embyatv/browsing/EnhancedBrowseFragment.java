@@ -38,7 +38,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.entities.DisplayPreferences;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
@@ -340,9 +342,14 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             if (item instanceof GridButton) {
                 switch (((GridButton) item).getId()) {
                     case GRID:
-                        Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
-                        folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
-                        getActivity().startActivity(folderIntent);
+                        TvApp.getApplication().getDisplayPrefsAsync(mFolder.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
+                            @Override
+                            public void onResponse(DisplayPreferences response) {
+                                Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
+                                folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
+                                getActivity().startActivity(folderIntent);
+                            }
+                        });
                         break;
 
                     case BY_LETTER:
