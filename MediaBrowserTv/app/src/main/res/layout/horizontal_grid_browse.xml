@@ -37,7 +37,7 @@
         android:divider="@drawable/blank10x10"
         android:showDividers="middle"
         android:gravity="bottom|right"
-        android:alpha=".6"
+        android:alpha=".75"
         android:paddingLeft="15dp"
         android:dividerPadding="5dp"
         android:layout_toLeftOf="@+id/clock"
