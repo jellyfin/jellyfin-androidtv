@@ -83,6 +83,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     protected BaseItemDto mFolder;
     protected String itemTypeString;
     protected boolean showViews = true;
+    protected boolean justLoaded = true;
 
     private Target mBackgroundTarget;
     private DisplayMetrics mMetrics;
@@ -190,22 +191,27 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     public void onResume() {
         super.onResume();
 
-        //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
-        if (mRowsAdapter != null) {
-            refreshCurrentItem();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (mActivity.isFinishing()) return;
-                    for (int i = 0; i < mRowsAdapter.size(); i++) {
-                        if (mRowsAdapter.get(i) instanceof ListRow) {
-                            if (((ListRow) mRowsAdapter.get(i)).getAdapter() instanceof ItemRowAdapter && !mActivity.isFinishing()) {
-                                ((ItemRowAdapter) ((ListRow) mRowsAdapter.get(i)).getAdapter()).ReRetrieveIfNeeded();
+        if (!justLoaded) {
+            //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
+            if (mRowsAdapter != null) {
+                refreshCurrentItem();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mActivity.isFinishing()) return;
+                        for (int i = 0; i < mRowsAdapter.size(); i++) {
+                            if (mRowsAdapter.get(i) instanceof ListRow) {
+                                if (((ListRow) mRowsAdapter.get(i)).getAdapter() instanceof ItemRowAdapter && !mActivity.isFinishing()) {
+                                    ((ItemRowAdapter) ((ListRow) mRowsAdapter.get(i)).getAdapter()).ReRetrieveIfNeeded();
+                                }
                             }
                         }
                     }
-                }
-            }, 1500);
+                }, 1500);
+            }
+
+        } else {
+            justLoaded = false;
         }
     }
 
@@ -325,7 +331,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override
                 public void onResponse() {
-                    ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)mCurrentRow).getAdapter();
+                    ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow) mCurrentRow).getAdapter();
                     adapter.notifyArrayItemRangeChanged(adapter.indexOf(mCurrentItem), 1);
                 }
             });

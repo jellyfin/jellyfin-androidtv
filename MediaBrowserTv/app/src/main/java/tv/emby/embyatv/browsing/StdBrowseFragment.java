@@ -98,6 +98,8 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     protected ArrayList<BrowseRowDef> mRows = new ArrayList<>();
     CardPresenter mCardPresenter;
 
+    protected boolean justLoaded = true;
+
     private ItemPanel mItemPanel;
     private Animation fadeInPanel;
     private Animation fadeOutPanel;
@@ -155,22 +157,27 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         audioManager.registerMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
         //TODO implement conditional logic for api 21+
 
-        //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
-        if (mRowsAdapter != null) {
-            refreshCurrentItem();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (mActivity.isFinishing()) return;
-                    for (int i = 0; i < mRowsAdapter.size(); i++) {
-                        if (mRowsAdapter.get(i) instanceof ListRow) {
-                            if (((ListRow) mRowsAdapter.get(i)).getAdapter() instanceof ItemRowAdapter && !mActivity.isFinishing()) {
-                                ((ItemRowAdapter) ((ListRow) mRowsAdapter.get(i)).getAdapter()).ReRetrieveIfNeeded();
+        if (!justLoaded) {
+            //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
+            if (mRowsAdapter != null) {
+                refreshCurrentItem();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mActivity.isFinishing()) return;
+                        for (int i = 0; i < mRowsAdapter.size(); i++) {
+                            if (mRowsAdapter.get(i) instanceof ListRow) {
+                                if (((ListRow) mRowsAdapter.get(i)).getAdapter() instanceof ItemRowAdapter && !mActivity.isFinishing()) {
+                                    ((ItemRowAdapter) ((ListRow) mRowsAdapter.get(i)).getAdapter()).ReRetrieveIfNeeded();
+                                }
                             }
                         }
                     }
-                }
-            },1500);
+                },1500);
+            }
+
+        } else {
+            justLoaded = false;
         }
     }
 
