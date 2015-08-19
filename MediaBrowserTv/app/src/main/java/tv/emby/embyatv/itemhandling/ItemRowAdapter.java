@@ -374,8 +374,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         }
     }
 
-    public void ReRetrieveIfNeeded() {
-        if (reRetrieveTriggers == null) return;
+    public boolean ReRetrieveIfNeeded() {
+        if (reRetrieveTriggers == null) return false;
 
         boolean retrieve = false;
         TvApp app = TvApp.getApplication();
@@ -400,6 +400,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             TvApp.getApplication().getLogger().Info("Re-retrieving row of type "+ queryType);
             Retrieve();
         }
+
+        return retrieve;
     }
 
     public void Retrieve() {
