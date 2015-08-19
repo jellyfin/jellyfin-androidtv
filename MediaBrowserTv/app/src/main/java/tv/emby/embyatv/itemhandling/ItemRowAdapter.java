@@ -548,6 +548,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int i = 0;
                     if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
+                        //re-map the display prefs id to our actual id
+                        item.setDisplayPreferencesId(item.getId());
                         if (!ignoreTypeList.contains(item.getCollectionType()) && !ignoreTypeList.contains(item.getType())) adapter.add(new BaseRowItem(i++,item, preferParentThumb, staticHeight));
                     }
                     totalItems = response.getTotalRecordCount();
