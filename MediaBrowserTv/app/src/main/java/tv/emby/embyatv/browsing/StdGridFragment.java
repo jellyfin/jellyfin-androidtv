@@ -339,20 +339,23 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     }
 
     private void refreshCurrentItem() {
-        TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
-        mCurrentItem.refresh(new EmptyResponse() {
-            @Override
-            public void onResponse() {
+        if (mCurrentItem != null) {
+            TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
+            mCurrentItem.refresh(new EmptyResponse() {
+                @Override
+                public void onResponse() {
 
-                mGridAdapter.notifyArrayItemRangeChanged(mGridAdapter.indexOf(mCurrentItem), 1);
-                //Now - if filtered make sure we still pass
-                if (mGridAdapter.getFilters() != null) {
-                    if ((mGridAdapter.getFilters().isFavoriteOnly() && !mCurrentItem.isFavorite()) || (mGridAdapter.getFilters().isUnwatchedOnly() && mCurrentItem.isPlayed())) {
-                        mGridAdapter.remove(mCurrentItem);
+                    mGridAdapter.notifyArrayItemRangeChanged(mGridAdapter.indexOf(mCurrentItem), 1);
+                    //Now - if filtered make sure we still pass
+                    if (mGridAdapter.getFilters() != null) {
+                        if ((mGridAdapter.getFilters().isFavoriteOnly() && !mCurrentItem.isFavorite()) || (mGridAdapter.getFilters().isUnwatchedOnly() && mCurrentItem.isPlayed())) {
+                            mGridAdapter.remove(mCurrentItem);
+                        }
                     }
                 }
-            }
-        });
+            });
+
+        }
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
