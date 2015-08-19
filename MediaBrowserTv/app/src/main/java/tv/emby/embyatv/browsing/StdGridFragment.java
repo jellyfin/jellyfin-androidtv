@@ -100,6 +100,8 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     protected BrowseRowDef mRowDef;
     CardPresenter mCardPresenter;
 
+    protected boolean justLoaded = true;
+
     protected String mParentId;
     protected BaseItemDto mFolder;
     protected DisplayPreferences mDisplayPrefs;
@@ -166,17 +168,22 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         audioManager.registerMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
         //TODO implement conditional logic for api 21+
 
-        //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
-        if (mGridAdapter != null) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (mActivity.isFinishing()) return;
+        if (!justLoaded) {
+            //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
+            if (mGridAdapter != null) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mActivity.isFinishing()) return;
                         if (mGridAdapter != null && mGridAdapter.size() > 0) {
                             if (!mGridAdapter.ReRetrieveIfNeeded()) refreshCurrentItem();
+                        }
                     }
-                }
-            },500);
+                },500);
+            }
+
+        } else {
+            justLoaded = false;
         }
     }
 
