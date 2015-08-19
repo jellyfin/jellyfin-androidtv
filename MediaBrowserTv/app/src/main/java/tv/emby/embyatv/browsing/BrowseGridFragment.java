@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.querying.ItemFields;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.querying.StdItemQuery;
 
@@ -41,7 +42,7 @@ public class BrowseGridFragment extends StdGridFragment {
 
     @Override
     protected void setupQueries(IGridLoader gridLoader) {
-        StdItemQuery query = new StdItemQuery(false);
+        StdItemQuery query = new StdItemQuery(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
         query.setParentId(mParentId);
         if (mFolder.getType().equals("UserView")) {
             String type = mFolder.getCollectionType() != null ? mFolder.getCollectionType().toLowerCase() : "";

@@ -478,7 +478,7 @@ public class Utils {
                     outerResponse.onError(new Exception("No Channel ID"));
                     return;
                 }
-                
+
                 //We retrieve the channel the program is on (which should be the program's parent)
                 TvApp.getApplication().getApiClient().GetItemAsync(mainItem.getParentId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
