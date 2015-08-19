@@ -298,6 +298,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     public FilterOptions getFilters() { return mFilters; }
 
     public void setFilters(FilterOptions filters) {
+        setFilters(filters, true);
+    }
+
+    public void setFilters(FilterOptions filters, boolean retrieve) {
         mFilters = filters;
         if (mFilters != null) {
             mQuery.setFilters(mFilters.getFilters());
@@ -305,7 +309,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             mQuery.setFilters(null);
         }
 
-        Retrieve();
+        if (retrieve) Retrieve();
     }
 
     public void removeRow() {
@@ -612,7 +616,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int i = 0;
                     if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++,item, preferParentThumb, false));
+                        adapter.add(new BaseRowItem(i++, item, preferParentThumb, false));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
@@ -953,7 +957,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int i = 0;
                     if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++,item));
+                        adapter.add(new BaseRowItem(i++, item));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);

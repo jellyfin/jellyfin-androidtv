@@ -397,6 +397,8 @@ public class TvApp extends Application {
             getApiClient().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), "ATV", new Response<DisplayPreferences>(){
                 @Override
                 public void onResponse(DisplayPreferences response) {
+                    if (response.getSortBy() == null) response.setSortBy("SortName");
+                    if (response.getCustomPrefs() == null) response.setCustomPrefs(new HashMap<String, String>());
                     displayPrefsCache.put(key, response);
                     logger.Debug("Display prefs loaded and saved in cache " + key);
                     outerResponse.onResponse(response);
@@ -408,6 +410,8 @@ public class TvApp extends Application {
                     logger.ErrorException("Unable to load display prefs ", exception);
                     DisplayPreferences prefs = new DisplayPreferences();
                     prefs.setId(key);
+                    prefs.setSortBy("SortName");
+                    prefs.setCustomPrefs(new HashMap<String, String>());
                     outerResponse.onResponse(prefs);
                 }
             });
