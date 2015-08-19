@@ -157,6 +157,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
         //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
         if (mRowsAdapter != null) {
+            refreshCurrentItem();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -382,18 +383,25 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                     switch (message) {
 
                         case RefreshCurrentItem:
-                            TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
-                            mCurrentItem.refresh(new EmptyResponse() {
-                                @Override
-                                public void onResponse() {
-                                    ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)mCurrentRow).getAdapter();
-                                    adapter.notifyArrayItemRangeChanged(adapter.indexOf(mCurrentItem), 1);
-                                }
-                            });
+                            refreshCurrentItem();
                             break;
                     }
                 }
             });
+        }
+    }
+
+    private void refreshCurrentItem() {
+        if (mCurrentItem != null) {
+            TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
+            mCurrentItem.refresh(new EmptyResponse() {
+                @Override
+                public void onResponse() {
+                    ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)mCurrentRow).getAdapter();
+                    adapter.notifyArrayItemRangeChanged(adapter.indexOf(mCurrentItem), 1);
+                }
+            });
+
         }
     }
 
