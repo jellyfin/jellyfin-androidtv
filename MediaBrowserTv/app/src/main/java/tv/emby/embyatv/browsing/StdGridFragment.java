@@ -355,11 +355,21 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         }
     }
 
+    private final Runnable mDelayedSetItem = new Runnable() {
+        @Override
+        public void run() {
+            mBackgroundUrl = mCurrentItem.getBackdropImageUrl();
+            startBackgroundTimer();
+            setItem(mCurrentItem);
+        }
+    };
+
     private final class ItemViewSelectedListener implements OnItemViewSelectedListener {
         @Override
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
 
+            mHandler.removeCallbacks(mDelayedSetItem);
             if (!(item instanceof BaseRowItem)) {
                 mCurrentItem = null;
                 setTitle(MainTitle);
@@ -369,11 +379,10 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                 return;
             } else {
                 mCurrentItem = (BaseRowItem)item;
-                setItem(mCurrentItem);
+                mHandler.postDelayed(mDelayedSetItem, 400);
+
                 mGridAdapter.loadMoreItemsIfNeeded(mCurrentItem.getIndex());
 
-                mBackgroundUrl = mCurrentItem.getBackdropImageUrl();
-                startBackgroundTimer();
             }
 
         }
