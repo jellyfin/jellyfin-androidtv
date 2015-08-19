@@ -460,7 +460,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 addItemRow(adapter, personMoviesAdapter, 0, mApplication.getString(R.string.lbl_movies));
 
                 ItemQuery personSeries = new ItemQuery();
-                personSeries.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
+                personSeries.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.DisplayPreferencesId});
                 personSeries.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 personSeries.setPersonIds(new String[] {mBaseItem.getId()});
                 personSeries.setRecursive(true);
@@ -480,6 +480,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 SeasonQuery seasons = new SeasonQuery();
                 seasons.setSeriesId(mBaseItem.getId());
                 seasons.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                seasons.setFields(new ItemFields[] {ItemFields.DisplayPreferencesId});
                 ItemRowAdapter seasonsAdapter = new ItemRowAdapter(seasons, new CardPresenter(), adapter);
                 addItemRow(adapter, seasonsAdapter, 1, mActivity.getString(R.string.lbl_seasons));
 
@@ -497,7 +498,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 }
 
                 SimilarItemsQuery similarSeries = new SimilarItemsQuery();
-                similarSeries.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
+                similarSeries.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.DisplayPreferencesId});
                 similarSeries.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 similarSeries.setId(mBaseItem.getId());
                 similarSeries.setLimit(20);
