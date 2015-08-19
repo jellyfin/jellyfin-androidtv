@@ -128,9 +128,9 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
 
         prepareBackgroundManager();
 
-        addTools();
-
         setupQueries(this);
+
+        addTools();
 
         setupEventListeners();
     }
@@ -228,8 +228,12 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                 break;
         }
 
-        //todo - obtain sort order from display prefs
-        mGridAdapter.setSortBy(ItemSortBy.SortName);  //this will cause a retrieve
+        FilterOptions filters = new FilterOptions();
+        filters.setFavoriteOnly(Boolean.parseBoolean(mDisplayPrefs.getCustomPrefs().get("FavoriteOnly")));
+        filters.setUnwatchedOnly(Boolean.parseBoolean(mDisplayPrefs.getCustomPrefs().get("UnwatchedOnly")));
+
+        mGridAdapter.setFilters(filters, false); // don't retrieve
+        mGridAdapter.setSortBy(mDisplayPrefs.getSortBy());  //this will cause a retrieve
 
         setAdapter(mGridAdapter);
 
@@ -276,7 +280,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             }
         }));
 
-        mUnwatchedButton =new ImageButton(getActivity(), R.drawable.unwatchedwhite, size, new View.OnClickListener() {
+        mUnwatchedButton =new ImageButton(getActivity(), mGridAdapter.getFilters().isUnwatchedOnly() ? R.drawable.unwatchedred : R.drawable.unwatchedwhite, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FilterOptions filters = mGridAdapter.getFilters();
@@ -292,7 +296,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         });
         toolBar.addView(mUnwatchedButton);
 
-        mFavoriteButton =new ImageButton(getActivity(), R.drawable.whiteheartbig, size, new View.OnClickListener() {
+        mFavoriteButton =new ImageButton(getActivity(), mGridAdapter.getFilters().isFavoriteOnly() ? R.drawable.redheartbig : R.drawable.whiteheartbig, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FilterOptions filters = mGridAdapter.getFilters();
