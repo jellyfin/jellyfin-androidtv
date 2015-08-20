@@ -18,6 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import mediabrowser.model.entities.SortOrder;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
@@ -96,6 +100,41 @@ public class HorizontalGridFragment extends Fragment {
         }
     }
 
+    public class SortOption {
+        public String name;
+        public String value;
+        public SortOrder order;
+
+        public SortOption(String name, String value, SortOrder order) {
+            this.name = name;
+            this.value = value;
+            this.order = order;
+        }
+    }
+
+    protected Map<Integer, SortOption> sortOptions = new HashMap<>();
+    {
+        sortOptions.put(0, new SortOption(TvApp.getApplication().getString(R.string.lbl_name), "SortName", SortOrder.Ascending));
+        sortOptions.put(1, new SortOption(TvApp.getApplication().getString(R.string.lbl_date_added), "DateCreated", SortOrder.Descending));
+        sortOptions.put(2, new SortOption(TvApp.getApplication().getString(R.string.lbl_premier_date), "PremiereDate", SortOrder.Descending));
+        sortOptions.put(3,new SortOption(TvApp.getApplication().getString(R.string.lbl_rating), "OfficialRating", SortOrder.Ascending));
+        sortOptions.put(4,new SortOption(TvApp.getApplication().getString(R.string.lbl_critic_rating), "CriticRating", SortOrder.Descending));
+        sortOptions.put(5,new SortOption(TvApp.getApplication().getString(R.string.lbl_last_played), "DatePlayed", SortOrder.Descending));
+    }
+
+    protected String getSortFriendlyName(String value) {
+        return getSortOption(value).name;
+    }
+
+    protected SortOption getSortOption(String value) {
+        for (Integer key : sortOptions.keySet()) {
+            SortOption option = sortOptions.get(key);
+            if (option.value.equals(value)) return option;
+        }
+
+        return new SortOption("Unknown","",SortOrder.Ascending);
+    }
+
     public void setTitle(String text) {
         mTitleView.setText(text);
     }
@@ -110,11 +149,7 @@ public class HorizontalGridFragment extends Fragment {
                     (filters.isFavoriteOnly() ? TvApp.getApplication().getResources().getString(R.string.lbl_favorites) : "");
         }
 
-        text += " " + TvApp.getApplication().getString(R.string.lbl_from) + " '" + folderName + "' " + TvApp.getApplication().getString(R.string.lbl_sorted_by) + " ";
-        switch (mAdapter.getSortBy()) {
-            case "SortName":
-                text += TvApp.getApplication().getString(R.string.lbl_name);
-        }
+        text += " " + TvApp.getApplication().getString(R.string.lbl_from) + " '" + folderName + "' " + TvApp.getApplication().getString(R.string.lbl_sorted_by) + " " + getSortFriendlyName(mAdapter.getSortBy());
 
         mStatusText.setText(text);
     }
