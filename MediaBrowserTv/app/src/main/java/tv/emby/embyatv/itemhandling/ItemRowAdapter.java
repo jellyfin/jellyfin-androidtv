@@ -65,7 +65,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private String mSortBy;
     private FilterOptions mFilters;
 
-    private EmptyResponse mRetrieveFinishedResponse;
+    private EmptyResponse mRetrieveStartedListener;
+    private EmptyResponse mRetrieveFinishedListener;
 
     private ChangeTriggerType[] reRetrieveTriggers = new ChangeTriggerType[] {};
     private Calendar lastFullRetrieve;
@@ -414,6 +415,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         setCurrentlyRetrieving(true);
         lastFullRetrieve = Calendar.getInstance();
         itemsLoaded = 0;
+        notifyRetrieveStarted();
         switch (queryType) {
             case Items:
                 Retrieve(mQuery);
@@ -984,12 +986,22 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     public void notifyRetrieveFinished() {
-        if (mRetrieveFinishedResponse != null) {
-            mRetrieveFinishedResponse.onResponse();
+        if (mRetrieveFinishedListener != null) {
+            mRetrieveFinishedListener.onResponse();
         }
     }
 
-    public void setRetrieveFinishedResponse(EmptyResponse response) {
-        this.mRetrieveFinishedResponse = response;
+    public void setRetrieveFinishedListener(EmptyResponse response) {
+        this.mRetrieveFinishedListener = response;
+    }
+
+    public void notifyRetrieveStarted() {
+        if (mRetrieveStartedListener != null) {
+            mRetrieveStartedListener.onResponse();
+        }
+    }
+
+    public void setRetrieveStartedListener(EmptyResponse response) {
+        this.mRetrieveStartedListener = response;
     }
 }
