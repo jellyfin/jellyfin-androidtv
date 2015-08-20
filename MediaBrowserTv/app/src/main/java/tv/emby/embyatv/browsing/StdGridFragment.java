@@ -425,6 +425,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             @Override
             public void onClick(View v) {
                 TvApp.getApplication().getLogger().Debug("Options...");
+                Utils.showToast(getActivity(), "Not Yet Implemented");
             }
         }));
 
