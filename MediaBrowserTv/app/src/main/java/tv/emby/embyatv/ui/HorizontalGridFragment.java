@@ -10,6 +10,7 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ public class HorizontalGridFragment extends Fragment {
     private TextView mStatusText;
     private TextView mCounter;
     protected FrameLayout mSpinner;
+    private ViewGroup mGridDock;
     private LinearLayout mInfoRow;
     protected LinearLayout mToolBar;
     private ItemRowAdapter mAdapter;
@@ -50,6 +52,10 @@ public class HorizontalGridFragment extends Fragment {
     private OnItemViewSelectedListener mOnItemViewSelectedListener;
     private OnItemViewClickedListener mOnItemViewClickedListener;
     private int mSelectedPosition = -1;
+
+    protected int SMALL_CARD = Utils.convertDpToPixel(TvApp.getApplication(), 116);
+    protected int MED_CARD = Utils.convertDpToPixel(TvApp.getApplication(), 175);
+    protected int LARGE_CARD = Utils.convertDpToPixel(TvApp.getApplication(), 210);
 
     /**
      * Sets the grid presenter.
@@ -165,7 +171,7 @@ public class HorizontalGridFragment extends Fragment {
                     int position = mGridViewHolder.getGridView().getSelectedPosition();
                     if (DEBUG) Log.v(TAG, "row selected position " + position);
                     onRowSelected(position);
-                    if (mOnItemViewSelectedListener != null) {
+                    if (mOnItemViewSelectedListener != null && position >= 0) {
                         mOnItemViewSelectedListener.onItemSelected(itemViewHolder, item,
                                 rowViewHolder, row);
                     }
@@ -244,23 +250,33 @@ public class HorizontalGridFragment extends Fragment {
         mCounter = (TextView) root.findViewById(R.id.counter);
         mCounter.setTypeface(TvApp.getApplication().getDefaultFont());
         mSpinner = (FrameLayout) root.findViewById(R.id.spinner);
+        mGridDock = (ViewGroup) root.findViewById(R.id.rowsFragment);
 
         return root;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        ViewGroup gridDock = (ViewGroup) view.findViewById(R.id.rowsFragment);
-        mGridViewHolder = mGridPresenter.onCreateViewHolder(gridDock);
+        createGrid();
+    }
+
+    protected void createGrid() {
+        mGridViewHolder = mGridPresenter.onCreateViewHolder(mGridDock);
         mGridViewHolder.getGridView().setFocusable(true);
-        gridDock.addView(mGridViewHolder.view);
+        mGridDock.removeAllViews();
+        mGridViewHolder.getGridView().setGravity(Gravity.CENTER_VERTICAL);
+        mGridDock.addView(mGridViewHolder.view);
 
         updateAdapter();
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
+    }
+
+    public void focusGrid() {
         mGridViewHolder.getGridView().requestFocus();
     }
 

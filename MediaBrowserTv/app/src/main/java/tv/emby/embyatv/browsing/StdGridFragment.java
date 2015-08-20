@@ -55,6 +55,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.DisplayPreferences;
 import mediabrowser.model.entities.SortOrder;
@@ -105,12 +106,14 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     CardPresenter mCardPresenter;
 
     protected boolean justLoaded = true;
+    protected String mPosterSizeSetting = "auto";
+    protected boolean determiningPosterSize = false;
 
     protected String mParentId;
     protected BaseItemDto mFolder;
     protected DisplayPreferences mDisplayPrefs;
 
-    private int mCardHeight = Utils.convertDpToPixel(TvApp.getApplication(), 116);
+    private int mCardHeight = SMALL_CARD;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -120,6 +123,19 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         mParentId = mFolder.getId();
         MainTitle = mFolder.getName();
         mDisplayPrefs = TvApp.getApplication().getCachedDisplayPrefs(mFolder.getDisplayPreferencesId()); //These should have already been loaded
+        mPosterSizeSetting = mDisplayPrefs.getCustomPrefs().get("PosterSize");
+        if (mPosterSizeSetting == null) mPosterSizeSetting = "auto";
+
+        switch (mPosterSizeSetting) {
+            case "large":
+                mCardHeight = LARGE_CARD;
+                break;
+            case "med":
+                mCardHeight = MED_CARD;
+                break;
+            default:
+                mCardHeight = SMALL_CARD;
+        }
 
         setupUIElements();
 
@@ -142,7 +158,6 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     }
 
     protected void setupQueries(IGridLoader gridLoader) {
-        gridLoader.loadGrid(mRowDef);
     }
 
     @Override
@@ -199,8 +214,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         return mCardHeight;
     }
 
-    public void loadGrid(BrowseRowDef rowDef) {
-
+    protected void buildAdapter(BrowseRowDef rowDef) {
         mCardPresenter = new CardPresenter(false, mCardHeight);
 
         switch (mRowDef.getQueryType()) {
@@ -243,13 +257,52 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         filters.setFavoriteOnly(Boolean.parseBoolean(mDisplayPrefs.getCustomPrefs().get("FavoriteOnly")));
         filters.setUnwatchedOnly(Boolean.parseBoolean(mDisplayPrefs.getCustomPrefs().get("UnwatchedOnly")));
 
-        mGridAdapter.setFilters(filters, false); // don't retrieve
-        mGridAdapter.setSortBy(getSortOption(mDisplayPrefs.getSortBy()));  //this will cause a retrieve
-
+        setupRetrieveListeners();
+        mGridAdapter.setFilters(filters);
         setAdapter(mGridAdapter);
+
 
     }
 
+    public void loadGrid(final BrowseRowDef rowDef) {
+        determiningPosterSize = true;
+        buildAdapter(rowDef);
+
+        if (mPosterSizeSetting.equals("auto")) {
+            mGridAdapter.GetResultSizeAsync(new Response<Integer>() {
+                @Override
+                public void onResponse(Integer response) {
+                    int autoHeight = getAutoCardHeight(response);
+                    if (autoHeight != mCardHeight) {
+                        mCardHeight = autoHeight;
+                        setNumberOfRows();
+                        createGrid();
+                        TvApp.getApplication().getLogger().Debug("Auto card height is "+mCardHeight);
+                        buildAdapter(rowDef);
+                    }
+                    mGridAdapter.setSortBy(getSortOption(mDisplayPrefs.getSortBy()));
+                    mGridAdapter.Retrieve();
+                    determiningPosterSize = false;
+                }
+            });
+        } else {
+            mGridAdapter.setSortBy(getSortOption(mDisplayPrefs.getSortBy()));
+            mGridAdapter.Retrieve();
+            determiningPosterSize = false;
+        }
+
+    }
+
+    protected int getAutoCardHeight(Integer size) {
+        TvApp.getApplication().getLogger().Debug("Result size for auto card height is "+size);
+        if (size > 35)
+            return SMALL_CARD;
+        else if (size > 10)
+            return MED_CARD;
+        else
+            return LARGE_CARD;
+
+    }
     private void prepareBackgroundManager() {
 
         BackgroundManager backgroundManager = BackgroundManager.getInstance(getActivity());
@@ -265,15 +318,22 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     protected void setupUIElements() {
 
         HorizontalGridPresenter gridPresenter = new HorizontalGridPresenter();
-        gridPresenter.setNumberOfRows(3); //default - subclass should calculate
         setGridPresenter(gridPresenter);
+        setNumberOfRows();
+    }
+
+    protected void setNumberOfRows() {
+        // calculate number of rows based on card height
+        getGridPresenter().setNumberOfRows(getGridHeight() / getCardHeight());
+
     }
 
     protected ImageButton mUnwatchedButton;
     protected ImageButton mFavoriteButton;
 
     protected void updateDisplayPrefs() {
-        if (mDisplayPrefs.getCustomPrefs() == null) mDisplayPrefs.setCustomPrefs(new HashMap<String, String>());
+        if (mDisplayPrefs.getCustomPrefs() == null)
+            mDisplayPrefs.setCustomPrefs(new HashMap<String, String>());
         mDisplayPrefs.getCustomPrefs().put("UnwatchedOnly", mGridAdapter.getFilters().isUnwatchedOnly() ? "true" : "false");
         mDisplayPrefs.getCustomPrefs().put("FavoriteOnly", mGridAdapter.getFilters().isFavoriteOnly() ? "true" : "false");
         mDisplayPrefs.setSortBy(mGridAdapter.getSortBy());
@@ -294,8 +354,9 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                 PopupMenu sortMenu = Utils.createPopupMenu(getActivity(), getToolBar(), Gravity.RIGHT);
                 for (Integer key : sortOptions.keySet()) {
                     SortOption option = sortOptions.get(key);
+                    if (option == null) option = sortOptions.get(0);
                     MenuItem item = sortMenu.getMenu().add(0, key, key, option.name);
-                    if (mDisplayPrefs.getSortBy().equals(option.value)) item.setChecked(true);
+                    if (option.value.equals(mDisplayPrefs.getSortBy())) item.setChecked(true);
                 }
                 sortMenu.getMenu().setGroupCheckable(0, true, true);
                 sortMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -318,10 +379,15 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                 if (filters == null) filters = new FilterOptions();
 
                 filters.setUnwatchedOnly(!filters.isUnwatchedOnly());
+                updateDisplayPrefs();
                 mGridAdapter.setFilters(filters);
+                if (mPosterSizeSetting.equals("auto")) {
+                    loadGrid(mRowDef);
+                } else {
+                    mGridAdapter.Retrieve();
+                }
                 mUnwatchedButton.setImageResource(filters.isUnwatchedOnly() ? R.drawable.unwatchedred : R.drawable.unwatchedwhite);
 
-                updateDisplayPrefs();
 
             }
         });
@@ -335,9 +401,14 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
 
                 filters.setFavoriteOnly(!filters.isFavoriteOnly());
                 mGridAdapter.setFilters(filters);
+                updateDisplayPrefs();
+                if (mPosterSizeSetting.equals("auto")) {
+                    loadGrid(mRowDef);
+                } else {
+                    mGridAdapter.Retrieve();
+                }
                 mFavoriteButton.setImageResource(filters.isFavoriteOnly() ? R.drawable.redheart : R.drawable.whiteheart);
 
-                updateDisplayPrefs();
             }
         });
         toolBar.addView(mFavoriteButton);
@@ -388,6 +459,32 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                 }
             });
         }
+    }
+
+    protected void setupRetrieveListeners() {
+        mGridAdapter.setRetrieveStartedListener(new EmptyResponse() {
+            @Override
+            public void onResponse() {
+                showSpinner();
+
+            }
+        });
+        mGridAdapter.setRetrieveFinishedListener(new EmptyResponse() {
+            @Override
+            public void onResponse() {
+                hideSpinner();
+                setStatusText(mFolder.getName());
+                updateCounter(mGridAdapter.getTotalItems() > 0 ? 1 : 0);
+                setItem(null);
+                if (mGridAdapter.getTotalItems() == 0) mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        setTitle(mFolder.getName());
+
+                    }
+                }, 250); else focusGrid();
+            }
+        });
     }
 
     private void refreshCurrentItem() {
@@ -450,7 +547,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                 mCurrentItem = (BaseRowItem)item;
                 mHandler.postDelayed(mDelayedSetItem, 400);
 
-                mGridAdapter.loadMoreItemsIfNeeded(mCurrentItem.getIndex());
+                if (!determiningPosterSize) mGridAdapter.loadMoreItemsIfNeeded(mCurrentItem.getIndex());
 
             }
 

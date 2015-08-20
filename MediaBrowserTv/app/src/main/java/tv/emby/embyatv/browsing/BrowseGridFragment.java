@@ -25,16 +25,6 @@ public class BrowseGridFragment extends StdGridFragment {
     }
 
     @Override
-    protected void setupUIElements() {
-        super.setupUIElements();
-
-        TvApp.getApplication().getLogger().Debug("Parent ID is: "+mParentId);
-
-        // calculate number of rows based on card height
-        getGridPresenter().setNumberOfRows(getGridHeight() / getCardHeight());
-    }
-
-    @Override
     protected void setupQueries(IGridLoader gridLoader) {
         StdItemQuery query = new StdItemQuery(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
         query.setParentId(mParentId);
@@ -53,29 +43,7 @@ public class BrowseGridFragment extends StdGridFragment {
 
         mRowDef = new BrowseRowDef("", query, 150, false, true);
 
-        loadGrid(mRowDef);
-    }
-
-    @Override
-    protected void setupEventListeners() {
-        super.setupEventListeners();
-        mGridAdapter.setRetrieveStartedListener(new EmptyResponse() {
-            @Override
-            public void onResponse() {
-                showSpinner();
-
-            }
-        });
-        mGridAdapter.setRetrieveFinishedListener(new EmptyResponse() {
-            @Override
-            public void onResponse() {
-                hideSpinner();
-                setStatusText(mFolder.getName());
-                updateCounter(mGridAdapter.getTotalItems() > 0 ? 1 : 0);
-                setItem(null);
-                setTitle(mFolder.getName());
-            }
-        });
+        gridLoader.loadGrid(mRowDef);
     }
 
 }

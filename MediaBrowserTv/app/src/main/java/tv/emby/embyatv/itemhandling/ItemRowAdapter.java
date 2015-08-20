@@ -19,6 +19,7 @@ import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
 import mediabrowser.model.livetv.RecordingQuery;
+import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
@@ -38,6 +39,7 @@ import tv.emby.embyatv.model.FilterOptions;
 import tv.emby.embyatv.presentation.TextItemPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.SpecialsQuery;
+import tv.emby.embyatv.querying.StdItemQuery;
 import tv.emby.embyatv.querying.TrailersQuery;
 import tv.emby.embyatv.querying.ViewQuery;
 import tv.emby.embyatv.ui.GridButton;
@@ -292,7 +294,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             mSortBy = option.value;
             mQuery.setSortBy(new String[] {mSortBy});
             mQuery.setSortOrder(option.order);
-            Retrieve();
         }
     }
 
@@ -301,18 +302,12 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     public FilterOptions getFilters() { return mFilters; }
 
     public void setFilters(FilterOptions filters) {
-        setFilters(filters, true);
-    }
-
-    public void setFilters(FilterOptions filters, boolean retrieve) {
         mFilters = filters;
         if (mFilters != null) {
             mQuery.setFilters(mFilters.getFilters());
         } else {
             mQuery.setFilters(null);
         }
-
-        if (retrieve) Retrieve();
     }
 
     public void removeRow() {
@@ -607,6 +602,33 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             }
         });
 
+    }
+
+    public void GetResultSizeAsync(final Response<Integer> outerResponse) {
+        if (mQuery == null) {
+            outerResponse.onError(new Exception("Can only be used with standard query"));
+        } else {
+            StdItemQuery sizeQuery = new StdItemQuery(new ItemFields[]{});
+            sizeQuery.setIncludeItemTypes(mQuery.getIncludeItemTypes());
+            sizeQuery.setNameStartsWithOrGreater(mQuery.getNameStartsWithOrGreater());
+            sizeQuery.setNameLessThan(mQuery.getNameLessThan());
+            sizeQuery.setFilters(getFilters().getFilters());
+            sizeQuery.setRecursive(mQuery.getRecursive());
+            sizeQuery.setParentId(mQuery.getParentId());
+            sizeQuery.setLimit(1); // minimum result set because we just need total record count
+
+            TvApp.getApplication().getApiClient().GetItemsAsync(sizeQuery, new Response<ItemsResult>() {
+                @Override
+                public void onResponse(ItemsResult response) {
+                    outerResponse.onResponse(response.getTotalRecordCount());
+                }
+
+                @Override
+                public void onError(Exception exception) {
+                    outerResponse.onError(exception);
+                }
+            });
+        }
     }
 
     public void Retrieve(ItemQuery query) {

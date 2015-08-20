@@ -400,7 +400,7 @@ public class TvApp extends Application {
                     if (response.getSortBy() == null) response.setSortBy("SortName");
                     if (response.getCustomPrefs() == null) response.setCustomPrefs(new HashMap<String, String>());
                     displayPrefsCache.put(key, response);
-                    logger.Debug("Display prefs loaded and saved in cache " + key);
+                    logger.Debug("Display prefs loaded and saved in cache " + response.getPrimaryImageHeight());
                     outerResponse.onResponse(response);
                 }
 
