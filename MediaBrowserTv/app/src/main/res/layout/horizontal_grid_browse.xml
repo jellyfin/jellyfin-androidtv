@@ -39,10 +39,10 @@
         android:gravity="bottom|right"
         android:alpha=".75"
         android:paddingLeft="15dp"
-        android:dividerPadding="5dp"
         android:layout_toLeftOf="@+id/clock"
         android:layout_alignBottom="@+id/clock"
-        android:layout_marginRight="20dp" />
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="-4dp" />
 
     <FrameLayout
         android:layout_width="match_parent"
