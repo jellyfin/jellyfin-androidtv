@@ -284,7 +284,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     protected void addTools() {
         //Add tools
         LinearLayout toolBar = getToolBar();
-        int size = Utils.convertDpToPixel(getActivity(), 16);
+        int size = Utils.convertDpToPixel(getActivity(), 24);
 
 
         toolBar.addView(new ImageButton(getActivity(), R.drawable.sort, size, new View.OnClickListener() {
@@ -327,7 +327,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         });
         toolBar.addView(mUnwatchedButton);
 
-        mFavoriteButton =new ImageButton(getActivity(), mGridAdapter.getFilters().isFavoriteOnly() ? R.drawable.redheartbig : R.drawable.whiteheartbig, size, new View.OnClickListener() {
+        mFavoriteButton =new ImageButton(getActivity(), mGridAdapter.getFilters().isFavoriteOnly() ? R.drawable.redheart : R.drawable.whiteheart, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FilterOptions filters = mGridAdapter.getFilters();
@@ -335,7 +335,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
 
                 filters.setFavoriteOnly(!filters.isFavoriteOnly());
                 mGridAdapter.setFilters(filters);
-                mFavoriteButton.setImageResource(filters.isFavoriteOnly() ? R.drawable.redheartbig : R.drawable.whiteheartbig);
+                mFavoriteButton.setImageResource(filters.isFavoriteOnly() ? R.drawable.redheart : R.drawable.whiteheart);
 
                 updateDisplayPrefs();
             }
