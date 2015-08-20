@@ -24,12 +24,12 @@ public class ItemQueryResponse extends Response<ItemsResult> {
     @Override
     public void onResponse(ItemsResult response) {
         if (response.getTotalRecordCount() > 0) {
+            adapter.setTotalItems(response.getTotalRecordCount());
             int i = adapter.getItemsLoaded();
             if (i == 0 && adapter.size() > 0) adapter.clear();
             for (BaseItemDto item : response.getItems()) {
                 adapter.add(new BaseRowItem(i++, item, adapter.getPreferParentThumb(), adapter.isStaticHeight()));
             }
-            adapter.setTotalItems(response.getTotalRecordCount());
             adapter.setItemsLoaded(i);
             if (i == 0) adapter.removeRow();
         } else {
@@ -65,6 +65,7 @@ public class ItemQueryResponse extends Response<ItemsResult> {
 
         }
         adapter.setCurrentlyRetrieving(false);
+        adapter.notifyRetrieveFinished();
     }
 
 }
