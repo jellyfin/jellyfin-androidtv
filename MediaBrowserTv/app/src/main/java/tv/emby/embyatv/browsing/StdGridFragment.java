@@ -363,6 +363,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         mGridAdapter.setSortBy(sortOptions.get(item.getItemId()));
+                        mGridAdapter.Retrieve();
                         item.setChecked(true);
                         updateDisplayPrefs();
                         return true;
@@ -372,7 +373,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             }
         }));
 
-        mUnwatchedButton =new ImageButton(getActivity(), mGridAdapter.getFilters().isUnwatchedOnly() ? R.drawable.unwatchedred : R.drawable.unwatchedwhite, size, new View.OnClickListener() {
+        mUnwatchedButton = new ImageButton(getActivity(), mGridAdapter.getFilters().isUnwatchedOnly() ? R.drawable.unwatchedred : R.drawable.unwatchedwhite, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FilterOptions filters = mGridAdapter.getFilters();
