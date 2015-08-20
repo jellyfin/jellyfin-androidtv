@@ -41,6 +41,7 @@ import tv.emby.embyatv.querying.SpecialsQuery;
 import tv.emby.embyatv.querying.TrailersQuery;
 import tv.emby.embyatv.querying.ViewQuery;
 import tv.emby.embyatv.ui.GridButton;
+import tv.emby.embyatv.ui.HorizontalGridFragment;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -285,10 +286,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     public int getTotalItems() { return totalItems; }
 
-    public void setSortBy(String order) {
-        if (order == null || !order.equals(mSortBy)) {
-            mSortBy = order;
-            if (mSortBy != null) mQuery.setSortBy(new String[] {order});
+    public void setSortBy(HorizontalGridFragment.SortOption option) {
+        if (!option.value.equals(mSortBy)) {
+            mSortBy = option.value;
+            mQuery.setSortBy(new String[] {mSortBy});
+            mQuery.setSortOrder(option.order);
             Retrieve();
         }
     }

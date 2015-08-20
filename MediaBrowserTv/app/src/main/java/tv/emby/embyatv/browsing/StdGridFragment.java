@@ -35,6 +35,7 @@ import android.support.v17.leanback.widget.VerticalGridPresenter;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -42,18 +43,21 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.DisplayPreferences;
+import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.querying.ItemSortBy;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
@@ -240,7 +244,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         filters.setUnwatchedOnly(Boolean.parseBoolean(mDisplayPrefs.getCustomPrefs().get("UnwatchedOnly")));
 
         mGridAdapter.setFilters(filters, false); // don't retrieve
-        mGridAdapter.setSortBy(mDisplayPrefs.getSortBy());  //this will cause a retrieve
+        mGridAdapter.setSortBy(getSortOption(mDisplayPrefs.getSortBy()));  //this will cause a retrieve
 
         setAdapter(mGridAdapter);
 
@@ -272,6 +276,8 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         if (mDisplayPrefs.getCustomPrefs() == null) mDisplayPrefs.setCustomPrefs(new HashMap<String, String>());
         mDisplayPrefs.getCustomPrefs().put("UnwatchedOnly", mGridAdapter.getFilters().isUnwatchedOnly() ? "true" : "false");
         mDisplayPrefs.getCustomPrefs().put("FavoriteOnly", mGridAdapter.getFilters().isFavoriteOnly() ? "true" : "false");
+        mDisplayPrefs.setSortBy(mGridAdapter.getSortBy());
+        mDisplayPrefs.setSortOrder(getSortOption(mGridAdapter.getSortBy()).order);
         TvApp.getApplication().updateDisplayPrefs(mDisplayPrefs);
     }
 
@@ -280,10 +286,28 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         LinearLayout toolBar = getToolBar();
         int size = Utils.convertDpToPixel(getActivity(), 16);
 
+
         toolBar.addView(new ImageButton(getActivity(), R.drawable.sort, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TvApp.getApplication().getLogger().Debug("Sort...");
+                //Create sort menu
+                PopupMenu sortMenu = Utils.createPopupMenu(getActivity(), getToolBar(), Gravity.RIGHT);
+                for (Integer key : sortOptions.keySet()) {
+                    SortOption option = sortOptions.get(key);
+                    MenuItem item = sortMenu.getMenu().add(0, key, key, option.name);
+                    if (mDisplayPrefs.getSortBy().equals(option.value)) item.setChecked(true);
+                }
+                sortMenu.getMenu().setGroupCheckable(0, true, true);
+                sortMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        mGridAdapter.setSortBy(sortOptions.get(item.getItemId()));
+                        item.setChecked(true);
+                        updateDisplayPrefs();
+                        return true;
+                    }
+                });
+                sortMenu.show();
             }
         }));
 
