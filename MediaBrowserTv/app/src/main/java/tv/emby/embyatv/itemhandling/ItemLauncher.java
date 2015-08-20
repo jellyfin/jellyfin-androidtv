@@ -83,6 +83,16 @@ public class ItemLauncher {
 
                         return;
 
+                    case "Season":
+                        //Start activity for enhanced browse
+                        Intent seasonIntent = new Intent(activity, GenericFolderActivity.class);
+                        seasonIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+                        if (noHistory) seasonIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+                        activity.startActivity(seasonIntent);
+
+                        return;
+
                     case "BoxSet":
                         // open collection browsing
                         Intent collectionIntent = new Intent(activity, CollectionActivity.class);
