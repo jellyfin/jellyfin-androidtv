@@ -41,6 +41,7 @@ public class HorizontalGridFragment extends Fragment {
     private TextView mTitleView;
     private TextView mStatusText;
     private TextView mCounter;
+    protected FrameLayout mSpinner;
     private LinearLayout mInfoRow;
     protected LinearLayout mToolBar;
     private ItemRowAdapter mAdapter;
@@ -210,6 +211,24 @@ public class HorizontalGridFragment extends Fragment {
         return mOnItemViewClickedListener;
     }
 
+    public void showSpinner() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mSpinner.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    public void hideSpinner() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mSpinner.setVisibility(View.GONE);
+            }
+        });
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -224,6 +243,7 @@ public class HorizontalGridFragment extends Fragment {
         mToolBar = (LinearLayout) root.findViewById(R.id.toolBar);
         mCounter = (TextView) root.findViewById(R.id.counter);
         mCounter.setTypeface(TvApp.getApplication().getDefaultFont());
+        mSpinner = (FrameLayout) root.findViewById(R.id.spinner);
 
         return root;
     }

@@ -3,6 +3,23 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="#64000000">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="405dp"
+        android:id="@+id/rowsFragment"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/infoRow"
+        android:layout_marginTop="15dp" />
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/spinner"
+        android:background="@color/black_transparent"
+        android:visibility="gone">
+
+    </FrameLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,23 +61,6 @@
         android:layout_marginRight="20dp"
         android:layout_marginBottom="-4dp" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="405dp"
-        android:id="@+id/rowsFragment"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/infoRow"
-        android:layout_marginTop="15dp" />
-
-    <tv.emby.embyatv.ui.ClockUserView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/clock"
-        android:layout_alignTop="@+id/title"
-        android:layout_marginRight="40sp"
-        android:layout_alignParentEnd="true"
-        android:alpha=".9" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -80,5 +80,14 @@
         android:alpha=".6"
         android:layout_alignLeft="@+id/title"
         android:layout_alignBottom="@+id/counter" />
+
+    <tv.emby.embyatv.ui.ClockUserView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/clock"
+        android:layout_alignTop="@+id/title"
+        android:layout_marginRight="40sp"
+        android:layout_alignParentEnd="true"
+        android:alpha=".9" />
 
 </RelativeLayout>

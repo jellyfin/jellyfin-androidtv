@@ -1,12 +1,8 @@
 package tv.emby.embyatv.browsing;
 
-import android.app.Fragment;
 import android.os.Bundle;
 
 import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.entities.DisplayPreferences;
 import mediabrowser.model.querying.ItemFields;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.querying.StdItemQuery;
@@ -63,9 +59,17 @@ public class BrowseGridFragment extends StdGridFragment {
     @Override
     protected void setupEventListeners() {
         super.setupEventListeners();
-        mGridAdapter.setRetrieveFinishedResponse(new EmptyResponse() {
+        mGridAdapter.setRetrieveStartedListener(new EmptyResponse() {
             @Override
             public void onResponse() {
+                showSpinner();
+
+            }
+        });
+        mGridAdapter.setRetrieveFinishedListener(new EmptyResponse() {
+            @Override
+            public void onResponse() {
+                hideSpinner();
                 setStatusText(mFolder.getName());
                 updateCounter(mGridAdapter.getTotalItems() > 0 ? 1 : 0);
                 setItem(null);
