@@ -294,6 +294,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             mSortBy = option.value;
             mQuery.setSortBy(new String[] {mSortBy});
             mQuery.setSortOrder(option.order);
+            if (!"SortName".equals(option.value)) setStartLetter(null);
         }
     }
 
@@ -307,6 +308,15 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             mQuery.setFilters(mFilters.getFilters());
         } else {
             mQuery.setFilters(null);
+        }
+    }
+
+    public String getStartLetter() { return mQuery != null ? mQuery.getNameStartsWithOrGreater() : null; }
+
+    public void setStartLetter(String value) {
+        if (mQuery != null) {
+            if (value != null && value.equals("#")) mQuery.setNameStartsWithOrGreater(null);
+            else mQuery.setNameStartsWithOrGreater(value);
         }
     }
 

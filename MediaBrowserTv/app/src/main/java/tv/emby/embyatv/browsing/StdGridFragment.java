@@ -14,43 +14,38 @@
 
 package tv.emby.embyatv.browsing;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
-import android.support.v17.leanback.app.VerticalGridFragment;
-import android.support.v17.leanback.widget.ArrayObjectAdapter;
-import android.support.v17.leanback.widget.HeaderItem;
-import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
-import android.support.v17.leanback.widget.VerticalGridPresenter;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.TextView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -58,8 +53,6 @@ import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.DisplayPreferences;
-import mediabrowser.model.entities.SortOrder;
-import mediabrowser.model.querying.ItemSortBy;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
@@ -76,10 +69,10 @@ import tv.emby.embyatv.presentation.HorizontalGridPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.ViewQuery;
 import tv.emby.embyatv.search.SearchActivity;
-import tv.emby.embyatv.ui.ClockUserView;
+import tv.emby.embyatv.ui.CharSelectedListener;
 import tv.emby.embyatv.ui.HorizontalGridFragment;
 import tv.emby.embyatv.ui.ImageButton;
-import tv.emby.embyatv.ui.ItemPanel;
+import tv.emby.embyatv.ui.JumpList;
 import tv.emby.embyatv.util.KeyProcessor;
 import tv.emby.embyatv.util.RemoteControlReceiver;
 import tv.emby.embyatv.util.Utils;
@@ -320,6 +313,8 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         HorizontalGridPresenter gridPresenter = new HorizontalGridPresenter();
         setGridPresenter(gridPresenter);
         setNumberOfRows();
+
+        mJumplistPopup = new JumplistPopup(getActivity());
     }
 
     protected void setNumberOfRows() {
@@ -330,6 +325,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
 
     protected ImageButton mUnwatchedButton;
     protected ImageButton mFavoriteButton;
+    protected ImageButton mLetterButton;
 
     protected void updateDisplayPrefs() {
         if (mDisplayPrefs.getCustomPrefs() == null)
@@ -414,6 +410,15 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         });
         toolBar.addView(mFavoriteButton);
 
+        mLetterButton = new ImageButton(getActivity(), R.drawable.jumpletter, size, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Open letter jump popup
+                mJumplistPopup.show();
+            }
+        });
+        toolBar.addView(mLetterButton);
+
         toolBar.addView(new ImageButton(getActivity(), R.drawable.search2, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -431,6 +436,59 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         }));
 
 
+    }
+
+    private JumplistPopup mJumplistPopup;
+    class JumplistPopup {
+
+        final int WIDTH = Utils.convertDpToPixel(TvApp.getApplication(), 900);
+        final int HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 55);
+
+        PopupWindow mPopup;
+        Activity mActivity;
+        JumpList mJumplist;
+
+        JumplistPopup(Activity activity) {
+            mActivity = activity;
+            LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.empty_popup, null);
+            mPopup = new PopupWindow(layout, WIDTH, HEIGHT);
+            mPopup.setFocusable(true);
+            mPopup.setOutsideTouchable(true);
+            mPopup.setBackgroundDrawable(new BitmapDrawable()); // necessary for popup to dismiss
+            mPopup.setAnimationStyle(R.style.PopupSlideInTop);
+
+            mJumplist = new JumpList(activity, new CharSelectedListener() {
+                @Override
+                public void onCharSelected(String ch) {
+                    mGridAdapter.setStartLetter(ch);
+                    loadGrid(mRowDef);
+                    dismiss();
+                }
+            });
+
+            mJumplist.setGravity(Gravity.CENTER_HORIZONTAL);
+            FrameLayout root = (FrameLayout) layout.findViewById(R.id.root);
+            root.addView(mJumplist);
+
+        }
+
+        public boolean isShowing() {
+            return (mPopup != null && mPopup.isShowing());
+        }
+
+        public void show() {
+
+            mPopup.showAtLocation(mGridDock, Gravity.TOP, mGridDock.getLeft(), mGridDock.getTop());
+            mJumplist.setFocus(mGridAdapter.getStartLetter());
+
+        }
+
+        public void dismiss() {
+            if (mPopup != null && mPopup.isShowing()) {
+                mPopup.dismiss();
+            }
+        }
     }
 
     protected void setupEventListeners() {
@@ -477,6 +535,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                 hideSpinner();
                 setStatusText(mFolder.getName());
                 updateCounter(mGridAdapter.getTotalItems() > 0 ? 1 : 0);
+                mLetterButton.setVisibility("SortName".equals(mGridAdapter.getSortBy()) ? View.VISIBLE : View.GONE);
                 setItem(null);
                 if (mGridAdapter.getTotalItems() == 0) mHandler.postDelayed(new Runnable() {
                     @Override

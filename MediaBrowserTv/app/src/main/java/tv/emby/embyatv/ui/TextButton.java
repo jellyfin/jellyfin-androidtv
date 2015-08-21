@@ -26,7 +26,7 @@ public class TextButton extends Button {
         setTextSize(size);
         setBackgroundColor(0);
         int trueSize = Utils.convertDpToPixel(context, size);
-        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(trueSize*2 +20, trueSize + 50);
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(trueSize*2 +15, trueSize + 40);
 
         setLayoutParams(lp);
     }

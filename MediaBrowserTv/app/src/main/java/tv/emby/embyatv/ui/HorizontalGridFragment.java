@@ -43,7 +43,7 @@ public class HorizontalGridFragment extends Fragment {
     private TextView mStatusText;
     private TextView mCounter;
     protected FrameLayout mSpinner;
-    private ViewGroup mGridDock;
+    protected ViewGroup mGridDock;
     private LinearLayout mInfoRow;
     protected LinearLayout mToolBar;
     private ItemRowAdapter mAdapter;
@@ -154,6 +154,10 @@ public class HorizontalGridFragment extends Fragment {
         } else {
             text += (filters.isUnwatchedOnly() ? TvApp.getApplication().getResources().getString(R.string.lbl_unwatched) : "") + " " +
                     (filters.isFavoriteOnly() ? TvApp.getApplication().getResources().getString(R.string.lbl_favorites) : "");
+        }
+
+        if (mAdapter.getStartLetter() != null) {
+            text += " " + TvApp.getApplication().getResources().getString(R.string.lbl_starting_with) + " " + mAdapter.getStartLetter();
         }
 
         text += " " + TvApp.getApplication().getString(R.string.lbl_from) + " '" + folderName + "' " + TvApp.getApplication().getString(R.string.lbl_sorted_by) + " " + getSortFriendlyName(mAdapter.getSortBy());
