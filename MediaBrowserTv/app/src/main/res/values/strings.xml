@@ -246,6 +246,7 @@
     <string name="lbl_premier_date">Premier Date</string>
     <string name="lbl_critic_rating">Critic Rating</string>
     <string name="lbl_rating">Rating</string>
+    <string name="lbl_starting_with">"beginning with those who's name starts with"</string>
 
 
 </resources>

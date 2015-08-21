@@ -51,15 +51,15 @@
         android:layout_height="40dp"
         android:id="@+id/toolBar"
         android:orientation="horizontal"
-        android:divider="@drawable/blank10x10"
-        android:showDividers="middle"
         android:gravity="bottom|right"
         android:alpha=".75"
         android:paddingLeft="15dp"
         android:layout_toLeftOf="@+id/clock"
         android:layout_alignBottom="@+id/clock"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="-4dp" />
+        android:layout_marginBottom="-4dp"
+        android:showDividers="middle"
+        android:dividerPadding="4dp" />
 
     <TextView
         android:layout_width="wrap_content"

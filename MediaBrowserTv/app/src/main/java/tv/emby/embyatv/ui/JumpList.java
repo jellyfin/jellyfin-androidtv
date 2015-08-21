@@ -14,6 +14,7 @@ public class JumpList extends LinearLayout {
     public JumpList(Context context, CharSelectedListener listener) {
         super(context);
         mCharSelectedListener = listener;
+        init(context);
     }
 
     public JumpList(Context context) {
@@ -41,9 +42,22 @@ public class JumpList extends LinearLayout {
             addView(new TextButton(context, character.toString(), 12, new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mCharSelectedListener != null) mCharSelectedListener.onCharSelected(character.toString());
+                    TextButton us = (TextButton) v;
+                    if (mCharSelectedListener != null) mCharSelectedListener.onCharSelected(us.getText().toString());
                 }
             }));
+        }
+    }
+
+    public void setFocus(String text) {
+        if (text == null) return;
+
+        for (int i = 0; i < getChildCount(); i++) {
+            TextButton button = (TextButton) getChildAt(i);
+            if (text.equals(button.getText())) {
+                button.requestFocus();
+                return;
+            }
         }
     }
 }
