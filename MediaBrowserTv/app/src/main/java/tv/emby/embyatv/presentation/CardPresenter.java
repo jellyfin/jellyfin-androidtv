@@ -25,6 +25,7 @@ import tv.emby.embyatv.util.Utils;
 public class CardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";
     private int mStaticHeight = 300;
+    private String mImageType = ImageType.DEFAULT;
 
     private static Context mContext;
     private boolean mShowInfo = true;
@@ -36,6 +37,11 @@ public class CardPresenter extends Presenter {
     public CardPresenter(boolean showInfo) {
         this();
         mShowInfo = showInfo;
+    }
+
+    public CardPresenter(boolean showInfo, int staticHeight, String imageType) {
+        this(showInfo, staticHeight);
+        mImageType = imageType;
     }
 
     public CardPresenter(boolean showInfo, int staticHeight) {
@@ -65,16 +71,16 @@ public class CardPresenter extends Presenter {
         }
 
         public void setItem(BaseRowItem m) {
-            setItem(m, 260, 300, 300);
+            setItem(m, ImageType.DEFAULT, 260, 300, 300);
         }
 
-        public void setItem(BaseRowItem m, int lHeight, int pHeight, int sHeight) {
+        public void setItem(BaseRowItem m, String imageType, int lHeight, int pHeight, int sHeight) {
             mItem = m;
             switch (mItem.getItemType()) {
 
                 case BaseItem:
                     BaseItemDto itemDto = mItem.getBaseItem();
-                    Double aspect = Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb());
+                    Double aspect = imageType.equals(ImageType.BANNER) ? 5.414 : imageType.equals(ImageType.THUMB) ? 1.779 : Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb());
                     switch (itemDto.getType()) {
                         case "Audio":
                         case "MusicAlbum":
@@ -129,7 +135,7 @@ public class CardPresenter extends Presenter {
                     break;
                 case LiveTvChannel:
                     ChannelInfoDto channel = mItem.getChannelInfo();
-                    Double tvAspect = channel.getPrimaryImageAspectRatio();
+                    Double tvAspect = imageType.equals(ImageType.BANNER) ? 5.414 : imageType.equals(ImageType.THUMB) ? 1.779 : channel.getPrimaryImageAspectRatio();
                     if (tvAspect == null) tvAspect = .7777777;
                     cardHeight = !m.isStaticHeight() ? tvAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((tvAspect) * cardHeight);
@@ -151,7 +157,7 @@ public class CardPresenter extends Presenter {
 
                 case LiveTvRecording:
                     BaseItemDto recording = mItem.getRecordingInfo();
-                    Double recordingAspect = recording.getPrimaryImageAspectRatio();
+                    Double recordingAspect = imageType.equals(ImageType.BANNER) ? 5.414 : imageType.equals(ImageType.THUMB) ? 1.779 : recording.getPrimaryImageAspectRatio();
                     if (recordingAspect == null) recordingAspect = .7777777;
                     cardHeight = !m.isStaticHeight() ? recordingAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((recordingAspect) * cardHeight);
@@ -275,7 +281,7 @@ public class CardPresenter extends Presenter {
         if (!(item instanceof BaseRowItem)) return;
         BaseRowItem rowItem = (BaseRowItem) item;
 
-        ((ViewHolder) viewHolder).setItem(rowItem, 260, 300, mStaticHeight);
+        ((ViewHolder) viewHolder).setItem(rowItem, mImageType, 260, 300, mStaticHeight);
 
         //Log.d(TAG, "onBindViewHolder");
         ((ViewHolder) viewHolder).mCardView.setTitleText(rowItem.getFullName());
@@ -286,7 +292,7 @@ public class CardPresenter extends Presenter {
 
         }
 
-        ((ViewHolder) viewHolder).updateCardViewImage(rowItem.getPrimaryImageUrl(((ViewHolder) viewHolder).getCardHeight()));
+        ((ViewHolder) viewHolder).updateCardViewImage(rowItem.getImageUrl(mImageType, ((ViewHolder) viewHolder).getCardHeight()));
 
     }
 

@@ -309,6 +309,26 @@ public class Utils {
         return apiClient.GetImageUrl(itemId, options);
     }
 
+    public static String getBannerImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
+        if (!item.getHasBanner()) return getPrimaryImageUrl(item, apiClient, true, true, maxHeight);
+        ImageOptions options = new ImageOptions();
+        options.setTag(item.getImageTags().get(ImageType.Banner));
+        options.setImageType(ImageType.Banner);
+
+        return apiClient.GetImageUrl(item.getId(), options);
+
+    }
+
+    public static String getThumbImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
+        if (!item.getHasThumb()) return getPrimaryImageUrl(item, apiClient, true, true, maxHeight);
+        ImageOptions options = new ImageOptions();
+        options.setTag(item.getImageTags().get(ImageType.Thumb));
+        options.setImageType(ImageType.Thumb);
+
+        return apiClient.GetImageUrl(item.getId(), options);
+
+    }
+
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched, boolean preferParentThumb, int maxHeight) {
         return getPrimaryImageUrl(item, apiClient, showWatched, true, preferParentThumb, false, maxHeight);
     }
