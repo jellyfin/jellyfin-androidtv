@@ -15,7 +15,6 @@
 package tv.emby.embyatv.browsing;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -40,7 +39,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -64,8 +62,11 @@ import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.FilterOptions;
+import tv.emby.embyatv.model.PosterSize;
+import tv.emby.embyatv.model.ViewType;
 import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.presentation.HorizontalGridPresenter;
+import tv.emby.embyatv.model.ImageType;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.ViewQuery;
 import tv.emby.embyatv.search.SearchActivity;
@@ -99,7 +100,8 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     CardPresenter mCardPresenter;
 
     protected boolean justLoaded = true;
-    protected String mPosterSizeSetting = "auto";
+    protected String mPosterSizeSetting = PosterSize.AUTO;
+    protected String mImageType = ImageType.DEFAULT;
     protected boolean determiningPosterSize = false;
 
     protected String mParentId;
@@ -117,13 +119,15 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         MainTitle = mFolder.getName();
         mDisplayPrefs = TvApp.getApplication().getCachedDisplayPrefs(mFolder.getDisplayPreferencesId()); //These should have already been loaded
         mPosterSizeSetting = mDisplayPrefs.getCustomPrefs().get("PosterSize");
-        if (mPosterSizeSetting == null) mPosterSizeSetting = "auto";
+        mImageType = mDisplayPrefs.getCustomPrefs().get("ImageType");
+        if (mImageType == null) mImageType = ImageType.DEFAULT;
+        if (mPosterSizeSetting == null) mPosterSizeSetting = PosterSize.AUTO;
 
         switch (mPosterSizeSetting) {
-            case "large":
+            case PosterSize.LARGE:
                 mCardHeight = LARGE_CARD;
                 break;
-            case "med":
+            case PosterSize.MED:
                 mCardHeight = MED_CARD;
                 break;
             default:
@@ -208,7 +212,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     }
 
     protected void buildAdapter(BrowseRowDef rowDef) {
-        mCardPresenter = new CardPresenter(false, mCardHeight);
+        mCardPresenter = new CardPresenter(false, mImageType, mCardHeight);
 
         switch (mRowDef.getQueryType()) {
             case NextUp:
@@ -261,7 +265,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         determiningPosterSize = true;
         buildAdapter(rowDef);
 
-        if (mPosterSizeSetting.equals("auto")) {
+        if (mPosterSizeSetting.equals(PosterSize.AUTO)) {
             mGridAdapter.GetResultSizeAsync(new Response<Integer>() {
                 @Override
                 public void onResponse(Integer response) {
@@ -378,7 +382,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                 filters.setUnwatchedOnly(!filters.isUnwatchedOnly());
                 updateDisplayPrefs();
                 mGridAdapter.setFilters(filters);
-                if (mPosterSizeSetting.equals("auto")) {
+                if (mPosterSizeSetting.equals(PosterSize.AUTO)) {
                     loadGrid(mRowDef);
                 } else {
                     mGridAdapter.Retrieve();
@@ -399,7 +403,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                 filters.setFavoriteOnly(!filters.isFavoriteOnly());
                 mGridAdapter.setFilters(filters);
                 updateDisplayPrefs();
-                if (mPosterSizeSetting.equals("auto")) {
+                if (mPosterSizeSetting.equals(PosterSize.AUTO)) {
                     loadGrid(mRowDef);
                 } else {
                     mGridAdapter.Retrieve();
