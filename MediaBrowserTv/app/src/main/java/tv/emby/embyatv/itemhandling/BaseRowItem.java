@@ -123,6 +123,24 @@ public class BaseRowItem {
     public ItemType getItemType() { return type; }
     public boolean isFolder() { return type == ItemType.BaseItem && baseItem != null && baseItem.getIsFolder(); }
 
+    public String getImageUrl(String imageType, int maxHeight) {
+        switch (type) {
+            case BaseItem:
+            case LiveTvProgram:
+            case LiveTvRecording:
+                switch (imageType) {
+                    case tv.emby.embyatv.presentation.ImageType.BANNER:
+                        return Utils.getBannerImageUrl(baseItem, TvApp.getApplication().getApiClient(), maxHeight);
+                    case tv.emby.embyatv.presentation.ImageType.THUMB:
+                        return Utils.getThumbImageUrl(baseItem, TvApp.getApplication().getApiClient(), maxHeight);
+                    default:
+                        return getPrimaryImageUrl(maxHeight);
+                }
+                default:
+                    return getPrimaryImageUrl(maxHeight);
+        }
+    }
+
     public String getPrimaryImageUrl(int maxHeight) {
         switch (type) {
 
