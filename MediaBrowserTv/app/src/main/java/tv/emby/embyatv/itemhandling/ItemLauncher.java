@@ -22,6 +22,7 @@ import tv.emby.embyatv.browsing.UserViewActivity;
 import tv.emby.embyatv.details.FullDetailsActivity;
 import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
+import tv.emby.embyatv.model.ViewType;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.startup.SelectUserActivity;
 import tv.emby.embyatv.util.DelayedMessage;
@@ -49,13 +50,26 @@ public class ItemLauncher {
                         TvApp.getApplication().getDisplayPrefsAsync(baseItem.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
                             @Override
                             public void onResponse(DisplayPreferences response) {
-                                //todo check displayprefs for type of view...
-
                                 if (baseItem.getCollectionType() == null) baseItem.setCollectionType("unknown");
                                 switch (baseItem.getCollectionType()) {
                                     case "movies":
                                     case "tvshows":
                                     case "music":
+                                        if (ViewType.GRID.equals(response.getCustomPrefs().get("DefaultView"))) {
+                                            // open grid browsing
+                                            Intent folderIntent = new Intent(activity, GenericGridActivity.class);
+                                            folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+                                            activity.startActivity(folderIntent);
+
+                                        } else {
+                                            // open user view browsing
+                                            Intent intent = new Intent(activity, UserViewActivity.class);
+                                            intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+
+                                            activity.startActivity(intent);
+
+                                        }
+                                        break;
                                     case "livetv":
                                         // open user view browsing
                                         Intent intent = new Intent(activity, UserViewActivity.class);

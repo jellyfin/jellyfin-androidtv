@@ -20,6 +20,7 @@ import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
+import tv.emby.embyatv.model.ImageType;
 import tv.emby.embyatv.util.Utils;
 
 public class CardPresenter extends Presenter {
@@ -39,7 +40,7 @@ public class CardPresenter extends Presenter {
         mShowInfo = showInfo;
     }
 
-    public CardPresenter(boolean showInfo, int staticHeight, String imageType) {
+    public CardPresenter(boolean showInfo, String imageType, int staticHeight) {
         this(showInfo, staticHeight);
         mImageType = imageType;
     }

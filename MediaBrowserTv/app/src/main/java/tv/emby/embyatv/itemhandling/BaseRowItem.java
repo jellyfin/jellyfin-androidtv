@@ -129,9 +129,9 @@ public class BaseRowItem {
             case LiveTvProgram:
             case LiveTvRecording:
                 switch (imageType) {
-                    case tv.emby.embyatv.presentation.ImageType.BANNER:
+                    case tv.emby.embyatv.model.ImageType.BANNER:
                         return Utils.getBannerImageUrl(baseItem, TvApp.getApplication().getApiClient(), maxHeight);
-                    case tv.emby.embyatv.presentation.ImageType.THUMB:
+                    case tv.emby.embyatv.model.ImageType.THUMB:
                         return Utils.getThumbImageUrl(baseItem, TvApp.getApplication().getApiClient(), maxHeight);
                     default:
                         return getPrimaryImageUrl(maxHeight);
