@@ -45,7 +45,7 @@ public class DisplayPrefsPopup {
         mPopup.setFocusable(true);
         mPopup.setOutsideTouchable(true);
         mPopup.setBackgroundDrawable(new BitmapDrawable()); // necessary for popup to dismiss
-        mPopup.setAnimationStyle(R.style.PopupSlideInTop);
+        mPopup.setAnimationStyle(R.style.PopupSlideInRight);
 
         mAnchor = anchor;
 
