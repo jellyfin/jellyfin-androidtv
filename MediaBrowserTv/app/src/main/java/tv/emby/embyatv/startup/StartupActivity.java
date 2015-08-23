@@ -116,6 +116,7 @@ public class StartupActivity extends Activity {
                         @Override
                         public void onResponse(final UserDto response) {
                             application.setCurrentUser(response);
+                            application.validate();
                             if (application.getDirectItemId() != null) {
                                 if (response.getHasPassword()
                                         && (!application.getIsAutoLoginConfigured()
