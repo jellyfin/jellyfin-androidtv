@@ -247,6 +247,8 @@
     <string name="lbl_critic_rating">Critic Rating</string>
     <string name="lbl_rating">Rating</string>
     <string name="lbl_starting_with">"beginning with those who's name starts with"</string>
+    <string name="btn_done">Done</string>
+    <string name="lbl_display_preferences">Display Preferences</string>
 
 
 </resources>
