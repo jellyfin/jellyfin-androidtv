@@ -560,13 +560,16 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                 updateCounter(mGridAdapter.getTotalItems() > 0 ? 1 : 0);
                 mLetterButton.setVisibility("SortName".equals(mGridAdapter.getSortBy()) ? View.VISIBLE : View.GONE);
                 setItem(null);
-                if (mGridAdapter.getTotalItems() == 0) mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        setTitle(mFolder.getName());
+                if (mGridAdapter.getTotalItems() == 0) {
+                    mToolBar.requestFocus();
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            setTitle(mFolder.getName());
 
-                    }
-                }, 250); else focusGrid();
+                        }
+                    }, 250);
+                } else focusGrid();
             }
         });
     }
