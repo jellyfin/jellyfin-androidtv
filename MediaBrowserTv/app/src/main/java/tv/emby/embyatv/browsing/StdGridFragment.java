@@ -71,6 +71,7 @@ import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.ViewQuery;
 import tv.emby.embyatv.search.SearchActivity;
 import tv.emby.embyatv.ui.CharSelectedListener;
+import tv.emby.embyatv.ui.DisplayPrefsPopup;
 import tv.emby.embyatv.ui.HorizontalGridFragment;
 import tv.emby.embyatv.ui.ImageButton;
 import tv.emby.embyatv.ui.JumpList;
@@ -123,16 +124,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         if (mImageType == null) mImageType = ImageType.DEFAULT;
         if (mPosterSizeSetting == null) mPosterSizeSetting = PosterSize.AUTO;
 
-        switch (mPosterSizeSetting) {
-            case PosterSize.LARGE:
-                mCardHeight = LARGE_CARD;
-                break;
-            case PosterSize.MED:
-                mCardHeight = MED_CARD;
-                break;
-            default:
-                mCardHeight = SMALL_CARD;
-        }
+        mCardHeight = getCardHeight(mPosterSizeSetting);
 
         setupUIElements();
 
@@ -290,14 +282,26 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
 
     }
 
+    protected int getCardHeight(String heightSetting) {
+        switch (heightSetting) {
+            case PosterSize.MED:
+                return mImageType.equals(ImageType.BANNER) ? MED_BANNER : MED_CARD;
+            case PosterSize.LARGE:
+                return mImageType.equals(ImageType.BANNER) ? LARGE_BANNER : LARGE_CARD;
+            default:
+                return mImageType.equals(ImageType.BANNER) ? SMALL_BANNER : SMALL_CARD;
+
+        }
+    }
+
     protected int getAutoCardHeight(Integer size) {
-        TvApp.getApplication().getLogger().Debug("Result size for auto card height is "+size);
+        TvApp.getApplication().getLogger().Debug("Result size for auto card height is " + size);
         if (size > 35)
-            return SMALL_CARD;
+            return getCardHeight(PosterSize.SMALL);
         else if (size > 10)
-            return MED_CARD;
+            return getCardHeight(PosterSize.MED);
         else
-            return LARGE_CARD;
+            return getCardHeight(PosterSize.LARGE);
 
     }
     private void prepareBackgroundManager() {
@@ -330,6 +334,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     protected ImageButton mUnwatchedButton;
     protected ImageButton mFavoriteButton;
     protected ImageButton mLetterButton;
+    protected DisplayPrefsPopup mDisplayPrefsPopup;
 
     protected void updateDisplayPrefs() {
         if (mDisplayPrefs.getCustomPrefs() == null)
@@ -346,6 +351,21 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         LinearLayout toolBar = getToolBar();
         int size = Utils.convertDpToPixel(getActivity(), 24);
 
+        mDisplayPrefsPopup = new DisplayPrefsPopup(getActivity(), mGridDock, new Response<Boolean>() {
+            @Override
+            public void onResponse(Boolean response) {
+                TvApp.getApplication().updateDisplayPrefs(mDisplayPrefs);
+                if (response)
+                {
+                    mImageType = mDisplayPrefs.getCustomPrefs().get("ImageType");
+                    mPosterSizeSetting = mDisplayPrefs.getCustomPrefs().get("PosterSize");
+                    mCardHeight = getCardHeight(mPosterSizeSetting);
+                    setNumberOfRows();
+                    createGrid();
+                    loadGrid(mRowDef);
+                }
+            }
+        });
 
         toolBar.addView(new ImageButton(getActivity(), R.drawable.sort, size, new View.OnClickListener() {
             @Override
@@ -434,8 +454,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         toolBar.addView(new ImageButton(getActivity(), R.drawable.cog, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TvApp.getApplication().getLogger().Debug("Options...");
-                Utils.showToast(getActivity(), "Not Yet Implemented");
+                mDisplayPrefsPopup.show(mDisplayPrefs, mFolder.getCollectionType());
             }
         }));
 

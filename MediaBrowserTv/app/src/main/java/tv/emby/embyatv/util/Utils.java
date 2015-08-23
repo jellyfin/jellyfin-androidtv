@@ -310,10 +310,23 @@ public class Utils {
     }
 
     public static String getBannerImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
-        if (!item.getHasBanner()) return getPrimaryImageUrl(item, apiClient, true, true, maxHeight);
+        if (!item.getHasBanner()) return getPrimaryImageUrl(item, apiClient, true, false, maxHeight);
         ImageOptions options = new ImageOptions();
         options.setTag(item.getImageTags().get(ImageType.Banner));
         options.setImageType(ImageType.Banner);
+        UserItemDataDto userData = item.getUserData();
+        if (userData != null) {
+            if (Arrays.asList(ProgressIndicatorTypes).contains(item.getType()) && userData.getPlayedPercentage() != null
+                    && userData.getPlayedPercentage() > 0 && userData.getPlayedPercentage() < 99) {
+                Double pct = userData.getPlayedPercentage();
+                options.setPercentPlayed(pct.intValue());
+            }
+
+            options.setAddPlayedIndicator(userData.getPlayed());
+            if (item.getIsFolder() && userData.getUnplayedItemCount() != null && userData.getUnplayedItemCount() > 0)
+                options.setUnPlayedCount(userData.getUnplayedItemCount());
+
+        }
 
         return apiClient.GetImageUrl(item.getId(), options);
 
@@ -324,6 +337,19 @@ public class Utils {
         ImageOptions options = new ImageOptions();
         options.setTag(item.getImageTags().get(ImageType.Thumb));
         options.setImageType(ImageType.Thumb);
+        UserItemDataDto userData = item.getUserData();
+        if (userData != null) {
+            if (Arrays.asList(ProgressIndicatorTypes).contains(item.getType()) && userData.getPlayedPercentage() != null
+                    && userData.getPlayedPercentage() > 0 && userData.getPlayedPercentage() < 99) {
+                Double pct = userData.getPlayedPercentage();
+                options.setPercentPlayed(pct.intValue());
+            }
+
+            options.setAddPlayedIndicator(userData.getPlayed());
+            if (item.getIsFolder() && userData.getUnplayedItemCount() != null && userData.getUnplayedItemCount() > 0)
+                options.setUnPlayedCount(userData.getUnplayedItemCount());
+
+        }
 
         return apiClient.GetImageUrl(item.getId(), options);
 
@@ -1194,6 +1220,11 @@ public class Utils {
     public static String FirstToUpper(String value) {
         if (value == null || value.length() == 0) return "";
         return value.substring(0,1).toUpperCase() + (value.length() > 1 ? value.substring(1) : "");
+    }
+
+    public static String NullCoalesce(String obj, String def) {
+        if (obj == null) return def;
+        return obj;
     }
 
     public static int NullCoalesce(Integer obj, int def) {

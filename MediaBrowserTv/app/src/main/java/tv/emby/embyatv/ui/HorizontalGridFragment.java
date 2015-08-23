@@ -56,6 +56,9 @@ public class HorizontalGridFragment extends Fragment {
     protected int SMALL_CARD = Utils.convertDpToPixel(TvApp.getApplication(), 116);
     protected int MED_CARD = Utils.convertDpToPixel(TvApp.getApplication(), 175);
     protected int LARGE_CARD = Utils.convertDpToPixel(TvApp.getApplication(), 210);
+    protected int SMALL_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 58);
+    protected int MED_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 88);
+    protected int LARGE_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 105);
 
     /**
      * Sets the grid presenter.
@@ -122,7 +125,7 @@ public class HorizontalGridFragment extends Fragment {
     protected Map<Integer, SortOption> sortOptions = new HashMap<>();
     {
         sortOptions.put(0, new SortOption(TvApp.getApplication().getString(R.string.lbl_name), "SortName", SortOrder.Ascending));
-        sortOptions.put(1, new SortOption(TvApp.getApplication().getString(R.string.lbl_date_added), "DateCreated", SortOrder.Descending));
+        sortOptions.put(1, new SortOption(TvApp.getApplication().getString(R.string.lbl_date_added), "DateLastContentAdded", SortOrder.Descending));
         sortOptions.put(2, new SortOption(TvApp.getApplication().getString(R.string.lbl_premier_date), "PremiereDate", SortOrder.Descending));
         sortOptions.put(3,new SortOption(TvApp.getApplication().getString(R.string.lbl_rating), "OfficialRating", SortOrder.Ascending));
         sortOptions.put(4,new SortOption(TvApp.getApplication().getString(R.string.lbl_critic_rating), "CriticRating", SortOrder.Descending));
