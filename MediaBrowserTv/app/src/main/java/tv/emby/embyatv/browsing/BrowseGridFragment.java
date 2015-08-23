@@ -38,6 +38,10 @@ public class BrowseGridFragment extends StdGridFragment {
                 case "tvshows":
                     query.setIncludeItemTypes(new String[]{"Series"});
                     break;
+                case "boxsets":
+                    query.setIncludeItemTypes(new String[]{"BoxSet"});
+                    query.setParentId(null);
+                    break;
             }
         }
 
