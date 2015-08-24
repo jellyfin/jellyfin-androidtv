@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.VideoView;
 
 import org.acra.ACRA;
+import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 
@@ -26,7 +27,7 @@ import tv.emby.embyatv.util.Utils;
 /**
  * Created by Eric on 7/11/2015.
  */
-public class VideoManager  {
+public class VideoManager implements IVLCVout.Callback {
 
     private PlaybackOverlayActivity mActivity;
     private SurfaceHolder mSurfaceHolder;
@@ -231,8 +232,8 @@ public class VideoManager  {
             options.add("--network-caching=" + buffer);
             options.add("--no-audio-time-stretch");
             options.add("--androidwindow-chroma");
-            options.add("-vvv");
             options.add("RV32");
+            options.add("-vvv");
 
             mLibVLC = new LibVLC(options);
             TvApp.getApplication().getLogger().Info("Network buffer set to " + buffer);
@@ -254,16 +255,10 @@ public class VideoManager  {
             mVlcPlayer.setAudioOutput("0".equals(audioOption) ? "android_audiotrack" : "opensles_android");
             mVlcPlayer.setAudioOutputDevice("hdmi");
 
-//            mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_DISABLED);
-//            mLibVLC.setDeblocking(-1);
-//            mLibVLC.setDevHardwareDecoder(-1);
-//            mLibVLC.setNetworkCaching(buffer);
 
-//            mLibVLC.setVout(LibVLC.VOUT_ANDROID_SURFACE);
-//            mLibVLC.setSubtitlesEncoding("");
-//            mLibVLC.init(TvApp.getApplication());
             mSurfaceHolder.addCallback(mSurfaceCallback);
             mVlcPlayer.setEventListener(mVlcHandler);
+            mVlcPlayer.getVLCVout().addCallback(this);
 
         } catch (Exception e) {
             TvApp.getApplication().getLogger().ErrorException("Error creating VLC player", e);
@@ -347,6 +342,7 @@ public class VideoManager  {
 
         }
 
+        TvApp.getApplication().getLogger().Debug("Surface sized "+ mVideoWidth+"x"+mVideoHeight);
         mSurfaceView.invalidate();
 //        subtitlesSurface.invalidate();
     }
@@ -438,7 +434,8 @@ public class VideoManager  {
         }
     };
 
-    private void setSurfaceLayout(int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
+    @Override
+    public void onNewLayout(IVLCVout vout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
         if (width * height == 0)
             return;
 
@@ -456,6 +453,16 @@ public class VideoManager  {
                 changeSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
             }
         });
+
+    }
+
+    @Override
+    public void onSurfacesCreated(IVLCVout ivlcVout) {
+
+    }
+
+    @Override
+    public void onSurfacesDestroyed(IVLCVout ivlcVout) {
 
     }
 
