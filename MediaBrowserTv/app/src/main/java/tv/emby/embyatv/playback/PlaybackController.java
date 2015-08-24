@@ -484,10 +484,8 @@ public class PlaybackController {
                                             @Override
                                             public void run() {
                                                 TvApp.getApplication().getLogger().Debug("Adding subtitle track to player %s", Uri.fromFile(newFile).getPath());
-                                                int id = mVideoManager.addSubtitleTrack(Uri.fromFile(newFile).getPath());
+                                                mVideoManager.addSubtitleTrack(Uri.fromFile(newFile).getPath());
                                                 TvApp.getApplication().getLogger().Debug("New subtitle track list: %s", TvApp.getApplication().getSerializer().SerializeToString(mVideoManager.getSubtitleTracks()));
-                                                TvApp.getApplication().getLogger().Debug("Setting new subtitle track id: %s", id);
-                                                mVideoManager.setSubtitleTrack(id);
                                             }
                                         });
                                     } else {

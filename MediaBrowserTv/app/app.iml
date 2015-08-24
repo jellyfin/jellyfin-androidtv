@@ -110,6 +110,7 @@
     <orderEntry type="jdk" jdkName="Android API 21 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="Java-WebSocket-1.3.0" level="project" />
+    <orderEntry type="library" exported="" name="libvlc_arm_correct" level="project" />
     <orderEntry type="library" exported="" name="support-v4-21.0.2" level="project" />
     <orderEntry type="library" exported="" name="okio-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-21.0.2" level="project" />
@@ -121,7 +122,6 @@
     <orderEntry type="library" exported="" name="okhttp-urlconnection-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="emby.apiclient" level="project" />
     <orderEntry type="library" exported="" name="acra-4.6.1" level="project" />
-    <orderEntry type="library" exported="" name="vlc-android-sdk-1.0.6" level="project" />
     <orderEntry type="library" exported="" name="emby.apiclient.android" level="project" />
     <orderEntry type="library" exported="" name="volley" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-21.0.2" level="project" />
