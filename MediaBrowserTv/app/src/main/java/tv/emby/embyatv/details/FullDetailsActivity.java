@@ -480,7 +480,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 SeasonQuery seasons = new SeasonQuery();
                 seasons.setSeriesId(mBaseItem.getId());
                 seasons.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                seasons.setFields(new ItemFields[] {ItemFields.DisplayPreferencesId});
+                seasons.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.DisplayPreferencesId});
                 ItemRowAdapter seasonsAdapter = new ItemRowAdapter(seasons, new CardPresenter(), adapter);
                 addItemRow(adapter, seasonsAdapter, 1, mActivity.getString(R.string.lbl_seasons));
 
