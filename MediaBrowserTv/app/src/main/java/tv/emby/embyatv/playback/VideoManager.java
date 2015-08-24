@@ -233,7 +233,7 @@ public class VideoManager implements IVLCVout.Callback {
             options.add("--no-audio-time-stretch");
             options.add("--androidwindow-chroma");
             options.add("RV32");
-            options.add("-vvv");
+            options.add("-vv");
 
             mLibVLC = new LibVLC(options);
             TvApp.getApplication().getLogger().Info("Network buffer set to " + buffer);
