@@ -159,21 +159,24 @@ public class VideoManager implements IVLCVout.Callback {
         }
     }
 
-    public void seekTo(long pos) {
+    public long seekTo(long pos) {
         if (nativeMode) {
             Long intPos = pos;
             mVideoView.seekTo(intPos.intValue());
+            return pos;
         } else {
-            if (mLibVLC == null) return;
+            if (mVlcPlayer == null || !mVlcPlayer.isSeekable()) return -1;
             mForcedTime = pos;
             mLastTime = mVlcPlayer.getTime();
-            TvApp.getApplication().getLogger().Info("Duration in seek is: " + getDuration());
+            TvApp.getApplication().getLogger().Info("VLC length in seek is: " + mVlcPlayer.getLength());
             try {
                 if (getDuration() > 0) mVlcPlayer.setPosition((float)pos / getDuration()); else mVlcPlayer.setTime(pos);
+                return pos;
 
             } catch (Exception e) {
                 TvApp.getApplication().getLogger().ErrorException("Error seeking in VLC", e);
                 Utils.showToast(mActivity, "Unable to seek");
+                return -1;
             }
         }
     }
@@ -191,7 +194,7 @@ public class VideoManager implements IVLCVout.Callback {
             mSurfaceHolder.setKeepScreenOn(true);
 
             mCurrentMedia = new Media(mLibVLC, Uri.parse(path));
-            //mCurrentMedia.parse();
+            mCurrentMedia.parse();
             mVlcPlayer.setMedia(mCurrentMedia);
 
             mCurrentMedia.release();
