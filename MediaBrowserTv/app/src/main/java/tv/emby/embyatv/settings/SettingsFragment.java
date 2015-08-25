@@ -49,6 +49,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         cat.removePreference(findPreference("pref_enable_vlc"));
         cat.removePreference(findPreference("pref_allow_vlc_transcode"));
         cat.removePreference(findPreference("pref_vlc_max_res"));
+        cat.removePreference(findPreference("pref_net_buffer"));
     }
 
     @Override
