@@ -305,7 +305,7 @@ public class PlaybackController {
 
                 setPlaybackMethod(response.getPlayMethod());
 
-                if (useVlc) {
+                if (useVlc && !getPlaybackMethod().equals(PlayMethod.Transcode)) {
                     mVideoManager.setNativeMode(false);
                     if (mCurrentOptions.getAudioStreamIndex() == null) mCurrentOptions.setAudioStreamIndex(response.getMediaSource().getDefaultAudioStreamIndex());
                     if (mCurrentOptions.getSubtitleStreamIndex() == null) mCurrentOptions.setSubtitleStreamIndex(response.getMediaSource().getDefaultSubtitleStreamIndex());
@@ -574,9 +574,13 @@ public class PlaybackController {
 
     public void seek(final long pos) {
         mApplication.getLogger().Debug("Seeking to " + pos);
-        mVideoManager.seekTo(pos);
-        if (mFragment != null) {
-            mFragment.updateEndTime(mVideoManager.getDuration() - pos);
+        if (mVideoManager.seekTo(pos) >= 0)
+        {
+            if (mFragment != null) {
+                mFragment.updateEndTime(mVideoManager.getDuration() - pos);
+            }
+        } else {
+            Utils.showToast(TvApp.getApplication(), "Unable to seek");
         }
 
     }
@@ -677,11 +681,11 @@ public class PlaybackController {
                     mHandler.postDelayed(this, 25);
                 } else {
                     // do the seek
-                    mVideoManager.seekTo(position);
+                    if (mVideoManager.seekTo(position) < 0) Utils.showToast(TvApp.getApplication(), "Unable to seek");
+
                     mPlaybackState = PlaybackState.PLAYING;
                     updateProgress = true;
                     mFragment.updateEndTime(mVideoManager.getDuration() - position);
-                    TvApp.getApplication().getLogger().Info("Delayed seek to " + position + " successful");
                 }
             }
         });
