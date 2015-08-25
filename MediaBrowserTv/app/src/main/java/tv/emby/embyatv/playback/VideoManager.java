@@ -171,6 +171,12 @@ public class VideoManager implements IVLCVout.Callback {
             TvApp.getApplication().getLogger().Info("VLC length in seek is: " + mVlcPlayer.getLength());
             try {
                 if (getDuration() > 0) mVlcPlayer.setPosition((float)pos / getDuration()); else mVlcPlayer.setTime(pos);
+
+                // work around losing audio when seeking bug
+                int sav = mVlcPlayer.getAudioTrack();
+                mVlcPlayer.setAudioTrack(-1);
+                mVlcPlayer.setAudioTrack(sav);
+                //
                 return pos;
 
             } catch (Exception e) {
