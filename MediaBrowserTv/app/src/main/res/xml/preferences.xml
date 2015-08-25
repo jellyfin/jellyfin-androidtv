@@ -70,7 +70,7 @@
             />
         <ListPreference android:key="pref_net_buffer"
             android:title="@string/lbl_buffering_amount"
-            android:defaultValue="7"
+            android:defaultValue="3"
             android:entries="@array/pref_buffer_entries"
             android:entryValues="@array/pref_buffer_values"
             />
