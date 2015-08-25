@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.widget.TextView;
@@ -43,6 +44,11 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         TextView ver = (TextView) getActivity().findViewById(R.id.settings_version_info);
         ver.setText(Utils.VersionString() + " " + TvApp.getApplication().getRegistrationString());
 
+        // hide these options for now - will be removed if all is okay
+        PreferenceCategory cat = (PreferenceCategory) findPreference("pref_playback_category");
+        cat.removePreference(findPreference("pref_enable_vlc"));
+        cat.removePreference(findPreference("pref_allow_vlc_transcode"));
+        cat.removePreference(findPreference("pref_vlc_max_res"));
     }
 
     @Override
