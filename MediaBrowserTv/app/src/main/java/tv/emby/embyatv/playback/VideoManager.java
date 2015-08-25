@@ -238,7 +238,7 @@ public class VideoManager implements IVLCVout.Callback {
 
             // Create a new media player
             ArrayList<String> options = new ArrayList<>(20);
-            options.add("--network-caching=" + buffer);
+            //options.add("--network-caching=" + buffer);
             options.add("--no-audio-time-stretch");
             options.add("--androidwindow-chroma");
             options.add("RV32");
