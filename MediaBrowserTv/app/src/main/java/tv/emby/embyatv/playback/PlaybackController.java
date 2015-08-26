@@ -113,6 +113,8 @@ public class PlaybackController {
         return null;
     }
 
+    public boolean isNativeMode() { return mVideoManager == null || mVideoManager.isNativeMode(); }
+
     public boolean isTranscoding() { return mCurrentStreamInfo != null && mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode; }
 
     public boolean hasNextItem() { return mCurrentIndex < mItems.size() - 1; }
@@ -121,6 +123,9 @@ public class PlaybackController {
     public boolean isPlaying() {
         return mPlaybackState == PlaybackState.PLAYING;
     }
+
+    public void setAudioDelay(long value) { if (mVideoManager != null) mVideoManager.setAudioDelay(value);}
+    public long getAudioDelay() { return mVideoManager != null ? mVideoManager.getAudioDelay() : 0;}
 
     public void play(long position) {
         play(position, -1);

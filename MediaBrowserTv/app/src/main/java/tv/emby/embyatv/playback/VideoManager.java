@@ -225,6 +225,18 @@ public class VideoManager implements IVLCVout.Callback {
         if (!nativeMode) mVlcPlayer.setAudioTrack(id);
     }
 
+    public void setAudioDelay(long value) {
+        if (!nativeMode && mVlcPlayer != null) {
+            if (!mVlcPlayer.setAudioDelay(value * 1000)) {
+                TvApp.getApplication().getLogger().Error("Error setting audio delay");
+            } else {
+                TvApp.getApplication().getLogger().Info("Audio delay set to "+value);
+            }
+        }
+    }
+
+    public long getAudioDelay() { return mVlcPlayer != null ? mVlcPlayer.getAudioDelay() / 1000 : 0;}
+
     public org.videolan.libvlc.MediaPlayer.TrackDescription[] getSubtitleTracks() {
         return nativeMode ? null : mVlcPlayer.getSpuTracks();
     }
@@ -242,7 +254,7 @@ public class VideoManager implements IVLCVout.Callback {
             options.add("--no-audio-time-stretch");
             options.add("--androidwindow-chroma");
             options.add("RV32");
-            options.add("-vv");
+            options.add("-vvv");
 
             mLibVLC = new LibVLC(options);
             TvApp.getApplication().getLogger().Info("Network buffer set to " + buffer);
