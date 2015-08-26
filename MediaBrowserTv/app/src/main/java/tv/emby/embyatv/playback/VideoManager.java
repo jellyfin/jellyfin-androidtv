@@ -134,6 +134,11 @@ public class VideoManager implements IVLCVout.Callback {
         } else {
             mVlcPlayer.play();
             mSurfaceView.setKeepScreenOn(true);
+            // work around losing audio when pausing bug
+            int sav = mVlcPlayer.getAudioTrack();
+            mVlcPlayer.setAudioTrack(-1);
+            mVlcPlayer.setAudioTrack(sav);
+            //
         }
     }
 
@@ -172,11 +177,6 @@ public class VideoManager implements IVLCVout.Callback {
             try {
                 if (getDuration() > 0) mVlcPlayer.setPosition((float)pos / getDuration()); else mVlcPlayer.setTime(pos);
 
-                // work around losing audio when seeking bug
-                int sav = mVlcPlayer.getAudioTrack();
-                mVlcPlayer.setAudioTrack(-1);
-                mVlcPlayer.setAudioTrack(sav);
-                //
                 return pos;
 
             } catch (Exception e) {
