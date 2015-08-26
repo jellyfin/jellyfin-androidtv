@@ -112,6 +112,8 @@ public class VideoManager implements IVLCVout.Callback {
         return nativeMode ? mVideoView.isPlaying() : mVlcPlayer != null && mVlcPlayer.isPlaying();
     }
 
+    public boolean canSeek() { return nativeMode ? mVideoView.canSeekForward() : mVlcPlayer.isSeekable(); }
+
     public void start() {
         if (nativeMode) {
             mVideoView.start();
