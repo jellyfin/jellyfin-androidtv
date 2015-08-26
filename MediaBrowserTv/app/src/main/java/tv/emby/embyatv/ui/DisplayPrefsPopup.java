@@ -24,7 +24,7 @@ import tv.emby.embyatv.util.Utils;
 public class DisplayPrefsPopup {
 
     final int WIDTH = Utils.convertDpToPixel(TvApp.getApplication(), 350);
-    final int HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 340);
+    final int HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 200);
 
     PopupWindow mPopup;
     Activity mActivity;
