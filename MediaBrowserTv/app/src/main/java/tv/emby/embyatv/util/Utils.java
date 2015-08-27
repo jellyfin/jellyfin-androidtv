@@ -1279,6 +1279,7 @@ public class Utils {
     public static boolean isFireTv() {
         return Build.MODEL.startsWith("AFT");
     }
+    public static boolean isFireTvStick() { return Build.MODEL.equals("AFTM"); }
 
     public static boolean is50() {
         return Build.VERSION.SDK_INT >= 21;
