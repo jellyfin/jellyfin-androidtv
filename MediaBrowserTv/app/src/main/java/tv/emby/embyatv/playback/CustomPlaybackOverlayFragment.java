@@ -763,7 +763,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         }
 
         if (!mPlaybackController.isNativeMode()) {
-            if (mAudioPopup == null ) mAudioPopup = new AudioDelayPopup(mActivity, mButtonRow, new ValueChangedListener<Long>() {
+            if (mAudioPopup == null ) mAudioPopup = new AudioDelayPopup(mActivity, mBottomPanel, new ValueChangedListener<Long>() {
                 @Override
                 public void onValueChanged(Long value) {
                     mPlaybackController.setAudioDelay(value);

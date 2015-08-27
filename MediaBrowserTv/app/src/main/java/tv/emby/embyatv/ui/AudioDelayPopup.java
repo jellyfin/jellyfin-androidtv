@@ -23,8 +23,8 @@ import tv.emby.embyatv.util.Utils;
  */
 public class AudioDelayPopup {
 
-    final int WIDTH = Utils.convertDpToPixel(TvApp.getApplication(), 270);
-    final int HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 150);
+    final int WIDTH = Utils.convertDpToPixel(TvApp.getApplication(), 240);
+    final int HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 130);
 
     PopupWindow mPopup;
     Activity mActivity;
@@ -54,7 +54,7 @@ public class AudioDelayPopup {
     public void show(long value) {
 
         mDelaySpinner.setValue(value);
-        mPopup.showAtLocation(mAnchor, Gravity.TOP, mAnchor.getRight()-60, mAnchor.getTop());
+        mPopup.showAtLocation(mAnchor, Gravity.CENTER_VERTICAL, mAnchor.getRight()-60, mAnchor.getTop());
 
     }
 
