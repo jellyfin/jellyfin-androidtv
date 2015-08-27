@@ -808,7 +808,7 @@ public class Utils {
     public static String GetFullName(BaseItemDto item) {
         switch (item.getType()) {
             case "Episode":
-                return item.getSeriesName() + " S" + item.getParentIndexNumber() + ", E" + item.getIndexNumber();
+                return item.getSeriesName() + " S" + item.getParentIndexNumber() + ", E" + item.getIndexNumber() + (item.getIndexNumberEnd() != null ? "-" + item.getIndexNumberEnd() : "");
             default:
                 return item.getName();
         }
