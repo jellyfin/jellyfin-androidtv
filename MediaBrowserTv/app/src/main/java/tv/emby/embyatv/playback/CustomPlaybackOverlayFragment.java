@@ -630,7 +630,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private void addButtons(BaseItemDto item) {
         mButtonRow.removeAllViews();
 
-        if (!Utils.isFireTv() && mPlaybackController.canSeek()) {
+        if (!Utils.isFireTv() && !mPlaybackController.isLiveTv()) {
             // on-screen jump buttons for Nexus
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.repeat, mButtonSize, new View.OnClickListener() {
                 @Override
