@@ -239,7 +239,7 @@ public class PlaybackController {
                     useVlc = !Utils.isFireTvStick();
                     useDirectProfile = useVlc;
                 }
-                
+
                 AndroidProfile profile = useDirectProfile ? new AndroidProfile("vlc") : new AndroidProfile(Utils.getProfileOptions());
                 if (!useDirectProfile) profile.setSubtitleProfiles(new SubtitleProfile[]{}); //todo remove this once sub downloading works
                 mCurrentOptions.setProfile(profile);
