@@ -222,19 +222,24 @@ public class PlaybackController {
                 TvApp.getApplication().getLogger().Debug("Max bitrate is: " + getMaxBitrate());
                 isLiveTv = item.getType().equals("TvChannel");
 
-                // Create our profile - fudge to transcode for hi-res content (VLC stutters) if using vlc
+                // Create our profile - use VLC unless live tv or on FTV stick and over SD
                 useVlc = !isLiveTv;
                 boolean useDirectProfile = transcodedSubtitle < 0 && useVlc;
 //                useVlc = mApplication.getPrefs().getBoolean("pref_enable_vlc", false);
 //                boolean useDirectProfile = transcodedSubtitle < 0 && useVlc && !isLiveTv;
-//                if (useVlc && item.getMediaSources() != null && item.getMediaSources().size() > 0) {
-//                    List<MediaStream> videoStreams = Utils.GetVideoStreams(item.getMediaSources().get(0));
-//                    MediaStream video = videoStreams != null && videoStreams.size() > 0 ? videoStreams.get(0) : null;
-//                    if (video != null && video.getWidth() > Integer.parseInt(mApplication.getPrefs().getString("pref_vlc_max_res", "730"))) {
-//                        useDirectProfile = false;
-//                        mApplication.getLogger().Info("Forcing a transcode of high-res content");
-//                    }
-//                }
+                if (useVlc && Utils.isFireTvStick() && item.getMediaSources() != null && item.getMediaSources().size() > 0) {
+                    List<MediaStream> videoStreams = Utils.GetVideoStreams(item.getMediaSources().get(0));
+                    MediaStream video = videoStreams != null && videoStreams.size() > 0 ? videoStreams.get(0) : null;
+                    if (video != null && video.getWidth() > 730) {
+                        useDirectProfile = false;
+                        useVlc = false;
+                        mApplication.getLogger().Info("Forcing a transcode of high-res content");
+                    }
+                } else {
+                    useVlc = !Utils.isFireTvStick();
+                    useDirectProfile = useVlc;
+                }
+                
                 AndroidProfile profile = useDirectProfile ? new AndroidProfile("vlc") : new AndroidProfile(Utils.getProfileOptions());
                 if (!useDirectProfile) profile.setSubtitleProfiles(new SubtitleProfile[]{}); //todo remove this once sub downloading works
                 mCurrentOptions.setProfile(profile);
