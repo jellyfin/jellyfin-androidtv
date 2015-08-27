@@ -148,7 +148,7 @@ public class CardPresenter extends Presenter {
                 case LiveTvProgram:
                     BaseItemDto program = mItem.getProgramInfo();
                     Double programAspect = program.getPrimaryImageAspectRatio();
-                    if (programAspect == null) programAspect = .7777777;
+                    if (programAspect == null) programAspect = .66667;
                     cardHeight = !m.isStaticHeight() ? programAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((programAspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
@@ -158,7 +158,7 @@ public class CardPresenter extends Presenter {
 
                 case LiveTvRecording:
                     BaseItemDto recording = mItem.getRecordingInfo();
-                    Double recordingAspect = imageType.equals(ImageType.BANNER) ? 5.414 : imageType.equals(ImageType.THUMB) ? 1.779 : recording.getPrimaryImageAspectRatio();
+                    Double recordingAspect = imageType.equals(ImageType.BANNER) ? 5.414 : (imageType.equals(ImageType.THUMB) ? 1.779 : recording.getPrimaryImageAspectRatio());
                     if (recordingAspect == null) recordingAspect = .7777777;
                     cardHeight = !m.isStaticHeight() ? recordingAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((recordingAspect) * cardHeight);
