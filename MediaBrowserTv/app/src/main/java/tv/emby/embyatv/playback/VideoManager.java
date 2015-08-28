@@ -274,7 +274,7 @@ public class VideoManager implements IVLCVout.Callback {
 
             mVlcPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
             SharedPreferences prefs = TvApp.getApplication().getPrefs();
-            String audioOption = prefs.getString("pref_audio_option","0");
+            String audioOption = Utils.isFireTv() ? "1" : prefs.getString("pref_audio_option","0"); // force compatible audio on Fire
             mVlcPlayer.setAudioOutput("0".equals(audioOption) ? "android_audiotrack" : "opensles_android");
             mVlcPlayer.setAudioOutputDevice("hdmi");
 
