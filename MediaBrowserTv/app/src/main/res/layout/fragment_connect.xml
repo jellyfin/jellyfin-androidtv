@@ -59,7 +59,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Next"
+        android:text="@string/btn_next"
+        android:background="@drawable/emby_button"
         android:id="@+id/buttonNext"
         android:clickable="true"
         android:focusable="true"
@@ -72,6 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btn_cancel"
+        android:background="@drawable/emby_button"
         android:id="@+id/buttonCancel"
         android:layout_alignBottom="@+id/textViewMessage"
         android:layout_toEndOf="@+id/buttonManual" />
@@ -90,6 +92,7 @@
         android:layout_height="wrap_content"
         android:text="@string/btn_manually"
         android:id="@+id/buttonManual"
+        android:background="@drawable/emby_button"
         android:layout_alignTop="@+id/buttonNext"
         android:layout_toEndOf="@+id/buttonNext" />
 

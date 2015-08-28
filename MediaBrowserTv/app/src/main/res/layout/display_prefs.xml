@@ -97,6 +97,7 @@
         android:text="@string/btn_done"
         android:id="@+id/btnDone"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/emby_button" />
 
 </RelativeLayout>

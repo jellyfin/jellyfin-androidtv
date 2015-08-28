@@ -56,12 +56,14 @@
             android:layout_height="wrap_content"
             android:text="@string/lbl_record"
             android:id="@+id/okButton"
+            android:background="@drawable/emby_button"
             android:layout_marginRight="10sp" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/lbl_cancel"
+            android:background="@drawable/emby_button"
             android:id="@+id/cancelButton"
             android:layout_marginLeft="10sp" />
     </LinearLayout>
