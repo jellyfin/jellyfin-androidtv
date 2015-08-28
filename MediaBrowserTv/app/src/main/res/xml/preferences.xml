@@ -76,7 +76,7 @@
             />
         <ListPreference android:key="pref_vlc_max_res"
             android:title="@string/lbl_vlc_max_res"
-            android:defaultValue="1300"
+            android:defaultValue="2900"
             android:entries="@array/pref_vlc_max_entries"
             android:entryValues="@array/pref_vlc_max_values"
             />

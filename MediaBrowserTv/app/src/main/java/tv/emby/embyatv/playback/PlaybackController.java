@@ -227,13 +227,13 @@ public class PlaybackController {
                 boolean useDirectProfile = transcodedSubtitle < 0 && useVlc;
 //                useVlc = mApplication.getPrefs().getBoolean("pref_enable_vlc", false);
 //                boolean useDirectProfile = transcodedSubtitle < 0 && useVlc && !isLiveTv;
-                if (useVlc && Utils.isFireTvStick() && item.getMediaSources() != null && item.getMediaSources().size() > 0) {
+                if (useVlc && item.getMediaSources() != null && item.getMediaSources().size() > 0) {
                     List<MediaStream> videoStreams = Utils.GetVideoStreams(item.getMediaSources().get(0));
                     MediaStream video = videoStreams != null && videoStreams.size() > 0 ? videoStreams.get(0) : null;
-                    if (video != null && video.getWidth() > 730) {
+                    if (video != null && video.getWidth() > (Utils.isFireTvStick() ? 730 : Integer.parseInt(mApplication.getPrefs().getString("pref_vlc_max_res", "730")))) {
                         useDirectProfile = false;
                         useVlc = false;
-                        mApplication.getLogger().Info("Forcing a transcode of high-res content");
+                        mApplication.getLogger().Info("Forcing a transcode of HD content");
                     }
                 } else {
                     useVlc = !Utils.isFireTvStick();
