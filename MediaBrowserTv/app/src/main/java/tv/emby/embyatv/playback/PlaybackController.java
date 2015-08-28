@@ -236,7 +236,7 @@ public class PlaybackController {
                         mApplication.getLogger().Info("Forcing a transcode of HD content");
                     }
                 } else {
-                    useVlc = !Utils.isFireTvStick();
+                    useVlc = useVlc && !Utils.isFireTvStick();
                     useDirectProfile = useVlc;
                 }
 

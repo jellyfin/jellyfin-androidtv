@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.VideoView;
 
+import com.devbrackets.android.exomedia.EMVideoView;
+
 import org.acra.ACRA;
 import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.LibVLC;
@@ -33,7 +35,7 @@ public class VideoManager implements IVLCVout.Callback {
     private SurfaceHolder mSurfaceHolder;
     private SurfaceView mSurfaceView;
     private FrameLayout mSurfaceFrame;
-    private VideoView mVideoView;
+    private EMVideoView mVideoView;
     private LibVLC mLibVLC;
     private org.videolan.libvlc.MediaPlayer mVlcPlayer;
     private String mCurrentVideoPath;
@@ -61,7 +63,7 @@ public class VideoManager implements IVLCVout.Callback {
         mSurfaceHolder = mSurfaceView.getHolder();
         mSurfaceHolder.addCallback(mSurfaceCallback);
         mSurfaceFrame = (FrameLayout) view.findViewById(R.id.player_surface_frame);
-        mVideoView = (VideoView) view.findViewById(R.id.videoView);
+        mVideoView = (EMVideoView) view.findViewById(R.id.videoView);
 
         createPlayer(buffer);
 
@@ -112,7 +114,7 @@ public class VideoManager implements IVLCVout.Callback {
         return nativeMode ? mVideoView.isPlaying() : mVlcPlayer != null && mVlcPlayer.isPlaying();
     }
 
-    public boolean canSeek() { return nativeMode ? mVideoView.canSeekForward() : mVlcPlayer.isSeekable(); }
+    public boolean canSeek() { return nativeMode || mVlcPlayer.isSeekable(); }
 
     public void start() {
         if (nativeMode) {
