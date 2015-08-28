@@ -46,12 +46,19 @@ public class StartupActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_startup);
 
-        //Ensure we have prefs
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         application = (TvApp) getApplicationContext();
         final Activity activity = this;
         logger = application.getLogger();
+
+        //Migrate prefs
+        if (Integer.parseInt(application.getConfigVersion()) < 2) {
+            application.getPrefs().edit().putString("pref_vlc_max_res", "2900").commit();
+            application.getSystemPrefs().edit().putString("sys_pref_config_version", "2").commit();
+        }
+
+        //Ensure we have prefs
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         establishConnection(activity);
 
