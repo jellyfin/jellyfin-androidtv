@@ -252,6 +252,7 @@
     <string name="lbl_season">Season</string>
     <string name="lbl__continuing"> CONTINUING </string>
     <string name="lbl_ended"> ENDED </string>
+    <string name="msg_confirm_pin">Please confirm the above pin at mediabrowser.tv/pin</string>
 
 
 </resources>

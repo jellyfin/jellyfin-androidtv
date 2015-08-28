@@ -61,7 +61,7 @@ public class ConnectActivity extends Activity {
                                 }
                             });
                         } else {
-                            Utils.showToast(TvApp.getApplication(), "Please confirm the above pin at mediabrowser.tv/pin");
+                            Utils.showToast(TvApp.getApplication(), getString(R.string.msg_confirm_pin));
                         }
                     }
                 });
