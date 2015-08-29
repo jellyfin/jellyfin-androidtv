@@ -732,8 +732,8 @@ public class PlaybackController {
                 String msg =  mApplication.getString(R.string.video_error_unknown_error);
                 Utils.showToast(mApplication, mApplication.getString(R.string.msg_video_playback_error) + msg);
                 mApplication.getLogger().Error("Playback error - " + msg);
-                mPlaybackState = PlaybackState.IDLE;
-                stopReportLoop();
+                mPlaybackState = PlaybackState.ERROR;
+                stop();
 
             }
         });
@@ -816,7 +816,7 @@ public class PlaybackController {
  * List of various states that we can be in
  */
     public enum PlaybackState {
-        PLAYING, PAUSED, BUFFERING, IDLE, SEEKING, UNDEFINED;
+        PLAYING, PAUSED, BUFFERING, IDLE, SEEKING, UNDEFINED, ERROR;
     }
 
 }
