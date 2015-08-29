@@ -2,6 +2,7 @@ package tv.emby.embyatv.presentation;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -273,7 +274,7 @@ public class CardPresenter extends Presenter {
         MyImageCardView cardView = new MyImageCardView(mContext, mShowInfo);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
-        cardView.setBackgroundColor(mContext.getResources().getColor(R.color.lb_basic_card_info_bg_color));
+        cardView.setBackgroundColor(mShowInfo ? mContext.getResources().getColor(R.color.lb_basic_card_info_bg_color) : Color.TRANSPARENT);
         return new ViewHolder(cardView);
     }
 
