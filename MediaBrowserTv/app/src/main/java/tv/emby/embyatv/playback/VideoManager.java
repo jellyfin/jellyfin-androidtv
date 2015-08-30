@@ -135,6 +135,7 @@ public class VideoManager implements IVLCVout.Callback {
     public void play() {
         if (nativeMode) {
             mVideoView.start();
+            mVideoView.setKeepScreenOn(true);
         } else {
             mVlcPlayer.play();
             mSurfaceView.setKeepScreenOn(true);
@@ -149,6 +150,7 @@ public class VideoManager implements IVLCVout.Callback {
     public void pause() {
         if (nativeMode) {
             mVideoView.pause();
+            mVideoView.setKeepScreenOn(false);
         } else {
             mVlcPlayer.pause();
             mSurfaceView.setKeepScreenOn(false);
