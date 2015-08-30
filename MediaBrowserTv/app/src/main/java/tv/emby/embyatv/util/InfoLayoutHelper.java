@@ -216,8 +216,8 @@ public class InfoLayoutHelper {
 
             case "Program":
             case "TvChannel":
-                if (item.getPremiereDate() != null && item.getEndDate() != null) {
-                    date.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(item.getPremiereDate()))
+                if (item.getStartDate() != null && item.getEndDate() != null) {
+                    date.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(item.getStartDate()))
                             + "-"+ android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(item.getEndDate())));
                     layout.addView(date);
                     addSpacer(activity, layout, "    ");

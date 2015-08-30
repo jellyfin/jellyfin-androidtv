@@ -59,6 +59,7 @@ import tv.emby.embyatv.ui.ObservableScrollView;
 import tv.emby.embyatv.ui.ProgramGridCell;
 import tv.emby.embyatv.ui.RecordPopup;
 import tv.emby.embyatv.ui.ScrollViewListener;
+import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -297,13 +298,8 @@ public class LiveTvGuideActivity extends BaseActivity {
             // build timeline info
             setTimelineRow(mDTimeline, program);
 
-            //fake info row
-//            mDInfoRow.removeAllViews();
-//            InfoLayoutHelper.addCriticInfo(mActivity, program, mDInfoRow);
-//            InfoLayoutHelper.addSpacer(mActivity, mDInfoRow, " 2003  ", 14);
-//            InfoLayoutHelper.addBlockText(mActivity, mDInfoRow, "R", 12);
-//            InfoLayoutHelper.addSpacer(mActivity, mDInfoRow, "  ", 10);
-            //
+            //info row
+            InfoLayoutHelper.addInfoRow(mActivity, program, mDInfoRow, false, false);
 
             //buttons
             mFirstButton = null;
@@ -933,14 +929,8 @@ public class LiveTvGuideActivity extends BaseActivity {
             String url = Utils.getPrimaryImageUrl(mSelectedProgram, TvApp.getApplication().getApiClient());
             Picasso.with(mActivity).load(url).resize(IMAGE_SIZE, IMAGE_SIZE).centerInside().into(mImage);
 
-            mInfoRow.removeAllViews();
-            // fake
-//            mSelectedProgram.setCommunityRating(7.5f);
-//            InfoLayoutHelper.addCriticInfo(mActivity, mSelectedProgram, mInfoRow);
-//            InfoLayoutHelper.addSpacer(mActivity, mInfoRow, " 2003  ", 14);
-//            InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "R", 12);
-//            InfoLayoutHelper.addSpacer(mActivity, mInfoRow, "  ", 10);
-            //
+            //info row
+            InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mInfoRow, false, false);
 
             if (Utils.isTrue(mSelectedProgram.getIsNews())) {
                 mBackdrop.setImageResource(R.drawable.newsbanner);
