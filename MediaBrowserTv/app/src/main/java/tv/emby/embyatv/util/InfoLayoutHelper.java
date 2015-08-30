@@ -49,7 +49,6 @@ public class InfoLayoutHelper {
             case "Series":
                 addSeasonCount(activity, item, layout);
                 addSeriesAirs(activity, item, layout);
-                addSeriesStatus(activity, item, layout);
                 includeEndTime = false;
                 break;
             case "Program":
@@ -57,6 +56,7 @@ public class InfoLayoutHelper {
         }
         addDate(activity, item, layout);
         if (includeRuntime) addRuntime(activity, item, layout, includeEndTime);
+        addSeriesStatus(activity, item, layout);
         addRatingAndRes(activity, item, layout);
         addMediaDetails(activity, item, layout);
     }
