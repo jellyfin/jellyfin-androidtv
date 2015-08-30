@@ -266,7 +266,7 @@ public class InfoLayoutHelper {
         if (item.getSeriesStatus() != null) {
             boolean continuing = item.getSeriesStatus() == SeriesStatus.Continuing;
             String status = continuing ? activity.getString(R.string.lbl__continuing) : activity.getString(R.string.lbl_ended);
-            addBlockText(activity, layout, status, textSize-5, Color.LTGRAY, continuing ? R.drawable.green_gradient : R.drawable.red_gradient);
+            addBlockText(activity, layout, status, textSize-4, Color.LTGRAY, continuing ? R.drawable.green_gradient : R.drawable.red_gradient);
             addSpacer(activity, layout, "  ");
         }
     }
