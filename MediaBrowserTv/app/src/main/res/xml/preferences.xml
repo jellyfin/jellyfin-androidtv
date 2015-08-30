@@ -80,11 +80,6 @@
             android:entries="@array/pref_vlc_max_entries"
             android:entryValues="@array/pref_vlc_max_values"
             />
-        <CheckBoxPreference android:key="pref_allow_vlc_transcode"
-            android:title="@string/lbl_allow_vlc_transcode"
-            android:defaultValue="false"
-            android:summary="@string/desc_allow_vlc_transcode"
-            />
         <ListPreference android:key="pref_audio_option"
             android:title="@string/lbl_audio_output"
             android:defaultValue="0"
