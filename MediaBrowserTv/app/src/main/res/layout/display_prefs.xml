@@ -41,7 +41,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/posterSize"
                 android:spinnerMode="dialog"
-                android:layout_marginLeft="15dp" />
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/emby_button" />
         </LinearLayout>
 
         <LinearLayout
@@ -64,7 +65,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/imageType"
                 android:spinnerMode="dialog"
-                android:layout_marginLeft="15dp" />
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/emby_button" />
         </LinearLayout>
 
         <LinearLayout
@@ -87,7 +89,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/initialView"
                 android:spinnerMode="dialog"
-                android:layout_marginLeft="15dp" />
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/emby_button" />
         </LinearLayout>
     </RelativeLayout>
 

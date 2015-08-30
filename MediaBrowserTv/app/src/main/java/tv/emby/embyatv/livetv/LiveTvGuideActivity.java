@@ -321,6 +321,7 @@ public class LiveTvGuideActivity extends BaseActivity {
                         // cancel button
                         Button cancel = new Button(mActivity);
                         cancel.setText(getString(R.string.lbl_cancel_recording));
+                        cancel.setBackground(getResources().getDrawable(R.drawable.emby_button));
                         cancel.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -347,6 +348,7 @@ public class LiveTvGuideActivity extends BaseActivity {
                         // record button
                         Button rec = new Button(mActivity);
                         rec.setText(getString(R.string.lbl_record));
+                        rec.setBackground(getResources().getDrawable(R.drawable.emby_button));
                         rec.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -362,6 +364,7 @@ public class LiveTvGuideActivity extends BaseActivity {
                             // cancel series button
                             Button cancel = new Button(mActivity);
                             cancel.setText(getString(R.string.lbl_cancel_series));
+                            cancel.setBackground(getResources().getDrawable(R.drawable.emby_button));
                             cancel.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -394,6 +397,7 @@ public class LiveTvGuideActivity extends BaseActivity {
                             // record series button
                             Button rec = new Button(mActivity);
                             rec.setText(getString(R.string.lbl_record_series));
+                            rec.setBackground(getResources().getDrawable(R.drawable.emby_button));
                             rec.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -589,6 +593,7 @@ public class LiveTvGuideActivity extends BaseActivity {
     private Button addButton(LinearLayout layout, int stringResource) {
         Button btn = new Button(this);
         btn.setText(getString(stringResource));
+        btn.setBackground(getResources().getDrawable(R.drawable.emby_button));
         layout.addView(btn);
         return btn;
     }
