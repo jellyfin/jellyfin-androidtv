@@ -225,8 +225,6 @@ public class PlaybackController {
                 // Create our profile - use VLC unless live tv or on FTV stick and over SD
                 useVlc = !isLiveTv && TvApp.getApplication().getPrefs().getBoolean("pref_enable_vlc", true) && (item.getPath() == null || !item.getPath().toLowerCase().endsWith(".avi"));
                 boolean useDirectProfile = transcodedSubtitle < 0 && useVlc;
-//                useVlc = mApplication.getPrefs().getBoolean("pref_enable_vlc", false);
-//                boolean useDirectProfile = transcodedSubtitle < 0 && useVlc && !isLiveTv;
                 if (useVlc && item.getMediaSources() != null && item.getMediaSources().size() > 0) {
                     List<MediaStream> videoStreams = Utils.GetVideoStreams(item.getMediaSources().get(0));
                     MediaStream video = videoStreams != null && videoStreams.size() > 0 ? videoStreams.get(0) : null;
