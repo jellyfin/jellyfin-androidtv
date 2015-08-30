@@ -29,10 +29,9 @@
 
         </FrameLayout>
 
-        <VideoView
+        <com.devbrackets.android.exomedia.EMVideoView
             android:id="@+id/videoView" android:layout_width="fill_parent"
-            android:layout_height="match_parent" android:layout_gravity="center" android:visibility="gone"
-            android:layout_centerInParent="true" android:layout_centerVertical="true" />
+            android:layout_height="match_parent" android:layout_gravity="center" android:visibility="gone" />
 
     </FrameLayout>
 
@@ -269,21 +268,24 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start Now"
+            android:text="@string/btn_start_now"
             android:id="@+id/nextButton"
             android:layout_below="@+id/nextUpInfoRow"
+            android:background="@drawable/emby_button"
             android:layout_alignParentEnd="true"
+            android:minWidth="120sp"
             android:layout_marginRight="20sp" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"
+            android:text="@string/btn_stop"
             android:id="@+id/cancelButton"
+            android:background="@drawable/emby_button"
             android:layout_below="@+id/nextButton"
             android:layout_alignEnd="@+id/nextButton"
-            android:minWidth="100sp"
+            android:minWidth="120sp"
             android:layout_marginTop="5sp"
             android:layout_alignStart="@+id/nextButton" />
 

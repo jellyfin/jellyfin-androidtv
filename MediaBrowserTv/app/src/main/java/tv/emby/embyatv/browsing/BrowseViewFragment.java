@@ -151,7 +151,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
             case "livetv":
                 //Latest Recordings
                 RecordingQuery recordings = new RecordingQuery();
-                recordings.setFields(new ItemFields[] {ItemFields.Overview});
+                recordings.setFields(new ItemFields[] {ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
                 recordings.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 recordings.setLimit(200);
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest_recordings), recordings));
@@ -159,7 +159,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 //On now
                 RecommendedProgramQuery onNow = new RecommendedProgramQuery();
                 onNow.setIsAiring(true);
-                onNow.setFields(new ItemFields[] {ItemFields.Overview});
+                onNow.setFields(new ItemFields[] {ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
                 onNow.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 onNow.setLimit(200);
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_on_now), onNow));
@@ -167,7 +167,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 //Upcoming
                 RecommendedProgramQuery upcomingTv = new RecommendedProgramQuery();
                 upcomingTv.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                upcomingTv.setFields(new ItemFields[] {ItemFields.Overview});
+                upcomingTv.setFields(new ItemFields[] {ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
                 upcomingTv.setIsAiring(false);
                 upcomingTv.setHasAired(false);
                 upcomingTv.setLimit(200);

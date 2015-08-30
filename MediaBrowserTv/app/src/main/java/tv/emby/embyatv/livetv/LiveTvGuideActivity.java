@@ -199,11 +199,17 @@ public class LiveTvGuideActivity extends BaseActivity {
         mLastLoad = System.currentTimeMillis();
     }
 
+    private void reload() {
+        fillTimeLine(getGuideHours());
+        displayChannels(mCurrentDisplayChannelStartNdx, PAGE_SIZE);
+        mLastLoad = System.currentTimeMillis();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
 
-        if (System.currentTimeMillis() > mLastLoad + 3600000) load();
+        if (System.currentTimeMillis() > mLastLoad + 3600000) if (mAllChannels == null) load(); else reload();
     }
 
     @Override
@@ -592,9 +598,11 @@ public class LiveTvGuideActivity extends BaseActivity {
         LiveTvChannelQuery query = new LiveTvChannelQuery();
         query.setUserId(TvApp.getApplication().getCurrentUser().getId());
         query.setEnableFavoriteSorting(true);
+        TvApp.getApplication().getLogger().Debug("*** About to load channels");
         TvApp.getApplication().getApiClient().GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
             @Override
             public void onResponse(ChannelInfoDtoResult response) {
+                TvApp.getApplication().getLogger().Debug("*** channel query response");
                 mAllChannels = new ArrayList<>();
                 if (response.getTotalRecordCount() > 0) {
                     mAllChannels.addAll(Arrays.asList(response.getItems()));
@@ -651,6 +659,7 @@ public class LiveTvGuideActivity extends BaseActivity {
 
         @Override
         protected void onPreExecute() {
+            TvApp.getApplication().getLogger().Debug("*** Display channels pre-execute");
             mSpinner.setVisibility(View.VISIBLE);
 
             mChannels.removeAllViews();
@@ -685,10 +694,12 @@ public class LiveTvGuideActivity extends BaseActivity {
             now.set(Calendar.SECOND, 0);
             query.setMinEndDate(now.getTime());
 
+            TvApp.getApplication().getLogger().Debug("*** About to get programs");
             TvApp.getApplication().getApiClient().GetLiveTvProgramsAsync(query, new Response<ItemsResult>() {
                 @Override
                 public void onResponse(ItemsResult response) {
                     if (isCancelled()) return;
+                    TvApp.getApplication().getLogger().Debug("*** Programs response");
                     if (response.getTotalRecordCount() > 0) {
                         if (mDisplayProgramsTask != null) mDisplayProgramsTask.cancel(true);
                         mDisplayProgramsTask = new DisplayProgramsTask();
@@ -710,6 +721,7 @@ public class LiveTvGuideActivity extends BaseActivity {
 
         @Override
         protected void onPreExecute() {
+            TvApp.getApplication().getLogger().Debug("*** Display programs pre-execute");
             mChannels.removeAllViews();
             mProgramRows.removeAllViews();
 
@@ -740,12 +752,12 @@ public class LiveTvGuideActivity extends BaseActivity {
 
             boolean first = true;
 
+            TvApp.getApplication().getLogger().Debug("*** About to iterate programs");
             for (Object item : params[0]) {
                 if (isCancelled()) return null;
-                ChannelInfoDto channel = (ChannelInfoDto) item;
+                final ChannelInfoDto channel = (ChannelInfoDto) item;
                 List<BaseItemDto> programs = getProgramsForChannel(channel.getId());
                 if (programs.size() > 0) {
-                    final GuideChannelHeader header = new GuideChannelHeader(mActivity, channel);
                     final LinearLayout row = getProgramRow(programs);
                     if (first) {
                         first = false;
@@ -761,6 +773,7 @@ public class LiveTvGuideActivity extends BaseActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            GuideChannelHeader header = new GuideChannelHeader(mActivity, channel);
                             mChannels.addView(header);
                             header.loadImage();
                             mProgramRows.addView(row);
@@ -776,6 +789,7 @@ public class LiveTvGuideActivity extends BaseActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            TvApp.getApplication().getLogger().Debug("*** Display programs post execute");
             if (mCurrentDisplayChannelEndNdx < mAllChannels.size()-1 && !mFilters.any()) {
                 // Show a paging row for channels below
                 int pageDnEnd = mCurrentDisplayChannelEndNdx + PAGE_SIZE;
