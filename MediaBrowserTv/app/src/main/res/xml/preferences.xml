@@ -51,7 +51,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_playback" >
+    <PreferenceCategory android:title="@string/pref_playback" android:key="pref_playback_category" >
         <ListPreference android:key="pref_max_bitrate"
             android:title="@string/pref_max_bitrate_title"
             android:defaultValue="30"
@@ -70,20 +70,15 @@
             />
         <ListPreference android:key="pref_net_buffer"
             android:title="@string/lbl_buffering_amount"
-            android:defaultValue="7"
+            android:defaultValue="3"
             android:entries="@array/pref_buffer_entries"
             android:entryValues="@array/pref_buffer_values"
             />
         <ListPreference android:key="pref_vlc_max_res"
             android:title="@string/lbl_vlc_max_res"
-            android:defaultValue="1300"
+            android:defaultValue="2900"
             android:entries="@array/pref_vlc_max_entries"
             android:entryValues="@array/pref_vlc_max_values"
-            />
-        <CheckBoxPreference android:key="pref_allow_vlc_transcode"
-            android:title="@string/lbl_allow_vlc_transcode"
-            android:defaultValue="false"
-            android:summary="@string/desc_allow_vlc_transcode"
             />
         <ListPreference android:key="pref_audio_option"
             android:title="@string/lbl_audio_output"

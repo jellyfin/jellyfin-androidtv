@@ -808,7 +808,7 @@ public class Utils {
     public static String GetFullName(BaseItemDto item) {
         switch (item.getType()) {
             case "Episode":
-                return item.getSeriesName() + " S" + item.getParentIndexNumber() + ", E" + item.getIndexNumber();
+                return item.getSeriesName() + " S" + item.getParentIndexNumber() + ", E" + item.getIndexNumber() + (item.getIndexNumberEnd() != null ? "-" + item.getIndexNumberEnd() : "");
             default:
                 return item.getName();
         }
@@ -1279,6 +1279,7 @@ public class Utils {
     public static boolean isFireTv() {
         return Build.MODEL.startsWith("AFT");
     }
+    public static boolean isFireTvStick() { return Build.MODEL.equals("AFTM"); }
 
     public static boolean is50() {
         return Build.VERSION.SDK_INT >= 21;

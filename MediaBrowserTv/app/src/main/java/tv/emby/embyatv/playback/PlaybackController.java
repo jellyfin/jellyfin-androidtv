@@ -99,7 +99,8 @@ public class PlaybackController {
     }
     public MediaSourceInfo getCurrentMediaSource() { return mCurrentStreamInfo != null && mCurrentStreamInfo.getMediaSource() != null ? mCurrentStreamInfo.getMediaSource() : getCurrentlyPlayingItem().getMediaSources().get(0);}
     public StreamInfo getCurrentStreamInfo() { return mCurrentStreamInfo; }
-    public boolean canSeek() {return getCurrentlyPlayingItem() != null && !"TvChannel".equals(getCurrentlyPlayingItem().getType());}
+    public boolean canSeek() {return !isLiveTv && mVideoManager != null && mVideoManager.canSeek();}
+    public boolean isLiveTv() { return isLiveTv; }
     public int getSubtitleStreamIndex() {return (mCurrentOptions != null && mCurrentOptions.getSubtitleStreamIndex() != null) ? mCurrentOptions.getSubtitleStreamIndex() : -1; }
     public Integer getAudioStreamIndex() {
         return isTranscoding() ? mCurrentStreamInfo.getAudioStreamIndex() != null ? mCurrentStreamInfo.getAudioStreamIndex() : mCurrentOptions.getAudioStreamIndex() : Integer.valueOf(mVideoManager.getAudioTrack());
@@ -113,6 +114,8 @@ public class PlaybackController {
         return null;
     }
 
+    public boolean isNativeMode() { return mVideoManager == null || mVideoManager.isNativeMode(); }
+
     public boolean isTranscoding() { return mCurrentStreamInfo != null && mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode; }
 
     public boolean hasNextItem() { return mCurrentIndex < mItems.size() - 1; }
@@ -121,6 +124,9 @@ public class PlaybackController {
     public boolean isPlaying() {
         return mPlaybackState == PlaybackState.PLAYING;
     }
+
+    public void setAudioDelay(long value) { if (mVideoManager != null) mVideoManager.setAudioDelay(value);}
+    public long getAudioDelay() { return mVideoManager != null ? mVideoManager.getAudioDelay() : 0;}
 
     public void play(long position) {
         play(position, -1);
@@ -216,17 +222,22 @@ public class PlaybackController {
                 TvApp.getApplication().getLogger().Debug("Max bitrate is: " + getMaxBitrate());
                 isLiveTv = item.getType().equals("TvChannel");
 
-                // Create our profile - fudge to transcode for hi-res content (VLC stutters) if using vlc
-                useVlc = mApplication.getPrefs().getBoolean("pref_enable_vlc", false);
-                boolean useDirectProfile = transcodedSubtitle < 0 && useVlc && !isLiveTv;
+                // Create our profile - use VLC unless live tv or on FTV stick and over SD
+                useVlc = !isLiveTv && TvApp.getApplication().getPrefs().getBoolean("pref_enable_vlc", true) && (item.getPath() == null || !item.getPath().toLowerCase().endsWith(".avi"));
+                boolean useDirectProfile = transcodedSubtitle < 0 && useVlc;
                 if (useVlc && item.getMediaSources() != null && item.getMediaSources().size() > 0) {
                     List<MediaStream> videoStreams = Utils.GetVideoStreams(item.getMediaSources().get(0));
                     MediaStream video = videoStreams != null && videoStreams.size() > 0 ? videoStreams.get(0) : null;
-                    if (video != null && video.getWidth() > Integer.parseInt(mApplication.getPrefs().getString("pref_vlc_max_res", "730"))) {
+                    if (video != null && video.getWidth() > (Utils.isFireTvStick() ? 730 : Integer.parseInt(mApplication.getPrefs().getString("pref_vlc_max_res", "730")))) {
                         useDirectProfile = false;
-                        mApplication.getLogger().Info("Forcing a transcode of high-res content");
+                        useVlc = false;
+                        mApplication.getLogger().Info("Forcing a transcode of HD content");
                     }
+                } else {
+                    useVlc = useVlc && !Utils.isFireTvStick();
+                    useDirectProfile = useVlc;
                 }
+
                 AndroidProfile profile = useDirectProfile ? new AndroidProfile("vlc") : new AndroidProfile(Utils.getProfileOptions());
                 if (!useDirectProfile) profile.setSubtitleProfiles(new SubtitleProfile[]{}); //todo remove this once sub downloading works
                 mCurrentOptions.setProfile(profile);
@@ -303,7 +314,7 @@ public class PlaybackController {
 
                 setPlaybackMethod(response.getPlayMethod());
 
-                if (useVlc && (mApplication.getPrefs().getBoolean("pref_allow_vlc_transcode", false) || mPlaybackMethod != PlayMethod.Transcode)) {
+                if (useVlc && !getPlaybackMethod().equals(PlayMethod.Transcode)) {
                     mVideoManager.setNativeMode(false);
                     if (mCurrentOptions.getAudioStreamIndex() == null) mCurrentOptions.setAudioStreamIndex(response.getMediaSource().getDefaultAudioStreamIndex());
                     if (mCurrentOptions.getSubtitleStreamIndex() == null) mCurrentOptions.setSubtitleStreamIndex(response.getMediaSource().getDefaultSubtitleStreamIndex());
@@ -484,10 +495,8 @@ public class PlaybackController {
                                             @Override
                                             public void run() {
                                                 TvApp.getApplication().getLogger().Debug("Adding subtitle track to player %s", Uri.fromFile(newFile).getPath());
-                                                int id = mVideoManager.addSubtitleTrack(Uri.fromFile(newFile).getPath());
+                                                mVideoManager.addSubtitleTrack(Uri.fromFile(newFile).getPath());
                                                 TvApp.getApplication().getLogger().Debug("New subtitle track list: %s", TvApp.getApplication().getSerializer().SerializeToString(mVideoManager.getSubtitleTracks()));
-                                                TvApp.getApplication().getLogger().Debug("Setting new subtitle track id: %s", id);
-                                                mVideoManager.setSubtitleTrack(id);
                                             }
                                         });
                                     } else {
@@ -574,9 +583,13 @@ public class PlaybackController {
 
     public void seek(final long pos) {
         mApplication.getLogger().Debug("Seeking to " + pos);
-        mVideoManager.seekTo(pos);
-        if (mFragment != null) {
-            mFragment.updateEndTime(mVideoManager.getDuration() - pos);
+        if (mVideoManager.seekTo(pos) >= 0)
+        {
+            if (mFragment != null) {
+                mFragment.updateEndTime(mVideoManager.getDuration() - pos);
+            }
+        } else {
+            Utils.showToast(TvApp.getApplication(), "Unable to seek");
         }
 
     }
@@ -677,11 +690,11 @@ public class PlaybackController {
                     mHandler.postDelayed(this, 25);
                 } else {
                     // do the seek
-                    mVideoManager.seekTo(position);
+                    if (mVideoManager.seekTo(position) < 0) Utils.showToast(TvApp.getApplication(), "Unable to seek");
+
                     mPlaybackState = PlaybackState.PLAYING;
                     updateProgress = true;
                     mFragment.updateEndTime(mVideoManager.getDuration() - position);
-                    TvApp.getApplication().getLogger().Info("Delayed seek to " + position + " successful");
                 }
             }
         });
@@ -717,8 +730,8 @@ public class PlaybackController {
                 String msg =  mApplication.getString(R.string.video_error_unknown_error);
                 Utils.showToast(mApplication, mApplication.getString(R.string.msg_video_playback_error) + msg);
                 mApplication.getLogger().Error("Playback error - " + msg);
-                mPlaybackState = PlaybackState.IDLE;
-                stopReportLoop();
+                mPlaybackState = PlaybackState.ERROR;
+                stop();
 
             }
         });
@@ -801,7 +814,7 @@ public class PlaybackController {
  * List of various states that we can be in
  */
     public enum PlaybackState {
-        PLAYING, PAUSED, BUFFERING, IDLE, SEEKING, UNDEFINED;
+        PLAYING, PAUSED, BUFFERING, IDLE, SEEKING, UNDEFINED, ERROR;
     }
 
 }

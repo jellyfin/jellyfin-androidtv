@@ -12,6 +12,7 @@ import java.util.Date;
 
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.MediaStream;
+import mediabrowser.model.entities.SeriesStatus;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
@@ -47,12 +48,15 @@ public class InfoLayoutHelper {
                 break;
             case "Series":
                 addSeasonCount(activity, item, layout);
+                addSeriesAirs(activity, item, layout);
+                includeEndTime = false;
                 break;
             case "Program":
                 addChannelName(activity, item, layout);
         }
         addDate(activity, item, layout);
         if (includeRuntime) addRuntime(activity, item, layout, includeEndTime);
+        addSeriesStatus(activity, item, layout);
         addRatingAndRes(activity, item, layout);
         addMediaDetails(activity, item, layout);
     }
@@ -87,8 +91,18 @@ public class InfoLayoutHelper {
         if (item.getSeasonCount() != null && item.getSeasonCount() > 0) {
             TextView amt = new TextView(activity);
             amt.setTextSize(textSize);
-            amt.setText(item.getSeasonCount().toString()+" "+activity.getResources().getString(R.string.lbl_seasons)+"  ");
+            amt.setText(item.getSeasonCount().toString()+" "+ (item.getSeasonCount() == 1 ? activity.getResources().getString(R.string.lbl_season) : activity.getResources().getString(R.string.lbl_seasons)) +"  ");
             layout.addView(amt);
+
+        }
+    }
+
+    private static void addSeriesAirs(Activity activity, BaseItemDto item, LinearLayout layout) {
+        if (item.getAirDays() != null && item.getAirDays().size() > 0) {
+            TextView textView = new TextView(activity);
+            textView.setTextSize(textSize);
+            textView.setText(item.getAirDays().get(0) + " " + Utils.NullCoalesce(item.getAirTime(), "") +  "  ");
+            layout.addView(textView);
 
         }
     }
@@ -125,7 +139,7 @@ public class InfoLayoutHelper {
     }
 
     private static void addSeasonEpisode(Activity activity, BaseItemDto item, LinearLayout layout) {
-            String text = "S"+item.getParentIndexNumber()+" E"+item.getIndexNumber()+"  ";
+            String text = "S"+item.getParentIndexNumber()+" E"+item.getIndexNumber() + (item.getIndexNumberEnd() != null ? "-" + item.getIndexNumberEnd() : "")+"  ";
             TextView time = new TextView(activity);
             time.setTextSize(textSize);
             time.setText(text);
@@ -248,6 +262,15 @@ public class InfoLayoutHelper {
         }
     }
 
+    private static void addSeriesStatus(Activity activity, BaseItemDto item, LinearLayout layout) {
+        if (item.getSeriesStatus() != null) {
+            boolean continuing = item.getSeriesStatus() == SeriesStatus.Continuing;
+            String status = continuing ? activity.getString(R.string.lbl__continuing) : activity.getString(R.string.lbl_ended);
+            addBlockText(activity, layout, status, textSize-5, Color.LTGRAY, continuing ? R.drawable.green_gradient : R.drawable.red_gradient);
+            addSpacer(activity, layout, "  ");
+        }
+    }
+
     private static void addMediaDetails(Activity activity, BaseItemDto item, LinearLayout layout) {
         MediaStream stream = Utils.GetFirstAudioStream(item);
 
@@ -269,11 +292,15 @@ public class InfoLayoutHelper {
     }
 
     public static void addBlockText(Activity activity, LinearLayout layout, String text, int size) {
+        addBlockText(activity, layout, text, size, Color.DKGRAY, R.drawable.gray_gradient);
+    }
+
+    public static void addBlockText(Activity activity, LinearLayout layout, String text, int size, int textColor, int backgroundRes) {
         TextView view = new TextView(activity);
         view.setTextSize(size);
-        view.setTextColor(Color.DKGRAY);
+        view.setTextColor(textColor);
         view.setText(" " + text + " ");
-        view.setBackgroundResource(R.drawable.gray_gradient);
+        view.setBackgroundResource(backgroundRes);
         layout.addView(view);
 
     }

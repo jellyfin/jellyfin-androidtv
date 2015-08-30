@@ -62,7 +62,9 @@ import tv.emby.embyatv.integration.RecommendationManager;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.presentation.CardPresenter;
+import tv.emby.embyatv.ui.AudioDelayPopup;
 import tv.emby.embyatv.ui.ImageButton;
+import tv.emby.embyatv.ui.ValueChangedListener;
 import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.RemoteControlReceiver;
 import tv.emby.embyatv.util.Utils;
@@ -628,7 +630,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private void addButtons(BaseItemDto item) {
         mButtonRow.removeAllViews();
 
-        if (!Utils.isFireTv()) {
+        if (!Utils.isFireTv() && !mPlaybackController.isLiveTv()) {
             // on-screen jump buttons for Nexus
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.repeat, mButtonSize, new View.OnClickListener() {
                 @Override
@@ -760,7 +762,24 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }));
         }
 
+        if (!mPlaybackController.isNativeMode()) {
+            if (mAudioPopup == null ) mAudioPopup = new AudioDelayPopup(mActivity, mBottomPanel, new ValueChangedListener<Long>() {
+                @Override
+                public void onValueChanged(Long value) {
+                    mPlaybackController.setAudioDelay(value);
+                }
+            });
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.adjust, mButtonSize, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mAudioPopup.show(mPlaybackController.getAudioDelay());
+                }
+            }));
+        }
+
     }
+
+    AudioDelayPopup mAudioPopup;
 
     @Override
     public void setCurrentTime(long time) {
