@@ -30,14 +30,17 @@
             android:layout_height="wrap_content"
             android:text="@string/btn_filter"
             android:id="@+id/okButton"
+            android:textColor="@android:color/white"
             android:background="@drawable/emby_button"
-            android:minWidth="100sp" />
+            android:minWidth="100dp" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/btn_clear_all"
+            android:textColor="@android:color/white"
             android:background="@drawable/emby_button"
+            android:minWidth="100dp"
             android:id="@+id/clearButton" />
     </LinearLayout>
 
