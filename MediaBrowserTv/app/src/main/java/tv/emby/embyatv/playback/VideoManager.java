@@ -119,6 +119,7 @@ public class VideoManager implements IVLCVout.Callback {
     public void start() {
         if (nativeMode) {
             mVideoView.start();
+            mVideoView.setKeepScreenOn(true);
         } else {
             if (!mSurfaceReady) {
                 TvApp.getApplication().getLogger().Error("Attempt to play before surface ready");
