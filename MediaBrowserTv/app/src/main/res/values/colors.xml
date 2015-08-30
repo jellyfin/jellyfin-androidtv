@@ -27,8 +27,8 @@
 
     <color name="btn_idle_start">#1e1c1c</color>
     <color name="btn_idle_end">#181616</color>
-    <color name="btn_focused_start">#033f07</color>
-    <color name="btn_focused_end">#084e0b</color>
+    <color name="btn_focused_start">#c308720b</color>
+    <color name="btn_focused_end">#c309500c</color>
 
     <color name="guide_movie_bg">#32053a05</color>
     <color name="guide_sports_bg">#3228108e</color>
