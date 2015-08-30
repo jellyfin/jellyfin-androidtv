@@ -223,7 +223,7 @@ public class PlaybackController {
                 isLiveTv = item.getType().equals("TvChannel");
 
                 // Create our profile - use VLC unless live tv or on FTV stick and over SD
-                useVlc = !isLiveTv;
+                useVlc = !isLiveTv && TvApp.getApplication().getPrefs().getBoolean("pref_enable_vlc", true) && (item.getPath() == null || !item.getPath().toLowerCase().endsWith(".avi"));
                 boolean useDirectProfile = transcodedSubtitle < 0 && useVlc;
 //                useVlc = mApplication.getPrefs().getBoolean("pref_enable_vlc", false);
 //                boolean useDirectProfile = transcodedSubtitle < 0 && useVlc && !isLiveTv;

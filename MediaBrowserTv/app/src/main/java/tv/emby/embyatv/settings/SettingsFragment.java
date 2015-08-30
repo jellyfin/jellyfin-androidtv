@@ -46,7 +46,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         // hide these options for now - will be removed if all is okay
         PreferenceCategory cat = (PreferenceCategory) findPreference("pref_playback_category");
-        cat.removePreference(findPreference("pref_enable_vlc"));
         cat.removePreference(findPreference("pref_allow_vlc_transcode"));
         if (Utils.isFireTvStick()) cat.removePreference(findPreference("pref_vlc_max_res"));
         if (Utils.isFireTv()) cat.removePreference(findPreference("pref_audio_option"));
@@ -127,9 +126,9 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 ListPreference audio = (ListPreference) findPreference("pref_audio_option");
                 if (audio != null) audio.setEnabled(cb.isChecked());
                 ListPreference res = (ListPreference) findPreference("pref_vlc_max_res");
-                res.setEnabled(cb.isChecked());
+                if (res != null) res.setEnabled(cb.isChecked());
                 CheckBoxPreference trans = (CheckBoxPreference) findPreference("pref_allow_vlc_transcode");
-                trans.setEnabled(cb.isChecked());
+                if (trans != null) trans.setEnabled(cb.isChecked());
             }
         }
     }
