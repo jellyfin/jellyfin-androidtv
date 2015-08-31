@@ -1281,6 +1281,8 @@ public class Utils {
     }
     public static boolean isFireTvStick() { return Build.MODEL.equals("AFTM"); }
 
+    public static boolean isShield() { return Build.MODEL.equals("SHIELD Android TV"); }
+
     public static boolean is50() {
         return Build.VERSION.SDK_INT >= 21;
     }
