@@ -34,6 +34,7 @@ public class VideoManager implements IVLCVout.Callback {
     private PlaybackOverlayActivity mActivity;
     private SurfaceHolder mSurfaceHolder;
     private SurfaceView mSurfaceView;
+    private SurfaceView mSubtitlesSurface;
     private FrameLayout mSurfaceFrame;
     private EMVideoView mVideoView;
     private LibVLC mLibVLC;
@@ -63,6 +64,7 @@ public class VideoManager implements IVLCVout.Callback {
         mSurfaceHolder = mSurfaceView.getHolder();
         mSurfaceHolder.addCallback(mSurfaceCallback);
         mSurfaceFrame = (FrameLayout) view.findViewById(R.id.player_surface_frame);
+        mSubtitlesSurface = (SurfaceView) view.findViewById(R.id.subtitles_surface);
         mVideoView = (EMVideoView) view.findViewById(R.id.videoView);
 
         createPlayer(buffer);
@@ -216,7 +218,10 @@ public class VideoManager implements IVLCVout.Callback {
     }
 
     public void setSubtitleTrack(int id) {
-        if (!nativeMode) mVlcPlayer.setSpuTrack(id);
+        if (!nativeMode) {
+            mSubtitlesSurface.setVisibility(id >= 0 ? View.VISIBLE : View.GONE);
+            mVlcPlayer.setSpuTrack(id);
+        }
 
     }
 
@@ -261,6 +266,8 @@ public class VideoManager implements IVLCVout.Callback {
             options.add("--no-audio-time-stretch");
             options.add("--androidwindow-chroma");
             options.add("RV32");
+            options.add("--subsdec-encoding");
+            options.add("Universal (UTF-8)");
             options.add("-vvv");
 
             mLibVLC = new LibVLC(options);
@@ -359,7 +366,7 @@ public class VideoManager implements IVLCVout.Callback {
         lp.width  = (int) Math.ceil(dw * videoWidth / videoVisibleWidth);
         lp.height = (int) Math.ceil(dh * videoHeight / videoVisibleHeight);
         mSurfaceView.setLayoutParams(lp);
-        //subtitlesSurface.setLayoutParams(lp);
+        mSubtitlesSurface.setLayoutParams(lp);
 
         // set frame size (crop if necessary)
         if (mSurfaceFrame != null) {
@@ -372,7 +379,7 @@ public class VideoManager implements IVLCVout.Callback {
 
         TvApp.getApplication().getLogger().Debug("Surface sized "+ mVideoWidth+"x"+mVideoHeight);
         mSurfaceView.invalidate();
-//        subtitlesSurface.invalidate();
+        mSubtitlesSurface.invalidate();
     }
 
     public void setOnErrorListener(final PlaybackListener listener) {
@@ -447,6 +454,7 @@ public class VideoManager implements IVLCVout.Callback {
             if (mVlcPlayer != null) {
                 mVlcPlayer.getVLCVout().detachViews();
                 mVlcPlayer.getVLCVout().setVideoView(mSurfaceView);
+                mVlcPlayer.getVLCVout().setSubtitlesView(mSubtitlesSurface);
                 mVlcPlayer.getVLCVout().attachViews();
                 TvApp.getApplication().getLogger().Debug("Surface attached");
                 mSurfaceReady = true;

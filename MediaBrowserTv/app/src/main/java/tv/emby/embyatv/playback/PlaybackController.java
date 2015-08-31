@@ -17,6 +17,7 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.model.dlna.PlaybackException;
 import mediabrowser.model.dlna.StreamInfo;
+import mediabrowser.model.dlna.SubtitleDeliveryMethod;
 import mediabrowser.model.dlna.SubtitleProfile;
 import mediabrowser.model.dlna.SubtitleStreamInfo;
 import mediabrowser.model.dlna.VideoOptions;
@@ -24,6 +25,7 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.MediaSourceInfo;
 import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.entities.MediaStream;
+import mediabrowser.model.extensions.StringHelper;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.session.PlayMethod;
@@ -475,15 +477,15 @@ public class PlaybackController {
                     switch (streamInfo.getDeliveryMethod()) {
 
                         case Encode:
-                        case Embed:
                             // Gonna need to burn in so start a transcode with the sub index
                             stop();
                             Utils.showToast(mApplication, "Burned in subs can take a few minutes. Please be patient...");
                             play(mCurrentPosition, index);
                             break;
+                        case Embed:
                         case External:
-                            stream.setDeliveryMethod(streamInfo.getDeliveryMethod());
-                            stream.setDeliveryUrl(streamInfo.getUrl());
+                            stream.setDeliveryMethod(SubtitleDeliveryMethod.External);
+                            stream.setDeliveryUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/%5$s/Stream.%6$s", mApplication.getApiClient().getApiUrl(), mCurrentStreamInfo.getItemId(), mCurrentStreamInfo.getMediaSourceId(), StringHelper.ToStringCultureInvariant(stream.getIndex()), StringHelper.ToStringCultureInvariant(mCurrentPosition), streamInfo.getFormat()));
                             mSubHelper.downloadExternalSubtitleTrack(stream, new Response<File>() {
 
                                 @Override
@@ -496,7 +498,6 @@ public class PlaybackController {
                                             public void run() {
                                                 TvApp.getApplication().getLogger().Debug("Adding subtitle track to player %s", Uri.fromFile(newFile).getPath());
                                                 mVideoManager.addSubtitleTrack(Uri.fromFile(newFile).getPath());
-                                                TvApp.getApplication().getLogger().Debug("New subtitle track list: %s", TvApp.getApplication().getSerializer().SerializeToString(mVideoManager.getSubtitleTracks()));
                                             }
                                         });
                                     } else {
