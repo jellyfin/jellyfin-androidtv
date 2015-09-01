@@ -218,10 +218,11 @@ public class VideoManager implements IVLCVout.Callback {
     }
 
     public void setSubtitleTrack(int id) {
-        if (!nativeMode) {
-            mSubtitlesSurface.setVisibility(id >= 0 ? View.VISIBLE : View.GONE);
-            mVlcPlayer.setSpuTrack(id);
-        }
+        if (id >= 0) Utils.showToast(mActivity, "Native subs not supported...");
+//        if (!nativeMode) {
+//            mSubtitlesSurface.setVisibility(id >= 0 ? View.VISIBLE : View.GONE);
+//            mVlcPlayer.setSpuTrack(id);
+//        }
 
     }
 
@@ -407,12 +408,15 @@ public class VideoManager implements IVLCVout.Callback {
         mVlcHandler.setOnCompletionListener(listener);
     }
 
+    private MediaPlayer mNativeMediaPlayer;
+
     public void setOnPreparedListener(final PlaybackListener listener) {
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 listener.onEvent();
                 startProgressLoop();
+                mNativeMediaPlayer = mp;
             }
         });
 
