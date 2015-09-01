@@ -575,37 +575,42 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     private void updateLogo(BaseItemDto item, ImageView target) {
-        int height = Utils.convertDpToPixel(getActivity(), 60);
-        int width = Utils.convertDpToPixel(getActivity(), 180);
-        String imageUrl = Utils.getLogoImageUrl(item, mApplication.getApiClient());
-        if (imageUrl != null) Picasso.with(getActivity()).load(imageUrl).skipMemoryCache().resize(width, height).centerInside().into(target);
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            int height = Utils.convertDpToPixel(getActivity(), 60);
+            int width = Utils.convertDpToPixel(getActivity(), 180);
+            String imageUrl = Utils.getLogoImageUrl(item, mApplication.getApiClient());
+            if (imageUrl != null) Picasso.with(getActivity()).load(imageUrl).skipMemoryCache().resize(width, height).centerInside().into(target);
+        }
     }
 
     private void updateStudio(BaseItemDto item) {
-        int height = Utils.convertDpToPixel(mActivity, 30);
-        int width = Utils.convertDpToPixel(mActivity, 70);
-        if (item.getStudios() != null && item.getStudios().length > 0 && item.getStudios()[0].getHasPrimaryImage()) {
-            String studioImageUrl = Utils.getPrimaryImageUrl(item.getStudios()[0], mApplication.getApiClient(), height);
-            if (studioImageUrl != null) Picasso.with(mActivity).load(studioImageUrl).resize(width, height).centerInside().into(mStudioImage);
-        } else {
-            if (item.getSeriesStudio() != null) {
-                String studioImageUrl = null;
-                try {
-                    ImageOptions options = new ImageOptions();
-                    options.setMaxHeight(height);
-                    options.setImageType(ImageType.Primary);
-                    studioImageUrl = mApplication.getApiClient().GetStudioImageUrl(URLEncoder.encode(item.getSeriesStudio(), "utf-8"), options);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                if (studioImageUrl != null) Picasso.with(mActivity).load(studioImageUrl).resize(width, height).centerInside().into(mStudioImage);
-
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            int height = Utils.convertDpToPixel(mActivity, 30);
+            int width = Utils.convertDpToPixel(mActivity, 70);
+            if (item.getStudios() != null && item.getStudios().length > 0 && item.getStudios()[0].getHasPrimaryImage()) {
+                String studioImageUrl = Utils.getPrimaryImageUrl(item.getStudios()[0], mApplication.getApiClient(), height);
+                if (studioImageUrl != null)
+                    Picasso.with(mActivity).load(studioImageUrl).resize(width, height).centerInside().into(mStudioImage);
             } else {
-                mStudioImage.setImageResource(R.drawable.blank30x30);
+                if (item.getSeriesStudio() != null) {
+                    String studioImageUrl = null;
+                    try {
+                        ImageOptions options = new ImageOptions();
+                        options.setMaxHeight(height);
+                        options.setImageType(ImageType.Primary);
+                        studioImageUrl = mApplication.getApiClient().GetStudioImageUrl(URLEncoder.encode(item.getSeriesStudio(), "utf-8"), options);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    if (studioImageUrl != null)
+                        Picasso.with(mActivity).load(studioImageUrl).resize(width, height).centerInside().into(mStudioImage);
 
+                } else {
+                    mStudioImage.setImageResource(R.drawable.blank30x30);
+
+                }
             }
         }
-
     }
 
     public void updateEndTime(final long timeLeft) {

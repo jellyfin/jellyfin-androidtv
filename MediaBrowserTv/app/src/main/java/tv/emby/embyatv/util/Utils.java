@@ -736,7 +736,7 @@ public class Utils {
                             sb.append(item.getAirTime());
                         }
                         if (item.getStatus() != null) {
-                            addWithDivider(sb, item.getStatus().toString());
+                            addWithDivider(sb, item.getStatus());
                         }
 
                         break;
