@@ -485,7 +485,7 @@ public class PlaybackController {
                         case Embed:
                         case External:
                             stream.setDeliveryMethod(SubtitleDeliveryMethod.External);
-                            stream.setDeliveryUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/%5$s/Stream.%6$s", mApplication.getApiClient().getApiUrl(), mCurrentStreamInfo.getItemId(), mCurrentStreamInfo.getMediaSourceId(), StringHelper.ToStringCultureInvariant(stream.getIndex()), StringHelper.ToStringCultureInvariant(mCurrentPosition), streamInfo.getFormat()));
+                            stream.setDeliveryUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/Stream.%5$s", mApplication.getApiClient().getApiUrl(), mCurrentStreamInfo.getItemId(), mCurrentStreamInfo.getMediaSourceId(), StringHelper.ToStringCultureInvariant(stream.getIndex()), streamInfo.getFormat()));
                             mSubHelper.downloadExternalSubtitleTrack(stream, new Response<File>() {
 
                                 @Override

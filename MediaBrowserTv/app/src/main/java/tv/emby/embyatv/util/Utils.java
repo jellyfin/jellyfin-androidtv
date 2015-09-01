@@ -34,6 +34,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
+import java.util.UUID;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.ConnectionResult;
@@ -623,7 +625,7 @@ public class Utils {
 
             @Override
             public void onError(Exception exception) {
-                TvApp.getApplication().getLogger().ErrorException("Error retrieving item for playback",exception);
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving item for playback", exception);
                 Utils.showToast(activity, R.string.msg_video_playback_error);
             }
         });
@@ -1219,7 +1221,7 @@ public class Utils {
 
     public static String FirstToUpper(String value) {
         if (value == null || value.length() == 0) return "";
-        return value.substring(0,1).toUpperCase() + (value.length() > 1 ? value.substring(1) : "");
+        return value.substring(0, 1).toUpperCase() + (value.length() > 1 ? value.substring(1) : "");
     }
 
     public static String NullCoalesce(String obj, String def) {
@@ -1323,6 +1325,38 @@ public class Utils {
                             Utils.loginUser(user.getName(), pw, TvApp.getApplication().getLoginApiClient(), activity, directItemId);
                         }
                     }).show();
+        }
+    }
+
+    private static String convertToHex(byte[] data) {
+        StringBuilder buf = new StringBuilder();
+        for (byte aData : data) {
+            int halfbyte = (aData >>> 4) & 0x0F;
+            int two_halfs = 0;
+            do {
+                if ((0 <= halfbyte) && (halfbyte <= 9))
+                    buf.append((char) ('0' + halfbyte));
+                else
+                    buf.append((char) ('a' + (halfbyte - 10)));
+                halfbyte = aData & 0x0F;
+            } while (two_halfs++ < 1);
+        }
+        return buf.toString();
+    }
+
+    public static String MD5(String text)  {
+        try {
+            MessageDigest md;
+            md = MessageDigest.getInstance("MD5");
+            byte[] md5hash = new byte[32];
+            md.update(text.getBytes("iso-8859-1"), 0, text.length());
+            md5hash = md.digest();
+            return convertToHex(md5hash);
+
+        } catch (UnsupportedEncodingException e) {
+            return UUID.randomUUID().toString();
+        } catch (NoSuchAlgorithmException e) {
+            return UUID.randomUUID().toString();
         }
     }
 }
