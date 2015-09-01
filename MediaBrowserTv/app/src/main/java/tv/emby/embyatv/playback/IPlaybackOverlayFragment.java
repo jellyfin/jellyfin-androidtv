@@ -15,4 +15,7 @@ public interface IPlaybackOverlayFragment {
     void removeQueueItem(int pos);
     void nextItemThresholdHit(BaseItemDto nextItem);
     void finish();
+    void addManualSubtitles(SubtitleTrackInfo info);
+    void updateSubtitles(long posMs);
+    void showSubLoadingMsg(boolean show);
 }

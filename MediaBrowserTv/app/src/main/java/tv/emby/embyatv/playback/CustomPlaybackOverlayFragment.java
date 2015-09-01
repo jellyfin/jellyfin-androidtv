@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -100,6 +101,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     TextView mStartsIn;
     LinearLayout mNextUpInfoRow;
     ImageView mNextUpPoster;
+    TextView mSubtitleText;
 
     PlaybackController mPlaybackController;
     private List<BaseItemDto> mItemsToPlay = new ArrayList<>();
@@ -261,6 +263,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 finish();
             }
         });
+
+        //manual subtitles
+        mSubtitleText = (TextView) mActivity.findViewById(R.id.offLine_subtitleText);
+        mSubtitleText.setTextSize(22);
+        mSubtitleText.setShadowLayer(1.6f,1.5f,1.3f, Color.BLACK);
+        updateManualSubtitlePosition();
 
         //pre-load animations
         fadeOut = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_out);
@@ -883,4 +891,94 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         getActivity().finish();
     }
 
-}
+    private SubtitleTrackInfo mManualSubs;
+    private long lastReportedPosMs;
+
+    private void updateManualSubtitlePosition() {
+
+        /*
+		 * Adjust subtitles margin based on Screen dimes
+		 */
+        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mSubtitleText.getLayoutParams();
+        DisplayMetrics dm = new DisplayMetrics();
+        mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        params.topMargin = (dm.heightPixels / 2) - 140;
+        params.rightMargin = params.leftMargin = dm.widthPixels / 4;
+        mSubtitleText.setLayoutParams(params);
+    }
+
+    public void addManualSubtitles(SubtitleTrackInfo info) {
+        mManualSubs = info;
+        lastReportedPosMs = 0;
+
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mSubtitleText.setVisibility(View.INVISIBLE);
+                mSubtitleText.setText("");
+            }
+        });
+
+    }
+
+    public void showSubLoadingMsg(final boolean show) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (show) {
+                    mSubtitleText.setText(R.string.msg_subtitles_loading);
+                    mSubtitleText.setVisibility(View.VISIBLE);
+                } else {
+                    mSubtitleText.setVisibility(View.INVISIBLE);
+                    mSubtitleText.setText("");
+                }
+            }
+        });
+    }
+
+    public void updateSubtitles(long positionMs) {
+
+        if (lastReportedPosMs > 0){
+            if (Math.abs(lastReportedPosMs - positionMs) < 500) {
+                return;
+            }
+        }
+
+        if (mManualSubs == null) {
+            return;
+        }
+
+        long positionTicks = positionMs * 10000;
+
+        for (SubtitleTrackEvent caption : mManualSubs.getTrackEvents()) {
+            if (positionTicks >= caption.getStartPositionTicks() && positionTicks <= caption.getEndPositionTicks()) {
+                setTimedText(caption);
+                return;
+            }
+        }
+
+        setTimedText(null);
+    }
+
+    private void setTimedText(final SubtitleTrackEvent textObj) {
+
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (textObj == null) {
+                    mSubtitleText.setVisibility(View.INVISIBLE);
+                    return;
+                }
+
+                String text = textObj.getText();
+
+                if (text == null || text.length() == 0) {
+                    mSubtitleText.setVisibility(View.INVISIBLE);
+                    return;
+                }
+
+                mSubtitleText.setText(Html.fromHtml(text));
+                mSubtitleText.setVisibility(View.VISIBLE);
+            }
+        });
+    }}

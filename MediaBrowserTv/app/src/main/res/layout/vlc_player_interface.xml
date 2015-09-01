@@ -33,6 +33,17 @@
             android:id="@+id/videoView" android:layout_width="fill_parent"
             android:layout_height="match_parent" android:layout_gravity="center" android:visibility="gone" />
 
+            <TextView
+                android:id="@+id/offLine_subtitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:ellipsize="middle"
+                android:gravity="center"
+                android:padding="3dp"
+                android:textStyle="bold"
+                android:textColor="@color/yellow" />
+
     </FrameLayout>
 
 
