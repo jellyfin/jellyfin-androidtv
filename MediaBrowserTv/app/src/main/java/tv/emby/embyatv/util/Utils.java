@@ -1237,6 +1237,11 @@ public class Utils {
         return obj;
     }
 
+    public static Double NullCoalesce(Double obj, Double def) {
+        if (obj == null) return def;
+        return obj;
+    }
+
     public static boolean IsEmpty(String value) {
         return value == null || value.equals("");
     }
