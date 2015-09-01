@@ -82,7 +82,7 @@ public class CardPresenter extends Presenter {
 
                 case BaseItem:
                     BaseItemDto itemDto = mItem.getBaseItem();
-                    Double aspect = imageType.equals(ImageType.BANNER) ? 5.414 : imageType.equals(ImageType.THUMB) ? 1.779 : Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb());
+                    Double aspect = imageType.equals(ImageType.BANNER) ? 5.414 : imageType.equals(ImageType.THUMB) ? 1.779 : Utils.NullCoalesce(Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()), .7777777);
                     switch (itemDto.getType()) {
                         case "Audio":
                         case "MusicAlbum":
@@ -112,7 +112,6 @@ public class CardPresenter extends Presenter {
                             }
                             break;
                         case "CollectionFolder":
-                            if (aspect == null) aspect = 1.779;
                         case "Folder":
                         case "MovieGenreFolder":
                         case "MusicGenreFolder":
@@ -127,7 +126,6 @@ public class CardPresenter extends Presenter {
                             break;
 
                     }
-                    if (aspect == null) aspect = .7777777;
                     cardHeight = !m.isStaticHeight() ? aspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((aspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
@@ -137,8 +135,7 @@ public class CardPresenter extends Presenter {
                     break;
                 case LiveTvChannel:
                     ChannelInfoDto channel = mItem.getChannelInfo();
-                    Double tvAspect = imageType.equals(ImageType.BANNER) ? 5.414 : imageType.equals(ImageType.THUMB) ? 1.779 : channel.getPrimaryImageAspectRatio();
-                    if (tvAspect == null) tvAspect = .7777777;
+                    Double tvAspect = imageType.equals(ImageType.BANNER) ? 5.414 : imageType.equals(ImageType.THUMB) ? 1.779 : Utils.NullCoalesce(channel.getPrimaryImageAspectRatio(), .7777777);
                     cardHeight = !m.isStaticHeight() ? tvAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((tvAspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
@@ -159,8 +156,7 @@ public class CardPresenter extends Presenter {
 
                 case LiveTvRecording:
                     BaseItemDto recording = mItem.getRecordingInfo();
-                    Double recordingAspect = imageType.equals(ImageType.BANNER) ? 5.414 : (imageType.equals(ImageType.THUMB) ? 1.779 : recording.getPrimaryImageAspectRatio());
-                    if (recordingAspect == null) recordingAspect = .7777777;
+                    Double recordingAspect = imageType.equals(ImageType.BANNER) ? 5.414 : (imageType.equals(ImageType.THUMB) ? 1.779 : Utils.NullCoalesce(recording.getPrimaryImageAspectRatio(), .7777777));
                     cardHeight = !m.isStaticHeight() ? recordingAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((recordingAspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
