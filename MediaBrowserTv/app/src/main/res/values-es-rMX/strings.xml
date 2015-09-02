@@ -234,4 +234,25 @@
     <string name="lbl_enable_debug">Habilitar opciones de depuración</string>
     <string name="desc_info_panel">Mostrar un panel con detalles del ítem actual en las pantallas que no cuentan con información detallada.</string>
     <string name="desc_debug">Mostrar un botón de envío de bitácoras en la pantalla de inicio.</string>
+    <string name="lbl_showing">Mostrando</string>
+    <string name="lbl_all_items">Todos los Elementos</string>
+    <string name="lbl_sorted_by">ordenado por</string>
+    <string name="lbl_from">desde</string>
+    <string name="lbl_name">Nombre</string>
+    <string name="lbl_date_added">Fecha de Adición</string>
+    <string name="lbl_premier_date">Fecha de Estreno</string>
+    <string name="lbl_critic_rating">Calificación de la Crítica</string>
+    <string name="lbl_rating">Calificiación</string>
+    <string name="lbl_starting_with">"comenzando con los que su nombre comienza con"</string>
+    <string name="btn_done">Hecho</string>
+    <string name="lbl_display_preferences">Preferencias de Pantalla</string>
+    <string name="lbl_season">Temporada</string>
+    <string name="lbl__continuing">CONTINUANDO</string>
+    <string name="lbl_ended">FINALIZADO</string>
+    <string name="msg_confirm_pin">por favor confirme el pin en mediabrowser.tv/pin</string>
+    <string name="btn_start_now">Iniciar Ahora</string>
+    <string name="btn_stop">Detener</string>
+    <string name="btn_filter">Filtro</string>
+    <string name="btn_clear_all">Limpiar Todo</string>
+    <string name="lbl_filters">Filtros</string>
 </resources>
