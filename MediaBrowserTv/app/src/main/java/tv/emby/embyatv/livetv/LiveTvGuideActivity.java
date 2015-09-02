@@ -287,6 +287,16 @@ public class LiveTvGuideActivity extends BaseActivity {
 
         public void setContent(final BaseItemDto program) {
             mDTitle.setText(program.getName());
+            mDButtonRow.removeAllViews();
+            if (program.getId() == null) {
+                //empty item, just offer tune button
+                mFirstButton = createTuneButton();
+                mDInfoRow.removeAllViews();
+                mDTimeline.removeAllViews();
+                mDSummary.setText("");
+                return;
+            }
+
             mDSummary.setText(program.getOverview());
             if (mDSummary.getLineCount() < 2) {
                 mDSummary.setGravity(Gravity.CENTER);
@@ -303,7 +313,6 @@ public class LiveTvGuideActivity extends BaseActivity {
 
             //buttons
             mFirstButton = null;
-            mDButtonRow.removeAllViews();
             Date now = new Date();
             Date local = Utils.convertToLocalDate(program.getStartDate());
             if (Utils.convertToLocalDate(program.getEndDate()).getTime() > now.getTime()) {
@@ -576,7 +585,6 @@ public class LiveTvGuideActivity extends BaseActivity {
     }
     public void showProgramOptions() {
         if (mSelectedProgram == null) return;
-
         if (mDetailPopup == null) mDetailPopup = new DetailPopup(this);
         mDetailPopup.setContent(mSelectedProgram);
         mDetailPopup.show();
@@ -763,32 +771,30 @@ public class LiveTvGuideActivity extends BaseActivity {
                 if (isCancelled()) return null;
                 final ChannelInfoDto channel = (ChannelInfoDto) item;
                 List<BaseItemDto> programs = getProgramsForChannel(channel.getId());
-                if (programs.size() > 0) {
-                    final LinearLayout row = getProgramRow(programs);
-                    if (first) {
-                        first = false;
-                        firstRow = row;
-                    }
-
-                    // put focus on the last tuned channel
-                    if (channel.getId().equals(mFirstFocusChannelId)) {
-                        firstRow = row;
-                        mFirstFocusChannelId = null; // only do this first time in not while paging around
-                    }
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            GuideChannelHeader header = new GuideChannelHeader(mActivity, channel);
-                            mChannels.addView(header);
-                            header.loadImage();
-                            mProgramRows.addView(row);
-                        }
-                    });
-
-                    displayedChannels++;
-
+                final LinearLayout row = getProgramRow(programs, channel.getId());
+                if (first) {
+                    first = false;
+                    firstRow = row;
                 }
+
+                // put focus on the last tuned channel
+                if (channel.getId().equals(mFirstFocusChannelId)) {
+                    firstRow = row;
+                    mFirstFocusChannelId = null; // only do this first time in not while paging around
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        GuideChannelHeader header = new GuideChannelHeader(mActivity, channel);
+                        mChannels.addView(header);
+                        header.loadImage();
+                        mProgramRows.addView(row);
+                    }
+                });
+
+                displayedChannels++;
+
             }
             return null;
         }
@@ -818,16 +824,18 @@ public class LiveTvGuideActivity extends BaseActivity {
         }
     }
 
-    private LinearLayout getProgramRow(List<BaseItemDto> programs) {
+    private LinearLayout getProgramRow(List<BaseItemDto> programs, String channelId) {
 
         LinearLayout programRow = new LinearLayout(this);
 
         if (programs.size() == 0) {
-            TextView empty = new TextView(this);
-            empty.setText("  <No Program Data Available>");
-            empty.setGravity(Gravity.CENTER);
-            empty.setHeight(ROW_HEIGHT);
-            programRow.addView(empty);
+            BaseItemDto empty = new BaseItemDto();
+            empty.setName("  <No Program Data Available>");
+            empty.setChannelId(channelId);
+            ProgramGridCell cell = new ProgramGridCell(this, empty);
+            cell.setLayoutParams(new ViewGroup.LayoutParams(150 * PIXELS_PER_MINUTE, ROW_HEIGHT));
+            cell.setFocusable(true);
+            programRow.addView(cell);
             return programRow;
         }
 
@@ -925,27 +933,34 @@ public class LiveTvGuideActivity extends BaseActivity {
         public void run() {
             mTitle.setText(mSelectedProgram.getName());
             mSummary.setText(mSelectedProgram.getOverview());
-            mDisplayDate.setText(Utils.getFriendlyDate(Utils.convertToLocalDate(mSelectedProgram.getStartDate())));
-            String url = Utils.getPrimaryImageUrl(mSelectedProgram, TvApp.getApplication().getApiClient());
-            Picasso.with(mActivity).load(url).resize(IMAGE_SIZE, IMAGE_SIZE).centerInside().into(mImage);
+            if (mSelectedProgram.getId() != null) {
+                mDisplayDate.setText(Utils.getFriendlyDate(Utils.convertToLocalDate(mSelectedProgram.getStartDate())));
+                String url = Utils.getPrimaryImageUrl(mSelectedProgram, TvApp.getApplication().getApiClient());
+                Picasso.with(mActivity).load(url).resize(IMAGE_SIZE, IMAGE_SIZE).centerInside().into(mImage);
 
-            //info row
-            InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mInfoRow, false, false);
+                //info row
+                InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mInfoRow, false, false);
 
-            if (Utils.isTrue(mSelectedProgram.getIsNews())) {
-                mBackdrop.setImageResource(R.drawable.newsbanner);
+                if (Utils.isTrue(mSelectedProgram.getIsNews())) {
+                    mBackdrop.setImageResource(R.drawable.newsbanner);
 
-            } else if (Utils.isTrue(mSelectedProgram.getIsKids())) {
-                mBackdrop.setImageResource(R.drawable.kidsbanner);
+                } else if (Utils.isTrue(mSelectedProgram.getIsKids())) {
+                    mBackdrop.setImageResource(R.drawable.kidsbanner);
 
-            } else if (Utils.isTrue(mSelectedProgram.getIsSports())) {
-                mBackdrop.setImageResource(R.drawable.sportsbanner);
+                } else if (Utils.isTrue(mSelectedProgram.getIsSports())) {
+                    mBackdrop.setImageResource(R.drawable.sportsbanner);
 
-            } else if (Utils.isTrue(mSelectedProgram.getIsMovie())) {
-                mBackdrop.setImageResource(R.drawable.moviebanner);
+                } else if (Utils.isTrue(mSelectedProgram.getIsMovie())) {
+                    mBackdrop.setImageResource(R.drawable.moviebanner);
+
+                } else {
+                    mBackdrop.setImageResource(R.drawable.tvbanner);
+                }
 
             } else {
+                mInfoRow.removeAllViews();
                 mBackdrop.setImageResource(R.drawable.tvbanner);
+                mImage.setImageResource(R.drawable.blank10x10);
             }
         }
     };
