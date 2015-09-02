@@ -261,6 +261,7 @@
     <string name="msg_subtitles_loading">Subtitles loading...</string>
     <string name="msg_unable_load_subs">Unable to load subtitle</string>
     <string name="msg_burn_sub_warning">Burned in subs can take a few minutes. Please be patient...</string>
+    <string name="lbl_recording">Recording</string>
 
 
 </resources>
