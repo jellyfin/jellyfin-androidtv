@@ -2,6 +2,7 @@ package tv.emby.embyatv.browsing;
 
 import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
+import mediabrowser.model.livetv.RecordingGroupQuery;
 import mediabrowser.model.livetv.RecordingQuery;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.NextUpQuery;
@@ -28,6 +29,7 @@ public class BrowseRowDef {
     private LiveTvChannelQuery tvChannelQuery;
     private RecommendedProgramQuery programQuery;
     private RecordingQuery recordingQuery;
+    private RecordingGroupQuery recordingGroupQuery;
 
     private SeasonQuery seasonQuery;
     private QueryType queryType;
@@ -104,6 +106,12 @@ public class BrowseRowDef {
         headerText = header;
         this.recordingQuery = query;
         this.queryType = QueryType.LiveTvRecording;
+    }
+
+    public BrowseRowDef(String header, RecordingGroupQuery query) {
+        headerText = header;
+        this.recordingGroupQuery = query;
+        this.queryType = QueryType.LiveTvRecordingGroup;
     }
 
     public BrowseRowDef(String header, PersonsQuery query, int chunkSize) {
@@ -189,6 +197,10 @@ public class BrowseRowDef {
 
     public ChangeTriggerType[] getChangeTriggers() {
         return changeTriggers;
+    }
+
+    public RecordingGroupQuery getRecordingGroupQuery() {
+        return recordingGroupQuery;
     }
 }
 
