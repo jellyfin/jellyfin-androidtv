@@ -100,7 +100,7 @@
     <string name="lbl_cancel_series">Отменить сериал</string>
     <string name="lbl_record_series">Записать сериал</string>
     <string name="lbl_record">Записать</string>
-    <string name="lbl_details">Подробные сведения</string>
+    <string name="lbl_details">Подробности</string>
     <string name="msg_set_to_record">Передачу назначить к записи</string>
     <string name="msg_unable_to_create_recording">Невозможно создать запись</string>
     <string name="msg_recording_cancelled">Запись отменена</string>
@@ -232,6 +232,27 @@
     <string name="desc_allow_vlc_transcode">В VLC имеются проблемы с некоторыми перекодированными потоками. Выключите это, чтобы принудительно направить всё перекодированное на внутренний проигрыватель.</string>
     <string name="lbl_show_info_panel">Показывать инфо-панель</string>
     <string name="lbl_enable_debug">Включить отладочные параметры</string>
-    <string name="desc_info_panel">Показывается панель с подробными сведениями о текущем элементе на экранах без подробной информации</string>
+    <string name="desc_info_panel">Показывается панель с подробностями текущего элемента на экранах без подробных сведений</string>
     <string name="desc_debug">Показывать кнопку Отправить журналы на главном экране</string>
+    <string name="lbl_showing">Показ</string>
+    <string name="lbl_all_items">Все элементы</string>
+    <string name="lbl_sorted_by">отсортировано по</string>
+    <string name="lbl_from">с</string>
+    <string name="lbl_name">Имя (название)</string>
+    <string name="lbl_date_added">Дата добавления</string>
+    <string name="lbl_premier_date">Дата премьеры</string>
+    <string name="lbl_critic_rating">Оценка критиков</string>
+    <string name="lbl_rating">Возрастная категория</string>
+    <string name="lbl_starting_with">"начиная с тех, чьё имя начинается с"</string>
+    <string name="btn_done">Готово</string>
+    <string name="lbl_display_preferences">Настройки отображения</string>
+    <string name="lbl_season">Сезон</string>
+    <string name="lbl__continuing">ПРОДОЛЖАЕТСЯ</string>
+    <string name="lbl_ended">ЗАВЕРШИЛСЯ</string>
+    <string name="msg_confirm_pin">Подтвердите вышеуказанный PIN-код на mediabrowser.tv/pin</string>
+    <string name="btn_start_now">Запустить немедленно</string>
+    <string name="btn_stop">Остановить</string>
+    <string name="btn_filter">Фильтровать</string>
+    <string name="btn_clear_all">Очистить всё</string>
+    <string name="lbl_filters">Фильтры</string>
 </resources>
