@@ -237,6 +237,9 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             case LiveTvRecording:
                 mGridAdapter = new ItemRowAdapter(mRowDef.getRecordingQuery(), mCardPresenter, null);
                 break;
+            case LiveTvRecordingGroup:
+                mGridAdapter = new ItemRowAdapter(mRowDef.getRecordingGroupQuery(), mCardPresenter, null);
+                break;
             default:
                 mGridAdapter = new ItemRowAdapter(mRowDef.getQuery(), mRowDef.getChunkSize(), mRowDef.getPreferParentThumb(), mRowDef.isStaticHeight(), mCardPresenter, null);
                 break;

@@ -18,6 +18,7 @@ import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
+import mediabrowser.model.livetv.RecordingGroupQuery;
 import mediabrowser.model.livetv.RecordingQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
@@ -62,6 +63,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private LiveTvChannelQuery mTvChannelQuery;
     private RecommendedProgramQuery mTvProgramQuery;
     private RecordingQuery mTvRecordingQuery;
+    private RecordingGroupQuery mTvRecordingGroupQuery;
     private QueryType queryType;
 
     private String mSortBy;
@@ -202,6 +204,14 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mTvRecordingQuery = query;
         queryType = QueryType.LiveTvRecording;
+        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+    }
+
+    public ItemRowAdapter(RecordingGroupQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+        super(presenter);
+        mParent = parent;
+        mTvRecordingGroupQuery = query;
+        queryType = QueryType.LiveTvRecordingGroup;
         add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
@@ -454,6 +464,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
             case LiveTvRecording:
                 Retrieve(mTvRecordingQuery);
+                break;
+            case LiveTvRecordingGroup:
+                Retrieve(mTvRecordingGroupQuery);
                 break;
             case StaticPeople:
                 LoadPeople();
@@ -750,6 +763,41 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             }
         });
 
+    }
+
+    public void Retrieve(final RecordingGroupQuery query) {
+        final ItemRowAdapter adapter = this;
+        TvApp.getApplication().getApiClient().GetLiveTvRecordingGroupsAsync(query, new Response<ItemsResult>() {
+            @Override
+            public void onResponse(ItemsResult response) {
+                if (response.getTotalRecordCount() > 0) {
+                    int i = 0;
+                    if (adapter.size() > 0) adapter.clear();
+                    for (BaseItemDto item : response.getItems()) {
+                        item.setType("RecordingGroup"); // the API does not fill this in
+                        item.setIsFolder(true); // nor this
+                        adapter.add(new BaseRowItem(item));
+                        i++;
+                    }
+                    totalItems = response.getTotalRecordCount();
+                    setItemsLoaded(itemsLoaded + i);
+                    if (i == 0) removeRow();
+                } else {
+                    // no results - don't show us
+                    removeRow();
+                }
+
+                currentlyRetrieving = false;
+
+            }
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving live tv recording groups", exception);
+                removeRow();
+                Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                currentlyRetrieving = false;
+            }
+        });
     }
 
     public void Retrieve(final RecordingQuery query) {

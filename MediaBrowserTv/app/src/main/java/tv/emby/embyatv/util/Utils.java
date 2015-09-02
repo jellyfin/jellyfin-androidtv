@@ -364,7 +364,7 @@ public class Utils {
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched, boolean showProgress, boolean preferParentThumb, boolean preferSeriesPoster, int maxHeight) {
         ImageOptions options = new ImageOptions();
         String itemId = item.getId();
-        String imageTag = item.getImageTags().get(ImageType.Primary);
+        String imageTag = item.getImageTags() != null ? item.getImageTags().get(ImageType.Primary) : null;
         ImageType imageType = ImageType.Primary;
         if (preferSeriesPoster && item.getType().equals("Episode") && item.getSeasonId() != null) {
             imageTag = null;
