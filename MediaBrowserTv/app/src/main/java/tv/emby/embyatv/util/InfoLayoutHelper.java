@@ -53,6 +53,10 @@ public class InfoLayoutHelper {
                 break;
             case "Program":
                 addChannelName(activity, item, layout);
+                break;
+            case "RecordingGroup":
+                addRecordingCount(activity, item, layout);
+                break;
         }
         addDate(activity, item, layout);
         if (includeRuntime) addRuntime(activity, item, layout, includeEndTime);
@@ -94,6 +98,15 @@ public class InfoLayoutHelper {
             amt.setText(item.getSeasonCount().toString()+" "+ (item.getSeasonCount() == 1 ? activity.getResources().getString(R.string.lbl_season) : activity.getResources().getString(R.string.lbl_seasons)) +"  ");
             layout.addView(amt);
 
+        }
+    }
+
+    private static void addRecordingCount(Activity activity, BaseItemDto item, LinearLayout layout) {
+        if (item.getRecordingCount() != null && item.getRecordingCount() > 0) {
+            TextView amt = new TextView(activity);
+            amt.setTextSize(textSize);
+            amt.setText(item.getRecordingCount().toString() + " " + activity.getResources().getString(item.getRecordingCount() > 1 ? R.string.lbl_recordings : R.string.lbl_recording) + "  ");
+            layout.addView(amt);
         }
     }
 
