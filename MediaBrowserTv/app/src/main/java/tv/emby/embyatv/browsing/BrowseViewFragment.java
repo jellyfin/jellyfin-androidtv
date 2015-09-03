@@ -150,18 +150,6 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 rowLoader.loadRows(mRows);
                 break;
             case "livetv":
-                //Latest Recordings
-                RecordingQuery recordings = new RecordingQuery();
-                recordings.setFields(new ItemFields[] {ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
-                recordings.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                recordings.setLimit(20);
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest_recordings), recordings));
-
-                //All Recordings by group
-                RecordingGroupQuery recordingGroups = new RecordingGroupQuery();
-                recordingGroups.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                mRows.add(new BrowseRowDef("All Recordings", recordingGroups));
-
                 //On now
                 RecommendedProgramQuery onNow = new RecommendedProgramQuery();
                 onNow.setIsAiring(true);

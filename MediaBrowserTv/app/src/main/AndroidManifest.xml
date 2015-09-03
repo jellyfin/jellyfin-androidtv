@@ -67,6 +67,7 @@
         <activity android:name=".details.FullDetailsActivity" />
         <activity android:name=".livetv.LiveTvGuideActivity" />
         <activity android:name=".browsing.GenericGridActivity" />
+        <activity android:name=".browsing.BrowseRecordingsActivity" />
         <activity
             android:name=".startup.DpadPwActivity"
             android:label="@string/title_activity_dpad_pw" >

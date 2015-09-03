@@ -262,6 +262,9 @@
     <string name="msg_unable_load_subs">Unable to load subtitle</string>
     <string name="msg_burn_sub_warning">Burned in subs can take a few minutes. Please be patient...</string>
     <string name="lbl_recording">Recording</string>
+    <string name="lbl_no_recordings">No Recordings Available</string>
+    <string name="lbl_live_tv_guide">Live TV Guide</string>
+    <string name="lbl_recorded_tv">Recorded TV</string>
 
 
 </resources>

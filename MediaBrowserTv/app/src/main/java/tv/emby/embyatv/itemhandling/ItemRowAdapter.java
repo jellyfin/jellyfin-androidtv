@@ -78,6 +78,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private BaseItemPerson[] mPersons;
     private ServerInfo[] mServers;
     private List<ChapterItemInfo> mChapters;
+    private List<BaseItemDto> mItems;
     private ServerInfo mServer;
 
     private ArrayObjectAdapter mParent;
@@ -155,6 +156,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mChapters = chapters;
         queryType = QueryType.StaticChapters;
+    }
+
+    public ItemRowAdapter(List<BaseItemDto> items, Presenter presenter, ArrayObjectAdapter parent, boolean staticItems) { // last param is just for sig
+        super(presenter);
+        mParent = parent;
+        mItems = items;
+        queryType = QueryType.StaticItems;
     }
 
     public ItemRowAdapter(ServerInfo[] servers, Presenter presenter, ArrayObjectAdapter parent) {
@@ -342,7 +350,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             // because there is nowhere for focus to land
             ArrayObjectAdapter emptyRow = new ArrayObjectAdapter(new TextItemPresenter());
             emptyRow.add(TvApp.getApplication().getString(R.string.lbl_no_items));
-            mParent.add(new ListRow(new HeaderItem(TvApp.getApplication().getString(R.string.lbl_empty),null),emptyRow));
+            mParent.add(new ListRow(new HeaderItem(TvApp.getApplication().getString(R.string.lbl_empty), null), emptyRow));
         }
 
         mParent.remove(mRow);
@@ -359,7 +367,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         }
 
         if (pos >= itemsLoaded - 20) {
-            TvApp.getApplication().getLogger().Debug("Loading more items starting at "+itemsLoaded);
+            TvApp.getApplication().getLogger().Debug("Loading more items starting at " + itemsLoaded);
             RetrieveNext();
         }
 
@@ -477,6 +485,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             case StaticChapters:
                 LoadChapters();
                 break;
+            case StaticItems:
+                LoadStaticItems();
+                break;
             case Specials:
                 Retrieve(mSpecialsQuery);
                 break;
@@ -535,6 +546,19 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         if (mChapters != null) {
             for (ChapterItemInfo chapter : mChapters) {
                 add(new BaseRowItem(chapter));
+            }
+
+        } else {
+            removeRow();
+        }
+
+        currentlyRetrieving = false;
+    }
+
+    private void LoadStaticItems() {
+        if (mItems != null) {
+            for (BaseItemDto item : mItems) {
+                add(new BaseRowItem(item));
             }
 
         } else {
@@ -735,7 +759,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     if (adapter.size() > 0) adapter.clear();
                     if (query.getIsAiring()) {
                         // show guide option as first item
-                        adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_GUIDE_OPTION_ID, "Live TV Guide", R.drawable.guide)));
+                        adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_GUIDE_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_live_tv_guide), R.drawable.guide)));
+                        i++;
+                        // and recordings as second
+                        adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_RECORDINGS_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv), R.drawable.recgroup)));
                         i++;
                     }
                     for (BaseItemDto item : response.getItems()) {

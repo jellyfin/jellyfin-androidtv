@@ -560,7 +560,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         if (mBaseItem != null) {
             Long runtime = Utils.NullCoalesce(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
             if (runtime != null && runtime > 0) {
-                long endTimeTicks = mBaseItem.getEndDate() != null ? Utils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
+                long endTimeTicks = !"Recording".equals(mBaseItem.getType()) && mBaseItem.getEndDate() != null ? Utils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
                 String text = getString(R.string.lbl_runs) + runtime / 600000000 + getString(R.string.lbl_min) + "  " + getString(R.string.lbl_ends) + android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks));
                 if (mBaseItem.getCanResume()) {
                     endTimeTicks = System.currentTimeMillis() + ((runtime - mBaseItem.getUserData().getPlaybackPositionTicks()) / 10000);
@@ -652,6 +652,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                 @Override
                                 public void onResponse() {
                                     setRecTimer(null);
+                                    TvApp.getApplication().setLastDeletedItemId(mProgramInfo.getId());
                                     Utils.showToast(mActivity, R.string.msg_recording_cancelled);
                                 }
 
@@ -686,6 +687,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                                 @Override
                                                 public void onResponse() {
                                                     setRecSeriesTimer(null);
+                                                    TvApp.getApplication().setLastDeletedItemId(mProgramInfo.getId());
                                                     Utils.showToast(mActivity, R.string.msg_recording_cancelled);
                                                 }
 
@@ -739,31 +741,43 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             mDetailsOverviewRow.addAction(series);
         }
 
-//        if (mBaseItem.getCanDelete()) {
-//            final Activity activity = this;
-//            ImageButton del = new ImageButton(this, R.drawable.trash, buttonSize, "Delete", null, new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    new AlertDialog.Builder(activity)
-//                            .setTitle("Delete")
-//                            .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
-//                            .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int whichButton) {
-//                                    Utils.showToast(activity, "Would delete...");
-//                                }
-//                            })
-//                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    Utils.showToast(activity, "Item NOT Deleted");
-//                                }
-//                            })
-//                            .show();
-//
-//                }
-//            });
-//            mDetailsOverviewRow.addAction(del);
-//        }
+        if ("Recording".equals(mBaseItem.getType()) && TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvManagement() && mBaseItem.getCanDelete()) {
+            final Activity activity = this;
+            ImageButton del = new ImageButton(this, R.drawable.trash, buttonSize, "Delete", null, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialog.Builder(activity)
+                            .setTitle("Delete")
+                            .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
+                            .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    TvApp.getApplication().getApiClient().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
+                                        @Override
+                                        public void onResponse() {
+                                            Utils.showToast(activity, mBaseItem.getName() + " Deleted");
+                                            TvApp.getApplication().setLastDeletedItemId(mBaseItem.getId());
+                                            finish();
+                                        }
+
+                                        @Override
+                                        public void onError(Exception ex) {
+                                            Utils.showToast(activity, ex.getLocalizedMessage());
+                                        }
+                                    });
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Utils.showToast(activity, "Item NOT Deleted");
+                                }
+                            })
+                            .show();
+
+                }
+            });
+            mDetailsOverviewRow.addAction(del);
+        }
     }
 
     RecordPopup mRecordPopup;
