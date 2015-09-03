@@ -130,6 +130,7 @@ public class DisplayPrefsPopup {
 
         mPrefs = prefs;
         mChanged = false;
+        if (collectionType == null) collectionType = "";
         mImageSize.setSelection(Integer.parseInt(Utils.NullCoalesce(prefs.getCustomPrefs().get("PosterSize"), "0")));
         mImageType.setSelection(Integer.parseInt(Utils.NullCoalesce(prefs.getCustomPrefs().get("ImageType"), "0")));
         switch (collectionType) {
