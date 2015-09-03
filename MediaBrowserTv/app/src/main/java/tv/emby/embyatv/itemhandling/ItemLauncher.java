@@ -13,7 +13,9 @@ import mediabrowser.model.entities.DisplayPreferences;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.search.SearchHint;
+import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.browsing.BrowseRecordingsActivity;
 import tv.emby.embyatv.browsing.CollectionActivity;
 import tv.emby.embyatv.browsing.GenericFolderActivity;
 import tv.emby.embyatv.browsing.GenericGridActivity;
@@ -318,6 +320,15 @@ public class ItemLauncher {
                     case TvApp.LIVE_TV_GUIDE_OPTION_ID:
                         Intent guide = new Intent(activity, LiveTvGuideActivity.class);
                         activity.startActivity(guide);
+                        break;
+
+                    case TvApp.LIVE_TV_RECORDINGS_OPTION_ID:
+                        Intent recordings = new Intent(activity, BrowseRecordingsActivity.class);
+                        BaseItemDto folder = new BaseItemDto();
+                        folder.setId("");
+                        folder.setName(TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv));
+                        recordings.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(folder));
+                        activity.startActivity(recordings);
                         break;
 
 

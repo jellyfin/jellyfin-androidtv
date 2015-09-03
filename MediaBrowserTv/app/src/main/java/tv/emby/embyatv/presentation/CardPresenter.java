@@ -107,7 +107,7 @@ public class CardPresenter extends Presenter {
                                 case Remote:
                                     break;
                                 case Virtual:
-                                    mCardView.setBanner(Utils.convertToLocalDate(itemDto.getPremiereDate() != null ? itemDto.getPremiereDate() : new Date(System.currentTimeMillis()+1)).getTime() > System.currentTimeMillis() ? R.drawable.futurebanner : R.drawable.missingbanner);
+                                    mCardView.setBanner((itemDto.getPremiereDate() != null ? Utils.convertToLocalDate(itemDto.getPremiereDate()) : new Date(System.currentTimeMillis()+1)).getTime() > System.currentTimeMillis() ? R.drawable.futurebanner : R.drawable.missingbanner);
                                     break;
                                 case Offline:
                                     mCardView.setBanner(R.drawable.offlinebanner);
@@ -153,6 +153,18 @@ public class CardPresenter extends Presenter {
                     cardHeight = !m.isStaticHeight() ? programAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((programAspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
+                    switch (program.getLocationType()) {
+
+                        case FileSystem:
+                            break;
+                        case Remote:
+                            break;
+                        case Virtual:
+                            if (program.getStartDate() != null && Utils.convertToLocalDate(program.getStartDate()).getTime() > System.currentTimeMillis()) mCardView.setBanner(R.drawable.futurebanner);
+                            break;
+                        case Offline:
+                            break;
+                    }
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.tv);
                     break;

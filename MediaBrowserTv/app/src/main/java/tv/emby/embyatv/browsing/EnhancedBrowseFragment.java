@@ -99,7 +99,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     protected ArrayList<BrowseRowDef> mRows = new ArrayList<>();
     CardPresenter mCardPresenter;
     protected BaseRowItem mCurrentItem;
-    protected Row mCurrentRow;
+    protected ListRow mCurrentRow;
 
     @Nullable
     @Override
@@ -159,6 +159,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
     protected void setupViews() {
         mFolder = TvApp.getApplication().getSerializer().DeserializeFromString(getActivity().getIntent().getStringExtra("Folder"),BaseItemDto.class);
+        if (mFolder == null) return;
+
         if (mFolder.getCollectionType() != null) {
             switch (mFolder.getCollectionType()) {
                 case "movies":
@@ -434,7 +436,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             BaseRowItem rowItem = (BaseRowItem) item;
 
             mCurrentItem = rowItem;
-            mCurrentRow = row;
+            mCurrentRow = (ListRow) row;
             mHandler.postDelayed(updateContentTask, 500);
 
             //mApplication.getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));

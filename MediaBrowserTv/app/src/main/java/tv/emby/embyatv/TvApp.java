@@ -56,6 +56,7 @@ public class TvApp extends Application {
 
     public static String FEATURE_CODE = "androidtv";
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
+    public static final int LIVE_TV_RECORDINGS_OPTION_ID = 2000;
 
     private ILogger logger;
     private IConnectionManager connectionManager;
@@ -75,6 +76,7 @@ public class TvApp extends Application {
     private HashMap<String, DisplayPreferences> displayPrefsCache = new HashMap<>();
 
     private boolean isConnectLogin = false;
+    private String lastDeletedItemId = "";
 
     private boolean isPaid = false;
     private RegistrationInfo registrationInfo;
@@ -450,5 +452,13 @@ public class TvApp extends Application {
 
     public void setDirectItemId(String directItemId) {
         this.directItemId = directItemId;
+    }
+
+    public String getLastDeletedItemId() {
+        return lastDeletedItemId;
+    }
+
+    public void setLastDeletedItemId(String lastDeletedItemId) {
+        this.lastDeletedItemId = lastDeletedItemId;
     }
 }
