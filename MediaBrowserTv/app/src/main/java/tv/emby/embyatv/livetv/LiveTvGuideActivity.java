@@ -196,8 +196,26 @@ public class LiveTvGuideActivity extends BaseActivity {
 
     private void load() {
         fillTimeLine(getGuideHours());
-        loadAllChannels();
-        mLastLoad = System.currentTimeMillis();
+        TvManager.loadAllChannels(new Response<Integer>() {
+            @Override
+            public void onResponse(Integer ndx) {
+                if (ndx  >= PAGE_SIZE) {
+                    // last channel is not in first page so grab a set where it will be in the middle
+                    ndx = ndx - (PAGE_SIZE / 2);
+                } else {
+                    ndx = 0; // just start at beginning
+                }
+
+                mLastLoad = System.currentTimeMillis();
+
+                mAllChannels = TvManager.getAllChannels();
+                if (mAllChannels.size() > 0) {
+                    displayChannels(ndx, PAGE_SIZE);
+                } else {
+                    mSpinner.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void reload() {
@@ -210,7 +228,15 @@ public class LiveTvGuideActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        if (System.currentTimeMillis() > mLastLoad + 3600000) if (mAllChannels == null) load(); else reload();
+        if (System.currentTimeMillis() > mLastLoad + 3600000) {
+            if (mAllChannels == null) {
+                mAllChannels = TvManager.getAllChannels();
+                if (mAllChannels == null) load();
+                else reload();
+            } else reload();
+
+            mFirstFocusChannelId = TvManager.getLastLiveTvChannel();
+        }
     }
 
     @Override
@@ -607,54 +633,6 @@ public class LiveTvGuideActivity extends BaseActivity {
         return btn;
     }
 
-    private void loadAllChannels() {
-        //Get channels
-        LiveTvChannelQuery query = new LiveTvChannelQuery();
-        query.setUserId(TvApp.getApplication().getCurrentUser().getId());
-        query.setEnableFavoriteSorting(true);
-        TvApp.getApplication().getLogger().Debug("*** About to load channels");
-        TvApp.getApplication().getApiClient().GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
-            @Override
-            public void onResponse(ChannelInfoDtoResult response) {
-                TvApp.getApplication().getLogger().Debug("*** channel query response");
-                mAllChannels = new ArrayList<>();
-                if (response.getTotalRecordCount() > 0) {
-                    mAllChannels.addAll(Arrays.asList(response.getItems()));
-                    //fake more channels
-//                    mAllChannels.addAll(Arrays.asList(response.getItems()));
-//                    mAllChannels.addAll(Arrays.asList(response.getItems()));
-//                    mAllChannels.addAll(Arrays.asList(response.getItems()));
-//                    mAllChannels.addAll(Arrays.asList(response.getItems()));
-                    //
-
-                    mFirstFocusChannelId = TvApp.getApplication().getLastLiveTvChannel();
-                    int ndx = 0;
-                    if (mFirstFocusChannelId != null) {
-                        ndx = getAllChannelsIndex(mFirstFocusChannelId);
-                        if (ndx  >= PAGE_SIZE) {
-                            // last channel is not in first page so grab a set where it will be in the middle
-                            ndx = ndx - (PAGE_SIZE / 2);
-                        } else {
-                            ndx = 0; // just start at beginning
-                        }
-                    }
-
-                    displayChannels(ndx, PAGE_SIZE);
-
-                } else {
-                    mSpinner.setVisibility(View.GONE);
-                }
-            }
-        });
-
-    }
-
-    private int getAllChannelsIndex(String id) {
-        for (int i = 0; i < mAllChannels.size(); i++) {
-            if (mAllChannels.get(i).getId().equals(id)) return i;
-        }
-        return -1;
-    }
 
     public void displayChannels(int start, int max) {
         int end = start + max;

@@ -33,6 +33,7 @@ import mediabrowser.model.session.PlayMethod;
 import mediabrowser.model.session.PlaybackStartInfo;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.ui.ImageButton;
 import tv.emby.embyatv.util.Utils;
 
@@ -306,7 +307,7 @@ public class PlaybackController {
         if (isLiveTv) {
             liveTvChannelName = " ("+item.getName()+")";
             updateTvProgramInfo();
-            mApplication.setLastLiveTvChannel(item.getId());
+            TvManager.setLastLiveTvChannel(item.getId());
         }
 
         mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
