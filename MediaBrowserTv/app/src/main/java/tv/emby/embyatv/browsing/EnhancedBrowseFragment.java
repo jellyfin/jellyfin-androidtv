@@ -220,7 +220,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     public void loadRows(List<BrowseRowDef> rows) {
 
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
-        mCardPresenter = new CardPresenter(false);
+        mCardPresenter = new CardPresenter(false, 300);
 
         for (BrowseRowDef def : rows) {
             HeaderItem header = new HeaderItem(def.getHeaderText(), null);

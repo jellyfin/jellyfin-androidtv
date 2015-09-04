@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import mediabrowser.apiinteraction.EmptyResponse;
@@ -312,9 +313,13 @@ public class BaseRowItem {
             case LiveTvChannel:
                 return channelInfo.getNumber();
             case LiveTvProgram:
-                return baseItem.getChannelName() + " " + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
-                        (android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getStartDate())) + "-"
-                        + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getEndDate())));
+                Calendar start = Calendar.getInstance();
+                start.setTime(Utils.convertToLocalDate(baseItem.getStartDate()));
+                int day = start.get(Calendar.DAY_OF_YEAR);
+                return baseItem.getChannelName() + " - " + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
+                        ((day != Calendar.getInstance().get(Calendar.DAY_OF_YEAR) ? new SimpleDateFormat("d MMM").format(start.getTime()) + " " : "") +
+                        android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(start.getTime()) + "-"
+                                + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getEndDate())));
             case LiveTvRecording:
                 return (baseItem.getChannelName() != null ? baseItem.getChannelName() + " - " : "") + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
                         new SimpleDateFormat("d MMM").format(Utils.convertToLocalDate(baseItem.getStartDate())) + " " +
