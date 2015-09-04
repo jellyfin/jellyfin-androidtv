@@ -1,12 +1,14 @@
 package tv.emby.embyatv.base;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.search.SearchActivity;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -91,5 +93,12 @@ public class BaseActivity extends Activity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         return keyListener != null ? keyListener.onKeyUp(keyCode, event) || super.onKeyUp(keyCode, event) : super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    public boolean onSearchRequested() {
+        Intent searchIntent = new Intent(this, SearchActivity.class);
+        startActivity(searchIntent);
+        return true;
     }
 }
