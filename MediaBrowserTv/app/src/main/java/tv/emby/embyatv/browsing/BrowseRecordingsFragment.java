@@ -63,9 +63,22 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                         long next24 = System.currentTimeMillis() + ticks24;
                         //Get scheduled items for next 24 hours
                         for (TimerInfoDto timer : response.getItems()) {
-                            if (Utils.convertToLocalDate(timer.getProgramInfo().getStartDate()).getTime() <= next24) {
-                                timer.getProgramInfo().setLocationType(LocationType.Virtual);
-                                nearTimers.add(timer.getProgramInfo());
+                            if (Utils.convertToLocalDate(timer.getStartDate()).getTime() <= next24) {
+                                BaseItemDto programInfo = timer.getProgramInfo();
+                                if (programInfo == null) {
+                                    programInfo = new BaseItemDto();
+                                    programInfo.setId(timer.getId());
+                                    programInfo.setChannelName(timer.getChannelName());
+                                    programInfo.setName(Utils.NullCoalesce(timer.getName(),"Unknown"));
+                                    TvApp.getApplication().getLogger().Warn("No program info for timer %s.  Creating one...", programInfo.getName());
+                                    programInfo.setType("Program");
+                                    programInfo.setTimerId(timer.getId());
+                                    programInfo.setSeriesTimerId(timer.getSeriesTimerId());
+                                    programInfo.setStartDate(timer.getStartDate());
+                                    programInfo.setEndDate(timer.getEndDate());
+                                }
+                                programInfo.setLocationType(LocationType.Virtual);
+                                nearTimers.add(programInfo);
                             }
                         }
 
