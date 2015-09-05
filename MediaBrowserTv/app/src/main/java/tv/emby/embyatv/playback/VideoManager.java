@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -123,6 +125,8 @@ public class VideoManager implements IVLCVout.Callback {
         if (nativeMode) {
             mVideoView.start();
             mVideoView.setKeepScreenOn(true);
+            normalWidth = mVideoView.getLayoutParams().width;
+            normalHeight = mVideoView.getLayoutParams().height;
         } else {
             if (!mSurfaceReady) {
                 TvApp.getApplication().getLogger().Error("Attempt to play before surface ready");
@@ -316,6 +320,43 @@ public class VideoManager implements IVLCVout.Callback {
 
     }
 
+    int normalWidth;
+    int normalHeight;
+
+    public void contractVideo(int height) {
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) (nativeMode ? mVideoView.getLayoutParams() : mSurfaceView.getLayoutParams());
+        if (lp.width != normalWidth) return;
+
+        Activity activity = TvApp.getApplication().getCurrentActivity();
+        int sw = activity.getWindow().getDecorView().getWidth();
+        int sh = activity.getWindow().getDecorView().getHeight();
+        float ar = (float)sw / sh;
+        lp.height = height;
+        lp.width = (int) Math.ceil(height * ar);
+        lp.rightMargin = ((lp.width - normalWidth) / 2) - 88;
+        lp.bottomMargin = ((lp.height - normalHeight) / 2) - 50;
+
+        if (nativeMode) {
+            mVideoView.setLayoutParams(lp);
+            mVideoView.invalidate();
+        } else mSurfaceView.setLayoutParams(lp);
+
+    }
+
+    public void setVideoFullSize() {
+        if (normalHeight == 0) return;
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) (nativeMode ? mVideoView.getLayoutParams() : mSurfaceView.getLayoutParams());
+        lp.height = normalHeight;
+        lp.width = normalWidth;
+        if (nativeMode) {
+            lp.rightMargin = 0;
+            lp.bottomMargin = 0;
+            mVideoView.setLayoutParams(lp);
+            mVideoView.invalidate();
+        } else mSurfaceView.setLayoutParams(lp);
+
+    }
+
     private void changeSurfaceLayout(int videoWidth, int videoHeight, int videoVisibleWidth, int videoVisibleHeight, int sarNum, int sarDen) {
         int sw;
         int sh;
@@ -367,6 +408,8 @@ public class VideoManager implements IVLCVout.Callback {
         ViewGroup.LayoutParams lp = mSurfaceView.getLayoutParams();
         lp.width  = (int) Math.ceil(dw * videoWidth / videoVisibleWidth);
         lp.height = (int) Math.ceil(dh * videoHeight / videoVisibleHeight);
+        normalWidth = lp.width;
+        normalHeight = lp.height;
         mSurfaceView.setLayoutParams(lp);
         //mSubtitlesSurface.setLayoutParams(lp);
 
@@ -459,7 +502,7 @@ public class VideoManager implements IVLCVout.Callback {
             if (mVlcPlayer != null) {
                 mVlcPlayer.getVLCVout().detachViews();
                 mVlcPlayer.getVLCVout().setVideoView(mSurfaceView);
-                mVlcPlayer.getVLCVout().setSubtitlesView(mSubtitlesSurface);
+                //mVlcPlayer.getVLCVout().setSubtitlesView(mSubtitlesSurface);
                 mVlcPlayer.getVLCVout().attachViews();
                 TvApp.getApplication().getLogger().Debug("Surface attached");
                 mSurfaceReady = true;
