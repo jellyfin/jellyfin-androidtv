@@ -65,6 +65,7 @@ public class VideoManager implements IVLCVout.Callback {
         mSurfaceHolder.addCallback(mSurfaceCallback);
         mSurfaceFrame = (FrameLayout) view.findViewById(R.id.player_surface_frame);
         mSubtitlesSurface = (SurfaceView) view.findViewById(R.id.subtitles_surface);
+        mSubtitlesSurface.setVisibility(View.GONE); // this isn't working in VLC so hide for now
         mVideoView = (EMVideoView) view.findViewById(R.id.videoView);
 
         createPlayer(buffer);
@@ -267,8 +268,8 @@ public class VideoManager implements IVLCVout.Callback {
             options.add("--no-audio-time-stretch");
             options.add("--androidwindow-chroma");
             options.add("RV32");
-            options.add("--subsdec-encoding");
-            options.add("Universal (UTF-8)");
+//            options.add("--subsdec-encoding");
+//            options.add("Universal (UTF-8)");
             options.add("-vvv");
 
             mLibVLC = new LibVLC(options);
@@ -367,7 +368,7 @@ public class VideoManager implements IVLCVout.Callback {
         lp.width  = (int) Math.ceil(dw * videoWidth / videoVisibleWidth);
         lp.height = (int) Math.ceil(dh * videoHeight / videoVisibleHeight);
         mSurfaceView.setLayoutParams(lp);
-        mSubtitlesSurface.setLayoutParams(lp);
+        //mSubtitlesSurface.setLayoutParams(lp);
 
         // set frame size (crop if necessary)
         if (mSurfaceFrame != null) {
@@ -380,7 +381,7 @@ public class VideoManager implements IVLCVout.Callback {
 
         TvApp.getApplication().getLogger().Debug("Surface sized "+ mVideoWidth+"x"+mVideoHeight);
         mSurfaceView.invalidate();
-        mSubtitlesSurface.invalidate();
+        //mSubtitlesSurface.invalidate();
     }
 
     public void setOnErrorListener(final PlaybackListener listener) {
