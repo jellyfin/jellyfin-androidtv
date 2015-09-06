@@ -18,4 +18,11 @@ public class SearchActivity extends Activity {
             setContentView(R.layout.activity_search_no_speech);
         }
     }
+
+    @Override
+    public boolean onSearchRequested() {
+        //re-start us
+        this.recreate();
+        return true;
+    }
 }
