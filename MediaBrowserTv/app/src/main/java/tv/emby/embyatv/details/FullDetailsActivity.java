@@ -791,7 +791,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         TvApp.getApplication().getApiClient().GetDefaultLiveTvTimerInfo(mProgramInfo.getId(), new Response<SeriesTimerInfoDto>() {
             @Override
             public void onResponse(SeriesTimerInfoDto response) {
-                if (recordSeries || mProgramInfo.getIsSports()){
+                if (recordSeries || Utils.isTrue(mProgramInfo.getIsSports())){
                     mRecordPopup.setContent(mProgramInfo, response, mActivity, recordSeries);
                     mRecordPopup.show();
                 } else {
