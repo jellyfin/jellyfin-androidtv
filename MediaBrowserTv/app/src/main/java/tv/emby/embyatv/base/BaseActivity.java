@@ -29,6 +29,7 @@ public class BaseActivity extends Activity {
         super.onCreate(savedInstanceState);
         timeoutInterval = Long.parseLong(PreferenceManager.getDefaultSharedPreferences(app).getString("pref_auto_logoff_timeout","3600000"));
         startAutoLogoffLoop();
+        TvApp.getApplication().setCurrentActivity(this);
 
     }
 
