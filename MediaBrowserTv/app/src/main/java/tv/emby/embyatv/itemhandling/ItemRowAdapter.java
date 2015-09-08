@@ -964,7 +964,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     public void RetrieveSimilarSeries(final SimilarItemsQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetSimilarSeriesAsync(query, new Response<ItemsResult>() {
+        TvApp.getApplication().getApiClient().GetSimilarItems(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
@@ -997,7 +997,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     public void RetrieveSimilarMovies(final SimilarItemsQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetSimilarMoviesAsync(query, new Response<ItemsResult>() {
+        TvApp.getApplication().getApiClient().GetSimilarItems(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
