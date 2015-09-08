@@ -31,7 +31,7 @@ public class GuideChannelHeader extends RelativeLayout {
 
     private ImageView mChannelImage;
     private ChannelInfoDto mChannel;
-    private LiveTvGuideActivity mActivity;
+    private Context mActivity;
 
     public GuideChannelHeader(Context context, ChannelInfoDto channel) {
         super(context);
@@ -39,7 +39,7 @@ public class GuideChannelHeader extends RelativeLayout {
     }
 
     private void initComponent(Context context, ChannelInfoDto channel) {
-        mActivity = (LiveTvGuideActivity) context;
+        mActivity = context;
         mChannel = channel;
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.channel_header, this, false);

@@ -59,6 +59,7 @@ public class VideoManager implements IVLCVout.Callback {
 
     private boolean nativeMode = false;
     private boolean mSurfaceReady = false;
+    public boolean isContracted = false;
 
     public VideoManager(PlaybackOverlayActivity activity, View view, int buffer) {
         mActivity = activity;
@@ -325,7 +326,7 @@ public class VideoManager implements IVLCVout.Callback {
 
     public void contractVideo(int height) {
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) (nativeMode ? mVideoView.getLayoutParams() : mSurfaceView.getLayoutParams());
-        if (lp.width != normalWidth) return;
+        if (isContracted) return;
 
         Activity activity = TvApp.getApplication().getCurrentActivity();
         int sw = activity.getWindow().getDecorView().getWidth();
@@ -333,13 +334,15 @@ public class VideoManager implements IVLCVout.Callback {
         float ar = (float)sw / sh;
         lp.height = height;
         lp.width = (int) Math.ceil(height * ar);
-        lp.rightMargin = ((lp.width - normalWidth) / 2) - 88;
+        lp.rightMargin = ((lp.width - normalWidth) / 2) - 110;
         lp.bottomMargin = ((lp.height - normalHeight) / 2) - 50;
 
         if (nativeMode) {
             mVideoView.setLayoutParams(lp);
             mVideoView.invalidate();
         } else mSurfaceView.setLayoutParams(lp);
+
+        isContracted = true;
 
     }
 
@@ -354,6 +357,8 @@ public class VideoManager implements IVLCVout.Callback {
             mVideoView.setLayoutParams(lp);
             mVideoView.invalidate();
         } else mSurfaceView.setLayoutParams(lp);
+
+        isContracted = false;
 
     }
 

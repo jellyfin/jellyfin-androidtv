@@ -1,5 +1,6 @@
 package tv.emby.embyatv.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -10,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import tv.emby.embyatv.R;
+import tv.emby.embyatv.livetv.ILiveTvGuide;
 import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 
 /**
@@ -29,7 +31,7 @@ public class GuidePagingButton extends RelativeLayout {
         super(context, attrs);
     }
 
-    public GuidePagingButton(final LiveTvGuideActivity activity, int start, String label) {
+    public GuidePagingButton(final Activity activity, final ILiveTvGuide guide, int start, String label) {
         super(activity);
 
         us = this;
@@ -47,7 +49,7 @@ public class GuidePagingButton extends RelativeLayout {
         txtLabel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.displayChannels(startRow, LiveTvGuideActivity.PAGE_SIZE);
+                guide.displayChannels(startRow, LiveTvGuideActivity.PAGE_SIZE);
             }
         });
 
