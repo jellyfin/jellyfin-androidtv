@@ -704,11 +704,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     setItemsLoaded(itemsLoaded + i);
                     if (i == 0) {
                         removeRow();
-                    } else {
+                    } else if (query.getSeriesId() == null) {
                         // look for new episode 1's not in next up already
-                        StdItemQuery newQuery = new StdItemQuery();
+                        StdItemQuery newQuery = new StdItemQuery(new ItemFields[] {ItemFields.DateCreated, ItemFields.PrimaryImageAspectRatio});
                         newQuery.setIncludeItemTypes(new String[] {"Episode"});
                         newQuery.setRecursive(true);
+                        newQuery.setIsVirtualUnaired(false);
+                        newQuery.setIsMissing(false);
                         newQuery.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
                         newQuery.setSortBy(new String[] {ItemSortBy.DateCreated});
                         newQuery.setSortOrder(SortOrder.Descending);
@@ -719,11 +721,16 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                                 if (response.getTotalRecordCount() > 0) {
                                     Calendar compare = Calendar.getInstance();
                                     compare.add(Calendar.MONTH, -1);
+                                    int numAdded = 0;
                                     for (BaseItemDto item : response.getItems()) {
-                                        if (item.getIndexNumber() == 1 && (item.getDateCreated() == null || item.getDateCreated().after(compare.getTime())) && !includedIds.contains(item.getId())){
-                                            // new unwatched episode 1 not in next up already insert it
-                                            TvApp.getApplication().getLogger().Debug("Adding new episode 1 to next up "+item.getName());
+                                        if (item.getIndexNumber() == 1 && (item.getDateCreated() == null || item.getDateCreated().after(compare.getTime()))
+                                                && (item.getUserData() == null || item.getUserData().getLikes() == null || item.getUserData().getLikes())
+                                                && !includedIds.contains(item.getId())){
+                                            // new unwatched episode 1 not in next up already and not disliked insert it
+                                            TvApp.getApplication().getLogger().Debug("Adding new episode 1 to next up "+item.getName()+" Added: "+item.getDateCreated());
                                             adapter.add(0, new BaseRowItem(0, item, preferParentThumb, false));
+                                            numAdded++;
+                                            if (numAdded > 2) break; // only add a max of three
                                         }
                                     }
                                 }
