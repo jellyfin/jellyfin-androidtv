@@ -214,7 +214,7 @@ public class RecommendationManager {
                                 similar.setId(response.getId());
                                 similar.setLimit(1);
                                 similar.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                                TvApp.getApplication().getApiClient().GetSimilarMoviesAsync(similar, new Response<ItemsResult>() {
+                                TvApp.getApplication().getApiClient().GetSimilarItems(similar, new Response<ItemsResult>() {
                                     @Override
                                     public void onResponse(ItemsResult similarResponse) {
                                         if (similarResponse.getTotalRecordCount() > 0) {
