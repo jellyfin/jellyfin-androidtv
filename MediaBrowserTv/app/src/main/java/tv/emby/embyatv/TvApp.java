@@ -427,10 +427,10 @@ public class TvApp extends Application {
         getApiClient().detectBitrate(new Response<Long>() {
             @Override
             public void onResponse(Long response) {
-                long myTime = System.currentTimeMillis() - start;
-                double secs = myTime / 1000;
-                logger.Info("My secs: "+ secs + " My start: "+start+" My millis: "+myTime);
-                logger.Info("My rate: "+ (40000000 / myTime) * 1000);
+//                long myTime = System.currentTimeMillis() - start;
+//                double secs = myTime / 1000;
+//                logger.Info("My secs: "+ secs + " My start: "+start+" My millis: "+myTime);
+//                logger.Info("My rate: "+ (40000000 / myTime) * 1000);
                 autoBitrate = response.intValue();
                 logger.Info("Auto bitrate set to: "+autoBitrate);
             }
