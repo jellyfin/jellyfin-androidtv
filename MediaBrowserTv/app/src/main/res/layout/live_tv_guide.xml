@@ -77,17 +77,14 @@
         android:textSize="14sp"
         android:enabled="false" />
 
-    <TextClock
+    <tv.emby.embyatv.ui.ClockUserView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/clock"
-        android:layout_alignParentTop="false"
+        android:layout_alignTop="@+id/title"
+        android:layout_marginRight="40sp"
         android:layout_alignParentEnd="true"
-        android:format12Hour="h:mm"
-        android:format24Hour="k:mm"
-        android:textSize="40sp"
-        android:layout_marginRight="20sp"
-        android:layout_alignBaseline="@+id/title" />
+        android:alpha=".9" />
 
     <ImageView
         android:layout_width="match_parent"
