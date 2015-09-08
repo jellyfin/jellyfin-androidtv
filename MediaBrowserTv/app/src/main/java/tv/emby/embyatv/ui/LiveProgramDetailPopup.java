@@ -1,5 +1,6 @@
 package tv.emby.embyatv.ui;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,6 +23,7 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.livetv.SeriesTimerInfoDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.util.InfoLayoutHelper;
@@ -37,7 +39,7 @@ public class LiveProgramDetailPopup {
     PopupWindow mPopup;
     BaseItemDto mProgram;
     ProgramGridCell mSelectedProgramView;
-    LiveTvGuideActivity mActivity;
+    BaseActivity mActivity;
     TextView mDTitle;
     TextView mDSummary;
     TextView mDRecordInfo;
@@ -47,12 +49,15 @@ public class LiveProgramDetailPopup {
     LinearLayout mDSimilarRow;
     Button mFirstButton;
 
+    EmptyResponse mTuneAction;
+
     View mAnchor;
     int mPosLeft;
     int mPosTop;
 
-    public LiveProgramDetailPopup(LiveTvGuideActivity activity, int width) {
+    public LiveProgramDetailPopup(BaseActivity activity, int width, EmptyResponse tuneAction) {
         mActivity = activity;
+        mTuneAction = tuneAction;
         LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.program_detail_popup, null);
         Typeface roboto = TvApp.getApplication().getDefaultFont();
@@ -239,7 +244,7 @@ public class LiveProgramDetailPopup {
         tune.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.retrieveAndPlay(mProgram.getChannelId(), false, mActivity);
+                if (mTuneAction != null) mTuneAction.onResponse();
                 mPopup.dismiss();
             }
         });
@@ -266,9 +271,8 @@ public class LiveProgramDetailPopup {
     }
 
     public void dismiss() {
-        if (mPopup != null && mPopup.isShowing()) {
-            mPopup.dismiss();
-        }
+        if (mRecordPopup != null && mRecordPopup.isShowing()) mRecordPopup.dismiss();
+        if (mPopup != null && mPopup.isShowing()) mPopup.dismiss();
     }
 
     private RecordPopup mRecordPopup;
