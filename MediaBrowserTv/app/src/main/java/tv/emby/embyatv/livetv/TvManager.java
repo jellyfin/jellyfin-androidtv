@@ -1,8 +1,15 @@
 package tv.emby.embyatv.livetv;
 
+import android.app.Activity;
+import android.graphics.Typeface;
+import android.text.format.DateUtils;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +24,7 @@ import mediabrowser.model.livetv.ProgramQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.results.ChannelInfoDtoResult;
+import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.util.Utils;
 
@@ -159,6 +167,25 @@ public class TvManager {
         return !mProgramsDict.containsKey(channelId) ? new ArrayList<BaseItemDto>() : mProgramsDict.get(channelId);
 
     }
+
+    public static void setTimelineRow(Activity activity, LinearLayout timelineRow, BaseItemDto program) {
+        timelineRow.removeAllViews();
+        Date local = Utils.convertToLocalDate(program.getStartDate());
+        TextView on = new TextView(activity);
+        on.setText(activity.getResources().getString(R.string.lbl_on));
+        timelineRow.addView(on);
+        TextView channel = new TextView(activity);
+        channel.setText(program.getChannelName());
+        channel.setTypeface(null, Typeface.BOLD);
+        channel.setTextColor(activity.getResources().getColor(android.R.color.holo_blue_light));
+        timelineRow.addView(channel);
+        TextView datetime = new TextView(activity);
+        datetime.setText(Utils.getFriendlyDate(local)+ " @ "+android.text.format.DateFormat.getTimeFormat(activity).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
+        timelineRow.addView(datetime);
+
+    }
+
+
 
 
 }
