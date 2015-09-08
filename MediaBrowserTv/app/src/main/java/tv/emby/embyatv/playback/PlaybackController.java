@@ -282,9 +282,9 @@ public class PlaybackController {
 
     public int getMaxBitrate() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mApplication);
-        String maxRate = sharedPref.getString("pref_max_bitrate", "15");
+        String maxRate = sharedPref.getString("pref_max_bitrate", "0");
         Float factor = Float.parseFloat(maxRate) * 10;
-        return (factor.intValue() * 100000);
+        return factor == 0 ? TvApp.getApplication().getAutoBitrate() : (factor.intValue() * 100000);
     }
 
     public int getBufferAmount() {
