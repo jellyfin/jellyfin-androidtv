@@ -129,8 +129,6 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         mProgramRows = (LinearLayout) findViewById(R.id.programRows);
         mSpinner = findViewById(R.id.spinner);
         mSpinner.setVisibility(View.VISIBLE);
-        TextClock clock = (TextClock) findViewById(R.id.clock);
-        clock.setTypeface(roboto);
 
         findViewById(R.id.filterButton).setOnClickListener(new View.OnClickListener() {
             @Override
