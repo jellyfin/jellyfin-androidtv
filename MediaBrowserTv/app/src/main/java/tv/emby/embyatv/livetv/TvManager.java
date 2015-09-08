@@ -18,6 +18,7 @@ import java.util.TimeZone;
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.ProgramQuery;
@@ -105,6 +106,9 @@ public class TvManager {
             query.setUserId(TvApp.getApplication().getCurrentUser().getId());
             query.setChannelIds(Arrays.copyOfRange(channelIds, startNdx, endNdx));
             query.setFields(new ItemFields[]{ItemFields.Overview});
+            query.setImageTypeLimit(1);
+            query.setEnableImageTypes(new ImageType[] {ImageType.Primary});
+            query.setSortBy(new String[] {"StartDate"});
             Calendar end = (Calendar) endTime.clone();
             end.setTimeZone(TimeZone.getTimeZone("Z"));
             query.setMaxStartDate(end.getTime());
