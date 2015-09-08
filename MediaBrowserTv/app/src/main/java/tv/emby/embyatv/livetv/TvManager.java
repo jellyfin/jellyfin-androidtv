@@ -66,6 +66,7 @@ public class TvManager {
         LiveTvChannelQuery query = new LiveTvChannelQuery();
         query.setUserId(TvApp.getApplication().getCurrentUser().getId());
         query.setEnableFavoriteSorting(true);
+        query.setAddCurrentProgram(false);
         TvApp.getApplication().getLogger().Debug("*** About to load channels");
         TvApp.getApplication().getApiClient().GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
             @Override
@@ -82,13 +83,6 @@ public class TvManager {
                         if (channel.getId().equals(lastTvChannelId)) ndx = i;
                         channelIds[i++] = channel.getId();
                     }
-                    //fake more channels
-//                    mAllChannels.addAll(Arrays.asList(response.getItems()));
-//                    mAllChannels.addAll(Arrays.asList(response.getItems()));
-//                    mAllChannels.addAll(Arrays.asList(response.getItems()));
-//                    mAllChannels.addAll(Arrays.asList(response.getItems()));
-                    //
-
                 }
 
                 outerResponse.onResponse(ndx);
