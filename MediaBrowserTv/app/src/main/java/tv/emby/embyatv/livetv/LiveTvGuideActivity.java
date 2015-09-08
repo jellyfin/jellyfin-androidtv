@@ -350,7 +350,13 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     }
     public void showProgramOptions() {
         if (mSelectedProgram == null) return;
-        if (mDetailPopup == null) mDetailPopup = new LiveProgramDetailPopup(this, mSummary.getWidth());
+        if (mDetailPopup == null) mDetailPopup = new LiveProgramDetailPopup(this, mSummary.getWidth(), new EmptyResponse() {
+            @Override
+            public void onResponse() {
+                Utils.retrieveAndPlay(mSelectedProgram.getChannelId(), false, mActivity);
+            }
+        });
+
         mDetailPopup.setContent(mSelectedProgram, mSelectedProgramView);
         mDetailPopup.show(mImage, mTitle.getLeft(), mTitle.getTop() - 10);
 

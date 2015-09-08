@@ -79,6 +79,7 @@ import tv.emby.embyatv.ui.GuideChannelHeader;
 import tv.emby.embyatv.ui.GuidePagingButton;
 import tv.emby.embyatv.ui.HorizontalScrollViewListener;
 import tv.emby.embyatv.ui.ImageButton;
+import tv.emby.embyatv.ui.LiveProgramDetailPopup;
 import tv.emby.embyatv.ui.ObservableHorizontalScrollView;
 import tv.emby.embyatv.ui.ObservableScrollView;
 import tv.emby.embyatv.ui.ProgramGridCell;
@@ -595,11 +596,16 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     public long getCurrentLocalEndDate() { return mCurrentLocalGuideEnd; }
 
     private void switchChannel(BaseItemDto program) {
-        mPlaybackController.stop();
-        mCurrentProgress.setVisibility(View.VISIBLE);
-        hideGuide();
-        Utils.retrieveAndPlay(program.getChannelId(), false, mActivity);
-        finish();
+        if (mPlaybackController.getCurrentlyPlayingItem().getId().equals(program.getChannelId())) {
+            //same channel, just dismiss overlay
+            hideGuide();
+        } else {
+            mPlaybackController.stop();
+            mCurrentProgress.setVisibility(View.VISIBLE);
+            hideGuide();
+            Utils.retrieveAndPlay(program.getChannelId(), false, mActivity);
+            finish();
+        }
     }
 
     private void startFadeTimer() {
@@ -979,13 +985,20 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     public void dismissProgramOptions() {
-        /*if (mDetailPopup != null) mDetailPopup.dismiss();*/
+        if (mDetailPopup != null) mDetailPopup.dismiss();
     }
+
+    private LiveProgramDetailPopup mDetailPopup;
     public void showProgramOptions() {
         if (mSelectedProgram == null) return;
-//        if (mDetailPopup == null) mDetailPopup = new DetailPopup(this);
-//        mDetailPopup.setContent(mSelectedProgram);
-//        mDetailPopup.show();
+        if (mDetailPopup == null) mDetailPopup = new LiveProgramDetailPopup(mActivity, Utils.convertDpToPixel(mActivity, 600), new EmptyResponse() {
+            @Override
+            public void onResponse() {
+                switchChannel(mSelectedProgram);
+            }
+        });
+        mDetailPopup.setContent(mSelectedProgram, mSelectedProgramView);
+        mDetailPopup.show(mGuideTitle, mTitle.getLeft(), mGuideTitle.getTop() - 10);
 
     }
 
