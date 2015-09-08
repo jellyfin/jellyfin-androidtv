@@ -104,10 +104,11 @@ public class TvManager {
         if (needLoadTime == null || start.after(needLoadTime) || !mProgramsDict.containsKey(channelIds[startNdx]) || !mProgramsDict.containsKey(channelIds[endNdx])) {
             ProgramQuery query = new ProgramQuery();
             query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+            endNdx = endNdx > channelIds.length ? channelIds.length : endNdx+1; //array copy range final ndx is exclusive
             query.setChannelIds(Arrays.copyOfRange(channelIds, startNdx, endNdx));
             query.setFields(new ItemFields[]{ItemFields.Overview});
             query.setImageTypeLimit(1);
-            query.setEnableImageTypes(new ImageType[] {ImageType.Primary});
+            query.setEnableImageTypes(new ImageType[]{ImageType.Primary});
             query.setSortBy(new String[] {"StartDate"});
             Calendar end = (Calendar) endTime.clone();
             end.setTimeZone(TimeZone.getTimeZone("Z"));
