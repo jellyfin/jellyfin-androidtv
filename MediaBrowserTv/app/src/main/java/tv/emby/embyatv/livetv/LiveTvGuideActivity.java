@@ -232,7 +232,6 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         super.onPause();
 
         if (mDisplayProgramsTask != null) mDisplayProgramsTask.cancel(true);
-        if (mDisplayChannelTask != null) mDisplayChannelTask.cancel(true);
         if (mDetailPopup != null) mDetailPopup.dismiss();
     }
 
@@ -372,8 +371,6 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         int end = start + max;
         if (end > mAllChannels.size()) end = mAllChannels.size();
 
-        if (mDisplayChannelTask != null) mDisplayChannelTask.cancel(true);
-        mDisplayChannelTask  = new DisplayChannelTask();
         if (mFilters.any()) {
             // if we are filtered, then we need to get programs for all channels
             mCurrentDisplayChannelStartNdx = 0;
@@ -383,43 +380,22 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             mCurrentDisplayChannelEndNdx = end - 1;
 
         }
-        mDisplayChannelTask.execute(mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx);
-    }
+        TvApp.getApplication().getLogger().Debug("*** Display channels pre-execute");
+        mSpinner.setVisibility(View.VISIBLE);
 
-    private DisplayChannelTask mDisplayChannelTask;
-    class DisplayChannelTask extends AsyncTask<Integer, Integer, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            TvApp.getApplication().getLogger().Debug("*** Display channels pre-execute");
-            mSpinner.setVisibility(View.VISIBLE);
-
-            mChannels.removeAllViews();
-            mProgramRows.removeAllViews();
-            mChannelStatus.setText("");
-            mFilterStatus.setText("");
-        }
-
-        @Override
-        protected Void doInBackground(Integer... params) {
-
-            final int start = params[0];
-            final int end = params[1];
-
-            TvManager.getProgramsAsync(start, end, mCurrentGuideEnd, new EmptyResponse() {
-                @Override
-                public void onResponse() {
-                    if (isCancelled()) return;
-                    TvApp.getApplication().getLogger().Debug("*** Programs response");
-                    if (mDisplayProgramsTask != null) mDisplayProgramsTask.cancel(true);
-                    mDisplayProgramsTask = new DisplayProgramsTask();
-                    mDisplayProgramsTask.execute(start, end);
-                }
-            });
-
-            return null;
-        }
-
+        mChannels.removeAllViews();
+        mProgramRows.removeAllViews();
+        mChannelStatus.setText("");
+        mFilterStatus.setText("");
+        TvManager.getProgramsAsync(mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideEnd, new EmptyResponse() {
+            @Override
+            public void onResponse() {
+                TvApp.getApplication().getLogger().Debug("*** Programs response");
+                if (mDisplayProgramsTask != null) mDisplayProgramsTask.cancel(true);
+                mDisplayProgramsTask = new DisplayProgramsTask();
+                mDisplayProgramsTask.execute(mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx);
+            }
+        });
     }
 
     DisplayProgramsTask mDisplayProgramsTask;

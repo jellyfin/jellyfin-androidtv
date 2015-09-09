@@ -749,45 +749,22 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         mCurrentDisplayChannelStartNdx = start;
         mCurrentDisplayChannelEndNdx = end - 1;
-        if (mDisplayChannelTask != null) mDisplayChannelTask.cancel(true);
-        mDisplayChannelTask  = new DisplayChannelTask();
-        mDisplayChannelTask.execute(mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx);
-    }
+        TvApp.getApplication().getLogger().Debug("*** Display channels pre-execute");
+        mGuideSpinner.setVisibility(View.VISIBLE);
 
-    private DisplayChannelTask mDisplayChannelTask;
-    class DisplayChannelTask extends AsyncTask<Integer, Integer, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            TvApp.getApplication().getLogger().Debug("*** Display channels pre-execute");
-            mGuideSpinner.setVisibility(View.VISIBLE);
-
-            mChannels.removeAllViews();
-            mProgramRows.removeAllViews();
-            mChannelStatus.setText("");
-            mFilterStatus.setText("");
-        }
-
-        @Override
-        protected Void doInBackground(Integer... params) {
-
-            final int start = params[0];
-            final int end = params[1];
-
-            TvManager.getProgramsAsync(start, end, mCurrentGuideEnd, new EmptyResponse() {
-                @Override
-                public void onResponse() {
-                    if (isCancelled()) return;
-                    TvApp.getApplication().getLogger().Debug("*** Programs response");
-                        if (mDisplayProgramsTask != null) mDisplayProgramsTask.cancel(true);
-                        mDisplayProgramsTask = new DisplayProgramsTask();
-                        mDisplayProgramsTask.execute(start, end);
-                }
-            });
-
-            return null;
-        }
-
+        mChannels.removeAllViews();
+        mProgramRows.removeAllViews();
+        mChannelStatus.setText("");
+        mFilterStatus.setText("");
+        TvManager.getProgramsAsync(mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideEnd, new EmptyResponse() {
+            @Override
+            public void onResponse() {
+                TvApp.getApplication().getLogger().Debug("*** Programs response");
+                if (mDisplayProgramsTask != null) mDisplayProgramsTask.cancel(true);
+                mDisplayProgramsTask = new DisplayProgramsTask();
+                mDisplayProgramsTask.execute(mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx);
+            }
+        });
     }
 
     DisplayProgramsTask mDisplayProgramsTask;
@@ -815,8 +792,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
                 mProgramRows.addView(new GuidePagingButton(mActivity, mFragment, pageUpStart, getString(R.string.lbl_load_channels)+mAllChannels.get(pageUpStart).getNumber() + " - "+mAllChannels.get(mCurrentDisplayChannelStartNdx-1).getNumber()));
             }
-
-
         }
 
         @Override
