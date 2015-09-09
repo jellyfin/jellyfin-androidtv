@@ -723,7 +723,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                                     compare.add(Calendar.MONTH, -1);
                                     int numAdded = 0;
                                     for (BaseItemDto item : response.getItems()) {
-                                        if (item.getIndexNumber() == 1 && (item.getDateCreated() == null || item.getDateCreated().after(compare.getTime()))
+                                        if (item.getIndexNumber() != null && item.getIndexNumber() == 1 && (item.getDateCreated() == null || item.getDateCreated().after(compare.getTime()))
                                                 && (item.getUserData() == null || item.getUserData().getLikes() == null || item.getUserData().getLikes())
                                                 && !includedIds.contains(item.getId())){
                                             // new unwatched episode 1 not in next up already and not disliked insert it
