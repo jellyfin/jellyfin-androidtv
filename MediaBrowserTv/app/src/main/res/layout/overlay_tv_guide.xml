@@ -196,7 +196,6 @@
         android:layout_width="wrap_content"
         android:layout_height="40sp"
         android:id="@+id/guideCurrentTitle"
-        android:layout_above="@+id/timelineHScroller"
         android:layout_toLeftOf="@+id/imageView15"
         android:textSize="20sp"
         android:gravity="center_vertical"
