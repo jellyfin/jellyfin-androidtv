@@ -698,7 +698,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(i++, item, preferParentThumb, false));
-                        includedIds.add(item.getId());
+                        includedIds.add(item.getSeriesId());
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
@@ -725,7 +725,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                                     for (BaseItemDto item : response.getItems()) {
                                         if (item.getIndexNumber() != null && item.getIndexNumber() == 1 && (item.getDateCreated() == null || item.getDateCreated().after(compare.getTime()))
                                                 && (item.getUserData() == null || item.getUserData().getLikes() == null || item.getUserData().getLikes())
-                                                && !includedIds.contains(item.getId())){
+                                                && !includedIds.contains(item.getSeriesId())){
                                             // new unwatched episode 1 not in next up already and not disliked insert it
                                             TvApp.getApplication().getLogger().Debug("Adding new episode 1 to next up "+item.getName()+" Added: "+item.getDateCreated());
                                             adapter.add(0, new BaseRowItem(0, item, preferParentThumb, false));
