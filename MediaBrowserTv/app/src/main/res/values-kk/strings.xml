@@ -255,4 +255,11 @@
     <string name="btn_filter">Сүзу</string>
     <string name="btn_clear_all">Барлығын тазалау</string>
     <string name="lbl_filters">Сүзгілер:</string>
+    <string name="msg_subtitles_loading">Субтитрлер жүктелуде...</string>
+    <string name="msg_unable_load_subs">Субтитрлерді жүктеу мүмкін емес</string>
+    <string name="msg_burn_sub_warning">Субтитрлерді ойып беру бірнеше минөт алуы мүмкін. Кішкене шыдаңыз.</string>
+    <string name="lbl_recording">Жазба</string>
+    <string name="lbl_no_recordings">Жазбалар қол жетімді емес</string>
+    <string name="lbl_live_tv_guide">Эфирлік телегид</string>
+    <string name="lbl_recorded_tv">Жазылған ТД</string>
 </resources>
