@@ -436,67 +436,61 @@ public class PlaybackController {
             return;
         }
 
-        if (!stream.getIsExternal() && !MediaStream.IsTextFormat(stream.getCodec())) {
-            // Gonna need to burn in so start a transcode with the sub index
-            stop();
-            Utils.showToast(mApplication,  mApplication.getResources().getString(R.string.msg_burn_sub_warning));
-            burningSubs = true;
-            play(mCurrentPosition, index);
+
+        // handle according to delivery method
+        SubtitleStreamInfo streamInfo = getSubtitleStreamInfo(index);
+        if (streamInfo == null) {
+            Utils.showToast(mApplication, mApplication.getResources().getString(R.string.msg_unable_load_subs));
         } else {
+            switch (streamInfo.getDeliveryMethod()) {
 
-            // handle according to delivery method
-            SubtitleStreamInfo streamInfo = getSubtitleStreamInfo(index);
-            if (streamInfo == null) {
-                Utils.showToast(mApplication, mApplication.getResources().getString(R.string.msg_unable_load_subs));
-            } else {
-                switch (streamInfo.getDeliveryMethod()) {
-
-                    case Encode:
-                        // Gonna need to burn in so start a transcode with the sub index
-                        stop();
-                        Utils.showToast(mApplication, mApplication.getResources().getString(R.string.msg_burn_sub_warning));
-                        play(mCurrentPosition, index);
+                case Encode:
+                    // Gonna need to burn in so start a transcode with the sub index
+                    stop();
+                    Utils.showToast(mApplication, mApplication.getResources().getString(R.string.msg_burn_sub_warning));
+                    play(mCurrentPosition, index);
+                    break;
+                case Embed:
+                    if (!mVideoManager.isNativeMode() && !stream.getIsExternal()) {
+                        mVideoManager.setSubtitleTrack(index, getCurrentlyPlayingItem().getMediaStreams());
                         break;
-                    case Embed:
-                        if (!mVideoManager.isNativeMode()) {
-                            mVideoManager.setSubtitleTrack(index, getCurrentlyPlayingItem().getMediaStreams());
-                            break;
-                        }
-                        // not using vlc - fall through to external handling
-                    case External:
-                        mFragment.addManualSubtitles(null);
-                        mFragment.showSubLoadingMsg(true);
-                        stream.setDeliveryMethod(SubtitleDeliveryMethod.External);
-                        stream.setDeliveryUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/0/Stream.JSON", mApplication.getApiClient().getApiUrl(), mCurrentStreamInfo.getItemId(), mCurrentStreamInfo.getMediaSourceId(), StringHelper.ToStringCultureInvariant(stream.getIndex())));
-                        mApplication.getApiClient().getSubtitles(stream.getDeliveryUrl(), new Response<SubtitleTrackInfo>() {
+                    }
+                    // not using vlc or external sub mis-identified - fall through to external handling
+                case External:
+                    mFragment.addManualSubtitles(null);
+                    mFragment.showSubLoadingMsg(true);
+                    stream.setDeliveryMethod(SubtitleDeliveryMethod.External);
+                    stream.setDeliveryUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/0/Stream.JSON", mApplication.getApiClient().getApiUrl(), mCurrentStreamInfo.getItemId(), mCurrentStreamInfo.getMediaSourceId(), StringHelper.ToStringCultureInvariant(stream.getIndex())));
+                    mApplication.getApiClient().getSubtitles(stream.getDeliveryUrl(), new Response<SubtitleTrackInfo>() {
 
-                            @Override
-                            public void onResponse(final SubtitleTrackInfo info) {
+                        @Override
+                        public void onResponse(final SubtitleTrackInfo info) {
 
-                                if (info != null) {
-                                    TvApp.getApplication().getLogger().Debug("Adding json subtitle track to player");
-                                    mFragment.addManualSubtitles(info);
-                                } else {
-                                    TvApp.getApplication().getLogger().Error("Empty subtitle result");
-                                    Utils.showToast(mApplication, mApplication.getResources().getString(R.string.msg_unable_load_subs));
-                                    mFragment.showSubLoadingMsg(false);
-                                }
-                            }
-
-                            @Override
-                            public void onError(Exception ex) {
-                                TvApp.getApplication().getLogger().ErrorException("Error downloading subtitles", ex);
+                            if (info != null) {
+                                TvApp.getApplication().getLogger().Debug("Adding json subtitle track to player");
+                                mFragment.addManualSubtitles(info);
+                            } else {
+                                TvApp.getApplication().getLogger().Error("Empty subtitle result");
                                 Utils.showToast(mApplication, mApplication.getResources().getString(R.string.msg_unable_load_subs));
                                 mFragment.showSubLoadingMsg(false);
                             }
+                        }
 
-                        });
-                        break;
-                    case Hls:
-                        break;
-                }
+                        @Override
+                        public void onError(Exception ex) {
+                            TvApp.getApplication().getLogger().ErrorException("Error downloading subtitles", ex);
+                            Utils.showToast(mApplication, mApplication.getResources().getString(R.string.msg_unable_load_subs));
+                            mFragment.showSubLoadingMsg(false);
+                        }
+
+                    });
+                    break;
+                case Hls:
+                    break;
             }
+
         }
+
     }
 
 
