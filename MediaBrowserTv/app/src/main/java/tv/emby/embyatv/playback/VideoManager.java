@@ -22,7 +22,13 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import mediabrowser.model.dlna.SubtitleDeliveryMethod;
+import mediabrowser.model.dlna.SubtitleStreamInfo;
+import mediabrowser.model.entities.MediaStream;
+import mediabrowser.model.entities.MediaStreamType;
+import mediabrowser.model.mediainfo.SubtitleTrackInfo;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.livetv.TvManager;
@@ -223,13 +229,38 @@ public class VideoManager implements IVLCVout.Callback {
 
     }
 
-    public void setSubtitleTrack(int id) {
-        if (id >= 0) Utils.showToast(mActivity, "Native subs not supported...");
-//        if (!nativeMode) {
-//            mSubtitlesSurface.setVisibility(id >= 0 ? View.VISIBLE : View.GONE);
-//            mVlcPlayer.setSpuTrack(id);
-//        }
+    public void disableSubs() {
+        if (!nativeMode && mVlcPlayer != null) mVlcPlayer.setSpuTrack(-1);
+    }
 
+    public boolean setSubtitleTrack(int index, List<MediaStream> allStreams) {
+        if (!nativeMode) {
+            //find the relative order of our sub index within the sub tracks in VLC
+            int vlcIndex = 1; // start at 1 to account for "disabled"
+            for (MediaStream stream : allStreams) {
+                if (stream.getType() == MediaStreamType.Subtitle && !stream.getIsExternal()) {
+                    if (stream.getIndex() == index) {
+                        break;
+                    }
+                    vlcIndex++;
+                }
+            }
+
+            org.videolan.libvlc.MediaPlayer.TrackDescription vlcSub;
+            try {
+                vlcSub = getSubtitleTracks()[vlcIndex];
+
+            } catch (IndexOutOfBoundsException e) {
+                TvApp.getApplication().getLogger().Error("Could not locate subtitle with index %s in vlc track info", index);
+                return false;
+            }
+
+            TvApp.getApplication().getLogger().Info("Setting Vlc sub to "+vlcSub.name);
+            return mVlcPlayer.setSpuTrack(vlcSub.id);
+
+        }
+
+        return false;
     }
 
     public boolean addSubtitleTrack(String path) {
