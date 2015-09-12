@@ -42,7 +42,7 @@
                 android:gravity="center"
                 android:padding="3dp"
                 android:textStyle="bold"
-                android:textColor="@color/yellow" />
+                android:textColor="@color/white" />
 
     </FrameLayout>
 
