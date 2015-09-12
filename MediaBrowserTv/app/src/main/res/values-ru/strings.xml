@@ -255,4 +255,11 @@
     <string name="btn_filter">Фильтровать</string>
     <string name="btn_clear_all">Очистить всё</string>
     <string name="lbl_filters">Фильтры</string>
+    <string name="msg_subtitles_loading">Субтитры загружаются...</string>
+    <string name="msg_unable_load_subs">Невозможно загрузить субтитры</string>
+    <string name="msg_burn_sub_warning">Прошивка субтитров может занять несколько минут. Потерпите немного...</string>
+    <string name="lbl_recording">Запись</string>
+    <string name="lbl_no_recordings">Нет доступных записей</string>
+    <string name="lbl_live_tv_guide">Эфирный телегид</string>
+    <string name="lbl_recorded_tv">Записанное ТВ</string>
 </resources>
