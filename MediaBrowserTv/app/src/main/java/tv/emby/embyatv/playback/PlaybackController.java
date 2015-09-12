@@ -57,6 +57,8 @@ public class PlaybackController {
     private Boolean spinnerOff = false;
 
     private VideoOptions mCurrentOptions;
+    private int mDefaultSubIndex = -1;
+    private int mDefaultAudioIndex = -1;
 
     private PlayMethod mPlaybackMethod = PlayMethod.Transcode;
 
@@ -245,7 +247,7 @@ public class PlaybackController {
                 AndroidProfile profile = useDirectProfile ? new AndroidProfile("vlc") : new AndroidProfile(Utils.getProfileOptions());
                 mCurrentOptions.setProfile(profile);
 
-                playInternal(getCurrentlyPlayingItem(), position, mVideoManager, mCurrentOptions);
+                playInternal(getCurrentlyPlayingItem(), position, mCurrentOptions);
                 mPlaybackState = PlaybackState.BUFFERING;
                 if (mFragment != null) {
                     mFragment.setPlayPauseActionState(ImageButton.STATE_SECONDARY);
@@ -300,7 +302,7 @@ public class PlaybackController {
         return (factor.intValue() * 100);
     }
 
-    private void playInternal(final BaseItemDto item, final long position, final VideoManager videoManager, final VideoOptions options) {
+    private void playInternal(final BaseItemDto item, final long position, final VideoOptions options) {
         final ApiClient apiClient = mApplication.getApiClient();
         mApplication.setCurrentPlayingItem(item);
         if (isLiveTv) {
@@ -330,24 +332,18 @@ public class PlaybackController {
                 mFragment.updateDisplay();
                 String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken());
 
-                videoManager.setVideoPath(path);
-                videoManager.start();
+                mVideoManager.setVideoPath(path);
+                mVideoManager.start();
                 mStartPosition = position;
+
+                mDefaultAudioIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultAudioStreamIndex() != null ? response.getMediaSource().getDefaultAudioStreamIndex() : -1;
+                mDefaultSubIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : -1;
 
                 PlaybackStartInfo startInfo = new PlaybackStartInfo();
                 startInfo.setItemId(item.getId());
                 startInfo.setPositionTicks(mbPos);
                 TvApp.getApplication().getPlaybackManager().reportPlaybackStart(startInfo, false, apiClient, new EmptyResponse());
                 TvApp.getApplication().getLogger().Info("Playback of " + item.getName() + " started.");
-
-                if (options.getSubtitleStreamIndex() == null && response.getSubtitleStreamIndex() != null) {
-                    //Default subs requested select them
-                    mApplication.getLogger().Info("Selecting default sub stream: " + response.getSubtitleStreamIndex());
-                    switchSubtitleStream(response.getSubtitleStreamIndex());
-                }
-
-                if (mCurrentOptions.getAudioStreamIndex() == null)
-                    mCurrentOptions.setAudioStreamIndex(response.getMediaSource().getDefaultAudioStreamIndex());
 
             }
 
@@ -409,7 +405,7 @@ public class PlaybackController {
             mApplication.getLogger().Debug("Setting audio index to: " + index);
             mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
             stop();
-            playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mVideoManager, mCurrentOptions);
+            playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mCurrentOptions);
             mPlaybackState = PlaybackState.BUFFERING;
         } else {
             mVideoManager.setAudioTrack(index);
@@ -429,6 +425,7 @@ public class PlaybackController {
                 burningSubs = false;
             } else {
                 mFragment.addManualSubtitles(null);
+                mVideoManager.disableSubs();
             }
             return;
         }
@@ -461,6 +458,11 @@ public class PlaybackController {
                         play(mCurrentPosition, index);
                         break;
                     case Embed:
+                        if (!mVideoManager.isNativeMode()) {
+                            mVideoManager.setSubtitleTrack(index, getCurrentlyPlayingItem().getMediaStreams());
+                            break;
+                        }
+                        // not using vlc - fall through to external handling
                     case External:
                         mFragment.addManualSubtitles(null);
                         mFragment.showSubLoadingMsg(true);
@@ -668,7 +670,8 @@ public class PlaybackController {
                     mHandler.postDelayed(this, 25);
                 } else {
                     // do the seek
-                    if (mVideoManager.seekTo(position) < 0) Utils.showToast(TvApp.getApplication(), "Unable to seek");
+                    if (mVideoManager.seekTo(position) < 0)
+                        Utils.showToast(TvApp.getApplication(), "Unable to seek");
 
                     mPlaybackState = PlaybackState.PLAYING;
                     updateProgress = true;
@@ -725,6 +728,21 @@ public class PlaybackController {
                     startReportLoop();
                 }
                 TvApp.getApplication().getLogger().Info("Play method: ", mCurrentStreamInfo.getPlayMethod());
+
+                if (mDefaultSubIndex >= 0) {
+                    //Default subs requested select them
+                    mApplication.getLogger().Info("Selecting default sub stream: " + mDefaultSubIndex);
+                    switchSubtitleStream(mDefaultSubIndex);
+                } else {
+                    TvApp.getApplication().getLogger().Info("Turning off subs by default");
+                    mVideoManager.disableSubs();
+                }
+
+                if (mDefaultAudioIndex >= 0) {
+                    TvApp.getApplication().getLogger().Info("Selecting default audio stream: "+mDefaultAudioIndex);
+                    switchAudioStream(mDefaultAudioIndex);
+                }
+
 
             }
         });
