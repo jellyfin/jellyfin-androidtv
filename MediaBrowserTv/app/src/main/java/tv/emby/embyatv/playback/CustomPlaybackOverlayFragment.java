@@ -1275,7 +1275,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     @Override
     public void setPlayPauseActionState(final int state) {
-        getActivity().runOnUiThread(new Runnable() {
+        if (getActivity() != null && !getActivity().isFinishing()) getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 mPlayPauseBtn.setState(state);
