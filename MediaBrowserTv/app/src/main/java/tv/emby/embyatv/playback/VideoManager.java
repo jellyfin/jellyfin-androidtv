@@ -494,9 +494,9 @@ public class VideoManager implements IVLCVout.Callback {
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                mNativeMediaPlayer = mp;
                 listener.onEvent();
                 startProgressLoop();
-                mNativeMediaPlayer = mp;
             }
         });
 
