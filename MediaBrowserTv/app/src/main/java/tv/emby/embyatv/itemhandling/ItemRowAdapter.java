@@ -706,7 +706,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                         removeRow();
                     } else if (query.getSeriesId() == null) {
                         // look for new episode 1's not in next up already
-                        StdItemQuery newQuery = new StdItemQuery(new ItemFields[] {ItemFields.DateCreated, ItemFields.PrimaryImageAspectRatio});
+                        StdItemQuery newQuery = new StdItemQuery(new ItemFields[] {ItemFields.DateCreated, ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
                         newQuery.setIncludeItemTypes(new String[] {"Episode"});
                         newQuery.setRecursive(true);
                         newQuery.setIsVirtualUnaired(false);
