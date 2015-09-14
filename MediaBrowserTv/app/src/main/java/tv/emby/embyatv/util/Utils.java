@@ -596,7 +596,6 @@ public class Utils {
     }
 
     public static void play(final BaseItemDto item, final int pos, final boolean shuffle, final Context activity) {
-        final DelayedMessage msg = new DelayedMessage(activity);
         Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), shuffle, new Response<String[]>() {
             @Override
             public void onResponse(String[] response) {
@@ -605,7 +604,6 @@ public class Utils {
                 intent.putExtra("Position", pos);
                 if (!(activity instanceof Activity)) intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 activity.startActivity(intent);
-                msg.Cancel();
             }
         });
 
