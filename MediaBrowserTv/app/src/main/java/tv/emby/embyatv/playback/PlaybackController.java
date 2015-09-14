@@ -573,6 +573,8 @@ public class PlaybackController {
     private Runnable skipRunnable = new Runnable() {
         @Override
         public void run() {
+            if (!isPlaying()) return; // in case we completed since this was requested
+
             seek(mVideoManager.getCurrentPosition() + currentSkipAmt);
             currentSkipAmt = 0;
             updateProgress = true; // re-enable true progress updates
