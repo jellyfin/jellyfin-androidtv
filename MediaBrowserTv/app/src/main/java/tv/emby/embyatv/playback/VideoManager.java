@@ -253,6 +253,9 @@ public class VideoManager implements IVLCVout.Callback {
             } catch (IndexOutOfBoundsException e) {
                 TvApp.getApplication().getLogger().Error("Could not locate subtitle with index %s in vlc track info", index);
                 return false;
+            } catch (NullPointerException e){
+                TvApp.getApplication().getLogger().Error("No subtitle tracks found in player trying to set subtitle with index %s in vlc track info", index);
+                return false;
             }
 
             TvApp.getApplication().getLogger().Info("Setting Vlc sub to "+vlcSub.name);
