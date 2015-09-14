@@ -580,6 +580,18 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     }
                 }
 
+                if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT && !mIsVisible && !Utils.isFireTv() && !mPlaybackController.isLiveTv()) {
+                    Utils.Beep(100);
+                    mPlaybackController.skip(30000);
+                    return true;
+                }
+
+                if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT && !mIsVisible && !Utils.isFireTv() && !mPlaybackController.isLiveTv()) {
+                    Utils.Beep(100);
+                    mPlaybackController.skip(-11000);
+                    return true;
+                }
+
                 //if we're not visible, show us
                 if (!mIsVisible) show();
 
@@ -587,6 +599,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 if (mFadeEnabled) startFadeTimer();
 
             }
+
 
             return ret;
         }
