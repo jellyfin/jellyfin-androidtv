@@ -542,7 +542,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         (mSelectedProgram != null && mSelectedProgram.getChannelId() != null)) {
                     // tune to the current channel
                     Utils.Beep();
-                    switchChannel(mSelectedProgram);
+                    switchChannel(mSelectedProgram.getChannelId());
                     return true;
                 }
                 else {
@@ -595,15 +595,16 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     public long getCurrentLocalStartDate() { return mCurrentLocalGuideStart; }
     public long getCurrentLocalEndDate() { return mCurrentLocalGuideEnd; }
 
-    private void switchChannel(BaseItemDto program) {
-        if (mPlaybackController.getCurrentlyPlayingItem().getId().equals(program.getChannelId())) {
+    private void switchChannel(String id) {
+        if (id == null) return;
+        if (mPlaybackController.getCurrentlyPlayingItem().getId().equals(id)) {
             //same channel, just dismiss overlay
             hideGuide();
         } else {
             mPlaybackController.stop();
             mCurrentProgress.setVisibility(View.VISIBLE);
             hideGuide();
-            Utils.retrieveAndPlay(program.getChannelId(), false, mActivity);
+            Utils.retrieveAndPlay(id, false, mActivity);
             finish();
         }
     }
@@ -969,7 +970,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         if (mDetailPopup == null) mDetailPopup = new LiveProgramDetailPopup(mActivity, Utils.convertDpToPixel(mActivity, 600), new EmptyResponse() {
             @Override
             public void onResponse() {
-                switchChannel(mSelectedProgram);
+                switchChannel(mSelectedProgram.getChannelId());
             }
         });
         mDetailPopup.setContent(mSelectedProgram, mSelectedProgramView);
@@ -1104,6 +1105,16 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         }
 
         if (mPlaybackController.isLiveTv()) {
+            // prev channel button
+            if (TvManager.getPrevLiveTvChannel() != null) {
+                mButtonRow.addView(new ImageButton(mActivity, R.drawable.prev, mButtonSize, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        switchChannel(TvManager.getPrevLiveTvChannel());
+                    }
+                }));
+            }
+
             // guide button
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.guidebutton, mButtonSize, new View.OnClickListener() {
                 @Override

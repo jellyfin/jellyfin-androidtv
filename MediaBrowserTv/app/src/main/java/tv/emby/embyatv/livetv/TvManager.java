@@ -43,7 +43,12 @@ public class TvManager {
     }
 
     public static void setLastLiveTvChannel(String id) {
+        TvApp.getApplication().getSystemPrefs().edit().putString("sys_pref_prev_tv_channel", TvApp.getApplication().getSystemPrefs().getString("sys_pref_last_tv_channel", null)).commit();
         TvApp.getApplication().getSystemPrefs().edit().putString("sys_pref_last_tv_channel", id).commit();
+    }
+
+    public static String getPrevLiveTvChannel() {
+        return TvApp.getApplication().getSystemPrefs().getString("sys_pref_prev_tv_channel", null);
     }
 
     public static List<ChannelInfoDto> getAllChannels() {
