@@ -452,6 +452,7 @@ public class PlaybackController {
                     break;
                 case Embed:
                     if (!mVideoManager.isNativeMode()) {
+                        mFragment.addManualSubtitles(null); // in case these were on
                         mVideoManager.setSubtitleTrack(index, getCurrentlyPlayingItem().getMediaStreams());
                         break;
                     }
