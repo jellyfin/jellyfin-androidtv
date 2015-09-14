@@ -453,12 +453,15 @@ public class PlaybackController {
                 case Embed:
                     if (!mVideoManager.isNativeMode()) {
                         mFragment.addManualSubtitles(null); // in case these were on
-                        mVideoManager.setSubtitleTrack(index, getCurrentlyPlayingItem().getMediaStreams());
-                        break;
+                        if (mVideoManager.setSubtitleTrack(index, getCurrentlyPlayingItem().getMediaStreams())) {
+                            break;
+                        }
+                        // error selecting internal subs - fall through to treating as external
                     }
-                    // not using vlc or external sub mis-identified - fall through to external handling
+                    // not using vlc - fall through to external handling
                 case External:
                     mFragment.addManualSubtitles(null);
+                    mVideoManager.disableSubs();
                     mFragment.showSubLoadingMsg(true);
                     stream.setDeliveryMethod(SubtitleDeliveryMethod.External);
                     stream.setDeliveryUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/0/Stream.JSON", mApplication.getApiClient().getApiUrl(), mCurrentStreamInfo.getItemId(), mCurrentStreamInfo.getMediaSourceId(), StringHelper.ToStringCultureInvariant(stream.getIndex())));
