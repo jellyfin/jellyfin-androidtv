@@ -24,7 +24,7 @@ public class DelayedMessage {
         runnable = new Runnable() {
             @Override
             public void run() {
-                dialog = ProgressDialog.show(activity, title, message);
+                if (activity != null) dialog = ProgressDialog.show(activity, title, message);
             }
         };
         handler.postDelayed(runnable, delay);
