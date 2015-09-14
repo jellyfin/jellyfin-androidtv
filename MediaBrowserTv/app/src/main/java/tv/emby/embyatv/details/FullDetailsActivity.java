@@ -56,8 +56,10 @@ import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.PersonType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.SeriesTimerInfoDto;
+import mediabrowser.model.querying.EpisodeQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
+import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
 import mediabrowser.model.querying.SeasonQuery;
 import mediabrowser.model.querying.SimilarItemsQuery;
@@ -94,6 +96,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     private LinearLayout mGenreRow;
     private ImageButton mResumeButton;
+    private ImageButton mPrevButton;
     private ImageButton mRecordButton;
     private ImageButton mRecSeriesButton;
     private ImageButton mWatchedToggleButton;
@@ -107,6 +110,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     protected String mChannelId;
     protected BaseRowItem mCurrentItem;
     private Calendar mLastUpdated;
+    private String mPrevItemId;
 
     private TextView mTitle;
     private RowsFragment mRowsFragment;
@@ -730,6 +734,40 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         }
 
         if ("Episode".equals(mBaseItem.getType()) && mBaseItem.getSeriesId() != null) {
+            //add the prev button first so it will be there in proper position - we'll show it later if needed
+            mPrevButton = new ImageButton(this, R.drawable.prev, buttonSize, "Previous Episode", null, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mPrevItemId != null) {
+                        Intent intent = new Intent(mActivity, FullDetailsActivity.class);
+                        intent.putExtra("ItemId", mPrevItemId);
+                        mActivity.startActivity(intent);
+                    }
+                }
+            });
+
+            mPrevButton.setVisibility(View.GONE);
+            mDetailsOverviewRow.addAction(mPrevButton);
+
+            //now go get our prev episode id
+            EpisodeQuery adjacent = new EpisodeQuery();
+            adjacent.setUserId(TvApp.getApplication().getCurrentUser().getId());
+            adjacent.setSeriesId(mBaseItem.getSeriesId());
+            adjacent.setAdjacentTo(mBaseItem.getId());
+            TvApp.getApplication().getApiClient().GetEpisodesAsync(adjacent, new Response<ItemsResult>() {
+                @Override
+                public void onResponse(ItemsResult response) {
+                    if (response.getTotalRecordCount() > 0) {
+                        //Just look at first item - if it isn't us, then it is the prev episode
+                        if (!mBaseItem.getId().equals(response.getItems()[0].getId())) {
+                            mPrevItemId = response.getItems()[0].getId();
+                            mPrevButton.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            });
+
+
             ImageButton series = new ImageButton(this, R.drawable.tvicon, buttonSize, getString(R.string.lbl_goto_series), null, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
