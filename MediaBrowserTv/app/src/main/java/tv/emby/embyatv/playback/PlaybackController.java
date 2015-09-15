@@ -332,9 +332,11 @@ public class PlaybackController {
                 mFragment.updateDisplay();
                 String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken());
 
+
                 mVideoManager.setVideoPath(path);
                 mVideoManager.start();
                 mStartPosition = position;
+                if (position > 0) mVideoManager.hideSurface(); //so user doesn't see first frame before seek
 
                 mDefaultAudioIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultAudioStreamIndex() != null ? response.getMediaSource().getDefaultAudioStreamIndex() : -1;
                 mDefaultSubIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : -1;
@@ -675,6 +677,7 @@ public class PlaybackController {
                         Utils.showToast(TvApp.getApplication(), "Unable to seek");
 
                     mPlaybackState = PlaybackState.PLAYING;
+                    mVideoManager.showSurface(); // we hid this during the seek
                     updateProgress = true;
                     mFragment.updateEndTime(mVideoManager.getDuration() - position);
                 }
