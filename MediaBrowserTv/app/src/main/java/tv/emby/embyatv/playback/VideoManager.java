@@ -229,6 +229,22 @@ public class VideoManager implements IVLCVout.Callback {
 
     }
 
+    public void hideSurface() {
+        if (nativeMode) {
+            mVideoView.setVisibility(View.INVISIBLE);
+        } else {
+            mSurfaceView.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void showSurface() {
+        if (nativeMode) {
+            mVideoView.setVisibility(View.VISIBLE);
+        } else {
+            mSurfaceView.setVisibility(View.VISIBLE);
+        }
+    }
+
     public void disableSubs() {
         if (!nativeMode && mVlcPlayer != null) mVlcPlayer.setSpuTrack(-1);
     }
