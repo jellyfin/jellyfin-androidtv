@@ -292,8 +292,8 @@ public class PlaybackController {
     public int getBufferAmount() {
         if (getCurrentlyPlayingItem() != null && getCurrentlyPlayingItem().getType().equals("TvChannel")) {
             // force live tv to a small buffer so it doesn't take forever to load
-            mApplication.getLogger().Info("Forcing vlc buffer to 1500 for live tv");
-            return 1500;
+            mApplication.getLogger().Info("Forcing vlc buffer to 600 for live tv");
+            return 600;
         }
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(TvApp.getApplication());
