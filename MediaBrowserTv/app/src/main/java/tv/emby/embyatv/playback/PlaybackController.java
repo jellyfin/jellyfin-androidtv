@@ -333,7 +333,6 @@ public class PlaybackController {
                 mVideoManager.setVideoPath(path);
                 mVideoManager.start();
                 mStartPosition = position;
-                if (position > 0) mVideoManager.hideSurface(); //so user doesn't see first frame before seek
 
                 mDefaultAudioIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultAudioStreamIndex() != null ? response.getMediaSource().getDefaultAudioStreamIndex() : -1;
                 mDefaultSubIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : -1;
@@ -676,7 +675,6 @@ public class PlaybackController {
                         Utils.showToast(TvApp.getApplication(), "Unable to seek");
 
                     mPlaybackState = PlaybackState.PLAYING;
-                    mVideoManager.showSurface(); // we hid this during the seek
                     updateProgress = true;
                     mFragment.updateEndTime(mVideoManager.getDuration() - position);
                 }
@@ -745,7 +743,6 @@ public class PlaybackController {
                     TvApp.getApplication().getLogger().Info("Selecting default audio stream: "+mDefaultAudioIndex);
                     switchAudioStream(mDefaultAudioIndex);
                 }
-
 
             }
         });
