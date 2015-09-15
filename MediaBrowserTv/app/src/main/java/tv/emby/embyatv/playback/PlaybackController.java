@@ -453,10 +453,11 @@ public class PlaybackController {
                 case Embed:
                     if (!mVideoManager.isNativeMode()) {
                         mFragment.addManualSubtitles(null); // in case these were on
-                        if (mVideoManager.setSubtitleTrack(index, getCurrentlyPlayingItem().getMediaStreams())) {
-                            break;
+                        if (!mVideoManager.setSubtitleTrack(index, getCurrentlyPlayingItem().getMediaStreams())) {
+                            // error selecting internal subs
+                            Utils.showToast(mApplication, mApplication.getResources().getString(R.string.msg_unable_load_subs));
                         }
-                        // error selecting internal subs - fall through to treating as external
+                        break;
                     }
                     // not using vlc - fall through to external handling
                 case External:
