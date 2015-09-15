@@ -304,9 +304,9 @@ public class VideoManager implements IVLCVout.Callback {
             // Create a new media player
             ArrayList<String> options = new ArrayList<>(20);
             options.add("--network-caching=" + buffer);
-            options.add("--no-audio-time-stretch");
-            options.add("--androidwindow-chroma");
-            options.add("RV32");
+//            options.add("--no-audio-time-stretch");
+//            options.add("--androidwindow-chroma");
+//            options.add("RV32");
 //            options.add("--subsdec-encoding");
 //            options.add("Universal (UTF-8)");
             options.add("-vvv");
@@ -329,7 +329,7 @@ public class VideoManager implements IVLCVout.Callback {
             SharedPreferences prefs = TvApp.getApplication().getPrefs();
             String audioOption = Utils.isFireTv() ? "1" : prefs.getString("pref_audio_option","0"); // force compatible audio on Fire
             mVlcPlayer.setAudioOutput("0".equals(audioOption) ? "android_audiotrack" : "opensles_android");
-            mVlcPlayer.setAudioOutputDevice("hdmi");
+            //mVlcPlayer.setAudioOutputDevice("hdmi");
 
 
             mSurfaceHolder.addCallback(mSurfaceCallback);
