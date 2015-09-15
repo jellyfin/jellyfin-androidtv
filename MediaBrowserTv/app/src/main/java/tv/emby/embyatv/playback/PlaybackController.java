@@ -3,12 +3,10 @@ package tv.emby.embyatv.playback;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.View;
 
-import java.io.File;
 import java.util.List;
 
 import mediabrowser.apiinteraction.ApiClient;
@@ -18,7 +16,6 @@ import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.model.dlna.PlaybackException;
 import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dlna.SubtitleDeliveryMethod;
-import mediabrowser.model.dlna.SubtitleProfile;
 import mediabrowser.model.dlna.SubtitleStreamInfo;
 import mediabrowser.model.dlna.VideoOptions;
 import mediabrowser.model.dto.BaseItemDto;
@@ -575,14 +572,14 @@ public class PlaybackController {
 
     }
 
-    private long currentSkipAmt = 0;
+    private long currentSkipPos = 0;
     private Runnable skipRunnable = new Runnable() {
         @Override
         public void run() {
             if (!isPlaying()) return; // in case we completed since this was requested
 
-            seek(mVideoManager.getCurrentPosition() + currentSkipAmt);
-            currentSkipAmt = 0;
+            seek(currentSkipPos);
+            currentSkipPos = 0;
             updateProgress = true; // re-enable true progress updates
         }
     };
@@ -598,9 +595,11 @@ public class PlaybackController {
         if (isPlaying()) {
             mHandler.removeCallbacks(skipRunnable);
             stopReportLoop();
-            currentSkipAmt += msec;
             updateProgress = false; // turn this off so we can show where it will be jumping to
-            mFragment.setCurrentTime(mVideoManager.getCurrentPosition() + currentSkipAmt);
+            currentSkipPos = (currentSkipPos == 0 ? mVideoManager.getCurrentPosition() : currentSkipPos)  + msec;
+            if (currentSkipPos < 0) currentSkipPos = 0;
+            if (currentSkipPos > mVideoManager.getDuration()) currentSkipPos = mVideoManager.getDuration() - 1000;
+            mFragment.setCurrentTime(currentSkipPos);
             mHandler.postDelayed(skipRunnable, 800);
         }
     }
