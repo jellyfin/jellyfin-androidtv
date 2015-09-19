@@ -331,7 +331,14 @@ public class PlaybackController {
 
 
                 mVideoManager.setVideoPath(path);
-                mVideoManager.start();
+                //wait a beat before attempting to start so the player surface is fully initialized and video is ready
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mVideoManager.start();
+                    }
+                },750);
+
                 mStartPosition = position;
 
                 mDefaultAudioIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultAudioStreamIndex() != null ? response.getMediaSource().getDefaultAudioStreamIndex() : -1;
