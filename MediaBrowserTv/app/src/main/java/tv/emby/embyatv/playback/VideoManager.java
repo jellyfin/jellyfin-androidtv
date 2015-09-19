@@ -3,6 +3,7 @@ package tv.emby.embyatv.playback;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.PixelFormat;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
@@ -66,6 +67,7 @@ public class VideoManager implements IVLCVout.Callback {
     private boolean nativeMode = false;
     private boolean mSurfaceReady = false;
     public boolean isContracted = false;
+    private boolean hasSubtitlesSurface = false;
 
     public VideoManager(PlaybackOverlayActivity activity, View view, int buffer) {
         mActivity = activity;
@@ -74,7 +76,13 @@ public class VideoManager implements IVLCVout.Callback {
         mSurfaceHolder.addCallback(mSurfaceCallback);
         mSurfaceFrame = (FrameLayout) view.findViewById(R.id.player_surface_frame);
         mSubtitlesSurface = (SurfaceView) view.findViewById(R.id.subtitles_surface);
-        mSubtitlesSurface.setVisibility(View.GONE); // this isn't working in VLC so hide for now
+        if (Utils.is50()) {
+            mSubtitlesSurface.setZOrderMediaOverlay(true);
+            mSubtitlesSurface.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+            hasSubtitlesSurface = true;
+        } else {
+            mSubtitlesSurface.setVisibility(View.GONE);
+        }
         mVideoView = (EMVideoView) view.findViewById(R.id.videoView);
 
         createPlayer(buffer);
@@ -466,7 +474,7 @@ public class VideoManager implements IVLCVout.Callback {
         normalWidth = lp.width;
         normalHeight = lp.height;
         mSurfaceView.setLayoutParams(lp);
-        //mSubtitlesSurface.setLayoutParams(lp);
+        if (hasSubtitlesSurface) mSubtitlesSurface.setLayoutParams(lp);
 
         // set frame size (crop if necessary)
         if (mSurfaceFrame != null) {
@@ -479,7 +487,7 @@ public class VideoManager implements IVLCVout.Callback {
 
         TvApp.getApplication().getLogger().Debug("Surface sized "+ mVideoWidth+"x"+mVideoHeight);
         mSurfaceView.invalidate();
-        //mSubtitlesSurface.invalidate();
+        if (hasSubtitlesSurface) mSubtitlesSurface.invalidate();
     }
 
     public void setOnErrorListener(final PlaybackListener listener) {
@@ -557,7 +565,7 @@ public class VideoManager implements IVLCVout.Callback {
             if (mVlcPlayer != null) {
                 mVlcPlayer.getVLCVout().detachViews();
                 mVlcPlayer.getVLCVout().setVideoView(mSurfaceView);
-                //mVlcPlayer.getVLCVout().setSubtitlesView(mSubtitlesSurface);
+                if (hasSubtitlesSurface) mVlcPlayer.getVLCVout().setSubtitlesView(mSubtitlesSurface);
                 mVlcPlayer.getVLCVout().attachViews();
                 TvApp.getApplication().getLogger().Debug("Surface attached");
                 mSurfaceReady = true;

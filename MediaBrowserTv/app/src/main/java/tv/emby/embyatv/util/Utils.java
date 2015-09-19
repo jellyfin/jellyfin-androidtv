@@ -1293,6 +1293,10 @@ public class Utils {
         return Build.VERSION.SDK_INT >= 21;
     }
 
+    public static boolean isGingerbreadOrLater() {
+        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD;
+    }
+
     public static int getBrandColor() {
         return TvApp.getApplication().getPrefs().getInt("pref_sideline_color", isFireTv() ?
                 TvApp.getApplication().getResources().getColor(R.color.fastlane_fire) :
