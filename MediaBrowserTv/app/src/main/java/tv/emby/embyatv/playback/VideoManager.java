@@ -314,6 +314,10 @@ public class VideoManager implements IVLCVout.Callback {
 
     public long getAudioDelay() { return mVlcPlayer != null ? mVlcPlayer.getAudioDelay() / 1000 : 0;}
 
+    public void setCompatibleAudio() {
+        mVlcPlayer.setAudioOutput("opensles_android");
+    }
+
     public org.videolan.libvlc.MediaPlayer.TrackDescription[] getSubtitleTracks() {
         return nativeMode ? null : mVlcPlayer.getSpuTracks();
     }

@@ -329,6 +329,8 @@ public class PlaybackController {
                 mFragment.updateDisplay();
                 String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken());
 
+                // if source is stereo - use most compatible output
+                if (response.getMediaSource().getDefaultAudioStream() != null && response.getMediaSource().getDefaultAudioStream().getChannels() <= 2) mVideoManager.setCompatibleAudio();
 
                 mVideoManager.setVideoPath(path);
                 //wait a beat before attempting to start so the player surface is fully initialized and video is ready
