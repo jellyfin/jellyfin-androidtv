@@ -15,6 +15,7 @@ import java.io.OutputStream;
 
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
@@ -136,7 +137,7 @@ public class RecommendationManager {
                 public void onResponse(ItemsResult response) {
                     if (response.getTotalRecordCount() > 0) {
                         for (BaseItemDto episode : response.getItems()) {
-                            recommend(episode.getId());
+                            if (episode.getLocationType() != LocationType.Virtual) addRecommendation(episode, RecommendationType.Tv);
                         }
                     }
                 }
@@ -213,7 +214,7 @@ public class RecommendationManager {
                                 similar.setId(response.getId());
                                 similar.setLimit(1);
                                 similar.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                                TvApp.getApplication().getApiClient().GetSimilarMoviesAsync(similar, new Response<ItemsResult>() {
+                                TvApp.getApplication().getApiClient().GetSimilarItems(similar, new Response<ItemsResult>() {
                                     @Override
                                     public void onResponse(ItemsResult similarResponse) {
                                         if (similarResponse.getTotalRecordCount() > 0) {
@@ -239,7 +240,7 @@ public class RecommendationManager {
                                 TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(next, new Response<ItemsResult>() {
                                     @Override
                                     public void onResponse(ItemsResult nextResponse) {
-                                        if (nextResponse.getTotalRecordCount() > 0) {
+                                        if (nextResponse.getTotalRecordCount() > 0 && nextResponse.getItems()[0].getLocationType() != LocationType.Virtual) {
                                             addRecommendation(nextResponse.getItems()[0], RecommendationType.Tv);
                                         }
                                     }

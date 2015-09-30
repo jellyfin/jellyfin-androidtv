@@ -1,6 +1,5 @@
 package tv.emby.embyatv.itemhandling;
 
-import android.os.Handler;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
@@ -8,18 +7,25 @@ import android.support.v17.leanback.widget.Presenter;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 
+import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.UserDto;
+import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
+import mediabrowser.model.livetv.RecordingGroupQuery;
 import mediabrowser.model.livetv.RecordingQuery;
+import mediabrowser.model.querying.ItemFields;
+import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemQuery;
+import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
 import mediabrowser.model.querying.PersonsQuery;
@@ -34,12 +40,15 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.model.ChangeTriggerType;
 import tv.emby.embyatv.model.ChapterItemInfo;
+import tv.emby.embyatv.model.FilterOptions;
 import tv.emby.embyatv.presentation.TextItemPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.SpecialsQuery;
+import tv.emby.embyatv.querying.StdItemQuery;
 import tv.emby.embyatv.querying.TrailersQuery;
 import tv.emby.embyatv.querying.ViewQuery;
 import tv.emby.embyatv.ui.GridButton;
+import tv.emby.embyatv.ui.HorizontalGridFragment;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -58,7 +67,14 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private LiveTvChannelQuery mTvChannelQuery;
     private RecommendedProgramQuery mTvProgramQuery;
     private RecordingQuery mTvRecordingQuery;
+    private RecordingGroupQuery mTvRecordingGroupQuery;
     private QueryType queryType;
+
+    private String mSortBy;
+    private FilterOptions mFilters;
+
+    private EmptyResponse mRetrieveStartedListener;
+    private EmptyResponse mRetrieveFinishedListener;
 
     private ChangeTriggerType[] reRetrieveTriggers = new ChangeTriggerType[] {};
     private Calendar lastFullRetrieve;
@@ -66,6 +82,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private BaseItemPerson[] mPersons;
     private ServerInfo[] mServers;
     private List<ChapterItemInfo> mChapters;
+    private List<BaseItemDto> mItems;
     private ServerInfo mServer;
 
     private ArrayObjectAdapter mParent;
@@ -118,7 +135,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.staticHeight = staticHeight;
         if (chunkSize > 0) mQuery.setLimit(chunkSize);
         queryType = QueryType.Items;
-        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(NextUpQuery query, boolean preferParentThumb, Presenter presenter, ArrayObjectAdapter parent) {
@@ -143,6 +160,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mChapters = chapters;
         queryType = QueryType.StaticChapters;
+    }
+
+    public ItemRowAdapter(List<BaseItemDto> items, Presenter presenter, ArrayObjectAdapter parent, boolean staticItems) { // last param is just for sig
+        super(presenter);
+        mParent = parent;
+        mItems = items;
+        queryType = QueryType.StaticItems;
     }
 
     public ItemRowAdapter(ServerInfo[] servers, Presenter presenter, ArrayObjectAdapter parent) {
@@ -192,6 +216,14 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mTvRecordingQuery = query;
         queryType = QueryType.LiveTvRecording;
+        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+    }
+
+    public ItemRowAdapter(RecordingGroupQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+        super(presenter);
+        mParent = parent;
+        mTvRecordingGroupQuery = query;
+        queryType = QueryType.LiveTvRecordingGroup;
         add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
@@ -277,13 +309,52 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         totalItems = amt;
     }
 
+    public int getTotalItems() { return totalItems; }
+
+    public void setSortBy(HorizontalGridFragment.SortOption option) {
+        if (!option.value.equals(mSortBy)) {
+            mSortBy = option.value;
+            mQuery.setSortBy(new String[] {mSortBy});
+            mQuery.setSortOrder(option.order);
+            if (!"SortName".equals(option.value)) setStartLetter(null);
+        }
+    }
+
+    public String getSortBy() { return mSortBy; }
+
+    public FilterOptions getFilters() { return mFilters; }
+
+    public void setFilters(FilterOptions filters) {
+        mFilters = filters;
+        if (mFilters != null) {
+            mQuery.setFilters(mFilters.getFilters());
+        } else {
+            mQuery.setFilters(null);
+        }
+    }
+
+    public String getStartLetter() { return mQuery != null ? mQuery.getNameStartsWithOrGreater() : null; }
+
+    public void setStartLetter(String value) {
+        if (mQuery != null) {
+            if (value != null && value.equals("#")) mQuery.setNameStartsWithOrGreater(null);
+            else mQuery.setNameStartsWithOrGreater(value);
+        }
+    }
+
     public void removeRow() {
+        if (mParent == null) {
+            // just clear us
+            clear();
+            return;
+        };
+
         if (mParent.size() == 1) {
             // we will be removing the last row - show something and prevent the framework from crashing
             // because there is nowhere for focus to land
             ArrayObjectAdapter emptyRow = new ArrayObjectAdapter(new TextItemPresenter());
             emptyRow.add(TvApp.getApplication().getString(R.string.lbl_no_items));
-            mParent.add(new ListRow(new HeaderItem(TvApp.getApplication().getString(R.string.lbl_empty),null),emptyRow));
+            mParent.add(new ListRow(new HeaderItem(TvApp.getApplication().getString(R.string.lbl_empty), null), emptyRow));
         }
 
         mParent.remove(mRow);
@@ -300,7 +371,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         }
 
         if (pos >= itemsLoaded - 20) {
-            TvApp.getApplication().getLogger().Debug("Loading more items starting at "+itemsLoaded);
+            TvApp.getApplication().getLogger().Debug("Loading more items starting at " + itemsLoaded);
             RetrieveNext();
         }
 
@@ -337,8 +408,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         }
     }
 
-    public void ReRetrieveIfNeeded() {
-        if (reRetrieveTriggers == null) return;
+    public boolean ReRetrieveIfNeeded() {
+        if (reRetrieveTriggers == null) return false;
 
         boolean retrieve = false;
         TvApp app = TvApp.getApplication();
@@ -363,12 +434,15 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             TvApp.getApplication().getLogger().Info("Re-retrieving row of type "+ queryType);
             Retrieve();
         }
+
+        return retrieve;
     }
 
     public void Retrieve() {
         setCurrentlyRetrieving(true);
         lastFullRetrieve = Calendar.getInstance();
         itemsLoaded = 0;
+        notifyRetrieveStarted();
         switch (queryType) {
             case Items:
                 Retrieve(mQuery);
@@ -403,6 +477,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             case LiveTvRecording:
                 Retrieve(mTvRecordingQuery);
                 break;
+            case LiveTvRecordingGroup:
+                Retrieve(mTvRecordingGroupQuery);
+                break;
             case StaticPeople:
                 LoadPeople();
                 break;
@@ -411,6 +488,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
             case StaticChapters:
                 LoadChapters();
+                break;
+            case StaticItems:
+                LoadStaticItems();
                 break;
             case Specials:
                 Retrieve(mSpecialsQuery);
@@ -479,6 +559,19 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         currentlyRetrieving = false;
     }
 
+    private void LoadStaticItems() {
+        if (mItems != null) {
+            for (BaseItemDto item : mItems) {
+                add(new BaseRowItem(item));
+            }
+
+        } else {
+            removeRow();
+        }
+
+        currentlyRetrieving = false;
+    }
+
     private void LoadServers() {
         if (mServers != null) {
             for (ServerInfo server : mServers) {
@@ -505,7 +598,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int i = 0;
                     if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
-                        if (!ignoreTypeList.contains(item.getCollectionType()) && !ignoreTypeList.contains(item.getType())) adapter.add(new BaseRowItem(i++,item, preferParentThumb, staticHeight));
+                        //re-map the display prefs id to our actual id
+                        item.setDisplayPreferencesId(item.getId());
+                        if (!ignoreTypeList.contains(item.getCollectionType()) && !ignoreTypeList.contains(item.getType()))
+                            adapter.add(new BaseRowItem(i++, item, preferParentThumb, staticHeight));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
@@ -544,7 +640,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
-                    if (itemsLoaded > 0) mParent.add(mRow);
+                    if (itemsLoaded > 0 && mParent != null) mParent.add(mRow);
                 }
 
                 currentlyRetrieving = false;
@@ -560,6 +656,33 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     }
 
+    public void GetResultSizeAsync(final Response<Integer> outerResponse) {
+        if (mQuery == null) {
+            outerResponse.onError(new Exception("Can only be used with standard query"));
+        } else {
+            StdItemQuery sizeQuery = new StdItemQuery(new ItemFields[]{});
+            sizeQuery.setIncludeItemTypes(mQuery.getIncludeItemTypes());
+            sizeQuery.setNameStartsWithOrGreater(mQuery.getNameStartsWithOrGreater());
+            sizeQuery.setNameLessThan(mQuery.getNameLessThan());
+            sizeQuery.setFilters(getFilters().getFilters());
+            sizeQuery.setRecursive(mQuery.getRecursive());
+            sizeQuery.setParentId(mQuery.getParentId());
+            sizeQuery.setLimit(1); // minimum result set because we just need total record count
+
+            TvApp.getApplication().getApiClient().GetItemsAsync(sizeQuery, new Response<ItemsResult>() {
+                @Override
+                public void onResponse(ItemsResult response) {
+                    outerResponse.onResponse(response.getTotalRecordCount());
+                }
+
+                @Override
+                public void onError(Exception exception) {
+                    outerResponse.onError(exception);
+                }
+            });
+        }
+    }
+
     public void Retrieve(ItemQuery query) {
         TvApp.getApplication().getApiClient().GetItemsAsync(query, new ItemQueryResponse(this));
     }
@@ -570,14 +693,50 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
+                    final HashSet<String> includedIds = new HashSet<>();
                     int i = 0;
                     if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++,item, preferParentThumb, false));
+                        adapter.add(new BaseRowItem(i++, item, preferParentThumb, false));
+                        includedIds.add(item.getSeriesId());
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) removeRow();
+                    if (i == 0) {
+                        removeRow();
+                    } else if (query.getSeriesId() == null) {
+                        // look for new episode 1's not in next up already
+                        StdItemQuery newQuery = new StdItemQuery(new ItemFields[] {ItemFields.DateCreated, ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
+                        newQuery.setIncludeItemTypes(new String[] {"Episode"});
+                        newQuery.setRecursive(true);
+                        newQuery.setIsVirtualUnaired(false);
+                        newQuery.setIsMissing(false);
+                        newQuery.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
+                        newQuery.setSortBy(new String[] {ItemSortBy.DateCreated});
+                        newQuery.setSortOrder(SortOrder.Descending);
+                        newQuery.setLimit(50);
+                        TvApp.getApplication().getApiClient().GetItemsAsync(newQuery, new Response<ItemsResult>() {
+                            @Override
+                            public void onResponse(ItemsResult response) {
+                                if (response.getTotalRecordCount() > 0) {
+                                    Calendar compare = Calendar.getInstance();
+                                    compare.add(Calendar.MONTH, -1);
+                                    int numAdded = 0;
+                                    for (BaseItemDto item : response.getItems()) {
+                                        if (item.getIndexNumber() != null && item.getIndexNumber() == 1 && (item.getDateCreated() == null || item.getDateCreated().after(compare.getTime()))
+                                                && (item.getUserData() == null || item.getUserData().getLikes() == null || item.getUserData().getLikes())
+                                                && !includedIds.contains(item.getSeriesId())){
+                                            // new unwatched episode 1 not in next up already and not disliked insert it
+                                            TvApp.getApplication().getLogger().Debug("Adding new episode 1 to next up "+item.getName()+" Added: "+item.getDateCreated());
+                                            adapter.add(0, new BaseRowItem(0, item, preferParentThumb, false));
+                                            numAdded++;
+                                            if (numAdded > 2) break; // only add a max of three
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
                 } else {
                     // no results - don't show us
                     removeRow();
@@ -641,7 +800,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     if (adapter.size() > 0) adapter.clear();
                     if (query.getIsAiring()) {
                         // show guide option as first item
-                        adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_GUIDE_OPTION_ID, "Live TV Guide", R.drawable.guide)));
+                        adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_GUIDE_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_live_tv_guide), R.drawable.guide)));
+                        i++;
+                        // and recordings as second
+                        adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_RECORDINGS_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv), R.drawable.recgroup)));
                         i++;
                     }
                     for (BaseItemDto item : response.getItems()) {
@@ -669,6 +831,41 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             }
         });
 
+    }
+
+    public void Retrieve(final RecordingGroupQuery query) {
+        final ItemRowAdapter adapter = this;
+        TvApp.getApplication().getApiClient().GetLiveTvRecordingGroupsAsync(query, new Response<ItemsResult>() {
+            @Override
+            public void onResponse(ItemsResult response) {
+                if (response.getTotalRecordCount() > 0) {
+                    int i = 0;
+                    if (adapter.size() > 0) adapter.clear();
+                    for (BaseItemDto item : response.getItems()) {
+                        item.setType("RecordingGroup"); // the API does not fill this in
+                        item.setIsFolder(true); // nor this
+                        adapter.add(new BaseRowItem(item));
+                        i++;
+                    }
+                    totalItems = response.getTotalRecordCount();
+                    setItemsLoaded(itemsLoaded + i);
+                    if (i == 0) removeRow();
+                } else {
+                    // no results - don't show us
+                    removeRow();
+                }
+
+                currentlyRetrieving = false;
+
+            }
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving live tv recording groups", exception);
+                removeRow();
+                Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                currentlyRetrieving = false;
+            }
+        });
     }
 
     public void Retrieve(final RecordingQuery query) {
@@ -774,7 +971,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     public void RetrieveSimilarSeries(final SimilarItemsQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetSimilarSeriesAsync(query, new Response<ItemsResult>() {
+        TvApp.getApplication().getApiClient().GetSimilarItems(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
@@ -807,7 +1004,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     public void RetrieveSimilarMovies(final SimilarItemsQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetSimilarMoviesAsync(query, new Response<ItemsResult>() {
+        TvApp.getApplication().getApiClient().GetSimilarItems(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
@@ -914,7 +1111,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int i = 0;
                     if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++,item));
+                        adapter.add(new BaseRowItem(i++, item));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
@@ -936,4 +1133,23 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     }
 
+    public void notifyRetrieveFinished() {
+        if (mRetrieveFinishedListener != null) {
+            mRetrieveFinishedListener.onResponse();
+        }
+    }
+
+    public void setRetrieveFinishedListener(EmptyResponse response) {
+        this.mRetrieveFinishedListener = response;
+    }
+
+    public void notifyRetrieveStarted() {
+        if (mRetrieveStartedListener != null) {
+            mRetrieveStartedListener.onResponse();
+        }
+    }
+
+    public void setRetrieveStartedListener(EmptyResponse response) {
+        this.mRetrieveStartedListener = response;
+    }
 }

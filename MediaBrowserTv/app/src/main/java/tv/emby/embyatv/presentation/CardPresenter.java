@@ -2,6 +2,7 @@ package tv.emby.embyatv.presentation;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -20,10 +21,13 @@ import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
+import tv.emby.embyatv.model.ImageType;
 import tv.emby.embyatv.util.Utils;
 
 public class CardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";
+    private int mStaticHeight = 300;
+    private String mImageType = ImageType.DEFAULT;
 
     private static Context mContext;
     private boolean mShowInfo = true;
@@ -35,6 +39,16 @@ public class CardPresenter extends Presenter {
     public CardPresenter(boolean showInfo) {
         this();
         mShowInfo = showInfo;
+    }
+
+    public CardPresenter(boolean showInfo, String imageType, int staticHeight) {
+        this(showInfo, staticHeight);
+        mImageType = imageType;
+    }
+
+    public CardPresenter(boolean showInfo, int staticHeight) {
+        this(showInfo);
+        mStaticHeight = staticHeight;
     }
 
     static class ViewHolder extends Presenter.ViewHolder {
@@ -59,16 +73,16 @@ public class CardPresenter extends Presenter {
         }
 
         public void setItem(BaseRowItem m) {
-            setItem(m, 260, 300, 300);
+            setItem(m, ImageType.DEFAULT, 260, 300, 300);
         }
 
-        public void setItem(BaseRowItem m, int lHeight, int pHeight, int sHeight) {
+        public void setItem(BaseRowItem m, String imageType, int lHeight, int pHeight, int sHeight) {
             mItem = m;
             switch (mItem.getItemType()) {
 
                 case BaseItem:
                     BaseItemDto itemDto = mItem.getBaseItem();
-                    Double aspect = Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb());
+                    Double aspect = imageType.equals(ImageType.BANNER) ? 5.414 : imageType.equals(ImageType.THUMB) ? 1.779 : Utils.NullCoalesce(Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()), .7777777);
                     switch (itemDto.getType()) {
                         case "Audio":
                         case "MusicAlbum":
@@ -77,6 +91,9 @@ public class CardPresenter extends Presenter {
                         case "Person":
                         case "MusicArtist":
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
+                            break;
+                        case "RecordingGroup":
+                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.recgroup);
                             break;
                         case "Season":
                         case "Series":
@@ -90,7 +107,7 @@ public class CardPresenter extends Presenter {
                                 case Remote:
                                     break;
                                 case Virtual:
-                                    mCardView.setBanner(Utils.convertToLocalDate(itemDto.getPremiereDate() != null ? itemDto.getPremiereDate() : new Date(System.currentTimeMillis()+1)).getTime() > System.currentTimeMillis() ? R.drawable.futurebanner : R.drawable.missingbanner);
+                                    mCardView.setBanner((itemDto.getPremiereDate() != null ? Utils.convertToLocalDate(itemDto.getPremiereDate()) : new Date(System.currentTimeMillis()+1)).getTime() > System.currentTimeMillis() ? R.drawable.futurebanner : R.drawable.missingbanner);
                                     break;
                                 case Offline:
                                     mCardView.setBanner(R.drawable.offlinebanner);
@@ -98,7 +115,6 @@ public class CardPresenter extends Presenter {
                             }
                             break;
                         case "CollectionFolder":
-                            if (aspect == null) aspect = 1.779;
                         case "Folder":
                         case "MovieGenreFolder":
                         case "MusicGenreFolder":
@@ -113,7 +129,6 @@ public class CardPresenter extends Presenter {
                             break;
 
                     }
-                    if (aspect == null) aspect = .7777777;
                     cardHeight = !m.isStaticHeight() ? aspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((aspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
@@ -123,8 +138,7 @@ public class CardPresenter extends Presenter {
                     break;
                 case LiveTvChannel:
                     ChannelInfoDto channel = mItem.getChannelInfo();
-                    Double tvAspect = channel.getPrimaryImageAspectRatio();
-                    if (tvAspect == null) tvAspect = .7777777;
+                    Double tvAspect = imageType.equals(ImageType.BANNER) ? 5.414 : imageType.equals(ImageType.THUMB) ? 1.779 : Utils.NullCoalesce(channel.getPrimaryImageAspectRatio(), .7777777);
                     cardHeight = !m.isStaticHeight() ? tvAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((tvAspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
@@ -135,18 +149,30 @@ public class CardPresenter extends Presenter {
                 case LiveTvProgram:
                     BaseItemDto program = mItem.getProgramInfo();
                     Double programAspect = program.getPrimaryImageAspectRatio();
-                    if (programAspect == null) programAspect = .7777777;
+                    if (programAspect == null) programAspect = .66667;
                     cardHeight = !m.isStaticHeight() ? programAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((programAspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
+                    switch (program.getLocationType()) {
+
+                        case FileSystem:
+                            break;
+                        case Remote:
+                            break;
+                        case Virtual:
+                            if (program.getStartDate() != null && Utils.convertToLocalDate(program.getStartDate()).getTime() > System.currentTimeMillis()) mCardView.setBanner(R.drawable.futurebanner);
+                            if (program.getEndDate() != null && Utils.convertToLocalDate(program.getEndDate()).getTime() < System.currentTimeMillis()) mCardView.setBanner(R.drawable.missingbanner);
+                            break;
+                        case Offline:
+                            break;
+                    }
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.tv);
                     break;
 
                 case LiveTvRecording:
                     BaseItemDto recording = mItem.getRecordingInfo();
-                    Double recordingAspect = recording.getPrimaryImageAspectRatio();
-                    if (recordingAspect == null) recordingAspect = .7777777;
+                    Double recordingAspect = imageType.equals(ImageType.BANNER) ? 5.414 : (imageType.equals(ImageType.THUMB) ? 1.779 : Utils.NullCoalesce(recording.getPrimaryImageAspectRatio(), .7777777));
                     cardHeight = !m.isStaticHeight() ? recordingAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((recordingAspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
@@ -269,7 +295,7 @@ public class CardPresenter extends Presenter {
         if (!(item instanceof BaseRowItem)) return;
         BaseRowItem rowItem = (BaseRowItem) item;
 
-        ((ViewHolder) viewHolder).setItem(rowItem);
+        ((ViewHolder) viewHolder).setItem(rowItem, mImageType, 260, 300, mStaticHeight);
 
         //Log.d(TAG, "onBindViewHolder");
         ((ViewHolder) viewHolder).mCardView.setTitleText(rowItem.getFullName());
@@ -280,7 +306,7 @@ public class CardPresenter extends Presenter {
 
         }
 
-        ((ViewHolder) viewHolder).updateCardViewImage(rowItem.getPrimaryImageUrl(((ViewHolder) viewHolder).getCardHeight()));
+        ((ViewHolder) viewHolder).updateCardViewImage(rowItem.getImageUrl(mImageType, ((ViewHolder) viewHolder).getCardHeight()));
 
     }
 

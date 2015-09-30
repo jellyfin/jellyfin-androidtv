@@ -46,12 +46,27 @@ public class StartupActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_startup);
 
-        //Ensure we have prefs
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         application = (TvApp) getApplicationContext();
         final Activity activity = this;
         logger = application.getLogger();
+
+        //Migrate prefs
+        if (Integer.parseInt(application.getConfigVersion()) < 2) {
+            application.getPrefs().edit().putString("pref_vlc_max_res", "2900").commit();
+            application.getSystemPrefs().edit().putString("sys_pref_config_version", "2").commit();
+        }
+        if (Integer.parseInt(application.getConfigVersion()) < 3) {
+            application.getPrefs().edit().putString("pref_max_bitrate", "0").commit();
+            application.getSystemPrefs().edit().putString("sys_pref_config_version", "3").commit();
+        }
+        if (Integer.parseInt(application.getConfigVersion()) < 5) {
+            application.getPrefs().edit().putString("pref_net_buffer", "0.6").commit();
+            application.getSystemPrefs().edit().putString("sys_pref_config_version", "5").commit();
+        }
+
+        //Ensure we have prefs
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         establishConnection(activity);
 
@@ -116,6 +131,7 @@ public class StartupActivity extends Activity {
                         @Override
                         public void onResponse(final UserDto response) {
                             application.setCurrentUser(response);
+                            application.validate();
                             if (application.getDirectItemId() != null) {
                                 if (response.getHasPassword()
                                         && (!application.getIsAutoLoginConfigured()

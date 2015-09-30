@@ -1,5 +1,6 @@
 package tv.emby.embyatv.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import java.util.Date;
 import mediabrowser.model.dto.BaseItemDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.livetv.ILiveTvGuide;
 import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.Utils;
@@ -25,7 +27,7 @@ import tv.emby.embyatv.util.Utils;
  */
 public class ProgramGridCell extends RelativeLayout implements IRecordingIndicatorView {
 
-    private LiveTvGuideActivity mActivity;
+    private ILiveTvGuide mActivity;
     private TextView mProgramName;
     private LinearLayout mInfoRow;
     private BaseItemDto mProgram;
@@ -33,15 +35,15 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
     private int mBackgroundColor = 0;
     private final int IND_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 10);
 
-    public ProgramGridCell(Context context, BaseItemDto program) {
+    public ProgramGridCell(Context context, ILiveTvGuide activity, BaseItemDto program) {
         super(context);
-        initComponent((LiveTvGuideActivity) context, program);
+        initComponent((Activity) context, activity, program);
     }
 
-    private void initComponent(LiveTvGuideActivity activity, BaseItemDto program) {
+    private void initComponent(Activity context, ILiveTvGuide activity, BaseItemDto program) {
         mActivity = activity;
         mProgram = program;
-        LayoutInflater inflater = LayoutInflater.from(activity);
+        LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.program_grid_cell, this, false);
         this.addView(v);
 
@@ -65,7 +67,7 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
         setBackgroundColor(mBackgroundColor);
 
         if (program.getStartDate() != null && program.getEndDate() != null) {
-            TextView time = new TextView(activity);
+            TextView time = new TextView(context);
             Date localStart = Utils.convertToLocalDate(program.getStartDate());
             if (localStart.getTime() + 60000 < activity.getCurrentLocalStartDate()) mProgramName.setText("<< "+mProgramName.getText());
             time.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(program.getStartDate()))
@@ -74,13 +76,13 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
         }
 
         if (program.getOfficialRating() != null && !program.getOfficialRating().equals("0")) {
-            InfoLayoutHelper.addSpacer(activity, mInfoRow, "  ", 10);
-            InfoLayoutHelper.addBlockText(activity, mInfoRow, program.getOfficialRating(), 10);
+            InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
+            InfoLayoutHelper.addBlockText(context, mInfoRow, program.getOfficialRating(), 10);
         }
 
         if (program.getIsHD() != null && program.getIsHD()) {
-            InfoLayoutHelper.addSpacer(activity, mInfoRow, "  ", 10);
-            InfoLayoutHelper.addBlockText(activity, mInfoRow, "HD", 10);
+            InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
+            InfoLayoutHelper.addBlockText(context, mInfoRow, "HD", 10);
         }
 
         if (program.getSeriesTimerId() != null) {

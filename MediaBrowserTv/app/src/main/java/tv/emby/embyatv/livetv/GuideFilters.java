@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 
 import mediabrowser.model.dto.BaseItemDto;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.util.Utils;
 
 /**
  * Created by Eric on 5/13/2015.
@@ -37,12 +38,12 @@ public class GuideFilters {
     public boolean passesFilter(BaseItemDto program) {
         if (!any()) return true;
 
-        if (movies && program.getIsMovie()) return !premiere || program.getIsPremiere();
-        if (news && program.getIsNews()) return !premiere || program.getIsPremiere() || program.getIsLive() || !program.getIsRepeat();
-        if (series && program.getIsSeries()) return !premiere || program.getIsPremiere() || !program.getIsRepeat();
-        if (kids && program.getIsKids()) return !premiere || program.getIsPremiere();
-        if (sports && program.getIsSports()) return !premiere || program.getIsPremiere() || program.getIsLive();
-        if (!movies && !news && !series && !kids && !sports) return (premiere && (program.getIsPremiere() || (program.getIsSeries() && !program.getIsRepeat()) || (program.getIsSports() && program.getIsLive())));
+        if (movies && Utils.isTrue(program.getIsMovie())) return !premiere || Utils.isTrue(program.getIsPremiere());
+        if (news && Utils.isTrue(program.getIsNews())) return !premiere || Utils.isTrue(program.getIsPremiere()) || Utils.isTrue(program.getIsLive()) || !Utils.isTrue(program.getIsRepeat());
+        if (series && Utils.isTrue(program.getIsSeries())) return !premiere || Utils.isTrue(program.getIsPremiere()) || !Utils.isTrue(program.getIsRepeat());
+        if (kids && Utils.isTrue(program.getIsKids())) return !premiere || Utils.isTrue(program.getIsPremiere());
+        if (sports && Utils.isTrue(program.getIsSports())) return !premiere || Utils.isTrue(program.getIsPremiere()) || Utils.isTrue(program.getIsLive());
+        if (!movies && !news && !series && !kids && !sports) return (premiere && (Utils.isTrue(program.getIsPremiere()) || (Utils.isTrue(program.getIsSeries()) && !Utils.isTrue(program.getIsRepeat())) || (Utils.isTrue(program.getIsSports()) && Utils.isTrue(program.getIsLive()))));
 
         return false;
 

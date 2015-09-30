@@ -11,7 +11,7 @@
         android:layout_centerHorizontal="true"
         android:textSize="30sp"
         android:textColor="@android:color/holo_blue_light"
-        android:text="Filters"
+        android:text="@string/lbl_filters"
         android:layout_marginTop="10sp" />
 
     <LinearLayout
@@ -28,14 +28,19 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Filter"
+            android:text="@string/btn_filter"
             android:id="@+id/okButton"
-            android:minWidth="100sp" />
+            android:textColor="@android:color/white"
+            android:background="@drawable/emby_button"
+            android:minWidth="100dp" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Clear All"
+            android:text="@string/btn_clear_all"
+            android:textColor="@android:color/white"
+            android:background="@drawable/emby_button"
+            android:minWidth="100dp"
             android:id="@+id/clearButton" />
     </LinearLayout>
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.AsyncTask;
@@ -13,6 +14,7 @@ import android.text.format.DateUtils;
 import android.util.Log;
 
 import mediabrowser.apiinteraction.ApiClient;
+import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.IConnectionManager;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
@@ -20,6 +22,7 @@ import mediabrowser.apiinteraction.playback.PlaybackManager;
 import mediabrowser.logging.ConsoleLogger;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
+import mediabrowser.model.entities.DisplayPreferences;
 import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.registration.RegistrationInfo;
 import tv.emby.embyatv.base.BaseActivity;
@@ -34,6 +37,8 @@ import org.acra.annotation.*;
 import org.acra.sender.HttpSender;
 
 import java.util.Calendar;
+import java.util.Dictionary;
+import java.util.HashMap;
 
 /**
  * Created by Eric on 11/24/2014.
@@ -51,6 +56,7 @@ public class TvApp extends Application {
 
     public static String FEATURE_CODE = "androidtv";
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
+    public static final int LIVE_TV_RECORDINGS_OPTION_ID = 2000;
 
     private ILogger logger;
     private IConnectionManager connectionManager;
@@ -65,8 +71,12 @@ public class TvApp extends Application {
 
     private int autoBitrate;
     private String directItemId;
+    private Typeface roboto;
+
+    private HashMap<String, DisplayPreferences> displayPrefsCache = new HashMap<>();
 
     private boolean isConnectLogin = false;
+    private String lastDeletedItemId = "";
 
     private boolean isPaid = false;
     private RegistrationInfo registrationInfo;
@@ -89,6 +99,7 @@ public class TvApp extends Application {
         logger = new ConsoleLogger();
         app = (TvApp)getApplicationContext();
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
 
         logger.Info("Application object created");
 
@@ -122,6 +133,8 @@ public class TvApp extends Application {
     public void setLogger(ILogger value) {
         logger = value;
     }
+
+    public Typeface getDefaultFont() { return roboto; }
 
     public IConnectionManager getConnectionManager() {
         return connectionManager;
@@ -206,12 +219,8 @@ public class TvApp extends Application {
         return getSharedPreferences("systemprefs", MODE_PRIVATE);
     }
 
-    public String getLastLiveTvChannel() {
-        return getSystemPrefs().getString("sys_pref_last_tv_channel", null);
-    }
-
-    public void setLastLiveTvChannel(String id) {
-        getSystemPrefs().edit().putString("sys_pref_last_tv_channel", id).commit();
+    public String getConfigVersion() {
+        return getSystemPrefs().getString("sys_pref_config_version", "2");
     }
 
     public boolean getIsAutoLoginConfigured() {
@@ -368,6 +377,45 @@ public class TvApp extends Application {
         }
     }
 
+    public DisplayPreferences getCachedDisplayPrefs(String key) {
+        return displayPrefsCache.containsKey(key) ? displayPrefsCache.get(key) : new DisplayPreferences();
+    }
+
+    public void updateDisplayPrefs(DisplayPreferences preferences) {
+        displayPrefsCache.put(preferences.getId(), preferences);
+        getApiClient().UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), "ATV", new EmptyResponse());
+        logger.Debug("Display prefs updated isFavorite: "+preferences.getCustomPrefs().get("FavoriteOnly"));
+    }
+
+    public void getDisplayPrefsAsync(final String key, final Response<DisplayPreferences> outerResponse) {
+        if (displayPrefsCache.containsKey(key)) {
+            logger.Debug("Display prefs loaded from cache "+key);
+            outerResponse.onResponse(displayPrefsCache.get(key));
+        } else {
+            getApiClient().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), "ATV", new Response<DisplayPreferences>(){
+                @Override
+                public void onResponse(DisplayPreferences response) {
+                    if (response.getSortBy() == null) response.setSortBy("SortName");
+                    if (response.getCustomPrefs() == null) response.setCustomPrefs(new HashMap<String, String>());
+                    displayPrefsCache.put(key, response);
+                    logger.Debug("Display prefs loaded and saved in cache " + response.getPrimaryImageHeight());
+                    outerResponse.onResponse(response);
+                }
+
+                @Override
+                public void onError(Exception exception) {
+                    //Continue with defaults
+                    logger.ErrorException("Unable to load display prefs ", exception);
+                    DisplayPreferences prefs = new DisplayPreferences();
+                    prefs.setId(key);
+                    prefs.setSortBy("SortName");
+                    prefs.setCustomPrefs(new HashMap<String, String>());
+                    outerResponse.onResponse(prefs);
+                }
+            });
+        }
+    }
+
 
     public int getAutoBitrate() {
         return autoBitrate;
@@ -379,10 +427,10 @@ public class TvApp extends Application {
         getApiClient().detectBitrate(new Response<Long>() {
             @Override
             public void onResponse(Long response) {
-                long myTime = System.currentTimeMillis() - start;
-                double secs = myTime / 1000;
-                logger.Info("My secs: "+ secs + " My start: "+start+" My millis: "+myTime);
-                logger.Info("My rate: "+ (40000000 / myTime) * 1000);
+//                long myTime = System.currentTimeMillis() - start;
+//                double secs = myTime / 1000;
+//                logger.Info("My secs: "+ secs + " My start: "+start+" My millis: "+myTime);
+//                logger.Info("My rate: "+ (40000000 / myTime) * 1000);
                 autoBitrate = response.intValue();
                 logger.Info("Auto bitrate set to: "+autoBitrate);
             }
@@ -396,5 +444,13 @@ public class TvApp extends Application {
 
     public void setDirectItemId(String directItemId) {
         this.directItemId = directItemId;
+    }
+
+    public String getLastDeletedItemId() {
+        return lastDeletedItemId;
+    }
+
+    public void setLastDeletedItemId(String lastDeletedItemId) {
+        this.lastDeletedItemId = lastDeletedItemId;
     }
 }

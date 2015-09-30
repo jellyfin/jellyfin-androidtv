@@ -19,7 +19,16 @@
     <color name="semi_trans_dark">#49000000</color>
     <color name="gray_gradient_start">#ff7c7c7c</color>
     <color name="gray_gradient_end">#ffbebebe</color>
+    <color name="green_gradient_start">#057c1f</color>
+    <color name="green_gradient_end">#0c8f06</color>
+    <color name="red_gradient_start">#7c0b09</color>
+    <color name="red_gradient_end">#900d10</color>
     <color name="fastlane_fire">#ff161b21</color>
+
+    <color name="btn_idle_start">#1e1c1c</color>
+    <color name="btn_idle_end">#181616</color>
+    <color name="btn_focused_start">#c308720b</color>
+    <color name="btn_focused_end">#c309500c</color>
 
     <color name="guide_movie_bg">#32053a05</color>
     <color name="guide_sports_bg">#3228108e</color>

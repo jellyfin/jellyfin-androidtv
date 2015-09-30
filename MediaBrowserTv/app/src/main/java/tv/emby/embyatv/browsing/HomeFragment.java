@@ -15,11 +15,13 @@ import android.widget.Toast;
 import java.io.IOException;
 
 import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemSortBy;
+import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
 import tv.emby.embyatv.integration.RecommendationManager;
 import tv.emby.embyatv.livetv.LiveTvGuideActivity;
@@ -84,19 +86,62 @@ public class HomeFragment extends StdBrowseFragment {
     }
 
     @Override
-    protected void setupQueries(IRowLoader rowLoader) {
+    protected void setupQueries(final IRowLoader rowLoader) {
+        //Peek at the first library item to determine our order
+        TvApp.getApplication().getApiClient().GetUserViews(TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
+            @Override
+            public void onResponse(ItemsResult response) {
+                //First library and in-progress
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_library), new ViewQuery()));
 
-        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_library), new ViewQuery()));
+                StdItemQuery resumeItems = new StdItemQuery();
+                resumeItems.setIncludeItemTypes(new String[]{"Movie", "Episode", "Video", "Program"});
+                resumeItems.setRecursive(true);
+                resumeItems.setLimit(50);
+                resumeItems.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
+                resumeItems.setSortBy(new String[]{ItemSortBy.DatePlayed});
+                resumeItems.setSortOrder(SortOrder.Descending);
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_continue_watching), resumeItems, 0, true, true, new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback, ChangeTriggerType.TvPlayback}));
 
-        StdItemQuery resumeItems = new StdItemQuery();
-        resumeItems.setIncludeItemTypes(new String[]{"Movie", "Episode", "Video", "Program"});
-        resumeItems.setRecursive(true);
-        resumeItems.setLimit(50);
-        resumeItems.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
-        resumeItems.setSortBy(new String[]{ItemSortBy.DatePlayed});
-        resumeItems.setSortOrder(SortOrder.Descending);
-        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_continue_watching), resumeItems, 0, true, true, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback, ChangeTriggerType.TvPlayback}));
+                //Now others based on first library type
+                if (response.getTotalRecordCount() > 0) {
+                    String firstType = ("tvshows".equals(response.getItems()[0].getCollectionType())) ? "s" : ("livetv".equals(response.getItems()[0].getCollectionType()) ? "t" : "m");
+                    switch (firstType) {
+                        case "s":
+                            addNextUp();
+                            addLatestMovies();
+                            addOnNow();
+                            break;
 
+                        case "t":
+                            addOnNow();
+                            addNextUp();
+                            addLatestMovies();
+                            break;
+
+                        default:
+                            addLatestMovies();
+                            addNextUp();
+                            addOnNow();
+                    }
+                }
+        //        StdItemQuery latestMusic = new StdItemQuery();
+        //        latestMusic.setIncludeItemTypes(new String[]{"MusicAlbum"});
+        //        latestMusic.setRecursive(true);
+        //        latestMusic.setLimit(50);
+        //        latestMusic.setSortBy(new String[]{ItemSortBy.DateCreated});
+        //        latestMusic.setSortOrder(SortOrder.Descending);
+        //        mRowDef.add(new BrowseRowDef("Latest Albums", latestMusic, 0));
+
+                rowLoader.loadRows(mRows);
+            }
+        });
+
+
+
+    }
+
+    protected void addLatestMovies() {
         StdItemQuery latestMovies = new StdItemQuery();
         latestMovies.setIncludeItemTypes(new String[]{"Movie"});
         latestMovies.setRecursive(true);
@@ -104,33 +149,30 @@ public class HomeFragment extends StdBrowseFragment {
         latestMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
         latestMovies.setSortBy(new String[]{ItemSortBy.DateCreated});
         latestMovies.setSortOrder(SortOrder.Descending);
-        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest_movies), latestMovies, 0, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated, ChangeTriggerType.MoviePlayback}));
+        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest_movies), latestMovies, 0, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated, ChangeTriggerType.MoviePlayback}));
 
+
+    }
+
+    protected void addNextUp() {
         NextUpQuery nextUpQuery = new NextUpQuery();
         nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         nextUpQuery.setLimit(50);
-        nextUpQuery.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
+        nextUpQuery.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
         mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_next_up_tv), nextUpQuery, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}));
 
-        //On now
+    }
+
+    protected void addOnNow() {
         if (TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvAccess()) {
             RecommendedProgramQuery onNow = new RecommendedProgramQuery();
             onNow.setIsAiring(true);
-            onNow.setFields(new ItemFields[] {ItemFields.Overview});
+            onNow.setFields(new ItemFields[] {ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
             onNow.setUserId(TvApp.getApplication().getCurrentUser().getId());
             onNow.setLimit(20);
             mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_on_now), onNow));
         }
 
-//        StdItemQuery latestMusic = new StdItemQuery();
-//        latestMusic.setIncludeItemTypes(new String[]{"MusicAlbum"});
-//        latestMusic.setRecursive(true);
-//        latestMusic.setLimit(50);
-//        latestMusic.setSortBy(new String[]{ItemSortBy.DateCreated});
-//        latestMusic.setSortOrder(SortOrder.Descending);
-//        mRows.add(new BrowseRowDef("Latest Albums", latestMusic, 0));
-
-        rowLoader.loadRows(mRows);
     }
 
     @Override
@@ -160,10 +202,9 @@ public class HomeFragment extends StdBrowseFragment {
     }
 
     private void addLogsButton() {
-        if (TvApp.getApplication().getPrefs().getBoolean("pref_enable_debug",false) && !Utils.isFireTv()) {
-                if (toolsRow.indexOf(sendLogsButton) < 0) toolsRow.add(sendLogsButton);
-            } else {
-                if (toolsRow.indexOf(sendLogsButton) > -1) toolsRow.remove(sendLogsButton);
+        if (toolsRow != null && TvApp.getApplication().getPrefs().getBoolean("pref_enable_debug",false) && !Utils.isFireTv()) {
+            if (toolsRow.indexOf(sendLogsButton) < 0) toolsRow.add(sendLogsButton);
+            else if (toolsRow.indexOf(sendLogsButton) > -1) toolsRow.remove(sendLogsButton);
         }
 
     }
