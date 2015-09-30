@@ -234,4 +234,25 @@
     <string name="lbl_enable_debug">Activer les options de debuggage</string>
     <string name="desc_info_panel">Affiche un panneau de détails sur l\'élément courant pour les écrans qui ne montrent pas d\'information détaillée</string>
     <string name="desc_debug">Affiche un bouton d\'envoi des logs sur l\'écran de la page d\'accueil</string>
+    <string name="lbl_showing">Afficher</string>
+    <string name="lbl_all_items">Tous les éléments</string>
+    <string name="lbl_sorted_by">Trier par</string>
+    <string name="lbl_from">de</string>
+    <string name="lbl_name">Nom</string>
+    <string name="lbl_date_added">Date d\'ajout</string>
+    <string name="lbl_premier_date">Première date</string>
+    <string name="lbl_critic_rating">Note des critiques</string>
+    <string name="lbl_rating">Critique</string>
+    <string name="lbl_starting_with">"Commencer par ceux dont le nom débute par"</string>
+    <string name="btn_done">Fait</string>
+    <string name="lbl_display_preferences">Préférences d\'affichage</string>
+    <string name="lbl_season">Saison</string>
+    <string name="lbl__continuing">POURSUIVRE</string>
+    <string name="lbl_ended">TERMINÉ</string>
+    <string name="msg_confirm_pin">Veuillez confirmer le code pin à l\'adresse mediabrowser.tv/pin</string>
+    <string name="btn_start_now">Commencer maintenant</string>
+    <string name="btn_stop">Arrêter</string>
+    <string name="btn_filter">Filtre</string>
+    <string name="btn_clear_all">Tout effacer</string>
+    <string name="lbl_filters">Filtres</string>
 </resources>

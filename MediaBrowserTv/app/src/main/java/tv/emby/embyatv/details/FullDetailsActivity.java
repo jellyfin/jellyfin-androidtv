@@ -56,8 +56,10 @@ import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.PersonType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.SeriesTimerInfoDto;
+import mediabrowser.model.querying.EpisodeQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
+import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
 import mediabrowser.model.querying.SeasonQuery;
 import mediabrowser.model.querying.SimilarItemsQuery;
@@ -94,6 +96,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     private LinearLayout mGenreRow;
     private ImageButton mResumeButton;
+    private ImageButton mPrevButton;
     private ImageButton mRecordButton;
     private ImageButton mRecSeriesButton;
     private ImageButton mWatchedToggleButton;
@@ -107,6 +110,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     protected String mChannelId;
     protected BaseRowItem mCurrentItem;
     private Calendar mLastUpdated;
+    private String mPrevItemId;
 
     private TextView mTitle;
     private RowsFragment mRowsFragment;
@@ -133,7 +137,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         BUTTON_SIZE = Utils.convertDpToPixel(this, 35);
         mApplication = TvApp.getApplication();
         mActivity = this;
-        roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
+        roboto = mApplication.getDefaultFont();
 
         mTitle = (TextView) findViewById(R.id.fdTitle);
         mTitle.setTypeface(roboto);
@@ -460,7 +464,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 addItemRow(adapter, personMoviesAdapter, 0, mApplication.getString(R.string.lbl_movies));
 
                 ItemQuery personSeries = new ItemQuery();
-                personSeries.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
+                personSeries.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.DisplayPreferencesId});
                 personSeries.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 personSeries.setPersonIds(new String[] {mBaseItem.getId()});
                 personSeries.setRecursive(true);
@@ -480,6 +484,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 SeasonQuery seasons = new SeasonQuery();
                 seasons.setSeriesId(mBaseItem.getId());
                 seasons.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                seasons.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.DisplayPreferencesId});
                 ItemRowAdapter seasonsAdapter = new ItemRowAdapter(seasons, new CardPresenter(), adapter);
                 addItemRow(adapter, seasonsAdapter, 1, mActivity.getString(R.string.lbl_seasons));
 
@@ -497,7 +502,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 }
 
                 SimilarItemsQuery similarSeries = new SimilarItemsQuery();
-                similarSeries.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
+                similarSeries.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.DisplayPreferencesId});
                 similarSeries.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 similarSeries.setId(mBaseItem.getId());
                 similarSeries.setLimit(20);
@@ -559,7 +564,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         if (mBaseItem != null) {
             Long runtime = Utils.NullCoalesce(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
             if (runtime != null && runtime > 0) {
-                long endTimeTicks = mBaseItem.getEndDate() != null ? Utils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
+                long endTimeTicks = !"Recording".equals(mBaseItem.getType()) && mBaseItem.getEndDate() != null ? Utils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
                 String text = getString(R.string.lbl_runs) + runtime / 600000000 + getString(R.string.lbl_min) + "  " + getString(R.string.lbl_ends) + android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks));
                 if (mBaseItem.getCanResume()) {
                     endTimeTicks = System.currentTimeMillis() + ((runtime - mBaseItem.getUserData().getPlaybackPositionTicks()) / 10000);
@@ -651,6 +656,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                 @Override
                                 public void onResponse() {
                                     setRecTimer(null);
+                                    TvApp.getApplication().setLastDeletedItemId(mProgramInfo.getId());
                                     Utils.showToast(mActivity, R.string.msg_recording_cancelled);
                                 }
 
@@ -685,6 +691,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                                 @Override
                                                 public void onResponse() {
                                                     setRecSeriesTimer(null);
+                                                    TvApp.getApplication().setLastDeletedItemId(mProgramInfo.getId());
                                                     Utils.showToast(mActivity, R.string.msg_recording_cancelled);
                                                 }
 
@@ -727,6 +734,40 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         }
 
         if ("Episode".equals(mBaseItem.getType()) && mBaseItem.getSeriesId() != null) {
+            //add the prev button first so it will be there in proper position - we'll show it later if needed
+            mPrevButton = new ImageButton(this, R.drawable.prev, buttonSize, "Previous Episode", null, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mPrevItemId != null) {
+                        Intent intent = new Intent(mActivity, FullDetailsActivity.class);
+                        intent.putExtra("ItemId", mPrevItemId);
+                        mActivity.startActivity(intent);
+                    }
+                }
+            });
+
+            mPrevButton.setVisibility(View.GONE);
+            mDetailsOverviewRow.addAction(mPrevButton);
+
+            //now go get our prev episode id
+            EpisodeQuery adjacent = new EpisodeQuery();
+            adjacent.setUserId(TvApp.getApplication().getCurrentUser().getId());
+            adjacent.setSeriesId(mBaseItem.getSeriesId());
+            adjacent.setAdjacentTo(mBaseItem.getId());
+            TvApp.getApplication().getApiClient().GetEpisodesAsync(adjacent, new Response<ItemsResult>() {
+                @Override
+                public void onResponse(ItemsResult response) {
+                    if (response.getTotalRecordCount() > 0) {
+                        //Just look at first item - if it isn't us, then it is the prev episode
+                        if (!mBaseItem.getId().equals(response.getItems()[0].getId())) {
+                            mPrevItemId = response.getItems()[0].getId();
+                            mPrevButton.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            });
+
+
             ImageButton series = new ImageButton(this, R.drawable.tvicon, buttonSize, getString(R.string.lbl_goto_series), null, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -738,31 +779,43 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             mDetailsOverviewRow.addAction(series);
         }
 
-//        if (mBaseItem.getCanDelete()) {
-//            final Activity activity = this;
-//            ImageButton del = new ImageButton(this, R.drawable.trash, buttonSize, "Delete", null, new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    new AlertDialog.Builder(activity)
-//                            .setTitle("Delete")
-//                            .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
-//                            .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int whichButton) {
-//                                    Utils.showToast(activity, "Would delete...");
-//                                }
-//                            })
-//                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    Utils.showToast(activity, "Item NOT Deleted");
-//                                }
-//                            })
-//                            .show();
-//
-//                }
-//            });
-//            mDetailsOverviewRow.addAction(del);
-//        }
+        if ("Recording".equals(mBaseItem.getType()) && TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvManagement() && mBaseItem.getCanDelete()) {
+            final Activity activity = this;
+            ImageButton del = new ImageButton(this, R.drawable.trash, buttonSize, "Delete", null, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialog.Builder(activity)
+                            .setTitle("Delete")
+                            .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
+                            .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    TvApp.getApplication().getApiClient().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
+                                        @Override
+                                        public void onResponse() {
+                                            Utils.showToast(activity, mBaseItem.getName() + " Deleted");
+                                            TvApp.getApplication().setLastDeletedItemId(mBaseItem.getId());
+                                            finish();
+                                        }
+
+                                        @Override
+                                        public void onError(Exception ex) {
+                                            Utils.showToast(activity, ex.getLocalizedMessage());
+                                        }
+                                    });
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Utils.showToast(activity, "Item NOT Deleted");
+                                }
+                            })
+                            .show();
+
+                }
+            });
+            mDetailsOverviewRow.addAction(del);
+        }
     }
 
     RecordPopup mRecordPopup;
@@ -776,7 +829,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         TvApp.getApplication().getApiClient().GetDefaultLiveTvTimerInfo(mProgramInfo.getId(), new Response<SeriesTimerInfoDto>() {
             @Override
             public void onResponse(SeriesTimerInfoDto response) {
-                if (recordSeries || mProgramInfo.getIsSports()){
+                if (recordSeries || Utils.isTrue(mProgramInfo.getIsSports())){
                     mRecordPopup.setContent(mProgramInfo, response, mActivity, recordSeries);
                     mRecordPopup.show();
                 } else {

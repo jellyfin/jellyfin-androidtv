@@ -5,14 +5,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import org.videolan.libvlc.EventHandler;
+import org.videolan.libvlc.MediaPlayer.Event;
 
 import tv.emby.embyatv.TvApp;
 
 /**
  * Created by Eric on 6/13/2015.
  */
-public class VlcEventHandler extends Handler {
+public class VlcEventHandler implements org.videolan.libvlc.MediaPlayer.EventListener {
 
     private PlaybackListener onCompletionListener;
     private PlaybackListener onErrorListener;
@@ -24,23 +24,23 @@ public class VlcEventHandler extends Handler {
     public void setOnPreparedListener(PlaybackListener listener) { onPreparedListener = listener; }
     public void setOnProgressListener(PlaybackListener listener) { onProgressListener = listener; }
 
-    public void handleMessage(Message msg) {
-        // Libvlc events
-        Bundle b = msg.getData();
-        switch (b.getInt("event")) {
-            case EventHandler.MediaPlayerEndReached:
+    @Override
+    public void onEvent(Event event) {
+        switch (event.type) {
+            case Event.EndReached:
                 if (onCompletionListener != null) onCompletionListener.onEvent();
                 break;
-            case EventHandler.MediaPlayerPlaying:
+            case Event.Playing:
                 if (onPreparedListener != null) onPreparedListener.onEvent();
                 break;
-            case EventHandler.MediaPlayerPositionChanged:
+            case Event.PositionChanged:
                 if (onProgressListener != null) onProgressListener.onEvent();
                 break;
-            case EventHandler.MediaPlayerPaused:
-            case EventHandler.MediaPlayerStopped:
+            case Event.Paused:
+            case Event.Stopped:
             default:
                 break;
+
         }
     }
 }

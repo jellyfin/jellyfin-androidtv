@@ -9,17 +9,22 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
+import mediabrowser.model.entities.DisplayPreferences;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.search.SearchHint;
+import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.browsing.BrowseRecordingsActivity;
 import tv.emby.embyatv.browsing.CollectionActivity;
 import tv.emby.embyatv.browsing.GenericFolderActivity;
+import tv.emby.embyatv.browsing.GenericGridActivity;
 import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.browsing.UserViewActivity;
 import tv.emby.embyatv.details.FullDetailsActivity;
 import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
+import tv.emby.embyatv.model.ViewType;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.startup.SelectUserActivity;
 import tv.emby.embyatv.util.DelayedMessage;
@@ -33,7 +38,7 @@ public class ItemLauncher {
         launch(rowItem, application, activity, false);
     }
 
-    public static void launch(BaseRowItem rowItem, final TvApp application, final Activity activity, boolean noHistory) {
+    public static void launch(BaseRowItem rowItem, final TvApp application, final Activity activity, final boolean noHistory) {
         switch (rowItem.getItemType()) {
 
             case BaseItem:
@@ -43,24 +48,46 @@ public class ItemLauncher {
                 //specialized type handling
                 switch (baseItem.getType()) {
                     case "UserView":
-                        if (baseItem.getCollectionType() == null) baseItem.setCollectionType("unknown");
-                        switch (baseItem.getCollectionType()) {
-                            case "movies":
-                            case "tvshows":
-                            case "music":
-                            case "livetv":
-                                // open user view browsing
-                                Intent intent = new Intent(activity, UserViewActivity.class);
-                                intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+                        //We need to get display prefs...
+                        TvApp.getApplication().getDisplayPrefsAsync(baseItem.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
+                            @Override
+                            public void onResponse(DisplayPreferences response) {
+                                if (baseItem.getCollectionType() == null) baseItem.setCollectionType("unknown");
+                                switch (baseItem.getCollectionType()) {
+                                    case "movies":
+                                    case "tvshows":
+                                    case "music":
+                                        if (ViewType.GRID.equals(response.getCustomPrefs().get("DefaultView"))) {
+                                            // open grid browsing
+                                            Intent folderIntent = new Intent(activity, GenericGridActivity.class);
+                                            folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+                                            activity.startActivity(folderIntent);
 
-                                activity.startActivity(intent);
-                                break;
-                            default:
-                                // open generic folder browsing
-                                Intent folderIntent = new Intent(activity, GenericFolderActivity.class);
-                                folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
-                                activity.startActivity(folderIntent);
-                        }
+                                        } else {
+                                            // open user view browsing
+                                            Intent intent = new Intent(activity, UserViewActivity.class);
+                                            intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+
+                                            activity.startActivity(intent);
+
+                                        }
+                                        break;
+                                    case "livetv":
+                                        // open user view browsing
+                                        Intent intent = new Intent(activity, UserViewActivity.class);
+                                        intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+
+                                        activity.startActivity(intent);
+                                        break;
+                                    default:
+                                        // open generic folder browsing
+                                        Intent folderIntent = new Intent(activity, GenericGridActivity.class);
+                                        folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+                                        activity.startActivity(folderIntent);
+                                }
+
+                            }
+                        });
                         return;
                     case "Series":
                         //Start activity for details display
@@ -69,6 +96,17 @@ public class ItemLauncher {
                         if (noHistory) intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
                         activity.startActivity(intent);
+
+                        return;
+
+                    case "Season":
+                    case "RecordingGroup":
+                        //Start activity for enhanced browse
+                        Intent seasonIntent = new Intent(activity, GenericFolderActivity.class);
+                        seasonIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+                        if (noHistory) seasonIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+                        activity.startActivity(seasonIntent);
 
                         return;
 
@@ -85,12 +123,18 @@ public class ItemLauncher {
 
                 // or generic handling
                 if (baseItem.getIsFolder()) {
-                    // open generic folder browsing
-                    Intent intent = new Intent(activity, GenericFolderActivity.class);
-                    intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
-                    if (noHistory) intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    // open generic folder browsing - but need display prefs
+                    TvApp.getApplication().getDisplayPrefsAsync(baseItem.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
+                        @Override
+                        public void onResponse(DisplayPreferences response) {
+                            Intent intent = new Intent(activity, GenericGridActivity.class);
+                            intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+                            if (noHistory) intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
-                    activity.startActivity(intent);
+                            activity.startActivity(intent);
+
+                        }
+                    });
                 } else {
                     switch (rowItem.getSelectAction()) {
 
@@ -276,6 +320,15 @@ public class ItemLauncher {
                     case TvApp.LIVE_TV_GUIDE_OPTION_ID:
                         Intent guide = new Intent(activity, LiveTvGuideActivity.class);
                         activity.startActivity(guide);
+                        break;
+
+                    case TvApp.LIVE_TV_RECORDINGS_OPTION_ID:
+                        Intent recordings = new Intent(activity, BrowseRecordingsActivity.class);
+                        BaseItemDto folder = new BaseItemDto();
+                        folder.setId("");
+                        folder.setName(TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv));
+                        recordings.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(folder));
+                        activity.startActivity(recordings);
                         break;
 
 

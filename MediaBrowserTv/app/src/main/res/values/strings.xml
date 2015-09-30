@@ -237,6 +237,34 @@
     <string name="lbl_enable_debug">Enable debug options</string>
     <string name="desc_info_panel">Show a panel with details on the current item on screens without detail information</string>
     <string name="desc_debug">Show a send logs button on the home screen</string>
+    <string name="lbl_showing">Showing</string>
+    <string name="lbl_all_items">All Items</string>
+    <string name="lbl_sorted_by">sorted by</string>
+    <string name="lbl_from">from</string>
+    <string name="lbl_name">Name</string>
+    <string name="lbl_date_added">Date Added</string>
+    <string name="lbl_premier_date">Premier Date</string>
+    <string name="lbl_critic_rating">Critic Rating</string>
+    <string name="lbl_rating">Rating</string>
+    <string name="lbl_starting_with">"beginning with those who's name starts with"</string>
+    <string name="btn_done">Done</string>
+    <string name="lbl_display_preferences">Display Preferences</string>
+    <string name="lbl_season">Season</string>
+    <string name="lbl__continuing"> CONTINUING </string>
+    <string name="lbl_ended"> ENDED </string>
+    <string name="msg_confirm_pin">Please confirm the above pin at mediabrowser.tv/pin</string>
+    <string name="btn_start_now">Start Now</string>
+    <string name="btn_stop">Stop</string>
+    <string name="btn_filter">Filter</string>
+    <string name="btn_clear_all">Clear All</string>
+    <string name="lbl_filters">Filters</string>
+    <string name="msg_subtitles_loading">Subtitles loading...</string>
+    <string name="msg_unable_load_subs">Unable to load subtitle</string>
+    <string name="msg_burn_sub_warning">Burned in subs can take a few minutes. Please be patient...</string>
+    <string name="lbl_recording">Recording</string>
+    <string name="lbl_no_recordings">No Recordings Available</string>
+    <string name="lbl_live_tv_guide">Live TV Guide</string>
+    <string name="lbl_recorded_tv">Recorded TV</string>
 
 
 </resources>

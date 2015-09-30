@@ -38,7 +38,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.entities.DisplayPreferences;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
@@ -77,9 +79,11 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     protected static final int PERSONS = 3;
     protected static final int SUGGESTED = 4;
     protected static final int SEARCH = 5;
+    protected static final int GRID = 6;
     protected BaseItemDto mFolder;
     protected String itemTypeString;
     protected boolean showViews = true;
+    protected boolean justLoaded = true;
 
     private Target mBackgroundTarget;
     private DisplayMetrics mMetrics;
@@ -95,7 +99,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     protected ArrayList<BrowseRowDef> mRows = new ArrayList<>();
     CardPresenter mCardPresenter;
     protected BaseRowItem mCurrentItem;
-    protected Row mCurrentRow;
+    protected ListRow mCurrentRow;
 
     @Nullable
     @Override
@@ -104,7 +108,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         View root = inflater.inflate(R.layout.enhanced_detail_browse, container, false);
 
         mActivity = (BaseActivity) getActivity();
-        roboto = Typeface.createFromAsset(mActivity.getAssets(), "fonts/Roboto-Light.ttf");
+        roboto = TvApp.getApplication().getDefaultFont();
 
         mTitle = (TextView) root.findViewById(R.id.title);
         mTitle.setTypeface(roboto);
@@ -155,6 +159,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
     protected void setupViews() {
         mFolder = TvApp.getApplication().getSerializer().DeserializeFromString(getActivity().getIntent().getStringExtra("Folder"),BaseItemDto.class);
+        if (mFolder == null) return;
+
         if (mFolder.getCollectionType() != null) {
             switch (mFolder.getCollectionType()) {
                 case "movies":
@@ -187,28 +193,34 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     public void onResume() {
         super.onResume();
 
-        //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
-        if (mRowsAdapter != null) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (mActivity.isFinishing()) return;
-                    for (int i = 0; i < mRowsAdapter.size(); i++) {
-                        if (mRowsAdapter.get(i) instanceof ListRow) {
-                            if (((ListRow) mRowsAdapter.get(i)).getAdapter() instanceof ItemRowAdapter && !mActivity.isFinishing()) {
-                                ((ItemRowAdapter) ((ListRow) mRowsAdapter.get(i)).getAdapter()).ReRetrieveIfNeeded();
+        if (!justLoaded) {
+            //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
+            if (mRowsAdapter != null) {
+                refreshCurrentItem();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mActivity.isFinishing()) return;
+                        for (int i = 0; i < mRowsAdapter.size(); i++) {
+                            if (mRowsAdapter.get(i) instanceof ListRow) {
+                                if (((ListRow) mRowsAdapter.get(i)).getAdapter() instanceof ItemRowAdapter && !mActivity.isFinishing()) {
+                                    ((ItemRowAdapter) ((ListRow) mRowsAdapter.get(i)).getAdapter()).ReRetrieveIfNeeded();
+                                }
                             }
                         }
                     }
-                }
-            },1500);
+                }, 1500);
+            }
+
+        } else {
+            justLoaded = false;
         }
     }
 
     public void loadRows(List<BrowseRowDef> rows) {
 
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
-        mCardPresenter = new CardPresenter(false);
+        mCardPresenter = new CardPresenter(false, 300);
 
         for (BrowseRowDef def : rows) {
             HeaderItem header = new HeaderItem(def.getHeaderText(), null);
@@ -244,6 +256,9 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                 case LiveTvRecording:
                     rowAdapter = new ItemRowAdapter(def.getRecordingQuery(), mCardPresenter, mRowsAdapter);
                     break;
+                case LiveTvRecordingGroup:
+                    rowAdapter = new ItemRowAdapter(def.getRecordingGroupQuery(), mCardPresenter, mRowsAdapter);
+                    break;
                 default:
                     rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), mCardPresenter, mRowsAdapter);
                     break;
@@ -269,6 +284,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
             GridButtonPresenter mGridPresenter = new GridButtonPresenter();
             ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
+            gridRowAdapter.add(new GridButton(GRID, TvApp.getApplication().getString(R.string.lbl_all_items), R.drawable.grid));
             gridRowAdapter.add(new GridButton(BY_LETTER, mApplication.getString(R.string.lbl_by_letter), R.drawable.byletter));
             if (itemTypeString != null && itemTypeString.equals("Movie"))
                 gridRowAdapter.add(new GridButton(SUGGESTED, mApplication.getString(R.string.lbl_suggested), R.drawable.suggestions));
@@ -306,19 +322,27 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                     switch (message) {
 
                         case RefreshCurrentItem:
-                            TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
-                            mCurrentItem.refresh(new EmptyResponse() {
-                                @Override
-                                public void onResponse() {
-                                    ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)mCurrentRow).getAdapter();
-                                    adapter.notifyArrayItemRangeChanged(adapter.indexOf(mCurrentItem), 1);
-                                }
-                            });
+                            refreshCurrentItem();
                             break;
                     }
                 }
             });
         }
+    }
+
+    private void refreshCurrentItem() {
+        if (mCurrentItem != null) {
+            TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
+            mCurrentItem.refresh(new EmptyResponse() {
+                @Override
+                public void onResponse() {
+                    ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow) mCurrentRow).getAdapter();
+                    adapter.notifyArrayItemRangeChanged(adapter.indexOf(mCurrentItem), 1);
+                }
+            });
+
+        }
+
     }
 
     private final class SpecialViewClickedListener implements OnItemViewClickedListener {
@@ -328,6 +352,17 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
             if (item instanceof GridButton) {
                 switch (((GridButton) item).getId()) {
+                    case GRID:
+                        TvApp.getApplication().getDisplayPrefsAsync(mFolder.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
+                            @Override
+                            public void onResponse(DisplayPreferences response) {
+                                Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
+                                folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
+                                getActivity().startActivity(folderIntent);
+                            }
+                        });
+                        break;
+
                     case BY_LETTER:
                         Intent intent = new Intent(getActivity(), ByLetterActivity.class);
                         intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
@@ -401,7 +436,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             BaseRowItem rowItem = (BaseRowItem) item;
 
             mCurrentItem = rowItem;
-            mCurrentRow = row;
+            mCurrentRow = (ListRow) row;
             mHandler.postDelayed(updateContentTask, 500);
 
             //mApplication.getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));

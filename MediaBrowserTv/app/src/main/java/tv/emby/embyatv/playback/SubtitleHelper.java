@@ -15,6 +15,7 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.entities.MediaStream;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
+import tv.emby.embyatv.util.Utils;
 
 /**
  * Created by Eric on 7/19/2015.
@@ -34,6 +35,7 @@ public class SubtitleHelper {
         final File file = new File(getSubtitleDownloadPath(stream));
 
         if (file.exists()){
+            TvApp.getApplication().getLogger().Info("Re-using downloaded subtitle file");
             response.onResponse(file);
             return;
         }
@@ -88,7 +90,7 @@ public class SubtitleHelper {
 
     private String getSubtitleDownloadPath(MediaStream stream) {
 
-        String filename = UUID.randomUUID().toString();
+        String filename = Utils.MD5(stream.getDeliveryUrl());
 
         if (stream.getCodec() != null){
             filename += "." + stream.getCodec().toLowerCase();

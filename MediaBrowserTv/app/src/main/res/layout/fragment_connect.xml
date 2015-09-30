@@ -59,22 +59,27 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Next"
+        android:text="@string/btn_next"
+        android:background="@drawable/emby_button"
         android:id="@+id/buttonNext"
         android:clickable="true"
         android:focusable="true"
         android:enabled="true"
-        android:layout_marginStart="74dp"
+        android:layout_marginStart="10dp"
         android:layout_alignBottom="@+id/textViewMessage"
-        android:layout_toEndOf="@+id/textViewPin" />
+        android:layout_toEndOf="@+id/textViewPin"
+        android:textColor="@android:color/white" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btn_cancel"
+        android:background="@drawable/emby_button"
         android:id="@+id/buttonCancel"
         android:layout_alignBottom="@+id/textViewMessage"
-        android:layout_toEndOf="@+id/buttonManual" />
+        android:layout_toEndOf="@+id/buttonManual"
+        android:layout_marginLeft="10dp"
+        android:textColor="@android:color/white" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -90,8 +95,12 @@
         android:layout_height="wrap_content"
         android:text="@string/btn_manually"
         android:id="@+id/buttonManual"
+        android:background="@drawable/emby_button"
         android:layout_alignTop="@+id/buttonNext"
-        android:layout_toEndOf="@+id/buttonNext" />
+        android:layout_toEndOf="@+id/buttonNext"
+        android:layout_marginLeft="10dp"
+        android:minWidth="200dp"
+        android:textColor="@android:color/white" />
 
 
 </RelativeLayout>

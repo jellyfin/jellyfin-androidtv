@@ -10,7 +10,7 @@ android {
         applicationId "tv.emby.embyatv"
         minSdkVersion 17
         targetSdkVersion 21
-        versionCode 1080
+        versionCode 1105
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -24,10 +24,10 @@ android {
     }
     productFlavors {
         google {
-            versionName = "1.0.80g"
+            versionName = "1.1.05g"
         }
         amazon {
-            versionName = "1.0.80a"
+            versionName = "1.1.05a"
         }
     }
 }
@@ -45,5 +45,5 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.1.0'
     compile 'com.squareup.okio:okio:1.0.1'
     compile 'com.google.guava:guava:18.0'
-    compile 'de.mrmaffen:vlc-android-sdk:1.0.6'
+    compile 'com.devbrackets.android:exomedia:2.3.1'
 }

@@ -34,6 +34,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
+import java.util.UUID;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.ConnectionResult;
@@ -309,6 +311,52 @@ public class Utils {
         return apiClient.GetImageUrl(itemId, options);
     }
 
+    public static String getBannerImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
+        if (!item.getHasBanner()) return getPrimaryImageUrl(item, apiClient, true, false, maxHeight);
+        ImageOptions options = new ImageOptions();
+        options.setTag(item.getImageTags().get(ImageType.Banner));
+        options.setImageType(ImageType.Banner);
+        UserItemDataDto userData = item.getUserData();
+        if (userData != null) {
+            if (Arrays.asList(ProgressIndicatorTypes).contains(item.getType()) && userData.getPlayedPercentage() != null
+                    && userData.getPlayedPercentage() > 0 && userData.getPlayedPercentage() < 99) {
+                Double pct = userData.getPlayedPercentage();
+                options.setPercentPlayed(pct.intValue());
+            }
+
+            options.setAddPlayedIndicator(userData.getPlayed());
+            if (item.getIsFolder() && userData.getUnplayedItemCount() != null && userData.getUnplayedItemCount() > 0)
+                options.setUnPlayedCount(userData.getUnplayedItemCount());
+
+        }
+
+        return apiClient.GetImageUrl(item.getId(), options);
+
+    }
+
+    public static String getThumbImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
+        if (!item.getHasThumb()) return getPrimaryImageUrl(item, apiClient, true, true, maxHeight);
+        ImageOptions options = new ImageOptions();
+        options.setTag(item.getImageTags().get(ImageType.Thumb));
+        options.setImageType(ImageType.Thumb);
+        UserItemDataDto userData = item.getUserData();
+        if (userData != null) {
+            if (Arrays.asList(ProgressIndicatorTypes).contains(item.getType()) && userData.getPlayedPercentage() != null
+                    && userData.getPlayedPercentage() > 0 && userData.getPlayedPercentage() < 99) {
+                Double pct = userData.getPlayedPercentage();
+                options.setPercentPlayed(pct.intValue());
+            }
+
+            options.setAddPlayedIndicator(userData.getPlayed());
+            if (item.getIsFolder() && userData.getUnplayedItemCount() != null && userData.getUnplayedItemCount() > 0)
+                options.setUnPlayedCount(userData.getUnplayedItemCount());
+
+        }
+
+        return apiClient.GetImageUrl(item.getId(), options);
+
+    }
+
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched, boolean preferParentThumb, int maxHeight) {
         return getPrimaryImageUrl(item, apiClient, showWatched, true, preferParentThumb, false, maxHeight);
     }
@@ -316,7 +364,7 @@ public class Utils {
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched, boolean showProgress, boolean preferParentThumb, boolean preferSeriesPoster, int maxHeight) {
         ImageOptions options = new ImageOptions();
         String itemId = item.getId();
-        String imageTag = item.getImageTags().get(ImageType.Primary);
+        String imageTag = item.getImageTags() != null ? item.getImageTags().get(ImageType.Primary) : null;
         ImageType imageType = ImageType.Primary;
         if (preferSeriesPoster && item.getType().equals("Episode") && item.getSeasonId() != null) {
             imageTag = null;
@@ -474,6 +522,11 @@ public class Utils {
                 });
                 break;
             case "Program":
+                if (mainItem.getParentId() == null) {
+                    outerResponse.onError(new Exception("No Channel ID"));
+                    return;
+                }
+
                 //We retrieve the channel the program is on (which should be the program's parent)
                 TvApp.getApplication().getApiClient().GetItemAsync(mainItem.getParentId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
@@ -543,7 +596,6 @@ public class Utils {
     }
 
     public static void play(final BaseItemDto item, final int pos, final boolean shuffle, final Context activity) {
-        final DelayedMessage msg = new DelayedMessage(activity);
         Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), shuffle, new Response<String[]>() {
             @Override
             public void onResponse(String[] response) {
@@ -552,7 +604,6 @@ public class Utils {
                 intent.putExtra("Position", pos);
                 if (!(activity instanceof Activity)) intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 activity.startActivity(intent);
-                msg.Cancel();
             }
         });
 
@@ -572,7 +623,7 @@ public class Utils {
 
             @Override
             public void onError(Exception exception) {
-                TvApp.getApplication().getLogger().ErrorException("Error retrieving item for playback",exception);
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving item for playback", exception);
                 Utils.showToast(activity, R.string.msg_video_playback_error);
             }
         });
@@ -601,7 +652,8 @@ public class Utils {
 
     public static boolean CanPlay(BaseItemDto item) {
         return item.getPlayAccess().equals(PlayAccess.Full)
-                && ((item.getIsPlaceHolder() == null || !item.getIsPlaceHolder()) && (!item.getType().equals("Episode") || !item.getLocationType().equals(LocationType.Virtual)))
+                && ((item.getIsPlaceHolder() == null || !item.getIsPlaceHolder())
+                && (!item.getType().equals("Episode") || !item.getLocationType().equals(LocationType.Virtual)))
                 && (!item.getIsFolder() || item.getChildCount() > 0);
     }
 
@@ -685,7 +737,7 @@ public class Utils {
                             sb.append(item.getAirTime());
                         }
                         if (item.getStatus() != null) {
-                            addWithDivider(sb, item.getStatus().toString());
+                            addWithDivider(sb, item.getStatus());
                         }
 
                         break;
@@ -757,7 +809,7 @@ public class Utils {
     public static String GetFullName(BaseItemDto item) {
         switch (item.getType()) {
             case "Episode":
-                return item.getSeriesName() + " S" + item.getParentIndexNumber() + ", E" + item.getIndexNumber();
+                return item.getSeriesName() + " S" + item.getParentIndexNumber() + ", E" + item.getIndexNumber() + (item.getIndexNumberEnd() != null ? "-" + item.getIndexNumberEnd() : "");
             default:
                 return item.getName();
         }
@@ -1168,7 +1220,12 @@ public class Utils {
 
     public static String FirstToUpper(String value) {
         if (value == null || value.length() == 0) return "";
-        return value.substring(0,1).toUpperCase() + (value.length() > 1 ? value.substring(1) : "");
+        return value.substring(0, 1).toUpperCase() + (value.length() > 1 ? value.substring(1) : "");
+    }
+
+    public static String NullCoalesce(String obj, String def) {
+        if (obj == null) return def;
+        return obj;
     }
 
     public static int NullCoalesce(Integer obj, int def) {
@@ -1177,6 +1234,11 @@ public class Utils {
     }
 
     public static Long NullCoalesce(Long obj, Long def) {
+        if (obj == null) return def;
+        return obj;
+    }
+
+    public static Double NullCoalesce(Double obj, Double def) {
         if (obj == null) return def;
         return obj;
     }
@@ -1223,9 +1285,16 @@ public class Utils {
     public static boolean isFireTv() {
         return Build.MODEL.startsWith("AFT");
     }
+    public static boolean isFireTvStick() { return Build.MODEL.equals("AFTM"); }
+
+    public static boolean isShield() { return Build.MODEL.equals("SHIELD Android TV"); }
 
     public static boolean is50() {
         return Build.VERSION.SDK_INT >= 21;
+    }
+
+    public static boolean isGingerbreadOrLater() {
+        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD;
     }
 
     public static int getBrandColor() {
@@ -1259,6 +1328,38 @@ public class Utils {
                             Utils.loginUser(user.getName(), pw, TvApp.getApplication().getLoginApiClient(), activity, directItemId);
                         }
                     }).show();
+        }
+    }
+
+    private static String convertToHex(byte[] data) {
+        StringBuilder buf = new StringBuilder();
+        for (byte aData : data) {
+            int halfbyte = (aData >>> 4) & 0x0F;
+            int two_halfs = 0;
+            do {
+                if ((0 <= halfbyte) && (halfbyte <= 9))
+                    buf.append((char) ('0' + halfbyte));
+                else
+                    buf.append((char) ('a' + (halfbyte - 10)));
+                halfbyte = aData & 0x0F;
+            } while (two_halfs++ < 1);
+        }
+        return buf.toString();
+    }
+
+    public static String MD5(String text)  {
+        try {
+            MessageDigest md;
+            md = MessageDigest.getInstance("MD5");
+            byte[] md5hash = new byte[32];
+            md.update(text.getBytes("iso-8859-1"), 0, text.length());
+            md5hash = md.digest();
+            return convertToHex(md5hash);
+
+        } catch (UnsupportedEncodingException e) {
+            return UUID.randomUUID().toString();
+        } catch (NoSuchAlgorithmException e) {
+            return UUID.randomUUID().toString();
         }
     }
 }

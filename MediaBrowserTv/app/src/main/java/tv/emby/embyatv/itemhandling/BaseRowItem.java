@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import mediabrowser.apiinteraction.EmptyResponse;
@@ -123,6 +124,24 @@ public class BaseRowItem {
     public ItemType getItemType() { return type; }
     public boolean isFolder() { return type == ItemType.BaseItem && baseItem != null && baseItem.getIsFolder(); }
 
+    public String getImageUrl(String imageType, int maxHeight) {
+        switch (type) {
+            case BaseItem:
+            case LiveTvProgram:
+            case LiveTvRecording:
+                switch (imageType) {
+                    case tv.emby.embyatv.model.ImageType.BANNER:
+                        return Utils.getBannerImageUrl(baseItem, TvApp.getApplication().getApiClient(), maxHeight);
+                    case tv.emby.embyatv.model.ImageType.THUMB:
+                        return Utils.getThumbImageUrl(baseItem, TvApp.getApplication().getApiClient(), maxHeight);
+                    default:
+                        return getPrimaryImageUrl(maxHeight);
+                }
+                default:
+                    return getPrimaryImageUrl(maxHeight);
+        }
+    }
+
     public String getPrimaryImageUrl(int maxHeight) {
         switch (type) {
 
@@ -147,6 +166,58 @@ public class BaseRowItem {
                         !Utils.IsEmpty(searchHint.getThumbImageItemId()) ? Utils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag(), TvApp.getApplication().getApiClient()) : null;
         }
         return null;
+    }
+
+    public boolean isFavorite() {
+        switch (type) {
+
+            case BaseItem:
+            case LiveTvRecording:
+            case LiveTvProgram:
+                return baseItem.getUserData() != null && baseItem.getUserData().getIsFavorite();
+            case Person:
+                break;
+            case Server:
+                break;
+            case User:
+                break;
+            case Chapter:
+                break;
+            case SearchHint:
+                break;
+            case LiveTvChannel:
+                break;
+            case GridButton:
+                break;
+        }
+
+        return false;
+    }
+
+    public boolean isPlayed() {
+        switch (type) {
+            case BaseItem:
+            case LiveTvRecording:
+            case LiveTvProgram:
+                return baseItem.getUserData() != null && baseItem.getUserData().getPlayed();
+            case Person:
+                break;
+            case Server:
+                break;
+            case User:
+                break;
+            case Chapter:
+                break;
+            case SearchHint:
+                break;
+            case LiveTvChannel:
+                break;
+            case GridButton:
+                break;
+
+        }
+
+        return false;
     }
 
     public String getFullName() {
@@ -242,11 +313,15 @@ public class BaseRowItem {
             case LiveTvChannel:
                 return channelInfo.getNumber();
             case LiveTvProgram:
-                return baseItem.getChannelName() + " " + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
-                        (android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getStartDate())) + "-"
-                        + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getEndDate())));
+                Calendar start = Calendar.getInstance();
+                start.setTime(Utils.convertToLocalDate(baseItem.getStartDate()));
+                int day = start.get(Calendar.DAY_OF_YEAR);
+                return baseItem.getChannelName() + " - " + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
+                        ((day != Calendar.getInstance().get(Calendar.DAY_OF_YEAR) ? new SimpleDateFormat("d MMM").format(start.getTime()) + " " : "") +
+                        android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(start.getTime()) + "-"
+                                + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getEndDate())));
             case LiveTvRecording:
-                return (baseItem.getChannelName() != null ? baseItem.getChannelName() + " " : "") + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
+                return (baseItem.getChannelName() != null ? baseItem.getChannelName() + " - " : "") + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
                         new SimpleDateFormat("d MMM").format(Utils.convertToLocalDate(baseItem.getStartDate())) + " " +
                         (android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getStartDate())) + "-"
                                 + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getEndDate())));
@@ -258,6 +333,33 @@ public class BaseRowItem {
         }
 
         return "";
+    }
+
+    public String getType() {
+        switch (type) {
+
+            case BaseItem:
+            case LiveTvRecording:
+            case LiveTvProgram:
+                return baseItem.getType();
+            case Person:
+                return person.getType();
+            case Server:
+                break;
+            case User:
+                break;
+            case Chapter:
+                break;
+            case SearchHint:
+                return searchHint.getType();
+            case LiveTvChannel:
+                return channelInfo.getType();
+            case GridButton:
+                return "GridButton";
+        }
+
+        return "";
+
     }
 
     public String getSummary() {
