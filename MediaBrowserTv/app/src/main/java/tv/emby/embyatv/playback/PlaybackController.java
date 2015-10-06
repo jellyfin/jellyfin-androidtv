@@ -329,8 +329,14 @@ public class PlaybackController {
                 mFragment.updateDisplay();
                 String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken());
 
-                // if source is stereo - use most compatible output
-                if (response.getMediaSource().getDefaultAudioStream() != null && response.getMediaSource().getDefaultAudioStream().getChannels() <= 2) mVideoManager.setCompatibleAudio();
+                // if source is stereo or we're on Fire TV with AC3 - use most compatible output
+                if (response.getMediaSource().getDefaultAudioStream() != null && (response.getMediaSource().getDefaultAudioStream().getChannels() <= 2 || (Utils.isFireTv() && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec())))) {
+                    mVideoManager.setCompatibleAudio();
+                    //Utils.showToast(mApplication, "Compatible");
+                } else {
+                    //Utils.showToast(mApplication, "Default");
+                    mVideoManager.setAudioMode();
+                }
 
                 mVideoManager.setVideoPath(path);
                 //wait a beat before attempting to start so the player surface is fully initialized and video is ready
