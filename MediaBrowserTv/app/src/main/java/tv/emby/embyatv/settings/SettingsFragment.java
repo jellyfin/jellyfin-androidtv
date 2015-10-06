@@ -47,7 +47,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         // conditionally hide options that don't apply
         PreferenceCategory cat = (PreferenceCategory) findPreference("pref_playback_category");
         if (Utils.isFireTvStick()) cat.removePreference(findPreference("pref_vlc_max_res"));
-        if (Utils.isFireTv()) cat.removePreference(findPreference("pref_audio_option"));
+        if (Utils.isFireTv() && !Utils.is50()) cat.removePreference(findPreference("pref_audio_option"));
     }
 
     @Override
