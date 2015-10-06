@@ -330,7 +330,7 @@ public class PlaybackController {
                 String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken());
 
                 // if source is stereo or we're on Fire TV with AC3 - use most compatible output
-                if (response.getMediaSource().getDefaultAudioStream() != null && (response.getMediaSource().getDefaultAudioStream().getChannels() <= 2 || (Utils.isFireTv() && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec())))) {
+                if (!mVideoManager.isNativeMode() && response.getMediaSource().getDefaultAudioStream() != null && (response.getMediaSource().getDefaultAudioStream().getChannels() <= 2 || (Utils.isFireTv() && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec())))) {
                     mVideoManager.setCompatibleAudio();
                     //Utils.showToast(mApplication, "Compatible");
                 } else {
