@@ -10,6 +10,7 @@ import tv.emby.iap.ErrorType;
 import tv.emby.iap.IResultHandler;
 import tv.emby.iap.IabValidator;
 import tv.emby.iap.InAppProduct;
+import tv.emby.iap.PurchaseResult;
 import tv.emby.iap.ResultType;
 
 /**
@@ -53,12 +54,12 @@ public class AppValidator {
 
     }
 
-    private void checkPurchase(String sku) {
+    private void checkPurchase(final String sku) {
         new IabValidator(TvApp.getApplication(), getKey()).checkInAppPurchase(sku, new IResultHandler<ResultType>() {
             @Override
-            public void onResult(ResultType resultType) {
-                TvApp.getApplication().getLogger().Info(resultType == ResultType.Success ? "App is purchased." : "App is NOT purchased.");
-                TvApp.getApplication().setPaid(resultType == ResultType.Success);
+            public void onResult(ResultType result) {
+                TvApp.getApplication().getLogger().Info(sku + (result == ResultType.Success ? " is purchased." : " is NOT purchased."));
+                TvApp.getApplication().setPaid(result == ResultType.Success);
             }
 
             @Override
