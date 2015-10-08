@@ -68,13 +68,13 @@
         <activity android:name=".livetv.LiveTvGuideActivity" />
         <activity android:name=".browsing.GenericGridActivity" />
         <activity android:name=".browsing.BrowseRecordingsActivity" />
+        <activity android:name=".validation.UnlockActivity" />
         <activity
             android:name=".startup.DpadPwActivity"
             android:label="@string/title_activity_dpad_pw" >
         </activity>
-        <activity
-            android:name=".validation.UnlockActivity">
-        </activity>
+
+        <activity android:name="tv.emby.iap.PurchaseActivity" />
 
         <receiver android:name=".util.RemoteControlReceiver">
             <intent-filter>
