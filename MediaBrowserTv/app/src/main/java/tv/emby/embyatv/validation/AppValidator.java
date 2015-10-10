@@ -55,16 +55,19 @@ public class AppValidator {
     }
 
     private void checkPurchase(final String sku) {
-        new IabValidator(TvApp.getApplication(), getKey()).checkInAppPurchase(sku, new IResultHandler<ResultType>() {
+        final IabValidator validator = new IabValidator(TvApp.getApplication(), getKey());
+        validator.checkInAppPurchase(sku, new IResultHandler<ResultType>() {
             @Override
             public void onResult(ResultType result) {
                 TvApp.getApplication().getLogger().Info(sku + (result == ResultType.Success ? " is purchased." : " is NOT purchased."));
                 TvApp.getApplication().setPaid(result == ResultType.Success);
+                validator.dispose();
             }
 
             @Override
             public void onError(ErrorSeverity errorSeverity, ErrorType errorType, String s) {
                 TvApp.getApplication().getLogger().Error("Error checking purchase " + s);
+                validator.dispose();
             }
         });
 
