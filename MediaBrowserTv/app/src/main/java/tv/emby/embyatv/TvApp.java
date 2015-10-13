@@ -269,12 +269,19 @@ public class TvApp extends Application {
         this.lastUserInteraction = lastUserInteraction;
     }
 
+    public boolean checkPaidCache() {
+        isPaid = getSystemPrefs().getString("kv","").equals(getApiClient().getDeviceId());
+        logger.Info("Paid cache check: " + isPaid);
+        return isPaid;
+    }
+
     public boolean isPaid() {
         return isPaid;
     }
 
     public void setPaid(boolean isPaid) {
         this.isPaid = isPaid;
+        getSystemPrefs().edit().putString("kv", isPaid ? getApiClient().getDeviceId() : "").commit();
     }
 
     public RegistrationInfo getRegistrationInfo() {
@@ -423,14 +430,9 @@ public class TvApp extends Application {
 
     public void determineAutoBitrate() {
         if (getApiClient() == null) return;
-        final long start = System.currentTimeMillis();
         getApiClient().detectBitrate(new Response<Long>() {
             @Override
             public void onResponse(Long response) {
-//                long myTime = System.currentTimeMillis() - start;
-//                double secs = myTime / 1000;
-//                logger.Info("My secs: "+ secs + " My start: "+start+" My millis: "+myTime);
-//                logger.Info("My rate: "+ (40000000 / myTime) * 1000);
                 autoBitrate = response.intValue();
                 logger.Info("Auto bitrate set to: "+autoBitrate);
             }
