@@ -41,14 +41,14 @@ public class AppValidator {
                         TvApp.getApplication().getLogger().Info("In supporter trial. Trial period expires "+ Utils.convertToLocalDate(response.getExpirationDate()));
                     }
                     TvApp.getApplication().getLogger().Debug("*** package name: "+TvApp.getApplication().getPackageName());
-                    checkPurchase(InAppProduct.getCurrentUnlockSku(TvApp.getApplication().getPackageName()));
+                    if (!TvApp.getApplication().checkPaidCache()) checkPurchase(InAppProduct.getCurrentUnlockSku(TvApp.getApplication().getPackageName()));
                 }
             }
 
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving registration info", exception);
-                checkPurchase(InAppProduct.getCurrentUnlockSku(TvApp.getApplication().getPackageName()));
+                if (!TvApp.getApplication().checkPaidCache()) checkPurchase(InAppProduct.getCurrentUnlockSku(TvApp.getApplication().getPackageName()));
             }
         });
 
