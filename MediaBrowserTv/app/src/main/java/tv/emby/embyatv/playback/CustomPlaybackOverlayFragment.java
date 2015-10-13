@@ -15,7 +15,6 @@ import android.support.v17.leanback.app.RowsFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
-import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
@@ -74,6 +73,7 @@ import tv.emby.embyatv.livetv.ILiveTvGuide;
 import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.presentation.CardPresenter;
+import tv.emby.embyatv.presentation.PositionableListRowPresenter;
 import tv.emby.embyatv.ui.AudioDelayPopup;
 import tv.emby.embyatv.ui.GuideChannelHeader;
 import tv.emby.embyatv.ui.GuidePagingButton;
@@ -110,6 +110,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     RowsFragment mPopupRowsFragment;
     ArrayObjectAdapter mPopupRowAdapter;
     ListRow mChapterRow;
+    PositionableListRowPresenter mPopupRowPresenter;
     ProgressBar mCurrentProgress;
     CustomPlaybackOverlayFragment mFragment;
 
@@ -243,7 +244,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     .findFragmentById(R.id.rows_area);
         }
 
-        mPopupRowAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+        mPopupRowPresenter = new PositionableListRowPresenter();
+        mPopupRowAdapter = new ArrayObjectAdapter(mPopupRowPresenter);
         mPopupRowsFragment.setAdapter(mPopupRowAdapter);
         mPopupRowsFragment.setOnItemViewClickedListener(itemViewClickedListener);
 
@@ -678,11 +680,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mTopPanel.startAnimation(fadeOut);
     }
 
-    private void showPopupPanel(ListRow row) {
+    private void showChapterPanel() {
         setFadingEnabled(false);
 
-        mPopupRowAdapter.clear();
-        mPopupRowAdapter.add(row);
         mPopupArea.startAnimation(showPopup);
         mPopupPanelVisible = true;
     }
@@ -1231,7 +1231,17 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.chapter, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showPopupPanel(mChapterRow);
+                    showChapterPanel();
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            int ndx = getCurrentChapterIndex(mPlaybackController.getCurrentlyPlayingItem(), mPlaybackController.getCurrentPosition() * 10000);
+                            if (ndx > 0) {
+                                mPopupRowPresenter.setPosition(ndx);
+                            }
+
+                        }
+                    },500);
                 }
             }));
 
@@ -1239,6 +1249,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             ItemRowAdapter chapterAdapter = new ItemRowAdapter(Utils.buildChapterItems(item), new CardPresenter(), new ArrayObjectAdapter());
             chapterAdapter.Retrieve();
             mChapterRow = new ListRow(new HeaderItem(mActivity.getString(R.string.chapters), null), chapterAdapter);
+            mPopupRowAdapter.add(mChapterRow);
 
         }
 
@@ -1266,6 +1277,19 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }));
         }
 
+    }
+
+    private int getCurrentChapterIndex(BaseItemDto item, long pos) {
+        int ndx = 0;
+        TvApp.getApplication().getLogger().Debug("*** looking for chapter at pos: "+pos);
+        if (item.getChapters() != null) {
+            for (ChapterInfoDto chapter : item.getChapters()) {
+                TvApp.getApplication().getLogger().Debug("*** chapter "+ndx+" has pos: "+chapter.getStartPositionTicks());
+                if (chapter.getStartPositionTicks() > pos) return ndx - 1;
+                ndx++;
+            }
+        }
+        return ndx - 1;
     }
 
     AudioDelayPopup mAudioPopup;
