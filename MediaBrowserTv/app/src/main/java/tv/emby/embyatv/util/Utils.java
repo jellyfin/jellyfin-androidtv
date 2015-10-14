@@ -42,6 +42,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
 import java.util.UUID;
@@ -818,7 +819,7 @@ public class Utils {
     public static String GetSubName(BaseItemDto item) {
         switch (item.getType()) {
             case "Episode":
-                String addendum = item.getLocationType().equals(LocationType.Virtual) && item.getPremiereDate() != null ? " (" +  new SimpleDateFormat("d MMM y").format(Utils.convertToLocalDate(item.getPremiereDate())) + ")" : "";
+                String addendum = item.getLocationType().equals(LocationType.Virtual) && item.getPremiereDate() != null ? " (" +  getFriendlyDate(Utils.convertToLocalDate(item.getPremiereDate())) + ")" : "";
                 return item.getName() + addendum;
             case "Season":
                 return item.getChildCount() != null && item.getChildCount() > 0 ? item.getChildCount() + " Episodes" : "";
@@ -1116,6 +1117,7 @@ public class Utils {
         if (cal.get(Calendar.YEAR) == now.get(Calendar.YEAR)) {
             if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)) return TvApp.getApplication().getString(R.string.lbl_today);
             if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)+1) return TvApp.getApplication().getString(R.string.lbl_tomorrow);
+            if (cal.get(Calendar.DAY_OF_YEAR) < now.get(Calendar.DAY_OF_YEAR)+6) return cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
         }
 
         return android.text.format.DateFormat.getDateFormat(TvApp.getApplication()).format(date);
