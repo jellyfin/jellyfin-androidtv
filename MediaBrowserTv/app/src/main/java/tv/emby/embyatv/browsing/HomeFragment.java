@@ -50,6 +50,7 @@ public class HomeFragment extends StdBrowseFragment {
     private ArrayObjectAdapter toolsRow;
     private GridButton unlockButton;
     private GridButton sendLogsButton;
+    private GridButton premiereButton;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -80,7 +81,17 @@ public class HomeFragment extends StdBrowseFragment {
         super.onResume();
 
         //if we were locked before and have just unlocked, remove the button
-        if (unlockButton != null && (TvApp.getApplication().isRegistered() || TvApp.getApplication().isPaid())) toolsRow.remove(unlockButton);
+        if (unlockButton != null && (TvApp.getApplication().isRegistered() || TvApp.getApplication().isPaid())) {
+            toolsRow.remove(unlockButton);
+            if (!TvApp.getApplication().isRegistered()) {
+                premiereButton = new GridButton(UNLOCK, mApplication.getString(R.string.btn_emby_premiere), R.drawable.embyicon);
+                toolsRow.add(premiereButton);
+            }
+        } else {
+            if (premiereButton != null && TvApp.getApplication().isRegistered()) {
+                toolsRow.remove(premiereButton);
+            }
+        }
         addLogsButton();
     }
 
@@ -124,13 +135,13 @@ public class HomeFragment extends StdBrowseFragment {
                             addOnNow();
                     }
                 }
-        //        StdItemQuery latestMusic = new StdItemQuery();
-        //        latestMusic.setIncludeItemTypes(new String[]{"MusicAlbum"});
-        //        latestMusic.setRecursive(true);
-        //        latestMusic.setLimit(50);
-        //        latestMusic.setSortBy(new String[]{ItemSortBy.DateCreated});
-        //        latestMusic.setSortOrder(SortOrder.Descending);
-        //        mRowDef.add(new BrowseRowDef("Latest Albums", latestMusic, 0));
+                //        StdItemQuery latestMusic = new StdItemQuery();
+                //        latestMusic.setIncludeItemTypes(new String[]{"MusicAlbum"});
+                //        latestMusic.setRecursive(true);
+                //        latestMusic.setLimit(50);
+                //        latestMusic.setSortBy(new String[]{ItemSortBy.DateCreated});
+                //        latestMusic.setSortOrder(SortOrder.Descending);
+                //        mRowDef.add(new BrowseRowDef("Latest Albums", latestMusic, 0));
 
                 rowLoader.loadRows(mRows);
             }
@@ -192,6 +203,9 @@ public class HomeFragment extends StdBrowseFragment {
                 if (!TvApp.getApplication().isRegistered() && !TvApp.getApplication().isPaid()) {
                     unlockButton = new GridButton(UNLOCK, mApplication.getString(R.string.lbl_unlock), R.drawable.unlock);
                     toolsRow.add(unlockButton);
+                } else if (!TvApp.getApplication().isRegistered()) {
+                    premiereButton = new GridButton(UNLOCK, mApplication.getString(R.string.btn_emby_premiere), R.drawable.embyicon);
+                    toolsRow.add(premiereButton);
                 }
             }
         }, 5000);

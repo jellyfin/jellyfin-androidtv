@@ -173,8 +173,15 @@
     <string name="msg_playback_incompatible">Cannot play this video format</string>
     <string name="lbl_never">Never</string>
     <string name="lbl_unlock_app">Unlock App</string>
+    <string name="lbl_emby_premiere">Upgrade to Emby Premiere</string>
+    <string name="lbl_premiere_desc">With Emby Premiere you get not only full functionality in this app but also a host of other features in both the server and other apps across your entire Emby environment.</string>
     <string name="lbl_unlock_desc">Unlock the app for full functionality by purchasing it here. If you are an active Supporter using a local server you should not need to do this. Be sure your server has your supporter key in place.</string>
+    <string name="lbl_premiere_desc2">Free access to some apps on other platforms, sync your content to supported mobile devices or the web client for offline viewing, enjoy a theater experience with Cinema Mode, enhance your images with CoverArt and much, much more.  Try Emby Premiere today.</string>
     <string name="btn_next">Next</string>
+    <string name="msg_just_unlock_confirm">Just unlock this app?  This option will not include any of the features of Emby Premiere.  It will just allow full functionality in this app.  Are you sure...?</string>
+    <string name="btn_unlock">No Thanks, Just Unlock This App</string>
+    <string name="btn_monthly_prefix">Sign Me Up for </string>
+    <string name="btn_monthly_suffix">/Month</string>
     <string name="msg_invalid_purchase">Invalid purchase attempt.</string>
     <string name="msg_thank_you_unlocked">Thank You. App is now unlocked.</string>
     <string name="msg_purchase_error">Error with purchase.  Please try again later.</string>
@@ -265,6 +272,15 @@
     <string name="lbl_no_recordings">No Recordings Available</string>
     <string name="lbl_live_tv_guide">Live TV Guide</string>
     <string name="lbl_recorded_tv">Recorded TV</string>
+    <string name="btn_emby_premiere">Emby Premiere</string>
+    <string name="btn_ok">OK</string>
+    <string name="title_were_sorry">We\'re Sorry...</string>
+    <string name="msg_cannot_connect_emby">We cannot contact the Emby server at this time which is necessary for this purchase process. Please ensure this device can get out to the internet.</string>
+    <string name="msg_email_entry1">Please enter a valid email address to which to send your Emby Premiere Key</string>
+    <string name="msg_email_entry2">Very sorry but we need to be sure this is correct. Please enter the email again.</string>
+    <string name="msg_entries_not_match">Entries did not match.  Please try again.</string>
+    <string name="msg_invalid_email">Invalid Email Address</string>
+    <string name="btn_monthly_default">Sign me up for $6.49/Month</string>
 
 
 </resources>
