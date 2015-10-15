@@ -12,7 +12,6 @@ import tv.emby.embyatv.TvApp;
  * Created by Eric on 12/28/2014.
  */
 public class DelayedMessage {
-    private int delay = 750;
     private String title = TvApp.getApplication().getString(R.string.lbl_please_wait);
     private String message = TvApp.getApplication().getString(R.string.msg_little_longer);
     private Runnable runnable;
@@ -20,6 +19,9 @@ public class DelayedMessage {
     private Handler handler;
 
     public DelayedMessage(final Context activity) {
+        this(activity, 750);
+    }
+    public DelayedMessage(final Context activity, int delay) {
         handler = new Handler();
         runnable = new Runnable() {
             @Override

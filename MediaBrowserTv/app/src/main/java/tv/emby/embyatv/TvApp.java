@@ -18,6 +18,7 @@ import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.IConnectionManager;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
+import mediabrowser.apiinteraction.android.VolleyHttpClient;
 import mediabrowser.apiinteraction.playback.PlaybackManager;
 import mediabrowser.logging.ConsoleLogger;
 import mediabrowser.model.dto.BaseItemDto;
@@ -68,6 +69,7 @@ public class TvApp extends Application {
     private PlaybackController playbackController;
     private ApiClient loginApiClient;
     private AudioManager audioManager;
+    private VolleyHttpClient httpClient;
 
     private int autoBitrate;
     private String directItemId;
@@ -454,5 +456,13 @@ public class TvApp extends Application {
 
     public void setLastDeletedItemId(String lastDeletedItemId) {
         this.lastDeletedItemId = lastDeletedItemId;
+    }
+
+    public VolleyHttpClient getHttpClient() {
+        return httpClient;
+    }
+
+    public void setHttpClient(VolleyHttpClient httpClient) {
+        this.httpClient = httpClient;
     }
 }

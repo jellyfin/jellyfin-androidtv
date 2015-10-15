@@ -75,6 +75,7 @@ public class StartupActivity extends Activity {
     private void establishConnection(final Activity activity){
         // The underlying http stack. Developers can inject their own if desired
         VolleyHttpClient volleyHttpClient = new VolleyHttpClient(logger, application);
+        TvApp.getApplication().setHttpClient(volleyHttpClient);
         ClientCapabilities capabilities = new ClientCapabilities();
         ArrayList<String> playableTypes = new ArrayList<>();
         playableTypes.add("Video");
