@@ -29,6 +29,9 @@ public class AppValidator {
     }
 
     public void validate() {
+        //Load our system info
+        TvApp.getApplication().loadSystemInfo();
+
         //First we would check for feature registration as that will negate the need to check in-app purchases
         TvApp.getApplication().getApiClient().GetRegistrationInfo(TvApp.FEATURE_CODE, new Response<RegistrationInfo>() {
             @Override

@@ -1254,8 +1254,13 @@ public class Utils {
         ApiClient apiClient = app.getApiClient();
         if (apiClient != null) {
             if (app.getCurrentUser() != null) ACRA.getErrorReporter().putCustomData("mbUser", app.getCurrentUser().getName());
-            ACRA.getErrorReporter().putCustomData("serverInfo", app.getSerializer().SerializeToString(apiClient.getServerInfo()));
+            ACRA.getErrorReporter().putCustomData("serverInfo", app.getSerializer().SerializeToString(app.getCurrentSystemInfo()));
         }
+    }
+
+    public static int getReleaseVersion(String version) {
+        String[] components = version.split("[.]");
+        return components.length > 2 ? Integer.parseInt(components[2]) : 0;
     }
 
     public static String getCurrentFormattedTime() {
