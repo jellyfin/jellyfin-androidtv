@@ -26,6 +26,7 @@ import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.entities.DisplayPreferences;
 import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.registration.RegistrationInfo;
+import mediabrowser.model.system.SystemInfo;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.playback.PlaybackController;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
@@ -65,6 +66,7 @@ public class TvApp extends Application {
     private GsonJsonSerializer serializer;
     private static TvApp app;
     private UserDto currentUser;
+    private SystemInfo currentSystemInfo;
     private BaseItemDto currentPlayingItem;
     private PlaybackController playbackController;
     private ApiClient loginApiClient;
@@ -203,6 +205,25 @@ public class TvApp extends Application {
 
     public void setPlaybackController(PlaybackController playbackController) {
         this.playbackController = playbackController;
+    }
+
+    public SystemInfo getCurrentSystemInfo() { return currentSystemInfo; }
+
+    public void loadSystemInfo() {
+        if (getApiClient() != null) {
+            getApiClient().GetSystemInfoAsync(new Response<SystemInfo>() {
+                @Override
+                public void onResponse(SystemInfo response) {
+                    currentSystemInfo = response;
+                    logger.Info("Current server is "+response.getServerName()+" (ver "+response.getVersion()+") running on "+response.getOperatingSystemDisplayName());
+                }
+
+                @Override
+                public void onError(Exception exception) {
+                    logger.ErrorException("Unable to obtain system info.",exception);
+                }
+            });
+        }
     }
 
     public LogonCredentials getConfiguredAutoCredentials() {
