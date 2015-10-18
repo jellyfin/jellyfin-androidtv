@@ -93,6 +93,22 @@ public class HomeFragment extends StdBrowseFragment {
             }
         }
         addLogsButton();
+        premiereNag();
+    }
+
+    protected void premiereNag() {
+        if (!TvApp.getApplication().isRegistered() && System.currentTimeMillis() - (86400000 * 7) > TvApp.getApplication().getLastNagTime()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (mActivity != null && !mActivity.isFinishing()) {
+                        mActivity.showMessage(mApplication.getString(R.string.msg_premiere_nag_title), mApplication.getString(R.string.msg_premiere_nag_msg), 10000);
+                        TvApp.getApplication().setLastNagTime(System.currentTimeMillis());
+                    }
+
+                }
+            },2500);
+        }
     }
 
     @Override
