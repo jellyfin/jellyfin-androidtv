@@ -279,6 +279,8 @@
     <string name="msg_entries_not_match">Entries did not match.  Please try again.</string>
     <string name="msg_invalid_email">Invalid Email Address</string>
     <string name="btn_monthly_default">Sign Me Up for $6.49/Month</string>
+    <string name="msg_premiere_nag_title">Consider Emby Premiere</string>
+    <string name="msg_premiere_nag_msg">Emby Premiere gives you many features such as mobile sync, cinema mode and CoverArt. Try Emby Premiere today.</string>
 
 
 </resources>

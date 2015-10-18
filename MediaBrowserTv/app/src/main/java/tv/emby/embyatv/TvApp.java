@@ -226,6 +226,16 @@ public class TvApp extends Application {
         }
     }
 
+    public void showMessage(String title, String msg) {
+        if (currentActivity != null) {
+            currentActivity.showMessage(title, msg);
+        }
+    }
+
+    public long getLastNagTime() { return getSystemPrefs().getLong("lastNagTime",0); }
+
+    public void setLastNagTime(long time) { getSystemPrefs().edit().putLong("lastNagTime", System.currentTimeMillis()).commit(); }
+
     public LogonCredentials getConfiguredAutoCredentials() {
         return configuredAutoCredentials;
     }
