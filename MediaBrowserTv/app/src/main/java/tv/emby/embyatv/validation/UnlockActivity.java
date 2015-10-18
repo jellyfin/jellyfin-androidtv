@@ -24,6 +24,7 @@ import mediabrowser.model.registration.AppstoreRegRequest;
 import mediabrowser.model.registration.RegistrationInfo;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.util.DelayedMessage;
 import tv.emby.embyatv.util.Utils;
 import tv.emby.iap.ErrorSeverity;
@@ -34,7 +35,7 @@ import tv.emby.iap.InAppProduct;
 import tv.emby.iap.PurchaseActivity;
 import tv.emby.iap.ResultType;
 
-public class UnlockActivity extends Activity {
+public class UnlockActivity extends BaseActivity {
 
     InAppProduct currentProduct;
     IabValidator validator;
