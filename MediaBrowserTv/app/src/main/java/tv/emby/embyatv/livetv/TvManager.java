@@ -37,6 +37,7 @@ public class TvManager {
     private static String[] channelIds;
     private static HashMap<String, ArrayList<BaseItemDto>> mProgramsDict = new HashMap<>();
     private static Calendar needLoadTime;
+    private static Calendar programNeedLoadTime;
 
     public static String getLastLiveTvChannel() {
         return TvApp.getApplication().getSystemPrefs().getString("sys_pref_last_tv_channel", null);
@@ -151,6 +152,15 @@ public class TvManager {
         needLoadTime.add(Calendar.MINUTE, 29);
 
     }
+
+    public static Calendar updateProgramsNeedsLoadTime() {
+        programNeedLoadTime = new GregorianCalendar(TimeZone.getTimeZone("Z"));
+        programNeedLoadTime.set(Calendar.MINUTE, programNeedLoadTime.get(Calendar.MINUTE) >= 30 ? 30 : 0);
+        programNeedLoadTime.set(Calendar.SECOND, 0);
+        return programNeedLoadTime;
+    }
+
+    public static boolean programsNeedLoad(Calendar now) { return programNeedLoadTime == null || now.after(programNeedLoadTime); }
 
     public static List<BaseItemDto> getProgramsForChannel(String channelId, GuideFilters filters) {
         if (!mProgramsDict.containsKey(channelId)) return new ArrayList<>();
