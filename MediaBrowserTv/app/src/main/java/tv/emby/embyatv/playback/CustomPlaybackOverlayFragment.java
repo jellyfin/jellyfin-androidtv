@@ -126,7 +126,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     //Live guide items
     public static final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(TvApp.getApplication(),6);
-    public static final int PAGE_SIZE = 50;
+    public static final int PAGE_SIZE = 75;
     RelativeLayout mTvGuide;
     private TextView mDisplayDate;
     private TextView mGuideTitle;
@@ -892,6 +892,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         for (BaseItemDto item : programs) {
             long start = item.getStartDate() != null ? Utils.convertToLocalDate(item.getStartDate()).getTime() : getCurrentLocalStartDate();
             if (start < getCurrentLocalStartDate()) start = getCurrentLocalStartDate();
+            if (start > getCurrentLocalEndDate()) continue;
             if (start > prevEnd) {
                 // fill empty time slot
                 TextView empty = new TextView(mActivity);
@@ -952,19 +953,41 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private Runnable detailUpdateTask = new Runnable() {
         @Override
         public void run() {
-            mGuideTitle.setText(mSelectedProgram.getName());
-            mSummary.setText(mSelectedProgram.getOverview());
-            if (mSelectedProgram.getId() != null) {
-                mDisplayDate.setText(Utils.getFriendlyDate(Utils.convertToLocalDate(mSelectedProgram.getStartDate())));
+            if (mSelectedProgram.getOverview() == null && mSelectedProgram.getId() != null) {
+                TvApp.getApplication().getApiClient().GetItemAsync(mSelectedProgram.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                    @Override
+                    public void onResponse(BaseItemDto response) {
+                        mSelectedProgram = response;
+                        detailUpdateInternal();
+                    }
 
-                //info row
-                InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mGuideInfoRow, false, false);
+                    @Override
+                    public void onError(Exception exception) {
+                        TvApp.getApplication().getLogger().ErrorException("Unable to get program details", exception);
+                        detailUpdateInternal();
+                    }
+                });
 
             } else {
-                mGuideInfoRow.removeAllViews();
+                detailUpdateInternal();
             }
         }
     };
+
+    private void detailUpdateInternal() {
+        mGuideTitle.setText(mSelectedProgram.getName());
+        mSummary.setText(mSelectedProgram.getOverview());
+        if (mSelectedProgram.getId() != null) {
+            mDisplayDate.setText(Utils.getFriendlyDate(Utils.convertToLocalDate(mSelectedProgram.getStartDate())));
+
+            //info row
+            InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mGuideInfoRow, false, false);
+
+        } else {
+            mGuideInfoRow.removeAllViews();
+        }
+
+    }
 
     public void setSelectedProgram(ProgramGridCell programView) {
         mSelectedProgramView = programView;

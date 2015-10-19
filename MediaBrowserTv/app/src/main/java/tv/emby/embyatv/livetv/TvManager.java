@@ -86,6 +86,7 @@ public class TvManager {
                 if (response.getTotalRecordCount() > 0) {
                     for (ChannelInfoDto channel : response.getItems()) {
                         allChannels.add(channel);
+                        TvApp.getApplication().getLogger().Debug("Channel "+channel.getName()+" Play count: "+(channel.getUserData() != null ? channel.getUserData().getPlayCount() : 0));
                         if (channel.getId().equals(lastTvChannelId)) ndx = i;
                         channelIds[i++] = channel.getId();
                     }
@@ -106,9 +107,7 @@ public class TvManager {
             query.setUserId(TvApp.getApplication().getCurrentUser().getId());
             endNdx = endNdx > channelIds.length ? channelIds.length : endNdx+1; //array copy range final ndx is exclusive
             query.setChannelIds(Arrays.copyOfRange(channelIds, startNdx, endNdx));
-            query.setFields(new ItemFields[]{ItemFields.Overview});
-            query.setImageTypeLimit(1);
-            query.setEnableImageTypes(new ImageType[]{ImageType.Primary});
+            query.setEnableImages(false);
             query.setSortBy(new String[] {"StartDate"});
             Calendar end = (Calendar) endTime.clone();
             end.setTimeZone(TimeZone.getTimeZone("Z"));
