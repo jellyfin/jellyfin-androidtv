@@ -1296,10 +1296,15 @@ public class Utils {
 
     public static boolean isShield() { return Build.MODEL.equals("SHIELD Android TV"); }
 
+    public static boolean isNexus() { return Build.MODEL.equals("Nexus Player"); }
+
     public static boolean is50() {
         return Build.VERSION.SDK_INT >= 21;
     }
 
+    public static boolean is60() {
+        return Build.VERSION.SDK_INT >= 23;
+    }
     public static boolean isGingerbreadOrLater() {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD;
     }
