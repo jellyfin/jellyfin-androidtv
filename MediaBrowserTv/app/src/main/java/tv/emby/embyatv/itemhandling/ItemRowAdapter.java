@@ -7,8 +7,10 @@ import android.support.v17.leanback.widget.Presenter;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
+import java.util.TimeZone;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
@@ -38,6 +40,7 @@ import mediabrowser.model.search.SearchHintResult;
 import mediabrowser.model.search.SearchQuery;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.model.ChangeTriggerType;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.model.FilterOptions;
@@ -424,6 +427,12 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 case TvPlayback:
                     retrieve |= lastFullRetrieve.before(app.getLastTvPlayback());
                     break;
+                case GuideNeedsLoad:
+                    Calendar start = new GregorianCalendar(TimeZone.getTimeZone("Z"));
+                    start.set(Calendar.MINUTE, start.get(Calendar.MINUTE) >= 30 ? 30 : 0);
+                    start.set(Calendar.SECOND, 0);
+                    retrieve |= TvManager.programsNeedLoad(start);
+                    break;
                 case Always:
                     retrieve = true;
                     break;
@@ -795,6 +804,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         TvApp.getApplication().getApiClient().GetRecommendedLiveTvProgramsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
+                TvManager.updateProgramsNeedsLoadTime();
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
                     if (adapter.size() > 0) adapter.clear();
