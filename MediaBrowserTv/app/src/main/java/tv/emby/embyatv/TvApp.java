@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -232,9 +233,24 @@ public class TvApp extends Application {
         }
     }
 
-    public long getLastNagTime() { return getSystemPrefs().getLong("lastNagTime",0); }
+    private long getLastNagTime() { return getSystemPrefs().getLong("lastNagTime",0); }
 
-    public void setLastNagTime(long time) { getSystemPrefs().edit().putLong("lastNagTime", System.currentTimeMillis()).commit(); }
+    private void setLastNagTime(long time) { getSystemPrefs().edit().putLong("lastNagTime", System.currentTimeMillis()).commit(); }
+
+    public void premiereNag() {
+        if (!isRegistered() && System.currentTimeMillis() - (86400000 * 7) > getLastNagTime()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (currentActivity != null && !currentActivity.isFinishing()) {
+                        currentActivity.showMessage(getString(R.string.msg_premiere_nag_title), getString(R.string.msg_premiere_nag_msg), 10000);
+                        setLastNagTime(System.currentTimeMillis());
+                    }
+
+                }
+            },2500);
+        }
+    }
 
     public LogonCredentials getConfiguredAutoCredentials() {
         return configuredAutoCredentials;
