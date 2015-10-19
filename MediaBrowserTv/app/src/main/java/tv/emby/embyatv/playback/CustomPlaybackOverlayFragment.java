@@ -1105,6 +1105,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 @Override
                 public void onClick(View v) {
                     mPlaybackController.skip(-11000);
+                    startFadeTimer();
                 }
             }));
 
@@ -1112,6 +1113,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 @Override
                 public void onClick(View v) {
                     mPlaybackController.skip(30000);
+                    startFadeTimer();
                 }
             }));
 
