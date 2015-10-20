@@ -143,7 +143,7 @@ public class TvManager {
     public static void getProgramsAsync(int startNdx, int endNdx, Calendar endTime, final EmptyResponse outerResponse) {
         final Calendar start = new GregorianCalendar(TimeZone.getTimeZone("Z"));
         start.set(Calendar.MINUTE, start.get(Calendar.MINUTE) >= 30 ? 30 : 0);
-        start.set(Calendar.SECOND, 0);
+        start.set(Calendar.SECOND, 1);
         if (needLoadTime == null || start.after(needLoadTime) || !mProgramsDict.containsKey(channelIds[startNdx]) || !mProgramsDict.containsKey(channelIds[endNdx])) {
             ProgramQuery query = new ProgramQuery();
             query.setUserId(TvApp.getApplication().getCurrentUser().getId());
@@ -153,6 +153,7 @@ public class TvManager {
             query.setSortBy(new String[] {"StartDate"});
             Calendar end = (Calendar) endTime.clone();
             end.setTimeZone(TimeZone.getTimeZone("Z"));
+            end.add(Calendar.SECOND, -1);
             query.setMaxStartDate(end.getTime());
             query.setMinEndDate(start.getTime());
 
