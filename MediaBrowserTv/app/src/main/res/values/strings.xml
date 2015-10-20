@@ -281,6 +281,9 @@
     <string name="btn_monthly_default">Sign Me Up for $6.49/Month</string>
     <string name="msg_premiere_nag_title">Consider Emby Premiere</string>
     <string name="msg_premiere_nag_msg">Emby Premiere gives you many features such as mobile sync, cinema mode and CoverArt. Try Emby Premiere today.</string>
+    <string name="pref_live_tv_cat">LIVE TV</string>
+    <string name="pref_sort_date_option">Sort guide by last played time</string>
+    <string name="pref_sort_date_desc">Show last played channels at top of guide</string>
 
 
 </resources>
