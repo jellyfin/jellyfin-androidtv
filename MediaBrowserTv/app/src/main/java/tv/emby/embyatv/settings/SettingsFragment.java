@@ -16,6 +16,7 @@ import org.acra.ACRA;
 
 import java.io.IOException;
 
+import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.startup.LogonCredentials;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
@@ -88,6 +89,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                     ACRA.getErrorReporter().handleException(e);
                 }
             }
+        }
+
+        if (key.equals("pref_guide_sort_date")) {
+            TvManager.resetChannels();
         }
 
         updatePreference(findPreference(key));
