@@ -164,7 +164,7 @@ public class UnlockActivity extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String text = email.getText().toString();
-                        if (Patterns.EMAIL_ADDRESS.matcher(text).matches()) response.onResponse(text);
+                        if (text.contains("@") && text.contains(".")) response.onResponse(text);
                         else response.onError(new Exception("Invalid Email Address"));
                     }
                 })
