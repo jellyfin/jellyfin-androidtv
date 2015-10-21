@@ -1301,6 +1301,7 @@ public class Utils {
     public static boolean is50() {
         return Build.VERSION.SDK_INT >= 21;
     }
+    public static boolean isGreaterThan51() { return Build.VERSION.RELEASE.equals("5.1.1") || is60(); }
 
     public static boolean is60() {
         return Build.VERSION.SDK_INT >= 23;
