@@ -172,6 +172,7 @@ public class UnlockActivity extends BaseActivity {
     }
 
     private void purchase(InAppProduct product) {
+        TvApp.getApplication().getLogger().Info("Starting purchase of "+product.getTitle());
         currentProduct = product;
         Intent purchase = new Intent(this, PurchaseActivity.class);
         purchase.putExtra("sku", currentProduct.getSku());
