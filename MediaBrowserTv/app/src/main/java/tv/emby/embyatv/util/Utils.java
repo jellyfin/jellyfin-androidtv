@@ -283,6 +283,16 @@ public class Utils {
         return apiClient.GetUserImageUrl(item, options);
     }
 
+    public static String getPrimaryImageUrl(BaseItemDto item, int width) {
+        if (!item.getHasPrimaryImage()) return null;
+        ImageOptions options = new ImageOptions();
+        options.setTag(item.getImageTags().get(ImageType.Primary));
+        options.setMaxWidth(width);
+        options.setImageType(ImageType.Primary);
+        return TvApp.getApplication().getApiClient().GetImageUrl(item, options);
+
+    }
+
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient) {
         if (!item.getHasPrimaryImage()) return null;
         ImageOptions options = new ImageOptions();
