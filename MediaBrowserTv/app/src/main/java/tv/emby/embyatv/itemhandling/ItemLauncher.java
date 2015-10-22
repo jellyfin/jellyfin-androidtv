@@ -10,6 +10,7 @@ import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.entities.DisplayPreferences;
+import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.search.SearchHint;
@@ -22,6 +23,7 @@ import tv.emby.embyatv.browsing.GenericGridActivity;
 import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.browsing.UserViewActivity;
 import tv.emby.embyatv.details.FullDetailsActivity;
+import tv.emby.embyatv.details.PhotoPlayerActivity;
 import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.model.ViewType;
@@ -117,6 +119,15 @@ public class ItemLauncher {
                         if (noHistory) collectionIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
                         activity.startActivity(collectionIntent);
+                        return;
+
+                    case "Photo":
+                        // open photo player
+                        Intent photoIntent = new Intent(activity, PhotoPlayerActivity.class);
+                        photoIntent.putExtra("Id", baseItem.getId());
+                        photoIntent.putExtra("Tag", baseItem.getImageTags().get(ImageType.Primary));
+
+                        activity.startActivity(photoIntent);
                         return;
 
                 }
