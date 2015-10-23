@@ -8,7 +8,7 @@ import tv.emby.embyatv.TvApp;
 /**
  * Created by Eric on 10/12/2015.
  */
-public class PositionableListRowPresenter extends ListRowPresenter {
+public class PositionableListRowPresenter extends ListRowPresenter implements IPositionablePresenter {
 
     private ListRowPresenter.ViewHolder viewHolder;
     @Override
