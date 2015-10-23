@@ -1,23 +1,20 @@
 package tv.emby.embyatv.details;
 
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.KeyEvent;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.base.IKeyListener;
-import tv.emby.embyatv.itemhandling.BaseRowItem;
+import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.util.Utils;
 
@@ -29,9 +26,11 @@ public class PhotoPlayerActivity extends BaseActivity {
 
     ImageView mainImage;
     ImageView nextImage;
+    ImageView prevImage;
     int displayWidth;
     int displayHeight;
-    boolean isLoading;
+    boolean isLoadingNext;
+    boolean isLoadingPrev;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,12 +39,16 @@ public class PhotoPlayerActivity extends BaseActivity {
         setContentView(R.layout.activity_photo_player);
         mainImage = (ImageView) findViewById(R.id.mainImage);
         nextImage = new ImageView(this);
+        nextImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        prevImage = new ImageView(this);
+        prevImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
         displayWidth = getResources().getDisplayMetrics().widthPixels;
         displayHeight = getResources().getDisplayMetrics().heightPixels;
 
         currentPhoto = MediaManager.getCurrentMediaItem().getBaseItem();
         loadImage(currentPhoto, mainImage);
         loadNext();
+        loadPrev();
 
         registerKeyListener(new IKeyListener() {
             @Override
@@ -53,12 +56,21 @@ public class PhotoPlayerActivity extends BaseActivity {
                 switch (key) {
                     case KeyEvent.KEYCODE_DPAD_RIGHT:
                         if (MediaManager.hasNextMediaItem()) {
-                            if (isLoading) return true; //swallow too fast requests
+                            if (isLoadingNext) return true; //swallow too fast requests
                             currentPhoto = MediaManager.next().getBaseItem();
-                            TransitionDrawable td = new TransitionDrawable(new Drawable[] {mainImage.getDrawable(), nextImage.getDrawable()});
-                            mainImage.setImageDrawable(td);
-                            td.startTransition(150);
+                            prevImage.setImageDrawable(mainImage.getDrawable());
+                            mainImage.setImageDrawable(nextImage.getDrawable());
                             loadNext();
+                            return true;
+                        }
+
+                    case KeyEvent.KEYCODE_DPAD_LEFT:
+                        if (MediaManager.hasPrevMediaItem()) {
+                            if (isLoadingPrev) return true; //swallow too fast requests
+                            currentPhoto = MediaManager.prev().getBaseItem();
+                            nextImage.setImageDrawable(mainImage.getDrawable());
+                            mainImage.setImageDrawable(prevImage.getDrawable());
+                            loadPrev();
                             return true;
                         }
 
@@ -75,9 +87,15 @@ public class PhotoPlayerActivity extends BaseActivity {
 
     }
 
-    private void loadImage(BaseItemDto photo, ImageView target) {
+    private void loadPrev() {
+        if (MediaManager.hasPrevMediaItem()) loadImage(MediaManager.peekPrevMediaItem().getBaseItem(), prevImage);
+
+    }
+
+    private void loadImage(final BaseItemDto photo, final ImageView target) {
         if (photo != null) {
-            isLoading = true;
+            if (target == nextImage) isLoadingNext = true;
+            if (target == prevImage) isLoadingPrev = true;
             Picasso.with(this)
                     .load(Utils.getPrimaryImageUrl(photo, displayWidth))
                     .resize(displayWidth, displayHeight)
@@ -87,12 +105,16 @@ public class PhotoPlayerActivity extends BaseActivity {
                     .into(target, new Callback() {
                         @Override
                         public void onSuccess() {
-                            isLoading = false;
+                            if (target == nextImage) isLoadingNext = false;
+                            if (target == prevImage) isLoadingPrev = false;
+                            TvApp.getApplication().getLogger().Debug("Loaded item "+photo.getName());
                         }
 
                         @Override
                         public void onError() {
-                            isLoading = false;
+                            if (target == nextImage) isLoadingNext = false;
+                            if (target == prevImage) isLoadingPrev = false;
+                            TvApp.getApplication().getLogger().Debug("Error loading item "+photo.getName());
                         }
                     });
         }

@@ -9,5 +9,6 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:background="@android:color/black"
-        android:src="@drawable/loading" />
+        android:src="@drawable/loading"
+        android:scaleType="fitCenter" />
 </RelativeLayout>
