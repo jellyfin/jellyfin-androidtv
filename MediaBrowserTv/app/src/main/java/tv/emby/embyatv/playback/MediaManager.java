@@ -30,4 +30,20 @@ public class MediaManager {
     public static BaseRowItem getMediaItem(int pos) {
         return currentMediaAdapter != null && currentMediaAdapter.size() > pos ? (BaseRowItem) currentMediaAdapter.get(pos) : null;
     }
+
+    public static BaseRowItem getCurrentMediaItem() { return getMediaItem(currentMediaPosition); }
+    public static BaseRowItem next() {
+        if (hasNextMediaItem()) {
+            currentMediaPosition++;
+            currentMediaAdapter.loadMoreItemsIfNeeded(currentMediaPosition);
+        }
+
+        return getCurrentMediaItem();
+    }
+
+    public static BaseRowItem peekNextMediaItem() {
+        return hasNextMediaItem() ? getMediaItem(currentMediaPosition+1) : null;
+    }
+
+    public static boolean hasNextMediaItem() { return currentMediaAdapter.size() > currentMediaPosition+1; }
 }

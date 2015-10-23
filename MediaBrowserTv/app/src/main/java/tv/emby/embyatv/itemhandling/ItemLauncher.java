@@ -129,8 +129,6 @@ public class ItemLauncher {
                     case "Photo":
                         // open photo player
                         Intent photoIntent = new Intent(activity, PhotoPlayerActivity.class);
-                        photoIntent.putExtra("Id", baseItem.getId());
-                        photoIntent.putExtra("Tag", baseItem.getImageTags().get(ImageType.Primary));
 
                         activity.startActivity(photoIntent);
                         return;

@@ -65,6 +65,7 @@ import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.FilterOptions;
 import tv.emby.embyatv.model.PosterSize;
 import tv.emby.embyatv.model.ViewType;
+import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.presentation.HorizontalGridPresenter;
 import tv.emby.embyatv.model.ImageType;
@@ -579,7 +580,9 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     }
 
     private void refreshCurrentItem() {
-        if (mCurrentItem != null) {
+        mCurrentItem = MediaManager.getCurrentMediaItem();
+        getGridPresenter().setPosition(MediaManager.getCurrentMediaPosition());
+        if (mCurrentItem != null && !"Photo".equals(mCurrentItem.getType())) {
             TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override

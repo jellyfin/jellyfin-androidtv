@@ -330,7 +330,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     }
 
     private void refreshCurrentItem() {
-        if (mCurrentItem != null) {
+        if (mCurrentItem != null && !"Photo".equals(mCurrentItem.getType())) {
             TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override

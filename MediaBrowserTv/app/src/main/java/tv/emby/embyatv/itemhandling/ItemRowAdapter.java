@@ -44,6 +44,8 @@ import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.model.ChangeTriggerType;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.model.FilterOptions;
+import tv.emby.embyatv.presentation.IPositionablePresenter;
+import tv.emby.embyatv.presentation.PositionableListRowPresenter;
 import tv.emby.embyatv.presentation.TextItemPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.SpecialsQuery;
@@ -334,6 +336,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         } else {
             mQuery.setFilters(null);
         }
+    }
+
+    public void setPosition(int pos) {
+        ((IPositionablePresenter)(getParent().getPresenter(this))).setPosition(pos);
     }
 
     public String getStartLetter() { return mQuery != null ? mQuery.getNameStartsWithOrGreater() : null; }
