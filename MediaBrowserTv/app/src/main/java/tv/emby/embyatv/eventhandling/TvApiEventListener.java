@@ -102,7 +102,7 @@ public class TvApiEventListener extends ApiEventListener {
             @Override
             public void onResponse(BaseItemDto response) {
                 //Create a rowItem and pass to our handler
-                ItemLauncher.launch(new BaseRowItem(0, response), TvApp.getApplication(), TvApp.getApplication().getCurrentActivity(), true);
+                ItemLauncher.launch(new BaseRowItem(0, response), null, -1, TvApp.getApplication().getCurrentActivity(), true);
             }
         });
     }

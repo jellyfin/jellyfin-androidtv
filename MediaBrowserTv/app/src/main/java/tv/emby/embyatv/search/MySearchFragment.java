@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.SearchFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
+import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.ObjectAdapter;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
@@ -23,6 +24,7 @@ import tv.emby.embyatv.itemhandling.ItemLauncher;
 import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -53,7 +55,7 @@ public class MySearchFragment extends SearchFragment
             @Override
             public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
                 if (!(item instanceof BaseRowItem)) return;
-                ItemLauncher.launch((BaseRowItem) item, TvApp.getApplication(), getActivity());
+                ItemLauncher.launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow)row).getAdapter(),((BaseRowItem) item).getIndex(), getActivity());
             }
         });
         mDelayedLoad = new SearchRunnable(getActivity(), mRowsAdapter);
