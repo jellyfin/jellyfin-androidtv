@@ -41,9 +41,22 @@ public class MediaManager {
         return getCurrentMediaItem();
     }
 
+    public static BaseRowItem prev() {
+        if (hasPrevMediaItem()) {
+            currentMediaPosition--;
+        }
+
+        return getCurrentMediaItem();
+    }
+
     public static BaseRowItem peekNextMediaItem() {
         return hasNextMediaItem() ? getMediaItem(currentMediaPosition+1) : null;
     }
 
+    public static BaseRowItem peekPrevMediaItem() {
+        return hasPrevMediaItem() ? getMediaItem(currentMediaPosition-1) : null;
+    }
+
     public static boolean hasNextMediaItem() { return currentMediaAdapter.size() > currentMediaPosition+1; }
+    public static boolean hasPrevMediaItem() { return currentMediaPosition > 0; }
 }
