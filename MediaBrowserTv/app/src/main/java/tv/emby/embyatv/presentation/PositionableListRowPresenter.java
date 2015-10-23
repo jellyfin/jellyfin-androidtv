@@ -22,4 +22,5 @@ public class PositionableListRowPresenter extends ListRowPresenter {
         TvApp.getApplication().getLogger().Debug("Setting position to: "+ndx);
         if (viewHolder != null && viewHolder.getGridView() != null) viewHolder.getGridView().setSelectedPosition(ndx);
     }
+
 }

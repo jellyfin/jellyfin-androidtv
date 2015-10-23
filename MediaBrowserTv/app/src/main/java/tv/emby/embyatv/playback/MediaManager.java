@@ -1,7 +1,6 @@
 package tv.emby.embyatv.playback;
 
-import android.support.v17.leanback.widget.ArrayObjectAdapter;
-
+import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 
 /**
@@ -9,13 +8,26 @@ import tv.emby.embyatv.itemhandling.ItemRowAdapter;
  */
 public class MediaManager {
 
-    private static ItemRowAdapter currentQueue;
+    private static ItemRowAdapter currentMediaAdapter;
+    private static int currentMediaPosition = -1;
 
-    public static ItemRowAdapter getCurrentQueue() {
-        return currentQueue;
+    public static ItemRowAdapter getCurrentMediaAdapter() {
+        return currentMediaAdapter;
     }
 
-    public static void setCurrentQueue(ItemRowAdapter currentQueue) {
-        MediaManager.currentQueue = currentQueue;
+    public static void setCurrentMediaAdapter(ItemRowAdapter currentMediaAdapter) {
+        MediaManager.currentMediaAdapter = currentMediaAdapter;
+    }
+
+    public static int getCurrentMediaPosition() {
+        return currentMediaPosition;
+    }
+
+    public static void setCurrentMediaPosition(int currentMediaPosition) {
+        MediaManager.currentMediaPosition = currentMediaPosition;
+    }
+
+    public static BaseRowItem getMediaItem(int pos) {
+        return currentMediaAdapter != null && currentMediaAdapter.size() > pos ? (BaseRowItem) currentMediaAdapter.get(pos) : null;
     }
 }

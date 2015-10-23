@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.RowsFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
+import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
@@ -21,6 +22,7 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
+import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 
 /**
  * Created by Eric on 4/8/2015.
@@ -63,7 +65,7 @@ public class MySearchFragmentNoSpeech extends Fragment {
             @Override
             public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
                 if (!(item instanceof BaseRowItem)) return;
-                ItemLauncher.launch((BaseRowItem) item, TvApp.getApplication(), getActivity());
+                ItemLauncher.launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow)row).getAdapter(), ((BaseRowItem) item).getIndex(), getActivity());
             }
         });
 
