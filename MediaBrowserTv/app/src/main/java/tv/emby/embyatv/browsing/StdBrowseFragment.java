@@ -63,6 +63,7 @@ import tv.emby.embyatv.itemhandling.ItemLauncher;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.presentation.PositionableListRowPresenter;
+import tv.emby.embyatv.presentation.ThemeManager;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.ViewQuery;
 import tv.emby.embyatv.search.SearchActivity;
@@ -145,7 +146,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         super.onResume();
 
         // set fastLane (or headers) background color
-        setBrandColor(Utils.getBrandColor());
+        setBrandColor(ThemeManager.getBrandColor());
 
         // set info panel option
         ShowInfoPanel = mApplication.getPrefs().getBoolean("pref_enable_info_panel", true);

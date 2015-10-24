@@ -72,13 +72,19 @@ public class BaseActivity extends Activity {
     }
 
     public void showMessage(String title, String msg) {
-        showMessage(title, msg, messageTimeout);
+        showMessage(title, msg, messageTimeout, null, null);
     }
 
     public void showMessage(String title, String msg, int timeout) {
+        showMessage(title, msg, timeout, null, null);
+    }
+
+    public void showMessage(String title, String msg, int timeout, Integer icon, Integer background) {
         if (messageUi != null && !isFinishing()) {
             messageTitle.setText(title);
             messageMessage.setText(msg);
+            if (icon != null) messageIcon.setImageResource(icon);
+            if (background != null) messageUi.setBackgroundResource(background);
             messageUi.animate().x(msgPos).alpha(1).setDuration(300);
             handler.postDelayed(new Runnable() {
                 @Override
