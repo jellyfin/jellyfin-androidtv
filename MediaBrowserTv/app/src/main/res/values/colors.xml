@@ -39,4 +39,7 @@
     <color name="popup_background">#ff004655</color>
     <color name="dark_gradient_start">#ff060606</color>
     <color name="dark_gradient_end">#ff181818</color>
+
+    <color name="halloween_start">#8d5100</color>
+    <color name="halloween_end">#643c00</color>
 </resources>

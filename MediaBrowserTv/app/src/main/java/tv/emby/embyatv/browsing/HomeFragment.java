@@ -25,6 +25,7 @@ import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
 import tv.emby.embyatv.integration.RecommendationManager;
 import tv.emby.embyatv.model.ChangeTriggerType;
+import tv.emby.embyatv.presentation.ThemeManager;
 import tv.emby.embyatv.startup.LogonCredentials;
 import tv.emby.embyatv.ui.GridButton;
 import tv.emby.embyatv.R;
@@ -74,6 +75,8 @@ public class HomeFragment extends StdBrowseFragment {
         //Get auto bitrate
         TvApp.getApplication().determineAutoBitrate();
 
+        ThemeManager.showWelcomeMessage();
+
     }
 
     @Override
@@ -103,6 +106,20 @@ public class HomeFragment extends StdBrowseFragment {
             public void onResponse(ItemsResult response) {
                 //First library and in-progress
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_library), new ViewQuery()));
+
+                //Special suggestions
+                String[] specialGenres = ThemeManager.getSpecialGenres();
+                if (specialGenres != null) {
+                    StdItemQuery suggestions = new StdItemQuery();
+                    suggestions.setIncludeItemTypes(new String[]{"Movie", "Series"});
+                    suggestions.setGenres(specialGenres);
+                    suggestions.setRecursive(true);
+                    suggestions.setLimit(40);
+                    suggestions.setSortBy(new String[]{ItemSortBy.DatePlayed});
+                    suggestions.setSortOrder(SortOrder.Ascending);
+                    mRows.add(new BrowseRowDef(ThemeManager.getSuggestionTitle(), suggestions, 0, true, true, new ChangeTriggerType[] {}));
+
+                }
 
                 StdItemQuery resumeItems = new StdItemQuery();
                 resumeItems.setIncludeItemTypes(new String[]{"Movie", "Episode", "Video", "Program"});
