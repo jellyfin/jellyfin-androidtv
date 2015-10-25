@@ -213,7 +213,7 @@ public class UnlockActivity extends BaseActivity {
                                 @Override
                                 public void onResponse() {
                                     TvApp.getApplication().getLogger().Info("Successfully purchased " + currentProduct.getTitle());
-                                    //new AppValidator().validate();
+                                    new AppValidator().validate();
                                     processing.dismiss();
                                     finish();
 
