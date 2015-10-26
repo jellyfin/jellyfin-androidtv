@@ -531,6 +531,10 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             mActivity.registerKeyListener(new IKeyListener() {
                 @Override
                 public boolean onKeyUp(int key, KeyEvent event) {
+                    if (key == KeyEvent.KEYCODE_MEDIA_PLAY || key == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
+                        MediaManager.setCurrentMediaAdapter(mGridAdapter);
+                        MediaManager.setCurrentMediaPosition(mCurrentItem.getIndex());
+                    }
                     return KeyProcessor.HandleKey(key, mCurrentItem, mActivity);
                 }
             });

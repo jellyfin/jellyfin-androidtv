@@ -6,14 +6,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/mainImage2"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         android:background="@android:color/black"
-         />
+        android:scaleType="fitCenter" />
 
     <com.flaviofaria.kenburnsview.KenBurnsView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/mainImage"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         android:background="@android:color/black"
-        />
+        android:scaleType="fitCenter" />
 
 </RelativeLayout>
