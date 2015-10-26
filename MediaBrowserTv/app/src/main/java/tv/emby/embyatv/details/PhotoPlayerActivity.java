@@ -63,7 +63,7 @@ public class PhotoPlayerActivity extends BaseActivity {
         nextImageView().pause();
 
         currentPhoto = MediaManager.getCurrentMediaItem().getBaseItem();
-        loadImage(currentPhoto, currentImageView());
+        loadImage(currentPhoto, currentImageView(), getIntent().getBooleanExtra("Play", false));
         loadImage(currentPhoto, nextImageView());
         loadNext();
         loadPrev();
@@ -220,8 +220,11 @@ public class PhotoPlayerActivity extends BaseActivity {
             }
         });
     }
-
     private void loadImage(final BaseItemDto photo, final ImageView target) {
+        loadImage(photo, target, false);
+    }
+
+    private void loadImage(final BaseItemDto photo, final ImageView target, final boolean play) {
         if (photo != null) {
             if (target == nextImage) isLoadingNext = true;
             if (target == prevImage) isLoadingPrev = true;
@@ -237,6 +240,15 @@ public class PhotoPlayerActivity extends BaseActivity {
                             if (target == nextImage) isLoadingNext = false;
                             if (target == prevImage) isLoadingPrev = false;
                             TvApp.getApplication().getLogger().Debug("Loaded item "+photo.getName());
+                            if (play){
+                                currentImageView().resume();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        play();
+                                    }
+                                }, 5000);
+                            }
                         }
 
                         @Override
