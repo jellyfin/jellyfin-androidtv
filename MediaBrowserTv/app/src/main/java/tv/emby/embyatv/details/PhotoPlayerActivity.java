@@ -1,13 +1,14 @@
 package tv.emby.embyatv.details;
 
 import android.animation.Animator;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 
+import com.flaviofaria.kenburnsview.KenBurnsView;
+import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -16,8 +17,8 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.base.IKeyListener;
-import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.playback.MediaManager;
+import tv.emby.embyatv.presentation.MyRandomeKBGenerator;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -26,7 +27,7 @@ import tv.emby.embyatv.util.Utils;
 public class PhotoPlayerActivity extends BaseActivity {
     BaseItemDto currentPhoto;
 
-    ImageView[] mainImages = new ImageView[2];
+    KenBurnsView[] mainImages = new KenBurnsView[2];
     ImageView nextImage;
     ImageView prevImage;
     int currentImageNdx = 0;
@@ -45,8 +46,8 @@ public class PhotoPlayerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_photo_player);
-        mainImages[0] = (ImageView) findViewById(R.id.mainImage);
-        mainImages[1] = (ImageView) findViewById(R.id.mainImage2);
+        mainImages[0] = (KenBurnsView) findViewById(R.id.mainImage);
+        mainImages[1] = (KenBurnsView) findViewById(R.id.mainImage2);
         nextImage = new ImageView(this);
         nextImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
         prevImage = new ImageView(this);
@@ -56,8 +57,14 @@ public class PhotoPlayerActivity extends BaseActivity {
 
         handler = new Handler();
 
+        currentImageView().setTransitionGenerator(new MyRandomeKBGenerator(9000, new AccelerateDecelerateInterpolator()));
+        nextImageView().setTransitionGenerator(new MyRandomeKBGenerator(9000, new AccelerateDecelerateInterpolator()));
+        currentImageView().pause();
+        nextImageView().pause();
+
         currentPhoto = MediaManager.getCurrentMediaItem().getBaseItem();
         loadImage(currentPhoto, currentImageView());
+        loadImage(currentPhoto, nextImageView());
         loadNext();
         loadPrev();
 
@@ -72,7 +79,7 @@ public class PhotoPlayerActivity extends BaseActivity {
                                 stop();
                                 play();
                             } else {
-                                next();
+                                next(750);
                             }
                             return true;
                         }
@@ -116,11 +123,11 @@ public class PhotoPlayerActivity extends BaseActivity {
         if (isPlaying) stop();
     }
 
-    private void next() {
+    private void next(int transDuration) {
         currentPhoto = MediaManager.next().getBaseItem();
         prevImage.setImageDrawable(currentImageView().getDrawable());
         nextImageView().setImageDrawable(nextImage.getDrawable());
-        transition(750);
+        transition(transDuration);
         loadNext();
 
     }
@@ -129,7 +136,7 @@ public class PhotoPlayerActivity extends BaseActivity {
         @Override
         public void run() {
             if (MediaManager.hasNextMediaItem()) {
-                next();
+                next(1500);
                 handler.postDelayed(this, 8000);
             }
         }
@@ -137,17 +144,21 @@ public class PhotoPlayerActivity extends BaseActivity {
 
     private void play() {
         isPlaying = true;
-        next();
+        currentImageView().resume();
+        nextImageView().resume();
+        next(1500);
         handler.postDelayed(playRunnable, 8000);
     }
 
     private void stop() {
+        currentImageView().pause();
+        nextImageView().pause();
         handler.removeCallbacks(playRunnable);
         isPlaying = false;
     }
 
-    private ImageView currentImageView() { return mainImages[currentImageNdx]; }
-    private ImageView nextImageView() { return mainImages[nextImageNdx]; }
+    private KenBurnsView currentImageView() { return mainImages[currentImageNdx]; }
+    private KenBurnsView nextImageView() { return mainImages[nextImageNdx]; }
 
     private void loadNext() {
         if (MediaManager.hasNextMediaItem()) loadImage(MediaManager.peekNextMediaItem().getBaseItem(), nextImage);
@@ -194,7 +205,7 @@ public class PhotoPlayerActivity extends BaseActivity {
                 nextImageView().setAlpha(1f);
                 currentImageNdx = nextImageNdx;
                 nextImageNdx = currentImageNdx == 0 ? 1 : 0;
-                TvApp.getApplication().getLogger().Debug("Current ndx: "+currentImageNdx+" next: "+nextImageNdx);
+                //TvApp.getApplication().getLogger().Debug("Current ndx: "+currentImageNdx+" next: "+nextImageNdx);
                 isTransitioning = false;
             }
 

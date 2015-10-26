@@ -47,4 +47,5 @@ dependencies {
     compile 'com.squareup.okio:okio:1.0.1'
     compile 'com.google.guava:guava:18.0'
     compile 'com.devbrackets.android:exomedia:2.3.1'
+    compile 'com.flaviofaria:kenburnsview:1.0.6'
 }

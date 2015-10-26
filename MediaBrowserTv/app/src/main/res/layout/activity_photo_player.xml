@@ -2,24 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <ImageView
+    <com.flaviofaria.kenburnsview.KenBurnsView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/mainImage2"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
         android:background="@android:color/black"
-        android:src="@drawable/loading"
-        android:scaleType="fitCenter" />
+         />
 
-    <ImageView
+    <com.flaviofaria.kenburnsview.KenBurnsView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/mainImage"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
         android:background="@android:color/black"
-        android:src="@drawable/loading"
-        android:scaleType="fitCenter" />
+        />
 
 </RelativeLayout>
