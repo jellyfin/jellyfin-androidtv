@@ -330,7 +330,7 @@ public class PlaybackController {
                 String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken());
 
                 // if source is stereo or we're not on at least 5.1.1 with AC3 - use most compatible output
-                if (!mVideoManager.isNativeMode() && response.getMediaSource().getDefaultAudioStream() != null && (response.getMediaSource().getDefaultAudioStream().getChannels() <= 2 || (!Utils.isGreaterThan51() && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec())))) {
+                if (!mVideoManager.isNativeMode() && response.getMediaSource().getDefaultAudioStream() != null && (response.getMediaSource().getDefaultAudioStream().getChannels() <= 2 || (!Utils.supportsAc3() && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec())))) {
                     mVideoManager.setCompatibleAudio();
                     //Utils.showToast(mApplication, "Compatible");
                 } else {
