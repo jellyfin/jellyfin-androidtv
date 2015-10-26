@@ -1,8 +1,10 @@
 package tv.emby.embyatv.details;
 
+import android.animation.Animator;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.widget.ImageView;
 
@@ -24,20 +26,27 @@ import tv.emby.embyatv.util.Utils;
 public class PhotoPlayerActivity extends BaseActivity {
     BaseItemDto currentPhoto;
 
-    ImageView mainImage;
+    ImageView[] mainImages = new ImageView[2];
     ImageView nextImage;
     ImageView prevImage;
+    int currentImageNdx = 0;
+    int nextImageNdx = 1;
     int displayWidth;
     int displayHeight;
     boolean isLoadingNext;
     boolean isLoadingPrev;
+    boolean isTransitioning;
+    boolean isPlaying;
+
+    Handler handler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_photo_player);
-        mainImage = (ImageView) findViewById(R.id.mainImage);
+        mainImages[0] = (ImageView) findViewById(R.id.mainImage);
+        mainImages[1] = (ImageView) findViewById(R.id.mainImage2);
         nextImage = new ImageView(this);
         nextImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
         prevImage = new ImageView(this);
@@ -45,8 +54,10 @@ public class PhotoPlayerActivity extends BaseActivity {
         displayWidth = getResources().getDisplayMetrics().widthPixels;
         displayHeight = getResources().getDisplayMetrics().heightPixels;
 
+        handler = new Handler();
+
         currentPhoto = MediaManager.getCurrentMediaItem().getBaseItem();
-        loadImage(currentPhoto, mainImage);
+        loadImage(currentPhoto, currentImageView());
         loadNext();
         loadPrev();
 
@@ -56,23 +67,40 @@ public class PhotoPlayerActivity extends BaseActivity {
                 switch (key) {
                     case KeyEvent.KEYCODE_DPAD_RIGHT:
                         if (MediaManager.hasNextMediaItem()) {
-                            if (isLoadingNext) return true; //swallow too fast requests
-                            currentPhoto = MediaManager.next().getBaseItem();
-                            prevImage.setImageDrawable(mainImage.getDrawable());
-                            mainImage.setImageDrawable(nextImage.getDrawable());
-                            loadNext();
+                            if (isLoadingNext || isTransitioning) return true; //swallow too fast requests
+                            if (isPlaying) {
+                                stop();
+                                play();
+                            } else {
+                                next();
+                            }
                             return true;
                         }
 
                     case KeyEvent.KEYCODE_DPAD_LEFT:
                         if (MediaManager.hasPrevMediaItem()) {
-                            if (isLoadingPrev) return true; //swallow too fast requests
+                            if (isLoadingPrev || isTransitioning) return true; //swallow too fast requests
+                            if (isPlaying) stop();
                             currentPhoto = MediaManager.prev().getBaseItem();
-                            nextImage.setImageDrawable(mainImage.getDrawable());
-                            mainImage.setImageDrawable(prevImage.getDrawable());
+                            nextImage.setImageDrawable(currentImageView().getDrawable());
+                            nextImageView().setImageDrawable(prevImage.getDrawable());
+                            transition(750);
                             loadPrev();
                             return true;
                         }
+
+                    case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                        if (isPlaying) stop(); else play();
+                        return true;
+
+                    case KeyEvent.KEYCODE_MEDIA_PLAY:
+                        if (!isPlaying) play();
+                        return true;
+
+                    case KeyEvent.KEYCODE_MEDIA_PAUSE:
+                    case KeyEvent.KEYCODE_MEDIA_STOP:
+                        stop();
+                        return true;
 
                     default:
                         return false;
@@ -82,6 +110,45 @@ public class PhotoPlayerActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (isPlaying) stop();
+    }
+
+    private void next() {
+        currentPhoto = MediaManager.next().getBaseItem();
+        prevImage.setImageDrawable(currentImageView().getDrawable());
+        nextImageView().setImageDrawable(nextImage.getDrawable());
+        transition(750);
+        loadNext();
+
+    }
+
+    Runnable playRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (MediaManager.hasNextMediaItem()) {
+                next();
+                handler.postDelayed(this, 8000);
+            }
+        }
+    };
+
+    private void play() {
+        isPlaying = true;
+        next();
+        handler.postDelayed(playRunnable, 8000);
+    }
+
+    private void stop() {
+        handler.removeCallbacks(playRunnable);
+        isPlaying = false;
+    }
+
+    private ImageView currentImageView() { return mainImages[currentImageNdx]; }
+    private ImageView nextImageView() { return mainImages[nextImageNdx]; }
+
     private void loadNext() {
         if (MediaManager.hasNextMediaItem()) loadImage(MediaManager.peekNextMediaItem().getBaseItem(), nextImage);
 
@@ -90,6 +157,57 @@ public class PhotoPlayerActivity extends BaseActivity {
     private void loadPrev() {
         if (MediaManager.hasPrevMediaItem()) loadImage(MediaManager.peekPrevMediaItem().getBaseItem(), prevImage);
 
+    }
+
+    private void transition(int duration) {
+        //transition between current image and the next one
+        isTransitioning = true;
+        currentImageView().animate().alpha(0f).setDuration(duration-50).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                currentImageView().setAlpha(0f);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        nextImageView().animate().alpha(1).setDuration(duration).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                nextImageView().setAlpha(1f);
+                currentImageNdx = nextImageNdx;
+                nextImageNdx = currentImageNdx == 0 ? 1 : 0;
+                TvApp.getApplication().getLogger().Debug("Current ndx: "+currentImageNdx+" next: "+nextImageNdx);
+                isTransitioning = false;
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                isTransitioning = false;
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
     }
 
     private void loadImage(final BaseItemDto photo, final ImageView target) {
