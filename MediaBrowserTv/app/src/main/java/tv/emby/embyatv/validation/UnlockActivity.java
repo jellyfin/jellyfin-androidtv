@@ -47,7 +47,7 @@ public class UnlockActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         //Confirm compatibility
-        if (TvApp.getApplication().getCurrentSystemInfo() == null || Utils.getReleaseVersion(TvApp.getApplication().getCurrentSystemInfo().getVersion()) < 5767) {
+        if (TvApp.getApplication().getCurrentSystemInfo() == null || !Utils.versionGreaterThanOrEqual(TvApp.getApplication().getCurrentSystemInfo().getVersion(), "3.0.5768.7")) {
             new AlertDialog.Builder(this)
                     .setTitle("Incompatible Server Version")
                     .setMessage("Please update your Emby Server to be compatible with this app.")
