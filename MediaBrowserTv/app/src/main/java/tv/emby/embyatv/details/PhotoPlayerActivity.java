@@ -49,9 +49,9 @@ public class PhotoPlayerActivity extends BaseActivity {
         mainImages[0] = (KenBurnsView) findViewById(R.id.mainImage);
         mainImages[1] = (KenBurnsView) findViewById(R.id.mainImage2);
         nextImage = new ImageView(this);
-        nextImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        nextImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         prevImage = new ImageView(this);
-        prevImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        prevImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         displayWidth = getResources().getDisplayMetrics().widthPixels;
         displayHeight = getResources().getDisplayMetrics().heightPixels;
 
