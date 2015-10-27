@@ -244,6 +244,8 @@ public class PhotoPlayerActivity extends BaseActivity {
             if (MediaManager.hasNextMediaItem()) {
                 next(1800);
                 handler.postDelayed(this, 8000);
+            } else {
+                currentImageView().pause();
             }
         }
     };
