@@ -10,6 +10,7 @@ public class MediaManager {
 
     private static ItemRowAdapter currentMediaAdapter;
     private static int currentMediaPosition = -1;
+    private static String currentMediaTitle;
 
     public static ItemRowAdapter getCurrentMediaAdapter() {
         return currentMediaAdapter;
@@ -59,4 +60,12 @@ public class MediaManager {
 
     public static boolean hasNextMediaItem() { return currentMediaAdapter.size() > currentMediaPosition+1; }
     public static boolean hasPrevMediaItem() { return currentMediaPosition > 0; }
+
+    public static String getCurrentMediaTitle() {
+        return currentMediaTitle;
+    }
+
+    public static void setCurrentMediaTitle(String currentMediaTitle) {
+        MediaManager.currentMediaTitle = currentMediaTitle;
+    }
 }

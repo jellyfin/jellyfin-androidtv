@@ -23,4 +23,8 @@ public class PositionableListRowPresenter extends ListRowPresenter implements IP
         if (viewHolder != null && viewHolder.getGridView() != null) viewHolder.getGridView().setSelectedPosition(ndx);
     }
 
+    public int getPosition() {
+        return viewHolder != null && viewHolder.getGridView() != null ? viewHolder.getGridView().getSelectedPosition() : -1;
+    }
+
 }
