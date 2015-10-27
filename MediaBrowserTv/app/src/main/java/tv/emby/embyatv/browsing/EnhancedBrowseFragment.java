@@ -49,6 +49,7 @@ import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
+import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.presentation.GridButtonPresenter;
 import tv.emby.embyatv.presentation.PositionableListRowPresenter;
@@ -413,6 +414,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
+            MediaManager.setCurrentMediaTitle(row.getHeaderItem().getName());
             ItemLauncher.launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow)row).getAdapter(), ((BaseRowItem)item).getIndex(), getActivity());
         }
     }

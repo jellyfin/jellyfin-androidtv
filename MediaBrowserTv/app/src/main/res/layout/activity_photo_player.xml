@@ -21,4 +21,20 @@
         android:background="@android:color/black"
         android:scaleType="center" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:id="@+id/popupArea"
+        android:background="@color/black_opaque"
+        android:visibility="invisible"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="left|center_vertical"
+            android:id="@+id/rows_area"/>
+    </FrameLayout>
+
 </RelativeLayout>

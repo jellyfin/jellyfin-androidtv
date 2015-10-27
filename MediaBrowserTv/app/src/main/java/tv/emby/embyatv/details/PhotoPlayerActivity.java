@@ -3,8 +3,21 @@ package tv.emby.embyatv.details;
 import android.animation.Animator;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v17.leanback.app.RowsFragment;
+import android.support.v17.leanback.widget.ArrayObjectAdapter;
+import android.support.v17.leanback.widget.HeaderItem;
+import android.support.v17.leanback.widget.ListRow;
+import android.support.v17.leanback.widget.OnItemViewClickedListener;
+import android.support.v17.leanback.widget.OnItemViewSelectedListener;
+import android.support.v17.leanback.widget.Presenter;
+import android.support.v17.leanback.widget.Row;
+import android.support.v17.leanback.widget.RowPresenter;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.flaviofaria.kenburnsview.KenBurnsView;
@@ -17,8 +30,11 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.base.IKeyListener;
+import tv.emby.embyatv.itemhandling.BaseRowItem;
+import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.presentation.MyRandomeKBGenerator;
+import tv.emby.embyatv.presentation.PositionableListRowPresenter;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -39,6 +55,15 @@ public class PhotoPlayerActivity extends BaseActivity {
     boolean isTransitioning;
     boolean isPlaying;
 
+    FrameLayout mPopupArea;
+    RowsFragment mPopupRowsFragment;
+    ArrayObjectAdapter mPopupRowAdapter;
+    ListRow mThumbRow;
+    PositionableListRowPresenter mPopupRowPresenter;
+    Animation showPopup;
+    Animation hidePopup;
+    boolean mPopupPanelVisible;
+
     Handler handler;
 
     @Override
@@ -55,6 +80,8 @@ public class PhotoPlayerActivity extends BaseActivity {
         displayWidth = getResources().getDisplayMetrics().widthPixels;
         displayHeight = getResources().getDisplayMetrics().heightPixels;
 
+        mPopupArea = (FrameLayout) findViewById(R.id.popupArea);
+
         handler = new Handler();
 
         currentImageView().setTransitionGenerator(new MyRandomeKBGenerator(9000, new AccelerateDecelerateInterpolator()));
@@ -68,13 +95,42 @@ public class PhotoPlayerActivity extends BaseActivity {
         loadNext();
         loadPrev();
 
+        // Inject the RowsFragment in the popup container
+        if (getFragmentManager().findFragmentById(R.id.rows_area) == null) {
+            mPopupRowsFragment = new RowsFragment();
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.rows_area, mPopupRowsFragment).commit();
+        } else {
+            mPopupRowsFragment = (RowsFragment) getFragmentManager()
+                    .findFragmentById(R.id.rows_area);
+        }
+
+        mPopupRowPresenter = new PositionableListRowPresenter();
+        mPopupRowAdapter = new ArrayObjectAdapter(mPopupRowPresenter);
+        mPopupRowsFragment.setAdapter(mPopupRowAdapter);
+        mThumbRow = new ListRow(new HeaderItem("", null), MediaManager.getCurrentMediaAdapter());
+        mPopupRowAdapter.add(mThumbRow);
+        mPopupRowsFragment.setOnItemViewClickedListener(itemViewClickedListener);
+        mPopupRowsFragment.setOnItemViewSelectedListener(itemViewSelectedListener);
+        setupPopupAnimations();
+
         registerKeyListener(new IKeyListener() {
             @Override
             public boolean onKeyUp(int key, KeyEvent event) {
                 switch (key) {
+
+                    case KeyEvent.KEYCODE_BACK:
+                    case KeyEvent.KEYCODE_B:
+                        if (mPopupPanelVisible) {
+                            hideThumbPanel();
+                            return true;
+                        }
+                        break;
+
                     case KeyEvent.KEYCODE_DPAD_RIGHT:
-                        if (MediaManager.hasNextMediaItem()) {
-                            if (isLoadingNext || isTransitioning) return true; //swallow too fast requests
+                        if (!mPopupPanelVisible && MediaManager.hasNextMediaItem()) {
+                            if (isLoadingNext || isTransitioning)
+                                return true; //swallow too fast requests
                             if (isPlaying) {
                                 stop();
                                 play();
@@ -83,10 +139,12 @@ public class PhotoPlayerActivity extends BaseActivity {
                             }
                             return true;
                         }
+                        break;
 
                     case KeyEvent.KEYCODE_DPAD_LEFT:
-                        if (MediaManager.hasPrevMediaItem()) {
-                            if (isLoadingPrev || isTransitioning) return true; //swallow too fast requests
+                        if (!mPopupPanelVisible && MediaManager.hasPrevMediaItem()) {
+                            if (isLoadingPrev || isTransitioning)
+                                return true; //swallow too fast requests
                             if (isPlaying) stop();
                             currentPhoto = MediaManager.prev().getBaseItem();
                             nextImage.setImageDrawable(currentImageView().getDrawable());
@@ -95,14 +153,18 @@ public class PhotoPlayerActivity extends BaseActivity {
                             loadPrev();
                             return true;
                         }
+                        break;
+
+                    case KeyEvent.KEYCODE_DPAD_UP:
+                    case KeyEvent.KEYCODE_DPAD_DOWN:
+                        if (mPopupPanelVisible) hideThumbPanel(); else showThumbPanel();
+                        return true;
 
                     case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                        if (isPlaying) stop(); else play();
-                        return true;
+                        return handlePlayKey();
 
                     case KeyEvent.KEYCODE_MEDIA_PLAY:
-                        if (!isPlaying) play();
-                        return true;
+                        return handlePlayKey();
 
                     case KeyEvent.KEYCODE_MEDIA_PAUSE:
                     case KeyEvent.KEYCODE_MEDIA_STOP:
@@ -113,8 +175,52 @@ public class PhotoPlayerActivity extends BaseActivity {
                         return false;
                 }
 
+                return false;
+
             }
         });
+    }
+
+    protected boolean handlePlayKey() {
+        if (mPopupPanelVisible) {
+            if (isPlaying) stop();
+            Utils.Beep();
+            hideThumbPanel();
+            MediaManager.setCurrentMediaPosition(mPopupRowPresenter.getPosition());
+            loadImage(MediaManager.getCurrentMediaItem().getBaseItem(), currentImageView());
+            nextImageView().setAlpha(0f);
+            currentImageView().resume();
+            loadNext();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    play();
+                }
+            }, 8000);
+
+            return true;
+        }
+
+        if (isPlaying) stop();
+        else play();
+        return true;
+
+    }
+
+    protected boolean handleSelectKey() {
+        if (mPopupPanelVisible) {
+            if (isPlaying) stop();
+            hideThumbPanel();
+            MediaManager.setCurrentMediaPosition(mPopupRowPresenter.getPosition());
+            loadImage(MediaManager.getCurrentMediaItem().getBaseItem(), currentImageView());
+            nextImageView().setAlpha(0f);
+            loadNext();
+
+            return true;
+        }
+
+        return false;
+
     }
 
     @Override
@@ -136,7 +242,7 @@ public class PhotoPlayerActivity extends BaseActivity {
         @Override
         public void run() {
             if (MediaManager.hasNextMediaItem()) {
-                next(1500);
+                next(1800);
                 handler.postDelayed(this, 8000);
             }
         }
@@ -146,7 +252,7 @@ public class PhotoPlayerActivity extends BaseActivity {
         isPlaying = true;
         currentImageView().resume();
         nextImageView().resume();
-        next(1500);
+        next(1800);
         handler.postDelayed(playRunnable, 8000);
     }
 
@@ -260,4 +366,74 @@ public class PhotoPlayerActivity extends BaseActivity {
                     });
         }
     }
+
+    private OnItemViewClickedListener itemViewClickedListener = new OnItemViewClickedListener() {
+        @Override
+        public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
+            handleSelectKey();
+        }
+    };
+
+    private OnItemViewSelectedListener itemViewSelectedListener = new OnItemViewSelectedListener() {
+        @Override
+        public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
+            if (!(item instanceof BaseRowItem) || MediaManager.getCurrentMediaAdapter() == null) return;
+            MediaManager.getCurrentMediaAdapter().loadMoreItemsIfNeeded(((BaseRowItem)item).getIndex());
+        }
+    };
+
+    private void setupPopupAnimations() {
+        showPopup = AnimationUtils.loadAnimation(this, R.anim.abc_slide_in_bottom);
+        showPopup.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                mPopupArea.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mPopupArea.requestFocus();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        hidePopup = AnimationUtils.loadAnimation(this, R.anim.abc_fade_out);
+        hidePopup.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mPopupArea.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+
+    }
+
+    private void showThumbPanel() {
+
+        mPopupArea.bringToFront();
+        mPopupRowPresenter.setPosition(MediaManager.getCurrentMediaPosition());
+        mPopupArea.startAnimation(showPopup);
+        mPopupPanelVisible = true;
+    }
+
+    private void hideThumbPanel(){
+        mPopupArea.startAnimation(hidePopup);
+        mPopupPanelVisible = false;
+    }
+
+
 }
