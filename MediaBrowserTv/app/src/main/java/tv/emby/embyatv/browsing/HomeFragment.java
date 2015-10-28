@@ -232,7 +232,7 @@ public class HomeFragment extends StdBrowseFragment {
     }
 
     private void addLogsButton() {
-        if (toolsRow != null && TvApp.getApplication().getPrefs().getBoolean("pref_enable_debug",false) && !Utils.isFireTv()) {
+        if (toolsRow != null && TvApp.getApplication().getPrefs().getBoolean("pref_enable_debug",false) && Utils.is50()) {
             if (toolsRow.indexOf(sendLogsButton) < 0) toolsRow.add(sendLogsButton);
             else if (toolsRow.indexOf(sendLogsButton) > -1) toolsRow.remove(sendLogsButton);
         }
