@@ -111,30 +111,32 @@ public class TvManager {
     }
 
     public static int sortChannels() {
-        //Sort by last played - if selected
-        if (TvApp.getApplication().getPrefs().getBoolean("pref_guide_sort_date",true)) {
-            Collections.sort(allChannels, Collections.reverseOrder(new Comparator<ChannelInfoDto>() {
-                @Override
-                public int compare(ChannelInfoDto lhs, ChannelInfoDto rhs) {
-                    long left = lhs.getUserData() == null || lhs.getUserData().getLastPlayedDate() == null ? 0 : lhs.getUserData().getLastPlayedDate().getTime();
-                    long right = rhs.getUserData() == null || rhs.getUserData().getLastPlayedDate() == null ? 0 : rhs.getUserData().getLastPlayedDate().getTime();
-
-                    long result = left - right;
-                    return result == 0 ? 0 : result > 0 ? 1 : -1;
-                }
-            }));
-        }
-
-
-        //And  fill in channel IDs
-        channelIds = new String[allChannels.size()];
-        String last = getLastLiveTvChannel();
-        int i = 0;
         int ndx = 0;
-        for (ChannelInfoDto channel : allChannels) {
-            channelIds[i++] = channel.getId();
-            if (channel.getId().equals(last)) ndx = i;
-            //TvApp.getApplication().getLogger().Debug("Last played for "+channel.getName()+ " is "+channel.getUserData().getLastPlayedDate());
+        if (allChannels != null) {
+            //Sort by last played - if selected
+            if (TvApp.getApplication().getPrefs().getBoolean("pref_guide_sort_date", true)) {
+                Collections.sort(allChannels, Collections.reverseOrder(new Comparator<ChannelInfoDto>() {
+                    @Override
+                    public int compare(ChannelInfoDto lhs, ChannelInfoDto rhs) {
+                        long left = lhs.getUserData() == null || lhs.getUserData().getLastPlayedDate() == null ? 0 : lhs.getUserData().getLastPlayedDate().getTime();
+                        long right = rhs.getUserData() == null || rhs.getUserData().getLastPlayedDate() == null ? 0 : rhs.getUserData().getLastPlayedDate().getTime();
+
+                        long result = left - right;
+                        return result == 0 ? 0 : result > 0 ? 1 : -1;
+                    }
+                }));
+            }
+
+
+            //And  fill in channel IDs
+            channelIds = new String[allChannels.size()];
+            String last = getLastLiveTvChannel();
+            int i = 0;
+            for (ChannelInfoDto channel : allChannels) {
+                channelIds[i++] = channel.getId();
+                if (channel.getId().equals(last)) ndx = i;
+                //TvApp.getApplication().getLogger().Debug("Last played for "+channel.getName()+ " is "+channel.getUserData().getLastPlayedDate());
+            }
         }
 
         return ndx;
