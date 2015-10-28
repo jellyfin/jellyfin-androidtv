@@ -194,7 +194,7 @@ public class HomeFragment extends StdBrowseFragment {
         if (TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvAccess()) {
             RecommendedProgramQuery onNow = new RecommendedProgramQuery();
             onNow.setIsAiring(true);
-            onNow.setFields(new ItemFields[] {ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+            onNow.setFields(new ItemFields[] {ItemFields.Overview, ItemFields.PrimaryImageAspectRatio, ItemFields.ChannelInfo});
             onNow.setUserId(TvApp.getApplication().getCurrentUser().getId());
             onNow.setLimit(20);
             mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_on_now), onNow));
