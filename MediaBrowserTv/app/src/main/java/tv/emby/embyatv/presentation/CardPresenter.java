@@ -124,6 +124,9 @@ public class CardPresenter extends Presenter {
                         case "UserView":
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.folder);
                             break;
+                        case "Photo":
+                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.photo);
+                            break;
                         default:
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.video);
                             break;

@@ -75,6 +75,7 @@ public class StartupActivity extends Activity {
     private void establishConnection(final Activity activity){
         // The underlying http stack. Developers can inject their own if desired
         VolleyHttpClient volleyHttpClient = new VolleyHttpClient(logger, application);
+        TvApp.getApplication().setHttpClient(volleyHttpClient);
         ClientCapabilities capabilities = new ClientCapabilities();
         ArrayList<String> playableTypes = new ArrayList<>();
         playableTypes.add("Video");
@@ -131,8 +132,9 @@ public class StartupActivity extends Activity {
                         @Override
                         public void onResponse(final UserDto response) {
                             application.setCurrentUser(response);
-                            application.validate();
                             if (application.getDirectItemId() != null) {
+                                application.validate();
+                                application.determineAutoBitrate();
                                 if (response.getHasPassword()
                                         && (!application.getIsAutoLoginConfigured()
                                         || (application.getPrefs().getBoolean("pref_auto_pw_prompt", false)))) {
@@ -140,6 +142,7 @@ public class StartupActivity extends Activity {
                                     Utils.processPasswordEntry(activity, response, application.getDirectItemId());
                                 } else {
                                     //Can just go right into details
+
                                     Intent detailsIntent = new Intent(activity, FullDetailsActivity.class);
                                     detailsIntent.putExtra("ItemId", application.getDirectItemId());
                                     startActivity(detailsIntent);

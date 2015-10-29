@@ -10,6 +10,7 @@ import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.entities.DisplayPreferences;
+import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.search.SearchHint;
@@ -22,9 +23,11 @@ import tv.emby.embyatv.browsing.GenericGridActivity;
 import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.browsing.UserViewActivity;
 import tv.emby.embyatv.details.FullDetailsActivity;
+import tv.emby.embyatv.details.PhotoPlayerActivity;
 import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.model.ViewType;
+import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.startup.SelectUserActivity;
 import tv.emby.embyatv.util.DelayedMessage;
@@ -34,11 +37,15 @@ import tv.emby.embyatv.util.Utils;
  * Created by Eric on 12/21/2014.
  */
 public class ItemLauncher {
-    public static void launch(BaseRowItem rowItem, final TvApp application, final Activity activity) {
-        launch(rowItem, application, activity, false);
+    public static void launch(BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity) {
+        launch(rowItem, adapter, pos, activity, false);
     }
 
-    public static void launch(BaseRowItem rowItem, final TvApp application, final Activity activity, final boolean noHistory) {
+    public static void launch(BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity, final boolean noHistory) {
+        final TvApp application = TvApp.getApplication();
+        MediaManager.setCurrentMediaAdapter(adapter);
+        MediaManager.setCurrentMediaPosition(pos);
+
         switch (rowItem.getItemType()) {
 
             case BaseItem:
@@ -117,6 +124,13 @@ public class ItemLauncher {
                         if (noHistory) collectionIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
                         activity.startActivity(collectionIntent);
+                        return;
+
+                    case "Photo":
+                        // open photo player
+                        Intent photoIntent = new Intent(activity, PhotoPlayerActivity.class);
+
+                        activity.startActivity(photoIntent);
                         return;
 
                 }

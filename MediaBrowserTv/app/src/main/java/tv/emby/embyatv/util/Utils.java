@@ -42,6 +42,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
 import java.util.UUID;
@@ -280,6 +281,16 @@ public class Utils {
         options.setMaxHeight(maxPrimaryImageHeight);
         options.setImageType(ImageType.Primary);
         return apiClient.GetUserImageUrl(item, options);
+    }
+
+    public static String getPrimaryImageUrl(BaseItemDto item, int width) {
+        if (!item.getHasPrimaryImage()) return null;
+        ImageOptions options = new ImageOptions();
+        options.setTag(item.getImageTags().get(ImageType.Primary));
+        options.setMaxWidth(width);
+        options.setImageType(ImageType.Primary);
+        return TvApp.getApplication().getApiClient().GetImageUrl(item, options);
+
     }
 
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient) {
@@ -818,7 +829,7 @@ public class Utils {
     public static String GetSubName(BaseItemDto item) {
         switch (item.getType()) {
             case "Episode":
-                String addendum = item.getLocationType().equals(LocationType.Virtual) && item.getPremiereDate() != null ? " (" +  new SimpleDateFormat("d MMM y").format(Utils.convertToLocalDate(item.getPremiereDate())) + ")" : "";
+                String addendum = item.getLocationType().equals(LocationType.Virtual) && item.getPremiereDate() != null ? " (" +  getFriendlyDate(Utils.convertToLocalDate(item.getPremiereDate())) + ")" : "";
                 return item.getName() + addendum;
             case "Season":
                 return item.getChildCount() != null && item.getChildCount() > 0 ? item.getChildCount() + " Episodes" : "";
@@ -1116,6 +1127,7 @@ public class Utils {
         if (cal.get(Calendar.YEAR) == now.get(Calendar.YEAR)) {
             if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)) return TvApp.getApplication().getString(R.string.lbl_today);
             if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)+1) return TvApp.getApplication().getString(R.string.lbl_tomorrow);
+            if (cal.get(Calendar.DAY_OF_YEAR) < now.get(Calendar.DAY_OF_YEAR)+6) return cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
         }
 
         return android.text.format.DateFormat.getDateFormat(TvApp.getApplication()).format(date);
@@ -1252,8 +1264,40 @@ public class Utils {
         ApiClient apiClient = app.getApiClient();
         if (apiClient != null) {
             if (app.getCurrentUser() != null) ACRA.getErrorReporter().putCustomData("mbUser", app.getCurrentUser().getName());
-            ACRA.getErrorReporter().putCustomData("serverInfo", app.getSerializer().SerializeToString(apiClient.getServerInfo()));
+            ACRA.getErrorReporter().putCustomData("serverInfo", app.getSerializer().SerializeToString(app.getCurrentSystemInfo()));
         }
+    }
+
+    public static boolean versionGreaterThanOrEqual(String firstVersion, String secondVersion) {
+        try {
+            String[] firstVersionComponents = firstVersion.split("[.]");
+            String[] secondVersionComponents = secondVersion.split("[.]");
+            int firstLength = firstVersionComponents.length;
+            int secondLength = secondVersionComponents.length;
+            int firstMajor = firstLength > 0 ? Integer.parseInt(firstVersionComponents[0]) : 0;
+            int secondMajor = secondLength > 0 ? Integer.parseInt(secondVersionComponents[0]) : 0;
+            int firstMinor = firstLength > 1 ? Integer.parseInt(firstVersionComponents[1]) : 0;
+            int secondMinor = secondLength > 1 ? Integer.parseInt(secondVersionComponents[1]) : 0;
+            int firstBuild = firstLength > 2 ? Integer.parseInt(firstVersionComponents[2]) : 0;
+            int secondBuild = secondLength > 0 ? Integer.parseInt(secondVersionComponents[2]) : 0;
+            int firstRelease = firstLength > 3 ? Integer.parseInt(firstVersionComponents[3]) : 0;
+            int secondRelease = secondLength > 3 ? Integer.parseInt(secondVersionComponents[3]) : 0;
+
+            if (firstMajor < secondMajor) return false;
+            if (firstMajor == secondMajor && firstMinor < secondMinor) return false;
+            if (firstMajor == secondMajor && firstMinor == secondMinor && firstBuild < secondBuild) return false;
+            if (firstMajor == secondMajor && firstMinor == secondMinor && firstBuild == secondBuild && firstRelease < secondRelease) return false;
+
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static int getReleaseVersion(String version) {
+        String[] components = version.split("[.]");
+        return components.length > 2 ? Integer.parseInt(components[2]) : 0;
     }
 
     public static String getCurrentFormattedTime() {
@@ -1289,12 +1333,22 @@ public class Utils {
 
     public static boolean isShield() { return Build.MODEL.equals("SHIELD Android TV"); }
 
+    public static boolean isNexus() { return Build.MODEL.equals("Nexus Player"); }
+
     public static boolean is50() {
         return Build.VERSION.SDK_INT >= 21;
     }
+    public static boolean isGreaterThan51() { return Build.VERSION.RELEASE.equals("5.1.1") || is60(); }
 
+    public static boolean is60() {
+        return Build.VERSION.SDK_INT >= 23;
+    }
     public static boolean isGingerbreadOrLater() {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD;
+    }
+
+    public static boolean supportsAc3() {
+        return isGreaterThan51();
     }
 
     public static int getBrandColor() {

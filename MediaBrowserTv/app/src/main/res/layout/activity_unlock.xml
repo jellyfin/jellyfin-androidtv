@@ -13,14 +13,14 @@
         android:src="@drawable/moviebg"
         android:alpha=".5" />
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:src="@drawable/logob400"
         android:layout_alignTop="@+id/imageView4"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="false" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,7 +31,6 @@
         android:textSize="28sp"
         android:layout_below="@+id/imageView"
         android:layout_alignParentStart="false"
-        android:layout_marginTop="40dp"
         android:layout_centerHorizontal="true" />
 
     <TextView
@@ -47,14 +46,47 @@
         android:paddingEnd="40dp"
         android:paddingStart="40dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/lbl_premiere_desc2"
+        android:id="@+id/textView3"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="20dp"
+        android:paddingEnd="40dp"
+        android:visibility="gone"
+        android:paddingStart="40dp" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btn_next"
+        android:text="@string/btn_monthly_default"
+        android:id="@+id/buttonMonthly"
+        android:clickable="true"
+        android:focusable="true"
+        android:enabled="true"
+        android:background="@drawable/emby_button"
+        android:padding="10sp"
+        android:textColor="@android:color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="false"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="30sp"
+        android:visibility="gone"
+        android:layout_toLeftOf="@+id/buttonNext" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_unlock"
         android:id="@+id/buttonNext"
         android:clickable="true"
         android:focusable="true"
         android:enabled="true"
+        android:padding="10sp"
+        android:background="@drawable/emby_button"
+        android:textColor="@android:color/white"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="false"
         android:layout_marginRight="20dp"
@@ -66,6 +98,9 @@
         android:layout_height="wrap_content"
         android:text="@string/btn_cancel"
         android:id="@+id/buttonCancel"
+        android:padding="10sp"
+        android:background="@drawable/emby_button"
+        android:textColor="@android:color/white"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="40sp"

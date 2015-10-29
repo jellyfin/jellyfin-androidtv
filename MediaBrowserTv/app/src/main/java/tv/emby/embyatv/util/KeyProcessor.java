@@ -3,6 +3,7 @@ package tv.emby.embyatv.util;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -20,7 +21,9 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.base.CustomMessage;
+import tv.emby.embyatv.details.PhotoPlayerActivity;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
+import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.querying.StdItemQuery;
 
 /**
@@ -71,6 +74,13 @@ public class KeyProcessor {
                             case "BoxSet":
                                 createPlayMenu(rowItem.getItemId(), true, activity);
                                 return true;
+                            case "Photo":
+                                // open photo player
+                                Utils.Beep();
+                                Intent photoIntent = new Intent(activity, PhotoPlayerActivity.class);
+                                photoIntent.putExtra("Play",true);
+                                activity.startActivity(photoIntent);
+
                         }
                         break;
                     case Person:

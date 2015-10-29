@@ -153,7 +153,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 //On now
                 RecommendedProgramQuery onNow = new RecommendedProgramQuery();
                 onNow.setIsAiring(true);
-                onNow.setFields(new ItemFields[] {ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+                onNow.setFields(new ItemFields[] {ItemFields.Overview, ItemFields.PrimaryImageAspectRatio, ItemFields.ChannelInfo});
                 onNow.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 onNow.setLimit(200);
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_on_now), onNow));
@@ -161,7 +161,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 //Upcoming
                 RecommendedProgramQuery upcomingTv = new RecommendedProgramQuery();
                 upcomingTv.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                upcomingTv.setFields(new ItemFields[] {ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+                upcomingTv.setFields(new ItemFields[] {ItemFields.Overview, ItemFields.PrimaryImageAspectRatio, ItemFields.ChannelInfo});
                 upcomingTv.setIsAiring(false);
                 upcomingTv.setHasAired(false);
                 upcomingTv.setLimit(200);

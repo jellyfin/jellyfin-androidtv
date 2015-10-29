@@ -24,6 +24,7 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
+import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
@@ -64,6 +65,7 @@ import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.FilterOptions;
 import tv.emby.embyatv.model.PosterSize;
 import tv.emby.embyatv.model.ViewType;
+import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.presentation.HorizontalGridPresenter;
 import tv.emby.embyatv.model.ImageType;
@@ -529,6 +531,11 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             mActivity.registerKeyListener(new IKeyListener() {
                 @Override
                 public boolean onKeyUp(int key, KeyEvent event) {
+                    if (key == KeyEvent.KEYCODE_MEDIA_PLAY || key == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
+                        MediaManager.setCurrentMediaAdapter(mGridAdapter);
+                        MediaManager.setCurrentMediaPosition(mCurrentItem.getIndex());
+                        MediaManager.setCurrentMediaTitle(mFolder.getName());
+                    }
                     return KeyProcessor.HandleKey(key, mCurrentItem, mActivity);
                 }
             });
@@ -578,7 +585,9 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     }
 
     private void refreshCurrentItem() {
-        if (mCurrentItem != null) {
+        mCurrentItem = MediaManager.getCurrentMediaItem();
+        getGridPresenter().setPosition(MediaManager.getCurrentMediaPosition());
+        if (mCurrentItem != null && !"Photo".equals(mCurrentItem.getType())) {
             TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override
@@ -607,7 +616,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            ItemLauncher.launch((BaseRowItem) item, mApplication, getActivity());
+            ItemLauncher.launch((BaseRowItem) item, mGridAdapter, ((BaseRowItem)item).getIndex(), getActivity());
         }
     }
 
