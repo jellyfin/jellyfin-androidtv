@@ -109,7 +109,7 @@ public class UnlockActivity extends BaseActivity {
                                                 if (response.equals(save)) {
                                                     // all good - save and purchase
                                                     email = response;
-                                                    purchase(validator.getPremiereWeekly()); //todo - change this to monthly...
+                                                    purchase(monthlyProduct); 
                                                 } else {
                                                     Utils.showToast(activity, getString(R.string.msg_entries_not_match));
                                                 }
