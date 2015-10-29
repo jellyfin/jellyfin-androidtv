@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/lbl_emby_premiere"
+        android:text="@string/lbl_unlock_app"
         android:id="@+id/textView"
         android:textSize="28sp"
         android:layout_below="@+id/imageView"
@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/lbl_premiere_desc"
+        android:text="@string/lbl_unlock_desc"
         android:id="@+id/textView2"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
@@ -55,6 +55,7 @@
         android:layout_below="@+id/textView2"
         android:layout_marginTop="20dp"
         android:paddingEnd="40dp"
+        android:visibility="gone"
         android:paddingStart="40dp" />
 
     <Button
@@ -72,12 +73,13 @@
         android:layout_alignParentRight="false"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="30sp"
+        android:visibility="gone"
         android:layout_toLeftOf="@+id/buttonNext" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btn_unlock"
+        android:text="@string/lbl_unlock"
         android:id="@+id/buttonNext"
         android:clickable="true"
         android:focusable="true"
