@@ -43,7 +43,7 @@ public class AppValidator {
                     if (TvApp.getApplication().isTrial()) {
                         TvApp.getApplication().getLogger().Info("In supporter trial. Trial period expires "+ Utils.convertToLocalDate(response.getExpirationDate()));
                     }
-                    TvApp.getApplication().premiereNag();
+                    //TvApp.getApplication().premiereNag();
                     TvApp.getApplication().getLogger().Debug("*** package name: "+TvApp.getApplication().getPackageName());
                     if (!TvApp.getApplication().checkPaidCache()) checkPurchase(InAppProduct.getCurrentUnlockSku(TvApp.getApplication().getPackageName()));
                 }

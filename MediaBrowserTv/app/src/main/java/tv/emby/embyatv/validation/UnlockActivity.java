@@ -47,19 +47,19 @@ public class UnlockActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         //Confirm compatibility
-        if (TvApp.getApplication().getCurrentSystemInfo() == null || !Utils.versionGreaterThanOrEqual(TvApp.getApplication().getCurrentSystemInfo().getVersion(), "3.0.5768.7")) {
-            new AlertDialog.Builder(this)
-                    .setTitle("Incompatible Server Version")
-                    .setMessage("Please update your Emby Server to be compatible with this app.")
-                    .setPositiveButton(getString(R.string.btn_ok), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    })
-                    .setCancelable(false)
-                    .show();
-        } else {
+//        if (TvApp.getApplication().getCurrentSystemInfo() == null || !Utils.versionGreaterThanOrEqual(TvApp.getApplication().getCurrentSystemInfo().getVersion(), "3.0.5768.7")) {
+//            new AlertDialog.Builder(this)
+//                    .setTitle("Incompatible Server Version")
+//                    .setMessage("Please update your Emby Server to be compatible with this app.")
+//                    .setPositiveButton(getString(R.string.btn_ok), new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            finish();
+//                        }
+//                    })
+//                    .setCancelable(false)
+//                    .show();
+//        } else {
             setContentView(R.layout.activity_unlock);
 
             final Activity activity = this;
@@ -74,64 +74,65 @@ public class UnlockActivity extends BaseActivity {
                         next.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                new AlertDialog.Builder(activity)
-                                        .setTitle(activity.getString(R.string.lbl_unlock))
-                                        .setMessage(activity.getString(R.string.msg_just_unlock_confirm))
-                                        .setNegativeButton(activity.getString(R.string.lbl_cancel), new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int whichButton) {
-                                                // Do nothing.
-                                            }
-                                        }).setPositiveButton(activity.getString(R.string.lbl_unlock_app), new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        purchase(validator.getUnlockProduct());
-                                    }
-                                }).show();
+                                purchase(validator.getUnlockProduct());
+//                                new AlertDialog.Builder(activity)
+//                                        .setTitle(activity.getString(R.string.lbl_unlock))
+//                                        .setMessage(activity.getString(R.string.msg_just_unlock_confirm))
+//                                        .setNegativeButton(activity.getString(R.string.lbl_cancel), new DialogInterface.OnClickListener() {
+//                                            public void onClick(DialogInterface dialog, int whichButton) {
+//                                                // Do nothing.
+//                                            }
+//                                        }).setPositiveButton(activity.getString(R.string.lbl_unlock_app), new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int whichButton) {
+//                                        purchase(validator.getUnlockProduct());
+//                                    }
+//                                }).show();
                             }
                         });
                     }
 
-                    Button monthly = (Button) findViewById(R.id.buttonMonthly);
-                    final InAppProduct monthlyProduct = validator.getPremiereMonthly();
-                    monthly.setText(getText(R.string.btn_monthly_prefix)+" "+monthlyProduct.getPrice()+getText(R.string.btn_monthly_suffix));
-                    monthly.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            // get email
-                            getEmailAddress(getString(R.string.msg_email_entry1), new Response<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    if (!TextUtils.isEmpty(response)) {
-                                        final String save = response;
-                                        // confirm it
-                                        getEmailAddress(getString(R.string.msg_email_entry2), new Response<String>() {
-                                            @Override
-                                            public void onResponse(String response) {
-                                                if (response.equals(save)) {
-                                                    // all good - save and purchase
-                                                    email = response;
-                                                    purchase(monthlyProduct); 
-                                                } else {
-                                                    Utils.showToast(activity, getString(R.string.msg_entries_not_match));
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onError(Exception exception) {
-                                                Utils.showToast(activity, getString(R.string.msg_invalid_email));
-                                            }
-                                        });
-
-                                    }
-                                }
-
-                                @Override
-                                public void onError(Exception exception) {
-                                    Utils.showToast(activity, getString(R.string.msg_invalid_email));
-                                }
-                            });
-                        }
-                    });
-                    monthly.requestFocus();
+//                    Button monthly = (Button) findViewById(R.id.buttonMonthly);
+//                    final InAppProduct monthlyProduct = validator.getPremiereMonthly();
+//                    monthly.setText(getText(R.string.btn_monthly_prefix)+" "+monthlyProduct.getPrice()+getText(R.string.btn_monthly_suffix));
+//                    monthly.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            // get email
+//                            getEmailAddress(getString(R.string.msg_email_entry1), new Response<String>() {
+//                                @Override
+//                                public void onResponse(String response) {
+//                                    if (!TextUtils.isEmpty(response)) {
+//                                        final String save = response;
+//                                        // confirm it
+//                                        getEmailAddress(getString(R.string.msg_email_entry2), new Response<String>() {
+//                                            @Override
+//                                            public void onResponse(String response) {
+//                                                if (response.equals(save)) {
+//                                                    // all good - save and purchase
+//                                                    email = response;
+//                                                    purchase(monthlyProduct);
+//                                                } else {
+//                                                    Utils.showToast(activity, getString(R.string.msg_entries_not_match));
+//                                                }
+//                                            }
+//
+//                                            @Override
+//                                            public void onError(Exception exception) {
+//                                                Utils.showToast(activity, getString(R.string.msg_invalid_email));
+//                                            }
+//                                        });
+//
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void onError(Exception exception) {
+//                                    Utils.showToast(activity, getString(R.string.msg_invalid_email));
+//                                }
+//                            });
+//                        }
+//                    });
+//                    monthly.requestFocus();
 
                 }
 
@@ -149,7 +150,7 @@ public class UnlockActivity extends BaseActivity {
                 }
             });
 
-        }
+//        }
     }
 
     private void getEmailAddress(String msg, final Response<String> response) {
