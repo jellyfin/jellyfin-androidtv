@@ -24,8 +24,8 @@ import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
 import tv.emby.embyatv.integration.RecommendationManager;
-import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.model.ChangeTriggerType;
+import tv.emby.embyatv.presentation.ThemeManager;
 import tv.emby.embyatv.startup.LogonCredentials;
 import tv.emby.embyatv.ui.GridButton;
 import tv.emby.embyatv.R;
@@ -51,6 +51,7 @@ public class HomeFragment extends StdBrowseFragment {
     private ArrayObjectAdapter toolsRow;
     private GridButton unlockButton;
     private GridButton sendLogsButton;
+    private GridButton premiereButton;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -74,6 +75,8 @@ public class HomeFragment extends StdBrowseFragment {
         //Get auto bitrate
         TvApp.getApplication().determineAutoBitrate();
 
+        ThemeManager.showWelcomeMessage();
+
     }
 
     @Override
@@ -81,7 +84,17 @@ public class HomeFragment extends StdBrowseFragment {
         super.onResume();
 
         //if we were locked before and have just unlocked, remove the button
-        if (unlockButton != null && (TvApp.getApplication().isRegistered() || TvApp.getApplication().isPaid())) toolsRow.remove(unlockButton);
+        if (unlockButton != null && (TvApp.getApplication().isRegistered() || TvApp.getApplication().isPaid())) {
+            toolsRow.remove(unlockButton);
+//            if (!TvApp.getApplication().isRegistered()) {
+//                premiereButton = new GridButton(UNLOCK, mApplication.getString(R.string.btn_emby_premiere), R.drawable.embyicon);
+//                toolsRow.add(premiereButton);
+//            }
+        } else {
+            if (premiereButton != null && TvApp.getApplication().isRegistered()) {
+                toolsRow.remove(premiereButton);
+            }
+        }
         addLogsButton();
     }
 
@@ -93,6 +106,20 @@ public class HomeFragment extends StdBrowseFragment {
             public void onResponse(ItemsResult response) {
                 //First library and in-progress
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_library), new ViewQuery()));
+
+                //Special suggestions
+                String[] specialGenres = ThemeManager.getSpecialGenres();
+                if (specialGenres != null) {
+                    StdItemQuery suggestions = new StdItemQuery();
+                    suggestions.setIncludeItemTypes(new String[]{"Movie", "Series"});
+                    suggestions.setGenres(specialGenres);
+                    suggestions.setRecursive(true);
+                    suggestions.setLimit(40);
+                    suggestions.setSortBy(new String[]{ItemSortBy.DatePlayed});
+                    suggestions.setSortOrder(SortOrder.Ascending);
+                    mRows.add(new BrowseRowDef(ThemeManager.getSuggestionTitle(), suggestions, 0, true, true, new ChangeTriggerType[] {}));
+
+                }
 
                 StdItemQuery resumeItems = new StdItemQuery();
                 resumeItems.setIncludeItemTypes(new String[]{"Movie", "Episode", "Video", "Program"});
@@ -125,13 +152,13 @@ public class HomeFragment extends StdBrowseFragment {
                             addOnNow();
                     }
                 }
-        //        StdItemQuery latestMusic = new StdItemQuery();
-        //        latestMusic.setIncludeItemTypes(new String[]{"MusicAlbum"});
-        //        latestMusic.setRecursive(true);
-        //        latestMusic.setLimit(50);
-        //        latestMusic.setSortBy(new String[]{ItemSortBy.DateCreated});
-        //        latestMusic.setSortOrder(SortOrder.Descending);
-        //        mRowDef.add(new BrowseRowDef("Latest Albums", latestMusic, 0));
+                //        StdItemQuery latestMusic = new StdItemQuery();
+                //        latestMusic.setIncludeItemTypes(new String[]{"MusicAlbum"});
+                //        latestMusic.setRecursive(true);
+                //        latestMusic.setLimit(50);
+                //        latestMusic.setSortBy(new String[]{ItemSortBy.DateCreated});
+                //        latestMusic.setSortOrder(SortOrder.Descending);
+                //        mRowDef.add(new BrowseRowDef("Latest Albums", latestMusic, 0));
 
                 rowLoader.loadRows(mRows);
             }
@@ -167,7 +194,7 @@ public class HomeFragment extends StdBrowseFragment {
         if (TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvAccess()) {
             RecommendedProgramQuery onNow = new RecommendedProgramQuery();
             onNow.setIsAiring(true);
-            onNow.setFields(new ItemFields[] {ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+            onNow.setFields(new ItemFields[] {ItemFields.Overview, ItemFields.PrimaryImageAspectRatio, ItemFields.ChannelInfo});
             onNow.setUserId(TvApp.getApplication().getCurrentUser().getId());
             onNow.setLimit(20);
             mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_on_now), onNow));
@@ -193,7 +220,10 @@ public class HomeFragment extends StdBrowseFragment {
                 if (!TvApp.getApplication().isRegistered() && !TvApp.getApplication().isPaid()) {
                     unlockButton = new GridButton(UNLOCK, mApplication.getString(R.string.lbl_unlock), R.drawable.unlock);
                     toolsRow.add(unlockButton);
-                }
+                } /*else if (!TvApp.getApplication().isRegistered()) {
+                    premiereButton = new GridButton(UNLOCK, mApplication.getString(R.string.btn_emby_premiere), R.drawable.embyicon);
+                    toolsRow.add(premiereButton);
+                }*/
             }
         }, 5000);
 
@@ -202,7 +232,7 @@ public class HomeFragment extends StdBrowseFragment {
     }
 
     private void addLogsButton() {
-        if (toolsRow != null && TvApp.getApplication().getPrefs().getBoolean("pref_enable_debug",false) && !Utils.isFireTv()) {
+        if (toolsRow != null && TvApp.getApplication().getPrefs().getBoolean("pref_enable_debug",false) && Utils.is50()) {
             if (toolsRow.indexOf(sendLogsButton) < 0) toolsRow.add(sendLogsButton);
             else if (toolsRow.indexOf(sendLogsButton) > -1) toolsRow.remove(sendLogsButton);
         }

@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import tv.emby.embyatv.R;
+import tv.emby.embyatv.TvApp;
 
 /**
  * A presenter that renders objects in a horizontal grid.
@@ -57,6 +58,10 @@ public class HorizontalGridPresenter extends Presenter {
 
     public HorizontalGridPresenter(int zoomFactor) {
         mZoomFactor = zoomFactor;
+    }
+
+    public void setPosition(int ndx) {
+        if (mViewHolder != null) mViewHolder.getGridView().setSelectedPosition(ndx);
     }
 
     /**
@@ -236,12 +241,14 @@ public class HorizontalGridPresenter extends Presenter {
         });
     }
 
+    ViewHolder mViewHolder;
+
     @Override
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
         if (DEBUG) Log.v(TAG, "onBindViewHolder " + item);
-        ViewHolder vh = (ViewHolder) viewHolder;
-        vh.mItemBridgeAdapter.setAdapter((ObjectAdapter) item);
-        vh.getGridView().setAdapter(vh.mItemBridgeAdapter);
+        mViewHolder = (ViewHolder) viewHolder;
+        mViewHolder.mItemBridgeAdapter.setAdapter((ObjectAdapter) item);
+        mViewHolder.getGridView().setAdapter(mViewHolder.mItemBridgeAdapter);
     }
 
     @Override

@@ -16,6 +16,7 @@ import org.acra.ACRA;
 
 import java.io.IOException;
 
+import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.startup.LogonCredentials;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
@@ -47,7 +48,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         // conditionally hide options that don't apply
         PreferenceCategory cat = (PreferenceCategory) findPreference("pref_playback_category");
         if (Utils.isFireTvStick()) cat.removePreference(findPreference("pref_vlc_max_res"));
-        if (Utils.isFireTv()) cat.removePreference(findPreference("pref_audio_option"));
+        if (Utils.isFireTv() && !Utils.is50()) cat.removePreference(findPreference("pref_audio_option"));
     }
 
     @Override
@@ -88,6 +89,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                     ACRA.getErrorReporter().handleException(e);
                 }
             }
+        }
+
+        if (key.equals("pref_guide_sort_date")) {
+            TvManager.resetChannels();
         }
 
         updatePreference(findPreference(key));

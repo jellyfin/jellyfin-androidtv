@@ -26,7 +26,6 @@ import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
-import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
@@ -41,10 +40,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jakewharton.disklrucache.Util;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -65,6 +62,8 @@ import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.presentation.CardPresenter;
+import tv.emby.embyatv.presentation.PositionableListRowPresenter;
+import tv.emby.embyatv.presentation.ThemeManager;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.ViewQuery;
 import tv.emby.embyatv.search.SearchActivity;
@@ -147,7 +146,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         super.onResume();
 
         // set fastLane (or headers) background color
-        setBrandColor(Utils.getBrandColor());
+        setBrandColor(ThemeManager.getBrandColor());
 
         // set info panel option
         ShowInfoPanel = mApplication.getPrefs().getBoolean("pref_enable_info_panel", true);
@@ -183,7 +182,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
     public void loadRows(List<BrowseRowDef> rows) {
 
-        mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+        mRowsAdapter = new ArrayObjectAdapter(new PositionableListRowPresenter());
         mCardPresenter = new CardPresenter();
 
         for (BrowseRowDef def : rows) {
@@ -421,7 +420,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            ItemLauncher.launch((BaseRowItem) item, mApplication, getActivity());
+            ItemLauncher.launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow)row).getAdapter(), ((BaseRowItem)item).getIndex(), getActivity());
         }
     }
 

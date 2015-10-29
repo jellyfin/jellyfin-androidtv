@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -18,6 +19,7 @@ import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.IConnectionManager;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
+import mediabrowser.apiinteraction.android.VolleyHttpClient;
 import mediabrowser.apiinteraction.playback.PlaybackManager;
 import mediabrowser.logging.ConsoleLogger;
 import mediabrowser.model.dto.BaseItemDto;
@@ -25,6 +27,7 @@ import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.entities.DisplayPreferences;
 import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.registration.RegistrationInfo;
+import mediabrowser.model.system.SystemInfo;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.playback.PlaybackController;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
@@ -64,10 +67,12 @@ public class TvApp extends Application {
     private GsonJsonSerializer serializer;
     private static TvApp app;
     private UserDto currentUser;
+    private SystemInfo currentSystemInfo;
     private BaseItemDto currentPlayingItem;
     private PlaybackController playbackController;
     private ApiClient loginApiClient;
     private AudioManager audioManager;
+    private VolleyHttpClient httpClient;
 
     private int autoBitrate;
     private String directItemId;
@@ -203,6 +208,50 @@ public class TvApp extends Application {
         this.playbackController = playbackController;
     }
 
+    public SystemInfo getCurrentSystemInfo() { return currentSystemInfo; }
+
+    public void loadSystemInfo() {
+        if (getApiClient() != null) {
+            getApiClient().GetSystemInfoAsync(new Response<SystemInfo>() {
+                @Override
+                public void onResponse(SystemInfo response) {
+                    currentSystemInfo = response;
+                    logger.Info("Current server is "+response.getServerName()+" (ver "+response.getVersion()+") running on "+response.getOperatingSystemDisplayName());
+                }
+
+                @Override
+                public void onError(Exception exception) {
+                    logger.ErrorException("Unable to obtain system info.",exception);
+                }
+            });
+        }
+    }
+
+    public void showMessage(String title, String msg) {
+        if (currentActivity != null) {
+            currentActivity.showMessage(title, msg);
+        }
+    }
+
+    private long getLastNagTime() { return getSystemPrefs().getLong("lastNagTime",0); }
+
+    private void setLastNagTime(long time) { getSystemPrefs().edit().putLong("lastNagTime", System.currentTimeMillis()).commit(); }
+
+    public void premiereNag() {
+        if (!isRegistered() && System.currentTimeMillis() - (86400000 * 7) > getLastNagTime()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (currentActivity != null && !currentActivity.isFinishing()) {
+                        currentActivity.showMessage(getString(R.string.msg_premiere_nag_title), getString(R.string.msg_premiere_nag_msg), 10000);
+                        setLastNagTime(System.currentTimeMillis());
+                    }
+
+                }
+            },2500);
+        }
+    }
+
     public LogonCredentials getConfiguredAutoCredentials() {
         return configuredAutoCredentials;
     }
@@ -269,12 +318,19 @@ public class TvApp extends Application {
         this.lastUserInteraction = lastUserInteraction;
     }
 
+    public boolean checkPaidCache() {
+        isPaid = getSystemPrefs().getString("kv","").equals(getApiClient().getDeviceId());
+        logger.Info("Paid cache check: " + isPaid);
+        return isPaid;
+    }
+
     public boolean isPaid() {
         return isPaid;
     }
 
     public void setPaid(boolean isPaid) {
         this.isPaid = isPaid;
+        getSystemPrefs().edit().putString("kv", isPaid ? getApiClient().getDeviceId() : "").commit();
     }
 
     public RegistrationInfo getRegistrationInfo() {
@@ -423,14 +479,9 @@ public class TvApp extends Application {
 
     public void determineAutoBitrate() {
         if (getApiClient() == null) return;
-        final long start = System.currentTimeMillis();
         getApiClient().detectBitrate(new Response<Long>() {
             @Override
             public void onResponse(Long response) {
-//                long myTime = System.currentTimeMillis() - start;
-//                double secs = myTime / 1000;
-//                logger.Info("My secs: "+ secs + " My start: "+start+" My millis: "+myTime);
-//                logger.Info("My rate: "+ (40000000 / myTime) * 1000);
                 autoBitrate = response.intValue();
                 logger.Info("Auto bitrate set to: "+autoBitrate);
             }
@@ -452,5 +503,13 @@ public class TvApp extends Application {
 
     public void setLastDeletedItemId(String lastDeletedItemId) {
         this.lastDeletedItemId = lastDeletedItemId;
+    }
+
+    public VolleyHttpClient getHttpClient() {
+        return httpClient;
+    }
+
+    public void setHttpClient(VolleyHttpClient httpClient) {
+        this.httpClient = httpClient;
     }
 }

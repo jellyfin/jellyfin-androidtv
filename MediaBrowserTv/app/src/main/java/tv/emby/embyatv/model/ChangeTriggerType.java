@@ -7,5 +7,6 @@ public enum  ChangeTriggerType {
     LibraryUpdated,
     MoviePlayback,
     TvPlayback,
+    GuideNeedsLoad,
     Always
 }

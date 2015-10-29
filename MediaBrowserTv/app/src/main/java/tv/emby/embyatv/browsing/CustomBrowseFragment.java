@@ -9,7 +9,6 @@ import android.support.v17.leanback.app.RowsFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
-import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
@@ -35,6 +34,7 @@ import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.presentation.CardPresenter;
+import tv.emby.embyatv.presentation.PositionableListRowPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.ViewQuery;
 
@@ -75,7 +75,7 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
                     .findFragmentById(R.id.rows_area);
         }
 
-        mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+        mRowsAdapter = new ArrayObjectAdapter(new PositionableListRowPresenter());
         mRowsFragment.setAdapter(mRowsAdapter);
 
         return root;
@@ -131,7 +131,7 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
 
     public void loadRows(List<BrowseRowDef> rows) {
 
-        mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+        mRowsAdapter = new ArrayObjectAdapter(new PositionableListRowPresenter());
         mCardPresenter = new CardPresenter();
 
         for (BrowseRowDef def : rows) {
@@ -221,7 +221,7 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            ItemLauncher.launch((BaseRowItem) item, mApplication, getActivity());
+            ItemLauncher.launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow)row).getAdapter(), ((BaseRowItem) item).getIndex(), getActivity());
         }
     }
 

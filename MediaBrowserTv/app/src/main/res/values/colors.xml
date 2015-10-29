@@ -25,8 +25,8 @@
     <color name="red_gradient_end">#900d10</color>
     <color name="fastlane_fire">#ff161b21</color>
 
-    <color name="btn_idle_start">#1e1c1c</color>
-    <color name="btn_idle_end">#181616</color>
+    <color name="btn_idle_start">#3c3a3a</color>
+    <color name="btn_idle_end">#323030</color>
     <color name="btn_focused_start">#c308720b</color>
     <color name="btn_focused_end">#c309500c</color>
 
@@ -39,4 +39,7 @@
     <color name="popup_background">#ff004655</color>
     <color name="dark_gradient_start">#ff060606</color>
     <color name="dark_gradient_end">#ff181818</color>
+
+    <color name="halloween_start">#8d5100</color>
+    <color name="halloween_end">#643c00</color>
 </resources>

@@ -62,8 +62,8 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     private static final int IMAGE_SIZE = Utils.convertDpToPixel(TvApp.getApplication(), 150);
     public static final int PAGEBUTTON_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 20);
     public static final int PAGEBUTTON_WIDTH = 120 * PIXELS_PER_MINUTE;
-    public static final int PAGE_SIZE = 50;
-    public static final int NORMAL_HOURS = 12;
+    public static final int PAGE_SIZE = 75;
+    public static final int NORMAL_HOURS = 9;
     public static final int FILTERED_HOURS = 3;
 
     private LiveTvGuideActivity mActivity;
@@ -573,39 +573,60 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     private Runnable detailUpdateTask = new Runnable() {
         @Override
         public void run() {
-            mTitle.setText(mSelectedProgram.getName());
-            mSummary.setText(mSelectedProgram.getOverview());
-            if (mSelectedProgram.getId() != null) {
-                mDisplayDate.setText(Utils.getFriendlyDate(Utils.convertToLocalDate(mSelectedProgram.getStartDate())));
-                String url = Utils.getPrimaryImageUrl(mSelectedProgram, TvApp.getApplication().getApiClient());
-                Picasso.with(mActivity).load(url).resize(IMAGE_SIZE, IMAGE_SIZE).centerInside().into(mImage);
+            if (mSelectedProgram.getOverview() == null && mSelectedProgram.getId() != null) {
+                TvApp.getApplication().getApiClient().GetItemAsync(mSelectedProgram.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                    @Override
+                    public void onResponse(BaseItemDto response) {
+                        mSelectedProgram = response;
+                        detailUpdateInternal();
+                    }
 
-                //info row
-                InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mInfoRow, false, false);
-
-                if (Utils.isTrue(mSelectedProgram.getIsNews())) {
-                    mBackdrop.setImageResource(R.drawable.newsbanner);
-
-                } else if (Utils.isTrue(mSelectedProgram.getIsKids())) {
-                    mBackdrop.setImageResource(R.drawable.kidsbanner);
-
-                } else if (Utils.isTrue(mSelectedProgram.getIsSports())) {
-                    mBackdrop.setImageResource(R.drawable.sportsbanner);
-
-                } else if (Utils.isTrue(mSelectedProgram.getIsMovie())) {
-                    mBackdrop.setImageResource(R.drawable.moviebanner);
-
-                } else {
-                    mBackdrop.setImageResource(R.drawable.tvbanner);
-                }
-
+                    @Override
+                    public void onError(Exception exception) {
+                        TvApp.getApplication().getLogger().ErrorException("Unable to get program details", exception);
+                        detailUpdateInternal();
+                    }
+                });
             } else {
-                mInfoRow.removeAllViews();
-                mBackdrop.setImageResource(R.drawable.tvbanner);
-                mImage.setImageResource(R.drawable.blank10x10);
+                detailUpdateInternal();
             }
         }
     };
+
+    private void detailUpdateInternal() {
+        mTitle.setText(mSelectedProgram.getName());
+        mSummary.setText(mSelectedProgram.getOverview());
+        if (mSelectedProgram.getId() != null) {
+            mDisplayDate.setText(Utils.getFriendlyDate(Utils.convertToLocalDate(mSelectedProgram.getStartDate())));
+            String url = Utils.getPrimaryImageUrl(mSelectedProgram, TvApp.getApplication().getApiClient());
+            Picasso.with(mActivity).load(url).resize(IMAGE_SIZE, IMAGE_SIZE).centerInside().into(mImage);
+
+            //info row
+            InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mInfoRow, false, false);
+
+            if (Utils.isTrue(mSelectedProgram.getIsNews())) {
+                mBackdrop.setImageResource(R.drawable.newsbanner);
+
+            } else if (Utils.isTrue(mSelectedProgram.getIsKids())) {
+                mBackdrop.setImageResource(R.drawable.kidsbanner);
+
+            } else if (Utils.isTrue(mSelectedProgram.getIsSports())) {
+                mBackdrop.setImageResource(R.drawable.sportsbanner);
+
+            } else if (Utils.isTrue(mSelectedProgram.getIsMovie())) {
+                mBackdrop.setImageResource(R.drawable.moviebanner);
+
+            } else {
+                mBackdrop.setImageResource(R.drawable.tvbanner);
+            }
+
+        } else {
+            mInfoRow.removeAllViews();
+            mBackdrop.setImageResource(R.drawable.tvbanner);
+            mImage.setImageResource(R.drawable.blank10x10);
+        }
+
+    }
 
     public void setSelectedProgram(ProgramGridCell programView) {
         mSelectedProgramView = programView;

@@ -2,6 +2,7 @@ package tv.emby.embyatv.livetv;
 
 import android.app.Activity;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -37,6 +40,7 @@ public class TvManager {
     private static String[] channelIds;
     private static HashMap<String, ArrayList<BaseItemDto>> mProgramsDict = new HashMap<>();
     private static Calendar needLoadTime;
+    private static Calendar programNeedLoadTime;
 
     public static String getLastLiveTvChannel() {
         return TvApp.getApplication().getSystemPrefs().getString("sys_pref_last_tv_channel", null);
@@ -45,6 +49,8 @@ public class TvManager {
     public static void setLastLiveTvChannel(String id) {
         TvApp.getApplication().getSystemPrefs().edit().putString("sys_pref_prev_tv_channel", TvApp.getApplication().getSystemPrefs().getString("sys_pref_last_tv_channel", null)).commit();
         TvApp.getApplication().getSystemPrefs().edit().putString("sys_pref_last_tv_channel", id).commit();
+        updateLastPlayedDate(id);
+        sortChannels();
     }
 
     public static String getPrevLiveTvChannel() {
@@ -53,6 +59,10 @@ public class TvManager {
 
     public static List<ChannelInfoDto> getAllChannels() {
         return allChannels;
+    }
+
+    public static void resetChannels() {
+        allChannels = null;
     }
 
     public static int getAllChannelsIndex(String id) {
@@ -66,6 +76,17 @@ public class TvManager {
         return allChannels.get(ndx);
     }
 
+    public static void updateLastPlayedDate(String channelId) {
+        if (allChannels != null) {
+            int ndx = getAllChannelsIndex(channelId);
+            if (ndx >= 0) {
+                TimeZone timeZone = Calendar.getInstance().getTimeZone();
+                Date now = new Date();
+                allChannels.get(ndx).getUserData().setLastPlayedDate(new Date(now.getTime()-timeZone.getRawOffset()));
+            }
+        }
+    }
+
     public static void loadAllChannels(final Response<Integer> outerResponse) {
         //Get channels
         LiveTvChannelQuery query = new LiveTvChannelQuery();
@@ -75,42 +96,66 @@ public class TvManager {
         TvApp.getApplication().getLogger().Debug("*** About to load channels");
         TvApp.getApplication().getApiClient().GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
             @Override
-            public void onResponse(ChannelInfoDtoResult response) {
+            public void onResponse(final ChannelInfoDtoResult response) {
                 TvApp.getApplication().getLogger().Debug("*** channel query response");
                 allChannels = new ArrayList<>();
-                channelIds = new String[response.getItems().length];
-                int i = 0;
-                String lastTvChannelId = getLastLiveTvChannel();
                 int ndx = 0;
                 if (response.getTotalRecordCount() > 0) {
-                    for (ChannelInfoDto channel : response.getItems()) {
-                        allChannels.add(channel);
-                        if (channel.getId().equals(lastTvChannelId)) ndx = i;
-                        channelIds[i++] = channel.getId();
-                    }
+                    Collections.addAll(allChannels, response.getItems());
                 }
 
-                outerResponse.onResponse(ndx);
+                outerResponse.onResponse(sortChannels());
             }
         });
 
     }
 
+    public static int sortChannels() {
+        int ndx = 0;
+        if (allChannels != null) {
+            //Sort by last played - if selected
+            if (TvApp.getApplication().getPrefs().getBoolean("pref_guide_sort_date", true)) {
+                Collections.sort(allChannels, Collections.reverseOrder(new Comparator<ChannelInfoDto>() {
+                    @Override
+                    public int compare(ChannelInfoDto lhs, ChannelInfoDto rhs) {
+                        long left = lhs.getUserData() == null || lhs.getUserData().getLastPlayedDate() == null ? 0 : lhs.getUserData().getLastPlayedDate().getTime();
+                        long right = rhs.getUserData() == null || rhs.getUserData().getLastPlayedDate() == null ? 0 : rhs.getUserData().getLastPlayedDate().getTime();
+
+                        long result = left - right;
+                        return result == 0 ? 0 : result > 0 ? 1 : -1;
+                    }
+                }));
+            }
+
+
+            //And  fill in channel IDs
+            channelIds = new String[allChannels.size()];
+            String last = getLastLiveTvChannel();
+            int i = 0;
+            for (ChannelInfoDto channel : allChannels) {
+                channelIds[i++] = channel.getId();
+                if (channel.getId().equals(last)) ndx = i;
+                //TvApp.getApplication().getLogger().Debug("Last played for "+channel.getName()+ " is "+channel.getUserData().getLastPlayedDate());
+            }
+        }
+
+        return ndx;
+    }
+
     public static void getProgramsAsync(int startNdx, int endNdx, Calendar endTime, final EmptyResponse outerResponse) {
         final Calendar start = new GregorianCalendar(TimeZone.getTimeZone("Z"));
         start.set(Calendar.MINUTE, start.get(Calendar.MINUTE) >= 30 ? 30 : 0);
-        start.set(Calendar.SECOND, 0);
+        start.set(Calendar.SECOND, 1);
         if (needLoadTime == null || start.after(needLoadTime) || !mProgramsDict.containsKey(channelIds[startNdx]) || !mProgramsDict.containsKey(channelIds[endNdx])) {
             ProgramQuery query = new ProgramQuery();
             query.setUserId(TvApp.getApplication().getCurrentUser().getId());
             endNdx = endNdx > channelIds.length ? channelIds.length : endNdx+1; //array copy range final ndx is exclusive
             query.setChannelIds(Arrays.copyOfRange(channelIds, startNdx, endNdx));
-            query.setFields(new ItemFields[]{ItemFields.Overview});
-            query.setImageTypeLimit(1);
-            query.setEnableImageTypes(new ImageType[]{ImageType.Primary});
+            query.setEnableImages(false);
             query.setSortBy(new String[] {"StartDate"});
             Calendar end = (Calendar) endTime.clone();
             end.setTimeZone(TimeZone.getTimeZone("Z"));
+            end.add(Calendar.SECOND, -1);
             query.setMaxStartDate(end.getTime());
             query.setMinEndDate(start.getTime());
 
@@ -151,6 +196,15 @@ public class TvManager {
         needLoadTime.add(Calendar.MINUTE, 29);
 
     }
+
+    public static Calendar updateProgramsNeedsLoadTime() {
+        programNeedLoadTime = new GregorianCalendar(TimeZone.getTimeZone("Z"));
+        programNeedLoadTime.set(Calendar.MINUTE, programNeedLoadTime.get(Calendar.MINUTE) >= 30 ? 30 : 0);
+        programNeedLoadTime.set(Calendar.SECOND, 0);
+        return programNeedLoadTime;
+    }
+
+    public static boolean programsNeedLoad(Calendar now) { return programNeedLoadTime == null || now.after(programNeedLoadTime); }
 
     public static List<BaseItemDto> getProgramsForChannel(String channelId, GuideFilters filters) {
         if (!mProgramsDict.containsKey(channelId)) return new ArrayList<>();
