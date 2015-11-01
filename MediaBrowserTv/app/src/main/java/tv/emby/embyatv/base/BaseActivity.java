@@ -52,22 +52,24 @@ public class BaseActivity extends Activity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                FrameLayout root = (FrameLayout) findViewById(android.R.id.content);
-                messageUi = View.inflate(app.getCurrentActivity(), R.layout.message, null);
-                messageTitle = (TextView) messageUi.findViewById(R.id.msgTitle);
-                messageMessage = (TextView) messageUi.findViewById(R.id.message);
-                messageIcon = (ImageView) messageUi.findViewById(R.id.msgIcon);
-                messageUi.setAlpha(0);
-                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.RIGHT | Gravity.BOTTOM);
-                params.bottomMargin = Utils.convertDpToPixel(TvApp.getApplication().getCurrentActivity(), 50);
-                Rect windowSize = new Rect();
-                getWindow().getDecorView().getWindowVisibleDisplayFrame(windowSize);
-                farRight = windowSize.right;
-                msgPos = farRight-Utils.convertDpToPixel(TvApp.getApplication().getCurrentActivity(), 500);
-                messageUi.setLeft(farRight);
-                root.addView(messageUi, params);
+                if (!isFinishing()) {
+                    FrameLayout root = (FrameLayout) findViewById(android.R.id.content);
+                    messageUi = View.inflate(app.getCurrentActivity(), R.layout.message, null);
+                    messageTitle = (TextView) messageUi.findViewById(R.id.msgTitle);
+                    messageMessage = (TextView) messageUi.findViewById(R.id.message);
+                    messageIcon = (ImageView) messageUi.findViewById(R.id.msgIcon);
+                    messageUi.setAlpha(0);
+                    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.RIGHT | Gravity.BOTTOM);
+                    params.bottomMargin = Utils.convertDpToPixel(TvApp.getApplication().getCurrentActivity(), 50);
+                    Rect windowSize = new Rect();
+                    getWindow().getDecorView().getWindowVisibleDisplayFrame(windowSize);
+                    farRight = windowSize.right;
+                    msgPos = farRight - Utils.convertDpToPixel(TvApp.getApplication().getCurrentActivity(), 500);
+                    messageUi.setLeft(farRight);
+                    root.addView(messageUi, params);
+                }
             }
-        }, 200);
+        }, 500);
 
     }
 
