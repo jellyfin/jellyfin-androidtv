@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.v17.leanback.widget.BaseCardView;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.view.View;
@@ -235,7 +236,7 @@ public class CardPresenter extends Presenter {
             return mItem;
         }
 
-        public ImageCardView getCardView() {
+        public MyImageCardView getCardView() {
             return mCardView;
         }
 
@@ -298,11 +299,13 @@ public class CardPresenter extends Presenter {
         if (!(item instanceof BaseRowItem)) return;
         BaseRowItem rowItem = (BaseRowItem) item;
 
-        ((ViewHolder) viewHolder).setItem(rowItem, mImageType, 260, 300, mStaticHeight);
+        ViewHolder holder = (ViewHolder) viewHolder;
+        holder.setItem(rowItem, mImageType, 260, 300, mStaticHeight);
 
         //Log.d(TAG, "onBindViewHolder");
-        ((ViewHolder) viewHolder).mCardView.setTitleText(rowItem.getFullName());
-        ((ViewHolder) viewHolder).mCardView.setContentText(rowItem.getSubText());
+        holder.mCardView.setTitleText(rowItem.getFullName());
+        holder.mCardView.setContentText(rowItem.getSubText());
+        holder.mCardView.setOverlayText((rowItem.isGenericFolder() && holder.mCardView.getCardType() == BaseCardView.CARD_TYPE_MAIN_ONLY) ? rowItem.getFullName() : null);
         Drawable badge = rowItem.getBadgeImage();
         if (badge != null) {
             ((ViewHolder) viewHolder).mCardView.setBadgeImage(badge);
@@ -326,9 +329,9 @@ public class CardPresenter extends Presenter {
     }
 
     public static class PicassoImageCardViewTarget implements Target {
-        private ImageCardView mImageCardView;
+        private MyImageCardView mImageCardView;
 
-        public PicassoImageCardViewTarget(ImageCardView mImageCardView) {
+        public PicassoImageCardViewTarget(MyImageCardView mImageCardView) {
             this.mImageCardView = mImageCardView;
         }
 

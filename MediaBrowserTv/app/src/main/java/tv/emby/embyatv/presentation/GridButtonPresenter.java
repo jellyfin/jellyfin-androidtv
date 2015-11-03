@@ -44,7 +44,7 @@ public class GridButtonPresenter extends Presenter {
             return mItem;
         }
 
-        public ImageCardView getCardView() {
+        public MyImageCardView getCardView() {
             return mCardView;
         }
 
@@ -94,9 +94,9 @@ public class GridButtonPresenter extends Presenter {
     }
 
     public static class PicassoImageCardViewTarget implements Target {
-        private ImageCardView mImageCardView;
+        private MyImageCardView mImageCardView;
 
-        public PicassoImageCardViewTarget(ImageCardView mImageCardView) {
+        public PicassoImageCardViewTarget(MyImageCardView mImageCardView) {
             this.mImageCardView = mImageCardView;
         }
 
