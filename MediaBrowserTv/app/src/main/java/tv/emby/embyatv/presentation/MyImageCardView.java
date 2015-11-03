@@ -75,6 +75,7 @@ public class MyImageCardView extends BaseCardView {
         mOverlayCount.setTypeface(TvApp.getApplication().getDefaultFont());
         mOverlayIcon = (ImageView) v.findViewById(tv.emby.embyatv.R.id.icon);
         mInfoOverlay = (ViewGroup) v.findViewById(tv.emby.embyatv.R.id.name_overlay);
+        mInfoOverlay.setVisibility(GONE);
 
         if (mInfoArea != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.lbImageCardView,
