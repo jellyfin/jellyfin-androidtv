@@ -585,9 +585,12 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     }
 
     private void refreshCurrentItem() {
-        mCurrentItem = MediaManager.getCurrentMediaItem();
-        getGridPresenter().setPosition(MediaManager.getCurrentMediaPosition());
-        if (mCurrentItem != null && !"Photo".equals(mCurrentItem.getType())) {
+        if (MediaManager.getCurrentMediaPosition() >= 0) {
+            mCurrentItem = MediaManager.getCurrentMediaItem();
+            getGridPresenter().setPosition(MediaManager.getCurrentMediaPosition());
+            MediaManager.setCurrentMediaPosition(-1); // re-set so it doesn't mess with parent views
+        }
+        if (mCurrentItem != null && !"Photo".equals(mCurrentItem.getType()) && !"PhotoAlbum".equals(mCurrentItem.getType())) {
             TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override
