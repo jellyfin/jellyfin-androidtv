@@ -29,20 +29,46 @@
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
             android:contentDescription="@null" />
-        <TextView
+        <RelativeLayout
             android:id="@+id/name_overlay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
             android:padding="4dp"
-            android:maxLines="1"
+            android:gravity="center_vertical"
             android:layout_alignBottom="@id/main_image"
             android:layout_alignEnd="@id/main_image"
             android:layout_alignStart="@id/main_image"
-            android:background="@color/black_transparent_light"
-            android:ellipsize="end"
-            android:visibility="gone"
-            />
+            android:background="@color/black_transparent_light">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/foldersmall"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="5dp" />
+            <TextView
+                android:id="@+id/overlay_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_toRightOf="@+id/icon"
+                android:layout_alignBottom="@+id/icon"
+                android:layout_marginLeft="8dp"
+                android:layout_toLeftOf="@+id/overlay_count"
+                android:layout_marginRight="5dp" />
+            <TextView
+                android:id="@+id/overlay_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:maxLines="1"
+                android:layout_alignBottom="@+id/icon"
+                android:layout_marginRight="5dp"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
 
     </RelativeLayout>
     <android.support.v17.leanback.widget.NonOverlappingFrameLayout
