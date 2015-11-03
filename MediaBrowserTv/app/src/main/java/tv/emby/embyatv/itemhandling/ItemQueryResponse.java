@@ -29,6 +29,7 @@ public class ItemQueryResponse extends Response<ItemsResult> {
             if (i == 0 && adapter.size() > 0) adapter.clear();
             for (BaseItemDto item : response.getItems()) {
                 adapter.add(new BaseRowItem(i++, item, adapter.getPreferParentThumb(), adapter.isStaticHeight()));
+                //TvApp.getApplication().getLogger().Debug("Item Type: "+item.getType());
             }
             adapter.setItemsLoaded(i);
             if (i == 0) adapter.removeRow();

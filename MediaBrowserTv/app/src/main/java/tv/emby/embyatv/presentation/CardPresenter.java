@@ -2,12 +2,10 @@ package tv.emby.embyatv.presentation;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v17.leanback.widget.BaseCardView;
-import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -305,7 +303,7 @@ public class CardPresenter extends Presenter {
         //Log.d(TAG, "onBindViewHolder");
         holder.mCardView.setTitleText(rowItem.getFullName());
         holder.mCardView.setContentText(rowItem.getSubText());
-        holder.mCardView.setOverlayText((rowItem.isGenericFolder() && holder.mCardView.getCardType() == BaseCardView.CARD_TYPE_MAIN_ONLY) ? rowItem.getFullName() : null);
+        holder.mCardView.setOverlayInfo(rowItem);
         Drawable badge = rowItem.getBadgeImage();
         if (badge != null) {
             ((ViewHolder) viewHolder).mCardView.setBadgeImage(badge);

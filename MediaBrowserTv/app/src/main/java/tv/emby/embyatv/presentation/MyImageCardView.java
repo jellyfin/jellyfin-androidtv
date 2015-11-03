@@ -10,19 +10,17 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.v17.leanback.R;
 import android.support.v17.leanback.widget.BaseCardView;
-import android.support.v17.leanback.widget.ImageCardView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import mediabrowser.model.dto.BaseItemDto;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -31,7 +29,10 @@ import tv.emby.embyatv.util.Utils;
 public class MyImageCardView extends BaseCardView {
 
     private ImageView mBanner;
-    private TextView mNameText;
+    private ViewGroup mInfoOverlay;
+    private ImageView mOverlayIcon;
+    private TextView mOverlayName;
+    private TextView mOverlayCount;
     private ImageView mImageView;
     private View mInfoArea;
     private TextView mTitleView;
@@ -68,8 +69,12 @@ public class MyImageCardView extends BaseCardView {
         mTitleView = (TextView) v.findViewById(tv.emby.embyatv.R.id.title_text);
         mContentView = (TextView) v.findViewById(tv.emby.embyatv.R.id.content_text);
         mBadgeImage = (ImageView) v.findViewById(tv.emby.embyatv.R.id.extra_badge);
-        mNameText = (TextView) v.findViewById(tv.emby.embyatv.R.id.name_overlay);
-        mNameText.setTypeface(TvApp.getApplication().getDefaultFont());
+        mOverlayName = (TextView) v.findViewById(tv.emby.embyatv.R.id.overlay_text);
+        mOverlayName.setTypeface(TvApp.getApplication().getDefaultFont());
+        mOverlayCount = (TextView) v.findViewById(tv.emby.embyatv.R.id.overlay_count);
+        mOverlayCount.setTypeface(TvApp.getApplication().getDefaultFont());
+        mOverlayIcon = (ImageView) v.findViewById(tv.emby.embyatv.R.id.icon);
+        mInfoOverlay = (ViewGroup) v.findViewById(tv.emby.embyatv.R.id.name_overlay);
 
         if (mInfoArea != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.lbImageCardView,
@@ -194,14 +199,27 @@ public class MyImageCardView extends BaseCardView {
         setTextMaxLines();
     }
 
-    public void setOverlayText(CharSequence text) {
-        if (mNameText == null) return;
+    public void setOverlayInfo(BaseRowItem item) {
+        if (mOverlayName == null) return;
 
-        if (text != null) {
-            mNameText.setText(text);
-            mNameText.setVisibility(VISIBLE);
+        if (getCardType() == BaseCardView.CARD_TYPE_MAIN_ONLY && item.showCardInfoOverlay()) {
+            switch (item.getType()) {
+                case "Photo":
+                    mOverlayName.setText(item.getBaseItem().getPremiereDate() != null ? Utils.getFriendlyDate(Utils.convertToLocalDate(item.getBaseItem().getPremiereDate())) : item.getFullName());
+                    mOverlayIcon.setImageResource(tv.emby.embyatv.R.drawable.camera);
+                    break;
+                case "PhotoAlbum":
+                    mOverlayName.setText(item.getFullName());
+                    mOverlayIcon.setImageResource(tv.emby.embyatv.R.drawable.photoalbum);
+                    break;
+                default:
+                    mOverlayIcon.setImageResource(item.isFolder() ? tv.emby.embyatv.R.drawable.foldersmall : tv.emby.embyatv.R.drawable.blank30x30);
+                    break;
+            }
+            mOverlayCount.setText(item.getChildCountStr());
+            mInfoOverlay.setVisibility(VISIBLE);
         } else {
-            mNameText.setVisibility(GONE);
+            mInfoOverlay.setVisibility(GONE);
         }
     }
 
