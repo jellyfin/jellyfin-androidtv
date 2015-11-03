@@ -69,6 +69,7 @@ public class MyImageCardView extends BaseCardView {
         mContentView = (TextView) v.findViewById(tv.emby.embyatv.R.id.content_text);
         mBadgeImage = (ImageView) v.findViewById(tv.emby.embyatv.R.id.extra_badge);
         mNameText = (TextView) v.findViewById(tv.emby.embyatv.R.id.name_overlay);
+        mNameText.setTypeface(TvApp.getApplication().getDefaultFont());
 
         if (mInfoArea != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.lbImageCardView,
