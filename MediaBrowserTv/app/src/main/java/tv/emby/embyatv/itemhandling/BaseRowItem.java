@@ -125,7 +125,9 @@ public class BaseRowItem {
     public boolean isFolder() { return type == ItemType.BaseItem && baseItem != null && baseItem.getIsFolder(); }
     public boolean showCardInfoOverlay() {return type == ItemType.BaseItem && baseItem != null
             && ("Folder".equals(baseItem.getType()) || "PhotoAlbum".equals(baseItem.getType()) || "RecordingGroup".equals(baseItem.getType())
-            || "UserView".equals(baseItem.getType()) || "CollectionFolder".equals(baseItem.getType()) || "Photo".equals(baseItem.getType()) ); }
+            || "UserView".equals(baseItem.getType()) || "CollectionFolder".equals(baseItem.getType()) || "Photo".equals(baseItem.getType())
+            || "Video".equals(baseItem.getType()) );
+    }
 
     public String getImageUrl(String imageType, int maxHeight) {
         switch (type) {
