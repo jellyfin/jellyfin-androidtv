@@ -213,7 +213,12 @@ public class MyImageCardView extends BaseCardView {
                     mOverlayName.setText(item.getFullName());
                     mOverlayIcon.setImageResource(tv.emby.embyatv.R.drawable.photoalbum);
                     break;
+                case "Video":
+                    mOverlayName.setText(item.getFullName());
+                    mOverlayIcon.setImageResource(tv.emby.embyatv.R.drawable.film);
+                    break;
                 default:
+                    mOverlayName.setText(item.getFullName());
                     mOverlayIcon.setImageResource(item.isFolder() ? tv.emby.embyatv.R.drawable.foldersmall : tv.emby.embyatv.R.drawable.blank30x30);
                     break;
             }
