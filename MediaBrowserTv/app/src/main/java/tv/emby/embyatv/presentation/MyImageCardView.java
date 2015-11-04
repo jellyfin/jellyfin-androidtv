@@ -206,7 +206,7 @@ public class MyImageCardView extends BaseCardView {
         if (getCardType() == BaseCardView.CARD_TYPE_MAIN_ONLY && item.showCardInfoOverlay()) {
             switch (item.getType()) {
                 case "Photo":
-                    mOverlayName.setText(item.getBaseItem().getPremiereDate() != null ? Utils.getFriendlyDate(Utils.convertToLocalDate(item.getBaseItem().getPremiereDate())) : item.getFullName());
+                    mOverlayName.setText(item.getBaseItem().getPremiereDate() != null ? android.text.format.DateFormat.getDateFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(item.getBaseItem().getPremiereDate())) : item.getFullName());
                     mOverlayIcon.setImageResource(tv.emby.embyatv.R.drawable.camera);
                     break;
                 case "PhotoAlbum":
