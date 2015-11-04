@@ -246,12 +246,14 @@ public class PhotoPlayerActivity extends BaseActivity {
                 handler.postDelayed(this, 8000);
             } else {
                 currentImageView().pause();
+                mainImages[0].setKeepScreenOn(false);
             }
         }
     };
 
     private void play() {
         isPlaying = true;
+        mainImages[0].setKeepScreenOn(true);
         currentImageView().resume();
         nextImageView().resume();
         next(1800);
@@ -262,6 +264,7 @@ public class PhotoPlayerActivity extends BaseActivity {
         currentImageView().pause();
         nextImageView().pause();
         handler.removeCallbacks(playRunnable);
+        mainImages[0].setKeepScreenOn(false);
         isPlaying = false;
     }
 
