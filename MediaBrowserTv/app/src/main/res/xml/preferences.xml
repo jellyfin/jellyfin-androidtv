@@ -68,6 +68,10 @@
             android:defaultValue="true"
             android:summary="@string/desc_use_vlc"
             />
+        <CheckBoxPreference android:key="pref_live_direct"
+            android:title="@string/lbl_direct_stream_live"
+            android:defaultValue="true"
+            />
         <ListPreference android:key="pref_net_buffer"
             android:title="@string/lbl_buffering_amount"
             android:defaultValue="0.6"

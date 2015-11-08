@@ -226,7 +226,7 @@ public class PlaybackController {
                 isLiveTv = item.getType().equals("TvChannel");
 
                 // Create our profile - use VLC unless live tv or on FTV stick and over SD
-                useVlc = !isLiveTv && (!"ChannelVideoItem".equals(item.getType())) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_vlc", true) && (item.getPath() == null || !item.getPath().toLowerCase().endsWith(".avi"));
+                useVlc = (!isLiveTv || mApplication.directStreamLiveTv()) && (!"ChannelVideoItem".equals(item.getType())) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_vlc", true) && (item.getPath() == null || !item.getPath().toLowerCase().endsWith(".avi"));
                 boolean useDirectProfile = transcodedSubtitle < 0 && useVlc;
                 if (useVlc && item.getMediaSources() != null && item.getMediaSources().size() > 0) {
                     List<MediaStream> videoStreams = Utils.GetVideoStreams(item.getMediaSources().get(0));
@@ -330,7 +330,7 @@ public class PlaybackController {
                 String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken());
 
                 // if source is stereo or we're not on at least 5.1.1 with AC3 - use most compatible output
-                if (!mVideoManager.isNativeMode() && response.getMediaSource() != null && response.getMediaSource().getDefaultAudioStream() != null && (response.getMediaSource().getDefaultAudioStream().getChannels() <= 2 || (!Utils.supportsAc3() && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec())))) {
+                if (!mVideoManager.isNativeMode() && response.getMediaSource() != null && response.getMediaSource().getDefaultAudioStream() != null && response.getMediaSource().getDefaultAudioStream().getChannels() != null && (response.getMediaSource().getDefaultAudioStream().getChannels() <= 2 || (!Utils.supportsAc3() && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec())))) {
                     mVideoManager.setCompatibleAudio();
                     //Utils.showToast(mApplication, "Compatible");
                 } else {
@@ -724,11 +724,19 @@ public class PlaybackController {
 
             @Override
             public void onEvent() {
-                String msg =  mApplication.getString(R.string.video_error_unknown_error);
-                Utils.showToast(mApplication, mApplication.getString(R.string.msg_video_playback_error) + msg);
-                mApplication.getLogger().Error("Playback error - " + msg);
-                mPlaybackState = PlaybackState.ERROR;
-                stop();
+                if (isLiveTv && mApplication.directStreamLiveTv()) {
+                    Utils.showToast(mApplication, mApplication.getString(R.string.msg_error_live_stream));
+                    mApplication.setDirectStreamLiveTv(false);
+                    Utils.retrieveAndPlay(getCurrentlyPlayingItem().getId(), false, mApplication);
+                    mFragment.finish();
+
+                } else {
+                    String msg =  mApplication.getString(R.string.video_error_unknown_error);
+                    Utils.showToast(mApplication, mApplication.getString(R.string.msg_video_playback_error) + msg);
+                    mApplication.getLogger().Error("Playback error - " + msg);
+                    mPlaybackState = PlaybackState.ERROR;
+                    stop();
+                }
 
             }
         });

@@ -284,6 +284,8 @@
     <string name="pref_live_tv_cat">LIVE TV</string>
     <string name="pref_sort_date_option">Sort guide by last played time</string>
     <string name="pref_sort_date_desc">Show last played channels at top of guide</string>
+    <string name="msg_error_live_stream">Error streaming live TV.  Will re-try...</string>
+    <string name="lbl_direct_stream_live">Direct stream live TV</string>
 
 
 </resources>
