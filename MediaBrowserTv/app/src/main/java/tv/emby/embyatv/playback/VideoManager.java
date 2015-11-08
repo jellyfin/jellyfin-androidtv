@@ -596,7 +596,7 @@ public class VideoManager implements IVLCVout.Callback {
 
     @Override
     public void onNewLayout(IVLCVout vout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
-        if (width * height == 0)
+        if (width * height == 0 || isContracted)
             return;
 
         // store video size
