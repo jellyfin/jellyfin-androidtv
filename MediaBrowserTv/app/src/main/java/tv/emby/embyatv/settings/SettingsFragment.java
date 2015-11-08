@@ -125,6 +125,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             CheckBoxPreference cb = (CheckBoxPreference) preference;
             if (cb.getKey().equals("pref_enable_vlc")) {
                 // enable other vlc only options
+                findPreference("pref_live_direct").setEnabled(cb.isChecked());
                 ListPreference buffer = (ListPreference) findPreference("pref_net_buffer");
                 buffer.setEnabled(cb.isChecked());
                 ListPreference audio = (ListPreference) findPreference("pref_audio_option");
