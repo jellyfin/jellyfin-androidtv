@@ -346,7 +346,7 @@ public class VideoManager implements IVLCVout.Callback {
             options.add("RV32");
 //            options.add("--subsdec-encoding");
 //            options.add("Universal (UTF-8)");
-            options.add("-vvv");
+            options.add("-v");
 
             mLibVLC = new LibVLC(options);
             TvApp.getApplication().getLogger().Info("Network buffer set to " + buffer);
