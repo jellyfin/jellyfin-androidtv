@@ -333,6 +333,7 @@ public class PlaybackController {
                 if (!mVideoManager.isNativeMode() && (isLiveTv && !Utils.supportsAc3()) || (response.getMediaSource() != null && response.getMediaSource().getDefaultAudioStream() != null && response.getMediaSource().getDefaultAudioStream().getChannels() != null && (response.getMediaSource().getDefaultAudioStream().getChannels() <= 2
                         || (!Utils.supportsAc3() && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec()))))) {
                     mVideoManager.setCompatibleAudio();
+                    mApplication.getLogger().Info("Setting compatible audio mode...");
                     //Utils.showToast(mApplication, "Compatible");
                 } else {
                     //Utils.showToast(mApplication, "Default");
