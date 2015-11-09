@@ -315,7 +315,10 @@ public class VideoManager implements IVLCVout.Callback {
     public long getAudioDelay() { return mVlcPlayer != null ? mVlcPlayer.getAudioDelay() / 1000 : 0;}
 
     public void setCompatibleAudio() {
-         if (!nativeMode) mVlcPlayer.setAudioOutput("opensles_android");
+         if (!nativeMode) {
+             mVlcPlayer.setAudioOutput("opensles_android");
+             mVlcPlayer.setAudioOutputDevice("hdmi");
+         }
     }
 
     public void setAudioMode() {
