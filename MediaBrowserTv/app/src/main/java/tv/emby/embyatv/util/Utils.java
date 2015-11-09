@@ -1127,7 +1127,7 @@ public class Utils {
         if (cal.get(Calendar.YEAR) == now.get(Calendar.YEAR)) {
             if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)) return TvApp.getApplication().getString(R.string.lbl_today);
             if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)+1) return TvApp.getApplication().getString(R.string.lbl_tomorrow);
-            if (cal.get(Calendar.DAY_OF_YEAR) < now.get(Calendar.DAY_OF_YEAR)+6) return cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+            if (cal.get(Calendar.DAY_OF_YEAR) < now.get(Calendar.DAY_OF_YEAR)+7 && cal.get(Calendar.DAY_OF_YEAR) > now.get(Calendar.DAY_OF_YEAR)) return cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
         }
 
         return android.text.format.DateFormat.getDateFormat(TvApp.getApplication()).format(date);
