@@ -1045,6 +1045,26 @@ public class Utils {
 
         return convertedDate;
     }
+
+    public static Date convertToUtcDate(Date localDate) {
+
+
+        TimeZone timeZone = Calendar.getInstance().getTimeZone();
+        Date convertedDate = new Date( localDate.getTime() - timeZone.getRawOffset() );
+
+
+        if ( timeZone.inDaylightTime(localDate) ) {
+            Date dstDate = new Date( convertedDate.getTime() - timeZone.getDSTSavings() );
+
+
+            if (timeZone.inDaylightTime( dstDate )) {
+                convertedDate = dstDate;
+            }
+        }
+
+
+        return convertedDate;
+    }
     /**
      * Returns a pseudo-random number between min and max, inclusive.
      * The difference between min and max can be at most
