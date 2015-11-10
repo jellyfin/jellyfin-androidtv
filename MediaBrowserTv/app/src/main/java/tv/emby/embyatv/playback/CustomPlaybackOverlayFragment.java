@@ -47,6 +47,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import mediabrowser.apiinteraction.EmptyResponse;
@@ -816,6 +817,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             boolean first = true;
 
             TvApp.getApplication().getLogger().Debug("*** About to iterate programs");
+            LinearLayout prevRow = null;
             for (int i = start; i <= end; i++) {
                 if (isCancelled()) return null;
                 final ChannelInfoDto channel = TvManager.getChannel(i);
@@ -831,6 +833,14 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     firstRow = row;
                     mFirstFocusChannelId = null; // only do this first time in not while paging around
                 }
+
+                // set focus parameters if we are not on first row
+                // this makes focus movements more predictable for the grid view
+                if (prevRow != null) {
+                    TvManager.setFocusParms(row, prevRow, true);
+                    TvManager.setFocusParms(prevRow, row, false);
+                }
+                prevRow = row;
 
                 mActivity.runOnUiThread(new Runnable() {
                     @Override
@@ -873,6 +883,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         }
     }
 
+    private int currentCellId = 0;
+
     private LinearLayout getProgramRow(List<BaseItemDto> programs, String channelId) {
 
         LinearLayout programRow = new LinearLayout(mActivity);
@@ -881,7 +893,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             BaseItemDto empty = new BaseItemDto();
             empty.setName("  <No Program Data Available>");
             empty.setChannelId(channelId);
+            empty.setStartDate(Utils.convertToUtcDate(new Date(mCurrentLocalGuideStart)));
+            empty.setEndDate(Utils.convertToUtcDate(new Date(mCurrentLocalGuideStart + (150 * 60000))));
             ProgramGridCell cell = new ProgramGridCell(mActivity, mFragment, empty);
+            cell.setId(currentCellId++);
             cell.setLayoutParams(new ViewGroup.LayoutParams(150 * PIXELS_PER_MINUTE, LiveTvGuideActivity.ROW_HEIGHT));
             cell.setFocusable(true);
             programRow.addView(cell);
@@ -895,13 +910,17 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             if (start > getCurrentLocalEndDate()) continue;
             if (start > prevEnd) {
                 // fill empty time slot
-                TextView empty = new TextView(mActivity);
-                empty.setText("  <No Program Data Available>");
-                empty.setGravity(Gravity.CENTER);
-                empty.setHeight(LiveTvGuideActivity.ROW_HEIGHT);
-                Long duration = (start - prevEnd) / 60000;
-                empty.setWidth(duration.intValue() * PIXELS_PER_MINUTE);
-                programRow.addView(empty);
+                BaseItemDto empty = new BaseItemDto();
+                empty.setName("  <No Program Data Available>");
+                empty.setChannelId(channelId);
+                empty.setStartDate(Utils.convertToUtcDate(new Date(prevEnd)));
+                Long duration = (start - prevEnd);
+                empty.setEndDate(Utils.convertToUtcDate(new Date(prevEnd + duration)));
+                ProgramGridCell cell = new ProgramGridCell(mActivity, mFragment, empty);
+                cell.setId(currentCellId++);
+                cell.setLayoutParams(new ViewGroup.LayoutParams(((Long) (duration / 60000)).intValue() * PIXELS_PER_MINUTE, LiveTvGuideActivity.ROW_HEIGHT));
+                cell.setFocusable(true);
+                programRow.addView(cell);
             }
             long end = item.getEndDate() != null ? Utils.convertToLocalDate(item.getEndDate()).getTime() : getCurrentLocalEndDate();
             if (end > getCurrentLocalEndDate()) end = getCurrentLocalEndDate();
@@ -910,6 +929,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             //TvApp.getApplication().getLogger().Debug("Duration for "+item.getName()+" is "+duration.intValue());
             if (duration > 0) {
                 ProgramGridCell program = new ProgramGridCell(mActivity, mFragment, item);
+                program.setId(currentCellId++);
                 program.setLayoutParams(new ViewGroup.LayoutParams(duration.intValue() * PIXELS_PER_MINUTE, LiveTvGuideActivity.ROW_HEIGHT));
                 program.setFocusable(true);
 
