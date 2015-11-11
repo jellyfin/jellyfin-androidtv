@@ -246,6 +246,10 @@ public class Utils {
         return new BitmapDrawable(resources, bm);
     }
 
+    public static boolean isLiveTv(BaseItemDto item) {
+        return "Program".equals(item.getType()) || "LiveTvChannel".equals(item.getType());
+    }
+
     private static String[] ThumbFallbackTypes = new String[] {"Episode"};
 
     public static Double getImageAspectRatio(BaseItemDto item, boolean preferParentThumb) {
@@ -836,6 +840,17 @@ public class Utils {
             default:
                 return item.getOfficialRating();
         }
+
+    }
+
+    public static String GetProgramSubText(BaseItemDto baseItem) {
+        Calendar start = Calendar.getInstance();
+        start.setTime(Utils.convertToLocalDate(baseItem.getStartDate()));
+        int day = start.get(Calendar.DAY_OF_YEAR);
+        return baseItem.getChannelName() + " - " + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
+                ((day != Calendar.getInstance().get(Calendar.DAY_OF_YEAR) ? getFriendlyDate(start.getTime()) + " " : "") +
+                        android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(start.getTime()) + "-"
+                        + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getEndDate())));
 
     }
 
