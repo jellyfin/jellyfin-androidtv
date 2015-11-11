@@ -234,6 +234,11 @@ public class ItemLauncher {
                         } else {
                             Intent intent = new Intent(activity, FullDetailsActivity.class);
                             intent.putExtra("ItemId", response.getId());
+                            if (response.getType().equals("Program")) {
+                                intent.putExtra("ItemType", response.getType());
+                                intent.putExtra("ChannelId", response.getChannelId());
+                                intent.putExtra("ProgramInfo", TvApp.getApplication().getSerializer().SerializeToString(response));
+                            }
                             activity.startActivity(intent);
                         }
                     }

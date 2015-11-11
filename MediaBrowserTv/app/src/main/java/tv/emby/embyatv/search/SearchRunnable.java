@@ -62,6 +62,12 @@ public class SearchRunnable implements Runnable {
         recordingAdapter.setRow(recordingRow);
         recordingAdapter.Retrieve();
 
+        SearchQuery programs = getSearchQuery(new String[] {"Program"});
+        ItemRowAdapter programAdapter = new ItemRowAdapter(programs, new CardPresenter(), mRowsAdapter);
+        ListRow programRow = new ListRow(new HeaderItem(activity.getString(R.string.lbl_programs),""), programAdapter);
+        programAdapter.setRow(programRow);
+        programAdapter.Retrieve();
+
     }
 
     private SearchQuery getSearchQuery(String[] itemTypes) {

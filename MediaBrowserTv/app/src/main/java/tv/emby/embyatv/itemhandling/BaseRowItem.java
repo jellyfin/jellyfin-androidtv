@@ -318,13 +318,7 @@ public class BaseRowItem {
             case LiveTvChannel:
                 return channelInfo.getNumber();
             case LiveTvProgram:
-                Calendar start = Calendar.getInstance();
-                start.setTime(Utils.convertToLocalDate(baseItem.getStartDate()));
-                int day = start.get(Calendar.DAY_OF_YEAR);
-                return baseItem.getChannelName() + " - " + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
-                        ((day != Calendar.getInstance().get(Calendar.DAY_OF_YEAR) ? new SimpleDateFormat("d MMM").format(start.getTime()) + " " : "") +
-                        android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(start.getTime()) + "-"
-                                + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getEndDate())));
+                return Utils.GetProgramSubText(baseItem);
             case LiveTvRecording:
                 return (baseItem.getChannelName() != null ? baseItem.getChannelName() + " - " : "") + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
                         new SimpleDateFormat("d MMM").format(Utils.convertToLocalDate(baseItem.getStartDate())) + " " +
