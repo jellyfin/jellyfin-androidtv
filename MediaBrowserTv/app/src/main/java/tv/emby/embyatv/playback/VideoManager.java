@@ -315,7 +315,10 @@ public class VideoManager implements IVLCVout.Callback {
     public long getAudioDelay() { return mVlcPlayer != null ? mVlcPlayer.getAudioDelay() / 1000 : 0;}
 
     public void setCompatibleAudio() {
-         if (!nativeMode) mVlcPlayer.setAudioOutput("opensles_android");
+         if (!nativeMode) {
+             mVlcPlayer.setAudioOutput("opensles_android");
+             mVlcPlayer.setAudioOutputDevice("hdmi");
+         }
     }
 
     public void setAudioMode() {
@@ -346,7 +349,7 @@ public class VideoManager implements IVLCVout.Callback {
             options.add("RV32");
 //            options.add("--subsdec-encoding");
 //            options.add("Universal (UTF-8)");
-            options.add("-vvv");
+            options.add("-v");
 
             mLibVLC = new LibVLC(options);
             TvApp.getApplication().getLogger().Info("Network buffer set to " + buffer);
@@ -596,7 +599,7 @@ public class VideoManager implements IVLCVout.Callback {
 
     @Override
     public void onNewLayout(IVLCVout vout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
-        if (width * height == 0)
+        if (width * height == 0 || isContracted)
             return;
 
         // store video size

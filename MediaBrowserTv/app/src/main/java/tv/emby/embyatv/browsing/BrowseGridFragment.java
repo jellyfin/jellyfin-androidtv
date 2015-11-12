@@ -30,17 +30,19 @@ public class BrowseGridFragment extends StdGridFragment {
         query.setParentId(mParentId);
         if (mFolder.getType().equals("UserView")) {
             String type = mFolder.getCollectionType() != null ? mFolder.getCollectionType().toLowerCase() : "";
-            query.setRecursive(true);
             switch (type) {
                 case "movies":
                     query.setIncludeItemTypes(new String[]{"Movie"});
+                    query.setRecursive(true);
                     break;
                 case "tvshows":
                     query.setIncludeItemTypes(new String[]{"Series"});
+                    query.setRecursive(true);
                     break;
                 case "boxsets":
                     query.setIncludeItemTypes(new String[]{"BoxSet"});
                     query.setParentId(null);
+                    query.setRecursive(true);
                     break;
             }
         }

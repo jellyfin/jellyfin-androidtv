@@ -246,6 +246,10 @@ public class Utils {
         return new BitmapDrawable(resources, bm);
     }
 
+    public static boolean isLiveTv(BaseItemDto item) {
+        return "Program".equals(item.getType()) || "LiveTvChannel".equals(item.getType());
+    }
+
     private static String[] ThumbFallbackTypes = new String[] {"Episode"};
 
     public static Double getImageAspectRatio(BaseItemDto item, boolean preferParentThumb) {
@@ -839,6 +843,17 @@ public class Utils {
 
     }
 
+    public static String GetProgramSubText(BaseItemDto baseItem) {
+        Calendar start = Calendar.getInstance();
+        start.setTime(Utils.convertToLocalDate(baseItem.getStartDate()));
+        int day = start.get(Calendar.DAY_OF_YEAR);
+        return baseItem.getChannelName() + " - " + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
+                ((day != Calendar.getInstance().get(Calendar.DAY_OF_YEAR) ? getFriendlyDate(start.getTime()) + " " : "") +
+                        android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(start.getTime()) + "-"
+                        + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getEndDate())));
+
+    }
+
     public static BaseItemPerson GetFirstPerson(BaseItemDto item, String type) {
         if (item.getPeople() == null || item.getPeople().length < 1) return null;
 
@@ -1045,6 +1060,26 @@ public class Utils {
 
         return convertedDate;
     }
+
+    public static Date convertToUtcDate(Date localDate) {
+
+
+        TimeZone timeZone = Calendar.getInstance().getTimeZone();
+        Date convertedDate = new Date( localDate.getTime() - timeZone.getRawOffset() );
+
+
+        if ( timeZone.inDaylightTime(localDate) ) {
+            Date dstDate = new Date( convertedDate.getTime() - timeZone.getDSTSavings() );
+
+
+            if (timeZone.inDaylightTime( dstDate )) {
+                convertedDate = dstDate;
+            }
+        }
+
+
+        return convertedDate;
+    }
     /**
      * Returns a pseudo-random number between min and max, inclusive.
      * The difference between min and max can be at most
@@ -1127,7 +1162,7 @@ public class Utils {
         if (cal.get(Calendar.YEAR) == now.get(Calendar.YEAR)) {
             if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)) return TvApp.getApplication().getString(R.string.lbl_today);
             if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)+1) return TvApp.getApplication().getString(R.string.lbl_tomorrow);
-            if (cal.get(Calendar.DAY_OF_YEAR) < now.get(Calendar.DAY_OF_YEAR)+6) return cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+            if (cal.get(Calendar.DAY_OF_YEAR) < now.get(Calendar.DAY_OF_YEAR)+7 && cal.get(Calendar.DAY_OF_YEAR) > now.get(Calendar.DAY_OF_YEAR)) return cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
         }
 
         return android.text.format.DateFormat.getDateFormat(TvApp.getApplication()).format(date);

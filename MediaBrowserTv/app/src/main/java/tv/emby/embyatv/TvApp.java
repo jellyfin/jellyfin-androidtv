@@ -285,6 +285,10 @@ public class TvApp extends Application {
         this.lastPlayback = lastMoviePlayback;
     }
 
+    public boolean directStreamLiveTv() { return getPrefs().getBoolean("pref_live_direct", true); }
+
+    public void setDirectStreamLiveTv(boolean value) { getPrefs().edit().putBoolean("pref_live_direct", value).commit(); }
+
     public Calendar getLastTvPlayback() {
         return lastTvPlayback.after(lastPlayback) ? lastTvPlayback : lastPlayback;
     }
