@@ -86,10 +86,10 @@ public class HomeFragment extends StdBrowseFragment {
         //if we were locked before and have just unlocked, remove the button
         if (unlockButton != null && (TvApp.getApplication().isRegistered() || TvApp.getApplication().isPaid())) {
             toolsRow.remove(unlockButton);
-//            if (!TvApp.getApplication().isRegistered()) {
-//                premiereButton = new GridButton(UNLOCK, mApplication.getString(R.string.btn_emby_premiere), R.drawable.embyicon);
-//                toolsRow.add(premiereButton);
-//            }
+            if (!TvApp.getApplication().isRegistered()) {
+                premiereButton = new GridButton(UNLOCK, mApplication.getString(R.string.btn_emby_premiere), R.drawable.embyicon);
+                toolsRow.add(premiereButton);
+            }
         } else {
             if (premiereButton != null && TvApp.getApplication().isRegistered()) {
                 toolsRow.remove(premiereButton);
@@ -220,10 +220,10 @@ public class HomeFragment extends StdBrowseFragment {
                 if (!TvApp.getApplication().isRegistered() && !TvApp.getApplication().isPaid()) {
                     unlockButton = new GridButton(UNLOCK, mApplication.getString(R.string.lbl_unlock), R.drawable.unlock);
                     toolsRow.add(unlockButton);
-                } /*else if (!TvApp.getApplication().isRegistered()) {
+                } else if (!TvApp.getApplication().isRegistered()) {
                     premiereButton = new GridButton(UNLOCK, mApplication.getString(R.string.btn_emby_premiere), R.drawable.embyicon);
                     toolsRow.add(premiereButton);
-                }*/
+                }
             }
         }, 5000);
 

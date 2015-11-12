@@ -42,6 +42,7 @@ public class InfoLayoutHelper {
         switch (item.getType()) {
             case "Episode":
                 addSeasonEpisode(activity, item, layout);
+                addDate(activity, item, layout);
                 break;
             case "BoxSet":
                 addBoxSetCounts(activity, item, layout);
@@ -49,16 +50,19 @@ public class InfoLayoutHelper {
             case "Series":
                 addSeasonCount(activity, item, layout);
                 addSeriesAirs(activity, item, layout);
+                addDate(activity, item, layout);
                 includeEndTime = false;
                 break;
             case "Program":
-                addChannelName(activity, item, layout);
+                addProgramInfo(activity, item, layout);
                 break;
             case "RecordingGroup":
                 addRecordingCount(activity, item, layout);
                 break;
+            default:
+                addDate(activity, item, layout);
+
         }
-        addDate(activity, item, layout);
         if (includeRuntime) addRuntime(activity, item, layout, includeEndTime);
         addSeriesStatus(activity, item, layout);
         addRatingAndRes(activity, item, layout);
@@ -120,14 +124,11 @@ public class InfoLayoutHelper {
         }
     }
 
-    private static void addChannelName(Activity activity, BaseItemDto item, LinearLayout layout) {
-        if (item.getChannelName() != null) {
-            TextView name = new TextView(activity);
-            name.setTextSize(textSize);
-            name.setText(item.getChannelName() + "  ");
-            layout.addView(name);
-
-        }
+    private static void addProgramInfo(Activity activity, BaseItemDto item, LinearLayout layout) {
+        TextView name = new TextView(activity);
+        name.setTextSize(textSize);
+        name.setText(Utils.GetProgramSubText(item)+"  ");
+        layout.addView(name);
     }
 
     private static void addSubText(Activity activity, BaseRowItem item, LinearLayout layout) {

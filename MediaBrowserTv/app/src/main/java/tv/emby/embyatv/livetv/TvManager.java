@@ -30,6 +30,7 @@ import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.results.ChannelInfoDtoResult;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.ui.ProgramGridCell;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -241,6 +242,36 @@ public class TvManager {
         datetime.setText(Utils.getFriendlyDate(local)+ " @ "+android.text.format.DateFormat.getTimeFormat(activity).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
         timelineRow.addView(datetime);
 
+    }
+
+    // this makes focus movements more predictable for the grid view
+    public static void setFocusParms(LinearLayout currentRow, LinearLayout otherRow, boolean up) {
+
+        for (int currentRowNdx = 0; currentRowNdx < currentRow.getChildCount(); currentRowNdx++) {
+            ProgramGridCell cell = (ProgramGridCell) currentRow.getChildAt(currentRowNdx);
+            ProgramGridCell otherCell = getOtherCell(otherRow, cell);
+            if (otherCell != null) {
+                if (up) {
+                    cell.setNextFocusUpId(otherCell.getId());
+                    //TvApp.getApplication().getLogger().Debug("Setting up focus for " + cell.getProgram().getName() + " to " + otherCell.getProgram().getName()+"("+otherCell.getId()+")");
+                } else {
+                    cell.setNextFocusDownId(otherCell.getId());
+                    //TvApp.getApplication().getLogger().Debug("Setting down focus for " + cell.getProgram().getName() + " to " + otherCell.getProgram().getName());
+                }
+            }
+        }
+    }
+
+    private static ProgramGridCell getOtherCell(LinearLayout otherRow, ProgramGridCell cell) {
+        // find first cell in other row where our left edge is within its body (will be first one who's right edge is greater than our left)
+        for (int otherRowNdx = 0; otherRowNdx < otherRow.getChildCount(); otherRowNdx++) {
+            ProgramGridCell otherCell = (ProgramGridCell) otherRow.getChildAt(otherRowNdx);
+            if (otherCell.getProgram().getEndDate() != null && cell.getProgram().getStartDate() != null &&
+                    otherCell.getProgram().getEndDate().getTime() > cell.getProgram().getStartDate().getTime()) {
+                return otherCell;
+            }
+        }
+        return null;
     }
 
 

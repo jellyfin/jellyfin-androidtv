@@ -225,6 +225,8 @@ public class HorizontalGridFragment extends Fragment {
     }
 
     public void showSpinner() {
+        if (getActivity() == null || getActivity().isFinishing() || mSpinner == null) return;
+
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -234,6 +236,8 @@ public class HorizontalGridFragment extends Fragment {
     }
 
     public void hideSpinner() {
+        if (getActivity() == null || getActivity().isFinishing() || mSpinner == null) return;
+
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

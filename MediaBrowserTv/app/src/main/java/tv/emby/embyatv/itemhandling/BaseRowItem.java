@@ -123,6 +123,11 @@ public class BaseRowItem {
     public boolean getPreferParentThumb() { return preferParentThumb; }
     public ItemType getItemType() { return type; }
     public boolean isFolder() { return type == ItemType.BaseItem && baseItem != null && baseItem.getIsFolder(); }
+    public boolean showCardInfoOverlay() {return type == ItemType.BaseItem && baseItem != null
+            && ("Folder".equals(baseItem.getType()) || "PhotoAlbum".equals(baseItem.getType()) || "RecordingGroup".equals(baseItem.getType())
+            || "UserView".equals(baseItem.getType()) || "CollectionFolder".equals(baseItem.getType()) || "Photo".equals(baseItem.getType())
+            || "Video".equals(baseItem.getType()) );
+    }
 
     public String getImageUrl(String imageType, int maxHeight) {
         switch (type) {
@@ -148,7 +153,7 @@ public class BaseRowItem {
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
-                return Utils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(), true, preferParentThumb, maxHeight);
+                return Utils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(), !"PhotoAlbum".equals(baseItem.getType()), preferParentThumb, maxHeight);
             case Person:
                 return Utils.getPrimaryImageUrl(person, TvApp.getApplication().getApiClient(), maxHeight);
             case User:
@@ -313,13 +318,7 @@ public class BaseRowItem {
             case LiveTvChannel:
                 return channelInfo.getNumber();
             case LiveTvProgram:
-                Calendar start = Calendar.getInstance();
-                start.setTime(Utils.convertToLocalDate(baseItem.getStartDate()));
-                int day = start.get(Calendar.DAY_OF_YEAR);
-                return baseItem.getChannelName() + " - " + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
-                        ((day != Calendar.getInstance().get(Calendar.DAY_OF_YEAR) ? new SimpleDateFormat("d MMM").format(start.getTime()) + " " : "") +
-                        android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(start.getTime()) + "-"
-                                + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getEndDate())));
+                return Utils.GetProgramSubText(baseItem);
             case LiveTvRecording:
                 return (baseItem.getChannelName() != null ? baseItem.getChannelName() + " - " : "") + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
                         new SimpleDateFormat("d MMM").format(Utils.convertToLocalDate(baseItem.getStartDate())) + " " +
@@ -413,6 +412,39 @@ public class BaseRowItem {
         }
 
         return 0;
+    }
+
+    public int getChildCount() {
+        switch (type) {
+
+            case BaseItem:
+                return isFolder() && baseItem.getChildCount() != null ? baseItem.getChildCount() : -1;
+            case Person:
+                break;
+            case Server:
+                break;
+            case User:
+                break;
+            case Chapter:
+                break;
+            case SearchHint:
+                break;
+            case LiveTvChannel:
+                break;
+            case LiveTvRecording:
+                break;
+            case GridButton:
+                break;
+            case LiveTvProgram:
+                break;
+        }
+
+        return -1;
+    }
+
+    public String getChildCountStr() {
+        Integer count = getChildCount();
+        return count > 0 ? count.toString() : "";
     }
 
     public String getBackdropImageUrl() {
