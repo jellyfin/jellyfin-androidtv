@@ -44,6 +44,11 @@ public class BrowseGridFragment extends StdGridFragment {
                     query.setParentId(null);
                     query.setRecursive(true);
                     break;
+                case "music":
+                    String includeType = getActivity().getIntent().getStringExtra("IncludeType");
+                    query.setIncludeItemTypes(new String[]{includeType != null ? includeType : "MusicArtist"});
+                    query.setRecursive(true);
+                    break;
             }
         }
 
