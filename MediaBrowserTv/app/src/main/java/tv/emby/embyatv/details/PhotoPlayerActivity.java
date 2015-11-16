@@ -340,7 +340,7 @@ public class PhotoPlayerActivity extends BaseActivity {
             if (target == nextImage) isLoadingNext = true;
             if (target == prevImage) isLoadingPrev = true;
             Picasso.with(this)
-                    .load(Utils.getPrimaryImageUrl(photo, displayWidth))
+                    .load(Utils.getPrimaryImageUrl(photo, displayWidth, displayHeight))
                     .resize(displayWidth, displayHeight)
                     .centerInside()
                     .skipMemoryCache()
