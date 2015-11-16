@@ -80,6 +80,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     protected static final int SUGGESTED = 4;
     protected static final int SEARCH = 5;
     protected static final int GRID = 6;
+    protected static final int ALBUMS = 7;
+    protected static final int ARTISTS = 8;
     protected BaseItemDto mFolder;
     protected String itemTypeString;
     protected boolean showViews = true;
@@ -168,6 +170,9 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                     break;
                 case "tvshows":
                     itemTypeString = "Series";
+                    break;
+                case "music":
+                    itemTypeString = "MusicAlbum";
                     break;
                 case "folders":
                     showViews = false;
@@ -284,16 +289,33 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
             GridButtonPresenter mGridPresenter = new GridButtonPresenter();
             ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-            gridRowAdapter.add(new GridButton(GRID, TvApp.getApplication().getString(R.string.lbl_all_items), R.drawable.grid));
-            gridRowAdapter.add(new GridButton(BY_LETTER, mApplication.getString(R.string.lbl_by_letter), R.drawable.byletter));
-            if (itemTypeString != null && itemTypeString.equals("Movie"))
-                gridRowAdapter.add(new GridButton(SUGGESTED, mApplication.getString(R.string.lbl_suggested), R.drawable.suggestions));
-            gridRowAdapter.add(new GridButton(GENRES, mApplication.getString(R.string.lbl_genres), R.drawable.genres));
-            gridRowAdapter.add(new GridButton(PERSONS, mApplication.getString(R.string.lbl_performers), R.drawable.actors));
-            gridRowAdapter.add(new GridButton(SEARCH, mApplication.getString(R.string.lbl_search), R.drawable.search));
+            switch (itemTypeString) {
+                case "Movie":
+                    gridRowAdapter.add(new GridButton(SUGGESTED, mApplication.getString(R.string.lbl_suggested), R.drawable.suggestions));
+                    addStandardViewButtons(gridRowAdapter);
+                    break;
+                case "MusicAlbum":
+                    gridRowAdapter.add(new GridButton(ALBUMS, TvApp.getApplication().getString(R.string.lbl_albums), R.drawable.audio));
+                    gridRowAdapter.add(new GridButton(ARTISTS, TvApp.getApplication().getString(R.string.lbl_artists), R.drawable.artists));
+                    gridRowAdapter.add(new GridButton(GENRES, mApplication.getString(R.string.lbl_genres), R.drawable.genres));
+                    gridRowAdapter.add(new GridButton(SEARCH, mApplication.getString(R.string.lbl_search), R.drawable.search));
+                    break;
+                default:
+                    addStandardViewButtons(gridRowAdapter);
+                    break;
+            }
             rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
 
         }
+
+    }
+
+    protected void addStandardViewButtons(ArrayObjectAdapter gridRowAdapter) {
+        gridRowAdapter.add(new GridButton(GRID, TvApp.getApplication().getString(R.string.lbl_all_items), R.drawable.grid));
+        gridRowAdapter.add(new GridButton(BY_LETTER, mApplication.getString(R.string.lbl_by_letter), R.drawable.byletter));
+        gridRowAdapter.add(new GridButton(GENRES, mApplication.getString(R.string.lbl_genres), R.drawable.genres));
+        gridRowAdapter.add(new GridButton(PERSONS, mApplication.getString(R.string.lbl_performers), R.drawable.actors));
+        gridRowAdapter.add(new GridButton(SEARCH, mApplication.getString(R.string.lbl_search), R.drawable.search));
 
     }
 
@@ -358,6 +380,30 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                             public void onResponse(DisplayPreferences response) {
                                 Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
                                 folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
+                                getActivity().startActivity(folderIntent);
+                            }
+                        });
+                        break;
+
+                    case ALBUMS:
+                        TvApp.getApplication().getDisplayPrefsAsync(mFolder.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
+                            @Override
+                            public void onResponse(DisplayPreferences response) {
+                                Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
+                                folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
+                                folderIntent.putExtra("IncludeType", "MusicAlbum");
+                                getActivity().startActivity(folderIntent);
+                            }
+                        });
+                        break;
+
+                    case ARTISTS:
+                        TvApp.getApplication().getDisplayPrefsAsync(mFolder.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
+                            @Override
+                            public void onResponse(DisplayPreferences response) {
+                                Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
+                                folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
+                                folderIntent.putExtra("IncludeType", "MusicArtist");
                                 getActivity().startActivity(folderIntent);
                             }
                         });

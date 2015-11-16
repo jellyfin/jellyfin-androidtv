@@ -287,6 +287,8 @@
     <string name="msg_error_live_stream">Error streaming live TV.  Will re-try...</string>
     <string name="lbl_direct_stream_live">Direct stream live TV</string>
     <string name="lbl_programs">Programs</string>
+    <string name="lbl_albums">Albums</string>
+    <string name="lbl_artists">Artists</string>
 
 
 </resources>

@@ -825,6 +825,8 @@ public class Utils {
         switch (item.getType()) {
             case "Episode":
                 return item.getSeriesName() + " S" + item.getParentIndexNumber() + ", E" + item.getIndexNumber() + (item.getIndexNumberEnd() != null ? "-" + item.getIndexNumberEnd() : "");
+            case "Audio":
+                return (item.getAlbumArtist() != null ? item.getAlbumArtist() + " - " : "") + item.getName();
             default:
                 return item.getName();
         }

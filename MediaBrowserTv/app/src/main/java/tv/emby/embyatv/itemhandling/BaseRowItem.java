@@ -4,8 +4,9 @@ import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
@@ -147,13 +148,16 @@ public class BaseRowItem {
         }
     }
 
+    private static String[] noWatchedTypes = new String[] {"PhotoAlbum","MusicAlbum","MusicArtist", "Audio"};
+    private static List<String> noWatchedTypesList = Arrays.asList(noWatchedTypes);
+
     public String getPrimaryImageUrl(int maxHeight) {
         switch (type) {
 
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
-                return Utils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(), !"PhotoAlbum".equals(baseItem.getType()), preferParentThumb, maxHeight);
+                return Utils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(), !noWatchedTypesList.contains(baseItem.getType()), preferParentThumb, maxHeight);
             case Person:
                 return Utils.getPrimaryImageUrl(person, TvApp.getApplication().getApiClient(), maxHeight);
             case User:
@@ -257,7 +261,7 @@ public class BaseRowItem {
             case BaseItem:
             case LiveTvRecording:
             case LiveTvProgram:
-                return baseItem.getName();
+                return "Audio".equals(baseItem.getType())? getFullName() : baseItem.getName();
             case Person:
                 return person.getName();
             case Server:
