@@ -28,7 +28,7 @@ public class BrowseGridFragment extends StdGridFragment {
     protected void setupQueries(IGridLoader gridLoader) {
         StdItemQuery query = new StdItemQuery(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
         query.setParentId(mParentId);
-        if (mFolder.getType().equals("UserView")) {
+        if (mFolder.getType().equals("UserView") || mFolder.getType().equals("CollectionFolder")) {
             String type = mFolder.getCollectionType() != null ? mFolder.getCollectionType().toLowerCase() : "";
             switch (type) {
                 case "movies":

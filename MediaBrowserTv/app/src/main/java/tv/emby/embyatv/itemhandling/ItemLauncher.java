@@ -50,11 +50,12 @@ public class ItemLauncher {
 
             case BaseItem:
                 final BaseItemDto baseItem = rowItem.getBaseItem();
-                TvApp.getApplication().getLogger().Debug("Item selected: " + rowItem.getIndex() + " - " + baseItem.getName());
+                TvApp.getApplication().getLogger().Debug("Item selected: " + rowItem.getIndex() + " - " + baseItem.getName() + " ("+baseItem.getType()+")");
 
                 //specialized type handling
                 switch (baseItem.getType()) {
                     case "UserView":
+                    case "CollectionFolder":
                         //We need to get display prefs...
                         TvApp.getApplication().getDisplayPrefsAsync(baseItem.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
                             @Override

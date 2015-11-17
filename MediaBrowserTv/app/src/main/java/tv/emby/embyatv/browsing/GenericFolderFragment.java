@@ -38,7 +38,7 @@ public class GenericFolderFragment extends EnhancedBrowseFragment {
             rowLoader.loadRows(mRows);
         } else {
 
-            if (mFolder.getChildCount() > 0 || mFolder.getType().equals("Channel") || mFolder.getType().equals("ChannelFolderItem") || mFolder.getType().equals("UserView")) {
+            if (mFolder.getChildCount() > 0 || mFolder.getType().equals("Channel") || mFolder.getType().equals("ChannelFolderItem") || mFolder.getType().equals("UserView") || mFolder.getType().equals("CollectionFolder")) {
                 boolean showSpecialViews = Arrays.asList(showSpecialViewTypes).contains(mFolder.getType()) && !"channels".equals(mFolder.getCollectionType());
 
                 if (showSpecialViews) {
