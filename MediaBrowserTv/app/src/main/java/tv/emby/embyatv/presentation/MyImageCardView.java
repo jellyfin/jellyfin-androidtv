@@ -217,6 +217,11 @@ public class MyImageCardView extends BaseCardView {
                     mOverlayName.setText(item.getFullName());
                     mOverlayIcon.setImageResource(tv.emby.embyatv.R.drawable.film);
                     break;
+                case "MusicArtist":
+                case "Person":
+                    mOverlayName.setText(item.getFullName());
+                    mOverlayIcon.setImageResource(tv.emby.embyatv.R.drawable.user);
+                    break;
                 default:
                     mOverlayName.setText(item.getFullName());
                     mOverlayIcon.setImageResource(item.isFolder() ? tv.emby.embyatv.R.drawable.foldersmall : tv.emby.embyatv.R.drawable.blank30x30);
