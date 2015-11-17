@@ -127,7 +127,7 @@ public class BaseRowItem {
     public boolean showCardInfoOverlay() {return type == ItemType.BaseItem && baseItem != null
             && ("Folder".equals(baseItem.getType()) || "PhotoAlbum".equals(baseItem.getType()) || "RecordingGroup".equals(baseItem.getType())
             || "UserView".equals(baseItem.getType()) || "CollectionFolder".equals(baseItem.getType()) || "Photo".equals(baseItem.getType())
-            || "Video".equals(baseItem.getType()) );
+            || "Video".equals(baseItem.getType())|| "Person".equals(baseItem.getType()) || "MusicArtist".equals(baseItem.getType()));
     }
 
     public String getImageUrl(String imageType, int maxHeight) {
@@ -422,7 +422,7 @@ public class BaseRowItem {
         switch (type) {
 
             case BaseItem:
-                return isFolder() && baseItem.getChildCount() != null ? baseItem.getChildCount() : -1;
+                return isFolder() && !"MusicArtist".equals(baseItem.getType()) && baseItem.getChildCount() != null ? baseItem.getChildCount() : -1;
             case Person:
                 break;
             case Server:
