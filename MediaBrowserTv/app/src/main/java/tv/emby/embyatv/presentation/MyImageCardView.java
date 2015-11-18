@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import mediabrowser.model.dto.BaseItemDto;
@@ -220,7 +221,7 @@ public class MyImageCardView extends BaseCardView {
                 case "MusicArtist":
                 case "Person":
                     mOverlayName.setText(item.getFullName());
-                    mOverlayIcon.setImageResource(tv.emby.embyatv.R.drawable.user);
+                    hideIcon();
                     break;
                 default:
                     mOverlayName.setText(item.getFullName());
@@ -232,6 +233,16 @@ public class MyImageCardView extends BaseCardView {
         } else {
             mInfoOverlay.setVisibility(GONE);
         }
+    }
+
+    protected int noIconMargin = Utils.convertDpToPixel(TvApp.getApplication(), 5);
+    protected void hideIcon() {
+        mOverlayIcon.setVisibility(GONE);
+        RelativeLayout.LayoutParams parms = (RelativeLayout.LayoutParams) mOverlayName.getLayoutParams();
+        parms.rightMargin = noIconMargin;
+        parms.leftMargin = noIconMargin;
+        mOverlayName.setLayoutParams(parms);
+
     }
 
     public CharSequence getTitleText() {
