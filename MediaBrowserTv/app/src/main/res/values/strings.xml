@@ -289,6 +289,10 @@
     <string name="lbl_programs">Programs</string>
     <string name="lbl_albums">Albums</string>
     <string name="lbl_artists">Artists</string>
+    <string name="lbl_song">Song</string>
+    <string name="lbl_songs">Songs</string>
+    <string name="lbl_album">Album</string>
+    <string name="lbl_episodes">Episodes</string>
 
 
 </resources>

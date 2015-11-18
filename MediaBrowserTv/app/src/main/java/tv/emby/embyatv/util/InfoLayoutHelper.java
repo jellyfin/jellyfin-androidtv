@@ -2,6 +2,7 @@ package tv.emby.embyatv.util;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -59,6 +60,13 @@ public class InfoLayoutHelper {
             case "RecordingGroup":
                 addRecordingCount(activity, item, layout);
                 break;
+            case "MusicArtist":
+                addAlbumCount(activity, item, layout);
+                break;
+            case "MusicAlbum":
+                addDate(activity, item, layout);
+                addSongCount(activity, item, layout);
+                break;
             default:
                 addDate(activity, item, layout);
 
@@ -67,6 +75,16 @@ public class InfoLayoutHelper {
         addSeriesStatus(activity, item, layout);
         addRatingAndRes(activity, item, layout);
         addMediaDetails(activity, item, layout);
+    }
+
+    private static void addText(Activity activity, String text, LinearLayout layout, int maxWidth) {
+        TextView textView = new TextView(activity);
+        textView.setTextSize(textSize);
+        textView.setMaxWidth(maxWidth);
+        textView.setEllipsize(TextUtils.TruncateAt.END);
+        textView.setText(text + "  ");
+        layout.addView(textView);
+
     }
 
     private static void addBoxSetCounts(Activity activity, BaseItemDto item, LinearLayout layout) {
@@ -90,6 +108,26 @@ public class InfoLayoutHelper {
             TextView amt = new TextView(activity);
             amt.setTextSize(textSize);
             amt.setText(item.getChildCount().toString()+" "+ activity.getResources().getString(item.getChildCount() > 1 ? R.string.lbl_items : R.string.lbl_item) +"  ");
+            layout.addView(amt);
+
+        }
+    }
+
+    private static void addSongCount(Activity activity, BaseItemDto item, LinearLayout layout) {
+        if (item.getChildCount() != null && item.getChildCount() > 0) {
+            TextView amt = new TextView(activity);
+            amt.setTextSize(textSize);
+            amt.setText(item.getChildCount().toString()+" "+ (item.getChildCount() == 1 ? activity.getResources().getString(R.string.lbl_song) : activity.getResources().getString(R.string.lbl_songs)) +"  ");
+            layout.addView(amt);
+
+        }
+    }
+
+    private static void addAlbumCount(Activity activity, BaseItemDto item, LinearLayout layout) {
+        if (item.getChildCount() != null && item.getChildCount() > 0) {
+            TextView amt = new TextView(activity);
+            amt.setTextSize(textSize);
+            amt.setText(item.getChildCount().toString()+" "+ (item.getChildCount() == 1 ? activity.getResources().getString(R.string.lbl_album) : activity.getResources().getString(R.string.lbl_albums)) +"  ");
             layout.addView(amt);
 
         }
