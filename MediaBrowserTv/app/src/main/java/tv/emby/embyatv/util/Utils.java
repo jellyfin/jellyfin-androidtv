@@ -827,6 +827,8 @@ public class Utils {
             case "Episode":
                 return item.getSeriesName() + " S" + item.getParentIndexNumber() + ", E" + item.getIndexNumber() + (item.getIndexNumberEnd() != null ? "-" + item.getIndexNumberEnd() : "");
             case "Audio":
+            case "MusicAlbum":
+                // we actually want the artist name if available
                 return (item.getAlbumArtist() != null ? item.getAlbumArtist() + " - " : "") + item.getName();
             default:
                 return item.getName();
@@ -839,7 +841,9 @@ public class Utils {
                 String addendum = item.getLocationType().equals(LocationType.Virtual) && item.getPremiereDate() != null ? " (" +  getFriendlyDate(Utils.convertToLocalDate(item.getPremiereDate())) + ")" : "";
                 return item.getName() + addendum;
             case "Season":
-                return item.getChildCount() != null && item.getChildCount() > 0 ? item.getChildCount() + " Episodes" : "";
+                return item.getChildCount() != null && item.getChildCount() > 0 ? item.getChildCount() + " " + TvApp.getApplication().getString(R.string.lbl_episodes) : "";
+            case "MusicAlbum":
+                return item.getChildCount() != null && item.getChildCount() > 0 ? item.getChildCount() + " " + TvApp.getApplication().getString(item.getChildCount() > 1 ? R.string.lbl_songs : R.string.lbl_song) : "";
             default:
                 return item.getOfficialRating();
         }

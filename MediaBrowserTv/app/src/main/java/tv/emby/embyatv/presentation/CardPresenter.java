@@ -86,10 +86,14 @@ public class CardPresenter extends Presenter {
                         case "Audio":
                         case "MusicAlbum":
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.audio);
+                            aspect = 1.0;
                             break;
                         case "Person":
+                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
+                            break;
                         case "MusicArtist":
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
+                            aspect = 1.0;
                             break;
                         case "RecordingGroup":
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.recgroup);
