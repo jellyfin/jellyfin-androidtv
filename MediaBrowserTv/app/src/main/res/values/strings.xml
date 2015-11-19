@@ -293,6 +293,8 @@
     <string name="lbl_songs">Songs</string>
     <string name="lbl_album">Album</string>
     <string name="lbl_episodes">Episodes</string>
+    <string name="lbl_enable_cinema_mode">Enable Cinema Mode</string>
+    <string name="sum_enable_cinema_mode">If enabled on the server, enable intros and previews before movie playback</string>
 
 
 </resources>
