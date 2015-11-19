@@ -69,7 +69,7 @@ public class MySearchFragmentNoSpeech extends Fragment {
             }
         });
 
-        mDelayedLoad = new SearchRunnable(getActivity(), mRowsAdapter);
+        mDelayedLoad = new SearchRunnable(getActivity(), mRowsAdapter, getActivity().getIntent().getBooleanExtra("MusicOnly",false));
 
 
         return root;
