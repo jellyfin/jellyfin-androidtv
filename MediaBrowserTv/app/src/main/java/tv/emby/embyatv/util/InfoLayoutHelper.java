@@ -61,11 +61,13 @@ public class InfoLayoutHelper {
                 addRecordingCount(activity, item, layout);
                 break;
             case "MusicArtist":
-                addAlbumCount(activity, item, layout);
+                Integer artistAlbums = item.getAlbumCount() != null ? item.getAlbumCount() : item.getChildCount();
+                addCount(activity, artistAlbums, layout, artistAlbums == 1 ? activity.getResources().getString(R.string.lbl_album) : activity.getResources().getString(R.string.lbl_albums));
                 break;
             case "MusicAlbum":
                 addDate(activity, item, layout);
-                addSongCount(activity, item, layout);
+                Integer songCount = item.getSongCount() != null ? item.getSongCount() : item.getChildCount();
+                addCount(activity, songCount, layout, songCount == 1 ? activity.getResources().getString(R.string.lbl_song) : activity.getResources().getString(R.string.lbl_songs));
                 break;
             default:
                 addDate(activity, item, layout);
@@ -113,23 +115,12 @@ public class InfoLayoutHelper {
         }
     }
 
-    private static void addSongCount(Activity activity, BaseItemDto item, LinearLayout layout) {
-        if (item.getChildCount() != null && item.getChildCount() > 0) {
+    private static void addCount(Activity activity, Integer count, LinearLayout layout, String label) {
+        if (count != null && count > 0) {
             TextView amt = new TextView(activity);
             amt.setTextSize(textSize);
-            amt.setText(item.getChildCount().toString()+" "+ (item.getChildCount() == 1 ? activity.getResources().getString(R.string.lbl_song) : activity.getResources().getString(R.string.lbl_songs)) +"  ");
+            amt.setText(count.toString()+" "+ label +"  ");
             layout.addView(amt);
-
-        }
-    }
-
-    private static void addAlbumCount(Activity activity, BaseItemDto item, LinearLayout layout) {
-        if (item.getChildCount() != null && item.getChildCount() > 0) {
-            TextView amt = new TextView(activity);
-            amt.setTextSize(textSize);
-            amt.setText(item.getChildCount().toString()+" "+ (item.getChildCount() == 1 ? activity.getResources().getString(R.string.lbl_album) : activity.getResources().getString(R.string.lbl_albums)) +"  ");
-            layout.addView(amt);
-
         }
     }
 

@@ -12,7 +12,7 @@ public class GenreButton extends TextView {
         super(context);
         setTypeface(font);
         setTextSize(size);
-        setText(" " + text + " ");
+        setText(text);
         //setFocusable(true);
 //        setOnClickListener(new OnClickListener() {
 //            @Override
