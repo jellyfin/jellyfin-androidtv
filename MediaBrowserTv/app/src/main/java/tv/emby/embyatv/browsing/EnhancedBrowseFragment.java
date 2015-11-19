@@ -443,6 +443,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
                     case SEARCH:
                         Intent searchIntent = new Intent(getActivity(), SearchActivity.class);
+                        if ("MusicAlbum".equals(itemTypeString)) searchIntent.putExtra("MusicOnly", true);
                         getActivity().startActivity(searchIntent);
                         break;
 

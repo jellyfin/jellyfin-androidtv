@@ -452,6 +452,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchActivity.class);
+                if ("music".equals(mFolder.getCollectionType()) || "MusicAlbum".equals(mFolder.getType()) || "MusicArtist".equals(mFolder.getType())) intent.putExtra("MusicOnly", true);
                 getActivity().startActivity(intent);
             }
         }));

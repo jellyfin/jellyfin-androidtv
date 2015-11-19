@@ -58,7 +58,7 @@ public class MySearchFragment extends SearchFragment
                 ItemLauncher.launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow)row).getAdapter(),((BaseRowItem) item).getIndex(), getActivity());
             }
         });
-        mDelayedLoad = new SearchRunnable(getActivity(), mRowsAdapter);
+        mDelayedLoad = new SearchRunnable(getActivity(), mRowsAdapter, getActivity().getIntent().getBooleanExtra("MusicOnly",false));
 
         prepareBackgroundManager();
     }
