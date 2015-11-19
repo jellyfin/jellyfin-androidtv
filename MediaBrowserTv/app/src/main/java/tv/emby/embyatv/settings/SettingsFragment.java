@@ -49,6 +49,12 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         PreferenceCategory cat = (PreferenceCategory) findPreference("pref_playback_category");
         if (Utils.isFireTvStick()) cat.removePreference(findPreference("pref_vlc_max_res"));
         if (Utils.isFireTv() && !Utils.is50()) cat.removePreference(findPreference("pref_audio_option"));
+        if (!TvApp.getApplication().isRegistered()) {
+            //Indicate that cinema mode requires premiere
+            CheckBoxPreference cm = (CheckBoxPreference) cat.findPreference("pref_enable_cinema_mode");
+            cm.setEnabled(false);
+            cm.setSummary(R.string.lbl_cm_premiere);
+        }
     }
 
     @Override
