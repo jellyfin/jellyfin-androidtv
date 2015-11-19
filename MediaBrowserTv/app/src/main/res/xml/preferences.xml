@@ -63,6 +63,11 @@
             android:defaultValue="true"
             android:summary="@string/sum_tv_queuing"
             />
+        <CheckBoxPreference android:key="pref_enable_cinema_mode"
+            android:title="@string/lbl_enable_cinema_mode"
+            android:defaultValue="true"
+            android:summary="@string/sum_enable_cinema_mode"
+            />
         <CheckBoxPreference android:key="pref_enable_vlc"
             android:title="@string/lbl_use_vlc"
             android:defaultValue="true"
