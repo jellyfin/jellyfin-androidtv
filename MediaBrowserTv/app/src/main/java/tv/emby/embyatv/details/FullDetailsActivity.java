@@ -253,7 +253,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         }
     }
 
-    private static String[] playableTypes = new String[] {"Episode","Movie","Series","Season","Folder","Video","Recording","Program","ChannelVideoItem"};
+    private static String[] playableTypes = new String[] {"Episode","Movie","Series","Season","Folder","Video","Recording","Program","ChannelVideoItem","MusicArtist"};
     private static List<String> playableTypeList = Arrays.asList(playableTypes);
     private static String[] directPlayableTypes = new String[] {"Episode","Movie","Video","Recording","Program"};
     private static List<String> directPlayableTypeList = Arrays.asList(directPlayableTypes);
@@ -475,6 +475,18 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 addItemRow(adapter, personSeriesAdapter, 1, mApplication.getString(R.string.lbl_tv_series));
 
                 break;
+            case "MusicArtist":
+
+                ItemQuery artistAlbums = new ItemQuery();
+                artistAlbums.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
+                artistAlbums.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                artistAlbums.setArtistIds(new String[]{mBaseItem.getId()});
+                artistAlbums.setRecursive(true);
+                artistAlbums.setIncludeItemTypes(new String[]{"MusicAlbum"});
+                ItemRowAdapter artistAlbumsAdapter = new ItemRowAdapter(artistAlbums, 100, false, new CardPresenter(), adapter);
+                addItemRow(adapter, artistAlbumsAdapter, 0, mApplication.getString(R.string.lbl_albums));
+
+                break;
             case "Series":
                 NextUpQuery nextUpQuery = new NextUpQuery();
                 nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
@@ -584,7 +596,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         if (mBaseItem.getGenres() != null && mBaseItem.getGenres().size() > 0) {
             boolean first = true;
             for (String genre : mBaseItem.getGenres()) {
-                if (!first) InfoLayoutHelper.addSpacer(this, layout, " / ", 14);
+                if (!first) InfoLayoutHelper.addSpacer(this, layout, "  /  ", 14);
                 first = false;
                 layout.addView(new GenreButton(this, roboto, 16, genre, mBaseItem.getType()));
             }
@@ -715,8 +727,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         UserItemDataDto userData = mBaseItem.getUserData();
         if (userData != null) {
-            mWatchedToggleButton = new ImageButton(this, userData.getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck, buttonSize, getString(R.string.lbl_toggle_watched), null, markWatchedListener);
-            mDetailsOverviewRow.addAction(mWatchedToggleButton);
+            if (!"MusicArtist".equals(mBaseItem.getType()) && Utils.CanPlay(mBaseItem)) {
+                mWatchedToggleButton = new ImageButton(this, userData.getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck, buttonSize, getString(R.string.lbl_toggle_watched), null, markWatchedListener);
+                mDetailsOverviewRow.addAction(mWatchedToggleButton);
+            }
 
             //Favorite
             ImageButton fav = new ImageButton(this, userData.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, getString(R.string.lbl_toggle_favorite), null, new View.OnClickListener() {

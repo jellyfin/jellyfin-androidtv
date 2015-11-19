@@ -98,6 +98,7 @@ public class ItemLauncher {
                         });
                         return;
                     case "Series":
+                    case "MusicArtist":
                         //Start activity for details display
                         Intent intent = new Intent(activity, FullDetailsActivity.class);
                         intent.putExtra("ItemId", baseItem.getId());
