@@ -94,10 +94,20 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) vh.mSummary.getLayoutParams();
                 params.topMargin = 10;
                 vh.mSummary.setHeight(Utils.convertDpToPixel(TvApp.getApplication(), 290));
+                vh.mSummary.setMaxLines(14);
                 vh.mSummaryTitle.setVisibility(View.GONE);
                 vh.mTimeLine.setVisibility(View.GONE);
 
                 break;
+            case "MusicArtist":
+                RelativeLayout.LayoutParams artistParams = (RelativeLayout.LayoutParams) vh.mSummary.getLayoutParams();
+                artistParams.topMargin = 20;
+                vh.mSummary.setHeight(Utils.convertDpToPixel(TvApp.getApplication(), 235));
+                vh.mSummary.setMaxLines(12);
+                vh.mSummaryTitle.setVisibility(View.GONE);
+                vh.mTimeLine.setVisibility(View.GONE);
+
+                //fall through to default
 
             default:
                 vh.mButtonRow.removeAllViews();
