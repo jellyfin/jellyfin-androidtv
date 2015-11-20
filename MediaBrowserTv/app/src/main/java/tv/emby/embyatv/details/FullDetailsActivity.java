@@ -327,6 +327,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             mDetailsOverviewRow.setSummary(item.getOverview());
             switch (item.getType()) {
                 case "Person":
+                case "MusicArtist":
                     mDetailsOverviewRow.setSummarySubTitle("");
                     break;
                 default:
