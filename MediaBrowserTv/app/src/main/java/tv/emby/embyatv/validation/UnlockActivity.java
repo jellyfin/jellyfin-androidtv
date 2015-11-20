@@ -74,7 +74,6 @@ public class UnlockActivity extends BaseActivity {
                         next.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                purchase(validator.getUnlockProduct());
                                 new AlertDialog.Builder(activity)
                                         .setTitle(activity.getString(R.string.lbl_unlock))
                                         .setMessage(activity.getString(R.string.msg_just_unlock_confirm))
