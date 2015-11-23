@@ -66,6 +66,7 @@ public class ImageButton extends ImageView {
                 if (mHelpView != null) mHelpView.setText(mHelpText);
                 v.setBackgroundColor(getResources().getColor(R.color.lb_default_brand_color));
             } else {
+                if (mHelpView != null) mHelpView.setText("");
                 v.setBackgroundColor(0);
             }
         }

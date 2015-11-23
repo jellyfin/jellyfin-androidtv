@@ -24,6 +24,7 @@ import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.browsing.UserViewActivity;
 import tv.emby.embyatv.details.FullDetailsActivity;
 import tv.emby.embyatv.details.PhotoPlayerActivity;
+import tv.emby.embyatv.details.SongListActivity;
 import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.model.ViewType;
@@ -60,7 +61,8 @@ public class ItemLauncher {
                         TvApp.getApplication().getDisplayPrefsAsync(baseItem.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
                             @Override
                             public void onResponse(DisplayPreferences response) {
-                                if (baseItem.getCollectionType() == null) baseItem.setCollectionType("unknown");
+                                if (baseItem.getCollectionType() == null)
+                                    baseItem.setCollectionType("unknown");
                                 switch (baseItem.getCollectionType()) {
                                     case "movies":
                                     case "tvshows":
@@ -105,6 +107,16 @@ public class ItemLauncher {
                         if (noHistory) intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
                         activity.startActivity(intent);
+
+                        return;
+
+                    case "MusicAlbum":
+                        //Start activity for song list display
+                        Intent songListIntent = new Intent(activity, SongListActivity.class);
+                        songListIntent.putExtra("ItemId", baseItem.getId());
+                        if (noHistory) songListIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+                        activity.startActivity(songListIntent);
 
                         return;
 

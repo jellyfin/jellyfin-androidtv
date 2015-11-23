@@ -23,12 +23,16 @@ public class TextButton extends Button {
         setOnFocusChangeListener(focusChangeListener);
         setOnClickListener(listener);
         setText(text);
-        setTextSize(size);
         setBackgroundColor(0);
-        int trueSize = Utils.convertDpToPixel(context, size);
-        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(trueSize*2 +15, trueSize + 40);
+        if (size == 0) {
+            setTextSize(16);
+        } else {
+            setTextSize(size);
+            int trueSize = Utils.convertDpToPixel(context, size);
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(trueSize*2 +15, trueSize + 40);
 
-        setLayoutParams(lp);
+            setLayoutParams(lp);
+        }
     }
 
     private OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
