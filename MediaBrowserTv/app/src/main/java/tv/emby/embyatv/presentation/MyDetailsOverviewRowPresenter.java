@@ -57,14 +57,6 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
             mSummary = (TextView) rootView.findViewById(R.id.fdSummaryText);
             mSummary.setTypeface(roboto);
 
-            mButtonRow.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if (!hasFocus) mButtonHelp.setText("");
-                }
-            });
-
-
         }
 
     }

@@ -126,7 +126,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private Handler mLoopHandler = new Handler();
     private Runnable mBackdropLoop;
     private Runnable mClockLoop;
-    private int BACKDROP_ROTATION_INTERVAL = 8000;
+    public static int BACKDROP_ROTATION_INTERVAL = 8000;
     private Typeface roboto;
 
     private BaseItemDto mBaseItem;
