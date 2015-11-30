@@ -20,6 +20,7 @@ public class SongListView extends FrameLayout {
     Context mContext;
     LinearLayout mList;
     SongRowView.RowSelectedListener mRowSelectedListener;
+    SongRowView.RowClickedListener mRowClickedListener;
 
     public SongListView(Context context) {
         super(context);
@@ -40,6 +41,7 @@ public class SongListView extends FrameLayout {
     }
 
     public void setRowSelectedListener(SongRowView.RowSelectedListener listener) { mRowSelectedListener = listener; }
+    public void setRowClickedListener(SongRowView.RowClickedListener listener) { mRowClickedListener = listener; }
 
     public void addSongs(BaseItemDto[] songs) {
         int i = 0;
@@ -52,6 +54,6 @@ public class SongListView extends FrameLayout {
     }
 
     public void addSong(BaseItemDto song, int ndx) {
-        mList.addView(new SongRowView(mContext, song, ndx, mRowSelectedListener));
+        mList.addView(new SongRowView(mContext, song, ndx, mRowSelectedListener, mRowClickedListener));
     }
 }

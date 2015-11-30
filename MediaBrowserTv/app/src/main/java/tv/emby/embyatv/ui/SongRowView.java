@@ -33,6 +33,8 @@ public class SongRowView extends FrameLayout {
     BaseItemDto mBaseItem;
 
     RowSelectedListener rowSelectedListener;
+    RowClickedListener rowClickedListener;
+    SongRowView us;
 
     public SongRowView(Context context) {
         super(context);
@@ -44,11 +46,20 @@ public class SongRowView extends FrameLayout {
         inflateView(context);
     }
 
-    public SongRowView(Context context, BaseItemDto song, int ndx, RowSelectedListener rowSelectedListener) {
+    public SongRowView(Context context, BaseItemDto song, int ndx, RowSelectedListener rowSelectedListener, final RowClickedListener rowClickedListener) {
         super(context);
         inflateView(context);
         this.rowSelectedListener = rowSelectedListener;
+        this.rowClickedListener = rowClickedListener;
         setSong(song, ndx);
+        us = this;
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playSoundEffect(SoundEffectConstants.CLICK);
+                if (rowClickedListener != null) rowClickedListener.onRowClicked(us);
+            }
+        });
     }
 
     private void inflateView(Context context) {
@@ -100,6 +111,10 @@ public class SongRowView extends FrameLayout {
 
     public static class RowSelectedListener {
         public void onRowSelected(SongRowView row) {};
+    }
+
+    public static class RowClickedListener {
+        public void onRowClicked(SongRowView row) {};
     }
 
 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.util.DisplayMetrics;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -109,6 +110,13 @@ public class SongListActivity extends BaseActivity {
                     mScrollView.smoothScrollBy(0, y - mBottomScrollThreshold);
                 }
                 TvApp.getApplication().getLogger().Debug("Row selected: "+row.getSong().getName()+" at "+location[1]+" Screen edge: "+mMetrics.heightPixels);
+            }
+        });
+
+        mSongList.setRowClickedListener(new SongRowView.RowClickedListener() {
+            @Override
+            public void onRowClicked(SongRowView row) {
+                Utils.showToast(mApplication, row.getSong().getName()+ " clicked");
             }
         });
 
