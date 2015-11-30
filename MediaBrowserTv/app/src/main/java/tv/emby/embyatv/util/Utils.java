@@ -215,7 +215,7 @@ public class Utils {
             if (min > 9) {
                 result += min + ":";
             } else {
-                result += "0" + min + ":";
+                result += (hr > 0 ? "0" : "") + min + ":";
             }
         }
         if (sec > 9) {
