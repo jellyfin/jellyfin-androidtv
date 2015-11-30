@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import mediabrowser.model.dto.BaseItemDto;
 import tv.emby.embyatv.R;
@@ -45,6 +46,8 @@ public class SongListView extends FrameLayout {
         for (BaseItemDto song : songs) {
             addSong(song, i++);
         }
+        //Throw in another item just to provide some padding at the end of the scroll
+        mList.addView(new TextView(mContext));
 
     }
 
