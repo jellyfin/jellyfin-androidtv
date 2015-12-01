@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animation-list android:oneshot="false" xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/eq1" android:duration="250" />
-    <item android:drawable="@drawable/eq2" android:duration="250" />
+    <item android:drawable="@drawable/eq1" android:duration="200" />
+    <item android:drawable="@drawable/eq2" android:duration="200" />
     <item android:drawable="@drawable/eq3" android:duration="300" />
-    <item android:drawable="@drawable/eq4" android:duration="250" />
-    <item android:drawable="@drawable/eq5" android:duration="300" />
-    <item android:drawable="@drawable/eq1" android:duration="250" />
-    <item android:drawable="@drawable/eq3" android:duration="250" />
-    <item android:drawable="@drawable/eq6" android:duration="300" />
-    <item android:drawable="@drawable/eq2" android:duration="250" />
+    <item android:drawable="@drawable/eq4" android:duration="200" />
+    <item android:drawable="@drawable/eq5" android:duration="200" />
+    <item android:drawable="@drawable/eq1" android:duration="300" />
+    <item android:drawable="@drawable/eq3" android:duration="200" />
+    <item android:drawable="@drawable/eq6" android:duration="200" />
+    <item android:drawable="@drawable/eq2" android:duration="300" />
 </animation-list>
