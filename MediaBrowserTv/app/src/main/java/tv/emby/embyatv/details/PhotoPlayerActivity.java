@@ -146,7 +146,7 @@ public class PhotoPlayerActivity extends BaseActivity {
                             if (isLoadingPrev || isTransitioning)
                                 return true; //swallow too fast requests
                             if (isPlaying) stop();
-                            currentPhoto = MediaManager.prev().getBaseItem();
+                            currentPhoto = MediaManager.prevMedia().getBaseItem();
                             nextImage.setImageDrawable(currentImageView().getDrawable());
                             nextImageView().setImageDrawable(prevImage.getDrawable());
                             transition(750);
@@ -230,7 +230,7 @@ public class PhotoPlayerActivity extends BaseActivity {
     }
 
     private void next(int transDuration) {
-        currentPhoto = MediaManager.next().getBaseItem();
+        currentPhoto = MediaManager.nextMedia().getBaseItem();
         prevImage.setImageDrawable(currentImageView().getDrawable());
         nextImageView().setImageDrawable(nextImage.getDrawable());
         transition(transDuration);
