@@ -178,7 +178,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         rotateBackdrops();
 
         //Update information that may have changed - delay slightly to allow changes to take on the server
-        if (mApplication.getLastPlayback().after(mLastUpdated)) {
+        if (mApplication.getLastPlayback().after(mLastUpdated) && !"MusicArtist".equals(mBaseItem.getType())) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
