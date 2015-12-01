@@ -1,6 +1,8 @@
 package tv.emby.embyatv.playback;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -29,34 +31,36 @@ import tv.emby.embyatv.util.Utils;
  */
 public class MediaManager {
 
-    private static ItemRowAdapter currentMediaAdapter;
-    private static int currentMediaPosition = -1;
+    private static ItemRowAdapter mCurrentMediaAdapter;
+    private static int mCurrentMediaPosition = -1;
     private static String currentMediaTitle;
 
-    private static List<BaseItemDto> currentAudioQueue;
-    private static int currentAudioQueuePosition = -1;
+    private static List<BaseItemDto> mCurrentAudioQueue;
+    private static int mCurrentAudioQueuePosition = -1;
+    private static BaseItemDto mCurrentAudioItem;
+    private static StreamInfo mCurrentAudioStreamInfo;
+    private static long mCurrentAudioPosition;
 
     private static LibVLC mLibVLC;
     private static org.videolan.libvlc.MediaPlayer mVlcPlayer;
-    private static Media mCurrentMedia;
     private static VlcEventHandler mVlcHandler = new VlcEventHandler();
     private static AudioManager mAudioManager;
     private static boolean audioInitialized;
 
 
     public static ItemRowAdapter getCurrentMediaAdapter() {
-        return currentMediaAdapter;
+        return mCurrentMediaAdapter;
     }
-    public static boolean hasAudioQueueItems() { return currentAudioQueue != null && currentAudioQueue.size() > 0; }
+    public static boolean hasAudioQueueItems() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0; }
 
     public static void setCurrentMediaAdapter(ItemRowAdapter currentMediaAdapter) {
-        MediaManager.currentMediaAdapter = currentMediaAdapter;
+        MediaManager.mCurrentMediaAdapter = currentMediaAdapter;
     }
 
     public static int getCurrentMediaPosition() {
-        return currentMediaPosition;
+        return mCurrentMediaPosition;
     }
-    public static int getCurrentAudioQueuePosition() { return currentAudioQueuePosition; }
+    public static int getCurrentAudioQueuePosition() { return mCurrentAudioQueuePosition; }
 
     public static boolean initAudio() {
         if (mAudioManager == null) mAudioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
@@ -110,7 +114,20 @@ public class MediaManager {
         return true;
     }
 
-    public static void testPlay(BaseItemDto item) {
+    public static int queueAudioItem(int pos, BaseItemDto item) {
+        if (mCurrentAudioQueue == null) mCurrentAudioQueue = new ArrayList<>();
+        mCurrentAudioQueue.add(pos, item);
+        return pos;
+    }
+
+    public static int queueAudioItem(BaseItemDto item) {
+        if (mCurrentAudioQueue == null) mCurrentAudioQueue = new ArrayList<>();
+        return queueAudioItem(mCurrentAudioQueue.size(), item);
+    }
+
+    public static boolean isPlayingAudio() { return audioInitialized && mVlcPlayer.isPlaying(); }
+
+    public static void playNow(final BaseItemDto item) {
         if (!audioInitialized) {
             audioInitialized = initAudio();
         }
@@ -120,6 +137,32 @@ public class MediaManager {
             return;
         }
 
+        if (isPlayingAudio() && TvApp.getApplication().getCurrentActivity() != null) {
+            new AlertDialog.Builder(TvApp.getApplication().getCurrentActivity())
+                    .setTitle(TvApp.getApplication().getString(R.string.lbl_play))
+                    .setMessage("How do you wish to play this item?")
+                    .setPositiveButton("Right now", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            queueAudioItem(mCurrentAudioQueuePosition +1, item);
+                            nextAudioItem();
+                        }
+                    })
+                    .setNeutralButton("Next", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            queueAudioItem(mCurrentAudioQueuePosition +1, item);
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+        } else {
+            queueAudioItem(0, item);
+            nextAudioItem();
+        }
+    }
+
+    private static void playInternal(final BaseItemDto item, final int pos) {
         final ApiClient apiClient = TvApp.getApplication().getApiClient();
         AudioOptions options = new AudioOptions();
         options.setDeviceId(apiClient.getDeviceId());
@@ -130,13 +173,18 @@ public class MediaManager {
         TvApp.getApplication().getPlaybackManager().getAudioStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
             @Override
             public void onResponse(StreamInfo response) {
-                mCurrentMedia = new Media(mLibVLC, Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken())));
-                mCurrentMedia.parse();
-                mVlcPlayer.setMedia(mCurrentMedia);
+                mCurrentAudioItem = item;
+                mCurrentAudioStreamInfo = response;
+                Media media = new Media(mLibVLC, Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken())));
+                mCurrentAudioQueuePosition = pos;
+                mCurrentAudioPosition = 0;
+                media.parse();
+                mVlcPlayer.setMedia(media);
 
-                mCurrentMedia.release();
+                media.release();
                 mVlcPlayer.play();
 
+                Utils.ReportStart(item, mCurrentAudioPosition);
             }
 
             @Override
@@ -147,19 +195,39 @@ public class MediaManager {
 
     }
 
+    public static BaseItemDto getNextAudioItem() {
+        if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0 || mCurrentAudioQueuePosition == mCurrentAudioQueue.size() - 1) return null;
+
+        return mCurrentAudioQueue.get(mCurrentAudioQueuePosition +1);
+    }
+
+    public static int nextAudioItem() {
+        if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0 || mCurrentAudioQueuePosition == mCurrentAudioQueue.size() - 1) return -1;
+        stopAudio();
+        playInternal(getNextAudioItem(), mCurrentAudioQueuePosition +1);
+        return mCurrentAudioQueuePosition +1;
+    }
+
+    public static void stopAudio() {
+        if (mCurrentAudioItem != null && isPlayingAudio()) {
+            mVlcPlayer.stop();
+            Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition);
+        }
+    }
+
     public static void setCurrentMediaPosition(int currentMediaPosition) {
-        MediaManager.currentMediaPosition = currentMediaPosition;
+        MediaManager.mCurrentMediaPosition = currentMediaPosition;
     }
 
     public static BaseRowItem getMediaItem(int pos) {
-        return currentMediaAdapter != null && currentMediaAdapter.size() > pos ? (BaseRowItem) currentMediaAdapter.get(pos) : null;
+        return mCurrentMediaAdapter != null && mCurrentMediaAdapter.size() > pos ? (BaseRowItem) mCurrentMediaAdapter.get(pos) : null;
     }
 
-    public static BaseRowItem getCurrentMediaItem() { return getMediaItem(currentMediaPosition); }
+    public static BaseRowItem getCurrentMediaItem() { return getMediaItem(mCurrentMediaPosition); }
     public static BaseRowItem nextMedia() {
         if (hasNextMediaItem()) {
-            currentMediaPosition++;
-            currentMediaAdapter.loadMoreItemsIfNeeded(currentMediaPosition);
+            mCurrentMediaPosition++;
+            mCurrentMediaAdapter.loadMoreItemsIfNeeded(mCurrentMediaPosition);
         }
 
         return getCurrentMediaItem();
@@ -167,22 +235,22 @@ public class MediaManager {
 
     public static BaseRowItem prevMedia() {
         if (hasPrevMediaItem()) {
-            currentMediaPosition--;
+            mCurrentMediaPosition--;
         }
 
         return getCurrentMediaItem();
     }
 
     public static BaseRowItem peekNextMediaItem() {
-        return hasNextMediaItem() ? getMediaItem(currentMediaPosition+1) : null;
+        return hasNextMediaItem() ? getMediaItem(mCurrentMediaPosition +1) : null;
     }
 
     public static BaseRowItem peekPrevMediaItem() {
-        return hasPrevMediaItem() ? getMediaItem(currentMediaPosition-1) : null;
+        return hasPrevMediaItem() ? getMediaItem(mCurrentMediaPosition -1) : null;
     }
 
-    public static boolean hasNextMediaItem() { return currentMediaAdapter.size() > currentMediaPosition+1; }
-    public static boolean hasPrevMediaItem() { return currentMediaPosition > 0; }
+    public static boolean hasNextMediaItem() { return mCurrentMediaAdapter.size() > mCurrentMediaPosition +1; }
+    public static boolean hasPrevMediaItem() { return mCurrentMediaPosition > 0; }
 
     public static String getCurrentMediaTitle() {
         return currentMediaTitle;

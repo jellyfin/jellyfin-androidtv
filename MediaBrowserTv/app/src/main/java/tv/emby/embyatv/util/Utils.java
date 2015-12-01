@@ -75,6 +75,7 @@ import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.session.PlaybackProgressInfo;
+import mediabrowser.model.session.PlaybackStartInfo;
 import mediabrowser.model.session.PlaybackStopInfo;
 import mediabrowser.model.users.AuthenticationResult;
 import tv.emby.embyatv.BuildConfig;
@@ -953,6 +954,15 @@ public class Utils {
             }
 
         }
+
+    }
+
+    public static void ReportStart(BaseItemDto item, long pos) {
+        PlaybackStartInfo startInfo = new PlaybackStartInfo();
+        startInfo.setItemId(item.getId());
+        startInfo.setPositionTicks(pos);
+        TvApp.getApplication().getPlaybackManager().reportPlaybackStart(startInfo, false, TvApp.getApplication().getApiClient(), new EmptyResponse());
+        TvApp.getApplication().getLogger().Info("Playback of " + item.getName() + " started.");
 
     }
 
