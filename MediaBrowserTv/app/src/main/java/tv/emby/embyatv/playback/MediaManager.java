@@ -27,6 +27,7 @@ import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.util.RemoteControlReceiver;
 import tv.emby.embyatv.util.Utils;
+import tv.emby.iap.IabValidator;
 
 /**
  * Created by Eric on 10/22/2015.
@@ -49,6 +50,8 @@ public class MediaManager {
     private static AudioManager mAudioManager;
     private static boolean audioInitialized;
 
+    private static List<IAudioEventListener> mAudioEventListeners = new ArrayList<>();
+
     private static long lastProgressReport;
 
 
@@ -65,6 +68,17 @@ public class MediaManager {
         return mCurrentMediaPosition;
     }
     public static int getCurrentAudioQueuePosition() { return mCurrentAudioQueuePosition; }
+
+    public static BaseItemDto getCurrentAudioItem() { return mCurrentAudioItem; }
+
+    public static void addAudioEventListener(IAudioEventListener listener) {
+        mAudioEventListeners.add(listener);
+        TvApp.getApplication().getLogger().Debug("Added event listener.  Total listeners: "+mAudioEventListeners.size());
+    }
+    public static void removeAudioEventListener(IAudioEventListener listener) {
+        mAudioEventListeners.remove(listener);
+        TvApp.getApplication().getLogger().Debug("Removed event listener.  Total listeners: " + mAudioEventListeners.size());
+    }
 
     public static boolean initAudio() {
         if (mAudioManager == null) mAudioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
@@ -113,9 +127,13 @@ public class MediaManager {
                         //Report progress to server every 3 secs
                         Utils.ReportProgress(mCurrentAudioItem, mCurrentAudioStreamInfo, mVlcPlayer.getTime()*10000, !mVlcPlayer.isPlaying());
                         lastProgressReport = System.currentTimeMillis();
+                        TvApp.getApplication().setLastUserInteraction(lastProgressReport);
                     }
 
-                    //todo Add listeners for external activities
+                    //fire external listeners if there
+                    for (IAudioEventListener listener : mAudioEventListeners) {
+                        listener.onProgress(mVlcPlayer.getTime());
+                    }
                 }
             });
 
@@ -125,7 +143,11 @@ public class MediaManager {
                     Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, 0);
                     nextAudioItem();
 
-                    //todo Add listeners for external activities
+                    //fire external listener if there
+                    for (IAudioEventListener listener : mAudioEventListeners) {
+                        TvApp.getApplication().getLogger().Info("Firing playback state change listener for item completion. "+ mCurrentAudioItem.getName());
+                        listener.onPlaybackStateChange(PlaybackController.PlaybackState.IDLE, mCurrentAudioItem);
+                    }
                 }
             });
 
@@ -161,6 +183,7 @@ public class MediaManager {
     public static int queueAudioItem(int pos, BaseItemDto item) {
         if (mCurrentAudioQueue == null) mCurrentAudioQueue = new ArrayList<>();
         mCurrentAudioQueue.add(pos, item);
+        TvApp.getApplication().showMessage("Item added to queue at position "+(pos+1), Utils.GetFullName(item), 4000, R.drawable.audioicon);
         return pos;
     }
 
@@ -275,6 +298,10 @@ public class MediaManager {
                 mVlcPlayer.play();
 
                 Utils.ReportStart(item, mCurrentAudioPosition);
+                for (IAudioEventListener listener : mAudioEventListeners) {
+                    TvApp.getApplication().getLogger().Info("Firing playback state change listener for item start. "+mCurrentAudioItem.getName());
+                    listener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, mCurrentAudioItem);
+                }
             }
 
             @Override
@@ -302,6 +329,10 @@ public class MediaManager {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
             mVlcPlayer.stop();
             Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition);
+            for (IAudioEventListener listener : mAudioEventListeners) {
+                listener.onPlaybackStateChange(PlaybackController.PlaybackState.IDLE, mCurrentAudioItem);
+            }
+
         }
     }
 
@@ -309,6 +340,9 @@ public class MediaManager {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
             mVlcPlayer.pause();
             Utils.ReportProgress(mCurrentAudioItem, mCurrentAudioStreamInfo, mVlcPlayer.getTime()*10000, !mVlcPlayer.isPlaying());
+            for (IAudioEventListener listener : mAudioEventListeners) {
+                listener.onPlaybackStateChange(PlaybackController.PlaybackState.PAUSED, mCurrentAudioItem);
+            }
             lastProgressReport = System.currentTimeMillis();
 
         }
@@ -317,6 +351,9 @@ public class MediaManager {
     public static void resumeAudio() {
         if (mCurrentAudioItem != null && mVlcPlayer != null) {
             mVlcPlayer.play();
+            for (IAudioEventListener listener : mAudioEventListeners) {
+                listener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, mCurrentAudioItem);
+            }
         }
     }
 

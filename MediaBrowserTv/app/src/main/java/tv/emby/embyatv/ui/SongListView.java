@@ -56,4 +56,14 @@ public class SongListView extends FrameLayout {
     public void addSong(BaseItemDto song, int ndx) {
         mList.addView(new SongRowView(mContext, song, ndx, mRowSelectedListener, mRowClickedListener));
     }
+
+    public void updatePlaying(String id) {
+        //look through our song rows and update the playing indicator
+        for (int i = 0; i < mList.getChildCount(); i++) {
+            View view = mList.getChildAt(i);
+            if (view instanceof SongRowView) {
+                ((SongRowView)view).setPlaying(id);
+            }
+        }
+    }
 }

@@ -233,6 +233,11 @@ public class TvApp extends Application {
         }
     }
 
+    public void showMessage(String title, String msg, int timeout, int iconResource) {
+        if (currentActivity != null) {
+            currentActivity.showMessage(title, msg, timeout, iconResource, null);
+        }
+    }
     private long getLastNagTime() { return getSystemPrefs().getLong("lastNagTime",0); }
 
     private void setLastNagTime(long time) { getSystemPrefs().edit().putLong("lastNagTime", System.currentTimeMillis()).commit(); }

@@ -8,7 +8,7 @@
 
     <TextView
         android:layout_width="30dp"
-        android:layout_height="wrap_content"
+        android:layout_height="22dp"
         android:text="1"
         android:id="@+id/indexNo"
         android:layout_alignParentTop="true"
