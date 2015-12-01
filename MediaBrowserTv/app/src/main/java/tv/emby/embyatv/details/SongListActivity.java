@@ -26,6 +26,7 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
+import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.querying.StdItemQuery;
 import tv.emby.embyatv.ui.GenreButton;
 import tv.emby.embyatv.ui.ImageButton;
@@ -116,7 +117,7 @@ public class SongListActivity extends BaseActivity {
         mSongList.setRowClickedListener(new SongRowView.RowClickedListener() {
             @Override
             public void onRowClicked(SongRowView row) {
-                Utils.showToast(mApplication, row.getSong().getName()+ " clicked");
+                MediaManager.testPlay(row.getSong());
             }
         });
 
