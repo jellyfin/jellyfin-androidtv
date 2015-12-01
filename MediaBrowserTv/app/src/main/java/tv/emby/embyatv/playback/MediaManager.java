@@ -183,9 +183,34 @@ public class MediaManager {
                     .setNegativeButton("Cancel", null)
                     .show();
         } else {
-            clearAudioQueue();
-            queueAudioItem(0, item);
-            nextAudioItem();
+            if (hasAudioQueueItems() && TvApp.getApplication().getCurrentActivity() != null) {
+                new AlertDialog.Builder(TvApp.getApplication().getCurrentActivity())
+                        .setTitle(TvApp.getApplication().getString(R.string.lbl_play))
+                        .setMessage("Your audio queue has items in it. How would you like to play this item?")
+                        .setPositiveButton("Clear queue", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                clearAudioQueue();
+                                queueAudioItem(0, item);
+                                nextAudioItem();
+                            }
+                        })
+                        .setNeutralButton("Add to queue", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                queueAudioItem(mCurrentAudioQueuePosition + 1, item);
+                                nextAudioItem();
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+
+            } else {
+                clearAudioQueue();
+                queueAudioItem(0, item);
+                nextAudioItem();
+
+            }
         }
     }
 
