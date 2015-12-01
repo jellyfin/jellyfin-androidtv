@@ -126,7 +126,7 @@ public class MediaManager {
         options.setItemId(item.getId());
         options.setMaxBitrate(TvApp.getApplication().getAutoBitrate());
         options.setMediaSources(item.getMediaSources());
-        options.setProfile(new AndroidProfile(Utils.getProfileOptions()));
+        options.setProfile(new AndroidProfile("vlc"));
         TvApp.getApplication().getPlaybackManager().getAudioStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
             @Override
             public void onResponse(StreamInfo response) {
