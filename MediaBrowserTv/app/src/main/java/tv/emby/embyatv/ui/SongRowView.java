@@ -2,6 +2,7 @@ package tv.emby.embyatv.ui;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -29,6 +30,8 @@ public class SongRowView extends FrameLayout {
     TextView mRunTime;
     TextView mDivider;
     Drawable normalBackground;
+
+    int ourIndex;
 
     BaseItemDto mBaseItem;
 
@@ -91,7 +94,8 @@ public class SongRowView extends FrameLayout {
 
     public void setSong(BaseItemDto song, int ndx) {
         mBaseItem = song;
-        mIndexNo.setText(Integer.toString(ndx + 1));
+        ourIndex = ndx + 1;
+        mIndexNo.setText(Integer.toString(ourIndex));
         mSongName.setText(song.getName());
         String artist = song.getArtists().size() > 0 ? song.getArtists().get(0) : !TextUtils.isEmpty(song.getAlbumArtist()) ? song.getAlbumArtist() : null;
         if (!TextUtils.isEmpty(artist)) {
@@ -104,6 +108,21 @@ public class SongRowView extends FrameLayout {
     }
 
     public BaseItemDto getSong() { return mBaseItem; }
+
+    public void setPlaying(boolean playing) {
+        if (playing) {
+            mIndexNo.setBackgroundResource(R.drawable.eq_animation);
+            mIndexNo.setText("");
+            ((AnimationDrawable)mIndexNo.getBackground()).start();
+        } else {
+            mIndexNo.setBackgroundResource(R.drawable.blank10x10);
+            mIndexNo.setText(Integer.toString(ourIndex));
+        }
+    }
+
+    public void setPlaying(String id) {
+        setPlaying(getSong().getId().equals(id));
+    }
 
     public void setRowSelectedListener(RowSelectedListener listener) {
         rowSelectedListener = listener;

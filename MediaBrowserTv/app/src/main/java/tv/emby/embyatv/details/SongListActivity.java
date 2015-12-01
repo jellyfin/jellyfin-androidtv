@@ -25,7 +25,9 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
+import tv.emby.embyatv.playback.IAudioEventListener;
 import tv.emby.embyatv.playback.MediaManager;
+import tv.emby.embyatv.playback.PlaybackController;
 import tv.emby.embyatv.querying.StdItemQuery;
 import tv.emby.embyatv.ui.GenreButton;
 import tv.emby.embyatv.ui.ImageButton;
@@ -109,7 +111,7 @@ public class SongListActivity extends BaseActivity {
                     // too close to bottom - scroll down
                     mScrollView.smoothScrollBy(0, y - mBottomScrollThreshold);
                 }
-                TvApp.getApplication().getLogger().Debug("Row selected: "+row.getSong().getName()+" at "+location[1]+" Screen edge: "+mMetrics.heightPixels);
+                //TvApp.getApplication().getLogger().Debug("Row selected: "+row.getSong().getName()+" at "+location[1]+" Screen edge: "+mMetrics.heightPixels);
             }
         });
 
@@ -150,12 +152,14 @@ public class SongListActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         rotateBackdrops();
+        MediaManager.addAudioEventListener(mAudioEventListener);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         stopRotate();
+        MediaManager.removeAudioEventListener(mAudioEventListener);
     }
 
     @Override
@@ -163,6 +167,24 @@ public class SongListActivity extends BaseActivity {
         super.onStop();
         stopRotate();
     }
+
+    private IAudioEventListener mAudioEventListener = new IAudioEventListener() {
+        @Override
+        public void onPlaybackStateChange(PlaybackController.PlaybackState newState, BaseItemDto currentItem) {
+            TvApp.getApplication().getLogger().Info("Got playback state change event "+newState+" for item "+currentItem.getName());
+
+            if (newState != PlaybackController.PlaybackState.PLAYING) {
+                mSongList.updatePlaying(null);
+            } else {
+                mSongList.updatePlaying(currentItem.getId());
+            }
+        }
+
+        @Override
+        public void onProgress(long pos) {
+
+        }
+    };
 
     private void loadItem(String id) {
         mApplication.getApiClient().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
@@ -201,6 +223,10 @@ public class SongListActivity extends BaseActivity {
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
                     mSongList.addSongs(response.getItems());
+                    if (MediaManager.isPlayingAudio()) {
+                        //update our status
+                        mAudioEventListener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, MediaManager.getCurrentAudioItem());
+                    }
                 }
             }
         });
