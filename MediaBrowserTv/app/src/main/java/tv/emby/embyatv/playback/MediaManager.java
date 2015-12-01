@@ -49,6 +49,8 @@ public class MediaManager {
     private static AudioManager mAudioManager;
     private static boolean audioInitialized;
 
+    private static long lastProgressReport;
+
 
     public static ItemRowAdapter getCurrentMediaAdapter() {
         return mCurrentMediaAdapter;
@@ -104,6 +106,28 @@ public class MediaManager {
             mVlcPlayer.setAudioOutput("0".equals(audioOption) ? "android_audiotrack" : "opensles_android");
             mVlcPlayer.setAudioOutputDevice("hdmi");
 
+            mVlcHandler.setOnProgressListener(new PlaybackListener() {
+                @Override
+                public void onEvent() {
+                    if (System.currentTimeMillis() > lastProgressReport + 3000) {
+                        //Report progress to server every 3 secs
+                        Utils.ReportProgress(mCurrentAudioItem, mCurrentAudioStreamInfo, mVlcPlayer.getTime()*10000, !mVlcPlayer.isPlaying());
+                        lastProgressReport = System.currentTimeMillis();
+                    }
+
+                    //todo Add listeners for external activities
+                }
+            });
+
+            mVlcHandler.setOnCompletionListener(new PlaybackListener() {
+                @Override
+                public void onEvent() {
+                    Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, 0);
+                    nextAudioItem();
+
+                    //todo Add listeners for external activities
+                }
+            });
 
             mVlcPlayer.setEventListener(mVlcHandler);
 
@@ -284,6 +308,8 @@ public class MediaManager {
     public static void pauseAudio() {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
             mVlcPlayer.pause();
+            Utils.ReportProgress(mCurrentAudioItem, mCurrentAudioStreamInfo, mVlcPlayer.getTime()*10000, !mVlcPlayer.isPlaying());
+            lastProgressReport = System.currentTimeMillis();
 
         }
     }
