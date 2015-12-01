@@ -1,6 +1,7 @@
 package tv.emby.embyatv.playback;
 
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -24,6 +25,7 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
+import tv.emby.embyatv.util.RemoteControlReceiver;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -114,6 +116,24 @@ public class MediaManager {
         return true;
     }
 
+    private static AudioManager.OnAudioFocusChangeListener mAudioFocusChanged = new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+            switch (focusChange) {
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                    pauseAudio();
+                    break;
+                case AudioManager.AUDIOFOCUS_LOSS:
+                    stopAudio();
+                    mAudioManager.unregisterMediaButtonEventReceiver(new ComponentName(TvApp.getApplication().getPackageName(), RemoteControlReceiver.class.getName()));
+                    break;
+                case AudioManager.AUDIOFOCUS_GAIN:
+                    resumeAudio();
+                    break;
+            }
+        }
+    };
+
     public static int queueAudioItem(int pos, BaseItemDto item) {
         if (mCurrentAudioQueue == null) mCurrentAudioQueue = new ArrayList<>();
         mCurrentAudioQueue.add(pos, item);
@@ -123,6 +143,12 @@ public class MediaManager {
     public static int queueAudioItem(BaseItemDto item) {
         if (mCurrentAudioQueue == null) mCurrentAudioQueue = new ArrayList<>();
         return queueAudioItem(mCurrentAudioQueue.size(), item);
+    }
+
+    public static void clearAudioQueue() {
+        if (mCurrentAudioQueue == null) mCurrentAudioQueue = new ArrayList<>();
+        else mCurrentAudioQueue.clear();
+        mCurrentAudioQueuePosition = -1;
     }
 
     public static boolean isPlayingAudio() { return audioInitialized && mVlcPlayer.isPlaying(); }
@@ -151,18 +177,33 @@ public class MediaManager {
                     .setNeutralButton("Next", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            queueAudioItem(mCurrentAudioQueuePosition +1, item);
+                            queueAudioItem(mCurrentAudioQueuePosition + 1, item);
                         }
                     })
                     .setNegativeButton("Cancel", null)
                     .show();
         } else {
+            clearAudioQueue();
             queueAudioItem(0, item);
             nextAudioItem();
         }
     }
 
+    private static boolean ensureAudioFocus() {
+        if (mAudioManager.requestAudioFocus(mAudioFocusChanged, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN) != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            TvApp.getApplication().getLogger().Error("Unable to get audio focus");
+            Utils.showToast(TvApp.getApplication(), R.string.msg_cannot_play_time);
+            return false;
+        }
+
+        //Register a media button receiver so that all media button presses will come to us and not another app
+        mAudioManager.registerMediaButtonEventReceiver(new ComponentName(TvApp.getApplication().getPackageName(), RemoteControlReceiver.class.getName()));
+        //TODO implement conditional logic for api 21+
+        return true;
+    }
+
     private static void playInternal(final BaseItemDto item, final int pos) {
+        ensureAudioFocus();
         final ApiClient apiClient = TvApp.getApplication().getApiClient();
         AudioOptions options = new AudioOptions();
         options.setDeviceId(apiClient.getDeviceId());
@@ -212,6 +253,19 @@ public class MediaManager {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
             mVlcPlayer.stop();
             Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition);
+        }
+    }
+
+    public static void pauseAudio() {
+        if (mCurrentAudioItem != null && isPlayingAudio()) {
+            mVlcPlayer.pause();
+
+        }
+    }
+
+    public static void resumeAudio() {
+        if (mCurrentAudioItem != null && mVlcPlayer != null) {
+            mVlcPlayer.play();
         }
     }
 
