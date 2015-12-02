@@ -32,6 +32,7 @@ public class SongRowView extends FrameLayout {
     Drawable normalBackground;
 
     int ourIndex;
+    String formattedTime;
 
     BaseItemDto mBaseItem;
 
@@ -104,12 +105,21 @@ public class SongRowView extends FrameLayout {
             mArtistName.setVisibility(GONE);
             mDivider.setVisibility(GONE);
         }
-        mRunTime.setText(Utils.formatMillis(song.getRunTimeTicks()/10000));
+        formattedTime = Utils.formatMillis(song.getRunTimeTicks()/10000);
+        mRunTime.setText(formattedTime);
+    }
+
+    public void updateCurrentTime(long pos) {
+        if (pos < 0) {
+            mRunTime.setText(formattedTime);
+        } else {
+            mRunTime.setText(Utils.formatMillis(pos) + " / "+ formattedTime);
+        }
     }
 
     public BaseItemDto getSong() { return mBaseItem; }
 
-    public void setPlaying(boolean playing) {
+    public boolean setPlaying(boolean playing) {
         if (playing) {
             mIndexNo.setBackgroundResource(R.drawable.eq_animation);
             mIndexNo.setText("");
@@ -118,10 +128,11 @@ public class SongRowView extends FrameLayout {
             mIndexNo.setBackgroundResource(R.drawable.blank10x10);
             mIndexNo.setText(Integer.toString(ourIndex));
         }
+        return playing;
     }
 
-    public void setPlaying(String id) {
-        setPlaying(getSong().getId().equals(id));
+    public boolean setPlaying(String id) {
+        return setPlaying(getSong().getId().equals(id));
     }
 
     public void setRowSelectedListener(RowSelectedListener listener) {

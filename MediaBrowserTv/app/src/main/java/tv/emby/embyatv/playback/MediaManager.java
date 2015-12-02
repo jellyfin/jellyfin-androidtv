@@ -13,6 +13,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import mediabrowser.apiinteraction.ApiClient;
@@ -205,15 +206,56 @@ public class MediaManager {
 
     public static boolean isPlayingAudio() { return audioInitialized && mVlcPlayer.isPlaying(); }
 
-    public static void playNow(final BaseItemDto item) {
+    private static boolean ensureInitialized() {
         if (!audioInitialized) {
             audioInitialized = initAudio();
         }
 
         if (!audioInitialized) {
             Utils.showToast(TvApp.getApplication(), "Unable to play audio");
-            return;
         }
+
+        return audioInitialized;
+    }
+
+    public static void playNow(final List<BaseItemDto> items) {
+        if (!ensureInitialized()) return;
+
+        if (hasAudioQueueItems()) {
+            new AlertDialog.Builder(TvApp.getApplication().getCurrentActivity())
+                    .setTitle(TvApp.getApplication().getString(R.string.lbl_play))
+                    .setMessage("How do you wish to play these items?")
+                    .setPositiveButton("Replace Queue", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            clearAudioQueue();
+                            mCurrentAudioQueue.addAll(items);
+                            mCurrentAudioQueuePosition = -1;
+                            TvApp.getApplication().showMessage(items.size() + " items added", mCurrentAudioQueue.size() + " total items in queue", 5000, R.drawable.audioicon);
+                            nextAudioItem();
+                        }
+                    })
+                    .setNeutralButton("Add to Queue", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mCurrentAudioQueue.addAll(mCurrentAudioQueue.size(), items);
+                            TvApp.getApplication().showMessage(items.size() + " items added", mCurrentAudioQueue.size() + " total items in queue", 5000, R.drawable.audioicon);
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+
+        } else {
+            clearAudioQueue();
+            mCurrentAudioQueue.addAll(items);
+            mCurrentAudioQueuePosition = -1;
+            TvApp.getApplication().showMessage(items.size() + " items added", mCurrentAudioQueue.size() + " total items in queue", 5000, R.drawable.audioicon);
+            nextAudioItem();
+        }
+    }
+
+    public static void playNow(final BaseItemDto item) {
+        if (!ensureInitialized()) return;
 
         if (isPlayingAudio() && TvApp.getApplication().getCurrentActivity() != null) {
             new AlertDialog.Builder(TvApp.getApplication().getCurrentActivity())

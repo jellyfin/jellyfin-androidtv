@@ -17,6 +17,11 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserItemDataDto;
@@ -55,7 +60,10 @@ public class SongListActivity extends BaseActivity {
     private SongListView mSongList;
     private ScrollView mScrollView;
 
+    private SongRowView mCurrentlyPlayingRow;
+
     private BaseItemDto mBaseItem;
+    private List<BaseItemDto> mSongs;
     private String mItemId;
 
     private int mBottomScrollThreshold;
@@ -174,15 +182,18 @@ public class SongListActivity extends BaseActivity {
             TvApp.getApplication().getLogger().Info("Got playback state change event "+newState+" for item "+currentItem.getName());
 
             if (newState != PlaybackController.PlaybackState.PLAYING) {
-                mSongList.updatePlaying(null);
+                if (mCurrentlyPlayingRow != null) mCurrentlyPlayingRow.updateCurrentTime(-1);
+                mCurrentlyPlayingRow = mSongList.updatePlaying(null);
             } else {
-                mSongList.updatePlaying(currentItem.getId());
+                mCurrentlyPlayingRow = mSongList.updatePlaying(currentItem.getId());
             }
         }
 
         @Override
         public void onProgress(long pos) {
-
+            if (mCurrentlyPlayingRow != null) {
+                mCurrentlyPlayingRow.updateCurrentTime(pos);
+            }
         }
     };
 
@@ -222,6 +233,7 @@ public class SongListActivity extends BaseActivity {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
+                    mSongs = Arrays.asList(response.getItems());
                     mSongList.addSongs(response.getItems());
                     if (MediaManager.isPlayingAudio()) {
                         //update our status
@@ -266,7 +278,7 @@ public class SongListActivity extends BaseActivity {
             ImageButton play = new ImageButton(this, R.drawable.play, buttonSize, getString(Utils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), mButtonHelp, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Utils.showToast(TvApp.getApplication(), "Playback not available yet");
+                    MediaManager.playNow(mSongs);
                 }
             });
 
@@ -276,7 +288,9 @@ public class SongListActivity extends BaseActivity {
                 ImageButton shuffle = new ImageButton(this, R.drawable.shuffle, buttonSize, getString(R.string.lbl_shuffle_all), mButtonHelp, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utils.showToast(TvApp.getApplication(), "Playback not available yet");
+                        List<BaseItemDto> shuffled = new ArrayList<>(mSongs);
+                        Collections.shuffle(shuffled);
+                        MediaManager.playNow(shuffled);
                     }
                 });
                 mButtonRow.addView(shuffle);
