@@ -335,6 +335,7 @@ public class MediaManager {
             public void onResponse(StreamInfo response) {
                 mCurrentAudioItem = item;
                 mCurrentAudioStreamInfo = response;
+                TvApp.getApplication().getLogger().Info("Playback attempt via VLC of "+response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()));
                 Media media = new Media(mLibVLC, Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken())));
                 mCurrentAudioQueuePosition = pos;
                 mCurrentAudioPosition = 0;
