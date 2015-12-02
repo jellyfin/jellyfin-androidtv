@@ -53,6 +53,7 @@ public class MediaManager {
     private static List<IAudioEventListener> mAudioEventListeners = new ArrayList<>();
 
     private static long lastProgressReport;
+    private static long lastProgressEvent;
 
 
     public static ItemRowAdapter getCurrentMediaAdapter() {
@@ -123,8 +124,12 @@ public class MediaManager {
             mVlcHandler.setOnProgressListener(new PlaybackListener() {
                 @Override
                 public void onEvent() {
+                    //Don't need to be too aggressive with these calls - just be sure every second
+                    if (System.currentTimeMillis() < lastProgressEvent + 750) return;
+                    lastProgressEvent = System.currentTimeMillis();
+
+                    //Report progress to server every 3 secs
                     if (System.currentTimeMillis() > lastProgressReport + 3000) {
-                        //Report progress to server every 3 secs
                         Utils.ReportProgress(mCurrentAudioItem, mCurrentAudioStreamInfo, mVlcPlayer.getTime()*10000, !mVlcPlayer.isPlaying());
                         lastProgressReport = System.currentTimeMillis();
                         TvApp.getApplication().setLastUserInteraction(lastProgressReport);
