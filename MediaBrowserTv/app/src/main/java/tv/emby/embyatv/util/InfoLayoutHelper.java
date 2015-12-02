@@ -69,6 +69,9 @@ public class InfoLayoutHelper {
                 Integer songCount = item.getSongCount() != null ? item.getSongCount() : item.getChildCount();
                 addCount(activity, songCount, layout, songCount == 1 ? activity.getResources().getString(R.string.lbl_song) : activity.getResources().getString(R.string.lbl_songs));
                 break;
+            case "Playlist":
+                addCount(activity, item.getChildCount(), layout, item.getChildCount() == 1 ? activity.getResources().getString(R.string.lbl_item) : activity.getResources().getString(R.string.lbl_items));
+                break;
             default:
                 addDate(activity, item, layout);
 

@@ -111,6 +111,7 @@ public class ItemLauncher {
                         return;
 
                     case "MusicAlbum":
+                    case "Playlist":
                         //Start activity for song list display
                         Intent songListIntent = new Intent(activity, SongListActivity.class);
                         songListIntent.putExtra("ItemId", baseItem.getId());

@@ -148,7 +148,7 @@ public class BaseRowItem {
         }
     }
 
-    private static String[] noWatchedTypes = new String[] {"PhotoAlbum","MusicAlbum","MusicArtist", "Audio"};
+    private static String[] noWatchedTypes = new String[] {"PhotoAlbum","MusicAlbum","MusicArtist", "Audio","Playlist"};
     private static List<String> noWatchedTypesList = Arrays.asList(noWatchedTypes);
 
     public String getPrimaryImageUrl(int maxHeight) {

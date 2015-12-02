@@ -132,19 +132,27 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 lastPlayed.setIncludeItemTypes(new String[]{"Audio"});
                 lastPlayed.setRecursive(true);
                 lastPlayed.setParentId(mFolder.getId());
-                lastPlayed.setFilters(new ItemFilter[] {ItemFilter.IsPlayed});
+                lastPlayed.setFilters(new ItemFilter[]{ItemFilter.IsPlayed});
                 lastPlayed.setSortBy(new String[]{ItemSortBy.DatePlayed});
                 lastPlayed.setSortOrder(SortOrder.Descending);
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_last_played), lastPlayed, 60, new ChangeTriggerType[] {ChangeTriggerType.MusicPlayed, ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
                 StdItemQuery favAlbums = new StdItemQuery();
-                favAlbums.setIncludeItemTypes(new String[]{"MusicAlbum","MusicArtist"});
+                favAlbums.setIncludeItemTypes(new String[]{"MusicAlbum", "MusicArtist"});
                 favAlbums.setRecursive(true);
                 favAlbums.setParentId(mFolder.getId());
                 favAlbums.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
                 favAlbums.setSortBy(new String[]{ItemSortBy.SortName});
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_favorites), favAlbums, 60, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+
+                //Playlists
+                StdItemQuery playlists = new StdItemQuery();
+                playlists.setIncludeItemTypes(new String[]{"Playlist"});
+                playlists.setRecursive(true);
+                playlists.setSortBy(new String[]{ItemSortBy.DateCreated});
+                playlists.setSortOrder(SortOrder.Descending);
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_playlists), playlists, 60, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 rowLoader.loadRows(mRows);
                 break;
