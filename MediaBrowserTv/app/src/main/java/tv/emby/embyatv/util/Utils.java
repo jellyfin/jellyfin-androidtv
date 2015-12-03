@@ -406,6 +406,17 @@ public class Utils {
                 itemId = item.getSeriesId();
             }
         }
+        if ("Audio".equals(item.getType()) && !item.getHasPrimaryImage()) {
+            //Try the album or artist
+            if (item.getAlbumId() != null && item.getAlbumPrimaryImageTag() != null) {
+                imageTag = item.getAlbumPrimaryImageTag();
+                itemId = item.getAlbumId();
+                imageType = ImageType.Primary;
+            } else if (item.getAlbumArtists() != null && item.getAlbumArtists().size() > 0) {
+                itemId = item.getAlbumArtists().get(0).getId();
+                imageTag = null;
+            }
+        }
         options.setMaxHeight(maxHeight);
         options.setImageType(imageType);
         UserItemDataDto userData = item.getUserData();

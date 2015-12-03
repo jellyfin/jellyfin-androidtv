@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -69,7 +70,8 @@ public class MediaManager {
     public static int getCurrentMediaPosition() {
         return mCurrentMediaPosition;
     }
-    public static int getCurrentAudioQueuePosition() { return mCurrentAudioQueuePosition; }
+    public static String getCurrentAudioQueueDisplayPosition() { return Integer.toString(mCurrentAudioQueuePosition+1); }
+    public static String getCurrentAudioQueueDisplaySize() { return mCurrentAudioQueue != null ? Integer.toString(mCurrentAudioQueue.size()+1) : "0"; }
 
     public static BaseItemDto getCurrentAudioItem() { return mCurrentAudioItem; }
 
@@ -191,7 +193,7 @@ public class MediaManager {
     public static int queueAudioItem(int pos, BaseItemDto item) {
         if (mCurrentAudioQueue == null) mCurrentAudioQueue = new ArrayList<>();
         mCurrentAudioQueue.add(pos, item);
-        TvApp.getApplication().showMessage("Item added to queue at position "+(pos+1), Utils.GetFullName(item), 4000, R.drawable.audioicon);
+        TvApp.getApplication().showMessage(TvApp.getApplication().getString(R.string.msg_added_item_to_queue)+(pos+1), Utils.GetFullName(item), 4000, R.drawable.audioicon);
         return pos;
     }
 
@@ -226,33 +228,41 @@ public class MediaManager {
         if (hasAudioQueueItems()) {
             new AlertDialog.Builder(TvApp.getApplication().getCurrentActivity())
                     .setTitle(TvApp.getApplication().getString(R.string.lbl_play))
-                    .setMessage("How do you wish to play these items?")
-                    .setPositiveButton("Replace Queue", new DialogInterface.OnClickListener() {
+                    .setMessage(R.string.msg_how_like_play)
+                    .setPositiveButton(R.string.lbl_replace_queue, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             clearAudioQueue();
                             mCurrentAudioQueue.addAll(items);
                             mCurrentAudioQueuePosition = -1;
-                            TvApp.getApplication().showMessage(items.size() + " items added", mCurrentAudioQueue.size() + " total items in queue", 5000, R.drawable.audioicon);
+                            TvApp.getApplication().showMessage(items.size() + TvApp.getApplication().getString(R.string.msg_items_added), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
                             nextAudioItem();
+                            if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
+                                Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
+                                TvApp.getApplication().getCurrentActivity().startActivity(nowPlaying);
+                            }
                         }
                     })
-                    .setNeutralButton("Add to Queue", new DialogInterface.OnClickListener() {
+                    .setNeutralButton(R.string.msg_add_to_queue, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mCurrentAudioQueue.addAll(mCurrentAudioQueue.size(), items);
-                            TvApp.getApplication().showMessage(items.size() + " items added", mCurrentAudioQueue.size() + " total items in queue", 5000, R.drawable.audioicon);
+                            TvApp.getApplication().showMessage(items.size() + TvApp.getApplication().getString(R.string.msg_items_added), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
                         }
                     })
-                    .setNegativeButton("Cancel", null)
+                    .setNegativeButton(R.string.btn_cancel, null)
                     .show();
 
         } else {
             clearAudioQueue();
             mCurrentAudioQueue.addAll(items);
             mCurrentAudioQueuePosition = -1;
-            TvApp.getApplication().showMessage(items.size() + " items added", mCurrentAudioQueue.size() + " total items in queue", 5000, R.drawable.audioicon);
+            TvApp.getApplication().showMessage(items.size() + TvApp.getApplication().getString(R.string.msg_items_added), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
             nextAudioItem();
+            if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
+                Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
+                TvApp.getApplication().getCurrentActivity().startActivity(nowPlaying);
+            }
         }
     }
 
@@ -262,49 +272,57 @@ public class MediaManager {
         if (isPlayingAudio() && TvApp.getApplication().getCurrentActivity() != null) {
             new AlertDialog.Builder(TvApp.getApplication().getCurrentActivity())
                     .setTitle(TvApp.getApplication().getString(R.string.lbl_play))
-                    .setMessage("How do you wish to play this item?")
-                    .setPositiveButton("Right now", new DialogInterface.OnClickListener() {
+                    .setMessage(R.string.msg_how_like_play_single)
+                    .setPositiveButton(R.string.lbl_right_now, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             queueAudioItem(mCurrentAudioQueuePosition + 1, item);
                             nextAudioItem();
                         }
                     })
-                    .setNeutralButton("Next", new DialogInterface.OnClickListener() {
+                    .setNeutralButton(R.string.btn_next, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             queueAudioItem(mCurrentAudioQueuePosition + 1, item);
                         }
                     })
-                    .setNegativeButton("Cancel", null)
+                    .setNegativeButton(R.string.btn_cancel, null)
                     .show();
         } else {
             if (hasAudioQueueItems() && TvApp.getApplication().getCurrentActivity() != null) {
                 new AlertDialog.Builder(TvApp.getApplication().getCurrentActivity())
                         .setTitle(TvApp.getApplication().getString(R.string.lbl_play))
-                        .setMessage("Your audio queue has items in it. How would you like to play this item?")
-                        .setPositiveButton("Clear queue", new DialogInterface.OnClickListener() {
+                        .setMessage(R.string.msg_audio_queue_has_items)
+                        .setPositiveButton(R.string.lbl_replace_queue, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 clearAudioQueue();
                                 queueAudioItem(0, item);
                                 nextAudioItem();
+                                if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
+                                    Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
+                                    TvApp.getApplication().getCurrentActivity().startActivity(nowPlaying);
+                                }
                             }
                         })
-                        .setNeutralButton("Add to queue", new DialogInterface.OnClickListener() {
+                        .setNeutralButton(R.string.lbl_add_to_queue, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 queueAudioItem(mCurrentAudioQueuePosition + 1, item);
                                 nextAudioItem();
                             }
                         })
-                        .setNegativeButton("Cancel", null)
+                        .setNegativeButton(R.string.btn_cancel, null)
                         .show();
 
             } else {
                 clearAudioQueue();
                 queueAudioItem(0, item);
                 nextAudioItem();
+                if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
+                    Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
+                    TvApp.getApplication().getCurrentActivity().startActivity(nowPlaying);
+                }
 
             }
         }
