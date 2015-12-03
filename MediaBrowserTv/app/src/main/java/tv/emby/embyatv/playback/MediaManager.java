@@ -71,7 +71,7 @@ public class MediaManager {
         return mCurrentMediaPosition;
     }
     public static String getCurrentAudioQueueDisplayPosition() { return Integer.toString(mCurrentAudioQueuePosition+1); }
-    public static String getCurrentAudioQueueDisplaySize() { return mCurrentAudioQueue != null ? Integer.toString(mCurrentAudioQueue.size()+1) : "0"; }
+    public static String getCurrentAudioQueueDisplaySize() { return mCurrentAudioQueue != null ? Integer.toString(mCurrentAudioQueue.size()) : "0"; }
 
     public static BaseItemDto getCurrentAudioItem() { return mCurrentAudioItem; }
 
@@ -235,11 +235,13 @@ public class MediaManager {
                             clearAudioQueue();
                             mCurrentAudioQueue.addAll(items);
                             mCurrentAudioQueuePosition = -1;
-                            TvApp.getApplication().showMessage(items.size() + TvApp.getApplication().getString(R.string.msg_items_added), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
                             nextAudioItem();
                             if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
                                 Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
                                 TvApp.getApplication().getCurrentActivity().startActivity(nowPlaying);
+                            } else {
+                                TvApp.getApplication().showMessage(items.size() + TvApp.getApplication().getString(R.string.msg_items_added), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
+
                             }
                         }
                     })
@@ -257,11 +259,13 @@ public class MediaManager {
             clearAudioQueue();
             mCurrentAudioQueue.addAll(items);
             mCurrentAudioQueuePosition = -1;
-            TvApp.getApplication().showMessage(items.size() + TvApp.getApplication().getString(R.string.msg_items_added), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
             nextAudioItem();
             if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
                 Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
                 TvApp.getApplication().getCurrentActivity().startActivity(nowPlaying);
+            } else {
+                TvApp.getApplication().showMessage(items.size() + TvApp.getApplication().getString(R.string.msg_items_added), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
+
             }
         }
     }

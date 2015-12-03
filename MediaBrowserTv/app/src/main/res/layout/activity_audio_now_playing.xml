@@ -124,6 +124,19 @@
             android:layout_alignTop="@+id/of"
             android:layout_toRightOf="@+id/of" />
 
+        <view
+            android:layout_width="28sp"
+            android:layout_height="28sp"
+            class="tv.emby.embyatv.ui.ImageButton"
+            android:id="@+id/playPauseBtn"
+            android:layout_alignStart="@+id/songTitle"
+            android:layout_marginBottom="-12sp"
+            android:src="@drawable/lb_ic_pause"
+            android:focusable="true"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
+            android:layout_alignBottom="@+id/playerProgress" />
+
         <ProgressBar
             style="@style/player_progress"
             android:layout_width="300dp"
@@ -141,19 +154,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="1:23:00"
+            android:text="0:00"
             android:id="@+id/currentPos"
             android:layout_alignBottom="@+id/playerProgress"
             android:layout_marginBottom="-7sp"
             android:maxLines="1"
             android:textSize="16sp"
-            android:layout_alignLeft="@+id/songTitle" />
+            android:layout_toRightOf="@+id/playPauseBtn"
+            android:layout_marginLeft="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="-1:25:00"
+            android:text="-5:00"
             android:id="@+id/remainingTime"
             android:layout_alignBottom="@+id/currentPos"
             android:layout_alignParentEnd="false"

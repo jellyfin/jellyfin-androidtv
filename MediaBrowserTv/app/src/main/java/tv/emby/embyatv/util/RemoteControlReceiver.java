@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.KeyEvent;
 
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.playback.AudioNowPlayingActivity;
 import tv.emby.embyatv.playback.MediaManager;
 
 /**
@@ -14,7 +15,7 @@ import tv.emby.embyatv.playback.MediaManager;
 public class RemoteControlReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (MediaManager.isPlayingAudio()) {
+        if ((TvApp.getApplication().getCurrentActivity() == null || !(TvApp.getApplication().getCurrentActivity() instanceof AudioNowPlayingActivity )) && MediaManager.isPlayingAudio()) {
             //Respond to media button presses
             if (Intent.ACTION_MEDIA_BUTTON.equals(intent.getAction())) {
                 KeyEvent event = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
