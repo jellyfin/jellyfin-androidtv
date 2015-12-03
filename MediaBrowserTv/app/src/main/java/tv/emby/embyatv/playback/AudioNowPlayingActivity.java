@@ -95,6 +95,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     private int BUTTON_SIZE;
 
     private LinearLayout mGenreRow;
+    private ImageButton mPlayPauseButton;
     private ImageButton mNextButton;
     private ImageButton mPrevButton;
     private ImageButton mAlbumButton;
@@ -146,10 +147,20 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mAlbumTitle = (TextView) findViewById(R.id.albumTitle);
         mAlbumTitle.setTypeface(roboto);
         mCurrentNdx = (TextView) findViewById(R.id.currentNdx);
+        mPlayPauseButton = (ImageButton) findViewById(R.id.playPauseBtn);
+        mPlayPauseButton.setSecondaryImage(R.drawable.lb_ic_pause);
+        mPlayPauseButton.setPrimaryImage(R.drawable.play);
         mCurrentProgress = (ProgressBar) findViewById(R.id.playerProgress);
         mCurrentPos = (TextView) findViewById(R.id.currentPos);
         mRemainingTime = (TextView) findViewById(R.id.remainingTime);
         mTotal = (TextView) findViewById(R.id.total);
+
+        mPlayPauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (MediaManager.isPlayingAudio()) MediaManager.pauseAudio(); else MediaManager.resumeAudio();
+            }
+        });
 
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         backgroundManager.attach(getWindow());
@@ -173,9 +184,13 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         MediaManager.addAudioEventListener(new IAudioEventListener() {
             @Override
             public void onPlaybackStateChange(PlaybackController.PlaybackState newState, BaseItemDto currentItem) {
-                if (newState == PlaybackController.PlaybackState.PLAYING) {
+                mApplication.getLogger().Debug("**** Got playstate change: "+newState);
+                if (newState == PlaybackController.PlaybackState.PLAYING && currentItem != mBaseItem) {
                     // new item started
                     loadItem();
+                    updateButtons(true);
+                } else {
+                    updateButtons(newState == PlaybackController.PlaybackState.PLAYING);
                 }
             }
 
@@ -192,13 +207,20 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-
         rotateBackdrops();
+        //Make sure our initial button state reflects playback properly accounting for late loading of the audio stream
+        mLoopHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                updateButtons(MediaManager.isPlayingAudio());
+            }
+        },750);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        mPoster.setKeepScreenOn(false);
         stopRotate();
     }
 
@@ -208,6 +230,25 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         stopRotate();
     }
 
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+            case KeyEvent.KEYCODE_MEDIA_PLAY:
+                if (MediaManager.isPlayingAudio()) MediaManager.pauseAudio(); else MediaManager.resumeAudio();
+                return true;
+            case KeyEvent.KEYCODE_MEDIA_NEXT:
+            case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
+                MediaManager.nextAudioItem();
+                return true;
+            case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
+            case KeyEvent.KEYCODE_MEDIA_REWIND:
+                MediaManager.prevAudioItem();
+                return true;
+        }
+
+        return super.onKeyUp(keyCode, event);
+    }
 
     private void updatePoster() {
         if (isFinishing()) return;
@@ -233,8 +274,12 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         if (mBaseItem != null) {
             updatePoster();
             updateInfo(mBaseItem);
-            //todo - manage button availability
         }
+    }
+
+    private void updateButtons(boolean playing) {
+        mPoster.setKeepScreenOn(playing);
+        mPlayPauseButton.setState(!playing ? ImageButton.STATE_PRIMARY : ImageButton.STATE_SECONDARY);
     }
 
     private void updateInfo(BaseItemDto item) {
