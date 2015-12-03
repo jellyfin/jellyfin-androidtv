@@ -129,16 +129,18 @@ public class MediaManager {
                     if (System.currentTimeMillis() < lastProgressEvent + 750) return;
                     lastProgressEvent = System.currentTimeMillis();
 
+                    mCurrentAudioPosition = mVlcPlayer.getTime();
+
                     //Report progress to server every 3 secs
                     if (System.currentTimeMillis() > lastProgressReport + 3000) {
-                        Utils.ReportProgress(mCurrentAudioItem, mCurrentAudioStreamInfo, mVlcPlayer.getTime()*10000, !mVlcPlayer.isPlaying());
+                        Utils.ReportProgress(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000, !mVlcPlayer.isPlaying());
                         lastProgressReport = System.currentTimeMillis();
                         TvApp.getApplication().setLastUserInteraction(lastProgressReport);
                     }
 
                     //fire external listeners if there
                     for (IAudioEventListener listener : mAudioEventListeners) {
-                        listener.onProgress(mVlcPlayer.getTime());
+                        listener.onProgress(mCurrentAudioPosition);
                     }
                 }
             });
@@ -146,7 +148,7 @@ public class MediaManager {
             mVlcHandler.setOnCompletionListener(new PlaybackListener() {
                 @Override
                 public void onEvent() {
-                    Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, 0);
+                    Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition);
                     nextAudioItem();
 
                     //fire external listener if there
@@ -264,7 +266,7 @@ public class MediaManager {
                     .setPositiveButton("Right now", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            queueAudioItem(mCurrentAudioQueuePosition +1, item);
+                            queueAudioItem(mCurrentAudioQueuePosition + 1, item);
                             nextAudioItem();
                         }
                     })
@@ -366,11 +368,38 @@ public class MediaManager {
         return mCurrentAudioQueue.get(mCurrentAudioQueuePosition +1);
     }
 
+    public static BaseItemDto getPrevAudioItem() {
+        if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0 || mCurrentAudioQueuePosition == 0) return null;
+
+        return mCurrentAudioQueue.get(mCurrentAudioQueuePosition -1);
+    }
+
     public static int nextAudioItem() {
         if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0 || mCurrentAudioQueuePosition == mCurrentAudioQueue.size() - 1) return -1;
         stopAudio();
-        playInternal(getNextAudioItem(), mCurrentAudioQueuePosition +1);
-        return mCurrentAudioQueuePosition +1;
+        int ndx = mCurrentAudioQueuePosition +1;
+        playInternal(getNextAudioItem(), ndx);
+        return ndx;
+    }
+
+    public static int prevAudioItem() {
+        if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0) return -1;
+        if (isPlayingAudio() && mCurrentAudioPosition > 10000) {
+            //just back up to the beginning of current item
+            mVlcPlayer.setTime(0);
+            return mCurrentAudioQueuePosition;
+        }
+
+        if (mCurrentAudioQueuePosition < 1) {
+            //nowhere to go
+            return mCurrentAudioQueuePosition;
+        }
+
+
+        stopAudio();
+        int ndx = mCurrentAudioQueuePosition - 1;
+        playInternal(getPrevAudioItem(), ndx);
+        return ndx;
     }
 
     public static void stopAudio() {

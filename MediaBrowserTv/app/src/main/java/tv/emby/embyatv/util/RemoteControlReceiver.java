@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
 
+import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.playback.MediaManager;
 
 /**
@@ -16,7 +17,8 @@ public class RemoteControlReceiver extends BroadcastReceiver {
         if (MediaManager.isPlayingAudio()) {
             //Respond to media button presses
             if (Intent.ACTION_MEDIA_BUTTON.equals(intent.getAction())) {
-                KeyEvent event = (KeyEvent)intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+                KeyEvent event = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+                TvApp.getApplication().getLogger().Debug("****** In remote receiver.  Keycode: "+event.getKeyCode());
                 switch (event.getKeyCode()) {
                     case KeyEvent.KEYCODE_MEDIA_PAUSE:
                     case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
@@ -26,7 +28,12 @@ public class RemoteControlReceiver extends BroadcastReceiver {
                     case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
                         MediaManager.nextAudioItem();
                         break;
+                    case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
+                    case KeyEvent.KEYCODE_MEDIA_REWIND:
+                        MediaManager.prevAudioItem();
+                        break;
                 }
+                abortBroadcast(); // we handled it - don't pass it on
             }
 
         }
