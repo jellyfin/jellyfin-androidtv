@@ -161,6 +161,8 @@ public class SongListActivity extends BaseActivity {
         super.onResume();
         rotateBackdrops();
         MediaManager.addAudioEventListener(mAudioEventListener);
+        // and fire it to be sure we're updated
+        mAudioEventListener.onPlaybackStateChange(MediaManager.isPlayingAudio() ? PlaybackController.PlaybackState.PLAYING : PlaybackController.PlaybackState.IDLE, MediaManager.getCurrentAudioItem());
     }
 
     @Override
@@ -179,9 +181,9 @@ public class SongListActivity extends BaseActivity {
     private IAudioEventListener mAudioEventListener = new IAudioEventListener() {
         @Override
         public void onPlaybackStateChange(PlaybackController.PlaybackState newState, BaseItemDto currentItem) {
-            TvApp.getApplication().getLogger().Info("Got playback state change event "+newState+" for item "+currentItem.getName());
+            TvApp.getApplication().getLogger().Info("Got playback state change event "+newState+" for item "+(currentItem != null ? currentItem.getName() : "<unknown>"));
 
-            if (newState != PlaybackController.PlaybackState.PLAYING) {
+            if (newState != PlaybackController.PlaybackState.PLAYING || currentItem == null) {
                 if (mCurrentlyPlayingRow != null) mCurrentlyPlayingRow.updateCurrentTime(-1);
                 mCurrentlyPlayingRow = mSongList.updatePlaying(null);
             } else {

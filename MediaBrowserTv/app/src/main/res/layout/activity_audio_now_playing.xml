@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/artistTitle"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20sp"
+        android:textSize="35sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginRight="160sp"
+        android:layout_marginLeft="50sp"
+        android:text="Artist" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/genreRow"
+        android:divider="@drawable/whitedivider"
+        android:minHeight="22sp"
+        android:layout_below="@+id/artistTitle"
+        android:layout_alignStart="@+id/artistTitle" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:id="@+id/detailArea"
+        android:layout_below="@+id/genreRow"
+        android:layout_marginTop="10dp"
+        android:background="@color/black_transparent">
+
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:id="@+id/poster"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="40dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Song Title"
+            android:id="@+id/songTitle"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/poster"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="20dp"
+            android:textSize="24sp"
+            android:minLines="1"
+            android:ellipsize="marquee" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_from"
+            android:id="@+id/from"
+            android:layout_marginTop="10dp"
+            android:textSize="18sp"
+            android:minLines="1"
+            android:ellipsize="marquee"
+            android:layout_below="@+id/songTitle"
+            android:layout_alignLeft="@+id/songTitle"
+            android:textColor="@color/accent_material_light" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Album name"
+            android:id="@+id/albumTitle"
+            android:layout_alignTop="@+id/from"
+            android:layout_toRightOf="@+id/from"
+            android:layout_marginLeft="15sp"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/songTitle"
+            android:id="@+id/buttonRow"
+            android:minHeight="35sp"
+            android:showDividers="middle"
+            android:divider="@drawable/blank30x30"
+            android:layout_marginBottom="15dp"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_vertical|left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:id="@+id/currentNdx"
+            android:layout_below="@+id/from"
+            android:layout_alignStart="@+id/from"
+            android:textSize="18sp"
+            android:gravity="right"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_of"
+            android:id="@+id/of"
+            android:textSize="18sp"
+            android:textColor="@color/accent_material_light"
+            android:layout_toRightOf="@+id/currentNdx"
+            android:layout_alignTop="@+id/currentNdx"
+            android:layout_marginLeft="5sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15"
+            android:id="@+id/total"
+            android:textSize="18sp"
+            android:gravity="right"
+            android:layout_marginLeft="5dp"
+            android:layout_alignTop="@+id/of"
+            android:layout_toRightOf="@+id/of" />
+
+        <ProgressBar
+            style="@style/player_progress"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/playerProgress"
+            android:minWidth="525sp"
+            android:layout_alignParentBottom="false"
+            android:maxHeight="5sp"
+            android:layout_marginTop="50dp"
+            android:layout_below="@+id/currentNdx"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/currentPos" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="1:23:00"
+            android:id="@+id/currentPos"
+            android:layout_alignBottom="@+id/playerProgress"
+            android:layout_marginBottom="-7sp"
+            android:maxLines="1"
+            android:textSize="16sp"
+            android:layout_alignLeft="@+id/songTitle" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="-1:25:00"
+            android:id="@+id/remainingTime"
+            android:layout_alignBottom="@+id/currentPos"
+            android:layout_alignParentEnd="false"
+            android:layout_toRightOf="@+id/playerProgress"
+            android:layout_marginLeft="10sp"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="false"
+        android:id="@+id/rowsFragment"
+        android:layout_below="@+id/detailArea"
+        android:layout_marginTop="10dp">
+
+    </FrameLayout>
+
+    <tv.emby.embyatv.ui.ClockUserView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/clock"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/artistTitle"
+        android:layout_marginRight="40sp"
+        android:alpha=".8" />
+
+</RelativeLayout>
