@@ -14,7 +14,6 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import mediabrowser.apiinteraction.ApiClient;
@@ -27,9 +26,9 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
+import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.util.RemoteControlReceiver;
 import tv.emby.embyatv.util.Utils;
-import tv.emby.iap.IabValidator;
 
 /**
  * Created by Eric on 10/22/2015.
@@ -40,7 +39,7 @@ public class MediaManager {
     private static int mCurrentMediaPosition = -1;
     private static String currentMediaTitle;
 
-    private static List<BaseItemDto> mCurrentAudioQueue;
+    private static ItemRowAdapter mCurrentAudioQueue;
     private static int mCurrentAudioQueuePosition = -1;
     private static BaseItemDto mCurrentAudioItem;
     private static StreamInfo mCurrentAudioStreamInfo;
@@ -196,22 +195,38 @@ public class MediaManager {
         }
     };
 
+    private static void createAudioQueue(List<BaseItemDto> items) {
+        mCurrentAudioQueue = new ItemRowAdapter(items, new CardPresenter(true, Utils.convertDpToPixel(TvApp.getApplication(), 150)), null, true);
+        mCurrentAudioQueue.Retrieve();
+    }
+
     public static int queueAudioItem(int pos, BaseItemDto item) {
-        if (mCurrentAudioQueue == null) mCurrentAudioQueue = new ArrayList<>();
-        mCurrentAudioQueue.add(pos, item);
+        if (mCurrentAudioQueue == null) createAudioQueue(new ArrayList<BaseItemDto>());
+        mCurrentAudioQueue.add(new BaseRowItem(pos, item));
         TvApp.getApplication().showMessage(TvApp.getApplication().getString(R.string.msg_added_item_to_queue)+(pos+1), Utils.GetFullName(item), 4000, R.drawable.audioicon);
         return pos;
     }
 
     public static int queueAudioItem(BaseItemDto item) {
-        if (mCurrentAudioQueue == null) mCurrentAudioQueue = new ArrayList<>();
-        return queueAudioItem(mCurrentAudioQueue.size(), item);
+        if (mCurrentAudioQueue == null) createAudioQueue(new ArrayList<BaseItemDto>());
+        mCurrentAudioQueue.add(new BaseRowItem(mCurrentAudioQueue.size(), item));
+        return mCurrentAudioQueue.size()-1;
     }
 
     public static void clearAudioQueue() {
-        if (mCurrentAudioQueue == null) mCurrentAudioQueue = new ArrayList<>();
+        if (mCurrentAudioQueue == null) createAudioQueue(new ArrayList<BaseItemDto>());
         else mCurrentAudioQueue.clear();
         mCurrentAudioQueuePosition = -1;
+    }
+
+    private static void addToAudioQueue(List<BaseItemDto> items) {
+        if (mCurrentAudioQueue == null) createAudioQueue(items);
+        else {
+            int ndx = mCurrentAudioQueue.size();
+            for (BaseItemDto item : items) {
+                mCurrentAudioQueue.add(new BaseRowItem(ndx++, item));
+            }
+        }
     }
 
     public static boolean isPlayingAudio() { return audioInitialized && mVlcPlayer.isPlaying(); }
@@ -238,8 +253,7 @@ public class MediaManager {
                     .setPositiveButton(R.string.lbl_replace_queue, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            clearAudioQueue();
-                            mCurrentAudioQueue.addAll(items);
+                            createAudioQueue(items);
                             mCurrentAudioQueuePosition = -1;
                             nextAudioItem();
                             if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
@@ -254,7 +268,7 @@ public class MediaManager {
                     .setNeutralButton(R.string.msg_add_to_queue, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            mCurrentAudioQueue.addAll(mCurrentAudioQueue.size(), items);
+                            addToAudioQueue(items);
                             TvApp.getApplication().showMessage(items.size() + TvApp.getApplication().getString(R.string.msg_items_added), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
                         }
                     })
@@ -262,8 +276,7 @@ public class MediaManager {
                     .show();
 
         } else {
-            clearAudioQueue();
-            mCurrentAudioQueue.addAll(items);
+            createAudioQueue(items);
             mCurrentAudioQueuePosition = -1;
             nextAudioItem();
             if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
@@ -306,8 +319,8 @@ public class MediaManager {
                         .setPositiveButton(R.string.lbl_replace_queue, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                clearAudioQueue();
-                                queueAudioItem(0, item);
+                                createAudioQueue(new ArrayList<BaseItemDto>());
+                                queueAudioItem(item);
                                 nextAudioItem();
                                 if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
                                     Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
@@ -326,8 +339,8 @@ public class MediaManager {
                         .show();
 
             } else {
-                clearAudioQueue();
-                queueAudioItem(0, item);
+                createAudioQueue(new ArrayList<BaseItemDto>());
+                queueAudioItem(item);
                 nextAudioItem();
                 if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
                     Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
@@ -395,7 +408,7 @@ public class MediaManager {
 
         int ndx = mCurrentAudioQueuePosition+1;
         if (ndx >= mCurrentAudioQueue.size()) ndx = 0;
-        return mCurrentAudioQueue.get(ndx);
+        return ((BaseRowItem)mCurrentAudioQueue.get(ndx)).getBaseItem();
     }
 
     public static BaseItemDto getPrevAudioItem() {
@@ -403,7 +416,7 @@ public class MediaManager {
 
         int ndx = mCurrentAudioQueuePosition-1;
         if (ndx < 0) ndx = mCurrentAudioQueue.size() - 1;
-        return mCurrentAudioQueue.get(ndx);
+        return ((BaseRowItem)mCurrentAudioQueue.get(ndx)).getBaseItem();
     }
 
     public static boolean hasNextAudioItem() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0 && (mRepeat || mCurrentAudioQueuePosition < mCurrentAudioQueue.size()-1); }
