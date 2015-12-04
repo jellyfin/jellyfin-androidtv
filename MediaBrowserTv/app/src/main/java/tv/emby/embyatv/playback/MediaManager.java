@@ -57,6 +57,7 @@ public class MediaManager {
     private static long lastProgressReport;
     private static long lastProgressEvent;
 
+    private static boolean mRepeat;
 
     public static ItemRowAdapter getCurrentMediaAdapter() {
         return mCurrentMediaAdapter;
@@ -70,10 +71,15 @@ public class MediaManager {
     public static int getCurrentMediaPosition() {
         return mCurrentMediaPosition;
     }
+
+    public static int getCurrentAudioQueueSize() { return mCurrentAudioQueue != null ? mCurrentAudioQueue.size() : 0; }
     public static String getCurrentAudioQueueDisplayPosition() { return Integer.toString(mCurrentAudioQueuePosition+1); }
     public static String getCurrentAudioQueueDisplaySize() { return mCurrentAudioQueue != null ? Integer.toString(mCurrentAudioQueue.size()) : "0"; }
 
     public static BaseItemDto getCurrentAudioItem() { return mCurrentAudioItem; }
+
+    public static boolean toggleRepeat() { mRepeat = !mRepeat; return mRepeat; }
+    public static boolean isRepeatMode() { return mRepeat; }
 
     public static void addAudioEventListener(IAudioEventListener listener) {
         mAudioEventListeners.add(listener);
@@ -385,34 +391,42 @@ public class MediaManager {
     }
 
     public static BaseItemDto getNextAudioItem() {
-        if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0 || mCurrentAudioQueuePosition == mCurrentAudioQueue.size() - 1) return null;
+        if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0 || (!mRepeat && mCurrentAudioQueuePosition == mCurrentAudioQueue.size() - 1)) return null;
 
-        return mCurrentAudioQueue.get(mCurrentAudioQueuePosition +1);
+        int ndx = mCurrentAudioQueuePosition+1;
+        if (ndx >= mCurrentAudioQueue.size()) ndx = 0;
+        return mCurrentAudioQueue.get(ndx);
     }
 
     public static BaseItemDto getPrevAudioItem() {
-        if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0 || mCurrentAudioQueuePosition == 0) return null;
+        if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0 || (!mRepeat && mCurrentAudioQueuePosition == 0)) return null;
 
-        return mCurrentAudioQueue.get(mCurrentAudioQueuePosition -1);
+        int ndx = mCurrentAudioQueuePosition-1;
+        if (ndx < 0) ndx = mCurrentAudioQueue.size() - 1;
+        return mCurrentAudioQueue.get(ndx);
     }
 
+    public static boolean hasNextAudioItem() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0 && (mRepeat || mCurrentAudioQueuePosition < mCurrentAudioQueue.size()); }
+    public static boolean hasPrevAudioItem() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0 && (mRepeat || mCurrentAudioQueuePosition > 0); }
+
     public static int nextAudioItem() {
-        if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0 || mCurrentAudioQueuePosition == mCurrentAudioQueue.size() - 1) return -1;
+        if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0 || (!mRepeat && mCurrentAudioQueuePosition == mCurrentAudioQueue.size() - 1)) return -1;
         stopAudio();
         int ndx = mCurrentAudioQueuePosition +1;
+        if (ndx >= mCurrentAudioQueue.size()) ndx = 0;
         playInternal(getNextAudioItem(), ndx);
         return ndx;
     }
 
     public static int prevAudioItem() {
-        if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0) return -1;
+        if (mCurrentAudioQueue == null || (!mRepeat && mCurrentAudioQueue.size() == 0)) return -1;
         if (isPlayingAudio() && mCurrentAudioPosition > 10000) {
             //just back up to the beginning of current item
             mVlcPlayer.setTime(0);
             return mCurrentAudioQueuePosition;
         }
 
-        if (mCurrentAudioQueuePosition < 1) {
+        if ( !mRepeat && mCurrentAudioQueuePosition < 1) {
             //nowhere to go
             return mCurrentAudioQueuePosition;
         }
@@ -420,6 +434,7 @@ public class MediaManager {
 
         stopAudio();
         int ndx = mCurrentAudioQueuePosition - 1;
+        if (ndx < 0) ndx = mCurrentAudioQueue.size() - 1;
         playInternal(getPrevAudioItem(), ndx);
         return ndx;
     }
