@@ -81,4 +81,11 @@ public class ImageButton extends ImageView {
         this.mSecondaryImage = mSecondaryImage;
     }
 
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        setAlpha(enabled ? 1f : .4f);
+        setFocusable(enabled);
+        setFocusableInTouchMode(enabled);
+    }
 }
