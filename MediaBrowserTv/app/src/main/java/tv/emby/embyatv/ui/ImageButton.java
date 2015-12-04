@@ -49,6 +49,7 @@ public class ImageButton extends ImageView {
     public void setHelpView(TextView view) {
         mHelpView = view;
     }
+    public void setHelpText(String text) { mHelpText = text; }
 
     public void setState(int state) {
         mState = state;

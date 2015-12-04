@@ -68,8 +68,12 @@ import mediabrowser.model.querying.UpcomingEpisodesQuery;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
+import tv.emby.embyatv.browsing.BrowseViewFragment;
+import tv.emby.embyatv.browsing.EnhancedBrowseFragment;
 import tv.emby.embyatv.details.DetailItemLoadResponse;
+import tv.emby.embyatv.details.FullDetailsActivity;
 import tv.emby.embyatv.details.MyDetailsOverviewRow;
+import tv.emby.embyatv.details.SongListActivity;
 import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
@@ -98,6 +102,8 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     private ImageButton mPlayPauseButton;
     private ImageButton mNextButton;
     private ImageButton mPrevButton;
+    private ImageButton mRepeatButton;
+    private ImageButton mShuffleButton;
     private ImageButton mAlbumButton;
     private ImageButton mArtistButton;
 
@@ -147,9 +153,86 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mAlbumTitle = (TextView) findViewById(R.id.albumTitle);
         mAlbumTitle.setTypeface(roboto);
         mCurrentNdx = (TextView) findViewById(R.id.currentNdx);
+
         mPlayPauseButton = (ImageButton) findViewById(R.id.playPauseBtn);
         mPlayPauseButton.setSecondaryImage(R.drawable.lb_ic_pause);
         mPlayPauseButton.setPrimaryImage(R.drawable.play);
+        TextView helpView = (TextView) findViewById(R.id.buttonTip);
+        mPrevButton = (ImageButton) findViewById(R.id.prevBtn);
+        mPrevButton.setHelpView(helpView);
+        mPrevButton.setHelpText("Restart/Previous Item");
+        mPrevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MediaManager.prevAudioItem();
+            }
+        });
+        mNextButton = (ImageButton) findViewById(R.id.nextBtn);
+        mNextButton.setHelpView(helpView);
+        mNextButton.setHelpText("Next Item");
+        mNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MediaManager.nextAudioItem();
+            }
+        });
+        mRepeatButton = (ImageButton) findViewById(R.id.repeatBtn);
+        mRepeatButton.setHelpView(helpView);
+        mRepeatButton.setHelpText("Toggle Repeat");
+        mRepeatButton.setPrimaryImage(R.drawable.loop);
+        mRepeatButton.setSecondaryImage(R.drawable.loopred);
+        mRepeatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MediaManager.toggleRepeat();
+                updateButtons(MediaManager.isPlayingAudio());
+            }
+        });
+        mShuffleButton = (ImageButton) findViewById(R.id.shuffleBtn);
+        mShuffleButton.setHelpView(helpView);
+        mShuffleButton.setHelpText("Re-shuffle Queue");
+        mShuffleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(mActivity)
+                        .setTitle("Shuffle")
+                        .setMessage("Re-shuffle current audio queue?")
+                        .setPositiveButton(mActivity.getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //todo shuffle
+                            }
+                        })
+                        .setNegativeButton(mActivity.getString(R.string.lbl_no), null)
+                        .show();
+            }
+        });
+        mAlbumButton = (ImageButton) findViewById(R.id.albumBtn);
+        mAlbumButton.setHelpView(helpView);
+        mAlbumButton.setHelpText("Open Album");
+        mAlbumButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent album = new Intent(mActivity, SongListActivity.class);
+                album.putExtra("ItemId", mBaseItem.getAlbumId());
+                mActivity.startActivity(album);
+            }
+        });
+        mArtistButton = (ImageButton) findViewById(R.id.artistBtn);
+        mArtistButton.setHelpView(helpView);
+        mArtistButton.setHelpText("Open Artist");
+        mArtistButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {
+                    Intent artist = new Intent(mActivity, FullDetailsActivity.class);
+                    artist.putExtra("ItemId", mBaseItem.getAlbumArtists().get(0).getId());
+                    mActivity.startActivity(artist);
+
+                }
+            }
+        });
+
         mCurrentProgress = (ProgressBar) findViewById(R.id.playerProgress);
         mCurrentPos = (TextView) findViewById(R.id.currentPos);
         mRemainingTime = (TextView) findViewById(R.id.remainingTime);
@@ -201,6 +284,8 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         });
 
         loadItem();
+
+        mPlayPauseButton.requestFocus();
 
     }
 
@@ -280,6 +365,12 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     private void updateButtons(boolean playing) {
         mPoster.setKeepScreenOn(playing);
         mPlayPauseButton.setState(!playing ? ImageButton.STATE_PRIMARY : ImageButton.STATE_SECONDARY);
+        mRepeatButton.setState(MediaManager.isRepeatMode() ? ImageButton.STATE_SECONDARY : ImageButton.STATE_PRIMARY);
+        mPrevButton.setEnabled(MediaManager.hasPrevAudioItem());
+        mNextButton.setEnabled(MediaManager.hasNextAudioItem());
+        mShuffleButton.setEnabled(MediaManager.getCurrentAudioQueueSize() > 1);
+        mAlbumButton.setEnabled(mBaseItem.getAlbumId() != null);
+        mArtistButton.setEnabled(mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0);
     }
 
     private void updateInfo(BaseItemDto item) {

@@ -82,14 +82,85 @@
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/songTitle"
             android:id="@+id/buttonRow"
             android:minHeight="35sp"
             android:showDividers="middle"
             android:divider="@drawable/blank30x30"
-            android:layout_marginBottom="15dp"
-            android:layout_alignParentBottom="true"
-            android:gravity="center_vertical|left" />
+            android:layout_alignParentBottom="false"
+            android:gravity="center_vertical|left"
+            android:layout_below="@+id/playerProgress"
+            android:layout_marginTop="30dp"
+            android:layout_alignLeft="@+id/currentPos"
+            android:layout_marginLeft="10dp">
+
+            <view
+                android:layout_width="28sp"
+                android:layout_height="28sp"
+                class="tv.emby.embyatv.ui.ImageButton"
+                android:id="@+id/prevBtn"
+                android:src="@drawable/btnprev"
+                android:focusable="true"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
+                 />
+
+            <view
+                android:layout_width="28sp"
+                android:layout_height="28sp"
+                class="tv.emby.embyatv.ui.ImageButton"
+                android:id="@+id/nextBtn"
+                android:src="@drawable/btnnext"
+                android:focusable="true"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
+                />
+
+            <view
+                android:layout_width="28sp"
+                android:layout_height="28sp"
+                class="tv.emby.embyatv.ui.ImageButton"
+                android:id="@+id/repeatBtn"
+                android:src="@drawable/loop"
+                android:focusable="true"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
+                />
+
+            <view
+                android:layout_width="28sp"
+                android:layout_height="28sp"
+                class="tv.emby.embyatv.ui.ImageButton"
+                android:id="@+id/shuffleBtn"
+                android:src="@drawable/shuffle"
+                android:focusable="true"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
+                />
+
+            <view
+                android:layout_width="28sp"
+                android:layout_height="28sp"
+                class="tv.emby.embyatv.ui.ImageButton"
+                android:id="@+id/albumBtn"
+                android:src="@drawable/audioicon"
+                android:focusable="true"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
+                />
+
+            <view
+                android:layout_width="28sp"
+                android:layout_height="28sp"
+                class="tv.emby.embyatv.ui.ImageButton"
+                android:id="@+id/artistBtn"
+                android:src="@drawable/user"
+                android:focusable="true"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
+                />
+
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -139,13 +210,13 @@
 
         <ProgressBar
             style="@style/player_progress"
-            android:layout_width="300dp"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:id="@+id/playerProgress"
             android:minWidth="525sp"
             android:layout_alignParentBottom="false"
             android:maxHeight="5sp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="40dp"
             android:layout_below="@+id/currentNdx"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/currentPos" />
@@ -176,6 +247,16 @@
             android:textSize="16sp" />
 
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonTip"
+        android:layout_alignParentBottom="false"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_below="@+id/detailArea"
+        android:layout_centerHorizontal="true" />
 
     <FrameLayout
         android:layout_width="match_parent"
