@@ -117,7 +117,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         TextView helpView = (TextView) findViewById(R.id.buttonTip);
         mPrevButton = (ImageButton) findViewById(R.id.prevBtn);
         mPrevButton.setHelpView(helpView);
-        mPrevButton.setHelpText("Restart/Previous Item");
+        mPrevButton.setHelpText(getString(R.string.lbl_prev_item));
         mPrevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,7 +127,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mPrevButton.setGotFocusListener(mainAreaFocusListener);
         mNextButton = (ImageButton) findViewById(R.id.nextBtn);
         mNextButton.setHelpView(helpView);
-        mNextButton.setHelpText("Next Item");
+        mNextButton.setHelpText(getString(R.string.lbl_next_item));
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,7 +137,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mNextButton.setGotFocusListener(mainAreaFocusListener);
         mRepeatButton = (ImageButton) findViewById(R.id.repeatBtn);
         mRepeatButton.setHelpView(helpView);
-        mRepeatButton.setHelpText("Toggle Repeat");
+        mRepeatButton.setHelpText(getString(R.string.lbl_toggle_repeat));
         mRepeatButton.setPrimaryImage(R.drawable.loop);
         mRepeatButton.setSecondaryImage(R.drawable.loopred);
         mRepeatButton.setOnClickListener(new View.OnClickListener() {
@@ -150,13 +150,13 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mRepeatButton.setGotFocusListener(mainAreaFocusListener);
         mShuffleButton = (ImageButton) findViewById(R.id.shuffleBtn);
         mShuffleButton.setHelpView(helpView);
-        mShuffleButton.setHelpText("Re-shuffle Queue");
+        mShuffleButton.setHelpText(getString(R.string.lbl_reshuffle_queue));
         mShuffleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(mActivity)
-                        .setTitle("Shuffle")
-                        .setMessage("Re-shuffle current audio queue?")
+                        .setTitle(R.string.lbl_shuffle)
+                        .setMessage(R.string.msg_reshuffle_audio_queue)
                         .setPositiveButton(mActivity.getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -170,7 +170,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mShuffleButton.setGotFocusListener(mainAreaFocusListener);
         mAlbumButton = (ImageButton) findViewById(R.id.albumBtn);
         mAlbumButton.setHelpView(helpView);
-        mAlbumButton.setHelpText("Open Album");
+        mAlbumButton.setHelpText(getString(R.string.lbl_open_album));
         mAlbumButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,7 +182,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mAlbumButton.setGotFocusListener(mainAreaFocusListener);
         mArtistButton = (ImageButton) findViewById(R.id.artistBtn);
         mArtistButton.setHelpView(helpView);
-        mArtistButton.setHelpText("Open Artist");
+        mArtistButton.setHelpText(getString(R.string.lbl_open_artist));
         mArtistButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
