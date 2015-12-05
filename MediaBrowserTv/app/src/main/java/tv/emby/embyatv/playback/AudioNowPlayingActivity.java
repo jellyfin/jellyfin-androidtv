@@ -308,6 +308,8 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         public void gotFocus(View v) {
             //scroll so entire main area is in view
             mScrollView.smoothScrollTo(0, 0);
+            //also re-position queue to current in case they scrolled around
+            mAudioQueuePresenter.setPosition(MediaManager.getCurrentAudioQueuePosition());
         }
     };
 
