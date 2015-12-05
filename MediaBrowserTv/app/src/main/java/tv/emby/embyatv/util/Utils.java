@@ -856,6 +856,8 @@ public class Utils {
                 return item.getChildCount() != null && item.getChildCount() > 0 ? item.getChildCount() + " " + TvApp.getApplication().getString(R.string.lbl_episodes) : "";
             case "MusicAlbum":
                 return item.getChildCount() != null && item.getChildCount() > 0 ? item.getChildCount() + " " + TvApp.getApplication().getString(item.getChildCount() > 1 ? R.string.lbl_songs : R.string.lbl_song) : "";
+            case "Audio":
+                return item.getName();
             default:
                 return item.getOfficialRating();
         }

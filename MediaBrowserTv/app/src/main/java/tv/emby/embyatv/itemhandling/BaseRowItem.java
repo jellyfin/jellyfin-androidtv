@@ -229,6 +229,15 @@ public class BaseRowItem {
         return false;
     }
 
+    public String getCardName() {
+        switch (type) {
+            case BaseItem:
+                if ("Audio".equals(baseItem.getType())) return baseItem.getAlbumArtist() != null ? baseItem.getAlbumArtist() : baseItem.getAlbum() != null ? baseItem.getAlbum() : "<Unknown>";
+            default:
+                return getFullName();
+        }
+    }
+
     public String getFullName() {
         switch (type) {
 

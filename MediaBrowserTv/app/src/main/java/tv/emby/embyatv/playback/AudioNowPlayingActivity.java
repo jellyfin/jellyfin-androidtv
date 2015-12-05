@@ -80,6 +80,7 @@ import tv.emby.embyatv.itemhandling.ItemLauncher;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.presentation.CardPresenter;
+import tv.emby.embyatv.presentation.PositionableListRowPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.SpecialsQuery;
 import tv.emby.embyatv.querying.StdItemQuery;
@@ -123,6 +124,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     private int mCurrentDuration;
     private RowsFragment mRowsFragment;
     private ArrayObjectAdapter mRowsAdapter;
+    private static PositionableListRowPresenter mAudioQueuePresenter;
 
     private TvApp mApplication;
     private AudioNowPlayingActivity mActivity;
@@ -241,7 +243,8 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mPlayPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (MediaManager.isPlayingAudio()) MediaManager.pauseAudio(); else MediaManager.resumeAudio();
+                if (MediaManager.isPlayingAudio()) MediaManager.pauseAudio();
+                else MediaManager.resumeAudio();
             }
         });
 
@@ -256,10 +259,13 @@ public class AudioNowPlayingActivity extends BaseActivity  {
 
         mRowsFragment.setOnItemViewClickedListener(new ItemViewClickedListener());
         mRowsFragment.setOnItemViewSelectedListener(new ItemViewSelectedListener());
-        mRowsAdapter = new ArrayObjectAdapter();
+        mAudioQueuePresenter = new PositionableListRowPresenter();
+        mRowsAdapter = new ArrayObjectAdapter(mAudioQueuePresenter);
         mRowsFragment.setAdapter(mRowsAdapter);
 
-        //todo add queue row
+        ListRow queue = new ListRow(new HeaderItem("Current Queue",null), MediaManager.getCurrentAudioQueue());
+        MediaManager.getCurrentAudioQueue().setRow(queue);
+        mRowsAdapter.add(queue);
 
         mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
 
@@ -272,6 +278,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                     // new item started
                     loadItem();
                     updateButtons(true);
+                    mAudioQueuePresenter.setPosition(MediaManager.getCurrentAudioQueuePosition());
                 } else {
                     updateButtons(newState == PlaybackController.PlaybackState.PLAYING);
                 }
