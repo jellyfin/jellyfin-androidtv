@@ -308,6 +308,14 @@
     <string name="lbl_right_now">Right now</string>
     <string name="msg_audio_queue_has_items">Your audio queue has items in it</string>
     <string name="lbl_add_to_queue">Add to queue</string>
+    <string name="lbl_open_artist">Open Artist</string>
+    <string name="lbl_open_album">Open Album</string>
+    <string name="lbl_reshuffle_queue">Re-shuffle Queue</string>
+    <string name="lbl_toggle_repeat">Toggle Repeat</string>
+    <string name="lbl_next_item">Next Item</string>
+    <string name="lbl_prev_item">Previous Item</string>
+    <string name="lbl_shuffle">Shuffle</string>
+    <string name="msg_reshuffle_audio_queue">Re-shuffle current audio queue?</string>
 
 
 </resources>

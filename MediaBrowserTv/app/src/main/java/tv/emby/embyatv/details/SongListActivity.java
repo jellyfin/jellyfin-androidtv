@@ -1,5 +1,6 @@
 package tv.emby.embyatv.details;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -71,6 +72,7 @@ public class SongListActivity extends BaseActivity {
     private int mTopScrollThreshold;
 
     private TvApp mApplication;
+    private BaseActivity mActivity;
     private Target mBackgroundTarget;
     private Drawable mDefaultBackground;
     private DisplayMetrics mMetrics;
@@ -85,6 +87,7 @@ public class SongListActivity extends BaseActivity {
         setContentView(R.layout.activity_song_list);
 
         mApplication = TvApp.getApplication();
+        mActivity = this;
         roboto = mApplication.getDefaultFont();
         BUTTON_SIZE = Utils.convertDpToPixel(this, 35);
 
@@ -308,7 +311,6 @@ public class SongListActivity extends BaseActivity {
             }
         }
 
-
         UserItemDataDto userData = mBaseItem.getUserData();
         if (userData != null) {
             //Favorite
@@ -326,6 +328,19 @@ public class SongListActivity extends BaseActivity {
                 }
             });
             mButtonRow.addView(fav);
+        }
+
+        if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {
+            ImageButton artist = new ImageButton(this, R.drawable.user, buttonSize, getString(R.string.lbl_open_artist), mButtonHelp, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent artist = new Intent(mActivity, FullDetailsActivity.class);
+                    artist.putExtra("ItemId", mBaseItem.getAlbumArtists().get(0).getId());
+                    mActivity.startActivity(artist);
+
+                }
+            });
+            mButtonRow.addView(artist);
         }
 
     }
