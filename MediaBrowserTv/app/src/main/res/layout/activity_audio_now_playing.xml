@@ -293,4 +293,47 @@
         android:layout_marginRight="40sp"
         android:alpha=".8" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/ssInfoArea"
+        android:alpha="0"
+        android:layout_alignLeft="@+id/artistTitle">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0:43 / 4:00"
+            android:id="@+id/ssTime"
+            android:textSize="44dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Album / Song"
+            android:id="@+id/ssAlbumSong"
+            android:textSize="26sp"
+            android:layout_below="@+id/ssTime" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2 of 23"
+            android:id="@+id/ssQueueStatus"
+            android:textSize="22sp"
+            android:layout_below="@+id/ssAlbumSong" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="up next: xxxxxxx"
+            android:id="@+id/ssUpNext"
+            android:textSize="22sp"
+            android:layout_below="@+id/ssAlbumSong"
+            android:layout_toRightOf="@+id/ssQueueStatus"
+            android:layout_marginLeft="15dp" />
+    </RelativeLayout>
+
 </RelativeLayout>

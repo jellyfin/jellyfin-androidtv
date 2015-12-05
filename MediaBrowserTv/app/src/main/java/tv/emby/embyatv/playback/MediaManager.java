@@ -73,6 +73,7 @@ public class MediaManager {
 
     public static int getCurrentAudioQueueSize() { return mCurrentAudioQueue != null ? mCurrentAudioQueue.size() : 0; }
     public static int getCurrentAudioQueuePosition() { return mCurrentAudioQueuePosition; }
+    public static long getCurrentAudioPosition() { return mCurrentAudioPosition; }
     public static String getCurrentAudioQueueDisplayPosition() { return Integer.toString(mCurrentAudioQueuePosition+1); }
     public static String getCurrentAudioQueueDisplaySize() { return mCurrentAudioQueue != null ? Integer.toString(mCurrentAudioQueue.size()) : "0"; }
 
