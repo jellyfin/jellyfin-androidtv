@@ -1,25 +1,18 @@
 package tv.emby.embyatv.playback;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.media.AudioManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.RowsFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
-import android.support.v17.leanback.widget.ClassPresenterSelector;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
-import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
@@ -31,64 +24,24 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.dto.BaseItemPerson;
-import mediabrowser.model.dto.ImageOptions;
-import mediabrowser.model.dto.UserItemDataDto;
-import mediabrowser.model.entities.ImageType;
-import mediabrowser.model.entities.PersonType;
-import mediabrowser.model.livetv.ChannelInfoDto;
-import mediabrowser.model.livetv.SeriesTimerInfoDto;
-import mediabrowser.model.querying.EpisodeQuery;
-import mediabrowser.model.querying.ItemFields;
-import mediabrowser.model.querying.ItemQuery;
-import mediabrowser.model.querying.ItemsResult;
-import mediabrowser.model.querying.NextUpQuery;
-import mediabrowser.model.querying.SeasonQuery;
-import mediabrowser.model.querying.SimilarItemsQuery;
-import mediabrowser.model.querying.UpcomingEpisodesQuery;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
-import tv.emby.embyatv.browsing.BrowseViewFragment;
-import tv.emby.embyatv.browsing.EnhancedBrowseFragment;
-import tv.emby.embyatv.details.DetailItemLoadResponse;
 import tv.emby.embyatv.details.FullDetailsActivity;
-import tv.emby.embyatv.details.MyDetailsOverviewRow;
 import tv.emby.embyatv.details.SongListActivity;
 import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
-import tv.emby.embyatv.itemhandling.ItemLauncher;
-import tv.emby.embyatv.itemhandling.ItemRowAdapter;
-import tv.emby.embyatv.model.ChapterItemInfo;
-import tv.emby.embyatv.presentation.CardPresenter;
+import tv.emby.embyatv.model.GotFocusEvent;
 import tv.emby.embyatv.presentation.PositionableListRowPresenter;
-import tv.emby.embyatv.querying.QueryType;
-import tv.emby.embyatv.querying.SpecialsQuery;
-import tv.emby.embyatv.querying.StdItemQuery;
-import tv.emby.embyatv.querying.TrailersQuery;
 import tv.emby.embyatv.ui.GenreButton;
-import tv.emby.embyatv.ui.IRecordingIndicatorView;
 import tv.emby.embyatv.ui.ImageButton;
-import tv.emby.embyatv.ui.RecordPopup;
 import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.Utils;
 
@@ -107,6 +60,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     private ImageButton mShuffleButton;
     private ImageButton mAlbumButton;
     private ImageButton mArtistButton;
+    private ScrollView mScrollView;
 
     private Target mBackgroundTarget;
     private Drawable mDefaultBackground;
@@ -155,6 +109,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mAlbumTitle = (TextView) findViewById(R.id.albumTitle);
         mAlbumTitle.setTypeface(roboto);
         mCurrentNdx = (TextView) findViewById(R.id.currentNdx);
+        mScrollView = (ScrollView) findViewById(R.id.mainScroller);
 
         mPlayPauseButton = (ImageButton) findViewById(R.id.playPauseBtn);
         mPlayPauseButton.setSecondaryImage(R.drawable.lb_ic_pause);
@@ -169,6 +124,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                 MediaManager.prevAudioItem();
             }
         });
+        mPrevButton.setGotFocusListener(mainAreaFocusListener);
         mNextButton = (ImageButton) findViewById(R.id.nextBtn);
         mNextButton.setHelpView(helpView);
         mNextButton.setHelpText("Next Item");
@@ -178,6 +134,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                 MediaManager.nextAudioItem();
             }
         });
+        mNextButton.setGotFocusListener(mainAreaFocusListener);
         mRepeatButton = (ImageButton) findViewById(R.id.repeatBtn);
         mRepeatButton.setHelpView(helpView);
         mRepeatButton.setHelpText("Toggle Repeat");
@@ -190,6 +147,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                 updateButtons(MediaManager.isPlayingAudio());
             }
         });
+        mRepeatButton.setGotFocusListener(mainAreaFocusListener);
         mShuffleButton = (ImageButton) findViewById(R.id.shuffleBtn);
         mShuffleButton.setHelpView(helpView);
         mShuffleButton.setHelpText("Re-shuffle Queue");
@@ -209,6 +167,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                         .show();
             }
         });
+        mShuffleButton.setGotFocusListener(mainAreaFocusListener);
         mAlbumButton = (ImageButton) findViewById(R.id.albumBtn);
         mAlbumButton.setHelpView(helpView);
         mAlbumButton.setHelpText("Open Album");
@@ -220,6 +179,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                 mActivity.startActivity(album);
             }
         });
+        mAlbumButton.setGotFocusListener(mainAreaFocusListener);
         mArtistButton = (ImageButton) findViewById(R.id.artistBtn);
         mArtistButton.setHelpView(helpView);
         mArtistButton.setHelpText("Open Artist");
@@ -234,6 +194,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                 }
             }
         });
+        mArtistButton.setGotFocusListener(mainAreaFocusListener);
 
         mCurrentProgress = (ProgressBar) findViewById(R.id.playerProgress);
         mCurrentPos = (TextView) findViewById(R.id.currentPos);
@@ -341,6 +302,14 @@ public class AudioNowPlayingActivity extends BaseActivity  {
 
         return super.onKeyUp(keyCode, event);
     }
+
+    private GotFocusEvent mainAreaFocusListener = new GotFocusEvent() {
+        @Override
+        public void gotFocus(View v) {
+            //scroll so entire main area is in view
+            mScrollView.smoothScrollTo(0, 0);
+        }
+    };
 
     private void updatePoster() {
         if (isFinishing()) return;

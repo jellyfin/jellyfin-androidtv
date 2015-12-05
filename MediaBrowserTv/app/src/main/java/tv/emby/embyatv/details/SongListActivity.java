@@ -30,6 +30,7 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
+import tv.emby.embyatv.model.GotFocusEvent;
 import tv.emby.embyatv.playback.IAudioEventListener;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackController;
@@ -199,6 +200,14 @@ public class SongListActivity extends BaseActivity {
         }
     };
 
+    private GotFocusEvent mainAreaFocusListener = new GotFocusEvent() {
+        @Override
+        public void gotFocus(View v) {
+            //scroll so entire main area is in view
+            mScrollView.smoothScrollTo(0,0);
+        }
+    };
+
     private void loadItem(String id) {
         mApplication.getApiClient().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
             @Override
@@ -283,7 +292,7 @@ public class SongListActivity extends BaseActivity {
                     MediaManager.playNow(mSongs);
                 }
             });
-
+            play.setGotFocusListener(mainAreaFocusListener);
             mButtonRow.addView(play);
             play.requestFocus();
             if (mBaseItem.getIsFolder()) {
