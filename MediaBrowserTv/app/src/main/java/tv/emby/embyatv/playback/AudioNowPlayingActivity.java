@@ -1,5 +1,6 @@
 package tv.emby.embyatv.playback;
 
+import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.RowsFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
@@ -24,6 +26,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -40,6 +43,7 @@ import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.model.GotFocusEvent;
 import tv.emby.embyatv.presentation.PositionableListRowPresenter;
+import tv.emby.embyatv.ui.ClockUserView;
 import tv.emby.embyatv.ui.GenreButton;
 import tv.emby.embyatv.ui.ImageButton;
 import tv.emby.embyatv.util.InfoLayoutHelper;
@@ -60,7 +64,15 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     private ImageButton mShuffleButton;
     private ImageButton mAlbumButton;
     private ImageButton mArtistButton;
+    private ClockUserView mClock;
     private ScrollView mScrollView;
+
+    private RelativeLayout mSSArea;
+    private TextView mSSTime;
+    private TextView mSSAlbumSong;
+    private TextView mSSQueueStatus;
+    private TextView mSSUpNext;
+    private String mDisplayDuration;
 
     private Target mBackgroundTarget;
     private Drawable mDefaultBackground;
@@ -89,16 +101,22 @@ public class AudioNowPlayingActivity extends BaseActivity  {
 
     private BaseItemDto mBaseItem;
 
+    private long lastUserInteraction;
+    private boolean ssActive;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audio_now_playing);
+
+        lastUserInteraction = System.currentTimeMillis();
 
         BUTTON_SIZE = Utils.convertDpToPixel(this, 35);
         mApplication = TvApp.getApplication();
         mActivity = this;
         roboto = mApplication.getDefaultFont();
 
+        mClock = (ClockUserView) findViewById(R.id.clock);
         mPoster = (ImageView) findViewById(R.id.poster);
         mArtistName = (TextView) findViewById(R.id.artistTitle);
         mArtistName.setTypeface(roboto);
@@ -110,6 +128,16 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mAlbumTitle.setTypeface(roboto);
         mCurrentNdx = (TextView) findViewById(R.id.currentNdx);
         mScrollView = (ScrollView) findViewById(R.id.mainScroller);
+
+        mSSArea = (RelativeLayout) findViewById(R.id.ssInfoArea);
+        mSSTime = (TextView) findViewById(R.id.ssTime);
+        mSSTime.setTypeface(roboto);
+        mSSAlbumSong = (TextView) findViewById(R.id.ssAlbumSong);
+        mSSAlbumSong.setTypeface(roboto);
+        mSSQueueStatus = (TextView) findViewById(R.id.ssQueueStatus);
+        mSSQueueStatus.setTypeface(roboto);
+        mSSUpNext = (TextView) findViewById(R.id.ssUpNext);
+        mSSUpNext.setTypeface(roboto);
 
         mPlayPauseButton = (ImageButton) findViewById(R.id.playPauseBtn);
         mPlayPauseButton.setSecondaryImage(R.drawable.lb_ic_pause);
@@ -242,6 +270,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                     mAudioQueuePresenter.setPosition(MediaManager.getCurrentAudioQueuePosition());
                 } else {
                     updateButtons(newState == PlaybackController.PlaybackState.PLAYING);
+                    if (newState == PlaybackController.PlaybackState.IDLE && !MediaManager.hasNextAudioItem()) stopScreenSaver();
                 }
             }
 
@@ -267,7 +296,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
             public void run() {
                 updateButtons(MediaManager.isPlayingAudio());
             }
-        },750);
+        }, 750);
     }
 
     @Override
@@ -285,6 +314,11 @@ public class AudioNowPlayingActivity extends BaseActivity  {
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (ssActive) {
+            stopScreenSaver();
+        }
+        lastUserInteraction = System.currentTimeMillis();
+
         switch (keyCode) {
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
             case KeyEvent.KEYCODE_MEDIA_PLAY:
@@ -337,6 +371,8 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         if (mBaseItem != null) {
             updatePoster();
             updateInfo(mBaseItem);
+            mDisplayDuration = Utils.formatMillis(mBaseItem.getRunTimeTicks() / 10000);
+            updateSSInfo();
         }
     }
 
@@ -366,9 +402,13 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     }
 
     public void setCurrentTime(long time) {
+        if (ssActive) {
+            mSSTime.setText(Utils.formatMillis(time) + " / " + mDisplayDuration);
+        } else {
             mCurrentProgress.setProgress(((Long) time).intValue());
             mCurrentPos.setText(Utils.formatMillis(time));
             mRemainingTime.setText(mCurrentDuration > 0 ? "-" + Utils.formatMillis(mCurrentDuration - time) : "");
+        }
     }
 
     private void addGenres(LinearLayout layout) {
@@ -406,6 +446,10 @@ public class AudioNowPlayingActivity extends BaseActivity  {
             @Override
             public void run() {
                 updateBackground(Utils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true));
+                //manage our "screen saver" too
+                if (MediaManager.isPlayingAudio() && !ssActive && System.currentTimeMillis() - lastUserInteraction > 60000) {
+                    startScreenSaver();
+                }
                 mLoopHandler.postDelayed(this, BACKDROP_ROTATION_INTERVAL);
             }
         };
@@ -417,6 +461,39 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         if (mLoopHandler != null && mBackdropLoop != null) {
             mLoopHandler.removeCallbacks(mBackdropLoop);
         }
+    }
+
+    protected void startScreenSaver() {
+        mArtistName.setAlpha(.3f);
+        mGenreRow.setAlpha(.3f);
+        mClock.setAlpha(.3f);
+        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(mScrollView, "alpha", 1f, 0f);
+        fadeOut.setDuration(1000);
+        fadeOut.start();
+        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(mSSArea, "alpha", 0f, .35f);
+        fadeIn.setDuration(1000);
+        fadeIn.start();
+
+        ssActive = true;
+        setCurrentTime(MediaManager.getCurrentAudioPosition());
+    }
+
+    protected void stopScreenSaver() {
+        mSSArea.setAlpha(0f);
+        mArtistName.setAlpha(1f);
+        mGenreRow.setAlpha(1f);
+        mClock.setAlpha(1f);
+        mScrollView.setAlpha(1f);
+        ssActive = false;
+        setCurrentTime(MediaManager.getCurrentAudioPosition());
+
+    }
+
+    protected void updateSSInfo() {
+        mSSAlbumSong.setText((mBaseItem.getAlbum() != null ? mBaseItem.getAlbum() + " / " : "") + mBaseItem.getName());
+        mSSQueueStatus.setText(MediaManager.getCurrentAudioQueueDisplayPosition() + " | " + MediaManager.getCurrentAudioQueueDisplaySize());
+        BaseItemDto next = MediaManager.getNextAudioItem();
+        mSSUpNext.setText(next != null ? getString(R.string.lbl_up_next_colon) + "  " + (next.getAlbumArtist() != null ? next.getAlbumArtist() + " / " : "") + next.getName() : "");
     }
 
     protected void updateBackground(String url) {
