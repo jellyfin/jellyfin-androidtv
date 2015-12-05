@@ -305,7 +305,7 @@ public class CardPresenter extends Presenter {
         holder.setItem(rowItem, mImageType, 260, 300, mStaticHeight);
 
         //Log.d(TAG, "onBindViewHolder");
-        holder.mCardView.setTitleText(rowItem.getFullName());
+        holder.mCardView.setTitleText(rowItem.getCardName());
         holder.mCardView.setContentText(rowItem.getSubText());
         holder.mCardView.setOverlayInfo(rowItem);
         Drawable badge = rowItem.getBadgeImage();

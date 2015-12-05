@@ -72,6 +72,7 @@ public class MediaManager {
     }
 
     public static int getCurrentAudioQueueSize() { return mCurrentAudioQueue != null ? mCurrentAudioQueue.size() : 0; }
+    public static int getCurrentAudioQueuePosition() { return mCurrentAudioQueuePosition; }
     public static String getCurrentAudioQueueDisplayPosition() { return Integer.toString(mCurrentAudioQueuePosition+1); }
     public static String getCurrentAudioQueueDisplaySize() { return mCurrentAudioQueue != null ? Integer.toString(mCurrentAudioQueue.size()) : "0"; }
 
@@ -79,6 +80,8 @@ public class MediaManager {
 
     public static boolean toggleRepeat() { mRepeat = !mRepeat; return mRepeat; }
     public static boolean isRepeatMode() { return mRepeat; }
+
+    public static ItemRowAdapter getCurrentAudioQueue() { return mCurrentAudioQueue; }
 
     public static void addAudioEventListener(IAudioEventListener listener) {
         mAudioEventListeners.add(listener);
@@ -196,7 +199,7 @@ public class MediaManager {
     };
 
     private static void createAudioQueue(List<BaseItemDto> items) {
-        mCurrentAudioQueue = new ItemRowAdapter(items, new CardPresenter(true, Utils.convertDpToPixel(TvApp.getApplication(), 150)), null, true);
+        mCurrentAudioQueue = new ItemRowAdapter(items, new CardPresenter(true, Utils.convertDpToPixel(TvApp.getApplication(), 200)), null, true);
         mCurrentAudioQueue.Retrieve();
     }
 
