@@ -33,7 +33,9 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.dto.UserItemDataDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
@@ -64,6 +66,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     private ImageButton mShuffleButton;
     private ImageButton mAlbumButton;
     private ImageButton mArtistButton;
+    private ImageButton mFavButton;
     private ClockUserView mClock;
     private ScrollView mScrollView;
 
@@ -175,6 +178,24 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                 updateButtons(MediaManager.isPlayingAudio());
             }
         });
+        mFavButton = (ImageButton) findViewById(R.id.favoriteBtn);
+        mFavButton.setHelpView(helpView);
+        mFavButton.setHelpText(getString(R.string.lbl_toggle_favorite));
+        mFavButton.setPrimaryImage(R.drawable.whiteheart);
+        mFavButton.setSecondaryImage(R.drawable.redheart);
+        mFavButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserItemDataDto data = mBaseItem.getUserData();
+                mApplication.getApiClient().UpdateFavoriteStatusAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
+                    @Override
+                    public void onResponse(UserItemDataDto response) {
+                        mBaseItem.setUserData(response);
+                        updateButtons(MediaManager.isPlayingAudio());
+                    }
+                });
+            }
+        });
         mRepeatButton.setGotFocusListener(mainAreaFocusListener);
         mShuffleButton = (ImageButton) findViewById(R.id.shuffleBtn);
         mShuffleButton.setHelpView(helpView);
@@ -262,7 +283,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         MediaManager.addAudioEventListener(new IAudioEventListener() {
             @Override
             public void onPlaybackStateChange(PlaybackController.PlaybackState newState, BaseItemDto currentItem) {
-                mApplication.getLogger().Debug("**** Got playstate change: "+newState);
+                mApplication.getLogger().Debug("**** Got playstate change: " + newState);
                 if (newState == PlaybackController.PlaybackState.PLAYING && currentItem != mBaseItem) {
                     // new item started
                     loadItem();
@@ -270,7 +291,8 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                     mAudioQueuePresenter.setPosition(MediaManager.getCurrentAudioQueuePosition());
                 } else {
                     updateButtons(newState == PlaybackController.PlaybackState.PLAYING);
-                    if (newState == PlaybackController.PlaybackState.IDLE && !MediaManager.hasNextAudioItem()) stopScreenSaver();
+                    if (newState == PlaybackController.PlaybackState.IDLE && !MediaManager.hasNextAudioItem())
+                        stopScreenSaver();
                 }
             }
 
@@ -384,6 +406,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mPoster.setKeepScreenOn(playing);
         mPlayPauseButton.setState(!playing ? ImageButton.STATE_PRIMARY : ImageButton.STATE_SECONDARY);
         mRepeatButton.setState(MediaManager.isRepeatMode() ? ImageButton.STATE_SECONDARY : ImageButton.STATE_PRIMARY);
+        mFavButton.setState(mBaseItem.getUserData() != null && mBaseItem.getUserData().getIsFavorite() ? ImageButton.STATE_SECONDARY : ImageButton.STATE_PRIMARY);
         mPrevButton.setEnabled(MediaManager.hasPrevAudioItem());
         mNextButton.setEnabled(MediaManager.hasNextAudioItem());
         mShuffleButton.setEnabled(MediaManager.getCurrentAudioQueueSize() > 1);
