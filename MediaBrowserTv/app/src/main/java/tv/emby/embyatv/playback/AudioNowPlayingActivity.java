@@ -371,7 +371,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         if (mBaseItem != null) {
             updatePoster();
             updateInfo(mBaseItem);
-            mDisplayDuration = Utils.formatMillis(mBaseItem.getRunTimeTicks() / 10000);
+            mDisplayDuration = Utils.formatMillis((mBaseItem.getRunTimeTicks() != null ? mBaseItem.getRunTimeTicks() : 0) / 10000);
             updateSSInfo();
         }
     }
@@ -393,7 +393,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mAlbumTitle.setText(item.getAlbum());
         mCurrentNdx.setText(MediaManager.getCurrentAudioQueueDisplayPosition());
         mTotal.setText(MediaManager.getCurrentAudioQueueDisplaySize());
-        mCurrentDuration = ((Long)(item.getRunTimeTicks() / 10000)).intValue();
+        mCurrentDuration = ((Long)((item.getRunTimeTicks() != null ? item.getRunTimeTicks() : 0) / 10000)).intValue();
         //set progress to match duration
         mCurrentProgress.setMax(mCurrentDuration);
         addGenres(mGenreRow);
