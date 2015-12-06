@@ -207,7 +207,7 @@ public class MediaManager {
     public static int queueAudioItem(int pos, BaseItemDto item) {
         if (mCurrentAudioQueue == null) createAudioQueue(new ArrayList<BaseItemDto>());
         mCurrentAudioQueue.add(new BaseRowItem(pos, item));
-        TvApp.getApplication().showMessage(TvApp.getApplication().getString(R.string.msg_added_item_to_queue)+(pos+1), Utils.GetFullName(item), 4000, R.drawable.audioicon);
+        TvApp.getApplication().showMessage(TvApp.getApplication().getString(R.string.msg_added_item_to_queue) + (pos + 1), Utils.GetFullName(item), 4000, R.drawable.audioicon);
         return pos;
     }
 
@@ -382,15 +382,16 @@ public class MediaManager {
             public void onResponse(StreamInfo response) {
                 mCurrentAudioItem = item;
                 mCurrentAudioStreamInfo = response;
-                TvApp.getApplication().getLogger().Info("Playback attempt via VLC of "+response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()));
-                Media media = new Media(mLibVLC, Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken())));
                 mCurrentAudioQueuePosition = pos;
                 mCurrentAudioPosition = 0;
+                TvApp.getApplication().getLogger().Info("Playback attempt via VLC of "+response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()));
+                Media media = new Media(mLibVLC, Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken())));
                 media.parse();
                 mVlcPlayer.setMedia(media);
 
                 media.release();
                 mVlcPlayer.play();
+                updateCurrentAudioItemPlaying(true);
 
                 Utils.ReportStart(item, mCurrentAudioPosition);
                 for (IAudioEventListener listener : mAudioEventListeners) {
@@ -426,7 +427,20 @@ public class MediaManager {
     public static boolean hasNextAudioItem() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0 && (mRepeat || mCurrentAudioQueuePosition < mCurrentAudioQueue.size()-1); }
     public static boolean hasPrevAudioItem() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0 && (mRepeat || mCurrentAudioQueuePosition > 0); }
 
+    public static void updateCurrentAudioItemPlaying(boolean playing) {
+        BaseRowItem rowItem = (BaseRowItem) mCurrentAudioQueue.get(mCurrentAudioQueuePosition);
+        if (rowItem != null) {
+            rowItem.setIsPlaying(playing);
+            mCurrentAudioQueue.notifyArrayItemRangeChanged(mCurrentAudioQueuePosition, 1);
+        }
+    }
+
     public static int nextAudioItem() {
+        //turn off indicator for current item
+        if (mCurrentAudioQueuePosition >= 0) {
+            updateCurrentAudioItemPlaying(false);
+        }
+
         if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0 || (!mRepeat && mCurrentAudioQueuePosition == mCurrentAudioQueue.size() - 1)) return -1;
         stopAudio();
         int ndx = mCurrentAudioQueuePosition +1;

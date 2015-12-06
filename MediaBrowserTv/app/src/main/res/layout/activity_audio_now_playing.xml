@@ -298,7 +298,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="30dp"
         android:layout_alignParentBottom="true"
         android:id="@+id/ssInfoArea"
         android:alpha="0"

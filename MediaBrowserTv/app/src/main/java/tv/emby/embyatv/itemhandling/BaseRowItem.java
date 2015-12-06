@@ -40,6 +40,7 @@ public class BaseRowItem {
     private boolean preferParentThumb = false;
     private boolean staticHeight = false;
     private SelectAction selectAction = SelectAction.ShowDetails;
+    private boolean isPlaying;
 
 
     public BaseRowItem(int index, BaseItemDto item) {
@@ -534,6 +535,8 @@ public class BaseRowItem {
     public boolean isStaticHeight() {
         return staticHeight;
     }
+    public boolean isPlaying() { return isPlaying; }
+    public void setIsPlaying(boolean value) { isPlaying = value; }
 
     public enum ItemType {
         BaseItem,
