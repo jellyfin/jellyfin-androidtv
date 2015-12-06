@@ -336,7 +336,9 @@ public class AudioNowPlayingActivity extends BaseActivity  {
 
         if (ssActive) {
             stopScreenSaver();
+            return true;
         }
+
         return super.onKeyUp(keyCode, event);
     }
 
