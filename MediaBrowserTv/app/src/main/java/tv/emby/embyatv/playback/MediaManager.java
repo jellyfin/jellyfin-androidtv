@@ -313,7 +313,7 @@ public class MediaManager {
                 mVlcPlayer.play();
                 updateCurrentAudioItemPlaying(true);
 
-                Utils.ReportStart(item, mCurrentAudioPosition);
+                Utils.ReportStart(item, mCurrentAudioPosition*10000);
                 for (IAudioEventListener listener : mAudioEventListeners) {
                     TvApp.getApplication().getLogger().Info("Firing playback state change listener for item start. "+mCurrentAudioItem.getName());
                     listener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, mCurrentAudioItem);
@@ -393,7 +393,7 @@ public class MediaManager {
     public static void stopAudio() {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
             mVlcPlayer.stop();
-            Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition);
+            Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000);
             for (IAudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.IDLE, mCurrentAudioItem);
             }
@@ -405,7 +405,7 @@ public class MediaManager {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
             updateCurrentAudioItemPlaying(false);
             mVlcPlayer.pause();
-            Utils.ReportProgress(mCurrentAudioItem, mCurrentAudioStreamInfo, mVlcPlayer.getTime()*10000, !mVlcPlayer.isPlaying());
+            Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000);
             for (IAudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.PAUSED, mCurrentAudioItem);
             }
@@ -418,6 +418,7 @@ public class MediaManager {
         if (mCurrentAudioItem != null && mVlcPlayer != null) {
             mVlcPlayer.play();
             updateCurrentAudioItemPlaying(true);
+            Utils.ReportStart(mCurrentAudioItem, mCurrentAudioPosition * 10000);
             for (IAudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, mCurrentAudioItem);
             }
