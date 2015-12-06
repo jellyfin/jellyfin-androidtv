@@ -84,6 +84,7 @@ import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.details.FullDetailsActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
+import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.startup.DpadPwActivity;
 import tv.emby.embyatv.startup.LogonCredentials;
@@ -549,6 +550,29 @@ public class Utils {
                     }
                 });
                 break;
+            case "MusicAlbum":
+            case "MusicArtist":
+            case "Playlist":
+                //get all songs
+                query.setParentId(mainItem.getId());
+                query.setIsMissing(false);
+                query.setIsVirtualUnaired(false);
+                query.setIncludeItemTypes(new String[]{"Audio"});
+                query.setSortBy(new String[]{shuffle ? ItemSortBy.Random : ItemSortBy.SortName});
+                query.setRecursive(true);
+                query.setLimit(150); // guard against too many items
+                query.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
+                query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+                    @Override
+                    public void onResponse(ItemsResult response) {
+                        for (BaseItemDto item : response.getItems()) {
+                            items.add(serializer.SerializeToString(item));
+                        }
+                        outerResponse.onResponse(items.toArray(new String[items.size()]));
+                    }
+                });
+                break;
             case "Program":
                 if (mainItem.getParentId() == null) {
                     outerResponse.onError(new Exception("No Channel ID"));
@@ -627,11 +651,25 @@ public class Utils {
         Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), shuffle, new Response<String[]>() {
             @Override
             public void onResponse(String[] response) {
-                Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
-                intent.putExtra("Items", response);
-                intent.putExtra("Position", pos);
-                if (!(activity instanceof Activity)) intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                activity.startActivity(intent);
+                switch (item.getType()) {
+                    case "MusicAlbum":
+                    case "MusicArtist":
+                    case "Playlist":
+                    case "Audio":
+                        List<BaseItemDto> items = new ArrayList<>();
+                        for (String json : response) {
+                            items.add((BaseItemDto) TvApp.getApplication().getSerializer().DeserializeFromString(json, BaseItemDto.class));
+                        }
+                        MediaManager.playNow(items);
+                        break;
+
+                    default:
+                        Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                        intent.putExtra("Items", response);
+                        intent.putExtra("Position", pos);
+                        if (!(activity instanceof Activity)) intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        activity.startActivity(intent);
+                }
             }
         });
 
