@@ -299,15 +299,10 @@
     <string name="lbl_playlists">Playlists</string>
     <string name="lbl_of">of</string>
     <string name="msg_added_item_to_queue">"Item added to queue at position "</string>
-    <string name="msg_how_like_play">How would you like to play these items?</string>
-    <string name="lbl_replace_queue">Replace Queue</string>
+    <string name="lbl_replace_queue_paren"> (replace queue)</string>
     <string name="msg_items_added">" items added"</string>
     <string name="msg_total_items_in_queue">" total items in queue"</string>
-    <string name="msg_add_to_queue">Add to Queue</string>
-    <string name="msg_how_like_play_single">How would you like to play this item?</string>
-    <string name="lbl_right_now">Right now</string>
-    <string name="msg_audio_queue_has_items">Your audio queue has items in it</string>
-    <string name="lbl_add_to_queue">Add to queue</string>
+    <string name="lbl_add_to_queue">Add to Queue</string>
     <string name="lbl_open_artist">Open Artist</string>
     <string name="lbl_open_album">Open Album</string>
     <string name="lbl_reshuffle_queue">Re-shuffle Queue</string>

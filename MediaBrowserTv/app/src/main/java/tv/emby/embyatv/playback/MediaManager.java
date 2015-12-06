@@ -223,7 +223,7 @@ public class MediaManager {
         mCurrentAudioQueuePosition = -1;
     }
 
-    private static void addToAudioQueue(List<BaseItemDto> items) {
+    public static void addToAudioQueue(List<BaseItemDto> items) {
         if (mCurrentAudioQueue == null) createAudioQueue(items);
         else {
             int ndx = mCurrentAudioQueue.size();
@@ -231,6 +231,7 @@ public class MediaManager {
                 mCurrentAudioQueue.add(new BaseRowItem(ndx++, item));
             }
         }
+        TvApp.getApplication().showMessage(items.size() + TvApp.getApplication().getString(R.string.msg_items_added), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
     }
 
     public static boolean isPlayingAudio() { return audioInitialized && mVlcPlayer.isPlaying(); }
@@ -250,108 +251,27 @@ public class MediaManager {
     public static void playNow(final List<BaseItemDto> items) {
         if (!ensureInitialized()) return;
 
-        if (hasAudioQueueItems()) {
-            new AlertDialog.Builder(TvApp.getApplication().getCurrentActivity())
-                    .setTitle(TvApp.getApplication().getString(R.string.lbl_play))
-                    .setMessage(R.string.msg_how_like_play)
-                    .setPositiveButton(R.string.lbl_replace_queue, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            createAudioQueue(items);
-                            mCurrentAudioQueuePosition = -1;
-                            nextAudioItem();
-                            if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
-                                Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
-                                TvApp.getApplication().getCurrentActivity().startActivity(nowPlaying);
-                            } else {
-                                TvApp.getApplication().showMessage(items.size() + TvApp.getApplication().getString(R.string.msg_items_added), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
-
-                            }
-                        }
-                    })
-                    .setNeutralButton(R.string.msg_add_to_queue, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            addToAudioQueue(items);
-                            TvApp.getApplication().showMessage(items.size() + TvApp.getApplication().getString(R.string.msg_items_added), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
-                        }
-                    })
-                    .setNegativeButton(R.string.btn_cancel, null)
-                    .show();
-
+        createAudioQueue(items);
+        mCurrentAudioQueuePosition = -1;
+        nextAudioItem();
+        if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
+            Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
+            TvApp.getApplication().getCurrentActivity().startActivity(nowPlaying);
         } else {
-            createAudioQueue(items);
-            mCurrentAudioQueuePosition = -1;
-            nextAudioItem();
-            if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
-                Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
-                TvApp.getApplication().getCurrentActivity().startActivity(nowPlaying);
-            } else {
-                TvApp.getApplication().showMessage(items.size() + TvApp.getApplication().getString(R.string.msg_items_added), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
+            TvApp.getApplication().showMessage(items.size() + TvApp.getApplication().getString(R.string.msg_items_added), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
 
-            }
         }
     }
 
     public static void playNow(final BaseItemDto item) {
         if (!ensureInitialized()) return;
 
-        if (isPlayingAudio() && TvApp.getApplication().getCurrentActivity() != null) {
-            new AlertDialog.Builder(TvApp.getApplication().getCurrentActivity())
-                    .setTitle(TvApp.getApplication().getString(R.string.lbl_play))
-                    .setMessage(R.string.msg_how_like_play_single)
-                    .setPositiveButton(R.string.lbl_right_now, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            queueAudioItem(mCurrentAudioQueuePosition + 1, item);
-                            nextAudioItem();
-                        }
-                    })
-                    .setNeutralButton(R.string.btn_next, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            queueAudioItem(mCurrentAudioQueuePosition + 1, item);
-                        }
-                    })
-                    .setNegativeButton(R.string.btn_cancel, null)
-                    .show();
-        } else {
-            if (hasAudioQueueItems() && TvApp.getApplication().getCurrentActivity() != null) {
-                new AlertDialog.Builder(TvApp.getApplication().getCurrentActivity())
-                        .setTitle(TvApp.getApplication().getString(R.string.lbl_play))
-                        .setMessage(R.string.msg_audio_queue_has_items)
-                        .setPositiveButton(R.string.lbl_replace_queue, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                createAudioQueue(new ArrayList<BaseItemDto>());
-                                queueAudioItem(item);
-                                nextAudioItem();
-                                if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
-                                    Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
-                                    TvApp.getApplication().getCurrentActivity().startActivity(nowPlaying);
-                                }
-                            }
-                        })
-                        .setNeutralButton(R.string.lbl_add_to_queue, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                queueAudioItem(mCurrentAudioQueuePosition + 1, item);
-                                nextAudioItem();
-                            }
-                        })
-                        .setNegativeButton(R.string.btn_cancel, null)
-                        .show();
-
-            } else {
-                createAudioQueue(new ArrayList<BaseItemDto>());
-                queueAudioItem(item);
-                nextAudioItem();
-                if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
-                    Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
-                    TvApp.getApplication().getCurrentActivity().startActivity(nowPlaying);
-                }
-
-            }
+        createAudioQueue(new ArrayList<BaseItemDto>());
+        queueAudioItem(item);
+        nextAudioItem();
+        if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
+            Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
+            TvApp.getApplication().getCurrentActivity().startActivity(nowPlaying);
         }
     }
 
