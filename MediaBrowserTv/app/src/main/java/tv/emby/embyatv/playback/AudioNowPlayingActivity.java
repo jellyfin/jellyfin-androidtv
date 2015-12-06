@@ -96,7 +96,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     private AudioNowPlayingActivity mActivity;
     private Handler mLoopHandler = new Handler();
     private Runnable mBackdropLoop;
-    public static int BACKDROP_ROTATION_INTERVAL = 8000;
+    public static int BACKDROP_ROTATION_INTERVAL = 10000;
     private Typeface roboto;
 
     private BaseItemDto mBaseItem;
