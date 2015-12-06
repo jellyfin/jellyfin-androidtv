@@ -105,7 +105,7 @@ public class SongRowView extends FrameLayout {
             mArtistName.setVisibility(GONE);
             mDivider.setVisibility(GONE);
         }
-        formattedTime = Utils.formatMillis(song.getRunTimeTicks()/10000);
+        formattedTime = Utils.formatMillis(song.getRunTimeTicks() != null ? song.getRunTimeTicks()/10000 : 0);
         mRunTime.setText(formattedTime);
     }
 
