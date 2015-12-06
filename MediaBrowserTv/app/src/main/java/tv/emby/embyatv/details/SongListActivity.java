@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,11 +27,13 @@ import java.util.List;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserItemDataDto;
+import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemsResult;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
+import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.model.GotFocusEvent;
 import tv.emby.embyatv.playback.IAudioEventListener;
 import tv.emby.embyatv.playback.MediaManager;
@@ -41,6 +44,7 @@ import tv.emby.embyatv.ui.ImageButton;
 import tv.emby.embyatv.ui.SongListView;
 import tv.emby.embyatv.ui.SongRowView;
 import tv.emby.embyatv.util.InfoLayoutHelper;
+import tv.emby.embyatv.util.KeyProcessor;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -130,7 +134,7 @@ public class SongListActivity extends BaseActivity {
         mSongList.setRowClickedListener(new SongRowView.RowClickedListener() {
             @Override
             public void onRowClicked(SongRowView row) {
-                MediaManager.playNow(row.getSong());
+                KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, new BaseRowItem(0, row.getSong()), mActivity);
             }
         });
 
@@ -242,6 +246,7 @@ public class SongListActivity extends BaseActivity {
         StdItemQuery songs = new StdItemQuery();
         songs.setParentId(mBaseItem.getId());
         songs.setRecursive(true);
+        songs.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
         songs.setIncludeItemTypes(new String[]{"Audio"});
         mApplication.getApiClient().GetItemsAsync(songs, new Response<ItemsResult>() {
             @Override
