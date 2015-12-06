@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/lbl_from"
                     android:id="@+id/from"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:textSize="18sp"
                     android:minLines="1"
                     android:ellipsize="marquee"
@@ -100,9 +100,10 @@
                     android:layout_alignParentBottom="false"
                     android:gravity="center_vertical|left"
                     android:layout_below="@+id/playerProgress"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="35dp"
                     android:layout_alignLeft="@+id/currentPos"
-                    android:layout_marginLeft="10dp">
+                    android:layout_marginLeft="10dp"
+                    android:alpha=".8">
 
                     <view
                         android:layout_width="28sp"
@@ -182,7 +183,7 @@
                     android:layout_alignStart="@+id/from"
                     android:textSize="18sp"
                     android:gravity="right"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginTop="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -217,7 +218,8 @@
                     android:focusable="true"
                     android:clickable="true"
                     android:focusableInTouchMode="true"
-                    android:layout_alignBottom="@+id/playerProgress" />
+                    android:layout_alignBottom="@+id/playerProgress"
+                    android:alpha=".8" />
 
                 <ProgressBar
                     style="@style/player_progress"
@@ -227,7 +229,7 @@
                     android:minWidth="525sp"
                     android:layout_alignParentBottom="false"
                     android:maxHeight="5sp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="50dp"
                     android:layout_below="@+id/currentNdx"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/currentPos" />
