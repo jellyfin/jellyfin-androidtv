@@ -280,8 +280,6 @@ public class AudioNowPlayingActivity extends BaseActivity  {
             }
         });
 
-        loadItem();
-
         mPlayPauseButton.requestFocus();
 
     }
@@ -289,6 +287,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     @Override
     protected void onResume() {
         super.onResume();
+        loadItem();
         rotateBackdrops();
         //Make sure our initial button state reflects playback properly accounting for late loading of the audio stream
         mLoopHandler.postDelayed(new Runnable() {
