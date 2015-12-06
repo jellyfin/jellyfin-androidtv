@@ -102,7 +102,6 @@
                     android:layout_below="@+id/playerProgress"
                     android:layout_marginTop="35dp"
                     android:layout_alignLeft="@+id/currentPos"
-                    android:layout_marginLeft="10dp"
                     android:alpha=".8">
 
                     <view
@@ -144,6 +143,17 @@
                         class="tv.emby.embyatv.ui.ImageButton"
                         android:id="@+id/shuffleBtn"
                         android:src="@drawable/shuffle"
+                        android:focusable="true"
+                        android:clickable="true"
+                        android:focusableInTouchMode="true"
+                        />
+
+                    <view
+                        android:layout_width="28sp"
+                        android:layout_height="28sp"
+                        class="tv.emby.embyatv.ui.ImageButton"
+                        android:id="@+id/favoriteBtn"
+                        android:src="@drawable/whiteheart"
                         android:focusable="true"
                         android:clickable="true"
                         android:focusableInTouchMode="true"
@@ -223,7 +233,7 @@
 
                 <ProgressBar
                     style="@style/player_progress"
-                    android:layout_width="240dp"
+                    android:layout_width="280dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/playerProgress"
                     android:minWidth="525sp"
