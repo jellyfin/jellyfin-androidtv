@@ -314,15 +314,15 @@ public class AudioNowPlayingActivity extends BaseActivity  {
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (ssActive) {
-            stopScreenSaver();
-        }
         lastUserInteraction = System.currentTimeMillis();
 
         switch (keyCode) {
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
             case KeyEvent.KEYCODE_MEDIA_PLAY:
                 if (MediaManager.isPlayingAudio()) MediaManager.pauseAudio(); else MediaManager.resumeAudio();
+                if (ssActive) {
+                    stopScreenSaver();
+                }
                 return true;
             case KeyEvent.KEYCODE_MEDIA_NEXT:
             case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
@@ -334,6 +334,9 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                 return true;
         }
 
+        if (ssActive) {
+            stopScreenSaver();
+        }
         return super.onKeyUp(keyCode, event);
     }
 
