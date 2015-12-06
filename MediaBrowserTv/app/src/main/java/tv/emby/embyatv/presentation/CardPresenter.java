@@ -304,14 +304,18 @@ public class CardPresenter extends Presenter {
         ViewHolder holder = (ViewHolder) viewHolder;
         holder.setItem(rowItem, mImageType, 260, 300, mStaticHeight);
 
-        //Log.d(TAG, "onBindViewHolder");
         holder.mCardView.setTitleText(rowItem.getCardName());
         holder.mCardView.setContentText(rowItem.getSubText());
         holder.mCardView.setOverlayInfo(rowItem);
-        Drawable badge = rowItem.getBadgeImage();
-        if (badge != null) {
-            ((ViewHolder) viewHolder).mCardView.setBadgeImage(badge);
+        if (rowItem.isPlaying()) {
+            holder.mCardView.setPlayingIndicator(true);
+        } else {
+            holder.mCardView.setPlayingIndicator(false);
+            Drawable badge = rowItem.getBadgeImage();
+            if (badge != null) {
+                ((ViewHolder) viewHolder).mCardView.setBadgeImage(badge);
 
+            }
         }
 
         ((ViewHolder) viewHolder).updateCardViewImage(rowItem.getImageUrl(mImageType, ((ViewHolder) viewHolder).getCardHeight()));

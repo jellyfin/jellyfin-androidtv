@@ -7,6 +7,7 @@ package tv.emby.embyatv.presentation;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v17.leanback.R;
 import android.support.v17.leanback.widget.BaseCardView;
@@ -111,6 +112,16 @@ public class MyImageCardView extends BaseCardView {
     public void setMainImageAdjustViewBounds(boolean adjustViewBounds) {
         if (mImageView != null) {
             mImageView.setAdjustViewBounds(adjustViewBounds);
+        }
+    }
+
+    public void setPlayingIndicator(boolean playing) {
+        if (playing) {
+            mBadgeImage.setBackgroundResource(tv.emby.embyatv.R.drawable.eq_animation);
+            mBadgeImage.setVisibility(VISIBLE);
+            ((AnimationDrawable)mBadgeImage.getBackground()).start();
+        } else {
+            mBadgeImage.setBackgroundResource(tv.emby.embyatv.R.drawable.blank10x10);
         }
     }
 
