@@ -199,15 +199,16 @@ public class KeyProcessor {
             if (item.getIsFolder()) menu.getMenu().add(0, MENU_PLAY_SHUFFLE, order++, R.string.lbl_shuffle_all);
 
         }
+        boolean isMusic = "MusicAlbum".equals(item.getType()) || "MusicArtist".equals(item.getType()) || "Audio".equals(item.getType()) || "Playlist".equals(item.getType());
 
-        if ("MusicAlbum".equals(item.getType()) || "MusicArtist".equals(item.getType()) || "Audio".equals(item.getType()) || "Playlist".equals(item.getType())) {
+        if (isMusic) {
             menu.getMenu().add(0, MENU_ADD_QUEUE, order++, R.string.lbl_add_to_queue);
+        } else {
+            if (userData.getPlayed())
+                menu.getMenu().add(0, MENU_UNMARK_PLAYED, order++, activity.getString(R.string.lbl_mark_unplayed));
+            else
+                menu.getMenu().add(0, MENU_MARK_PLAYED, order++, activity.getString(R.string.lbl_mark_played));
         }
-
-        if (userData.getPlayed())
-            menu.getMenu().add(0, MENU_UNMARK_PLAYED, order++, activity.getString(R.string.lbl_mark_unplayed));
-        else
-            menu.getMenu().add(0, MENU_MARK_PLAYED, order++, activity.getString(R.string.lbl_mark_played));
 
         if (userData.getIsFavorite())
             menu.getMenu().add(0, MENU_UNMARK_FAVORITE, order++, activity.getString(R.string.lbl_remove_favorite));

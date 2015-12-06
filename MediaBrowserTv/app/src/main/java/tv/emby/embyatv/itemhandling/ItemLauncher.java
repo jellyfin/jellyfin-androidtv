@@ -2,6 +2,7 @@ package tv.emby.embyatv.itemhandling;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.view.KeyEvent;
 
 import mediabrowser.apiinteraction.ConnectionResult;
 import mediabrowser.apiinteraction.IConnectionManager;
@@ -16,6 +17,7 @@ import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.search.SearchHint;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.browsing.BrowseRecordingsActivity;
 import tv.emby.embyatv.browsing.CollectionActivity;
 import tv.emby.embyatv.browsing.GenericFolderActivity;
@@ -32,6 +34,7 @@ import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.startup.SelectUserActivity;
 import tv.emby.embyatv.util.DelayedMessage;
+import tv.emby.embyatv.util.KeyProcessor;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -119,6 +122,11 @@ public class ItemLauncher {
 
                         activity.startActivity(songListIntent);
 
+                        return;
+
+                    case "Audio":
+                        //produce item menu
+                        KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, rowItem, (BaseActivity) activity);
                         return;
 
                     case "Season":
