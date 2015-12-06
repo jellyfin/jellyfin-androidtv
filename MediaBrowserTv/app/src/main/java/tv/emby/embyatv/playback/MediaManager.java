@@ -483,6 +483,7 @@ public class MediaManager {
 
     public static void pauseAudio() {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
+            updateCurrentAudioItemPlaying(false);
             mVlcPlayer.pause();
             Utils.ReportProgress(mCurrentAudioItem, mCurrentAudioStreamInfo, mVlcPlayer.getTime()*10000, !mVlcPlayer.isPlaying());
             for (IAudioEventListener listener : mAudioEventListeners) {
@@ -496,6 +497,7 @@ public class MediaManager {
     public static void resumeAudio() {
         if (mCurrentAudioItem != null && mVlcPlayer != null) {
             mVlcPlayer.play();
+            updateCurrentAudioItemPlaying(true);
             for (IAudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, mCurrentAudioItem);
             }
