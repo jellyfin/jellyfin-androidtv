@@ -139,7 +139,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
                 //Favorites
                 StdItemQuery favAlbums = new StdItemQuery();
-                favAlbums.setIncludeItemTypes(new String[]{"MusicAlbum", "MusicArtist"});
+                favAlbums.setIncludeItemTypes(new String[]{"MusicAlbum", "MusicArtist", "Playlist"});
                 favAlbums.setRecursive(true);
                 favAlbums.setParentId(mFolder.getId());
                 favAlbums.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
