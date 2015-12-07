@@ -66,7 +66,6 @@ public class SongListActivity extends BaseActivity {
     private ImageView mStudioImage;
     private SongListView mSongList;
     private ScrollView mScrollView;
-    private NowPlayingBug mNpBug;
 
     private SongRowView mCurrentlyPlayingRow;
 
@@ -111,7 +110,6 @@ public class SongListActivity extends BaseActivity {
         mSummary.setTypeface(roboto);
         mSongList = (SongListView) findViewById(R.id.songs);
         mScrollView = (ScrollView) findViewById(R.id.scrollView);
-        mNpBug = (NowPlayingBug) findViewById(R.id.npBug);
 
         mMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
@@ -171,7 +169,6 @@ public class SongListActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         rotateBackdrops();
-        mNpBug.manageVisibility();
         MediaManager.addAudioEventListener(mAudioEventListener);
         // and fire it to be sure we're updated
         mAudioEventListener.onPlaybackStateChange(MediaManager.isPlayingAudio() ? PlaybackController.PlaybackState.PLAYING : PlaybackController.PlaybackState.IDLE, MediaManager.getCurrentAudioItem());
