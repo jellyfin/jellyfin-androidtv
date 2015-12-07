@@ -35,12 +35,13 @@ import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.model.GotFocusEvent;
-import tv.emby.embyatv.playback.IAudioEventListener;
+import tv.emby.embyatv.playback.AudioEventListener;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackController;
 import tv.emby.embyatv.querying.StdItemQuery;
 import tv.emby.embyatv.ui.GenreButton;
 import tv.emby.embyatv.ui.ImageButton;
+import tv.emby.embyatv.ui.NowPlayingBug;
 import tv.emby.embyatv.ui.SongListView;
 import tv.emby.embyatv.ui.SongRowView;
 import tv.emby.embyatv.util.InfoLayoutHelper;
@@ -65,6 +66,7 @@ public class SongListActivity extends BaseActivity {
     private ImageView mStudioImage;
     private SongListView mSongList;
     private ScrollView mScrollView;
+    private NowPlayingBug mNpBug;
 
     private SongRowView mCurrentlyPlayingRow;
 
@@ -109,6 +111,7 @@ public class SongListActivity extends BaseActivity {
         mSummary.setTypeface(roboto);
         mSongList = (SongListView) findViewById(R.id.songs);
         mScrollView = (ScrollView) findViewById(R.id.scrollView);
+        mNpBug = (NowPlayingBug) findViewById(R.id.npBug);
 
         mMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
@@ -168,6 +171,7 @@ public class SongListActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         rotateBackdrops();
+        mNpBug.manageVisibility();
         MediaManager.addAudioEventListener(mAudioEventListener);
         // and fire it to be sure we're updated
         mAudioEventListener.onPlaybackStateChange(MediaManager.isPlayingAudio() ? PlaybackController.PlaybackState.PLAYING : PlaybackController.PlaybackState.IDLE, MediaManager.getCurrentAudioItem());
@@ -186,7 +190,7 @@ public class SongListActivity extends BaseActivity {
         stopRotate();
     }
 
-    private IAudioEventListener mAudioEventListener = new IAudioEventListener() {
+    private AudioEventListener mAudioEventListener = new AudioEventListener() {
         @Override
         public void onPlaybackStateChange(PlaybackController.PlaybackState newState, BaseItemDto currentItem) {
             TvApp.getApplication().getLogger().Info("Got playback state change event "+newState+" for item "+(currentItem != null ? currentItem.getName() : "<unknown>"));
