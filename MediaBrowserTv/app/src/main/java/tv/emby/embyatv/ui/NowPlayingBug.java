@@ -96,6 +96,7 @@ public class NowPlayingBug extends FrameLayout {
             if (hasQueue) {
                 // may have just added one so update display
                 setInfo(MediaManager.getCurrentAudioItem());
+                npStatus.setText(Utils.formatMillis(MediaManager.getCurrentAudioPosition()) + "/" + currentDuration);
                 setVisibility(VISIBLE);
             } else {
                 setVisibility(GONE);
@@ -109,7 +110,10 @@ public class NowPlayingBug extends FrameLayout {
         if (!isInEditMode()) {
             // hook our events
             MediaManager.addAudioEventListener(listener);
-            if (manageVisibility()) setInfo(MediaManager.getCurrentAudioItem());
+            if (manageVisibility()) {
+                setInfo(MediaManager.getCurrentAudioItem());
+                npStatus.setText(Utils.formatMillis(MediaManager.getCurrentAudioPosition()) + "/" + currentDuration);
+            }
         }
     }
 
