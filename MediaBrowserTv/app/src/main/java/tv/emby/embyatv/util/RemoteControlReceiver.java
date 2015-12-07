@@ -21,10 +21,11 @@ public class RemoteControlReceiver extends BroadcastReceiver {
                 KeyEvent event = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
                 TvApp.getApplication().getLogger().Debug("****** In remote receiver.  Keycode: "+event.getKeyCode());
                 switch (event.getKeyCode()) {
-                    case KeyEvent.KEYCODE_MEDIA_PAUSE:
-                    case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                        MediaManager.pauseAudio();
-                        break;
+                    //if we can accurately determine if our app is in the background - we can put this back in that case
+//                    case KeyEvent.KEYCODE_MEDIA_PAUSE:
+//                    case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+//                        MediaManager.pauseAudio();
+//                        break;
                     case KeyEvent.KEYCODE_MEDIA_NEXT:
                     case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
                         MediaManager.nextAudioItem();
