@@ -11,7 +11,7 @@
         android:textSize="35sp"
         android:maxLines="1"
         android:ellipsize="end"
-        android:layout_marginRight="160sp"
+        android:layout_marginRight="240sp"
         android:layout_marginLeft="50sp" />
 
     <LinearLayout
@@ -78,7 +78,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/npBug"
         android:layout_alignBottom="@+id/fdClock"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="25dp"
         android:layout_toLeftOf="@+id/fdClock" />
 
 </RelativeLayout>
