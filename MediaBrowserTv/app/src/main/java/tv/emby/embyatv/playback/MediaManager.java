@@ -140,6 +140,11 @@ public class MediaManager {
 
                     mCurrentAudioPosition = mVlcPlayer.getTime();
 
+                    //fire external listeners if there
+                    for (AudioEventListener listener : mAudioEventListeners) {
+                        listener.onProgress(mCurrentAudioPosition);
+                    }
+
                     //Report progress to server every 3 secs
                     if (System.currentTimeMillis() > lastProgressReport + 3000) {
                         Utils.ReportProgress(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000, !mVlcPlayer.isPlaying());
@@ -147,10 +152,6 @@ public class MediaManager {
                         TvApp.getApplication().setLastUserInteraction(lastProgressReport);
                     }
 
-                    //fire external listeners if there
-                    for (AudioEventListener listener : mAudioEventListeners) {
-                        listener.onProgress(mCurrentAudioPosition);
-                    }
                 }
             });
 

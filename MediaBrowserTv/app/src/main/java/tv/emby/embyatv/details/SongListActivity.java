@@ -164,17 +164,16 @@ public class SongListActivity extends BaseActivity {
                         case KeyEvent.KEYCODE_MEDIA_PAUSE:
                         case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
                             if (MediaManager.isPlayingAudio()) MediaManager.pauseAudio(); else MediaManager.resumeAudio();
-                            break;
+                            return true;
                         case KeyEvent.KEYCODE_MEDIA_NEXT:
                         case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
                             MediaManager.nextAudioItem();
-                            break;
+                            return true;
                         case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
                         case KeyEvent.KEYCODE_MEDIA_REWIND:
                             MediaManager.prevAudioItem();
-                            break;
+                            return true;
                         }
-                    return true;
                 }
                 return false;
             }
