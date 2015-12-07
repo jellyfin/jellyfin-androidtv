@@ -23,7 +23,8 @@
         android:divider="@drawable/whitedivider"
         android:minHeight="22sp"
         android:layout_below="@+id/artistTitle"
-        android:layout_alignStart="@+id/artistTitle" />
+        android:layout_alignStart="@+id/artistTitle"
+        android:layout_marginLeft="10dp" />
 
 
     <ScrollView
@@ -233,7 +234,7 @@
 
                 <ProgressBar
                     style="@style/player_progress"
-                    android:layout_width="280dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/playerProgress"
                     android:minWidth="525sp"
