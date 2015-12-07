@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import mediabrowser.model.dto.BaseItemDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.playback.AudioEventListener;
 import tv.emby.embyatv.playback.AudioNowPlayingActivity;
 import tv.emby.embyatv.playback.MediaManager;
@@ -92,7 +93,13 @@ public class NowPlayingBug extends FrameLayout {
 
         @Override
         public void onQueueStatusChanged(boolean hasQueue) {
-            setVisibility(hasQueue ? VISIBLE : GONE);
+            if (hasQueue) {
+                // may have just added one so update display
+                setInfo(MediaManager.getCurrentAudioItem());
+                setVisibility(VISIBLE);
+            } else {
+                setVisibility(GONE);
+            }
         }
     };
 
