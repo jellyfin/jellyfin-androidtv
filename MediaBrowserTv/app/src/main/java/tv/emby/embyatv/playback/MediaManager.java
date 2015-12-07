@@ -72,10 +72,10 @@ public class MediaManager {
     public static int getCurrentAudioQueueSize() { return mCurrentAudioQueue != null ? mCurrentAudioQueue.size() : 0; }
     public static int getCurrentAudioQueuePosition() { return mCurrentAudioQueuePosition; }
     public static long getCurrentAudioPosition() { return mCurrentAudioPosition; }
-    public static String getCurrentAudioQueueDisplayPosition() { return Integer.toString(mCurrentAudioQueuePosition+1); }
+    public static String getCurrentAudioQueueDisplayPosition() { return Integer.toString(mCurrentAudioQueuePosition >=0 ? mCurrentAudioQueuePosition+1 : 1); }
     public static String getCurrentAudioQueueDisplaySize() { return mCurrentAudioQueue != null ? Integer.toString(mCurrentAudioQueue.size()) : "0"; }
 
-    public static BaseItemDto getCurrentAudioItem() { return mCurrentAudioItem; }
+    public static BaseItemDto getCurrentAudioItem() { return mCurrentAudioItem != null ? mCurrentAudioItem : hasAudioQueueItems() ? ((BaseRowItem)mCurrentAudioQueue.get(0)).getBaseItem() : null; }
 
     public static boolean toggleRepeat() { mRepeat = !mRepeat; return mRepeat; }
     public static boolean isRepeatMode() { return mRepeat; }
@@ -197,9 +197,18 @@ public class MediaManager {
         }
     };
 
+    private static void fireQueueStatusChange() {
+        for (AudioEventListener listener : mAudioEventListeners) {
+            TvApp.getApplication().getLogger().Info("Firing queue state change listener. "+ hasAudioQueueItems());
+            listener.onQueueStatusChanged(hasAudioQueueItems());
+        }
+
+    }
+
     private static void createAudioQueue(List<BaseItemDto> items) {
         mCurrentAudioQueue = new ItemRowAdapter(items, new CardPresenter(true, Utils.convertDpToPixel(TvApp.getApplication(), 200)), null, true);
         mCurrentAudioQueue.Retrieve();
+        fireQueueStatusChange();
     }
 
     public static int queueAudioItem(int pos, BaseItemDto item) {
@@ -216,8 +225,13 @@ public class MediaManager {
     }
 
     public static void clearAudioQueue() {
-        if (mCurrentAudioQueue == null) createAudioQueue(new ArrayList<BaseItemDto>());
-        else mCurrentAudioQueue.clear();
+        if (mCurrentAudioQueue == null) {
+            createAudioQueue(new ArrayList<BaseItemDto>());
+        }
+        else {
+            mCurrentAudioQueue.clear();
+            fireQueueStatusChange();
+        }
         mCurrentAudioQueuePosition = -1;
     }
 
@@ -287,6 +301,7 @@ public class MediaManager {
     }
 
     private static void playInternal(final BaseItemDto item, final int pos) {
+        if (!ensureInitialized()) return;
         ensureAudioFocus();
         final ApiClient apiClient = TvApp.getApplication().getApiClient();
         AudioOptions options = new AudioOptions();
@@ -403,7 +418,7 @@ public class MediaManager {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
             updateCurrentAudioItemPlaying(false);
             mVlcPlayer.pause();
-            Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000);
+            Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition * 10000);
             for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.PAUSED, mCurrentAudioItem);
             }
@@ -420,6 +435,9 @@ public class MediaManager {
             for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, mCurrentAudioItem);
             }
+        } else if (hasAudioQueueItems()) {
+            //play from start
+            playInternal(((BaseRowItem)mCurrentAudioQueue.get(0)).getBaseItem(), 0);
         }
     }
 
