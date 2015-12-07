@@ -9,7 +9,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.RowsFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
@@ -279,28 +278,6 @@ public class AudioNowPlayingActivity extends BaseActivity  {
 
         mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
 
-        //link events
-        MediaManager.addAudioEventListener(new IAudioEventListener() {
-            @Override
-            public void onPlaybackStateChange(PlaybackController.PlaybackState newState, BaseItemDto currentItem) {
-                mApplication.getLogger().Debug("**** Got playstate change: " + newState);
-                if (newState == PlaybackController.PlaybackState.PLAYING && currentItem != mBaseItem) {
-                    // new item started
-                    loadItem();
-                    updateButtons(true);
-                    mAudioQueuePresenter.setPosition(MediaManager.getCurrentAudioQueuePosition());
-                } else {
-                    updateButtons(newState == PlaybackController.PlaybackState.PLAYING);
-                    if (newState == PlaybackController.PlaybackState.IDLE && !MediaManager.hasNextAudioItem())
-                        stopScreenSaver();
-                }
-            }
-
-            @Override
-            public void onProgress(long pos) {
-                setCurrentTime(pos);
-            }
-        });
 
         mPlayPauseButton.requestFocus();
 
@@ -311,6 +288,8 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         super.onResume();
         loadItem();
         rotateBackdrops();
+        //link events
+        MediaManager.addAudioEventListener(audioEventListener);
         //Make sure our initial button state reflects playback properly accounting for late loading of the audio stream
         mLoopHandler.postDelayed(new Runnable() {
             @Override
@@ -324,6 +303,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     protected void onPause() {
         super.onPause();
         mPoster.setKeepScreenOn(false);
+        MediaManager.removeAudioEventListener(audioEventListener);
         stopRotate();
     }
 
@@ -362,6 +342,28 @@ public class AudioNowPlayingActivity extends BaseActivity  {
 
         return super.onKeyUp(keyCode, event);
     }
+
+    private AudioEventListener audioEventListener = new AudioEventListener() {
+        @Override
+        public void onPlaybackStateChange(PlaybackController.PlaybackState newState, BaseItemDto currentItem) {
+            mApplication.getLogger().Debug("**** Got playstate change: " + newState);
+            if (newState == PlaybackController.PlaybackState.PLAYING && currentItem != mBaseItem) {
+                // new item started
+                loadItem();
+                updateButtons(true);
+                mAudioQueuePresenter.setPosition(MediaManager.getCurrentAudioQueuePosition());
+            } else {
+                updateButtons(newState == PlaybackController.PlaybackState.PLAYING);
+                if (newState == PlaybackController.PlaybackState.IDLE && !MediaManager.hasNextAudioItem())
+                    stopScreenSaver();
+            }
+        }
+
+        @Override
+        public void onProgress(long pos) {
+            setCurrentTime(pos);
+        }
+    };
 
     private GotFocusEvent mainAreaFocusListener = new GotFocusEvent() {
         @Override

@@ -1,9 +1,7 @@
 package tv.emby.embyatv.playback;
 
-import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
@@ -51,7 +49,7 @@ public class MediaManager {
     private static AudioManager mAudioManager;
     private static boolean audioInitialized;
 
-    private static List<IAudioEventListener> mAudioEventListeners = new ArrayList<>();
+    private static List<AudioEventListener> mAudioEventListeners = new ArrayList<>();
 
     private static long lastProgressReport;
     private static long lastProgressEvent;
@@ -84,11 +82,11 @@ public class MediaManager {
 
     public static ItemRowAdapter getCurrentAudioQueue() { return mCurrentAudioQueue; }
 
-    public static void addAudioEventListener(IAudioEventListener listener) {
+    public static void addAudioEventListener(AudioEventListener listener) {
         mAudioEventListeners.add(listener);
         TvApp.getApplication().getLogger().Debug("Added event listener.  Total listeners: "+mAudioEventListeners.size());
     }
-    public static void removeAudioEventListener(IAudioEventListener listener) {
+    public static void removeAudioEventListener(AudioEventListener listener) {
         mAudioEventListeners.remove(listener);
         TvApp.getApplication().getLogger().Debug("Removed event listener.  Total listeners: " + mAudioEventListeners.size());
     }
@@ -150,7 +148,7 @@ public class MediaManager {
                     }
 
                     //fire external listeners if there
-                    for (IAudioEventListener listener : mAudioEventListeners) {
+                    for (AudioEventListener listener : mAudioEventListeners) {
                         listener.onProgress(mCurrentAudioPosition);
                     }
                 }
@@ -163,7 +161,7 @@ public class MediaManager {
                     nextAudioItem();
 
                     //fire external listener if there
-                    for (IAudioEventListener listener : mAudioEventListeners) {
+                    for (AudioEventListener listener : mAudioEventListeners) {
                         TvApp.getApplication().getLogger().Info("Firing playback state change listener for item completion. "+ mCurrentAudioItem.getName());
                         listener.onPlaybackStateChange(PlaybackController.PlaybackState.IDLE, mCurrentAudioItem);
                     }
@@ -314,7 +312,7 @@ public class MediaManager {
                 updateCurrentAudioItemPlaying(true);
 
                 Utils.ReportStart(item, mCurrentAudioPosition*10000);
-                for (IAudioEventListener listener : mAudioEventListeners) {
+                for (AudioEventListener listener : mAudioEventListeners) {
                     TvApp.getApplication().getLogger().Info("Firing playback state change listener for item start. "+mCurrentAudioItem.getName());
                     listener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, mCurrentAudioItem);
                 }
@@ -394,7 +392,7 @@ public class MediaManager {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
             mVlcPlayer.stop();
             Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000);
-            for (IAudioEventListener listener : mAudioEventListeners) {
+            for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.IDLE, mCurrentAudioItem);
             }
 
@@ -406,7 +404,7 @@ public class MediaManager {
             updateCurrentAudioItemPlaying(false);
             mVlcPlayer.pause();
             Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000);
-            for (IAudioEventListener listener : mAudioEventListeners) {
+            for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.PAUSED, mCurrentAudioItem);
             }
             lastProgressReport = System.currentTimeMillis();
@@ -419,7 +417,7 @@ public class MediaManager {
             mVlcPlayer.play();
             updateCurrentAudioItemPlaying(true);
             Utils.ReportStart(mCurrentAudioItem, mCurrentAudioPosition * 10000);
-            for (IAudioEventListener listener : mAudioEventListeners) {
+            for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, mCurrentAudioItem);
             }
         }
