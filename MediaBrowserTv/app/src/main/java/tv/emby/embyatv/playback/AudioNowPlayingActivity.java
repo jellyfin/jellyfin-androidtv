@@ -441,6 +441,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     }
 
     private void addGenres(LinearLayout layout) {
+        layout.removeAllViews();
         if (mBaseItem.getGenres() != null && mBaseItem.getGenres().size() > 0) {
             boolean first = true;
             for (String genre : mBaseItem.getGenres()) {
