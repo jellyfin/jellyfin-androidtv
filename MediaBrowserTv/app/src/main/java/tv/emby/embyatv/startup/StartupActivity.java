@@ -75,6 +75,8 @@ public class StartupActivity extends Activity {
             activity.startActivity(intent);
 
         } else {
+            //clear audio queue in case left over from last run
+            MediaManager.clearAudioQueue();
             establishConnection(activity);
         }
 
