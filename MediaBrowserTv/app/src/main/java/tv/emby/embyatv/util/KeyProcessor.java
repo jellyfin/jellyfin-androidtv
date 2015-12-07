@@ -56,6 +56,11 @@ public class KeyProcessor {
         switch (key) {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                if (MediaManager.isPlayingAudio() && (!rowItem.getIsBaseItem() || !rowItem.getBaseItem().getType().equals("Photo"))) {
+                    MediaManager.pauseAudio();
+                    return true;
+                }
+
                 switch (rowItem.getItemType()) {
 
                     case BaseItem:
@@ -136,6 +141,12 @@ public class KeyProcessor {
                     case GridButton:
                         break;
                 }
+
+                if (MediaManager.hasAudioQueueItems()) {
+                    MediaManager.resumeAudio();
+                    return true;
+                }
+
                 break;
             case KeyEvent.KEYCODE_MENU:
             case KeyEvent.KEYCODE_BUTTON_Y:

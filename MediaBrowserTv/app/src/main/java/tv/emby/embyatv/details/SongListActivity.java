@@ -32,6 +32,7 @@ import mediabrowser.model.querying.ItemsResult;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
+import tv.emby.embyatv.base.IKeyListener;
 import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.model.GotFocusEvent;
@@ -154,6 +155,30 @@ public class SongListActivity extends BaseActivity {
             }
         });
 
+        //Key listener
+        registerKeyListener(new IKeyListener() {
+            @Override
+            public boolean onKeyUp(int key, KeyEvent event) {
+                if (MediaManager.hasAudioQueueItems()) {
+                    switch (key) {
+                        case KeyEvent.KEYCODE_MEDIA_PAUSE:
+                        case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                            if (MediaManager.isPlayingAudio()) MediaManager.pauseAudio(); else MediaManager.resumeAudio();
+                            break;
+                        case KeyEvent.KEYCODE_MEDIA_NEXT:
+                        case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
+                            MediaManager.nextAudioItem();
+                            break;
+                        case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
+                        case KeyEvent.KEYCODE_MEDIA_REWIND:
+                            MediaManager.prevAudioItem();
+                            break;
+                        }
+                    return true;
+                }
+                return false;
+            }
+        });
 
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         backgroundManager.attach(getWindow());

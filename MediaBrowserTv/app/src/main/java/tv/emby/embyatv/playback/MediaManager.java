@@ -191,7 +191,7 @@ public class MediaManager {
                     mAudioManager.unregisterMediaButtonEventReceiver(new ComponentName(TvApp.getApplication().getPackageName(), RemoteControlReceiver.class.getName()));
                     break;
                 case AudioManager.AUDIOFOCUS_GAIN:
-                    resumeAudio();
+                    //resumeAudio();
                     break;
             }
         }
@@ -410,6 +410,8 @@ public class MediaManager {
             for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.IDLE, mCurrentAudioItem);
             }
+            //UnRegister a media button receiver
+            mAudioManager.unregisterMediaButtonEventReceiver(new ComponentName(TvApp.getApplication().getPackageName(), RemoteControlReceiver.class.getName()));
 
         }
     }
@@ -422,6 +424,8 @@ public class MediaManager {
             for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.PAUSED, mCurrentAudioItem);
             }
+            //UnRegister a media button receiver
+            mAudioManager.unregisterMediaButtonEventReceiver(new ComponentName(TvApp.getApplication().getPackageName(), RemoteControlReceiver.class.getName()));
             lastProgressReport = System.currentTimeMillis();
 
         }
