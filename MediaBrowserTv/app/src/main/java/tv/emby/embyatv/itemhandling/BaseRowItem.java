@@ -38,7 +38,7 @@ public class BaseRowItem {
     private GridButton gridButton;
     private ItemType type;
     private boolean preferParentThumb = false;
-    private boolean staticHeight = false;
+    protected boolean staticHeight = false;
     private SelectAction selectAction = SelectAction.ShowDetails;
     private boolean isPlaying;
 

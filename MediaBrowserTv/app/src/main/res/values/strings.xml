@@ -312,6 +312,9 @@
     <string name="lbl_shuffle">Shuffle</string>
     <string name="msg_reshuffle_audio_queue">Re-shuffle current audio queue?</string>
     <string name="lbl_up_next_colon">"Up Next: "</string>
+    <string name="lbl_now_playing">Now Playing</string>
+    <string name="lbl_play_from_here">Play From Here</string>
+    <string name="lbl_remove_from_queue">Remove from Queue</string>
 
 
 </resources>

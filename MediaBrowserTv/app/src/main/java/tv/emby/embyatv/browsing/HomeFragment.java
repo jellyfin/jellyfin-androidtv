@@ -24,7 +24,10 @@ import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
 import tv.emby.embyatv.integration.RecommendationManager;
+import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.ChangeTriggerType;
+import tv.emby.embyatv.playback.AudioNowPlayingActivity;
+import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.presentation.ThemeManager;
 import tv.emby.embyatv.startup.LogonCredentials;
 import tv.emby.embyatv.ui.GridButton;
@@ -96,6 +99,13 @@ public class HomeFragment extends StdBrowseFragment {
             }
         }
         addLogsButton();
+        //make sure rows have had a chance to be created
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                addNowPlaying();
+            }
+        }, 750);
     }
 
     @Override
@@ -117,7 +127,7 @@ public class HomeFragment extends StdBrowseFragment {
                     suggestions.setLimit(40);
                     suggestions.setSortBy(new String[]{ItemSortBy.DatePlayed});
                     suggestions.setSortOrder(SortOrder.Ascending);
-                    mRows.add(new BrowseRowDef(ThemeManager.getSuggestionTitle(), suggestions, 0, true, true, new ChangeTriggerType[] {}));
+                    mRows.add(new BrowseRowDef(ThemeManager.getSuggestionTitle(), suggestions, 0, true, true, new ChangeTriggerType[]{}));
 
                 }
 
@@ -200,6 +210,22 @@ public class HomeFragment extends StdBrowseFragment {
             mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_on_now), onNow));
         }
 
+    }
+
+    protected ListRow nowPlayingRow;
+
+    protected void addNowPlaying() {
+        if (MediaManager.hasAudioQueueItems()) {
+            if (nowPlayingRow == null) {
+                nowPlayingRow = new ListRow(new HeaderItem(getString(R.string.lbl_now_playing), null), MediaManager.getCurrentAudioQueue());
+                mRowsAdapter.add(1, nowPlayingRow);
+            }
+        } else {
+            if (nowPlayingRow != null) {
+                mRowsAdapter.remove(nowPlayingRow);
+                nowPlayingRow = null;
+            }
+        }
     }
 
     @Override

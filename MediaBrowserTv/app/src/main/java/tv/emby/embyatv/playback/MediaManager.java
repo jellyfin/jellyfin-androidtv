@@ -22,9 +22,11 @@ import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.itemhandling.AudioQueueItem;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.presentation.CardPresenter;
+import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.util.RemoteControlReceiver;
 import tv.emby.embyatv.util.Utils;
 
@@ -207,7 +209,7 @@ public class MediaManager {
     }
 
     private static void createAudioQueue(List<BaseItemDto> items) {
-        mCurrentAudioQueue = new ItemRowAdapter(items, new CardPresenter(true, Utils.convertDpToPixel(TvApp.getApplication(), 200)), null, true);
+        mCurrentAudioQueue = new ItemRowAdapter(items, new CardPresenter(true, Utils.convertDpToPixel(TvApp.getApplication(), 140)), null, QueryType.StaticAudioQueueItems);
         mCurrentAudioQueue.Retrieve();
         fireQueueStatusChange();
     }
@@ -221,7 +223,7 @@ public class MediaManager {
 
     public static int queueAudioItem(BaseItemDto item) {
         if (mCurrentAudioQueue == null) createAudioQueue(new ArrayList<BaseItemDto>());
-        mCurrentAudioQueue.add(new BaseRowItem(mCurrentAudioQueue.size(), item));
+        mCurrentAudioQueue.add(new AudioQueueItem(mCurrentAudioQueue.size(), item));
         return mCurrentAudioQueue.size()-1;
     }
 
@@ -241,7 +243,7 @@ public class MediaManager {
         else {
             int ndx = mCurrentAudioQueue.size();
             for (BaseItemDto item : items) {
-                mCurrentAudioQueue.add(new BaseRowItem(ndx++, item));
+                mCurrentAudioQueue.add(new AudioQueueItem(ndx++, item));
             }
         }
         TvApp.getApplication().showMessage(items.size() + TvApp.getApplication().getString(R.string.msg_items_added), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
