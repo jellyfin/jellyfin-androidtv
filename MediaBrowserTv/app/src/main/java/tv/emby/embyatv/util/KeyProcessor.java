@@ -73,13 +73,18 @@ public class KeyProcessor {
                         BaseItemDto item = rowItem.getBaseItem();
                         if (!Utils.CanPlay(item)) return false;
                         switch (item.getType()) {
+                            case "Audio":
+                                if (rowItem instanceof AudioQueueItem) {
+                                    createItemMenu(rowItem, item.getUserData(), activity);
+                                    return true;
+                                }
+                                //fall through...
                             case "Movie":
                             case "Episode":
                             case "TvChannel":
                             case "Video":
                             case "Program":
                             case "ChannelVideoItem":
-                            case "Audio":
                                 // give some audible feedback
                                 Utils.Beep();
                                 // retrieve full item and play
