@@ -633,6 +633,15 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 });
                 mDetailsOverviewRow.addAction(shuffle);
             }
+            ImageButton imix = new ImageButton(this, R.drawable.mix, buttonSize, getString(R.string.lbl_instant_mix), null, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Utils.Beep();
+                    Utils.playInstantMix(mBaseItem.getId());
+                }
+            });
+            mDetailsOverviewRow.addAction(imix);
+
         }
 
         if (mBaseItem.getLocalTrailerCount() != null && mBaseItem.getLocalTrailerCount() > 0) {

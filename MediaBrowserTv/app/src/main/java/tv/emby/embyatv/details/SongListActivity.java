@@ -341,24 +341,14 @@ public class SongListActivity extends BaseActivity {
             }
         }
 
-        UserItemDataDto userData = mBaseItem.getUserData();
-        if (userData != null) {
-            //Favorite
-            ImageButton fav = new ImageButton(this, userData.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, getString(R.string.lbl_toggle_favorite), mButtonHelp, new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    UserItemDataDto data = mBaseItem.getUserData();
-                    mApplication.getApiClient().UpdateFavoriteStatusAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
-                        @Override
-                        public void onResponse(UserItemDataDto response) {
-                            mBaseItem.setUserData(response);
-                            ((ImageButton) v).setImageResource(response.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart);
-                        }
-                    });
-                }
-            });
-            mButtonRow.addView(fav);
-        }
+        ImageButton mix = new ImageButton(this, R.drawable.mix, buttonSize, getString(R.string.lbl_instant_mix), mButtonHelp, new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                Utils.Beep();
+                Utils.playInstantMix(mBaseItem.getId());
+            }
+        });
+        mButtonRow.addView(mix);
 
         if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {
             ImageButton artist = new ImageButton(this, R.drawable.user, buttonSize, getString(R.string.lbl_open_artist), mButtonHelp, new View.OnClickListener() {
