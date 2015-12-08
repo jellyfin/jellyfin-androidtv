@@ -105,6 +105,7 @@ public class BaseRowItem {
     public int getIndex() {
         return index;
     }
+    public void setIndex(int ndx) { index = ndx; }
 
     public BaseItemDto getBaseItem() {
         return baseItem;

@@ -209,7 +209,7 @@ public class MediaManager {
     }
 
     private static void createAudioQueue(List<BaseItemDto> items) {
-        mCurrentAudioQueue = new ItemRowAdapter(items, new CardPresenter(true, Utils.convertDpToPixel(TvApp.getApplication(), 140)), null, QueryType.StaticAudioQueueItems);
+        mCurrentAudioQueue = new ItemRowAdapter(items, new CardPresenter(true, Utils.convertDpToPixel(TvApp.getApplication(), 150)), null, QueryType.StaticAudioQueueItems);
         mCurrentAudioQueue.Retrieve();
         fireQueueStatusChange();
     }
@@ -247,6 +247,33 @@ public class MediaManager {
             }
         }
         TvApp.getApplication().showMessage(items.size() + TvApp.getApplication().getString(R.string.msg_items_added), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
+    }
+
+    public static void removeFromAudioQueue(int ndx) {
+        if (mCurrentAudioQueuePosition == ndx) {
+            // current item - stop audio, remove and re-start
+            stopAudio();
+            mCurrentAudioQueue.removeItems(ndx, 1);
+            mCurrentAudioQueuePosition--;
+            mCurrentAudioPosition = 0;
+            if (ndx >= 0 && ndx < mCurrentAudioQueue.size()) {
+                nextAudioItem();
+            } else {
+                if (mCurrentAudioQueuePosition >= 0) mCurrentAudioItem = ((BaseRowItem)mCurrentAudioQueue.get(mCurrentAudioQueuePosition)).getBaseItem();
+                // fire a change to update current item
+                fireQueueStatusChange();
+            }
+        } else {
+            //just remove it
+            mCurrentAudioQueue.removeItems(ndx, 1);
+        }
+
+        // now need to update indexes for subsequent items
+        if (hasAudioQueueItems()) {
+            for (int i = ndx; i < mCurrentAudioQueue.size(); i++){
+                ((BaseRowItem)mCurrentAudioQueue.get(i)).setIndex(i);
+            }
+        }
     }
 
     public static boolean isPlayingAudio() { return audioInitialized && mVlcPlayer.isPlaying(); }
