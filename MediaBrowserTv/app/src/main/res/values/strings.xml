@@ -316,6 +316,7 @@
     <string name="lbl_play_from_here">Play From Here</string>
     <string name="lbl_remove_from_queue">Remove from Queue</string>
     <string name="lbl_goto_now_playing">Go to Now Playing</string>
+    <string name="lbl_instant_mix">Instant Mix</string>
 
 
 </resources>

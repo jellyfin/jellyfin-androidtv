@@ -50,6 +50,7 @@ public class KeyProcessor {
     public static final int MENU_ADVANCE_QUEUE = 12;
     public static final int MENU_REMOVE_FROM_QUEUE = 13;
     public static final int MENU_GOTO_NOW_PLAYING = 14;
+    public static final int MENU_INSTANT_MIX = 15;
 
     private static String mCurrentItemId;
     private static BaseItemDto mCurrentItem;
@@ -232,6 +233,7 @@ public class KeyProcessor {
 
             if (isMusic) {
                 menu.getMenu().add(0, MENU_ADD_QUEUE, order++, R.string.lbl_add_to_queue);
+                menu.getMenu().add(0, MENU_INSTANT_MIX, order++, R.string.lbl_instant_mix);
             } else {
                 if (userData.getPlayed())
                     menu.getMenu().add(0, MENU_UNMARK_PLAYED, order++, activity.getString(R.string.lbl_mark_unplayed));
@@ -422,7 +424,10 @@ public class KeyProcessor {
                 case MENU_ADVANCE_QUEUE:
                     MediaManager.playFrom(mCurrentRowItemNdx);
                     return true;
-
+                case MENU_INSTANT_MIX:
+                    Utils.Beep();
+                    Utils.playInstantMix(mCurrentItemId);
+                    return true;
             }
 
             return false;

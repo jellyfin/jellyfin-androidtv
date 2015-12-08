@@ -74,6 +74,7 @@ import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
+import mediabrowser.model.querying.SimilarItemsQuery;
 import mediabrowser.model.session.PlaybackProgressInfo;
 import mediabrowser.model.session.PlaybackStartInfo;
 import mediabrowser.model.session.PlaybackStopInfo;
@@ -694,6 +695,33 @@ public class Utils {
             }
         });
 
+    }
+
+    public static void playInstantMix(String seedId) {
+        getInstantMixAsync(seedId, new Response<BaseItemDto[]>() {
+            @Override
+            public void onResponse(BaseItemDto[] response) {
+                MediaManager.playNow(Arrays.asList(response));
+            }
+        });
+    }
+
+    public static void getInstantMixAsync(String seedId, final Response<BaseItemDto[]> outerResponse) {
+        SimilarItemsQuery query = new SimilarItemsQuery();
+        query.setId(seedId);
+        query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        query.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
+        TvApp.getApplication().getApiClient().GetInstantMixFromItem(query, new Response<ItemsResult>() {
+            @Override
+            public void onResponse(ItemsResult response) {
+                outerResponse.onResponse(response.getItems());
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                outerResponse.onError(exception);
+            }
+        });
     }
 
     public static String getStoreUrl() {
