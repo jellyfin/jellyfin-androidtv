@@ -48,6 +48,7 @@ import tv.emby.embyatv.ui.ClockUserView;
 import tv.emby.embyatv.ui.GenreButton;
 import tv.emby.embyatv.ui.ImageButton;
 import tv.emby.embyatv.util.InfoLayoutHelper;
+import tv.emby.embyatv.util.KeyProcessor;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -363,6 +364,16 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         public void onProgress(long pos) {
             setCurrentTime(pos);
         }
+
+        @Override
+        public void onQueueStatusChanged(boolean hasQueue) {
+            if (hasQueue) {
+                loadItem();
+                updateButtons(MediaManager.isPlayingAudio());
+            } else {
+                finish(); // entire queue removed nothing to do here
+            }
+        }
     };
 
     private GotFocusEvent mainAreaFocusListener = new GotFocusEvent() {
@@ -458,7 +469,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            //todo - advance to this item in playlist
+            KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, (BaseRowItem) item, mActivity);
         }
     }
 

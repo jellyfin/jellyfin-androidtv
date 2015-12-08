@@ -28,6 +28,7 @@ import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.ChangeTriggerType;
 import tv.emby.embyatv.playback.AudioNowPlayingActivity;
 import tv.emby.embyatv.playback.MediaManager;
+import tv.emby.embyatv.presentation.PositionableListRowPresenter;
 import tv.emby.embyatv.presentation.ThemeManager;
 import tv.emby.embyatv.startup.LogonCredentials;
 import tv.emby.embyatv.ui.GridButton;
@@ -55,6 +56,7 @@ public class HomeFragment extends StdBrowseFragment {
     private GridButton unlockButton;
     private GridButton sendLogsButton;
     private GridButton premiereButton;
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

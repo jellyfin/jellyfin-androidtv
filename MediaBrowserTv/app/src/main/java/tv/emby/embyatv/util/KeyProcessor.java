@@ -24,7 +24,9 @@ import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.base.CustomMessage;
 import tv.emby.embyatv.details.PhotoPlayerActivity;
+import tv.emby.embyatv.itemhandling.AudioQueueItem;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
+import tv.emby.embyatv.playback.AudioNowPlayingActivity;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.querying.StdItemQuery;
 
@@ -45,10 +47,14 @@ public class KeyProcessor {
     public static final int MENU_PLAY_SHUFFLE = 9;
     public static final int MENU_PLAY_FIRST_UNWATCHED = 10;
     public static final int MENU_ADD_QUEUE = 11;
+    public static final int MENU_ADVANCE_QUEUE = 12;
+    public static final int MENU_REMOVE_FROM_QUEUE = 13;
+    public static final int MENU_GOTO_NOW_PLAYING = 14;
 
     private static String mCurrentItemId;
     private static BaseItemDto mCurrentItem;
     private static BaseActivity mCurrentActivity;
+    private static int mCurrentRowItemNdx;
     private static boolean currentItemIsFolder = false;
 
     public static boolean HandleKey(int key, BaseRowItem rowItem, BaseActivity activity) {
@@ -172,7 +178,7 @@ public class KeyProcessor {
                             case "Playlist":
                             case "Audio":
                                 // generate a standard item menu
-                                createItemMenu(rowItem.getBaseItem(), item.getUserData(), activity);
+                                createItemMenu(rowItem, item.getUserData(), activity);
                                 break;
                         }
                         break;
@@ -200,25 +206,35 @@ public class KeyProcessor {
         return false;
     }
 
-    private static void createItemMenu(BaseItemDto item, UserItemDataDto userData, BaseActivity activity) {
+    private static void createItemMenu(BaseRowItem rowItem, UserItemDataDto userData, BaseActivity activity) {
+        BaseItemDto item = rowItem.getBaseItem();
         PopupMenu menu = Utils.createPopupMenu(activity, activity.getCurrentFocus(), Gravity.RIGHT);
         int order = 0;
 
-        if (Utils.CanPlay(item)) {
-            if (item.getIsFolder() && !"MusicAlbum".equals(item.getType()) && !"MusicArtist".equals(item.getType()) && userData.getUnplayedItemCount() !=null && userData.getUnplayedItemCount() > 0) menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
-            menu.getMenu().add(0, MENU_PLAY, order++, item.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play);
-            if (item.getIsFolder()) menu.getMenu().add(0, MENU_PLAY_SHUFFLE, order++, R.string.lbl_shuffle_all);
-
-        }
-        boolean isMusic = "MusicAlbum".equals(item.getType()) || "MusicArtist".equals(item.getType()) || "Audio".equals(item.getType()) || "Playlist".equals(item.getType());
-
-        if (isMusic) {
-            menu.getMenu().add(0, MENU_ADD_QUEUE, order++, R.string.lbl_add_to_queue);
+        if (rowItem instanceof AudioQueueItem) {
+            if (!(activity instanceof AudioNowPlayingActivity)) menu.getMenu().add(0, MENU_GOTO_NOW_PLAYING, order++, R.string.lbl_goto_now_playing);
+            if (rowItem.getBaseItem() != MediaManager.getCurrentAudioItem()) menu.getMenu().add(0, MENU_ADVANCE_QUEUE, order++, R.string.lbl_play_from_here);
+            // don't allow removal of last item - framework will crash trying to animate an empty row
+            if (MediaManager.getCurrentAudioQueue().size() > 1) menu.getMenu().add(0, MENU_REMOVE_FROM_QUEUE, order++, R.string.lbl_remove_from_queue);
         } else {
-            if (userData.getPlayed())
-                menu.getMenu().add(0, MENU_UNMARK_PLAYED, order++, activity.getString(R.string.lbl_mark_unplayed));
-            else
-                menu.getMenu().add(0, MENU_MARK_PLAYED, order++, activity.getString(R.string.lbl_mark_played));
+            if (Utils.CanPlay(item)) {
+                if (item.getIsFolder() && !"MusicAlbum".equals(item.getType()) && !"MusicArtist".equals(item.getType()) && userData.getUnplayedItemCount() !=null && userData.getUnplayedItemCount() > 0) menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
+                menu.getMenu().add(0, MENU_PLAY, order++, item.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play);
+                if (item.getIsFolder()) menu.getMenu().add(0, MENU_PLAY_SHUFFLE, order++, R.string.lbl_shuffle_all);
+
+            }
+            boolean isMusic = "MusicAlbum".equals(item.getType()) || "MusicArtist".equals(item.getType()) || "Audio".equals(item.getType()) || "Playlist".equals(item.getType());
+
+            if (isMusic) {
+                menu.getMenu().add(0, MENU_ADD_QUEUE, order++, R.string.lbl_add_to_queue);
+            } else {
+                if (userData.getPlayed())
+                    menu.getMenu().add(0, MENU_UNMARK_PLAYED, order++, activity.getString(R.string.lbl_mark_unplayed));
+                else
+                    menu.getMenu().add(0, MENU_MARK_PLAYED, order++, activity.getString(R.string.lbl_mark_played));
+            }
+
+
         }
 
         if (userData.getIsFavorite())
@@ -240,6 +256,7 @@ public class KeyProcessor {
         //Not sure I like this but I either duplicate processing with in-line events or do this and
         // use a single event handler
         mCurrentItem = item;
+        mCurrentRowItemNdx = rowItem.getIndex();
         mCurrentItemId = item.getId();
         mCurrentActivity = activity;
         currentItemIsFolder = item.getIsFolder();
@@ -390,6 +407,14 @@ public class KeyProcessor {
                 case MENU_UNDISLIKE:
                     toggleLikes(null);
                     return true;
+                case MENU_GOTO_NOW_PLAYING:
+                    Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
+                    mCurrentActivity.startActivity(nowPlaying);
+                    return true;
+                case MENU_REMOVE_FROM_QUEUE:
+                    MediaManager.removeFromAudioQueue(mCurrentRowItemNdx);
+                    return true;
+
             }
 
             return false;
