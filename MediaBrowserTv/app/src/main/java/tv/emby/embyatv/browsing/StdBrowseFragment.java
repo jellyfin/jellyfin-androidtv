@@ -58,6 +58,7 @@ import tv.emby.embyatv.base.CustomMessage;
 import tv.emby.embyatv.base.IKeyListener;
 import tv.emby.embyatv.base.IMessageListener;
 import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
+import tv.emby.embyatv.itemhandling.AudioQueueItem;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
@@ -435,7 +436,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                 mItemPanel.setVisibility(View.INVISIBLE);
             }
 
-            if (!(item instanceof BaseRowItem) || isShowingHeaders()) {
+            if (item instanceof AudioQueueItem || !(item instanceof BaseRowItem) || isShowingHeaders()) {
                 mCurrentItem = null;
                 mHandler.removeCallbacks(hideItemPanel);
                 //fill in default background

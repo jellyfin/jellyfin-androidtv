@@ -167,6 +167,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.StaticChapters;
     }
 
+    public ItemRowAdapter(List<BaseItemDto> items, Presenter presenter, ArrayObjectAdapter parent, QueryType queryType) {
+        super(presenter);
+        mParent = parent;
+        mItems = items;
+        this.queryType = queryType;
+    }
+
     public ItemRowAdapter(List<BaseItemDto> items, Presenter presenter, ArrayObjectAdapter parent, boolean staticItems) { // last param is just for sig
         super(presenter);
         mParent = parent;
@@ -507,6 +514,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             case StaticItems:
                 LoadStaticItems();
                 break;
+            case StaticAudioQueueItems:
+                LoadStaticAudioItems();
+                break;
             case Specials:
                 Retrieve(mSpecialsQuery);
                 break;
@@ -578,6 +588,20 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         if (mItems != null) {
             for (BaseItemDto item : mItems) {
                 add(new BaseRowItem(item));
+            }
+
+        } else {
+            removeRow();
+        }
+
+        currentlyRetrieving = false;
+    }
+
+    private void LoadStaticAudioItems() {
+        if (mItems != null) {
+            int i = 0;
+            for (BaseItemDto item : mItems) {
+                add(new AudioQueueItem(i++, item));
             }
 
         } else {
