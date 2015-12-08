@@ -12,6 +12,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import mediabrowser.apiinteraction.ApiClient;
@@ -378,6 +379,19 @@ public class MediaManager {
                 Utils.showToast(TvApp.getApplication(), "Unable to play audio " + exception.getLocalizedMessage());
             }
         });
+
+    }
+
+    public static void shuffleAudioQueue() {
+        if (!hasAudioQueueItems()) return;
+
+        List<BaseItemDto> items = new ArrayList<>();
+        for(int i = 0; i < mCurrentAudioQueue.size(); i++) {
+            items.add(((BaseRowItem) mCurrentAudioQueue.get(i)).getBaseItem());
+        }
+
+        Collections.shuffle(items);
+        playNow(items);
 
     }
 

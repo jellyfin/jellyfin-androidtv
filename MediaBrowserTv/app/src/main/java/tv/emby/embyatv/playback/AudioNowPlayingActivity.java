@@ -103,6 +103,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     private Typeface roboto;
 
     private BaseItemDto mBaseItem;
+    private ListRow mQueueRow;
 
     private long lastUserInteraction;
     private boolean ssActive;
@@ -209,7 +210,9 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                         .setPositiveButton(mActivity.getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //todo shuffle
+                                MediaManager.shuffleAudioQueue();
+                                mRowsAdapter.remove(mQueueRow);
+                                addQueue();
                             }
                         })
                         .setNegativeButton(mActivity.getString(R.string.lbl_no), null)
@@ -272,16 +275,18 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mAudioQueuePresenter = new PositionableListRowPresenter();
         mRowsAdapter = new ArrayObjectAdapter(mAudioQueuePresenter);
         mRowsFragment.setAdapter(mRowsAdapter);
-
-        ListRow queue = new ListRow(new HeaderItem("Current Queue",null), MediaManager.getCurrentAudioQueue());
-        MediaManager.getCurrentAudioQueue().setRow(queue);
-        mRowsAdapter.add(queue);
+        addQueue();
 
         mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
 
-
         mPlayPauseButton.requestFocus();
 
+    }
+
+    protected void addQueue() {
+        mQueueRow = new ListRow(new HeaderItem("Current Queue",null), MediaManager.getCurrentAudioQueue());
+        MediaManager.getCurrentAudioQueue().setRow(mQueueRow);
+        mRowsAdapter.add(mQueueRow);
     }
 
     @Override
