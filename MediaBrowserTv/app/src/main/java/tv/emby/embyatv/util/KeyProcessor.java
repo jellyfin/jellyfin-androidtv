@@ -414,6 +414,9 @@ public class KeyProcessor {
                 case MENU_REMOVE_FROM_QUEUE:
                     MediaManager.removeFromAudioQueue(mCurrentRowItemNdx);
                     return true;
+                case MENU_ADVANCE_QUEUE:
+                    MediaManager.playFrom(mCurrentRowItemNdx);
+                    return true;
 
             }
 

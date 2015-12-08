@@ -317,6 +317,16 @@ public class MediaManager {
         }
     }
 
+    public static boolean playFrom(int ndx) {
+        if (ndx >= mCurrentAudioQueue.size()) return false;
+
+        if (isPlayingAudio()) stopAudio();
+
+        mCurrentAudioQueuePosition = ndx-1;
+        nextAudioItem();
+        return true;
+    }
+
     private static boolean ensureAudioFocus() {
         if (mAudioManager.requestAudioFocus(mAudioFocusChanged, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN) != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             TvApp.getApplication().getLogger().Error("Unable to get audio focus");
@@ -436,6 +446,7 @@ public class MediaManager {
     public static void stopAudio() {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
             mVlcPlayer.stop();
+            updateCurrentAudioItemPlaying(false);
             Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000);
             for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.IDLE, mCurrentAudioItem);
