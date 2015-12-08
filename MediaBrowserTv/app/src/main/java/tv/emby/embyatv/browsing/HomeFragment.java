@@ -26,6 +26,7 @@ import mediabrowser.model.querying.NextUpQuery;
 import tv.emby.embyatv.integration.RecommendationManager;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.ChangeTriggerType;
+import tv.emby.embyatv.playback.AudioEventListener;
 import tv.emby.embyatv.playback.AudioNowPlayingActivity;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.presentation.PositionableListRowPresenter;
@@ -82,6 +83,9 @@ public class HomeFragment extends StdBrowseFragment {
 
         ThemeManager.showWelcomeMessage();
 
+        //Subscribe to Audio messages
+        MediaManager.addAudioEventListener(audioEventListener);
+
     }
 
     @Override
@@ -108,6 +112,12 @@ public class HomeFragment extends StdBrowseFragment {
                 addNowPlaying();
             }
         }, 750);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        MediaManager.removeAudioEventListener(audioEventListener);
     }
 
     @Override
@@ -213,6 +223,17 @@ public class HomeFragment extends StdBrowseFragment {
         }
 
     }
+
+    protected AudioEventListener audioEventListener = new AudioEventListener() {
+        @Override
+        public void onQueueStatusChanged(boolean hasQueue) {
+            //remove on any change - it will re-add on resume
+            if (nowPlayingRow != null) {
+                mRowsAdapter.remove(nowPlayingRow);
+                nowPlayingRow = null;
+            }
+        }
+    };
 
     protected ListRow nowPlayingRow;
 

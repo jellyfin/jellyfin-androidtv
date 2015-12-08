@@ -401,6 +401,7 @@ public class MediaManager {
     public static boolean hasPrevAudioItem() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0 && (mRepeat || mCurrentAudioQueuePosition > 0); }
 
     public static void updateCurrentAudioItemPlaying(boolean playing) {
+        if (mCurrentAudioQueuePosition < 0) return;
         BaseRowItem rowItem = (BaseRowItem) mCurrentAudioQueue.get(mCurrentAudioQueuePosition);
         if (rowItem != null) {
             rowItem.setIsPlaying(playing);
