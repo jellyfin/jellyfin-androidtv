@@ -281,7 +281,7 @@
                 android:gravity="center"
                 android:layout_below="@+id/detailArea"
                 android:layout_centerHorizontal="true"
-                android:textColor="@color/accent_material_light" />
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <FrameLayout
                 android:layout_width="match_parent"
