@@ -66,7 +66,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     private ImageButton mShuffleButton;
     private ImageButton mAlbumButton;
     private ImageButton mArtistButton;
-    private ImageButton mFavButton;
+    private ImageButton mSaveButton;
     private ClockUserView mClock;
     private ScrollView mScrollView;
 
@@ -179,22 +179,13 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                 updateButtons(MediaManager.isPlayingAudio());
             }
         });
-        mFavButton = (ImageButton) findViewById(R.id.favoriteBtn);
-        mFavButton.setHelpView(helpView);
-        mFavButton.setHelpText(getString(R.string.lbl_toggle_favorite));
-        mFavButton.setPrimaryImage(R.drawable.whiteheart);
-        mFavButton.setSecondaryImage(R.drawable.redheart);
-        mFavButton.setOnClickListener(new View.OnClickListener() {
+        mSaveButton = (ImageButton) findViewById(R.id.saveBtn);
+        mSaveButton.setHelpView(helpView);
+        mSaveButton.setHelpText(getString(R.string.lbl_save_as_playlist));
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserItemDataDto data = mBaseItem.getUserData();
-                mApplication.getApiClient().UpdateFavoriteStatusAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
-                    @Override
-                    public void onResponse(UserItemDataDto response) {
-                        mBaseItem.setUserData(response);
-                        updateButtons(MediaManager.isPlayingAudio());
-                    }
-                });
+                MediaManager.saveAudioQueue(mActivity);
             }
         });
         mRepeatButton.setGotFocusListener(mainAreaFocusListener);
@@ -424,7 +415,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mPoster.setKeepScreenOn(playing);
         mPlayPauseButton.setState(!playing ? ImageButton.STATE_PRIMARY : ImageButton.STATE_SECONDARY);
         mRepeatButton.setState(MediaManager.isRepeatMode() ? ImageButton.STATE_SECONDARY : ImageButton.STATE_PRIMARY);
-        mFavButton.setState(mBaseItem.getUserData() != null && mBaseItem.getUserData().getIsFavorite() ? ImageButton.STATE_SECONDARY : ImageButton.STATE_PRIMARY);
+        mSaveButton.setEnabled(MediaManager.getCurrentAudioQueueSize() > 1);
         mPrevButton.setEnabled(MediaManager.hasPrevAudioItem());
         mNextButton.setEnabled(MediaManager.hasNextAudioItem());
         mShuffleButton.setEnabled(MediaManager.getCurrentAudioQueueSize() > 1);

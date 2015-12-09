@@ -97,7 +97,7 @@
                     android:id="@+id/buttonRow"
                     android:minHeight="35sp"
                     android:showDividers="middle"
-                    android:divider="@drawable/blank30x30"
+                    android:divider="@drawable/blank20x20"
                     android:layout_alignParentBottom="false"
                     android:gravity="center_vertical|left"
                     android:layout_below="@+id/playerProgress"
@@ -153,8 +153,8 @@
                         android:layout_width="28sp"
                         android:layout_height="28sp"
                         class="tv.emby.embyatv.ui.ImageButton"
-                        android:id="@+id/favoriteBtn"
-                        android:src="@drawable/whiteheart"
+                        android:id="@+id/saveBtn"
+                        android:src="@drawable/saveplaylist"
                         android:focusable="true"
                         android:clickable="true"
                         android:focusableInTouchMode="true"
@@ -234,7 +234,7 @@
 
                 <ProgressBar
                     style="@style/player_progress"
-                    android:layout_width="300dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/playerProgress"
                     android:minWidth="525sp"
@@ -280,8 +280,8 @@
                 android:textSize="16sp"
                 android:gravity="center"
                 android:layout_below="@+id/detailArea"
-                android:layout_centerHorizontal="true"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginLeft="370dp" />
 
             <FrameLayout
                 android:layout_width="match_parent"

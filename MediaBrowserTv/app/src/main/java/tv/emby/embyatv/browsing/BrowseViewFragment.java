@@ -20,6 +20,7 @@ import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.ChangeTriggerType;
 import tv.emby.embyatv.querying.StdItemQuery;
 import tv.emby.embyatv.util.Utils;
@@ -32,6 +33,16 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId().equals(TvApp.getApplication().getLastDeletedItemId())) {
+            ((ItemRowAdapter)mCurrentRow.getAdapter()).remove(mCurrentItem);
+            TvApp.getApplication().setLastDeletedItemId(null);
+        }
     }
 
     @Override

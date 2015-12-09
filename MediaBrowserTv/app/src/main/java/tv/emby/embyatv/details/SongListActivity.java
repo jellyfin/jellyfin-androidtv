@@ -1,5 +1,7 @@
 package tv.emby.embyatv.details;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -24,6 +26,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserItemDataDto;
@@ -341,14 +344,55 @@ public class SongListActivity extends BaseActivity {
             }
         }
 
-        ImageButton mix = new ImageButton(this, R.drawable.mix, buttonSize, getString(R.string.lbl_instant_mix), mButtonHelp, new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                Utils.Beep();
-                Utils.playInstantMix(mBaseItem.getId());
-            }
-        });
-        mButtonRow.addView(mix);
+        if ("MusicAlbum".equals(mBaseItem.getType())) {
+            ImageButton mix = new ImageButton(this, R.drawable.mix, buttonSize, getString(R.string.lbl_instant_mix), mButtonHelp, new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    Utils.Beep();
+                    Utils.playInstantMix(mBaseItem.getId());
+                }
+            });
+            mButtonRow.addView(mix);
+        }
+
+        if ("Playlist".equals(mBaseItem.getType())) {
+            ImageButton delete = new ImageButton(this, R.drawable.trash, buttonSize, getString(R.string.lbl_delete), mButtonHelp, new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    new AlertDialog.Builder(mActivity)
+                            .setTitle(R.string.lbl_delete)
+                            .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
+                            .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    TvApp.getApplication().getApiClient().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
+                                        @Override
+                                        public void onResponse() {
+                                            Utils.showToast(mActivity, mBaseItem.getName() + " Deleted");
+                                            TvApp.getApplication().setLastDeletedItemId(mBaseItem.getId());
+                                            finish();
+                                        }
+
+                                        @Override
+                                        public void onError(Exception ex) {
+                                            Utils.showToast(mActivity, ex.getLocalizedMessage());
+                                        }
+                                    });
+                                }
+                            })
+                            .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Utils.showToast(mActivity, "Item NOT Deleted");
+                                }
+                            })
+                            .show();
+
+                }
+            });
+
+            mButtonRow.addView(delete);
+
+        }
 
         if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {
             ImageButton artist = new ImageButton(this, R.drawable.user, buttonSize, getString(R.string.lbl_open_artist), mButtonHelp, new View.OnClickListener() {
