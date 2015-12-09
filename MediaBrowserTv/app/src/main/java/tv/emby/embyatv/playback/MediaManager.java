@@ -148,8 +148,8 @@ public class MediaManager {
                         listener.onProgress(mCurrentAudioPosition);
                     }
 
-                    //Report progress to server every 3 secs
-                    if (System.currentTimeMillis() > lastProgressReport + 3000) {
+                    //Report progress to server every 5 secs
+                    if (System.currentTimeMillis() > lastProgressReport + 5000) {
                         Utils.ReportProgress(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000, !mVlcPlayer.isPlaying());
                         lastProgressReport = System.currentTimeMillis();
                         TvApp.getApplication().setLastUserInteraction(lastProgressReport);
