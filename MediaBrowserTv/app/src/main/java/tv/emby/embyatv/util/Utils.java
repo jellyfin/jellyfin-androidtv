@@ -668,7 +668,8 @@ public class Utils {
                         Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
                         intent.putExtra("Items", response);
                         intent.putExtra("Position", pos);
-                        if (!(activity instanceof Activity)) intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        if (!(activity instanceof Activity))
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         activity.startActivity(intent);
                 }
             }
@@ -701,7 +702,11 @@ public class Utils {
         getInstantMixAsync(seedId, new Response<BaseItemDto[]>() {
             @Override
             public void onResponse(BaseItemDto[] response) {
-                MediaManager.playNow(Arrays.asList(response));
+                if (response.length > 0) {
+                    MediaManager.playNow(Arrays.asList(response));
+                } else {
+                    showToast(TvApp.getApplication(), R.string.msg_no_playable_items);
+                }
             }
         });
     }
