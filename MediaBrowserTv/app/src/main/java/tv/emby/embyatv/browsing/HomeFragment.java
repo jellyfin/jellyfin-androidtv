@@ -83,6 +83,15 @@ public class HomeFragment extends StdBrowseFragment {
 
         ThemeManager.showWelcomeMessage();
 
+        //BETA message
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mActivity.showMessage("Thank You for Testing", "Thank you for helping to test this app.  Please check out the new music functionality and LEAVE FEEDBACK in the testing forum at emby.media/community.",10000);
+
+            }
+        }, 2000);
+
         //Subscribe to Audio messages
         MediaManager.addAudioEventListener(audioEventListener);
 
