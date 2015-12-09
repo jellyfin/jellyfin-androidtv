@@ -562,15 +562,14 @@ public class Utils {
                 query.setSortBy(new String[]{shuffle ? ItemSortBy.Random : ItemSortBy.SortName});
                 query.setRecursive(true);
                 query.setLimit(150); // guard against too many items
-                query.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
+                query.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
                 query.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
-                        for (BaseItemDto item : response.getItems()) {
-                            items.add(serializer.SerializeToString(item));
-                        }
-                        outerResponse.onResponse(items.toArray(new String[items.size()]));
+                        //Just go ahead and start playing since we have what we need
+                        MediaManager.playNow(Arrays.asList(response.getItems()));
+                        outerResponse.onResponse(new String[]{});
                     }
                 });
                 break;
@@ -656,12 +655,12 @@ public class Utils {
                     case "MusicAlbum":
                     case "MusicArtist":
                     case "Playlist":
+                        //The previous function started playback
+                        break;
                     case "Audio":
-                        List<BaseItemDto> items = new ArrayList<>();
-                        for (String json : response) {
-                            items.add((BaseItemDto) TvApp.getApplication().getSerializer().DeserializeFromString(json, BaseItemDto.class));
+                        if (response.length > 0) {
+                            MediaManager.playNow((BaseItemDto) TvApp.getApplication().getSerializer().DeserializeFromString(response[0], BaseItemDto.class));
                         }
-                        MediaManager.playNow(items);
                         break;
 
                     default:
