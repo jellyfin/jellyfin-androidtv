@@ -1,17 +1,23 @@
 package tv.emby.embyatv.playback;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.text.InputType;
+import android.widget.EditText;
 
 import org.acra.ACRA;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,6 +27,8 @@ import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.model.dlna.AudioOptions;
 import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.playlists.PlaylistCreationRequest;
+import mediabrowser.model.playlists.PlaylistCreationResult;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.itemhandling.AudioQueueItem;
@@ -213,6 +221,54 @@ public class MediaManager {
         mCurrentAudioQueue = new ItemRowAdapter(items, new CardPresenter(true, Utils.convertDpToPixel(TvApp.getApplication(), 150)), null, QueryType.StaticAudioQueueItems);
         mCurrentAudioQueue.Retrieve();
         fireQueueStatusChange();
+    }
+
+    public static void saveAudioQueue(Activity activity) {
+        //Get a name and save as playlist
+        final EditText name = new EditText(activity);
+        name.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        new AlertDialog.Builder(activity)
+                .setTitle(R.string.lbl_save_as_playlist)
+                .setMessage("Enter a name for the new playlist")
+                .setView(name)
+                .setPositiveButton(R.string.btn_done, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        final String text = name.getText().toString();
+                        PlaylistCreationRequest request = new PlaylistCreationRequest();
+                        request.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                        request.setMediaType("Audio");
+                        request.setName(text);
+                        request.setItemIdList(getCurrentAudioQueueItemIds());
+                        TvApp.getApplication().getApiClient().CreatePlaylist(request, new Response<PlaylistCreationResult>() {
+                            @Override
+                            public void onResponse(PlaylistCreationResult response) {
+                                TvApp.getApplication().showMessage("Playlist Saved", "Audio queue saved as new playlist: "+text);
+                                TvApp.getApplication().setLastLibraryChange(Calendar.getInstance());
+                            }
+
+                            @Override
+                            public void onError(Exception exception) {
+                                TvApp.getApplication().getLogger().Debug(exception.toString());
+                            }
+                        });
+                    }
+                })
+                .show();
+
+    }
+
+    private static ArrayList<String> getCurrentAudioQueueItemIds() {
+        ArrayList<String> result = new ArrayList<>();
+
+        if (mCurrentAudioQueue != null) {
+            for (int i = 0; i < mCurrentAudioQueue.size(); i++) {
+                AudioQueueItem item = (AudioQueueItem) mCurrentAudioQueue.get(i);
+                result.add(item.getItemId());
+            }
+        }
+
+        return result;
     }
 
     public static int queueAudioItem(int pos, BaseItemDto item) {

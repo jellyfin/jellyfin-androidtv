@@ -810,11 +810,11 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         if ("Recording".equals(mBaseItem.getType()) && TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvManagement() && mBaseItem.getCanDelete()) {
             final Activity activity = this;
-            ImageButton del = new ImageButton(this, R.drawable.trash, buttonSize, "Delete", null, new View.OnClickListener() {
+            ImageButton del = new ImageButton(this, R.drawable.trash, buttonSize, getString(R.string.lbl_delete), null, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     new AlertDialog.Builder(activity)
-                            .setTitle("Delete")
+                            .setTitle(R.string.lbl_delete)
                             .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
                             .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
