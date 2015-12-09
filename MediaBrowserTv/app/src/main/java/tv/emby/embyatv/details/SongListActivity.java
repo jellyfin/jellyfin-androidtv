@@ -48,6 +48,7 @@ import tv.emby.embyatv.ui.ImageButton;
 import tv.emby.embyatv.ui.NowPlayingBug;
 import tv.emby.embyatv.ui.SongListView;
 import tv.emby.embyatv.ui.SongRowView;
+import tv.emby.embyatv.util.DelayedMessage;
 import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.KeyProcessor;
 import tv.emby.embyatv.util.Utils;
@@ -254,11 +255,6 @@ public class SongListActivity extends BaseActivity {
 
     public void setBaseItem(BaseItemDto item) {
         mBaseItem = item;
-        mTitle.setText(item.getName());
-        if (item.getName().length() > 32) {
-            // scale down the title so more will fit
-            mTitle.setTextSize(32);
-        }
 
         LinearLayout mainInfoRow = (LinearLayout)findViewById(R.id.fdMainInfoRow);
 
@@ -277,18 +273,29 @@ public class SongListActivity extends BaseActivity {
         songs.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
         songs.setIncludeItemTypes(new String[]{"Audio"});
         mApplication.getApiClient().GetItemsAsync(songs, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult response) {
-                if (response.getTotalRecordCount() > 0) {
-                    mSongs = Arrays.asList(response.getItems());
-                    mSongList.addSongs(response.getItems());
-                    if (MediaManager.isPlayingAudio()) {
-                        //update our status
-                        mAudioEventListener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, MediaManager.getCurrentAudioItem());
+                    @Override
+                    public void onResponse(ItemsResult response) {
+                        mTitle.setText(mBaseItem.getName());
+                        if (mBaseItem.getName().length() > 32) {
+                            // scale down the title so more will fit
+                            mTitle.setTextSize(32);
+                        }
+                        if (response.getTotalRecordCount() > 0) {
+                            mSongs = Arrays.asList(response.getItems());
+                            mSongList.addSongs(response.getItems());
+                            if (MediaManager.isPlayingAudio()) {
+                                //update our status
+                                mAudioEventListener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, MediaManager.getCurrentAudioItem());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Exception exception) {
+                        Utils.showToast(mActivity, exception.getLocalizedMessage());
                     }
                 }
-            }
-        });
+        );
 
     }
 

@@ -12,7 +12,8 @@
         android:maxLines="1"
         android:ellipsize="end"
         android:layout_marginRight="240sp"
-        android:layout_marginLeft="50sp" />
+        android:layout_marginLeft="50sp"
+        android:text="Loading..." />
 
     <LinearLayout
         android:orientation="horizontal"
