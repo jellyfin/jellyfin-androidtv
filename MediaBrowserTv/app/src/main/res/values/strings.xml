@@ -319,6 +319,7 @@
     <string name="lbl_instant_mix">Instant Mix</string>
     <string name="lbl_save_as_playlist">Save as Playlist</string>
     <string name="lbl_delete">Delete</string>
+    <string name="msg_item_added">" item added"</string>
 
 
 </resources>
