@@ -333,6 +333,19 @@ public class AudioNowPlayingActivity extends BaseActivity  {
             case KeyEvent.KEYCODE_MEDIA_REWIND:
                 MediaManager.prevAudioItem();
                 return true;
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
+                if (ssActive) {
+                    MediaManager.nextAudioItem();
+                    return true;
+                }
+                break;
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+                if (ssActive) {
+                    MediaManager.prevAudioItem();
+                    return true;
+                }
+                break;
+
         }
 
         if (ssActive) {
