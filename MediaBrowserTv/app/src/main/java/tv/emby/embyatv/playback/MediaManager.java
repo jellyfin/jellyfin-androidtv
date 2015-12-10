@@ -67,6 +67,8 @@ public class MediaManager {
 
     private static boolean mRepeat;
 
+    private static List<BaseItemDto> mCurrentVideoQueue;
+
     public static ItemRowAdapter getCurrentMediaAdapter() {
         return mCurrentMediaAdapter;
     }
@@ -79,6 +81,9 @@ public class MediaManager {
     public static int getCurrentMediaPosition() {
         return mCurrentMediaPosition;
     }
+
+    public static void setCurrentVideoQueue(List<BaseItemDto> items) { mCurrentVideoQueue = items; }
+    public static List<BaseItemDto> getCurrentVideoQueue() { return mCurrentVideoQueue; }
 
     public static int getCurrentAudioQueueSize() { return mCurrentAudioQueue != null ? mCurrentAudioQueue.size() : 0; }
     public static int getCurrentAudioQueuePosition() { return mCurrentAudioQueuePosition; }

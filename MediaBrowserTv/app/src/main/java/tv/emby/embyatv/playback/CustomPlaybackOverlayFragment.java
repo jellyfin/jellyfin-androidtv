@@ -157,7 +157,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private String mFirstFocusChannelId;
 
     PlaybackController mPlaybackController;
-    private List<BaseItemDto> mItemsToPlay = new ArrayList<>();
+    private List<BaseItemDto> mItemsToPlay;
 
     Animation fadeOut;
     Animation slideUp;
@@ -203,17 +203,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mActivity.setVolumeControlStream(AudioManager.STREAM_MUSIC);
         mActivity.setKeyListener(keyListener);
 
-        Intent intent = mActivity.getIntent();
-        GsonJsonSerializer serializer = mApplication.getSerializer();
+        mItemsToPlay = MediaManager.getCurrentVideoQueue();
 
-        String[] passedItems = intent.getStringArrayExtra("Items");
-        if (passedItems != null) {
-            for (String json : passedItems) {
-                mItemsToPlay.add((BaseItemDto) serializer.DeserializeFromString(json, BaseItemDto.class));
-            }
-        }
-
-        if (mItemsToPlay.size() == 0) {
+        if (mItemsToPlay == null || mItemsToPlay.size() == 0) {
             Utils.showToast(mApplication, mApplication.getString(R.string.msg_no_playable_items));
             mActivity.finish();
             return;
