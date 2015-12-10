@@ -68,6 +68,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     private ImageButton mArtistButton;
     private ImageButton mSaveButton;
     private ClockUserView mClock;
+    private TextView mCounter;
     private ScrollView mScrollView;
 
     private RelativeLayout mSSArea;
@@ -132,6 +133,8 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mAlbumTitle.setTypeface(roboto);
         mCurrentNdx = (TextView) findViewById(R.id.currentNdx);
         mScrollView = (ScrollView) findViewById(R.id.mainScroller);
+        mCounter = (TextView) findViewById(R.id.counter);
+        mCounter.setTypeface(roboto);
 
         mSSArea = (RelativeLayout) findViewById(R.id.ssInfoArea);
         mSSTime = (TextView) findViewById(R.id.ssTime);
@@ -474,7 +477,10 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
 
-            //todo - anything to do here...?
+            if (item instanceof BaseRowItem) {
+                //Keep counter
+                mCounter.setText(((BaseRowItem) item).getIndex()+1 + " | "+mQueueRow.getAdapter().size());
+            }
         }
     }
 
