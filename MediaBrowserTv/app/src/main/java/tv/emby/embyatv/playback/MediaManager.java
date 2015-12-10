@@ -303,7 +303,7 @@ public class MediaManager {
                 mCurrentAudioQueue.add(new AudioQueueItem(ndx++, item));
             }
         }
-        TvApp.getApplication().showMessage(items.size() + TvApp.getApplication().getString(R.string.msg_items_added), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
+        TvApp.getApplication().showMessage(items.size() + (items.size() > 1 ? TvApp.getApplication().getString(R.string.msg_items_added) : TvApp.getApplication().getString(R.string.msg_item_added)), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
     }
 
     public static void removeFromAudioQueue(int ndx) {
@@ -350,6 +350,25 @@ public class MediaManager {
     public static void playNow(final List<BaseItemDto> items) {
         if (!ensureInitialized()) return;
 
+        if (hasAudioQueueItems()) {
+            new AlertDialog.Builder(TvApp.getApplication().getCurrentActivity())
+                    .setTitle("Replace Queue")
+                    .setMessage("This will replace the current audio queue.  Continue?")
+                    .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            playNowInternal(items);
+                        }
+                    })
+                    .setNegativeButton(R.string.lbl_no, null)
+                    .show();
+        } else {
+            playNowInternal(items);
+        }
+
+    }
+
+    private static void playNowInternal(List<BaseItemDto> items) {
         createAudioQueue(items);
         mCurrentAudioQueuePosition = -1;
         nextAudioItem();
@@ -357,21 +376,17 @@ public class MediaManager {
             Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
             TvApp.getApplication().getCurrentActivity().startActivity(nowPlaying);
         } else {
-            TvApp.getApplication().showMessage(items.size() + TvApp.getApplication().getString(R.string.msg_items_added), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
-
+            TvApp.getApplication().showMessage(items.size() + (items.size() > 1 ? TvApp.getApplication().getString(R.string.msg_items_added) : TvApp.getApplication().getString(R.string.msg_item_added)), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
         }
+
     }
 
     public static void playNow(final BaseItemDto item) {
         if (!ensureInitialized()) return;
 
-        createAudioQueue(new ArrayList<BaseItemDto>());
-        queueAudioItem(item);
-        nextAudioItem();
-        if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
-            Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
-            TvApp.getApplication().getCurrentActivity().startActivity(nowPlaying);
-        }
+        List<BaseItemDto> list = new ArrayList<BaseItemDto>();
+        list.add(item);
+        playNow(list);
     }
 
     public static boolean playFrom(int ndx) {
