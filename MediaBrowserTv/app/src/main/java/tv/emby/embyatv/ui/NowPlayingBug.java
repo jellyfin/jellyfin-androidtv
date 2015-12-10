@@ -140,4 +140,8 @@ public class NowPlayingBug extends FrameLayout {
         this.setVisibility(MediaManager.hasAudioQueueItems() ? VISIBLE : GONE);
         return MediaManager.hasAudioQueueItems();
     }
+
+    public void showDescription(boolean show) {
+        npDesc.setVisibility(show ? VISIBLE : GONE);
+    }
 }
