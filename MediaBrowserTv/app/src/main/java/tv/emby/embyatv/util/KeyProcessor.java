@@ -1,6 +1,5 @@
 package tv.emby.embyatv.util;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,7 +9,6 @@ import android.view.MenuItem;
 import android.widget.PopupMenu;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import mediabrowser.apiinteraction.Response;
@@ -301,15 +299,12 @@ public class KeyProcessor {
 
             switch (item.getItemId()) {
                 case MENU_PLAY:
-                    Utils.Beep();
                     Utils.retrieveAndPlay(mCurrentItemId, false, mCurrentActivity);
                     return true;
                 case MENU_PLAY_SHUFFLE:
-                    Utils.Beep();
                     Utils.retrieveAndPlay(mCurrentItemId, true, mCurrentActivity);
                     return true;
                 case MENU_ADD_QUEUE:
-                    Utils.Beep();
                     Utils.getItemsToPlay(mCurrentItem, false, false, new Response<String[]>() {
                         @Override
                         public void onResponse(String[] response) {
