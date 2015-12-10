@@ -38,7 +38,7 @@
     <string name="video_error_server_inaccessible">Server Inaccessible</string>
     <string name="home_title">Home</string>
     <string name="btn_cancel">Cancel</string>
-    <string name="btn_manually">Enter Server Address</string>
+    <string name="btn_manually">Skip and Enter IP Address</string>
     <string name="txt_expired">Emby for Android TV is Expired</string>
     <string name="txt_expired_exp">This development version has expired.   Please look for an update or install from the store.  Thank you for using Emby!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
