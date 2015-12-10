@@ -320,6 +320,9 @@
     <string name="lbl_save_as_playlist">Save as Playlist</string>
     <string name="lbl_delete">Delete</string>
     <string name="msg_item_added">" item added"</string>
+    <string name="btn_replace_queue">Replace Queue</string>
+    <string name="lbl_items_in_queue">Items in Queue</string>
+    <string name="msg_replace_or_add_queue_q">Would you like to replace the current queue or add to it?</string>
 
 
 </resources>
