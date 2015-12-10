@@ -263,6 +263,9 @@ public class HorizontalGridFragment extends Fragment {
         mSpinner = (FrameLayout) root.findViewById(R.id.spinner);
         mGridDock = (ViewGroup) root.findViewById(R.id.rowsFragment);
 
+        // Hide the description because we don't have room for it
+        ((NowPlayingBug)root.findViewById(R.id.npBug)).showDescription(false);
+
         return root;
     }
 
