@@ -292,6 +292,19 @@
                 android:layout_marginTop="30dp">
 
             </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 | 0"
+                android:id="@+id/counter"
+                android:textAlignment="viewEnd"
+                android:textSize="18sp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="25sp" />
+
         </RelativeLayout>
     </ScrollView>
 
