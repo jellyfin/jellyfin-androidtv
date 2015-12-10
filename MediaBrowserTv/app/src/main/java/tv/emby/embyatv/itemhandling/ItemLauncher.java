@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.KeyEvent;
 
+import java.util.List;
+
 import mediabrowser.apiinteraction.ConnectionResult;
 import mediabrowser.apiinteraction.IConnectionManager;
 import mediabrowser.apiinteraction.Response;
@@ -185,11 +187,11 @@ public class ItemLauncher {
                         case Play:
                             if (baseItem.getPlayAccess() == PlayAccess.Full) {
                                 //Just play it directly
-                                Utils.getItemsToPlay(baseItem, baseItem.getType().equals("Movie"), false, new Response<String[]>() {
+                                Utils.getItemsToPlay(baseItem, baseItem.getType().equals("Movie"), false, new Response<List<BaseItemDto>>() {
                                     @Override
-                                    public void onResponse(String[] response) {
+                                    public void onResponse(List<BaseItemDto> response) {
                                         Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
-                                        intent.putExtra("Items", response);
+                                        MediaManager.setCurrentVideoQueue(response);
                                         intent.putExtra("Position", 0);
                                         activity.startActivity(intent);
                                     }
@@ -313,11 +315,11 @@ public class ItemLauncher {
                 TvApp.getApplication().getApiClient().GetItemAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
-                        Utils.getItemsToPlay(response, false, false, new Response<String[]>() {
+                        Utils.getItemsToPlay(response, false, false, new Response<List<BaseItemDto>>() {
                             @Override
-                            public void onResponse(String[] response) {
+                            public void onResponse(List<BaseItemDto> response) {
                                 Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
-                                intent.putExtra("Items", response);
+                                MediaManager.setCurrentVideoQueue(response);
                                 intent.putExtra("Position", 0);
                                 activity.startActivity(intent);
 

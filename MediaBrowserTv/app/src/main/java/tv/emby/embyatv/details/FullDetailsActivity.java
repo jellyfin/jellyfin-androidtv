@@ -947,9 +947,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             @Override
             public void onResponse(UserItemDataDto response) {
                 mBaseItem.setUserData(response);
-                ((ImageButton)v).setImageResource(R.drawable.redcheck);
+                ((ImageButton) v).setImageResource(R.drawable.redcheck);
                 //adjust resume
-                if (mResumeButton != null && !mBaseItem.getCanResume()) mResumeButton.setVisibility(View.GONE);
+                if (mResumeButton != null && !mBaseItem.getCanResume())
+                    mResumeButton.setVisibility(View.GONE);
                 //force lists to re-fetch
                 TvApp.getApplication().setLastPlayback(Calendar.getInstance());
             }
@@ -962,9 +963,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             @Override
             public void onResponse(UserItemDataDto response) {
                 mBaseItem.setUserData(response);
-                ((ImageButton)v).setImageResource(R.drawable.whitecheck);
+                ((ImageButton) v).setImageResource(R.drawable.whitecheck);
                 //adjust resume
-                if (mResumeButton != null && !mBaseItem.getCanResume()) mResumeButton.setVisibility(View.GONE);
+                if (mResumeButton != null && !mBaseItem.getCanResume())
+                    mResumeButton.setVisibility(View.GONE);
                 //force lists to re-fetch
                 TvApp.getApplication().setLastPlayback(Calendar.getInstance());
             }
@@ -974,13 +976,17 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
         final Activity activity = this;
-        Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), shuffle, new Response<String[]>() {
+        Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), shuffle, new Response<List<BaseItemDto>>() {
             @Override
-            public void onResponse(String[] response) {
-                Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
-                intent.putExtra("Items", response);
-                intent.putExtra("Position", pos);
-                startActivity(intent);
+            public void onResponse(List<BaseItemDto> response) {
+                if ("MusicArtist".equals(item.getType())) {
+                    MediaManager.playNow(response);
+                } else {
+                    Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                    MediaManager.setCurrentVideoQueue(response);
+                    intent.putExtra("Position", pos);
+                    startActivity(intent);
+                }
             }
         });
 

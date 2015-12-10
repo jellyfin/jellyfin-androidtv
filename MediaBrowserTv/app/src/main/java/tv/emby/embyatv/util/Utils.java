@@ -17,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Display;
@@ -40,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -488,14 +490,13 @@ public class Utils {
         return null;
     }
 
-    public static void getItemsToPlay(final BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<String[]> outerResponse) {
-        final List<String> items = new ArrayList<>();
-        final GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
+    public static void getItemsToPlay(final BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<BaseItemDto>> outerResponse) {
+        final List<BaseItemDto> items = new ArrayList<>();
         ItemQuery query = new ItemQuery();
 
         switch (mainItem.getType()) {
             case "Episode":
-                items.add(serializer.SerializeToString(mainItem));
+                items.add(mainItem);
                 if (TvApp.getApplication().getPrefs().getBoolean("pref_enable_tv_queuing", true)) {
                     //add subsequent episodes
                     if (mainItem.getSeasonId() != null && mainItem.getIndexNumber() != null) {
@@ -512,26 +513,26 @@ public class Utils {
                                 if (response.getTotalRecordCount() > 0) {
                                     for (BaseItemDto item : response.getItems()) {
                                         if (item.getIndexNumber() > mainItem.getIndexNumber()) {
-                                            items.add(serializer.SerializeToString(item));
+                                            items.add(item);
                                         }
                                     }
                                 }
-                                outerResponse.onResponse(items.toArray(new String[items.size()]));
+                                outerResponse.onResponse(items);
                             }
                         });
                     } else {
                         TvApp.getApplication().getLogger().Info("Unable to add subsequent episodes due to lack of season or episode data.");
-                        outerResponse.onResponse(items.toArray(new String[items.size()]));
+                        outerResponse.onResponse(items);
                     }
                 } else {
-                    outerResponse.onResponse(items.toArray(new String[items.size()]));
+                    outerResponse.onResponse(items);
                 }
                 break;
             case "Series":
             case "Season":
             case "BoxSet":
             case "Folder":
-                //get all episodes
+                //get all videos
                 query.setParentId(mainItem.getId());
                 query.setIsMissing(false);
                 query.setIsVirtualUnaired(false);
@@ -544,10 +545,8 @@ public class Utils {
                 TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
-                        for (BaseItemDto item : response.getItems()) {
-                            items.add(serializer.SerializeToString(item));
-                        }
-                        outerResponse.onResponse(items.toArray(new String[items.size()]));
+                        Collections.addAll(items, response.getItems());
+                        outerResponse.onResponse(items);
                     }
                 });
                 break;
@@ -567,9 +566,7 @@ public class Utils {
                 TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
-                        //Just go ahead and start playing since we have what we need
-                        MediaManager.playNow(Arrays.asList(response.getItems()));
-                        outerResponse.onResponse(new String[]{});
+                        outerResponse.onResponse(Arrays.asList(response.getItems()));
                     }
                 });
                 break;
@@ -588,8 +585,8 @@ public class Utils {
                         response.setEndDate(mainItem.getEndDate());
                         response.setOfficialRating(mainItem.getOfficialRating());
                         response.setRunTimeTicks(mainItem.getRunTimeTicks());
-                        items.add(serializer.SerializeToString(response));
-                        outerResponse.onResponse(items.toArray(new String[items.size()]));
+                        items.add(response);
+                        outerResponse.onResponse(items);
                     }
 
                     @Override
@@ -612,7 +609,7 @@ public class Utils {
                             mainItem.setOfficialRating(program.getOfficialRating());
                             mainItem.setRunTimeTicks(program.getRunTimeTicks());
                         }
-                        addMainItem(mainItem, serializer, items, outerResponse);
+                        addMainItem(mainItem, items, outerResponse);
                     }
                 });
                 break;
@@ -624,48 +621,46 @@ public class Utils {
                         @Override
                         public void onResponse(ItemsResult response) {
                             if (response.getTotalRecordCount() > 0){
-                                for (BaseItemDto item : response.getItems()) {
-                                    items.add(serializer.SerializeToString(item));
-                                }
+                                Collections.addAll(items, response.getItems());
                                 TvApp.getApplication().getLogger().Info(response.getTotalRecordCount() + " intro items added for playback.");
                             }
                             //Finally, the main item including subsequent parts
-                            addMainItem(mainItem, serializer, items, outerResponse);
+                            addMainItem(mainItem, items, outerResponse);
                         }
 
                         @Override
                         public void onError(Exception exception) {
                             TvApp.getApplication().getLogger().ErrorException("Error retrieving intros", exception);
-                            addMainItem(mainItem, serializer, items, outerResponse);
+                            addMainItem(mainItem, items, outerResponse);
                         }
                     });
 
                 } else {
-                    addMainItem(mainItem, serializer, items, outerResponse);
+                    addMainItem(mainItem, items, outerResponse);
                 }
                 break;
         }
     }
 
     public static void play(final BaseItemDto item, final int pos, final boolean shuffle, final Context activity) {
-        Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), shuffle, new Response<String[]>() {
+        Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), shuffle, new Response<List<BaseItemDto>>() {
             @Override
-            public void onResponse(String[] response) {
+            public void onResponse(List<BaseItemDto> response) {
                 switch (item.getType()) {
                     case "MusicAlbum":
                     case "MusicArtist":
                     case "Playlist":
-                        //The previous function started playback
+                        MediaManager.playNow(response);
                         break;
                     case "Audio":
-                        if (response.length > 0) {
-                            MediaManager.playNow((BaseItemDto) TvApp.getApplication().getSerializer().DeserializeFromString(response[0], BaseItemDto.class));
+                        if (response.size() > 0) {
+                            MediaManager.playNow(response.get(0));
                         }
                         break;
 
                     default:
                         Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
-                        intent.putExtra("Items", response);
+                        MediaManager.setCurrentVideoQueue(response);
                         intent.putExtra("Position", pos);
                         if (!(activity instanceof Activity))
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -732,18 +727,19 @@ public class Utils {
         return isFireTv() ? "http://www.amazon.com/Emby-for-Fire-TV/dp/B00VVJKTW8/ref=sr_1_2?s=mobile-apps&ie=UTF8&qid=1430569449&sr=1-2" : "https://play.google.com/store/apps/details?id=tv.emby.embyatv";
     }
 
-    private static void addMainItem(BaseItemDto mainItem, GsonJsonSerializer serializer, final List<String> items, final Response<String[]> outerResponse) {
-        items.add(serializer.SerializeToString(mainItem));
+    private static void addMainItem(BaseItemDto mainItem, final List<BaseItemDto> items, final Response<List<BaseItemDto>> outerResponse) {
+        items.add(mainItem);
         if (mainItem.getPartCount() != null && mainItem.getPartCount() > 1) {
             // get additional parts
             TvApp.getApplication().getApiClient().GetAdditionalParts(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
                 @Override
                 public void onResponse(ItemsResult response) {
-                    outerResponse.onResponse(items.toArray(new String[items.size()]));
+                    Collections.addAll(items, response.getItems());
+                    outerResponse.onResponse(items);
                 }
             });
         } else {
-            outerResponse.onResponse(items.toArray(new String[items.size()]));
+            outerResponse.onResponse(items);
         }
 
     }

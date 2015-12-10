@@ -305,15 +305,10 @@ public class KeyProcessor {
                     Utils.retrieveAndPlay(mCurrentItemId, true, mCurrentActivity);
                     return true;
                 case MENU_ADD_QUEUE:
-                    Utils.getItemsToPlay(mCurrentItem, false, false, new Response<String[]>() {
+                    Utils.getItemsToPlay(mCurrentItem, false, false, new Response<List<BaseItemDto>>() {
                         @Override
-                        public void onResponse(String[] response) {
-                            List<BaseItemDto> items = new ArrayList<>();
-                            for (String json : response) {
-                                items.add((BaseItemDto) TvApp.getApplication().getSerializer().DeserializeFromString(json, BaseItemDto.class));
-                            }
-                            MediaManager.addToAudioQueue(items);
-
+                        public void onResponse(List<BaseItemDto> response) {
+                            MediaManager.addToAudioQueue(response);
                         }
 
                         @Override
