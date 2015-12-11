@@ -272,6 +272,7 @@ public class SongListActivity extends BaseActivity {
         songs.setRecursive(true);
         songs.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
         songs.setIncludeItemTypes(new String[]{"Audio"});
+        songs.setLimit(200);
         mApplication.getApiClient().GetItemsAsync(songs, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
