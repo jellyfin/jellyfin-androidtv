@@ -50,7 +50,6 @@ public class ItemLauncher {
     public static void launch(BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity, final boolean noHistory) {
         final TvApp application = TvApp.getApplication();
         MediaManager.setCurrentMediaAdapter(adapter);
-        MediaManager.setCurrentMediaPosition(pos);
 
         switch (rowItem.getItemType()) {
 
@@ -153,6 +152,7 @@ public class ItemLauncher {
 
                     case "Photo":
                         // open photo player
+                        MediaManager.setCurrentMediaPosition(pos);
                         Intent photoIntent = new Intent(activity, PhotoPlayerActivity.class);
 
                         activity.startActivity(photoIntent);
