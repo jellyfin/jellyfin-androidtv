@@ -371,4 +371,14 @@
             android:maxLines="1" />
     </RelativeLayout>
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/artistLogo"
+        android:layout_alignTop="@+id/artistTitle"
+        android:layout_alignStart="@+id/artistTitle"
+        android:alpha=".3"
+        android:adjustViewBounds="false"
+        android:layout_marginTop="10dp" />
+
 </RelativeLayout>

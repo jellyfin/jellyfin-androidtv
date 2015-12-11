@@ -70,6 +70,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     private ClockUserView mClock;
     private TextView mCounter;
     private ScrollView mScrollView;
+    private ImageView mLogoImage;
 
     private RelativeLayout mSSArea;
     private TextView mSSTime;
@@ -135,6 +136,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mScrollView = (ScrollView) findViewById(R.id.mainScroller);
         mCounter = (TextView) findViewById(R.id.counter);
         mCounter.setTypeface(roboto);
+        mLogoImage = (ImageView) findViewById(R.id.artistLogo);
 
         mSSArea = (RelativeLayout) findViewById(R.id.ssInfoArea);
         mSSTime = (TextView) findViewById(R.id.ssTime);
@@ -521,7 +523,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
 
     protected void startScreenSaver() {
         mArtistName.setAlpha(.3f);
-        mGenreRow.setAlpha(.3f);
+        mGenreRow.setVisibility(View.INVISIBLE);
         mClock.setAlpha(.3f);
         ObjectAnimator fadeOut = ObjectAnimator.ofFloat(mScrollView, "alpha", 1f, 0f);
         fadeOut.setDuration(1000);
@@ -532,12 +534,15 @@ public class AudioNowPlayingActivity extends BaseActivity  {
 
         ssActive = true;
         setCurrentTime(MediaManager.getCurrentAudioPosition());
+        updateLogo();
     }
 
     protected void stopScreenSaver() {
+        mLogoImage.setVisibility(View.GONE);
+        mArtistName.setVisibility(View.VISIBLE);
         mSSArea.setAlpha(0f);
         mArtistName.setAlpha(1f);
-        mGenreRow.setAlpha(1f);
+        mGenreRow.setVisibility(View.VISIBLE);
         mClock.setAlpha(1f);
         mScrollView.setAlpha(1f);
         ssActive = false;
@@ -548,8 +553,26 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     protected void updateSSInfo() {
         mSSAlbumSong.setText((mBaseItem.getAlbum() != null ? mBaseItem.getAlbum() + " / " : "") + mBaseItem.getName());
         mSSQueueStatus.setText(MediaManager.getCurrentAudioQueueDisplayPosition() + " | " + MediaManager.getCurrentAudioQueueDisplaySize());
+        updateLogo();
         BaseItemDto next = MediaManager.getNextAudioItem();
         mSSUpNext.setText(next != null ? getString(R.string.lbl_up_next_colon) + "  " + (next.getAlbumArtist() != null ? next.getAlbumArtist() + " / " : "") + next.getName() : "");
+    }
+
+    protected void updateLogo() {
+        if (mBaseItem.getHasLogo() || mBaseItem.getParentLogoImageTag() != null) {
+            if (ssActive) {
+                mLogoImage.setVisibility(View.VISIBLE);
+                Picasso.with(this)
+                        .load(Utils.getLogoImageUrl(mBaseItem, TvApp.getApplication().getApiClient()))
+                        .resize(700, 200)
+                        .centerInside()
+                        .into(mLogoImage);
+                mArtistName.setVisibility(View.INVISIBLE);
+            }
+        } else {
+            mLogoImage.setVisibility(View.GONE);
+            mArtistName.setVisibility(View.VISIBLE);
+        }
     }
 
     protected void updateBackground(String url) {
