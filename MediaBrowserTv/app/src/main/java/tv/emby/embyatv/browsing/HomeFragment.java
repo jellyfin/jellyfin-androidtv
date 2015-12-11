@@ -247,9 +247,9 @@ public class HomeFragment extends StdBrowseFragment {
     protected ListRow nowPlayingRow;
 
     protected void addNowPlaying() {
-        if (MediaManager.hasAudioQueueItems()) {
+        if (MediaManager.isPlayingAudio()) {
             if (nowPlayingRow == null) {
-                nowPlayingRow = new ListRow(new HeaderItem(getString(R.string.lbl_now_playing), null), MediaManager.getCurrentAudioQueue());
+                nowPlayingRow = new ListRow(new HeaderItem(getString(R.string.lbl_now_playing), null), MediaManager.getManagedAudioQueue());
                 mRowsAdapter.add(1, nowPlayingRow);
             }
         } else {

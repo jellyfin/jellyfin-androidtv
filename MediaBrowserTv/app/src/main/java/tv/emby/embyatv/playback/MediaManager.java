@@ -49,6 +49,7 @@ public class MediaManager {
     private static String currentMediaTitle;
 
     private static ItemRowAdapter mCurrentAudioQueue;
+    private static ItemRowAdapter mManagedAudioQueue;
     private static int mCurrentAudioQueuePosition = -1;
     private static BaseItemDto mCurrentAudioItem;
     private static StreamInfo mCurrentAudioStreamInfo;
@@ -97,6 +98,33 @@ public class MediaManager {
     public static boolean isRepeatMode() { return mRepeat; }
 
     public static ItemRowAdapter getCurrentAudioQueue() { return mCurrentAudioQueue; }
+    public static ItemRowAdapter getManagedAudioQueue() {
+        createManagedAudioQueue();
+        return mManagedAudioQueue;
+    }
+
+    public static void createManagedAudioQueue() {
+        if (mCurrentAudioQueue != null) {
+            if (mManagedAudioQueue != null) {
+                //re-create existing one
+                mManagedAudioQueue.clear();
+                for (int i = mCurrentAudioQueuePosition >= 0 ? mCurrentAudioQueuePosition : 0; i < mCurrentAudioQueue.size(); i++) {
+                    mManagedAudioQueue.add(mCurrentAudioQueue.get(i));
+                }
+            } else {
+                List<BaseItemDto> managedItems = new ArrayList<>();
+                for (int i = mCurrentAudioQueuePosition >= 0 ? mCurrentAudioQueuePosition : 0; i < mCurrentAudioQueue.size(); i++) {
+                    managedItems.add(((BaseRowItem)mCurrentAudioQueue.get(i)).getBaseItem());
+                }
+                mManagedAudioQueue = new ItemRowAdapter(managedItems, new CardPresenter(true, Utils.convertDpToPixel(TvApp.getApplication(), 150)), null, QueryType.StaticAudioQueueItems);
+                mManagedAudioQueue.Retrieve();
+            }
+            if (isPlayingAudio()) {
+                ((BaseRowItem)mManagedAudioQueue.get(0)).setIsPlaying(true);
+            }
+        }
+
+    }
 
     public static void addAudioEventListener(AudioEventListener listener) {
         mAudioEventListeners.add(listener);
@@ -225,6 +253,7 @@ public class MediaManager {
     private static void createAudioQueue(List<BaseItemDto> items) {
         mCurrentAudioQueue = new ItemRowAdapter(items, new CardPresenter(true, Utils.convertDpToPixel(TvApp.getApplication(), 150)), null, QueryType.StaticAudioQueueItems);
         mCurrentAudioQueue.Retrieve();
+        mManagedAudioQueue = null;
         fireQueueStatusChange();
     }
 
@@ -298,6 +327,7 @@ public class MediaManager {
             fireQueueStatusChange();
         }
         mCurrentAudioQueuePosition = -1;
+        if (mManagedAudioQueue != null) mManagedAudioQueue.clear();
     }
 
     public static void addToAudioQueue(List<BaseItemDto> items) {
@@ -305,7 +335,9 @@ public class MediaManager {
         else {
             int ndx = mCurrentAudioQueue.size();
             for (BaseItemDto item : items) {
-                mCurrentAudioQueue.add(new AudioQueueItem(ndx++, item));
+                AudioQueueItem queueItem = new AudioQueueItem(ndx++, item);
+                mCurrentAudioQueue.add(queueItem);
+                if (mManagedAudioQueue != null) mManagedAudioQueue.add(queueItem);
             }
         }
         TvApp.getApplication().showMessage(items.size() + (items.size() > 1 ? TvApp.getApplication().getString(R.string.msg_items_added) : TvApp.getApplication().getString(R.string.msg_item_added)), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
@@ -315,6 +347,9 @@ public class MediaManager {
         if (mCurrentAudioQueuePosition == ndx) {
             // current item - stop audio, remove and re-start
             stopAudio();
+            if (mManagedAudioQueue != null) {
+                mManagedAudioQueue.remove(mCurrentAudioQueue.get(ndx));
+            }
             mCurrentAudioQueue.removeItems(ndx, 1);
             mCurrentAudioQueuePosition--;
             mCurrentAudioPosition = 0;
@@ -328,6 +363,9 @@ public class MediaManager {
         } else {
             //just remove it
             mCurrentAudioQueue.removeItems(ndx, 1);
+            if (mManagedAudioQueue != null) {
+                mManagedAudioQueue.remove(mManagedAudioQueue.findByIndex(ndx));
+            }
         }
 
         // now need to update indexes for subsequent items
@@ -406,6 +444,7 @@ public class MediaManager {
         if (isPlayingAudio()) stopAudio();
 
         mCurrentAudioQueuePosition = ndx-1;
+        createManagedAudioQueue();
         nextAudioItem();
         return true;
     }
@@ -440,18 +479,23 @@ public class MediaManager {
                 mCurrentAudioStreamInfo = response;
                 mCurrentAudioQueuePosition = pos;
                 mCurrentAudioPosition = 0;
-                TvApp.getApplication().getLogger().Info("Playback attempt via VLC of "+response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()));
+                TvApp.getApplication().getLogger().Info("Playback attempt via VLC of " + response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()));
                 Media media = new Media(mLibVLC, Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken())));
                 media.parse();
                 mVlcPlayer.setMedia(media);
 
                 media.release();
                 mVlcPlayer.play();
+                if (mCurrentAudioQueuePosition == 0) {
+                    //we just started or repeated - re-create managed queue
+                    createManagedAudioQueue();
+                }
+
                 updateCurrentAudioItemPlaying(true);
 
-                Utils.ReportStart(item, mCurrentAudioPosition*10000);
+                Utils.ReportStart(item, mCurrentAudioPosition * 10000);
                 for (AudioEventListener listener : mAudioEventListeners) {
-                    TvApp.getApplication().getLogger().Info("Firing playback state change listener for item start. "+mCurrentAudioItem.getName());
+                    TvApp.getApplication().getLogger().Info("Firing playback state change listener for item start. " + mCurrentAudioItem.getName());
                     listener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, mCurrentAudioItem);
                 }
             }
@@ -502,6 +546,11 @@ public class MediaManager {
         if (rowItem != null) {
             rowItem.setIsPlaying(playing);
             mCurrentAudioQueue.notifyArrayItemRangeChanged(mCurrentAudioQueuePosition, 1);
+            if (mManagedAudioQueue != null && mManagedAudioQueue.size() > 0) {
+                BaseRowItem managedItem = (BaseRowItem) mManagedAudioQueue.get(0);
+                managedItem.setIsPlaying(playing);
+                mManagedAudioQueue.notifyArrayItemRangeChanged(0, 1);
+            }
         }
     }
 
@@ -513,6 +562,10 @@ public class MediaManager {
 
         if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0 || (!mRepeat && mCurrentAudioQueuePosition == mCurrentAudioQueue.size() - 1)) return -1;
         stopAudio();
+        if (mManagedAudioQueue != null && mManagedAudioQueue.size() > 1) {
+            //don't remove last item as it causes framework crashes
+            mManagedAudioQueue.removeItems(0, 1);
+        }
         int ndx = mCurrentAudioQueuePosition +1;
         if (ndx >= mCurrentAudioQueue.size()) ndx = 0;
         playInternal(getNextAudioItem(), ndx);
@@ -535,6 +588,9 @@ public class MediaManager {
 
         stopAudio();
         int ndx = mCurrentAudioQueuePosition - 1;
+        if (mManagedAudioQueue != null) {
+            mManagedAudioQueue.add(0, mCurrentAudioQueue.get(ndx));
+        }
         if (ndx < 0) ndx = mCurrentAudioQueue.size() - 1;
         playInternal(getPrevAudioItem(), ndx);
         return ndx;
