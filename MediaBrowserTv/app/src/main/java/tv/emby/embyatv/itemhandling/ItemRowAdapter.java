@@ -332,6 +332,15 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         }
     }
 
+    public BaseRowItem findByIndex(int ndx) {
+        //search for actual index number and return matching item
+        for (int i = 0; i < getItemsLoaded(); i++) {
+            BaseRowItem item = (BaseRowItem)this.get(i);
+            if (item.getIndex() == ndx) return item;
+        }
+        return null;
+    }
+
     public String getSortBy() { return mSortBy; }
 
     public FilterOptions getFilters() { return mFilters; }
@@ -589,7 +598,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             for (BaseItemDto item : mItems) {
                 add(new BaseRowItem(item));
             }
-
+            itemsLoaded = mItems.size();
         } else {
             removeRow();
         }
@@ -603,6 +612,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             for (BaseItemDto item : mItems) {
                 add(new AudioQueueItem(i++, item));
             }
+            itemsLoaded = i;
 
         } else {
             removeRow();
@@ -616,7 +626,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             for (ServerInfo server : mServers) {
                 add(new BaseRowItem(server));
             }
-
+            itemsLoaded = mServers.length;
         } else {
             removeRow();
         }
