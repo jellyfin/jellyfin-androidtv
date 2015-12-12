@@ -558,7 +558,7 @@ public class Utils {
                 query.setIsMissing(false);
                 query.setIsVirtualUnaired(false);
                 query.setIncludeItemTypes(new String[]{"Audio"});
-                query.setSortBy(shuffle ? new String[] {ItemSortBy.Random} : "MusicArtist".equals(mainItem.getType()) ? new String[] {ItemSortBy.Album} : null);
+                query.setSortBy(shuffle ? new String[] {ItemSortBy.Random} : "MusicArtist".equals(mainItem.getType()) ? new String[] {ItemSortBy.Album} : new String[] {ItemSortBy.SortName});
                 query.setRecursive(true);
                 query.setLimit(150); // guard against too many items
                 query.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
