@@ -31,6 +31,7 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.querying.ItemFields;
+import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
@@ -270,8 +271,9 @@ public class SongListActivity extends BaseActivity {
         StdItemQuery songs = new StdItemQuery();
         songs.setParentId(mBaseItem.getId());
         songs.setRecursive(true);
-        songs.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
+        songs.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
         songs.setIncludeItemTypes(new String[]{"Audio"});
+        songs.setSortBy(new String[] {ItemSortBy.SortName});
         songs.setLimit(200);
         mApplication.getApiClient().GetItemsAsync(songs, new Response<ItemsResult>() {
                     @Override
