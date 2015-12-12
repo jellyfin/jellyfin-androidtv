@@ -30,6 +30,7 @@ import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserItemDataDto;
+import mediabrowser.model.playlists.PlaylistItemQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
@@ -241,7 +242,7 @@ public class SongListActivity extends BaseActivity {
         @Override
         public void gotFocus(View v) {
             //scroll so entire main area is in view
-            mScrollView.smoothScrollTo(0,0);
+            mScrollView.smoothScrollTo(0, 0);
         }
     };
 
@@ -268,39 +269,57 @@ public class SongListActivity extends BaseActivity {
         updatePoster(mBaseItem);
 
         //get songs
-        StdItemQuery songs = new StdItemQuery();
-        songs.setParentId(mBaseItem.getId());
-        songs.setRecursive(true);
-        songs.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
-        songs.setIncludeItemTypes(new String[]{"Audio"});
-        songs.setSortBy(new String[] {ItemSortBy.SortName});
-        songs.setLimit(200);
-        mApplication.getApiClient().GetItemsAsync(songs, new Response<ItemsResult>() {
-                    @Override
-                    public void onResponse(ItemsResult response) {
-                        mTitle.setText(mBaseItem.getName());
-                        if (mBaseItem.getName().length() > 32) {
-                            // scale down the title so more will fit
-                            mTitle.setTextSize(32);
-                        }
-                        if (response.getTotalRecordCount() > 0) {
-                            mSongs = Arrays.asList(response.getItems());
-                            mSongList.addSongs(response.getItems());
-                            if (MediaManager.isPlayingAudio()) {
-                                //update our status
-                                mAudioEventListener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, MediaManager.getCurrentAudioItem());
-                            }
-                        }
-                    }
+        if ("Playlist".equals(mBaseItem.getType())) {
+            // Have to use different query here
+            PlaylistItemQuery playlistSongs = new PlaylistItemQuery();
+            playlistSongs.setId(mBaseItem.getId());
+            playlistSongs.setUserId(TvApp.getApplication().getCurrentUser().getId());
+            playlistSongs.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
+            playlistSongs.setLimit(200);
+            TvApp.getApplication().getApiClient().GetPlaylistItems(playlistSongs, songResponse);
+        } else {
+            StdItemQuery songs = new StdItemQuery();
+            songs.setParentId(mBaseItem.getId());
+            songs.setRecursive(true);
+            songs.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
+            songs.setIncludeItemTypes(new String[]{"Audio"});
+            songs.setSortBy(new String[] {ItemSortBy.SortName});
+            songs.setLimit(200);
+            mApplication.getApiClient().GetItemsAsync(songs, songResponse);
+        }
 
-                    @Override
-                    public void onError(Exception exception) {
-                        Utils.showToast(mActivity, exception.getLocalizedMessage());
-                    }
-                }
-        );
 
     }
+
+    private Response<ItemsResult> songResponse = new Response<ItemsResult>() {
+        @Override
+        public void onResponse(ItemsResult response) {
+            mTitle.setText(mBaseItem.getName());
+            if (mBaseItem.getName().length() > 32) {
+                // scale down the title so more will fit
+                mTitle.setTextSize(32);
+            }
+            if (response.getTotalRecordCount() > 0) {
+                mSongs = new ArrayList<>();
+                int i = 0;
+                for (BaseItemDto item : response.getItems()) {
+                    if ("Audio".equals(item.getType())) {
+                        mSongList.addSong(item, i++);
+                        mSongs.add(item);
+                    }
+                }
+                if (MediaManager.isPlayingAudio()) {
+                    //update our status
+                    mAudioEventListener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, MediaManager.getCurrentAudioItem());
+                }
+            }
+        }
+
+        @Override
+        public void onError(Exception exception) {
+            Utils.showToast(mActivity, exception.getLocalizedMessage());
+        }
+    };
 
     private void updatePoster(BaseItemDto item){
         // Figure image size
