@@ -158,7 +158,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_favorites), favAlbums, 60, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 //Playlists
-                StdItemQuery playlists = new StdItemQuery();
+                StdItemQuery playlists = new StdItemQuery(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.CumulativeRunTimeTicks});
                 playlists.setIncludeItemTypes(new String[]{"Playlist"});
                 playlists.setRecursive(true);
                 playlists.setSortBy(new String[]{ItemSortBy.DateCreated});
