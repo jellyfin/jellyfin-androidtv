@@ -404,7 +404,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                             public void onResponse(DisplayPreferences response) {
                                 Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
                                 folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
-                                folderIntent.putExtra("IncludeType", "MusicArtist");
+                                folderIntent.putExtra("IncludeType", "AlbumArtist");
                                 getActivity().startActivity(folderIntent);
                             }
                         });

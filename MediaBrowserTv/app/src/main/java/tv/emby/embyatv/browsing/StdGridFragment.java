@@ -242,6 +242,9 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             case LiveTvRecordingGroup:
                 mGridAdapter = new ItemRowAdapter(mRowDef.getRecordingGroupQuery(), mCardPresenter, null);
                 break;
+            case AlbumArtists:
+                mGridAdapter = new ItemRowAdapter(mRowDef.getArtistsQuery(), mRowDef.getChunkSize(), mCardPresenter, null);
+                break;
             default:
                 mGridAdapter = new ItemRowAdapter(mRowDef.getQuery(), mRowDef.getChunkSize(), mRowDef.getPreferParentThumb(), mRowDef.isStaticHeight(), mCardPresenter, null);
                 break;
@@ -398,26 +401,28 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             }
         }));
 
-        mUnwatchedButton = new ImageButton(getActivity(), mGridAdapter.getFilters().isUnwatchedOnly() ? R.drawable.unwatchedred : R.drawable.unwatchedwhite, size, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FilterOptions filters = mGridAdapter.getFilters();
-                if (filters == null) filters = new FilterOptions();
+        if (mRowDef.getQueryType() == QueryType.Items) {
+            mUnwatchedButton = new ImageButton(getActivity(), mGridAdapter.getFilters().isUnwatchedOnly() ? R.drawable.unwatchedred : R.drawable.unwatchedwhite, size, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FilterOptions filters = mGridAdapter.getFilters();
+                    if (filters == null) filters = new FilterOptions();
 
-                filters.setUnwatchedOnly(!filters.isUnwatchedOnly());
-                updateDisplayPrefs();
-                mGridAdapter.setFilters(filters);
-                if (mPosterSizeSetting.equals(PosterSize.AUTO)) {
-                    loadGrid(mRowDef);
-                } else {
-                    mGridAdapter.Retrieve();
+                    filters.setUnwatchedOnly(!filters.isUnwatchedOnly());
+                    updateDisplayPrefs();
+                    mGridAdapter.setFilters(filters);
+                    if (mPosterSizeSetting.equals(PosterSize.AUTO)) {
+                        loadGrid(mRowDef);
+                    } else {
+                        mGridAdapter.Retrieve();
+                    }
+                    mUnwatchedButton.setImageResource(filters.isUnwatchedOnly() ? R.drawable.unwatchedred : R.drawable.unwatchedwhite);
+
+
                 }
-                mUnwatchedButton.setImageResource(filters.isUnwatchedOnly() ? R.drawable.unwatchedred : R.drawable.unwatchedwhite);
-
-
-            }
-        });
-        toolBar.addView(mUnwatchedButton);
+            });
+            toolBar.addView(mUnwatchedButton);
+        }
 
         mFavoriteButton =new ImageButton(getActivity(), mGridAdapter.getFilters().isFavoriteOnly() ? R.drawable.redheart : R.drawable.whiteheart, size, new View.OnClickListener() {
             @Override
