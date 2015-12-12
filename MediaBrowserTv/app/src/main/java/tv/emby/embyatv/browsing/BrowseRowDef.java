@@ -4,6 +4,7 @@ import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
 import mediabrowser.model.livetv.RecordingGroupQuery;
 import mediabrowser.model.livetv.RecordingQuery;
+import mediabrowser.model.querying.ArtistsQuery;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.NextUpQuery;
 import mediabrowser.model.querying.PersonsQuery;
@@ -31,6 +32,7 @@ public class BrowseRowDef {
     private RecordingQuery recordingQuery;
     private RecordingGroupQuery recordingGroupQuery;
 
+    private ArtistsQuery artistsQuery;
     private SeasonQuery seasonQuery;
     private QueryType queryType;
 
@@ -68,6 +70,15 @@ public class BrowseRowDef {
         this.staticHeight = staticHeight;
         this.preferParentThumb = preferParentThumb;
         this.changeTriggers = changeTriggers;
+    }
+
+    public BrowseRowDef(String header, ArtistsQuery query, int chunkSize, ChangeTriggerType[] changeTriggers) {
+        headerText = header;
+        this.artistsQuery = query;
+        this.chunkSize = chunkSize;
+        this.queryType = QueryType.AlbumArtists;
+        this.changeTriggers = changeTriggers;
+
     }
 
     public BrowseRowDef(String header, NextUpQuery query) {
@@ -194,6 +205,8 @@ public class BrowseRowDef {
     public PersonsQuery getPersonsQuery() {
         return personsQuery;
     }
+
+    public ArtistsQuery getArtistsQuery() { return artistsQuery; }
 
     public ChangeTriggerType[] getChangeTriggers() {
         return changeTriggers;

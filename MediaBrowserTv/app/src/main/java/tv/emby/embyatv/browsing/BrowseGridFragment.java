@@ -3,8 +3,10 @@ package tv.emby.embyatv.browsing;
 import android.os.Bundle;
 
 import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.model.querying.ArtistsQuery;
 import mediabrowser.model.querying.ItemFields;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.model.ChangeTriggerType;
 import tv.emby.embyatv.querying.StdItemQuery;
 
 /**
@@ -45,8 +47,18 @@ public class BrowseGridFragment extends StdGridFragment {
                     query.setRecursive(true);
                     break;
                 case "music":
+                    //Special queries needed for album artists
                     String includeType = getActivity().getIntent().getStringExtra("IncludeType");
-                    query.setIncludeItemTypes(new String[]{includeType != null ? includeType : "MusicArtist"});
+                    if ("AlbumArtist".equals(includeType)) {
+                        ArtistsQuery albumArtists = new ArtistsQuery();
+                        albumArtists.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                        albumArtists.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.ItemCounts});
+                        albumArtists.setParentId(mParentId);
+                        mRowDef = new BrowseRowDef("", albumArtists, 150, new ChangeTriggerType[] {});
+                        gridLoader.loadGrid(mRowDef);
+                        return;
+                    }
+                    query.setIncludeItemTypes(new String[]{includeType != null ? includeType : "MusicAlbum"});
                     query.setRecursive(true);
                     break;
             }
