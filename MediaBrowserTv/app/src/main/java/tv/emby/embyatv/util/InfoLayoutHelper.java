@@ -71,6 +71,7 @@ public class InfoLayoutHelper {
                 break;
             case "Playlist":
                 addCount(activity, item.getChildCount(), layout, item.getChildCount() == 1 ? activity.getResources().getString(R.string.lbl_item) : activity.getResources().getString(R.string.lbl_items));
+                if (item.getCumulativeRunTimeTicks() != null) addText(activity, " ("+Utils.formatMillis(item.getCumulativeRunTimeTicks() / 10000)+")", layout, 300);
                 break;
             default:
                 addDate(activity, item, layout);

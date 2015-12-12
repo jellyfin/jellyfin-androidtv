@@ -459,8 +459,13 @@ public class BaseRowItem {
     }
 
     public String getChildCountStr() {
-        Integer count = getChildCount();
-        return count > 0 ? count.toString() : "";
+        if (baseItem != null && "Playlist".equals(baseItem.getType()) && baseItem.getCumulativeRunTimeTicks() != null) {
+            return Utils.formatMillis(baseItem.getCumulativeRunTimeTicks() / 10000);
+        } else {
+            Integer count = getChildCount();
+            return count > 0 ? count.toString() : "";
+
+        }
     }
 
     public String getBackdropImageUrl() {
