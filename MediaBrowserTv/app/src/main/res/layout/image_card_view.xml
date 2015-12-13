@@ -32,9 +32,10 @@
             android:contentDescription="@null" />
         <ImageView
             android:id="@+id/favIcon"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src="@drawable/redheart"
+            android:alpha=".8"
             android:layout_alignBottom="@+id/main_image"
             android:layout_alignEnd="@+id/main_image"
             android:visibility="gone"/>
