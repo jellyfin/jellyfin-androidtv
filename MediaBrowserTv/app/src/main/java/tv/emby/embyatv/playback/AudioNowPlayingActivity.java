@@ -126,7 +126,6 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mPoster = (ImageView) findViewById(R.id.poster);
         mArtistName = (TextView) findViewById(R.id.artistTitle);
         mArtistName.setTypeface(roboto);
-        mArtistName.setShadowLayer(5, 5, 5, Color.BLACK);
         mGenreRow = (LinearLayout) findViewById(R.id.genreRow);
         mSongTitle = (TextView) findViewById(R.id.songTitle);
         mSongTitle.setTypeface(roboto);

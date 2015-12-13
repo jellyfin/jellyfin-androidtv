@@ -7,7 +7,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/artistTitle"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="20sp"
+        android:layout_marginTop="25dp"
         android:textSize="35sp"
         android:maxLines="1"
         android:ellipsize="end"
@@ -32,7 +32,7 @@
         android:layout_height="match_parent"
         android:id="@+id/mainScroller"
         android:layout_below="@+id/genreRow"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:scrollbars="none">
 
         <RelativeLayout
@@ -315,9 +315,9 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="false"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/artistTitle"
         android:layout_marginRight="40sp"
-        android:alpha=".8" />
+        android:alpha=".8"
+        android:layout_marginTop="20sp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
