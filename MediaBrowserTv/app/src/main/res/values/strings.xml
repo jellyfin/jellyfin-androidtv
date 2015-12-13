@@ -323,6 +323,8 @@
     <string name="btn_replace_queue">Replace Queue</string>
     <string name="lbl_items_in_queue">Items in Queue</string>
     <string name="msg_replace_or_add_queue_q">Would you like to replace the current queue or add to it?</string>
+    <string name="lbl_enable_seasonal_themes">Enable Seasonal Themes</string>
+    <string name="desc_seasonal_themes">Allow special colors and suggestions at certain times of the year</string>
 
 
 </resources>

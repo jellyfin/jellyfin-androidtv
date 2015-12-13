@@ -43,6 +43,12 @@
             android:defaultValue="true"
             android:summary="@string/desc_info_panel"
             />
+        <CheckBoxPreference android:key="pref_enable_themes"
+            android:title="@string/lbl_enable_seasonal_themes"
+            android:defaultValue="true"
+            android:summary="@string/desc_seasonal_themes"
+            />
+
         <CheckBoxPreference android:key="pref_enable_debug"
             android:title="@string/lbl_enable_debug"
             android:defaultValue="false"
