@@ -30,6 +30,14 @@
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
             android:contentDescription="@null" />
+        <ImageView
+            android:id="@+id/favIcon"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/redheart"
+            android:layout_alignBottom="@+id/main_image"
+            android:layout_alignEnd="@+id/main_image"
+            android:visibility="gone"/>
         <RelativeLayout
             android:id="@+id/name_overlay"
             android:layout_width="match_parent"

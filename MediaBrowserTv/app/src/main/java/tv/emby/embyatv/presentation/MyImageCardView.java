@@ -40,6 +40,7 @@ public class MyImageCardView extends BaseCardView {
     private TextView mTitleView;
     private TextView mContentView;
     private ImageView mBadgeImage;
+    private ImageView mFavIcon;
     private int BANNER_SIZE = Utils.convertDpToPixel(TvApp.getApplication(), 50);
 
     public MyImageCardView(Context context) {
@@ -78,6 +79,7 @@ public class MyImageCardView extends BaseCardView {
         mOverlayIcon = (ImageView) v.findViewById(tv.emby.embyatv.R.id.icon);
         mInfoOverlay = (ViewGroup) v.findViewById(tv.emby.embyatv.R.id.name_overlay);
         mInfoOverlay.setVisibility(GONE);
+        mFavIcon = (ImageView) v.findViewById(tv.emby.embyatv.R.id.favIcon);
 
         if (mInfoArea != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.lbImageCardView,
@@ -331,6 +333,10 @@ public class MyImageCardView extends BaseCardView {
         if (mBanner != null) {
             mBanner.setVisibility(GONE);
         }
+    }
+
+    public void showFavIcon(boolean show) {
+        mFavIcon.setVisibility(show ? VISIBLE : GONE);
     }
 
     @Override
