@@ -307,6 +307,7 @@ public class CardPresenter extends Presenter {
         holder.mCardView.setTitleText(rowItem.getCardName());
         holder.mCardView.setContentText(rowItem.getSubText());
         holder.mCardView.setOverlayInfo(rowItem);
+        holder.mCardView.showFavIcon(rowItem.isFavorite());
         if (rowItem.isPlaying()) {
             holder.mCardView.setPlayingIndicator(true);
         } else {
