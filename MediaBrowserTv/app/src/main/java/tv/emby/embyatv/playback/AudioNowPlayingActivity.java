@@ -533,12 +533,10 @@ public class AudioNowPlayingActivity extends BaseActivity  {
 
         ssActive = true;
         setCurrentTime(MediaManager.getCurrentAudioPosition());
-        updateLogo();
     }
 
     protected void stopScreenSaver() {
         mLogoImage.setVisibility(View.GONE);
-        mArtistName.setVisibility(View.VISIBLE);
         mSSArea.setAlpha(0f);
         mArtistName.setAlpha(1f);
         mGenreRow.setVisibility(View.VISIBLE);
@@ -552,7 +550,6 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     protected void updateSSInfo() {
         mSSAlbumSong.setText((mBaseItem.getAlbum() != null ? mBaseItem.getAlbum() + " / " : "") + mBaseItem.getName());
         mSSQueueStatus.setText(MediaManager.getCurrentAudioQueueDisplayPosition() + " | " + MediaManager.getCurrentAudioQueueDisplaySize());
-        updateLogo();
         BaseItemDto next = MediaManager.getNextAudioItem();
         mSSUpNext.setText(next != null ? getString(R.string.lbl_up_next_colon) + "  " + (next.getAlbumArtist() != null ? next.getAlbumArtist() + " / " : "") + next.getName() : "");
     }
