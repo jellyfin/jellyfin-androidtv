@@ -384,6 +384,22 @@ public class SongListActivity extends BaseActivity {
             mButtonRow.addView(mix);
         }
 
+        //Favorite
+        ImageButton fav = new ImageButton(this, mBaseItem.getUserData().getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, getString(R.string.lbl_toggle_favorite), mButtonHelp, new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                UserItemDataDto data = mBaseItem.getUserData();
+                mApplication.getApiClient().UpdateFavoriteStatusAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
+                    @Override
+                    public void onResponse(UserItemDataDto response) {
+                        mBaseItem.setUserData(response);
+                        ((ImageButton)v).setImageResource(response.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart);
+                    }
+                });
+            }
+        });
+        mButtonRow.addView(fav);
+
         if ("Playlist".equals(mBaseItem.getType())) {
             ImageButton delete = new ImageButton(this, R.drawable.trash, buttonSize, getString(R.string.lbl_delete), mButtonHelp, new View.OnClickListener() {
                 @Override
