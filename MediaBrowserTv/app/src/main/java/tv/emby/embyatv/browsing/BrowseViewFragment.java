@@ -22,6 +22,7 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.ChangeTriggerType;
+import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.StdItemQuery;
 import tv.emby.embyatv.util.Utils;
 
@@ -163,7 +164,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 playlists.setRecursive(true);
                 playlists.setSortBy(new String[]{ItemSortBy.DateCreated});
                 playlists.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_playlists), playlists, 60, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_playlists), playlists, 60, false, false, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}, QueryType.Playlists));
 
                 rowLoader.loadRows(mRows);
                 break;

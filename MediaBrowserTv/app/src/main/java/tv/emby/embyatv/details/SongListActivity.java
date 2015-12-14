@@ -25,13 +25,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserItemDataDto;
+import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.playlists.PlaylistItemQuery;
 import mediabrowser.model.querying.ItemFields;
+import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import tv.emby.embyatv.R;
@@ -61,6 +64,7 @@ import tv.emby.embyatv.util.Utils;
 public class SongListActivity extends BaseActivity {
 
     private int BUTTON_SIZE;
+    public static final String FAV_SONGS = "FAV_SONGS";
 
     private TextView mTitle;
     private LinearLayout mGenreRow;
@@ -77,11 +81,10 @@ public class SongListActivity extends BaseActivity {
     private SongRowView mCurrentlyPlayingRow;
 
     private BaseItemDto mBaseItem;
-    private List<BaseItemDto> mSongs;
+    private List<BaseItemDto> mSongs = new ArrayList<>();
     private String mItemId;
 
     private int mBottomScrollThreshold;
-    private int mTopScrollThreshold;
 
     private TvApp mApplication;
     private BaseActivity mActivity;
@@ -121,7 +124,6 @@ public class SongListActivity extends BaseActivity {
         mMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
         mBottomScrollThreshold = (int)(mMetrics.heightPixels *.6);
-        mTopScrollThreshold = (int)(mMetrics.heightPixels *.3);
 
         //Song list listeners
         mSongList.setRowSelectedListener(new SongRowView.RowSelectedListener() {
@@ -247,12 +249,27 @@ public class SongListActivity extends BaseActivity {
     };
 
     private void loadItem(String id) {
-        mApplication.getApiClient().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
-            @Override
-            public void onResponse(BaseItemDto response) {
-                setBaseItem(response);
-            }
-        });
+        //Special case handling
+        switch (id) {
+            case FAV_SONGS:
+                BaseItemDto item = new BaseItemDto();
+                item.setId(FAV_SONGS);
+                item.setName(getString(R.string.lbl_favorites));
+                item.setOverview(getString(R.string.desc_automatic_fav_songs));
+                item.setPlayAccess(PlayAccess.Full);
+                item.setType("Playlist");
+                item.setIsFolder(true);
+                setBaseItem(item);
+                break;
+            default:
+                mApplication.getApiClient().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                    @Override
+                    public void onResponse(BaseItemDto response) {
+                        setBaseItem(response);
+                    }
+                });
+                break;
+        }
     }
 
     public void setBaseItem(BaseItemDto item) {
@@ -265,18 +282,33 @@ public class SongListActivity extends BaseActivity {
         addButtons(BUTTON_SIZE);
         mSummary.setText(mBaseItem.getOverview());
 
-        updateBackground(Utils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
+        if (!mItemId.equals(FAV_SONGS)) updateBackground(Utils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
         updatePoster(mBaseItem);
 
         //get songs
         if ("Playlist".equals(mBaseItem.getType())) {
             // Have to use different query here
-            PlaylistItemQuery playlistSongs = new PlaylistItemQuery();
-            playlistSongs.setId(mBaseItem.getId());
-            playlistSongs.setUserId(TvApp.getApplication().getCurrentUser().getId());
-            playlistSongs.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
-            playlistSongs.setLimit(200);
-            TvApp.getApplication().getApiClient().GetPlaylistItems(playlistSongs, songResponse);
+            switch (mItemId) {
+                case FAV_SONGS:
+                    //Get favorited and liked songs from this area
+                    StdItemQuery favSongs = new StdItemQuery(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
+                    favSongs.setParentId(getIntent().getStringExtra("ParentId"));
+                    favSongs.setIncludeItemTypes(new String[] {"Audio"});
+                    favSongs.setRecursive(true);
+                    favSongs.setFilters(new ItemFilter[]{ItemFilter.IsFavoriteOrLikes});
+                    favSongs.setSortBy(new String[]{ItemSortBy.Random});
+                    favSongs.setLimit(150);
+                    TvApp.getApplication().getApiClient().GetItemsAsync(favSongs, songResponse);
+                    break;
+                default:
+                    PlaylistItemQuery playlistSongs = new PlaylistItemQuery();
+                    playlistSongs.setId(mBaseItem.getId());
+                    playlistSongs.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                    playlistSongs.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
+                    playlistSongs.setLimit(200);
+                    TvApp.getApplication().getApiClient().GetPlaylistItems(playlistSongs, songResponse);
+                    break;
+            }
         } else {
             StdItemQuery songs = new StdItemQuery();
             songs.setParentId(mBaseItem.getId());
@@ -322,20 +354,27 @@ public class SongListActivity extends BaseActivity {
     };
 
     private void updatePoster(BaseItemDto item){
-        // Figure image size
-        Double aspect = Utils.getImageAspectRatio(item, false);
-        int posterHeight = aspect > 1 ? Utils.convertDpToPixel(this, 170) : Utils.convertDpToPixel(this, 300);
-        int posterWidth = (int)((aspect) * posterHeight);
-        if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(this, 150);  //Guard against zero size images causing picasso to barf
+        switch (mItemId) {
+            case FAV_SONGS:
+                mPoster.setImageResource(R.drawable.genericmusic);
+                break;
+            default:
+                // Figure image size
+                Double aspect = Utils.getImageAspectRatio(item, false);
+                int posterHeight = aspect > 1 ? Utils.convertDpToPixel(this, 170) : Utils.convertDpToPixel(this, 300);
+                int posterWidth = (int)((aspect) * posterHeight);
+                if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(this, 150);  //Guard against zero size images causing picasso to barf
 
-        String primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(),false, false, posterHeight);
+                String primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(),false, false, posterHeight);
 
-        Picasso.with(this)
-                .load(primaryImageUrl)
-                .resize(posterWidth,posterHeight)
-                .centerInside()
-                .into(mPoster);
+                Picasso.with(this)
+                        .load(primaryImageUrl)
+                        .resize(posterWidth,posterHeight)
+                        .centerInside()
+                        .into(mPoster);
 
+                break;
+        }
     }
 
     private void addGenres(LinearLayout layout) {
@@ -351,10 +390,10 @@ public class SongListActivity extends BaseActivity {
 
     private void addButtons(int buttonSize) {
         if (Utils.CanPlay(mBaseItem)) {
-            ImageButton play = new ImageButton(this, R.drawable.play, buttonSize, getString(Utils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), mButtonHelp, new View.OnClickListener() {
+            ImageButton play = new ImageButton(this, R.drawable.play, buttonSize, getString(mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), mButtonHelp, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MediaManager.playNow(mSongs);
+                    if (mSongs.size() > 0) MediaManager.playNow(mSongs); else Utils.showToast(mActivity, R.string.msg_no_playable_items);
                 }
             });
             play.setGotFocusListener(mainAreaFocusListener);
@@ -364,9 +403,14 @@ public class SongListActivity extends BaseActivity {
                 ImageButton shuffle = new ImageButton(this, R.drawable.shuffle, buttonSize, getString(R.string.lbl_shuffle_all), mButtonHelp, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        List<BaseItemDto> shuffled = new ArrayList<>(mSongs);
-                        Collections.shuffle(shuffled);
-                        MediaManager.playNow(shuffled);
+                        if (mSongs.size() > 0) {
+                            List<BaseItemDto> shuffled = new ArrayList<>(mSongs);
+                            Collections.shuffle(shuffled);
+                            MediaManager.playNow(shuffled);
+
+                        } else {
+                            Utils.showToast(mActivity, R.string.msg_no_playable_items);
+                        }
                     }
                 });
                 mButtonRow.addView(shuffle);
@@ -384,59 +428,60 @@ public class SongListActivity extends BaseActivity {
             mButtonRow.addView(mix);
         }
 
-        //Favorite
-        ImageButton fav = new ImageButton(this, mBaseItem.getUserData().getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, getString(R.string.lbl_toggle_favorite), mButtonHelp, new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                UserItemDataDto data = mBaseItem.getUserData();
-                mApplication.getApiClient().UpdateFavoriteStatusAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
-                    @Override
-                    public void onResponse(UserItemDataDto response) {
-                        mBaseItem.setUserData(response);
-                        ((ImageButton)v).setImageResource(response.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart);
-                    }
-                });
-            }
-        });
-        mButtonRow.addView(fav);
-
-        if ("Playlist".equals(mBaseItem.getType())) {
-            ImageButton delete = new ImageButton(this, R.drawable.trash, buttonSize, getString(R.string.lbl_delete), mButtonHelp, new View.OnClickListener() {
+        if (!mItemId.equals(FAV_SONGS)) {
+            //Favorite
+            ImageButton fav = new ImageButton(this, mBaseItem.getUserData().getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, getString(R.string.lbl_toggle_favorite), mButtonHelp, new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    new AlertDialog.Builder(mActivity)
-                            .setTitle(R.string.lbl_delete)
-                            .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
-                            .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    TvApp.getApplication().getApiClient().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
-                                        @Override
-                                        public void onResponse() {
-                                            Utils.showToast(mActivity, mBaseItem.getName() + " Deleted");
-                                            TvApp.getApplication().setLastDeletedItemId(mBaseItem.getId());
-                                            finish();
-                                        }
-
-                                        @Override
-                                        public void onError(Exception ex) {
-                                            Utils.showToast(mActivity, ex.getLocalizedMessage());
-                                        }
-                                    });
-                                }
-                            })
-                            .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Utils.showToast(mActivity, "Item NOT Deleted");
-                                }
-                            })
-                            .show();
-
+                    UserItemDataDto data = mBaseItem.getUserData();
+                    mApplication.getApiClient().UpdateFavoriteStatusAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
+                        @Override
+                        public void onResponse(UserItemDataDto response) {
+                            mBaseItem.setUserData(response);
+                            ((ImageButton) v).setImageResource(response.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart);
+                        }
+                    });
                 }
             });
+            mButtonRow.addView(fav);
 
-            mButtonRow.addView(delete);
+            if ("Playlist".equals(mBaseItem.getType())) {
+                ImageButton delete = new ImageButton(this, R.drawable.trash, buttonSize, getString(R.string.lbl_delete), mButtonHelp, new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        new AlertDialog.Builder(mActivity)
+                                .setTitle(R.string.lbl_delete)
+                                .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
+                                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        TvApp.getApplication().getApiClient().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
+                                            @Override
+                                            public void onResponse() {
+                                                Utils.showToast(mActivity, mBaseItem.getName() + " Deleted");
+                                                TvApp.getApplication().setLastDeletedItemId(mBaseItem.getId());
+                                                finish();
+                                            }
 
+                                            @Override
+                                            public void onError(Exception ex) {
+                                                Utils.showToast(mActivity, ex.getLocalizedMessage());
+                                            }
+                                        });
+                                    }
+                                })
+                                .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Utils.showToast(mActivity, "Item NOT Deleted");
+                                    }
+                                })
+                                .show();
+
+                    }
+                });
+
+                mButtonRow.addView(delete);
+            }
         }
 
         if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {

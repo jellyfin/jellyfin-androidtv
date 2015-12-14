@@ -214,6 +214,16 @@ public class MyImageCardView extends BaseCardView {
         setTextMaxLines();
     }
 
+    public void setOverlayText(String text) {
+        if (getCardType() == BaseCardView.CARD_TYPE_MAIN_ONLY) {
+            mOverlayName.setText(text);
+            mInfoOverlay.setVisibility(VISIBLE);
+            hideIcon();
+        } else {
+            mInfoOverlay.setVisibility(GONE);
+        }
+    }
+
     public void setOverlayInfo(BaseRowItem item) {
         if (mOverlayName == null) return;
 

@@ -22,6 +22,7 @@ import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.base.CustomMessage;
 import tv.emby.embyatv.details.PhotoPlayerActivity;
+import tv.emby.embyatv.details.SongListActivity;
 import tv.emby.embyatv.itemhandling.AudioQueueItem;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.playback.AudioNowPlayingActivity;
@@ -222,7 +223,7 @@ public class KeyProcessor {
             if (MediaManager.getCurrentAudioQueue().size() > 1) menu.getMenu().add(0, MENU_REMOVE_FROM_QUEUE, order++, R.string.lbl_remove_from_queue);
         } else {
             if (Utils.CanPlay(item)) {
-                if (item.getIsFolder() && !"MusicAlbum".equals(item.getType()) && !"MusicArtist".equals(item.getType()) && userData.getUnplayedItemCount() !=null && userData.getUnplayedItemCount() > 0) menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
+                if (item.getIsFolder() && !"MusicAlbum".equals(item.getType()) && !"Playlist".equals(item.getType()) && !"MusicArtist".equals(item.getType()) && userData!= null && userData.getUnplayedItemCount() !=null && userData.getUnplayedItemCount() > 0) menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
                 menu.getMenu().add(0, MENU_PLAY, order++, item.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play);
                 if (item.getIsFolder()) menu.getMenu().add(0, MENU_PLAY_SHUFFLE, order++, R.string.lbl_shuffle_all);
 
@@ -231,9 +232,9 @@ public class KeyProcessor {
 
             if (isMusic) {
                 menu.getMenu().add(0, MENU_ADD_QUEUE, order++, R.string.lbl_add_to_queue);
-                menu.getMenu().add(0, MENU_INSTANT_MIX, order++, R.string.lbl_instant_mix);
+                if (!"Playlist".equals(item.getType())) menu.getMenu().add(0, MENU_INSTANT_MIX, order++, R.string.lbl_instant_mix);
             } else {
-                if (userData.getPlayed())
+                if (userData != null && userData.getPlayed())
                     menu.getMenu().add(0, MENU_UNMARK_PLAYED, order++, activity.getString(R.string.lbl_mark_unplayed));
                 else
                     menu.getMenu().add(0, MENU_MARK_PLAYED, order++, activity.getString(R.string.lbl_mark_played));
@@ -242,20 +243,22 @@ public class KeyProcessor {
 
         }
 
-        if (userData.getIsFavorite())
-            menu.getMenu().add(0, MENU_UNMARK_FAVORITE, order++, activity.getString(R.string.lbl_remove_favorite));
-        else
-            menu.getMenu().add(0, MENU_MARK_FAVORITE, order++, activity.getString(R.string.lbl_add_favorite));
+        if (userData != null) {
+            if (userData.getIsFavorite())
+                menu.getMenu().add(0, MENU_UNMARK_FAVORITE, order++, activity.getString(R.string.lbl_remove_favorite));
+            else
+                menu.getMenu().add(0, MENU_MARK_FAVORITE, order++, activity.getString(R.string.lbl_add_favorite));
 
-        if (userData.getLikes() == null) {
-            menu.getMenu().add(0, MENU_LIKE, order++, activity.getString(R.string.lbl_like));
-            menu.getMenu().add(0, MENU_DISLIKE, order++, activity.getString(R.string.lbl_dislike));
-        } else if (userData.getLikes()) {
-            menu.getMenu().add(0, MENU_UNLIKE, order++, activity.getString(R.string.lbl_unlike));
-            menu.getMenu().add(0, MENU_DISLIKE, order++, activity.getString(R.string.lbl_dislike));
-        } else {
-            menu.getMenu().add(0, MENU_LIKE, order++, activity.getString(R.string.lbl_like));
-            menu.getMenu().add(0, MENU_UNDISLIKE, order++, activity.getString(R.string.lbl_remove_dislike));
+            if (userData.getLikes() == null) {
+                menu.getMenu().add(0, MENU_LIKE, order++, activity.getString(R.string.lbl_like));
+                menu.getMenu().add(0, MENU_DISLIKE, order++, activity.getString(R.string.lbl_dislike));
+            } else if (userData.getLikes()) {
+                menu.getMenu().add(0, MENU_UNLIKE, order++, activity.getString(R.string.lbl_unlike));
+                menu.getMenu().add(0, MENU_DISLIKE, order++, activity.getString(R.string.lbl_dislike));
+            } else {
+                menu.getMenu().add(0, MENU_LIKE, order++, activity.getString(R.string.lbl_like));
+                menu.getMenu().add(0, MENU_UNDISLIKE, order++, activity.getString(R.string.lbl_remove_dislike));
+            }
         }
 
         //Not sure I like this but I either duplicate processing with in-line events or do this and
@@ -299,10 +302,18 @@ public class KeyProcessor {
 
             switch (item.getItemId()) {
                 case MENU_PLAY:
-                    Utils.retrieveAndPlay(mCurrentItemId, false, mCurrentActivity);
+                    if (mCurrentItemId.equals(SongListActivity.FAV_SONGS)) {
+                        Utils.play(mCurrentItem, 0, false, mCurrentActivity);
+                    } else {
+                        Utils.retrieveAndPlay(mCurrentItemId, false, mCurrentActivity);
+                    }
                     return true;
                 case MENU_PLAY_SHUFFLE:
-                    Utils.retrieveAndPlay(mCurrentItemId, true, mCurrentActivity);
+                    if (mCurrentItemId.equals(SongListActivity.FAV_SONGS)) {
+                        Utils.play(mCurrentItem, 0, false, mCurrentActivity);
+                    } else {
+                        Utils.retrieveAndPlay(mCurrentItemId, true, mCurrentActivity);
+                    }
                     return true;
                 case MENU_ADD_QUEUE:
                     Utils.getItemsToPlay(mCurrentItem, false, false, new Response<List<BaseItemDto>>() {

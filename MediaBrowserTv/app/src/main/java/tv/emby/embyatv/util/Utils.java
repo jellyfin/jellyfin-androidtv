@@ -73,6 +73,7 @@ import mediabrowser.model.entities.MediaStreamType;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.querying.ItemFields;
+import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
@@ -86,6 +87,7 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.details.FullDetailsActivity;
+import tv.emby.embyatv.details.SongListActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
@@ -554,7 +556,11 @@ public class Utils {
             case "MusicArtist":
             case "Playlist":
                 //get all songs
-                query.setParentId(mainItem.getId());
+                if (mainItem.getId().equals(SongListActivity.FAV_SONGS)) {
+                    query.setFilters(new ItemFilter[] {ItemFilter.IsFavoriteOrLikes});
+                } else {
+                    query.setParentId(mainItem.getId());
+                }
                 query.setIsMissing(false);
                 query.setIsVirtualUnaired(false);
                 query.setIncludeItemTypes(new String[]{"Audio"});
@@ -748,7 +754,7 @@ public class Utils {
         return item.getPlayAccess().equals(PlayAccess.Full)
                 && ((item.getIsPlaceHolder() == null || !item.getIsPlaceHolder())
                 && (!item.getType().equals("Episode") || !item.getLocationType().equals(LocationType.Virtual)))
-                && (!item.getIsFolder() || item.getChildCount() > 0);
+                && (!item.getIsFolder() || item.getChildCount() == null || item.getChildCount() > 0);
     }
 
     private static String divider = "   |   ";

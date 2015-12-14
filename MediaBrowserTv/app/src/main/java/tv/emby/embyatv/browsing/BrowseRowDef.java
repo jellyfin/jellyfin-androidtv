@@ -63,10 +63,14 @@ public class BrowseRowDef {
     }
 
     public BrowseRowDef(String header, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, ChangeTriggerType[] changeTriggers) {
+        this(header,query,chunkSize,preferParentThumb,staticHeight,changeTriggers,QueryType.Items);
+    }
+
+    public BrowseRowDef(String header, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, ChangeTriggerType[] changeTriggers, QueryType queryType) {
         headerText = header;
         this.query = query;
         this.chunkSize = chunkSize;
-        this.queryType = QueryType.Items;
+        this.queryType = queryType;
         this.staticHeight = staticHeight;
         this.preferParentThumb = preferParentThumb;
         this.changeTriggers = changeTriggers;
