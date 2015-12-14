@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.RowsFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
+import android.support.v17.leanback.widget.ClassPresenterSelector;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
@@ -45,6 +46,7 @@ import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.base.CustomMessage;
 import tv.emby.embyatv.base.IKeyListener;
 import tv.emby.embyatv.base.IMessageListener;
+import tv.emby.embyatv.details.SongListActivity;
 import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
@@ -82,10 +84,13 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     protected static final int GRID = 6;
     protected static final int ALBUMS = 7;
     protected static final int ARTISTS = 8;
+    public static final int FAVSONGS = 9;
     protected BaseItemDto mFolder;
     protected String itemTypeString;
     protected boolean showViews = true;
     protected boolean justLoaded = true;
+
+    protected BaseRowItem favSongsRowItem;
 
     private Target mBackgroundTarget;
     private DisplayMetrics mMetrics;
@@ -102,6 +107,17 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     CardPresenter mCardPresenter;
     protected BaseRowItem mCurrentItem;
     protected ListRow mCurrentRow;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        BaseItemDto item = new BaseItemDto();
+        item.setId(SongListActivity.FAV_SONGS);
+        item.setType("Playlist");
+        item.setIsFolder(true);
+
+        favSongsRowItem = new BaseRowItem(0, item);
+    }
 
     @Nullable
     @Override
@@ -226,6 +242,10 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
         mRowsAdapter = new ArrayObjectAdapter(new PositionableListRowPresenter());
         mCardPresenter = new CardPresenter(false, 300);
+        ClassPresenterSelector ps = new ClassPresenterSelector();
+        ps.addClassPresenter(BaseRowItem.class, mCardPresenter);
+        ps.addClassPresenter(GridButton.class, new GridButtonPresenter(false, 330, 300));
+
 
         for (BrowseRowDef def : rows) {
             HeaderItem header = new HeaderItem(def.getHeaderText(), null);
@@ -265,7 +285,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                     rowAdapter = new ItemRowAdapter(def.getRecordingGroupQuery(), mCardPresenter, mRowsAdapter);
                     break;
                 default:
-                    rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), mCardPresenter, mRowsAdapter);
+                    rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), ps, mRowsAdapter, def.getQueryType());
                     break;
             }
 
@@ -448,6 +468,14 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         getActivity().startActivity(searchIntent);
                         break;
 
+                    case FAVSONGS:
+                        Intent favIntent = new Intent(getActivity(), SongListActivity.class);
+                        favIntent.putExtra("ItemId", SongListActivity.FAV_SONGS);
+                        favIntent.putExtra("ParentId", mFolder.getId());
+
+                        getActivity().startActivity(favIntent);
+                        break;
+
                     default:
                         Toast.makeText(getActivity(), item.toString() + mApplication.getString(R.string.msg_not_implemented), Toast.LENGTH_SHORT)
                                 .show();
@@ -472,6 +500,11 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
             mHandler.removeCallbacks(updateContentTask);
+            if (item instanceof GridButton && ((GridButton)item).getId() == FAVSONGS) {
+                //set to specialized item
+                mCurrentItem = favSongsRowItem;
+            }
+
             if (!(item instanceof BaseRowItem)) {
                 mTitle.setText(mFolder.getName());
                 mInfoRow.removeAllViews();

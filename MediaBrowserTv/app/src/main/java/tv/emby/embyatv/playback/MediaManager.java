@@ -339,6 +339,7 @@ public class MediaManager {
                 mCurrentAudioQueue.add(queueItem);
                 if (mManagedAudioQueue != null) mManagedAudioQueue.add(queueItem);
             }
+            fireQueueStatusChange();
         }
         TvApp.getApplication().showMessage(items.size() + (items.size() > 1 ? TvApp.getApplication().getString(R.string.msg_items_added) : TvApp.getApplication().getString(R.string.msg_item_added)), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.audioicon);
     }

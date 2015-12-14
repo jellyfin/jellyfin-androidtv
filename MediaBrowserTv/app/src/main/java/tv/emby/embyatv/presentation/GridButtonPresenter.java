@@ -18,11 +18,23 @@ import tv.emby.embyatv.R;
 public class GridButtonPresenter extends Presenter {
 
     private static Context mContext;
+    private boolean mShowInfo = true;
+    private int mCardWidth = 220;
+    private int mCardHeight = 220;
+
+    public GridButtonPresenter() { super();}
+
+    public GridButtonPresenter(boolean showinfo, int width, int height) {
+        this();
+        mShowInfo = showinfo;
+        mCardWidth = width;
+        mCardHeight = height;
+    }
 
     static class ViewHolder extends Presenter.ViewHolder {
-        private int cardWidth = 220;
-        private int cardHeight = 220;
         private GridButton mItem;
+        private int cardWidth;
+        private int cardHeight;
         private MyImageCardView mCardView;
         private Drawable mDefaultCardImage;
         private PicassoImageCardViewTarget mImageCardViewTarget;
@@ -35,9 +47,11 @@ public class GridButtonPresenter extends Presenter {
             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.gears);
         }
 
-        public void setItem(GridButton m) {
+        public void setItem(GridButton m, int width, int height) {
             mItem = m;
-            mCardView.setMainImageDimensions(cardWidth, cardHeight);
+            cardWidth = width;
+            cardHeight = height;
+            mCardView.setMainImageDimensions(width, height);
         }
 
         public GridButton getItem() {
@@ -63,7 +77,7 @@ public class GridButtonPresenter extends Presenter {
         //Log.d(TAG, "onCreateViewHolder");
         mContext = parent.getContext();
 
-        MyImageCardView cardView = new MyImageCardView(mContext);
+        MyImageCardView cardView = new MyImageCardView(mContext, mShowInfo);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
         cardView.setBackgroundColor(mContext.getResources().getColor(R.color.lb_basic_card_info_bg_color));
@@ -75,11 +89,14 @@ public class GridButtonPresenter extends Presenter {
         if (!(item instanceof GridButton)) return;
         GridButton gridItem = (GridButton) item;
 
-        ((ViewHolder) viewHolder).setItem(gridItem);
+        ViewHolder vh = (ViewHolder) viewHolder;
+
+        vh.setItem(gridItem, mCardWidth, mCardHeight);
 
         //Log.d(TAG, "onBindViewHolder");
-        ((ViewHolder) viewHolder).mCardView.setTitleText(gridItem.getText());
-        ((ViewHolder) viewHolder).updateCardViewImage(gridItem.getImageIndex());
+        vh.mCardView.setTitleText(gridItem.getText());
+        vh.mCardView.setOverlayText(gridItem.getText());
+        vh.updateCardViewImage(gridItem.getImageIndex());
 
     }
 

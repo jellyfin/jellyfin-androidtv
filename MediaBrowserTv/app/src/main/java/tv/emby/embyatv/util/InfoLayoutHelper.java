@@ -74,7 +74,7 @@ public class InfoLayoutHelper {
                 addCount(activity, songCount, layout, songCount == 1 ? activity.getResources().getString(R.string.lbl_song) : activity.getResources().getString(R.string.lbl_songs));
                 break;
             case "Playlist":
-                addCount(activity, item.getChildCount(), layout, item.getChildCount() == 1 ? activity.getResources().getString(R.string.lbl_item) : activity.getResources().getString(R.string.lbl_items));
+                if (item.getChildCount() != null) addCount(activity, item.getChildCount(), layout, item.getChildCount() == 1 ? activity.getResources().getString(R.string.lbl_item) : activity.getResources().getString(R.string.lbl_items));
                 if (item.getCumulativeRunTimeTicks() != null) addText(activity, " ("+Utils.formatMillis(item.getCumulativeRunTimeTicks() / 10000)+")", layout, 300);
                 break;
             default:

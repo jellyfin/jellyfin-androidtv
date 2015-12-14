@@ -4,6 +4,7 @@ import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.Presenter;
+import android.support.v17.leanback.widget.PresenterSelector;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -41,6 +42,7 @@ import mediabrowser.model.search.SearchHintResult;
 import mediabrowser.model.search.SearchQuery;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.browsing.EnhancedBrowseFragment;
 import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.model.ChangeTriggerType;
 import tv.emby.embyatv.model.ChapterItemInfo;
@@ -132,7 +134,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this(query, chunkSize, preferParentThumb, false, presenter, parent);
     }
 
-    public ItemRowAdapter(ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, ArrayObjectAdapter parent, QueryType queryType) {
         super(presenter);
         mParent = parent;
         mQuery = query;
@@ -141,8 +143,25 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = staticHeight;
         if (chunkSize > 0) mQuery.setLimit(chunkSize);
-        queryType = QueryType.Items;
+        this.queryType = queryType;
         add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+    }
+
+    public ItemRowAdapter(ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, PresenterSelector presenter, ArrayObjectAdapter parent, QueryType queryType) {
+        super(presenter);
+        mParent = parent;
+        mQuery = query;
+        mQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        this.chunkSize = chunkSize;
+        this.preferParentThumb = preferParentThumb;
+        this.staticHeight = staticHeight;
+        if (chunkSize > 0) mQuery.setLimit(chunkSize);
+        this.queryType = queryType;
+        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+    }
+
+    public ItemRowAdapter(ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, ArrayObjectAdapter parent) {
+        this(query,chunkSize,preferParentThumb,staticHeight,presenter,parent,QueryType.Items);
     }
 
     public ItemRowAdapter(ArtistsQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
@@ -580,6 +599,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             case AlbumArtists:
                 Retrieve(mArtistsQuery);
                 break;
+            case Playlists:
+                RetrievePlaylists(mQuery);
+                break;
         }
     }
 
@@ -797,6 +819,14 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     public void Retrieve(ItemQuery query) {
         TvApp.getApplication().getApiClient().GetItemsAsync(query, new ItemQueryResponse(this));
+    }
+
+    public void RetrievePlaylists(final ItemQuery query) {
+        //Add specialized playlists first
+        clear();
+        add(new GridButton(EnhancedBrowseFragment.FAVSONGS, TvApp.getApplication().getString(R.string.lbl_favorites), R.drawable.genericmusic));
+        itemsLoaded = 1;
+        Retrieve(query);
     }
 
     public void Retrieve(ArtistsQuery query) {
