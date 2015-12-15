@@ -113,6 +113,8 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
 
     private int mCardHeight = SMALL_CARD;
 
+    protected boolean mAllowViewSelection = true;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -359,7 +361,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         LinearLayout toolBar = getToolBar();
         int size = Utils.convertDpToPixel(getActivity(), 24);
 
-        mDisplayPrefsPopup = new DisplayPrefsPopup(getActivity(), mGridDock, new Response<Boolean>() {
+        mDisplayPrefsPopup = new DisplayPrefsPopup(getActivity(), mGridDock, mAllowViewSelection, new Response<Boolean>() {
             @Override
             public void onResponse(Boolean response) {
                 TvApp.getApplication().updateDisplayPrefs(mDisplayPrefs);

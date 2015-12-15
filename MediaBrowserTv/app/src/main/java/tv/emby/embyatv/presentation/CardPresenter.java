@@ -94,6 +94,7 @@ public class CardPresenter extends Presenter {
                             break;
                         case "MusicArtist":
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
+                            if (aspect == 0.77777) aspect = 1.0;
                             break;
                         case "RecordingGroup":
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.recgroup);

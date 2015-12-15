@@ -81,7 +81,7 @@
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:text="Default View"
-                android:id="@+id/textView15"
+                android:id="@+id/defaultViewLbl"
                 android:textSize="16sp" />
 
             <Spinner

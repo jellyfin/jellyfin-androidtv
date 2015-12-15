@@ -37,7 +37,7 @@ public class DisplayPrefsPopup {
 
     Boolean mChanged = false;
 
-    public DisplayPrefsPopup(Activity activity, View anchor, final Response<Boolean> response) {
+    public DisplayPrefsPopup(Activity activity, View anchor, boolean allowViewDefault, final Response<Boolean> response) {
         mActivity = activity;
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.display_prefs, null);
@@ -91,23 +91,29 @@ public class DisplayPrefsPopup {
             }
         });
         mInitialView = (Spinner) layout.findViewById(R.id.initialView);
-        ArrayAdapter<String> viewTypes = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item);
-        {
-            viewTypes.add("Smart Screen");
-            viewTypes.add("Grid View");
+        if (allowViewDefault) {
+            ArrayAdapter<String> viewTypes = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item);
+            {
+                viewTypes.add("Smart Screen");
+                viewTypes.add("Grid View");
+            }
+            mInitialView.setAdapter(viewTypes);
+            mInitialView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    mPrefs.getCustomPrefs().put("DefaultView", Integer.toString(position));
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+        } else {
+            mInitialView.setVisibility(View.GONE);
+            layout.findViewById(R.id.defaultViewLbl).setVisibility(View.GONE);
         }
-        mInitialView.setAdapter(viewTypes);
-        mInitialView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mPrefs.getCustomPrefs().put("DefaultView", Integer.toString(position));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         Button done = (Button) layout.findViewById(R.id.btnDone);
         done.setOnClickListener(new View.OnClickListener() {
