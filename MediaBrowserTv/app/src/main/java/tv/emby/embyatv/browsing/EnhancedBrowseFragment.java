@@ -241,10 +241,10 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     public void loadRows(List<BrowseRowDef> rows) {
 
         mRowsAdapter = new ArrayObjectAdapter(new PositionableListRowPresenter());
-        mCardPresenter = new CardPresenter(false, 300);
+        mCardPresenter = new CardPresenter(false, 280);
         ClassPresenterSelector ps = new ClassPresenterSelector();
         ps.addClassPresenter(BaseRowItem.class, mCardPresenter);
-        ps.addClassPresenter(GridButton.class, new GridButtonPresenter(false, 330, 300));
+        ps.addClassPresenter(GridButton.class, new GridButtonPresenter(false, 310, 280));
 
 
         for (BrowseRowDef def : rows) {
@@ -407,6 +407,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         break;
 
                     case ALBUMS:
+                        mFolder.setDisplayPreferencesId(mFolder.getId()+"AL");
                         TvApp.getApplication().getDisplayPrefsAsync(mFolder.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
                             @Override
                             public void onResponse(DisplayPreferences response) {
@@ -419,6 +420,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         break;
 
                     case ARTISTS:
+                        mFolder.setDisplayPreferencesId(mFolder.getId()+"AR");
                         TvApp.getApplication().getDisplayPrefsAsync(mFolder.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
                             @Override
                             public void onResponse(DisplayPreferences response) {
