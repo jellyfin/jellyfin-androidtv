@@ -335,12 +335,12 @@ public class Utils {
     }
 
     public static String getBannerImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
-        if (!item.getHasBanner()) return getPrimaryImageUrl(item, apiClient, true, false, maxHeight);
+        if (!item.getHasBanner()) return getPrimaryImageUrl(item, apiClient, !"MusicArtist".equals(item.getType()) && !"MusicAlbum".equals(item.getType()), false, maxHeight);
         ImageOptions options = new ImageOptions();
         options.setTag(item.getImageTags().get(ImageType.Banner));
         options.setImageType(ImageType.Banner);
         UserItemDataDto userData = item.getUserData();
-        if (userData != null) {
+        if (userData != null && !"MusicArtist".equals(item.getType()) && !"MusicAlbum".equals(item.getType())) {
             if (Arrays.asList(ProgressIndicatorTypes).contains(item.getType()) && userData.getPlayedPercentage() != null
                     && userData.getPlayedPercentage() > 0 && userData.getPlayedPercentage() < 99) {
                 Double pct = userData.getPlayedPercentage();
@@ -358,12 +358,12 @@ public class Utils {
     }
 
     public static String getThumbImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
-        if (!item.getHasThumb()) return getPrimaryImageUrl(item, apiClient, true, true, maxHeight);
+        if (!item.getHasThumb()) return getPrimaryImageUrl(item, apiClient, !"MusicArtist".equals(item.getType()) && !"MusicAlbum".equals(item.getType()), true, maxHeight);
         ImageOptions options = new ImageOptions();
         options.setTag(item.getImageTags().get(ImageType.Thumb));
         options.setImageType(ImageType.Thumb);
         UserItemDataDto userData = item.getUserData();
-        if (userData != null) {
+        if (userData != null && !"MusicArtist".equals(item.getType()) && !"MusicAlbum".equals(item.getType())) {
             if (Arrays.asList(ProgressIndicatorTypes).contains(item.getType()) && userData.getPlayedPercentage() != null
                     && userData.getPlayedPercentage() > 0 && userData.getPlayedPercentage() < 99) {
                 Double pct = userData.getPlayedPercentage();
