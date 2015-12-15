@@ -97,6 +97,7 @@
         android:layout_alignParentTop="false"
         android:layout_toStartOf="@+id/clock"
         android:layout_alignTop="@+id/clock"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="20dp" />
 
 </RelativeLayout>
