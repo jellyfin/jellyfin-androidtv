@@ -19,6 +19,7 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import tv.emby.embyatv.R;
+import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.model.ImageType;
 import tv.emby.embyatv.util.Utils;
@@ -86,14 +87,13 @@ public class CardPresenter extends Presenter {
                         case "Audio":
                         case "MusicAlbum":
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.audio);
-                            aspect = 1.0;
+                            if (aspect == 0.77777) aspect = 1.0;
                             break;
                         case "Person":
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
                             break;
                         case "MusicArtist":
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
-                            aspect = 1.0;
                             break;
                         case "RecordingGroup":
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.recgroup);
@@ -306,7 +306,7 @@ public class CardPresenter extends Presenter {
 
         holder.mCardView.setTitleText(rowItem.getCardName());
         holder.mCardView.setContentText(rowItem.getSubText());
-        holder.mCardView.setOverlayInfo(rowItem);
+        if (ImageType.DEFAULT.equals(mImageType)) holder.mCardView.setOverlayInfo(rowItem);
         holder.mCardView.showFavIcon(rowItem.isFavorite());
         if (rowItem.isPlaying()) {
             holder.mCardView.setPlayingIndicator(true);

@@ -137,7 +137,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 latestAlbums.setLimit(50);
                 latestAlbums.setSortBy(new String[]{ItemSortBy.DateLastContentAdded});
                 latestAlbums.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestAlbums, 0, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestAlbums, 0, false, true, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 //Last Played
                 StdItemQuery lastPlayed = new StdItemQuery();
@@ -147,7 +147,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 lastPlayed.setFilters(new ItemFilter[]{ItemFilter.IsPlayed});
                 lastPlayed.setSortBy(new String[]{ItemSortBy.DatePlayed});
                 lastPlayed.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_last_played), lastPlayed, 60, new ChangeTriggerType[] {ChangeTriggerType.MusicPlayed, ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_last_played), lastPlayed, 60, false, true, new ChangeTriggerType[] {ChangeTriggerType.MusicPlayed, ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
                 StdItemQuery favAlbums = new StdItemQuery();
@@ -156,7 +156,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 favAlbums.setParentId(mFolder.getId());
                 favAlbums.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
                 favAlbums.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_favorites), favAlbums, 60, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_favorites), favAlbums, 60, false, true, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 //Playlists
                 StdItemQuery playlists = new StdItemQuery(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.CumulativeRunTimeTicks});
@@ -164,7 +164,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 playlists.setRecursive(true);
                 playlists.setSortBy(new String[]{ItemSortBy.DateCreated});
                 playlists.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_playlists), playlists, 60, false, false, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}, QueryType.Playlists));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_playlists), playlists, 60, false, true, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}, QueryType.Playlists));
 
                 rowLoader.loadRows(mRows);
                 break;
