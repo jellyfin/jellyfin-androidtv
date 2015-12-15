@@ -656,6 +656,8 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                 return;
             } else {
                 mCurrentItem = (BaseRowItem)item;
+                mTitleView.setText(mCurrentItem.getName());
+                mInfoRow.removeAllViews();
                 mHandler.postDelayed(mDelayedSetItem, 400);
 
                 if (!determiningPosterSize) mGridAdapter.loadMoreItemsIfNeeded(mCurrentItem.getIndex());

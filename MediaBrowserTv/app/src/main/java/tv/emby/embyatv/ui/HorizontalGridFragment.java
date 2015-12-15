@@ -39,12 +39,12 @@ public class HorizontalGridFragment extends Fragment {
     private static final String TAG = "HorizontalGridFragment";
     private static boolean DEBUG = false;
 
-    private TextView mTitleView;
+    protected TextView mTitleView;
     private TextView mStatusText;
     private TextView mCounter;
     protected FrameLayout mSpinner;
     protected ViewGroup mGridDock;
-    private LinearLayout mInfoRow;
+    protected LinearLayout mInfoRow;
     protected LinearLayout mToolBar;
     private ItemRowAdapter mAdapter;
     private HorizontalGridPresenter mGridPresenter;

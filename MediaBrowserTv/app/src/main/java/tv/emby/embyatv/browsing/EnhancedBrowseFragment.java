@@ -521,6 +521,9 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
             mCurrentItem = rowItem;
             mCurrentRow = (ListRow) row;
+            mTitle.setText(mCurrentItem.getName());
+            mInfoRow.removeAllViews();
+            mSummary.setText("");
             mHandler.postDelayed(updateContentTask, 500);
 
             //mApplication.getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));
