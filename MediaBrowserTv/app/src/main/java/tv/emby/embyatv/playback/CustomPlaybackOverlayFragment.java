@@ -635,10 +635,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             return;
         }
 
-        //Register a media button receiver so that all media button presses will come to us and not another app
-        mAudioManager.registerMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
-        //TODO implement conditional logic for api 21+
-
         if (!mIsVisible) show(); // in case we were paused during video playback
 
     }
@@ -653,10 +649,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     public void onPause() {
         mPlaybackController.stop();
         setPlayPauseActionState(ImageButton.STATE_PRIMARY); // in case we come back
-
-        //UnRegister the media button receiver
-        mAudioManager.unregisterMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
-        //TODO implement conditional logic for api 21+
 
         //Give back audio focus
         mAudioManager.abandonAudioFocus(mAudioFocusChanged);
