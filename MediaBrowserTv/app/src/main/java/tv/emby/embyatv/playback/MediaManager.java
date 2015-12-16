@@ -628,6 +628,7 @@ public class MediaManager {
 
     public static void resumeAudio() {
         if (mCurrentAudioItem != null && mVlcPlayer != null) {
+            ensureAudioFocus();
             mVlcPlayer.play();
             updateCurrentAudioItemPlaying(true);
             Utils.ReportStart(mCurrentAudioItem, mCurrentAudioPosition * 10000);

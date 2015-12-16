@@ -15,17 +15,20 @@ import tv.emby.embyatv.playback.MediaManager;
 public class RemoteControlReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        //TvApp.getApplication().getLogger().Debug("****** In remote receiver. ");
         if ((TvApp.getApplication().getCurrentActivity() == null || !(TvApp.getApplication().getCurrentActivity() instanceof AudioNowPlayingActivity )) && MediaManager.isPlayingAudio()) {
             //Respond to media button presses
             if (Intent.ACTION_MEDIA_BUTTON.equals(intent.getAction())) {
                 KeyEvent event = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
-                TvApp.getApplication().getLogger().Debug("****** In remote receiver.  Keycode: "+event.getKeyCode());
+                TvApp.getApplication().getLogger().Debug("****** In remote receiver.  Keycode: " + event.getKeyCode());
                 switch (event.getKeyCode()) {
-                    //if we can accurately determine if our app is in the background - we can put this back in that case
-//                    case KeyEvent.KEYCODE_MEDIA_PAUSE:
-//                    case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-//                        MediaManager.pauseAudio();
-//                        break;
+                    case KeyEvent.KEYCODE_MEDIA_PAUSE:
+                    case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                        //if the current activity is null then we must not be the foreground app - process play/pause here
+                        if (TvApp.getApplication().getCurrentActivity() == null) {
+                            MediaManager.pauseAudio();
+                        }
+                        break;
                     case KeyEvent.KEYCODE_MEDIA_NEXT:
                     case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
                         MediaManager.nextAudioItem();
