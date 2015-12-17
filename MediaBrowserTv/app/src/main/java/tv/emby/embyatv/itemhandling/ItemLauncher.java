@@ -67,10 +67,12 @@ public class ItemLauncher {
                             public void onResponse(DisplayPreferences response) {
                                 if (baseItem.getCollectionType() == null)
                                     baseItem.setCollectionType("unknown");
+                                TvApp.getApplication().getLogger().Debug("**** Collection type: "+baseItem.getCollectionType());
                                 switch (baseItem.getCollectionType()) {
                                     case "movies":
                                     case "tvshows":
                                     case "music":
+                                        TvApp.getApplication().getLogger().Debug("**** View Type Pref: "+response.getCustomPrefs().get("DefaultView"));
                                         if (ViewType.GRID.equals(response.getCustomPrefs().get("DefaultView"))) {
                                             // open grid browsing
                                             Intent folderIntent = new Intent(activity, GenericGridActivity.class);
