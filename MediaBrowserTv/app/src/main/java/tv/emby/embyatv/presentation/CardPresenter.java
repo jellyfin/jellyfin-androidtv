@@ -87,14 +87,14 @@ public class CardPresenter extends Presenter {
                         case "Audio":
                         case "MusicAlbum":
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.audio);
-                            if (aspect == 0.77777) aspect = 1.0;
+                            if (aspect < 0.8) aspect = 1.0;
                             break;
                         case "Person":
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
                             break;
                         case "MusicArtist":
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
-                            if (aspect == 0.77777) aspect = 1.0;
+                            if (aspect <.8) aspect = 1.0;
                             break;
                         case "RecordingGroup":
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.recgroup);
