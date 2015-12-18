@@ -63,7 +63,7 @@ public class InfoLayoutHelper {
             case "MusicArtist":
                 Integer artistAlbums = item.getAlbumCount() != null ? item.getAlbumCount() : item.getChildCount();
                 addCount(activity, artistAlbums, layout, artistAlbums == 1 ? activity.getResources().getString(R.string.lbl_album) : activity.getResources().getString(R.string.lbl_albums));
-                break;
+                return;
             case "MusicAlbum":
                 String artist = item.getAlbumArtist() != null ? item.getAlbumArtist() : item.getArtists() != null && item.getAlbumArtists().size() > 0 ? item.getArtists().get(0) : null;
                 if (artist != null) {
@@ -72,7 +72,7 @@ public class InfoLayoutHelper {
                 addDate(activity, item, layout);
                 Integer songCount = item.getSongCount() != null ? item.getSongCount() : item.getChildCount();
                 addCount(activity, songCount, layout, songCount == 1 ? activity.getResources().getString(R.string.lbl_song) : activity.getResources().getString(R.string.lbl_songs));
-                break;
+                return;
             case "Playlist":
                 if (item.getChildCount() != null) addCount(activity, item.getChildCount(), layout, item.getChildCount() == 1 ? activity.getResources().getString(R.string.lbl_item) : activity.getResources().getString(R.string.lbl_items));
                 if (item.getCumulativeRunTimeTicks() != null) addText(activity, " ("+Utils.formatMillis(item.getCumulativeRunTimeTicks() / 10000)+")", layout, 300);
@@ -326,12 +326,12 @@ public class InfoLayoutHelper {
         MediaStream stream = Utils.GetFirstAudioStream(item);
 
         if (stream != null) {
-            if (stream.getCodec() != null) {
+            if (stream.getCodec() != null && stream.getCodec().trim().length() > 0) {
                 String codec = stream.getCodec().equals("dca") ? "DTS" : stream.getCodec().equals("ac3") ? "Dolby" : stream.getCodec().toUpperCase();
                 addBlockText(activity, layout, codec);
                 addSpacer(activity, layout, " ");
             }
-            if (stream.getChannelLayout() != null) {
+            if (stream.getChannelLayout() != null && stream.getChannelLayout().trim().length() > 0) {
                 addBlockText(activity, layout, stream.getChannelLayout().toUpperCase());
                 addSpacer(activity, layout, "  ");
             }
