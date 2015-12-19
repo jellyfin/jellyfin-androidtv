@@ -33,6 +33,7 @@ import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.details.FullDetailsActivity;
 import tv.emby.embyatv.eventhandling.TvApiEventListener;
+import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.util.Utils;
 
 
@@ -68,7 +69,16 @@ public class StartupActivity extends Activity {
         //Ensure we have prefs
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
-        establishConnection(activity);
+        if (application.getCurrentUser() != null && application.getApiClient() != null && MediaManager.isPlayingAudio()) {
+            // go straight into last connection
+            Intent intent = new Intent(activity, MainActivity.class);
+            activity.startActivity(intent);
+
+        } else {
+            //clear audio queue in case left over from last run
+            MediaManager.clearAudioQueue();
+            establishConnection(activity);
+        }
 
     }
 

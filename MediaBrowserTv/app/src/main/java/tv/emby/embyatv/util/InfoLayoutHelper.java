@@ -2,6 +2,7 @@ package tv.emby.embyatv.util;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -59,6 +60,23 @@ public class InfoLayoutHelper {
             case "RecordingGroup":
                 addRecordingCount(activity, item, layout);
                 break;
+            case "MusicArtist":
+                Integer artistAlbums = item.getAlbumCount() != null ? item.getAlbumCount() : item.getChildCount();
+                addCount(activity, artistAlbums, layout, artistAlbums == 1 ? activity.getResources().getString(R.string.lbl_album) : activity.getResources().getString(R.string.lbl_albums));
+                return;
+            case "MusicAlbum":
+                String artist = item.getAlbumArtist() != null ? item.getAlbumArtist() : item.getArtists() != null && item.getAlbumArtists().size() > 0 ? item.getArtists().get(0) : null;
+                if (artist != null) {
+                    addText(activity, artist+" ", layout, 500);
+                }
+                addDate(activity, item, layout);
+                Integer songCount = item.getSongCount() != null ? item.getSongCount() : item.getChildCount();
+                addCount(activity, songCount, layout, songCount == 1 ? activity.getResources().getString(R.string.lbl_song) : activity.getResources().getString(R.string.lbl_songs));
+                return;
+            case "Playlist":
+                if (item.getChildCount() != null) addCount(activity, item.getChildCount(), layout, item.getChildCount() == 1 ? activity.getResources().getString(R.string.lbl_item) : activity.getResources().getString(R.string.lbl_items));
+                if (item.getCumulativeRunTimeTicks() != null) addText(activity, " ("+Utils.formatMillis(item.getCumulativeRunTimeTicks() / 10000)+")", layout, 300);
+                break;
             default:
                 addDate(activity, item, layout);
 
@@ -67,6 +85,16 @@ public class InfoLayoutHelper {
         addSeriesStatus(activity, item, layout);
         addRatingAndRes(activity, item, layout);
         addMediaDetails(activity, item, layout);
+    }
+
+    private static void addText(Activity activity, String text, LinearLayout layout, int maxWidth) {
+        TextView textView = new TextView(activity);
+        textView.setTextSize(textSize);
+        textView.setMaxWidth(maxWidth);
+        textView.setEllipsize(TextUtils.TruncateAt.END);
+        textView.setText(text + "  ");
+        layout.addView(textView);
+
     }
 
     private static void addBoxSetCounts(Activity activity, BaseItemDto item, LinearLayout layout) {
@@ -92,6 +120,15 @@ public class InfoLayoutHelper {
             amt.setText(item.getChildCount().toString()+" "+ activity.getResources().getString(item.getChildCount() > 1 ? R.string.lbl_items : R.string.lbl_item) +"  ");
             layout.addView(amt);
 
+        }
+    }
+
+    private static void addCount(Activity activity, Integer count, LinearLayout layout, String label) {
+        if (count != null && count > 0) {
+            TextView amt = new TextView(activity);
+            amt.setTextSize(textSize);
+            amt.setText(count.toString()+" "+ label +"  ");
+            layout.addView(amt);
         }
     }
 
@@ -289,12 +326,12 @@ public class InfoLayoutHelper {
         MediaStream stream = Utils.GetFirstAudioStream(item);
 
         if (stream != null) {
-            if (stream.getCodec() != null) {
+            if (stream.getCodec() != null && stream.getCodec().trim().length() > 0) {
                 String codec = stream.getCodec().equals("dca") ? "DTS" : stream.getCodec().equals("ac3") ? "Dolby" : stream.getCodec().toUpperCase();
                 addBlockText(activity, layout, codec);
                 addSpacer(activity, layout, " ");
             }
-            if (stream.getChannelLayout() != null) {
+            if (stream.getChannelLayout() != null && stream.getChannelLayout().trim().length() > 0) {
                 addBlockText(activity, layout, stream.getChannelLayout().toUpperCase());
                 addSpacer(activity, layout, "  ");
             }

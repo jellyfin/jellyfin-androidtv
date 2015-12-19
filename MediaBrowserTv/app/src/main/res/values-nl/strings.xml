@@ -122,7 +122,7 @@
     <string name="lbl_runs">"Duurt: "</string>
     <string name="lbl_min">"min"</string>
     <string name="lbl_ends">"Eindigt: "</string>
-    <string name="lbl_directed_by">"Geregisseerd door {0}"</string>
+    <string name="lbl_directed_by">"Geregisseerd door: "</string>
     <string name="lbl_last_played">"Laatst afgespeeld "</string>
     <string name="lbl_never_played">Nooit afgespeeld</string>
     <string name="lbl_select_server">Selecteer een server</string>
@@ -170,7 +170,7 @@
     <string name="msg_playback_incompatible">Kan dit videoformaat niet afspelen</string>
     <string name="lbl_never">Nooit</string>
     <string name="lbl_unlock_app">Ontgrendel App</string>
-    <string name="lbl_unlock_desc">Ontgrendel de app voor volledige functionaliteit door het hier aan te kopen. Als u een actieve supporter bent hoeft u dit niet te doen. Zorg ervoor dat uw server de supporter sleutel op zijn plaats heeft of, als u met afstandsbediening werkt, dat je Connect gebruikt om aan te melden.</string>
+    <string name="lbl_unlock_desc">Ontgrendel de app voor volledige functionaliteit door het hier te kopen. Als u een actieve supporter bent en lokaal aanmeldt hoeft u dit niet te doen. Zorg ervoor dat uw supporter sleutel geïnstalleerd is op de server.</string>
     <string name="btn_next">Volgende</string>
     <string name="msg_invalid_purchase">Ongeldige aankoop poging.</string>
     <string name="msg_thank_you_unlocked">Bedankt. App is nu volledig ontgrendeld.</string>

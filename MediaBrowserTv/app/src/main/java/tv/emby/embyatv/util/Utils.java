@@ -17,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Display;
@@ -40,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -71,10 +73,13 @@ import mediabrowser.model.entities.MediaStreamType;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.querying.ItemFields;
+import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
+import mediabrowser.model.querying.SimilarItemsQuery;
 import mediabrowser.model.session.PlaybackProgressInfo;
+import mediabrowser.model.session.PlaybackStartInfo;
 import mediabrowser.model.session.PlaybackStopInfo;
 import mediabrowser.model.users.AuthenticationResult;
 import tv.emby.embyatv.BuildConfig;
@@ -82,7 +87,9 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.details.FullDetailsActivity;
+import tv.emby.embyatv.details.SongListActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
+import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.startup.DpadPwActivity;
 import tv.emby.embyatv.startup.LogonCredentials;
@@ -215,7 +222,7 @@ public class Utils {
             if (min > 9) {
                 result += min + ":";
             } else {
-                result += "0" + min + ":";
+                result += (hr > 0 ? "0" : "") + min + ":";
             }
         }
         if (sec > 9) {
@@ -328,12 +335,12 @@ public class Utils {
     }
 
     public static String getBannerImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
-        if (!item.getHasBanner()) return getPrimaryImageUrl(item, apiClient, true, false, maxHeight);
+        if (!item.getHasBanner()) return getPrimaryImageUrl(item, apiClient, !"MusicArtist".equals(item.getType()) && !"MusicAlbum".equals(item.getType()), false, maxHeight);
         ImageOptions options = new ImageOptions();
         options.setTag(item.getImageTags().get(ImageType.Banner));
         options.setImageType(ImageType.Banner);
         UserItemDataDto userData = item.getUserData();
-        if (userData != null) {
+        if (userData != null && !"MusicArtist".equals(item.getType()) && !"MusicAlbum".equals(item.getType())) {
             if (Arrays.asList(ProgressIndicatorTypes).contains(item.getType()) && userData.getPlayedPercentage() != null
                     && userData.getPlayedPercentage() > 0 && userData.getPlayedPercentage() < 99) {
                 Double pct = userData.getPlayedPercentage();
@@ -351,12 +358,12 @@ public class Utils {
     }
 
     public static String getThumbImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
-        if (!item.getHasThumb()) return getPrimaryImageUrl(item, apiClient, true, true, maxHeight);
+        if (!item.getHasThumb()) return getPrimaryImageUrl(item, apiClient, !"MusicArtist".equals(item.getType()) && !"MusicAlbum".equals(item.getType()), true, maxHeight);
         ImageOptions options = new ImageOptions();
         options.setTag(item.getImageTags().get(ImageType.Thumb));
         options.setImageType(ImageType.Thumb);
         UserItemDataDto userData = item.getUserData();
-        if (userData != null) {
+        if (userData != null && !"MusicArtist".equals(item.getType()) && !"MusicAlbum".equals(item.getType())) {
             if (Arrays.asList(ProgressIndicatorTypes).contains(item.getType()) && userData.getPlayedPercentage() != null
                     && userData.getPlayedPercentage() > 0 && userData.getPlayedPercentage() < 99) {
                 Double pct = userData.getPlayedPercentage();
@@ -403,6 +410,17 @@ public class Utils {
             if (item.getType().equals("Season") && imageTag == null) {
                 imageTag = item.getSeriesPrimaryImageTag();
                 itemId = item.getSeriesId();
+            }
+        }
+        if ("Audio".equals(item.getType()) && !item.getHasPrimaryImage()) {
+            //Try the album or artist
+            if (item.getAlbumId() != null && item.getAlbumPrimaryImageTag() != null) {
+                imageTag = item.getAlbumPrimaryImageTag();
+                itemId = item.getAlbumId();
+                imageType = ImageType.Primary;
+            } else if (item.getAlbumArtists() != null && item.getAlbumArtists().size() > 0) {
+                itemId = item.getAlbumArtists().get(0).getId();
+                imageTag = null;
             }
         }
         options.setMaxHeight(maxHeight);
@@ -474,14 +492,13 @@ public class Utils {
         return null;
     }
 
-    public static void getItemsToPlay(final BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<String[]> outerResponse) {
-        final List<String> items = new ArrayList<>();
-        final GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
+    public static void getItemsToPlay(final BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<BaseItemDto>> outerResponse) {
+        final List<BaseItemDto> items = new ArrayList<>();
         ItemQuery query = new ItemQuery();
 
         switch (mainItem.getType()) {
             case "Episode":
-                items.add(serializer.SerializeToString(mainItem));
+                items.add(mainItem);
                 if (TvApp.getApplication().getPrefs().getBoolean("pref_enable_tv_queuing", true)) {
                     //add subsequent episodes
                     if (mainItem.getSeasonId() != null && mainItem.getIndexNumber() != null) {
@@ -490,7 +507,7 @@ public class Utils {
                         query.setMinIndexNumber(mainItem.getIndexNumber() + 1);
                         query.setSortBy(new String[] {ItemSortBy.SortName});
                         query.setIncludeItemTypes(new String[]{"Episode"});
-                        query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.Path, ItemFields.Chapters, ItemFields.PrimaryImageAspectRatio});
+                        query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.MediaStreams, ItemFields.Path, ItemFields.Chapters, ItemFields.PrimaryImageAspectRatio});
                         query.setUserId(TvApp.getApplication().getCurrentUser().getId());
                         TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
                             @Override
@@ -498,26 +515,26 @@ public class Utils {
                                 if (response.getTotalRecordCount() > 0) {
                                     for (BaseItemDto item : response.getItems()) {
                                         if (item.getIndexNumber() > mainItem.getIndexNumber()) {
-                                            items.add(serializer.SerializeToString(item));
+                                            items.add(item);
                                         }
                                     }
                                 }
-                                outerResponse.onResponse(items.toArray(new String[items.size()]));
+                                outerResponse.onResponse(items);
                             }
                         });
                     } else {
                         TvApp.getApplication().getLogger().Info("Unable to add subsequent episodes due to lack of season or episode data.");
-                        outerResponse.onResponse(items.toArray(new String[items.size()]));
+                        outerResponse.onResponse(items);
                     }
                 } else {
-                    outerResponse.onResponse(items.toArray(new String[items.size()]));
+                    outerResponse.onResponse(items);
                 }
                 break;
             case "Series":
             case "Season":
             case "BoxSet":
             case "Folder":
-                //get all episodes
+                //get all videos
                 query.setParentId(mainItem.getId());
                 query.setIsMissing(false);
                 query.setIsVirtualUnaired(false);
@@ -525,15 +542,37 @@ public class Utils {
                 query.setSortBy(new String[]{shuffle ? ItemSortBy.Random : ItemSortBy.SortName});
                 query.setRecursive(true);
                 query.setLimit(50); // guard against too many items
-                query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.Path, ItemFields.PrimaryImageAspectRatio});
+                query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.MediaStreams, ItemFields.Path, ItemFields.PrimaryImageAspectRatio});
                 query.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
-                        for (BaseItemDto item : response.getItems()) {
-                            items.add(serializer.SerializeToString(item));
-                        }
-                        outerResponse.onResponse(items.toArray(new String[items.size()]));
+                        Collections.addAll(items, response.getItems());
+                        outerResponse.onResponse(items);
+                    }
+                });
+                break;
+            case "MusicAlbum":
+            case "MusicArtist":
+            case "Playlist":
+                //get all songs
+                if (mainItem.getId().equals(SongListActivity.FAV_SONGS)) {
+                    query.setFilters(new ItemFilter[] {ItemFilter.IsFavoriteOrLikes});
+                } else {
+                    query.setParentId(mainItem.getId());
+                }
+                query.setIsMissing(false);
+                query.setIsVirtualUnaired(false);
+                query.setIncludeItemTypes(new String[]{"Audio"});
+                query.setSortBy(shuffle ? new String[] {ItemSortBy.Random} : "MusicArtist".equals(mainItem.getType()) ? new String[] {ItemSortBy.Album} : new String[] {ItemSortBy.SortName});
+                query.setRecursive(true);
+                query.setLimit(150); // guard against too many items
+                query.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
+                query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+                    @Override
+                    public void onResponse(ItemsResult response) {
+                        outerResponse.onResponse(Arrays.asList(response.getItems()));
                     }
                 });
                 break;
@@ -552,8 +591,8 @@ public class Utils {
                         response.setEndDate(mainItem.getEndDate());
                         response.setOfficialRating(mainItem.getOfficialRating());
                         response.setRunTimeTicks(mainItem.getRunTimeTicks());
-                        items.add(serializer.SerializeToString(response));
-                        outerResponse.onResponse(items.toArray(new String[items.size()]));
+                        items.add(response);
+                        outerResponse.onResponse(items);
                     }
 
                     @Override
@@ -576,50 +615,63 @@ public class Utils {
                             mainItem.setOfficialRating(program.getOfficialRating());
                             mainItem.setRunTimeTicks(program.getRunTimeTicks());
                         }
-                        addMainItem(mainItem, serializer, items, outerResponse);
+                        addMainItem(mainItem, items, outerResponse);
                     }
                 });
                 break;
 
             default:
-                if (allowIntros) {
+                if (allowIntros && TvApp.getApplication().getPrefs().getBoolean("pref_enable_cinema_mode", true)) {
                     //Intros
                     TvApp.getApplication().getApiClient().GetIntrosAsync(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
                         @Override
                         public void onResponse(ItemsResult response) {
                             if (response.getTotalRecordCount() > 0){
-                                for (BaseItemDto item : response.getItems()) {
-                                    items.add(serializer.SerializeToString(item));
-                                }
+                                Collections.addAll(items, response.getItems());
                                 TvApp.getApplication().getLogger().Info(response.getTotalRecordCount() + " intro items added for playback.");
                             }
                             //Finally, the main item including subsequent parts
-                            addMainItem(mainItem, serializer, items, outerResponse);
+                            addMainItem(mainItem, items, outerResponse);
                         }
 
                         @Override
                         public void onError(Exception exception) {
                             TvApp.getApplication().getLogger().ErrorException("Error retrieving intros", exception);
-                            addMainItem(mainItem, serializer, items, outerResponse);
+                            addMainItem(mainItem, items, outerResponse);
                         }
                     });
 
                 } else {
-                    addMainItem(mainItem, serializer, items, outerResponse);
+                    addMainItem(mainItem, items, outerResponse);
                 }
                 break;
         }
     }
 
     public static void play(final BaseItemDto item, final int pos, final boolean shuffle, final Context activity) {
-        Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), shuffle, new Response<String[]>() {
+        Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), shuffle, new Response<List<BaseItemDto>>() {
             @Override
-            public void onResponse(String[] response) {
-                Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
-                intent.putExtra("Items", response);
-                intent.putExtra("Position", pos);
-                if (!(activity instanceof Activity)) intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                activity.startActivity(intent);
+            public void onResponse(List<BaseItemDto> response) {
+                switch (item.getType()) {
+                    case "MusicAlbum":
+                    case "MusicArtist":
+                    case "Playlist":
+                        MediaManager.playNow(response);
+                        break;
+                    case "Audio":
+                        if (response.size() > 0) {
+                            MediaManager.playNow(response.get(0));
+                        }
+                        break;
+
+                    default:
+                        Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                        MediaManager.setCurrentVideoQueue(response);
+                        intent.putExtra("Position", pos);
+                        if (!(activity instanceof Activity))
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        activity.startActivity(intent);
+                }
             }
         });
 
@@ -646,22 +698,54 @@ public class Utils {
 
     }
 
+    public static void playInstantMix(String seedId) {
+        getInstantMixAsync(seedId, new Response<BaseItemDto[]>() {
+            @Override
+            public void onResponse(BaseItemDto[] response) {
+                if (response.length > 0) {
+                    MediaManager.playNow(Arrays.asList(response));
+                } else {
+                    showToast(TvApp.getApplication(), R.string.msg_no_playable_items);
+                }
+            }
+        });
+    }
+
+    public static void getInstantMixAsync(String seedId, final Response<BaseItemDto[]> outerResponse) {
+        SimilarItemsQuery query = new SimilarItemsQuery();
+        query.setId(seedId);
+        query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        query.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
+        TvApp.getApplication().getApiClient().GetInstantMixFromItem(query, new Response<ItemsResult>() {
+            @Override
+            public void onResponse(ItemsResult response) {
+                outerResponse.onResponse(response.getItems());
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                outerResponse.onError(exception);
+            }
+        });
+    }
+
     public static String getStoreUrl() {
         return isFireTv() ? "http://www.amazon.com/Emby-for-Fire-TV/dp/B00VVJKTW8/ref=sr_1_2?s=mobile-apps&ie=UTF8&qid=1430569449&sr=1-2" : "https://play.google.com/store/apps/details?id=tv.emby.embyatv";
     }
 
-    private static void addMainItem(BaseItemDto mainItem, GsonJsonSerializer serializer, final List<String> items, final Response<String[]> outerResponse) {
-        items.add(serializer.SerializeToString(mainItem));
+    private static void addMainItem(BaseItemDto mainItem, final List<BaseItemDto> items, final Response<List<BaseItemDto>> outerResponse) {
+        items.add(mainItem);
         if (mainItem.getPartCount() != null && mainItem.getPartCount() > 1) {
             // get additional parts
             TvApp.getApplication().getApiClient().GetAdditionalParts(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
                 @Override
                 public void onResponse(ItemsResult response) {
-                    outerResponse.onResponse(items.toArray(new String[items.size()]));
+                    Collections.addAll(items, response.getItems());
+                    outerResponse.onResponse(items);
                 }
             });
         } else {
-            outerResponse.onResponse(items.toArray(new String[items.size()]));
+            outerResponse.onResponse(items);
         }
 
     }
@@ -670,7 +754,7 @@ public class Utils {
         return item.getPlayAccess().equals(PlayAccess.Full)
                 && ((item.getIsPlaceHolder() == null || !item.getIsPlaceHolder())
                 && (!item.getType().equals("Episode") || !item.getLocationType().equals(LocationType.Virtual)))
-                && (!item.getIsFolder() || item.getChildCount() > 0);
+                && (!item.getIsFolder() || item.getChildCount() == null || item.getChildCount() > 0);
     }
 
     private static String divider = "   |   ";
@@ -826,6 +910,10 @@ public class Utils {
         switch (item.getType()) {
             case "Episode":
                 return item.getSeriesName() + " S" + item.getParentIndexNumber() + ", E" + item.getIndexNumber() + (item.getIndexNumberEnd() != null ? "-" + item.getIndexNumberEnd() : "");
+            case "Audio":
+            case "MusicAlbum":
+                // we actually want the artist name if available
+                return (item.getAlbumArtist() != null ? item.getAlbumArtist() + " - " : "") + item.getName();
             default:
                 return item.getName();
         }
@@ -837,7 +925,11 @@ public class Utils {
                 String addendum = item.getLocationType().equals(LocationType.Virtual) && item.getPremiereDate() != null ? " (" +  getFriendlyDate(Utils.convertToLocalDate(item.getPremiereDate())) + ")" : "";
                 return item.getName() + addendum;
             case "Season":
-                return item.getChildCount() != null && item.getChildCount() > 0 ? item.getChildCount() + " Episodes" : "";
+                return item.getChildCount() != null && item.getChildCount() > 0 ? item.getChildCount() + " " + TvApp.getApplication().getString(R.string.lbl_episodes) : "";
+            case "MusicAlbum":
+                return item.getChildCount() != null && item.getChildCount() > 0 ? item.getChildCount() + " " + TvApp.getApplication().getString(item.getChildCount() > 1 ? R.string.lbl_songs : R.string.lbl_song) : "";
+            case "Audio":
+                return item.getName();
             default:
                 return item.getOfficialRating();
         }
@@ -950,6 +1042,15 @@ public class Utils {
 
     }
 
+    public static void ReportStart(BaseItemDto item, long pos) {
+        PlaybackStartInfo startInfo = new PlaybackStartInfo();
+        startInfo.setItemId(item.getId());
+        startInfo.setPositionTicks(pos);
+        TvApp.getApplication().getPlaybackManager().reportPlaybackStart(startInfo, false, TvApp.getApplication().getApiClient(), new EmptyResponse());
+        TvApp.getApplication().getLogger().Info("Playback of " + item.getName() + " started.");
+
+    }
+
     public static void EnterManualServerAddress(final Activity activity) {
         final EditText address = new EditText(activity);
         address.setHint(activity.getString(R.string.lbl_ip_hint));
@@ -1032,7 +1133,7 @@ public class Utils {
             info.setIsPaused(isPaused);
             info.setCanSeek(currentStreamInfo.getRunTimeTicks() != null && currentStreamInfo.getRunTimeTicks() > 0);
             info.setIsMuted(TvApp.getApplication().isAudioMuted());
-            info.setPlayMethod(TvApp.getApplication().getPlaybackController().getPlaybackMethod());
+            info.setPlayMethod(currentStreamInfo.getPlayMethod());
             TvApp.getApplication().getPlaybackManager().reportPlaybackProgress(info, currentStreamInfo, false, apiClient, new EmptyResponse());
         }
 

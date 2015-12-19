@@ -35,7 +35,7 @@ public class ClockUserView extends RelativeLayout {
         View v = inflater.inflate(R.layout.clock_user_bug, null, false);
         this.addView(v);
         if (!isInEditMode()) {
-            Typeface font = Typeface.createFromAsset(TvApp.getApplication().getAssets(), "fonts/Roboto-Light.ttf");
+            Typeface font = TvApp.getApplication().getDefaultFont();
             ((TextClock)v.findViewById(R.id.clock)).setTypeface(font);
             TextView username = ((TextView) v.findViewById(R.id.userName));
             username.setTypeface(font);

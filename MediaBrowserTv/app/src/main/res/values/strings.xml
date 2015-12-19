@@ -38,7 +38,7 @@
     <string name="video_error_server_inaccessible">Server Inaccessible</string>
     <string name="home_title">Home</string>
     <string name="btn_cancel">Cancel</string>
-    <string name="btn_manually">Enter Server Address</string>
+    <string name="btn_manually">Skip and Enter IP Address</string>
     <string name="txt_expired">Emby for Android TV is Expired</string>
     <string name="txt_expired_exp">This development version has expired.   Please look for an update or install from the store.  Thank you for using Emby!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
@@ -287,6 +287,45 @@
     <string name="msg_error_live_stream">Error streaming live TV.  Will re-try...</string>
     <string name="lbl_direct_stream_live">Direct stream live TV</string>
     <string name="lbl_programs">Programs</string>
+    <string name="lbl_albums">Albums</string>
+    <string name="lbl_artists">Artists</string>
+    <string name="lbl_song">Song</string>
+    <string name="lbl_songs">Songs</string>
+    <string name="lbl_album">Album</string>
+    <string name="lbl_episodes">Episodes</string>
+    <string name="lbl_enable_cinema_mode">Enable Cinema Mode</string>
+    <string name="sum_enable_cinema_mode">If enabled on the server, enable intros and previews before movie playback</string>
+    <string name="lbl_cm_premiere">Cinema Mode requires an active Emby Premiere membership</string>
+    <string name="lbl_playlists">Playlists</string>
+    <string name="lbl_of">of</string>
+    <string name="msg_added_item_to_queue">"Item added to queue at position "</string>
+    <string name="lbl_replace_queue_paren"> (replace queue)</string>
+    <string name="msg_items_added">" items added"</string>
+    <string name="msg_total_items_in_queue">" total items in queue"</string>
+    <string name="lbl_add_to_queue">Add to Queue</string>
+    <string name="lbl_open_artist">Open Artist</string>
+    <string name="lbl_open_album">Open Album</string>
+    <string name="lbl_reshuffle_queue">Re-shuffle Queue</string>
+    <string name="lbl_toggle_repeat">Toggle Repeat</string>
+    <string name="lbl_next_item">Next Item</string>
+    <string name="lbl_prev_item">Previous Item</string>
+    <string name="lbl_shuffle">Shuffle</string>
+    <string name="msg_reshuffle_audio_queue">Re-shuffle current audio queue?</string>
+    <string name="lbl_up_next_colon">"Up Next: "</string>
+    <string name="lbl_now_playing">Now Playing</string>
+    <string name="lbl_play_from_here">Play From Here</string>
+    <string name="lbl_remove_from_queue">Remove from Queue</string>
+    <string name="lbl_goto_now_playing">Go to Now Playing</string>
+    <string name="lbl_instant_mix">Instant Mix</string>
+    <string name="lbl_save_as_playlist">Save as Playlist</string>
+    <string name="lbl_delete">Delete</string>
+    <string name="msg_item_added">" item added"</string>
+    <string name="btn_replace_queue">Replace Queue</string>
+    <string name="lbl_items_in_queue">Items in Queue</string>
+    <string name="msg_replace_or_add_queue_q">Would you like to replace the current queue or add to it?</string>
+    <string name="lbl_enable_seasonal_themes">Enable Seasonal Themes</string>
+    <string name="desc_seasonal_themes">Allow special colors and suggestions at certain times of the year</string>
+    <string name="desc_automatic_fav_songs">Automatic playlist of favorite and liked songs</string>
 
 
 </resources>

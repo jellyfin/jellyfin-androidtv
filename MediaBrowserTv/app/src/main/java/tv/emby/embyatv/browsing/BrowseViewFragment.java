@@ -20,7 +20,9 @@ import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.ChangeTriggerType;
+import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.StdItemQuery;
 import tv.emby.embyatv.util.Utils;
 
@@ -32,6 +34,16 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(TvApp.getApplication().getLastDeletedItemId())) {
+            ((ItemRowAdapter)mCurrentRow.getAdapter()).remove(mCurrentItem);
+            TvApp.getApplication().setLastDeletedItemId(null);
+        }
     }
 
     @Override
@@ -62,23 +74,6 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 latestMovies.setSortBy(new String[]{ItemSortBy.DateCreated});
                 latestMovies.setSortOrder(SortOrder.Descending);
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestMovies, 0, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
-
-//                //Unwatched
-//                StdItemQuery unwatchedMovies = new StdItemQuery();
-//                unwatchedMovies.setIncludeItemTypes(new String[]{"Movie"});
-//                unwatchedMovies.setRecursive(true);
-//                unwatchedMovies.setParentId(mFolder.getId());
-//                unwatchedMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
-//                unwatchedMovies.setSortBy(new String[]{ItemSortBy.SortName});
-//                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_unwatched), unwatchedMovies, 60, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
-//
-//                //All
-//                StdItemQuery movies = new StdItemQuery();
-//                movies.setIncludeItemTypes(new String[]{"Movie"});
-//                movies.setRecursive(true);
-//                movies.setParentId(mFolder.getId());
-//                movies.setSortBy(new String[]{ItemSortBy.SortName});
-//                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_by_name), movies, 60, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
                 StdItemQuery favorites = new StdItemQuery();
@@ -121,23 +116,6 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 latestSeries.setSortOrder(SortOrder.Descending);
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestSeries, 0, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
-//                //Unwatched
-//                StdItemQuery unwatchedSeries = new StdItemQuery();
-//                unwatchedSeries.setIncludeItemTypes(new String[]{"Series"});
-//                unwatchedSeries.setRecursive(true);
-//                unwatchedSeries.setParentId(mFolder.getId());
-//                unwatchedSeries.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
-//                unwatchedSeries.setSortBy(new String[]{ItemSortBy.SortName});
-//                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_unwatched), unwatchedSeries, 60, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback, ChangeTriggerType.LibraryUpdated}));
-//
-//                //All
-//                StdItemQuery series = new StdItemQuery();
-//                series.setIncludeItemTypes(new String[]{"Series"});
-//                series.setRecursive(true);
-//                series.setParentId(mFolder.getId());
-//                series.setSortBy(new String[]{ItemSortBy.SortName});
-//                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_by_name), series, 60, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
-
                 //Favorites
                 StdItemQuery tvFavorites = new StdItemQuery();
                 tvFavorites.setIncludeItemTypes(new String[]{"Series"});
@@ -146,6 +124,47 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 tvFavorites.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
                 tvFavorites.setSortBy(new String[]{ItemSortBy.SortName});
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_favorites), tvFavorites, 60, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+
+                rowLoader.loadRows(mRows);
+                break;
+            case "music":
+
+                //Latest
+                StdItemQuery latestAlbums = new StdItemQuery();
+                latestAlbums.setIncludeItemTypes(new String[]{"MusicAlbum"});
+                latestAlbums.setRecursive(true);
+                latestAlbums.setParentId(mFolder.getId());
+                latestAlbums.setLimit(50);
+                latestAlbums.setSortBy(new String[]{ItemSortBy.DateLastContentAdded});
+                latestAlbums.setSortOrder(SortOrder.Descending);
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestAlbums, 0, false, true, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+
+                //Last Played
+                StdItemQuery lastPlayed = new StdItemQuery();
+                lastPlayed.setIncludeItemTypes(new String[]{"Audio"});
+                lastPlayed.setRecursive(true);
+                lastPlayed.setParentId(mFolder.getId());
+                lastPlayed.setFilters(new ItemFilter[]{ItemFilter.IsPlayed});
+                lastPlayed.setSortBy(new String[]{ItemSortBy.DatePlayed});
+                lastPlayed.setSortOrder(SortOrder.Descending);
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_last_played), lastPlayed, 60, false, true, new ChangeTriggerType[] {ChangeTriggerType.MusicPlayed, ChangeTriggerType.LibraryUpdated}));
+
+                //Favorites
+                StdItemQuery favAlbums = new StdItemQuery();
+                favAlbums.setIncludeItemTypes(new String[]{"MusicAlbum", "MusicArtist"});
+                favAlbums.setRecursive(true);
+                favAlbums.setParentId(mFolder.getId());
+                favAlbums.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
+                favAlbums.setSortBy(new String[]{ItemSortBy.SortName});
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_favorites), favAlbums, 60, false, true, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+
+                //Playlists
+                StdItemQuery playlists = new StdItemQuery(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.CumulativeRunTimeTicks});
+                playlists.setIncludeItemTypes(new String[]{"Playlist"});
+                playlists.setRecursive(true);
+                playlists.setSortBy(new String[]{ItemSortBy.DateCreated});
+                playlists.setSortOrder(SortOrder.Descending);
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_playlists), playlists, 60, false, true, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}, QueryType.Playlists));
 
                 rowLoader.loadRows(mRows);
                 break;

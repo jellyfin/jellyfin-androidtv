@@ -233,6 +233,11 @@ public class TvApp extends Application {
         }
     }
 
+    public void showMessage(String title, String msg, int timeout, int iconResource) {
+        if (currentActivity != null) {
+            currentActivity.showMessage(title, msg, timeout, iconResource, null);
+        }
+    }
     private long getLastNagTime() { return getSystemPrefs().getLong("lastNagTime",0); }
 
     private void setLastNagTime(long time) { getSystemPrefs().edit().putLong("lastNagTime", System.currentTimeMillis()).commit(); }
@@ -444,7 +449,7 @@ public class TvApp extends Application {
     public void updateDisplayPrefs(DisplayPreferences preferences) {
         displayPrefsCache.put(preferences.getId(), preferences);
         getApiClient().UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), "ATV", new EmptyResponse());
-        logger.Debug("Display prefs updated isFavorite: "+preferences.getCustomPrefs().get("FavoriteOnly"));
+        logger.Debug("Display prefs updated for "+preferences.getId()+" isFavorite: "+preferences.getCustomPrefs().get("FavoriteOnly"));
     }
 
     public void getDisplayPrefsAsync(final String key, final Response<DisplayPreferences> outerResponse) {
@@ -458,7 +463,7 @@ public class TvApp extends Application {
                     if (response.getSortBy() == null) response.setSortBy("SortName");
                     if (response.getCustomPrefs() == null) response.setCustomPrefs(new HashMap<String, String>());
                     displayPrefsCache.put(key, response);
-                    logger.Debug("Display prefs loaded and saved in cache " + response.getPrimaryImageHeight());
+                    logger.Debug("Display prefs loaded and saved in cache " + key);
                     outerResponse.onResponse(response);
                 }
 

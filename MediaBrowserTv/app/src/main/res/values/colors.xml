@@ -43,4 +43,6 @@
 
     <color name="halloween_start">#8d5100</color>
     <color name="halloween_end">#643c00</color>
+    <color name="holiday_start">#8d001b</color>
+    <color name="holiday_end">#640001</color>
 </resources>

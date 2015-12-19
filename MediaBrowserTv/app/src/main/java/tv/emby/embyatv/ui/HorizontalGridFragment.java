@@ -39,12 +39,12 @@ public class HorizontalGridFragment extends Fragment {
     private static final String TAG = "HorizontalGridFragment";
     private static boolean DEBUG = false;
 
-    private TextView mTitleView;
+    protected TextView mTitleView;
     private TextView mStatusText;
     private TextView mCounter;
     protected FrameLayout mSpinner;
     protected ViewGroup mGridDock;
-    private LinearLayout mInfoRow;
+    protected LinearLayout mInfoRow;
     protected LinearLayout mToolBar;
     private ItemRowAdapter mAdapter;
     private HorizontalGridPresenter mGridPresenter;
@@ -262,6 +262,9 @@ public class HorizontalGridFragment extends Fragment {
         mCounter.setTypeface(TvApp.getApplication().getDefaultFont());
         mSpinner = (FrameLayout) root.findViewById(R.id.spinner);
         mGridDock = (ViewGroup) root.findViewById(R.id.rowsFragment);
+
+        // Hide the description because we don't have room for it
+        ((NowPlayingBug)root.findViewById(R.id.npBug)).showDescription(false);
 
         return root;
     }

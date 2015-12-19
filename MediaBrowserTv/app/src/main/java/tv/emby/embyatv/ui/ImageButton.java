@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import tv.emby.embyatv.R;
+import tv.emby.embyatv.model.GotFocusEvent;
 
 /**
  * Created by Eric on 2/20/2015.
@@ -21,6 +22,8 @@ public class ImageButton extends ImageView {
     private int mPrimaryImage;
     private int mSecondaryImage;
     private int mState;
+
+    private GotFocusEvent mGotFocusListener;
 
     public ImageButton(Context context, AttributeSet attributeSet){
         super(context, attributeSet);
@@ -49,6 +52,7 @@ public class ImageButton extends ImageView {
     public void setHelpView(TextView view) {
         mHelpView = view;
     }
+    public void setHelpText(String text) { mHelpText = text; }
 
     public void setState(int state) {
         mState = state;
@@ -65,11 +69,15 @@ public class ImageButton extends ImageView {
             if (hasFocus) {
                 if (mHelpView != null) mHelpView.setText(mHelpText);
                 v.setBackgroundColor(getResources().getColor(R.color.lb_default_brand_color));
+                if (mGotFocusListener != null) mGotFocusListener.gotFocus(v);
             } else {
+                if (mHelpView != null) mHelpView.setText("");
                 v.setBackgroundColor(0);
             }
         }
     };
+
+    public void setGotFocusListener(GotFocusEvent event) { mGotFocusListener = event; }
 
     public void setPrimaryImage(int mPrimaryImage) {
         this.mPrimaryImage = mPrimaryImage;
@@ -79,4 +87,11 @@ public class ImageButton extends ImageView {
         this.mSecondaryImage = mSecondaryImage;
     }
 
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        setAlpha(enabled ? 1f : .4f);
+        setFocusable(enabled);
+        setFocusableInTouchMode(enabled);
+    }
 }

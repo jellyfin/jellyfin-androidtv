@@ -70,6 +70,8 @@
         <activity android:name=".browsing.BrowseRecordingsActivity" />
         <activity android:name=".validation.UnlockActivity" />
         <activity android:name=".details.PhotoPlayerActivity" />
+        <activity android:name=".details.SongListActivity" />
+        <activity android:name=".playback.AudioNowPlayingActivity" />
         <activity
             android:name=".startup.DpadPwActivity"
             android:label="@string/title_activity_dpad_pw" >

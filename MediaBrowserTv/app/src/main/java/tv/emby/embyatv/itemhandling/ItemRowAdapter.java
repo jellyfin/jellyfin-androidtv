@@ -4,6 +4,7 @@ import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.Presenter;
+import android.support.v17.leanback.widget.PresenterSelector;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -24,6 +25,7 @@ import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
 import mediabrowser.model.livetv.RecordingGroupQuery;
 import mediabrowser.model.livetv.RecordingQuery;
+import mediabrowser.model.querying.ArtistsQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemQuery;
@@ -40,6 +42,7 @@ import mediabrowser.model.search.SearchHintResult;
 import mediabrowser.model.search.SearchQuery;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.browsing.EnhancedBrowseFragment;
 import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.model.ChangeTriggerType;
 import tv.emby.embyatv.model.ChapterItemInfo;
@@ -73,6 +76,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private RecommendedProgramQuery mTvProgramQuery;
     private RecordingQuery mTvRecordingQuery;
     private RecordingGroupQuery mTvRecordingGroupQuery;
+    private ArtistsQuery mArtistsQuery;
     private QueryType queryType;
 
     private String mSortBy;
@@ -130,7 +134,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this(query, chunkSize, preferParentThumb, false, presenter, parent);
     }
 
-    public ItemRowAdapter(ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, ArrayObjectAdapter parent, QueryType queryType) {
         super(presenter);
         mParent = parent;
         mQuery = query;
@@ -139,7 +143,36 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = staticHeight;
         if (chunkSize > 0) mQuery.setLimit(chunkSize);
-        queryType = QueryType.Items;
+        this.queryType = queryType;
+        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+    }
+
+    public ItemRowAdapter(ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, PresenterSelector presenter, ArrayObjectAdapter parent, QueryType queryType) {
+        super(presenter);
+        mParent = parent;
+        mQuery = query;
+        mQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        this.chunkSize = chunkSize;
+        this.preferParentThumb = preferParentThumb;
+        this.staticHeight = staticHeight;
+        if (chunkSize > 0) mQuery.setLimit(chunkSize);
+        this.queryType = queryType;
+        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+    }
+
+    public ItemRowAdapter(ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, ArrayObjectAdapter parent) {
+        this(query,chunkSize,preferParentThumb,staticHeight,presenter,parent,QueryType.Items);
+    }
+
+    public ItemRowAdapter(ArtistsQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
+        super(presenter);
+        mParent = parent;
+        mArtistsQuery = query;
+        mArtistsQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        staticHeight = true;
+        this.chunkSize = chunkSize;
+        if (chunkSize > 0) mArtistsQuery.setLimit(chunkSize);
+        queryType = QueryType.AlbumArtists;
         add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
@@ -165,6 +198,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mChapters = chapters;
         queryType = QueryType.StaticChapters;
+    }
+
+    public ItemRowAdapter(List<BaseItemDto> items, Presenter presenter, ArrayObjectAdapter parent, QueryType queryType) {
+        super(presenter);
+        mParent = parent;
+        mItems = items;
+        this.queryType = queryType;
     }
 
     public ItemRowAdapter(List<BaseItemDto> items, Presenter presenter, ArrayObjectAdapter parent, boolean staticItems) { // last param is just for sig
@@ -319,10 +359,27 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     public void setSortBy(HorizontalGridFragment.SortOption option) {
         if (!option.value.equals(mSortBy)) {
             mSortBy = option.value;
-            mQuery.setSortBy(new String[] {mSortBy});
-            mQuery.setSortOrder(option.order);
+            switch (queryType) {
+                case AlbumArtists:
+                    mArtistsQuery.setSortBy(new String[]{mSortBy});
+                    mArtistsQuery.setSortOrder(option.order);
+                    break;
+                default:
+                    mQuery.setSortBy(new String[] {mSortBy});
+                    mQuery.setSortOrder(option.order);
+                    break;
+            }
             if (!"SortName".equals(option.value)) setStartLetter(null);
         }
+    }
+
+    public BaseRowItem findByIndex(int ndx) {
+        //search for actual index number and return matching item
+        for (int i = 0; i < getItemsLoaded(); i++) {
+            BaseRowItem item = (BaseRowItem)this.get(i);
+            if (item.getIndex() == ndx) return item;
+        }
+        return null;
     }
 
     public String getSortBy() { return mSortBy; }
@@ -331,11 +388,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     public void setFilters(FilterOptions filters) {
         mFilters = filters;
-        if (mFilters != null) {
-            mQuery.setFilters(mFilters.getFilters());
-        } else {
-            mQuery.setFilters(null);
-        }
+            switch (queryType) {
+                case AlbumArtists:
+                    mArtistsQuery.setFilters(mFilters != null ? mFilters.getFilters() : null);
+                    break;
+                default:
+                    mQuery.setFilters(mFilters != null ? mFilters.getFilters() : null);
+            }
     }
 
     public void setPosition(int pos) {
@@ -345,9 +404,15 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     public String getStartLetter() { return mQuery != null ? mQuery.getNameStartsWithOrGreater() : null; }
 
     public void setStartLetter(String value) {
-        if (mQuery != null) {
-            if (value != null && value.equals("#")) mQuery.setNameStartsWithOrGreater(null);
-            else mQuery.setNameStartsWithOrGreater(value);
+        switch (queryType) {
+            case AlbumArtists:
+                if (value != null && value.equals("#")) mArtistsQuery.setNameStartsWithOrGreater(null);
+                else mArtistsQuery.setNameStartsWithOrGreater(value);
+                break;
+            default:
+                if (value != null && value.equals("#")) mQuery.setNameStartsWithOrGreater(null);
+                else mQuery.setNameStartsWithOrGreater(value);
+                break;
         }
     }
 
@@ -404,6 +469,15 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 //set the query to go get the next chunk
                 mTvChannelQuery.setStartIndex(itemsLoaded);
                 Retrieve(mTvChannelQuery);
+                break;
+
+            case AlbumArtists:
+                if (fullyLoaded || mArtistsQuery == null || isCurrentlyRetrieving()) return;
+                setCurrentlyRetrieving(true);
+
+                //set the query to go get the next chunk
+                mArtistsQuery.setStartIndex(itemsLoaded);
+                Retrieve(mArtistsQuery);
                 break;
 
             default:
@@ -507,6 +581,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             case StaticItems:
                 LoadStaticItems();
                 break;
+            case StaticAudioQueueItems:
+                LoadStaticAudioItems();
+                break;
             case Specials:
                 Retrieve(mSpecialsQuery);
                 break;
@@ -518,6 +595,12 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
             case Search:
                 Retrieve(mSearchQuery);
+                break;
+            case AlbumArtists:
+                Retrieve(mArtistsQuery);
+                break;
+            case Playlists:
+                RetrievePlaylists(mQuery);
                 break;
         }
     }
@@ -579,6 +662,21 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             for (BaseItemDto item : mItems) {
                 add(new BaseRowItem(item));
             }
+            itemsLoaded = mItems.size();
+        } else {
+            removeRow();
+        }
+
+        currentlyRetrieving = false;
+    }
+
+    private void LoadStaticAudioItems() {
+        if (mItems != null) {
+            int i = 0;
+            for (BaseItemDto item : mItems) {
+                add(new AudioQueueItem(i++, item));
+            }
+            itemsLoaded = i;
 
         } else {
             removeRow();
@@ -592,7 +690,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             for (ServerInfo server : mServers) {
                 add(new BaseRowItem(server));
             }
-
+            itemsLoaded = mServers.length;
         } else {
             removeRow();
         }
@@ -600,7 +698,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         currentlyRetrieving = false;
     }
 
-    private static String[] ignoreTypes = new String[] {"music","books","games","playlists"};
+    private static String[] ignoreTypes = new String[] {"books","games"};
     private static List<String> ignoreTypeList = Arrays.asList(ignoreTypes);
 
     private void RetrieveViews() {
@@ -672,34 +770,90 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     public void GetResultSizeAsync(final Response<Integer> outerResponse) {
-        if (mQuery == null) {
-            outerResponse.onError(new Exception("Can only be used with standard query"));
-        } else {
-            StdItemQuery sizeQuery = new StdItemQuery(new ItemFields[]{});
-            sizeQuery.setIncludeItemTypes(mQuery.getIncludeItemTypes());
-            sizeQuery.setNameStartsWithOrGreater(mQuery.getNameStartsWithOrGreater());
-            sizeQuery.setNameLessThan(mQuery.getNameLessThan());
-            sizeQuery.setFilters(getFilters().getFilters());
-            sizeQuery.setRecursive(mQuery.getRecursive());
-            sizeQuery.setParentId(mQuery.getParentId());
-            sizeQuery.setLimit(1); // minimum result set because we just need total record count
+        switch (queryType) {
+            case AlbumArtists:
+                mArtistsQuery.setLimit(1); // minimum result set because we just need total record count
 
-            TvApp.getApplication().getApiClient().GetItemsAsync(sizeQuery, new Response<ItemsResult>() {
-                @Override
-                public void onResponse(ItemsResult response) {
-                    outerResponse.onResponse(response.getTotalRecordCount());
-                }
+                TvApp.getApplication().getApiClient().GetAlbumArtistsAsync(mArtistsQuery, new Response<ItemsResult>() {
+                    @Override
+                    public void onResponse(ItemsResult response) {
+                        mArtistsQuery.setLimit(chunkSize > 0 ? chunkSize : null);
+                        outerResponse.onResponse(response.getTotalRecordCount());
+                    }
 
-                @Override
-                public void onError(Exception exception) {
-                    outerResponse.onError(exception);
-                }
-            });
+                    @Override
+                    public void onError(Exception exception) {
+                        mArtistsQuery.setLimit(chunkSize > 0 ? chunkSize : null);
+                        outerResponse.onError(exception);
+                    }
+                });
+                break;
+            case Items:
+                StdItemQuery sizeQuery = new StdItemQuery(new ItemFields[]{});
+                sizeQuery.setIncludeItemTypes(mQuery.getIncludeItemTypes());
+                sizeQuery.setNameStartsWithOrGreater(mQuery.getNameStartsWithOrGreater());
+                sizeQuery.setNameLessThan(mQuery.getNameLessThan());
+                sizeQuery.setFilters(getFilters().getFilters());
+                sizeQuery.setRecursive(mQuery.getRecursive());
+                sizeQuery.setParentId(mQuery.getParentId());
+                sizeQuery.setLimit(1); // minimum result set because we just need total record count
+
+                TvApp.getApplication().getApiClient().GetItemsAsync(sizeQuery, new Response<ItemsResult>() {
+                    @Override
+                    public void onResponse(ItemsResult response) {
+                        outerResponse.onResponse(response.getTotalRecordCount());
+                    }
+
+                    @Override
+                    public void onError(Exception exception) {
+                        outerResponse.onError(exception);
+                    }
+                });
+                break;
+            default:
+                outerResponse.onError(new Exception("Can only be used with standard query"));
+                break;
         }
+
     }
 
     public void Retrieve(ItemQuery query) {
         TvApp.getApplication().getApiClient().GetItemsAsync(query, new ItemQueryResponse(this));
+    }
+
+    public void RetrievePlaylists(final ItemQuery query) {
+        //Add specialized playlists first
+        clear();
+        add(new GridButton(EnhancedBrowseFragment.FAVSONGS, TvApp.getApplication().getString(R.string.lbl_favorites), R.drawable.genericmusic));
+        itemsLoaded = 1;
+        Retrieve(query);
+    }
+
+    public void Retrieve(ArtistsQuery query) {
+        TvApp.getApplication().getApiClient().GetAlbumArtistsAsync(query, new Response<ItemsResult>() {
+            @Override
+            public void onResponse(ItemsResult response) {
+                if (response.getTotalRecordCount() > 0) {
+                    setTotalItems(response.getTotalRecordCount());
+                    int i = getItemsLoaded();
+                    if (i == 0 && size() > 0) clear();
+                    for (BaseItemDto item : response.getItems()) {
+                        add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
+                        //TvApp.getApplication().getLogger().Debug("Item Type: "+item.getType());
+                    }
+                    setItemsLoaded(i);
+                    if (i == 0) removeRow();
+                } else {
+                    // no results - don't show us
+                    setTotalItems(0);
+                    removeRow();
+                }
+
+                setCurrentlyRetrieving(false);
+                notifyRetrieveFinished();
+
+            }
+        });
     }
 
     public void Retrieve(final NextUpQuery query) {

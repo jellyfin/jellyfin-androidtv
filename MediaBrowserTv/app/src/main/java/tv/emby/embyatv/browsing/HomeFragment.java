@@ -24,7 +24,12 @@ import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
 import tv.emby.embyatv.integration.RecommendationManager;
+import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.ChangeTriggerType;
+import tv.emby.embyatv.playback.AudioEventListener;
+import tv.emby.embyatv.playback.AudioNowPlayingActivity;
+import tv.emby.embyatv.playback.MediaManager;
+import tv.emby.embyatv.presentation.PositionableListRowPresenter;
 import tv.emby.embyatv.presentation.ThemeManager;
 import tv.emby.embyatv.startup.LogonCredentials;
 import tv.emby.embyatv.ui.GridButton;
@@ -53,6 +58,7 @@ public class HomeFragment extends StdBrowseFragment {
     private GridButton sendLogsButton;
     private GridButton premiereButton;
 
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 
@@ -77,6 +83,18 @@ public class HomeFragment extends StdBrowseFragment {
 
         ThemeManager.showWelcomeMessage();
 
+        //BETA message
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                mActivity.showMessage("Thank You for Testing", "Thank you for helping to test this app.  Please check out the new music functionality and LEAVE FEEDBACK in the testing forum at emby.media/community.",10000);
+//
+//            }
+//        }, 2000);
+
+        //Subscribe to Audio messages
+        MediaManager.addAudioEventListener(audioEventListener);
+
     }
 
     @Override
@@ -96,6 +114,19 @@ public class HomeFragment extends StdBrowseFragment {
             }
         }
         addLogsButton();
+        //make sure rows have had a chance to be created
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                addNowPlaying();
+            }
+        }, 750);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        MediaManager.removeAudioEventListener(audioEventListener);
     }
 
     @Override
@@ -117,7 +148,7 @@ public class HomeFragment extends StdBrowseFragment {
                     suggestions.setLimit(40);
                     suggestions.setSortBy(new String[]{ItemSortBy.DatePlayed});
                     suggestions.setSortOrder(SortOrder.Ascending);
-                    mRows.add(new BrowseRowDef(ThemeManager.getSuggestionTitle(), suggestions, 0, true, true, new ChangeTriggerType[] {}));
+                    mRows.add(new BrowseRowDef(ThemeManager.getSuggestionTitle(), suggestions, 0, true, true, new ChangeTriggerType[]{}));
 
                 }
 
@@ -200,6 +231,33 @@ public class HomeFragment extends StdBrowseFragment {
             mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_on_now), onNow));
         }
 
+    }
+
+    protected AudioEventListener audioEventListener = new AudioEventListener() {
+        @Override
+        public void onQueueStatusChanged(boolean hasQueue) {
+            //remove on any change - it will re-add on resume
+            if (nowPlayingRow != null) {
+                mRowsAdapter.remove(nowPlayingRow);
+                nowPlayingRow = null;
+            }
+        }
+    };
+
+    protected ListRow nowPlayingRow;
+
+    protected void addNowPlaying() {
+        if (MediaManager.isPlayingAudio()) {
+            if (nowPlayingRow == null) {
+                nowPlayingRow = new ListRow(new HeaderItem(getString(R.string.lbl_now_playing), null), MediaManager.getManagedAudioQueue());
+                mRowsAdapter.add(1, nowPlayingRow);
+            }
+        } else {
+            if (nowPlayingRow != null) {
+                mRowsAdapter.remove(nowPlayingRow);
+                nowPlayingRow = null;
+            }
+        }
     }
 
     @Override

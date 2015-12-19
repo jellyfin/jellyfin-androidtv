@@ -105,7 +105,7 @@
     <string name="msg_unable_to_create_recording">Жазбаны жасау мүмкін емес</string>
     <string name="msg_recording_cancelled">Жазба болдырылмады</string>
     <string name="msg_unable_to_cancel">Жазбаны болдырмау мүмкін емес</string>
-    <string name="lbl_cast_crew">Түсіруге қатысқандар</string>
+    <string name="lbl_cast_crew">Сомдаушылар/түсірушілер</string>
     <string name="lbl_chapters">Сахналар</string>
     <string name="lbl_specials">Арнайылар</string>
     <string name="lbl_trailers">Трейлерлер</string>
