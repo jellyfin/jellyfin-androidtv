@@ -354,12 +354,7 @@ public class PlaybackController {
                 mDefaultAudioIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultAudioStreamIndex() != null ? response.getMediaSource().getDefaultAudioStreamIndex() : -1;
                 mDefaultSubIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : -1;
 
-                PlaybackStartInfo startInfo = new PlaybackStartInfo();
-                startInfo.setItemId(item.getId());
-                startInfo.setPositionTicks(mbPos);
-                TvApp.getApplication().getPlaybackManager().reportPlaybackStart(startInfo, false, apiClient, new EmptyResponse());
-                TvApp.getApplication().getLogger().Info("Playback of " + item.getName() + " started.");
-
+                Utils.ReportStart(item, mbPos);
             }
 
             @Override

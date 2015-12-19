@@ -30,6 +30,15 @@
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
             android:contentDescription="@null" />
+        <ImageView
+            android:id="@+id/favIcon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/redheart"
+            android:alpha=".8"
+            android:layout_alignBottom="@+id/main_image"
+            android:layout_alignEnd="@+id/main_image"
+            android:visibility="gone"/>
         <RelativeLayout
             android:id="@+id/name_overlay"
             android:layout_width="match_parent"
@@ -58,8 +67,7 @@
                 android:layout_toRightOf="@+id/icon"
                 android:layout_alignBottom="@+id/icon"
                 android:layout_marginLeft="8dp"
-                android:layout_toLeftOf="@+id/overlay_count"
-                android:layout_marginRight="5dp" />
+                android:layout_marginRight="25dp" />
             <TextView
                 android:id="@+id/overlay_count"
                 android:layout_width="wrap_content"
@@ -67,7 +75,7 @@
                 android:textSize="16sp"
                 android:maxLines="1"
                 android:layout_alignBottom="@+id/icon"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="3dp"
                 android:layout_alignParentEnd="true" />
         </RelativeLayout>
 

@@ -4,8 +4,9 @@ import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
@@ -37,8 +38,9 @@ public class BaseRowItem {
     private GridButton gridButton;
     private ItemType type;
     private boolean preferParentThumb = false;
-    private boolean staticHeight = false;
+    protected boolean staticHeight = false;
     private SelectAction selectAction = SelectAction.ShowDetails;
+    private boolean isPlaying;
 
 
     public BaseRowItem(int index, BaseItemDto item) {
@@ -103,6 +105,7 @@ public class BaseRowItem {
     public int getIndex() {
         return index;
     }
+    public void setIndex(int ndx) { index = ndx; }
 
     public BaseItemDto getBaseItem() {
         return baseItem;
@@ -126,7 +129,8 @@ public class BaseRowItem {
     public boolean showCardInfoOverlay() {return type == ItemType.BaseItem && baseItem != null
             && ("Folder".equals(baseItem.getType()) || "PhotoAlbum".equals(baseItem.getType()) || "RecordingGroup".equals(baseItem.getType())
             || "UserView".equals(baseItem.getType()) || "CollectionFolder".equals(baseItem.getType()) || "Photo".equals(baseItem.getType())
-            || "Video".equals(baseItem.getType()) );
+            || "Video".equals(baseItem.getType()) || "Person".equals(baseItem.getType()) || "Playlist".equals(baseItem.getType())
+            || "MusicArtist".equals(baseItem.getType()));
     }
 
     public String getImageUrl(String imageType, int maxHeight) {
@@ -147,13 +151,16 @@ public class BaseRowItem {
         }
     }
 
+    private static String[] noWatchedTypes = new String[] {"PhotoAlbum","MusicAlbum","MusicArtist", "Audio","Playlist"};
+    private static List<String> noWatchedTypesList = Arrays.asList(noWatchedTypes);
+
     public String getPrimaryImageUrl(int maxHeight) {
         switch (type) {
 
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
-                return Utils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(), !"PhotoAlbum".equals(baseItem.getType()), preferParentThumb, maxHeight);
+                return Utils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(), !noWatchedTypesList.contains(baseItem.getType()), preferParentThumb, maxHeight);
             case Person:
                 return Utils.getPrimaryImageUrl(person, TvApp.getApplication().getApiClient(), maxHeight);
             case User:
@@ -225,6 +232,15 @@ public class BaseRowItem {
         return false;
     }
 
+    public String getCardName() {
+        switch (type) {
+            case BaseItem:
+                if ("Audio".equals(baseItem.getType())) return baseItem.getAlbumArtist() != null ? baseItem.getAlbumArtist() : baseItem.getAlbum() != null ? baseItem.getAlbum() : "<Unknown>";
+            default:
+                return getFullName();
+        }
+    }
+
     public String getFullName() {
         switch (type) {
 
@@ -257,7 +273,7 @@ public class BaseRowItem {
             case BaseItem:
             case LiveTvRecording:
             case LiveTvProgram:
-                return baseItem.getName();
+                return "Audio".equals(baseItem.getType())? getFullName() : baseItem.getName();
             case Person:
                 return person.getName();
             case Server:
@@ -418,7 +434,7 @@ public class BaseRowItem {
         switch (type) {
 
             case BaseItem:
-                return isFolder() && baseItem.getChildCount() != null ? baseItem.getChildCount() : -1;
+                return isFolder() && !"MusicArtist".equals(baseItem.getType()) && baseItem.getChildCount() != null ? baseItem.getChildCount() : -1;
             case Person:
                 break;
             case Server:
@@ -443,8 +459,13 @@ public class BaseRowItem {
     }
 
     public String getChildCountStr() {
-        Integer count = getChildCount();
-        return count > 0 ? count.toString() : "";
+        if (baseItem != null && "Playlist".equals(baseItem.getType()) && baseItem.getCumulativeRunTimeTicks() != null) {
+            return Utils.formatMillis(baseItem.getCumulativeRunTimeTicks() / 10000);
+        } else {
+            Integer count = getChildCount();
+            return count > 0 ? count.toString() : "";
+
+        }
     }
 
     public String getBackdropImageUrl() {
@@ -521,6 +542,8 @@ public class BaseRowItem {
     public boolean isStaticHeight() {
         return staticHeight;
     }
+    public boolean isPlaying() { return isPlaying; }
+    public void setIsPlaying(boolean value) { isPlaying = value; }
 
     public enum ItemType {
         BaseItem,

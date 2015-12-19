@@ -19,6 +19,7 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import tv.emby.embyatv.R;
+import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.model.ImageType;
 import tv.emby.embyatv.util.Utils;
@@ -86,10 +87,14 @@ public class CardPresenter extends Presenter {
                         case "Audio":
                         case "MusicAlbum":
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.audio);
+                            if (aspect < 0.8) aspect = 1.0;
                             break;
                         case "Person":
+                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
+                            break;
                         case "MusicArtist":
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
+                            if (aspect <.8) aspect = 1.0;
                             break;
                         case "RecordingGroup":
                             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.recgroup);
@@ -300,14 +305,19 @@ public class CardPresenter extends Presenter {
         ViewHolder holder = (ViewHolder) viewHolder;
         holder.setItem(rowItem, mImageType, 260, 300, mStaticHeight);
 
-        //Log.d(TAG, "onBindViewHolder");
-        holder.mCardView.setTitleText(rowItem.getFullName());
+        holder.mCardView.setTitleText(rowItem.getCardName());
         holder.mCardView.setContentText(rowItem.getSubText());
-        holder.mCardView.setOverlayInfo(rowItem);
-        Drawable badge = rowItem.getBadgeImage();
-        if (badge != null) {
-            ((ViewHolder) viewHolder).mCardView.setBadgeImage(badge);
+        if (ImageType.DEFAULT.equals(mImageType)) holder.mCardView.setOverlayInfo(rowItem);
+        holder.mCardView.showFavIcon(rowItem.isFavorite());
+        if (rowItem.isPlaying()) {
+            holder.mCardView.setPlayingIndicator(true);
+        } else {
+            holder.mCardView.setPlayingIndicator(false);
+            Drawable badge = rowItem.getBadgeImage();
+            if (badge != null) {
+                ((ViewHolder) viewHolder).mCardView.setBadgeImage(badge);
 
+            }
         }
 
         ((ViewHolder) viewHolder).updateCardViewImage(rowItem.getImageUrl(mImageType, ((ViewHolder) viewHolder).getCardHeight()));

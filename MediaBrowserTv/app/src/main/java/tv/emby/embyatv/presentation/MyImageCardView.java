@@ -7,6 +7,7 @@ package tv.emby.embyatv.presentation;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v17.leanback.R;
 import android.support.v17.leanback.widget.BaseCardView;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import mediabrowser.model.dto.BaseItemDto;
@@ -38,6 +40,7 @@ public class MyImageCardView extends BaseCardView {
     private TextView mTitleView;
     private TextView mContentView;
     private ImageView mBadgeImage;
+    private ImageView mFavIcon;
     private int BANNER_SIZE = Utils.convertDpToPixel(TvApp.getApplication(), 50);
 
     public MyImageCardView(Context context) {
@@ -76,6 +79,7 @@ public class MyImageCardView extends BaseCardView {
         mOverlayIcon = (ImageView) v.findViewById(tv.emby.embyatv.R.id.icon);
         mInfoOverlay = (ViewGroup) v.findViewById(tv.emby.embyatv.R.id.name_overlay);
         mInfoOverlay.setVisibility(GONE);
+        mFavIcon = (ImageView) v.findViewById(tv.emby.embyatv.R.id.favIcon);
 
         if (mInfoArea != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.lbImageCardView,
@@ -110,6 +114,16 @@ public class MyImageCardView extends BaseCardView {
     public void setMainImageAdjustViewBounds(boolean adjustViewBounds) {
         if (mImageView != null) {
             mImageView.setAdjustViewBounds(adjustViewBounds);
+        }
+    }
+
+    public void setPlayingIndicator(boolean playing) {
+        if (playing) {
+            mBadgeImage.setBackgroundResource(tv.emby.embyatv.R.drawable.eq_animation);
+            mBadgeImage.setVisibility(VISIBLE);
+            ((AnimationDrawable)mBadgeImage.getBackground()).start();
+        } else {
+            mBadgeImage.setBackgroundResource(tv.emby.embyatv.R.drawable.blank10x10);
         }
     }
 
@@ -200,6 +214,16 @@ public class MyImageCardView extends BaseCardView {
         setTextMaxLines();
     }
 
+    public void setOverlayText(String text) {
+        if (getCardType() == BaseCardView.CARD_TYPE_MAIN_ONLY) {
+            mOverlayName.setText(text);
+            mInfoOverlay.setVisibility(VISIBLE);
+            hideIcon();
+        } else {
+            mInfoOverlay.setVisibility(GONE);
+        }
+    }
+
     public void setOverlayInfo(BaseRowItem item) {
         if (mOverlayName == null) return;
 
@@ -217,6 +241,12 @@ public class MyImageCardView extends BaseCardView {
                     mOverlayName.setText(item.getFullName());
                     mOverlayIcon.setImageResource(tv.emby.embyatv.R.drawable.film);
                     break;
+                case "Playlist":
+                case "MusicArtist":
+                case "Person":
+                    mOverlayName.setText(item.getFullName());
+                    hideIcon();
+                    break;
                 default:
                     mOverlayName.setText(item.getFullName());
                     mOverlayIcon.setImageResource(item.isFolder() ? tv.emby.embyatv.R.drawable.foldersmall : tv.emby.embyatv.R.drawable.blank30x30);
@@ -227,6 +257,16 @@ public class MyImageCardView extends BaseCardView {
         } else {
             mInfoOverlay.setVisibility(GONE);
         }
+    }
+
+    protected int noIconMargin = Utils.convertDpToPixel(TvApp.getApplication(), 5);
+    protected void hideIcon() {
+        mOverlayIcon.setVisibility(GONE);
+        RelativeLayout.LayoutParams parms = (RelativeLayout.LayoutParams) mOverlayName.getLayoutParams();
+        parms.rightMargin = noIconMargin;
+        parms.leftMargin = noIconMargin;
+        mOverlayName.setLayoutParams(parms);
+
     }
 
     public CharSequence getTitleText() {
@@ -303,6 +343,10 @@ public class MyImageCardView extends BaseCardView {
         if (mBanner != null) {
             mBanner.setVisibility(GONE);
         }
+    }
+
+    public void showFavIcon(boolean show) {
+        mFavIcon.setVisibility(show ? VISIBLE : GONE);
     }
 
     @Override

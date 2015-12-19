@@ -113,6 +113,8 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
 
     private int mCardHeight = SMALL_CARD;
 
+    protected boolean mAllowViewSelection = true;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,10 +163,6 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
 
     @Override
     public void onPause() {
-        //UnRegister the media button receiver
-        AudioManager audioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
-        audioManager.unregisterMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
-
         super.onPause();
 
     }
@@ -172,11 +170,6 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     @Override
     public void onResume() {
         super.onResume();
-
-        //Register a media button receiver so that all media button presses will come to us and not another app
-        AudioManager audioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
-        audioManager.registerMediaButtonEventReceiver(new ComponentName(getActivity().getPackageName(), RemoteControlReceiver.class.getName()));
-        //TODO implement conditional logic for api 21+
 
         if (!justLoaded) {
             //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
@@ -241,6 +234,9 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                 break;
             case LiveTvRecordingGroup:
                 mGridAdapter = new ItemRowAdapter(mRowDef.getRecordingGroupQuery(), mCardPresenter, null);
+                break;
+            case AlbumArtists:
+                mGridAdapter = new ItemRowAdapter(mRowDef.getArtistsQuery(), mRowDef.getChunkSize(), mCardPresenter, null);
                 break;
             default:
                 mGridAdapter = new ItemRowAdapter(mRowDef.getQuery(), mRowDef.getChunkSize(), mRowDef.getPreferParentThumb(), mRowDef.isStaticHeight(), mCardPresenter, null);
@@ -356,7 +352,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         LinearLayout toolBar = getToolBar();
         int size = Utils.convertDpToPixel(getActivity(), 24);
 
-        mDisplayPrefsPopup = new DisplayPrefsPopup(getActivity(), mGridDock, new Response<Boolean>() {
+        mDisplayPrefsPopup = new DisplayPrefsPopup(getActivity(), mGridDock, mAllowViewSelection, new Response<Boolean>() {
             @Override
             public void onResponse(Boolean response) {
                 TvApp.getApplication().updateDisplayPrefs(mDisplayPrefs);
@@ -398,26 +394,28 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             }
         }));
 
-        mUnwatchedButton = new ImageButton(getActivity(), mGridAdapter.getFilters().isUnwatchedOnly() ? R.drawable.unwatchedred : R.drawable.unwatchedwhite, size, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FilterOptions filters = mGridAdapter.getFilters();
-                if (filters == null) filters = new FilterOptions();
+        if (mRowDef.getQueryType() == QueryType.Items) {
+            mUnwatchedButton = new ImageButton(getActivity(), mGridAdapter.getFilters().isUnwatchedOnly() ? R.drawable.unwatchedred : R.drawable.unwatchedwhite, size, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FilterOptions filters = mGridAdapter.getFilters();
+                    if (filters == null) filters = new FilterOptions();
 
-                filters.setUnwatchedOnly(!filters.isUnwatchedOnly());
-                updateDisplayPrefs();
-                mGridAdapter.setFilters(filters);
-                if (mPosterSizeSetting.equals(PosterSize.AUTO)) {
-                    loadGrid(mRowDef);
-                } else {
-                    mGridAdapter.Retrieve();
+                    filters.setUnwatchedOnly(!filters.isUnwatchedOnly());
+                    updateDisplayPrefs();
+                    mGridAdapter.setFilters(filters);
+                    if (mPosterSizeSetting.equals(PosterSize.AUTO)) {
+                        loadGrid(mRowDef);
+                    } else {
+                        mGridAdapter.Retrieve();
+                    }
+                    mUnwatchedButton.setImageResource(filters.isUnwatchedOnly() ? R.drawable.unwatchedred : R.drawable.unwatchedwhite);
+
+
                 }
-                mUnwatchedButton.setImageResource(filters.isUnwatchedOnly() ? R.drawable.unwatchedred : R.drawable.unwatchedwhite);
-
-
-            }
-        });
-        toolBar.addView(mUnwatchedButton);
+            });
+            toolBar.addView(mUnwatchedButton);
+        }
 
         mFavoriteButton =new ImageButton(getActivity(), mGridAdapter.getFilters().isFavoriteOnly() ? R.drawable.redheart : R.drawable.whiteheart, size, new View.OnClickListener() {
             @Override
@@ -452,6 +450,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchActivity.class);
+                if ("music".equals(mFolder.getCollectionType()) || "MusicAlbum".equals(mFolder.getType()) || "MusicArtist".equals(mFolder.getType())) intent.putExtra("MusicOnly", true);
                 getActivity().startActivity(intent);
             }
         }));
@@ -590,7 +589,8 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             getGridPresenter().setPosition(MediaManager.getCurrentMediaPosition());
             MediaManager.setCurrentMediaPosition(-1); // re-set so it doesn't mess with parent views
         }
-        if (mCurrentItem != null && !"Photo".equals(mCurrentItem.getType()) && !"PhotoAlbum".equals(mCurrentItem.getType())) {
+        if (mCurrentItem != null && !"Photo".equals(mCurrentItem.getType()) && !"PhotoAlbum".equals(mCurrentItem.getType())
+                && !"MusicArtist".equals(mCurrentItem.getType()) && !"MusicAlbum".equals(mCurrentItem.getType())) {
             TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override
@@ -647,6 +647,8 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                 return;
             } else {
                 mCurrentItem = (BaseRowItem)item;
+                mTitleView.setText(mCurrentItem.getName());
+                mInfoRow.removeAllViews();
                 mHandler.postDelayed(mDelayedSetItem, 400);
 
                 if (!determiningPosterSize) mGridAdapter.loadMoreItemsIfNeeded(mCurrentItem.getIndex());

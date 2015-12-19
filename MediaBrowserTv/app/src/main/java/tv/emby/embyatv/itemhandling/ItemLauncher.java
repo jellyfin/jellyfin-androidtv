@@ -2,6 +2,9 @@ package tv.emby.embyatv.itemhandling;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.view.KeyEvent;
+
+import java.util.List;
 
 import mediabrowser.apiinteraction.ConnectionResult;
 import mediabrowser.apiinteraction.IConnectionManager;
@@ -16,6 +19,7 @@ import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.search.SearchHint;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.browsing.BrowseRecordingsActivity;
 import tv.emby.embyatv.browsing.CollectionActivity;
 import tv.emby.embyatv.browsing.GenericFolderActivity;
@@ -24,6 +28,7 @@ import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.browsing.UserViewActivity;
 import tv.emby.embyatv.details.FullDetailsActivity;
 import tv.emby.embyatv.details.PhotoPlayerActivity;
+import tv.emby.embyatv.details.SongListActivity;
 import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.model.ViewType;
@@ -31,6 +36,7 @@ import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.startup.SelectUserActivity;
 import tv.emby.embyatv.util.DelayedMessage;
+import tv.emby.embyatv.util.KeyProcessor;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -44,26 +50,33 @@ public class ItemLauncher {
     public static void launch(BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity, final boolean noHistory) {
         final TvApp application = TvApp.getApplication();
         MediaManager.setCurrentMediaAdapter(adapter);
-        MediaManager.setCurrentMediaPosition(pos);
 
         switch (rowItem.getItemType()) {
 
             case BaseItem:
                 final BaseItemDto baseItem = rowItem.getBaseItem();
-                TvApp.getApplication().getLogger().Debug("Item selected: " + rowItem.getIndex() + " - " + baseItem.getName());
+                try {
+                    TvApp.getApplication().getLogger().Debug("Item selected: " + rowItem.getIndex() + " - " + baseItem.getName() + " (" + baseItem.getType() + ")");
+                } catch (Exception e) {
+                    //swallow it
+                }
 
                 //specialized type handling
                 switch (baseItem.getType()) {
                     case "UserView":
+                    case "CollectionFolder":
                         //We need to get display prefs...
                         TvApp.getApplication().getDisplayPrefsAsync(baseItem.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
                             @Override
                             public void onResponse(DisplayPreferences response) {
-                                if (baseItem.getCollectionType() == null) baseItem.setCollectionType("unknown");
+                                if (baseItem.getCollectionType() == null)
+                                    baseItem.setCollectionType("unknown");
+                                TvApp.getApplication().getLogger().Debug("**** Collection type: "+baseItem.getCollectionType());
                                 switch (baseItem.getCollectionType()) {
                                     case "movies":
                                     case "tvshows":
                                     case "music":
+                                        TvApp.getApplication().getLogger().Debug("**** View Type Pref: "+response.getCustomPrefs().get("DefaultView"));
                                         if (ViewType.GRID.equals(response.getCustomPrefs().get("DefaultView"))) {
                                             // open grid browsing
                                             Intent folderIntent = new Intent(activity, GenericGridActivity.class);
@@ -97,6 +110,7 @@ public class ItemLauncher {
                         });
                         return;
                     case "Series":
+                    case "MusicArtist":
                         //Start activity for details display
                         Intent intent = new Intent(activity, FullDetailsActivity.class);
                         intent.putExtra("ItemId", baseItem.getId());
@@ -104,6 +118,22 @@ public class ItemLauncher {
 
                         activity.startActivity(intent);
 
+                        return;
+
+                    case "MusicAlbum":
+                    case "Playlist":
+                        //Start activity for song list display
+                        Intent songListIntent = new Intent(activity, SongListActivity.class);
+                        songListIntent.putExtra("ItemId", baseItem.getId());
+                        if (noHistory) songListIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+                        activity.startActivity(songListIntent);
+
+                        return;
+
+                    case "Audio":
+                        //produce item menu
+                        KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, rowItem, (BaseActivity) activity);
                         return;
 
                     case "Season":
@@ -128,6 +158,7 @@ public class ItemLauncher {
 
                     case "Photo":
                         // open photo player
+                        MediaManager.setCurrentMediaPosition(pos);
                         Intent photoIntent = new Intent(activity, PhotoPlayerActivity.class);
 
                         activity.startActivity(photoIntent);
@@ -162,11 +193,11 @@ public class ItemLauncher {
                         case Play:
                             if (baseItem.getPlayAccess() == PlayAccess.Full) {
                                 //Just play it directly
-                                Utils.getItemsToPlay(baseItem, baseItem.getType().equals("Movie"), false, new Response<String[]>() {
+                                Utils.getItemsToPlay(baseItem, baseItem.getType().equals("Movie"), false, new Response<List<BaseItemDto>>() {
                                     @Override
-                                    public void onResponse(String[] response) {
+                                    public void onResponse(List<BaseItemDto> response) {
                                         Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
-                                        intent.putExtra("Items", response);
+                                        MediaManager.setCurrentVideoQueue(response);
                                         intent.putExtra("Position", 0);
                                         activity.startActivity(intent);
                                     }
@@ -224,9 +255,9 @@ public class ItemLauncher {
                 application.getApiClient().GetItemAsync(hint.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
-                        if (response.getIsFolder() && !"Series".equals(response.getType())) {
+                        if ((response.getIsFolder() && !"Series".equals(response.getType())) || "MusicArtist".equals(response.getType())) {
                             // open generic folder browsing
-                            Intent intent = new Intent(activity, GenericFolderActivity.class);
+                            Intent intent = new Intent(activity, GenericGridActivity.class);
                             intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(response));
 
                             activity.startActivity(intent);
@@ -290,11 +321,11 @@ public class ItemLauncher {
                 TvApp.getApplication().getApiClient().GetItemAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
-                        Utils.getItemsToPlay(response, false, false, new Response<String[]>() {
+                        Utils.getItemsToPlay(response, false, false, new Response<List<BaseItemDto>>() {
                             @Override
-                            public void onResponse(String[] response) {
+                            public void onResponse(List<BaseItemDto> response) {
                                 Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
-                                intent.putExtra("Items", response);
+                                MediaManager.setCurrentVideoQueue(response);
                                 intent.putExtra("Position", 0);
                                 activity.startActivity(intent);
 

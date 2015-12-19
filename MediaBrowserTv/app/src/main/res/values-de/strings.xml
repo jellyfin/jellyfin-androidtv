@@ -170,8 +170,15 @@
     <string name="msg_playback_incompatible">Video Format kann nicht wiedergegeben werden</string>
     <string name="lbl_never">Niemals</string>
     <string name="lbl_unlock_app">App freischalten</string>
+    <string name="lbl_emby_premiere">Upgrade auf Emby Premiere</string>
+    <string name="lbl_premiere_desc">Mit Emby Premiere bekommen Sie nicht nur vollen Zugriff auf sämtliche Funktionalitäten innerhalb dieser App, Sie erhalten zudem weitere Features auf der Serverseite sowie weiteren Apps  innerhalb der Emby Umgebung.</string>
     <string name="lbl_unlock_desc">Entsperren Sie die App für volle Funktionalität durch den Kauf hier. Wenn Sie ein aktiver Unterstützer mit einem lokalen Server sind sollten Sie nicht brauchen, um dies zu tun. Seien Sie sicher, dass Ihr Server hat Ihre Fan-Taste vorhanden.</string>
+    <string name="lbl_premiere_desc2">Freier Zugang zu einigen Apps auf anderen Plattformen, Synchronisieren Sie Inhalte zu unterstützen mobilen Geräten oder dem Web Client für eine offline Nutzung, genießen Sie Kino-Feeling mit dem Cinema Mode, erweitern Sie Ihre Bilder mit CoverArt und vielem, vielem mehr. Probieren Sie Emby Premiere noch heute.</string>
     <string name="btn_next">Weiter</string>
+    <string name="msg_just_unlock_confirm">Nur diese App freischalten? Diese Option beinhaltet nicht die Freischaltung der Features von Emby Premiere. Sie schalten nur die volle Funktionalität dieser App frei. Sind Sie sich sicher?</string>
+    <string name="btn_unlock">Nein Danke, nur diese App freischalten</string>
+    <string name="btn_monthly_prefix">Melde mich an für</string>
+    <string name="btn_monthly_suffix">/Monat</string>
     <string name="msg_invalid_purchase">Ungültige Kauf anfrage.</string>
     <string name="msg_thank_you_unlocked">Vielen Dank. Ihre App ist nun freigeschaltet.</string>
     <string name="msg_purchase_error">Fehler beim Kauf. Bitte versuchen Sie es später erneut.</string>
@@ -262,4 +269,19 @@
     <string name="lbl_no_recordings">Keine Aufnahmen verfügbar</string>
     <string name="lbl_live_tv_guide">TV Programmübersicht</string>
     <string name="lbl_recorded_tv">Aufnahmen</string>
+    <string name="btn_emby_premiere">Emby Premiere</string>
+    <string name="btn_ok">OK</string>
+    <string name="msg_email_entry1">Bitte geben Sie eine gültige Emailadresse an, an die wir den Emby Premiere Schlüssel senden können</string>
+    <string name="msg_email_entry2">Wir bitten um Entschuldigung, müssen aber sicher sein, dass dies korrekt ist. Bitte geben Sie die Emailadresse noch einmal ein.</string>
+    <string name="msg_entries_not_match">Die Eintragungen passen nicht zusammen. Bitte versuchen Sie es erneut.</string>
+    <string name="msg_invalid_email">Ungültige Emailadresse.</string>
+    <string name="btn_monthly_default">Melde mich an für nur 6.49$/Monat</string>
+    <string name="msg_premiere_nag_title">Erwägen Sie Emby Premiere</string>
+    <string name="msg_premiere_nag_msg">Emby Premiere erlaubt Ihnen weitere Features wie Mobile Synchronisation, Cinema Mode (Kino Modus) und CoverArt. Probieren Sie Emby Premiere noch heute.</string>
+    <string name="pref_live_tv_cat">LIVE TV</string>
+    <string name="pref_sort_date_option">Sortiere Programmführer nach zulegt gesehen</string>
+    <string name="pref_sort_date_desc">Zeige zuletzt gesehene Programme zu Beginn des Programmführers</string>
+    <string name="msg_error_live_stream">Fehler bei Live-TV stream. Versuche erneut....</string>
+    <string name="lbl_direct_stream_live">Direct stream live TV</string>
+    <string name="lbl_programs">Programme</string>
 </resources>
