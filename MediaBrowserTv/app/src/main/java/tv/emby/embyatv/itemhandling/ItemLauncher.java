@@ -55,7 +55,11 @@ public class ItemLauncher {
 
             case BaseItem:
                 final BaseItemDto baseItem = rowItem.getBaseItem();
-                TvApp.getApplication().getLogger().Debug("Item selected: " + rowItem.getIndex() + " - " + baseItem.getName() + " ("+baseItem.getType()+")");
+                try {
+                    TvApp.getApplication().getLogger().Debug("Item selected: " + rowItem.getIndex() + " - " + baseItem.getName() + " (" + baseItem.getType() + ")");
+                } catch (Exception e) {
+                    //swallow it
+                }
 
                 //specialized type handling
                 switch (baseItem.getType()) {
