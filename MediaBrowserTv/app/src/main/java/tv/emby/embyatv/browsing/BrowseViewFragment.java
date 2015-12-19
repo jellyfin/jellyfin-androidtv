@@ -40,7 +40,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
     public void onResume() {
         super.onResume();
 
-        if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId().equals(TvApp.getApplication().getLastDeletedItemId())) {
+        if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(TvApp.getApplication().getLastDeletedItemId())) {
             ((ItemRowAdapter)mCurrentRow.getAdapter()).remove(mCurrentItem);
             TvApp.getApplication().setLastDeletedItemId(null);
         }
