@@ -1034,6 +1034,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     .load(url)
                     .skipMemoryCache()
                     .resize(mMetrics.widthPixels, mMetrics.heightPixels)
+                    .centerCrop()
                     .error(mDefaultBackground)
                     .into(mBackgroundTarget);
         }
