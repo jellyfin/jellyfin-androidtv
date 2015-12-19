@@ -579,6 +579,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                     .load(url)
                     .skipMemoryCache()
                     .resize(mMetrics.widthPixels, mMetrics.heightPixels)
+                    .centerCrop()
                     .error(mDefaultBackground)
                     .into(mBackgroundTarget);
         }
