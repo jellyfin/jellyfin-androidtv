@@ -271,7 +271,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (mItemsToPlay.size() == 0) return;
+        if (mItemsToPlay == null || mItemsToPlay.size() == 0) return;
 
         mPoster = (ImageView) mActivity.findViewById(R.id.poster);
         mNextUpPoster = (ImageView) mActivity.findViewById(R.id.nextUpPoster);
