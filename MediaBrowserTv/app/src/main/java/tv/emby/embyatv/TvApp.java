@@ -90,6 +90,8 @@ public class TvApp extends Application {
     private Calendar lastMoviePlayback = Calendar.getInstance();
     private Calendar lastTvPlayback = Calendar.getInstance();
     private Calendar lastLibraryChange = Calendar.getInstance();
+    private long lastFavoriteUpdate = System.currentTimeMillis();
+    private long lastMusicPlayback = System.currentTimeMillis();
     private long lastUserInteraction = System.currentTimeMillis();
 
     private boolean audioMuted;
@@ -289,6 +291,12 @@ public class TvApp extends Application {
         this.lastMoviePlayback = lastMoviePlayback;
         this.lastPlayback = lastMoviePlayback;
     }
+
+    public void setLastFavoriteUpdate(long time) { lastFavoriteUpdate = time; }
+    public long getLastFavoriteUpdate() { return lastFavoriteUpdate; }
+
+    public void setLastMusicPlayback(long time) { lastMusicPlayback = time; }
+    public long getLastMusicPlayback() { return lastMusicPlayback; }
 
     public boolean directStreamLiveTv() { return getPrefs().getBoolean("pref_live_direct", true); }
 
