@@ -472,6 +472,7 @@ public class KeyProcessor {
             @Override
             public void onResponse(UserItemDataDto response) {
                 mCurrentActivity.sendMessage(CustomMessage.RefreshCurrentItem);
+                TvApp.getApplication().setLastFavoriteUpdate(System.currentTimeMillis());
             }
 
             @Override

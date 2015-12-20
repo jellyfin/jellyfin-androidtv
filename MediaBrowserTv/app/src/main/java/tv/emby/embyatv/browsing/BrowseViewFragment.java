@@ -10,8 +10,6 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
-import mediabrowser.model.livetv.RecordingGroupQuery;
-import mediabrowser.model.livetv.RecordingQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemQuery;
@@ -24,7 +22,6 @@ import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.ChangeTriggerType;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.StdItemQuery;
-import tv.emby.embyatv.util.Utils;
 
 /**
  * Created by Eric on 12/4/2014.
@@ -82,7 +79,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 favorites.setParentId(mFolder.getId());
                 favorites.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
                 favorites.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_favorites), favorites, 60, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_favorites), favorites, 60, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated, ChangeTriggerType.FavoriteUpdate}));
 
                 //Collections
                 StdItemQuery collections = new StdItemQuery();
@@ -123,7 +120,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 tvFavorites.setParentId(mFolder.getId());
                 tvFavorites.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
                 tvFavorites.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_favorites), tvFavorites, 60, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_favorites), tvFavorites, 60, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated, ChangeTriggerType.FavoriteUpdate}));
 
                 rowLoader.loadRows(mRows);
                 break;
@@ -147,7 +144,8 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 lastPlayed.setFilters(new ItemFilter[]{ItemFilter.IsPlayed});
                 lastPlayed.setSortBy(new String[]{ItemSortBy.DatePlayed});
                 lastPlayed.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_last_played), lastPlayed, 60, false, true, new ChangeTriggerType[] {ChangeTriggerType.MusicPlayed, ChangeTriggerType.LibraryUpdated}));
+                lastPlayed.setLimit(50);
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_last_played), lastPlayed, 0, false, true, new ChangeTriggerType[] {ChangeTriggerType.MusicPlayback, ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
                 StdItemQuery favAlbums = new StdItemQuery();
@@ -156,7 +154,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 favAlbums.setParentId(mFolder.getId());
                 favAlbums.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
                 favAlbums.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_favorites), favAlbums, 60, false, true, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_favorites), favAlbums, 60, false, true, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated, ChangeTriggerType.FavoriteUpdate}));
 
                 //Playlists
                 StdItemQuery playlists = new StdItemQuery(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.CumulativeRunTimeTicks});
