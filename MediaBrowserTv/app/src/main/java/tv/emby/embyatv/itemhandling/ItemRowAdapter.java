@@ -1,5 +1,6 @@
 package tv.emby.embyatv.itemhandling;
 
+import android.os.Handler;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
@@ -25,6 +26,7 @@ import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
 import mediabrowser.model.livetv.RecordingGroupQuery;
 import mediabrowser.model.livetv.RecordingQuery;
+import mediabrowser.model.net.HttpException;
 import mediabrowser.model.querying.ArtistsQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
@@ -818,7 +820,56 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     public void Retrieve(ItemQuery query) {
-        TvApp.getApplication().getApiClient().GetItemsAsync(query, new ItemQueryResponse(this));
+        TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+            @Override
+            public void onResponse(ItemsResult response) {
+                if (response.getTotalRecordCount() > 0) {
+                    setTotalItems(response.getTotalRecordCount());
+                    int i = getItemsLoaded();
+                    if (i == 0 && size() > 0) clear();
+                    for (BaseItemDto item : response.getItems()) {
+                        add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
+                        //TvApp.getApplication().getLogger().Debug("Item Type: "+item.getType());
+                    }
+                    setItemsLoaded(i);
+                    if (i == 0) removeRow();
+                } else {
+                    // no results - don't show us
+                    setTotalItems(0);
+                    removeRow();
+                }
+
+                setCurrentlyRetrieving(false);
+                notifyRetrieveFinished();
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving items", exception);
+                if (exception instanceof HttpException) {
+                    HttpException httpException = (HttpException) exception;
+                    if (httpException.getStatusCode() != null && httpException.getStatusCode() == 401 && "ParentalControl".equals(httpException.getHeaders().get("X-Application-Error-Code"))) {
+                        Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_access_restricted));
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                System.exit(1);
+                            }
+                        }, 3000);
+                    } else {
+                        removeRow();
+                        Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                    }
+                } else {
+                    removeRow();
+                    Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+
+                }
+                setCurrentlyRetrieving(false);
+                notifyRetrieveFinished();
+            }
+
+        });
     }
 
     public void RetrievePlaylists(final ItemQuery query) {
