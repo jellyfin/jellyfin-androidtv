@@ -52,7 +52,7 @@ public class BaseActivity extends Activity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (!isFinishing()) {
+                if (!isFinishing() && app.getCurrentActivity() != null) {
                     FrameLayout root = (FrameLayout) findViewById(android.R.id.content);
                     messageUi = View.inflate(app.getCurrentActivity(), R.layout.message, null);
                     messageTitle = (TextView) messageUi.findViewById(R.id.msgTitle);
