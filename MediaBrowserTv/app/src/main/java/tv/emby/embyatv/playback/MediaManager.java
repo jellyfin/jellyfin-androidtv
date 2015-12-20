@@ -493,6 +493,7 @@ public class MediaManager {
                 }
 
                 updateCurrentAudioItemPlaying(true);
+                TvApp.getApplication().setLastMusicPlayback(System.currentTimeMillis());
 
                 Utils.ReportStart(item, mCurrentAudioPosition * 10000);
                 for (AudioEventListener listener : mAudioEventListeners) {
