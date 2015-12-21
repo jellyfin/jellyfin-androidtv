@@ -21,6 +21,7 @@ import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.apiinteraction.android.VolleyHttpClient;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.apiinteraction.playback.PlaybackManager;
+import mediabrowser.model.apiclient.ConnectionState;
 import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.logging.ILogger;
@@ -136,6 +137,11 @@ public class StartupActivity extends Activity {
             connectionManager.Connect(application.getConfiguredAutoCredentials().getServerInfo(), new Response<ConnectionResult>() {
                 @Override
                 public void onResponse(ConnectionResult response) {
+                    if (response.getState() == ConnectionState.Unavailable) {
+                        Utils.showToast( activity, "Unable to connect to configured server "+application.getConfiguredAutoCredentials().getServerInfo().getName());
+                        connectAutomatically(connectionManager, activity);
+                        return;
+                    }
                     // Connected to server - load user and prompt for pw if necessary
                     application.setLoginApiClient(response.getApiClient());
                     response.getApiClient().GetUserAsync(application.getConfiguredAutoCredentials().getUserDto().getId(), new Response<UserDto>() {
