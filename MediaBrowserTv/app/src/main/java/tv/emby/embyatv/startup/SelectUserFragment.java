@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.apiclient.ServerInfo;
 import tv.emby.embyatv.browsing.CustomBrowseFragment;
@@ -83,6 +84,8 @@ public class SelectUserFragment extends CustomBrowseFragment {
                         Utils.EnterManualUser(getActivity());
                         break;
                     case LOGIN_CONNECT:
+                        //Logout since we've already connected to a server
+                        TvApp.getApplication().getApiClient().Logout(new EmptyResponse());
                         Intent intent = new Intent(getActivity(), ConnectActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         startActivity(intent);
