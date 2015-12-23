@@ -354,8 +354,9 @@ public class ItemLauncher {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
                                     Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
-                                    String[] items = new String[] {TvApp.getApplication().getSerializer().SerializeToString(response)};
-                                    intent.putExtra("Items", items);
+                                    List<BaseItemDto> items = new ArrayList<>();
+                                    items.add(response);
+                                    MediaManager.setCurrentVideoQueue(items);
                                     intent.putExtra("Position", 0);
                                     activity.startActivity(intent);
                                 }

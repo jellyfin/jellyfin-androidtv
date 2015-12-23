@@ -994,16 +994,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     protected void play(final BaseItemDto[] items, final int pos, final boolean shuffle) {
-        List<String> itemsToPlay = new ArrayList<>();
-        final GsonJsonSerializer serializer = mApplication.getSerializer();
-
-        for (BaseItemDto item : items) {
-            itemsToPlay.add(serializer.SerializeToString(item));
-        }
-
+        List<BaseItemDto> itemsToPlay = Arrays.asList(items);
         Intent intent = new Intent(this, PlaybackOverlayActivity.class);
         if (shuffle) Collections.shuffle(itemsToPlay);
-        intent.putExtra("Items", itemsToPlay.toArray(new String[itemsToPlay.size()]));
+        MediaManager.setCurrentVideoQueue(itemsToPlay);
         intent.putExtra("Position", pos);
         startActivity(intent);
 
