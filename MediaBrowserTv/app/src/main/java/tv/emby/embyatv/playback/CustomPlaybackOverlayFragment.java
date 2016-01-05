@@ -1281,6 +1281,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             //Create chapter row for later use
             ItemRowAdapter chapterAdapter = new ItemRowAdapter(Utils.buildChapterItems(item), new CardPresenter(), new ArrayObjectAdapter());
             chapterAdapter.Retrieve();
+            if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
             mChapterRow = new ListRow(new HeaderItem(mActivity.getString(R.string.chapters), null), chapterAdapter);
             mPopupRowAdapter.add(mChapterRow);
 
