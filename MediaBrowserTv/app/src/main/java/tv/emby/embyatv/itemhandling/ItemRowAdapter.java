@@ -1052,9 +1052,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                         // show guide option as first item
                         adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_GUIDE_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_live_tv_guide), R.drawable.guide)));
                         i++;
-                        // and recordings as second
-                        adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_RECORDINGS_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv), R.drawable.recgroup)));
-                        i++;
                     }
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(item, staticHeight));
@@ -1139,6 +1136,12 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
                     int prevItems = adapter.size() > 0 ? adapter.size() : 0;
+                    if (query.getGroupId() == null) {
+                        // and recordings as first item if showing all
+                        adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_RECORDINGS_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv), R.drawable.recgroup)));
+                        i++;
+                    }
+
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(item));
                         i++;

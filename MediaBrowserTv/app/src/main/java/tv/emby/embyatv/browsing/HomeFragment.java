@@ -18,6 +18,8 @@ import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
+import mediabrowser.model.livetv.RecordingGroupQuery;
+import mediabrowser.model.livetv.RecordingQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemSortBy;
@@ -229,6 +231,13 @@ public class HomeFragment extends StdBrowseFragment {
             onNow.setUserId(TvApp.getApplication().getCurrentUser().getId());
             onNow.setLimit(20);
             mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_on_now), onNow));
+            //Latest Recordings
+            RecordingQuery recordings = new RecordingQuery();
+            recordings.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+            recordings.setUserId(TvApp.getApplication().getCurrentUser().getId());
+            recordings.setEnableImages(true);
+            recordings.setLimit(40);
+            mRows.add(new BrowseRowDef("Latest Recordings", recordings));
         }
 
     }

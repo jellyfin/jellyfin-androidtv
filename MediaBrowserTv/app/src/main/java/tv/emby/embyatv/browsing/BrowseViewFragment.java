@@ -10,6 +10,7 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
+import mediabrowser.model.livetv.RecordingQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemQuery;
@@ -178,11 +179,19 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 //Upcoming
                 RecommendedProgramQuery upcomingTv = new RecommendedProgramQuery();
                 upcomingTv.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                upcomingTv.setFields(new ItemFields[] {ItemFields.Overview, ItemFields.PrimaryImageAspectRatio, ItemFields.ChannelInfo});
+                upcomingTv.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio, ItemFields.ChannelInfo});
                 upcomingTv.setIsAiring(false);
                 upcomingTv.setHasAired(false);
                 upcomingTv.setLimit(200);
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_coming_up), upcomingTv));
+
+                //Latest Recordings
+                RecordingQuery recordings = new RecordingQuery();
+                recordings.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+                recordings.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                recordings.setEnableImages(true);
+                recordings.setLimit(40);
+                mRows.add(new BrowseRowDef("Latest Recordings", recordings));
 
                 //Fav Channels
                 LiveTvChannelQuery favTv = new LiveTvChannelQuery();
