@@ -68,7 +68,8 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 latestMovies.setRecursive(true);
                 latestMovies.setParentId(mFolder.getId());
                 latestMovies.setLimit(50);
-                latestMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
+                latestMovies.setCollapseBoxSetItems(false);
+                if (TvApp.getApplication().getCurrentUser().getConfiguration().getHidePlayedInLatest()) latestMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
                 latestMovies.setSortBy(new String[]{ItemSortBy.DateCreated});
                 latestMovies.setSortOrder(SortOrder.Descending);
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestMovies, 0, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
@@ -109,7 +110,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 latestSeries.setRecursive(true);
                 latestSeries.setParentId(mFolder.getId());
                 latestSeries.setLimit(50);
-                latestSeries.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
+                if (TvApp.getApplication().getCurrentUser().getConfiguration().getHidePlayedInLatest()) latestSeries.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
                 latestSeries.setSortBy(new String[]{ItemSortBy.DateLastContentAdded});
                 latestSeries.setSortOrder(SortOrder.Descending);
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestSeries, 0, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));

@@ -206,11 +206,11 @@ public class HomeFragment extends StdBrowseFragment {
         latestMovies.setIncludeItemTypes(new String[]{"Movie"});
         latestMovies.setRecursive(true);
         latestMovies.setLimit(50);
-        latestMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
+        latestMovies.setCollapseBoxSetItems(false);
+        if (TvApp.getApplication().getCurrentUser().getConfiguration().getHidePlayedInLatest()) latestMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
         latestMovies.setSortBy(new String[]{ItemSortBy.DateCreated});
         latestMovies.setSortOrder(SortOrder.Descending);
         mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest_movies), latestMovies, 0, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated, ChangeTriggerType.MoviePlayback}));
-
 
     }
 
