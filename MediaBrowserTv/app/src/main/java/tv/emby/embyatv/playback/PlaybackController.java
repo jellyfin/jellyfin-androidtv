@@ -146,7 +146,7 @@ public class PlaybackController {
 
         }
 
-        mApplication.getLogger().Debug("Play called with pos: "+position);
+        mApplication.getLogger().Debug("Play called with pos: " + position);
         switch (mPlaybackState) {
             case PLAYING:
                 // do nothing
@@ -419,6 +419,11 @@ public class PlaybackController {
             mPlaybackState = PlaybackState.BUFFERING;
         } else {
             mVideoManager.setAudioTrack(index);
+            if (!Utils.supportsAc3() && "ac3".equals(getCurrentMediaSource().getMediaStreams().get(index).getCodec())) {
+                mVideoManager.setCompatibleAudio();
+            } else {
+                mVideoManager.setAudioMode();
+            }
         }
     }
 
