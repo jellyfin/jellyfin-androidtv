@@ -7,6 +7,7 @@ import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.PresenterSelector;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -705,7 +706,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         currentlyRetrieving = false;
     }
 
-    private static String[] ignoreTypes = new String[] {"books","games"};
+    private static String[] ignoreTypes = new String[] {"books","games","playlists"};
     private static List<String> ignoreTypeList = Arrays.asList(ignoreTypes);
 
     private void RetrieveViews() {
@@ -830,6 +831,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     public void Retrieve(ItemQuery query) {
+        final boolean filterByMediaType = Arrays.asList(query.getIncludeItemTypes()).contains("Playlist");
+        String[] ignoreTypes = filterByMediaType ? new String[] {"Video"} : new String[] {};
+        final List<String> ignoreTypeList = Arrays.asList(ignoreTypes);
         TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
@@ -838,8 +842,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int i = getItemsLoaded();
                     int prevItems = i == 0 && size() > 0 ? size() : 0;
                     for (BaseItemDto item : response.getItems()) {
-                        add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
-                        //TvApp.getApplication().getLogger().Debug("Item Type: "+item.getType());
+                        if (!filterByMediaType || !ignoreTypeList.contains(item.getMediaType())) {
+                            add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
+                            //TvApp.getApplication().getLogger().Debug("Item Type: "+item.getType());
+                            
+                        }
                     }
                     setItemsLoaded(i);
                     if (i == 0) {
