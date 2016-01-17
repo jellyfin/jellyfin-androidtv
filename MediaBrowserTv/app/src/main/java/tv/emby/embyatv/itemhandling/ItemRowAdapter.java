@@ -845,7 +845,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                         if (!filterByMediaType || !ignoreTypeList.contains(item.getMediaType())) {
                             add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
                             //TvApp.getApplication().getLogger().Debug("Item Type: "+item.getType());
-                            
+
                         }
                     }
                     setItemsLoaded(i);
