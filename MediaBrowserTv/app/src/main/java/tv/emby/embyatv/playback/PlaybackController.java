@@ -341,6 +341,8 @@ public class PlaybackController {
                 }
 
                 mVideoManager.setVideoPath(path);
+                mVideoManager.setVideoTrack(response.getMediaSource());
+
                 //wait a beat before attempting to start so the player surface is fully initialized and video is ready
                 mHandler.postDelayed(new Runnable() {
                     @Override
