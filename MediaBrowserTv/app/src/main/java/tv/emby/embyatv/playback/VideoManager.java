@@ -27,6 +27,7 @@ import java.util.List;
 
 import mediabrowser.model.dlna.SubtitleDeliveryMethod;
 import mediabrowser.model.dlna.SubtitleStreamInfo;
+import mediabrowser.model.dto.MediaSourceInfo;
 import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.MediaStreamType;
 import mediabrowser.model.mediainfo.SubtitleTrackInfo;
@@ -327,6 +328,18 @@ public class VideoManager implements IVLCVout.Callback {
             String audioOption = Utils.isFireTv() && !Utils.is50() ? "1" : prefs.getString("pref_audio_option","0"); // force compatible audio on Fire 4.2
             mVlcPlayer.setAudioOutput("0".equals(audioOption) ? "android_audiotrack" : "opensles_android");
             mVlcPlayer.setAudioOutputDevice("hdmi");
+        }
+    }
+
+    public void setVideoTrack(MediaSourceInfo mediaSource) {
+        if (!nativeMode && mediaSource != null && mediaSource.getMediaStreams() != null) {
+            for (MediaStream stream : mediaSource.getMediaStreams()) {
+                if (stream.getType() == MediaStreamType.Video && stream.getIndex() >= 0) {
+                    TvApp.getApplication().getLogger().Debug("Setting video index to: "+stream.getIndex());
+                    mVlcPlayer.setVideoTrack(stream.getIndex());
+                    return;
+                }
+            }
         }
     }
 
