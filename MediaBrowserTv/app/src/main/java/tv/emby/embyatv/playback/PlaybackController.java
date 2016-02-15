@@ -154,7 +154,6 @@ public class PlaybackController {
             case PAUSED:
                 // just resume
                 mVideoManager.play();
-                mPlaybackState = PlaybackState.PLAYING;
                 if (mFragment != null) {
                     mFragment.setFadingEnabled(true);
                     mFragment.setPlayPauseActionState(ImageButton.STATE_SECONDARY);
@@ -762,18 +761,22 @@ public class PlaybackController {
                 }
                 TvApp.getApplication().getLogger().Info("Play method: ", mCurrentStreamInfo.getPlayMethod());
 
-                if (mDefaultSubIndex >= 0) {
-                    //Default subs requested select them
-                    mApplication.getLogger().Info("Selecting default sub stream: " + mDefaultSubIndex);
-                    switchSubtitleStream(mDefaultSubIndex);
+                if (mPlaybackState == PlaybackState.PAUSED) {
+                    mPlaybackState = PlaybackState.PLAYING;
                 } else {
-                    TvApp.getApplication().getLogger().Info("Turning off subs by default");
-                    mVideoManager.disableSubs();
-                }
+                    if (mDefaultSubIndex >= 0) {
+                        //Default subs requested select them
+                        mApplication.getLogger().Info("Selecting default sub stream: " + mDefaultSubIndex);
+                        switchSubtitleStream(mDefaultSubIndex);
+                    } else {
+                        TvApp.getApplication().getLogger().Info("Turning off subs by default");
+                        mVideoManager.disableSubs();
+                    }
 
-                if (mDefaultAudioIndex >= 0) {
-                    TvApp.getApplication().getLogger().Info("Selecting default audio stream: "+mDefaultAudioIndex);
-                    switchAudioStream(mDefaultAudioIndex);
+                    if (mDefaultAudioIndex >= 0) {
+                        TvApp.getApplication().getLogger().Info("Selecting default audio stream: " + mDefaultAudioIndex);
+                        switchAudioStream(mDefaultAudioIndex);
+                    }
                 }
 
             }
