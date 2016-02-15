@@ -321,6 +321,11 @@ public class PlaybackController {
                 } else {
                     mVideoManager.setNativeMode(true);
                     TvApp.getApplication().getLogger().Info("Playing back in native mode.");
+                    if ("1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"))) {
+                        TvApp.getApplication().getLogger().Info("Setting max audio to 2-channels");
+                        mCurrentStreamInfo.setMaxAudioChannels(2);
+                    }
+
                 }
 
                 // get subtitle info
