@@ -154,6 +154,7 @@ public class PlaybackController {
             case PAUSED:
                 // just resume
                 mVideoManager.play();
+                if (mVideoManager.isNativeMode()) mPlaybackState = PlaybackState.PLAYING; //won't get another onprepared call
                 if (mFragment != null) {
                     mFragment.setFadingEnabled(true);
                     mFragment.setPlayPauseActionState(ImageButton.STATE_SECONDARY);
