@@ -10,7 +10,7 @@ android {
         applicationId "tv.emby.embyatv"
         minSdkVersion 17
         targetSdkVersion 21
-        versionCode 1138
+        versionCode 1149
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -24,10 +24,10 @@ android {
     }
     productFlavors {
         google {
-            versionName = "1.1.38g"
+            versionName = "1.1.49g"
         }
         amazon {
-            versionName = "1.1.38a"
+            versionName = "1.1.49a"
         }
     }
 }
@@ -40,11 +40,11 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.2'
     compile 'com.android.support:leanback-v17:21.0.2'
     compile 'com.android.support:appcompat-v7:21.0.2'
+    compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.squareup.picasso:picasso:2.3.2'
-    compile 'com.google.code.gson:gson:2.3'
-    compile 'com.squareup.okhttp:okhttp:2.1.0'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.1.0'
-    compile 'com.squareup.okio:okio:1.0.1'
+    compile 'com.google.code.gson:gson:2.5'
+    compile 'com.squareup.okhttp:okhttp:2.7.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.7.0'
     compile 'com.google.guava:guava:18.0'
     compile 'com.devbrackets.android:exomedia:2.3.1'
     compile 'com.flaviofaria:kenburnsview:1.0.6'

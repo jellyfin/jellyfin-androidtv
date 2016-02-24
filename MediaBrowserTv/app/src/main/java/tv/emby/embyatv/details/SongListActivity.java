@@ -439,6 +439,7 @@ public class SongListActivity extends BaseActivity {
                         public void onResponse(UserItemDataDto response) {
                             mBaseItem.setUserData(response);
                             ((ImageButton) v).setImageResource(response.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart);
+                            TvApp.getApplication().setLastFavoriteUpdate(System.currentTimeMillis());
                         }
                     });
                 }

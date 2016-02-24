@@ -18,6 +18,8 @@ import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
+import mediabrowser.model.livetv.RecordingGroupQuery;
+import mediabrowser.model.livetv.RecordingQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemSortBy;
@@ -204,11 +206,11 @@ public class HomeFragment extends StdBrowseFragment {
         latestMovies.setIncludeItemTypes(new String[]{"Movie"});
         latestMovies.setRecursive(true);
         latestMovies.setLimit(50);
-        latestMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
+        latestMovies.setCollapseBoxSetItems(false);
+        if (TvApp.getApplication().getCurrentUser().getConfiguration().getHidePlayedInLatest()) latestMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
         latestMovies.setSortBy(new String[]{ItemSortBy.DateCreated});
         latestMovies.setSortOrder(SortOrder.Descending);
         mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest_movies), latestMovies, 0, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated, ChangeTriggerType.MoviePlayback}));
-
 
     }
 
@@ -229,6 +231,13 @@ public class HomeFragment extends StdBrowseFragment {
             onNow.setUserId(TvApp.getApplication().getCurrentUser().getId());
             onNow.setLimit(20);
             mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_on_now), onNow));
+            //Latest Recordings
+            RecordingQuery recordings = new RecordingQuery();
+            recordings.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+            recordings.setUserId(TvApp.getApplication().getCurrentUser().getId());
+            recordings.setEnableImages(true);
+            recordings.setLimit(40);
+            mRows.add(new BrowseRowDef("Latest Recordings", recordings));
         }
 
     }

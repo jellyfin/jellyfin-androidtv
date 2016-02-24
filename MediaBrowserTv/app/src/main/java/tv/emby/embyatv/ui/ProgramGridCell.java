@@ -10,8 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jakewharton.disklrucache.Util;
-
 import java.util.Date;
 
 import mediabrowser.model.dto.BaseItemDto;

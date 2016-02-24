@@ -27,6 +27,7 @@ import java.util.List;
 
 import mediabrowser.model.dlna.SubtitleDeliveryMethod;
 import mediabrowser.model.dlna.SubtitleStreamInfo;
+import mediabrowser.model.dto.MediaSourceInfo;
 import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.MediaStreamType;
 import mediabrowser.model.mediainfo.SubtitleTrackInfo;
@@ -330,6 +331,18 @@ public class VideoManager implements IVLCVout.Callback {
         }
     }
 
+    public void setVideoTrack(MediaSourceInfo mediaSource) {
+        if (!nativeMode && mediaSource != null && mediaSource.getMediaStreams() != null) {
+            for (MediaStream stream : mediaSource.getMediaStreams()) {
+                if (stream.getType() == MediaStreamType.Video && stream.getIndex() >= 0) {
+                    TvApp.getApplication().getLogger().Debug("Setting video index to: "+stream.getIndex());
+                    mVlcPlayer.setVideoTrack(stream.getIndex());
+                    return;
+                }
+            }
+        }
+    }
+
     public org.videolan.libvlc.MediaPlayer.TrackDescription[] getSubtitleTracks() {
         return nativeMode ? null : mVlcPlayer.getSpuTracks();
     }
@@ -374,7 +387,16 @@ public class VideoManager implements IVLCVout.Callback {
 
             mSurfaceHolder.addCallback(mSurfaceCallback);
             mVlcPlayer.setEventListener(mVlcHandler);
+
+            //setup surface
+            mVlcPlayer.getVLCVout().detachViews();
+            mVlcPlayer.getVLCVout().setVideoView(mSurfaceView);
+            if (hasSubtitlesSurface) mVlcPlayer.getVLCVout().setSubtitlesView(mSubtitlesSurface);
+            mVlcPlayer.getVLCVout().attachViews();
+            TvApp.getApplication().getLogger().Debug("Surface attached");
+            mSurfaceReady = true;
             mVlcPlayer.getVLCVout().addCallback(this);
+
 
         } catch (Exception e) {
             TvApp.getApplication().getLogger().ErrorException("Error creating VLC player", e);
@@ -578,14 +600,6 @@ public class VideoManager implements IVLCVout.Callback {
 
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            if (mVlcPlayer != null) {
-                mVlcPlayer.getVLCVout().detachViews();
-                mVlcPlayer.getVLCVout().setVideoView(mSurfaceView);
-                if (hasSubtitlesSurface) mVlcPlayer.getVLCVout().setSubtitlesView(mSubtitlesSurface);
-                mVlcPlayer.getVLCVout().attachViews();
-                TvApp.getApplication().getLogger().Debug("Surface attached");
-                mSurfaceReady = true;
-            }
 
         }
 
