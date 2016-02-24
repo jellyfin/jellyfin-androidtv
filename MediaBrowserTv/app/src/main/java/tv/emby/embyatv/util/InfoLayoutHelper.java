@@ -133,10 +133,10 @@ public class InfoLayoutHelper {
     }
 
     private static void addSeasonCount(Activity activity, BaseItemDto item, LinearLayout layout) {
-        if (item.getSeasonCount() != null && item.getSeasonCount() > 0) {
+        if (item.getChildCount() != null && item.getChildCount() > 0) {
             TextView amt = new TextView(activity);
             amt.setTextSize(textSize);
-            amt.setText(item.getSeasonCount().toString()+" "+ (item.getSeasonCount() == 1 ? activity.getResources().getString(R.string.lbl_season) : activity.getResources().getString(R.string.lbl_seasons)) +"  ");
+            amt.setText(item.getChildCount().toString()+" "+ (item.getChildCount() == 1 ? activity.getResources().getString(R.string.lbl_season) : activity.getResources().getString(R.string.lbl_seasons)) +"  ");
             layout.addView(amt);
 
         }

@@ -65,7 +65,6 @@ public class GenericFolderFragment extends EnhancedBrowseFragment {
 
                 StdItemQuery byName = new StdItemQuery();
                 byName.setParentId(mFolder.getId());
-                byName.setSortBy(new String[]{ItemSortBy.SortName});
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_by_name), byName, 100));
 
                 rowLoader.loadRows(mRows);

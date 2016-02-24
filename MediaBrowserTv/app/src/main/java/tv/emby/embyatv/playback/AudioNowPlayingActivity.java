@@ -436,21 +436,25 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mPrevButton.setEnabled(MediaManager.hasPrevAudioItem());
         mNextButton.setEnabled(MediaManager.hasNextAudioItem());
         mShuffleButton.setEnabled(MediaManager.getCurrentAudioQueueSize() > 1);
-        mAlbumButton.setEnabled(mBaseItem.getAlbumId() != null);
-        mArtistButton.setEnabled(mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0);
+        if (mBaseItem != null) {
+            mAlbumButton.setEnabled(mBaseItem.getAlbumId() != null);
+            mArtistButton.setEnabled(mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0);
+        }
     }
 
     private void updateInfo(BaseItemDto item) {
-        mArtistName.setText(item.getAlbumArtist());
-        mSongTitle.setText(item.getName());
-        mAlbumTitle.setText(item.getAlbum());
-        mCurrentNdx.setText(MediaManager.getCurrentAudioQueueDisplayPosition());
-        mTotal.setText(MediaManager.getCurrentAudioQueueDisplaySize());
-        mCurrentDuration = ((Long)((item.getRunTimeTicks() != null ? item.getRunTimeTicks() : 0) / 10000)).intValue();
-        //set progress to match duration
-        mCurrentProgress.setMax(mCurrentDuration);
-        addGenres(mGenreRow);
-        updateBackground(Utils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
+        if (item != null) {
+            mArtistName.setText(item.getAlbumArtist());
+            mSongTitle.setText(item.getName());
+            mAlbumTitle.setText(item.getAlbum());
+            mCurrentNdx.setText(MediaManager.getCurrentAudioQueueDisplayPosition());
+            mTotal.setText(MediaManager.getCurrentAudioQueueDisplaySize());
+            mCurrentDuration = ((Long)((item.getRunTimeTicks() != null ? item.getRunTimeTicks() : 0) / 10000)).intValue();
+            //set progress to match duration
+            mCurrentProgress.setMax(mCurrentDuration);
+            addGenres(mGenreRow);
+            updateBackground(Utils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
+        }
 
     }
 

@@ -1,11 +1,13 @@
 package tv.emby.embyatv.itemhandling;
 
+import android.os.Handler;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.PresenterSelector;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -25,6 +27,7 @@ import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
 import mediabrowser.model.livetv.RecordingGroupQuery;
 import mediabrowser.model.livetv.RecordingQuery;
+import mediabrowser.model.net.HttpException;
 import mediabrowser.model.querying.ArtistsQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
@@ -48,7 +51,6 @@ import tv.emby.embyatv.model.ChangeTriggerType;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.model.FilterOptions;
 import tv.emby.embyatv.presentation.IPositionablePresenter;
-import tv.emby.embyatv.presentation.PositionableListRowPresenter;
 import tv.emby.embyatv.presentation.TextItemPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.SpecialsQuery;
@@ -161,7 +163,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     public ItemRowAdapter(ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, ArrayObjectAdapter parent) {
-        this(query,chunkSize,preferParentThumb,staticHeight,presenter,parent,QueryType.Items);
+        this(query, chunkSize, preferParentThumb, staticHeight, presenter, parent, QueryType.Items);
     }
 
     public ItemRowAdapter(ArtistsQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
@@ -507,6 +509,12 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 case TvPlayback:
                     retrieve |= lastFullRetrieve.before(app.getLastTvPlayback());
                     break;
+                case MusicPlayback:
+                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.getLastMusicPlayback();
+                    break;
+                case FavoriteUpdate:
+                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.getLastFavoriteUpdate();
+                    break;
                 case GuideNeedsLoad:
                     Calendar start = new GregorianCalendar(TimeZone.getTimeZone("Z"));
                     start.set(Calendar.MINUTE, start.get(Calendar.MINUTE) >= 30 ? 30 : 0);
@@ -698,7 +706,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         currentlyRetrieving = false;
     }
 
-    private static String[] ignoreTypes = new String[] {"books","games"};
+    private static String[] ignoreTypes = new String[] {"books","games","playlists"};
     private static List<String> ignoreTypeList = Arrays.asList(ignoreTypes);
 
     private void RetrieveViews() {
@@ -709,7 +717,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
-                    if (adapter.size() > 0) adapter.clear();
+                    int prevItems = adapter.size() > 0 ? adapter.size() : 0;
                     for (BaseItemDto item : response.getItems()) {
                         //re-map the display prefs id to our actual id
                         item.setDisplayPreferencesId(item.getId());
@@ -718,6 +726,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
+                    if (prevItems > 0) {
+                        // remove previous items as we re-retrieved
+                        // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
+                        removeItems(0, prevItems);
+                    }
                 } else {
                     // no results - don't show us
                     removeRow();
@@ -818,7 +831,68 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     public void Retrieve(ItemQuery query) {
-        TvApp.getApplication().getApiClient().GetItemsAsync(query, new ItemQueryResponse(this));
+        final boolean filterByMediaType = Arrays.asList(query.getIncludeItemTypes()).contains("Playlist");
+        String[] ignoreTypes = filterByMediaType ? new String[] {"Video"} : new String[] {};
+        final List<String> ignoreTypeList = Arrays.asList(ignoreTypes);
+        TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+            @Override
+            public void onResponse(ItemsResult response) {
+                if (response.getTotalRecordCount() > 0) {
+                    setTotalItems(response.getTotalRecordCount());
+                    int i = getItemsLoaded();
+                    int prevItems = i == 0 && size() > 0 ? size() : 0;
+                    for (BaseItemDto item : response.getItems()) {
+                        if (!filterByMediaType || !ignoreTypeList.contains(item.getMediaType())) {
+                            add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
+                            //TvApp.getApplication().getLogger().Debug("Item Type: "+item.getType());
+
+                        }
+                    }
+                    setItemsLoaded(i);
+                    if (i == 0) {
+                        removeRow();
+                    } else if (prevItems > 0) {
+                        // remove previous items as we re-retrieved
+                        // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
+                        removeItems(0, prevItems);
+                    }
+                } else {
+                    // no results - don't show us
+                    setTotalItems(0);
+                    removeRow();
+                }
+
+                setCurrentlyRetrieving(false);
+                notifyRetrieveFinished();
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving items", exception);
+                if (exception instanceof HttpException) {
+                    HttpException httpException = (HttpException) exception;
+                    if (httpException.getStatusCode() != null && httpException.getStatusCode() == 401 && "ParentalControl".equals(httpException.getHeaders().get("X-Application-Error-Code"))) {
+                        Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_access_restricted));
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                System.exit(1);
+                            }
+                        }, 3000);
+                    } else {
+                        removeRow();
+                        Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                    }
+                } else {
+                    removeRow();
+                    Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+
+                }
+                setCurrentlyRetrieving(false);
+                notifyRetrieveFinished();
+            }
+
+        });
     }
 
     public void RetrievePlaylists(final ItemQuery query) {
@@ -836,13 +910,19 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 if (response.getTotalRecordCount() > 0) {
                     setTotalItems(response.getTotalRecordCount());
                     int i = getItemsLoaded();
-                    if (i == 0 && size() > 0) clear();
+                    int prevItems = i == 0 && size() > 0 ? size() : 0;
                     for (BaseItemDto item : response.getItems()) {
                         add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
                         //TvApp.getApplication().getLogger().Debug("Item Type: "+item.getType());
                     }
                     setItemsLoaded(i);
-                    if (i == 0) removeRow();
+                    if (i == 0) {
+                        removeRow();
+                    } else if (prevItems > 0) {
+                        // remove previous items as we re-retrieved
+                        // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
+                        removeItems(0, prevItems);
+                    }
                 } else {
                     // no results - don't show us
                     setTotalItems(0);
@@ -864,7 +944,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 if (response.getTotalRecordCount() > 0) {
                     final HashSet<String> includedIds = new HashSet<>();
                     int i = 0;
-                    if (adapter.size() > 0) adapter.clear();
+                    int prevItems = adapter.size() > 0 ? adapter.size() : 0;
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(i++, item, preferParentThumb, false));
                         includedIds.add(item.getSeriesId());
@@ -873,38 +953,45 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     setItemsLoaded(itemsLoaded + i);
                     if (i == 0) {
                         removeRow();
-                    } else if (query.getSeriesId() == null) {
-                        // look for new episode 1's not in next up already
-                        StdItemQuery newQuery = new StdItemQuery(new ItemFields[] {ItemFields.DateCreated, ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
-                        newQuery.setIncludeItemTypes(new String[] {"Episode"});
-                        newQuery.setRecursive(true);
-                        newQuery.setIsVirtualUnaired(false);
-                        newQuery.setIsMissing(false);
-                        newQuery.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
-                        newQuery.setSortBy(new String[] {ItemSortBy.DateCreated});
-                        newQuery.setSortOrder(SortOrder.Descending);
-                        newQuery.setLimit(50);
-                        TvApp.getApplication().getApiClient().GetItemsAsync(newQuery, new Response<ItemsResult>() {
-                            @Override
-                            public void onResponse(ItemsResult response) {
-                                if (response.getTotalRecordCount() > 0) {
-                                    Calendar compare = Calendar.getInstance();
-                                    compare.add(Calendar.MONTH, -1);
-                                    int numAdded = 0;
-                                    for (BaseItemDto item : response.getItems()) {
-                                        if (item.getIndexNumber() != null && item.getIndexNumber() == 1 && (item.getDateCreated() == null || item.getDateCreated().after(compare.getTime()))
-                                                && (item.getUserData() == null || item.getUserData().getLikes() == null || item.getUserData().getLikes())
-                                                && !includedIds.contains(item.getSeriesId())){
-                                            // new unwatched episode 1 not in next up already and not disliked insert it
-                                            TvApp.getApplication().getLogger().Debug("Adding new episode 1 to next up "+item.getName()+" Added: "+item.getDateCreated());
-                                            adapter.add(0, new BaseRowItem(0, item, preferParentThumb, false));
-                                            numAdded++;
-                                            if (numAdded > 2) break; // only add a max of three
+                    } else {
+                        if (prevItems > 0) {
+                            // remove previous items as we re-retrieved
+                            // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
+                            removeItems(0, prevItems);
+                        }
+                        if (query.getSeriesId() == null) {
+                            // look for new episode 1's not in next up already
+                            StdItemQuery newQuery = new StdItemQuery(new ItemFields[]{ItemFields.DateCreated, ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
+                            newQuery.setIncludeItemTypes(new String[]{"Episode"});
+                            newQuery.setRecursive(true);
+                            newQuery.setIsVirtualUnaired(false);
+                            newQuery.setIsMissing(false);
+                            newQuery.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
+                            newQuery.setSortBy(new String[]{ItemSortBy.DateCreated});
+                            newQuery.setSortOrder(SortOrder.Descending);
+                            newQuery.setLimit(50);
+                            TvApp.getApplication().getApiClient().GetItemsAsync(newQuery, new Response<ItemsResult>() {
+                                @Override
+                                public void onResponse(ItemsResult response) {
+                                    if (response.getTotalRecordCount() > 0) {
+                                        Calendar compare = Calendar.getInstance();
+                                        compare.add(Calendar.MONTH, -1);
+                                        int numAdded = 0;
+                                        for (BaseItemDto item : response.getItems()) {
+                                            if (item.getIndexNumber() != null && item.getIndexNumber() == 1 && (item.getDateCreated() == null || item.getDateCreated().after(compare.getTime()))
+                                                    && (item.getUserData() == null || item.getUserData().getLikes() == null || item.getUserData().getLikes())
+                                                    && !includedIds.contains(item.getSeriesId())) {
+                                                // new unwatched episode 1 not in next up already and not disliked insert it
+                                                TvApp.getApplication().getLogger().Debug("Adding new episode 1 to next up " + item.getName() + " Added: " + item.getDateCreated());
+                                                adapter.add(0, new BaseRowItem(0, item, preferParentThumb, false));
+                                                numAdded++;
+                                                if (numAdded > 2) break; // only add a max of three
+                                            }
                                         }
                                     }
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
                 } else {
                     // no results - don't show us
@@ -967,13 +1054,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 TvManager.updateProgramsNeedsLoadTime();
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
-                    if (adapter.size() > 0) adapter.clear();
+                    int prevItems = adapter.size() > 0 ? adapter.size() : 0;
                     if (query.getIsAiring()) {
                         // show guide option as first item
                         adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_GUIDE_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_live_tv_guide), R.drawable.guide)));
-                        i++;
-                        // and recordings as second
-                        adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_RECORDINGS_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv), R.drawable.recgroup)));
                         i++;
                     }
                     for (BaseItemDto item : response.getItems()) {
@@ -982,7 +1066,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(i);
-                    if (i == 0) removeRow();
+                    if (i == 0) {
+                        removeRow();
+                    } else if (prevItems > 0) {
+                        // remove previous items as we re-retrieved
+                        // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
+                        removeItems(0, prevItems);
+                    }
                 } else {
                     // no results - don't show us
                     removeRow();
@@ -1010,7 +1100,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
-                    if (adapter.size() > 0) adapter.clear();
+                    int prevItems = adapter.size() > 0 ? adapter.size() : 0;
                     for (BaseItemDto item : response.getItems()) {
                         item.setType("RecordingGroup"); // the API does not fill this in
                         item.setIsFolder(true); // nor this
@@ -1019,7 +1109,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) removeRow();
+                    if (i == 0) {
+                        removeRow();
+                    } else if (prevItems > 0) {
+                        // remove previous items as we re-retrieved
+                        // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
+                        removeItems(0, prevItems);
+                    }
                 } else {
                     // no results - don't show us
                     removeRow();
@@ -1028,6 +1124,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 currentlyRetrieving = false;
 
             }
+
             @Override
             public void onError(Exception exception) {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving live tv recording groups", exception);
@@ -1045,14 +1142,26 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
-                    if (adapter.size() > 0) adapter.clear();
+                    int prevItems = adapter.size() > 0 ? adapter.size() : 0;
+                    if (query.getGroupId() == null) {
+                        // and recordings as first item if showing all
+                        adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_RECORDINGS_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv), R.drawable.recgroup)));
+                        i++;
+                    }
+
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(item));
                         i++;
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) removeRow();
+                    if (i == 0) {
+                        removeRow();
+                    } else if (prevItems > 0) {
+                        // remove previous items as we re-retrieved
+                        // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
+                        removeItems(0, prevItems);
+                    }
                 } else {
                     // no results - don't show us
                     removeRow();
@@ -1279,12 +1388,17 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
-                    if (adapter.size() > 0) adapter.clear();
+                    int prevItems = adapter.size() > 0 ? adapter.size() : 0;
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(i++, item));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
+                    if (prevItems > 0) {
+                        // remove previous items as we re-retrieved
+                        // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
+                        removeItems(0, prevItems);
+                    }
                 } else {
                     // no results - don't show us
                     removeRow();

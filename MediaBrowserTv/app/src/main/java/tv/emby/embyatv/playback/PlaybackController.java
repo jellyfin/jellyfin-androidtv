@@ -146,7 +146,7 @@ public class PlaybackController {
 
         }
 
-        mApplication.getLogger().Debug("Play called with pos: "+position);
+        mApplication.getLogger().Debug("Play called with pos: " + position);
         switch (mPlaybackState) {
             case PLAYING:
                 // do nothing
@@ -154,7 +154,7 @@ public class PlaybackController {
             case PAUSED:
                 // just resume
                 mVideoManager.play();
-                mPlaybackState = PlaybackState.PLAYING;
+                if (mVideoManager.isNativeMode()) mPlaybackState = PlaybackState.PLAYING; //won't get another onprepared call
                 if (mFragment != null) {
                     mFragment.setFadingEnabled(true);
                     mFragment.setPlayPauseActionState(ImageButton.STATE_SECONDARY);
@@ -321,6 +321,11 @@ public class PlaybackController {
                 } else {
                     mVideoManager.setNativeMode(true);
                     TvApp.getApplication().getLogger().Info("Playing back in native mode.");
+                    if ("1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"))) {
+                        TvApp.getApplication().getLogger().Info("Setting max audio to 2-channels");
+                        mCurrentStreamInfo.setMaxAudioChannels(2);
+                    }
+
                 }
 
                 // get subtitle info
@@ -341,6 +346,8 @@ public class PlaybackController {
                 }
 
                 mVideoManager.setVideoPath(path);
+                mVideoManager.setVideoTrack(response.getMediaSource());
+
                 //wait a beat before attempting to start so the player surface is fully initialized and video is ready
                 mHandler.postDelayed(new Runnable() {
                     @Override
@@ -419,6 +426,11 @@ public class PlaybackController {
             mPlaybackState = PlaybackState.BUFFERING;
         } else {
             mVideoManager.setAudioTrack(index);
+            if (!Utils.supportsAc3() && "ac3".equals(getCurrentMediaSource().getMediaStreams().get(index).getCodec())) {
+                mVideoManager.setCompatibleAudio();
+            } else {
+                mVideoManager.setAudioMode();
+            }
         }
     }
 
@@ -750,18 +762,22 @@ public class PlaybackController {
                 }
                 TvApp.getApplication().getLogger().Info("Play method: ", mCurrentStreamInfo.getPlayMethod());
 
-                if (mDefaultSubIndex >= 0) {
-                    //Default subs requested select them
-                    mApplication.getLogger().Info("Selecting default sub stream: " + mDefaultSubIndex);
-                    switchSubtitleStream(mDefaultSubIndex);
+                if (mPlaybackState == PlaybackState.PAUSED) {
+                    mPlaybackState = PlaybackState.PLAYING;
                 } else {
-                    TvApp.getApplication().getLogger().Info("Turning off subs by default");
-                    mVideoManager.disableSubs();
-                }
+                    if (mDefaultSubIndex >= 0) {
+                        //Default subs requested select them
+                        mApplication.getLogger().Info("Selecting default sub stream: " + mDefaultSubIndex);
+                        switchSubtitleStream(mDefaultSubIndex);
+                    } else {
+                        TvApp.getApplication().getLogger().Info("Turning off subs by default");
+                        mVideoManager.disableSubs();
+                    }
 
-                if (mDefaultAudioIndex >= 0) {
-                    TvApp.getApplication().getLogger().Info("Selecting default audio stream: "+mDefaultAudioIndex);
-                    switchAudioStream(mDefaultAudioIndex);
+                    if (mDefaultAudioIndex >= 0) {
+                        TvApp.getApplication().getLogger().Info("Selecting default audio stream: " + mDefaultAudioIndex);
+                        switchAudioStream(mDefaultAudioIndex);
+                    }
                 }
 
             }

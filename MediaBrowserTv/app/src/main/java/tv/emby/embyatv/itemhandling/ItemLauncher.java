@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.KeyEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import mediabrowser.apiinteraction.ConnectionResult;
@@ -224,10 +225,10 @@ public class ItemLauncher {
                 application.getApiClient().GetItemAsync(chapter.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>(){
                     @Override
                     public void onResponse(BaseItemDto response) {
-                        String[] items = new String[1];
-                        items[0] = application.getSerializer().SerializeToString(response);
+                        List<BaseItemDto> items = new ArrayList<>();
+                        items.add(response);
+                        MediaManager.setCurrentVideoQueue(items);
                         Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
-                        intent.putExtra("Items", items);
                         Long start = chapter.getStartPositionTicks() / 10000;
                         intent.putExtra("Position", start.intValue());
                         activity.startActivity(intent);
@@ -301,9 +302,10 @@ public class ItemLauncher {
                             TvApp.getApplication().getApiClient().GetItemAsync(program.getChannelId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
-                                    String[] items = new String[] {TvApp.getApplication().getSerializer().SerializeToString(response)};
+                                    List<BaseItemDto> items = new ArrayList<>();
+                                    items.add(response);
                                     Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
-                                    intent.putExtra("Items", items);
+                                    MediaManager.setCurrentVideoQueue(items);
                                     intent.putExtra("Position", 0);
                                     activity.startActivity(intent);
 
@@ -352,8 +354,9 @@ public class ItemLauncher {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
                                     Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
-                                    String[] items = new String[] {TvApp.getApplication().getSerializer().SerializeToString(response)};
-                                    intent.putExtra("Items", items);
+                                    List<BaseItemDto> items = new ArrayList<>();
+                                    items.add(response);
+                                    MediaManager.setCurrentVideoQueue(items);
                                     intent.putExtra("Position", 0);
                                     activity.startActivity(intent);
                                 }

@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,7 +28,6 @@ import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -38,7 +36,6 @@ import com.squareup.picasso.Target;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
@@ -47,7 +44,6 @@ import java.util.List;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
-import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.ImageOptions;
@@ -76,7 +72,6 @@ import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.presentation.MyDetailsOverviewRowPresenter;
-import tv.emby.embyatv.presentation.PositionableListRowPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.SpecialsQuery;
 import tv.emby.embyatv.querying.StdItemQuery;
@@ -419,6 +414,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     protected void addAdditionalRows(ArrayObjectAdapter adapter) {
+        TvApp.getApplication().getLogger().Debug("Item type: "+mBaseItem.getType());
         switch (mBaseItem.getType()) {
             case "Movie":
 
@@ -536,6 +532,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     addItemRow(adapter, nextAdapter, 5, "Next Episodes");
                 }
                 break;
+
         }
 
 
@@ -755,6 +752,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                             public void onResponse(UserItemDataDto response) {
                                 mBaseItem.setUserData(response);
                                 ((ImageButton)v).setImageResource(response.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart);
+                                TvApp.getApplication().setLastFavoriteUpdate(System.currentTimeMillis());
                             }
                         });
                 }
@@ -993,16 +991,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     protected void play(final BaseItemDto[] items, final int pos, final boolean shuffle) {
-        List<String> itemsToPlay = new ArrayList<>();
-        final GsonJsonSerializer serializer = mApplication.getSerializer();
-
-        for (BaseItemDto item : items) {
-            itemsToPlay.add(serializer.SerializeToString(item));
-        }
-
+        List<BaseItemDto> itemsToPlay = Arrays.asList(items);
         Intent intent = new Intent(this, PlaybackOverlayActivity.class);
         if (shuffle) Collections.shuffle(itemsToPlay);
-        intent.putExtra("Items", itemsToPlay.toArray(new String[itemsToPlay.size()]));
+        MediaManager.setCurrentVideoQueue(itemsToPlay);
         intent.putExtra("Position", pos);
         startActivity(intent);
 
