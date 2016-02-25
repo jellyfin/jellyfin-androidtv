@@ -35,10 +35,6 @@ import tv.emby.embyatv.startup.LogonCredentials;
 import tv.emby.embyatv.util.Utils;
 import tv.emby.embyatv.validation.AppValidator;
 
-import org.acra.*;
-import org.acra.annotation.*;
-import org.acra.sender.HttpSender;
-
 import java.util.Calendar;
 import java.util.Dictionary;
 import java.util.HashMap;
@@ -47,13 +43,6 @@ import java.util.HashMap;
  * Created by Eric on 11/24/2014.
  */
 
-
-@ReportsCrashes(
-        httpMethod = HttpSender.Method.PUT,
-        reportType = HttpSender.Type.JSON,
-        formUri = "https://embi.smileupps.com/acra-androidtv/_design/acra-storage/_update/report",
-        formUriBasicAuthLogin = "atvreporter",
-        formUriBasicAuthPassword = "bumblebee+")
 
 public class TvApp extends Application {
 
@@ -110,13 +99,11 @@ public class TvApp extends Application {
 
         logger.Info("Application object created");
 
-        ACRA.init(this);
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread thread, Throwable ex) {
                 if (!getApiClient().getServerInfo().getName().equals("Dev Server")) {
-                    Utils.PutCustomAcraData();
-                    ACRA.getErrorReporter().handleException(ex, false);
+                    //replace with our own error reporter
                 } else {
                     Log.e("MediaBrowserTv", "Uncaught exception is: ", ex);
                     ex.printStackTrace();
