@@ -530,8 +530,8 @@ public class PlaybackController {
         }
 
         stopReportLoop();
-        // call once more to be sure everything up to date
-        Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, true);
+        // start a slower report for pause state to keep session alive
+        startPauseReportLoop();
 
     }
 
@@ -542,6 +542,7 @@ public class PlaybackController {
                 break;
             case PAUSED:
             case IDLE:
+                stopReportLoop();
                 play(getCurrentPosition());
                 break;
         }
@@ -676,6 +677,21 @@ public class PlaybackController {
             }
         };
         mHandler.postDelayed(mReportLoop, REPORT_INTERVAL);
+    }
+
+    private void startPauseReportLoop() {
+        Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
+        mReportLoop = new Runnable() {
+            @Override
+            public void run() {
+
+                long currentTime = mVideoManager.getCurrentPosition();
+
+                Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, true);
+                mHandler.postDelayed(this, 15000);
+            }
+        };
+        mHandler.postDelayed(mReportLoop, 15000);
     }
 
     private void stopReportLoop() {
