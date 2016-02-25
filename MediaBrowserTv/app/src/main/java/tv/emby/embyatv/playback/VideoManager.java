@@ -358,8 +358,17 @@ public class VideoManager implements IVLCVout.Callback {
             ArrayList<String> options = new ArrayList<>(20);
             options.add("--network-caching=" + buffer);
             options.add("--no-audio-time-stretch");
+            options.add("--avcodec-skiploopfilter");
+            options.add("" + 1);
+            options.add("--avcodec-skip-frame");
+            options.add("0");
+            options.add("--avcodec-skip-idct");
+            options.add("0");
             options.add("--androidwindow-chroma");
             options.add("RV32");
+            options.add("--audio-resampler");
+            options.add("soxr");
+            options.add("--stats");
 //            options.add("--subsdec-encoding");
 //            options.add("Universal (UTF-8)");
             options.add("-v");
