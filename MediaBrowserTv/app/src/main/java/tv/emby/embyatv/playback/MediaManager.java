@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.text.InputType;
 import android.widget.EditText;
 
-import org.acra.ACRA;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 
@@ -161,8 +160,7 @@ public class MediaManager {
                 @Override
                 public void onNativeCrash() {
                     new Exception().printStackTrace();
-                    Utils.PutCustomAcraData();
-                    ACRA.getErrorReporter().handleException(new Exception("Error in LibVLC"), false);
+                    //todo put our custom log reporter here...
                     android.os.Process.killProcess(android.os.Process.myPid());
                     System.exit(10);
 

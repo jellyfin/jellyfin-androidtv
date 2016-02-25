@@ -7,17 +7,14 @@ import android.graphics.PixelFormat;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
-import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.VideoView;
 
 import com.devbrackets.android.exomedia.EMVideoView;
 
-import org.acra.ACRA;
 import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
@@ -25,15 +22,11 @@ import org.videolan.libvlc.Media;
 import java.util.ArrayList;
 import java.util.List;
 
-import mediabrowser.model.dlna.SubtitleDeliveryMethod;
-import mediabrowser.model.dlna.SubtitleStreamInfo;
 import mediabrowser.model.dto.MediaSourceInfo;
 import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.MediaStreamType;
-import mediabrowser.model.mediainfo.SubtitleTrackInfo;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -379,8 +372,7 @@ public class VideoManager implements IVLCVout.Callback {
                 @Override
                 public void onNativeCrash() {
                     new Exception().printStackTrace();
-                    Utils.PutCustomAcraData();
-                    ACRA.getErrorReporter().handleException(new Exception("Error in LibVLC"), false);
+                    //todo custom error reporter
                     mActivity.finish();
                     android.os.Process.killProcess(android.os.Process.myPid());
                     System.exit(10);

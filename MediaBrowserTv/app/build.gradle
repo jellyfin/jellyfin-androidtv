@@ -36,7 +36,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     amazonCompile fileTree(dir: 'amazonLibs', include: ['*.jar'])
     googleCompile fileTree(dir: 'googleLibs', include: ['*.jar'])
-    compile 'ch.acra:acra:4.6.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'com.android.support:leanback-v17:23.1.1'
     compile 'com.android.support:appcompat-v7:23.1.1'

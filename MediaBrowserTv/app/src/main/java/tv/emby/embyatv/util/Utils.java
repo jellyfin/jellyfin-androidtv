@@ -17,7 +17,6 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Build;
-import android.provider.MediaStore;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Display;
@@ -26,8 +25,6 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.Toast;
-
-import org.acra.ACRA;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,7 +51,6 @@ import mediabrowser.apiinteraction.ConnectionResult;
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.IConnectionManager;
 import mediabrowser.apiinteraction.Response;
-import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfileOptions;
 import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dlna.StreamInfo;
@@ -1283,8 +1279,7 @@ public class Utils {
                 }).setPositiveButton(context.getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                PutCustomAcraData();
-                ACRA.getErrorReporter().handleException(new Exception(msg), false);
+                    //todo custom error reporter
                 showToast(context, context.getString(R.string.msg_report_sent));
             }
         }).show();
@@ -1396,14 +1391,15 @@ public class Utils {
         return value == null || value.equals("");
     }
 
-    public static void PutCustomAcraData() {
-        TvApp app = TvApp.getApplication();
-        ApiClient apiClient = app.getApiClient();
-        if (apiClient != null) {
-            if (app.getCurrentUser() != null) ACRA.getErrorReporter().putCustomData("mbUser", app.getCurrentUser().getName());
-            ACRA.getErrorReporter().putCustomData("serverInfo", app.getSerializer().SerializeToString(app.getCurrentSystemInfo()));
-        }
-    }
+    //todo replace with custom error reporter
+//    public static void PutCustomAcraData() {
+//        TvApp app = TvApp.getApplication();
+//        ApiClient apiClient = app.getApiClient();
+//        if (apiClient != null) {
+//            if (app.getCurrentUser() != null) ACRA.getErrorReporter().putCustomData("mbUser", app.getCurrentUser().getName());
+//            ACRA.getErrorReporter().putCustomData("serverInfo", app.getSerializer().SerializeToString(app.getCurrentSystemInfo()));
+//        }
+//    }
 
     public static boolean versionGreaterThanOrEqual(String firstVersion, String secondVersion) {
         try {

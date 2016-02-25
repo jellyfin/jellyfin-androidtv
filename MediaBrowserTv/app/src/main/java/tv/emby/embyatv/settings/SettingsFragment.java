@@ -1,9 +1,9 @@
 package tv.emby.embyatv.settings;
 
 
+import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -12,14 +12,12 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.widget.TextView;
 
-import org.acra.ACRA;
-
 import java.io.IOException;
 
-import tv.emby.embyatv.livetv.TvManager;
-import tv.emby.embyatv.startup.LogonCredentials;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.livetv.TvManager;
+import tv.emby.embyatv.startup.LogonCredentials;
 import tv.emby.embyatv.util.Utils;
 
 
@@ -92,7 +90,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                     Utils.SaveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), "tv.mediabrowser.login.json");
                 } catch (IOException e) {
                     e.printStackTrace();
-                    ACRA.getErrorReporter().handleException(e);
                 }
             }
         }

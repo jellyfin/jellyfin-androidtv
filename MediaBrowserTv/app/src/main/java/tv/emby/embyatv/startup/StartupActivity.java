@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 
-import org.acra.ACRA;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -178,7 +176,6 @@ public class StartupActivity extends Activity {
                         @Override
                         public void onError(Exception exception) {
                             application.getLogger().ErrorException("Error Signing in", exception);
-                            ACRA.getErrorReporter().putCustomData("SavedInfo", application.getSerializer().SerializeToString(application.getConfiguredAutoCredentials()));
                             Utils.reportError(activity, "Error Signing In");
                             new Handler().postDelayed(new Runnable() {
                                 @Override
