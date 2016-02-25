@@ -406,7 +406,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     protected void addItemRow(ArrayObjectAdapter parent, ItemRowAdapter row, int index, String headerText) {
-        HeaderItem header = new HeaderItem(index, headerText, null);
+        HeaderItem header = new HeaderItem(index, headerText);
         ListRow listRow = new ListRow(header, row);
         parent.add(listRow);
         row.setRow(listRow);

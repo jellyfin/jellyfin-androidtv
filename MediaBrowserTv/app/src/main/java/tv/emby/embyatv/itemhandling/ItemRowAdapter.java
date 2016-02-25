@@ -430,7 +430,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             // because there is nowhere for focus to land
             ArrayObjectAdapter emptyRow = new ArrayObjectAdapter(new TextItemPresenter());
             emptyRow.add(TvApp.getApplication().getString(R.string.lbl_no_items));
-            mParent.add(new ListRow(new HeaderItem(TvApp.getApplication().getString(R.string.lbl_empty), null), emptyRow));
+            mParent.add(new ListRow(new HeaderItem(TvApp.getApplication().getString(R.string.lbl_empty)), emptyRow));
         }
 
         mParent.remove(mRow);

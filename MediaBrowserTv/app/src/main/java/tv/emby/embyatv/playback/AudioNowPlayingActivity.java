@@ -279,7 +279,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     }
 
     protected void addQueue() {
-        mQueueRow = new ListRow(new HeaderItem("Current Queue",null), MediaManager.getCurrentAudioQueue());
+        mQueueRow = new ListRow(new HeaderItem("Current Queue"), MediaManager.getCurrentAudioQueue());
         MediaManager.getCurrentAudioQueue().setRow(mQueueRow);
         mRowsAdapter.add(mQueueRow);
     }

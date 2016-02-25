@@ -135,7 +135,7 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
         mCardPresenter = new CardPresenter();
 
         for (BrowseRowDef def : rows) {
-            HeaderItem header = new HeaderItem(def.getHeaderText(), null);
+            HeaderItem header = new HeaderItem(def.getHeaderText());
             ItemRowAdapter rowAdapter;
             switch (def.getQueryType()) {
                 case NextUp:

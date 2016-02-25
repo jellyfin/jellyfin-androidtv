@@ -248,7 +248,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
 
         for (BrowseRowDef def : rows) {
-            HeaderItem header = new HeaderItem(def.getHeaderText(), null);
+            HeaderItem header = new HeaderItem(def.getHeaderText());
             ItemRowAdapter rowAdapter;
             switch (def.getQueryType()) {
                 case NextUp:
@@ -305,7 +305,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
     protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
         if (showViews) {
-            HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_views), null);
+            HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_views));
 
             GridButtonPresenter mGridPresenter = new GridButtonPresenter();
             ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
