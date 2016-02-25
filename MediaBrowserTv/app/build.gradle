@@ -4,12 +4,12 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
     }
-    compileSdkVersion 21
+    compileSdkVersion 23
     buildToolsVersion "21.1.2"
     defaultConfig {
         applicationId "tv.emby.embyatv"
         minSdkVersion 17
-        targetSdkVersion 21
+        targetSdkVersion 23
         versionCode 1149
     }
     compileOptions {
@@ -37,15 +37,15 @@ dependencies {
     amazonCompile fileTree(dir: 'amazonLibs', include: ['*.jar'])
     googleCompile fileTree(dir: 'googleLibs', include: ['*.jar'])
     compile 'ch.acra:acra:4.6.1'
-    compile 'com.android.support:recyclerview-v7:21.0.2'
-    compile 'com.android.support:leanback-v17:21.0.2'
-    compile 'com.android.support:appcompat-v7:21.0.2'
+    compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'com.android.support:leanback-v17:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'com.google.code.gson:gson:2.5'
     compile 'com.squareup.okhttp:okhttp:2.7.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.7.0'
     compile 'com.google.guava:guava:18.0'
-    compile 'com.devbrackets.android:exomedia:2.3.1'
+    compile 'com.devbrackets.android:exomedia:2.5.5'
     compile 'com.flaviofaria:kenburnsview:1.0.6'
 }

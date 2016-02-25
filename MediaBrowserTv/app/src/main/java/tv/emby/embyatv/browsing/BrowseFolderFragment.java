@@ -61,7 +61,7 @@ public class BrowseFolderFragment extends StdBrowseFragment {
     protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
         super.addAdditionalRows(rowAdapter);
         if (showViews) {
-            HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_views), null);
+            HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_views));
 
             GridButtonPresenter mGridPresenter = new GridButtonPresenter();
             ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);

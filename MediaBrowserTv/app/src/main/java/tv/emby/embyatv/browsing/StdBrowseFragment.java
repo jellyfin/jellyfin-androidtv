@@ -178,7 +178,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         mCardPresenter = new CardPresenter();
 
         for (BrowseRowDef def : rows) {
-            HeaderItem header = new HeaderItem(def.getHeaderText(), null);
+            HeaderItem header = new HeaderItem(def.getHeaderText());
             ItemRowAdapter rowAdapter;
             switch (def.getQueryType()) {
                 case NextUp:
@@ -256,14 +256,14 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         setHeadersTransitionOnBackEnabled(true);
 
         // move the badge/title to the left to make way for our clock/user bug
-        ImageView badge = (ImageView) getActivity().findViewById(R.id.browse_badge);
+        ImageView badge = (ImageView) getActivity().findViewById(R.id.title_badge);
         if (badge != null) {
             FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) badge.getLayoutParams();
             lp.rightMargin = Utils.convertDpToPixel(getActivity(), 120);
             lp.width = Utils.convertDpToPixel(getActivity(), 250);
             badge.setLayoutParams(lp);
         }
-        TextView title = (TextView) getActivity().findViewById(R.id.browse_title);
+        TextView title = (TextView) getActivity().findViewById(R.id.title_text);
         if (title != null) {
             FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) title.getLayoutParams();
             lp.rightMargin = Utils.convertDpToPixel(getActivity(), 120);
