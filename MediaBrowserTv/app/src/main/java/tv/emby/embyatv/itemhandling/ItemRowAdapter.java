@@ -938,77 +938,80 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     public void Retrieve(final NextUpQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult response) {
-                if (response.getTotalRecordCount() > 0) {
-                    final HashSet<String> includedIds = new HashSet<>();
-                    int i = 0;
-                    int prevItems = adapter.size() > 0 ? adapter.size() : 0;
-                    for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++, item, preferParentThumb, false));
-                        includedIds.add(item.getSeriesId());
-                    }
-                    totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) {
-                        removeRow();
-                    } else {
-                        if (prevItems > 0) {
-                            // remove previous items as we re-retrieved
-                            // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
-                            removeItems(0, prevItems);
+
+        // first look for episode 1s
+        if (query.getSeriesId() == null) {
+            final int prevItems = adapter.size() > 0 ? adapter.size() : 0;
+            // look for new episode 1's not in next up already
+            StdItemQuery newQuery = new StdItemQuery(new ItemFields[]{ItemFields.DateCreated, ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
+            newQuery.setIncludeItemTypes(new String[]{"Episode"});
+            newQuery.setRecursive(true);
+            newQuery.setIsVirtualUnaired(false);
+            newQuery.setIsMissing(false);
+            newQuery.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
+            newQuery.setSortBy(new String[]{ItemSortBy.DateCreated});
+            newQuery.setSortOrder(SortOrder.Descending);
+            newQuery.setLimit(50);
+            final HashSet<String> includedIds = new HashSet<>();
+            TvApp.getApplication().getApiClient().GetItemsAsync(newQuery, new Response<ItemsResult>() {
+                @Override
+                public void onResponse(ItemsResult response) {
+                    if (response.getTotalRecordCount() > 0) {
+                        Calendar compare = Calendar.getInstance();
+                        compare.add(Calendar.MONTH, -1);
+                        int numAdded = 0;
+                        for (BaseItemDto item : response.getItems()) {
+                            if (item.getIndexNumber() != null && item.getIndexNumber() == 1 && (item.getDateCreated() == null || item.getDateCreated().after(compare.getTime()))
+                                    && (item.getUserData() == null || item.getUserData().getLikes() == null || item.getUserData().getLikes())) {
+                                // new unwatched episode 1 not in next up already and not disliked insert it
+                                TvApp.getApplication().getLogger().Debug("Adding new episode 1 to next up " + item.getName() + " Added: " + item.getDateCreated());
+                                adapter.add(new BaseRowItem(0, item, preferParentThumb, false));
+                                numAdded++;
+                                includedIds.add(item.getSeriesId());
+                                if (numAdded > 2) break; // only add a max of three
+                            }
                         }
-                        if (query.getSeriesId() == null) {
-                            // look for new episode 1's not in next up already
-                            StdItemQuery newQuery = new StdItemQuery(new ItemFields[]{ItemFields.DateCreated, ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
-                            newQuery.setIncludeItemTypes(new String[]{"Episode"});
-                            newQuery.setRecursive(true);
-                            newQuery.setIsVirtualUnaired(false);
-                            newQuery.setIsMissing(false);
-                            newQuery.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
-                            newQuery.setSortBy(new String[]{ItemSortBy.DateCreated});
-                            newQuery.setSortOrder(SortOrder.Descending);
-                            newQuery.setLimit(50);
-                            TvApp.getApplication().getApiClient().GetItemsAsync(newQuery, new Response<ItemsResult>() {
-                                @Override
-                                public void onResponse(ItemsResult response) {
-                                    if (response.getTotalRecordCount() > 0) {
-                                        Calendar compare = Calendar.getInstance();
-                                        compare.add(Calendar.MONTH, -1);
-                                        int numAdded = 0;
-                                        for (BaseItemDto item : response.getItems()) {
-                                            if (item.getIndexNumber() != null && item.getIndexNumber() == 1 && (item.getDateCreated() == null || item.getDateCreated().after(compare.getTime()))
-                                                    && (item.getUserData() == null || item.getUserData().getLikes() == null || item.getUserData().getLikes())
-                                                    && !includedIds.contains(item.getSeriesId())) {
-                                                // new unwatched episode 1 not in next up already and not disliked insert it
-                                                TvApp.getApplication().getLogger().Debug("Adding new episode 1 to next up " + item.getName() + " Added: " + item.getDateCreated());
-                                                adapter.add(0, new BaseRowItem(0, item, preferParentThumb, false));
-                                                numAdded++;
-                                                if (numAdded > 2) break; // only add a max of three
-                                            }
-                                        }
+                    }
+
+                    TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(query, new Response<ItemsResult>() {
+                        @Override
+                        public void onResponse(ItemsResult response) {
+                            if (response.getTotalRecordCount() > 0) {
+                                int i = 0;
+                                for (BaseItemDto item : response.getItems()) {
+                                    if (!includedIds.contains(item.getSeriesId())) adapter.add(new BaseRowItem(i++, item, preferParentThumb, false));
+                                }
+                                totalItems = response.getTotalRecordCount();
+                                setItemsLoaded(itemsLoaded + i);
+                                if (i == 0) {
+                                    removeRow();
+                                } else {
+                                    if (prevItems > 0) {
+                                        // remove previous items as we re-retrieved
+                                        // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
+                                        removeItems(0, prevItems);
                                     }
                                 }
-                            });
+                            } else {
+                                // no results - don't show us
+                                removeRow();
+                            }
+
+                            currentlyRetrieving = false;
                         }
-                    }
-                } else {
-                    // no results - don't show us
-                    removeRow();
+
+                        @Override
+                        public void onError(Exception exception) {
+                            TvApp.getApplication().getLogger().ErrorException("Error retrieving next up items", exception);
+                            removeRow();
+                            Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                            currentlyRetrieving = false;
+                        }
+                    });
+
                 }
-
-                currentlyRetrieving = false;
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                TvApp.getApplication().getLogger().ErrorException("Error retrieving next up items", exception);
-                removeRow();
-                Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                currentlyRetrieving = false;
-            }
-        });
+            });
+        }
 
     }
 
