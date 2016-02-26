@@ -119,8 +119,7 @@
     <orderEntry type="library" exported="" name="exomedia-2.5.5" level="project" />
     <orderEntry type="library" exported="" name="exoplayer-r1.5.5" level="project" />
     <orderEntry type="library" exported="" name="okio-1.6.0" level="project" />
-    <orderEntry type="library" exported="" name="emby.apiclient" level="project" />
-    <orderEntry type="library" exported="" name="emby.apiclient.android" level="project" />
+    <orderEntry type="library" exported="" name="apiclient" level="project" />
     <orderEntry type="library" exported="" name="okhttp-2.7.0" level="project" />
     <orderEntry type="library" exported="" name="gson-2.5" level="project" />
   </component>
