@@ -248,7 +248,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         }
     }
 
-    private static String[] playableTypes = new String[] {"Episode","Movie","Series","Season","Folder","Video","Recording","Program","ChannelVideoItem","MusicArtist"};
+    private static String[] playableTypes = new String[] {"Episode","Movie","Series","Season","Folder","Video","Recording","Program","ChannelVideoItem","MusicArtist","Person"};
     private static List<String> playableTypeList = Arrays.asList(playableTypes);
     private static String[] directPlayableTypes = new String[] {"Episode","Movie","Video","Recording","Program"};
     private static List<String> directPlayableTypeList = Arrays.asList(directPlayableTypes);
@@ -737,7 +737,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         UserItemDataDto userData = mBaseItem.getUserData();
         if (userData != null) {
-            if (!"MusicArtist".equals(mBaseItem.getType()) && Utils.CanPlay(mBaseItem)) {
+            if (!"MusicArtist".equals(mBaseItem.getType()) && !"Person".equals(mBaseItem.getType()) && Utils.CanPlay(mBaseItem)) {
                 mWatchedToggleButton = new ImageButton(this, userData.getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck, buttonSize, getString(R.string.lbl_toggle_watched), null, markWatchedListener);
                 mDetailsOverviewRow.addAction(mWatchedToggleButton);
             }
