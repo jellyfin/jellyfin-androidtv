@@ -11,14 +11,12 @@ import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatCallback;
 import android.text.format.DateUtils;
 import android.util.Log;
 
@@ -45,7 +43,6 @@ import tv.emby.embyatv.util.Utils;
 import tv.emby.embyatv.validation.AppValidator;
 
 import java.util.Calendar;
-import java.util.Dictionary;
 import java.util.HashMap;
 import android.Manifest;
 
@@ -60,7 +57,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
     public static final int LIVE_TV_RECORDINGS_OPTION_ID = 2000;
 
-    private static final int SEARCH_REQUEST = 0;
+    private static final int SEARCH_PERMISSION = 0;
 
     private ILogger logger;
     private IConnectionManager connectionManager;
@@ -244,11 +241,11 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
                         .setMessage("Search requires permission to record audio in order to use the microphone for voice search")
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.RECORD_AUDIO}, SEARCH_REQUEST);
+                                ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.RECORD_AUDIO}, SEARCH_PERMISSION);
                             }
                         }).show();
             } else {
-                ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.RECORD_AUDIO}, SEARCH_REQUEST);
+                ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.RECORD_AUDIO}, SEARCH_PERMISSION);
             }
         } else {
             showSearchInternal(activity, musicOnly);
@@ -264,7 +261,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
-            case SEARCH_REQUEST: {
+            case SEARCH_PERMISSION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
