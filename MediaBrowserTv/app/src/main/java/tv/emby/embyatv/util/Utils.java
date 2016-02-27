@@ -750,6 +750,7 @@ public class Utils {
         return item.getPlayAccess().equals(PlayAccess.Full)
                 && ((item.getIsPlaceHolder() == null || !item.getIsPlaceHolder())
                 && (!item.getType().equals("Episode") || !item.getLocationType().equals(LocationType.Virtual)))
+                && (!item.getType().equals("Person"))
                 && (!item.getIsFolder() || item.getChildCount() == null || item.getChildCount() > 0);
     }
 
