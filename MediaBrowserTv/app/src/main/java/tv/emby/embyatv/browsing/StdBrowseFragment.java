@@ -359,8 +359,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
-                getActivity().startActivity(intent);
+                TvApp.getApplication().showSearch(getActivity(), false);
             }
         });
 
