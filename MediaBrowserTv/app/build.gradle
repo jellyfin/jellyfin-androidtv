@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "tv.emby.embyatv"
         minSdkVersion 17
-        targetSdkVersion 23
+        targetSdkVersion 22
         versionCode 1150
     }
     compileOptions {
