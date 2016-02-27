@@ -1,10 +1,16 @@
 package tv.emby.embyatv.startup;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +44,7 @@ import tv.emby.embyatv.util.Utils;
 
 public class StartupActivity extends Activity {
 
+    private static final int NETWORK_PERMISSION = 1;
     private TvApp application;
     private ILogger logger;
 
@@ -48,7 +55,6 @@ public class StartupActivity extends Activity {
 
 
         application = (TvApp) getApplicationContext();
-        final Activity activity = this;
         logger = application.getLogger();
 
         //Migrate prefs
@@ -68,15 +74,53 @@ public class StartupActivity extends Activity {
         //Ensure we have prefs
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
+        //Ensure basic permissions
+        if (Build.VERSION.SDK_INT >= 23 && (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED)) {
+            logger.Info("Requesting network permissions");
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.INTERNET}, NETWORK_PERMISSION);
+        } else {
+            logger.Info("Basic network permissions are granted");
+            start();
+        }
+    }
+
+    private void start() {
         if (application.getCurrentUser() != null && application.getApiClient() != null && MediaManager.isPlayingAudio()) {
             // go straight into last connection
-            Intent intent = new Intent(activity, MainActivity.class);
-            activity.startActivity(intent);
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
 
         } else {
             //clear audio queue in case left over from last run
             MediaManager.clearAudioQueue();
-            establishConnection(activity);
+            establishConnection(this);
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case NETWORK_PERMISSION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay!
+                    start();
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Utils.showToast(this, "Application cannot continue without network");
+                    finish();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
         }
 
     }
