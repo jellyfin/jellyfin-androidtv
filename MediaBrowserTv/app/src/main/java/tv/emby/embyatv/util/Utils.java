@@ -1283,8 +1283,8 @@ public class Utils {
                 }).setPositiveButton(context.getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                    //todo custom error reporter
-                showToast(context, context.getString(R.string.msg_report_sent));
+                    new LogReporter().sendReport(null);
+                    showToast(context, context.getString(R.string.msg_report_sent));
             }
         }).show();
     }

@@ -39,6 +39,7 @@ import tv.emby.embyatv.playback.PlaybackController;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.search.SearchActivity;
 import tv.emby.embyatv.startup.LogonCredentials;
+import tv.emby.embyatv.util.LogReporter;
 import tv.emby.embyatv.util.Utils;
 import tv.emby.embyatv.validation.AppValidator;
 
@@ -114,14 +115,22 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
             @Override
             public void uncaughtException(Thread thread, Throwable ex) {
                 if (!getApiClient().getServerInfo().getName().equals("Dev Server")) {
-                    //replace with our own error reporter
+                    ex.printStackTrace();
+                    new LogReporter().sendReport(new EmptyResponse() {
+                        @Override
+                        public void onResponse() {
+
+                            android.os.Process.killProcess(android.os.Process.myPid());
+                            System.exit(10);
+                        }
+                    });
                 } else {
                     Log.e("MediaBrowserTv", "Uncaught exception is: ", ex);
                     ex.printStackTrace();
+                    android.os.Process.killProcess(android.os.Process.myPid());
+                    System.exit(10);
 
                 }
-                android.os.Process.killProcess(android.os.Process.myPid());
-                System.exit(10);
             }
                       });
 
