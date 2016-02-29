@@ -32,6 +32,7 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.ui.ImageButton;
+import tv.emby.embyatv.util.ProfileHelper;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -226,22 +227,27 @@ public class PlaybackController {
                 isLiveTv = item.getType().equals("TvChannel");
 
                 // Create our profile - use VLC unless live tv or on FTV stick and over SD
-                useVlc = (!isLiveTv || mApplication.directStreamLiveTv()) && (!"ChannelVideoItem".equals(item.getType())) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_vlc", true) && (item.getPath() == null || !item.getPath().toLowerCase().endsWith(".avi"));
-                boolean useDirectProfile = transcodedSubtitle < 0 && useVlc;
+                useVlc = (!Utils.is60() && (!isLiveTv || mApplication.directStreamLiveTv()) && (!"ChannelVideoItem".equals(item.getType())) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_vlc", true) && (item.getPath() == null || !item.getPath().toLowerCase().endsWith(".avi")));
                 if (useVlc && item.getMediaSources() != null && item.getMediaSources().size() > 0) {
                     List<MediaStream> videoStreams = Utils.GetVideoStreams(item.getMediaSources().get(0));
                     MediaStream video = videoStreams != null && videoStreams.size() > 0 ? videoStreams.get(0) : null;
                     if (video != null && video.getWidth() > (Utils.isFireTvStick() ? 730 : Integer.parseInt(mApplication.getPrefs().getString("pref_vlc_max_res", "730")))) {
-                        useDirectProfile = false;
                         useVlc = false;
                         mApplication.getLogger().Info("Forcing a transcode of HD content");
                     }
                 } else {
                     useVlc = useVlc && !Utils.isFireTvStick();
-                    useDirectProfile = useVlc;
                 }
 
-                AndroidProfile profile = useDirectProfile ? new AndroidProfile("vlc") : new AndroidProfile(Utils.getProfileOptions());
+                AndroidProfile profile = new AndroidProfile(Utils.getProfileOptions());
+                if (useVlc) {
+                    ProfileHelper.setVlcOptions(profile);
+                    TvApp.getApplication().getLogger().Info("*** Using VLC profile options");
+                } else {
+                    ProfileHelper.setExoOptions(profile);
+                    TvApp.getApplication().getLogger().Info("*** Using Exoplayer profile options");
+                }
+
                 mCurrentOptions.setProfile(profile);
 
                 playInternal(getCurrentlyPlayingItem(), position, mCurrentOptions);

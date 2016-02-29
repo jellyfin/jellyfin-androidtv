@@ -1254,6 +1254,7 @@ public class Utils {
 
     public static AndroidProfileOptions getProfileOptions() {
         AndroidProfileOptions options = new AndroidProfileOptions(Build.MODEL);
+        //options.SupportsHls = false;
         return options;
     }
 
