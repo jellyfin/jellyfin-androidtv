@@ -79,7 +79,7 @@ public class VideoManager implements IVLCVout.Callback {
         }
         mVideoView = (EMVideoView) view.findViewById(R.id.videoView);
 
-        createPlayer(buffer);
+        if (!Utils.isShield()) createPlayer(buffer);
 
     }
 
