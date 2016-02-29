@@ -549,9 +549,9 @@ public class PlaybackController {
     }
 
     public void stop() {
+        stopReportLoop();
         if (mPlaybackState != PlaybackState.IDLE && mPlaybackState != PlaybackState.UNDEFINED) {
             mPlaybackState = PlaybackState.IDLE;
-            stopReportLoop();
             if (mVideoManager.isPlaying()) mVideoManager.stopPlayback();
             //give it a just a beat to actually stop - this keeps it from re-requesting the stream after we tell the server we've stopped
             try {

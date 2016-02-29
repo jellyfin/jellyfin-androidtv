@@ -105,6 +105,8 @@ public class VideoManager implements IVLCVout.Callback {
     public long getCurrentPosition() {
         if (nativeMode) return mVideoView.getCurrentPosition();
 
+        if (mVlcPlayer == null) return 0;
+
         long time = mVlcPlayer.getTime();
         if (mForcedTime != -1 && mLastTime != -1) {
             /* XXX: After a seek, mLibVLC.getTime can return the position before or after
