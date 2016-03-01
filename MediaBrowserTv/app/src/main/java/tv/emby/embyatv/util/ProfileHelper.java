@@ -78,7 +78,7 @@ public class ProfileHelper {
         videoDirectPlayProfile.setType(DlnaProfileType.Video);
 
         DirectPlayProfile audioDirectPlayProfile = new DirectPlayProfile();
-        audioDirectPlayProfile.setContainer("flac,aac,mp3,mpa,wav,wma,mp2,ogg,oga,webma,ape");
+        audioDirectPlayProfile.setContainer("flac,aac,mp3,mpa,wav,wma,mp2,ogg,oga,webma,ape,opus");
         audioDirectPlayProfile.setType(DlnaProfileType.Audio);
 
         DirectPlayProfile photoDirectPlayProfile = new DirectPlayProfile();
