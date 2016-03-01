@@ -64,7 +64,7 @@ public class ProfileHelper {
 
         DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
         videoDirectPlayProfile.setContainer("m4v,ts,mpegts,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,mp4,webm");
-        videoDirectPlayProfile.setVideoCodec("h264,hevc,vp8,vp9");
+        videoDirectPlayProfile.setVideoCodec("h264,hevc,vp8,vp9,mpeg4");
         videoDirectPlayProfile.setType(DlnaProfileType.Video);
 
         DirectPlayProfile audioDirectPlayProfile = new DirectPlayProfile();
