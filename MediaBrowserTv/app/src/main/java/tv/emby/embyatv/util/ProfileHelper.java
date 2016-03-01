@@ -10,6 +10,7 @@ import mediabrowser.model.dlna.ProfileConditionType;
 import mediabrowser.model.dlna.ProfileConditionValue;
 import mediabrowser.model.dlna.SubtitleDeliveryMethod;
 import mediabrowser.model.dlna.SubtitleProfile;
+import tv.emby.embyatv.TvApp;
 
 /**
  * Created by Eric on 2/29/2016.
@@ -65,6 +66,10 @@ public class ProfileHelper {
         DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
         videoDirectPlayProfile.setContainer("m4v,ts,mpegts,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,mp4,webm");
         videoDirectPlayProfile.setVideoCodec("h264,hevc,vp8,vp9,mpeg4");
+        if ("1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"))) {
+            //compatible audio mode - will need to transcode dts
+            videoDirectPlayProfile.setAudioCodec("ac3,aac,mp3,eac3,flac,mp2");
+        }
         videoDirectPlayProfile.setType(DlnaProfileType.Video);
 
         DirectPlayProfile audioDirectPlayProfile = new DirectPlayProfile();
@@ -83,7 +88,7 @@ public class ProfileHelper {
         videoCodecProfile.setConditions(new ProfileCondition[]
                 {
                         new ProfileCondition(ProfileConditionType.EqualsAny, ProfileConditionValue.VideoProfile, "high|main|baseline|constrained baseline"),
-                        new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoLevel, "42")
+                        new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoLevel, "51")
                 });
 
         CodecProfile videoAudioCodecProfile = new CodecProfile();
