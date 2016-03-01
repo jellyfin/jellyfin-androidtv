@@ -1,5 +1,7 @@
 package tv.emby.embyatv.util;
 
+import com.google.android.exoplayer.audio.AudioCapabilities;
+
 import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.model.dlna.CodecProfile;
 import mediabrowser.model.dlna.CodecType;
@@ -62,6 +64,8 @@ public class ProfileHelper {
     }
 
     public static void setExoOptions(AndroidProfile profile) {
+
+        AudioCapabilities capabilities = AudioCapabilities.getCapabilities(TvApp.getApplication());
 
         DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
         videoDirectPlayProfile.setContainer("m4v,ts,mpegts,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,mp4,webm");

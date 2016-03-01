@@ -244,8 +244,12 @@ public class PlaybackController {
                     ProfileHelper.setVlcOptions(profile);
                     TvApp.getApplication().getLogger().Info("*** Using VLC profile options");
                 } else {
-                    ProfileHelper.setExoOptions(profile);
-                    TvApp.getApplication().getLogger().Info("*** Using Exoplayer profile options");
+                    if (Utils.is60()) {
+                        ProfileHelper.setExoOptions(profile);
+                        TvApp.getApplication().getLogger().Info("*** Using extended Exoplayer profile options for 6.0+");
+                    } else {
+                        TvApp.getApplication().getLogger().Info("*** Using default android profile");
+                    }
                 }
 
                 mCurrentOptions.setProfile(profile);
@@ -317,57 +321,20 @@ public class PlaybackController {
         mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
             @Override
             public void onResponse(StreamInfo response) {
-                mCurrentStreamInfo = response;
-                Long mbPos = position * 10000;
-
-                setPlaybackMethod(response.getPlayMethod());
-
-                if (useVlc && !getPlaybackMethod().equals(PlayMethod.Transcode)) {
-                    mVideoManager.setNativeMode(false);
+                //See if we need to re-query to transcode AC3
+                if (useVlc && mApplication.getPrefs().getBoolean("pref_trans_ac3", true) && response.getPlayMethod() != PlayMethod.Transcode && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec())) {
+                    //Re do it with standard profile to generate transcode
+                    mApplication.getLogger().Info("*** Forcing transcode of AC3 item due to option");
+                    options.setProfile(new AndroidProfile(Utils.getProfileOptions()));
+                    mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
+                        @Override
+                        public void onResponse(StreamInfo response) {
+                            startItem(item, position, apiClient, response);
+                        }
+                    });
                 } else {
-                    mVideoManager.setNativeMode(true);
-                    TvApp.getApplication().getLogger().Info("Playing back in native mode.");
-                    if ("1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"))) {
-                        TvApp.getApplication().getLogger().Info("Setting max audio to 2-channels");
-                        mCurrentStreamInfo.setMaxAudioChannels(2);
-                    }
-
+                    startItem(item, position, apiClient, response);
                 }
-
-                // get subtitle info
-                mSubtitleStreams = response.GetSubtitleProfiles(false, mApplication.getApiClient().getApiUrl(), mApplication.getApiClient().getAccessToken());
-
-                mFragment.updateDisplay();
-                String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken());
-
-                // if source is stereo or we're not on at least 5.1.1 with AC3 - use most compatible output
-                if (!mVideoManager.isNativeMode() && (isLiveTv && !Utils.supportsAc3()) || (response.getMediaSource() != null && response.getMediaSource().getDefaultAudioStream() != null && response.getMediaSource().getDefaultAudioStream().getChannels() != null && (response.getMediaSource().getDefaultAudioStream().getChannels() <= 2
-                        || (!Utils.supportsAc3() && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec()))))) {
-                    mVideoManager.setCompatibleAudio();
-                    mApplication.getLogger().Info("Setting compatible audio mode...");
-                    //Utils.showToast(mApplication, "Compatible");
-                } else {
-                    //Utils.showToast(mApplication, "Default");
-                    mVideoManager.setAudioMode();
-                }
-
-                mVideoManager.setVideoPath(path);
-                mVideoManager.setVideoTrack(response.getMediaSource());
-
-                //wait a beat before attempting to start so the player surface is fully initialized and video is ready
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mVideoManager.start();
-                    }
-                },750);
-
-                mStartPosition = position;
-
-                mDefaultAudioIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultAudioStreamIndex() != null ? response.getMediaSource().getDefaultAudioStreamIndex() : -1;
-                mDefaultSubIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : -1;
-
-                Utils.ReportStart(item, mbPos);
             }
 
             @Override
@@ -388,6 +355,61 @@ public class PlaybackController {
                 }
             }
         });
+
+    }
+
+    private void startItem(BaseItemDto item, long position, ApiClient apiClient, StreamInfo response) {
+        mCurrentStreamInfo = response;
+        Long mbPos = position * 10000;
+
+        setPlaybackMethod(response.getPlayMethod());
+
+        if (useVlc && !getPlaybackMethod().equals(PlayMethod.Transcode)) {
+            mVideoManager.setNativeMode(false);
+        } else {
+            mVideoManager.setNativeMode(true);
+            TvApp.getApplication().getLogger().Info("Playing back in native mode.");
+            if ("1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"))) {
+                TvApp.getApplication().getLogger().Info("Setting max audio to 2-channels");
+                mCurrentStreamInfo.setMaxAudioChannels(2);
+            }
+
+        }
+
+        // get subtitle info
+        mSubtitleStreams = response.GetSubtitleProfiles(false, mApplication.getApiClient().getApiUrl(), mApplication.getApiClient().getAccessToken());
+
+        mFragment.updateDisplay();
+        String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken());
+
+        // if source is stereo or we're not on at least 5.1.1 with AC3 - use most compatible output
+        if (!mVideoManager.isNativeMode() && (isLiveTv && !Utils.supportsAc3()) || (response.getMediaSource() != null && response.getMediaSource().getDefaultAudioStream() != null && response.getMediaSource().getDefaultAudioStream().getChannels() != null && (response.getMediaSource().getDefaultAudioStream().getChannels() <= 2
+                || (!Utils.supportsAc3() && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec()))))) {
+            mVideoManager.setCompatibleAudio();
+            mApplication.getLogger().Info("Setting compatible audio mode...");
+            //Utils.showToast(mApplication, "Compatible");
+        } else {
+            //Utils.showToast(mApplication, "Default");
+            mVideoManager.setAudioMode();
+        }
+
+        mVideoManager.setVideoPath(path);
+        mVideoManager.setVideoTrack(response.getMediaSource());
+
+        //wait a beat before attempting to start so the player surface is fully initialized and video is ready
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mVideoManager.start();
+            }
+        },750);
+
+        mStartPosition = position;
+
+        mDefaultAudioIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultAudioStreamIndex() != null ? response.getMediaSource().getDefaultAudioStreamIndex() : -1;
+        mDefaultSubIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : -1;
+
+        Utils.ReportStart(item, mbPos);
 
     }
 

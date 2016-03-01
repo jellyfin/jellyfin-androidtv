@@ -101,6 +101,11 @@
             android:entries="@array/pref_audio_options"
             android:entryValues="@array/pref_audio_values"
             />
+        <CheckBoxPreference android:key="pref_trans_ac3"
+            android:title="@string/lbl_transcode_ac3"
+            android:summary="@string/desc_transcode_ac3"
+            android:defaultValue="true"
+            />
 
 
     </PreferenceCategory>
