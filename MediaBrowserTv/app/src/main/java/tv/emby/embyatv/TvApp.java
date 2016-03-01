@@ -116,7 +116,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
             public void uncaughtException(Thread thread, Throwable ex) {
                 if (!getApiClient().getServerInfo().getName().equals("Dev Server")) {
                     ex.printStackTrace();
-                    new LogReporter().sendReport(new EmptyResponse() {
+                    new LogReporter().sendReport("Exception", new EmptyResponse() {
                         @Override
                         public void onResponse() {
 

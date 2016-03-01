@@ -41,12 +41,18 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         // Set version info
         TextView ver = (TextView) getActivity().findViewById(R.id.settings_version_info);
-        ver.setText(Utils.VersionString() + " " + TvApp.getApplication().getRegistrationString());
+        ver.setText(String.format("%s %s", Utils.VersionString(), TvApp.getApplication().getRegistrationString()));
 
         // conditionally hide options that don't apply
         PreferenceCategory cat = (PreferenceCategory) findPreference("pref_playback_category");
         if (Utils.isFireTvStick()) cat.removePreference(findPreference("pref_vlc_max_res"));
         if (Utils.isFireTv() && !Utils.is50()) cat.removePreference(findPreference("pref_audio_option"));
+        if (Utils.is60()) {
+            cat.removePreference(findPreference("pref_enable_vlc"));
+            cat.removePreference(findPreference("pref_vlc_max_res"));
+            cat.removePreference(findPreference("pref_trans_ac3"));
+            cat.removePreference(findPreference("pref_net_buffer"));
+        }
         if (!TvApp.getApplication().isRegistered()) {
             //Indicate that cinema mode requires premiere
             CheckBoxPreference cm = (CheckBoxPreference) cat.findPreference("pref_enable_cinema_mode");
@@ -128,13 +134,12 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             CheckBoxPreference cb = (CheckBoxPreference) preference;
             if (cb.getKey().equals("pref_enable_vlc")) {
                 // enable other vlc only options
-                findPreference("pref_live_direct").setEnabled(cb.isChecked());
-                ListPreference buffer = (ListPreference) findPreference("pref_net_buffer");
-                buffer.setEnabled(cb.isChecked());
-                ListPreference audio = (ListPreference) findPreference("pref_audio_option");
-                if (audio != null) audio.setEnabled(cb.isChecked());
-                ListPreference res = (ListPreference) findPreference("pref_vlc_max_res");
+                Preference buffer = findPreference("pref_net_buffer");
+                if (buffer != null) buffer.setEnabled(cb.isChecked());
+                Preference res = findPreference("pref_vlc_max_res");
                 if (res != null) res.setEnabled(cb.isChecked());
+                Preference ac3 = findPreference("pref_trans_ac3");
+                if (ac3 != null) ac3.setEnabled(cb.isChecked());
             }
         }
     }

@@ -326,6 +326,8 @@
     <string name="lbl_enable_seasonal_themes">Enable Seasonal Themes</string>
     <string name="desc_seasonal_themes">Allow special colors and suggestions at certain times of the year</string>
     <string name="desc_automatic_fav_songs">Automatic playlist of favorite and liked songs</string>
+    <string name="lbl_transcode_ac3">Transcode items with Dolby Digital audio</string>
+    <string name="desc_transcode_ac3">Allows full surround sound for Dolby Digital tracks</string>
 
 
 </resources>
