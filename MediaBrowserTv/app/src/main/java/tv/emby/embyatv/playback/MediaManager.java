@@ -8,9 +8,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.text.InputType;
 import android.widget.EditText;
+
+import com.devbrackets.android.exomedia.EMAudioPlayer;
+import com.devbrackets.android.exomedia.event.EMMediaProgressEvent;
+import com.devbrackets.android.exomedia.listener.EMProgressCallback;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
@@ -57,8 +62,10 @@ public class MediaManager {
     private static LibVLC mLibVLC;
     private static org.videolan.libvlc.MediaPlayer mVlcPlayer;
     private static VlcEventHandler mVlcHandler = new VlcEventHandler();
+    private static EMAudioPlayer mExoplayer;
     private static AudioManager mAudioManager;
     private static boolean audioInitialized;
+    private static boolean nativeMode = false;
 
     private static List<AudioEventListener> mAudioEventListeners = new ArrayList<>();
 
@@ -146,72 +153,105 @@ public class MediaManager {
         return createPlayer(600);
     }
 
+    private static boolean isPaused() {
+        return nativeMode ? !mExoplayer.isPlaying() : !mVlcPlayer.isPlaying();
+    }
+
+    private static void reportProgress() {
+        //Don't need to be too aggressive with these calls - just be sure every second
+        if (System.currentTimeMillis() < lastProgressEvent + 750) return;
+        lastProgressEvent = System.currentTimeMillis();
+
+        mCurrentAudioPosition = nativeMode ? mExoplayer.getCurrentPosition() : mVlcPlayer.getTime();
+
+        //fire external listeners if there
+        for (AudioEventListener listener : mAudioEventListeners) {
+            listener.onProgress(mCurrentAudioPosition);
+        }
+
+        //Report progress to server every 5 secs
+        if (System.currentTimeMillis() > lastProgressReport + 5000) {
+            Utils.ReportProgress(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000, isPaused());
+            lastProgressReport = System.currentTimeMillis();
+            TvApp.getApplication().setLastUserInteraction(lastProgressReport);
+        }
+
+    }
+
+    private static void onComplete() {
+        Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition);
+        nextAudioItem();
+
+        //fire external listener if there
+        for (AudioEventListener listener : mAudioEventListeners) {
+            TvApp.getApplication().getLogger().Info("Firing playback state change listener for item completion. "+ mCurrentAudioItem.getName());
+            listener.onPlaybackStateChange(PlaybackController.PlaybackState.IDLE, mCurrentAudioItem);
+        }
+
+    }
+
     private static boolean createPlayer(int buffer) {
         try {
 
-            // Create a new media player
-            ArrayList<String> options = new ArrayList<>(20);
-            options.add("--network-caching=" + buffer);
-            options.add("--no-audio-time-stretch");
-            options.add("-v");
-
-            mLibVLC = new LibVLC(options);
-            LibVLC.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
-                @Override
-                public void onNativeCrash() {
-                    new Exception().printStackTrace();
-                    //todo put our custom log reporter here...
-                    android.os.Process.killProcess(android.os.Process.myPid());
-                    System.exit(10);
-
-                }
-            });
-
-            mVlcPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
-            SharedPreferences prefs = TvApp.getApplication().getPrefs();
-            String audioOption = Utils.isFireTv() && !Utils.is50() ? "1" : prefs.getString("pref_audio_option","0"); // force compatible audio on Fire 4.2
-            mVlcPlayer.setAudioOutput("0".equals(audioOption) ? "android_audiotrack" : "opensles_android");
-            mVlcPlayer.setAudioOutputDevice("hdmi");
-
-            mVlcHandler.setOnProgressListener(new PlaybackListener() {
-                @Override
-                public void onEvent() {
-                    //Don't need to be too aggressive with these calls - just be sure every second
-                    if (System.currentTimeMillis() < lastProgressEvent + 750) return;
-                    lastProgressEvent = System.currentTimeMillis();
-
-                    mCurrentAudioPosition = mVlcPlayer.getTime();
-
-                    //fire external listeners if there
-                    for (AudioEventListener listener : mAudioEventListeners) {
-                        listener.onProgress(mCurrentAudioPosition);
+            // Create a new media player based on platform
+            if (Utils.is60()) {
+                nativeMode = true;
+                mExoplayer = new EMAudioPlayer(TvApp.getApplication());
+                mExoplayer.setProgressCallback(new EMProgressCallback() {
+                    @Override
+                    public boolean onProgressUpdated(EMMediaProgressEvent progressEvent) {
+                        reportProgress();
+                        return false;
                     }
+                });
 
-                    //Report progress to server every 5 secs
-                    if (System.currentTimeMillis() > lastProgressReport + 5000) {
-                        Utils.ReportProgress(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000, !mVlcPlayer.isPlaying());
-                        lastProgressReport = System.currentTimeMillis();
-                        TvApp.getApplication().setLastUserInteraction(lastProgressReport);
+                mExoplayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        onComplete();
                     }
+                });
+            } else {
+                ArrayList<String> options = new ArrayList<>(20);
+                options.add("--network-caching=" + buffer);
+                options.add("--no-audio-time-stretch");
+                options.add("-v");
 
-                }
-            });
+                mLibVLC = new LibVLC(options);
+                LibVLC.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
+                    @Override
+                    public void onNativeCrash() {
+                        new Exception().printStackTrace();
+                        //todo put our custom log reporter here...
+                        android.os.Process.killProcess(android.os.Process.myPid());
+                        System.exit(10);
 
-            mVlcHandler.setOnCompletionListener(new PlaybackListener() {
-                @Override
-                public void onEvent() {
-                    Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition);
-                    nextAudioItem();
-
-                    //fire external listener if there
-                    for (AudioEventListener listener : mAudioEventListeners) {
-                        TvApp.getApplication().getLogger().Info("Firing playback state change listener for item completion. "+ mCurrentAudioItem.getName());
-                        listener.onPlaybackStateChange(PlaybackController.PlaybackState.IDLE, mCurrentAudioItem);
                     }
-                }
-            });
+                });
 
-            mVlcPlayer.setEventListener(mVlcHandler);
+                mVlcPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
+                SharedPreferences prefs = TvApp.getApplication().getPrefs();
+                String audioOption = Utils.isFireTv() && !Utils.is50() ? "1" : prefs.getString("pref_audio_option","0"); // force compatible audio on Fire 4.2
+                mVlcPlayer.setAudioOutput("0".equals(audioOption) ? "android_audiotrack" : "opensles_android");
+                mVlcPlayer.setAudioOutputDevice("hdmi");
+
+                mVlcHandler.setOnProgressListener(new PlaybackListener() {
+                    @Override
+                    public void onEvent() {
+                        reportProgress();
+                    }
+                });
+
+                mVlcHandler.setOnCompletionListener(new PlaybackListener() {
+                    @Override
+                    public void onEvent() {
+                        onComplete();
+                    }
+                });
+
+                mVlcPlayer.setEventListener(mVlcHandler);
+
+            }
 
         } catch (Exception e) {
             TvApp.getApplication().getLogger().ErrorException("Error creating VLC player", e);
@@ -375,7 +415,7 @@ public class MediaManager {
         }
     }
 
-    public static boolean isPlayingAudio() { return audioInitialized && mVlcPlayer.isPlaying(); }
+    public static boolean isPlayingAudio() { return audioInitialized && (nativeMode ? mExoplayer.isPlaying() : mVlcPlayer.isPlaying()); }
 
     private static boolean ensureInitialized() {
         if (!audioInitialized) {
@@ -478,13 +518,19 @@ public class MediaManager {
                 mCurrentAudioStreamInfo = response;
                 mCurrentAudioQueuePosition = pos;
                 mCurrentAudioPosition = 0;
-                TvApp.getApplication().getLogger().Info("Playback attempt via VLC of " + response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()));
-                Media media = new Media(mLibVLC, Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken())));
-                media.parse();
-                mVlcPlayer.setMedia(media);
+                if (nativeMode) {
+                    mExoplayer.setDataSource(TvApp.getApplication(), Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken())));
+                    mExoplayer.start();
+                } else {
+                    TvApp.getApplication().getLogger().Info("Playback attempt via VLC of " + response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()));
+                    Media media = new Media(mLibVLC, Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken())));
+                    media.parse();
+                    mVlcPlayer.setMedia(media);
 
-                media.release();
-                mVlcPlayer.play();
+                    media.release();
+                    mVlcPlayer.play();
+
+                }
                 if (mCurrentAudioQueuePosition == 0) {
                     //we just started or repeated - re-create managed queue
                     createManagedAudioQueue();
@@ -576,7 +622,8 @@ public class MediaManager {
         if (mCurrentAudioQueue == null || (!mRepeat && mCurrentAudioQueue.size() == 0)) return -1;
         if (isPlayingAudio() && mCurrentAudioPosition > 10000) {
             //just back up to the beginning of current item
-            mVlcPlayer.setTime(0);
+            if (nativeMode) mExoplayer.seekTo(0);
+            else mVlcPlayer.setTime(0);
             return mCurrentAudioQueuePosition;
         }
 
@@ -596,9 +643,14 @@ public class MediaManager {
         return ndx;
     }
 
+    private static void stop() {
+        if (nativeMode) mExoplayer.stopPlayback();
+        else mVlcPlayer.stop();
+    }
+
     public static void stopAudio() {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
-            mVlcPlayer.stop();
+            stop();
             updateCurrentAudioItemPlaying(false);
             Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000);
             for (AudioEventListener listener : mAudioEventListeners) {
@@ -610,10 +662,15 @@ public class MediaManager {
         }
     }
 
+    private static void pause() {
+        if (nativeMode) mExoplayer.pause();
+        else mVlcPlayer.pause();
+    }
+
     public static void pauseAudio() {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
             updateCurrentAudioItemPlaying(false);
-            mVlcPlayer.pause();
+            pause();
             Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition * 10000);
             for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.PAUSED, mCurrentAudioItem);
@@ -626,9 +683,10 @@ public class MediaManager {
     }
 
     public static void resumeAudio() {
-        if (mCurrentAudioItem != null && mVlcPlayer != null) {
+        if (mCurrentAudioItem != null) {
             ensureAudioFocus();
-            mVlcPlayer.play();
+            if (nativeMode) mExoplayer.start();
+            else mVlcPlayer.play();
             updateCurrentAudioItemPlaying(true);
             Utils.ReportStart(mCurrentAudioItem, mCurrentAudioPosition * 10000);
             for (AudioEventListener listener : mAudioEventListeners) {
