@@ -214,6 +214,7 @@ public class VideoManager implements IVLCVout.Callback {
 
     public void setVideoPath(String path) {
         mCurrentVideoPath = path;
+        TvApp.getApplication().getLogger().Info("Video path set to: "+path);
 
         if (nativeMode) {
             try {
