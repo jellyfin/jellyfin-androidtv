@@ -15,10 +15,12 @@ import tv.emby.embyatv.TvApp;
  * Created by Eric on 2/28/2016.
  */
 public class LogReporter {
-    public void sendReport(final EmptyResponse callback) {
+    public void sendReport(String cause, final EmptyResponse callback) {
         TvApp.getApplication().getLogger().Info("Sending log...");
         LogReport report = new LogReport();
         report.setOsVersionInt(Build.VERSION.SDK_INT);
+        report.setOsVersionString(Build.VERSION.RELEASE);
+        report.setCause(cause);
         report.setDeviceInfo(Build.MODEL);
         report.setServerName(TvApp.getApplication().getCurrentSystemInfo().getServerName());
         report.setUserName(TvApp.getApplication().getCurrentUser().getName());
@@ -49,12 +51,11 @@ public class LogReporter {
         HttpRequest request = new HttpRequest();
         HttpHeaders headers = new HttpHeaders();
         headers.put("Accept", "application/json");
-        headers.put("Content-type", "application/json");
         request.setUrl("http://mb3admin.com/admin/service/logReport/send");
         request.setMethod("POST");
         request.setRequestHeaders(headers);
         request.setRequestContent(json);
-        //request.setRequestContentType("application/json");
+        request.setRequestContentType("application/json");
         TvApp.getApplication().getHttpClient().Send(request, new mediabrowser.apiinteraction.Response<String>() {
             @Override
             public void onResponse(String response) {
