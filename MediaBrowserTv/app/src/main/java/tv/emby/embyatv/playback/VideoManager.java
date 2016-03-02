@@ -187,6 +187,7 @@ public class VideoManager implements IVLCVout.Callback {
         } else {
             mVlcPlayer.stop();
         }
+        stopProgressLoop();
     }
 
     public long seekTo(long pos) {
@@ -536,6 +537,7 @@ public class VideoManager implements IVLCVout.Callback {
         mVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
+                TvApp.getApplication().getLogger().Error("***** Got error from player");
                 listener.onEvent();
                 stopProgressLoop();
                 return true;
