@@ -303,7 +303,9 @@ public class InfoLayoutHelper {
         }
         if (item.getMediaStreams() != null && item.getMediaStreams().size() > 0 && item.getMediaStreams().get(0).getWidth() != null) {
             int width = item.getMediaStreams().get(0).getWidth();
-            if (width > 1910) {
+            if (width > 2000) {
+                addBlockText(activity, layout, "4K");
+            }else if (width > 1910) {
                 addBlockText(activity, layout, "1080");
             } else if (width > 1270) {
                 addBlockText(activity, layout, "720");
