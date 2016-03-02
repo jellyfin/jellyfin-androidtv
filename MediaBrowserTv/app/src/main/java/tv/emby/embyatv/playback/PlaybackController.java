@@ -169,6 +169,7 @@ public class PlaybackController {
             case IDLE:
                 // start new playback
                 BaseItemDto item = getCurrentlyPlayingItem();
+                lastProgressPosition = 0;
 
                 // make sure item isn't missing
                 if (item.getLocationType() == LocationType.Virtual) {
@@ -409,7 +410,8 @@ public class PlaybackController {
         mDefaultAudioIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultAudioStreamIndex() != null ? response.getMediaSource().getDefaultAudioStreamIndex() : -1;
         mDefaultSubIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : -1;
 
-        Utils.ReportStart(item, mbPos);
+        if (!isRestart) Utils.ReportStart(item, mbPos);
+        isRestart = false;
 
     }
 
@@ -771,6 +773,9 @@ public class PlaybackController {
         }
     }
 
+    private long lastProgressPosition;
+    private boolean isRestart = false;
+
     private void setupCallbacks() {
 
         mVideoManager.setOnErrorListener(new PlaybackListener() {
@@ -784,7 +789,7 @@ public class PlaybackController {
                     mFragment.finish();
 
                 } else {
-                    String msg =  mApplication.getString(R.string.video_error_unknown_error);
+                    String msg = mApplication.getString(R.string.video_error_unknown_error);
                     Utils.showToast(mApplication, mApplication.getString(R.string.msg_video_playback_error) + msg);
                     mApplication.getLogger().Error("Playback error - " + msg);
                     mPlaybackState = PlaybackState.ERROR;
@@ -827,11 +832,22 @@ public class PlaybackController {
             }
         });
 
+
         mVideoManager.setOnProgressListener(new PlaybackListener() {
             @Override
             public void onEvent() {
                 if (isPlaying() && updateProgress) {
                     updateProgress = false;
+                    if (isLiveTv && mVideoManager.isNativeMode() && lastProgressPosition > 0 && lastProgressPosition == mVideoManager.getCurrentPosition()) {
+                        mApplication.getLogger().Debug("************** playback appears to have stalled - attempting re-start");
+                        mVideoManager.stopPlayback();
+                        mPlaybackState = PlaybackState.IDLE;
+                        isRestart = true;
+                        play(0);
+                    } else {
+                        lastProgressPosition = mVideoManager.getCurrentPosition();
+                        mApplication.getLogger().Debug("******* progress listener fired");
+                    }
                     boolean continueUpdate = true;
                     if (!spinnerOff) {
                         if (mStartPosition > 0) {
@@ -843,7 +859,8 @@ public class PlaybackController {
                             stopSpinner();
                         }
                         if (getPlaybackMethod() != PlayMethod.Transcode) {
-                            if (mCurrentOptions.getAudioStreamIndex() != null) mVideoManager.setAudioTrack(mCurrentOptions.getAudioStreamIndex());
+                            if (mCurrentOptions.getAudioStreamIndex() != null)
+                                mVideoManager.setAudioTrack(mCurrentOptions.getAudioStreamIndex());
                         }
                     }
                     if (continueUpdate) {
