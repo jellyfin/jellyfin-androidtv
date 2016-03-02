@@ -846,7 +846,7 @@ public class PlaybackController {
                         play(0);
                     } else {
                         lastProgressPosition = mVideoManager.getCurrentPosition();
-                        mApplication.getLogger().Debug("******* progress listener fired");
+                        //mApplication.getLogger().Debug("******* progress listener fired");
                     }
                     boolean continueUpdate = true;
                     if (!spinnerOff) {
