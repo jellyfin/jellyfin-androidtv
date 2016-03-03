@@ -99,7 +99,11 @@ public class VideoManager implements IVLCVout.Callback {
     }
 
     public long getDuration() {
-        return nativeMode ? mVideoView.getDuration() : mVlcPlayer.getLength() > 0 ? mVlcPlayer.getLength() : mMetaDuration;
+        if (nativeMode){
+            return mVideoView.getDuration() > 0 ? mVideoView.getDuration() : mMetaDuration;
+        } else {
+            return mVlcPlayer.getLength() > 0 ? mVlcPlayer.getLength() : mMetaDuration;
+        }
     }
 
     public long getCurrentPosition() {

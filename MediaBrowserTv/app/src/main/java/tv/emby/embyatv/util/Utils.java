@@ -1254,8 +1254,10 @@ public class Utils {
 
     public static AndroidProfileOptions getProfileOptions() {
         AndroidProfileOptions options = new AndroidProfileOptions(Build.MODEL);
-//        options.SupportsHls = false;
-//        options.SupportsMkv = true;
+        options.SupportsHls = false;
+        options.SupportsMkv = true;
+//        options.SupportsAc3 = is60();
+//        options.SupportsDts = is60();
         return options;
     }
 

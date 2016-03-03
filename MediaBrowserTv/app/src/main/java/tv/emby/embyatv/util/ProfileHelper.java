@@ -12,6 +12,7 @@ import mediabrowser.model.dlna.ProfileConditionType;
 import mediabrowser.model.dlna.ProfileConditionValue;
 import mediabrowser.model.dlna.SubtitleDeliveryMethod;
 import mediabrowser.model.dlna.SubtitleProfile;
+import mediabrowser.model.dlna.TranscodingProfile;
 import tv.emby.embyatv.TvApp;
 
 /**
@@ -114,6 +115,22 @@ public class ProfileHelper {
                 getSubtitleProfile("sub", SubtitleDeliveryMethod.Embed),
                 getSubtitleProfile("idx", SubtitleDeliveryMethod.Embed)
         });
+    }
+
+    public static void addMkvOptions(AndroidProfile profile) {
+        TranscodingProfile mkvProfile = getTranscodingProfile(profile, "mkv");
+        if (mkvProfile != null) {
+            TvApp.getApplication().getLogger().Info("*** Adding AC3 as primary supported transcoded audio");
+            mkvProfile.setAudioCodec("ac3,".concat(mkvProfile.getAudioCodec()));
+        }
+    }
+
+    private static TranscodingProfile getTranscodingProfile(AndroidProfile deviceProfile, String container) {
+        for (TranscodingProfile profile : deviceProfile.getTranscodingProfiles()) {
+            if (container.equals(profile.getContainer())) return profile;
+        }
+
+        return null;
     }
 
     private static SubtitleProfile getSubtitleProfile(String format, SubtitleDeliveryMethod method) {

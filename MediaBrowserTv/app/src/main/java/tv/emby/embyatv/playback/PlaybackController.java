@@ -224,6 +224,7 @@ public class PlaybackController {
                 mCurrentOptions.setMaxBitrate(getMaxBitrate());
                 mCurrentOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
                 mCurrentOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
+
                 TvApp.getApplication().getLogger().Debug("Max bitrate is: " + getMaxBitrate());
                 isLiveTv = item.getType().equals("TvChannel");
 
@@ -251,6 +252,8 @@ public class PlaybackController {
                     } else {
                         TvApp.getApplication().getLogger().Info("*** Using default android profile");
                     }
+
+                    ProfileHelper.addMkvOptions(profile);
                 }
 
                 mCurrentOptions.setProfile(profile);
@@ -379,6 +382,11 @@ public class PlaybackController {
 
         // get subtitle info
         mSubtitleStreams = response.GetSubtitleProfiles(false, mApplication.getApiClient().getApiUrl(), mApplication.getApiClient().getAccessToken());
+
+        // set start point if transcoding to mkv
+        if (mPlaybackMethod == PlayMethod.Transcode && response.getContainer().equals("mkv")) {
+            response.setStartPositionTicks(position * 10000);
+        }
 
         mFragment.updateDisplay();
         String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken());
@@ -615,13 +623,23 @@ public class PlaybackController {
 
     public void seek(final long pos) {
         mApplication.getLogger().Debug("Seeking to " + pos);
-        if (mVideoManager.seekTo(pos) >= 0)
-        {
-            if (mFragment != null) {
-                mFragment.updateEndTime(mVideoManager.getDuration() - pos);
-            }
+        if (mPlaybackMethod == PlayMethod.Transcode) {
+            //mkv transcodes require re-start of stream for seek
+            mVideoManager.stopPlayback();
+            mCurrentStreamInfo.setStartPositionTicks(pos * 10000);
+
+            mVideoManager.setVideoPath(mCurrentStreamInfo.ToUrl(mApplication.getApiClient().getApiUrl(), mApplication.getApiClient().getAccessToken()));
+            mVideoManager.start();
         } else {
-            Utils.showToast(TvApp.getApplication(), "Unable to seek");
+            if (mVideoManager.seekTo(pos) >= 0)
+            {
+                if (mFragment != null) {
+                    mFragment.updateEndTime(mVideoManager.getDuration() - pos);
+                }
+            } else {
+                Utils.showToast(TvApp.getApplication(), "Unable to seek");
+            }
+
         }
 
     }
@@ -652,6 +670,7 @@ public class PlaybackController {
             updateProgress = false; // turn this off so we can show where it will be jumping to
             currentSkipPos = (currentSkipPos == 0 ? mVideoManager.getCurrentPosition() : currentSkipPos)  + msec;
             if (currentSkipPos < 0) currentSkipPos = 0;
+            mApplication.getLogger().Debug("Duration reported as: "+mVideoManager.getDuration());
             if (currentSkipPos > mVideoManager.getDuration()) currentSkipPos = mVideoManager.getDuration() - 1000;
             mFragment.setCurrentTime(currentSkipPos);
             mHandler.postDelayed(skipRunnable, 800);
@@ -851,10 +870,16 @@ public class PlaybackController {
                     boolean continueUpdate = true;
                     if (!spinnerOff) {
                         if (mStartPosition > 0) {
-                            mPlaybackState = PlaybackState.SEEKING;
-                            delayedSeek(mStartPosition);
-                            continueUpdate = false;
-                            mStartPosition = 0;
+                            if (mPlaybackMethod == PlayMethod.Transcode) {
+                                // we started the stream at seek point
+                                mStartPosition = 0;
+                            } else {
+                                mPlaybackState = PlaybackState.SEEKING;
+                                delayedSeek(mStartPosition);
+                                continueUpdate = false;
+                                mStartPosition = 0;
+
+                            }
                         } else {
                             stopSpinner();
                         }
