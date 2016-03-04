@@ -248,16 +248,13 @@ public class PlaybackController {
                     TvApp.getApplication().getLogger().Info("*** Using VLC profile options");
                 } else {
                     if (Utils.is60()) {
-                        if (!"1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"))) {
-                            ProfileHelper.setExoOptions(profile);
-                            ProfileHelper.addAc3Streaming(profile);
-                            TvApp.getApplication().getLogger().Info("*** Using extended Exoplayer profile options for 6.0+");
+                        ProfileHelper.setExoOptions(profile);
+                        ProfileHelper.addAc3Streaming(profile);
+                        TvApp.getApplication().getLogger().Info("*** Using extended Exoplayer profile options for 6.0+");
 
-                        } else {
-                            TvApp.getApplication().getLogger().Info("*** Using basic profile for compatible audio");
-                        }
                     } else {
                         TvApp.getApplication().getLogger().Info("*** Using default android profile");
+                        ProfileHelper.addAc3Streaming(profile);
                         profile = new AndroidProfile(Utils.getProfileOptions());
                     }
 
@@ -336,7 +333,7 @@ public class PlaybackController {
                 if (useVlc && mApplication.getPrefs().getBoolean("pref_trans_ac3", true) && response.getPlayMethod() != PlayMethod.Transcode && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec())) {
                     //Re do it with standard profile to generate transcode
                     mApplication.getLogger().Info("*** Forcing transcode of AC3 item due to option");
-                    options.setProfile(new AndroidProfile(Utils.getProfileOptions()));
+                    options.setProfile(ProfileHelper.getBaseProfile());
                     mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
                         @Override
                         public void onResponse(StreamInfo response) {
