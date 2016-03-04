@@ -10,7 +10,6 @@ import android.view.View;
 import java.util.List;
 
 import mediabrowser.apiinteraction.ApiClient;
-import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.model.dlna.DeviceProfile;
@@ -29,7 +28,6 @@ import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.mediainfo.SubtitleTrackInfo;
 import mediabrowser.model.session.PlayMethod;
-import mediabrowser.model.session.PlaybackStartInfo;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.livetv.TvManager;
@@ -252,6 +250,7 @@ public class PlaybackController {
                     if (Utils.is60()) {
                         if (!"1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"))) {
                             ProfileHelper.setExoOptions(profile);
+                            ProfileHelper.addAc3Streaming(profile);
                             TvApp.getApplication().getLogger().Info("*** Using extended Exoplayer profile options for 6.0+");
 
                         } else {
@@ -264,7 +263,6 @@ public class PlaybackController {
 
                 }
 
-                ProfileHelper.addMkvOptions(profile);
                 mCurrentOptions.setProfile(profile);
 
                 playInternal(getCurrentlyPlayingItem(), position, mCurrentOptions);

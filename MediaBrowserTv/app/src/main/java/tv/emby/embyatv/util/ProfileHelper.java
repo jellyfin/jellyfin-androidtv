@@ -152,7 +152,7 @@ public class ProfileHelper {
         });
     }
 
-    public static void addMkvOptions(DeviceProfile profile) {
+    public static void addAc3Streaming(DeviceProfile profile) {
         TranscodingProfile mkvProfile = getTranscodingProfile(profile, "mkv");
         if (mkvProfile != null && !("1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option", "0"))))
         {
