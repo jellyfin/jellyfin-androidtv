@@ -13,6 +13,7 @@ import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
+import mediabrowser.model.dlna.DirectPlayProfile;
 import mediabrowser.model.dlna.PlaybackException;
 import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dlna.SubtitleDeliveryMethod;
@@ -336,6 +337,16 @@ public class PlaybackController {
                             startItem(item, position, apiClient, response);
                         }
                     });
+                } else if (mVideoManager.isNativeMode() && options.getAudioStreamIndex() != getDefaultAudioIndex(response)) {
+                    // requested specific audio stream that is different from default so we need to force a transcode to get it (ExoMedia currently cannot switch)
+                    // remove direct play profiles to force the transcode
+                    options.getProfile().setDirectPlayProfiles(new DirectPlayProfile[]{});
+                    mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
+                        @Override
+                        public void onResponse(StreamInfo response) {
+                            startItem(item, position, apiClient, response);
+                        }
+                    });
                 } else {
                     startItem(item, position, apiClient, response);
                 }
@@ -415,12 +426,16 @@ public class PlaybackController {
 
         mStartPosition = position;
 
-        mDefaultAudioIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultAudioStreamIndex() != null ? response.getMediaSource().getDefaultAudioStreamIndex() : -1;
+        mDefaultAudioIndex = getDefaultAudioIndex(response);
         mDefaultSubIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : -1;
 
         if (!isRestart) Utils.ReportStart(item, mbPos);
         isRestart = false;
 
+    }
+
+    private int getDefaultAudioIndex(StreamInfo info) {
+        return mPlaybackMethod != PlayMethod.Transcode && info.getMediaSource().getDefaultAudioStreamIndex() != null ? info.getMediaSource().getDefaultAudioStreamIndex() : -1;
     }
 
     public void startSpinner() {
@@ -455,7 +470,7 @@ public class PlaybackController {
         if (!isPlaying()) return;
 
         mCurrentOptions.setAudioStreamIndex(index);
-        if (mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode) {
+        if (mVideoManager.isNativeMode()) {
             startSpinner();
             mApplication.getLogger().Debug("Setting audio index to: " + index);
             mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
@@ -842,7 +857,7 @@ public class PlaybackController {
                         mVideoManager.disableSubs();
                     }
 
-                    if (mDefaultAudioIndex >= 0) {
+                    if (!mVideoManager.isNativeMode() && mDefaultAudioIndex >= 0) {
                         TvApp.getApplication().getLogger().Info("Selecting default audio stream: " + mDefaultAudioIndex);
                         switchAudioStream(mDefaultAudioIndex);
                     }
