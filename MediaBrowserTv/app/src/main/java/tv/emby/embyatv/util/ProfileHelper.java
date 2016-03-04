@@ -107,9 +107,9 @@ public class ProfileHelper {
         videoDirectPlayProfile.setContainer("m4v,ts,mpegts,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,mp4,webm");
         videoDirectPlayProfile.setVideoCodec("h264,hevc,vp8,vp9,mpeg4,mpeg2video");
         if ("1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"))) {
-            //compatible audio mode - will need to transcode dts
+            //compatible audio mode - will need to transcode dts and ac3
             TvApp.getApplication().getLogger().Info("*** Excluding DTS audio from direct play due to compatible audio setting");
-            videoDirectPlayProfile.setAudioCodec("ac3,aac,mp3,eac3,flac,mp2");
+            videoDirectPlayProfile.setAudioCodec("aac,mp3,eac3,flac,mp2");
         }
         videoDirectPlayProfile.setType(DlnaProfileType.Video);
 
