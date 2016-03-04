@@ -13,6 +13,7 @@ import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
+import mediabrowser.model.dlna.DeviceProfile;
 import mediabrowser.model.dlna.DirectPlayProfile;
 import mediabrowser.model.dlna.PlaybackException;
 import mediabrowser.model.dlna.StreamInfo;
@@ -223,6 +224,7 @@ public class PlaybackController {
                 mCurrentOptions.setItemId(item.getId());
                 mCurrentOptions.setMediaSources(item.getMediaSources());
                 mCurrentOptions.setMaxBitrate(getMaxBitrate());
+                if ("1".equals(mApplication.getPrefs().getString("pref_audio_option", "0"))) mCurrentOptions.setMaxAudioChannels(2);
                 mCurrentOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
                 mCurrentOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
 
@@ -242,21 +244,27 @@ public class PlaybackController {
                     useVlc = useVlc && !Utils.isFireTvStick();
                 }
 
-                AndroidProfile profile = new AndroidProfile(Utils.getProfileOptions());
+                DeviceProfile profile = ProfileHelper.getBaseProfile();
                 if (useVlc) {
                     ProfileHelper.setVlcOptions(profile);
                     TvApp.getApplication().getLogger().Info("*** Using VLC profile options");
                 } else {
                     if (Utils.is60()) {
-                        ProfileHelper.setExoOptions(profile);
-                        TvApp.getApplication().getLogger().Info("*** Using extended Exoplayer profile options for 6.0+");
+                        if (!"1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"))) {
+                            ProfileHelper.setExoOptions(profile);
+                            TvApp.getApplication().getLogger().Info("*** Using extended Exoplayer profile options for 6.0+");
+
+                        } else {
+                            TvApp.getApplication().getLogger().Info("*** Using basic profile for compatible audio");
+                        }
                     } else {
                         TvApp.getApplication().getLogger().Info("*** Using default android profile");
+                        profile = new AndroidProfile(Utils.getProfileOptions());
                     }
 
-                    ProfileHelper.addMkvOptions(profile);
                 }
 
+                ProfileHelper.addMkvOptions(profile);
                 mCurrentOptions.setProfile(profile);
 
                 playInternal(getCurrentlyPlayingItem(), position, mCurrentOptions);
