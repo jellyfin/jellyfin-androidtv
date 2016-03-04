@@ -2,11 +2,16 @@ package tv.emby.embyatv.util;
 
 import com.google.android.exoplayer.audio.AudioCapabilities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.model.dlna.CodecProfile;
 import mediabrowser.model.dlna.CodecType;
+import mediabrowser.model.dlna.DeviceProfile;
 import mediabrowser.model.dlna.DirectPlayProfile;
 import mediabrowser.model.dlna.DlnaProfileType;
+import mediabrowser.model.dlna.EncodingContext;
 import mediabrowser.model.dlna.ProfileCondition;
 import mediabrowser.model.dlna.ProfileConditionType;
 import mediabrowser.model.dlna.ProfileConditionValue;
@@ -19,7 +24,39 @@ import tv.emby.embyatv.TvApp;
  * Created by Eric on 2/29/2016.
  */
 public class ProfileHelper {
-    public static void setVlcOptions(AndroidProfile profile) {
+
+    public static DeviceProfile getBaseProfile() {
+        DeviceProfile profile = new DeviceProfile();
+
+        profile.setName("Android");
+        profile.setMaxStreamingBitrate(20000000);
+        profile.setMaxStaticBitrate(30000000);
+
+        List<TranscodingProfile> transcodingProfiles = new ArrayList<>();
+
+        TranscodingProfile mkvProfile = new TranscodingProfile();
+        mkvProfile.setContainer("mkv");
+        mkvProfile.setVideoCodec("h264");
+        mkvProfile.setAudioCodec("aac,mp3");
+        mkvProfile.setType(DlnaProfileType.Video);
+        mkvProfile.setContext(EncodingContext.Streaming);
+        mkvProfile.setCopyTimestamps(true);
+        transcodingProfiles.add(mkvProfile);
+
+        TranscodingProfile tempVar = new TranscodingProfile();
+        tempVar.setContainer("mp3");
+        tempVar.setAudioCodec("mp3");
+        tempVar.setType(DlnaProfileType.Audio);
+        tempVar.setContext(EncodingContext.Streaming);
+        transcodingProfiles.add(tempVar);
+
+        profile.setTranscodingProfiles(transcodingProfiles.toArray(new TranscodingProfile[transcodingProfiles.size()]));
+
+        return profile;
+
+    }
+
+    public static void setVlcOptions(DeviceProfile profile) {
 
         DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
         videoDirectPlayProfile.setContainer("m4v,3gp,ts,mpegts,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,m2v,avi,mpg,mpeg,mp4,webm");
@@ -46,7 +83,7 @@ public class ProfileHelper {
 
         CodecProfile videoAudioCodecProfile = new CodecProfile();
         videoAudioCodecProfile.setType(CodecType.VideoAudio);
-        videoAudioCodecProfile.setConditions(new ProfileCondition[] {new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.AudioChannels, "6")});
+        videoAudioCodecProfile.setConditions(new ProfileCondition[]{new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.AudioChannels, "6")});
 
         profile.setCodecProfiles(new CodecProfile[]{videoCodecProfile, videoAudioCodecProfile});
         profile.setSubtitleProfiles(new SubtitleProfile[]{
@@ -64,9 +101,7 @@ public class ProfileHelper {
         });
     }
 
-    public static void setExoOptions(AndroidProfile profile) {
-
-        AudioCapabilities capabilities = AudioCapabilities.getCapabilities(TvApp.getApplication());
+    public static void setExoOptions(DeviceProfile profile) {
 
         DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
         videoDirectPlayProfile.setContainer("m4v,ts,mpegts,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,mp4,webm");
@@ -99,7 +134,7 @@ public class ProfileHelper {
 
         CodecProfile videoAudioCodecProfile = new CodecProfile();
         videoAudioCodecProfile.setType(CodecType.VideoAudio);
-        videoAudioCodecProfile.setConditions(new ProfileCondition[] {new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.AudioChannels, "8")});
+        videoAudioCodecProfile.setConditions(new ProfileCondition[]{new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.AudioChannels, "8")});
 
         profile.setCodecProfiles(new CodecProfile[] { videoCodecProfile, videoAudioCodecProfile });
         profile.setSubtitleProfiles(new SubtitleProfile[] {
@@ -117,15 +152,16 @@ public class ProfileHelper {
         });
     }
 
-    public static void addMkvOptions(AndroidProfile profile) {
+    public static void addMkvOptions(DeviceProfile profile) {
         TranscodingProfile mkvProfile = getTranscodingProfile(profile, "mkv");
-        if (mkvProfile != null) {
+        if (mkvProfile != null && !("1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option", "0"))))
+        {
             TvApp.getApplication().getLogger().Info("*** Adding AC3 as primary supported transcoded audio");
             mkvProfile.setAudioCodec("ac3,".concat(mkvProfile.getAudioCodec()));
         }
     }
 
-    private static TranscodingProfile getTranscodingProfile(AndroidProfile deviceProfile, String container) {
+    private static TranscodingProfile getTranscodingProfile(DeviceProfile deviceProfile, String container) {
         for (TranscodingProfile profile : deviceProfile.getTranscodingProfiles()) {
             if (container.equals(profile.getContainer())) return profile;
         }
