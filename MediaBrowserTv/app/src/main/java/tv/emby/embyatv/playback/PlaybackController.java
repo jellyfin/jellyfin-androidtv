@@ -103,7 +103,7 @@ public class PlaybackController {
     }
     public MediaSourceInfo getCurrentMediaSource() { return mCurrentStreamInfo != null && mCurrentStreamInfo.getMediaSource() != null ? mCurrentStreamInfo.getMediaSource() : getCurrentlyPlayingItem().getMediaSources().get(0);}
     public StreamInfo getCurrentStreamInfo() { return mCurrentStreamInfo; }
-    public boolean canSeek() {return !isLiveTv && mVideoManager != null && mVideoManager.canSeek();}
+    public boolean canSeek() {return !isLiveTv && mVideoManager != null && mVideoManager.canSeek() && (!mVideoManager.isNativeMode() || mCurrentStreamInfo == null || !"ts".equals(mCurrentStreamInfo.getContainer()));}
     public boolean isLiveTv() { return isLiveTv; }
     public int getSubtitleStreamIndex() {return (mCurrentOptions != null && mCurrentOptions.getSubtitleStreamIndex() != null) ? mCurrentOptions.getSubtitleStreamIndex() : -1; }
     public Integer getAudioStreamIndex() {
@@ -641,6 +641,7 @@ public class PlaybackController {
 
     public void seek(final long pos) {
         mApplication.getLogger().Debug("Seeking to " + pos);
+        mApplication.getLogger().Debug("Container: "+mCurrentStreamInfo.getContainer());
         if (mPlaybackMethod == PlayMethod.Transcode) {
             //mkv transcodes require re-start of stream for seek
             mVideoManager.stopPlayback();
@@ -649,8 +650,10 @@ public class PlaybackController {
             mVideoManager.setVideoPath(mCurrentStreamInfo.ToUrl(mApplication.getApiClient().getApiUrl(), mApplication.getApiClient().getAccessToken()));
             mVideoManager.start();
         } else {
-            if (mVideoManager.seekTo(pos) >= 0)
-            {
+            if (mVideoManager.isNativeMode() && "ts".equals(mCurrentStreamInfo.getContainer())) {
+                //Exo does not support seeking in .ts
+                Utils.showToast(TvApp.getApplication(), "Unable to seek");
+            } else if (mVideoManager.seekTo(pos) >= 0) {
                 if (mFragment != null) {
                     mFragment.updateEndTime(mVideoManager.getDuration() - pos);
                 }
@@ -846,7 +849,7 @@ public class PlaybackController {
                     mFragment.updateEndTime(mVideoManager.getDuration() - mStartPosition);
                     startReportLoop();
                 }
-                TvApp.getApplication().getLogger().Info("Play method: ", mCurrentStreamInfo.getPlayMethod());
+                TvApp.getApplication().getLogger().Info("Play method: ", mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode ? "Trans" : "Direct");
 
                 if (mPlaybackState == PlaybackState.PAUSED) {
                     mPlaybackState = PlaybackState.PLAYING;
