@@ -248,7 +248,7 @@ public class PlaybackController {
                     TvApp.getApplication().getLogger().Info("*** Using VLC profile options");
                 } else {
                     if (Utils.is60()) {
-                        ProfileHelper.setExoOptions(profile);
+                        ProfileHelper.setExoOptions(profile, isLiveTv);
                         ProfileHelper.addAc3Streaming(profile);
                         TvApp.getApplication().getLogger().Info("*** Using extended Exoplayer profile options for 6.0+");
 

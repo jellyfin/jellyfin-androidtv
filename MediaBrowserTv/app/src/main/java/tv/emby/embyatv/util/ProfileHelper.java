@@ -101,10 +101,10 @@ public class ProfileHelper {
         });
     }
 
-    public static void setExoOptions(DeviceProfile profile) {
+    public static void setExoOptions(DeviceProfile profile, boolean allowTs) {
 
         DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
-        videoDirectPlayProfile.setContainer("m4v,ts,mpegts,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,mp4,webm");
+        videoDirectPlayProfile.setContainer((allowTs ? "ts,mpegts," : "") + "m4v,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,mp4,webm");
         videoDirectPlayProfile.setVideoCodec("h264,hevc,vp8,vp9,mpeg4,mpeg2video");
         if ("1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"))) {
             //compatible audio mode - will need to transcode dts and ac3
