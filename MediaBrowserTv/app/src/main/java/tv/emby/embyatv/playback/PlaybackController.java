@@ -340,7 +340,7 @@ public class PlaybackController {
                             startItem(item, position, apiClient, response);
                         }
                     });
-                } else if (mVideoManager.isNativeMode() && options.getAudioStreamIndex() != getDefaultAudioIndex(response)) {
+                } else if (mVideoManager.isNativeMode() && options.getAudioStreamIndex() != null && options.getAudioStreamIndex() != getDefaultAudioIndex(response)) {
                     // requested specific audio stream that is different from default so we need to force a transcode to get it (ExoMedia currently cannot switch)
                     // remove direct play profiles to force the transcode
                     options.getProfile().setDirectPlayProfiles(new DirectPlayProfile[]{});
@@ -357,6 +357,7 @@ public class PlaybackController {
 
             @Override
             public void onError(Exception exception) {
+                mApplication.getLogger().ErrorException("Error getting playback stream info", exception);
                 if (exception instanceof PlaybackException) {
                     PlaybackException ex = (PlaybackException) exception;
                     switch (ex.getErrorCode()) {
