@@ -651,13 +651,15 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     @Override
     public void onPause() {
+        super.onPause();
         mPlaybackController.stop();
         setPlayPauseActionState(ImageButton.STATE_PRIMARY); // in case we come back
 
         //Give back audio focus
         mAudioManager.abandonAudioFocus(mAudioFocusChanged);
+        mApplication.getLogger().Debug("Fragment pausing. IsFinishing: "+mActivity.isFinishing());
+        if (!mActivity.isFinishing()) mActivity.finish(); // user hit "home" we want to back out
 
-        super.onPause();
     }
 
     public void show() {
