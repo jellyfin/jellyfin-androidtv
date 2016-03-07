@@ -156,8 +156,8 @@ public class ProfileHelper {
         TranscodingProfile mkvProfile = getTranscodingProfile(profile, "mkv");
         if (mkvProfile != null && !("1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option", "0"))))
         {
-            TvApp.getApplication().getLogger().Info("*** Adding AC3 as primary supported transcoded audio");
-            mkvProfile.setAudioCodec("ac3,".concat(mkvProfile.getAudioCodec()));
+            TvApp.getApplication().getLogger().Info("*** Adding AC3 as supported transcoded audio");
+            mkvProfile.setAudioCodec(mkvProfile.getAudioCodec().concat(",ac3"));
         }
     }
 
