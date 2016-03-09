@@ -79,7 +79,6 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     private HashMap<String, DisplayPreferences> displayPrefsCache = new HashMap<>();
 
-    private boolean isConnectLogin = false;
     private String lastDeletedItemId = "";
 
     private boolean isPaid = false;
@@ -459,11 +458,11 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     }
 
     public boolean isConnectLogin() {
-        return isConnectLogin;
+        return getSystemPrefs().getBoolean("sys_pref_connect_login", false);
     }
 
-    public void setConnectLogin(boolean isConnectLogin) {
-        this.isConnectLogin = isConnectLogin;
+    public void setConnectLogin(boolean value) {
+        TvApp.getApplication().getSystemPrefs().edit().putBoolean("sys_pref_connect_login", value).commit();
     }
 
     public void stopPlayback() {

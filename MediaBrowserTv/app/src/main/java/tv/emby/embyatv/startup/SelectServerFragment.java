@@ -18,6 +18,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.apiclient.ServerInfo;
 import tv.emby.embyatv.browsing.CustomBrowseFragment;
@@ -101,6 +102,15 @@ public class SelectServerFragment extends CustomBrowseFragment {
                         startActivity(intent);
                         break;
 
+                    case LOGOUT_CONNECT:
+                        TvApp.getApplication().getConnectionManager().Logout(new EmptyResponse() {
+                            @Override
+                            public void onResponse() {
+                                mApplication.setConnectLogin(false);
+                                getActivity().finish();
+                            }
+                        });
+                        break;
                     default:
                         Toast.makeText(getActivity(), item.toString(), Toast.LENGTH_SHORT)
                                 .show();
