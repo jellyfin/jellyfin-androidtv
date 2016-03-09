@@ -246,63 +246,12 @@ public class StartupActivity extends Activity {
         connectionManager.Connect(new Response<ConnectionResult>() {
             @Override
             public void onResponse(final ConnectionResult response) {
-                if (response.getConnectUser() != null) TvApp.getApplication().setConnectLogin(true);
-                switch (response.getState()) {
-                    case ConnectSignIn:
-                        logger.Debug("Sign in with connect...");
-                        Intent intent = new Intent(activity, ConnectActivity.class);
-                        startActivity(intent);
-                        break;
+                Utils.handleConnectionResponse(connectionManager, activity, response);
+            }
 
-                    case Unavailable:
-                        logger.Debug("No server available...");
-                        Utils.showToast(application, "No MB Servers available...");
-                        break;
-                    case ServerSignIn:
-                        logger.Debug("Sign in with server "+ response.getServers().get(0).getName() + " total: " + response.getServers().size());
-                        Utils.signInToServer(connectionManager, response.getServers().get(0), activity);
-                        break;
-                    case SignedIn:
-                        logger.Debug("Ignoring saved connection manager sign in");
-                        connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>(){
-                            @Override
-                            public void onResponse(ArrayList<ServerInfo> serverResponse) {
-                                if (serverResponse.size() == 1) {
-                                    //Signed in before and have just one server so go directly to user screen
-                                    Utils.signInToServer(connectionManager, serverResponse.get(0), activity);
-                                } else {
-                                    //More than one server so show selection
-                                    Intent serverIntent = new Intent(activity, SelectServerActivity.class);
-                                    GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
-                                    List<String> payload = new ArrayList<>();
-                                    for (ServerInfo server : serverResponse) {
-                                        payload.add(serializer.SerializeToString(server));
-                                    }
-                                    serverIntent.putExtra("Servers", payload.toArray(new String[payload.size()]));
-                                    serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                    startActivity(serverIntent);
-                                }
-                            }
-                        });
-                        break;
-                    case ServerSelection:
-                        logger.Debug("Select A server");
-                        connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>(){
-                            @Override
-                            public void onResponse(ArrayList<ServerInfo> serverResponse) {
-                                Intent serverIntent = new Intent(activity, SelectServerActivity.class);
-                                GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
-                                List<String> payload = new ArrayList<>();
-                                for (ServerInfo server : serverResponse) {
-                                    payload.add(serializer.SerializeToString(server));
-                                }
-                                serverIntent.putExtra("Servers", payload.toArray(new String[payload.size()]));
-                                serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                startActivity(serverIntent);
-                            }
-                        });
-                        break;
-                }
+            @Override
+            public void onError(Exception exception) {
+                Utils.reportError(activity, "Error connecting");
             }
         });
 

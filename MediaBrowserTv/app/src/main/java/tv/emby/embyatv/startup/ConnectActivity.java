@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import mediabrowser.apiinteraction.ConnectionResult;
 import mediabrowser.apiinteraction.IConnectionManager;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.connect.PinCreationResult;
@@ -54,10 +55,19 @@ public class ConnectActivity extends Activity {
                             connectionManager.ExchangePin(pinResult, new Response<PinExchangeResult>() {
                                 @Override
                                 public void onResponse(PinExchangeResult response) {
-                                    //Re-startup which should get proper connect info as signed in
-                                    Intent startup = new Intent(TvApp.getApplication(), StartupActivity.class);
-                                    startup.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                    startActivity(startup);
+                                    //Re-connect which should get proper connect info as signed in
+                                    connectionManager.Connect(new Response<ConnectionResult>() {
+                                        @Override
+                                        public void onResponse(final ConnectionResult response) {
+                                            TvApp.getApplication().setConnectLogin(true);
+                                            Utils.handleConnectionResponse(connectionManager, activity, response);
+                                        }
+
+                                        @Override
+                                        public void onError(Exception exception) {
+                                            Utils.reportError(activity, "Error connecting");
+                                        }
+                                    });
                                 }
                             });
                         } else {

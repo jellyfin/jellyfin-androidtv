@@ -348,6 +348,7 @@ public class HomeFragment extends StdBrowseFragment {
                         TvApp.getApplication().getConnectionManager().Logout(new EmptyResponse() {
                             @Override
                             public void onResponse() {
+                                mApplication.setConnectLogin(false);
                                 getActivity().finish();
                             }
                         });

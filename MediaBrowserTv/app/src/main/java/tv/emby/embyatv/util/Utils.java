@@ -54,7 +54,9 @@ import mediabrowser.apiinteraction.ConnectionResult;
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.IConnectionManager;
 import mediabrowser.apiinteraction.Response;
+import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfileOptions;
+import mediabrowser.apiinteraction.connectionmanager.ConnectionManager;
 import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dto.BaseItemDto;
@@ -71,6 +73,7 @@ import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.MediaStreamType;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
+import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemQuery;
@@ -90,8 +93,10 @@ import tv.emby.embyatv.details.SongListActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
+import tv.emby.embyatv.startup.ConnectActivity;
 import tv.emby.embyatv.startup.DpadPwActivity;
 import tv.emby.embyatv.startup.LogonCredentials;
+import tv.emby.embyatv.startup.SelectServerActivity;
 import tv.emby.embyatv.startup.SelectUserActivity;
 
 /**
@@ -1557,4 +1562,66 @@ public class Utils {
             return UUID.randomUUID().toString();
         }
     }
+
+    public static void handleConnectionResponse(final IConnectionManager connectionManager,  final Activity activity, ConnectionResult response) {
+        ILogger logger = TvApp.getApplication().getLogger();
+        switch (response.getState()) {
+            case ConnectSignIn:
+                logger.Debug("Sign in with connect...");
+                Intent intent = new Intent(activity, ConnectActivity.class);
+                activity.startActivity(intent);
+                break;
+
+            case Unavailable:
+                logger.Debug("No server available...");
+                Utils.showToast(activity, "No MB Servers available...");
+                break;
+            case ServerSignIn:
+                logger.Debug("Sign in with server " + response.getServers().get(0).getName() + " total: " + response.getServers().size());
+                Utils.signInToServer(connectionManager, response.getServers().get(0), activity);
+                break;
+            case SignedIn:
+                logger.Debug("Ignoring saved connection manager sign in");
+                connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>(){
+                    @Override
+                    public void onResponse(ArrayList<ServerInfo> serverResponse) {
+                        if (serverResponse.size() == 1) {
+                            //Signed in before and have just one server so go directly to user screen
+                            Utils.signInToServer(connectionManager, serverResponse.get(0), activity);
+                        } else {
+                            //More than one server so show selection
+                            Intent serverIntent = new Intent(activity, SelectServerActivity.class);
+                            GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
+                            List<String> payload = new ArrayList<>();
+                            for (ServerInfo server : serverResponse) {
+                                payload.add(serializer.SerializeToString(server));
+                            }
+                            serverIntent.putExtra("Servers", payload.toArray(new String[payload.size()]));
+                            serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            activity.startActivity(serverIntent);
+                        }
+                    }
+                });
+                break;
+            case ServerSelection:
+                logger.Debug("Select A server");
+                connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>(){
+                    @Override
+                    public void onResponse(ArrayList<ServerInfo> serverResponse) {
+                        Intent serverIntent = new Intent(activity, SelectServerActivity.class);
+                        GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
+                        List<String> payload = new ArrayList<>();
+                        for (ServerInfo server : serverResponse) {
+                            payload.add(serializer.SerializeToString(server));
+                        }
+                        serverIntent.putExtra("Servers", payload.toArray(new String[payload.size()]));
+                        serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        activity.startActivity(serverIntent);
+                    }
+                });
+                break;
+        }
+
+    }
+
 }
