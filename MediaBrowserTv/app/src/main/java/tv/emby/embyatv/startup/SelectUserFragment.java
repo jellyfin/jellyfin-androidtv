@@ -36,6 +36,7 @@ public class SelectUserFragment extends CustomBrowseFragment {
     private static final int GRID_ITEM_HEIGHT = 200;
     private static final int ENTER_MANUALLY = 0;
     private static final int LOGIN_CONNECT = 1;
+    private static final int REPORT = 2;
     private ServerInfo mServer;
 
     @Override
@@ -63,6 +64,7 @@ public class SelectUserFragment extends CustomBrowseFragment {
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
         gridRowAdapter.add(new GridButton(ENTER_MANUALLY, mApplication.getString(R.string.lbl_enter_manually), R.drawable.edit));
         gridRowAdapter.add(new GridButton(LOGIN_CONNECT, mApplication.getString(R.string.lbl_login_with_connect), R.drawable.chain));
+        gridRowAdapter.add(new GridButton(REPORT, mApplication.getString(R.string.lbl_send_logs), R.drawable.upload));
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
 
@@ -91,6 +93,9 @@ public class SelectUserFragment extends CustomBrowseFragment {
                         startActivity(intent);
                         break;
 
+                    case REPORT:
+                        Utils.reportError(getActivity(), "Send Log to Dev");
+                        break;
                     default:
                         Toast.makeText(getActivity(), item.toString(), Toast.LENGTH_SHORT)
                                 .show();
