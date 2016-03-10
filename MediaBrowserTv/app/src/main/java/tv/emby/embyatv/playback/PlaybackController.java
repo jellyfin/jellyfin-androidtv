@@ -330,7 +330,7 @@ public class PlaybackController {
             @Override
             public void onResponse(StreamInfo response) {
                 //See if we need to re-query to transcode AC3
-                if (useVlc && mApplication.getPrefs().getBoolean("pref_trans_ac3", true) && response.getPlayMethod() != PlayMethod.Transcode && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec())) {
+                if (useVlc && !isLiveTv && mApplication.getPrefs().getBoolean("pref_trans_ac3", true) && response.getPlayMethod() != PlayMethod.Transcode && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec())) {
                     //Re do it with standard profile to generate transcode
                     mApplication.getLogger().Info("*** Forcing transcode of AC3 item due to option");
                     options.setProfile(ProfileHelper.getBaseProfile());
