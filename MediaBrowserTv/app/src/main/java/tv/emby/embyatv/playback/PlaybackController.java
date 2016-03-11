@@ -23,6 +23,7 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.MediaSourceInfo;
 import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.entities.MediaStream;
+import mediabrowser.model.entities.MediaStreamType;
 import mediabrowser.model.extensions.StringHelper;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
@@ -107,7 +108,7 @@ public class PlaybackController {
     public boolean isLiveTv() { return isLiveTv; }
     public int getSubtitleStreamIndex() {return (mCurrentOptions != null && mCurrentOptions.getSubtitleStreamIndex() != null) ? mCurrentOptions.getSubtitleStreamIndex() : -1; }
     public Integer getAudioStreamIndex() {
-        return isTranscoding() ? mCurrentStreamInfo.getAudioStreamIndex() != null ? mCurrentStreamInfo.getAudioStreamIndex() : mCurrentOptions.getAudioStreamIndex() : Integer.valueOf(mVideoManager.getAudioTrack());
+        return isTranscoding() ? mCurrentStreamInfo.getAudioStreamIndex() != null ? mCurrentStreamInfo.getAudioStreamIndex() : mCurrentOptions.getAudioStreamIndex() : mVideoManager.getAudioTrack() > -1 ? Integer.valueOf(mVideoManager.getAudioTrack()) : bestGuessAudioTrack();
     }
     public List<SubtitleStreamInfo> getSubtitleStreams() { return mSubtitleStreams; }
     public SubtitleStreamInfo getSubtitleStreamInfo(int index) {
@@ -131,6 +132,23 @@ public class PlaybackController {
 
     public void setAudioDelay(long value) { if (mVideoManager != null) mVideoManager.setAudioDelay(value);}
     public long getAudioDelay() { return mVideoManager != null ? mVideoManager.getAudioDelay() : 0;}
+
+    private Integer bestGuessAudioTrack() {
+
+        MediaSourceInfo info = getCurrentMediaSource();
+        boolean videoFound = false;
+        if (info != null) {
+            for (MediaStream track : info.getMediaStreams()) {
+                if (track.getType() == MediaStreamType.Video) {
+                    videoFound = true;
+                } else {
+                    if (videoFound && track.getType() == MediaStreamType.Audio) return track.getIndex();
+                }
+            }
+        }
+
+        return null;
+    }
 
     public void play(long position) {
         play(position, -1);
