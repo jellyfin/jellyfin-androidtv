@@ -108,7 +108,7 @@ public class PlaybackController {
     public boolean isLiveTv() { return isLiveTv; }
     public int getSubtitleStreamIndex() {return (mCurrentOptions != null && mCurrentOptions.getSubtitleStreamIndex() != null) ? mCurrentOptions.getSubtitleStreamIndex() : -1; }
     public Integer getAudioStreamIndex() {
-        return isTranscoding() ? mCurrentStreamInfo.getAudioStreamIndex() != null ? mCurrentStreamInfo.getAudioStreamIndex() : mCurrentOptions.getAudioStreamIndex() : mVideoManager.getAudioTrack() > -1 ? Integer.valueOf(mVideoManager.getAudioTrack()) : bestGuessAudioTrack();
+        return isTranscoding() ? mCurrentStreamInfo.getAudioStreamIndex() != null ? mCurrentStreamInfo.getAudioStreamIndex() : mCurrentOptions.getAudioStreamIndex() : mVideoManager.getAudioTrack() > -1 ? Integer.valueOf(mVideoManager.getAudioTrack()) : bestGuessAudioTrack(getCurrentMediaSource());
     }
     public List<SubtitleStreamInfo> getSubtitleStreams() { return mSubtitleStreams; }
     public SubtitleStreamInfo getSubtitleStreamInfo(int index) {
@@ -133,11 +133,10 @@ public class PlaybackController {
     public void setAudioDelay(long value) { if (mVideoManager != null) mVideoManager.setAudioDelay(value);}
     public long getAudioDelay() { return mVideoManager != null ? mVideoManager.getAudioDelay() : 0;}
 
-    private Integer bestGuessAudioTrack() {
+    private Integer bestGuessAudioTrack(MediaSourceInfo info) {
 
-        MediaSourceInfo info = getCurrentMediaSource();
-        boolean videoFound = false;
         if (info != null) {
+            boolean videoFound = false;
             for (MediaStream track : info.getMediaStreams()) {
                 if (track.getType() == MediaStreamType.Video) {
                     videoFound = true;
@@ -347,24 +346,19 @@ public class PlaybackController {
         mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
             @Override
             public void onResponse(StreamInfo response) {
-                //See if we need to re-query to transcode AC3
-                if (useVlc && !isLiveTv && mApplication.getPrefs().getBoolean("pref_trans_ac3", true) && response.getPlayMethod() != PlayMethod.Transcode && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec())) {
-                    //Re do it with standard profile to generate transcode
-                    mApplication.getLogger().Info("*** Forcing transcode of AC3 item due to option");
-                    options.setProfile(ProfileHelper.getBaseProfile());
-                    mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
-                        @Override
-                        public void onResponse(StreamInfo response) {
-                            startItem(item, position, apiClient, response);
-                        }
-                    });
-                } else if (mVideoManager.isNativeMode() && options.getAudioStreamIndex() != null && options.getAudioStreamIndex() != getDefaultAudioIndex(response)) {
+                if (mVideoManager.isNativeMode() && (options.getAudioStreamIndex() == null || !options.getAudioStreamIndex().equals(bestGuessAudioTrack(response.getMediaSource())))) {
                     // requested specific audio stream that is different from default so we need to force a transcode to get it (ExoMedia currently cannot switch)
                     // remove direct play profiles to force the transcode
-                    options.getProfile().setDirectPlayProfiles(new DirectPlayProfile[]{});
+                    final DeviceProfile save = options.getProfile();
+                    DeviceProfile newProfile = ProfileHelper.getBaseProfile();
+                    ProfileHelper.setExoOptions(newProfile, isLiveTv);
+                    newProfile.setDirectPlayProfiles(new DirectPlayProfile[]{});
+                    options.setProfile(newProfile);
                     mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
                         @Override
                         public void onResponse(StreamInfo response) {
+                            //re-set this
+                            options.setProfile(save);
                             startItem(item, position, apiClient, response);
                         }
                     });
