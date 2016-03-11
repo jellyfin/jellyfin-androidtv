@@ -109,12 +109,14 @@ public class ProfileHelper {
         if ("1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"))) {
             //compatible audio mode - will need to transcode dts and ac3
             TvApp.getApplication().getLogger().Info("*** Excluding DTS and AC3 audio from direct play due to compatible audio setting");
-            videoDirectPlayProfile.setAudioCodec("aac,mp3,flac,mp2");
+            videoDirectPlayProfile.setAudioCodec("aac,mp3,mp2");
+        } else {
+            videoDirectPlayProfile.setAudioCodec("aac,ac3,eac3,dca,mp3,mp2");
         }
         videoDirectPlayProfile.setType(DlnaProfileType.Video);
 
         DirectPlayProfile audioDirectPlayProfile = new DirectPlayProfile();
-        audioDirectPlayProfile.setContainer("flac,aac,mp3,mpa,wav,wma,mp2,ogg,oga,webma,ape,opus");
+        audioDirectPlayProfile.setContainer("aac,mp3,mpa,wav,wma,mp2,ogg,oga,webma,ape,opus");
         audioDirectPlayProfile.setType(DlnaProfileType.Audio);
 
         DirectPlayProfile photoDirectPlayProfile = new DirectPlayProfile();
