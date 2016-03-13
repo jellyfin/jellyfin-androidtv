@@ -424,7 +424,13 @@ public class AudioNowPlayingActivity extends BaseActivity  {
             updatePoster();
             updateInfo(mBaseItem);
             mDisplayDuration = Utils.formatMillis((mBaseItem.getRunTimeTicks() != null ? mBaseItem.getRunTimeTicks() : 0) / 10000);
-            updateSSInfo();
+            // give audio a chance to start playing before updating next info
+            mLoopHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    updateSSInfo();
+                }
+            }, 750);
         }
     }
 
@@ -442,9 +448,13 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         }
     }
 
+    private String getArtistName(BaseItemDto item) {
+        return item.getArtists() != null && item.getArtists().size() > 0 ? item.getArtists().get(0) : item.getAlbumArtist();
+    }
+
     private void updateInfo(BaseItemDto item) {
         if (item != null) {
-            mArtistName.setText(item.getAlbumArtist());
+            mArtistName.setText(getArtistName(item));
             mSongTitle.setText(item.getName());
             mAlbumTitle.setText(item.getAlbum());
             mCurrentNdx.setText(MediaManager.getCurrentAudioQueueDisplayPosition());
@@ -555,7 +565,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mSSAlbumSong.setText((mBaseItem.getAlbum() != null ? mBaseItem.getAlbum() + " / " : "") + mBaseItem.getName());
         mSSQueueStatus.setText(MediaManager.getCurrentAudioQueueDisplayPosition() + " | " + MediaManager.getCurrentAudioQueueDisplaySize());
         BaseItemDto next = MediaManager.getNextAudioItem();
-        mSSUpNext.setText(next != null ? getString(R.string.lbl_up_next_colon) + "  " + (next.getAlbumArtist() != null ? next.getAlbumArtist() + " / " : "") + next.getName() : "");
+        mSSUpNext.setText(next != null ? getString(R.string.lbl_up_next_colon) + "  " + (getArtistName(next) != null ? getArtistName(next) + " / " : "") + next.getName() : "");
     }
 
     protected void updateLogo() {
