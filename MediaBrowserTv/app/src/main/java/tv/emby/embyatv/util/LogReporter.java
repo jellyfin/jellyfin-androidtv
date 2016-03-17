@@ -22,8 +22,8 @@ public class LogReporter {
         report.setOsVersionString(Build.VERSION.RELEASE);
         report.setCause(cause);
         report.setDeviceInfo(Build.MODEL);
-        report.setServerName(TvApp.getApplication().getCurrentSystemInfo().getServerName());
-        report.setUserName(TvApp.getApplication().getCurrentUser().getName());
+        if (TvApp.getApplication().getCurrentSystemInfo() != null) report.setServerName(TvApp.getApplication().getCurrentSystemInfo().getServerName());
+        if (TvApp.getApplication().getCurrentUser() != null) report.setUserName(TvApp.getApplication().getCurrentUser().getName());
 
         //get log
         try {
