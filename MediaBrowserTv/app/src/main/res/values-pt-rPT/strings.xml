@@ -32,7 +32,7 @@
     <string name="video_error_server_inaccessible">Servidor Inacessível</string>
     <string name="home_title">Início</string>
     <string name="btn_cancel">Cancelar</string>
-    <string name="btn_manually">Insira o Endereço do Servidor</string>
+    <string name="btn_manually">Saltar e Inserir o Endereço IP</string>
     <string name="txt_expired_exp">Esta versão de desenvolvimento expirou. Por favor veja se encontra uma atualização ou instalação na loja. Obrigado por usar o Emby!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_show_login_value">0</string>
@@ -111,4 +111,14 @@
     <string name="lbl_ip_hint">192.168.1.1 ou https://myserver.com</string>
     <string name="lbl_enter_server_address">Insira o Endereço do Servidor</string>
     <string name="lbl_ok">Ok</string>
+    <string name="lbl_albums">Álbuns</string>
+    <string name="lbl_artists">Artistas</string>
+    <string name="lbl_song">Música</string>
+    <string name="lbl_songs">Músicas</string>
+    <string name="lbl_album">Álbum</string>
+    <string name="lbl_episodes">Episódios</string>
+    <string name="lbl_enable_cinema_mode">Ativar Modo Cinema</string>
+    <string name="lbl_playlists">Listas de Reprodução</string>
+    <string name="lbl_of">de</string>
+    <string name="lbl_delete">Remover</string>
 </resources>
