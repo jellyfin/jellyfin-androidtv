@@ -10,7 +10,7 @@ android {
         applicationId "tv.emby.embyatv"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 1163
+        versionCode 1164
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -24,10 +24,10 @@ android {
     }
     productFlavors {
         google {
-            versionName = "1.1.63g"
+            versionName = "1.1.64g"
         }
         amazon {
-            versionName = "1.1.63a"
+            versionName = "1.1.64a"
         }
     }
 }
