@@ -101,29 +101,36 @@ public class ProfileHelper {
         });
     }
 
-    public static void setExoOptions(DeviceProfile profile, boolean allowTs) {
+    public static void setExoOptions(DeviceProfile profile, boolean isLiveTv) {
 
-        DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
-        videoDirectPlayProfile.setContainer((allowTs ? "ts,mpegts," : "") + "m4v,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,mp4,webm");
-        videoDirectPlayProfile.setVideoCodec("h264,hevc,vp8,vp9,mpeg4,mpeg2video");
-        if ("1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"))) {
-            //compatible audio mode - will need to transcode dts and ac3
-            TvApp.getApplication().getLogger().Info("*** Excluding DTS and AC3 audio from direct play due to compatible audio setting");
-            videoDirectPlayProfile.setAudioCodec("aac,mp3,mp2");
-        } else {
-            videoDirectPlayProfile.setAudioCodec("aac,ac3,eac3,dca,mp3,mp2");
+        List<DirectPlayProfile> directPlayProfiles = new ArrayList<>();
+        if (!isLiveTv || TvApp.getApplication().directStreamLiveTv()) {
+            DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
+            videoDirectPlayProfile.setContainer((isLiveTv ? "ts,mpegts," : "") + "m4v,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,mp4,webm");
+            videoDirectPlayProfile.setVideoCodec("h264,hevc,vp8,vp9,mpeg4,mpeg2video");
+            if ("1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"))) {
+                //compatible audio mode - will need to transcode dts and ac3
+                TvApp.getApplication().getLogger().Info("*** Excluding DTS and AC3 audio from direct play due to compatible audio setting");
+                videoDirectPlayProfile.setAudioCodec("aac,mp3,mp2");
+            } else {
+                videoDirectPlayProfile.setAudioCodec("aac,ac3,eac3,dca,mp3,mp2");
+            }
+            videoDirectPlayProfile.setType(DlnaProfileType.Video);
+            directPlayProfiles.add(videoDirectPlayProfile);
         }
-        videoDirectPlayProfile.setType(DlnaProfileType.Video);
 
         DirectPlayProfile audioDirectPlayProfile = new DirectPlayProfile();
         audioDirectPlayProfile.setContainer("aac,mp3,mpa,wav,wma,mp2,ogg,oga,webma,ape,opus");
         audioDirectPlayProfile.setType(DlnaProfileType.Audio);
+        directPlayProfiles.add(audioDirectPlayProfile);
 
         DirectPlayProfile photoDirectPlayProfile = new DirectPlayProfile();
         photoDirectPlayProfile.setContainer("jpg,jpeg,png,gif");
         photoDirectPlayProfile.setType(DlnaProfileType.Photo);
+        directPlayProfiles.add(photoDirectPlayProfile);
 
-        profile.setDirectPlayProfiles(new DirectPlayProfile[]{videoDirectPlayProfile, audioDirectPlayProfile, photoDirectPlayProfile});
+        DirectPlayProfile[] profiles = new DirectPlayProfile[directPlayProfiles.size()];
+        profile.setDirectPlayProfiles(directPlayProfiles.toArray(profiles));
 
         CodecProfile videoCodecProfile = new CodecProfile();
         videoCodecProfile.setType(CodecType.Video);
