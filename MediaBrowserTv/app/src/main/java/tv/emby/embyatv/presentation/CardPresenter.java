@@ -1,17 +1,14 @@
 package tv.emby.embyatv.presentation;
 
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.v17.leanback.widget.BaseCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+import com.bumptech.glide.Glide;
 
 import java.util.Date;
 
@@ -20,6 +17,7 @@ import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.model.ImageType;
 import tv.emby.embyatv.util.Utils;
@@ -29,8 +27,8 @@ public class CardPresenter extends Presenter {
     private int mStaticHeight = 300;
     private String mImageType = ImageType.DEFAULT;
 
-    private static Context mContext;
     private boolean mShowInfo = true;
+    private static ViewGroup mViewParent;
 
     public CardPresenter() {
         super();
@@ -51,6 +49,10 @@ public class CardPresenter extends Presenter {
         mStaticHeight = staticHeight;
     }
 
+    private static Context getContext() {
+        return TvApp.getApplication().getCurrentActivity() != null ? TvApp.getApplication().getCurrentActivity() : mViewParent.getContext();
+    }
+
     static class ViewHolder extends Presenter.ViewHolder {
         private int cardWidth = 230;
 
@@ -58,14 +60,12 @@ public class CardPresenter extends Presenter {
         private BaseRowItem mItem;
         private MyImageCardView mCardView;
         private Drawable mDefaultCardImage;
-        private PicassoImageCardViewTarget mImageCardViewTarget;
 
         public ViewHolder(View view) {
             super(view);
             mCardView = (MyImageCardView) view;
 
-            mImageCardViewTarget = new PicassoImageCardViewTarget(mCardView);
-            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.video);
+            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.video);
         }
 
         public int getCardHeight() {
@@ -86,24 +86,24 @@ public class CardPresenter extends Presenter {
                     switch (itemDto.getType()) {
                         case "Audio":
                         case "MusicAlbum":
-                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.audio);
+                            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.audio);
                             if (aspect < 0.8) aspect = 1.0;
                             break;
                         case "Person":
-                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
+                            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.person);
                             break;
                         case "MusicArtist":
-                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
+                            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.person);
                             if (aspect <.8) aspect = 1.0;
                             break;
                         case "RecordingGroup":
-                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.recgroup);
+                            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.recgroup);
                             break;
                         case "Season":
                         case "Series":
                         case "Episode":
                             //TvApp.getApplication().getLogger().Debug("**** Image width: "+ cardWidth + " Aspect: " + Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()) + " Item: "+itemDto.getName());
-                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.tv);
+                            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tv);
                             switch (itemDto.getLocationType()) {
 
                                 case FileSystem:
@@ -126,13 +126,13 @@ public class CardPresenter extends Presenter {
                         case "Genre":
                         case "MusicGenre":
                         case "UserView":
-                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.folder);
+                            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.folder);
                             break;
                         case "Photo":
-                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.photo);
+                            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.photo);
                             break;
                         default:
-                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.video);
+                            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.video);
                             break;
 
                     }
@@ -150,7 +150,7 @@ public class CardPresenter extends Presenter {
                     cardWidth = (int)((tvAspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.tv);
+                    mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tv);
                     break;
 
                 case LiveTvProgram:
@@ -174,7 +174,7 @@ public class CardPresenter extends Presenter {
                             break;
                     }
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.tv);
+                    mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tv);
                     break;
 
                 case LiveTvRecording:
@@ -184,44 +184,44 @@ public class CardPresenter extends Presenter {
                     cardWidth = (int)((recordingAspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.tv);
+                    mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tv);
                     break;
 
                 case Server:
                     cardWidth = (int)(.777777777 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.server);
+                    mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.server);
                 case Person:
                     cardWidth = (int)(.777777777 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
+                    mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.person);
                     break;
                 case User:
                     cardWidth = (int)(.777777777 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
+                    mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.person);
                     break;
                 case Chapter:
                     cardWidth = (int)(1.779 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.video);
+                    mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.video);
                     break;
                 case SearchHint:
                     switch (mItem.getSearchHint().getType()) {
                         case "Episode":
                             cardWidth = (int)(1.779 * cardHeight);
                             mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.tv);
+                            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tv);
                             break;
                         case "Person":
                             cardWidth = (int)(.777777777 * cardHeight);
                             mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.person);
+                            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.person);
                             break;
                         default:
                             cardWidth = (int)(.777777777 * cardHeight);
                             mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.video);
+                            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.video);
                             break;
                     }
                     break;
@@ -229,7 +229,7 @@ public class CardPresenter extends Presenter {
                     cardHeight = !m.isStaticHeight() ? pHeight : sHeight;
                     cardWidth = (int)(.777777777 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                    mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.video);
+                    mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.video);
                     break;
 
             }
@@ -243,44 +243,34 @@ public class CardPresenter extends Presenter {
             return mCardView;
         }
 
-        protected void updateCardViewImage(int image) {
-            Picasso.with(mContext)
-                    .load(image)
-                    .resize(cardWidth, cardHeight)
-                    .centerCrop()
-                    .error(mDefaultCardImage)
-                    .into(mImageCardViewTarget);
-        }
-
         protected void updateCardViewImage(String url) {
             if (url == null) {
-                Picasso.with(mContext)
+                //TvApp.getApplication().getLogger().Debug("Clearing card image");
+                Glide.with(getContext())
                         .load("nothing")
-                        .resize(cardWidth, cardHeight)
                         .centerCrop()
                         .error(mDefaultCardImage)
-                        .into(mImageCardViewTarget);
+                        .into(mCardView.getMainImageView());
 
             } else {
-                Picasso.with(mContext)
+                //TvApp.getApplication().getLogger().Debug("Loading card image");
+                Glide.with(getContext())
                         .load(url)
-                        .skipMemoryCache()
-                        .resize(cardWidth, cardHeight)
+                        .override(cardWidth, cardHeight)
                         .centerCrop()
                         .error(mDefaultCardImage)
-                        .into(mImageCardViewTarget);
+                        .into(mCardView.getMainImageView());
             }
         }
 
         protected void resetCardViewImage() {
             mCardView.clearBanner();
-            Picasso.with(mContext)
+            //TvApp.getApplication().getLogger().Debug("Resetting card image");
+            Glide.with(getContext())
                     .load(Uri.parse("android.resource://tv.emby.embyatv/drawable/loading"))
-                    .skipMemoryCache()
-                    .resize(cardWidth, cardHeight)
-                    .centerCrop()
+                    .fitCenter()
                     .error(mDefaultCardImage)
-                    .into(mImageCardViewTarget);
+                    .into(mCardView.getMainImageView());
 
         }
     }
@@ -288,12 +278,12 @@ public class CardPresenter extends Presenter {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
         //Log.d(TAG, "onCreateViewHolder");
-        mContext = parent.getContext();
+        mViewParent = parent;
 
-        MyImageCardView cardView = new MyImageCardView(mContext, mShowInfo);
+        MyImageCardView cardView = new MyImageCardView(getContext(), mShowInfo);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
-        cardView.setBackgroundColor(mContext.getResources().getColor(R.color.lb_basic_card_info_bg_color));
+        cardView.setBackgroundColor(TvApp.getApplication().getResources().getColor(R.color.lb_basic_card_info_bg_color));
         return new ViewHolder(cardView);
     }
 
@@ -302,6 +292,7 @@ public class CardPresenter extends Presenter {
         if (!(item instanceof BaseRowItem)) return;
         BaseRowItem rowItem = (BaseRowItem) item;
         if (!rowItem.isValid()) return;
+
 
         ViewHolder holder = (ViewHolder) viewHolder;
         holder.setItem(rowItem, mImageType, 260, 300, mStaticHeight);
@@ -327,7 +318,7 @@ public class CardPresenter extends Presenter {
 
     @Override
     public void onUnbindViewHolder(Presenter.ViewHolder viewHolder) {
-        //Log.d(TAG, "onUnbindViewHolder");
+        //TvApp.getApplication().getLogger().Debug("onUnbindViewHolder");
         //Get the image out of there so won't be there if recycled
         ((ViewHolder) viewHolder).resetCardViewImage();
     }
@@ -335,30 +326,6 @@ public class CardPresenter extends Presenter {
     @Override
     public void onViewAttachedToWindow(Presenter.ViewHolder viewHolder) {
         //Log.d(TAG, "onViewAttachedToWindow");
-    }
-
-    public static class PicassoImageCardViewTarget implements Target {
-        private MyImageCardView mImageCardView;
-
-        public PicassoImageCardViewTarget(MyImageCardView mImageCardView) {
-            this.mImageCardView = mImageCardView;
-        }
-
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom loadedFrom) {
-            Drawable bitmapDrawable = new BitmapDrawable(mContext.getResources(), bitmap);
-            mImageCardView.setMainImage(bitmapDrawable);
-        }
-
-        @Override
-        public void onBitmapFailed(Drawable drawable) {
-            mImageCardView.setMainImage(drawable);
-        }
-
-        @Override
-        public void onPrepareLoad(Drawable drawable) {
-            // Do nothing, default_background manager has its own transitions
-        }
     }
 
 }

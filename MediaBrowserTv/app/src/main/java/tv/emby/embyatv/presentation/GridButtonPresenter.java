@@ -1,19 +1,15 @@
 package tv.emby.embyatv.presentation;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+import com.bumptech.glide.Glide;
 
-import tv.emby.embyatv.ui.GridButton;
 import tv.emby.embyatv.R;
+import tv.emby.embyatv.ui.GridButton;
 
 public class GridButtonPresenter extends Presenter {
 
@@ -37,13 +33,11 @@ public class GridButtonPresenter extends Presenter {
         private int cardHeight;
         private MyImageCardView mCardView;
         private Drawable mDefaultCardImage;
-        private PicassoImageCardViewTarget mImageCardViewTarget;
 
         public ViewHolder(View view) {
             super(view);
             mCardView = (MyImageCardView) view;
 
-            mImageCardViewTarget = new PicassoImageCardViewTarget(mCardView);
             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.gears);
         }
 
@@ -63,12 +57,12 @@ public class GridButtonPresenter extends Presenter {
         }
 
         protected void updateCardViewImage(int image) {
-            Picasso.with(mContext)
+            Glide.with(mContext)
                     .load(image)
-                    .resize(cardWidth, cardHeight)
+                    .override(cardWidth, cardHeight)
                     .centerCrop()
                     .error(mDefaultCardImage)
-                    .into(mImageCardViewTarget);
+                    .into(mCardView.getMainImageView());
         }
     }
 
@@ -108,30 +102,6 @@ public class GridButtonPresenter extends Presenter {
     @Override
     public void onViewAttachedToWindow(Presenter.ViewHolder viewHolder) {
         //Log.d(TAG, "onViewAttachedToWindow");
-    }
-
-    public static class PicassoImageCardViewTarget implements Target {
-        private MyImageCardView mImageCardView;
-
-        public PicassoImageCardViewTarget(MyImageCardView mImageCardView) {
-            this.mImageCardView = mImageCardView;
-        }
-
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom loadedFrom) {
-            Drawable bitmapDrawable = new BitmapDrawable(mContext.getResources(), bitmap);
-            mImageCardView.setMainImage(bitmapDrawable);
-        }
-
-        @Override
-        public void onBitmapFailed(Drawable drawable) {
-            mImageCardView.setMainImage(drawable);
-        }
-
-        @Override
-        public void onPrepareLoad(Drawable drawable) {
-            // Do nothing, default_background manager has its own transitions
-        }
     }
 
 }

@@ -35,8 +35,6 @@ import tv.emby.embyatv.presentation.GridButtonPresenter;
  * Created by Eric on 12/4/2014.
  */
 public class SelectServerFragment extends CustomBrowseFragment {
-    private static final int GRID_ITEM_WIDTH = 200;
-    private static final int GRID_ITEM_HEIGHT = 200;
     private static final int ENTER_MANUALLY = 0;
     private static final int LOGIN_CONNECT = 1;
     private static final int LOGOUT_CONNECT = 2;
@@ -117,29 +115,6 @@ public class SelectServerFragment extends CustomBrowseFragment {
                         break;
                 }
             }
-        }
-    }
-
-    private class GridItemPresenter extends Presenter {
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent) {
-            TextView view = new TextView(parent.getContext());
-            view.setLayoutParams(new ViewGroup.LayoutParams(GRID_ITEM_WIDTH, GRID_ITEM_HEIGHT));
-            view.setFocusable(true);
-            view.setFocusableInTouchMode(true);
-            view.setBackgroundColor(getResources().getColor(R.color.default_background));
-            view.setTextColor(Color.WHITE);
-            view.setGravity(Gravity.CENTER);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder viewHolder, Object item) {
-            ((TextView) viewHolder.view).setText(item.toString());
-        }
-
-        @Override
-        public void onUnbindViewHolder(ViewHolder viewHolder) {
         }
     }
 

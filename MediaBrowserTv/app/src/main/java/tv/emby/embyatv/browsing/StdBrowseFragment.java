@@ -14,11 +14,8 @@
 
 package tv.emby.embyatv.browsing;
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
@@ -42,8 +39,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +55,6 @@ import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.base.CustomMessage;
 import tv.emby.embyatv.base.IKeyListener;
 import tv.emby.embyatv.base.IMessageListener;
-import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.AudioQueueItem;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
@@ -67,11 +64,9 @@ import tv.emby.embyatv.presentation.PositionableListRowPresenter;
 import tv.emby.embyatv.presentation.ThemeManager;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.ViewQuery;
-import tv.emby.embyatv.search.SearchActivity;
 import tv.emby.embyatv.ui.ClockUserView;
 import tv.emby.embyatv.ui.ItemPanel;
 import tv.emby.embyatv.util.KeyProcessor;
-import tv.emby.embyatv.util.RemoteControlReceiver;
 import tv.emby.embyatv.util.Utils;
 
 public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
@@ -90,7 +85,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ArrayObjectAdapter mRowsAdapter;
     private Drawable mDefaultBackground;
-    private Target mBackgroundTarget;
+    private SimpleTarget<Bitmap> mBackgroundTarget;
     private DisplayMetrics mMetrics;
     private Timer mBackgroundTimer;
     private final Handler mHandler = new Handler();
@@ -239,14 +234,19 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
     private void prepareBackgroundManager() {
 
-        BackgroundManager backgroundManager = BackgroundManager.getInstance(getActivity());
+        final BackgroundManager backgroundManager = BackgroundManager.getInstance(getActivity());
         backgroundManager.attach(getActivity().getWindow());
-        mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
-
         mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
 
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
+
+        mBackgroundTarget = new SimpleTarget<Bitmap>(mMetrics.widthPixels, mMetrics.heightPixels) {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                backgroundManager.setBitmap(resource);
+            }
+        };
     }
 
     protected void setupUIElements() {
@@ -463,10 +463,10 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     }
 
     protected void updateBackground(String url) {
-        Picasso.with(getActivity())
+        Glide.with(getActivity())
                 .load(url)
-                //.skipMemoryCache()
-                .resize(mMetrics.widthPixels, mMetrics.heightPixels)
+                .asBitmap()
+                .override(mMetrics.widthPixels, mMetrics.heightPixels)
                 .centerCrop()
                 .error(mDefaultBackground)
                 .into(mBackgroundTarget);
