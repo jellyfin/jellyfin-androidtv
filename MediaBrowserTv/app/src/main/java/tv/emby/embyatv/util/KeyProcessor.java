@@ -8,7 +8,6 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.PopupMenu;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import mediabrowser.apiinteraction.Response;
@@ -62,7 +61,7 @@ public class KeyProcessor {
         switch (key) {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                if (MediaManager.isPlayingAudio() && (!rowItem.getIsBaseItem() || !rowItem.getBaseItem().getType().equals("Photo"))) {
+                if (MediaManager.isPlayingAudio() && (!rowItem.isBaseItem() || !rowItem.getBaseItem().getType().equals("Photo"))) {
                     MediaManager.pauseAudio();
                     return true;
                 }
