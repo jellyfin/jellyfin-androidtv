@@ -120,9 +120,9 @@ public class BaseRowItem {
     public BaseItemDto getRecordingInfo() { return baseItem; }
     public GridButton getGridButton() { return gridButton; }
 
-    public boolean getIsChapter() { return type == ItemType.Chapter; }
-    public boolean getIsPerson() { return type == ItemType.Person; }
-    public boolean getIsBaseItem() { return type == ItemType.BaseItem; }
+    public boolean isChapter() { return type == ItemType.Chapter; }
+    public boolean isPerson() { return type == ItemType.Person; }
+    public boolean isBaseItem() { return type == ItemType.BaseItem; }
     public boolean getPreferParentThumb() { return preferParentThumb; }
     public ItemType getItemType() { return type; }
     public boolean isFolder() { return type == ItemType.BaseItem && baseItem != null && baseItem.getIsFolder(); }
@@ -131,6 +131,19 @@ public class BaseRowItem {
             || "UserView".equals(baseItem.getType()) || "CollectionFolder".equals(baseItem.getType()) || "Photo".equals(baseItem.getType())
             || "Video".equals(baseItem.getType()) || "Person".equals(baseItem.getType()) || "Playlist".equals(baseItem.getType())
             || "MusicArtist".equals(baseItem.getType()));
+    }
+
+    public boolean isValid() {
+        switch (type) {
+            case BaseItem:
+                return baseItem != null;
+            case Person:
+                return person != null;
+            case Chapter:
+                return chapterInfo != null;
+            default:
+                return true; //compatibility
+        }
     }
 
     public String getImageUrl(String imageType, int maxHeight) {
