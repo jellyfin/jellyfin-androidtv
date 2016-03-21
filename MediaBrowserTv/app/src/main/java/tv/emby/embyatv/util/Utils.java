@@ -1350,6 +1350,9 @@ public class Utils {
         } catch (IOException e) {
             // none saved
             return new LogonCredentials(new ServerInfo(), new UserDto());
+        } catch (Exception e) {
+            app.getLogger().ErrorException("Error interpreting saved login",e);
+            return new LogonCredentials(new ServerInfo(), new UserDto());
         }
     }
 

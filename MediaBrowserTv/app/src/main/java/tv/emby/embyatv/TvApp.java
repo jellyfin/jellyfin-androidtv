@@ -342,7 +342,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     }
 
     public boolean getIsAutoLoginConfigured() {
-        return getPrefs().getString("pref_login_behavior", "0").equals("1");
+        return getPrefs().getString("pref_login_behavior", "0").equals("1") && getConfiguredAutoCredentials().getServerInfo().getId() != null;
     }
 
     public Calendar getLastMoviePlayback() {
