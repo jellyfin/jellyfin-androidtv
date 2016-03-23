@@ -11,6 +11,7 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,12 +22,16 @@ import java.util.List;
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.apiclient.ServerInfo;
+import tv.emby.embyatv.base.CustomMessage;
+import tv.emby.embyatv.base.IKeyListener;
+import tv.emby.embyatv.base.IMessageListener;
 import tv.emby.embyatv.browsing.CustomBrowseFragment;
 import tv.emby.embyatv.ui.GridButton;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.browsing.StdBrowseFragment;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.util.KeyProcessor;
 import tv.emby.embyatv.util.Utils;
 import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.presentation.GridButtonPresenter;
@@ -82,6 +87,26 @@ public class SelectServerFragment extends CustomBrowseFragment {
     protected void setupEventListeners() {
         super.setupEventListeners();
         mClickedListener.registerListener(new ItemViewClickedListener());
+//        if (mActivity != null) {
+//            mActivity.registerKeyListener(new IKeyListener() {
+//                @Override
+//                public boolean onKeyUp(int key, KeyEvent event) {
+//                    return KeyProcessor.HandleKey(key, mCurrentItem, mActivity);
+//                }
+//            });
+//
+//            mActivity.registerMessageListener(new IMessageListener() {
+//                @Override
+//                public void onMessageReceived(CustomMessage message) {
+//                    switch (message) {
+//
+//                        case RemoveCurrentItem:
+//                            ((ItemRowAdapter)mCurrentRow.getAdapter()).remove(mCurrentItem);
+//                            break;
+//                    }
+//                }
+//            });
+//        }
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {

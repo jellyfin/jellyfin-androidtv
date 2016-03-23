@@ -31,6 +31,7 @@ import java.util.TimerTask;
 
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
@@ -49,6 +50,9 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
     protected String MainTitle;
     protected boolean ShowBadge = true;
     protected TvApp mApplication;
+    protected BaseActivity mActivity;
+    protected BaseRowItem mCurrentItem;
+    protected ListRow mCurrentRow;
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ArrayObjectAdapter mRowsAdapter;
@@ -87,6 +91,7 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
         super.onActivityCreated(savedInstanceState);
 
         mApplication = TvApp.getApplication();
+        //mActivity = (BaseActivity) getActivity();
 
         prepareBackgroundManager();
 
@@ -244,6 +249,8 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
             }
 
             BaseRowItem rowItem = (BaseRowItem) item;
+            mCurrentItem = rowItem;
+            mCurrentRow = (ListRow) row;
 
             //mApplication.getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));
             ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)row).getAdapter();

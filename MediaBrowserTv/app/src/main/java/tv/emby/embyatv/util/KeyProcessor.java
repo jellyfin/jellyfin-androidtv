@@ -49,6 +49,7 @@ public class KeyProcessor {
     public static final int MENU_REMOVE_FROM_QUEUE = 13;
     public static final int MENU_GOTO_NOW_PLAYING = 14;
     public static final int MENU_INSTANT_MIX = 15;
+    public static final int MENU_FORGET = 16;
 
     private static String mCurrentItemId;
     private static BaseItemDto mCurrentItem;
@@ -189,6 +190,7 @@ public class KeyProcessor {
                     case Person:
                         break;
                     case Server:
+                        createServerMenu(rowItem, activity);
                         break;
                     case User:
                         break;
@@ -208,6 +210,25 @@ public class KeyProcessor {
                 return true;
         }
         return false;
+    }
+
+    private static void createServerMenu(BaseRowItem rowItem, BaseActivity activity) {
+        PopupMenu menu = Utils.createPopupMenu(activity, activity.getCurrentFocus(), Gravity.TOP);
+        menu.getMenu().add(0, MENU_FORGET, 0, R.string.lbl_forget);
+        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case MENU_FORGET:
+                        //todo - connection manager missing delete server...
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        menu.show();
     }
 
     private static void createItemMenu(BaseRowItem rowItem, UserItemDataDto userData, BaseActivity activity) {
