@@ -291,7 +291,7 @@ public class HorizontalGridFragment extends Fragment {
     }
 
     public void focusGrid() {
-        mGridViewHolder.getGridView().requestFocus();
+        if (mGridViewHolder != null && mGridViewHolder.getGridView() != null) mGridViewHolder.getGridView().requestFocus();
     }
 
     @Override
