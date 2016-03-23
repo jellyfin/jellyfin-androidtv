@@ -243,7 +243,13 @@ public class CardPresenter extends Presenter {
             return mCardView;
         }
 
+        protected boolean validContext() {
+            return getContext() != TvApp.getApplication().getCurrentActivity() || (TvApp.getApplication().getCurrentActivity() != null && !TvApp.getApplication().getCurrentActivity().isDestroyed() && !TvApp.getApplication().getCurrentActivity().isFinishing());
+        }
+
         protected void updateCardViewImage(String url) {
+            if (!validContext()) return;
+
             if (url == null) {
                 //TvApp.getApplication().getLogger().Debug("Clearing card image");
                 Glide.with(getContext())
@@ -265,6 +271,7 @@ public class CardPresenter extends Presenter {
 
         protected void resetCardViewImage() {
             mCardView.clearBanner();
+            if (!validContext()) return;
             //TvApp.getApplication().getLogger().Debug("Resetting card image");
             Glide.with(getContext())
                     .load(Uri.parse("android.resource://tv.emby.embyatv/drawable/loading"))
