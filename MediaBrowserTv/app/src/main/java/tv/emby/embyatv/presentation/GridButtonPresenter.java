@@ -9,14 +9,15 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 
 import tv.emby.embyatv.R;
+import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.ui.GridButton;
 
 public class GridButtonPresenter extends Presenter {
 
-    private static Context mContext;
     private boolean mShowInfo = true;
     private int mCardWidth = 220;
     private int mCardHeight = 220;
+    private static ViewGroup mViewParent;
 
     public GridButtonPresenter() { super();}
 
@@ -25,6 +26,10 @@ public class GridButtonPresenter extends Presenter {
         mShowInfo = showinfo;
         mCardWidth = width;
         mCardHeight = height;
+    }
+
+    private static Context getContext() {
+        return TvApp.getApplication().getCurrentActivity() != null ? TvApp.getApplication().getCurrentActivity() : mViewParent.getContext();
     }
 
     static class ViewHolder extends Presenter.ViewHolder {
@@ -38,7 +43,7 @@ public class GridButtonPresenter extends Presenter {
             super(view);
             mCardView = (MyImageCardView) view;
 
-            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.gears);
+            mDefaultCardImage = TvApp.getApplication().getResources().getDrawable(R.drawable.gears);
         }
 
         public void setItem(GridButton m, int width, int height) {
@@ -57,7 +62,7 @@ public class GridButtonPresenter extends Presenter {
         }
 
         protected void updateCardViewImage(int image) {
-            Glide.with(mContext)
+            Glide.with(getContext())
                     .load(image)
                     .override(cardWidth, cardHeight)
                     .centerCrop()
@@ -69,12 +74,12 @@ public class GridButtonPresenter extends Presenter {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
         //Log.d(TAG, "onCreateViewHolder");
-        mContext = parent.getContext();
+        mViewParent = parent;
 
-        MyImageCardView cardView = new MyImageCardView(mContext, mShowInfo);
+        MyImageCardView cardView = new MyImageCardView(getContext(), mShowInfo);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
-        cardView.setBackgroundColor(mContext.getResources().getColor(R.color.lb_basic_card_info_bg_color));
+        cardView.setBackgroundColor(TvApp.getApplication().getResources().getColor(R.color.lb_basic_card_info_bg_color));
         return new ViewHolder(cardView);
     }
 
