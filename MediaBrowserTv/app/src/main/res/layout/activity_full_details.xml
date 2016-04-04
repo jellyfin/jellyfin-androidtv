@@ -22,7 +22,8 @@
         android:id="@+id/fdMainInfoRow"
         android:dividerPadding="4sp"
         android:layout_below="@+id/fdTitle"
-        android:layout_alignStart="@+id/fdTitle"/>
+        android:layout_alignStart="@+id/fdTitle"
+        android:layout_toLeftOf="@+id/fdClock" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -32,7 +33,8 @@
         android:id="@+id/fdGenreRow"
         android:layout_alignStart="@+id/fdMainInfoRow"
         android:divider="@drawable/whitedivider"
-        android:minHeight="22sp"/>
+        android:minHeight="22sp"
+        android:layout_toLeftOf="@+id/fdClock" />
 
 
     <FrameLayout
