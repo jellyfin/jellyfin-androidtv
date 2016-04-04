@@ -859,7 +859,7 @@ public class PlaybackController {
 
                 if (mPlaybackState == PlaybackState.BUFFERING) {
                     mPlaybackState = PlaybackState.PLAYING;
-                    mFragment.updateEndTime(mVideoManager.getDuration() - mStartPosition);
+                    mFragment.updateEndTime(isLiveTv && getCurrentlyPlayingItem().getEndDate() != null ? Utils.convertToLocalDate(getCurrentlyPlayingItem().getEndDate()).getTime() - System.currentTimeMillis() : mVideoManager.getDuration() - mStartPosition);
                     startReportLoop();
                 }
                 TvApp.getApplication().getLogger().Info("Play method: ", mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode ? "Trans" : "Direct");

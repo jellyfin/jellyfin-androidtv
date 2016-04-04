@@ -576,7 +576,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         if (mBaseItem != null) {
             Long runtime = Utils.NullCoalesce(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
             if (runtime != null && runtime > 0) {
-                long endTimeTicks = !"Recording".equals(mBaseItem.getType()) && mBaseItem.getEndDate() != null ? Utils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
+                long endTimeTicks = "Program".equals(mBaseItem.getType()) && mBaseItem.getEndDate() != null ? Utils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
                 String text = getString(R.string.lbl_runs) + runtime / 600000000 + getString(R.string.lbl_min) + "  " + getString(R.string.lbl_ends) + android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks));
                 if (mBaseItem.getCanResume()) {
                     endTimeTicks = System.currentTimeMillis() + ((runtime - mBaseItem.getUserData().getPlaybackPositionTicks()) / 10000);
