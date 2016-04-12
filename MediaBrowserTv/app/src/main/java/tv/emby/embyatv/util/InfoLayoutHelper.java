@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.SeriesStatus;
@@ -36,8 +37,11 @@ public class InfoLayoutHelper {
                 break;
         }
     }
-
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
+        addInfoRow(activity, item, layout, includeRuntime, includeEndTime, Utils.GetFirstAudioStream(item));
+    }
+
+    public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime, MediaStream audioStream) {
         layout.removeAllViews();
         addCriticInfo(activity, item, layout);
         switch (item.getType()) {
@@ -84,7 +88,7 @@ public class InfoLayoutHelper {
         if (includeRuntime) addRuntime(activity, item, layout, includeEndTime);
         addSeriesStatus(activity, item, layout);
         addRatingAndRes(activity, item, layout);
-        addMediaDetails(activity, item, layout);
+        addMediaDetails(activity, audioStream, layout);
     }
 
     private static void addText(Activity activity, String text, LinearLayout layout, int maxWidth) {
@@ -324,8 +328,7 @@ public class InfoLayoutHelper {
         }
     }
 
-    private static void addMediaDetails(Activity activity, BaseItemDto item, LinearLayout layout) {
-        MediaStream stream = Utils.GetFirstAudioStream(item);
+    private static void addMediaDetails(Activity activity, MediaStream stream, LinearLayout layout) {
 
         if (stream != null) {
             if (stream.getCodec() != null && stream.getCodec().trim().length() > 0) {
