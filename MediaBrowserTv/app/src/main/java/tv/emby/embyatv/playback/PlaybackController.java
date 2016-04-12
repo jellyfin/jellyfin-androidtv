@@ -265,14 +265,12 @@ public class PlaybackController {
                     TvApp.getApplication().getLogger().Info("*** Using VLC profile options");
                 } else {
                     if (Utils.is60()) {
-                        ProfileHelper.setExoOptions(profile, isLiveTv);
-                        ProfileHelper.addAc3Streaming(profile);
+                        ProfileHelper.setExoOptions(profile, isLiveTv, true);
+                        ProfileHelper.addAc3Streaming(profile, true);
                         TvApp.getApplication().getLogger().Info("*** Using extended Exoplayer profile options for 6.0+");
 
                     } else {
                         TvApp.getApplication().getLogger().Info("*** Using default android profile");
-                        ProfileHelper.addAc3Streaming(profile);
-                        profile = new AndroidProfile(Utils.getProfileOptions());
                     }
 
                 }
@@ -346,14 +344,16 @@ public class PlaybackController {
         mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
             @Override
             public void onResponse(StreamInfo response) {
-                if (mVideoManager.isNativeMode() && (options.getAudioStreamIndex() == null || !options.getAudioStreamIndex().equals(bestGuessAudioTrack(response.getMediaSource())))) {
+                if (!useVlc && (options.getAudioStreamIndex() != null && !options.getAudioStreamIndex().equals(bestGuessAudioTrack(response.getMediaSource())))) {
                     // requested specific audio stream that is different from default so we need to force a transcode to get it (ExoMedia currently cannot switch)
                     // remove direct play profiles to force the transcode
                     final DeviceProfile save = options.getProfile();
                     DeviceProfile newProfile = ProfileHelper.getBaseProfile();
-                    ProfileHelper.setExoOptions(newProfile, isLiveTv);
+                    ProfileHelper.setExoOptions(newProfile, isLiveTv, true);
+                    ProfileHelper.addAc3Streaming(newProfile, true);
                     newProfile.setDirectPlayProfiles(new DirectPlayProfile[]{});
                     options.setProfile(newProfile);
+                    mApplication.getLogger().Info("Forcing transcode due to non-default audio chosen");
                     mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
                         @Override
                         public void onResponse(StreamInfo response) {
@@ -362,6 +362,47 @@ public class PlaybackController {
                             startItem(item, position, apiClient, response);
                         }
                     });
+                } else if (useVlc && !isLiveTv && !"1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"))) {
+                    MediaStream audio = response.getMediaSource().getDefaultAudioStream();
+                    if (audio != null && ("ac3".equals(audio.getCodec()) || "eac3".equals(audio.getCodec()))) {
+                        // Use Exo to get DD bitstreaming
+                        final DeviceProfile save = options.getProfile();
+                        DeviceProfile newProfile = ProfileHelper.getBaseProfile();
+                        ProfileHelper.setExoOptions(newProfile, false, true);
+                        ProfileHelper.addAc3Streaming(newProfile, true);
+                        options.setProfile(newProfile);
+                        useVlc = false;
+                        mApplication.getLogger().Info("Using Exo for DD bitstreaming");
+                        mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
+                            @Override
+                            public void onResponse(StreamInfo response) {
+                                //re-set this
+                                options.setProfile(save);
+                                startItem(item, position, apiClient, response);
+                            }
+                        });
+                    } else if (mApplication.getPrefs().getBoolean("pref_trans_dts_ac3", true) && audio != null && "dca".equals(audio.getCodec())) {
+                        // Transcode to AC3 and use Exo for bitstreaming
+                        final DeviceProfile save = options.getProfile();
+                        DeviceProfile newProfile = ProfileHelper.getBaseProfile();
+                        ProfileHelper.setExoOptions(newProfile, false, false);
+                        ProfileHelper.addAc3Streaming(newProfile, true);
+                        options.setProfile(newProfile);
+                        useVlc = false;
+                        mApplication.getLogger().Info("Using Exo for DD bitstreaming");
+                        mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
+                            @Override
+                            public void onResponse(StreamInfo response) {
+                                //re-set this
+                                options.setProfile(save);
+                                startItem(item, position, apiClient, response);
+                            }
+                        });
+
+                    } else {
+                        startItem(item, position, apiClient, response);
+                    }
+
                 } else {
                     startItem(item, position, apiClient, response);
                 }
@@ -419,8 +460,8 @@ public class PlaybackController {
         String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken());
 
         // if source is stereo or we're not on at least 5.1.1 with AC3 - use most compatible output
-        if (!mVideoManager.isNativeMode() && (isLiveTv && !Utils.supportsAc3()) || (response.getMediaSource() != null && response.getMediaSource().getDefaultAudioStream() != null && response.getMediaSource().getDefaultAudioStream().getChannels() != null && (response.getMediaSource().getDefaultAudioStream().getChannels() <= 2
-                || (!Utils.supportsAc3() && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec()))))) {
+        if (!mVideoManager.isNativeMode() && (isLiveTv && !Utils.isGreaterThan51()) || (response.getMediaSource() != null && response.getMediaSource().getDefaultAudioStream() != null && response.getMediaSource().getDefaultAudioStream().getChannels() != null && (response.getMediaSource().getDefaultAudioStream().getChannels() <= 2
+                || (!Utils.isGreaterThan51() && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec()))))) {
             mVideoManager.setCompatibleAudio();
             mApplication.getLogger().Info("Setting compatible audio mode...");
             //Utils.showToast(mApplication, "Compatible");

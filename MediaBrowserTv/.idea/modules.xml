@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MediaBrowserTv.iml" filepath="$PROJECT_DIR$/MediaBrowserTv.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/exomedia-amazon/exomedia-amazon.iml" filepath="$PROJECT_DIR$/exomedia-amazon/exomedia-amazon.iml" />
     </modules>
   </component>
 </project>
-
