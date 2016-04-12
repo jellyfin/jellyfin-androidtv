@@ -1,11 +1,8 @@
 package tv.emby.embyatv.util;
 
-import com.google.android.exoplayer.audio.AudioCapabilities;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.model.dlna.CodecProfile;
 import mediabrowser.model.dlna.CodecType;
 import mediabrowser.model.dlna.DeviceProfile;
