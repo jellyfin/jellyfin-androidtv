@@ -29,6 +29,7 @@ import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.model.dlna.AudioOptions;
+import mediabrowser.model.dlna.DeviceProfile;
 import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.playlists.PlaylistCreationRequest;
@@ -40,6 +41,7 @@ import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.querying.QueryType;
+import tv.emby.embyatv.util.ProfileHelper;
 import tv.emby.embyatv.util.RemoteControlReceiver;
 import tv.emby.embyatv.util.Utils;
 
@@ -510,7 +512,13 @@ public class MediaManager {
         options.setItemId(item.getId());
         options.setMaxBitrate(TvApp.getApplication().getAutoBitrate());
         options.setMediaSources(item.getMediaSources());
-        options.setProfile(new AndroidProfile("vlc"));
+        DeviceProfile profile = ProfileHelper.getBaseProfile();
+        if (Utils.is60()) {
+            ProfileHelper.setExoOptions(profile, false);
+        } else {
+            ProfileHelper.setVlcOptions(profile);
+        }
+        options.setProfile(profile);
         TvApp.getApplication().getPlaybackManager().getAudioStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
             @Override
             public void onResponse(StreamInfo response) {
