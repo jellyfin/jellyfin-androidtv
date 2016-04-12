@@ -1497,7 +1497,7 @@ public class Utils {
     }
 
     public static boolean supportsAc3() {
-        return isGreaterThan51();
+        return true;
     }
 
     public static int getBrandColor() {

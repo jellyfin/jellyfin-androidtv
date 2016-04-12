@@ -98,7 +98,7 @@ public class ProfileHelper {
         });
     }
 
-    public static void setExoOptions(DeviceProfile profile, boolean isLiveTv) {
+    public static void setExoOptions(DeviceProfile profile, boolean isLiveTv, boolean allowDTS) {
 
         List<DirectPlayProfile> directPlayProfiles = new ArrayList<>();
         if (!isLiveTv || TvApp.getApplication().directStreamLiveTv()) {
@@ -110,7 +110,7 @@ public class ProfileHelper {
                 TvApp.getApplication().getLogger().Info("*** Excluding DTS and AC3 audio from direct play due to compatible audio setting");
                 videoDirectPlayProfile.setAudioCodec("aac,mp3,mp2");
             } else {
-                videoDirectPlayProfile.setAudioCodec("aac,ac3,eac3,dca,mp3,mp2");
+                videoDirectPlayProfile.setAudioCodec(allowDTS ? "aac,ac3,eac3,dca,mp3,mp2" : "aac,ac3,eac3,mp3,mp2");
             }
             videoDirectPlayProfile.setType(DlnaProfileType.Video);
             directPlayProfiles.add(videoDirectPlayProfile);
@@ -158,12 +158,12 @@ public class ProfileHelper {
         });
     }
 
-    public static void addAc3Streaming(DeviceProfile profile) {
+    public static void addAc3Streaming(DeviceProfile profile, boolean primary) {
         TranscodingProfile mkvProfile = getTranscodingProfile(profile, "mkv");
         if (mkvProfile != null && !("1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option", "0"))))
         {
             TvApp.getApplication().getLogger().Info("*** Adding AC3 as supported transcoded audio");
-            mkvProfile.setAudioCodec(mkvProfile.getAudioCodec().concat(",ac3"));
+            mkvProfile.setAudioCodec(primary ? "ac3,".concat(mkvProfile.getAudioCodec()) : mkvProfile.getAudioCodec().concat(",ac3"));
         }
     }
 

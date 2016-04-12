@@ -514,7 +514,7 @@ public class MediaManager {
         options.setMediaSources(item.getMediaSources());
         DeviceProfile profile = ProfileHelper.getBaseProfile();
         if (Utils.is60()) {
-            ProfileHelper.setExoOptions(profile, false);
+            ProfileHelper.setExoOptions(profile, false, true);
         } else {
             ProfileHelper.setVlcOptions(profile);
         }
