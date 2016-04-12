@@ -140,7 +140,7 @@ public class ProfileHelper {
 
         CodecProfile videoAudioCodecProfile = new CodecProfile();
         videoAudioCodecProfile.setType(CodecType.VideoAudio);
-        videoAudioCodecProfile.setConditions(new ProfileCondition[]{new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.AudioChannels, "8")});
+        videoAudioCodecProfile.setConditions(new ProfileCondition[]{new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.AudioChannels, "6")});
 
         profile.setCodecProfiles(new CodecProfile[] { videoCodecProfile, videoAudioCodecProfile });
         profile.setSubtitleProfiles(new SubtitleProfile[] {
