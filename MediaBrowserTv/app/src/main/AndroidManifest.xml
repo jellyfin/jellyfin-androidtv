@@ -88,6 +88,13 @@
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
+
+        <provider
+            android:authorities="tv.emby.embyatv.recommendations"
+            android:name=".integration.RecommendationContentProvider"
+            android:grantUriPermissions="true"
+            android:exported="true"
+            />
     </application>
 
 </manifest>

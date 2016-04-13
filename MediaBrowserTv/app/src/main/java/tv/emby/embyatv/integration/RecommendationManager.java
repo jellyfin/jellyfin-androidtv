@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 
@@ -296,6 +297,7 @@ public class RecommendationManager {
                     .setTitle(item.getName())
                     .setDescription(item.getOverview())
                     .setBitmap(Utils.getBitmapFromURL(Utils.getPrimaryImageUrl(item, TvApp.getApplication().getApiClient(), false, true, 300)))
+                    .setBackground(Utils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true))
                     .setIntent(buildPendingIntent(item))
                     .build();
 
