@@ -104,6 +104,20 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 nextUpQuery.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
                 mRows.add(new BrowseRowDef(mApplication.getResources().getString(R.string.lbl_next_up), nextUpQuery, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}));
 
+                //Premieres
+                StdItemQuery newQuery = new StdItemQuery(new ItemFields[]{ItemFields.DateCreated, ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
+                newQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                newQuery.setIncludeItemTypes(new String[]{"Episode"});
+                newQuery.setParentId(mFolder.getId());
+                newQuery.setRecursive(true);
+                newQuery.setIsVirtualUnaired(false);
+                newQuery.setIsMissing(false);
+                newQuery.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
+                newQuery.setSortBy(new String[]{ItemSortBy.DateCreated});
+                newQuery.setSortOrder(SortOrder.Descending);
+                newQuery.setLimit(100);
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_new_premieres), newQuery, 0, true, true, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}, QueryType.Premieres));
+
                 //Latest content added
                 StdItemQuery latestSeries = new StdItemQuery();
                 latestSeries.setIncludeItemTypes(new String[]{"Series"});

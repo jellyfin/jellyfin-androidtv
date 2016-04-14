@@ -33,6 +33,7 @@ import tv.emby.embyatv.playback.AudioNowPlayingActivity;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.presentation.PositionableListRowPresenter;
 import tv.emby.embyatv.presentation.ThemeManager;
+import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.startup.LogonCredentials;
 import tv.emby.embyatv.ui.GridButton;
 import tv.emby.embyatv.R;
@@ -169,6 +170,7 @@ public class HomeFragment extends StdBrowseFragment {
                     switch (firstType) {
                         case "s":
                             addNextUp();
+                            addPremieres();
                             addLatestMovies();
                             addOnNow();
                             break;
@@ -176,12 +178,14 @@ public class HomeFragment extends StdBrowseFragment {
                         case "t":
                             addOnNow();
                             addNextUp();
+                            addPremieres();
                             addLatestMovies();
                             break;
 
                         default:
                             addLatestMovies();
                             addNextUp();
+                            addPremieres();
                             addOnNow();
                     }
                 }
@@ -220,6 +224,21 @@ public class HomeFragment extends StdBrowseFragment {
         nextUpQuery.setLimit(50);
         nextUpQuery.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
         mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_next_up_tv), nextUpQuery, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}));
+
+    }
+
+    protected void addPremieres() {
+        StdItemQuery newQuery = new StdItemQuery(new ItemFields[]{ItemFields.DateCreated, ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
+        newQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        newQuery.setIncludeItemTypes(new String[]{"Episode"});
+        newQuery.setRecursive(true);
+        newQuery.setIsVirtualUnaired(false);
+        newQuery.setIsMissing(false);
+        newQuery.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
+        newQuery.setSortBy(new String[]{ItemSortBy.DateCreated});
+        newQuery.setSortOrder(SortOrder.Descending);
+        newQuery.setLimit(100);
+        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_new_premieres), newQuery, 0, true, true, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}, QueryType.Premieres));
 
     }
 
