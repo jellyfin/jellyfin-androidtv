@@ -284,6 +284,9 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                 case LiveTvRecordingGroup:
                     rowAdapter = new ItemRowAdapter(def.getRecordingGroupQuery(), mCardPresenter, mRowsAdapter);
                     break;
+                case Premieres:
+                    rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), mCardPresenter, mRowsAdapter, def.getQueryType());
+                    break;
                 default:
                     rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), ps, mRowsAdapter, def.getQueryType());
                     break;

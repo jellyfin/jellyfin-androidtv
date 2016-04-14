@@ -330,6 +330,7 @@
     <string name="lbl_forget">Forget</string>
     <string name="lbl_trans_dts_ac3">Convert DTS to Dolby Digital</string>
     <string name="desc_trans_dts_ac3">Enables 5.1 surround on devices that don\'t support DTS</string>
+    <string name="lbl_new_premieres">New Premieres</string>
 
 
 </resources>
