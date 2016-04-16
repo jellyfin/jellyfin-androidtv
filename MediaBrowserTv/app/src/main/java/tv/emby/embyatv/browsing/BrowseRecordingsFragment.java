@@ -31,10 +31,6 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
     public void onResume() {
         super.onResume();
 
-        if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId().equals(TvApp.getApplication().getLastDeletedItemId())) {
-            ((ItemRowAdapter)mCurrentRow.getAdapter()).remove(mCurrentItem);
-            TvApp.getApplication().setLastDeletedItemId(null);
-        }
     }
 
     @Override
