@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import tv.emby.embyatv.R;
+import tv.emby.embyatv.base.BaseActivity;
 
-public class SelectServerActivity extends Activity {
+public class SelectServerActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

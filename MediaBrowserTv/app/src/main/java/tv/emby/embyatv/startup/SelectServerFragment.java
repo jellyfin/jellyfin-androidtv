@@ -22,6 +22,7 @@ import java.util.List;
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.apiclient.ServerInfo;
+import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.base.CustomMessage;
 import tv.emby.embyatv.base.IKeyListener;
 import tv.emby.embyatv.base.IMessageListener;
@@ -56,6 +57,7 @@ public class SelectServerFragment extends CustomBrowseFragment {
             }
         }
 
+        mActivity = (BaseActivity) getActivity();
         super.onActivityCreated(savedInstanceState);
 
     }
@@ -87,26 +89,26 @@ public class SelectServerFragment extends CustomBrowseFragment {
     protected void setupEventListeners() {
         super.setupEventListeners();
         mClickedListener.registerListener(new ItemViewClickedListener());
-//        if (mActivity != null) {
-//            mActivity.registerKeyListener(new IKeyListener() {
-//                @Override
-//                public boolean onKeyUp(int key, KeyEvent event) {
-//                    return KeyProcessor.HandleKey(key, mCurrentItem, mActivity);
-//                }
-//            });
-//
-//            mActivity.registerMessageListener(new IMessageListener() {
-//                @Override
-//                public void onMessageReceived(CustomMessage message) {
-//                    switch (message) {
-//
-//                        case RemoveCurrentItem:
-//                            ((ItemRowAdapter)mCurrentRow.getAdapter()).remove(mCurrentItem);
-//                            break;
-//                    }
-//                }
-//            });
-//        }
+        if (mActivity != null) {
+            mActivity.registerKeyListener(new IKeyListener() {
+                @Override
+                public boolean onKeyUp(int key, KeyEvent event) {
+                    return KeyProcessor.HandleKey(key, mCurrentItem, mActivity);
+                }
+            });
+
+            mActivity.registerMessageListener(new IMessageListener() {
+                @Override
+                public void onMessageReceived(CustomMessage message) {
+                    switch (message) {
+
+                        case RemoveCurrentItem:
+                            ((ItemRowAdapter)mCurrentRow.getAdapter()).remove(mCurrentItem);
+                            break;
+                    }
+                }
+            });
+        }
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
