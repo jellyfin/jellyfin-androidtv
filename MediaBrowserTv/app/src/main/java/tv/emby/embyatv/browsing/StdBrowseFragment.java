@@ -80,7 +80,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     protected TvApp mApplication;
     protected BaseActivity mActivity;
     protected BaseRowItem mCurrentItem;
-    protected Row mCurrentRow;
+    protected ListRow mCurrentRow;
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ArrayObjectAdapter mRowsAdapter;
@@ -142,6 +142,12 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
         // set info panel option
         ShowInfoPanel = mApplication.getPrefs().getBoolean("pref_enable_info_panel", true);
+
+        //React to deletion
+        if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId().equals(TvApp.getApplication().getLastDeletedItemId())) {
+            ((ItemRowAdapter)mCurrentRow.getAdapter()).remove(mCurrentItem);
+            TvApp.getApplication().setLastDeletedItemId(null);
+        }
 
         if (!justLoaded) {
             //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
@@ -444,7 +450,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                 }
             }
 
-            mCurrentRow = row;
+            mCurrentRow = (ListRow) row;
             BaseRowItem rowItem = (BaseRowItem) item;
 
             //mApplication.getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));

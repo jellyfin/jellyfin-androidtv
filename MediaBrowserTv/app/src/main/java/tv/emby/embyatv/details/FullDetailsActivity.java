@@ -80,6 +80,7 @@ import tv.emby.embyatv.ui.GenreButton;
 import tv.emby.embyatv.ui.IRecordingIndicatorView;
 import tv.emby.embyatv.ui.ImageButton;
 import tv.emby.embyatv.ui.RecordPopup;
+import tv.emby.embyatv.util.DelayedMessage;
 import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.KeyProcessor;
 import tv.emby.embyatv.util.Utils;
@@ -806,7 +807,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             mDetailsOverviewRow.addAction(series);
         }
 
-        if ("Recording".equals(mBaseItem.getType()) && TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvManagement() && mBaseItem.getCanDelete()) {
+        if (("Recording".equals(mBaseItem.getType()) && TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvManagement() && mBaseItem.getCanDelete()) ||
+                (("Movie".equals(mBaseItem.getType()) || "Episode".equals(mBaseItem.getType()) || "Video".equals(mBaseItem.getType())) && TvApp.getApplication().getCurrentUser().getPolicy().getEnableContentDeletion())) {
             final Activity activity = this;
             ImageButton del = new ImageButton(this, R.drawable.trash, buttonSize, getString(R.string.lbl_delete), null, new View.OnClickListener() {
                 @Override
@@ -816,9 +818,11 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                             .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
                             .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
+                                    final DelayedMessage msg = new DelayedMessage(activity, 150);
                                     TvApp.getApplication().getApiClient().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
                                         @Override
                                         public void onResponse() {
+                                            msg.Cancel();
                                             Utils.showToast(activity, mBaseItem.getName() + " Deleted");
                                             TvApp.getApplication().setLastDeletedItemId(mBaseItem.getId());
                                             finish();
@@ -826,6 +830,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                                         @Override
                                         public void onError(Exception ex) {
+                                            msg.Cancel();
                                             Utils.showToast(activity, ex.getLocalizedMessage());
                                         }
                                     });
