@@ -10,6 +10,7 @@ import android.widget.PopupMenu;
 
 import java.util.List;
 
+import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserItemDataDto;
@@ -212,7 +213,7 @@ public class KeyProcessor {
         return false;
     }
 
-    private static void createServerMenu(BaseRowItem rowItem, BaseActivity activity) {
+    private static void createServerMenu(final BaseRowItem rowItem, final BaseActivity activity) {
         PopupMenu menu = Utils.createPopupMenu(activity, activity.getCurrentFocus(), Gravity.TOP);
         menu.getMenu().add(0, MENU_FORGET, 0, R.string.lbl_forget);
         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -220,7 +221,12 @@ public class KeyProcessor {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case MENU_FORGET:
-                        //todo - connection manager missing delete server...
+                        TvApp.getApplication().getConnectionManager().DeleteServer(rowItem.getItemId(), new EmptyResponse() {
+                            @Override
+                            public void onResponse() {
+                                activity.sendMessage(CustomMessage.RemoveCurrentItem);
+                            }
+                        });
                         return true;
                     default:
                         return false;
