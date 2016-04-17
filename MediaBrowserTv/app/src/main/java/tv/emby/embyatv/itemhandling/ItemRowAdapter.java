@@ -939,31 +939,57 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         });
     }
 
-    private void RetrievePremieres(ItemQuery query) {
+    private void RetrievePremieres(final ItemQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+        //First we need current Next Up to filter our list with
+        NextUpQuery nextUp = new NextUpQuery();
+        nextUp.setUserId(query.getUserId());
+        nextUp.setParentId(query.getParentId());
+        nextUp.setLimit(75);
+        TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(nextUp, new Response<ItemsResult>() {
             @Override
-            public void onResponse(ItemsResult response) {
-                if (response.getTotalRecordCount() > 0) {
-                    if (adapter.size() > 0) adapter.clear();
-                    int i = 0;
-                    Calendar compare = Calendar.getInstance();
-                    compare.add(Calendar.MONTH, -1);
-                    for (BaseItemDto item : response.getItems()) {
-                        if (item.getIndexNumber() != null && item.getIndexNumber() == 1 && (item.getDateCreated() == null || item.getDateCreated().after(compare.getTime()))
-                                && (item.getUserData() == null || item.getUserData().getLikes() == null || item.getUserData().getLikes())
-                                ) {
-                            // new unwatched episode 1 not in next up already and not disliked insert it
-                            TvApp.getApplication().getLogger().Debug("Adding new episode 1 to premieres " + item.getName() + " Added: " + item.getDateCreated());
-                            adapter.add(new BaseRowItem(i++, item, preferParentThumb, false));
+            public void onResponse(final ItemsResult nextUpResponse) {
+                TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+                    @Override
+                    public void onResponse(ItemsResult response) {
+                        if (adapter.size() > 0) adapter.clear();
+                        if (response.getTotalRecordCount() > 0) {
+                            int i = 0;
+                            Calendar compare = Calendar.getInstance();
+                            compare.add(Calendar.MONTH, -2);
+                            BaseItemDto[] nextUpItems = nextUpResponse.getItems();
+                            for (BaseItemDto item : response.getItems()) {
+                                if (item.getIndexNumber() != null && item.getIndexNumber() == 1 && (item.getDateCreated() == null || item.getDateCreated().after(compare.getTime()))
+                                        && (item.getUserData() == null || item.getUserData().getLikes() == null || item.getUserData().getLikes())
+                                        ) {
+                                    // new unwatched episode 1 not disliked - check to be sure prev episode not already in next up
+                                    BaseItemDto nextUpItem = null;
+                                    for (int n = 0; n < nextUpItems.length; n++) {
+                                        if (nextUpItems[n].getSeriesId().equals(item.getSeriesId())) {
+                                            nextUpItem = nextUpItems[n];
+                                            break;
+                                        }
+                                    }
+
+                                    if (nextUpItem == null || nextUpItem.getId().equals(item.getId())) {
+                                        TvApp.getApplication().getLogger().Debug("Adding new episode 1 to premieres " + item.getSeriesName() + " Added: " + item.getDateCreated());
+                                        adapter.add(new BaseRowItem(i++, item, preferParentThumb, false));
+
+                                    } else {
+                                        TvApp.getApplication().getLogger().Info("Didn't add %s to premieres because different episode is in next up.", item.getSeriesName());
+                                    }
+                                }
+                            }
+                            setItemsLoaded(itemsLoaded + i);
                         }
+
+
+                        if (adapter.size() == 0) removeRow();
                     }
-                    setItemsLoaded(itemsLoaded + i);
-                }
+                });
 
-
-                if (adapter.size() == 0) removeRow();
             }
+
         });
 
     }

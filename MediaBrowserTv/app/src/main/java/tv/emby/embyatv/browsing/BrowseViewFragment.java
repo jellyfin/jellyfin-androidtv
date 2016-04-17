@@ -111,7 +111,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 newQuery.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
                 newQuery.setSortBy(new String[]{ItemSortBy.DateCreated});
                 newQuery.setSortOrder(SortOrder.Descending);
-                newQuery.setLimit(100);
+                newQuery.setLimit(300);
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_new_premieres), newQuery, 0, true, true, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}, QueryType.Premieres));
 
                 //Latest content added
