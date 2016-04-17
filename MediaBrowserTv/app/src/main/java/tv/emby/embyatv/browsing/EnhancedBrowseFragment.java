@@ -215,7 +215,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         super.onResume();
 
         //React to deletion
-        if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId().equals(TvApp.getApplication().getLastDeletedItemId())) {
+        if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(TvApp.getApplication().getLastDeletedItemId())) {
             ((ItemRowAdapter)mCurrentRow.getAdapter()).remove(mCurrentItem);
             TvApp.getApplication().setLastDeletedItemId(null);
         }

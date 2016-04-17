@@ -144,7 +144,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         ShowInfoPanel = mApplication.getPrefs().getBoolean("pref_enable_info_panel", true);
 
         //React to deletion
-        if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId().equals(TvApp.getApplication().getLastDeletedItemId())) {
+        if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(TvApp.getApplication().getLastDeletedItemId())) {
             ((ItemRowAdapter)mCurrentRow.getAdapter()).remove(mCurrentItem);
             TvApp.getApplication().setLastDeletedItemId(null);
         }
