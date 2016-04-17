@@ -972,8 +972,25 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                                     }
 
                                     if (nextUpItem == null || nextUpItem.getId().equals(item.getId())) {
-                                        TvApp.getApplication().getLogger().Debug("Adding new episode 1 to premieres " + item.getSeriesName() + " Added: " + item.getDateCreated());
-                                        adapter.add(new BaseRowItem(i++, item, preferParentThumb, false));
+                                        //Now - let's be sure there isn't already a premiere for this series
+                                        BaseRowItem existing = null;
+                                        int existingPos = -1;
+                                        for (int n = 0; n < adapter.size(); n++) {
+                                            if (((BaseRowItem)adapter.get(n)).getBaseItem().getSeriesId().equals(item.getSeriesId())) {
+                                                existing = (BaseRowItem)adapter.get(n);
+                                                existingPos = n;
+                                                break;
+                                            }
+                                        }
+                                        if (existing == null) {
+                                            TvApp.getApplication().getLogger().Debug("Adding new episode 1 to premieres " + item.getSeriesName());
+                                            adapter.add(new BaseRowItem(i++, item, preferParentThumb, false));
+
+                                        } else if (existing.getBaseItem().getParentIndexNumber() > item.getParentIndexNumber()) {
+                                            //Replace the newer item with the earlier season
+                                            TvApp.getApplication().getLogger().Debug("Replacing newer episode 1 with an older season for " + item.getSeriesName());
+                                            adapter.replace(existingPos, new BaseRowItem(i++, item, preferParentThumb, false));
+                                        } // otherwise, just ignore this newer season premiere since we have the older one already
 
                                     } else {
                                         TvApp.getApplication().getLogger().Info("Didn't add %s to premieres because different episode is in next up.", item.getSeriesName());
@@ -985,6 +1002,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
 
                         if (adapter.size() == 0) removeRow();
+                        currentlyRetrieving = false;
                     }
                 });
 
