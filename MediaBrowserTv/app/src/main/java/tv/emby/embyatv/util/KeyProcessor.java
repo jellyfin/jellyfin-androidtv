@@ -86,6 +86,7 @@ public class KeyProcessor {
                             case "Video":
                             case "Program":
                             case "ChannelVideoItem":
+                            case "Trailer":
                                 // give some audible feedback
                                 Utils.Beep();
                                 // retrieve full item and play
@@ -183,6 +184,7 @@ public class KeyProcessor {
                             case "MusicArtist":
                             case "Playlist":
                             case "Audio":
+                            case "Trailer":
                                 // generate a standard item menu
                                 createItemMenu(rowItem, item.getUserData(), activity);
                                 break;
