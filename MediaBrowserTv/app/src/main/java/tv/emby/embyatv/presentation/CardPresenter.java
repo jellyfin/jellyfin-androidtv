@@ -250,22 +250,27 @@ public class CardPresenter extends Presenter {
         protected void updateCardViewImage(String url) {
             if (!validContext()) return;
 
-            if (url == null) {
-                //TvApp.getApplication().getLogger().Debug("Clearing card image");
-                Glide.with(getContext())
-                        .load("nothing")
-                        .centerCrop()
-                        .error(mDefaultCardImage)
-                        .into(mCardView.getMainImageView());
+            try {
+                if (url == null) {
+                    //TvApp.getApplication().getLogger().Debug("Clearing card image");
+                    Glide.with(getContext())
+                            .load("nothing")
+                            .centerCrop()
+                            .error(mDefaultCardImage)
+                            .into(mCardView.getMainImageView());
 
-            } else {
-                //TvApp.getApplication().getLogger().Debug("Loading card image");
-                Glide.with(getContext())
-                        .load(url)
-                        .override(cardWidth, cardHeight)
-                        .centerCrop()
-                        .error(mDefaultCardImage)
-                        .into(mCardView.getMainImageView());
+                } else {
+                    //TvApp.getApplication().getLogger().Debug("Loading card image");
+                    Glide.with(getContext())
+                            .load(url)
+                            .override(cardWidth, cardHeight)
+                            .centerCrop()
+                            .error(mDefaultCardImage)
+                            .into(mCardView.getMainImageView());
+                }
+
+            } catch (IllegalArgumentException e) {
+                TvApp.getApplication().getLogger().Info("Image load aborted due to activity closing");
             }
         }
 
@@ -273,11 +278,16 @@ public class CardPresenter extends Presenter {
             mCardView.clearBanner();
             if (!validContext()) return;
             //TvApp.getApplication().getLogger().Debug("Resetting card image");
-            Glide.with(getContext())
-                    .load(Uri.parse("android.resource://tv.emby.embyatv/drawable/loading"))
-                    .fitCenter()
-                    .error(mDefaultCardImage)
-                    .into(mCardView.getMainImageView());
+            try {
+                Glide.with(getContext())
+                        .load(Uri.parse("android.resource://tv.emby.embyatv/drawable/loading"))
+                        .fitCenter()
+                        .error(mDefaultCardImage)
+                        .into(mCardView.getMainImageView());
+
+            } catch (IllegalArgumentException e) {
+                TvApp.getApplication().getLogger().Info("Image reset aborted due to activity closing");
+            }
 
         }
     }
