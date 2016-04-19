@@ -14,11 +14,8 @@
 
 package tv.emby.embyatv.browsing;
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
@@ -42,8 +39,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +55,6 @@ import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.base.CustomMessage;
 import tv.emby.embyatv.base.IKeyListener;
 import tv.emby.embyatv.base.IMessageListener;
-import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.AudioQueueItem;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
@@ -67,11 +64,9 @@ import tv.emby.embyatv.presentation.PositionableListRowPresenter;
 import tv.emby.embyatv.presentation.ThemeManager;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.ViewQuery;
-import tv.emby.embyatv.search.SearchActivity;
 import tv.emby.embyatv.ui.ClockUserView;
 import tv.emby.embyatv.ui.ItemPanel;
 import tv.emby.embyatv.util.KeyProcessor;
-import tv.emby.embyatv.util.RemoteControlReceiver;
 import tv.emby.embyatv.util.Utils;
 
 public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
@@ -85,12 +80,12 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     protected TvApp mApplication;
     protected BaseActivity mActivity;
     protected BaseRowItem mCurrentItem;
-    protected Row mCurrentRow;
+    protected ListRow mCurrentRow;
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ArrayObjectAdapter mRowsAdapter;
     private Drawable mDefaultBackground;
-    private Target mBackgroundTarget;
+    private SimpleTarget<Bitmap> mBackgroundTarget;
     private DisplayMetrics mMetrics;
     private Timer mBackgroundTimer;
     private final Handler mHandler = new Handler();
@@ -148,6 +143,12 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         // set info panel option
         ShowInfoPanel = mApplication.getPrefs().getBoolean("pref_enable_info_panel", true);
 
+        //React to deletion
+        if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(TvApp.getApplication().getLastDeletedItemId())) {
+            ((ItemRowAdapter)mCurrentRow.getAdapter()).remove(mCurrentItem);
+            TvApp.getApplication().setLastDeletedItemId(null);
+        }
+
         if (!justLoaded) {
             //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
             if (mRowsAdapter != null) {
@@ -178,7 +179,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         mCardPresenter = new CardPresenter();
 
         for (BrowseRowDef def : rows) {
-            HeaderItem header = new HeaderItem(def.getHeaderText(), null);
+            HeaderItem header = new HeaderItem(def.getHeaderText());
             ItemRowAdapter rowAdapter;
             switch (def.getQueryType()) {
                 case NextUp:
@@ -214,6 +215,9 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                 case LiveTvRecordingGroup:
                     rowAdapter = new ItemRowAdapter(def.getRecordingGroupQuery(), mCardPresenter, mRowsAdapter);
                     break;
+                case Premieres:
+                    rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), mCardPresenter, mRowsAdapter, def.getQueryType());
+                    break;
                 default:
                     rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), mCardPresenter, mRowsAdapter);
                     break;
@@ -239,14 +243,19 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
     private void prepareBackgroundManager() {
 
-        BackgroundManager backgroundManager = BackgroundManager.getInstance(getActivity());
+        final BackgroundManager backgroundManager = BackgroundManager.getInstance(getActivity());
         backgroundManager.attach(getActivity().getWindow());
-        mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
-
         mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
 
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
+
+        mBackgroundTarget = new SimpleTarget<Bitmap>(mMetrics.widthPixels, mMetrics.heightPixels) {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                backgroundManager.setBitmap(resource);
+            }
+        };
     }
 
     protected void setupUIElements() {
@@ -256,14 +265,14 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         setHeadersTransitionOnBackEnabled(true);
 
         // move the badge/title to the left to make way for our clock/user bug
-        ImageView badge = (ImageView) getActivity().findViewById(R.id.browse_badge);
+        ImageView badge = (ImageView) getActivity().findViewById(R.id.title_badge);
         if (badge != null) {
             FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) badge.getLayoutParams();
             lp.rightMargin = Utils.convertDpToPixel(getActivity(), 120);
             lp.width = Utils.convertDpToPixel(getActivity(), 250);
             badge.setLayoutParams(lp);
         }
-        TextView title = (TextView) getActivity().findViewById(R.id.browse_title);
+        TextView title = (TextView) getActivity().findViewById(R.id.title_text);
         if (title != null) {
             FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) title.getLayoutParams();
             lp.rightMargin = Utils.convertDpToPixel(getActivity(), 120);
@@ -359,8 +368,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
-                getActivity().startActivity(intent);
+                TvApp.getApplication().showSearch(getActivity(), false);
             }
         });
 
@@ -442,7 +450,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                 }
             }
 
-            mCurrentRow = row;
+            mCurrentRow = (ListRow) row;
             BaseRowItem rowItem = (BaseRowItem) item;
 
             //mApplication.getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));
@@ -464,10 +472,10 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     }
 
     protected void updateBackground(String url) {
-        Picasso.with(getActivity())
+        Glide.with(getActivity())
                 .load(url)
-                //.skipMemoryCache()
-                .resize(mMetrics.widthPixels, mMetrics.heightPixels)
+                .asBitmap()
+                .override(mMetrics.widthPixels, mMetrics.heightPixels)
                 .centerCrop()
                 .error(mDefaultBackground)
                 .into(mBackgroundTarget);

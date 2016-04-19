@@ -67,7 +67,6 @@ public class MyImageCardView extends BaseCardView {
         View v = inflater.inflate(tv.emby.embyatv.R.layout.image_card_view, this);
 
         mImageView = (ImageView) v.findViewById(tv.emby.embyatv.R.id.main_image);
-        mImageView.setVisibility(View.INVISIBLE);
         mInfoArea = v.findViewById(tv.emby.embyatv.R.id.info_field);
         mTitleView = (TextView) v.findViewById(tv.emby.embyatv.R.id.title_text);
         mContentView = (TextView) v.findViewById(tv.emby.embyatv.R.id.content_text);

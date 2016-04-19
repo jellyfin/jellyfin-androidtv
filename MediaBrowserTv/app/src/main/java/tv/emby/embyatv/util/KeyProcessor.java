@@ -8,9 +8,9 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.PopupMenu;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserItemDataDto;
@@ -50,6 +50,7 @@ public class KeyProcessor {
     public static final int MENU_REMOVE_FROM_QUEUE = 13;
     public static final int MENU_GOTO_NOW_PLAYING = 14;
     public static final int MENU_INSTANT_MIX = 15;
+    public static final int MENU_FORGET = 16;
 
     private static String mCurrentItemId;
     private static BaseItemDto mCurrentItem;
@@ -62,7 +63,7 @@ public class KeyProcessor {
         switch (key) {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                if (MediaManager.isPlayingAudio() && (!rowItem.getIsBaseItem() || !rowItem.getBaseItem().getType().equals("Photo"))) {
+                if (MediaManager.isPlayingAudio() && (!rowItem.isBaseItem() || !rowItem.getBaseItem().getType().equals("Photo"))) {
                     MediaManager.pauseAudio();
                     return true;
                 }
@@ -85,6 +86,7 @@ public class KeyProcessor {
                             case "Video":
                             case "Program":
                             case "ChannelVideoItem":
+                            case "Trailer":
                                 // give some audible feedback
                                 Utils.Beep();
                                 // retrieve full item and play
@@ -182,6 +184,7 @@ public class KeyProcessor {
                             case "MusicArtist":
                             case "Playlist":
                             case "Audio":
+                            case "Trailer":
                                 // generate a standard item menu
                                 createItemMenu(rowItem, item.getUserData(), activity);
                                 break;
@@ -190,6 +193,7 @@ public class KeyProcessor {
                     case Person:
                         break;
                     case Server:
+                        createServerMenu(rowItem, activity);
                         break;
                     case User:
                         break;
@@ -209,6 +213,30 @@ public class KeyProcessor {
                 return true;
         }
         return false;
+    }
+
+    private static void createServerMenu(final BaseRowItem rowItem, final BaseActivity activity) {
+        PopupMenu menu = Utils.createPopupMenu(activity, activity.getCurrentFocus(), Gravity.TOP);
+        menu.getMenu().add(0, MENU_FORGET, 0, R.string.lbl_forget);
+        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case MENU_FORGET:
+                        TvApp.getApplication().getConnectionManager().DeleteServer(rowItem.getItemId(), new EmptyResponse() {
+                            @Override
+                            public void onResponse() {
+                                activity.sendMessage(CustomMessage.RemoveCurrentItem);
+                            }
+                        });
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        menu.show();
     }
 
     private static void createItemMenu(BaseRowItem rowItem, UserItemDataDto userData, BaseActivity activity) {

@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,7 +18,7 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Build;
-import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Display;
@@ -26,8 +27,6 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.Toast;
-
-import org.acra.ACRA;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,6 +47,7 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
 import java.util.UUID;
+import java.util.jar.Manifest;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.ConnectionResult;
@@ -56,6 +56,7 @@ import mediabrowser.apiinteraction.IConnectionManager;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfileOptions;
+import mediabrowser.apiinteraction.connectionmanager.ConnectionManager;
 import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dto.BaseItemDto;
@@ -72,6 +73,7 @@ import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.MediaStreamType;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
+import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemQuery;
@@ -91,8 +93,10 @@ import tv.emby.embyatv.details.SongListActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
+import tv.emby.embyatv.startup.ConnectActivity;
 import tv.emby.embyatv.startup.DpadPwActivity;
 import tv.emby.embyatv.startup.LogonCredentials;
+import tv.emby.embyatv.startup.SelectServerActivity;
 import tv.emby.embyatv.startup.SelectUserActivity;
 
 /**
@@ -754,6 +758,7 @@ public class Utils {
         return item.getPlayAccess().equals(PlayAccess.Full)
                 && ((item.getIsPlaceHolder() == null || !item.getIsPlaceHolder())
                 && (!item.getType().equals("Episode") || !item.getLocationType().equals(LocationType.Virtual)))
+                && (!item.getType().equals("Person"))
                 && (!item.getIsFolder() || item.getChildCount() == null || item.getChildCount() > 0);
     }
 
@@ -1254,6 +1259,10 @@ public class Utils {
 
     public static AndroidProfileOptions getProfileOptions() {
         AndroidProfileOptions options = new AndroidProfileOptions(Build.MODEL);
+        options.SupportsHls = false;
+        options.SupportsMkv = true;
+//        options.SupportsAc3 = is60();
+//        options.SupportsDts = is60();
         return options;
     }
 
@@ -1283,9 +1292,8 @@ public class Utils {
                 }).setPositiveButton(context.getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                PutCustomAcraData();
-                ACRA.getErrorReporter().handleException(new Exception(msg), false);
-                showToast(context, context.getString(R.string.msg_report_sent));
+                    new LogReporter().sendReport("User", null);
+                    showToast(context, context.getString(R.string.msg_report_sent));
             }
         }).show();
     }
@@ -1342,6 +1350,9 @@ public class Utils {
         } catch (IOException e) {
             // none saved
             return new LogonCredentials(new ServerInfo(), new UserDto());
+        } catch (Exception e) {
+            app.getLogger().ErrorException("Error interpreting saved login",e);
+            return new LogonCredentials(new ServerInfo(), new UserDto());
         }
     }
 
@@ -1396,14 +1407,15 @@ public class Utils {
         return value == null || value.equals("");
     }
 
-    public static void PutCustomAcraData() {
-        TvApp app = TvApp.getApplication();
-        ApiClient apiClient = app.getApiClient();
-        if (apiClient != null) {
-            if (app.getCurrentUser() != null) ACRA.getErrorReporter().putCustomData("mbUser", app.getCurrentUser().getName());
-            ACRA.getErrorReporter().putCustomData("serverInfo", app.getSerializer().SerializeToString(app.getCurrentSystemInfo()));
-        }
-    }
+    //todo replace with custom error reporter
+//    public static void PutCustomAcraData() {
+//        TvApp app = TvApp.getApplication();
+//        ApiClient apiClient = app.getApiClient();
+//        if (apiClient != null) {
+//            if (app.getCurrentUser() != null) ACRA.getErrorReporter().putCustomData("mbUser", app.getCurrentUser().getName());
+//            ACRA.getErrorReporter().putCustomData("serverInfo", app.getSerializer().SerializeToString(app.getCurrentSystemInfo()));
+//        }
+//    }
 
     public static boolean versionGreaterThanOrEqual(String firstVersion, String secondVersion) {
         try {
@@ -1485,7 +1497,7 @@ public class Utils {
     }
 
     public static boolean supportsAc3() {
-        return isGreaterThan51();
+        return true;
     }
 
     public static int getBrandColor() {
@@ -1553,4 +1565,66 @@ public class Utils {
             return UUID.randomUUID().toString();
         }
     }
+
+    public static void handleConnectionResponse(final IConnectionManager connectionManager,  final Activity activity, ConnectionResult response) {
+        ILogger logger = TvApp.getApplication().getLogger();
+        switch (response.getState()) {
+            case ConnectSignIn:
+                logger.Debug("Sign in with connect...");
+                Intent intent = new Intent(activity, ConnectActivity.class);
+                activity.startActivity(intent);
+                break;
+
+            case Unavailable:
+                logger.Debug("No server available...");
+                Utils.showToast(activity, "No MB Servers available...");
+                break;
+            case ServerSignIn:
+                logger.Debug("Sign in with server " + response.getServers().get(0).getName() + " total: " + response.getServers().size());
+                Utils.signInToServer(connectionManager, response.getServers().get(0), activity);
+                break;
+            case SignedIn:
+                logger.Debug("Ignoring saved connection manager sign in");
+                connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>(){
+                    @Override
+                    public void onResponse(ArrayList<ServerInfo> serverResponse) {
+                        if (serverResponse.size() == 1) {
+                            //Signed in before and have just one server so go directly to user screen
+                            Utils.signInToServer(connectionManager, serverResponse.get(0), activity);
+                        } else {
+                            //More than one server so show selection
+                            Intent serverIntent = new Intent(activity, SelectServerActivity.class);
+                            GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
+                            List<String> payload = new ArrayList<>();
+                            for (ServerInfo server : serverResponse) {
+                                payload.add(serializer.SerializeToString(server));
+                            }
+                            serverIntent.putExtra("Servers", payload.toArray(new String[payload.size()]));
+                            serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            activity.startActivity(serverIntent);
+                        }
+                    }
+                });
+                break;
+            case ServerSelection:
+                logger.Debug("Select A server");
+                connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>(){
+                    @Override
+                    public void onResponse(ArrayList<ServerInfo> serverResponse) {
+                        Intent serverIntent = new Intent(activity, SelectServerActivity.class);
+                        GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
+                        List<String> payload = new ArrayList<>();
+                        for (ServerInfo server : serverResponse) {
+                            payload.add(serializer.SerializeToString(server));
+                        }
+                        serverIntent.putExtra("Servers", payload.toArray(new String[payload.size()]));
+                        serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        activity.startActivity(serverIntent);
+                    }
+                });
+                break;
+        }
+
+    }
+
 }

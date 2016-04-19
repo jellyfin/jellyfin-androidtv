@@ -4,9 +4,13 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.util.Utils;
@@ -82,8 +86,12 @@ public class RecommendationBuilder {
 
         Bundle extras = new Bundle();
         if (mBackgroundUri != null) {
-            Log.d(TAG, "Background - " + mBackgroundUri);
-            extras.putString(Notification.EXTRA_BACKGROUND_IMAGE_URI, mBackgroundUri);
+            try {
+                Log.d(TAG, "Background - " + Uri.parse(RecommendationContentProvider.CONTENT_URI + URLEncoder.encode(mBackgroundUri, "UTF-8") + "/0").toString());
+                extras.putString(Notification.EXTRA_BACKGROUND_IMAGE_URI, Uri.parse(RecommendationContentProvider.CONTENT_URI + URLEncoder.encode(mBackgroundUri, "UTF-8")).toString());
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
 
         Notification notification = new NotificationCompat.BigPictureStyle(

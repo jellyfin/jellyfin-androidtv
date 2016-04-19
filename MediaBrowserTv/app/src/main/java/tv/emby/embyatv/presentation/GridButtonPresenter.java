@@ -1,26 +1,23 @@
 package tv.emby.embyatv.presentation;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+import com.bumptech.glide.Glide;
 
-import tv.emby.embyatv.ui.GridButton;
 import tv.emby.embyatv.R;
+import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.ui.GridButton;
 
 public class GridButtonPresenter extends Presenter {
 
-    private static Context mContext;
     private boolean mShowInfo = true;
     private int mCardWidth = 220;
     private int mCardHeight = 220;
+    private static ViewGroup mViewParent;
 
     public GridButtonPresenter() { super();}
 
@@ -31,20 +28,22 @@ public class GridButtonPresenter extends Presenter {
         mCardHeight = height;
     }
 
+    private static Context getContext() {
+        return TvApp.getApplication().getCurrentActivity() != null ? TvApp.getApplication().getCurrentActivity() : mViewParent.getContext();
+    }
+
     static class ViewHolder extends Presenter.ViewHolder {
         private GridButton mItem;
         private int cardWidth;
         private int cardHeight;
         private MyImageCardView mCardView;
         private Drawable mDefaultCardImage;
-        private PicassoImageCardViewTarget mImageCardViewTarget;
 
         public ViewHolder(View view) {
             super(view);
             mCardView = (MyImageCardView) view;
 
-            mImageCardViewTarget = new PicassoImageCardViewTarget(mCardView);
-            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.gears);
+            mDefaultCardImage = TvApp.getApplication().getResources().getDrawable(R.drawable.gears);
         }
 
         public void setItem(GridButton m, int width, int height) {
@@ -63,24 +62,24 @@ public class GridButtonPresenter extends Presenter {
         }
 
         protected void updateCardViewImage(int image) {
-            Picasso.with(mContext)
+            Glide.with(getContext())
                     .load(image)
-                    .resize(cardWidth, cardHeight)
+                    .override(cardWidth, cardHeight)
                     .centerCrop()
                     .error(mDefaultCardImage)
-                    .into(mImageCardViewTarget);
+                    .into(mCardView.getMainImageView());
         }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
         //Log.d(TAG, "onCreateViewHolder");
-        mContext = parent.getContext();
+        mViewParent = parent;
 
-        MyImageCardView cardView = new MyImageCardView(mContext, mShowInfo);
+        MyImageCardView cardView = new MyImageCardView(getContext(), mShowInfo);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
-        cardView.setBackgroundColor(mContext.getResources().getColor(R.color.lb_basic_card_info_bg_color));
+        cardView.setBackgroundColor(TvApp.getApplication().getResources().getColor(R.color.lb_basic_card_info_bg_color));
         return new ViewHolder(cardView);
     }
 
@@ -108,30 +107,6 @@ public class GridButtonPresenter extends Presenter {
     @Override
     public void onViewAttachedToWindow(Presenter.ViewHolder viewHolder) {
         //Log.d(TAG, "onViewAttachedToWindow");
-    }
-
-    public static class PicassoImageCardViewTarget implements Target {
-        private MyImageCardView mImageCardView;
-
-        public PicassoImageCardViewTarget(MyImageCardView mImageCardView) {
-            this.mImageCardView = mImageCardView;
-        }
-
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom loadedFrom) {
-            Drawable bitmapDrawable = new BitmapDrawable(mContext.getResources(), bitmap);
-            mImageCardView.setMainImage(bitmapDrawable);
-        }
-
-        @Override
-        public void onBitmapFailed(Drawable drawable) {
-            mImageCardView.setMainImage(drawable);
-        }
-
-        @Override
-        public void onPrepareLoad(Drawable drawable) {
-            // Do nothing, default_background manager has its own transitions
-        }
     }
 
 }

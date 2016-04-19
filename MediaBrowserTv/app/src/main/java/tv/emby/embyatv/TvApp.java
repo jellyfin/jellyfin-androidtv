@@ -1,16 +1,22 @@
 package tv.emby.embyatv;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.format.DateUtils;
 import android.util.Log;
 
@@ -31,35 +37,28 @@ import mediabrowser.model.system.SystemInfo;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.playback.PlaybackController;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
+import tv.emby.embyatv.search.SearchActivity;
 import tv.emby.embyatv.startup.LogonCredentials;
+import tv.emby.embyatv.util.LogReporter;
 import tv.emby.embyatv.util.Utils;
 import tv.emby.embyatv.validation.AppValidator;
 
-import org.acra.*;
-import org.acra.annotation.*;
-import org.acra.sender.HttpSender;
-
 import java.util.Calendar;
-import java.util.Dictionary;
 import java.util.HashMap;
+import android.Manifest;
 
 /**
  * Created by Eric on 11/24/2014.
  */
 
 
-@ReportsCrashes(
-        httpMethod = HttpSender.Method.PUT,
-        reportType = HttpSender.Type.JSON,
-        formUri = "https://embi.smileupps.com/acra-androidtv/_design/acra-storage/_update/report",
-        formUriBasicAuthLogin = "atvreporter",
-        formUriBasicAuthPassword = "bumblebee+")
-
-public class TvApp extends Application {
+public class TvApp extends Application implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     public static String FEATURE_CODE = "androidtv";
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
     public static final int LIVE_TV_RECORDINGS_OPTION_ID = 2000;
+
+    private static final int SEARCH_PERMISSION = 0;
 
     private ILogger logger;
     private IConnectionManager connectionManager;
@@ -80,7 +79,6 @@ public class TvApp extends Application {
 
     private HashMap<String, DisplayPreferences> displayPrefsCache = new HashMap<>();
 
-    private boolean isConnectLogin = false;
     private String lastDeletedItemId = "";
 
     private boolean isPaid = false;
@@ -93,6 +91,8 @@ public class TvApp extends Application {
     private long lastFavoriteUpdate = System.currentTimeMillis();
     private long lastMusicPlayback = System.currentTimeMillis();
     private long lastUserInteraction = System.currentTimeMillis();
+
+    private boolean searchAllowed = Build.VERSION.SDK_INT < 23;
 
     private boolean audioMuted;
 
@@ -110,20 +110,26 @@ public class TvApp extends Application {
 
         logger.Info("Application object created");
 
-        ACRA.init(this);
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread thread, Throwable ex) {
                 if (!getApiClient().getServerInfo().getName().equals("Dev Server")) {
-                    Utils.PutCustomAcraData();
-                    ACRA.getErrorReporter().handleException(ex, false);
+                    ex.printStackTrace();
+                    new LogReporter().sendReport("Exception", new EmptyResponse() {
+                        @Override
+                        public void onResponse() {
+
+                            android.os.Process.killProcess(android.os.Process.myPid());
+                            System.exit(10);
+                        }
+                    });
                 } else {
                     Log.e("MediaBrowserTv", "Uncaught exception is: ", ex);
                     ex.printStackTrace();
+                    android.os.Process.killProcess(android.os.Process.myPid());
+                    System.exit(10);
 
                 }
-                android.os.Process.killProcess(android.os.Process.myPid());
-                System.exit(10);
             }
                       });
 
@@ -218,14 +224,70 @@ public class TvApp extends Application {
                 @Override
                 public void onResponse(SystemInfo response) {
                     currentSystemInfo = response;
-                    logger.Info("Current server is "+response.getServerName()+" (ver "+response.getVersion()+") running on "+response.getOperatingSystemDisplayName());
+                    logger.Info("Current server is " + response.getServerName() + " (ver " + response.getVersion() + ") running on " + response.getOperatingSystemDisplayName());
                 }
 
                 @Override
                 public void onError(Exception exception) {
-                    logger.ErrorException("Unable to obtain system info.",exception);
+                    logger.ErrorException("Unable to obtain system info.", exception);
                 }
             });
+        }
+    }
+
+    public void showSearch(final Activity activity, boolean musicOnly) {
+        if (!searchAllowed && ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+            //request necessary permission
+            logger.Info("Requesting search permission...");
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.RECORD_AUDIO)) {
+                //show explanation
+                logger.Info("Show rationale for permission");
+                new AlertDialog.Builder(activity)
+                        .setTitle("Search Permission")
+                        .setMessage("Search requires permission to record audio in order to use the microphone for voice search")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.RECORD_AUDIO}, SEARCH_PERMISSION);
+                            }
+                        }).show();
+            } else {
+                ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.RECORD_AUDIO}, SEARCH_PERMISSION);
+            }
+        } else {
+            showSearchInternal(activity, musicOnly);
+        }
+    }
+
+    private void showSearchInternal(Context activity, boolean musicOnly) {
+        Intent intent = new Intent(activity, SearchActivity.class);
+        if (musicOnly) intent.putExtra("MusicOnly", true);
+        activity.startActivity(intent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case SEARCH_PERMISSION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay!
+                    searchAllowed = true;
+                    showSearchInternal(getCurrentActivity(), false);
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Utils.showToast(this, "Search not allowed");
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
         }
     }
 
@@ -280,7 +342,7 @@ public class TvApp extends Application {
     }
 
     public boolean getIsAutoLoginConfigured() {
-        return getPrefs().getString("pref_login_behavior", "0").equals("1");
+        return getPrefs().getString("pref_login_behavior", "0").equals("1") && getConfiguredAutoCredentials().getServerInfo().getId() != null;
     }
 
     public Calendar getLastMoviePlayback() {
@@ -396,11 +458,11 @@ public class TvApp extends Application {
     }
 
     public boolean isConnectLogin() {
-        return isConnectLogin;
+        return getSystemPrefs().getBoolean("sys_pref_connect_login", false);
     }
 
-    public void setConnectLogin(boolean isConnectLogin) {
-        this.isConnectLogin = isConnectLogin;
+    public void setConnectLogin(boolean value) {
+        TvApp.getApplication().getSystemPrefs().edit().putBoolean("sys_pref_connect_login", value).commit();
     }
 
     public void stopPlayback() {
@@ -528,5 +590,13 @@ public class TvApp extends Application {
 
     public void setHttpClient(VolleyHttpClient httpClient) {
         this.httpClient = httpClient;
+    }
+
+    public boolean isSearchAllowed() {
+        return searchAllowed;
+    }
+
+    public void setSearchAllowed(boolean searchAllowed) {
+        this.searchAllowed = searchAllowed;
     }
 }

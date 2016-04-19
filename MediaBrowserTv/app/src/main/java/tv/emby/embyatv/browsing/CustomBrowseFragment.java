@@ -1,6 +1,7 @@
 package tv.emby.embyatv.browsing;
 
 import android.app.Fragment;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,8 +20,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,7 @@ import java.util.TimerTask;
 
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
+import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
@@ -48,11 +50,14 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
     protected String MainTitle;
     protected boolean ShowBadge = true;
     protected TvApp mApplication;
+    protected BaseActivity mActivity;
+    protected BaseRowItem mCurrentItem;
+    protected ListRow mCurrentRow;
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ArrayObjectAdapter mRowsAdapter;
     private Drawable mDefaultBackground;
-    private Target mBackgroundTarget;
+    private SimpleTarget<Bitmap> mBackgroundTarget;
     private DisplayMetrics mMetrics;
     private Timer mBackgroundTimer;
     private final Handler mHandler = new Handler();
@@ -86,6 +91,7 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
         super.onActivityCreated(savedInstanceState);
 
         mApplication = TvApp.getApplication();
+        //mActivity = (BaseActivity) getActivity();
 
         prepareBackgroundManager();
 
@@ -135,7 +141,7 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
         mCardPresenter = new CardPresenter();
 
         for (BrowseRowDef def : rows) {
-            HeaderItem header = new HeaderItem(def.getHeaderText(), null);
+            HeaderItem header = new HeaderItem(def.getHeaderText());
             ItemRowAdapter rowAdapter;
             switch (def.getQueryType()) {
                 case NextUp:
@@ -193,14 +199,20 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
 
     private void prepareBackgroundManager() {
 
-        BackgroundManager backgroundManager = BackgroundManager.getInstance(getActivity());
+        final BackgroundManager backgroundManager = BackgroundManager.getInstance(getActivity());
         backgroundManager.attach(getActivity().getWindow());
-        mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
-
         mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
 
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
+
+        mBackgroundTarget = new SimpleTarget<Bitmap>(mMetrics.widthPixels, mMetrics.heightPixels) {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                backgroundManager.setBitmap(resource);
+            }
+        };
+
     }
 
     protected void setupUIElements() {
@@ -237,6 +249,8 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
             }
 
             BaseRowItem rowItem = (BaseRowItem) item;
+            mCurrentItem = rowItem;
+            mCurrentRow = (ListRow) row;
 
             //mApplication.getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));
             ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)row).getAdapter();
@@ -257,10 +271,10 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
     }
 
     protected void updateBackground(String url) {
-        Picasso.with(getActivity())
+        Glide.with(getActivity())
                 .load(url)
-                .skipMemoryCache()
-                .resize(mMetrics.widthPixels, mMetrics.heightPixels)
+                .asBitmap()
+                .override(mMetrics.widthPixels, mMetrics.heightPixels)
                 .centerCrop()
                 .error(mDefaultBackground)
                 .into(mBackgroundTarget);

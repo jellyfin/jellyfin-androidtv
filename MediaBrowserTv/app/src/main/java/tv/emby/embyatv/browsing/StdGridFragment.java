@@ -18,6 +18,7 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
@@ -41,12 +42,17 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.microedition.khronos.opengles.GL10;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
@@ -94,7 +100,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ItemRowAdapter mGridAdapter;
     private Drawable mDefaultBackground;
-    private Target mBackgroundTarget;
+    private SimpleTarget<Bitmap> mBackgroundTarget;
     private DisplayMetrics mMetrics;
     private Timer mBackgroundTimer;
     private final Handler mHandler = new Handler();
@@ -307,14 +313,19 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     }
     private void prepareBackgroundManager() {
 
-        BackgroundManager backgroundManager = BackgroundManager.getInstance(getActivity());
+        final BackgroundManager backgroundManager = BackgroundManager.getInstance(getActivity());
         backgroundManager.attach(getActivity().getWindow());
-        mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
-
         mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
 
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
+
+        mBackgroundTarget = new SimpleTarget<Bitmap>(mMetrics.widthPixels, mMetrics.heightPixels) {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                backgroundManager.setBitmap(resource);
+            }
+        };
     }
 
     protected void setupUIElements() {
@@ -449,9 +460,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         toolBar.addView(new ImageButton(getActivity(), R.drawable.search2, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
-                if ("music".equals(mFolder.getCollectionType()) || "MusicAlbum".equals(mFolder.getType()) || "MusicArtist".equals(mFolder.getType())) intent.putExtra("MusicOnly", true);
-                getActivity().startActivity(intent);
+                TvApp.getApplication().showSearch(getActivity(), "music".equals(mFolder.getCollectionType()) || "MusicAlbum".equals(mFolder.getType()) || "MusicArtist".equals(mFolder.getType()));
             }
         }));
 
@@ -667,10 +676,10 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     }
 
     protected void updateBackground(String url) {
-        Picasso.with(getActivity())
+        Glide.with(getActivity())
                 .load(url)
-                //.skipMemoryCache()
-                .resize(mMetrics.widthPixels, mMetrics.heightPixels)
+                .asBitmap()
+                .override(mMetrics.widthPixels, mMetrics.heightPixels)
                 .centerCrop()
                 .error(mDefaultBackground)
                 .into(mBackgroundTarget);

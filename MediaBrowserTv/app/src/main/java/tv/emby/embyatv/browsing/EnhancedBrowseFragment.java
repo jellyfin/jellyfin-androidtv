@@ -2,6 +2,7 @@ package tv.emby.embyatv.browsing;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -28,8 +29,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +49,6 @@ import tv.emby.embyatv.base.CustomMessage;
 import tv.emby.embyatv.base.IKeyListener;
 import tv.emby.embyatv.base.IMessageListener;
 import tv.emby.embyatv.details.SongListActivity;
-import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
@@ -57,7 +58,6 @@ import tv.emby.embyatv.presentation.GridButtonPresenter;
 import tv.emby.embyatv.presentation.PositionableListRowPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.ViewQuery;
-import tv.emby.embyatv.search.SearchActivity;
 import tv.emby.embyatv.ui.GridButton;
 import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.KeyProcessor;
@@ -92,7 +92,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
     protected BaseRowItem favSongsRowItem;
 
-    private Target mBackgroundTarget;
+    private SimpleTarget<Bitmap> mBackgroundTarget;
     private DisplayMetrics mMetrics;
 
     RowsFragment mRowsFragment;
@@ -214,6 +214,12 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     public void onResume() {
         super.onResume();
 
+        //React to deletion
+        if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(TvApp.getApplication().getLastDeletedItemId())) {
+            ((ItemRowAdapter)mCurrentRow.getAdapter()).remove(mCurrentItem);
+            TvApp.getApplication().setLastDeletedItemId(null);
+        }
+
         if (!justLoaded) {
             //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
             if (mRowsAdapter != null) {
@@ -248,7 +254,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
 
         for (BrowseRowDef def : rows) {
-            HeaderItem header = new HeaderItem(def.getHeaderText(), null);
+            HeaderItem header = new HeaderItem(def.getHeaderText());
             ItemRowAdapter rowAdapter;
             switch (def.getQueryType()) {
                 case NextUp:
@@ -284,6 +290,9 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                 case LiveTvRecordingGroup:
                     rowAdapter = new ItemRowAdapter(def.getRecordingGroupQuery(), mCardPresenter, mRowsAdapter);
                     break;
+                case Premieres:
+                    rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), mCardPresenter, mRowsAdapter, def.getQueryType());
+                    break;
                 default:
                     rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), ps, mRowsAdapter, def.getQueryType());
                     break;
@@ -305,7 +314,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
     protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
         if (showViews) {
-            HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_views), null);
+            HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_views));
 
             GridButtonPresenter mGridPresenter = new GridButtonPresenter();
             ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
@@ -465,9 +474,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         break;
 
                     case SEARCH:
-                        Intent searchIntent = new Intent(getActivity(), SearchActivity.class);
-                        if ("MusicAlbum".equals(itemTypeString)) searchIntent.putExtra("MusicOnly", true);
-                        getActivity().startActivity(searchIntent);
+                        TvApp.getApplication().showSearch(getActivity(), "MusicAlbum".equals(itemTypeString));
                         break;
 
                     case FAVSONGS:
@@ -549,24 +556,29 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
     private void prepareBackgroundManager() {
 
-        BackgroundManager backgroundManager = BackgroundManager.getInstance(getActivity());
+        final BackgroundManager backgroundManager = BackgroundManager.getInstance(getActivity());
         backgroundManager.attach(getActivity().getWindow());
-        mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
-
         mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
 
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
+
+        mBackgroundTarget = new SimpleTarget<Bitmap>(mMetrics.widthPixels, mMetrics.heightPixels) {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                backgroundManager.setBitmap(resource);
+            }
+        };
     }
 
     protected void updateBackground(String url) {
         if (url == null) {
             clearBackground();
         } else {
-            Picasso.with(getActivity())
+            Glide.with(getActivity())
                     .load(url)
-                    //.skipMemoryCache()
-                    .resize(mMetrics.widthPixels, mMetrics.heightPixels)
+                    .asBitmap()
+                    .override(mMetrics.widthPixels, mMetrics.heightPixels)
                     .centerCrop()
                     .error(mDefaultBackground)
                     .into(mBackgroundTarget);

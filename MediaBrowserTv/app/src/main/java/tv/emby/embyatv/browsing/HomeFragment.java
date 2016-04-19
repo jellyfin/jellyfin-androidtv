@@ -33,6 +33,7 @@ import tv.emby.embyatv.playback.AudioNowPlayingActivity;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.presentation.PositionableListRowPresenter;
 import tv.emby.embyatv.presentation.ThemeManager;
+import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.startup.LogonCredentials;
 import tv.emby.embyatv.ui.GridButton;
 import tv.emby.embyatv.R;
@@ -169,6 +170,7 @@ public class HomeFragment extends StdBrowseFragment {
                     switch (firstType) {
                         case "s":
                             addNextUp();
+                            addPremieres();
                             addLatestMovies();
                             addOnNow();
                             break;
@@ -176,12 +178,14 @@ public class HomeFragment extends StdBrowseFragment {
                         case "t":
                             addOnNow();
                             addNextUp();
+                            addPremieres();
                             addLatestMovies();
                             break;
 
                         default:
                             addLatestMovies();
                             addNextUp();
+                            addPremieres();
                             addOnNow();
                     }
                 }
@@ -223,6 +227,21 @@ public class HomeFragment extends StdBrowseFragment {
 
     }
 
+    protected void addPremieres() {
+        StdItemQuery newQuery = new StdItemQuery(new ItemFields[]{ItemFields.DateCreated, ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
+        newQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        newQuery.setIncludeItemTypes(new String[]{"Episode"});
+        newQuery.setRecursive(true);
+        newQuery.setIsVirtualUnaired(false);
+        newQuery.setIsMissing(false);
+        newQuery.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
+        newQuery.setSortBy(new String[]{ItemSortBy.DateCreated});
+        newQuery.setSortOrder(SortOrder.Descending);
+        newQuery.setLimit(300);
+        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_new_premieres), newQuery, 0, true, true, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}, QueryType.Premieres));
+
+    }
+
     protected void addOnNow() {
         if (TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvAccess()) {
             RecommendedProgramQuery onNow = new RecommendedProgramQuery();
@@ -258,7 +277,7 @@ public class HomeFragment extends StdBrowseFragment {
     protected void addNowPlaying() {
         if (MediaManager.isPlayingAudio()) {
             if (nowPlayingRow == null) {
-                nowPlayingRow = new ListRow(new HeaderItem(getString(R.string.lbl_now_playing), null), MediaManager.getManagedAudioQueue());
+                nowPlayingRow = new ListRow(new HeaderItem(getString(R.string.lbl_now_playing)), MediaManager.getManagedAudioQueue());
                 mRowsAdapter.add(1, nowPlayingRow);
             }
         } else {
@@ -273,7 +292,7 @@ public class HomeFragment extends StdBrowseFragment {
     protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
         super.addAdditionalRows(rowAdapter);
 
-        HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_settings), null);
+        HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_settings));
 
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         toolsRow = new ArrayObjectAdapter(mGridPresenter);
@@ -348,6 +367,7 @@ public class HomeFragment extends StdBrowseFragment {
                         TvApp.getApplication().getConnectionManager().Logout(new EmptyResponse() {
                             @Override
                             public void onResponse() {
+                                mApplication.setConnectLogin(false);
                                 getActivity().finish();
                             }
                         });

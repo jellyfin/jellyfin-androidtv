@@ -179,8 +179,7 @@ public class BaseActivity extends Activity {
 
     @Override
     public boolean onSearchRequested() {
-        Intent searchIntent = new Intent(this, SearchActivity.class);
-        startActivity(searchIntent);
+        TvApp.getApplication().showSearch(this, false);
         return true;
     }
 }
