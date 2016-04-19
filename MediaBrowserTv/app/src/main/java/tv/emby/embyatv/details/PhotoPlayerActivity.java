@@ -108,7 +108,7 @@ public class PhotoPlayerActivity extends BaseActivity {
         mPopupRowPresenter = new PositionableListRowPresenter();
         mPopupRowAdapter = new ArrayObjectAdapter(mPopupRowPresenter);
         mPopupRowsFragment.setAdapter(mPopupRowAdapter);
-        mThumbRow = new ListRow(new HeaderItem("", null), MediaManager.getCurrentMediaAdapter());
+        mThumbRow = new ListRow(new HeaderItem(""), MediaManager.getCurrentMediaAdapter());
         mPopupRowAdapter.add(mThumbRow);
         mPopupRowsFragment.setOnItemViewClickedListener(itemViewClickedListener);
         mPopupRowsFragment.setOnItemViewSelectedListener(itemViewSelectedListener);

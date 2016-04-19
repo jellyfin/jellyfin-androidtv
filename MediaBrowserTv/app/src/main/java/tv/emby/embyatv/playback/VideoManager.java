@@ -7,17 +7,14 @@ import android.graphics.PixelFormat;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
-import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.VideoView;
 
 import com.devbrackets.android.exomedia.EMVideoView;
 
-import org.acra.ACRA;
 import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
@@ -25,15 +22,11 @@ import org.videolan.libvlc.Media;
 import java.util.ArrayList;
 import java.util.List;
 
-import mediabrowser.model.dlna.SubtitleDeliveryMethod;
-import mediabrowser.model.dlna.SubtitleStreamInfo;
 import mediabrowser.model.dto.MediaSourceInfo;
 import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.MediaStreamType;
-import mediabrowser.model.mediainfo.SubtitleTrackInfo;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -86,7 +79,7 @@ public class VideoManager implements IVLCVout.Callback {
         }
         mVideoView = (EMVideoView) view.findViewById(R.id.videoView);
 
-        createPlayer(buffer);
+        if (!Utils.isShield()) createPlayer(buffer);
 
     }
 
@@ -106,11 +99,17 @@ public class VideoManager implements IVLCVout.Callback {
     }
 
     public long getDuration() {
-        return nativeMode ? mVideoView.getDuration() : mVlcPlayer.getLength() > 0 ? mVlcPlayer.getLength() : mMetaDuration;
+        if (nativeMode){
+            return mVideoView.getDuration() > 0 ? mVideoView.getDuration() : mMetaDuration;
+        } else {
+            return mVlcPlayer.getLength() > 0 ? mVlcPlayer.getLength() : mMetaDuration;
+        }
     }
 
     public long getCurrentPosition() {
         if (nativeMode) return mVideoView.getCurrentPosition();
+
+        if (mVlcPlayer == null) return 0;
 
         long time = mVlcPlayer.getTime();
         if (mForcedTime != -1 && mLastTime != -1) {
@@ -192,6 +191,7 @@ public class VideoManager implements IVLCVout.Callback {
         } else {
             mVlcPlayer.stop();
         }
+        stopProgressLoop();
     }
 
     public long seekTo(long pos) {
@@ -219,6 +219,7 @@ public class VideoManager implements IVLCVout.Callback {
 
     public void setVideoPath(String path) {
         mCurrentVideoPath = path;
+        TvApp.getApplication().getLogger().Info("Video path set to: "+path);
 
         if (nativeMode) {
             try {
@@ -358,8 +359,17 @@ public class VideoManager implements IVLCVout.Callback {
             ArrayList<String> options = new ArrayList<>(20);
             options.add("--network-caching=" + buffer);
             options.add("--no-audio-time-stretch");
+            options.add("--avcodec-skiploopfilter");
+            options.add("" + 1);
+            options.add("--avcodec-skip-frame");
+            options.add("0");
+            options.add("--avcodec-skip-idct");
+            options.add("0");
             options.add("--androidwindow-chroma");
             options.add("RV32");
+            options.add("--audio-resampler");
+            options.add("soxr");
+            options.add("--stats");
 //            options.add("--subsdec-encoding");
 //            options.add("Universal (UTF-8)");
             options.add("-v");
@@ -370,8 +380,7 @@ public class VideoManager implements IVLCVout.Callback {
                 @Override
                 public void onNativeCrash() {
                     new Exception().printStackTrace();
-                    Utils.PutCustomAcraData();
-                    ACRA.getErrorReporter().handleException(new Exception("Error in LibVLC"), false);
+                    //todo custom error reporter
                     mActivity.finish();
                     android.os.Process.killProcess(android.os.Process.myPid());
                     System.exit(10);
@@ -532,6 +541,7 @@ public class VideoManager implements IVLCVout.Callback {
         mVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
+                TvApp.getApplication().getLogger().Error("***** Got error from player");
                 listener.onEvent();
                 stopProgressLoop();
                 return true;

@@ -635,6 +635,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             return;
         }
 
+        //Register a media button receiver so that all media button presses will come to us and not another app
+        mAudioManager.registerMediaButtonEventReceiver(new ComponentName(TvApp.getApplication().getPackageName(), RemoteControlReceiver.class.getName()));
+        //TODO implement conditional logic for api 21+
+
         if (!mIsVisible) show(); // in case we were paused during video playback
 
     }
@@ -647,13 +651,15 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     @Override
     public void onPause() {
+        super.onPause();
         mPlaybackController.stop();
         setPlayPauseActionState(ImageButton.STATE_PRIMARY); // in case we come back
 
         //Give back audio focus
         mAudioManager.abandonAudioFocus(mAudioFocusChanged);
+        mApplication.getLogger().Debug("Fragment pausing. IsFinishing: "+mActivity.isFinishing());
+        if (!mActivity.isFinishing()) mActivity.finish(); // user hit "home" we want to back out
 
-        super.onPause();
     }
 
     public void show() {
@@ -1130,7 +1136,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private void addButtons(BaseItemDto item) {
         mButtonRow.removeAllViews();
 
-        if (!Utils.isFireTv() && !mPlaybackController.isLiveTv()) {
+        if (!Utils.isFireTv() && mPlaybackController.canSeek()) {
             // on-screen jump buttons for Nexus
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.repeat, mButtonSize, new View.OnClickListener() {
                 @Override
@@ -1282,7 +1288,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             ItemRowAdapter chapterAdapter = new ItemRowAdapter(Utils.buildChapterItems(item), new CardPresenter(), new ArrayObjectAdapter());
             chapterAdapter.Retrieve();
             if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
-            mChapterRow = new ListRow(new HeaderItem(mActivity.getString(R.string.chapters), null), chapterAdapter);
+            mChapterRow = new ListRow(new HeaderItem(mActivity.getString(R.string.chapters)), chapterAdapter);
             mPopupRowAdapter.add(mChapterRow);
 
         }
@@ -1380,7 +1386,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             updateLogo(current, mLogoImage);
             updateStudio(current);
             addButtons(current);
-            InfoLayoutHelper.addInfoRow(mActivity, current, mInfoRow, true, false);
+            InfoLayoutHelper.addInfoRow(mActivity, current, mInfoRow, true, false, mPlaybackController.getCurrentMediaSource().GetDefaultAudioStream(mPlaybackController.getAudioStreamIndex()));
 
             StreamInfo stream = mPlaybackController.getCurrentStreamInfo();
             if (stream != null) {

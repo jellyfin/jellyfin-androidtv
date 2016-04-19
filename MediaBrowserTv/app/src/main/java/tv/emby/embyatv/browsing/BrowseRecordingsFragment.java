@@ -31,10 +31,6 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
     public void onResume() {
         super.onResume();
 
-        if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId().equals(TvApp.getApplication().getLastDeletedItemId())) {
-            ((ItemRowAdapter)mCurrentRow.getAdapter()).remove(mCurrentItem);
-            TvApp.getApplication().setLastDeletedItemId(null);
-        }
     }
 
     @Override
@@ -108,19 +104,19 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                             if (weekItems.size() > 0) {
                                 ItemRowAdapter weekAdapter = new ItemRowAdapter(weekItems, mCardPresenter, mRowsAdapter, true);
                                 weekAdapter.Retrieve();
-                                ListRow weekRow = new ListRow(new HeaderItem("Past Week", null), weekAdapter);
+                                ListRow weekRow = new ListRow(new HeaderItem("Past Week"), weekAdapter);
                                 mRowsAdapter.add(0, weekRow);
                             }
                             if (nearTimers.size() > 0) {
                                 ItemRowAdapter scheduledAdapter = new ItemRowAdapter(nearTimers, mCardPresenter, mRowsAdapter, true);
                                 scheduledAdapter.Retrieve();
-                                ListRow scheduleRow = new ListRow(new HeaderItem("Scheduled in Next 24 Hours", null), scheduledAdapter);
+                                ListRow scheduleRow = new ListRow(new HeaderItem("Scheduled in Next 24 Hours"), scheduledAdapter);
                                 mRowsAdapter.add(0, scheduleRow);
                             }
                             if (dayItems.size() > 0) {
                                 ItemRowAdapter dayAdapter = new ItemRowAdapter(dayItems, mCardPresenter, mRowsAdapter, true);
                                 dayAdapter.Retrieve();
-                                ListRow dayRow = new ListRow(new HeaderItem("Past 24 Hours", null), dayAdapter);
+                                ListRow dayRow = new ListRow(new HeaderItem("Past 24 Hours"), dayAdapter);
                                 mRowsAdapter.add(0, dayRow);
                             }
 
@@ -129,7 +125,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                             if (nearTimers.size() > 0) {
                                 ItemRowAdapter scheduledAdapter = new ItemRowAdapter(nearTimers, mCardPresenter, mRowsAdapter, true);
                                 scheduledAdapter.Retrieve();
-                                ListRow scheduleRow = new ListRow(new HeaderItem("Scheduled in Next 24 Hours", null), scheduledAdapter);
+                                ListRow scheduleRow = new ListRow(new HeaderItem("Scheduled in Next 24 Hours"), scheduledAdapter);
                                 mRowsAdapter.add(0, scheduleRow);
                             } else {
                                 mTitle.setText(R.string.lbl_no_recordings);

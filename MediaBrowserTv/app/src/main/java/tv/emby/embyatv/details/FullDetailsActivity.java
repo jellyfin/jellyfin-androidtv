@@ -80,6 +80,7 @@ import tv.emby.embyatv.ui.GenreButton;
 import tv.emby.embyatv.ui.IRecordingIndicatorView;
 import tv.emby.embyatv.ui.ImageButton;
 import tv.emby.embyatv.ui.RecordPopup;
+import tv.emby.embyatv.util.DelayedMessage;
 import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.KeyProcessor;
 import tv.emby.embyatv.util.Utils;
@@ -248,7 +249,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         }
     }
 
-    private static String[] playableTypes = new String[] {"Episode","Movie","Series","Season","Folder","Video","Recording","Program","ChannelVideoItem","MusicArtist"};
+    private static String[] playableTypes = new String[] {"Episode","Movie","Series","Season","Folder","Video","Recording","Program","ChannelVideoItem","Trailer","MusicArtist","Person"};
     private static List<String> playableTypeList = Arrays.asList(playableTypes);
     private static String[] directPlayableTypes = new String[] {"Episode","Movie","Video","Recording","Program"};
     private static List<String> directPlayableTypeList = Arrays.asList(directPlayableTypes);
@@ -406,7 +407,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     protected void addItemRow(ArrayObjectAdapter parent, ItemRowAdapter row, int index, String headerText) {
-        HeaderItem header = new HeaderItem(index, headerText, null);
+        HeaderItem header = new HeaderItem(index, headerText);
         ListRow listRow = new ListRow(header, row);
         parent.add(listRow);
         row.setRow(listRow);
@@ -576,7 +577,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         if (mBaseItem != null) {
             Long runtime = Utils.NullCoalesce(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
             if (runtime != null && runtime > 0) {
-                long endTimeTicks = !"Recording".equals(mBaseItem.getType()) && mBaseItem.getEndDate() != null ? Utils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
+                long endTimeTicks = "Program".equals(mBaseItem.getType()) && mBaseItem.getEndDate() != null ? Utils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
                 String text = getString(R.string.lbl_runs) + runtime / 600000000 + getString(R.string.lbl_min) + "  " + getString(R.string.lbl_ends) + android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks));
                 if (mBaseItem.getCanResume()) {
                     endTimeTicks = System.currentTimeMillis() + ((runtime - mBaseItem.getUserData().getPlaybackPositionTicks()) / 10000);
@@ -737,7 +738,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         UserItemDataDto userData = mBaseItem.getUserData();
         if (userData != null) {
-            if (!"MusicArtist".equals(mBaseItem.getType()) && Utils.CanPlay(mBaseItem)) {
+            if (!"MusicArtist".equals(mBaseItem.getType()) && !"Person".equals(mBaseItem.getType()) && Utils.CanPlay(mBaseItem)) {
                 mWatchedToggleButton = new ImageButton(this, userData.getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck, buttonSize, getString(R.string.lbl_toggle_watched), null, markWatchedListener);
                 mDetailsOverviewRow.addAction(mWatchedToggleButton);
             }
@@ -806,7 +807,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             mDetailsOverviewRow.addAction(series);
         }
 
-        if ("Recording".equals(mBaseItem.getType()) && TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvManagement() && mBaseItem.getCanDelete()) {
+        if (("Recording".equals(mBaseItem.getType()) && TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvManagement() && mBaseItem.getCanDelete()) ||
+                (("Movie".equals(mBaseItem.getType()) || "Episode".equals(mBaseItem.getType()) || "Video".equals(mBaseItem.getType())) && TvApp.getApplication().getCurrentUser().getPolicy().getEnableContentDeletion())) {
             final Activity activity = this;
             ImageButton del = new ImageButton(this, R.drawable.trash, buttonSize, getString(R.string.lbl_delete), null, new View.OnClickListener() {
                 @Override
@@ -816,9 +818,11 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                             .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
                             .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
+                                    final DelayedMessage msg = new DelayedMessage(activity, 150);
                                     TvApp.getApplication().getApiClient().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
                                         @Override
                                         public void onResponse() {
+                                            msg.Cancel();
                                             Utils.showToast(activity, mBaseItem.getName() + " Deleted");
                                             TvApp.getApplication().setLastDeletedItemId(mBaseItem.getId());
                                             finish();
@@ -826,6 +830,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                                         @Override
                                         public void onError(Exception ex) {
+                                            msg.Cancel();
                                             Utils.showToast(activity, ex.getLocalizedMessage());
                                         }
                                     });
