@@ -68,6 +68,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     private UserDto currentUser;
     private SystemInfo currentSystemInfo;
     private BaseItemDto currentPlayingItem;
+    private BaseItemDto lastPlayedItem;
     private PlaybackController playbackController;
     private ApiClient loginApiClient;
     private AudioManager audioManager;
@@ -613,5 +614,13 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     public void setSearchAllowed(boolean searchAllowed) {
         this.searchAllowed = searchAllowed;
+    }
+
+    public BaseItemDto getLastPlayedItem() {
+        return lastPlayedItem;
+    }
+
+    public void setLastPlayedItem(BaseItemDto lastPlayedItem) {
+        this.lastPlayedItem = lastPlayedItem;
     }
 }

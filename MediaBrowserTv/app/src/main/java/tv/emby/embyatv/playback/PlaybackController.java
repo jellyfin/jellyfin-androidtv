@@ -486,6 +486,7 @@ public class PlaybackController {
         mDefaultAudioIndex = getDefaultAudioIndex(response);
         mDefaultSubIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : -1;
 
+        mApplication.setLastPlayedItem(item);
         if (!isRestart) Utils.ReportStart(item, mbPos);
         isRestart = false;
 

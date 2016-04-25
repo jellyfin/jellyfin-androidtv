@@ -41,12 +41,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/amazonDebug/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/amazonDebug/jni" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/amazonDebug/rs" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/amazon/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/amazon/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/amazon/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/amazon/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/amazon/debug" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/amazon/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testAmazonDebug/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testAmazonDebug/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testAmazonDebug/assets" type="java-test-resource" />
@@ -54,6 +48,12 @@
       <sourceFolder url="file://$MODULE_DIR$/src/testAmazonDebug/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testAmazonDebug/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testAmazonDebug/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/amazon/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/amazon/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/amazon/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/amazon/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/amazon/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/amazon/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/amazon/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/amazon/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/amazon/assets" type="java-resource" />
