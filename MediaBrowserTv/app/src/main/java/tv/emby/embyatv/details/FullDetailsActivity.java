@@ -178,23 +178,29 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mApplication.getLogger().Debug("Updating info after playback");
-                    mApplication.getApiClient().GetItemAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
-                        @Override
-                        public void onResponse(BaseItemDto response) {
-                            if (!isFinishing()) {
-                                mBaseItem = response;
-                                if (mResumeButton != null) {
-                                    mResumeButton.setVisibility(response.getCanResume() ? View.VISIBLE : View.GONE);
-                                }
-                                updatePlayedDate();
-                                updateWatched();
-                                updatePoster();
-                                mLastUpdated = Calendar.getInstance();
+                    if (mApplication.getLastPlayedItem() != null && !mBaseItem.getId().equals(mApplication.getLastPlayedItem().getId()) && "Episode".equals(mApplication.getLastPlayedItem().getType())) {
+                        mApplication.getLogger().Info("Re-loading after new episode playback");
+                        loadItem(mApplication.getLastPlayedItem().getId());
+                    } else {
+                        mApplication.getLogger().Debug("Updating info after playback");
+                        mApplication.getApiClient().GetItemAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                            @Override
+                            public void onResponse(BaseItemDto response) {
+                                if (!isFinishing()) {
+                                    mBaseItem = response;
+                                    if (mResumeButton != null) {
+                                        mResumeButton.setVisibility(response.getCanResume() ? View.VISIBLE : View.GONE);
+                                    }
+                                    updatePlayedDate();
+                                    updateWatched();
+                                    updatePoster();
+                                    mLastUpdated = Calendar.getInstance();
 
+                                }
                             }
-                        }
-                    });
+                        });
+
+                    }
 
                 }
             }, 750);
