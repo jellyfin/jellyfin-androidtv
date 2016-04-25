@@ -225,6 +225,21 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
                 public void onResponse(SystemInfo response) {
                     currentSystemInfo = response;
                     logger.Info("Current server is " + response.getServerName() + " (ver " + response.getVersion() + ") running on " + response.getOperatingSystemDisplayName());
+                    //Server compat warning
+                    if (getCurrentActivity() != null && !Utils.versionGreaterThanOrEqual(currentSystemInfo.getVersion(), "3.0.5882.0")) {
+                        new AlertDialog.Builder(getCurrentActivity())
+                                .setTitle("Incompatible Server Version")
+                                .setMessage("Please update your Emby Server to avoid potential seeking problems during playback.")
+                                .setPositiveButton(getString(R.string.btn_ok), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                })
+                                .setCancelable(false)
+                                .show();
+                    }
+
                 }
 
                 @Override

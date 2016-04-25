@@ -331,6 +331,8 @@
     <string name="lbl_trans_dts_ac3">Convert DTS to Dolby Digital</string>
     <string name="desc_trans_dts_ac3">Enables 5.1 surround on devices that don\'t support DTS</string>
     <string name="lbl_new_premieres">New Premieres</string>
+    <string name="lbl_bitstream_ac3">Bitstream Dolby Digital audio</string>
+    <string name="desc_bitstream_ac3">Requires Dolby Digitial capable hardware</string>
 
 
 </resources>
