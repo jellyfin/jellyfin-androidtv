@@ -104,7 +104,7 @@ public class ProfileHelper {
         if (!isLiveTv || TvApp.getApplication().directStreamLiveTv()) {
             DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
             videoDirectPlayProfile.setContainer((isLiveTv ? "ts,mpegts," : "") + "m4v,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,mp4,webm");
-            videoDirectPlayProfile.setVideoCodec("h264,hevc,vp8,vp9,mpeg4,mpeg2video");
+            videoDirectPlayProfile.setVideoCodec(Utils.isShield() ? "h264,hevc,vp8,vp9,mpeg4,mpeg2video" : "h264,vp8,vp9,mpeg4,mpeg2video");
             if ("1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"))) {
                 //compatible audio mode - will need to transcode dts and ac3
                 TvApp.getApplication().getLogger().Info("*** Excluding DTS and AC3 audio from direct play due to compatible audio setting");
