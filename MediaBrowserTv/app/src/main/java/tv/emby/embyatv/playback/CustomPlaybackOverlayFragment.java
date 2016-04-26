@@ -41,6 +41,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.squareup.okhttp.internal.Util;
 import com.squareup.picasso.Picasso;
 
 import java.io.UnsupportedEncodingException;
@@ -1302,6 +1303,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }));
         }
 
+
         if (!mPlaybackController.isNativeMode()) {
             if (mAudioPopup == null ) mAudioPopup = new AudioDelayPopup(mActivity, mBottomPanel, new ValueChangedListener<Long>() {
                 @Override
@@ -1315,6 +1317,36 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     mAudioPopup.show(mPlaybackController.getAudioDelay());
                 }
             }));
+        } else {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.zoom, mButtonSize, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PopupMenu zoomMenu = Utils.createPopupMenu(mActivity, v, Gravity.RIGHT);
+                    zoomMenu.getMenu().add(0, VideoManager.ZOOM_NORMAL, VideoManager.ZOOM_NORMAL, mApplication.getString(R.string.lbl_normal)).setChecked(mPlaybackController.getZoomMode() == VideoManager.ZOOM_NORMAL);
+                    zoomMenu.getMenu().add(0, VideoManager.ZOOM_VERTICAL, VideoManager.ZOOM_VERTICAL, mApplication.getString(R.string.lbl_vertical_stretch)).setChecked(mPlaybackController.getZoomMode() == VideoManager.ZOOM_VERTICAL);
+                    zoomMenu.getMenu().add(0, VideoManager.ZOOM_HORIZONTAL, VideoManager.ZOOM_HORIZONTAL, mApplication.getString(R.string.lbl_horizontal_stretch)).setChecked(mPlaybackController.getZoomMode() == VideoManager.ZOOM_HORIZONTAL);
+                    zoomMenu.getMenu().add(0, VideoManager.ZOOM_FULL, VideoManager.ZOOM_FULL, mApplication.getString(R.string.lbl_zoom)).setChecked(mPlaybackController.getZoomMode() == VideoManager.ZOOM_FULL);
+
+                    zoomMenu.getMenu().setGroupCheckable(0, true, false);
+                    zoomMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+                        @Override
+                        public void onDismiss(PopupMenu menu) {
+                            setFadingEnabled(true);
+                        }
+                    });
+                    zoomMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            mPlaybackController.setZoom(item.getItemId());
+                            return true;
+                        }
+                    });
+
+                    setFadingEnabled(false);
+                    zoomMenu.show();
+                }
+            }));
+
         }
 
     }
