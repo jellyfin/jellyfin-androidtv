@@ -1,5 +1,6 @@
 package tv.emby.embyatv.browsing;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.app.AlertDialog;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -18,32 +20,28 @@ import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
-import mediabrowser.model.livetv.RecordingGroupQuery;
 import mediabrowser.model.livetv.RecordingQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
-import tv.emby.embyatv.integration.RecommendationManager;
-import tv.emby.embyatv.itemhandling.ItemRowAdapter;
-import tv.emby.embyatv.model.ChangeTriggerType;
-import tv.emby.embyatv.playback.AudioEventListener;
-import tv.emby.embyatv.playback.AudioNowPlayingActivity;
-import tv.emby.embyatv.playback.MediaManager;
-import tv.emby.embyatv.presentation.PositionableListRowPresenter;
-import tv.emby.embyatv.presentation.ThemeManager;
-import tv.emby.embyatv.querying.QueryType;
-import tv.emby.embyatv.startup.LogonCredentials;
-import tv.emby.embyatv.ui.GridButton;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.util.Utils;
+import tv.emby.embyatv.integration.RecommendationManager;
+import tv.emby.embyatv.model.ChangeTriggerType;
+import tv.emby.embyatv.playback.AudioEventListener;
+import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.presentation.GridButtonPresenter;
+import tv.emby.embyatv.presentation.ThemeManager;
+import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.StdItemQuery;
 import tv.emby.embyatv.querying.ViewQuery;
 import tv.emby.embyatv.settings.SettingsActivity;
+import tv.emby.embyatv.startup.LogonCredentials;
 import tv.emby.embyatv.startup.SelectUserActivity;
+import tv.emby.embyatv.ui.GridButton;
+import tv.emby.embyatv.util.Utils;
 import tv.emby.embyatv.validation.UnlockActivity;
 
 /**
@@ -83,6 +81,23 @@ public class HomeFragment extends StdBrowseFragment {
 
         //Get auto bitrate
         TvApp.getApplication().determineAutoBitrate();
+
+        //First time audio message
+        if (!mApplication.getSystemPrefs().getBoolean("syspref_audio_warned", false)) {
+            mApplication.getSystemPrefs().edit().putBoolean("syspref_audio_warned",true).apply();
+            new AlertDialog.Builder(mActivity)
+                    .setTitle(mApplication.getString(R.string.lbl_audio_capabilitites))
+                    .setMessage(mApplication.getString(R.string.msg_audio_warning))
+                    .setPositiveButton(mApplication.getString(R.string.btn_got_it), null)
+                    .setNegativeButton(mApplication.getString(R.string.btn_set_compatible_audio), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mApplication.getPrefs().edit().putString("pref_audio_option", "1").apply();
+                        }
+                    })
+                    .setCancelable(false)
+                    .show();
+        }
 
         ThemeManager.showWelcomeMessage();
 
