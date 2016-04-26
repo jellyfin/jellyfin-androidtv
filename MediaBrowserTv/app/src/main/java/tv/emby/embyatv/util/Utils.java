@@ -1472,7 +1472,7 @@ public class Utils {
     }
 
     public static PopupMenu createPopupMenu(Activity activity, View view, int gravity) {
-        return Build.VERSION.SDK_INT >= 21 ? new PopupMenu(activity, view, gravity) : new PopupMenu(activity, view);
+        return new PopupMenu(activity, view, gravity);
     }
 
     public static boolean isFireTv() {
