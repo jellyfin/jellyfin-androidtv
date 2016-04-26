@@ -333,6 +333,10 @@
     <string name="lbl_new_premieres">New Premieres</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital audio</string>
     <string name="desc_bitstream_ac3">Requires Dolby Digitial capable hardware</string>
+    <string name="lbl_normal">Normal</string>
+    <string name="lbl_zoom">Zoom</string>
+    <string name="lbl_horizontal_stretch">Horizontal Stretch</string>
+    <string name="lbl_vertical_stretch">Vertical Stretch</string>
 
 
 </resources>

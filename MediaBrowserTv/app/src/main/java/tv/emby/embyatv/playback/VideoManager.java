@@ -34,6 +34,13 @@ import tv.emby.embyatv.util.Utils;
  */
 public class VideoManager implements IVLCVout.Callback {
 
+    public final static int ZOOM_NORMAL = 0;
+    public final static int ZOOM_VERTICAL = 1;
+    public final static int ZOOM_HORIZONTAL = 2;
+    public final static int ZOOM_FULL = 3;
+
+    private int mZoomMode = ZOOM_NORMAL;
+
     private PlaybackOverlayActivity mActivity;
     private SurfaceHolder mSurfaceHolder;
     private SurfaceView mSurfaceView;
@@ -93,6 +100,30 @@ public class VideoManager implements IVLCVout.Callback {
     }
 
     public boolean isNativeMode() { return nativeMode; }
+    public int getZoomMode() { return mZoomMode; }
+
+    public void setZoom(int mode) {
+        mZoomMode = mode;
+        switch (mode) {
+            case ZOOM_NORMAL:
+                mVideoView.setScaleY(1);
+                mVideoView.setScaleX(1);
+                break;
+            case ZOOM_VERTICAL:
+                mVideoView.setScaleX(1);
+                mVideoView.setScaleY(1.33f);
+                break;
+            case ZOOM_HORIZONTAL:
+                mVideoView.setScaleY(1);
+                mVideoView.setScaleX(1.33f);
+                break;
+            case ZOOM_FULL:
+                mVideoView.setScaleX(1.33f);
+                mVideoView.setScaleY(1.33f);
+                break;
+
+        }
+    }
 
     public void setMetaDuration(long duration) {
         mMetaDuration = duration;
@@ -513,7 +544,6 @@ public class VideoManager implements IVLCVout.Callback {
         else
             dw = dh * ar;
 
-
         // set display size
         ViewGroup.LayoutParams lp = mSurfaceView.getLayoutParams();
         lp.width  = (int) Math.ceil(dw * videoWidth / videoVisibleWidth);
@@ -532,7 +562,7 @@ public class VideoManager implements IVLCVout.Callback {
 
         }
 
-        TvApp.getApplication().getLogger().Debug("Surface sized "+ mVideoWidth+"x"+mVideoHeight);
+        TvApp.getApplication().getLogger().Debug("Surface sized "+ lp.width+"x"+lp.height);
         mSurfaceView.invalidate();
         if (hasSubtitlesSurface) mSubtitlesSurface.invalidate();
     }

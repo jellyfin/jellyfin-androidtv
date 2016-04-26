@@ -1003,6 +1003,12 @@ public class PlaybackController {
         return mPlaybackState == PlaybackState.IDLE;
     }
 
+    public int getZoomMode() {
+        return mVideoManager.getZoomMode();
+    }
+
+    public void setZoom(int mode) { mVideoManager.setZoom(mode); }
+
 
     /*
  * List of various states that we can be in
