@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,7 +17,6 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Display;
@@ -47,7 +45,6 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
 import java.util.UUID;
-import java.util.jar.Manifest;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.ConnectionResult;
@@ -56,7 +53,6 @@ import mediabrowser.apiinteraction.IConnectionManager;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfileOptions;
-import mediabrowser.apiinteraction.connectionmanager.ConnectionManager;
 import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dto.BaseItemDto;
@@ -89,7 +85,7 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.details.FullDetailsActivity;
-import tv.emby.embyatv.details.SongListActivity;
+import tv.emby.embyatv.details.ItemListActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
@@ -546,7 +542,7 @@ public class Utils {
                 query.setSortBy(new String[]{shuffle ? ItemSortBy.Random : ItemSortBy.SortName});
                 query.setRecursive(true);
                 query.setLimit(50); // guard against too many items
-                query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.MediaStreams, ItemFields.Path, ItemFields.PrimaryImageAspectRatio});
+                query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.MediaStreams, ItemFields.Chapters, ItemFields.Path, ItemFields.PrimaryImageAspectRatio});
                 query.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
@@ -558,13 +554,7 @@ public class Utils {
                 break;
             case "MusicAlbum":
             case "MusicArtist":
-            case "Playlist":
                 //get all songs
-                if (mainItem.getId().equals(SongListActivity.FAV_SONGS)) {
-                    query.setFilters(new ItemFilter[] {ItemFilter.IsFavoriteOrLikes});
-                } else {
-                    query.setParentId(mainItem.getId());
-                }
                 query.setIsMissing(false);
                 query.setIsVirtualUnaired(false);
                 query.setIncludeItemTypes(new String[]{"Audio"});
@@ -580,6 +570,27 @@ public class Utils {
                     }
                 });
                 break;
+            case "Playlist":
+                if (mainItem.getId().equals(ItemListActivity.FAV_SONGS)) {
+                    query.setFilters(new ItemFilter[] {ItemFilter.IsFavoriteOrLikes});
+                } else {
+                    query.setParentId(mainItem.getId());
+                }
+                query.setIsMissing(false);
+                query.setIsVirtualUnaired(false);
+                if (shuffle) query.setSortBy(new String[] {ItemSortBy.Random});
+                query.setRecursive(true);
+                query.setLimit(150); // guard against too many items
+                query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.MediaStreams, ItemFields.Chapters, ItemFields.Path, ItemFields.PrimaryImageAspectRatio});
+                query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+                    @Override
+                    public void onResponse(ItemsResult response) {
+                        outerResponse.onResponse(Arrays.asList(response.getItems()));
+                    }
+                });
+                break;
+
             case "Program":
                 if (mainItem.getParentId() == null) {
                     outerResponse.onError(new Exception("No Channel ID"));
@@ -659,8 +670,20 @@ public class Utils {
                 switch (item.getType()) {
                     case "MusicAlbum":
                     case "MusicArtist":
-                    case "Playlist":
                         MediaManager.playNow(response);
+                        break;
+                    case "Playlist":
+                        if ("Audio".equals(item.getMediaType())) {
+                            MediaManager.playNow(response);
+
+                        } else {
+                            Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                            MediaManager.setCurrentVideoQueue(response);
+                            intent.putExtra("Position", pos);
+                            if (!(activity instanceof Activity))
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            activity.startActivity(intent);
+                        }
                         break;
                     case "Audio":
                         if (response.size() > 0) {

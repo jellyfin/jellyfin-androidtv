@@ -22,7 +22,7 @@ import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.base.CustomMessage;
 import tv.emby.embyatv.details.PhotoPlayerActivity;
-import tv.emby.embyatv.details.SongListActivity;
+import tv.emby.embyatv.details.ItemListActivity;
 import tv.emby.embyatv.itemhandling.AudioQueueItem;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.playback.AudioNowPlayingActivity;
@@ -99,8 +99,10 @@ public class KeyProcessor {
                                 return true;
                             case "MusicAlbum":
                             case "MusicArtist":
-                            case "Playlist":
                                 createPlayMenu(rowItem.getBaseItem(), true, true, activity);
+                                return true;
+                            case "Playlist":
+                                createPlayMenu(rowItem.getBaseItem(), true, "Audio".equals(rowItem.getBaseItem().getMediaType()), activity);
                                 return true;
                             case "Photo":
                                 // open photo player
@@ -256,7 +258,7 @@ public class KeyProcessor {
                 if (item.getIsFolder()) menu.getMenu().add(0, MENU_PLAY_SHUFFLE, order++, R.string.lbl_shuffle_all);
 
             }
-            boolean isMusic = "MusicAlbum".equals(item.getType()) || "MusicArtist".equals(item.getType()) || "Audio".equals(item.getType()) || "Playlist".equals(item.getType());
+            boolean isMusic = "MusicAlbum".equals(item.getType()) || "MusicArtist".equals(item.getType()) || "Audio".equals(item.getType()) || ("Playlist".equals(item.getType()) && "Audio".equals(item.getMediaType()));
 
             if (isMusic) {
                 menu.getMenu().add(0, MENU_ADD_QUEUE, order++, R.string.lbl_add_to_queue);
@@ -305,7 +307,7 @@ public class KeyProcessor {
     private static void createPlayMenu(BaseItemDto item, boolean isFolder, boolean isMusic, BaseActivity activity) {
         PopupMenu menu = Utils.createPopupMenu(activity, activity.getCurrentFocus(), Gravity.RIGHT);
         int order = 0;
-        if (!isMusic) menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
+        if (!isMusic && !"Playlist".equals(item.getType())) menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
         menu.getMenu().add(0, MENU_PLAY, order++, R.string.lbl_play_all);
         menu.getMenu().add(0, MENU_PLAY_SHUFFLE, order++, R.string.lbl_shuffle_all);
         if (isMusic) {
@@ -330,14 +332,14 @@ public class KeyProcessor {
 
             switch (item.getItemId()) {
                 case MENU_PLAY:
-                    if (mCurrentItemId.equals(SongListActivity.FAV_SONGS)) {
+                    if (mCurrentItemId.equals(ItemListActivity.FAV_SONGS)) {
                         Utils.play(mCurrentItem, 0, false, mCurrentActivity);
                     } else {
                         Utils.retrieveAndPlay(mCurrentItemId, false, mCurrentActivity);
                     }
                     return true;
                 case MENU_PLAY_SHUFFLE:
-                    if (mCurrentItemId.equals(SongListActivity.FAV_SONGS)) {
+                    if (mCurrentItemId.equals(ItemListActivity.FAV_SONGS)) {
                         Utils.play(mCurrentItem, 0, false, mCurrentActivity);
                     } else {
                         Utils.retrieveAndPlay(mCurrentItemId, true, mCurrentActivity);

@@ -22,10 +22,8 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
@@ -47,13 +45,12 @@ import tv.emby.embyatv.model.GotFocusEvent;
 import tv.emby.embyatv.playback.AudioEventListener;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackController;
+import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.querying.StdItemQuery;
 import tv.emby.embyatv.ui.GenreButton;
 import tv.emby.embyatv.ui.ImageButton;
-import tv.emby.embyatv.ui.NowPlayingBug;
-import tv.emby.embyatv.ui.SongListView;
-import tv.emby.embyatv.ui.SongRowView;
-import tv.emby.embyatv.util.DelayedMessage;
+import tv.emby.embyatv.ui.ItemListView;
+import tv.emby.embyatv.ui.ItemRowView;
 import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.KeyProcessor;
 import tv.emby.embyatv.util.Utils;
@@ -61,7 +58,7 @@ import tv.emby.embyatv.util.Utils;
 /**
  * Created by Eric on 11/22/2015.
  */
-public class SongListActivity extends BaseActivity {
+public class ItemListActivity extends BaseActivity {
 
     private int BUTTON_SIZE;
     public static final String FAV_SONGS = "FAV_SONGS";
@@ -75,13 +72,13 @@ public class SongListActivity extends BaseActivity {
     private TextView mSummary;
     private LinearLayout mButtonRow;
     private ImageView mStudioImage;
-    private SongListView mSongList;
+    private ItemListView mItemList;
     private ScrollView mScrollView;
 
-    private SongRowView mCurrentlyPlayingRow;
+    private ItemRowView mCurrentlyPlayingRow;
 
     private BaseItemDto mBaseItem;
-    private List<BaseItemDto> mSongs = new ArrayList<>();
+    private List<BaseItemDto> mItems = new ArrayList<>();
     private String mItemId;
 
     private int mBottomScrollThreshold;
@@ -99,7 +96,7 @@ public class SongListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_song_list);
+        setContentView(R.layout.activity_item_list);
 
         mApplication = TvApp.getApplication();
         mActivity = this;
@@ -118,17 +115,17 @@ public class SongListActivity extends BaseActivity {
         mTimeLine = (TextView) findViewById(R.id.fdSummarySubTitle);
         mSummary = (TextView) findViewById(R.id.fdSummaryText);
         mSummary.setTypeface(roboto);
-        mSongList = (SongListView) findViewById(R.id.songs);
+        mItemList = (ItemListView) findViewById(R.id.songs);
         mScrollView = (ScrollView) findViewById(R.id.scrollView);
 
         mMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
         mBottomScrollThreshold = (int)(mMetrics.heightPixels *.6);
 
-        //Song list listeners
-        mSongList.setRowSelectedListener(new SongRowView.RowSelectedListener() {
+        //Item list listeners
+        mItemList.setRowSelectedListener(new ItemRowView.RowSelectedListener() {
             @Override
-            public void onRowSelected(SongRowView row) {
+            public void onRowSelected(ItemRowView row) {
                 //Keep selected row in center of screen
                 int[] location = new int[] {0,0};
                 row.getLocationOnScreen(location);
@@ -141,9 +138,9 @@ public class SongListActivity extends BaseActivity {
             }
         });
 
-        mSongList.setRowClickedListener(new SongRowView.RowClickedListener() {
+        mItemList.setRowClickedListener(new ItemRowView.RowClickedListener() {
             @Override
-            public void onRowClicked(SongRowView row) {
+            public void onRowClicked(ItemRowView row) {
                 KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, new BaseRowItem(0, row.getSong()), mActivity);
             }
         });
@@ -226,9 +223,9 @@ public class SongListActivity extends BaseActivity {
 
             if (newState != PlaybackController.PlaybackState.PLAYING || currentItem == null) {
                 if (mCurrentlyPlayingRow != null) mCurrentlyPlayingRow.updateCurrentTime(-1);
-                mCurrentlyPlayingRow = mSongList.updatePlaying(null);
+                mCurrentlyPlayingRow = mItemList.updatePlaying(null);
             } else {
-                mCurrentlyPlayingRow = mSongList.updatePlaying(currentItem.getId());
+                mCurrentlyPlayingRow = mItemList.updatePlaying(currentItem.getId());
             }
         }
 
@@ -298,7 +295,7 @@ public class SongListActivity extends BaseActivity {
                     favSongs.setFilters(new ItemFilter[]{ItemFilter.IsFavoriteOrLikes});
                     favSongs.setSortBy(new String[]{ItemSortBy.Random});
                     favSongs.setLimit(150);
-                    TvApp.getApplication().getApiClient().GetItemsAsync(favSongs, songResponse);
+                    TvApp.getApplication().getApiClient().GetItemsAsync(favSongs, itemResponse);
                     break;
                 default:
                     PlaylistItemQuery playlistSongs = new PlaylistItemQuery();
@@ -306,7 +303,7 @@ public class SongListActivity extends BaseActivity {
                     playlistSongs.setUserId(TvApp.getApplication().getCurrentUser().getId());
                     playlistSongs.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
                     playlistSongs.setLimit(200);
-                    TvApp.getApplication().getApiClient().GetPlaylistItems(playlistSongs, songResponse);
+                    TvApp.getApplication().getApiClient().GetPlaylistItems(playlistSongs, itemResponse);
                     break;
             }
         } else {
@@ -317,13 +314,13 @@ public class SongListActivity extends BaseActivity {
             songs.setIncludeItemTypes(new String[]{"Audio"});
             songs.setSortBy(new String[] {ItemSortBy.SortName});
             songs.setLimit(200);
-            mApplication.getApiClient().GetItemsAsync(songs, songResponse);
+            mApplication.getApiClient().GetItemsAsync(songs, itemResponse);
         }
 
 
     }
 
-    private Response<ItemsResult> songResponse = new Response<ItemsResult>() {
+    private Response<ItemsResult> itemResponse = new Response<ItemsResult>() {
         @Override
         public void onResponse(ItemsResult response) {
             mTitle.setText(mBaseItem.getName());
@@ -332,13 +329,11 @@ public class SongListActivity extends BaseActivity {
                 mTitle.setTextSize(32);
             }
             if (response.getTotalRecordCount() > 0) {
-                mSongs = new ArrayList<>();
+                mItems = new ArrayList<>();
                 int i = 0;
                 for (BaseItemDto item : response.getItems()) {
-                    if ("Audio".equals(item.getType())) {
-                        mSongList.addSong(item, i++);
-                        mSongs.add(item);
-                    }
+                    mItemList.addItem(item, i++);
+                    mItems.add(item);
                 }
                 if (MediaManager.isPlayingAudio()) {
                     //update our status
@@ -349,6 +344,7 @@ public class SongListActivity extends BaseActivity {
 
         @Override
         public void onError(Exception exception) {
+            mApplication.getLogger().ErrorException("Error loading", exception);
             Utils.showToast(mActivity, exception.getLocalizedMessage());
         }
     };
@@ -388,12 +384,29 @@ public class SongListActivity extends BaseActivity {
         }
     }
 
+    private void play(List<BaseItemDto> items) {
+        if ("Video".equals(mBaseItem.getMediaType())) {
+            Intent intent = new Intent(mActivity, PlaybackOverlayActivity.class);
+            MediaManager.setCurrentVideoQueue(items);
+            startActivity(intent);
+
+        } else {
+            MediaManager.playNow(items);
+
+        }
+
+    }
+
     private void addButtons(int buttonSize) {
         if (Utils.CanPlay(mBaseItem)) {
             ImageButton play = new ImageButton(this, R.drawable.play, buttonSize, getString(mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), mButtonHelp, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mSongs.size() > 0) MediaManager.playNow(mSongs); else Utils.showToast(mActivity, R.string.msg_no_playable_items);
+                    if (mItems.size() > 0) {
+                        play(mItems);
+                    } else {
+                        Utils.showToast(mActivity, R.string.msg_no_playable_items);
+                    }
                 }
             });
             play.setGotFocusListener(mainAreaFocusListener);
@@ -403,10 +416,10 @@ public class SongListActivity extends BaseActivity {
                 ImageButton shuffle = new ImageButton(this, R.drawable.shuffle, buttonSize, getString(R.string.lbl_shuffle_all), mButtonHelp, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (mSongs.size() > 0) {
-                            List<BaseItemDto> shuffled = new ArrayList<>(mSongs);
+                        if (mItems.size() > 0) {
+                            List<BaseItemDto> shuffled = new ArrayList<>(mItems);
                             Collections.shuffle(shuffled);
-                            MediaManager.playNow(shuffled);
+                            play(shuffled);
 
                         } else {
                             Utils.showToast(mActivity, R.string.msg_no_playable_items);

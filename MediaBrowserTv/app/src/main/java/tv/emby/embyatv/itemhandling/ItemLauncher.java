@@ -14,7 +14,6 @@ import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.entities.DisplayPreferences;
-import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.search.SearchHint;
@@ -29,7 +28,7 @@ import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.browsing.UserViewActivity;
 import tv.emby.embyatv.details.FullDetailsActivity;
 import tv.emby.embyatv.details.PhotoPlayerActivity;
-import tv.emby.embyatv.details.SongListActivity;
+import tv.emby.embyatv.details.ItemListActivity;
 import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.model.ViewType;
@@ -124,7 +123,7 @@ public class ItemLauncher {
                     case "MusicAlbum":
                     case "Playlist":
                         //Start activity for song list display
-                        Intent songListIntent = new Intent(activity, SongListActivity.class);
+                        Intent songListIntent = new Intent(activity, ItemListActivity.class);
                         songListIntent.putExtra("ItemId", baseItem.getId());
                         if (noHistory) songListIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
