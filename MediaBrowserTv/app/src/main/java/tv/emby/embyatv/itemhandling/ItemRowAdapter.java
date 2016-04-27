@@ -7,11 +7,10 @@ import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.PresenterSelector;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -21,7 +20,6 @@ import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.UserDto;
-import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
@@ -30,9 +28,7 @@ import mediabrowser.model.livetv.RecordingQuery;
 import mediabrowser.model.net.HttpException;
 import mediabrowser.model.querying.ArtistsQuery;
 import mediabrowser.model.querying.ItemFields;
-import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemQuery;
-import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
 import mediabrowser.model.querying.PersonsQuery;
@@ -607,8 +603,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             case AlbumArtists:
                 Retrieve(mArtistsQuery);
                 break;
-            case Playlists:
-                RetrievePlaylists(mQuery);
+            case AudioPlaylists:
+                RetrieveAudioPlaylists(mQuery);
                 break;
             case Premieres:
                 RetrievePremieres(mQuery);
@@ -709,7 +705,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         currentlyRetrieving = false;
     }
 
-    private static String[] ignoreTypes = new String[] {"books","games","playlists"};
+    private static String[] ignoreTypes = new String[] {"books","games"};
     private static List<String> ignoreTypeList = Arrays.asList(ignoreTypes);
 
     private void RetrieveViews() {
@@ -834,9 +830,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     public void Retrieve(ItemQuery query) {
-        final boolean filterByMediaType = Arrays.asList(query.getIncludeItemTypes()).contains("Playlist");
-        String[] ignoreTypes = filterByMediaType ? new String[] {"Video"} : new String[] {};
-        final List<String> ignoreTypeList = Arrays.asList(ignoreTypes);
         TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
@@ -845,11 +838,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int i = getItemsLoaded();
                     int prevItems = i == 0 && size() > 0 ? size() : 0;
                     for (BaseItemDto item : response.getItems()) {
-                        if (!filterByMediaType || !ignoreTypeList.contains(item.getMediaType())) {
-                            add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
-                            //TvApp.getApplication().getLogger().Debug("Item Type: "+item.getType());
+                        add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
+                        //TvApp.getApplication().getLogger().Debug("Item Type: "+item.getType());
 
-                        }
                     }
                     setItemsLoaded(i);
                     if (i == 0) {
@@ -898,7 +889,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         });
     }
 
-    public void RetrievePlaylists(final ItemQuery query) {
+    public void RetrieveAudioPlaylists(final ItemQuery query) {
         //Add specialized playlists first
         clear();
         add(new GridButton(EnhancedBrowseFragment.FAVSONGS, TvApp.getApplication().getString(R.string.lbl_favorites), R.drawable.genericmusic));
