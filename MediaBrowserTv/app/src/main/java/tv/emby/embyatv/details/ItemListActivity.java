@@ -516,6 +516,15 @@ public class ItemListActivity extends BaseActivity {
             }
 
             if ("Playlist".equals(mBaseItem.getType())) {
+                if (VIDEO_QUEUE.equals(mBaseItem.getId())) {
+                    mButtonRow.addView(new ImageButton(this, R.drawable.saveplaylist, buttonSize, getString(R.string.lbl_save_as_playlist), mButtonHelp, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MediaManager.saveVideoQueue(mActivity);
+                        }
+                    }));
+                }
+
                 ImageButton delete = new ImageButton(this, R.drawable.trash, buttonSize, getString(R.string.lbl_delete), mButtonHelp, new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
