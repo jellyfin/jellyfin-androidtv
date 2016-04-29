@@ -494,56 +494,80 @@ public class ItemListActivity extends BaseActivity {
             mButtonRow.addView(mix);
         }
 
-        if (!mItemId.equals(FAV_SONGS) && !mItemId.equals(VIDEO_QUEUE)) {
-            //Favorite
-            ImageButton fav = new ImageButton(this, mBaseItem.getUserData().getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, getString(R.string.lbl_toggle_favorite), mButtonHelp, new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    UserItemDataDto data = mBaseItem.getUserData();
-                    mApplication.getApiClient().UpdateFavoriteStatusAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
-                        @Override
-                        public void onResponse(UserItemDataDto response) {
-                            mBaseItem.setUserData(response);
-                            ((ImageButton) v).setImageResource(response.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart);
-                            TvApp.getApplication().setLastFavoriteUpdate(System.currentTimeMillis());
-                        }
-                    });
-                }
-            });
-            mButtonRow.addView(fav);
+        if (!mItemId.equals(FAV_SONGS)) {
+            if (!mItemId.equals(VIDEO_QUEUE)) {
+                //Favorite
+                ImageButton fav = new ImageButton(this, mBaseItem.getUserData().getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, getString(R.string.lbl_toggle_favorite), mButtonHelp, new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        UserItemDataDto data = mBaseItem.getUserData();
+                        mApplication.getApiClient().UpdateFavoriteStatusAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
+                            @Override
+                            public void onResponse(UserItemDataDto response) {
+                                mBaseItem.setUserData(response);
+                                ((ImageButton) v).setImageResource(response.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart);
+                                TvApp.getApplication().setLastFavoriteUpdate(System.currentTimeMillis());
+                            }
+                        });
+                    }
+                });
+                mButtonRow.addView(fav);
+
+            }
 
             if ("Playlist".equals(mBaseItem.getType())) {
                 ImageButton delete = new ImageButton(this, R.drawable.trash, buttonSize, getString(R.string.lbl_delete), mButtonHelp, new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
-                        new AlertDialog.Builder(mActivity)
-                                .setTitle(R.string.lbl_delete)
-                                .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
-                                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        TvApp.getApplication().getApiClient().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
-                                            @Override
-                                            public void onResponse() {
-                                                Utils.showToast(mActivity, mBaseItem.getName() + " Deleted");
-                                                TvApp.getApplication().setLastDeletedItemId(mBaseItem.getId());
-                                                finish();
-                                            }
+                        if (mBaseItem.getId().equals(VIDEO_QUEUE)) {
+                            new AlertDialog.Builder(mActivity)
+                                    .setTitle(R.string.lbl_clear_queue)
+                                    .setMessage("Clear current video queue?")
+                                    .setPositiveButton("Clear", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            MediaManager.setCurrentVideoQueue(Collections.<BaseItemDto>emptyList());
+                                            mApplication.setLastPlayback(Calendar.getInstance());
+                                            finish();
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                        }
+                                    })
+                                    .show();
 
-                                            @Override
-                                            public void onError(Exception ex) {
-                                                Utils.showToast(mActivity, ex.getLocalizedMessage());
-                                            }
-                                        });
-                                    }
-                                })
-                                .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Utils.showToast(mActivity, "Item NOT Deleted");
-                                    }
-                                })
-                                .show();
+                        } else {
+                            new AlertDialog.Builder(mActivity)
+                                    .setTitle(R.string.lbl_delete)
+                                    .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
+                                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            TvApp.getApplication().getApiClient().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
+                                                @Override
+                                                public void onResponse() {
+                                                    Utils.showToast(mActivity, mBaseItem.getName() + " Deleted");
+                                                    TvApp.getApplication().setLastDeletedItemId(mBaseItem.getId());
+                                                    finish();
+                                                }
 
+                                                @Override
+                                                public void onError(Exception ex) {
+                                                    Utils.showToast(mActivity, ex.getLocalizedMessage());
+                                                }
+                                            });
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Utils.showToast(mActivity, "Item NOT Deleted");
+                                        }
+                                    })
+                                    .show();
+
+
+                        }
                     }
                 });
 
