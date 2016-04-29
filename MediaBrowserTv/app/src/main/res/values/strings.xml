@@ -343,6 +343,7 @@
     <string name="btn_set_compatible_audio">Set compatible now</string>
     <string name="lbl_current_queue">Current Queue</string>
     <string name="desc_current_video_queue">Video items currently queued for playback</string>
+    <string name="lbl_clear_queue">Clear Queue</string>
 
 
 </resources>

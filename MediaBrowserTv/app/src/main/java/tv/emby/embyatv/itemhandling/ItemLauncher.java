@@ -388,10 +388,13 @@ public class ItemLauncher {
                         queueIntent.putExtra("ItemId", ItemListActivity.VIDEO_QUEUE);
                         //Resume first item if needed
                         List<BaseItemDto> items = MediaManager.getCurrentVideoQueue();
-                        BaseItemDto first = items.size() > 0 ? items.get(0) : null;
-                        if (first != null && first.getUserData() != null) {
-                            Long resume = first.getUserData().getPlaybackPositionTicks() / 10000;
-                            queueIntent.putExtra("Position", resume.intValue());
+                        if (items != null) {
+                            BaseItemDto first = items.size() > 0 ? items.get(0) : null;
+                            if (first != null && first.getUserData() != null) {
+                                Long resume = first.getUserData().getPlaybackPositionTicks() / 10000;
+                                queueIntent.putExtra("Position", resume.intValue());
+
+                            }
                         }
 
                         activity.startActivity(queueIntent);
