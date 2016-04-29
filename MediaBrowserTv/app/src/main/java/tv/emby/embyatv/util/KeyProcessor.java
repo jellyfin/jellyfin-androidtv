@@ -1,5 +1,6 @@
 package tv.emby.embyatv.util;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import tv.emby.embyatv.itemhandling.AudioQueueItem;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.playback.AudioNowPlayingActivity;
 import tv.emby.embyatv.playback.MediaManager;
+import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.querying.StdItemQuery;
 
 /**
@@ -155,6 +157,12 @@ public class KeyProcessor {
                         Utils.retrieveAndPlay(rowItem.getProgramInfo().getChannelId(), false, activity);
                         return true;
                     case GridButton:
+                        if (rowItem.getGridButton().getId() == TvApp.VIDEO_QUEUE_OPTION_ID) {
+                            //Queue already there - just kick off playback
+                            Utils.Beep();
+                            Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                            activity.startActivity(intent);
+                        }
                         break;
                 }
 
