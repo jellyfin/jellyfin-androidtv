@@ -525,8 +525,8 @@ public class ItemListActivity extends BaseActivity {
                                     .setMessage("Clear current video queue?")
                                     .setPositiveButton("Clear", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int whichButton) {
-                                            MediaManager.setCurrentVideoQueue(Collections.<BaseItemDto>emptyList());
-                                            mApplication.setLastPlayback(Calendar.getInstance());
+                                            MediaManager.setCurrentVideoQueue(new ArrayList<BaseItemDto>());
+                                            mApplication.setLastVideoQueueChange(System.currentTimeMillis());
                                             finish();
                                         }
                                     })

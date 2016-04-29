@@ -8,5 +8,5 @@ public enum  ChangeTriggerType {
     MoviePlayback,
     TvPlayback,
     GuideNeedsLoad,
-    MusicPlayback, Always, FavoriteUpdate
+    MusicPlayback, Always, VideoQueueChange, FavoriteUpdate
 }

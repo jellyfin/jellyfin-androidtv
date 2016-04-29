@@ -512,6 +512,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 case FavoriteUpdate:
                     retrieve |= lastFullRetrieve.getTimeInMillis() < app.getLastFavoriteUpdate();
                     break;
+                case VideoQueueChange:
+                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.getLastVideoQueueChange();
+                    break;
                 case GuideNeedsLoad:
                     Calendar start = new GregorianCalendar(TimeZone.getTimeZone("Z"));
                     start.set(Calendar.MINUTE, start.get(Calendar.MINUTE) >= 30 ? 30 : 0);

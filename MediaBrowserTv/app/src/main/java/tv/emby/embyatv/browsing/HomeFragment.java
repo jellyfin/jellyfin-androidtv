@@ -28,6 +28,8 @@ import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.base.CustomMessage;
+import tv.emby.embyatv.base.IMessageListener;
 import tv.emby.embyatv.integration.RecommendationManager;
 import tv.emby.embyatv.model.ChangeTriggerType;
 import tv.emby.embyatv.playback.AudioEventListener;
@@ -113,6 +115,18 @@ public class HomeFragment extends StdBrowseFragment {
         //Subscribe to Audio messages
         MediaManager.addAudioEventListener(audioEventListener);
 
+        //Setup activity messages
+        mActivity.registerMessageListener(new IMessageListener() {
+            @Override
+            public void onMessageReceived(CustomMessage message) {
+                switch (message) {
+                    case RefreshRows:
+                        refreshRows();
+                        break;
+                }
+            }
+        });
+
     }
 
     @Override
@@ -177,7 +191,7 @@ public class HomeFragment extends StdBrowseFragment {
                 resumeItems.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
                 resumeItems.setSortBy(new String[]{ItemSortBy.DatePlayed});
                 resumeItems.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_continue_watching), resumeItems, 0, true, true, new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback, ChangeTriggerType.TvPlayback}, QueryType.ContinueWatching));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_continue_watching), resumeItems, 0, true, true, new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback, ChangeTriggerType.TvPlayback, ChangeTriggerType.VideoQueueChange}, QueryType.ContinueWatching));
 
                 //Now others based on first library type
                 if (response.getTotalRecordCount() > 0) {

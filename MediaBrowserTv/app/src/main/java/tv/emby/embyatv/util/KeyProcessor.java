@@ -57,6 +57,7 @@ public class KeyProcessor {
     private static BaseActivity mCurrentActivity;
     private static int mCurrentRowItemNdx;
     private static boolean currentItemIsFolder = false;
+    private static boolean isMusic;
 
     public static boolean HandleKey(int key, BaseRowItem rowItem, BaseActivity activity) {
         if (rowItem == null) return false;
@@ -258,10 +259,11 @@ public class KeyProcessor {
                 if (item.getIsFolder()) menu.getMenu().add(0, MENU_PLAY_SHUFFLE, order++, R.string.lbl_shuffle_all);
 
             }
-            boolean isMusic = "MusicAlbum".equals(item.getType()) || "MusicArtist".equals(item.getType()) || "Audio".equals(item.getType()) || ("Playlist".equals(item.getType()) && "Audio".equals(item.getMediaType()));
+            isMusic = "MusicAlbum".equals(item.getType()) || "MusicArtist".equals(item.getType()) || "Audio".equals(item.getType()) || ("Playlist".equals(item.getType()) && "Audio".equals(item.getMediaType()));
+
+            if (isMusic || !item.getIsFolder()) menu.getMenu().add(0, MENU_ADD_QUEUE, order++, R.string.lbl_add_to_queue);
 
             if (isMusic) {
-                menu.getMenu().add(0, MENU_ADD_QUEUE, order++, R.string.lbl_add_to_queue);
                 if (!"Playlist".equals(item.getType())) menu.getMenu().add(0, MENU_INSTANT_MIX, order++, R.string.lbl_instant_mix);
             } else {
                 if (userData != null && userData.getPlayed())
@@ -346,17 +348,22 @@ public class KeyProcessor {
                     }
                     return true;
                 case MENU_ADD_QUEUE:
-                    Utils.getItemsToPlay(mCurrentItem, false, false, new Response<List<BaseItemDto>>() {
-                        @Override
-                        public void onResponse(List<BaseItemDto> response) {
-                            MediaManager.addToAudioQueue(response);
-                        }
+                    if (isMusic) {
+                        Utils.getItemsToPlay(mCurrentItem, false, false, new Response<List<BaseItemDto>>() {
+                            @Override
+                            public void onResponse(List<BaseItemDto> response) {
+                                MediaManager.addToAudioQueue(response);
+                            }
 
-                        @Override
-                        public void onError(Exception exception) {
-                            Utils.showToast(mCurrentActivity, R.string.msg_cannot_play_time);
-                        }
-                    });
+                            @Override
+                            public void onError(Exception exception) {
+                                Utils.showToast(mCurrentActivity, R.string.msg_cannot_play_time);
+                            }
+                        });
+
+                    } else {
+                        MediaManager.queueVideoItem(mCurrentItem);
+                    }
                     return true;
                 case MENU_PLAY_FIRST_UNWATCHED:
                     StdItemQuery query = new StdItemQuery();

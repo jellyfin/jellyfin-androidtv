@@ -36,6 +36,7 @@ import mediabrowser.model.playlists.PlaylistCreationRequest;
 import mediabrowser.model.playlists.PlaylistCreationResult;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.base.CustomMessage;
 import tv.emby.embyatv.itemhandling.AudioQueueItem;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
@@ -68,6 +69,7 @@ public class MediaManager {
     private static AudioManager mAudioManager;
     private static boolean audioInitialized;
     private static boolean nativeMode = false;
+    private static boolean videoQueueModified = false;
 
     private static List<AudioEventListener> mAudioEventListeners = new ArrayList<>();
 
@@ -82,7 +84,7 @@ public class MediaManager {
         return mCurrentMediaAdapter;
     }
     public static boolean hasAudioQueueItems() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0; }
-    public static boolean hasVideoQueueItems() { return mCurrentVideoQueue != null && mCurrentVideoQueue.size() > 1; }
+    public static boolean hasVideoQueueItems() { return mCurrentVideoQueue != null && mCurrentVideoQueue.size() > 0; }
 
     public static void setCurrentMediaAdapter(ItemRowAdapter currentMediaAdapter) {
         MediaManager.mCurrentMediaAdapter = currentMediaAdapter;
@@ -357,6 +359,17 @@ public class MediaManager {
         if (mCurrentAudioQueue == null) createAudioQueue(new ArrayList<BaseItemDto>());
         mCurrentAudioQueue.add(new AudioQueueItem(mCurrentAudioQueue.size(), item));
         return mCurrentAudioQueue.size()-1;
+    }
+
+    public static int queueVideoItem(BaseItemDto item) {
+        if (mCurrentVideoQueue == null) mCurrentVideoQueue = new ArrayList<>();
+        mCurrentVideoQueue.add(item);
+        videoQueueModified = true;
+        TvApp.getApplication().setLastVideoQueueChange(System.currentTimeMillis());
+        if (mCurrentVideoQueue.size() == 1 && TvApp.getApplication().getCurrentActivity() != null) {
+            TvApp.getApplication().getCurrentActivity().sendMessage(CustomMessage.RefreshRows);
+        }
+        return mCurrentVideoQueue.size()-1;
     }
 
     public static void clearAudioQueue() {
@@ -750,5 +763,13 @@ public class MediaManager {
 
     public static void setCurrentMediaTitle(String currentMediaTitle) {
         MediaManager.currentMediaTitle = currentMediaTitle;
+    }
+
+    public static boolean isVideoQueueModified() {
+        return videoQueueModified;
+    }
+
+    public static void setVideoQueueModified(boolean videoQueueModified) {
+        MediaManager.videoQueueModified = videoQueueModified;
     }
 }
