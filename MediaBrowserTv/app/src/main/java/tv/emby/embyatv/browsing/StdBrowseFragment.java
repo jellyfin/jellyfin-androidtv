@@ -153,24 +153,29 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
             //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
             if (mRowsAdapter != null) {
                 refreshCurrentItem();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mActivity.isFinishing()) return;
-                        for (int i = 0; i < mRowsAdapter.size(); i++) {
-                            if (mRowsAdapter.get(i) instanceof ListRow) {
-                                if (((ListRow) mRowsAdapter.get(i)).getAdapter() instanceof ItemRowAdapter && !mActivity.isFinishing()) {
-                                    ((ItemRowAdapter) ((ListRow) mRowsAdapter.get(i)).getAdapter()).ReRetrieveIfNeeded();
-                                }
-                            }
-                        }
-                    }
-                },1500);
+                refreshRows();
             }
 
         } else {
             justLoaded = false;
         }
+    }
+
+    protected void refreshRows() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mActivity.isFinishing()) return;
+                for (int i = 0; i < mRowsAdapter.size(); i++) {
+                    if (mRowsAdapter.get(i) instanceof ListRow) {
+                        if (((ListRow) mRowsAdapter.get(i)).getAdapter() instanceof ItemRowAdapter && !mActivity.isFinishing()) {
+                            ((ItemRowAdapter) ((ListRow) mRowsAdapter.get(i)).getAdapter()).ReRetrieveIfNeeded();
+                        }
+                    }
+                }
+            }
+        },1500);
+
     }
 
     public void loadRows(List<BrowseRowDef> rows) {

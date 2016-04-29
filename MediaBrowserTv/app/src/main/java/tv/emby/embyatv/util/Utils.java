@@ -500,6 +500,7 @@ public class Utils {
             case "Episode":
                 items.add(mainItem);
                 if (TvApp.getApplication().getPrefs().getBoolean("pref_enable_tv_queuing", true)) {
+                    MediaManager.setVideoQueueModified(false); // we are automatically creating new queue
                     //add subsequent episodes
                     if (mainItem.getSeasonId() != null && mainItem.getIndexNumber() != null) {
                         query.setParentId(mainItem.getSeasonId());

@@ -114,6 +114,8 @@ public class ItemRowView extends FrameLayout {
                     mExtraName.setText(item.getName());
                 } else {
                     mItemName.setText(item.getName());
+                    mExtraName.setVisibility(GONE);
+                    mDivider.setVisibility(GONE);
                 }
                 break;
         }

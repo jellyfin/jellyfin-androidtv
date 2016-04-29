@@ -90,6 +90,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     private Calendar lastMoviePlayback = Calendar.getInstance();
     private Calendar lastTvPlayback = Calendar.getInstance();
     private Calendar lastLibraryChange = Calendar.getInstance();
+    private long lastVideoQueueChange = System.currentTimeMillis();
     private long lastFavoriteUpdate = System.currentTimeMillis();
     private long lastMusicPlayback = System.currentTimeMillis();
     private long lastUserInteraction = System.currentTimeMillis();
@@ -623,5 +624,13 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     public void setLastPlayedItem(BaseItemDto lastPlayedItem) {
         this.lastPlayedItem = lastPlayedItem;
+    }
+
+    public long getLastVideoQueueChange() {
+        return lastVideoQueueChange;
+    }
+
+    public void setLastVideoQueueChange(long lastVideoQueueChange) {
+        this.lastVideoQueueChange = lastVideoQueueChange;
     }
 }
