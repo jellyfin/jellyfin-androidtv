@@ -1,6 +1,5 @@
 package tv.emby.embyatv.util;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -370,7 +369,17 @@ public class KeyProcessor {
                         });
 
                     } else {
-                        MediaManager.queueVideoItem(mCurrentItem);
+                        TvApp.getApplication().getApiClient().GetItemAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                            @Override
+                            public void onResponse(BaseItemDto response) {
+                                MediaManager.addToVideoQueue(response);
+                            }
+
+                            @Override
+                            public void onError(Exception exception) {
+                                Utils.showToast(mCurrentActivity, R.string.msg_cannot_play_time);
+                            }
+                        });
                     }
                     return true;
                 case MENU_PLAY_FIRST_UNWATCHED:
