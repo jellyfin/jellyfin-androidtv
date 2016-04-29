@@ -119,6 +119,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     public boolean getPreferParentThumb() { return preferParentThumb; }
     public boolean isStaticHeight() { return staticHeight; }
+    public QueryType getQueryType() { return queryType; }
 
     public ArrayObjectAdapter getParent() { return mParent; }
 
@@ -859,8 +860,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                 } else {
                     // no results - don't show us
-                    setTotalItems(0);
-                    removeRow();
+                    if (getItemsLoaded() == 0) removeRow();
                 }
 
                 setCurrentlyRetrieving(false);
@@ -906,8 +906,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     public void RetrieveContinueWatching(final ItemQuery query) {
         //Add current video queue first if there
+        clear();
         if (MediaManager.hasVideoQueueItems()) {
-            clear();
             TvApp.getApplication().getLogger().Debug("Adding video queue...");
             add(new BaseRowItem(new GridButton(TvApp.VIDEO_QUEUE_OPTION_ID, TvApp.getApplication().getString(R.string.lbl_current_queue), R.drawable.playlist)));
             itemsLoaded = 1;
