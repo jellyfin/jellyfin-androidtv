@@ -31,6 +31,7 @@ import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.CustomMessage;
 import tv.emby.embyatv.base.IMessageListener;
 import tv.emby.embyatv.integration.RecommendationManager;
+import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.ChangeTriggerType;
 import tv.emby.embyatv.playback.AudioEventListener;
 import tv.emby.embyatv.playback.MediaManager;
@@ -121,7 +122,12 @@ public class HomeFragment extends StdBrowseFragment {
             public void onMessageReceived(CustomMessage message) {
                 switch (message) {
                     case RefreshRows:
-                        refreshRows();
+                        if (hasResumeRow()) {
+                            refreshRows();
+                        } else {
+                            addContinueWatching();
+                        }
+
                         break;
                 }
             }
@@ -151,8 +157,11 @@ public class HomeFragment extends StdBrowseFragment {
             @Override
             public void run() {
                 addNowPlaying();
+                //check for resume row and add if not there
+                if (!hasResumeRow()) addContinueWatching();
             }
         }, 750);
+
     }
 
     @Override
@@ -184,14 +193,7 @@ public class HomeFragment extends StdBrowseFragment {
 
                 }
 
-                StdItemQuery resumeItems = new StdItemQuery();
-                resumeItems.setIncludeItemTypes(new String[]{"Movie", "Episode", "Video", "Program"});
-                resumeItems.setRecursive(true);
-                resumeItems.setLimit(50);
-                resumeItems.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
-                resumeItems.setSortBy(new String[]{ItemSortBy.DatePlayed});
-                resumeItems.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_continue_watching), resumeItems, 0, true, true, new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback, ChangeTriggerType.TvPlayback, ChangeTriggerType.VideoQueueChange}, QueryType.ContinueWatching));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_continue_watching), getResumeQuery(), 0, true, true, new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback, ChangeTriggerType.TvPlayback, ChangeTriggerType.VideoQueueChange}, QueryType.ContinueWatching));
 
                 //Now others based on first library type
                 if (response.getTotalRecordCount() > 0) {
@@ -232,6 +234,17 @@ public class HomeFragment extends StdBrowseFragment {
 
 
 
+    }
+
+    protected StdItemQuery getResumeQuery() {
+        StdItemQuery resumeItems = new StdItemQuery();
+        resumeItems.setIncludeItemTypes(new String[]{"Movie", "Episode", "Video", "Program"});
+        resumeItems.setRecursive(true);
+        resumeItems.setLimit(50);
+        resumeItems.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
+        resumeItems.setSortBy(new String[]{ItemSortBy.DatePlayed});
+        resumeItems.setSortOrder(SortOrder.Descending);
+        return resumeItems;
     }
 
     protected void addLatestMovies() {
@@ -288,6 +301,25 @@ public class HomeFragment extends StdBrowseFragment {
             mRows.add(new BrowseRowDef("Latest Recordings", recordings));
         }
 
+    }
+
+    protected boolean hasResumeRow() {
+        if (mRowsAdapter == null) return true;
+        for (int i = 0; i < mRowsAdapter.size(); i++) {
+            ListRow row = (ListRow)mRowsAdapter.get(i);
+            if (row.getAdapter() instanceof ItemRowAdapter && ((ItemRowAdapter)row.getAdapter()).getQueryType().equals(QueryType.ContinueWatching)) return true;
+        }
+
+        return false;
+    }
+
+    protected void addContinueWatching() {
+        //create the row and retrieve it to see if there are any before adding
+        ItemRowAdapter resume = new ItemRowAdapter(getResumeQuery(), 0, true, true, mCardPresenter, mRowsAdapter, QueryType.ContinueWatching);
+        ListRow row = new ListRow(new HeaderItem(mApplication.getString(R.string.lbl_continue_watching)), resume);
+        mRowsAdapter.add(1, row);
+        resume.setRow(row);
+        resume.Retrieve();
     }
 
     protected AudioEventListener audioEventListener = new AudioEventListener() {
