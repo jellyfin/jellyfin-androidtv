@@ -300,7 +300,18 @@ public class MediaManager {
         fireQueueStatusChange();
     }
 
+    private static int TYPE_AUDIO = 0;
+    private static int TYPE_VIDEO = 1;
+
     public static void saveAudioQueue(Activity activity) {
+        saveQueue(activity, TYPE_AUDIO);
+    }
+
+    public static void saveVideoQueue(Activity activity) {
+        saveQueue(activity, TYPE_VIDEO);
+    }
+
+    public static void saveQueue(Activity activity, final int type) {
         //Get a name and save as playlist
         final EditText name = new EditText(activity);
         name.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
@@ -314,13 +325,13 @@ public class MediaManager {
                         final String text = name.getText().toString();
                         PlaylistCreationRequest request = new PlaylistCreationRequest();
                         request.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                        request.setMediaType("Audio");
+                        request.setMediaType(type == TYPE_AUDIO ? "Audio" : "Video");
                         request.setName(text);
-                        request.setItemIdList(getCurrentAudioQueueItemIds());
+                        request.setItemIdList(type == TYPE_AUDIO ? getCurrentAudioQueueItemIds() : getCurrentVideoQueueItemIds());
                         TvApp.getApplication().getApiClient().CreatePlaylist(request, new Response<PlaylistCreationResult>() {
                             @Override
                             public void onResponse(PlaylistCreationResult response) {
-                                TvApp.getApplication().showMessage("Playlist Saved", "Audio queue saved as new playlist: "+text);
+                                TvApp.getApplication().showMessage("Playlist Saved", "Queue saved as new playlist: "+text);
                                 TvApp.getApplication().setLastLibraryChange(Calendar.getInstance());
                             }
 
@@ -342,6 +353,18 @@ public class MediaManager {
             for (int i = 0; i < mCurrentAudioQueue.size(); i++) {
                 AudioQueueItem item = (AudioQueueItem) mCurrentAudioQueue.get(i);
                 result.add(item.getItemId());
+            }
+        }
+
+        return result;
+    }
+
+    private static ArrayList<String> getCurrentVideoQueueItemIds() {
+        ArrayList<String> result = new ArrayList<>();
+
+        if (mCurrentVideoQueue != null) {
+            for (int i = 0; i < mCurrentVideoQueue.size(); i++) {
+                result.add(mCurrentVideoQueue.get(i).getId());
             }
         }
 
