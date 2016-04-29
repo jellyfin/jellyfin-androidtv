@@ -22,6 +22,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,6 +42,8 @@ import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.base.IKeyListener;
 import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
+import tv.emby.embyatv.itemhandling.ItemLauncher;
+import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.GotFocusEvent;
 import tv.emby.embyatv.playback.AudioEventListener;
 import tv.emby.embyatv.playback.MediaManager;
@@ -62,6 +65,7 @@ public class ItemListActivity extends BaseActivity {
 
     private int BUTTON_SIZE;
     public static final String FAV_SONGS = "FAV_SONGS";
+    public static final String VIDEO_QUEUE = "VIDEO_QUEUE";
 
     private TextView mTitle;
     private LinearLayout mGenreRow;
@@ -90,6 +94,9 @@ public class ItemListActivity extends BaseActivity {
     private DisplayMetrics mMetrics;
     private Handler mLoopHandler = new Handler();
     private Runnable mBackdropLoop;
+
+    private boolean firstTime = true;
+    private Calendar lastUpdated = Calendar.getInstance();
 
     private Typeface roboto;
 
@@ -134,14 +141,18 @@ public class ItemListActivity extends BaseActivity {
                     // too close to bottom - scroll down
                     mScrollView.smoothScrollBy(0, y - mBottomScrollThreshold);
                 }
-                //TvApp.getApplication().getLogger().Debug("Row selected: "+row.getSong().getName()+" at "+location[1]+" Screen edge: "+mMetrics.heightPixels);
+                //TvApp.getApplication().getLogger().Debug("Row selected: "+row.getItem().getName()+" at "+location[1]+" Screen edge: "+mMetrics.heightPixels);
             }
         });
 
         mItemList.setRowClickedListener(new ItemRowView.RowClickedListener() {
             @Override
             public void onRowClicked(ItemRowView row) {
-                KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, new BaseRowItem(0, row.getSong()), mActivity);
+                if ("Audio".equals(row.getItem().getType())) {
+                    KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, new BaseRowItem(0, row.getItem()), mActivity);
+                } else {
+                    ItemLauncher.launch(new BaseRowItem(0, row.getItem()), null, 0, mActivity);
+                }
             }
         });
 
@@ -201,6 +212,21 @@ public class ItemListActivity extends BaseActivity {
         MediaManager.addAudioEventListener(mAudioEventListener);
         // and fire it to be sure we're updated
         mAudioEventListener.onPlaybackStateChange(MediaManager.isPlayingAudio() ? PlaybackController.PlaybackState.PLAYING : PlaybackController.PlaybackState.IDLE, MediaManager.getCurrentAudioItem());
+
+        if (mItemId.equals(VIDEO_QUEUE) && !firstTime && mApplication.getLastPlayback().after(lastUpdated)) {
+            //update this in case it changed - delay to allow for the changes
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mItems = MediaManager.getCurrentVideoQueue();
+                    mItemList.clear();
+                    mItemList.addItems(mItems);
+                    lastUpdated = Calendar.getInstance();
+                }
+            }, 750);
+        }
+
+        firstTime = false;
     }
 
     @Override
@@ -254,9 +280,21 @@ public class ItemListActivity extends BaseActivity {
                 item.setName(getString(R.string.lbl_favorites));
                 item.setOverview(getString(R.string.desc_automatic_fav_songs));
                 item.setPlayAccess(PlayAccess.Full);
+                item.setMediaType("Audio");
                 item.setType("Playlist");
                 item.setIsFolder(true);
                 setBaseItem(item);
+                break;
+            case VIDEO_QUEUE:
+                BaseItemDto queue = new BaseItemDto();
+                queue.setId(VIDEO_QUEUE);
+                queue.setName(getString(R.string.lbl_current_queue));
+                queue.setOverview(getString(R.string.desc_current_video_queue));
+                queue.setPlayAccess(PlayAccess.Full);
+                queue.setMediaType("Video");
+                queue.setType("Playlist");
+                queue.setIsFolder(true);
+                setBaseItem(queue);
                 break;
             default:
                 mApplication.getApiClient().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
@@ -279,10 +317,10 @@ public class ItemListActivity extends BaseActivity {
         addButtons(BUTTON_SIZE);
         mSummary.setText(mBaseItem.getOverview());
 
-        if (!mItemId.equals(FAV_SONGS)) updateBackground(Utils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
+        if (!mItemId.equals(FAV_SONGS) && !mItemId.equals(VIDEO_QUEUE)) updateBackground(Utils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
         updatePoster(mBaseItem);
 
-        //get songs
+        //get items
         if ("Playlist".equals(mBaseItem.getType())) {
             // Have to use different query here
             switch (mItemId) {
@@ -296,6 +334,12 @@ public class ItemListActivity extends BaseActivity {
                     favSongs.setSortBy(new String[]{ItemSortBy.Random});
                     favSongs.setLimit(150);
                     TvApp.getApplication().getApiClient().GetItemsAsync(favSongs, itemResponse);
+                    break;
+                case VIDEO_QUEUE:
+                    //Show current queue
+                    mTitle.setText(mBaseItem.getName());
+                    mItemList.addItems(MediaManager.getCurrentVideoQueue());
+                    mItems.addAll(MediaManager.getCurrentVideoQueue());
                     break;
                 default:
                     PlaylistItemQuery playlistSongs = new PlaylistItemQuery();
@@ -354,6 +398,9 @@ public class ItemListActivity extends BaseActivity {
             case FAV_SONGS:
                 mPoster.setImageResource(R.drawable.genericmusic);
                 break;
+            case VIDEO_QUEUE:
+                mPoster.setImageResource(R.drawable.playlist);
+                break;
             default:
                 // Figure image size
                 Double aspect = Utils.getImageAspectRatio(item, false);
@@ -387,6 +434,12 @@ public class ItemListActivity extends BaseActivity {
     private void play(List<BaseItemDto> items) {
         if ("Video".equals(mBaseItem.getMediaType())) {
             Intent intent = new Intent(mActivity, PlaybackOverlayActivity.class);
+            //Resume first item if needed
+            BaseItemDto first = items.size() > 0 ? items.get(0) : null;
+            if (first != null && first.getUserData() != null) {
+                Long pos = first.getUserData().getPlaybackPositionTicks() / 10000;
+                intent.putExtra("Position", pos.intValue());
+            }
             MediaManager.setCurrentVideoQueue(items);
             startActivity(intent);
 
@@ -441,7 +494,7 @@ public class ItemListActivity extends BaseActivity {
             mButtonRow.addView(mix);
         }
 
-        if (!mItemId.equals(FAV_SONGS)) {
+        if (!mItemId.equals(FAV_SONGS) && !mItemId.equals(VIDEO_QUEUE)) {
             //Favorite
             ImageButton fav = new ImageButton(this, mBaseItem.getUserData().getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, getString(R.string.lbl_toggle_favorite), mButtonHelp, new View.OnClickListener() {
                 @Override

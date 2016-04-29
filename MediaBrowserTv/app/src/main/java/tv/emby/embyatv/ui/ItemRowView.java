@@ -129,7 +129,7 @@ public class ItemRowView extends FrameLayout {
         }
     }
 
-    public BaseItemDto getSong() { return mBaseItem; }
+    public BaseItemDto getItem() { return mBaseItem; }
 
     public boolean setPlaying(boolean playing) {
         if (playing) {
@@ -144,7 +144,7 @@ public class ItemRowView extends FrameLayout {
     }
 
     public boolean setPlaying(String id) {
-        return setPlaying(getSong().getId().equals(id));
+        return setPlaying(getItem().getId().equals(id));
     }
 
     public void setRowSelectedListener(RowSelectedListener listener) {

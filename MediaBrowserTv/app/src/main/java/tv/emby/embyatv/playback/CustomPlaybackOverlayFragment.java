@@ -646,8 +646,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     @Override
     public void onDestroy() {
-        if (mPlaybackController != null && mPlaybackController.getCurrentlyPlayingItem() != null) RecommendationManager.getInstance().recommend(mPlaybackController.getCurrentlyPlayingItem().getId());
         super.onDestroy();
+        if (mPlaybackController != null) {
+            mPlaybackController.removePreviousQueueItems();
+            if (mPlaybackController.getCurrentlyPlayingItem() != null) RecommendationManager.getInstance().recommend(mPlaybackController.getCurrentlyPlayingItem().getId());
+        }
+
     }
 
     @Override
@@ -1436,11 +1440,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
             if (mIsVisible) mPlayPauseBtn.requestFocus();
         }
-    }
-
-    @Override
-    public void removeQueueItem(int pos) {
-
     }
 
     @Override
