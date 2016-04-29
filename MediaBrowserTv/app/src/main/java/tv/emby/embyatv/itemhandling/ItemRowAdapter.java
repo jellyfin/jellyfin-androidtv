@@ -46,6 +46,7 @@ import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.model.ChangeTriggerType;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.model.FilterOptions;
+import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.presentation.IPositionablePresenter;
 import tv.emby.embyatv.presentation.TextItemPresenter;
 import tv.emby.embyatv.querying.QueryType;
@@ -609,6 +610,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             case Premieres:
                 RetrievePremieres(mQuery);
                 break;
+            case ContinueWatching:
+                RetrieveContinueWatching(mQuery);
+                break;
         }
     }
 
@@ -894,6 +898,17 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         clear();
         add(new GridButton(EnhancedBrowseFragment.FAVSONGS, TvApp.getApplication().getString(R.string.lbl_favorites), R.drawable.genericmusic));
         itemsLoaded = 1;
+        Retrieve(query);
+    }
+
+    public void RetrieveContinueWatching(final ItemQuery query) {
+        //Add current video queue first if there
+        if (MediaManager.hasVideoQueueItems()) {
+            clear();
+            TvApp.getApplication().getLogger().Debug("Adding video queue...");
+            add(new BaseRowItem(new GridButton(TvApp.VIDEO_QUEUE_OPTION_ID, TvApp.getApplication().getString(R.string.lbl_current_queue), R.drawable.playlist)));
+            itemsLoaded = 1;
+        }
         Retrieve(query);
     }
 

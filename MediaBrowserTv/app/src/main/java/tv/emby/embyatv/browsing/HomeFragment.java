@@ -177,7 +177,7 @@ public class HomeFragment extends StdBrowseFragment {
                 resumeItems.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
                 resumeItems.setSortBy(new String[]{ItemSortBy.DatePlayed});
                 resumeItems.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_continue_watching), resumeItems, 0, true, true, new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback, ChangeTriggerType.TvPlayback}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_continue_watching), resumeItems, 0, true, true, new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback, ChangeTriggerType.TvPlayback}, QueryType.ContinueWatching));
 
                 //Now others based on first library type
                 if (response.getTotalRecordCount() > 0) {

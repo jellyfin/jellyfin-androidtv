@@ -21,6 +21,7 @@ import mediabrowser.model.dlna.SubtitleStreamInfo;
 import mediabrowser.model.dlna.VideoOptions;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.MediaSourceInfo;
+import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.MediaStreamType;
@@ -672,6 +673,11 @@ public class PlaybackController {
             }
             Long mbPos = mCurrentPosition * 10000;
             Utils.ReportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
+            if (!isLiveTv) {
+                // update the actual items resume point
+                getCurrentlyPlayingItem().getUserData().setPlaybackPositionTicks(mbPos);
+            }
+
             // be sure to unmute audio in case it was muted
             TvApp.getApplication().setAudioMuted(false);
 
@@ -684,7 +690,6 @@ public class PlaybackController {
             stop();
             mCurrentIndex++;
             mApplication.getLogger().Debug("Moving to index: " + mCurrentIndex + " out of " + mItems.size() + " total items.");
-            mFragment.removeQueueItem(0);
             spinnerOff = false;
             play(0);
         }
@@ -847,7 +852,20 @@ public class PlaybackController {
         });
     }
 
+    public void removePreviousQueueItems() {
+        if (isLiveTv) return;
 
+        if (mCurrentIndex < 0) return;
+        for (int i = 0; i < mCurrentIndex; i++) {
+            mItems.remove(0);
+        }
+
+        //Now - look at last item played and, if beyond default resume point, remove it too
+        Long duration = mCurrentStreamInfo.getRunTimeTicks();
+        if (duration != null && mItems.size() > 0) {
+            if (mCurrentPosition * 10000 > Math.floor(.90 * duration)) mItems.remove(0);
+        }
+    }
 
     private void itemComplete() {
         mPlaybackState = PlaybackState.IDLE;
@@ -858,7 +876,6 @@ public class PlaybackController {
             // move to next in queue
             mCurrentIndex++;
             mApplication.getLogger().Debug("Moving to next queue item. Index: "+mCurrentIndex);
-            mFragment.removeQueueItem(0);
             spinnerOff = false;
             play(0);
         } else {

@@ -8,6 +8,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 import mediabrowser.model.dto.BaseItemDto;
 import tv.emby.embyatv.R;
 
@@ -41,7 +43,9 @@ public class ItemListView extends FrameLayout {
     public void setRowSelectedListener(ItemRowView.RowSelectedListener listener) { mRowSelectedListener = listener; }
     public void setRowClickedListener(ItemRowView.RowClickedListener listener) { mRowClickedListener = listener; }
 
-    public void addItems(BaseItemDto[] items) {
+    public void clear() {mList.removeAllViews();}
+
+    public void addItems(List<BaseItemDto> items) {
         int i = 0;
         for (BaseItemDto item : items) {
             addItem(item, i++);

@@ -82,6 +82,7 @@ public class MediaManager {
         return mCurrentMediaAdapter;
     }
     public static boolean hasAudioQueueItems() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0; }
+    public static boolean hasVideoQueueItems() { return mCurrentVideoQueue != null && mCurrentVideoQueue.size() > 1; }
 
     public static void setCurrentMediaAdapter(ItemRowAdapter currentMediaAdapter) {
         MediaManager.mCurrentMediaAdapter = currentMediaAdapter;

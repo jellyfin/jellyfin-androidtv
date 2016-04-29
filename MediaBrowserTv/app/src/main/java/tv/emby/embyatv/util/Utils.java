@@ -515,7 +515,13 @@ public class Utils {
                                 if (response.getTotalRecordCount() > 0) {
                                     for (BaseItemDto item : response.getItems()) {
                                         if (item.getIndexNumber() > mainItem.getIndexNumber()) {
-                                            items.add(item);
+                                            if (!LocationType.Virtual.equals(item.getLocationType())) {
+                                                items.add(item);
+
+                                            } else {
+                                                //stop adding when we hit a missing one
+                                                break;
+                                            }
                                         }
                                     }
                                 }
