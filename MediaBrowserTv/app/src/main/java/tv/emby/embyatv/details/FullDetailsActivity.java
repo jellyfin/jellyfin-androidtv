@@ -628,6 +628,22 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 }
             });
             mDetailsOverviewRow.addAction(play);
+
+            if (!mBaseItem.getIsFolder() && !Utils.isLiveTv(mBaseItem)) {
+                ImageButton queue = new ImageButton(this, R.drawable.addtoqueue, buttonSize, getString(R.string.lbl_add_to_queue), null, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if ("Audio".equals(mBaseItem.getType())) {
+                            MediaManager.addToAudioQueue(Arrays.asList(mBaseItem));
+
+                        } else {
+                            MediaManager.addToVideoQueue(mBaseItem);
+                        }
+                    }
+                });
+                mDetailsOverviewRow.addAction(queue);
+            }
+
             if (mBaseItem.getIsFolder()) {
                 ImageButton shuffle = new ImageButton(this, R.drawable.shuffle, buttonSize, getString(R.string.lbl_shuffle_all), null, new View.OnClickListener() {
                     @Override

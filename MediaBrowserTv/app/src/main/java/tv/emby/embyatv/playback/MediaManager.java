@@ -361,7 +361,7 @@ public class MediaManager {
         return mCurrentAudioQueue.size()-1;
     }
 
-    public static int queueVideoItem(BaseItemDto item) {
+    public static int addToVideoQueue(BaseItemDto item) {
         if (mCurrentVideoQueue == null) mCurrentVideoQueue = new ArrayList<>();
         mCurrentVideoQueue.add(item);
         videoQueueModified = true;
@@ -369,6 +369,7 @@ public class MediaManager {
         if (mCurrentVideoQueue.size() == 1 && TvApp.getApplication().getCurrentActivity() != null) {
             TvApp.getApplication().getCurrentActivity().sendMessage(CustomMessage.RefreshRows);
         }
+        Utils.showToast(TvApp.getApplication(), item.getName() + " added to video queue");
         return mCurrentVideoQueue.size()-1;
     }
 
