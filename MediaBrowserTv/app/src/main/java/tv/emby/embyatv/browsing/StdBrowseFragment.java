@@ -437,7 +437,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                 mItemPanel.setVisibility(View.INVISIBLE);
             }
 
-            if (!(item instanceof BaseRowItem) || isShowingHeaders()) {
+            if (!(item instanceof BaseRowItem)) {
                 mCurrentItem = null;
                 mHandler.removeCallbacks(hideItemPanel);
                 //fill in default background
@@ -446,7 +446,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                 return;
             } else {
                 mCurrentItem = (BaseRowItem)item;
-                if (ShowInfoPanel && !(item instanceof AudioQueueItem)) {
+                if (!isShowingHeaders() && ShowInfoPanel && !(item instanceof AudioQueueItem)) {
                     // delay show the item panel
                     mHandler.postDelayed(showItemPanel, 1000);
                 }
