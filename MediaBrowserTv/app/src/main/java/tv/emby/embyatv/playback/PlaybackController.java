@@ -853,7 +853,11 @@ public class PlaybackController {
     }
 
     public void removePreviousQueueItems() {
-        if (isLiveTv) return;
+        TvApp.getApplication().setLastVideoQueueChange(System.currentTimeMillis());
+        if (isLiveTv) {
+            mItems.clear();
+            return;
+        }
 
         if (mCurrentIndex < 0) return;
         for (int i = 0; i < mCurrentIndex; i++) {

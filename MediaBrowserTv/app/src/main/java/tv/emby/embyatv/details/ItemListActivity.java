@@ -219,9 +219,14 @@ public class ItemListActivity extends BaseActivity {
                 @Override
                 public void run() {
                     mItems = MediaManager.getCurrentVideoQueue();
-                    mItemList.clear();
-                    mItemList.addItems(mItems);
-                    lastUpdated = Calendar.getInstance();
+                    if (mItems != null && mItems.size() > 0) {
+                        mItemList.clear();
+                        mItemList.addItems(mItems);
+                        lastUpdated = Calendar.getInstance();
+                    } else {
+                        //nothing left in queue
+                        finish();
+                    }
                 }
             }, 750);
         }
@@ -294,6 +299,16 @@ public class ItemListActivity extends BaseActivity {
                 queue.setMediaType("Video");
                 queue.setType("Playlist");
                 queue.setIsFolder(true);
+                if (MediaManager.getCurrentVideoQueue() != null) {
+                    long runtime = 0;
+                    int children = 0;
+                    for (BaseItemDto video : MediaManager.getCurrentVideoQueue()) {
+                        runtime += video.getRunTimeTicks();
+                        children += 1;
+                    }
+                    queue.setCumulativeRunTimeTicks(runtime);
+                    queue.setChildCount(children);
+                }
                 setBaseItem(queue);
                 break;
             default:
