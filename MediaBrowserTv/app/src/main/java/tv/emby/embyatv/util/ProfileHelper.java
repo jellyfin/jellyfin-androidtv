@@ -34,7 +34,7 @@ public class ProfileHelper {
         TranscodingProfile mkvProfile = new TranscodingProfile();
         mkvProfile.setContainer("mkv");
         mkvProfile.setVideoCodec("h264");
-        mkvProfile.setAudioCodec("aac,mp3");
+        mkvProfile.setAudioCodec(Utils.is60() && !"1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0")) ? "aac,mp3,dca" : "aac,mp3");
         mkvProfile.setType(DlnaProfileType.Video);
         mkvProfile.setContext(EncodingContext.Streaming);
         mkvProfile.setCopyTimestamps(true);
