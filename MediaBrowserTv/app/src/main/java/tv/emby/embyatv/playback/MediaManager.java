@@ -796,4 +796,8 @@ public class MediaManager {
     public static void setVideoQueueModified(boolean videoQueueModified) {
         MediaManager.videoQueueModified = videoQueueModified;
     }
+
+    public static void clearVideoQueue() {
+        mCurrentVideoQueue = new ArrayList<>();
+    }
 }

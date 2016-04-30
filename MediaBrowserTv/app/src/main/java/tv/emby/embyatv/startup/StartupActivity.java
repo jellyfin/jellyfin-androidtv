@@ -94,6 +94,7 @@ public class StartupActivity extends Activity {
         } else {
             //clear audio queue in case left over from last run
             MediaManager.clearAudioQueue();
+            MediaManager.clearVideoQueue();
             establishConnection(this);
         }
 
