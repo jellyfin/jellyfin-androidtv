@@ -23,6 +23,7 @@ import org.videolan.libvlc.Media;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import mediabrowser.apiinteraction.ApiClient;
@@ -392,7 +393,13 @@ public class MediaManager {
         if (mCurrentVideoQueue.size() == 1 && TvApp.getApplication().getCurrentActivity() != null) {
             TvApp.getApplication().getCurrentActivity().sendMessage(CustomMessage.RefreshRows);
         }
-        Utils.showToast(TvApp.getApplication(), item.getName() + " added to video queue");
+        long total = System.currentTimeMillis();
+        for (BaseItemDto video :
+                mCurrentVideoQueue) {
+            total += video.getRunTimeTicks() / 10000;
+        }
+
+        Utils.showToast(TvApp.getApplication(), item.getName() + " added to video queue. Ends: "+android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(new Date(total)));
         return mCurrentVideoQueue.size()-1;
     }
 
