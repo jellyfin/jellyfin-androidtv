@@ -868,7 +868,7 @@ public class PlaybackController {
         Long duration = mCurrentStreamInfo.getRunTimeTicks();
         if (duration != null && mItems.size() > 0) {
             if (duration < 300000 || mCurrentPosition * 10000 > Math.floor(.90 * duration)) mItems.remove(0);
-        }
+        } else if (duration == null) mItems.remove(0);
     }
 
     private void itemComplete() {

@@ -304,7 +304,7 @@ public class ItemListActivity extends BaseActivity {
                     long runtime = 0;
                     int children = 0;
                     for (BaseItemDto video : MediaManager.getCurrentVideoQueue()) {
-                        runtime += video.getRunTimeTicks();
+                        runtime += video.getRunTimeTicks() != null ? video.getRunTimeTicks() : 0;
                         children += 1;
                     }
                     queue.setCumulativeRunTimeTicks(runtime);
