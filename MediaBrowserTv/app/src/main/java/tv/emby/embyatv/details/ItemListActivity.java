@@ -24,6 +24,7 @@ import com.squareup.picasso.Target;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import mediabrowser.apiinteraction.EmptyResponse;
@@ -86,6 +87,7 @@ public class ItemListActivity extends BaseActivity {
     private String mItemId;
 
     private int mBottomScrollThreshold;
+    private Runnable mClockLoop;
 
     private TvApp mApplication;
     private BaseActivity mActivity;
@@ -156,13 +158,10 @@ public class ItemListActivity extends BaseActivity {
             }
         });
 
-        //Adjust layout for our display - no timeline or summary title
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mSummary.getLayoutParams();
+        //Adjust layout for our display - no summary title
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mTimeLine.getLayoutParams();
         params.topMargin = 20;
-        mSummary.setHeight(Utils.convertDpToPixel(TvApp.getApplication(), 235));
-        mSummary.setMaxLines(12);
         mSummaryTitle.setVisibility(View.GONE);
-        mTimeLine.setVisibility(View.GONE);
 
         mButtonRow.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -209,6 +208,7 @@ public class ItemListActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         rotateBackdrops();
+        startClock();
         MediaManager.addAudioEventListener(mAudioEventListener);
         // and fire it to be sure we're updated
         mAudioEventListener.onPlaybackStateChange(MediaManager.isPlayingAudio() ? PlaybackController.PlaybackState.PLAYING : PlaybackController.PlaybackState.IDLE, MediaManager.getCurrentAudioItem());
@@ -238,6 +238,7 @@ public class ItemListActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         stopRotate();
+        stopClock();
         MediaManager.removeAudioEventListener(mAudioEventListener);
     }
 
@@ -331,6 +332,7 @@ public class ItemListActivity extends BaseActivity {
         addGenres(mGenreRow);
         addButtons(BUTTON_SIZE);
         mSummary.setText(mBaseItem.getOverview());
+        mTimeLine.setText(getEndTime());
 
         if (!mItemId.equals(FAV_SONGS) && !mItemId.equals(VIDEO_QUEUE)) updateBackground(Utils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
         updatePoster(mBaseItem);
@@ -443,6 +445,36 @@ public class ItemListActivity extends BaseActivity {
                 first = false;
                 layout.addView(new GenreButton(this, roboto, 16, genre, mBaseItem.getType()));
             }
+        }
+    }
+
+    private String getEndTime() {
+        if (mBaseItem != null) {
+            Long runtime = mBaseItem.getCumulativeRunTimeTicks();
+            if (runtime != null && runtime > 0) {
+                long endTimeTicks = System.currentTimeMillis() + runtime / 10000;
+                return getString(R.string.lbl_ends) + android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks));
+            }
+
+        }
+        return "";
+    }
+
+    private void startClock() {
+        mClockLoop = new Runnable() {
+            @Override
+            public void run() {
+                mTimeLine.setText(getEndTime());
+                mLoopHandler.postDelayed(this, 15000);
+            }
+        };
+
+        mLoopHandler.postDelayed(mClockLoop, 15000);
+    }
+
+    private void stopClock() {
+        if (mLoopHandler != null && mClockLoop != null) {
+            mLoopHandler.removeCallbacks(mClockLoop);
         }
     }
 
