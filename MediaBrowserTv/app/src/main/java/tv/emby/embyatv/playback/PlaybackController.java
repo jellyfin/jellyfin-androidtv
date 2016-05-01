@@ -248,7 +248,7 @@ public class PlaybackController {
                 isLiveTv = item.getType().equals("TvChannel");
 
                 // Create our profile - use VLC unless live tv or on FTV stick and over SD
-                useVlc = (!Utils.is60() && (!isLiveTv || mApplication.directStreamLiveTv()) && (!"ChannelVideoItem".equals(item.getType())) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_vlc", true) && (item.getPath() == null || !item.getPath().toLowerCase().endsWith(".avi")));
+                useVlc = ((!Utils.is60() || isLiveTv || (item.getPath() != null && item.getPath().toLowerCase().endsWith(".ts"))) && (!isLiveTv || mApplication.directStreamLiveTv()) && (!"ChannelVideoItem".equals(item.getType())) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_vlc", true) && (item.getPath() == null || !item.getPath().toLowerCase().endsWith(".avi")));
                 if (useVlc && item.getMediaSources() != null && item.getMediaSources().size() > 0) {
                     List<MediaStream> videoStreams = Utils.GetVideoStreams(item.getMediaSources().get(0));
                     MediaStream video = videoStreams != null && videoStreams.size() > 0 ? videoStreams.get(0) : null;
@@ -363,7 +363,7 @@ public class PlaybackController {
                             startItem(item, position, apiClient, response);
                         }
                     });
-                } else if (useVlc && !isLiveTv && !"1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0")) && TvApp.getApplication().getPrefs().getBoolean("pref_bitstream_ac3", true)) {
+                } else if (useVlc && !Utils.is60() && !isLiveTv && !"1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0")) && TvApp.getApplication().getPrefs().getBoolean("pref_bitstream_ac3", true)) {
                     MediaStream audio = response.getMediaSource().getDefaultAudioStream();
                     if (audio != null && ("ac3".equals(audio.getCodec()) || "eac3".equals(audio.getCodec()))) {
                         // Use Exo to get DD bitstreaming
