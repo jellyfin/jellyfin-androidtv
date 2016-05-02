@@ -344,6 +344,7 @@
     <string name="lbl_current_queue">Current Queue</string>
     <string name="desc_current_video_queue">Video items currently queued for playback</string>
     <string name="lbl_clear_queue">Clear Queue</string>
+    <string name="lbl_play_next_up">Play Next Up</string>
 
 
 </resources>

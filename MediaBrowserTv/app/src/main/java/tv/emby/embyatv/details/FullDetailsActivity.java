@@ -609,17 +609,42 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     private void addButtons(int buttonSize) {
-        mResumeButton = new ImageButton(this, R.drawable.resume, buttonSize, getString(R.string.lbl_resume), null, new View.OnClickListener() {
+        mResumeButton = new ImageButton(this, R.drawable.resume, buttonSize, "Series".equals(mBaseItem.getType()) ? getString(R.string.lbl_play_next_up) : getString(R.string.lbl_resume), null, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
-                play(mBaseItem, pos.intValue(), false);
+                if ("Series".equals(mBaseItem.getType())) {
+                    //play next up
+                    NextUpQuery nextUpQuery = new NextUpQuery();
+                    nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                    nextUpQuery.setSeriesId(mBaseItem.getId());
+                    TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(nextUpQuery, new Response<ItemsResult>() {
+                        @Override
+                        public void onResponse(ItemsResult response) {
+                            if (response.getItems().length > 0) {
+                                play(response.getItems()[0], 0 , false);
+                            } else {
+                                Utils.showToast(TvApp.getApplication(), "Unable to find next up episode");
+                            }
+                        }
+
+                        @Override
+                        public void onError(Exception exception) {
+                            TvApp.getApplication().getLogger().ErrorException("Error playing next up episode", exception);
+                            Utils.showToast(TvApp.getApplication(), getString(R.string.msg_video_playback_error));
+                        }
+                    });
+                } else {
+                    //resume
+                    Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
+                    play(mBaseItem, pos.intValue(), false);
+
+                }
             }
         });
 
         if (Utils.CanPlay(mBaseItem)) {
             mDetailsOverviewRow.addAction(mResumeButton);
-            mResumeButton.setVisibility(mBaseItem.getCanResume() ? View.VISIBLE : View.GONE);
+            mResumeButton.setVisibility(("Series".equals(mBaseItem.getType()) && ! mBaseItem.getUserData().getPlayed()) || mBaseItem.getCanResume() ? View.VISIBLE : View.GONE);
 
             ImageButton play = new ImageButton(this, R.drawable.play, buttonSize, getString(Utils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), null, new View.OnClickListener() {
                 @Override
