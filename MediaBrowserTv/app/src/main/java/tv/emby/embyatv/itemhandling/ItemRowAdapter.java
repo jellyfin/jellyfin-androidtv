@@ -1025,7 +1025,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         final ItemRowAdapter adapter = this;
         TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(query, new Response<ItemsResult>() {
             @Override
-            public void onResponse(ItemsResult response) {
+            public void onResponse(final ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
                     if (adapter.size() > 0) adapter.clear();
                     int i = 0;
@@ -1036,13 +1036,47 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     setItemsLoaded(itemsLoaded + i);
                     if (i == 0) {
                         removeRow();
+                        currentlyRetrieving = false;
+                    } else {
+                        //If this was for a single series, get the rest of the episodes in the season
+                        if (query.getSeriesId() != null) {
+                            BaseItemDto first = adapter.size() == 1 ? ((BaseRowItem)adapter.get(0)).getBaseItem() : null;
+                            if (first != null && first.getIndexNumber() != null && first.getSeasonId() != null) {
+                                StdItemQuery rest = new StdItemQuery();
+                                rest.setUserId(query.getUserId());
+                                rest.setParentId(first.getSeasonId());
+                                rest.setStartIndex(first.getIndexNumber());
+                                TvApp.getApplication().getApiClient().GetItemsAsync(rest, new Response<ItemsResult>() {
+                                    @Override
+                                    public void onResponse(ItemsResult innerResponse) {
+                                        if (response.getItems() != null) {
+                                            int n = response.getItems().length;
+                                            for (BaseItemDto item : innerResponse.getItems()) {
+                                                adapter.add(new BaseRowItem(n++, item, preferParentThumb, false));
+                                            }
+                                            totalItems += innerResponse.getTotalRecordCount();
+                                            setItemsLoaded(itemsLoaded + n);
+
+                                        }
+                                        currentlyRetrieving = false;
+                                    }
+
+                                    @Override
+                                    public void onError(Exception exception) {
+                                        TvApp.getApplication().getLogger().ErrorException("Unable to retrieve subsequent episodes in next up", exception);
+                                        currentlyRetrieving = false;
+                                    }
+                                });
+                            }
+                        }
+
                     }
                 } else {
                     // no results - don't show us
                     removeRow();
+                    currentlyRetrieving = false;
                 }
 
-                currentlyRetrieving = false;
             }
 
             @Override
