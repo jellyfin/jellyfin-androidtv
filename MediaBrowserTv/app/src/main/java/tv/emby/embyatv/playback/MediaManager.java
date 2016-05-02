@@ -806,5 +806,6 @@ public class MediaManager {
 
     public static void clearVideoQueue() {
         mCurrentVideoQueue = new ArrayList<>();
+        videoQueueModified = false;
     }
 }

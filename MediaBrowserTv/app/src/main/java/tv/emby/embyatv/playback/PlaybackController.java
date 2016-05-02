@@ -854,8 +854,8 @@ public class PlaybackController {
 
     public void removePreviousQueueItems() {
         TvApp.getApplication().setLastVideoQueueChange(System.currentTimeMillis());
-        if (isLiveTv) {
-            mItems.clear();
+        if (isLiveTv || !MediaManager.isVideoQueueModified()) {
+            MediaManager.clearVideoQueue();
             return;
         }
 
@@ -865,7 +865,7 @@ public class PlaybackController {
         }
 
         //Now - look at last item played and, if beyond default resume point, remove it too
-        Long duration = mCurrentStreamInfo.getRunTimeTicks();
+        Long duration = mCurrentStreamInfo != null ? mCurrentStreamInfo.getRunTimeTicks() : null;
         if (duration != null && mItems.size() > 0) {
             if (duration < 300000 || mCurrentPosition * 10000 > Math.floor(.90 * duration)) mItems.remove(0);
         } else if (duration == null) mItems.remove(0);
