@@ -178,7 +178,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (mApplication.getLastPlayedItem() != null && !mBaseItem.getId().equals(mApplication.getLastPlayedItem().getId()) && "Episode".equals(mApplication.getLastPlayedItem().getType())) {
+                    if ("Episode".equals(mBaseItem.getType()) && mApplication.getLastPlayedItem() != null && !mBaseItem.getId().equals(mApplication.getLastPlayedItem().getId()) && "Episode".equals(mApplication.getLastPlayedItem().getType())) {
                         mApplication.getLogger().Info("Re-loading after new episode playback");
                         loadItem(mApplication.getLastPlayedItem().getId());
                     } else {
