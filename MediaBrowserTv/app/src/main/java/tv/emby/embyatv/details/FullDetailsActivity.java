@@ -189,7 +189,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                 if (!isFinishing()) {
                                     mBaseItem = response;
                                     if (mResumeButton != null) {
-                                        mResumeButton.setVisibility(response.getCanResume() ? View.VISIBLE : View.GONE);
+                                        mResumeButton.setVisibility(("Series".equals(mBaseItem.getType()) && ! mBaseItem.getUserData().getPlayed()) || response.getCanResume() ? View.VISIBLE : View.GONE);
                                     }
                                     updatePlayedDate();
                                     updateWatched();
