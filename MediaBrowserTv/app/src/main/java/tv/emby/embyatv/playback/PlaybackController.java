@@ -387,24 +387,6 @@ public class PlaybackController {
                                 startItem(item, position, apiClient, response);
                             }
                         });
-                    } else if (mApplication.getPrefs().getBoolean("pref_trans_dts_ac3", true) && audio != null && "dca".equals(audio.getCodec())) {
-                        // Transcode to AC3 and use Exo for bitstreaming
-                        final DeviceProfile save = options.getProfile();
-                        DeviceProfile newProfile = ProfileHelper.getBaseProfile();
-                        ProfileHelper.setExoOptions(newProfile, false, false);
-                        ProfileHelper.addAc3Streaming(newProfile, true);
-                        options.setProfile(newProfile);
-                        useVlc = false;
-                        mApplication.getLogger().Info("Using Exo for DD bitstreaming");
-                        mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
-                            @Override
-                            public void onResponse(StreamInfo response) {
-                                //re-set this
-                                options.setProfile(save);
-                                startItem(item, position, apiClient, response);
-                            }
-                        });
-
                     } else {
                         startItem(item, position, apiClient, response);
                     }
