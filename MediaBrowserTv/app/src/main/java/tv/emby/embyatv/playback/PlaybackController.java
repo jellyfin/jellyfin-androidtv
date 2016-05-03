@@ -326,16 +326,7 @@ public class PlaybackController {
     }
 
     public int getBufferAmount() {
-        if (getCurrentlyPlayingItem() != null && getCurrentlyPlayingItem().getType().equals("TvChannel")) {
-            // force live tv to a small buffer so it doesn't take forever to load
-            mApplication.getLogger().Info("Forcing vlc buffer to 600 for live tv");
-            return 600;
-        }
-
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(TvApp.getApplication());
-        String buffer = sharedPref.getString("pref_net_buffer", "30");
-        Float factor = Float.parseFloat(buffer) * 10;
-        return (factor.intValue() * 100);
+        return 600;
     }
 
     private void playInternal(final BaseItemDto item, final long position, final VideoOptions options) {
