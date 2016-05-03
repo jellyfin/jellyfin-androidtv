@@ -20,6 +20,7 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -103,6 +104,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     TextView mEndTime;
     TextView mCurrentPos;
     TextView mRemainingTime;
+    TextView mInfoSummary;
     View mTopPanel;
     View mBottomPanel;
     ImageButton mPlayPauseBtn;
@@ -304,6 +306,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mInfoRow = (LinearLayout) mActivity.findViewById(R.id.infoRow);
         mNextUpInfoRow = (LinearLayout) mActivity.findViewById(R.id.nextUpInfoRow);
         mButtonRow = (LinearLayout) mActivity.findViewById(R.id.buttonRow);
+        mInfoSummary = (TextView) mActivity.findViewById(R.id.infoSummary);
         mTitle = (TextView) mActivity.findViewById(R.id.title);
         mNextUpTitle = (TextView) mActivity.findViewById(R.id.nextUpTitle);
         mSmNextUpTitle = (TextView) mActivity.findViewById(R.id.sm_upnext_title);
@@ -313,6 +316,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mNextUpTitle.setTypeface(font);
         mSmNextUpTitle.setTypeface(font);
         mNextUpSummary.setTypeface(font);
+        mInfoSummary.setTypeface(font);
         mEndTime = (TextView) mActivity.findViewById(R.id.endTime);
         mCurrentPos = (TextView) mActivity.findViewById(R.id.currentPos);
         mRemainingTime = (TextView) mActivity.findViewById(R.id.remainingTime);
@@ -744,6 +748,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     public void show() {
+        hideInfo();
         mBottomPanel.startAnimation(slideUp);
         mTopPanel.startAnimation(slideDown);
         mIsVisible = true;
@@ -793,6 +798,25 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private void hideSmNextUpPanel(){
         mSmNextUpPanel.startAnimation(hideSmNextUp);
         mSmNextUpPanelVisible = false;
+    }
+
+    private void showInfo() {
+        mButtonRow.setVisibility(View.INVISIBLE);
+        mCurrentProgress.setVisibility(View.INVISIBLE);
+        mRemainingTime.setVisibility(View.INVISIBLE);
+        mCurrentPos.setVisibility(View.INVISIBLE);
+        mPlayPauseBtn.setVisibility(View.INVISIBLE);
+        mInfoSummary.setVisibility(View.VISIBLE);
+        setFadingEnabled(false);
+    }
+
+    private void hideInfo() {
+        mButtonRow.setVisibility(View.VISIBLE);
+        mCurrentProgress.setVisibility(View.VISIBLE);
+        mRemainingTime.setVisibility(View.VISIBLE);
+        mCurrentPos.setVisibility(View.VISIBLE);
+        mPlayPauseBtn.setVisibility(View.VISIBLE);
+        mInfoSummary.setVisibility(View.INVISIBLE);
     }
 
     private void showGuide() {
@@ -1268,6 +1292,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     showGuide();
                 }
             }));
+        } else if (!TextUtils.isEmpty(item.getOverview())) {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.infoicon, mButtonSize, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showInfo();
+                }
+            }));
         }
 
         Boolean hasSubs = Utils.GetSubtitleStreams(mPlaybackController.getCurrentMediaSource()).size() > 0;
@@ -1509,6 +1540,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             mCurrentProgress.setMax(mCurrentDuration);
             //set other information
             mTitle.setText(current.getName());
+            mInfoSummary.setText(current.getOverview());
             mGuideCurrentTitle.setText("   "+current.getName());
             updatePoster(current, mPoster, true);
             updateLogo(current, mLogoImage);
