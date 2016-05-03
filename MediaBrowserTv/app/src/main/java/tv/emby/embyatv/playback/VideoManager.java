@@ -356,9 +356,7 @@ public class VideoManager implements IVLCVout.Callback {
 
     public void setAudioMode() {
         if (!nativeMode) {
-            SharedPreferences prefs = TvApp.getApplication().getPrefs();
-            String audioOption = Utils.isFireTv() && !Utils.is50() ? "1" : prefs.getString("pref_audio_option","0"); // force compatible audio on Fire 4.2
-            mVlcPlayer.setAudioOutput("0".equals(audioOption) ? "android_audiotrack" : "opensles_android");
+            mVlcPlayer.setAudioOutput(Utils.downMixAudio() ? "opensles_android" : "android_audiotrack");
             mVlcPlayer.setAudioOutputDevice("hdmi");
         }
     }
@@ -419,9 +417,7 @@ public class VideoManager implements IVLCVout.Callback {
             });
 
             mVlcPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
-            SharedPreferences prefs = TvApp.getApplication().getPrefs();
-            String audioOption = Utils.isFireTv() && !Utils.is50() ? "1" : prefs.getString("pref_audio_option","0"); // force compatible audio on Fire 4.2
-            mVlcPlayer.setAudioOutput("0".equals(audioOption) ? "android_audiotrack" : "opensles_android");
+            mVlcPlayer.setAudioOutput(Utils.downMixAudio() ? "opensles_android" : "android_audiotrack");
             mVlcPlayer.setAudioOutputDevice("hdmi");
 
 
