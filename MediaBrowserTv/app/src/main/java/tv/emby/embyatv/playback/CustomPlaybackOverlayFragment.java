@@ -527,7 +527,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private View.OnKeyListener keyListener = new View.OnKeyListener() {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
-            boolean ret = false;
             if (mPopupPanelVisible && (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE)) {
                 //back should just hide the popup panel
                 hidePopupPanel();
@@ -592,16 +591,21 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     return true;
                 }
 
+                if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && !mIsVisible && !mPlaybackController.isLiveTv()) {
+                    mPlaybackController.pause();
+                }
+
                 //if we're not visible, show us
                 if (!mIsVisible) show();
 
                 //and then manage our fade timer
                 if (mFadeEnabled) startFadeTimer();
 
+                return true;
             }
 
 
-            return ret;
+            return false;
         }
     };
 
