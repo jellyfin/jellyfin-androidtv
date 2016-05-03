@@ -1657,4 +1657,14 @@ public class Utils {
 
     }
 
+    public static boolean downMixAudio() {
+        AudioManager am = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
+        if (am.isBluetoothA2dpOn()) {
+            TvApp.getApplication().getLogger().Info("Downmixing audio due to wired headset");
+            return true;
+        }
+
+        return (isFireTv() && !is50()) || "1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"));
+    }
+
 }

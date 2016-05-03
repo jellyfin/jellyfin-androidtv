@@ -240,7 +240,7 @@ public class PlaybackController {
                 mCurrentOptions.setItemId(item.getId());
                 mCurrentOptions.setMediaSources(item.getMediaSources());
                 mCurrentOptions.setMaxBitrate(getMaxBitrate());
-                if ("1".equals(mApplication.getPrefs().getString("pref_audio_option", "0"))) mCurrentOptions.setMaxAudioChannels(2);
+                if (Utils.downMixAudio()) mCurrentOptions.setMaxAudioChannels(2);
                 if (!mVideoManager.isNativeMode()) {
                     mCurrentOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
                     mCurrentOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
@@ -253,7 +253,7 @@ public class PlaybackController {
                 isLiveTv = item.getType().equals("TvChannel");
 
                 // Create our profile - use VLC unless live tv or on FTV stick and over SD
-                useVlc = (transcodedSubtitle >= 0 || (!Utils.is60() || isLiveTv || (item.getPath() != null && item.getPath().toLowerCase().endsWith(".ts"))) && (!isLiveTv || mApplication.directStreamLiveTv()) && (!"ChannelVideoItem".equals(item.getType())) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_vlc", true) && (item.getPath() == null || !item.getPath().toLowerCase().endsWith(".avi")));
+                useVlc = (transcodedSubtitle >= 0 || Utils.downMixAudio() || (!Utils.is60() || isLiveTv || (item.getPath() != null && item.getPath().toLowerCase().endsWith(".ts"))) && (!isLiveTv || mApplication.directStreamLiveTv()) && (!"ChannelVideoItem".equals(item.getType())) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_vlc", true) && (item.getPath() == null || !item.getPath().toLowerCase().endsWith(".avi")));
                 if (useVlc && item.getMediaSources() != null && item.getMediaSources().size() > 0) {
                     List<MediaStream> videoStreams = Utils.GetVideoStreams(item.getMediaSources().get(0));
                     MediaStream video = videoStreams != null && videoStreams.size() > 0 ? videoStreams.get(0) : null;
@@ -359,7 +359,7 @@ public class PlaybackController {
                             startItem(item, position, apiClient, response);
                         }
                     });
-                } else if (useVlc && !Utils.is60() && mDefaultSubIndex < 0 && !isLiveTv && !"1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0")) && TvApp.getApplication().getPrefs().getBoolean("pref_bitstream_ac3", true)) {
+                } else if (useVlc && !Utils.is60() && mDefaultSubIndex < 0 && !isLiveTv && !Utils.downMixAudio() && TvApp.getApplication().getPrefs().getBoolean("pref_bitstream_ac3", true)) {
                     MediaStream audio = response.getMediaSource().getDefaultAudioStream();
                     if (audio != null && ("ac3".equals(audio.getCodec()) || "eac3".equals(audio.getCodec()))) {
                         // Use Exo to get DD bitstreaming
@@ -420,7 +420,7 @@ public class PlaybackController {
         } else {
             mVideoManager.setNativeMode(true);
             TvApp.getApplication().getLogger().Info("Playing back in native mode.");
-            if ("1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"))) {
+            if (Utils.downMixAudio()) {
                 TvApp.getApplication().getLogger().Info("Setting max audio to 2-channels");
                 mCurrentStreamInfo.setMaxAudioChannels(2);
             }

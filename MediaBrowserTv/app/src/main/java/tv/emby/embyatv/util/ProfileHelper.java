@@ -105,7 +105,7 @@ public class ProfileHelper {
             DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
             videoDirectPlayProfile.setContainer((isLiveTv ? "ts,mpegts," : "") + "m4v,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,mp4,webm");
             videoDirectPlayProfile.setVideoCodec(Utils.isShield() ? "h264,hevc,vp8,vp9,mpeg4,mpeg2video" : "h264,vp8,vp9,mpeg4,mpeg2video");
-            if ("1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"))) {
+            if (Utils.downMixAudio()) {
                 //compatible audio mode - will need to transcode dts and ac3
                 TvApp.getApplication().getLogger().Info("*** Excluding DTS and AC3 audio from direct play due to compatible audio setting");
                 videoDirectPlayProfile.setAudioCodec("aac,mp3,mp2");
@@ -160,7 +160,7 @@ public class ProfileHelper {
 
     public static void addAc3Streaming(DeviceProfile profile, boolean primary) {
         TranscodingProfile mkvProfile = getTranscodingProfile(profile, "mkv");
-        if (mkvProfile != null && !("1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option", "0"))))
+        if (mkvProfile != null && !Utils.downMixAudio())
         {
             TvApp.getApplication().getLogger().Info("*** Adding AC3 as supported transcoded audio");
             mkvProfile.setAudioCodec(primary ? "ac3,".concat(mkvProfile.getAudioCodec()) : mkvProfile.getAudioCodec().concat(",ac3"));
