@@ -178,7 +178,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if ("Episode".equals(mBaseItem.getType()) && mApplication.getLastPlayedItem() != null && !mBaseItem.getId().equals(mApplication.getLastPlayedItem().getId()) && "Episode".equals(mApplication.getLastPlayedItem().getType())) {
+                    if ("Episode".equals(mBaseItem.getType()) && mApplication.getLastPlayback().after(mLastUpdated) && mApplication.getLastPlayedItem() != null && !mBaseItem.getId().equals(mApplication.getLastPlayedItem().getId()) && "Episode".equals(mApplication.getLastPlayedItem().getType())) {
                         mApplication.getLogger().Info("Re-loading after new episode playback");
                         loadItem(mApplication.getLastPlayedItem().getId());
                     } else {
@@ -785,7 +785,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         UserItemDataDto userData = mBaseItem.getUserData();
         if (userData != null) {
-            if (!"MusicArtist".equals(mBaseItem.getType()) && !"Person".equals(mBaseItem.getType()) && Utils.CanPlay(mBaseItem)) {
+            if (!"MusicArtist".equals(mBaseItem.getType()) && !"Person".equals(mBaseItem.getType())) {
                 mWatchedToggleButton = new ImageButton(this, userData.getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck, buttonSize, getString(R.string.lbl_toggle_watched), null, markWatchedListener);
                 mDetailsOverviewRow.addAction(mWatchedToggleButton);
             }
