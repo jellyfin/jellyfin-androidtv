@@ -165,7 +165,7 @@ public class PlaybackController {
 
         }
 
-        mApplication.getLogger().Debug("Play called with pos: " + position);
+        mApplication.getLogger().Debug("Play called with pos: " + position + " and sub index: "+transcodedSubtitle);
         switch (mPlaybackState) {
             case PLAYING:
                 // do nothing
@@ -241,14 +241,19 @@ public class PlaybackController {
                 mCurrentOptions.setMediaSources(item.getMediaSources());
                 mCurrentOptions.setMaxBitrate(getMaxBitrate());
                 if ("1".equals(mApplication.getPrefs().getString("pref_audio_option", "0"))) mCurrentOptions.setMaxAudioChannels(2);
-                mCurrentOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
-                mCurrentOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
+                if (!mVideoManager.isNativeMode()) {
+                    mCurrentOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
+                    mCurrentOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
+                } else {
+                    TvApp.getApplication().getLogger().Info("Transcoded subtitle requested.  Will switch to VLC to embed");
+                }
+                mDefaultSubIndex = transcodedSubtitle;
 
                 TvApp.getApplication().getLogger().Debug("Max bitrate is: " + getMaxBitrate());
                 isLiveTv = item.getType().equals("TvChannel");
 
                 // Create our profile - use VLC unless live tv or on FTV stick and over SD
-                useVlc = ((!Utils.is60() || isLiveTv || (item.getPath() != null && item.getPath().toLowerCase().endsWith(".ts"))) && (!isLiveTv || mApplication.directStreamLiveTv()) && (!"ChannelVideoItem".equals(item.getType())) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_vlc", true) && (item.getPath() == null || !item.getPath().toLowerCase().endsWith(".avi")));
+                useVlc = (transcodedSubtitle >= 0 || (!Utils.is60() || isLiveTv || (item.getPath() != null && item.getPath().toLowerCase().endsWith(".ts"))) && (!isLiveTv || mApplication.directStreamLiveTv()) && (!"ChannelVideoItem".equals(item.getType())) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_vlc", true) && (item.getPath() == null || !item.getPath().toLowerCase().endsWith(".avi")));
                 if (useVlc && item.getMediaSources() != null && item.getMediaSources().size() > 0) {
                     List<MediaStream> videoStreams = Utils.GetVideoStreams(item.getMediaSources().get(0));
                     MediaStream video = videoStreams != null && videoStreams.size() > 0 ? videoStreams.get(0) : null;
@@ -485,7 +490,7 @@ public class PlaybackController {
         mStartPosition = position;
 
         mDefaultAudioIndex = getDefaultAudioIndex(response);
-        mDefaultSubIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : -1;
+        mDefaultSubIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : mDefaultSubIndex;
 
         mApplication.setLastPlayedItem(item);
         if (!isRestart) Utils.ReportStart(item, mbPos);
@@ -581,7 +586,9 @@ public class PlaybackController {
                 case Encode:
                     // Gonna need to burn in so start a transcode with the sub index
                     stop();
-                    Utils.showToast(mApplication, mApplication.getResources().getString(R.string.msg_burn_sub_warning));
+                    if (!mVideoManager.isNativeMode()) {
+                        Utils.showToast(mApplication, mApplication.getResources().getString(R.string.msg_burn_sub_warning));
+                    }
                     play(mCurrentPosition, index);
                     break;
                 case Embed:
