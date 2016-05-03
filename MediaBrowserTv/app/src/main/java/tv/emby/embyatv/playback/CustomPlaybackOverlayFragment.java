@@ -601,7 +601,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 //and then manage our fade timer
                 if (mFadeEnabled) startFadeTimer();
 
-                return true;
             }
 
 
