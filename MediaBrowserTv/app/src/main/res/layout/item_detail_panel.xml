@@ -32,9 +32,9 @@
         android:layout_below="@+id/infoRow"
         android:layout_alignStart="@+id/infoRow"
         android:ellipsize="end"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:layout_marginTop="4sp"
-        android:maxLines="3"
+        android:maxLines="4"
         android:layout_marginRight="15sp"
         android:layout_marginBottom="5sp"
         android:layout_alignRight="@+id/title" />
