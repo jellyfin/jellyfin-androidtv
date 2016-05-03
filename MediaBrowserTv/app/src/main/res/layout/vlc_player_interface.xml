@@ -198,6 +198,13 @@
 
     </RelativeLayout>
 
+    <include layout="@layout/small_upnext_panel"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_gravity="bottom"
+        android:id="@+id/smNextUpPanel"
+        />
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="206dp"

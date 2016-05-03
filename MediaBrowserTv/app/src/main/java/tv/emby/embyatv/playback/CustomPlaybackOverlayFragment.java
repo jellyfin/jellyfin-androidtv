@@ -117,6 +117,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     CustomPlaybackOverlayFragment mFragment;
 
     View mNextUpPanel;
+    View mSmNextUpPanel;
+    Button mSmNextButton;
+    Button mSmCancelButton;
+    TextView mSmNextUpTitle;
+    TextView mSmStartsIn;
     Button mNextButton;
     Button mCancelButton;
     TextView mNextUpTitle;
@@ -167,6 +172,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     Animation hidePopup;
     Animation showNextUp;
     Animation hideNextUp;
+    Animation showSmNextUp;
+    Animation hideSmNextUp;
     Handler mHandler = new Handler();
     Runnable mHideTask;
 
@@ -180,6 +187,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     boolean mIsVisible = true;
     boolean mPopupPanelVisible = false;
     boolean mNextUpPanelVisible = false;
+    boolean mSmNextUpPanelVisible = false;
 
     int mCurrentDuration;
 
@@ -281,6 +289,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mTopPanel = mActivity.findViewById(R.id.topPanel);
         mBottomPanel = mActivity.findViewById(R.id.bottomPanel);
         mNextUpPanel = mActivity.findViewById(R.id.nextUpPanel);
+
+        mSmNextUpPanel = mActivity.findViewById(R.id.smNextUpPanel);
+
         mPlayPauseBtn = (ImageButton) mActivity.findViewById(R.id.playPauseBtn);
         mPlayPauseBtn.setSecondaryImage(R.drawable.lb_ic_pause);
         mPlayPauseBtn.setPrimaryImage(R.drawable.play);
@@ -295,10 +306,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mButtonRow = (LinearLayout) mActivity.findViewById(R.id.buttonRow);
         mTitle = (TextView) mActivity.findViewById(R.id.title);
         mNextUpTitle = (TextView) mActivity.findViewById(R.id.nextUpTitle);
+        mSmNextUpTitle = (TextView) mActivity.findViewById(R.id.sm_upnext_title);
         mNextUpSummary = (TextView) mActivity.findViewById(R.id.nextUpSummary);
         Typeface font = Typeface.createFromAsset(mActivity.getAssets(), "fonts/Roboto-Light.ttf");
         mTitle.setTypeface(font);
         mNextUpTitle.setTypeface(font);
+        mSmNextUpTitle.setTypeface(font);
         mNextUpSummary.setTypeface(font);
         mEndTime = (TextView) mActivity.findViewById(R.id.endTime);
         mCurrentPos = (TextView) mActivity.findViewById(R.id.currentPos);
@@ -315,6 +328,21 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         });
         mCancelButton = (Button) mActivity.findViewById(R.id.cancelButton);
         mCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        mSmStartsIn = (TextView) mActivity.findViewById(R.id.sm_upnext_startsin);
+        mSmNextButton = (Button) mActivity.findViewById(R.id.btn_sm_upnext_next);
+        mSmNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPlaybackController.next();
+            }
+        });
+        mSmCancelButton = (Button) mActivity.findViewById(R.id.btn_sm_upnext_cancel);
+        mSmCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -485,6 +513,42 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }
         });
 
+        showSmNextUp = AnimationUtils.loadAnimation(mActivity, R.anim.abc_slide_in_bottom);
+        showSmNextUp.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                mSmNextUpPanel.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mSmNextButton.requestFocus();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        hideSmNextUp = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_out);
+        hideSmNextUp.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mSmNextUpPanel.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
 
     }
 
@@ -556,8 +620,17 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
             if (mNextUpPanelVisible) {
                 if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE) {
-                    //back should just hide the popup panel
+                    //back should just hide the popup panel and show smaller one
                     hideNextUpPanel();
+                    showSmNextUpPanel();
+                    return true;
+                }
+                return false;
+            }
+            if (mSmNextUpPanelVisible) {
+                if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE || keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                    //back should just hide the popup panel
+                    hideSmNextUpPanel();
                     return true;
                 }
                 return false;
@@ -700,13 +773,26 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         if (mIsVisible) hide();
         if (mPopupPanelVisible) hidePopupPanel();
 
-        mNextUpPanel.startAnimation(showNextUp);
         mNextUpPanelVisible = true;
+        mNextUpPanel.startAnimation(showNextUp);
     }
 
     private void hideNextUpPanel(){
         mNextUpPanel.startAnimation(hideNextUp);
         mNextUpPanelVisible = false;
+    }
+
+    private void showSmNextUpPanel() {
+        if (mIsVisible) hide();
+        if (mPopupPanelVisible) hidePopupPanel();
+
+        mSmNextUpPanelVisible = true;
+        mSmNextUpPanel.startAnimation(showSmNextUp);
+    }
+
+    private void hideSmNextUpPanel(){
+        mSmNextUpPanel.startAnimation(hideSmNextUp);
+        mSmNextUpPanelVisible = false;
     }
 
     private void showGuide() {
@@ -1377,6 +1463,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     public void setCurrentTime(long time) {
         if (mNextUpPanelVisible) {
             mStartsIn.setText(mCurrentDuration > 0 ? "Starts in " + Utils.formatMillis(mCurrentDuration - time) : "");
+        } else if (mSmNextUpPanelVisible) {
+            mSmStartsIn.setText(mCurrentDuration > 0 ? "Starts in " + Utils.formatMillis(mCurrentDuration - time) : "");
         } else {
             mCurrentProgress.setProgress(((Long)time).intValue());
             mCurrentPos.setText(Utils.formatMillis(time));
@@ -1415,6 +1503,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         BaseItemDto current = mPlaybackController.getCurrentlyPlayingItem();
         if (current != null & mActivity != null && !mActivity.isFinishing()) {
             if (mNextUpPanelVisible) hideNextUpPanel();
+            if (mSmNextUpPanelVisible) hideSmNextUpPanel();
             updateCurrentDuration(current);
             //set progress to match duration
             mCurrentProgress.setMax(mCurrentDuration);
@@ -1449,10 +1538,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     public void nextItemThresholdHit(BaseItemDto nextItem) {
         mApplication.getLogger().Debug("Next Item is " + nextItem.getName());
         //we need to retrieve full item for all info
-        mApplication.getApiClient().GetItemAsync(mPlaybackController.getNextItem().getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+        mApplication.getApiClient().GetItemAsync(nextItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
             @Override
             public void onResponse(BaseItemDto response) {
                 mNextUpTitle.setText("Up Next...  " + response.getName());
+                mSmNextUpTitle.setText("Up Next...  " + response.getName());
                 mNextUpSummary.setText(response.getOverview());
                 InfoLayoutHelper.addInfoRow(mActivity, response, mNextUpInfoRow, true, true);
                 updatePoster(response, mNextUpPoster, true);
