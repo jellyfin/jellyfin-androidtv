@@ -328,11 +328,9 @@
     <string name="desc_automatic_fav_songs">Automatic playlist of favorite and liked songs</string>
     <string name="lbl_switch_server">Switch Server</string>
     <string name="lbl_forget">Forget</string>
-    <string name="lbl_trans_dts_ac3">Convert DTS to Dolby Digital</string>
-    <string name="desc_trans_dts_ac3">Enables 5.1 surround on devices that don\'t support DTS</string>
     <string name="lbl_new_premieres">New Premieres</string>
-    <string name="lbl_bitstream_ac3">Bitstream Dolby Digital audio</string>
-    <string name="desc_bitstream_ac3">Requires Dolby Digitial capable hardware</string>
+    <string name="lbl_bitstream_ac3">Bitstream audio</string>
+    <string name="desc_bitstream_ac3">Requires capable hardware</string>
     <string name="lbl_normal">Normal</string>
     <string name="lbl_zoom">Zoom</string>
     <string name="lbl_horizontal_stretch">Horizontal Stretch</string>

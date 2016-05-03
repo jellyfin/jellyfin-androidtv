@@ -106,12 +106,6 @@
             android:summary="@string/desc_bitstream_ac3"
             android:defaultValue="true"
             />
-        <CheckBoxPreference android:key="pref_trans_dts_ac3"
-            android:title="@string/lbl_trans_dts_ac3"
-            android:summary="@string/desc_trans_dts_ac3"
-            android:defaultValue="true"
-            />
-
 
     </PreferenceCategory>
 
