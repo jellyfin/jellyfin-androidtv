@@ -740,6 +740,7 @@ public class PlaybackController {
 
             seek(currentSkipPos);
             currentSkipPos = 0;
+            startReportLoop();
             updateProgress = true; // re-enable true progress updates
         }
     };
