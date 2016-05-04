@@ -316,7 +316,7 @@ public class HomeFragment extends StdBrowseFragment {
     protected void addContinueWatching() {
         //create the row and retrieve it to see if there are any before adding
         ItemRowAdapter resume = new ItemRowAdapter(getResumeQuery(), 0, true, true, mCardPresenter, mRowsAdapter, QueryType.ContinueWatching);
-        resume.setReRetrieveTriggers(new ChangeTriggerType[] {ChangeTriggerType.VideoQueueChange});
+        resume.setReRetrieveTriggers(new ChangeTriggerType[] {ChangeTriggerType.VideoQueueChange, ChangeTriggerType.TvPlayback, ChangeTriggerType.MoviePlayback});
         ListRow row = new ListRow(new HeaderItem(mApplication.getString(R.string.lbl_continue_watching)), resume);
         mRowsAdapter.add(1, row);
         resume.setRow(row);
