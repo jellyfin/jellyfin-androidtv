@@ -181,6 +181,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     if ("Episode".equals(mBaseItem.getType()) && mApplication.getLastPlayback().after(mLastUpdated) && mApplication.getLastPlayedItem() != null && !mBaseItem.getId().equals(mApplication.getLastPlayedItem().getId()) && "Episode".equals(mApplication.getLastPlayedItem().getType())) {
                         mApplication.getLogger().Info("Re-loading after new episode playback");
                         loadItem(mApplication.getLastPlayedItem().getId());
+                        mApplication.setLastPlayedItem(null); //blank this out so a detail screen we back up to doesn't also do this
                     } else {
                         mApplication.getLogger().Debug("Updating info after playback");
                         mApplication.getApiClient().GetItemAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
