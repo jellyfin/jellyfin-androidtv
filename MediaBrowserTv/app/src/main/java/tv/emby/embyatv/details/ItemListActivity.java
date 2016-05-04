@@ -213,22 +213,33 @@ public class ItemListActivity extends BaseActivity {
         // and fire it to be sure we're updated
         mAudioEventListener.onPlaybackStateChange(MediaManager.isPlayingAudio() ? PlaybackController.PlaybackState.PLAYING : PlaybackController.PlaybackState.IDLE, MediaManager.getCurrentAudioItem());
 
-        if (mItemId.equals(VIDEO_QUEUE) && !firstTime && mApplication.getLastPlayback().after(lastUpdated)) {
-            //update this in case it changed - delay to allow for the changes
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mItems = MediaManager.getCurrentVideoQueue();
-                    if (mItems != null && mItems.size() > 0) {
-                        mItemList.clear();
-                        mItemList.addItems(mItems);
-                        lastUpdated = Calendar.getInstance();
-                    } else {
-                        //nothing left in queue
-                        finish();
+        if (!firstTime && mApplication.getLastPlayback().after(lastUpdated)) {
+            if (mItemId.equals(VIDEO_QUEUE)) {
+                //update this in case it changed - delay to allow for the changes
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mItems = MediaManager.getCurrentVideoQueue();
+                        if (mItems != null && mItems.size() > 0) {
+                            mItemList.clear();
+                            mItemList.addItems(mItems);
+                            lastUpdated = Calendar.getInstance();
+                        } else {
+                            //nothing left in queue
+                            finish();
+                        }
                     }
-                }
-            }, 750);
+                }, 750);
+            } else if ("Video".equals(mBaseItem.getMediaType())) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mItemList.refresh();
+                        lastUpdated = Calendar.getInstance();
+
+                    }
+                }, 500);
+            }
         }
 
         firstTime = false;
@@ -362,8 +373,8 @@ public class ItemListActivity extends BaseActivity {
                     PlaylistItemQuery playlistSongs = new PlaylistItemQuery();
                     playlistSongs.setId(mBaseItem.getId());
                     playlistSongs.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                    playlistSongs.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
-                    playlistSongs.setLimit(200);
+                    playlistSongs.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Genres, ItemFields.Chapters});
+                    playlistSongs.setLimit(150);
                     TvApp.getApplication().getApiClient().GetPlaylistItems(playlistSongs, itemResponse);
                     break;
             }
