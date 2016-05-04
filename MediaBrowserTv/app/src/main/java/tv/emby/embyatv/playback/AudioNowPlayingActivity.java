@@ -431,18 +431,24 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         }
     }
 
-    private void updateButtons(boolean playing) {
-        mPoster.setKeepScreenOn(playing);
-        mPlayPauseButton.setState(!playing ? ImageButton.STATE_PRIMARY : ImageButton.STATE_SECONDARY);
-        mRepeatButton.setState(MediaManager.isRepeatMode() ? ImageButton.STATE_SECONDARY : ImageButton.STATE_PRIMARY);
-        mSaveButton.setEnabled(MediaManager.getCurrentAudioQueueSize() > 1);
-        mPrevButton.setEnabled(MediaManager.hasPrevAudioItem());
-        mNextButton.setEnabled(MediaManager.hasNextAudioItem());
-        mShuffleButton.setEnabled(MediaManager.getCurrentAudioQueueSize() > 1);
-        if (mBaseItem != null) {
-            mAlbumButton.setEnabled(mBaseItem.getAlbumId() != null);
-            mArtistButton.setEnabled(mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0);
-        }
+    private void updateButtons(final boolean playing) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mPoster.setKeepScreenOn(playing);
+                mPlayPauseButton.setState(!playing ? ImageButton.STATE_PRIMARY : ImageButton.STATE_SECONDARY);
+                mRepeatButton.setState(MediaManager.isRepeatMode() ? ImageButton.STATE_SECONDARY : ImageButton.STATE_PRIMARY);
+                mSaveButton.setEnabled(MediaManager.getCurrentAudioQueueSize() > 1);
+                mPrevButton.setEnabled(MediaManager.hasPrevAudioItem());
+                mNextButton.setEnabled(MediaManager.hasNextAudioItem());
+                mShuffleButton.setEnabled(MediaManager.getCurrentAudioQueueSize() > 1);
+                if (mBaseItem != null) {
+                    mAlbumButton.setEnabled(mBaseItem.getAlbumId() != null);
+                    mArtistButton.setEnabled(mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0);
+                }
+
+            }
+        });
     }
 
     private String getArtistName(BaseItemDto item) {

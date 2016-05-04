@@ -1,14 +1,18 @@
 package tv.emby.embyatv.eventhandling;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.ApiEventListener;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.querying.ItemFields;
+import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.session.BrowseRequest;
 import mediabrowser.model.session.GeneralCommand;
 import mediabrowser.model.session.PlayRequest;
@@ -18,6 +22,9 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
+import tv.emby.embyatv.playback.MediaManager;
+import tv.emby.embyatv.playback.PlaybackOverlayActivity;
+import tv.emby.embyatv.querying.StdItemQuery;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -125,6 +132,31 @@ public class TvApiEventListener extends ApiEventListener {
 
         if (command.getItemIds().length > 1) {
             TvApp.getApplication().getLogger().Info("Playing multiple items by remote request");
+            if (TvApp.getApplication().getCurrentActivity() == null) {
+                TvApp.getApplication().getLogger().Error("No current activity.  Cannot play");
+                return;
+            }
+            StdItemQuery query = new StdItemQuery(new ItemFields[] {ItemFields.MediaSources});
+            query.setIds(command.getItemIds());
+            TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+                @Override
+                public void onResponse(ItemsResult response) {
+                    if (response.getItems() != null && response.getItems().length > 0) {
+                        //peek at first item to see what type it is
+                        switch (response.getItems()[0].getMediaType()) {
+                            case "Video":
+                                MediaManager.setCurrentVideoQueue(Arrays.asList(response.getItems()));
+                                Intent intent = new Intent(TvApp.getApplication().getCurrentActivity(), PlaybackOverlayActivity.class);
+                                TvApp.getApplication().getCurrentActivity().startActivity(intent);
+                                break;
+                            case "Audio":
+                                MediaManager.playNow(Arrays.asList(response.getItems()));
+                                break;
+
+                        }
+                    }
+                }
+            });
 
         } else {
             if (command.getItemIds().length > 0) {

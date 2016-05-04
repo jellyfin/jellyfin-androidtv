@@ -35,6 +35,7 @@ import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.registration.RegistrationInfo;
 import mediabrowser.model.system.SystemInfo;
 import tv.emby.embyatv.base.BaseActivity;
+import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackController;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.search.SearchActivity;
@@ -483,43 +484,57 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
         TvApp.getApplication().getSystemPrefs().edit().putBoolean("sys_pref_connect_login", value).commit();
     }
 
+    public boolean isPlayingVideo() {
+        return playbackController != null && currentActivity != null && currentActivity instanceof PlaybackOverlayActivity;
+    }
+
     public void stopPlayback() {
-        if (playbackController != null && currentActivity != null && currentActivity instanceof PlaybackOverlayActivity) {
+        if (isPlayingVideo()) {
             currentActivity.finish();
+        } else if (MediaManager.isPlayingAudio()) {
+            MediaManager.stopAudio();
         }
     }
 
     public void pausePlayback() {
-        if (playbackController != null) {
+        if (MediaManager.isPlayingAudio()) {
+            MediaManager.pauseAudio();
+        } else if (isPlayingVideo()) {
             playbackController.playPause();
         }
     }
     public void unPausePlayback() {
-        if (playbackController != null) {
+        if (isPlayingVideo()) {
             playbackController.playPause();
+        } else if (MediaManager.hasAudioQueueItems()) {
+            MediaManager.resumeAudio();
         }
     }
 
     public void playbackNext() {
-        if (playbackController != null) {
+        if (isPlayingVideo()) {
             playbackController.next();
+        } else if (MediaManager.hasAudioQueueItems()) {
+            MediaManager.nextAudioItem();
         }
     }
 
     public void playbackPrev() {
-        if (playbackController != null) {
+        if (isPlayingVideo()) {
             playbackController.prev();
+        } else if (MediaManager.hasAudioQueueItems()) {
+            MediaManager.prevAudioItem();
         }
     }
 
     public void playbackSeek(int pos) {
-        if (playbackController != null) {
+        if (isPlayingVideo()) {
             playbackController.seek(pos);
         }
     }
 
     public void playbackJump() {
-        if (playbackController != null) {
+        if (isPlayingVideo()) {
             playbackController.skip(30000);
         }
     }
