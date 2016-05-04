@@ -129,6 +129,7 @@ public class StartupActivity extends Activity {
         ClientCapabilities capabilities = new ClientCapabilities();
         ArrayList<String> playableTypes = new ArrayList<>();
         playableTypes.add("Video");
+        playableTypes.add("Audio");
         ArrayList<String> supportedCommands = new ArrayList<>();
         supportedCommands.add(GeneralCommandType.DisplayContent.toString());
         supportedCommands.add(GeneralCommandType.Mute.toString());
