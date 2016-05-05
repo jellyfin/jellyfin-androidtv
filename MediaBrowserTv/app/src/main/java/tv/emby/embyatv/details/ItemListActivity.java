@@ -10,10 +10,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -44,7 +47,6 @@ import tv.emby.embyatv.base.IKeyListener;
 import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
-import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.GotFocusEvent;
 import tv.emby.embyatv.playback.AudioEventListener;
 import tv.emby.embyatv.playback.MediaManager;
@@ -79,6 +81,7 @@ public class ItemListActivity extends BaseActivity {
     private ImageView mStudioImage;
     private ItemListView mItemList;
     private ScrollView mScrollView;
+    private ItemRowView mCurrentRow;
 
     private ItemRowView mCurrentlyPlayingRow;
 
@@ -135,6 +138,7 @@ public class ItemListActivity extends BaseActivity {
         mItemList.setRowSelectedListener(new ItemRowView.RowSelectedListener() {
             @Override
             public void onRowSelected(ItemRowView row) {
+                mCurrentRow = row;
                 //Keep selected row in center of screen
                 int[] location = new int[] {0,0};
                 row.getLocationOnScreen(location);
@@ -150,11 +154,7 @@ public class ItemListActivity extends BaseActivity {
         mItemList.setRowClickedListener(new ItemRowView.RowClickedListener() {
             @Override
             public void onRowClicked(ItemRowView row) {
-                if ("Audio".equals(row.getItem().getType())) {
-                    KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, new BaseRowItem(0, row.getItem()), mActivity);
-                } else {
-                    ItemLauncher.launch(new BaseRowItem(0, row.getItem()), null, 0, mActivity);
-                }
+                showMenu(row, !"Audio".equals(row.getItem().getType()));
             }
         });
 
@@ -174,7 +174,7 @@ public class ItemListActivity extends BaseActivity {
         registerKeyListener(new IKeyListener() {
             @Override
             public boolean onKeyUp(int key, KeyEvent event) {
-                if (MediaManager.hasAudioQueueItems()) {
+                if (MediaManager.isPlayingAudio()) {
                     switch (key) {
                         case KeyEvent.KEYCODE_MEDIA_PAUSE:
                         case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
@@ -188,7 +188,18 @@ public class ItemListActivity extends BaseActivity {
                         case KeyEvent.KEYCODE_MEDIA_REWIND:
                             MediaManager.prevAudioItem();
                             return true;
+                        case KeyEvent.KEYCODE_MENU:
+                            showMenu(mCurrentRow, false);
+                            return true;
                         }
+                } else if (mCurrentRow != null){
+                    switch (key) {
+                        case KeyEvent.KEYCODE_MEDIA_PLAY:
+                        case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                        case KeyEvent.KEYCODE_MENU:
+                            showMenu(mCurrentRow, false);
+                            return true;
+                    }
                 }
                 return false;
             }
@@ -222,6 +233,7 @@ public class ItemListActivity extends BaseActivity {
                         mItems = MediaManager.getCurrentVideoQueue();
                         if (mItems != null && mItems.size() > 0) {
                             mItemList.clear();
+                            mCurrentRow = null;
                             mItemList.addItems(mItems);
                             lastUpdated = Calendar.getInstance();
                         } else {
@@ -287,6 +299,67 @@ public class ItemListActivity extends BaseActivity {
             mScrollView.smoothScrollTo(0, 0);
         }
     };
+
+    private void showMenu(final ItemRowView row, boolean showOpen) {
+        PopupMenu menu = Utils.createPopupMenu(this, this.getCurrentFocus(), Gravity.RIGHT);
+        int order = 0;
+        if (showOpen) {
+            MenuItem open = menu.getMenu().add(0, 0, order++, R.string.lbl_open);
+            open.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    ItemLauncher.launch(new BaseRowItem(0, row.getItem()), null, 0, mActivity);
+                    return true;
+                }
+            });
+
+        }
+        MenuItem playFromHere = menu.getMenu().add(0, 0, order++, R.string.lbl_play_from_here);
+        playFromHere.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                play(mItems.subList(row.getIndex(), mItems.size()));
+                return true;
+            }
+        });
+        MenuItem play = menu.getMenu().add(0, 1, order++, R.string.lbl_play);
+        play.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                play(mItems.subList(row.getIndex(), row.getIndex()+1));
+                return true;
+            }
+        });
+        MenuItem queue = menu.getMenu().add(0, 2, order++, R.string.lbl_add_to_queue);
+        queue.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (row.getItem().getMediaType()) {
+                    case "Video":
+                        MediaManager.addToVideoQueue(row.getItem());
+                        break;
+                    case "Audio":
+                        MediaManager.queueAudioItem(row.getItem());
+                        break;
+                }
+                return true;
+            }
+        });
+        if ("Audio".equals(row.getItem().getType())) {
+            MenuItem mix = menu.getMenu().add(0, 1, order++, R.string.lbl_instant_mix);
+            mix.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    Utils.playInstantMix(row.getItem().getId());
+                    return true;
+                }
+            });
+
+        }
+
+        menu.show();
+
+    }
 
     private void loadItem(String id) {
         //Special case handling
