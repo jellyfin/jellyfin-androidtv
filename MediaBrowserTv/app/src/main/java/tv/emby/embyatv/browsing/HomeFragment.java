@@ -240,6 +240,7 @@ public class HomeFragment extends StdBrowseFragment {
         StdItemQuery resumeItems = new StdItemQuery();
         resumeItems.setIncludeItemTypes(new String[]{"Movie", "Episode", "Video", "Program"});
         resumeItems.setRecursive(true);
+        resumeItems.setImageTypeLimit(1);
         resumeItems.setLimit(50);
         resumeItems.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
         resumeItems.setSortBy(new String[]{ItemSortBy.DatePlayed});
@@ -251,6 +252,7 @@ public class HomeFragment extends StdBrowseFragment {
         StdItemQuery latestMovies = new StdItemQuery();
         latestMovies.setIncludeItemTypes(new String[]{"Movie"});
         latestMovies.setRecursive(true);
+        latestMovies.setImageTypeLimit(1);
         latestMovies.setLimit(50);
         latestMovies.setCollapseBoxSetItems(false);
         if (TvApp.getApplication().getCurrentUser().getConfiguration().getHidePlayedInLatest()) latestMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
@@ -263,6 +265,7 @@ public class HomeFragment extends StdBrowseFragment {
     protected void addNextUp() {
         NextUpQuery nextUpQuery = new NextUpQuery();
         nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        nextUpQuery.setImageTypeLimit(1);
         nextUpQuery.setLimit(50);
         nextUpQuery.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
         mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_next_up_tv), nextUpQuery, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}));
@@ -276,6 +279,7 @@ public class HomeFragment extends StdBrowseFragment {
         newQuery.setRecursive(true);
         newQuery.setIsVirtualUnaired(false);
         newQuery.setIsMissing(false);
+        newQuery.setImageTypeLimit(1);
         newQuery.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
         newQuery.setSortBy(new String[]{ItemSortBy.DateCreated});
         newQuery.setSortOrder(SortOrder.Descending);
@@ -290,6 +294,7 @@ public class HomeFragment extends StdBrowseFragment {
             onNow.setIsAiring(true);
             onNow.setFields(new ItemFields[] {ItemFields.Overview, ItemFields.PrimaryImageAspectRatio, ItemFields.ChannelInfo});
             onNow.setUserId(TvApp.getApplication().getCurrentUser().getId());
+            onNow.setImageTypeLimit(1);
             onNow.setLimit(20);
             mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_on_now), onNow));
             //Latest Recordings
