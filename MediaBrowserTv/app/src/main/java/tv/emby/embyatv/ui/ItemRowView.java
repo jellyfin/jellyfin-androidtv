@@ -148,6 +148,8 @@ public class ItemRowView extends FrameLayout {
 
     public BaseItemDto getItem() { return mBaseItem; }
 
+    public int getIndex() {return ourIndex-1;}
+
     public boolean setPlaying(boolean playing) {
         if (playing) {
             mIndexNo.setBackgroundResource(R.drawable.eq_animation);
