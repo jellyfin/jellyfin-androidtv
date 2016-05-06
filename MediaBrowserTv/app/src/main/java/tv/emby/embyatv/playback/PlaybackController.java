@@ -253,7 +253,7 @@ public class PlaybackController {
                 isLiveTv = item.getType().equals("TvChannel");
 
                 // Create our profile - use VLC unless live tv or on FTV stick and over SD
-                useVlc = (transcodedSubtitle >= 0 || Utils.downMixAudio() || (!Utils.is60() || isLiveTv || (item.getPath() != null && item.getPath().toLowerCase().endsWith(".ts"))) && (!isLiveTv || mApplication.directStreamLiveTv()) && (!"ChannelVideoItem".equals(item.getType())) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_vlc", true) && (item.getPath() == null || !item.getPath().toLowerCase().endsWith(".avi")));
+                useVlc = (transcodedSubtitle >= 0 || Utils.downMixAudio() || (!Utils.is60() || (isLiveTv && mApplication.directStreamLiveTv()) || (item.getPath() != null && item.getPath().toLowerCase().endsWith(".ts"))) && (!"ChannelVideoItem".equals(item.getType())) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_vlc", true) && (item.getPath() == null || !item.getPath().toLowerCase().endsWith(".avi")));
                 if (useVlc && item.getMediaSources() != null && item.getMediaSources().size() > 0) {
                     List<MediaStream> videoStreams = Utils.GetVideoStreams(item.getMediaSources().get(0));
                     MediaStream video = videoStreams != null && videoStreams.size() > 0 ? videoStreams.get(0) : null;
