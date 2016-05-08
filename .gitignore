@@ -8,3 +8,4 @@ MediaBrowserTv/app/manifest-merger-release-report.txt
 MediaBrowserTv/app/app-release.apk
 AdbConnect - Fire.bat
 AdbConnect Shield.bat
+*.xml
