@@ -679,4 +679,9 @@ public class VideoManager implements IVLCVout.Callback {
 
     }
 
+    @Override
+    public void onHardwareAccelerationError(IVLCVout ivlcVout) {
+        TvApp.getApplication().getLogger().Error("VLC Hardware acceleration error");
+    }
+
 }
