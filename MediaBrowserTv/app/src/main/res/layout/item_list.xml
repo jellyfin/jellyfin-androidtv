@@ -11,12 +11,5 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/lbl_songs"
-            android:id="@+id/hdrTitle"
-            android:layout_marginLeft="15dp"
-            android:textSize="20sp" />
     </RelativeLayout>
 </LinearLayout>

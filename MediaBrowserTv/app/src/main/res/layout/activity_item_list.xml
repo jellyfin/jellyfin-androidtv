@@ -51,9 +51,10 @@
             <tv.emby.embyatv.ui.DetailRowView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:id="@+id/details" />
+                android:id="@+id/details"
+                android:layout_marginBottom="30sp" />
 
-            <tv.emby.embyatv.ui.SongListView
+            <tv.emby.embyatv.ui.ItemListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/songs"

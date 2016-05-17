@@ -66,10 +66,6 @@ public class StartupActivity extends Activity {
             application.getPrefs().edit().putString("pref_max_bitrate", "0").commit();
             application.getSystemPrefs().edit().putString("sys_pref_config_version", "3").commit();
         }
-        if (Integer.parseInt(application.getConfigVersion()) < 5) {
-            application.getPrefs().edit().putString("pref_net_buffer", "0.6").commit();
-            application.getSystemPrefs().edit().putString("sys_pref_config_version", "5").commit();
-        }
 
         //Ensure we have prefs
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
@@ -94,6 +90,7 @@ public class StartupActivity extends Activity {
         } else {
             //clear audio queue in case left over from last run
             MediaManager.clearAudioQueue();
+            MediaManager.clearVideoQueue();
             establishConnection(this);
         }
 
@@ -132,6 +129,7 @@ public class StartupActivity extends Activity {
         ClientCapabilities capabilities = new ClientCapabilities();
         ArrayList<String> playableTypes = new ArrayList<>();
         playableTypes.add("Video");
+        playableTypes.add("Audio");
         ArrayList<String> supportedCommands = new ArrayList<>();
         supportedCommands.add(GeneralCommandType.DisplayContent.toString());
         supportedCommands.add(GeneralCommandType.Mute.toString());

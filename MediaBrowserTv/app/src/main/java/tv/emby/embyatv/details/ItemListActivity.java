@@ -10,10 +10,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -22,10 +25,10 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
@@ -43,17 +46,17 @@ import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.base.IKeyListener;
 import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
+import tv.emby.embyatv.itemhandling.ItemLauncher;
 import tv.emby.embyatv.model.GotFocusEvent;
 import tv.emby.embyatv.playback.AudioEventListener;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackController;
+import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.querying.StdItemQuery;
 import tv.emby.embyatv.ui.GenreButton;
 import tv.emby.embyatv.ui.ImageButton;
-import tv.emby.embyatv.ui.NowPlayingBug;
-import tv.emby.embyatv.ui.SongListView;
-import tv.emby.embyatv.ui.SongRowView;
-import tv.emby.embyatv.util.DelayedMessage;
+import tv.emby.embyatv.ui.ItemListView;
+import tv.emby.embyatv.ui.ItemRowView;
 import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.KeyProcessor;
 import tv.emby.embyatv.util.Utils;
@@ -61,10 +64,11 @@ import tv.emby.embyatv.util.Utils;
 /**
  * Created by Eric on 11/22/2015.
  */
-public class SongListActivity extends BaseActivity {
+public class ItemListActivity extends BaseActivity {
 
     private int BUTTON_SIZE;
     public static final String FAV_SONGS = "FAV_SONGS";
+    public static final String VIDEO_QUEUE = "VIDEO_QUEUE";
 
     private TextView mTitle;
     private LinearLayout mGenreRow;
@@ -75,16 +79,18 @@ public class SongListActivity extends BaseActivity {
     private TextView mSummary;
     private LinearLayout mButtonRow;
     private ImageView mStudioImage;
-    private SongListView mSongList;
+    private ItemListView mItemList;
     private ScrollView mScrollView;
+    private ItemRowView mCurrentRow;
 
-    private SongRowView mCurrentlyPlayingRow;
+    private ItemRowView mCurrentlyPlayingRow;
 
     private BaseItemDto mBaseItem;
-    private List<BaseItemDto> mSongs = new ArrayList<>();
+    private List<BaseItemDto> mItems = new ArrayList<>();
     private String mItemId;
 
     private int mBottomScrollThreshold;
+    private Runnable mClockLoop;
 
     private TvApp mApplication;
     private BaseActivity mActivity;
@@ -94,12 +100,15 @@ public class SongListActivity extends BaseActivity {
     private Handler mLoopHandler = new Handler();
     private Runnable mBackdropLoop;
 
+    private boolean firstTime = true;
+    private Calendar lastUpdated = Calendar.getInstance();
+
     private Typeface roboto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_song_list);
+        setContentView(R.layout.activity_item_list);
 
         mApplication = TvApp.getApplication();
         mActivity = this;
@@ -118,17 +127,18 @@ public class SongListActivity extends BaseActivity {
         mTimeLine = (TextView) findViewById(R.id.fdSummarySubTitle);
         mSummary = (TextView) findViewById(R.id.fdSummaryText);
         mSummary.setTypeface(roboto);
-        mSongList = (SongListView) findViewById(R.id.songs);
+        mItemList = (ItemListView) findViewById(R.id.songs);
         mScrollView = (ScrollView) findViewById(R.id.scrollView);
 
         mMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
         mBottomScrollThreshold = (int)(mMetrics.heightPixels *.6);
 
-        //Song list listeners
-        mSongList.setRowSelectedListener(new SongRowView.RowSelectedListener() {
+        //Item list listeners
+        mItemList.setRowSelectedListener(new ItemRowView.RowSelectedListener() {
             @Override
-            public void onRowSelected(SongRowView row) {
+            public void onRowSelected(ItemRowView row) {
+                mCurrentRow = row;
                 //Keep selected row in center of screen
                 int[] location = new int[] {0,0};
                 row.getLocationOnScreen(location);
@@ -137,24 +147,21 @@ public class SongListActivity extends BaseActivity {
                     // too close to bottom - scroll down
                     mScrollView.smoothScrollBy(0, y - mBottomScrollThreshold);
                 }
-                //TvApp.getApplication().getLogger().Debug("Row selected: "+row.getSong().getName()+" at "+location[1]+" Screen edge: "+mMetrics.heightPixels);
+                //TvApp.getApplication().getLogger().Debug("Row selected: "+row.getItem().getName()+" at "+location[1]+" Screen edge: "+mMetrics.heightPixels);
             }
         });
 
-        mSongList.setRowClickedListener(new SongRowView.RowClickedListener() {
+        mItemList.setRowClickedListener(new ItemRowView.RowClickedListener() {
             @Override
-            public void onRowClicked(SongRowView row) {
-                KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, new BaseRowItem(0, row.getSong()), mActivity);
+            public void onRowClicked(ItemRowView row) {
+                showMenu(row, !"Audio".equals(row.getItem().getType()));
             }
         });
 
-        //Adjust layout for our display - no timeline or summary title
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mSummary.getLayoutParams();
+        //Adjust layout for our display - no summary title
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mTimeLine.getLayoutParams();
         params.topMargin = 20;
-        mSummary.setHeight(Utils.convertDpToPixel(TvApp.getApplication(), 235));
-        mSummary.setMaxLines(12);
         mSummaryTitle.setVisibility(View.GONE);
-        mTimeLine.setVisibility(View.GONE);
 
         mButtonRow.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -167,7 +174,7 @@ public class SongListActivity extends BaseActivity {
         registerKeyListener(new IKeyListener() {
             @Override
             public boolean onKeyUp(int key, KeyEvent event) {
-                if (MediaManager.hasAudioQueueItems()) {
+                if (MediaManager.isPlayingAudio()) {
                     switch (key) {
                         case KeyEvent.KEYCODE_MEDIA_PAUSE:
                         case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
@@ -181,7 +188,18 @@ public class SongListActivity extends BaseActivity {
                         case KeyEvent.KEYCODE_MEDIA_REWIND:
                             MediaManager.prevAudioItem();
                             return true;
+                        case KeyEvent.KEYCODE_MENU:
+                            showMenu(mCurrentRow, false);
+                            return true;
                         }
+                } else if (mCurrentRow != null){
+                    switch (key) {
+                        case KeyEvent.KEYCODE_MEDIA_PLAY:
+                        case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                        case KeyEvent.KEYCODE_MENU:
+                            showMenu(mCurrentRow, false);
+                            return true;
+                    }
                 }
                 return false;
             }
@@ -201,15 +219,49 @@ public class SongListActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         rotateBackdrops();
+        startClock();
         MediaManager.addAudioEventListener(mAudioEventListener);
         // and fire it to be sure we're updated
         mAudioEventListener.onPlaybackStateChange(MediaManager.isPlayingAudio() ? PlaybackController.PlaybackState.PLAYING : PlaybackController.PlaybackState.IDLE, MediaManager.getCurrentAudioItem());
+
+        if (!firstTime && mApplication.getLastPlayback().after(lastUpdated)) {
+            if (mItemId.equals(VIDEO_QUEUE)) {
+                //update this in case it changed - delay to allow for the changes
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mItems = MediaManager.getCurrentVideoQueue();
+                        if (mItems != null && mItems.size() > 0) {
+                            mItemList.clear();
+                            mCurrentRow = null;
+                            mItemList.addItems(mItems);
+                            lastUpdated = Calendar.getInstance();
+                        } else {
+                            //nothing left in queue
+                            finish();
+                        }
+                    }
+                }, 750);
+            } else if ("Video".equals(mBaseItem.getMediaType())) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mItemList.refresh();
+                        lastUpdated = Calendar.getInstance();
+
+                    }
+                }, 500);
+            }
+        }
+
+        firstTime = false;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         stopRotate();
+        stopClock();
         MediaManager.removeAudioEventListener(mAudioEventListener);
     }
 
@@ -226,9 +278,9 @@ public class SongListActivity extends BaseActivity {
 
             if (newState != PlaybackController.PlaybackState.PLAYING || currentItem == null) {
                 if (mCurrentlyPlayingRow != null) mCurrentlyPlayingRow.updateCurrentTime(-1);
-                mCurrentlyPlayingRow = mSongList.updatePlaying(null);
+                mCurrentlyPlayingRow = mItemList.updatePlaying(null);
             } else {
-                mCurrentlyPlayingRow = mSongList.updatePlaying(currentItem.getId());
+                mCurrentlyPlayingRow = mItemList.updatePlaying(currentItem.getId());
             }
         }
 
@@ -248,6 +300,67 @@ public class SongListActivity extends BaseActivity {
         }
     };
 
+    private void showMenu(final ItemRowView row, boolean showOpen) {
+        PopupMenu menu = Utils.createPopupMenu(this, this.getCurrentFocus(), Gravity.RIGHT);
+        int order = 0;
+        if (showOpen) {
+            MenuItem open = menu.getMenu().add(0, 0, order++, R.string.lbl_open);
+            open.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    ItemLauncher.launch(new BaseRowItem(0, row.getItem()), null, 0, mActivity);
+                    return true;
+                }
+            });
+
+        }
+        MenuItem playFromHere = menu.getMenu().add(0, 0, order++, R.string.lbl_play_from_here);
+        playFromHere.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                play(mItems.subList(row.getIndex(), mItems.size()));
+                return true;
+            }
+        });
+        MenuItem play = menu.getMenu().add(0, 1, order++, R.string.lbl_play);
+        play.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                play(mItems.subList(row.getIndex(), row.getIndex()+1));
+                return true;
+            }
+        });
+        MenuItem queue = menu.getMenu().add(0, 2, order++, R.string.lbl_add_to_queue);
+        queue.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (row.getItem().getMediaType()) {
+                    case "Video":
+                        MediaManager.addToVideoQueue(row.getItem());
+                        break;
+                    case "Audio":
+                        MediaManager.queueAudioItem(row.getItem());
+                        break;
+                }
+                return true;
+            }
+        });
+        if ("Audio".equals(row.getItem().getType())) {
+            MenuItem mix = menu.getMenu().add(0, 1, order++, R.string.lbl_instant_mix);
+            mix.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    Utils.playInstantMix(row.getItem().getId());
+                    return true;
+                }
+            });
+
+        }
+
+        menu.show();
+
+    }
+
     private void loadItem(String id) {
         //Special case handling
         switch (id) {
@@ -257,9 +370,31 @@ public class SongListActivity extends BaseActivity {
                 item.setName(getString(R.string.lbl_favorites));
                 item.setOverview(getString(R.string.desc_automatic_fav_songs));
                 item.setPlayAccess(PlayAccess.Full);
+                item.setMediaType("Audio");
                 item.setType("Playlist");
                 item.setIsFolder(true);
                 setBaseItem(item);
+                break;
+            case VIDEO_QUEUE:
+                BaseItemDto queue = new BaseItemDto();
+                queue.setId(VIDEO_QUEUE);
+                queue.setName(getString(R.string.lbl_current_queue));
+                queue.setOverview(getString(R.string.desc_current_video_queue));
+                queue.setPlayAccess(PlayAccess.Full);
+                queue.setMediaType("Video");
+                queue.setType("Playlist");
+                queue.setIsFolder(true);
+                if (MediaManager.getCurrentVideoQueue() != null) {
+                    long runtime = 0;
+                    int children = 0;
+                    for (BaseItemDto video : MediaManager.getCurrentVideoQueue()) {
+                        runtime += video.getRunTimeTicks() != null ? video.getRunTimeTicks() : 0;
+                        children += 1;
+                    }
+                    queue.setCumulativeRunTimeTicks(runtime);
+                    queue.setChildCount(children);
+                }
+                setBaseItem(queue);
                 break;
             default:
                 mApplication.getApiClient().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
@@ -281,11 +416,12 @@ public class SongListActivity extends BaseActivity {
         addGenres(mGenreRow);
         addButtons(BUTTON_SIZE);
         mSummary.setText(mBaseItem.getOverview());
+        mTimeLine.setText(getEndTime());
 
-        if (!mItemId.equals(FAV_SONGS)) updateBackground(Utils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
+        if (!mItemId.equals(FAV_SONGS) && !mItemId.equals(VIDEO_QUEUE)) updateBackground(Utils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
         updatePoster(mBaseItem);
 
-        //get songs
+        //get items
         if ("Playlist".equals(mBaseItem.getType())) {
             // Have to use different query here
             switch (mItemId) {
@@ -298,15 +434,21 @@ public class SongListActivity extends BaseActivity {
                     favSongs.setFilters(new ItemFilter[]{ItemFilter.IsFavoriteOrLikes});
                     favSongs.setSortBy(new String[]{ItemSortBy.Random});
                     favSongs.setLimit(150);
-                    TvApp.getApplication().getApiClient().GetItemsAsync(favSongs, songResponse);
+                    TvApp.getApplication().getApiClient().GetItemsAsync(favSongs, itemResponse);
+                    break;
+                case VIDEO_QUEUE:
+                    //Show current queue
+                    mTitle.setText(mBaseItem.getName());
+                    mItemList.addItems(MediaManager.getCurrentVideoQueue());
+                    mItems.addAll(MediaManager.getCurrentVideoQueue());
                     break;
                 default:
                     PlaylistItemQuery playlistSongs = new PlaylistItemQuery();
                     playlistSongs.setId(mBaseItem.getId());
                     playlistSongs.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                    playlistSongs.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
-                    playlistSongs.setLimit(200);
-                    TvApp.getApplication().getApiClient().GetPlaylistItems(playlistSongs, songResponse);
+                    playlistSongs.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Genres, ItemFields.Chapters});
+                    playlistSongs.setLimit(150);
+                    TvApp.getApplication().getApiClient().GetPlaylistItems(playlistSongs, itemResponse);
                     break;
             }
         } else {
@@ -317,13 +459,13 @@ public class SongListActivity extends BaseActivity {
             songs.setIncludeItemTypes(new String[]{"Audio"});
             songs.setSortBy(new String[] {ItemSortBy.SortName});
             songs.setLimit(200);
-            mApplication.getApiClient().GetItemsAsync(songs, songResponse);
+            mApplication.getApiClient().GetItemsAsync(songs, itemResponse);
         }
 
 
     }
 
-    private Response<ItemsResult> songResponse = new Response<ItemsResult>() {
+    private Response<ItemsResult> itemResponse = new Response<ItemsResult>() {
         @Override
         public void onResponse(ItemsResult response) {
             mTitle.setText(mBaseItem.getName());
@@ -332,13 +474,11 @@ public class SongListActivity extends BaseActivity {
                 mTitle.setTextSize(32);
             }
             if (response.getTotalRecordCount() > 0) {
-                mSongs = new ArrayList<>();
+                mItems = new ArrayList<>();
                 int i = 0;
                 for (BaseItemDto item : response.getItems()) {
-                    if ("Audio".equals(item.getType())) {
-                        mSongList.addSong(item, i++);
-                        mSongs.add(item);
-                    }
+                    mItemList.addItem(item, i++);
+                    mItems.add(item);
                 }
                 if (MediaManager.isPlayingAudio()) {
                     //update our status
@@ -349,6 +489,7 @@ public class SongListActivity extends BaseActivity {
 
         @Override
         public void onError(Exception exception) {
+            mApplication.getLogger().ErrorException("Error loading", exception);
             Utils.showToast(mActivity, exception.getLocalizedMessage());
         }
     };
@@ -357,6 +498,9 @@ public class SongListActivity extends BaseActivity {
         switch (mItemId) {
             case FAV_SONGS:
                 mPoster.setImageResource(R.drawable.genericmusic);
+                break;
+            case VIDEO_QUEUE:
+                mPoster.setImageResource(R.drawable.playlist);
                 break;
             default:
                 // Figure image size
@@ -388,12 +532,65 @@ public class SongListActivity extends BaseActivity {
         }
     }
 
+    private String getEndTime() {
+        if (mBaseItem != null) {
+            Long runtime = mBaseItem.getCumulativeRunTimeTicks();
+            if (runtime != null && runtime > 0) {
+                long endTimeTicks = System.currentTimeMillis() + runtime / 10000;
+                return getString(R.string.lbl_ends) + android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks));
+            }
+
+        }
+        return "";
+    }
+
+    private void startClock() {
+        mClockLoop = new Runnable() {
+            @Override
+            public void run() {
+                mTimeLine.setText(getEndTime());
+                mLoopHandler.postDelayed(this, 15000);
+            }
+        };
+
+        mLoopHandler.postDelayed(mClockLoop, 15000);
+    }
+
+    private void stopClock() {
+        if (mLoopHandler != null && mClockLoop != null) {
+            mLoopHandler.removeCallbacks(mClockLoop);
+        }
+    }
+
+    private void play(List<BaseItemDto> items) {
+        if ("Video".equals(mBaseItem.getMediaType())) {
+            Intent intent = new Intent(mActivity, PlaybackOverlayActivity.class);
+            //Resume first item if needed
+            BaseItemDto first = items.size() > 0 ? items.get(0) : null;
+            if (first != null && first.getUserData() != null) {
+                Long pos = first.getUserData().getPlaybackPositionTicks() / 10000;
+                intent.putExtra("Position", pos.intValue());
+            }
+            MediaManager.setCurrentVideoQueue(items);
+            startActivity(intent);
+
+        } else {
+            MediaManager.playNow(items);
+
+        }
+
+    }
+
     private void addButtons(int buttonSize) {
         if (Utils.CanPlay(mBaseItem)) {
             ImageButton play = new ImageButton(this, R.drawable.play, buttonSize, getString(mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), mButtonHelp, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mSongs.size() > 0) MediaManager.playNow(mSongs); else Utils.showToast(mActivity, R.string.msg_no_playable_items);
+                    if (mItems.size() > 0) {
+                        play(mItems);
+                    } else {
+                        Utils.showToast(mActivity, R.string.msg_no_playable_items);
+                    }
                 }
             });
             play.setGotFocusListener(mainAreaFocusListener);
@@ -403,10 +600,10 @@ public class SongListActivity extends BaseActivity {
                 ImageButton shuffle = new ImageButton(this, R.drawable.shuffle, buttonSize, getString(R.string.lbl_shuffle_all), mButtonHelp, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (mSongs.size() > 0) {
-                            List<BaseItemDto> shuffled = new ArrayList<>(mSongs);
+                        if (mItems.size() > 0) {
+                            List<BaseItemDto> shuffled = new ArrayList<>(mItems);
                             Collections.shuffle(shuffled);
-                            MediaManager.playNow(shuffled);
+                            play(shuffled);
 
                         } else {
                             Utils.showToast(mActivity, R.string.msg_no_playable_items);
@@ -429,55 +626,88 @@ public class SongListActivity extends BaseActivity {
         }
 
         if (!mItemId.equals(FAV_SONGS)) {
-            //Favorite
-            ImageButton fav = new ImageButton(this, mBaseItem.getUserData().getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, getString(R.string.lbl_toggle_favorite), mButtonHelp, new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    UserItemDataDto data = mBaseItem.getUserData();
-                    mApplication.getApiClient().UpdateFavoriteStatusAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
-                        @Override
-                        public void onResponse(UserItemDataDto response) {
-                            mBaseItem.setUserData(response);
-                            ((ImageButton) v).setImageResource(response.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart);
-                            TvApp.getApplication().setLastFavoriteUpdate(System.currentTimeMillis());
-                        }
-                    });
-                }
-            });
-            mButtonRow.addView(fav);
+            if (!mItemId.equals(VIDEO_QUEUE)) {
+                //Favorite
+                ImageButton fav = new ImageButton(this, mBaseItem.getUserData().getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, getString(R.string.lbl_toggle_favorite), mButtonHelp, new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        UserItemDataDto data = mBaseItem.getUserData();
+                        mApplication.getApiClient().UpdateFavoriteStatusAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
+                            @Override
+                            public void onResponse(UserItemDataDto response) {
+                                mBaseItem.setUserData(response);
+                                ((ImageButton) v).setImageResource(response.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart);
+                                TvApp.getApplication().setLastFavoriteUpdate(System.currentTimeMillis());
+                            }
+                        });
+                    }
+                });
+                mButtonRow.addView(fav);
+
+            }
 
             if ("Playlist".equals(mBaseItem.getType())) {
+                if (VIDEO_QUEUE.equals(mBaseItem.getId())) {
+                    mButtonRow.addView(new ImageButton(this, R.drawable.saveplaylist, buttonSize, getString(R.string.lbl_save_as_playlist), mButtonHelp, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MediaManager.saveVideoQueue(mActivity);
+                        }
+                    }));
+                }
+
                 ImageButton delete = new ImageButton(this, R.drawable.trash, buttonSize, getString(R.string.lbl_delete), mButtonHelp, new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
-                        new AlertDialog.Builder(mActivity)
-                                .setTitle(R.string.lbl_delete)
-                                .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
-                                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        TvApp.getApplication().getApiClient().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
-                                            @Override
-                                            public void onResponse() {
-                                                Utils.showToast(mActivity, mBaseItem.getName() + " Deleted");
-                                                TvApp.getApplication().setLastDeletedItemId(mBaseItem.getId());
-                                                finish();
-                                            }
+                        if (mBaseItem.getId().equals(VIDEO_QUEUE)) {
+                            new AlertDialog.Builder(mActivity)
+                                    .setTitle(R.string.lbl_clear_queue)
+                                    .setMessage("Clear current video queue?")
+                                    .setPositiveButton("Clear", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            MediaManager.setCurrentVideoQueue(new ArrayList<BaseItemDto>());
+                                            mApplication.setLastVideoQueueChange(System.currentTimeMillis());
+                                            finish();
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                        }
+                                    })
+                                    .show();
 
-                                            @Override
-                                            public void onError(Exception ex) {
-                                                Utils.showToast(mActivity, ex.getLocalizedMessage());
-                                            }
-                                        });
-                                    }
-                                })
-                                .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Utils.showToast(mActivity, "Item NOT Deleted");
-                                    }
-                                })
-                                .show();
+                        } else {
+                            new AlertDialog.Builder(mActivity)
+                                    .setTitle(R.string.lbl_delete)
+                                    .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
+                                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            TvApp.getApplication().getApiClient().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
+                                                @Override
+                                                public void onResponse() {
+                                                    Utils.showToast(mActivity, mBaseItem.getName() + " Deleted");
+                                                    TvApp.getApplication().setLastDeletedItemId(mBaseItem.getId());
+                                                    finish();
+                                                }
 
+                                                @Override
+                                                public void onError(Exception ex) {
+                                                    Utils.showToast(mActivity, ex.getLocalizedMessage());
+                                                }
+                                            });
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Utils.showToast(mActivity, "Item NOT Deleted");
+                                        }
+                                    })
+                                    .show();
+
+
+                        }
                     }
                 });
 

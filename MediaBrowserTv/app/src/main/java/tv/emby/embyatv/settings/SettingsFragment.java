@@ -50,8 +50,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         if (Utils.is60()) {
             cat.removePreference(findPreference("pref_enable_vlc"));
             cat.removePreference(findPreference("pref_vlc_max_res"));
-            cat.removePreference(findPreference("pref_net_buffer"));
-            cat.removePreference(findPreference("pref_trans_dts_ac3"));
             cat.removePreference(findPreference("pref_bitstream_ac3"));
         }
         if (!TvApp.getApplication().isRegistered()) {
@@ -135,12 +133,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             CheckBoxPreference cb = (CheckBoxPreference) preference;
             if (cb.getKey().equals("pref_enable_vlc")) {
                 // enable other vlc only options
-                Preference buffer = findPreference("pref_net_buffer");
-                if (buffer != null) buffer.setEnabled(cb.isChecked());
                 Preference res = findPreference("pref_vlc_max_res");
                 if (res != null) res.setEnabled(cb.isChecked());
-                Preference dts = findPreference("pref_trans_dts_ac3");
-                if (dts != null) dts.setEnabled(cb.isChecked());
             }
         }
     }

@@ -153,24 +153,29 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
             //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
             if (mRowsAdapter != null) {
                 refreshCurrentItem();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mActivity.isFinishing()) return;
-                        for (int i = 0; i < mRowsAdapter.size(); i++) {
-                            if (mRowsAdapter.get(i) instanceof ListRow) {
-                                if (((ListRow) mRowsAdapter.get(i)).getAdapter() instanceof ItemRowAdapter && !mActivity.isFinishing()) {
-                                    ((ItemRowAdapter) ((ListRow) mRowsAdapter.get(i)).getAdapter()).ReRetrieveIfNeeded();
-                                }
-                            }
-                        }
-                    }
-                },1500);
+                refreshRows();
             }
 
         } else {
             justLoaded = false;
         }
+    }
+
+    protected void refreshRows() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mActivity.isFinishing()) return;
+                for (int i = 0; i < mRowsAdapter.size(); i++) {
+                    if (mRowsAdapter.get(i) instanceof ListRow) {
+                        if (((ListRow) mRowsAdapter.get(i)).getAdapter() instanceof ItemRowAdapter && !mActivity.isFinishing()) {
+                            ((ItemRowAdapter) ((ListRow) mRowsAdapter.get(i)).getAdapter()).ReRetrieveIfNeeded();
+                        }
+                    }
+                }
+            }
+        },1500);
+
     }
 
     public void loadRows(List<BrowseRowDef> rows) {
@@ -215,11 +220,8 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                 case LiveTvRecordingGroup:
                     rowAdapter = new ItemRowAdapter(def.getRecordingGroupQuery(), mCardPresenter, mRowsAdapter);
                     break;
-                case Premieres:
-                    rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), mCardPresenter, mRowsAdapter, def.getQueryType());
-                    break;
                 default:
-                    rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), mCardPresenter, mRowsAdapter);
+                    rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), mCardPresenter, mRowsAdapter, def.getQueryType());
                     break;
             }
 
@@ -435,7 +437,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                 mItemPanel.setVisibility(View.INVISIBLE);
             }
 
-            if (!(item instanceof BaseRowItem) || isShowingHeaders()) {
+            if (!(item instanceof BaseRowItem)) {
                 mCurrentItem = null;
                 mHandler.removeCallbacks(hideItemPanel);
                 //fill in default background
@@ -444,7 +446,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                 return;
             } else {
                 mCurrentItem = (BaseRowItem)item;
-                if (ShowInfoPanel && !(item instanceof AudioQueueItem)) {
+                if (!isShowingHeaders() && ShowInfoPanel && !(item instanceof AudioQueueItem)) {
                     // delay show the item panel
                     mHandler.postDelayed(showItemPanel, 1000);
                 }

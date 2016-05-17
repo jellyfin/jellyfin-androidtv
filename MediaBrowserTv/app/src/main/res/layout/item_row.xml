@@ -7,13 +7,19 @@
     android:background="@drawable/song_row_background">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/watchedMark"
+        android:textSize="18dp" />
+
+    <TextView
         android:layout_width="30dp"
         android:layout_height="22dp"
         android:text="1"
         android:id="@+id/indexNo"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="13dp"
         android:textSize="16dp"
         android:gravity="right" />
 

@@ -178,23 +178,30 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mApplication.getLogger().Debug("Updating info after playback");
-                    mApplication.getApiClient().GetItemAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
-                        @Override
-                        public void onResponse(BaseItemDto response) {
-                            if (!isFinishing()) {
-                                mBaseItem = response;
-                                if (mResumeButton != null) {
-                                    mResumeButton.setVisibility(response.getCanResume() ? View.VISIBLE : View.GONE);
-                                }
-                                updatePlayedDate();
-                                updateWatched();
-                                updatePoster();
-                                mLastUpdated = Calendar.getInstance();
+                    if ("Episode".equals(mBaseItem.getType()) && mApplication.getLastPlayback().after(mLastUpdated) && mApplication.getLastPlayedItem() != null && !mBaseItem.getId().equals(mApplication.getLastPlayedItem().getId()) && "Episode".equals(mApplication.getLastPlayedItem().getType())) {
+                        mApplication.getLogger().Info("Re-loading after new episode playback");
+                        loadItem(mApplication.getLastPlayedItem().getId());
+                        mApplication.setLastPlayedItem(null); //blank this out so a detail screen we back up to doesn't also do this
+                    } else {
+                        mApplication.getLogger().Debug("Updating info after playback");
+                        mApplication.getApiClient().GetItemAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                            @Override
+                            public void onResponse(BaseItemDto response) {
+                                if (!isFinishing()) {
+                                    mBaseItem = response;
+                                    if (mResumeButton != null) {
+                                        mResumeButton.setVisibility(("Series".equals(mBaseItem.getType()) && ! mBaseItem.getUserData().getPlayed()) || response.getCanResume() ? View.VISIBLE : View.GONE);
+                                    }
+                                    updatePlayedDate();
+                                    updateWatched();
+                                    updatePoster();
+                                    mLastUpdated = Calendar.getInstance();
 
+                                }
                             }
-                        }
-                    });
+                        });
+
+                    }
 
                 }
             }, 750);
@@ -249,7 +256,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         }
     }
 
-    private static String[] playableTypes = new String[] {"Episode","Movie","Series","Season","Folder","Video","Recording","Program","ChannelVideoItem","Trailer","MusicArtist","Person"};
+    private static String[] playableTypes = new String[] {"Episode","Movie","Series","Season","Folder","Video","Recording","Program","ChannelVideoItem","Trailer","MusicArtist","Person","MusicVideo"};
     private static List<String> playableTypeList = Arrays.asList(playableTypes);
     private static String[] directPlayableTypes = new String[] {"Episode","Movie","Video","Recording","Program"};
     private static List<String> directPlayableTypeList = Arrays.asList(directPlayableTypes);
@@ -603,17 +610,42 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     private void addButtons(int buttonSize) {
-        mResumeButton = new ImageButton(this, R.drawable.resume, buttonSize, getString(R.string.lbl_resume), null, new View.OnClickListener() {
+        mResumeButton = new ImageButton(this, R.drawable.resume, buttonSize, "Series".equals(mBaseItem.getType()) ? getString(R.string.lbl_play_next_up) : getString(R.string.lbl_resume), null, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
-                play(mBaseItem, pos.intValue(), false);
+                if ("Series".equals(mBaseItem.getType())) {
+                    //play next up
+                    NextUpQuery nextUpQuery = new NextUpQuery();
+                    nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                    nextUpQuery.setSeriesId(mBaseItem.getId());
+                    TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(nextUpQuery, new Response<ItemsResult>() {
+                        @Override
+                        public void onResponse(ItemsResult response) {
+                            if (response.getItems().length > 0) {
+                                play(response.getItems()[0], 0 , false);
+                            } else {
+                                Utils.showToast(TvApp.getApplication(), "Unable to find next up episode");
+                            }
+                        }
+
+                        @Override
+                        public void onError(Exception exception) {
+                            TvApp.getApplication().getLogger().ErrorException("Error playing next up episode", exception);
+                            Utils.showToast(TvApp.getApplication(), getString(R.string.msg_video_playback_error));
+                        }
+                    });
+                } else {
+                    //resume
+                    Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
+                    play(mBaseItem, pos.intValue(), false);
+
+                }
             }
         });
 
         if (Utils.CanPlay(mBaseItem)) {
             mDetailsOverviewRow.addAction(mResumeButton);
-            mResumeButton.setVisibility(mBaseItem.getCanResume() ? View.VISIBLE : View.GONE);
+            mResumeButton.setVisibility(("Series".equals(mBaseItem.getType()) && ! mBaseItem.getUserData().getPlayed()) || mBaseItem.getCanResume() ? View.VISIBLE : View.GONE);
 
             ImageButton play = new ImageButton(this, R.drawable.play, buttonSize, getString(Utils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), null, new View.OnClickListener() {
                 @Override
@@ -622,6 +654,22 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 }
             });
             mDetailsOverviewRow.addAction(play);
+
+            if (!mBaseItem.getIsFolder() && !Utils.isLiveTv(mBaseItem)) {
+                ImageButton queue = new ImageButton(this, R.drawable.addtoqueue, buttonSize, getString(R.string.lbl_add_to_queue), null, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if ("Audio".equals(mBaseItem.getType())) {
+                            MediaManager.addToAudioQueue(Arrays.asList(mBaseItem));
+
+                        } else {
+                            MediaManager.addToVideoQueue(mBaseItem);
+                        }
+                    }
+                });
+                mDetailsOverviewRow.addAction(queue);
+            }
+
             if (mBaseItem.getIsFolder()) {
                 ImageButton shuffle = new ImageButton(this, R.drawable.shuffle, buttonSize, getString(R.string.lbl_shuffle_all), null, new View.OnClickListener() {
                     @Override
@@ -738,7 +786,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         UserItemDataDto userData = mBaseItem.getUserData();
         if (userData != null) {
-            if (!"MusicArtist".equals(mBaseItem.getType()) && !"Person".equals(mBaseItem.getType()) && Utils.CanPlay(mBaseItem)) {
+            if (!"MusicArtist".equals(mBaseItem.getType()) && !"Person".equals(mBaseItem.getType())) {
                 mWatchedToggleButton = new ImageButton(this, userData.getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck, buttonSize, getString(R.string.lbl_toggle_watched), null, markWatchedListener);
                 mDetailsOverviewRow.addAction(mWatchedToggleButton);
             }

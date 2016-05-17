@@ -35,6 +35,7 @@ import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.registration.RegistrationInfo;
 import mediabrowser.model.system.SystemInfo;
 import tv.emby.embyatv.base.BaseActivity;
+import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackController;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.search.SearchActivity;
@@ -57,6 +58,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     public static String FEATURE_CODE = "androidtv";
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
     public static final int LIVE_TV_RECORDINGS_OPTION_ID = 2000;
+    public static final int VIDEO_QUEUE_OPTION_ID = 3000;
 
     private static final int SEARCH_PERMISSION = 0;
 
@@ -68,6 +70,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     private UserDto currentUser;
     private SystemInfo currentSystemInfo;
     private BaseItemDto currentPlayingItem;
+    private BaseItemDto lastPlayedItem;
     private PlaybackController playbackController;
     private ApiClient loginApiClient;
     private AudioManager audioManager;
@@ -88,6 +91,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     private Calendar lastMoviePlayback = Calendar.getInstance();
     private Calendar lastTvPlayback = Calendar.getInstance();
     private Calendar lastLibraryChange = Calendar.getInstance();
+    private long lastVideoQueueChange = System.currentTimeMillis();
     private long lastFavoriteUpdate = System.currentTimeMillis();
     private long lastMusicPlayback = System.currentTimeMillis();
     private long lastUserInteraction = System.currentTimeMillis();
@@ -480,43 +484,57 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
         TvApp.getApplication().getSystemPrefs().edit().putBoolean("sys_pref_connect_login", value).commit();
     }
 
+    public boolean isPlayingVideo() {
+        return playbackController != null && currentActivity != null && currentActivity instanceof PlaybackOverlayActivity;
+    }
+
     public void stopPlayback() {
-        if (playbackController != null && currentActivity != null && currentActivity instanceof PlaybackOverlayActivity) {
+        if (isPlayingVideo()) {
             currentActivity.finish();
+        } else if (MediaManager.isPlayingAudio()) {
+            MediaManager.stopAudio();
         }
     }
 
     public void pausePlayback() {
-        if (playbackController != null) {
+        if (MediaManager.isPlayingAudio()) {
+            MediaManager.pauseAudio();
+        } else if (isPlayingVideo()) {
             playbackController.playPause();
         }
     }
     public void unPausePlayback() {
-        if (playbackController != null) {
+        if (isPlayingVideo()) {
             playbackController.playPause();
+        } else if (MediaManager.hasAudioQueueItems()) {
+            MediaManager.resumeAudio();
         }
     }
 
     public void playbackNext() {
-        if (playbackController != null) {
+        if (isPlayingVideo()) {
             playbackController.next();
+        } else if (MediaManager.hasAudioQueueItems()) {
+            MediaManager.nextAudioItem();
         }
     }
 
     public void playbackPrev() {
-        if (playbackController != null) {
+        if (isPlayingVideo()) {
             playbackController.prev();
+        } else if (MediaManager.hasAudioQueueItems()) {
+            MediaManager.prevAudioItem();
         }
     }
 
     public void playbackSeek(int pos) {
-        if (playbackController != null) {
+        if (isPlayingVideo()) {
             playbackController.seek(pos);
         }
     }
 
     public void playbackJump() {
-        if (playbackController != null) {
+        if (isPlayingVideo()) {
             playbackController.skip(30000);
         }
     }
@@ -613,5 +631,21 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     public void setSearchAllowed(boolean searchAllowed) {
         this.searchAllowed = searchAllowed;
+    }
+
+    public BaseItemDto getLastPlayedItem() {
+        return lastPlayedItem;
+    }
+
+    public void setLastPlayedItem(BaseItemDto lastPlayedItem) {
+        this.lastPlayedItem = lastPlayedItem;
+    }
+
+    public long getLastVideoQueueChange() {
+        return lastVideoQueueChange;
+    }
+
+    public void setLastVideoQueueChange(long lastVideoQueueChange) {
+        this.lastVideoQueueChange = lastVideoQueueChange;
     }
 }

@@ -48,7 +48,7 @@ import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.base.CustomMessage;
 import tv.emby.embyatv.base.IKeyListener;
 import tv.emby.embyatv.base.IMessageListener;
-import tv.emby.embyatv.details.SongListActivity;
+import tv.emby.embyatv.details.ItemListActivity;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
@@ -112,7 +112,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BaseItemDto item = new BaseItemDto();
-        item.setId(SongListActivity.FAV_SONGS);
+        item.setId(ItemListActivity.FAV_SONGS);
         item.setType("Playlist");
         item.setIsFolder(true);
 
@@ -478,8 +478,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         break;
 
                     case FAVSONGS:
-                        Intent favIntent = new Intent(getActivity(), SongListActivity.class);
-                        favIntent.putExtra("ItemId", SongListActivity.FAV_SONGS);
+                        Intent favIntent = new Intent(getActivity(), ItemListActivity.class);
+                        favIntent.putExtra("ItemId", ItemListActivity.FAV_SONGS);
                         favIntent.putExtra("ParentId", mFolder.getId());
 
                         getActivity().startActivity(favIntent);

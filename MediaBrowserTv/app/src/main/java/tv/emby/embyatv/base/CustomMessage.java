@@ -5,5 +5,5 @@ package tv.emby.embyatv.base;
  */
 public enum  CustomMessage {
     RefreshCurrentItem,
-    RemoveCurrentItem, ActionComplete
+    RemoveCurrentItem, ActionComplete, RefreshRows
 }

@@ -22,11 +22,12 @@ import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.base.CustomMessage;
 import tv.emby.embyatv.details.PhotoPlayerActivity;
-import tv.emby.embyatv.details.SongListActivity;
+import tv.emby.embyatv.details.ItemListActivity;
 import tv.emby.embyatv.itemhandling.AudioQueueItem;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.playback.AudioNowPlayingActivity;
 import tv.emby.embyatv.playback.MediaManager;
+import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.querying.StdItemQuery;
 
 /**
@@ -57,6 +58,7 @@ public class KeyProcessor {
     private static BaseActivity mCurrentActivity;
     private static int mCurrentRowItemNdx;
     private static boolean currentItemIsFolder = false;
+    private static boolean isMusic;
 
     public static boolean HandleKey(int key, BaseRowItem rowItem, BaseActivity activity) {
         if (rowItem == null) return false;
@@ -99,8 +101,10 @@ public class KeyProcessor {
                                 return true;
                             case "MusicAlbum":
                             case "MusicArtist":
-                            case "Playlist":
                                 createPlayMenu(rowItem.getBaseItem(), true, true, activity);
+                                return true;
+                            case "Playlist":
+                                createPlayMenu(rowItem.getBaseItem(), true, "Audio".equals(rowItem.getBaseItem().getMediaType()), activity);
                                 return true;
                             case "Photo":
                                 // open photo player
@@ -152,6 +156,12 @@ public class KeyProcessor {
                         Utils.retrieveAndPlay(rowItem.getProgramInfo().getChannelId(), false, activity);
                         return true;
                     case GridButton:
+                        if (rowItem.getGridButton().getId() == TvApp.VIDEO_QUEUE_OPTION_ID) {
+                            //Queue already there - just kick off playback
+                            Utils.Beep();
+                            Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                            activity.startActivity(intent);
+                        }
                         break;
                 }
 
@@ -256,10 +266,11 @@ public class KeyProcessor {
                 if (item.getIsFolder()) menu.getMenu().add(0, MENU_PLAY_SHUFFLE, order++, R.string.lbl_shuffle_all);
 
             }
-            boolean isMusic = "MusicAlbum".equals(item.getType()) || "MusicArtist".equals(item.getType()) || "Audio".equals(item.getType()) || "Playlist".equals(item.getType());
+            isMusic = "MusicAlbum".equals(item.getType()) || "MusicArtist".equals(item.getType()) || "Audio".equals(item.getType()) || ("Playlist".equals(item.getType()) && "Audio".equals(item.getMediaType()));
+
+            if (isMusic || !item.getIsFolder()) menu.getMenu().add(0, MENU_ADD_QUEUE, order++, R.string.lbl_add_to_queue);
 
             if (isMusic) {
-                menu.getMenu().add(0, MENU_ADD_QUEUE, order++, R.string.lbl_add_to_queue);
                 if (!"Playlist".equals(item.getType())) menu.getMenu().add(0, MENU_INSTANT_MIX, order++, R.string.lbl_instant_mix);
             } else {
                 if (userData != null && userData.getPlayed())
@@ -305,7 +316,7 @@ public class KeyProcessor {
     private static void createPlayMenu(BaseItemDto item, boolean isFolder, boolean isMusic, BaseActivity activity) {
         PopupMenu menu = Utils.createPopupMenu(activity, activity.getCurrentFocus(), Gravity.RIGHT);
         int order = 0;
-        if (!isMusic) menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
+        if (!isMusic && !"Playlist".equals(item.getType())) menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
         menu.getMenu().add(0, MENU_PLAY, order++, R.string.lbl_play_all);
         menu.getMenu().add(0, MENU_PLAY_SHUFFLE, order++, R.string.lbl_shuffle_all);
         if (isMusic) {
@@ -330,31 +341,46 @@ public class KeyProcessor {
 
             switch (item.getItemId()) {
                 case MENU_PLAY:
-                    if (mCurrentItemId.equals(SongListActivity.FAV_SONGS)) {
+                    if (mCurrentItemId.equals(ItemListActivity.FAV_SONGS)) {
                         Utils.play(mCurrentItem, 0, false, mCurrentActivity);
                     } else {
                         Utils.retrieveAndPlay(mCurrentItemId, false, mCurrentActivity);
                     }
                     return true;
                 case MENU_PLAY_SHUFFLE:
-                    if (mCurrentItemId.equals(SongListActivity.FAV_SONGS)) {
+                    if (mCurrentItemId.equals(ItemListActivity.FAV_SONGS)) {
                         Utils.play(mCurrentItem, 0, false, mCurrentActivity);
                     } else {
                         Utils.retrieveAndPlay(mCurrentItemId, true, mCurrentActivity);
                     }
                     return true;
                 case MENU_ADD_QUEUE:
-                    Utils.getItemsToPlay(mCurrentItem, false, false, new Response<List<BaseItemDto>>() {
-                        @Override
-                        public void onResponse(List<BaseItemDto> response) {
-                            MediaManager.addToAudioQueue(response);
-                        }
+                    if (isMusic) {
+                        Utils.getItemsToPlay(mCurrentItem, false, false, new Response<List<BaseItemDto>>() {
+                            @Override
+                            public void onResponse(List<BaseItemDto> response) {
+                                MediaManager.addToAudioQueue(response);
+                            }
 
-                        @Override
-                        public void onError(Exception exception) {
-                            Utils.showToast(mCurrentActivity, R.string.msg_cannot_play_time);
-                        }
-                    });
+                            @Override
+                            public void onError(Exception exception) {
+                                Utils.showToast(mCurrentActivity, R.string.msg_cannot_play_time);
+                            }
+                        });
+
+                    } else {
+                        TvApp.getApplication().getApiClient().GetItemAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                            @Override
+                            public void onResponse(BaseItemDto response) {
+                                MediaManager.addToVideoQueue(response);
+                            }
+
+                            @Override
+                            public void onError(Exception exception) {
+                                Utils.showToast(mCurrentActivity, R.string.msg_cannot_play_time);
+                            }
+                        });
+                    }
                     return true;
                 case MENU_PLAY_FIRST_UNWATCHED:
                     StdItemQuery query = new StdItemQuery();

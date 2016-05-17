@@ -23,6 +23,7 @@ import org.videolan.libvlc.Media;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import mediabrowser.apiinteraction.ApiClient;
@@ -36,6 +37,7 @@ import mediabrowser.model.playlists.PlaylistCreationRequest;
 import mediabrowser.model.playlists.PlaylistCreationResult;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.base.CustomMessage;
 import tv.emby.embyatv.itemhandling.AudioQueueItem;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
@@ -68,6 +70,7 @@ public class MediaManager {
     private static AudioManager mAudioManager;
     private static boolean audioInitialized;
     private static boolean nativeMode = false;
+    private static boolean videoQueueModified = false;
 
     private static List<AudioEventListener> mAudioEventListeners = new ArrayList<>();
 
@@ -82,6 +85,7 @@ public class MediaManager {
         return mCurrentMediaAdapter;
     }
     public static boolean hasAudioQueueItems() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0; }
+    public static boolean hasVideoQueueItems() { return mCurrentVideoQueue != null && mCurrentVideoQueue.size() > 0; }
 
     public static void setCurrentMediaAdapter(ItemRowAdapter currentMediaAdapter) {
         MediaManager.mCurrentMediaAdapter = currentMediaAdapter;
@@ -232,9 +236,7 @@ public class MediaManager {
                 });
 
                 mVlcPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
-                SharedPreferences prefs = TvApp.getApplication().getPrefs();
-                String audioOption = Utils.isFireTv() && !Utils.is50() ? "1" : prefs.getString("pref_audio_option","0"); // force compatible audio on Fire 4.2
-                mVlcPlayer.setAudioOutput("0".equals(audioOption) ? "android_audiotrack" : "opensles_android");
+                mVlcPlayer.setAudioOutput(Utils.downMixAudio() ? "opensles_android" : "android_audiotrack");
                 mVlcPlayer.setAudioOutputDevice("hdmi");
 
                 mVlcHandler.setOnProgressListener(new PlaybackListener() {
@@ -297,7 +299,18 @@ public class MediaManager {
         fireQueueStatusChange();
     }
 
+    private static int TYPE_AUDIO = 0;
+    private static int TYPE_VIDEO = 1;
+
     public static void saveAudioQueue(Activity activity) {
+        saveQueue(activity, TYPE_AUDIO);
+    }
+
+    public static void saveVideoQueue(Activity activity) {
+        saveQueue(activity, TYPE_VIDEO);
+    }
+
+    public static void saveQueue(Activity activity, final int type) {
         //Get a name and save as playlist
         final EditText name = new EditText(activity);
         name.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
@@ -311,13 +324,13 @@ public class MediaManager {
                         final String text = name.getText().toString();
                         PlaylistCreationRequest request = new PlaylistCreationRequest();
                         request.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                        request.setMediaType("Audio");
+                        request.setMediaType(type == TYPE_AUDIO ? "Audio" : "Video");
                         request.setName(text);
-                        request.setItemIdList(getCurrentAudioQueueItemIds());
+                        request.setItemIdList(type == TYPE_AUDIO ? getCurrentAudioQueueItemIds() : getCurrentVideoQueueItemIds());
                         TvApp.getApplication().getApiClient().CreatePlaylist(request, new Response<PlaylistCreationResult>() {
                             @Override
                             public void onResponse(PlaylistCreationResult response) {
-                                TvApp.getApplication().showMessage("Playlist Saved", "Audio queue saved as new playlist: "+text);
+                                TvApp.getApplication().showMessage("Playlist Saved", "Queue saved as new playlist: "+text);
                                 TvApp.getApplication().setLastLibraryChange(Calendar.getInstance());
                             }
 
@@ -345,6 +358,18 @@ public class MediaManager {
         return result;
     }
 
+    private static ArrayList<String> getCurrentVideoQueueItemIds() {
+        ArrayList<String> result = new ArrayList<>();
+
+        if (mCurrentVideoQueue != null) {
+            for (int i = 0; i < mCurrentVideoQueue.size(); i++) {
+                result.add(mCurrentVideoQueue.get(i).getId());
+            }
+        }
+
+        return result;
+    }
+
     public static int queueAudioItem(int pos, BaseItemDto item) {
         if (mCurrentAudioQueue == null) createAudioQueue(new ArrayList<BaseItemDto>());
         mCurrentAudioQueue.add(new BaseRowItem(pos, item));
@@ -356,6 +381,24 @@ public class MediaManager {
         if (mCurrentAudioQueue == null) createAudioQueue(new ArrayList<BaseItemDto>());
         mCurrentAudioQueue.add(new AudioQueueItem(mCurrentAudioQueue.size(), item));
         return mCurrentAudioQueue.size()-1;
+    }
+
+    public static int addToVideoQueue(BaseItemDto item) {
+        if (mCurrentVideoQueue == null) mCurrentVideoQueue = new ArrayList<>();
+        mCurrentVideoQueue.add(item);
+        videoQueueModified = true;
+        TvApp.getApplication().setLastVideoQueueChange(System.currentTimeMillis());
+        if (mCurrentVideoQueue.size() == 1 && TvApp.getApplication().getCurrentActivity() != null) {
+            TvApp.getApplication().getCurrentActivity().sendMessage(CustomMessage.RefreshRows);
+        }
+        long total = System.currentTimeMillis();
+        for (BaseItemDto video :
+                mCurrentVideoQueue) {
+            total += video.getRunTimeTicks() / 10000;
+        }
+
+        Utils.showToast(TvApp.getApplication(), item.getName() + " added to video queue. Ends: "+android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(new Date(total)));
+        return mCurrentVideoQueue.size()-1;
     }
 
     public static void clearAudioQueue() {
@@ -749,5 +792,18 @@ public class MediaManager {
 
     public static void setCurrentMediaTitle(String currentMediaTitle) {
         MediaManager.currentMediaTitle = currentMediaTitle;
+    }
+
+    public static boolean isVideoQueueModified() {
+        return videoQueueModified;
+    }
+
+    public static void setVideoQueueModified(boolean videoQueueModified) {
+        MediaManager.videoQueueModified = videoQueueModified;
+    }
+
+    public static void clearVideoQueue() {
+        mCurrentVideoQueue = new ArrayList<>();
+        videoQueueModified = false;
     }
 }
