@@ -12,7 +12,6 @@ public interface IPlaybackOverlayFragment {
     void setPlayPauseActionState(int state);
     void updateDisplay();
     void updateEndTime(long timeLeft);
-    void removeQueueItem(int pos);
     void nextItemThresholdHit(BaseItemDto nextItem);
     void finish();
     void addManualSubtitles(SubtitleTrackInfo info);

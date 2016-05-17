@@ -119,6 +119,18 @@
             android:layout_marginTop="5sp"
             android:minHeight="30sp"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="110sp"
+            android:id="@+id/infoSummary"
+            android:maxLines="5"
+            android:layout_alignLeft="@+id/playPauseBtn"
+            android:layout_alignRight="@+id/playerProgress"
+            android:visibility="invisible"
+            android:textSize="14sp"
+            android:layout_below="@+id/infoRow"
+            android:ellipsize="end"/>
+
         <ProgressBar
             style="@style/player_progress"
             android:layout_width="wrap_content"
@@ -197,6 +209,13 @@
             android:layout_marginBottom="10sp" />
 
     </RelativeLayout>
+
+    <include layout="@layout/small_upnext_panel"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_gravity="bottom"
+        android:id="@+id/smNextUpPanel"
+        />
 
     <RelativeLayout
         android:layout_width="fill_parent"

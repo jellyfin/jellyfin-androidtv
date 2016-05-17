@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -32,14 +31,12 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.dto.UserItemDataDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.details.FullDetailsActivity;
-import tv.emby.embyatv.details.SongListActivity;
+import tv.emby.embyatv.details.ItemListActivity;
 import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.model.GotFocusEvent;
@@ -221,7 +218,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mAlbumButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent album = new Intent(mActivity, SongListActivity.class);
+                Intent album = new Intent(mActivity, ItemListActivity.class);
                 album.putExtra("ItemId", mBaseItem.getAlbumId());
                 mActivity.startActivity(album);
             }
@@ -434,18 +431,24 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         }
     }
 
-    private void updateButtons(boolean playing) {
-        mPoster.setKeepScreenOn(playing);
-        mPlayPauseButton.setState(!playing ? ImageButton.STATE_PRIMARY : ImageButton.STATE_SECONDARY);
-        mRepeatButton.setState(MediaManager.isRepeatMode() ? ImageButton.STATE_SECONDARY : ImageButton.STATE_PRIMARY);
-        mSaveButton.setEnabled(MediaManager.getCurrentAudioQueueSize() > 1);
-        mPrevButton.setEnabled(MediaManager.hasPrevAudioItem());
-        mNextButton.setEnabled(MediaManager.hasNextAudioItem());
-        mShuffleButton.setEnabled(MediaManager.getCurrentAudioQueueSize() > 1);
-        if (mBaseItem != null) {
-            mAlbumButton.setEnabled(mBaseItem.getAlbumId() != null);
-            mArtistButton.setEnabled(mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0);
-        }
+    private void updateButtons(final boolean playing) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mPoster.setKeepScreenOn(playing);
+                mPlayPauseButton.setState(!playing ? ImageButton.STATE_PRIMARY : ImageButton.STATE_SECONDARY);
+                mRepeatButton.setState(MediaManager.isRepeatMode() ? ImageButton.STATE_SECONDARY : ImageButton.STATE_PRIMARY);
+                mSaveButton.setEnabled(MediaManager.getCurrentAudioQueueSize() > 1);
+                mPrevButton.setEnabled(MediaManager.hasPrevAudioItem());
+                mNextButton.setEnabled(MediaManager.hasNextAudioItem());
+                mShuffleButton.setEnabled(MediaManager.getCurrentAudioQueueSize() > 1);
+                if (mBaseItem != null) {
+                    mAlbumButton.setEnabled(mBaseItem.getAlbumId() != null);
+                    mArtistButton.setEnabled(mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0);
+                }
+
+            }
+        });
     }
 
     private String getArtistName(BaseItemDto item) {

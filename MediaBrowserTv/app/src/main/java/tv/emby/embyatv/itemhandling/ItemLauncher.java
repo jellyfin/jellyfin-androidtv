@@ -14,7 +14,6 @@ import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.entities.DisplayPreferences;
-import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.search.SearchHint;
@@ -29,7 +28,7 @@ import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.browsing.UserViewActivity;
 import tv.emby.embyatv.details.FullDetailsActivity;
 import tv.emby.embyatv.details.PhotoPlayerActivity;
-import tv.emby.embyatv.details.SongListActivity;
+import tv.emby.embyatv.details.ItemListActivity;
 import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.model.ViewType;
@@ -124,7 +123,7 @@ public class ItemLauncher {
                     case "MusicAlbum":
                     case "Playlist":
                         //Start activity for song list display
-                        Intent songListIntent = new Intent(activity, SongListActivity.class);
+                        Intent songListIntent = new Intent(activity, ItemListActivity.class);
                         songListIntent.putExtra("ItemId", baseItem.getId());
                         if (noHistory) songListIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
@@ -382,6 +381,23 @@ public class ItemLauncher {
                         folder.setName(TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv));
                         recordings.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(folder));
                         activity.startActivity(recordings);
+                        break;
+
+                    case TvApp.VIDEO_QUEUE_OPTION_ID:
+                        Intent queueIntent = new Intent(activity, ItemListActivity.class);
+                        queueIntent.putExtra("ItemId", ItemListActivity.VIDEO_QUEUE);
+                        //Resume first item if needed
+                        List<BaseItemDto> items = MediaManager.getCurrentVideoQueue();
+                        if (items != null) {
+                            BaseItemDto first = items.size() > 0 ? items.get(0) : null;
+                            if (first != null && first.getUserData() != null) {
+                                Long resume = first.getUserData().getPlaybackPositionTicks() / 10000;
+                                queueIntent.putExtra("Position", resume.intValue());
+
+                            }
+                        }
+
+                        activity.startActivity(queueIntent);
                         break;
 
 
