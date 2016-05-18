@@ -193,11 +193,6 @@ public class VideoManager implements IVLCVout.Callback {
         } else {
             mVlcPlayer.play();
             mSurfaceView.setKeepScreenOn(true);
-            // work around losing audio when pausing bug
-            int sav = mVlcPlayer.getAudioTrack();
-            mVlcPlayer.setAudioTrack(-1);
-            mVlcPlayer.setAudioTrack(sav);
-            //
         }
     }
 
