@@ -205,9 +205,11 @@ public class RecordPopup {
         }
 
         //if already started then can't require pre padding
-        Date local = Utils.convertToLocalDate(program.getStartDate());
-        Date now = new Date();
-        mPreRequired.setEnabled(local.getTime() > now.getTime());
+        if (!recordSeries) {
+            Date local = Utils.convertToLocalDate(program.getStartDate());
+            Date now = new Date();
+            mPreRequired.setEnabled(local.getTime() > now.getTime());
+        }
 
         // build timeline info
         setTimelineRow(mDTimeline, program);
