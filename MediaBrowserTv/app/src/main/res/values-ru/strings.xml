@@ -266,7 +266,7 @@
     <string name="msg_unable_load_subs">Невозможно загрузить субтитры</string>
     <string name="msg_burn_sub_warning">Прошивка субтитров может занять несколько минут. Потерпите немного...</string>
     <string name="lbl_recording">Запись</string>
-    <string name="lbl_no_recordings">Нет доступных записей</string>
+    <string name="lbl_no_recordings">Не имеется записей</string>
     <string name="lbl_live_tv_guide">Эфирный телегид</string>
     <string name="lbl_recorded_tv">Записанное ТВ</string>
     <string name="btn_emby_premiere">Emby Premiere</string>
@@ -323,4 +323,5 @@
     <string name="lbl_enable_seasonal_themes">Включить сезонные темы</string>
     <string name="desc_seasonal_themes">Разрешить специальные цвета и подсказки в определенные периоды года</string>
     <string name="desc_automatic_fav_songs">Автоматический плей-лист избранных и нравящихся композиций</string>
+    <string name="lbl_switch_server">Переключить сервер</string>
 </resources>
