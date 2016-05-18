@@ -81,6 +81,8 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     private ScrollView mChannelScroller;
     private HorizontalScrollView mTimelineScroller;
     private View mSpinner;
+    private Button mPgAhead;
+    private Button mPgBack;
 
     private BaseItemDto mSelectedProgram;
     private ProgramGridCell mSelectedProgramView;
@@ -127,6 +129,8 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         mChannels = (LinearLayout) findViewById(R.id.channels);
         mTimeline = (LinearLayout) findViewById(R.id.timeline);
         mProgramRows = (LinearLayout) findViewById(R.id.programRows);
+        mPgAhead = (Button) findViewById(R.id.pgAhead);
+        mPgBack = (Button) findViewById(R.id.pgBack);
         mSpinner = findViewById(R.id.spinner);
         mSpinner.setVisibility(View.VISIBLE);
 
@@ -134,6 +138,20 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             @Override
             public void onClick(View v) {
                 showFilterOptions();
+            }
+        });
+
+        mPgAhead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.showToast(mActivity, "Not yet implemented...");
+            }
+        });
+
+        mPgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.showToast(mActivity, "Not yet implemented...");
             }
         });
 
@@ -493,6 +511,10 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             mChannelStatus.setText(displayedChannels+" of "+mAllChannels.size()+" channels");
             mFilterStatus.setText(mFilters.toString() + " for next "+getGuideHours()+" hours");
             mFilterStatus.setTextColor(mFilters.any() ? Color.WHITE : Color.GRAY);
+
+            mPgAhead.setEnabled(true);
+            mPgBack.setEnabled(mCurrentLocalGuideStart - 360000 > System.currentTimeMillis());
+            mPgBack.setFocusable(mPgBack.isEnabled());
 
             mSpinner.setVisibility(View.GONE);
             if (firstRow != null) firstRow.requestFocus();
