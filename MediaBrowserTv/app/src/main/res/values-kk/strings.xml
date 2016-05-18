@@ -323,4 +323,5 @@
     <string name="lbl_enable_seasonal_themes">Маусымдық тақырыптарды қосу</string>
     <string name="desc_seasonal_themes">Жылдың белгілі бір уақыттарында арнайы түстер мен ұсыныстарға рұқсат ету</string>
     <string name="desc_automatic_fav_songs">Таңдамалы және ұнатылған әуендердің автоматты ойнату тізімі</string>
+    <string name="lbl_switch_server">Серверді өзгерту</string>
 </resources>
