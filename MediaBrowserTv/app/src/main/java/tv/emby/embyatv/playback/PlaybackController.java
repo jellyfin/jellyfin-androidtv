@@ -415,7 +415,7 @@ public class PlaybackController {
 
         setPlaybackMethod(response.getPlayMethod());
 
-        if (useVlc && !getPlaybackMethod().equals(PlayMethod.Transcode)) {
+        if (useVlc) {
             mVideoManager.setNativeMode(false);
         } else {
             mVideoManager.setNativeMode(true);
