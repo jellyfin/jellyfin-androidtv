@@ -109,6 +109,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     CardPresenter mCardPresenter;
 
     protected boolean justLoaded = true;
+    protected boolean ShowFanart = false;
     protected String mPosterSizeSetting = PosterSize.AUTO;
     protected String mImageType = ImageType.DEFAULT;
     protected boolean determiningPosterSize = false;
@@ -176,6 +177,8 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     @Override
     public void onResume() {
         super.onResume();
+
+        ShowFanart = mApplication.getPrefs().getBoolean("pref_show_backdrop", true);
 
         if (!justLoaded) {
             //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
@@ -635,8 +638,10 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     private final Runnable mDelayedSetItem = new Runnable() {
         @Override
         public void run() {
-            mBackgroundUrl = mCurrentItem.getBackdropImageUrl();
-            startBackgroundTimer();
+            if (ShowFanart) {
+                mBackgroundUrl = mCurrentItem.getBackdropImageUrl();
+                startBackgroundTimer();
+            }
             setItem(mCurrentItem);
         }
     };
@@ -653,7 +658,6 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                 //fill in default background
                 mBackgroundUrl = null;
                 startBackgroundTimer();
-                return;
             } else {
                 mCurrentItem = (BaseRowItem)item;
                 mTitleView.setText(mCurrentItem.getName());
