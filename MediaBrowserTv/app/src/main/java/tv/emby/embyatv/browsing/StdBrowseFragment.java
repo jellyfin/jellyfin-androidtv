@@ -77,6 +77,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     protected String MainTitle;
     protected boolean ShowBadge = true;
     protected boolean ShowInfoPanel = true;
+    protected boolean ShowFanart = false;
     protected TvApp mApplication;
     protected BaseActivity mActivity;
     protected BaseRowItem mCurrentItem;
@@ -142,6 +143,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
         // set info panel option
         ShowInfoPanel = mApplication.getPrefs().getBoolean("pref_enable_info_panel", true);
+        ShowFanart = mApplication.getPrefs().getBoolean("pref_show_backdrop", true);
 
         //React to deletion
         if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(TvApp.getApplication().getLastDeletedItemId())) {
@@ -258,6 +260,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                 backgroundManager.setBitmap(resource);
             }
         };
+
     }
 
     protected void setupUIElements() {
@@ -459,8 +462,10 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
             ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)row).getAdapter();
             adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
 
-            mBackgroundUrl = rowItem.getBackdropImageUrl();
-            startBackgroundTimer();
+            if (ShowFanart) {
+                mBackgroundUrl = rowItem.getBackdropImageUrl();
+                startBackgroundTimer();
+            }
 
         }
     }
