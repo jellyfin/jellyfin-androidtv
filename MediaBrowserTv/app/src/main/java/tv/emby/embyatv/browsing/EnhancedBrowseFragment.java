@@ -89,6 +89,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     protected String itemTypeString;
     protected boolean showViews = true;
     protected boolean justLoaded = true;
+    protected boolean ShowFanart = false;
 
     protected BaseRowItem favSongsRowItem;
 
@@ -213,6 +214,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     @Override
     public void onResume() {
         super.onResume();
+
+        ShowFanart = mApplication.getPrefs().getBoolean("pref_show_backdrop", true);
 
         //React to deletion
         if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(TvApp.getApplication().getLastDeletedItemId())) {
@@ -537,8 +540,10 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)row).getAdapter();
             adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
 
-            mBackgroundUrl = rowItem.getBackdropImageUrl();
-            startBackgroundTimer();
+            if (ShowFanart) {
+                mBackgroundUrl = rowItem.getBackdropImageUrl();
+                startBackgroundTimer();
+            }
 
         }
     }

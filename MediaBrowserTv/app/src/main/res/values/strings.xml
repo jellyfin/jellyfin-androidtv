@@ -344,6 +344,7 @@
     <string name="lbl_clear_queue">Clear Queue</string>
     <string name="lbl_play_next_up">Play Next Up</string>
     <string name="lbl_open">Open</string>
+    <string name="lbl_show_backdrop">Show Backdrop while Browsing</string>
 
 
 </resources>
