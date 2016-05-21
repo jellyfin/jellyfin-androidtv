@@ -418,7 +418,6 @@ public class ItemListActivity extends BaseActivity {
         mSummary.setText(mBaseItem.getOverview());
         mTimeLine.setText(getEndTime());
 
-        if (!mItemId.equals(FAV_SONGS) && !mItemId.equals(VIDEO_QUEUE)) updateBackground(Utils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
         updatePoster(mBaseItem);
 
         //get items
@@ -441,6 +440,7 @@ public class ItemListActivity extends BaseActivity {
                     mTitle.setText(mBaseItem.getName());
                     mItemList.addItems(MediaManager.getCurrentVideoQueue());
                     mItems.addAll(MediaManager.getCurrentVideoQueue());
+                    updateBackdrop();
                     break;
                 default:
                     PlaylistItemQuery playlistSongs = new PlaylistItemQuery();
@@ -484,6 +484,7 @@ public class ItemListActivity extends BaseActivity {
                     //update our status
                     mAudioEventListener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, MediaManager.getCurrentAudioItem());
                 }
+                updateBackdrop();
             }
         }
 
@@ -500,7 +501,7 @@ public class ItemListActivity extends BaseActivity {
                 mPoster.setImageResource(R.drawable.genericmusic);
                 break;
             case VIDEO_QUEUE:
-                mPoster.setImageResource(R.drawable.playlist);
+                mPoster.setImageResource(R.drawable.transplaylist);
                 break;
             default:
                 // Figure image size
@@ -729,16 +730,33 @@ public class ItemListActivity extends BaseActivity {
         }
 
     }
+
+    private BaseItemDto getRandomListItem() {
+        if (mItems == null || mItems.size() == 0) return null;
+
+        return mItems.get(Utils.randInt(0, mItems.size() - 1));
+    }
+
     private void rotateBackdrops() {
         mBackdropLoop = new Runnable() {
             @Override
             public void run() {
-                updateBackground(Utils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true));
+                updateBackdrop();
                 mLoopHandler.postDelayed(this, FullDetailsActivity.BACKDROP_ROTATION_INTERVAL);
             }
         };
 
         mLoopHandler.postDelayed(mBackdropLoop, FullDetailsActivity.BACKDROP_ROTATION_INTERVAL);
+    }
+
+    private void updateBackdrop() {
+        String url = Utils.getBackdropImageUrl(mBaseItem, mApplication.getApiClient(), true);
+        if (url == null) {
+            BaseItemDto item = getRandomListItem();
+            if (item != null) url = Utils.getBackdropImageUrl(item, mApplication.getApiClient(), true);
+        }
+        if (url != null) updateBackground(url);
+
     }
 
     private void stopRotate() {
