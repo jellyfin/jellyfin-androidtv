@@ -501,7 +501,7 @@ public class ItemListActivity extends BaseActivity {
                 mPoster.setImageResource(R.drawable.genericmusic);
                 break;
             case VIDEO_QUEUE:
-                //mPoster.setImageResource(R.drawable.playlist);
+                mPoster.setImageResource(R.drawable.transplaylist);
                 break;
             default:
                 // Figure image size
