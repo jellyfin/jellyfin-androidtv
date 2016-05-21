@@ -909,7 +909,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         clear();
         if (MediaManager.hasVideoQueueItems()) {
             TvApp.getApplication().getLogger().Debug("Adding video queue...");
-            add(new BaseRowItem(new GridButton(TvApp.VIDEO_QUEUE_OPTION_ID, TvApp.getApplication().getString(R.string.lbl_current_queue), R.drawable.playlist)));
+            add(new BaseRowItem(new GridButton(TvApp.VIDEO_QUEUE_OPTION_ID, TvApp.getApplication().getString(R.string.lbl_current_queue), R.drawable.videoqueue)));
             itemsLoaded = 1;
         }
         Retrieve(query);
