@@ -1327,7 +1327,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
                     PopupMenu audioMenu = Utils.createPopupMenu(getActivity(), v, Gravity.RIGHT);
                     for (MediaStream audio : audioTracks) {
-                        MenuItem item = audioMenu.getMenu().add(0, audio.getIndex(), audio.getIndex(), Utils.SafeToUpper(audio.getLanguage()) + " " + Utils.SafeToUpper(audio.getCodec()) + " (" + audio.getChannelLayout() + ")");
+                        MenuItem item = audioMenu.getMenu().add(0, audio.getIndex(), audio.getIndex(), audio.getDisplayTitle());
                         if (currentAudioIndex != null && currentAudioIndex == audio.getIndex()) item.setChecked(true);
                     }
                     audioMenu.getMenu().setGroupCheckable(0, true, false);
@@ -1370,7 +1370,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     int currentSubIndex = mPlaybackController.getSubtitleStreamIndex();
                     if (currentSubIndex < 0) none.setChecked(true);
                     for (SubtitleStreamInfo sub : subtitles) {
-                        MenuItem item = subMenu.getMenu().add(0, sub.getIndex(), sub.getIndex(), Utils.FirstToUpper(sub.getName() != null ? sub.getName() : sub.getLanguage()) + (sub.getIsForced() ? mApplication.getString(R.string.lbl_parens_forced) : ""));
+                        MenuItem item = subMenu.getMenu().add(0, sub.getIndex(), sub.getIndex(), sub.getDisplayTitle());
                         if (currentSubIndex == sub.getIndex()) item.setChecked(true);
                     }
                     subMenu.getMenu().setGroupCheckable(0, true, false);
