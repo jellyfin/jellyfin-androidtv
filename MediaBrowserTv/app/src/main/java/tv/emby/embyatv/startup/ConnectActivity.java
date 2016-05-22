@@ -60,6 +60,7 @@ public class ConnectActivity extends Activity {
                                         @Override
                                         public void onResponse(final ConnectionResult response) {
                                             TvApp.getApplication().setConnectLogin(true);
+                                            TvApp.getApplication().getPrefs().edit().putString("pref_login_behavior", "0").apply();
                                             Utils.handleConnectionResponse(connectionManager, activity, response);
                                         }
 
