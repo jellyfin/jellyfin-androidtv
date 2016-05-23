@@ -495,6 +495,7 @@ public class Utils {
     public static void getItemsToPlay(final BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<BaseItemDto>> outerResponse) {
         final List<BaseItemDto> items = new ArrayList<>();
         ItemQuery query = new ItemQuery();
+        TvApp.getApplication().setPlayingIntros(false);
 
         switch (mainItem.getType()) {
             case "Episode":
@@ -651,6 +652,9 @@ public class Utils {
                             if (response.getTotalRecordCount() > 0){
                                 Collections.addAll(items, response.getItems());
                                 TvApp.getApplication().getLogger().Info(response.getTotalRecordCount() + " intro items added for playback.");
+                                TvApp.getApplication().setPlayingIntros(true);
+                            } else {
+                                TvApp.getApplication().setPlayingIntros(false);
                             }
                             //Finally, the main item including subsequent parts
                             addMainItem(mainItem, items, outerResponse);
