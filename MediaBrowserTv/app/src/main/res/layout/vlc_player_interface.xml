@@ -62,7 +62,8 @@
         android:layout_gravity="center_horizontal|bottom"
         android:id="@+id/bottomPanel"
         android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:visibility="invisible">
 
         <ImageView
             android:layout_width="match_parent"

@@ -186,7 +186,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     int mButtonSize;
 
     boolean mFadeEnabled = false;
-    boolean mIsVisible = true;
+    boolean mIsVisible = false;
     boolean mPopupPanelVisible = false;
     boolean mNextUpPanelVisible = false;
     boolean mSmNextUpPanelVisible = false;
@@ -726,7 +726,15 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mAudioManager.registerMediaButtonEventReceiver(new ComponentName(TvApp.getApplication().getPackageName(), RemoteControlReceiver.class.getName()));
         //TODO implement conditional logic for api 21+
 
-        if (!mIsVisible) show(); // in case we were paused during video playback
+        if (TvApp.getApplication().isPlayingIntros()) {
+            // don't show overlay
+            TvApp.getApplication().setPlayingIntros(false);
+        } else {
+            if (!mIsVisible) {
+                show(); // in case we were paused during video playback
+                setFadingEnabled(true);
+            }
+        }
 
     }
 
