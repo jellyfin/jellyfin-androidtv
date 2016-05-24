@@ -343,7 +343,8 @@
         android:layout_height="155dp"
         android:layout_gravity="center_horizontal|top"
         android:id="@+id/topPanel"
-        android:clickable="false">
+        android:clickable="false"
+        android:visibility="invisible">
 
         <tv.emby.embyatv.ui.ClockUserView
             android:layout_width="wrap_content"
