@@ -326,14 +326,25 @@ public class VideoManager implements IVLCVout.Callback {
         return nativeMode ? -1 : mVlcPlayer.getAudioTrack();
     }
 
-    public void setAudioTrack(int ndx) {
+    public void setAudioTrack(int ndx, List<MediaStream> allStreams) {
         if (!nativeMode) {
+            //find the relative order of our sub index within the sub tracks in VLC
+            int vlcIndex = 1; // start at 1 to account for "disabled"
+            for (MediaStream stream : allStreams) {
+                if (stream.getType() == MediaStreamType.Audio && !stream.getIsExternal()) {
+                    if (stream.getIndex() == ndx) {
+                        break;
+                    }
+                    vlcIndex++;
+                }
+            }
+
             //debug
-            TvApp.getApplication().getLogger().Debug("Setting VLC audio track index to: "+ndx);
+            TvApp.getApplication().getLogger().Debug("Setting VLC audio track index to: "+vlcIndex);
             for (org.videolan.libvlc.MediaPlayer.TrackDescription track : mVlcPlayer.getAudioTracks()) {
                 TvApp.getApplication().getLogger().Debug("VLC Audio Track: "+track.name+"/"+track.id);
             }
-            mVlcPlayer.setAudioTrack(ndx);
+            mVlcPlayer.setAudioTrack(vlcIndex);
         } else {
             TvApp.getApplication().getLogger().Error("Cannot set audio track in native mode");
         }

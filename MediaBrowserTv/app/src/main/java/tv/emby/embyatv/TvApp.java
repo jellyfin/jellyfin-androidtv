@@ -99,6 +99,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     private boolean searchAllowed = Build.VERSION.SDK_INT < 23;
 
     private boolean audioMuted;
+    private boolean playingIntros;
 
     private BaseActivity currentActivity;
 
@@ -647,5 +648,13 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     public void setLastVideoQueueChange(long lastVideoQueueChange) {
         this.lastVideoQueueChange = lastVideoQueueChange;
+    }
+
+    public boolean isPlayingIntros() {
+        return playingIntros;
+    }
+
+    public void setPlayingIntros(boolean playingIntros) {
+        this.playingIntros = playingIntros;
     }
 }
