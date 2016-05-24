@@ -352,7 +352,8 @@
             android:layout_gravity="right|top"
             android:layout_marginTop="20sp"
             android:layout_marginRight="40sp"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:visibility="invisible" />
 
         <ImageView
             android:layout_width="190sp"
@@ -361,7 +362,8 @@
             android:layout_alignTop="@+id/textClock"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="40sp"
-            android:layout_marginTop="10sp" />
+            android:layout_marginTop="10sp"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 
