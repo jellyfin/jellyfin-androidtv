@@ -602,9 +602,14 @@ public class ItemListActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         if (mItems.size() > 0) {
-                            List<BaseItemDto> shuffled = new ArrayList<>(mItems);
-                            Collections.shuffle(shuffled);
-                            play(shuffled);
+                            if (mBaseItem.getId().equals(VIDEO_QUEUE)) {
+                                List<BaseItemDto> shuffled = new ArrayList<>(mItems);
+                                Collections.shuffle(shuffled);
+                                play(shuffled);
+                            } else {
+                                //use server retrieval in order to get all items
+                                Utils.retrieveAndPlay(mBaseItem.getId(), true, mActivity);
+                            }
 
                         } else {
                             Utils.showToast(mActivity, R.string.msg_no_playable_items);
