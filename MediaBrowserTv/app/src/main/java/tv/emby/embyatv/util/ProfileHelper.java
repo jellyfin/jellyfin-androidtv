@@ -5,6 +5,7 @@ import java.util.List;
 
 import mediabrowser.model.dlna.CodecProfile;
 import mediabrowser.model.dlna.CodecType;
+import mediabrowser.model.dlna.ContainerProfile;
 import mediabrowser.model.dlna.DeviceProfile;
 import mediabrowser.model.dlna.DirectPlayProfile;
 import mediabrowser.model.dlna.DlnaProfileType;
@@ -56,7 +57,7 @@ public class ProfileHelper {
     public static void setVlcOptions(DeviceProfile profile) {
 
         DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
-        videoDirectPlayProfile.setContainer("m4v,3gp,ts,mpegts,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,m2v,mpg,mpeg,mp4,webm");
+        videoDirectPlayProfile.setContainer("m4v,3gp,ts,mpegts,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,m2v,avi,mpg,mpeg,mp4,webm");
         videoDirectPlayProfile.setAudioCodec("aac,aac_latm,mp3,ac3,wma,dca,pcm,PCM_S16LE,PCM_S24LE,opus,flac");
         videoDirectPlayProfile.setType(DlnaProfileType.Video);
 
@@ -79,11 +80,20 @@ public class ProfileHelper {
                         new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoLevel, "41")
                 });
 
+        ContainerProfile videoContainerProfile = new ContainerProfile();
+        videoContainerProfile.setType(DlnaProfileType.Video);
+        videoContainerProfile.setContainer("avi");
+        videoContainerProfile.setConditions(new ProfileCondition[]
+                {
+                        new ProfileCondition(ProfileConditionType.NotEquals, ProfileConditionValue.VideoCodecTag, "xvid"),
+                });
+
         CodecProfile videoAudioCodecProfile = new CodecProfile();
         videoAudioCodecProfile.setType(CodecType.VideoAudio);
         videoAudioCodecProfile.setConditions(new ProfileCondition[]{new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.AudioChannels, "6")});
 
         profile.setCodecProfiles(new CodecProfile[]{videoCodecProfile, videoAudioCodecProfile});
+        profile.setContainerProfiles(new ContainerProfile[] {videoContainerProfile});
         profile.setSubtitleProfiles(new SubtitleProfile[]{
                 getSubtitleProfile("srt", SubtitleDeliveryMethod.External),
                 getSubtitleProfile("srt", SubtitleDeliveryMethod.Embed),
