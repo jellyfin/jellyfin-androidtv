@@ -515,7 +515,7 @@ public class PlaybackController {
             playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mCurrentOptions);
             mPlaybackState = PlaybackState.BUFFERING;
         } else {
-            mVideoManager.setAudioTrack(index);
+            mVideoManager.setAudioTrack(index, getCurrentMediaSource().getMediaStreams());
             if (!Utils.supportsAc3() && "ac3".equals(getCurrentMediaSource().getMediaStreams().get(index).getCodec())) {
                 mVideoManager.setCompatibleAudio();
             } else {
@@ -963,7 +963,7 @@ public class PlaybackController {
                         }
                         if (getPlaybackMethod() != PlayMethod.Transcode) {
                             if (mCurrentOptions.getAudioStreamIndex() != null)
-                                mVideoManager.setAudioTrack(mCurrentOptions.getAudioStreamIndex());
+                                mVideoManager.setAudioTrack(mCurrentOptions.getAudioStreamIndex(), getCurrentMediaSource().getMediaStreams());
                         }
                     }
                     if (continueUpdate) {
