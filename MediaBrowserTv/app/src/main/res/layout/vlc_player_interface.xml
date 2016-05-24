@@ -62,7 +62,8 @@
         android:layout_gravity="center_horizontal|bottom"
         android:id="@+id/bottomPanel"
         android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:visibility="invisible">
 
         <ImageView
             android:layout_width="match_parent"
@@ -342,7 +343,8 @@
         android:layout_height="155dp"
         android:layout_gravity="center_horizontal|top"
         android:id="@+id/topPanel"
-        android:clickable="false">
+        android:clickable="false"
+        android:visibility="invisible">
 
         <tv.emby.embyatv.ui.ClockUserView
             android:layout_width="wrap_content"

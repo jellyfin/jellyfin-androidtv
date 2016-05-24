@@ -34,7 +34,7 @@
             android:layout_marginLeft="40sp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/fdSummaryText"
             android:width="550sp"
@@ -62,7 +62,7 @@
             android:minHeight="35sp"
             android:gravity="center"
             android:showDividers="middle"
-            android:divider="@drawable/blank30x30"
+            android:divider="@drawable/blank20x20"
             android:layout_marginBottom="5sp"/>
 
         <TextView

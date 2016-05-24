@@ -186,7 +186,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     int mButtonSize;
 
     boolean mFadeEnabled = false;
-    boolean mIsVisible = true;
+    boolean mIsVisible = false;
     boolean mPopupPanelVisible = false;
     boolean mNextUpPanelVisible = false;
     boolean mSmNextUpPanelVisible = false;
@@ -726,7 +726,15 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mAudioManager.registerMediaButtonEventReceiver(new ComponentName(TvApp.getApplication().getPackageName(), RemoteControlReceiver.class.getName()));
         //TODO implement conditional logic for api 21+
 
-        if (!mIsVisible) show(); // in case we were paused during video playback
+        if (TvApp.getApplication().isPlayingIntros()) {
+            // don't show overlay
+            TvApp.getApplication().setPlayingIntros(false);
+        } else {
+            if (!mIsVisible) {
+                show(); // in case we were paused during video playback
+                setFadingEnabled(true);
+            }
+        }
 
     }
 
@@ -1327,7 +1335,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
                     PopupMenu audioMenu = Utils.createPopupMenu(getActivity(), v, Gravity.RIGHT);
                     for (MediaStream audio : audioTracks) {
-                        MenuItem item = audioMenu.getMenu().add(0, audio.getIndex(), audio.getIndex(), Utils.SafeToUpper(audio.getLanguage()) + " " + Utils.SafeToUpper(audio.getCodec()) + " (" + audio.getChannelLayout() + ")");
+                        MenuItem item = audioMenu.getMenu().add(0, audio.getIndex(), audio.getIndex(), audio.getDisplayTitle());
                         if (currentAudioIndex != null && currentAudioIndex == audio.getIndex()) item.setChecked(true);
                     }
                     audioMenu.getMenu().setGroupCheckable(0, true, false);
@@ -1370,7 +1378,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     int currentSubIndex = mPlaybackController.getSubtitleStreamIndex();
                     if (currentSubIndex < 0) none.setChecked(true);
                     for (SubtitleStreamInfo sub : subtitles) {
-                        MenuItem item = subMenu.getMenu().add(0, sub.getIndex(), sub.getIndex(), Utils.FirstToUpper(sub.getName() != null ? sub.getName() : sub.getLanguage()) + (sub.getIsForced() ? mApplication.getString(R.string.lbl_parens_forced) : ""));
+                        MenuItem item = subMenu.getMenu().add(0, sub.getIndex(), sub.getIndex(), sub.getDisplayTitle());
                         if (currentSubIndex == sub.getIndex()) item.setChecked(true);
                     }
                     subMenu.getMenu().setGroupCheckable(0, true, false);

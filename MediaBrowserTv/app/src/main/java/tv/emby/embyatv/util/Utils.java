@@ -495,6 +495,7 @@ public class Utils {
     public static void getItemsToPlay(final BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<BaseItemDto>> outerResponse) {
         final List<BaseItemDto> items = new ArrayList<>();
         ItemQuery query = new ItemQuery();
+        TvApp.getApplication().setPlayingIntros(false);
 
         switch (mainItem.getType()) {
             case "Episode":
@@ -651,6 +652,9 @@ public class Utils {
                             if (response.getTotalRecordCount() > 0){
                                 Collections.addAll(items, response.getItems());
                                 TvApp.getApplication().getLogger().Info(response.getTotalRecordCount() + " intro items added for playback.");
+                                TvApp.getApplication().setPlayingIntros(true);
+                            } else {
+                                TvApp.getApplication().setPlayingIntros(false);
                             }
                             //Finally, the main item including subsequent parts
                             addMainItem(mainItem, items, outerResponse);
@@ -1614,27 +1618,43 @@ public class Utils {
                 Utils.signInToServer(connectionManager, response.getServers().get(0), activity);
                 break;
             case SignedIn:
-                logger.Debug("Ignoring saved connection manager sign in");
-                connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>(){
-                    @Override
-                    public void onResponse(ArrayList<ServerInfo> serverResponse) {
-                        if (serverResponse.size() == 1) {
-                            //Signed in before and have just one server so go directly to user screen
-                            Utils.signInToServer(connectionManager, serverResponse.get(0), activity);
-                        } else {
-                            //More than one server so show selection
-                            Intent serverIntent = new Intent(activity, SelectServerActivity.class);
-                            GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
-                            List<String> payload = new ArrayList<>();
-                            for (ServerInfo server : serverResponse) {
-                                payload.add(serializer.SerializeToString(server));
-                            }
-                            serverIntent.putExtra("Servers", payload.toArray(new String[payload.size()]));
-                            serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                            activity.startActivity(serverIntent);
+                ServerInfo serverInfo = response.getServers() != null && response.getServers().size() > 0 && response.getServers().get(0).getUserLinkType() != null ? response.getServers().get(0) : null;
+                if (serverInfo != null) {
+                    // go straight in for connect only
+                    response.getApiClient().GetUserAsync(serverInfo.getUserId(), new Response<UserDto>() {
+                        @Override
+                        public void onResponse(UserDto response) {
+                            TvApp.getApplication().setCurrentUser(response);
+                            TvApp.getApplication().setConnectLogin(true);
+                            Intent homeIntent = new Intent(activity, MainActivity.class);
+                            activity.startActivity(homeIntent);
                         }
-                    }
-                });
+                    });
+
+                } else {
+                    logger.Debug("Ignoring saved connection manager sign in");
+                    connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>(){
+                        @Override
+                        public void onResponse(ArrayList<ServerInfo> serverResponse) {
+                            if (serverResponse.size() == 1) {
+                                //Signed in before and have just one server so go directly to user screen
+                                Utils.signInToServer(connectionManager, serverResponse.get(0), activity);
+                            } else {
+                                //More than one server so show selection
+                                Intent serverIntent = new Intent(activity, SelectServerActivity.class);
+                                GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
+                                List<String> payload = new ArrayList<>();
+                                for (ServerInfo server : serverResponse) {
+                                    payload.add(serializer.SerializeToString(server));
+                                }
+                                serverIntent.putExtra("Servers", payload.toArray(new String[payload.size()]));
+                                serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                activity.startActivity(serverIntent);
+                            }
+                        }
+                    });
+
+                }
                 break;
             case ServerSelection:
                 logger.Debug("Select A server");

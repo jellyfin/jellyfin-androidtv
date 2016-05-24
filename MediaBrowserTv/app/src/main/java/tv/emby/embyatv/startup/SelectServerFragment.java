@@ -132,6 +132,7 @@ public class SelectServerFragment extends CustomBrowseFragment {
                             @Override
                             public void onResponse() {
                                 mApplication.setConnectLogin(false);
+                                TvApp.getApplication().getPrefs().edit().putString("pref_login_behavior", "0").apply();
                                 getActivity().finish();
                             }
                         });
