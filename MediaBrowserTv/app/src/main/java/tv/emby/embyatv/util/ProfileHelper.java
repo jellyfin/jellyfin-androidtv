@@ -56,7 +56,7 @@ public class ProfileHelper {
     public static void setVlcOptions(DeviceProfile profile) {
 
         DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
-        videoDirectPlayProfile.setContainer("m4v,3gp,ts,mpegts,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,m2v,avi,mpg,mpeg,mp4,webm");
+        videoDirectPlayProfile.setContainer("m4v,3gp,ts,mpegts,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,m2v,mpg,mpeg,mp4,webm");
         videoDirectPlayProfile.setAudioCodec("aac,aac_latm,mp3,ac3,wma,dca,pcm,PCM_S16LE,PCM_S24LE,opus,flac");
         videoDirectPlayProfile.setType(DlnaProfileType.Video);
 
