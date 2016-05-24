@@ -339,12 +339,31 @@ public class VideoManager implements IVLCVout.Callback {
                 }
             }
 
+            org.videolan.libvlc.MediaPlayer.TrackDescription vlcTrack;
+            try {
+                vlcTrack = mVlcPlayer.getAudioTracks()[vlcIndex];
+
+            } catch (IndexOutOfBoundsException e) {
+                TvApp.getApplication().getLogger().Error("Could not locate subtitle with index %s in vlc track info", ndx);
+                mVlcPlayer.setAudioTrack(vlcIndex);
+                return;
+            } catch (NullPointerException e){
+                TvApp.getApplication().getLogger().Error("No subtitle tracks found in player trying to set subtitle with index %s in vlc track info", ndx);
+                mVlcPlayer.setAudioTrack(vlcIndex);
+                return;
+            }
             //debug
-            TvApp.getApplication().getLogger().Debug("Setting VLC audio track index to: "+vlcIndex);
+            TvApp.getApplication().getLogger().Debug("Setting VLC audio track index to: "+vlcIndex + "/" + vlcTrack.id);
             for (org.videolan.libvlc.MediaPlayer.TrackDescription track : mVlcPlayer.getAudioTracks()) {
                 TvApp.getApplication().getLogger().Debug("VLC Audio Track: "+track.name+"/"+track.id);
             }
-            mVlcPlayer.setAudioTrack(vlcIndex);
+            //
+            if (mVlcPlayer.setAudioTrack(vlcTrack.id)) {
+                TvApp.getApplication().getLogger().Info("Setting by ID was successful");
+            } else {
+                TvApp.getApplication().getLogger().Info("Setting by ID not succesful, trying index");
+                mVlcPlayer.setAudioTrack(vlcIndex);
+            }
         } else {
             TvApp.getApplication().getLogger().Error("Cannot set audio track in native mode");
         }
