@@ -718,4 +718,12 @@ public class VideoManager implements IVLCVout.Callback {
         TvApp.getApplication().getLogger().Error("VLC Hardware acceleration error");
     }
 
+    public Integer translateVlcAudioId(Integer vlcId) {
+        Integer ourIndex = 0;
+        for (org.videolan.libvlc.MediaPlayer.TrackDescription track : mVlcPlayer.getAudioTracks()) {
+            if (track.id == vlcId) return ourIndex - 1; // Vlc has 'disabled' as first
+            ourIndex++;
+        }
+        return ourIndex;
+    }
 }

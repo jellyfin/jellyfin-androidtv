@@ -1011,6 +1011,10 @@ public class PlaybackController {
 
     public void setZoom(int mode) { mVideoManager.setZoom(mode); }
 
+    public Integer translateVlcAudioId(Integer vlcId) {
+        return mVideoManager.translateVlcAudioId(vlcId);
+    }
+
 
     /*
  * List of various states that we can be in
