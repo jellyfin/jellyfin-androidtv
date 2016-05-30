@@ -253,7 +253,7 @@ public class PlaybackController {
                 isLiveTv = item.getType().equals("TvChannel");
 
                 // Create our profile - use VLC unless live tv or on FTV stick and over SD
-                useVlc = (transcodedSubtitle >= 0 || (Utils.downMixAudio() && !isLiveTv) || ((!Utils.is60() && (!isLiveTv || mApplication.directStreamLiveTv())) || (isLiveTv && mApplication.directStreamLiveTv()) || (item.getPath() != null && item.getPath().toLowerCase().endsWith(".ts"))) && (!"ChannelVideoItem".equals(item.getType())) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_vlc", true));
+                useVlc = (transcodedSubtitle >= 0 || (Utils.downMixAudio() && !isLiveTv) || ((!Utils.is60() && (!isLiveTv || (mApplication.directStreamLiveTv()))) || (isLiveTv && mApplication.directStreamLiveTv() && mApplication.useVlcForLiveTv()) || (item.getPath() != null && item.getPath().toLowerCase().endsWith(".ts"))) && (!"ChannelVideoItem".equals(item.getType())) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_vlc", true));
                 if (useVlc && item.getMediaSources() != null && item.getMediaSources().size() > 0) {
                     List<MediaStream> videoStreams = Utils.GetVideoStreams(item.getMediaSources().get(0));
                     MediaStream video = videoStreams != null && videoStreams.size() > 0 ? videoStreams.get(0) : null;
@@ -347,7 +347,7 @@ public class PlaybackController {
                     final DeviceProfile save = options.getProfile();
                     DeviceProfile newProfile = ProfileHelper.getBaseProfile();
                     ProfileHelper.setExoOptions(newProfile, isLiveTv, true);
-                    ProfileHelper.addAc3Streaming(newProfile, true);
+                    if (!Utils.downMixAudio()) ProfileHelper.addAc3Streaming(newProfile, true);
                     newProfile.setDirectPlayProfiles(new DirectPlayProfile[]{});
                     options.setProfile(newProfile);
                     mApplication.getLogger().Info("Forcing transcode due to non-default audio chosen");
