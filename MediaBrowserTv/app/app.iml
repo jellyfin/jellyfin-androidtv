@@ -42,12 +42,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/amazonDebug/jni" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/amazonDebug/rs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/amazonDebug/shaders" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/amazon/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/amazon/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/amazon/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/amazon/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/amazon/debug" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/amazon/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testAmazonDebug/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testAmazonDebug/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testAmazonDebug/assets" type="java-test-resource" />
@@ -56,6 +50,12 @@
       <sourceFolder url="file://$MODULE_DIR$/src/testAmazonDebug/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testAmazonDebug/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testAmazonDebug/shaders" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/amazon/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/amazon/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/amazon/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/amazon/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/amazon/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/amazon/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/amazon/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/amazon/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/amazon/assets" type="java-resource" />
@@ -64,14 +64,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/amazon/jni" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/amazon/rs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/amazon/shaders" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAmazon/res" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAmazon/resources" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAmazon/assets" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAmazon/aidl" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAmazon/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAmazon/jni" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAmazon/rs" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAmazon/shaders" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTestAmazon/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTestAmazon/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTestAmazon/assets" type="java-test-resource" />
@@ -80,6 +72,14 @@
       <sourceFolder url="file://$MODULE_DIR$/src/androidTestAmazon/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTestAmazon/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTestAmazon/shaders" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAmazon/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAmazon/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAmazon/assets" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAmazon/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAmazon/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAmazon/jni" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAmazon/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAmazon/shaders" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/assets" type="java-resource" />
@@ -126,6 +126,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/bundles" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dependency-cache" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/MediaBrowserTv/exomedia-amazon/unspecified/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/leanback-v17/23.1.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.1/jars" />
@@ -138,7 +139,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant-run-support" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/pre-dexed" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/reload-dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/restart-dex" />
@@ -172,5 +172,6 @@
     <orderEntry type="library" exported="" name="in-app-purchasing-2.0.61" level="project" />
     <orderEntry type="module" module-name="exomedia-amazon" exported="" />
     <orderEntry type="library" exported="" name="android-android-23" level="project" />
+    <orderEntry type="library" exported="" name="exomedia-amazon-unspecified" level="project" />
   </component>
 </module>
