@@ -345,6 +345,8 @@
     <string name="lbl_play_next_up">Play Next Up</string>
     <string name="lbl_open">Open</string>
     <string name="lbl_show_backdrop">Show Backdrop while Browsing</string>
+    <string name="lbl_use_vlc_livetv">Attempt to use VLC for live TV</string>
+    <string name="desc_use_vlc_livetv">Use VLC for direct streamed Live TV if available</string>
 
 
 </resources>

@@ -87,6 +87,11 @@
             android:title="@string/lbl_direct_stream_live"
             android:defaultValue="true"
             />
+        <CheckBoxPreference android:key="pref_enable_vlc_livetv"
+            android:title="@string/lbl_use_vlc_livetv"
+            android:defaultValue="true"
+            android:summary="@string/desc_use_vlc_livetv"
+            />
         <ListPreference android:key="pref_vlc_max_res"
             android:title="@string/lbl_vlc_max_res"
             android:defaultValue="2900"
