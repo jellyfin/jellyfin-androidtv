@@ -49,6 +49,18 @@ public class ProfileHelper {
         transcodingProfiles.add(tempVar);
 
         profile.setTranscodingProfiles(transcodingProfiles.toArray(new TranscodingProfile[transcodingProfiles.size()]));
+        profile.setSubtitleProfiles(new SubtitleProfile[] {
+                getSubtitleProfile("srt", SubtitleDeliveryMethod.External),
+                getSubtitleProfile("subrip", SubtitleDeliveryMethod.External),
+                getSubtitleProfile("ass", SubtitleDeliveryMethod.External),
+                getSubtitleProfile("ssa", SubtitleDeliveryMethod.External),
+                getSubtitleProfile("pgs", SubtitleDeliveryMethod.Encode),
+                getSubtitleProfile("pgssub", SubtitleDeliveryMethod.Encode),
+                getSubtitleProfile("dvdsub", SubtitleDeliveryMethod.External),
+                getSubtitleProfile("vtt", SubtitleDeliveryMethod.External),
+                getSubtitleProfile("sub", SubtitleDeliveryMethod.External),
+                getSubtitleProfile("idx", SubtitleDeliveryMethod.External)
+        });
 
         return profile;
 
