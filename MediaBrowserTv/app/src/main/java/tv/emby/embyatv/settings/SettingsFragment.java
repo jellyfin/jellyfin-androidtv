@@ -135,6 +135,12 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 // enable other vlc only options
                 Preference res = findPreference("pref_vlc_max_res");
                 if (res != null) res.setEnabled(cb.isChecked());
+                Preference live = findPreference("pref_enable_vlc_livetv");
+                if (live != null) live.setEnabled(cb.isChecked());
+            } else if (cb.getKey().equals("pref_live_direct")) {
+                // enable other live tv direct only options
+                Preference live = findPreference("pref_enable_vlc_livetv");
+                if (live != null) live.setEnabled(cb.isChecked());
             }
         }
     }

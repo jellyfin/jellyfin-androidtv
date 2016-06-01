@@ -253,7 +253,7 @@ public class PlaybackController {
                 isLiveTv = item.getType().equals("TvChannel");
 
                 // Create our profile - use VLC unless live tv or on FTV stick and over SD
-                useVlc = (transcodedSubtitle >= 0 || (Utils.downMixAudio() && !isLiveTv) || ((!Utils.is60() && (!isLiveTv || mApplication.directStreamLiveTv())) || (isLiveTv && mApplication.directStreamLiveTv()) || (item.getPath() != null && item.getPath().toLowerCase().endsWith(".ts"))) && (!"ChannelVideoItem".equals(item.getType())) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_vlc", true));
+                useVlc = (TvApp.getApplication().getPrefs().getBoolean("pref_enable_vlc", true) && (transcodedSubtitle >= 0 || (Utils.downMixAudio() && !isLiveTv) || ((!Utils.is60() && (!isLiveTv || (mApplication.directStreamLiveTv()))) || (isLiveTv && mApplication.directStreamLiveTv() && mApplication.useVlcForLiveTv()) || (item.getPath() != null && item.getPath().toLowerCase().endsWith(".ts"))) && (!"ChannelVideoItem".equals(item.getType()))));
                 if (useVlc && item.getMediaSources() != null && item.getMediaSources().size() > 0) {
                     List<MediaStream> videoStreams = Utils.GetVideoStreams(item.getMediaSources().get(0));
                     MediaStream video = videoStreams != null && videoStreams.size() > 0 ? videoStreams.get(0) : null;
@@ -268,15 +268,15 @@ public class PlaybackController {
                 DeviceProfile profile = ProfileHelper.getBaseProfile();
                 if (useVlc) {
                     ProfileHelper.setVlcOptions(profile);
-                    TvApp.getApplication().getLogger().Info("*** Using VLC profile options");
+                    mApplication.getLogger().Info("*** Using VLC profile options");
                 } else {
-                    if (Utils.is60()) {
+                    if (Utils.is60() || mApplication.getPrefs().getBoolean("pref_bitstream_ac3", true)) {
                         ProfileHelper.setExoOptions(profile, isLiveTv, true);
                         ProfileHelper.addAc3Streaming(profile, true);
-                        TvApp.getApplication().getLogger().Info("*** Using extended Exoplayer profile options for 6.0+");
+                        mApplication.getLogger().Info("*** Using extended Exoplayer profile options for 6.0+");
 
                     } else {
-                        TvApp.getApplication().getLogger().Info("*** Using default android profile");
+                        mApplication.getLogger().Info("*** Using default android profile");
                     }
 
                 }
@@ -347,7 +347,7 @@ public class PlaybackController {
                     final DeviceProfile save = options.getProfile();
                     DeviceProfile newProfile = ProfileHelper.getBaseProfile();
                     ProfileHelper.setExoOptions(newProfile, isLiveTv, true);
-                    ProfileHelper.addAc3Streaming(newProfile, true);
+                    if (!Utils.downMixAudio()) ProfileHelper.addAc3Streaming(newProfile, true);
                     newProfile.setDirectPlayProfiles(new DirectPlayProfile[]{});
                     options.setProfile(newProfile);
                     mApplication.getLogger().Info("Forcing transcode due to non-default audio chosen");
@@ -1010,6 +1010,10 @@ public class PlaybackController {
     }
 
     public void setZoom(int mode) { mVideoManager.setZoom(mode); }
+
+    public Integer translateVlcAudioId(Integer vlcId) {
+        return mVideoManager.translateVlcAudioId(vlcId);
+    }
 
 
     /*
