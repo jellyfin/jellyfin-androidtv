@@ -179,7 +179,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     }
 
     public ApiClient getApiClient() {
-        return connectionManager.GetApiClient(currentUser);
+        return currentUser != null ? connectionManager.GetApiClient(currentUser) : null;
     }
 
     public BaseItemDto getCurrentPlayingItem() {
