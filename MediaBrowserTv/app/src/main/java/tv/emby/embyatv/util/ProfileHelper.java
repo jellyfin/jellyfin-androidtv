@@ -49,6 +49,18 @@ public class ProfileHelper {
         transcodingProfiles.add(tempVar);
 
         profile.setTranscodingProfiles(transcodingProfiles.toArray(new TranscodingProfile[transcodingProfiles.size()]));
+        profile.setSubtitleProfiles(new SubtitleProfile[] {
+                getSubtitleProfile("srt", SubtitleDeliveryMethod.External),
+                getSubtitleProfile("subrip", SubtitleDeliveryMethod.External),
+                getSubtitleProfile("ass", SubtitleDeliveryMethod.External),
+                getSubtitleProfile("ssa", SubtitleDeliveryMethod.External),
+                getSubtitleProfile("pgs", SubtitleDeliveryMethod.Encode),
+                getSubtitleProfile("pgssub", SubtitleDeliveryMethod.Encode),
+                getSubtitleProfile("dvdsub", SubtitleDeliveryMethod.External),
+                getSubtitleProfile("vtt", SubtitleDeliveryMethod.External),
+                getSubtitleProfile("sub", SubtitleDeliveryMethod.External),
+                getSubtitleProfile("idx", SubtitleDeliveryMethod.External)
+        });
 
         return profile;
 
@@ -58,7 +70,7 @@ public class ProfileHelper {
 
         DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
         videoDirectPlayProfile.setContainer("m4v,3gp,ts,mpegts,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,m2v,avi,mpg,mpeg,mp4,webm");
-        videoDirectPlayProfile.setAudioCodec("aac,aac_latm,mp3,ac3,wma,dca,pcm,PCM_S16LE,PCM_S24LE,opus,flac");
+        videoDirectPlayProfile.setAudioCodec("aac,mp3,mp2,ac3,wma,dca,pcm,PCM_S16LE,PCM_S24LE,opus,flac" + (Utils.downMixAudio() ? "" : ",aac_latm"));
         videoDirectPlayProfile.setType(DlnaProfileType.Video);
 
         DirectPlayProfile audioDirectPlayProfile = new DirectPlayProfile();

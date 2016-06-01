@@ -35,7 +35,7 @@ public class SearchRunnable implements Runnable {
 
         if (!musicOnly) {
             //Get search results by type
-            SearchQuery people = getSearchQuery(new String[] {"Person"});
+            SearchQuery people = getSearchQuery(new String[] {"Person","People"});
             ItemRowAdapter peopleAdapter = new ItemRowAdapter(people, new CardPresenter(), mRowsAdapter);
             ListRow peopleRow = new ListRow(new HeaderItem(activity.getString(R.string.lbl_people)), peopleAdapter);
             peopleAdapter.setRow(peopleRow);

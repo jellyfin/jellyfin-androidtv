@@ -42,19 +42,16 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.squareup.okhttp.internal.Util;
 import com.squareup.picasso.Picasso;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
-import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dlna.SubtitleStreamInfo;
 import mediabrowser.model.dto.BaseItemDto;
@@ -1332,6 +1329,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
                     List<MediaStream> audioTracks = TvApp.getApplication().getPlaybackManager().getInPlaybackSelectableAudioStreams(mPlaybackController.getCurrentStreamInfo());
                     Integer currentAudioIndex = mPlaybackController.getAudioStreamIndex();
+                    if (!mPlaybackController.isNativeMode() && currentAudioIndex > audioTracks.size()) {
+                        //VLC has translated this to an ID - we need to translate back to our index positionally
+                        currentAudioIndex = mPlaybackController.translateVlcAudioId(currentAudioIndex);
+                    }
 
                     PopupMenu audioMenu = Utils.createPopupMenu(getActivity(), v, Gravity.RIGHT);
                     for (MediaStream audio : audioTracks) {

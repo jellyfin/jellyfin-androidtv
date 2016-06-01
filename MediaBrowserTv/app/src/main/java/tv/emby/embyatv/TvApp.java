@@ -179,7 +179,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     }
 
     public ApiClient getApiClient() {
-        return connectionManager.GetApiClient(currentUser);
+        return currentUser != null ? connectionManager.GetApiClient(currentUser) : null;
     }
 
     public BaseItemDto getCurrentPlayingItem() {
@@ -383,6 +383,8 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     public boolean directStreamLiveTv() { return getPrefs().getBoolean("pref_live_direct", true); }
 
     public void setDirectStreamLiveTv(boolean value) { getPrefs().edit().putBoolean("pref_live_direct", value).commit(); }
+
+    public boolean useVlcForLiveTv() { return getPrefs().getBoolean("pref_enable_vlc_livetv", true); }
 
     public Calendar getLastTvPlayback() {
         return lastTvPlayback.after(lastPlayback) ? lastTvPlayback : lastPlayback;
