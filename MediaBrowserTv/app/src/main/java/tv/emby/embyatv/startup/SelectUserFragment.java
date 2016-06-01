@@ -110,7 +110,7 @@ public class SelectUserFragment extends CustomBrowseFragment {
                         break;
                     case LOGIN_CONNECT:
                         //Logout since we've already connected to a server
-                        TvApp.getApplication().getApiClient().Logout(new EmptyResponse());
+                        if (TvApp.getApplication().getApiClient() != null) TvApp.getApplication().getApiClient().Logout(new EmptyResponse());
                         Intent intent = new Intent(getActivity(), ConnectActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         startActivity(intent);
