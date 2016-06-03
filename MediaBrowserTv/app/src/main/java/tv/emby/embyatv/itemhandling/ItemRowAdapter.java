@@ -256,10 +256,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
-    public ItemRowAdapter(RecordingQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(RecordingQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
         super(presenter);
         mParent = parent;
         mTvRecordingQuery = query;
+        this.chunkSize = chunkSize;
         queryType = QueryType.LiveTvRecording;
         add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
@@ -1221,7 +1222,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
                     int prevItems = adapter.size() > 0 ? adapter.size() : 0;
-                    if (query.getGroupId() == null) {
+                    if (adapter.chunkSize == 0) {
                         // and recordings as first item if showing all
                         adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_RECORDINGS_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv), R.drawable.recgroup)));
                         i++;

@@ -118,8 +118,13 @@ public class BrowseRowDef {
     }
 
     public BrowseRowDef(String header, RecordingQuery query) {
+        this(header, query, 0);
+    }
+
+    public BrowseRowDef(String header, RecordingQuery query, int chunkSize) {
         headerText = header;
         this.recordingQuery = query;
+        this.chunkSize = chunkSize;
         this.queryType = QueryType.LiveTvRecording;
     }
 

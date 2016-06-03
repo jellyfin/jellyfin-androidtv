@@ -82,22 +82,31 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                         if (recordingsResponse.getTotalRecordCount() > 0) {
                             List<BaseItemDto> dayItems = new ArrayList<>();
                             List<BaseItemDto> weekItems = new ArrayList<>();
+                            List<BaseItemDto> otherItems = new ArrayList<>();
 
                             long past24 = System.currentTimeMillis() - ticks24;
                             long pastWeek = System.currentTimeMillis() - (ticks24 * 7);
                             for (BaseItemDto item : recordingsResponse.getItems()) {
-                                if (Utils.convertToLocalDate(item.getStartDate()).getTime() >= past24) {
-                                    dayItems.add(item);
-                                } else if (Utils.convertToLocalDate(item.getStartDate()).getTime() >= pastWeek) {
-                                    weekItems.add(item);
+                                if (item.getDateCreated() != null) {
+                                    if (Utils.convertToLocalDate(item.getDateCreated()).getTime() >= past24) {
+                                        dayItems.add(item);
+                                    } else if (Utils.convertToLocalDate(item.getDateCreated()).getTime() >= pastWeek) {
+                                        weekItems.add(item);
+                                    } else {
+                                        otherItems.add(item);
+                                    }
+                                } else {
+                                    otherItems.add(item);
                                 }
                             }
 
                             //First put all recordings in and retrieve
-                            //All Recordings by group
-                            RecordingGroupQuery recordingGroups = new RecordingGroupQuery();
-                            recordingGroups.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                            mRows.add(new BrowseRowDef("All Recordings", recordingGroups));
+                            //All Recordings
+                            RecordingQuery recordings = new RecordingQuery();
+                            recordings.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+                            recordings.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                            recordings.setEnableImages(true);
+                            mRows.add(new BrowseRowDef("All Recordings", recordings, 100));
                             rowLoader.loadRows(mRows);
 
                             //Now insert our smart rows
