@@ -70,7 +70,7 @@ public class ProfileHelper {
 
         DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
         videoDirectPlayProfile.setContainer("m4v,3gp,ts,mpegts,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,m2v,avi,mpg,mpeg,mp4,webm");
-        videoDirectPlayProfile.setAudioCodec("aac,mp3,mp2,ac3,wma,dca,pcm,PCM_S16LE,PCM_S24LE,opus,flac" + (Utils.downMixAudio() ? "" : ",aac_latm"));
+        videoDirectPlayProfile.setAudioCodec("aac,mp3,mp2,ac3,wma,wmav2,dca,pcm,PCM_S16LE,PCM_S24LE,opus,flac" + (Utils.downMixAudio() ? "" : ",aac_latm"));
         videoDirectPlayProfile.setType(DlnaProfileType.Video);
 
         DirectPlayProfile audioDirectPlayProfile = new DirectPlayProfile();
