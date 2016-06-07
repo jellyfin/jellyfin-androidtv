@@ -1164,7 +1164,7 @@ public class Utils {
     }
 
     public static void ReportProgress(BaseItemDto item, StreamInfo currentStreamInfo, long position, boolean isPaused) {
-        if (item != null) {
+        if (item != null && currentStreamInfo != null) {
             PlaybackProgressInfo info = new PlaybackProgressInfo();
             ApiClient apiClient = TvApp.getApplication().getApiClient();
             info.setItemId(item.getId());
