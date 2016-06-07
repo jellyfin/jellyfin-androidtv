@@ -234,56 +234,44 @@ public class PlaybackController {
                     return;
                 }
 
-                startSpinner();
-                mCurrentOptions = new VideoOptions();
-                mCurrentOptions.setDeviceId(mApplication.getApiClient().getDeviceId());
-                mCurrentOptions.setItemId(item.getId());
-                mCurrentOptions.setMediaSources(item.getMediaSources());
-                mCurrentOptions.setMaxBitrate(getMaxBitrate());
-                if (Utils.downMixAudio()) mCurrentOptions.setMaxAudioChannels(2);
-                if (!mVideoManager.isNativeMode()) {
-                    mCurrentOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
-                    mCurrentOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
-                } else {
-                    TvApp.getApplication().getLogger().Info("Transcoded subtitle requested.  Will switch to VLC to embed");
-                }
-                mDefaultSubIndex = transcodedSubtitle;
-
-                TvApp.getApplication().getLogger().Debug("Max bitrate is: " + getMaxBitrate());
                 isLiveTv = item.getType().equals("TvChannel");
+                startSpinner();
 
-                // Create our profile - use VLC unless live tv or on FTV stick and over SD
-                useVlc = (TvApp.getApplication().getPrefs().getBoolean("pref_enable_vlc", true) && (transcodedSubtitle >= 0 || (Utils.downMixAudio() && !isLiveTv) || ((!Utils.is60() && (!isLiveTv || (mApplication.directStreamLiveTv()))) || (isLiveTv && mApplication.directStreamLiveTv() && mApplication.useVlcForLiveTv()) || (item.getPath() != null && item.getPath().toLowerCase().endsWith(".ts"))) && (!"ChannelVideoItem".equals(item.getType()))));
-                if (useVlc && item.getMediaSources() != null && item.getMediaSources().size() > 0) {
-                    List<MediaStream> videoStreams = Utils.GetVideoStreams(item.getMediaSources().get(0));
-                    MediaStream video = videoStreams != null && videoStreams.size() > 0 ? videoStreams.get(0) : null;
-                    if (video != null && video.getWidth() > (Utils.isFireTvStick() ? 730 : Integer.parseInt(mApplication.getPrefs().getString("pref_vlc_max_res", "730")))) {
-                        useVlc = false;
-                        mApplication.getLogger().Info("Forcing a transcode of HD content");
-                    }
+                //Build options for each player
+                VideoOptions vlcOptions = new VideoOptions();
+                vlcOptions.setDeviceId(mApplication.getApiClient().getDeviceId());
+                vlcOptions.setItemId(item.getId());
+                vlcOptions.setMediaSources(item.getMediaSources());
+                vlcOptions.setMaxBitrate(getMaxBitrate());
+                vlcOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
+                vlcOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
+                DeviceProfile vlcProfile = ProfileHelper.getBaseProfile();
+                ProfileHelper.setVlcOptions(vlcProfile);
+                vlcOptions.setProfile(vlcProfile);
+
+                VideoOptions internalOptions = new VideoOptions();
+                internalOptions.setDeviceId(mApplication.getApiClient().getDeviceId());
+                internalOptions.setItemId(item.getId());
+                internalOptions.setMediaSources(item.getMediaSources());
+                internalOptions.setMaxBitrate(getMaxBitrate());
+                internalOptions.setMaxAudioChannels(Utils.downMixAudio() ? 2 : null); //have to downmix at server
+                internalOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
+                internalOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
+                DeviceProfile internalProfile = ProfileHelper.getBaseProfile();
+                if (Utils.is60() || mApplication.getPrefs().getBoolean("pref_bitstream_ac3", true)) {
+                    ProfileHelper.setExoOptions(internalProfile, isLiveTv, true);
+                    ProfileHelper.addAc3Streaming(internalProfile, true);
+                    mApplication.getLogger().Info("*** Using extended Exoplayer profile options");
+
                 } else {
-                    useVlc = useVlc && !Utils.isFireTvStick();
+                    mApplication.getLogger().Info("*** Using default android profile");
                 }
+                internalOptions.setProfile(internalProfile);
 
-                DeviceProfile profile = ProfileHelper.getBaseProfile();
-                if (useVlc) {
-                    ProfileHelper.setVlcOptions(profile);
-                    mApplication.getLogger().Info("*** Using VLC profile options");
-                } else {
-                    if (Utils.is60() || mApplication.getPrefs().getBoolean("pref_bitstream_ac3", true)) {
-                        ProfileHelper.setExoOptions(profile, isLiveTv, true);
-                        ProfileHelper.addAc3Streaming(profile, true);
-                        mApplication.getLogger().Info("*** Using extended Exoplayer profile options for 6.0+");
+                mDefaultSubIndex = transcodedSubtitle;
+                TvApp.getApplication().getLogger().Debug("Max bitrate is: " + getMaxBitrate());
 
-                    } else {
-                        mApplication.getLogger().Info("*** Using default android profile");
-                    }
-
-                }
-
-                mCurrentOptions.setProfile(profile);
-
-                playInternal(getCurrentlyPlayingItem(), position, mCurrentOptions);
+                playInternal(getCurrentlyPlayingItem(), position, vlcOptions, internalOptions);
                 mPlaybackState = PlaybackState.BUFFERING;
                 if (mFragment != null) {
                     mFragment.setPlayPauseActionState(ImageButton.STATE_SECONDARY);
@@ -329,7 +317,7 @@ public class PlaybackController {
         return 600;
     }
 
-    private void playInternal(final BaseItemDto item, final long position, final VideoOptions options) {
+    private void playInternal(final BaseItemDto item, final long position, final VideoOptions vlcOptions, final VideoOptions internalOptions) {
         final ApiClient apiClient = mApplication.getApiClient();
         mApplication.setCurrentPlayingItem(item);
         if (isLiveTv) {
@@ -338,53 +326,56 @@ public class PlaybackController {
             TvManager.setLastLiveTvChannel(item.getId());
         }
 
-        mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
+        // Get playback info for each player and then decide on which one to use
+        mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), vlcOptions, false, apiClient, new Response<StreamInfo>() {
             @Override
-            public void onResponse(StreamInfo response) {
-                if (!useVlc && (options.getAudioStreamIndex() != null && !options.getAudioStreamIndex().equals(bestGuessAudioTrack(response.getMediaSource())))) {
-                    // requested specific audio stream that is different from default so we need to force a transcode to get it (ExoMedia currently cannot switch)
-                    // remove direct play profiles to force the transcode
-                    final DeviceProfile save = options.getProfile();
-                    DeviceProfile newProfile = ProfileHelper.getBaseProfile();
-                    ProfileHelper.setExoOptions(newProfile, isLiveTv, true);
-                    if (!Utils.downMixAudio()) ProfileHelper.addAc3Streaming(newProfile, true);
-                    newProfile.setDirectPlayProfiles(new DirectPlayProfile[]{});
-                    options.setProfile(newProfile);
-                    mApplication.getLogger().Info("Forcing transcode due to non-default audio chosen");
-                    mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
-                        @Override
-                        public void onResponse(StreamInfo response) {
-                            //re-set this
-                            options.setProfile(save);
-                            startItem(item, position, apiClient, response);
+            public void onResponse(final StreamInfo vlcResponse) {
+                mApplication.getLogger().Info("VLC would " + (vlcResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream"));
+                mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, false, apiClient, new Response<StreamInfo>() {
+                    @Override
+                    public void onResponse(StreamInfo internalResponse) {
+                        mApplication.getLogger().Info("Internal player would " + (internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream"));
+                        // Now look at both responses and choose the one that direct plays or bitstreams - favor VLC
+                        useVlc = !vlcResponse.getPlayMethod().equals(PlayMethod.Transcode)
+                                && (Utils.is60() || !mApplication.getPrefs().getBoolean("pref_bitstream_ac3", false))
+                                && (Utils.downMixAudio() || !Utils.is60() || internalResponse.getPlayMethod().equals(PlayMethod.Transcode) || internalResponse.getMediaSource() == null || internalResponse.getMediaSource().getDefaultAudioStream() == null || !internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dca"))
+                                && (!isLiveTv || (mApplication.directStreamLiveTv() && mApplication.useVlcForLiveTv()));
+
+                        mApplication.getLogger().Info(useVlc ? "Preferring VLC" : "Will use internal player");
+                        if (!useVlc && (internalOptions.getAudioStreamIndex() != null && !internalOptions.getAudioStreamIndex().equals(bestGuessAudioTrack(internalResponse.getMediaSource())))) {
+                            // requested specific audio stream that is different from default so we need to force a transcode to get it (ExoMedia currently cannot switch)
+                            // remove direct play profiles to force the transcode
+                            final DeviceProfile save = internalOptions.getProfile();
+                            DeviceProfile newProfile = ProfileHelper.getBaseProfile();
+                            ProfileHelper.setExoOptions(newProfile, isLiveTv, true);
+                            if (!Utils.downMixAudio()) ProfileHelper.addAc3Streaming(newProfile, true);
+                            newProfile.setDirectPlayProfiles(new DirectPlayProfile[]{});
+                            internalOptions.setProfile(newProfile);
+                            mApplication.getLogger().Info("Forcing transcode due to non-default audio chosen");
+                            mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, false, apiClient, new Response<StreamInfo>() {
+                                @Override
+                                public void onResponse(StreamInfo response) {
+                                    //re-set this
+                                    internalOptions.setProfile(save);
+                                    mCurrentOptions = internalOptions;
+                                    startItem(item, position, apiClient, response);
+                                }
+                            });
+                        } else {
+                            mCurrentOptions = useVlc ? vlcOptions : internalOptions;
+                            startItem(item, position, apiClient, useVlc ? vlcResponse : internalResponse);
                         }
-                    });
-                } else if (useVlc && !Utils.is60() && mDefaultSubIndex < 0 && !isLiveTv && !Utils.downMixAudio() && TvApp.getApplication().getPrefs().getBoolean("pref_bitstream_ac3", true)) {
-                    MediaStream audio = response.getMediaSource().getDefaultAudioStream();
-                    if (audio != null && ("ac3".equals(audio.getCodec()) || "eac3".equals(audio.getCodec()))) {
-                        // Use Exo to get DD bitstreaming
-                        final DeviceProfile save = options.getProfile();
-                        DeviceProfile newProfile = ProfileHelper.getBaseProfile();
-                        ProfileHelper.setExoOptions(newProfile, false, true);
-                        ProfileHelper.addAc3Streaming(newProfile, true);
-                        options.setProfile(newProfile);
-                        useVlc = false;
-                        mApplication.getLogger().Info("Using Exo for DD bitstreaming");
-                        mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
-                            @Override
-                            public void onResponse(StreamInfo response) {
-                                //re-set this
-                                options.setProfile(save);
-                                startItem(item, position, apiClient, response);
-                            }
-                        });
-                    } else {
-                        startItem(item, position, apiClient, response);
                     }
 
-                } else {
-                    startItem(item, position, apiClient, response);
-                }
+                    @Override
+                    public void onError(Exception exception) {
+                        mApplication.getLogger().ErrorException("Unable to get internal stream info", exception);
+                        useVlc = true;
+                        mCurrentOptions = vlcOptions;
+                        startItem(item, position, apiClient, vlcResponse);
+                    }
+                });
+
             }
 
             @Override
@@ -416,6 +407,7 @@ public class PlaybackController {
         setPlaybackMethod(response.getPlayMethod());
 
         if (useVlc && !getPlaybackMethod().equals(PlayMethod.Transcode)) {
+            TvApp.getApplication().getLogger().Info("Playing back in VLC.");
             mVideoManager.setNativeMode(false);
         } else {
             mVideoManager.setNativeMode(true);
@@ -438,9 +430,9 @@ public class PlaybackController {
         mFragment.updateDisplay();
         String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken());
 
-        // if source is stereo or we're not on at least 5.1.1 with AC3 - use most compatible output
-        if (!mVideoManager.isNativeMode() && (isLiveTv && !Utils.isGreaterThan51()) || (response.getMediaSource() != null && response.getMediaSource().getDefaultAudioStream() != null && response.getMediaSource().getDefaultAudioStream().getChannels() != null && (response.getMediaSource().getDefaultAudioStream().getChannels() <= 2
-                || (!Utils.isGreaterThan51() && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec()))))) {
+        // if source is stereo or we're not on at least 6.0 with AC3 - use most compatible output
+        if (!mVideoManager.isNativeMode() && (isLiveTv && !Utils.is60()) || (response.getMediaSource() != null && response.getMediaSource().getDefaultAudioStream() != null && response.getMediaSource().getDefaultAudioStream().getChannels() != null && (response.getMediaSource().getDefaultAudioStream().getChannels() <= 2
+                || (!Utils.is60() && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec()))))) {
             mVideoManager.setCompatibleAudio();
             mApplication.getLogger().Info("Setting compatible audio mode...");
             //Utils.showToast(mApplication, "Compatible");
@@ -512,15 +504,11 @@ public class PlaybackController {
             mApplication.getLogger().Debug("Setting audio index to: " + index);
             mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
             stop();
-            playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mCurrentOptions);
+            playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mCurrentOptions, mCurrentOptions);
             mPlaybackState = PlaybackState.BUFFERING;
         } else {
             mVideoManager.setAudioTrack(index, getCurrentMediaSource().getMediaStreams());
-            if (!Utils.supportsAc3() && "ac3".equals(getCurrentMediaSource().getMediaStreams().get(index).getCodec())) {
-                mVideoManager.setCompatibleAudio();
-            } else {
-                mVideoManager.setAudioMode();
-            }
+            mVideoManager.setAudioMode();
         }
     }
 
