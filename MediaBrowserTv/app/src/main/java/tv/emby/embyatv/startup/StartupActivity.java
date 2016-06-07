@@ -59,7 +59,6 @@ public class StartupActivity extends Activity {
 
         //Migrate prefs
         if (Integer.parseInt(application.getConfigVersion()) < 2) {
-            application.getPrefs().edit().putString("pref_vlc_max_res", "2900").commit();
             application.getSystemPrefs().edit().putString("sys_pref_config_version", "2").commit();
         }
         if (Integer.parseInt(application.getConfigVersion()) < 3) {

@@ -328,7 +328,7 @@ public class VideoManager implements IVLCVout.Callback {
 
     public void setAudioTrack(int ndx, List<MediaStream> allStreams) {
         if (!nativeMode) {
-            //find the relative order of our sub index within the sub tracks in VLC
+            //find the relative order of our audio index within the audio tracks in VLC
             int vlcIndex = 1; // start at 1 to account for "disabled"
             for (MediaStream stream : allStreams) {
                 if (stream.getType() == MediaStreamType.Audio && !stream.getIsExternal()) {
@@ -344,8 +344,8 @@ public class VideoManager implements IVLCVout.Callback {
                 vlcTrack = mVlcPlayer.getAudioTracks()[vlcIndex];
 
             } catch (IndexOutOfBoundsException e) {
-                TvApp.getApplication().getLogger().Error("Could not locate subtitle with index %s in vlc track info", ndx);
-                mVlcPlayer.setAudioTrack(vlcIndex);
+                TvApp.getApplication().getLogger().Error("Could not locate audio with index %s in vlc track info", ndx);
+                mVlcPlayer.setAudioTrack(ndx);
                 return;
             } catch (NullPointerException e){
                 TvApp.getApplication().getLogger().Error("No subtitle tracks found in player trying to set subtitle with index %s in vlc track info", ndx);
