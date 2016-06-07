@@ -571,6 +571,7 @@ public class Utils {
                 query.setLimit(150); // guard against too many items
                 query.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
                 query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                query.setParentId(mainItem.getId());
                 TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
