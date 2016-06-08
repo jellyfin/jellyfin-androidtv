@@ -66,11 +66,11 @@ public class ProfileHelper {
 
     }
 
-    public static void setVlcOptions(DeviceProfile profile) {
+    public static void setVlcOptions(DeviceProfile profile, boolean isLiveTv) {
 
         DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
         videoDirectPlayProfile.setContainer("m4v,3gp,ts,mpegts,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,m2v,avi,mpg,mpeg,mp4,webm,wtv");
-        videoDirectPlayProfile.setAudioCodec("aac,mp3,mp2,ac3,wma,wmav2,dca,pcm,PCM_S16LE,PCM_S24LE,opus,flac" + (Utils.downMixAudio() ? "" : ",aac_latm"));
+        videoDirectPlayProfile.setAudioCodec("aac,mp3,mp2,ac3,wma,wmav2,dca,pcm,PCM_S16LE,PCM_S24LE,opus,flac" + (Utils.downMixAudio() || !isLiveTv ? "" : ",aac_latm"));
         videoDirectPlayProfile.setType(DlnaProfileType.Video);
 
         DirectPlayProfile audioDirectPlayProfile = new DirectPlayProfile();
@@ -133,7 +133,7 @@ public class ProfileHelper {
                 TvApp.getApplication().getLogger().Info("*** Excluding DTS and AC3 audio from direct play due to compatible audio setting");
                 videoDirectPlayProfile.setAudioCodec("aac,mp3,mp2");
             } else {
-                videoDirectPlayProfile.setAudioCodec(allowDTS ? "aac,ac3,eac3,dca,mp3,mp2" : "aac,ac3,eac3,mp3,mp2");
+                videoDirectPlayProfile.setAudioCodec("aac,ac3,eac3,aac_latm,mp3,mp2" + (allowDTS ? ",dca" : ""));
             }
             videoDirectPlayProfile.setType(DlnaProfileType.Video);
             directPlayProfiles.add(videoDirectPlayProfile);
