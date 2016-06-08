@@ -559,7 +559,7 @@ public class MediaManager {
         if (Utils.is60()) {
             ProfileHelper.setExoOptions(profile, false, true);
         } else {
-            ProfileHelper.setVlcOptions(profile);
+            ProfileHelper.setVlcOptions(profile, false);
         }
         options.setProfile(profile);
         TvApp.getApplication().getPlaybackManager().getAudioStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {

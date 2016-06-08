@@ -246,7 +246,7 @@ public class PlaybackController {
                 vlcOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
                 vlcOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
                 DeviceProfile vlcProfile = ProfileHelper.getBaseProfile();
-                ProfileHelper.setVlcOptions(vlcProfile);
+                ProfileHelper.setVlcOptions(vlcProfile, isLiveTv);
                 vlcOptions.setProfile(vlcProfile);
 
                 VideoOptions internalOptions = new VideoOptions();
