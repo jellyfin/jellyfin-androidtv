@@ -459,6 +459,24 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 ItemRowAdapter similarMoviesAdapter = new ItemRowAdapter(similar, QueryType.SimilarMovies, new CardPresenter(), adapter);
                 addItemRow(adapter, similarMoviesAdapter, 4, mActivity.getString(R.string.lbl_similar_movies));
                 break;
+            case "Trailer":
+
+                //Cast/Crew
+                if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
+                    ItemRowAdapter castAdapter = new ItemRowAdapter(mBaseItem.getPeople(), new CardPresenter(), adapter);
+                    addItemRow(adapter, castAdapter, 0, mActivity.getString(R.string.lbl_cast_crew));
+                }
+
+                //Similar
+                SimilarItemsQuery similarTrailer = new SimilarItemsQuery();
+                similarTrailer.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
+                similarTrailer.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                similarTrailer.setId(mBaseItem.getId());
+                similarTrailer.setLimit(10);
+
+                ItemRowAdapter similarTrailerAdapter = new ItemRowAdapter(similarTrailer, QueryType.SimilarMovies, new CardPresenter(), adapter);
+                addItemRow(adapter, similarTrailerAdapter, 4, mActivity.getString(R.string.lbl_similar_movies));
+                break;
             case "Person":
 
                 ItemQuery personMovies = new ItemQuery();
