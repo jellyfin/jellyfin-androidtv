@@ -335,6 +335,9 @@ public class PlaybackController {
                     @Override
                     public void onResponse(StreamInfo internalResponse) {
                         mApplication.getLogger().Info("Internal player would " + (internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream"));
+                        boolean isInterlaced = vlcResponse.getMediaSource().getVideoStream().getIsInterlaced();
+                        mApplication.getLogger().Info(isInterlaced ? "Stream is interlaced" : "Stream is not interlaced");
+
                         // Now look at both responses and choose the one that direct plays or bitstreams - favor VLC
                         useVlc = !vlcResponse.getPlayMethod().equals(PlayMethod.Transcode)
                                 && (Utils.is60() || !mApplication.getPrefs().getBoolean("pref_bitstream_ac3", false))
@@ -342,6 +345,7 @@ public class PlaybackController {
                                 && (!isLiveTv || (mApplication.directStreamLiveTv() && mApplication.useVlcForLiveTv()));
 
                         mApplication.getLogger().Info(useVlc ? "Preferring VLC" : "Will use internal player");
+                        mVideoManager.init(getBufferAmount(), isInterlaced);
                         if (!useVlc && (internalOptions.getAudioStreamIndex() != null && !internalOptions.getAudioStreamIndex().equals(bestGuessAudioTrack(internalResponse.getMediaSource())))) {
                             // requested specific audio stream that is different from default so we need to force a transcode to get it (ExoMedia currently cannot switch)
                             // remove direct play profiles to force the transcode
