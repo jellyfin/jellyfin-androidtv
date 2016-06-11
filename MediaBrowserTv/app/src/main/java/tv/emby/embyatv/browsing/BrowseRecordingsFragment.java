@@ -106,7 +106,11 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                             recordings.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
                             recordings.setUserId(TvApp.getApplication().getCurrentUser().getId());
                             recordings.setEnableImages(true);
-                            mRows.add(new BrowseRowDef("All Recordings", recordings, 100));
+                            mRows.add(new BrowseRowDef("Recent Recordings", recordings, 50));
+                            //All Recordings by group - will only be there for non-internal TV
+                            RecordingGroupQuery recordingGroups = new RecordingGroupQuery();
+                            recordingGroups.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                            mRows.add(new BrowseRowDef("All Recordings", recordingGroups));
                             rowLoader.loadRows(mRows);
 
                             //Now insert our smart rows
