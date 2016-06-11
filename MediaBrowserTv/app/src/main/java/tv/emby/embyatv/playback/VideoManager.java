@@ -60,6 +60,8 @@ public class VideoManager implements IVLCVout.Callback {
     private int mVideoVisibleWidth;
     private int mSarNum;
     private int mSarDen;
+    private int mCurrentBuffer;
+    private boolean mIsInterlaced;
 
     private long mForcedTime = -1;
     private long mLastTime = -1;
@@ -70,7 +72,7 @@ public class VideoManager implements IVLCVout.Callback {
     public boolean isContracted = false;
     private boolean hasSubtitlesSurface = false;
 
-    public VideoManager(PlaybackOverlayActivity activity, View view, int buffer) {
+    public VideoManager(PlaybackOverlayActivity activity, View view) {
         mActivity = activity;
         mSurfaceView = (SurfaceView) view.findViewById(R.id.player_surface);
         mSurfaceHolder = mSurfaceView.getHolder();
@@ -86,8 +88,10 @@ public class VideoManager implements IVLCVout.Callback {
         }
         mVideoView = (EMVideoView) view.findViewById(R.id.videoView);
 
-        createPlayer(buffer);
+    }
 
+    public void init(int buffer, boolean isInterlaced) {
+        createPlayer(buffer, isInterlaced);
     }
 
     public void setNativeMode(boolean value) {
@@ -415,7 +419,9 @@ public class VideoManager implements IVLCVout.Callback {
         releasePlayer();
     }
 
-    private void createPlayer(int buffer) {
+    private void createPlayer(int buffer, boolean isInterlaced) {
+        if (mVlcPlayer != null && mIsInterlaced == isInterlaced && mCurrentBuffer == buffer) return; // don't need to re-create
+
         try {
 
             // Create a new media player
@@ -433,6 +439,10 @@ public class VideoManager implements IVLCVout.Callback {
             options.add("--audio-resampler");
             options.add("soxr");
             options.add("--stats");
+            if (isInterlaced) {
+                options.add("--video-filter=deinterlace");
+                options.add("--deinterlace-mode=Bob");
+            }
 //            options.add("--subsdec-encoding");
 //            options.add("Universal (UTF-8)");
             options.add("-v");
