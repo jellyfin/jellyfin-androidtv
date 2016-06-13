@@ -82,7 +82,6 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                         if (recordingsResponse.getTotalRecordCount() > 0) {
                             List<BaseItemDto> dayItems = new ArrayList<>();
                             List<BaseItemDto> weekItems = new ArrayList<>();
-                            List<BaseItemDto> otherItems = new ArrayList<>();
 
                             long past24 = System.currentTimeMillis() - ticks24;
                             long pastWeek = System.currentTimeMillis() - (ticks24 * 7);
@@ -92,11 +91,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                                         dayItems.add(item);
                                     } else if (Utils.convertToLocalDate(item.getDateCreated()).getTime() >= pastWeek) {
                                         weekItems.add(item);
-                                    } else {
-                                        otherItems.add(item);
                                     }
-                                } else {
-                                    otherItems.add(item);
                                 }
                             }
 
