@@ -1303,7 +1303,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     showGuide();
                 }
             }));
-        } else if (!TextUtils.isEmpty(item.getOverview())) {
+        }
+
+        if (!TextUtils.isEmpty(item.getOverview())) {
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.infoicon, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
