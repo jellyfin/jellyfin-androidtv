@@ -744,6 +744,7 @@ public class PlaybackController {
                         channel.setPremiereDate(program.getStartDate());
                         channel.setEndDate(program.getEndDate());
                         channel.setOfficialRating(program.getOfficialRating());
+                        channel.setOverview(program.getOverview());
                         channel.setRunTimeTicks(program.getRunTimeTicks());
                         mCurrentProgramEndTime = channel.getEndDate() != null ? Utils.convertToLocalDate(channel.getEndDate()).getTime() : 0;
                         mCurrentProgramStartTime = channel.getPremiereDate() != null ? Utils.convertToLocalDate(channel.getPremiereDate()).getTime() : 0;
