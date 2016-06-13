@@ -1,11 +1,14 @@
 package tv.emby.embyatv.playback;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 
 import java.util.List;
 
@@ -77,12 +80,18 @@ public class PlaybackController {
 
     private boolean updateProgress = true;
 
+    private Display.Mode[] mDisplayModes;
+    private boolean refreshRateSwitchingEnabled;
+
     public PlaybackController(List<BaseItemDto> items, IPlaybackOverlayFragment fragment) {
         mItems = items;
         mFragment = fragment;
         mApplication = TvApp.getApplication();
         mHandler = new Handler();
         mSubHelper = new SubtitleHelper(TvApp.getApplication().getCurrentActivity());
+
+        refreshRateSwitchingEnabled = Utils.is60() && mApplication.getPrefs().getBoolean("pref_refresh_switching", false);
+        if (refreshRateSwitchingEnabled) getDisplayModes();
 
     }
 
@@ -148,6 +157,50 @@ public class PlaybackController {
         }
 
         return null;
+    }
+
+    @TargetApi(23)
+    private void getDisplayModes() {
+        Display display = mApplication.getCurrentActivity().getWindowManager().getDefaultDisplay();
+        mDisplayModes = display.getSupportedModes();
+        mApplication.getLogger().Info("** Available display refresh rates:");
+        for (Display.Mode mDisplayMode : mDisplayModes) {
+            mApplication.getLogger().Info(Float.toString(mDisplayMode.getRefreshRate()));
+        }
+
+    }
+
+    @TargetApi(23)
+    private Display.Mode findBestDisplayMode(Float refreshRate) {
+        if (mDisplayModes == null || refreshRate == null) return null;
+
+        int sourceRate = Math.round(refreshRate);
+        for (Display.Mode mode : mDisplayModes){
+            if (Math.round(mode.getRefreshRate()) == sourceRate) return mode;
+        }
+
+        return null;
+    }
+
+    @TargetApi(23)
+    private void setRefreshRate(MediaStream videoStream) {
+        Display.Mode current = mApplication.getCurrentActivity().getWindowManager().getDefaultDisplay().getMode();
+        Display.Mode best = findBestDisplayMode(videoStream.getRealFrameRate());
+        if (best != null) {
+            mApplication.getLogger().Info("*** Best refresh mode is: %s/%s",best.getModeId(), best.getRefreshRate());
+            if (current.getModeId() != best.getModeId()) {
+                mApplication.getLogger().Info("*** Attempting to change refresh rate from %s/%s",current.getModeId(), current.getRefreshRate());
+                WindowManager.LayoutParams params = mApplication.getCurrentActivity().getWindow().getAttributes();
+                params.preferredDisplayModeId = best.getModeId();
+                mApplication.getCurrentActivity().getWindow().setAttributes(params);
+            } else {
+                mApplication.getLogger().Info("Display is already in best mode");
+            }
+        } else {
+            mApplication.getLogger().Info("*** Unable to find display mode for refresh rate: %s",videoStream.getRealFrameRate());
+        }
+
+
     }
 
     public void play(long position) {
@@ -340,7 +393,7 @@ public class PlaybackController {
 
                         // Now look at both responses and choose the one that direct plays or bitstreams - favor VLC
                         useVlc = !vlcResponse.getPlayMethod().equals(PlayMethod.Transcode)
-                                && (Utils.is60() || !mApplication.getPrefs().getBoolean("pref_bitstream_ac3", false))
+                                && (Utils.is60() || !mApplication.getPrefs().getBoolean("pref_bitstream_ac3", false) || !"ac3".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec()))
                                 && (Utils.downMixAudio() || !Utils.is60() || internalResponse.getPlayMethod().equals(PlayMethod.Transcode) || internalResponse.getMediaSource() == null || internalResponse.getMediaSource().getDefaultAudioStream() == null || !internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dca"))
                                 && (!isLiveTv || (mApplication.directStreamLiveTv() && mApplication.useVlcForLiveTv()));
 
@@ -421,6 +474,11 @@ public class PlaybackController {
                 mCurrentStreamInfo.setMaxAudioChannels(2);
             }
 
+        }
+
+        // set refresh rate
+        if (refreshRateSwitchingEnabled) {
+            setRefreshRate(response.getMediaSource().getVideoStream());
         }
 
         // get subtitle info

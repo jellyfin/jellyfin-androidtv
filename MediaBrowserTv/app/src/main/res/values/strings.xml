@@ -347,6 +347,7 @@
     <string name="lbl_show_backdrop">Show Backdrop while Browsing</string>
     <string name="lbl_use_vlc_livetv">Attempt to use VLC for live TV</string>
     <string name="desc_use_vlc_livetv">Use VLC for direct streamed Live TV if available</string>
+    <string name="lbl_refresh_switching">Enable Refresh Rate Switching</string>
 
 
 </resources>
