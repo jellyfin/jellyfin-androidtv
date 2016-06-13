@@ -1,5 +1,6 @@
 package tv.emby.embyatv.playback;
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.ComponentName;
 import android.content.Context;
@@ -22,6 +23,7 @@ import android.support.v17.leanback.widget.RowPresenter;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;

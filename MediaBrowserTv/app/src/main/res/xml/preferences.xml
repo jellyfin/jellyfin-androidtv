@@ -78,6 +78,10 @@
             android:defaultValue="true"
             android:summary="@string/sum_enable_cinema_mode"
             />
+        <CheckBoxPreference android:key="pref_refresh_switching"
+            android:title="@string/lbl_refresh_switching"
+            android:defaultValue="true"
+            />
         <CheckBoxPreference android:key="pref_live_direct"
             android:title="@string/lbl_direct_stream_live"
             android:defaultValue="true"
