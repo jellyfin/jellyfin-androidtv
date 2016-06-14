@@ -176,7 +176,8 @@ public class PlaybackController {
 
         int sourceRate = Math.round(refreshRate);
         for (Display.Mode mode : mDisplayModes){
-            if (Math.round(mode.getRefreshRate()) == sourceRate) return mode;
+            int rate = Math.round(mode.getRefreshRate());
+            if (rate == sourceRate || rate == sourceRate * 2) return mode;
         }
 
         return null;
