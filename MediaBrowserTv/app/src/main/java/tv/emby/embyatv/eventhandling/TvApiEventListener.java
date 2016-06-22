@@ -53,6 +53,7 @@ public class TvApiEventListener extends ApiEventListener {
 
     @Override
     public void onGeneralCommand(ApiClient client, GeneralCommand command) {
+        TvApp.getApplication().getLogger().Info("General command is: "+command.getName());
         switch (command.getName().toLowerCase()) {
             case "mute":
                 TvApp.getApplication().setAudioMuted(true);

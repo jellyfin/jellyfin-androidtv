@@ -208,7 +208,13 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     public void setAudioMuted(boolean value) {
         audioMuted = value;
-        audioManager.setStreamMute(AudioManager.STREAM_MUSIC, audioMuted);
+        getLogger().Info("Setting mute state to: "+audioMuted);
+        if (Utils.is60()) {
+            audioManager.adjustVolume(audioMuted ? AudioManager.ADJUST_MUTE : AudioManager.ADJUST_UNMUTE, 0);
+
+        } else {
+            audioManager.setStreamMute(AudioManager.STREAM_MUSIC, audioMuted);
+        }
     }
 
     public boolean isAudioMuted() { return audioMuted; }
