@@ -185,6 +185,11 @@ public class PlaybackController {
 
     @TargetApi(23)
     private void setRefreshRate(MediaStream videoStream) {
+        if (videoStream == null) {
+            mApplication.getLogger().Error("Null video stream attempting to set refresh rate");
+            return;
+        }
+
         Display.Mode current = mApplication.getCurrentActivity().getWindowManager().getDefaultDisplay().getMode();
         Display.Mode best = findBestDisplayMode(videoStream.getRealFrameRate());
         if (best != null) {
