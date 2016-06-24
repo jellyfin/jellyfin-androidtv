@@ -2,13 +2,20 @@ package tv.emby.embyatv.presentation;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v17.leanback.widget.Presenter;
+import android.support.v7.graphics.Palette;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.Date;
 
@@ -263,10 +270,17 @@ public class CardPresenter extends Presenter {
                     //TvApp.getApplication().getLogger().Debug("Loading card image");
                     Glide.with(getContext())
                             .load(url)
+                            .asBitmap()
                             .override(cardWidth, cardHeight)
                             .centerCrop()
                             .error(mDefaultCardImage)
-                            .into(mCardView.getMainImageView());
+                            .into(new BitmapImageViewTarget(mCardView.getMainImageView()) {
+                                @Override
+                                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                    super.onResourceReady(resource, glideAnimation);
+                                    mCardView.setBackgroundColor(Utils.darker(Palette.from(resource).generate().getMutedColor(TvApp.getApplication().getResources().getColor(R.color.lb_basic_card_bg_color)), .6f));
+                                }
+                            });
                 }
 
             } catch (IllegalArgumentException e) {

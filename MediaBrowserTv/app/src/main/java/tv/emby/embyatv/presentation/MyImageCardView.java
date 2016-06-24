@@ -90,7 +90,6 @@ public class MyImageCardView extends BaseCardView {
                 a.recycle();
             }
         }
-
     }
 
 
