@@ -37,9 +37,10 @@ dependencies {
     amazonCompile fileTree(dir: 'amazonLibs', include: ['*.jar'])
     amazonCompile project(':exomedia-amazon')
     googleCompile fileTree(dir: 'googleLibs', include: ['*.jar'])
-    compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile 'com.android.support:leanback-v17:23.1.1'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:recyclerview-v7:23.4.0'
+    compile 'com.android.support:leanback-v17:23.4.0'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:palette-v7:23.4.0'
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'com.github.bumptech.glide:glide:3.7.0'
