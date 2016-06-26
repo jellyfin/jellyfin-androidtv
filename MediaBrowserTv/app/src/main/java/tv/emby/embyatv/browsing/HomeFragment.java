@@ -287,7 +287,7 @@ public class HomeFragment extends StdBrowseFragment {
         newQuery.setSortBy(new String[]{ItemSortBy.DateCreated});
         newQuery.setSortOrder(SortOrder.Descending);
         newQuery.setEnableTotalRecordCount(false);
-        newQuery.setLimit(300);
+        newQuery.setLimit(200);
         mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_new_premieres), newQuery, 0, true, true, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}, QueryType.Premieres));
 
     }

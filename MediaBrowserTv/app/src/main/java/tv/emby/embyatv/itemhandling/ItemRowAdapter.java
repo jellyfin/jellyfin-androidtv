@@ -955,7 +955,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         NextUpQuery nextUp = new NextUpQuery();
         nextUp.setUserId(query.getUserId());
         nextUp.setParentId(query.getParentId());
-        nextUp.setLimit(75);
+        nextUp.setLimit(50);
         TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(nextUp, new Response<ItemsResult>() {
             @Override
             public void onResponse(final ItemsResult nextUpResponse) {
