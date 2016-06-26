@@ -9,6 +9,7 @@ import java.util.List;
 
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
@@ -62,7 +63,9 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 resumeMovies.setRecursive(true);
                 resumeMovies.setParentId(mFolder.getId());
                 resumeMovies.setImageTypeLimit(1);
+                resumeMovies.setImageTypes(new ImageType[] {ImageType.Primary, ImageType.Backdrop, ImageType.Thumb});
                 resumeMovies.setLimit(50);
+                resumeMovies.setCollapseBoxSetItems(false);
                 resumeMovies.setEnableTotalRecordCount(false);
                 resumeMovies.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
                 resumeMovies.setSortBy(new String[]{ItemSortBy.DatePlayed});
