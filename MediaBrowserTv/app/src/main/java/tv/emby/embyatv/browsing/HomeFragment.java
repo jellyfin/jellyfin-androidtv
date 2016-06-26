@@ -18,6 +18,7 @@ import java.io.IOException;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
+import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
 import mediabrowser.model.livetv.RecordingQuery;
@@ -239,10 +240,12 @@ public class HomeFragment extends StdBrowseFragment {
 
     protected StdItemQuery getResumeQuery() {
         StdItemQuery resumeItems = new StdItemQuery();
-        resumeItems.setIncludeItemTypes(new String[]{"Movie", "Episode", "Video", "Program"});
+        resumeItems.setMediaTypes(new String[] {"Video"});
         resumeItems.setRecursive(true);
         resumeItems.setImageTypeLimit(1);
+        resumeItems.setImageTypes(new ImageType[] {ImageType.Primary, ImageType.Backdrop, ImageType.Thumb});
         resumeItems.setEnableTotalRecordCount(false);
+        resumeItems.setCollapseBoxSetItems(false);
         resumeItems.setLimit(50);
         resumeItems.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
         resumeItems.setSortBy(new String[]{ItemSortBy.DatePlayed});
