@@ -161,11 +161,19 @@ public class ProfileHelper {
                         new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoLevel, "51")
                 });
 
+        CodecProfile hevcProfile = new CodecProfile();
+        hevcProfile.setType(CodecType.Video);
+        hevcProfile.setCodec("hevc");
+        hevcProfile.setConditions(new ProfileCondition[]
+                {
+                        new ProfileCondition(ProfileConditionType.NotEquals, ProfileConditionValue.VideoProfile, "main 10"),
+                });
+
         CodecProfile videoAudioCodecProfile = new CodecProfile();
         videoAudioCodecProfile.setType(CodecType.VideoAudio);
         videoAudioCodecProfile.setConditions(new ProfileCondition[]{new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.AudioChannels, "6")});
 
-        profile.setCodecProfiles(new CodecProfile[] { videoCodecProfile, videoAudioCodecProfile });
+        profile.setCodecProfiles(new CodecProfile[] { videoCodecProfile, hevcProfile, videoAudioCodecProfile });
         profile.setSubtitleProfiles(new SubtitleProfile[] {
                 getSubtitleProfile("srt", SubtitleDeliveryMethod.External),
                 getSubtitleProfile("srt", SubtitleDeliveryMethod.Embed),
