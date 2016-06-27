@@ -62,8 +62,8 @@ public class StartupActivity extends Activity {
             application.getSystemPrefs().edit().putString("sys_pref_config_version", "2").commit();
         }
         if (Integer.parseInt(application.getConfigVersion()) < 3) {
-            application.getPrefs().edit().putString("pref_max_bitrate", "0").commit();
-            application.getSystemPrefs().edit().putString("sys_pref_config_version", "3").commit();
+            application.getPrefs().edit().putString("pref_max_bitrate", "0").apply();
+            application.getSystemPrefs().edit().putString("sys_pref_config_version", "3").apply();
         }
 
         //Ensure we have prefs
