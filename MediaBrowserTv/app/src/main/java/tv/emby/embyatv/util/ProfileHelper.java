@@ -92,6 +92,15 @@ public class ProfileHelper {
                         new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoLevel, "41")
                 });
 
+        //The following profile is a method to exclude all HEVC from VLC
+        CodecProfile hevcProfile = new CodecProfile();
+        hevcProfile.setType(CodecType.Video);
+        hevcProfile.setCodec("hevc");
+        hevcProfile.setConditions(new ProfileCondition[]
+                {
+                        new ProfileCondition(ProfileConditionType.Equals, ProfileConditionValue.VideoProfile, "none"),
+                });
+
         ContainerProfile videoContainerProfile = new ContainerProfile();
         videoContainerProfile.setType(DlnaProfileType.Video);
         videoContainerProfile.setContainer("avi");
@@ -104,7 +113,7 @@ public class ProfileHelper {
         videoAudioCodecProfile.setType(CodecType.VideoAudio);
         videoAudioCodecProfile.setConditions(new ProfileCondition[]{new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.AudioChannels, "6")});
 
-        profile.setCodecProfiles(new CodecProfile[]{videoCodecProfile, videoAudioCodecProfile});
+        profile.setCodecProfiles(new CodecProfile[]{hevcProfile, videoCodecProfile, videoAudioCodecProfile});
         profile.setContainerProfiles(new ContainerProfile[] {videoContainerProfile});
         profile.setSubtitleProfiles(new SubtitleProfile[]{
                 getSubtitleProfile("srt", SubtitleDeliveryMethod.External),
