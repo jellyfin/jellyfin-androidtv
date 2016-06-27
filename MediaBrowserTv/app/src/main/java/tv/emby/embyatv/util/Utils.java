@@ -2,6 +2,7 @@ package tv.emby.embyatv.util;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -1442,16 +1443,6 @@ public class Utils {
         return value == null || value.equals("");
     }
 
-    //todo replace with custom error reporter
-//    public static void PutCustomAcraData() {
-//        TvApp app = TvApp.getApplication();
-//        ApiClient apiClient = app.getApiClient();
-//        if (apiClient != null) {
-//            if (app.getCurrentUser() != null) ACRA.getErrorReporter().putCustomData("mbUser", app.getCurrentUser().getName());
-//            ACRA.getErrorReporter().putCustomData("serverInfo", app.getSerializer().SerializeToString(app.getCurrentSystemInfo()));
-//        }
-//    }
-
     public static boolean versionGreaterThanOrEqual(String firstVersion, String secondVersion) {
         try {
             String[] firstVersionComponents = firstVersion.split("[.]");
@@ -1701,4 +1692,6 @@ public class Utils {
                 Math.max( (int)(r * factor), 0 ),
                 Math.max( (int)(g * factor), 0 ),
                 Math.max( (int)(b * factor), 0 ) );
-    }}
+    }
+
+}
