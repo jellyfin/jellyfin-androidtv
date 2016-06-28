@@ -211,7 +211,7 @@ public class CardPresenter extends Presenter {
                 case Chapter:
                     cardWidth = (int)(1.779 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                    mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.video);
+                    mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.chaptertile);
                     break;
                 case SearchHint:
                     switch (mItem.getSearchHint().getType()) {
