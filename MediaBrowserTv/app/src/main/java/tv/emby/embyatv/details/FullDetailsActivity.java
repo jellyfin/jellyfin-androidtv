@@ -47,8 +47,10 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.ImageOptions;
+import mediabrowser.model.dto.MediaSourceInfo;
 import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.ImageType;
+import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.PersonType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.SeriesTimerInfoDto;
@@ -71,6 +73,7 @@ import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.presentation.CardPresenter;
+import tv.emby.embyatv.presentation.InfoCardPresenter;
 import tv.emby.embyatv.presentation.MyDetailsOverviewRowPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.SpecialsQuery;
@@ -458,6 +461,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                 ItemRowAdapter similarMoviesAdapter = new ItemRowAdapter(similar, QueryType.SimilarMovies, new CardPresenter(), adapter);
                 addItemRow(adapter, similarMoviesAdapter, 4, mActivity.getString(R.string.lbl_similar_movies));
+
+                addInfoRows(adapter);
                 break;
             case "Trailer":
 
@@ -476,6 +481,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                 ItemRowAdapter similarTrailerAdapter = new ItemRowAdapter(similarTrailer, QueryType.SimilarMovies, new CardPresenter(), adapter);
                 addItemRow(adapter, similarTrailerAdapter, 4, mActivity.getString(R.string.lbl_similar_movies));
+                addInfoRows(adapter);
                 break;
             case "Person":
 
@@ -557,11 +563,29 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     ItemRowAdapter nextAdapter = new ItemRowAdapter(nextEpisodes, 0 , false, true, new CardPresenter(), adapter);
                     addItemRow(adapter, nextAdapter, 5, "Next Episodes");
                 }
+                addInfoRows(adapter);
                 break;
 
         }
 
 
+    }
+
+    private void addInfoRows(ArrayObjectAdapter adapter) {
+        if (TvApp.getApplication().getPrefs().getBoolean("pref_enable_debug", false) && mBaseItem.getMediaSources() != null) {
+            for (MediaSourceInfo ms : mBaseItem.getMediaSources()) {
+                if (ms.getMediaStreams() != null && ms.getMediaStreams().size() > 0) {
+                    HeaderItem header = new HeaderItem("Media Details"+(ms.getContainer() != null ? " (" +ms.getContainer()+")" : ""));
+                    ArrayObjectAdapter infoAdapter = new ArrayObjectAdapter(new InfoCardPresenter());
+                    for (MediaStream stream : ms.getMediaStreams()) {
+                        infoAdapter.add(stream);
+                    }
+
+                    adapter.add(new ListRow(header, infoAdapter));
+
+                }
+            }
+        }
     }
 
     private void updateInfo(BaseItemDto item) {
