@@ -65,6 +65,10 @@ public class StartupActivity extends Activity {
             application.getPrefs().edit().putString("pref_max_bitrate", "0").apply();
             application.getSystemPrefs().edit().putString("sys_pref_config_version", "3").apply();
         }
+        if (Integer.parseInt(application.getConfigVersion()) < 4) {
+            application.getPrefs().edit().putBoolean("pref_enable_premieres", false).apply();
+            application.getSystemPrefs().edit().putString("sys_pref_config_version", "4").apply();
+        }
 
         //Ensure we have prefs
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
