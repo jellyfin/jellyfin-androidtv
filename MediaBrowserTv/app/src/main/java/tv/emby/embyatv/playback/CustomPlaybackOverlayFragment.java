@@ -1567,17 +1567,19 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             addButtons(current);
             InfoLayoutHelper.addInfoRow(mActivity, current, mInfoRow, true, false, mPlaybackController.getCurrentMediaSource().GetDefaultAudioStream(mPlaybackController.getAudioStreamIndex()));
 
-            StreamInfo stream = mPlaybackController.getCurrentStreamInfo();
-            if (stream != null) {
-                switch (stream.getPlayMethod()) {
+            if (mApplication.getPrefs().getBoolean("pref_enable_debug", false)) {
+                StreamInfo stream = mPlaybackController.getCurrentStreamInfo();
+                if (stream != null) {
+                    switch (stream.getPlayMethod()) {
 
-                    case Transcode:
-                        InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Trans" + (mPlaybackController.mVideoManager.isNativeMode() ? "/I" : "/V"));
-                        break;
-                    case DirectStream:
-                    case DirectPlay:
-                        InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Direct" + (mPlaybackController.mVideoManager.isNativeMode() ? "/I" : "/V"));
-                        break;
+                        case Transcode:
+                            InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Trans" + (mPlaybackController.mVideoManager.isNativeMode() ? "/I" : "/V"));
+                            break;
+                        case DirectStream:
+                        case DirectPlay:
+                            InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Direct" + (mPlaybackController.mVideoManager.isNativeMode() ? "/I" : "/V"));
+                            break;
+                    }
                 }
             }
 
