@@ -67,6 +67,7 @@ public class StartupActivity extends Activity {
         }
         if (Integer.parseInt(application.getConfigVersion()) < 4) {
             application.getPrefs().edit().putBoolean("pref_enable_premieres", false).apply();
+            application.getPrefs().edit().putBoolean("pref_enable_info_panel", false).apply();
             application.getSystemPrefs().edit().putString("sys_pref_config_version", "4").apply();
         }
 
