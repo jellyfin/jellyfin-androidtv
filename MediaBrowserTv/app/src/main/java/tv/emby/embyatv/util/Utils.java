@@ -1175,6 +1175,10 @@ public class Utils {
             info.setCanSeek(currentStreamInfo.getRunTimeTicks() != null && currentStreamInfo.getRunTimeTicks() > 0);
             info.setIsMuted(TvApp.getApplication().isAudioMuted());
             info.setPlayMethod(currentStreamInfo.getPlayMethod());
+            if (TvApp.getApplication().getPlaybackController() != null && TvApp.getApplication().getPlaybackController().isPlaying()) {
+                info.setAudioStreamIndex(TvApp.getApplication().getPlaybackController().getAudioStreamIndex());
+                info.setSubtitleStreamIndex(TvApp.getApplication().getPlaybackController().getSubtitleStreamIndex());
+            }
             TvApp.getApplication().getPlaybackManager().reportPlaybackProgress(info, currentStreamInfo, false, apiClient, new EmptyResponse());
         }
 
