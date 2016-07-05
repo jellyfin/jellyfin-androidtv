@@ -30,6 +30,7 @@ import mediabrowser.model.querying.ArtistsQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemsResult;
+import mediabrowser.model.querying.LatestItemsQuery;
 import mediabrowser.model.querying.NextUpQuery;
 import mediabrowser.model.querying.PersonsQuery;
 import mediabrowser.model.querying.SeasonQuery;
@@ -76,6 +77,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private RecordingQuery mTvRecordingQuery;
     private RecordingGroupQuery mTvRecordingGroupQuery;
     private ArtistsQuery mArtistsQuery;
+    private LatestItemsQuery mLatestQuery;
     private QueryType queryType;
 
     private String mSortBy;
@@ -182,6 +184,16 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mNextUpQuery = query;
         mNextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         queryType = QueryType.NextUp;
+        this.preferParentThumb = preferParentThumb;
+        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+    }
+
+    public ItemRowAdapter(LatestItemsQuery query, boolean preferParentThumb, Presenter presenter, ArrayObjectAdapter parent) {
+        super(presenter);
+        mParent = parent;
+        mLatestQuery = query;
+        mLatestQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        queryType = QueryType.LatestItems;
         this.preferParentThumb = preferParentThumb;
         add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
@@ -548,6 +560,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
             case NextUp:
                 Retrieve(mNextUpQuery);
+                break;
+            case LatestItems:
+                Retrieve(mLatestQuery);
                 break;
             case Upcoming:
                 Retrieve(mUpcomingQuery);
@@ -925,6 +940,39 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int i = getItemsLoaded();
                     int prevItems = i == 0 && size() > 0 ? size() : 0;
                     for (BaseItemDto item : response.getItems()) {
+                        add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
+                        //TvApp.getApplication().getLogger().Debug("Item Type: "+item.getType());
+                    }
+                    setItemsLoaded(i);
+                    if (i == 0) {
+                        removeRow();
+                    } else if (prevItems > 0) {
+                        // remove previous items as we re-retrieved
+                        // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
+                        removeItems(0, prevItems);
+                    }
+                } else {
+                    // no results - don't show us
+                    setTotalItems(0);
+                    removeRow();
+                }
+
+                setCurrentlyRetrieving(false);
+                notifyRetrieveFinished();
+
+            }
+        });
+    }
+
+    public void Retrieve(LatestItemsQuery query) {
+        TvApp.getApplication().getApiClient().GetLatestItems(query, new Response<BaseItemDto[]>() {
+            @Override
+            public void onResponse(BaseItemDto[] response) {
+                if (response != null && response.length > 0) {
+                    setTotalItems(response.length);
+                    int i = getItemsLoaded();
+                    int prevItems = i == 0 && size() > 0 ? size() : 0;
+                    for (BaseItemDto item : response) {
                         add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
                         //TvApp.getApplication().getLogger().Debug("Item Type: "+item.getType());
                     }

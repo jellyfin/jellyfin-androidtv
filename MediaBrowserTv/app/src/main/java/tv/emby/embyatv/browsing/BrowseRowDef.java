@@ -6,6 +6,7 @@ import mediabrowser.model.livetv.RecordingGroupQuery;
 import mediabrowser.model.livetv.RecordingQuery;
 import mediabrowser.model.querying.ArtistsQuery;
 import mediabrowser.model.querying.ItemQuery;
+import mediabrowser.model.querying.LatestItemsQuery;
 import mediabrowser.model.querying.NextUpQuery;
 import mediabrowser.model.querying.PersonsQuery;
 import mediabrowser.model.querying.SeasonQuery;
@@ -24,6 +25,7 @@ public class BrowseRowDef {
     private NextUpQuery nextUpQuery;
     private UpcomingEpisodesQuery upcomingQuery;
     private SimilarItemsQuery similarQuery;
+    private LatestItemsQuery latestItemsQuery;
 
     private PersonsQuery personsQuery;
 
@@ -95,6 +97,13 @@ public class BrowseRowDef {
         headerText = header;
         this.nextUpQuery = query;
         this.queryType = QueryType.NextUp;
+        this.changeTriggers = changeTriggers;
+    }
+
+    public BrowseRowDef(String header, LatestItemsQuery query, ChangeTriggerType[] changeTriggers) {
+        headerText = header;
+        this.latestItemsQuery = query;
+        this.queryType = QueryType.LatestItems;
         this.changeTriggers = changeTriggers;
     }
 
@@ -186,6 +195,8 @@ public class BrowseRowDef {
     public NextUpQuery getNextUpQuery() {
         return nextUpQuery;
     }
+
+    public LatestItemsQuery getLatestItemsQuery() { return latestItemsQuery; }
 
     public SimilarItemsQuery getSimilarQuery() { return similarQuery; }
 
