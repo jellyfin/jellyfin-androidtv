@@ -329,7 +329,7 @@
     <string name="lbl_switch_server">Switch Server</string>
     <string name="lbl_forget">Forget</string>
     <string name="lbl_new_premieres">New Premieres</string>
-    <string name="lbl_bitstream_ac3">Bitstream audio</string>
+    <string name="lbl_bitstream_ac3">Bitstream Dolby Digital audio</string>
     <string name="desc_bitstream_ac3">Requires capable hardware</string>
     <string name="lbl_normal">Normal</string>
     <string name="lbl_zoom">Zoom</string>
@@ -350,6 +350,7 @@
     <string name="lbl_refresh_switching">Enable Refresh Rate Switching</string>
     <string name="lbl_show_premieres">Show Season Premieres on Home Screen</string>
     <string name="desc_premieres">Show a row of new episode 1s for the series you watch</string>
+    <string name="lbl_bitstream_dts">Bitstream DTS audio</string>
 
 
 </resources>
