@@ -400,7 +400,7 @@ public class PlaybackController {
                         // Now look at both responses and choose the one that direct plays or bitstreams - favor VLC
                         useVlc = !vlcResponse.getPlayMethod().equals(PlayMethod.Transcode)
                                 && (Utils.is60() || !mApplication.getPrefs().getBoolean("pref_bitstream_ac3", false) || !"ac3".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec()))
-                                && (Utils.downMixAudio() || !Utils.is60() || internalResponse.getPlayMethod().equals(PlayMethod.Transcode) || internalResponse.getMediaSource() == null || internalResponse.getMediaSource().getDefaultAudioStream() == null || !internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dca"))
+                                && (Utils.downMixAudio() || !Utils.is60() || internalResponse.getPlayMethod().equals(PlayMethod.Transcode) || !mApplication.getPrefs().getBoolean("pref_bitstream_dts", false) || internalResponse.getMediaSource() == null || internalResponse.getMediaSource().getDefaultAudioStream() == null || (!internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dca") && !internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("DCA")))
                                 && (!isLiveTv || (mApplication.directStreamLiveTv() && mApplication.useVlcForLiveTv()))
                                 && (!Utils.isFireTvStick() || (vlcResponse.getMediaSource().getVideoStream() != null && vlcResponse.getMediaSource().getVideoStream().getWidth() < 1000));
 
