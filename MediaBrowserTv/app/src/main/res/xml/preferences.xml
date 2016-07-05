@@ -110,7 +110,7 @@
         <CheckBoxPreference android:key="pref_bitstream_dts"
             android:title="@string/lbl_bitstream_dts"
             android:summary="@string/desc_bitstream_ac3"
-            android:defaultValue="true"
+            android:defaultValue="false"
             />
 
     </PreferenceCategory>
