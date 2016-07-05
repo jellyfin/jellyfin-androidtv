@@ -23,6 +23,7 @@ import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
+import mediabrowser.model.querying.LatestItemsQuery;
 import mediabrowser.model.querying.NextUpQuery;
 import mediabrowser.model.results.TimerInfoDtoResult;
 import tv.emby.embyatv.R;
@@ -73,18 +74,12 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_continue_watching), resumeMovies, 0, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback}));
 
                 //Latest
-                StdItemQuery latestMovies = new StdItemQuery();
-                latestMovies.setIncludeItemTypes(new String[]{"Movie"});
-                latestMovies.setRecursive(true);
+                LatestItemsQuery latestMovies = new LatestItemsQuery();
+                latestMovies.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
                 latestMovies.setParentId(mFolder.getId());
                 latestMovies.setLimit(50);
-                latestMovies.setEnableTotalRecordCount(false);
                 latestMovies.setImageTypeLimit(1);
-                latestMovies.setCollapseBoxSetItems(false);
-                if (TvApp.getApplication().getCurrentUser().getConfiguration().getHidePlayedInLatest()) latestMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
-                latestMovies.setSortBy(new String[]{ItemSortBy.DateCreated});
-                latestMovies.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestMovies, 0, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestMovies, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
                 StdItemQuery favorites = new StdItemQuery();
@@ -138,17 +133,14 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 }
 
                 //Latest content added
-                StdItemQuery latestSeries = new StdItemQuery();
-                latestSeries.setIncludeItemTypes(new String[]{"Series"});
-                latestSeries.setRecursive(true);
+                LatestItemsQuery latestSeries = new LatestItemsQuery();
+                latestSeries.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
+                latestSeries.setIncludeItemTypes(new String[]{"Episode"});
+                latestSeries.setGroupItems(true);
                 latestSeries.setParentId(mFolder.getId());
                 latestSeries.setLimit(50);
-                latestSeries.setEnableTotalRecordCount(false);
                 latestSeries.setImageTypeLimit(1);
-                if (TvApp.getApplication().getCurrentUser().getConfiguration().getHidePlayedInLatest()) latestSeries.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
-                latestSeries.setSortBy(new String[]{ItemSortBy.DateLastContentAdded});
-                latestSeries.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestSeries, 0, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestSeries, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
                 StdItemQuery tvFavorites = new StdItemQuery();
@@ -165,16 +157,14 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
             case "music":
 
                 //Latest
-                StdItemQuery latestAlbums = new StdItemQuery();
-                latestAlbums.setIncludeItemTypes(new String[]{"MusicAlbum"});
-                latestAlbums.setRecursive(true);
+                LatestItemsQuery latestAlbums = new LatestItemsQuery();
+                latestAlbums.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
+                latestAlbums.setIncludeItemTypes(new String[]{"Audio"});
+                latestAlbums.setGroupItems(true);
                 latestAlbums.setImageTypeLimit(1);
                 latestAlbums.setParentId(mFolder.getId());
                 latestAlbums.setLimit(50);
-                latestAlbums.setEnableTotalRecordCount(false);
-                latestAlbums.setSortBy(new String[]{ItemSortBy.DateLastContentAdded});
-                latestAlbums.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestAlbums, 0, false, true, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestAlbums, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 //Last Played
                 StdItemQuery lastPlayed = new StdItemQuery();

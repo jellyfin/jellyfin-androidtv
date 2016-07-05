@@ -26,6 +26,7 @@ import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
+import mediabrowser.model.querying.LatestItemsQuery;
 import mediabrowser.model.querying.NextUpQuery;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
@@ -254,17 +255,12 @@ public class HomeFragment extends StdBrowseFragment {
     }
 
     protected void addLatestMovies() {
-        StdItemQuery latestMovies = new StdItemQuery();
+        LatestItemsQuery latestMovies = new LatestItemsQuery();
+        latestMovies.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
         latestMovies.setIncludeItemTypes(new String[]{"Movie"});
-        latestMovies.setRecursive(true);
         latestMovies.setImageTypeLimit(1);
         latestMovies.setLimit(50);
-        latestMovies.setEnableTotalRecordCount(false);
-        latestMovies.setCollapseBoxSetItems(false);
-        if (TvApp.getApplication().getCurrentUser().getConfiguration().getHidePlayedInLatest()) latestMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
-        latestMovies.setSortBy(new String[]{ItemSortBy.DateCreated});
-        latestMovies.setSortOrder(SortOrder.Descending);
-        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest_movies), latestMovies, 0, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated, ChangeTriggerType.MoviePlayback}));
+        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest_movies), latestMovies, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated, ChangeTriggerType.MoviePlayback}));
 
     }
 
