@@ -89,7 +89,8 @@ public class ProfileHelper {
         videoCodecProfile.setConditions(new ProfileCondition[]
                 {
                         new ProfileCondition(ProfileConditionType.EqualsAny, ProfileConditionValue.VideoProfile, "high|main|baseline|constrained baseline"),
-                        new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoLevel, "41")
+                        new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoLevel, "41"),
+                        new ProfileCondition(ProfileConditionType.GreaterThanEqual, ProfileConditionValue.RefFrames, "2")
                 });
 
         //The following profile is a method to exclude all HEVC from VLC
