@@ -853,12 +853,12 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     }
 
-    public void Retrieve(ItemQuery query) {
+    public void Retrieve(final ItemQuery query) {
         TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
-                    setTotalItems(response.getTotalRecordCount());
+                    setTotalItems(query.getEnableTotalRecordCount() ? response.getTotalRecordCount() : response.getItems().length);
                     int i = getItemsLoaded();
                     int prevItems = i == 0 && size() > 0 ? size() : 0;
                     for (BaseItemDto item : response.getItems()) {
