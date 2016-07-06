@@ -589,7 +589,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                             setTitle(mFolder.getName());
 
                         }
-                    }, 250);
+                    }, 500);
                 } else focusGrid();
             }
         });
