@@ -93,7 +93,7 @@ public class ProfileHelper {
                         new ProfileCondition(ProfileConditionType.GreaterThanEqual, ProfileConditionValue.RefFrames, "2")
                 });
 
-        //The following profile is a method to exclude all HEVC from VLC
+        //The following profile is a method to exclude all HEVC from VLC on the fire and just 10 bit color on others
         CodecProfile hevcProfile = new CodecProfile();
         hevcProfile.setType(CodecType.Video);
         hevcProfile.setCodec("hevc");
