@@ -83,15 +83,37 @@ public class ProfileHelper {
 
         profile.setDirectPlayProfiles(new DirectPlayProfile[]{videoDirectPlayProfile, audioDirectPlayProfile, photoDirectPlayProfile});
 
-        CodecProfile videoCodecProfile = new CodecProfile();
-        videoCodecProfile.setType(CodecType.Video);
-        videoCodecProfile.setCodec("h264");
-        videoCodecProfile.setConditions(new ProfileCondition[]
+        CodecProfile h264MainProfile = new CodecProfile();
+        h264MainProfile.setType(CodecType.Video);
+        h264MainProfile.setCodec("h264");
+        h264MainProfile.setConditions(new ProfileCondition[]
                 {
                         new ProfileCondition(ProfileConditionType.EqualsAny, ProfileConditionValue.VideoProfile, "high|main|baseline|constrained baseline"),
                         new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoLevel, "41"),
-                        new ProfileCondition(ProfileConditionType.GreaterThanEqual, ProfileConditionValue.RefFrames, "2")
+                        new ProfileCondition(ProfileConditionType.GreaterThanEqual, ProfileConditionValue.RefFrames, "2"),
                 });
+
+        CodecProfile refFramesProfile = new CodecProfile();
+        refFramesProfile.setType(CodecType.Video);
+        refFramesProfile.setCodec("h264");
+        refFramesProfile.setConditions(new ProfileCondition[]
+                {
+                        new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.RefFrames, "12"),
+                });
+        refFramesProfile.setApplyConditions(new ProfileCondition[] {
+                new ProfileCondition(ProfileConditionType.GreaterThanEqual, ProfileConditionValue.Width, "1200")
+        });
+
+        CodecProfile refFramesProfile2 = new CodecProfile();
+        refFramesProfile2.setType(CodecType.Video);
+        refFramesProfile2.setCodec("h264");
+        refFramesProfile2.setConditions(new ProfileCondition[]
+                {
+                        new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.RefFrames, "4"),
+                });
+        refFramesProfile2.setApplyConditions(new ProfileCondition[] {
+                new ProfileCondition(ProfileConditionType.GreaterThanEqual, ProfileConditionValue.Width, "1900")
+        });
 
         //The following profile is a method to exclude all HEVC from VLC on the fire and just 10 bit color on others
         CodecProfile hevcProfile = new CodecProfile();
@@ -116,7 +138,7 @@ public class ProfileHelper {
         videoAudioCodecProfile.setType(CodecType.VideoAudio);
         videoAudioCodecProfile.setConditions(new ProfileCondition[]{new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.AudioChannels, "6")});
 
-        profile.setCodecProfiles(new CodecProfile[]{hevcProfile, videoCodecProfile, videoAudioCodecProfile});
+        profile.setCodecProfiles(new CodecProfile[]{hevcProfile, h264MainProfile, refFramesProfile, refFramesProfile2, videoAudioCodecProfile});
         profile.setContainerProfiles(new ContainerProfile[] {videoContainerProfile});
         profile.setSubtitleProfiles(new SubtitleProfile[]{
                 getSubtitleProfile("srt", SubtitleDeliveryMethod.External),
@@ -173,6 +195,28 @@ public class ProfileHelper {
                         new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoLevel, "51")
                 });
 
+        CodecProfile refFramesProfile = new CodecProfile();
+        refFramesProfile.setType(CodecType.Video);
+        refFramesProfile.setCodec("h264");
+        refFramesProfile.setConditions(new ProfileCondition[]
+                {
+                        new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.RefFrames, "12"),
+                });
+        refFramesProfile.setApplyConditions(new ProfileCondition[] {
+                new ProfileCondition(ProfileConditionType.GreaterThanEqual, ProfileConditionValue.Width, "1200")
+        });
+
+        CodecProfile refFramesProfile2 = new CodecProfile();
+        refFramesProfile2.setType(CodecType.Video);
+        refFramesProfile2.setCodec("h264");
+        refFramesProfile2.setConditions(new ProfileCondition[]
+                {
+                        new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.RefFrames, "4"),
+                });
+        refFramesProfile2.setApplyConditions(new ProfileCondition[] {
+                new ProfileCondition(ProfileConditionType.GreaterThanEqual, ProfileConditionValue.Width, "1900")
+        });
+
         CodecProfile hevcProfile = new CodecProfile();
         hevcProfile.setType(CodecType.Video);
         hevcProfile.setCodec("hevc");
@@ -185,7 +229,7 @@ public class ProfileHelper {
         videoAudioCodecProfile.setType(CodecType.VideoAudio);
         videoAudioCodecProfile.setConditions(new ProfileCondition[]{new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.AudioChannels, "6")});
 
-        profile.setCodecProfiles(new CodecProfile[] { videoCodecProfile, hevcProfile, videoAudioCodecProfile });
+        profile.setCodecProfiles(new CodecProfile[] { videoCodecProfile, refFramesProfile, refFramesProfile2, hevcProfile, videoAudioCodecProfile });
         profile.setSubtitleProfiles(new SubtitleProfile[] {
                 getSubtitleProfile("srt", SubtitleDeliveryMethod.External),
                 getSubtitleProfile("srt", SubtitleDeliveryMethod.Embed),
