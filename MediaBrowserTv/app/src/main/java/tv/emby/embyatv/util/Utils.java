@@ -1510,6 +1510,8 @@ public class Utils {
     }
     public static boolean isFireTvStick() { return Build.MODEL.equals("AFTM"); }
 
+    public static boolean is1stGenFireTv() { return Build.MODEL.equals("AFTB"); }
+
     public static boolean isShield() { return Build.MODEL.equals("SHIELD Android TV"); }
 
     public static boolean isNexus() { return Build.MODEL.equals("Nexus Player"); }
