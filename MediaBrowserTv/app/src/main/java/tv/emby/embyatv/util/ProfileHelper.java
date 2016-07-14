@@ -121,7 +121,7 @@ public class ProfileHelper {
         hevcProfile.setCodec("hevc");
         hevcProfile.setConditions(new ProfileCondition[]
                 {
-                        !Utils.isFireTv() ?
+                        !Utils.isFireTvStick() && !Utils.is1stGenFireTv() ?
                         new ProfileCondition(ProfileConditionType.NotEquals, ProfileConditionValue.VideoProfile, "main 10") :
                         new ProfileCondition(ProfileConditionType.Equals, ProfileConditionValue.VideoProfile, "none"),
                 });
