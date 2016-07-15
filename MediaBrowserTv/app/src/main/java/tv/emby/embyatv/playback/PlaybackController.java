@@ -37,6 +37,7 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.ui.ImageButton;
+import tv.emby.embyatv.util.MediaCodecCapabilitiesTest;
 import tv.emby.embyatv.util.ProfileHelper;
 import tv.emby.embyatv.util.Utils;
 

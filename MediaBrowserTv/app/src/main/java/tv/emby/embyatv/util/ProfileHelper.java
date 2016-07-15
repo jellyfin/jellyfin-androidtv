@@ -22,6 +22,7 @@ import tv.emby.embyatv.TvApp;
  * Created by Eric on 2/29/2016.
  */
 public class ProfileHelper {
+    private static MediaCodecCapabilitiesTest MediaTest = new MediaCodecCapabilitiesTest();
 
     public static DeviceProfile getBaseProfile() {
         DeviceProfile profile = new DeviceProfile();
@@ -115,17 +116,6 @@ public class ProfileHelper {
                 new ProfileCondition(ProfileConditionType.GreaterThanEqual, ProfileConditionValue.Width, "1900")
         });
 
-        //The following profile is a method to exclude all HEVC from VLC on the fire and just 10 bit color on others
-        CodecProfile hevcProfile = new CodecProfile();
-        hevcProfile.setType(CodecType.Video);
-        hevcProfile.setCodec("hevc");
-        hevcProfile.setConditions(new ProfileCondition[]
-                {
-                        !Utils.isFireTvStick() && !Utils.is1stGenFireTv() ?
-                        new ProfileCondition(ProfileConditionType.NotEquals, ProfileConditionValue.VideoProfile, "main 10") :
-                        new ProfileCondition(ProfileConditionType.Equals, ProfileConditionValue.VideoProfile, "none"),
-                });
-
         ContainerProfile videoContainerProfile = new ContainerProfile();
         videoContainerProfile.setType(DlnaProfileType.Video);
         videoContainerProfile.setContainer("avi");
@@ -138,7 +128,7 @@ public class ProfileHelper {
         videoAudioCodecProfile.setType(CodecType.VideoAudio);
         videoAudioCodecProfile.setConditions(new ProfileCondition[]{new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.AudioChannels, "6")});
 
-        profile.setCodecProfiles(new CodecProfile[]{hevcProfile, h264MainProfile, refFramesProfile, refFramesProfile2, videoAudioCodecProfile});
+        profile.setCodecProfiles(new CodecProfile[]{getHevcProfile(), h264MainProfile, refFramesProfile, refFramesProfile2, videoAudioCodecProfile});
         profile.setContainerProfiles(new ContainerProfile[] {videoContainerProfile});
         profile.setSubtitleProfiles(new SubtitleProfile[]{
                 getSubtitleProfile("srt", SubtitleDeliveryMethod.External),
@@ -217,19 +207,11 @@ public class ProfileHelper {
                 new ProfileCondition(ProfileConditionType.GreaterThanEqual, ProfileConditionValue.Width, "1900")
         });
 
-        CodecProfile hevcProfile = new CodecProfile();
-        hevcProfile.setType(CodecType.Video);
-        hevcProfile.setCodec("hevc");
-        hevcProfile.setConditions(new ProfileCondition[]
-                {
-                        new ProfileCondition(ProfileConditionType.NotEquals, ProfileConditionValue.VideoProfile, "main 10"),
-                });
-
         CodecProfile videoAudioCodecProfile = new CodecProfile();
         videoAudioCodecProfile.setType(CodecType.VideoAudio);
         videoAudioCodecProfile.setConditions(new ProfileCondition[]{new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.AudioChannels, "6")});
 
-        profile.setCodecProfiles(new CodecProfile[] { videoCodecProfile, refFramesProfile, refFramesProfile2, hevcProfile, videoAudioCodecProfile });
+        profile.setCodecProfiles(new CodecProfile[] { videoCodecProfile, refFramesProfile, refFramesProfile2, getHevcProfile(), videoAudioCodecProfile });
         profile.setSubtitleProfiles(new SubtitleProfile[] {
                 getSubtitleProfile("srt", SubtitleDeliveryMethod.External),
                 getSubtitleProfile("srt", SubtitleDeliveryMethod.Embed),
@@ -243,6 +225,38 @@ public class ProfileHelper {
                 getSubtitleProfile("sub", SubtitleDeliveryMethod.Embed),
                 getSubtitleProfile("idx", SubtitleDeliveryMethod.Embed)
         });
+    }
+
+    private static CodecProfile getHevcProfile() {
+        CodecProfile hevcProfile = new CodecProfile();
+        hevcProfile.setType(CodecType.Video);
+        hevcProfile.setCodec("hevc");
+        if (!MediaTest.supportsHevc()) {
+            //The following condition is a method to exclude all HEVC
+            TvApp.getApplication().getLogger().Info("*** Does NOT support HEVC");
+            hevcProfile.setConditions(new ProfileCondition[]
+                    {
+                            new ProfileCondition(ProfileConditionType.Equals, ProfileConditionValue.VideoProfile, "none"),
+                    });
+
+        } else if (!MediaTest.supportsHevcMain10()) {
+            TvApp.getApplication().getLogger().Info("*** Does NOT support HEVC 10 bit");
+            hevcProfile.setConditions(new ProfileCondition[]
+                    {
+                            new ProfileCondition(ProfileConditionType.NotEquals, ProfileConditionValue.VideoProfile, "Main 10"),
+                    });
+
+        } else {
+            // supports all HEVC
+            TvApp.getApplication().getLogger().Info("*** Supports HEVC 10 bit");
+            hevcProfile.setConditions(new ProfileCondition[]
+                    {
+                            new ProfileCondition(ProfileConditionType.NotEquals, ProfileConditionValue.VideoProfile, "none"),
+                    });
+
+        }
+
+        return hevcProfile;
     }
 
     public static void addAc3Streaming(DeviceProfile profile, boolean primary) {
