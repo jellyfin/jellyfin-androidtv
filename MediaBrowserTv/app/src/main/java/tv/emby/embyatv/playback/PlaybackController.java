@@ -500,9 +500,9 @@ public class PlaybackController {
         mFragment.updateDisplay();
         String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken());
 
-        // if source is stereo or we're not on at least 6.0 with AC3 - use most compatible output
-        if (!mVideoManager.isNativeMode() && (isLiveTv && !Utils.is60()) || (response.getMediaSource() != null && response.getMediaSource().getDefaultAudioStream() != null && response.getMediaSource().getDefaultAudioStream().getChannels() != null && (response.getMediaSource().getDefaultAudioStream().getChannels() <= 2
-                || (!Utils.is60() && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec()))))) {
+        // when using VLC if source is stereo or we're on the Fire platform with AC3 - use most compatible output
+        if (!mVideoManager.isNativeMode() && ((isLiveTv && Utils.isFireTv()) || (response.getMediaSource() != null && response.getMediaSource().getDefaultAudioStream() != null && response.getMediaSource().getDefaultAudioStream().getChannels() != null && (response.getMediaSource().getDefaultAudioStream().getChannels() <= 2
+                || (Utils.isFireTv() && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec())))))) {
             mVideoManager.setCompatibleAudio();
             mApplication.getLogger().Info("Setting compatible audio mode...");
             //Utils.showToast(mApplication, "Compatible");
