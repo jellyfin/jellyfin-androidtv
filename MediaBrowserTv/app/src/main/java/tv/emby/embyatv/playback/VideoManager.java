@@ -1,7 +1,6 @@
 package tv.emby.embyatv.playback;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
 import android.media.MediaPlayer;
@@ -607,6 +606,8 @@ public class VideoManager implements IVLCVout.Callback {
         if (hasSubtitlesSurface) mSubtitlesSurface.invalidate();
     }
 
+    PlaybackListener errorListener;
+
     public void setOnErrorListener(final PlaybackListener listener) {
         mVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
@@ -619,6 +620,11 @@ public class VideoManager implements IVLCVout.Callback {
         });
 
         mVlcHandler.setOnErrorListener(listener);
+        //errorListener = listener;
+    }
+
+    public void fakeError() {
+        if (errorListener != null) errorListener.onEvent();
     }
 
     public void setOnCompletionListener(final PlaybackListener listener) {
@@ -726,6 +732,7 @@ public class VideoManager implements IVLCVout.Callback {
     @Override
     public void onHardwareAccelerationError(IVLCVout ivlcVout) {
         TvApp.getApplication().getLogger().Error("VLC Hardware acceleration error");
+        TvApp.getApplication().getPlaybackController().playerErrorEncountered();
     }
 
     public Integer translateVlcAudioId(Integer vlcId) {

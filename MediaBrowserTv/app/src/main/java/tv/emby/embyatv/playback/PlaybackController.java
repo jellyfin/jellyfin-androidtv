@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import java.util.List;
+import java.util.concurrent.RunnableFuture;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.Response;
@@ -78,6 +79,10 @@ public class PlaybackController {
     private boolean isLiveTv;
     private String liveTvChannelName = "";
     private boolean useVlc = false;
+
+    private boolean vlcErrorEncountered;
+    private boolean exoErrorEncountered;
+    private int playbackRetries = 0;
 
     private boolean updateProgress = true;
 
@@ -158,6 +163,24 @@ public class PlaybackController {
         }
 
         return null;
+    }
+
+    public void playerErrorEncountered() {
+        if (useVlc) vlcErrorEncountered = true; else exoErrorEncountered = true;
+        playbackRetries++;
+
+        if (playbackRetries < 3) {
+            Utils.showToast(mApplication, "Player error encountered.  Will re-try...");
+            mApplication.getLogger().Info("Player error encountered - retrying");
+            stop();
+            play(mCurrentPosition);
+
+        } else {
+            Utils.showToast(mApplication, "Too many errors. Giving up.");
+            mPlaybackState = PlaybackState.ERROR;
+            stop();
+            mFragment.finish();
+        }
     }
 
     @TargetApi(23)
@@ -303,6 +326,7 @@ public class PlaybackController {
                 vlcOptions.setItemId(item.getId());
                 vlcOptions.setMediaSources(item.getMediaSources());
                 vlcOptions.setMaxBitrate(getMaxBitrate());
+                if (vlcErrorEncountered) vlcOptions.setEnableDirectStream(false);
                 vlcOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
                 vlcOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
                 DeviceProfile vlcProfile = ProfileHelper.getBaseProfile();
@@ -314,6 +338,7 @@ public class PlaybackController {
                 internalOptions.setItemId(item.getId());
                 internalOptions.setMediaSources(item.getMediaSources());
                 internalOptions.setMaxBitrate(getMaxBitrate());
+                if (exoErrorEncountered) internalOptions.setEnableDirectStream(false);
                 internalOptions.setMaxAudioChannels(Utils.downMixAudio() ? 2 : null); //have to downmix at server
                 internalOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
                 internalOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
@@ -531,6 +556,14 @@ public class PlaybackController {
         if (!isRestart) Utils.ReportStart(item, mbPos);
         isRestart = false;
 
+        //test
+//        mHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                mVideoManager.fakeError();
+//            }
+//        }, 15000);
+
     }
 
     private int getDefaultAudioIndex(StreamInfo info) {
@@ -724,6 +757,8 @@ public class PlaybackController {
 
     public void next() {
         mApplication.getLogger().Debug("Next called.");
+        vlcErrorEncountered = false;
+        exoErrorEncountered = false;
         if (mCurrentIndex < mItems.size() - 1) {
             stop();
             mCurrentIndex++;
@@ -916,6 +951,8 @@ public class PlaybackController {
         stopReportLoop();
         Long mbPos = mVideoManager.getCurrentPosition() * 10000;
         Utils.ReportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
+        vlcErrorEncountered = false;
+        exoErrorEncountered = false;
         if (mCurrentIndex < mItems.size() - 1) {
             // move to next in queue
             mCurrentIndex++;
@@ -946,10 +983,8 @@ public class PlaybackController {
 
                 } else {
                     String msg = mApplication.getString(R.string.video_error_unknown_error);
-                    Utils.showToast(mApplication, mApplication.getString(R.string.msg_video_playback_error) + msg);
                     mApplication.getLogger().Error("Playback error - " + msg);
-                    mPlaybackState = PlaybackState.ERROR;
-                    stop();
+                    playerErrorEncountered();
                 }
 
             }
