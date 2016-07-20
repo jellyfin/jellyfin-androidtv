@@ -153,12 +153,12 @@ public class HomeFragment extends StdBrowseFragment {
                 toolsRow.remove(premiereButton);
             }
         }
-        addLogsButton();
         //make sure rows have had a chance to be created
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 addNowPlaying();
+                addLogsButton();
                 //check for resume row and add if not there
                 if (!hasResumeRow()) addContinueWatching();
             }
@@ -399,9 +399,10 @@ public class HomeFragment extends StdBrowseFragment {
     }
 
     private void addLogsButton() {
-        if (toolsRow != null && TvApp.getApplication().getPrefs().getBoolean("pref_enable_debug",false) && Utils.is50()) {
-            if (toolsRow.indexOf(sendLogsButton) < 0) toolsRow.add(sendLogsButton);
-            else if (toolsRow.indexOf(sendLogsButton) > -1) toolsRow.remove(sendLogsButton);
+        if (toolsRow != null) {
+            if (TvApp.getApplication().getPrefs().getBoolean("pref_enable_debug",false)) {
+                if (toolsRow.indexOf(sendLogsButton) < 0) toolsRow.add(sendLogsButton);
+            } else if (toolsRow.indexOf(sendLogsButton) > -1) toolsRow.remove(sendLogsButton);
         }
 
     }
