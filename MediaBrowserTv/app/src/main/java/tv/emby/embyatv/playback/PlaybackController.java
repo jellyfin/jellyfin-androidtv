@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.concurrent.RunnableFuture;
 
 import mediabrowser.apiinteraction.ApiClient;
+import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.model.dlna.DeviceProfile;
@@ -448,12 +449,12 @@ public class PlaybackController {
                                     //re-set this
                                     internalOptions.setProfile(save);
                                     mCurrentOptions = internalOptions;
-                                    startItem(item, position, apiClient, response);
+                                    startItem(item, position, apiClient, response, vlcResponse);
                                 }
                             });
                         } else {
                             mCurrentOptions = useVlc ? vlcOptions : internalOptions;
-                            startItem(item, position, apiClient, useVlc ? vlcResponse : internalResponse);
+                            startItem(item, position, apiClient, useVlc ? vlcResponse : internalResponse, useVlc ? internalResponse : vlcResponse);
                         }
                     }
 
@@ -462,7 +463,7 @@ public class PlaybackController {
                         mApplication.getLogger().ErrorException("Unable to get internal stream info", exception);
                         useVlc = true;
                         mCurrentOptions = vlcOptions;
-                        startItem(item, position, apiClient, vlcResponse);
+                        startItem(item, position, apiClient, vlcResponse, null);
                     }
                 });
 
@@ -490,11 +491,26 @@ public class PlaybackController {
 
     }
 
-    private void startItem(BaseItemDto item, long position, ApiClient apiClient, StreamInfo response) {
+    private void startItem(BaseItemDto item, long position, ApiClient apiClient, StreamInfo response, StreamInfo otherResponse) {
         mCurrentStreamInfo = response;
         Long mbPos = position * 10000;
 
         setPlaybackMethod(response.getPlayMethod());
+
+        if (otherResponse != null && otherResponse.getMediaSource().getLiveStreamId() != null) {
+            //close the other stream that was opened for other player
+            apiClient.closeLiveStream(otherResponse.getMediaSource().getLiveStreamId(), new EmptyResponse() {
+                @Override
+                public void onResponse() {
+                    TvApp.getApplication().getLogger().Info("** Live stream closed for unused response.");
+                }
+
+                @Override
+                public void onError(Exception ex) {
+                    TvApp.getApplication().getLogger().Info("** Error closing live stream for unused response.");
+                }
+            });
+        }
 
         if (useVlc && !getPlaybackMethod().equals(PlayMethod.Transcode)) {
             TvApp.getApplication().getLogger().Info("Playing back in VLC.");
