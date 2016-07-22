@@ -53,7 +53,7 @@ public class InfoLayoutHelper {
                 addBoxSetCounts(activity, item, layout);
                 break;
             case "Series":
-                addSeasonCount(activity, item, layout);
+                //addSeasonCount(activity, item, layout);
                 addSeriesAirs(activity, item, layout);
                 addDate(activity, item, layout);
                 includeEndTime = false;
