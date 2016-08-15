@@ -196,6 +196,8 @@ public class HomeFragment extends StdBrowseFragment {
 
                 }
 
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_continue_watching), getResumeQuery(), 0, true, true, new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback, ChangeTriggerType.TvPlayback, ChangeTriggerType.VideoQueueChange}, QueryType.ContinueWatching));
+
                 //Now others based on first library type
                 if (response.getTotalRecordCount() > 0) {
                     String firstType = ("tvshows".equals(response.getItems()[0].getCollectionType())) ? "s" : ("livetv".equals(response.getItems()[0].getCollectionType()) ? "t" : "m");
@@ -242,7 +244,6 @@ public class HomeFragment extends StdBrowseFragment {
         resumeItems.setMediaTypes(new String[] {"Video"});
         resumeItems.setRecursive(true);
         resumeItems.setImageTypeLimit(1);
-        resumeItems.setImageTypes(new ImageType[] {ImageType.Primary, ImageType.Backdrop, ImageType.Thumb});
         resumeItems.setEnableTotalRecordCount(false);
         resumeItems.setCollapseBoxSetItems(false);
         resumeItems.setLimit(50);
