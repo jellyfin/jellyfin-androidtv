@@ -440,7 +440,7 @@ public class VideoManager implements IVLCVout.Callback {
             options.add("--stats");
             if (isInterlaced) {
                 options.add("--video-filter=deinterlace");
-                options.add("--deinterlace-mode=Bob");
+                //options.add("--deinterlace-mode=Bob");
             }
 //            options.add("--subsdec-encoding");
 //            options.add("Universal (UTF-8)");
