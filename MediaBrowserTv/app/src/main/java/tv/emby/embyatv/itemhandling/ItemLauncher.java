@@ -262,6 +262,12 @@ public class ItemLauncher {
 
                             activity.startActivity(intent);
 
+                        } else if ("Audio".equals(response.getType())) {
+                            Utils.retrieveAndPlay(response.getId(), false, activity);
+                            //produce item menu
+//                            KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, rowItem, (BaseActivity) activity);
+                            return;
+
                         } else {
                             Intent intent = new Intent(activity, FullDetailsActivity.class);
                             intent.putExtra("ItemId", response.getId());
