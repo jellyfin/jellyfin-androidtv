@@ -413,11 +413,11 @@ public class PlaybackController {
         }
 
         // Get playback info for each player and then decide on which one to use
-        mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), vlcOptions, false, apiClient, new Response<StreamInfo>() {
+        mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), vlcOptions, false, apiClient, mApplication.getCurrentUser().getPolicy(), new Response<StreamInfo>() {
             @Override
             public void onResponse(final StreamInfo vlcResponse) {
                 mApplication.getLogger().Info("VLC would " + (vlcResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream"));
-                mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, false, apiClient, new Response<StreamInfo>() {
+                mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, false, apiClient, mApplication.getCurrentUser().getPolicy(), new Response<StreamInfo>() {
                     @Override
                     public void onResponse(StreamInfo internalResponse) {
                         mApplication.getLogger().Info("Internal player would " + (internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream"));
@@ -443,7 +443,7 @@ public class PlaybackController {
                             newProfile.setDirectPlayProfiles(new DirectPlayProfile[]{});
                             internalOptions.setProfile(newProfile);
                             mApplication.getLogger().Info("Forcing transcode due to non-default audio chosen");
-                            mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, false, apiClient, new Response<StreamInfo>() {
+                            mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, false, apiClient, mApplication.getCurrentUser().getPolicy(), new Response<StreamInfo>() {
                                 @Override
                                 public void onResponse(StreamInfo response) {
                                     //re-set this
