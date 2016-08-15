@@ -196,8 +196,6 @@ public class HomeFragment extends StdBrowseFragment {
 
                 }
 
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_continue_watching), getResumeQuery(), 0, true, true, new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback, ChangeTriggerType.TvPlayback, ChangeTriggerType.VideoQueueChange}, QueryType.ContinueWatching));
-
                 //Now others based on first library type
                 if (response.getTotalRecordCount() > 0) {
                     String firstType = ("tvshows".equals(response.getItems()[0].getCollectionType())) ? "s" : ("livetv".equals(response.getItems()[0].getCollectionType()) ? "t" : "m");
@@ -334,6 +332,7 @@ public class HomeFragment extends StdBrowseFragment {
         resume.setRetrieveFinishedListener(new EmptyResponse() {
             @Override
             public void onResponse() {
+                mApplication.getLogger().Info("*** Continue watching retrieve finished: "+resume.size());
                 if (resume.size() > 0) {
                     mRowsAdapter.add(1, row);
                 }
