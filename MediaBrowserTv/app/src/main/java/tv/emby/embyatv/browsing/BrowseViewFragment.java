@@ -64,7 +64,6 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 resumeMovies.setRecursive(true);
                 resumeMovies.setParentId(mFolder.getId());
                 resumeMovies.setImageTypeLimit(1);
-                resumeMovies.setImageTypes(new ImageType[] {ImageType.Primary, ImageType.Backdrop, ImageType.Thumb});
                 resumeMovies.setLimit(50);
                 resumeMovies.setCollapseBoxSetItems(false);
                 resumeMovies.setEnableTotalRecordCount(false);
