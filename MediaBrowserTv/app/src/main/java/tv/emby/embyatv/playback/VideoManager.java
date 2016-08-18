@@ -438,10 +438,10 @@ public class VideoManager implements IVLCVout.Callback {
             options.add("--audio-resampler");
             options.add("soxr");
             options.add("--stats");
-//            if (isInterlaced) {
-//                options.add("--video-filter=deinterlace");
-//                options.add("--deinterlace-mode=Bob");
-//            }
+            if (isInterlaced) {
+                options.add("--video-filter=deinterlace");
+                options.add("--deinterlace-mode=Bob");
+            }
 //            options.add("--subsdec-encoding");
 //            options.add("Universal (UTF-8)");
             options.add("-v");
