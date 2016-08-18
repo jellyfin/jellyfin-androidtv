@@ -562,7 +562,7 @@ public class MediaManager {
             ProfileHelper.setVlcOptions(profile, false);
         }
         options.setProfile(profile);
-        TvApp.getApplication().getPlaybackManager().getAudioStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, TvApp.getApplication().getCurrentUser().getPolicy(), new Response<StreamInfo>() {
+        TvApp.getApplication().getPlaybackManager().getAudioStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
             @Override
             public void onResponse(StreamInfo response) {
                 mCurrentAudioItem = item;
