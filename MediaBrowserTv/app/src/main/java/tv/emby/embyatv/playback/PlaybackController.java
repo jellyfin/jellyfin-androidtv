@@ -421,8 +421,8 @@ public class PlaybackController {
                     @Override
                     public void onResponse(StreamInfo internalResponse) {
                         mApplication.getLogger().Info("Internal player would " + (internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream"));
-                        boolean isInterlaced = vlcResponse.getMediaSource().getVideoStream().getIsInterlaced();
-                        mApplication.getLogger().Info(isInterlaced ? "Stream is interlaced" : "Stream is not interlaced");
+                        boolean useDeinterlacing = vlcResponse.getMediaSource().getVideoStream().getIsInterlaced() && (vlcResponse.getMediaSource().getVideoStream().getWidth() == null || vlcResponse.getMediaSource().getVideoStream().getWidth() > 1200);
+                        mApplication.getLogger().Info(useDeinterlacing ? "Explicit deinterlacing will be used" : "Explicit deinterlacing will NOT be used");
 
                         // Now look at both responses and choose the one that direct plays or bitstreams - favor VLC
                         useVlc = !vlcResponse.getPlayMethod().equals(PlayMethod.Transcode)
@@ -432,7 +432,7 @@ public class PlaybackController {
                                 && (!Utils.isFireTvStick() || (vlcResponse.getMediaSource().getVideoStream() != null && vlcResponse.getMediaSource().getVideoStream().getWidth() < 1000));
 
                         mApplication.getLogger().Info(useVlc ? "Preferring VLC" : "Will use internal player");
-                        mVideoManager.init(getBufferAmount(), isInterlaced);
+                        mVideoManager.init(getBufferAmount(), useDeinterlacing);
                         if (!useVlc && (internalOptions.getAudioStreamIndex() != null && !internalOptions.getAudioStreamIndex().equals(bestGuessAudioTrack(internalResponse.getMediaSource())))) {
                             // requested specific audio stream that is different from default so we need to force a transcode to get it (ExoMedia currently cannot switch)
                             // remove direct play profiles to force the transcode
