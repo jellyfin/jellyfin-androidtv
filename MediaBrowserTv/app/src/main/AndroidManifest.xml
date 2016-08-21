@@ -90,7 +90,6 @@
             android:exported="true"
             android:grantUriPermissions="true" />
 
-        <activity android:name=".playback.ExternalPlayerActivity"></activity>
     </application>
 
 </manifest>
