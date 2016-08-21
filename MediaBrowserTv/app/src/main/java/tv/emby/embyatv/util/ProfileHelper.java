@@ -67,6 +67,55 @@ public class ProfileHelper {
 
     }
 
+    public static DeviceProfile getExternalProfile() {
+        DeviceProfile profile = new DeviceProfile();
+
+        profile.setName("Android");
+        profile.setMaxStaticBitrate(100000000);
+
+        DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
+        videoDirectPlayProfile.setContainer("m4v,3gp,ts,mpegts,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,m2v,avi,mpg,mpeg,mp4,webm,dvr-ms,wtv");
+        videoDirectPlayProfile.setType(DlnaProfileType.Video);
+
+        profile.setDirectPlayProfiles(new DirectPlayProfile[] {videoDirectPlayProfile});
+
+        List<TranscodingProfile> transcodingProfiles = new ArrayList<>();
+
+        TranscodingProfile mkvProfile = new TranscodingProfile();
+        mkvProfile.setContainer("mkv");
+        mkvProfile.setVideoCodec("h264");
+        mkvProfile.setAudioCodec("aac,mp3,ac3");
+        mkvProfile.setType(DlnaProfileType.Video);
+        mkvProfile.setContext(EncodingContext.Streaming);
+        mkvProfile.setCopyTimestamps(true);
+        transcodingProfiles.add(mkvProfile);
+
+        TranscodingProfile tempVar = new TranscodingProfile();
+        tempVar.setContainer("mp3");
+        tempVar.setAudioCodec("mp3");
+        tempVar.setType(DlnaProfileType.Audio);
+        tempVar.setContext(EncodingContext.Streaming);
+        transcodingProfiles.add(tempVar);
+
+        profile.setTranscodingProfiles(transcodingProfiles.toArray(new TranscodingProfile[transcodingProfiles.size()]));
+        profile.setSubtitleProfiles(new SubtitleProfile[] {
+                getSubtitleProfile("srt", SubtitleDeliveryMethod.Embed),
+                getSubtitleProfile("subrip", SubtitleDeliveryMethod.Embed),
+                getSubtitleProfile("ass", SubtitleDeliveryMethod.Embed),
+                getSubtitleProfile("ssa", SubtitleDeliveryMethod.Embed),
+                getSubtitleProfile("pgs", SubtitleDeliveryMethod.Embed),
+                getSubtitleProfile("pgssub", SubtitleDeliveryMethod.Embed),
+                getSubtitleProfile("dvdsub", SubtitleDeliveryMethod.Embed),
+                getSubtitleProfile("vtt", SubtitleDeliveryMethod.Embed),
+                getSubtitleProfile("sub", SubtitleDeliveryMethod.Embed),
+                getSubtitleProfile("idx", SubtitleDeliveryMethod.Embed),
+                getSubtitleProfile("smi", SubtitleDeliveryMethod.Embed)
+        });
+
+        return profile;
+
+    }
+
     public static void setVlcOptions(DeviceProfile profile, boolean isLiveTv) {
 
         DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
