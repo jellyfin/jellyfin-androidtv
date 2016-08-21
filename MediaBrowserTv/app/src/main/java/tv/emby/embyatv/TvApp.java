@@ -37,6 +37,7 @@ import mediabrowser.model.net.EndPointInfo;
 import mediabrowser.model.registration.RegistrationInfo;
 import mediabrowser.model.system.SystemInfo;
 import tv.emby.embyatv.base.BaseActivity;
+import tv.emby.embyatv.playback.ExternalPlayerActivity;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackController;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
@@ -411,6 +412,10 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
             default:
                 return false;
         }
+    }
+
+    public Class getPlaybackActivityClass(String itemType) {
+        return useExternalPlayer(itemType) ? ExternalPlayerActivity.class : PlaybackOverlayActivity.class;
     }
 
     public Calendar getLastMoviePlayback() {

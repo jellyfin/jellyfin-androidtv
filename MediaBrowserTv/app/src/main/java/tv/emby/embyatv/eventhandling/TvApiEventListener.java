@@ -147,7 +147,7 @@ public class TvApiEventListener extends ApiEventListener {
                         switch (response.getItems()[0].getMediaType()) {
                             case "Video":
                                 MediaManager.setCurrentVideoQueue(Arrays.asList(response.getItems()));
-                                Intent intent = new Intent(TvApp.getApplication().getCurrentActivity(), PlaybackOverlayActivity.class);
+                                Intent intent = new Intent(TvApp.getApplication().getCurrentActivity(), TvApp.getApplication().getPlaybackActivityClass(response.getItems()[0].getType()));
                                 TvApp.getApplication().getCurrentActivity().startActivity(intent);
                                 break;
                             case "Audio":

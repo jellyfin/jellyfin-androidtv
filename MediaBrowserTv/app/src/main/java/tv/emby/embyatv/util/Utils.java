@@ -693,7 +693,8 @@ public class Utils {
                             MediaManager.playNow(response);
 
                         } else {
-                            Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                            String itemType = response.size() > 0 ? response.get(0).getType() : "";
+                            Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(itemType));
                             MediaManager.setCurrentVideoQueue(response);
                             intent.putExtra("Position", pos);
                             if (!(activity instanceof Activity))
@@ -708,7 +709,7 @@ public class Utils {
                         break;
 
                     default:
-                        Intent intent = new Intent(activity, TvApp.getApplication().useExternalPlayer(item.getType()) ? ExternalPlayerActivity.class : PlaybackOverlayActivity.class);
+                        Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(item.getType()));
                         MediaManager.setCurrentVideoQueue(response);
                         intent.putExtra("Position", pos);
                         if (!(activity instanceof Activity))
