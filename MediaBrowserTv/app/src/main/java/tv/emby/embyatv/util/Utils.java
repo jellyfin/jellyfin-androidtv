@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +19,7 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Display;
@@ -88,6 +90,7 @@ import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.details.FullDetailsActivity;
 import tv.emby.embyatv.details.ItemListActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
+import tv.emby.embyatv.playback.ExternalPlayerActivity;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.startup.ConnectActivity;
@@ -705,7 +708,7 @@ public class Utils {
                         break;
 
                     default:
-                        Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                        Intent intent = new Intent(activity, ExternalPlayerActivity.class);
                         MediaManager.setCurrentVideoQueue(response);
                         intent.putExtra("Position", pos);
                         if (!(activity instanceof Activity))
@@ -1165,7 +1168,7 @@ public class Utils {
         ToneHandler.startTone(type, ms);
     }
 
-    public static void ReportProgress(BaseItemDto item, StreamInfo currentStreamInfo, long position, boolean isPaused) {
+    public static void ReportProgress(BaseItemDto item, StreamInfo currentStreamInfo, Long position, boolean isPaused) {
         if (item != null && currentStreamInfo != null) {
             PlaybackProgressInfo info = new PlaybackProgressInfo();
             ApiClient apiClient = TvApp.getApplication().getApiClient();
@@ -1500,6 +1503,15 @@ public class Utils {
             return null;
         }
     }
+
+    public static int getMaxBitrate() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(TvApp.getApplication());
+        String maxRate = sharedPref.getString("pref_max_bitrate", "0");
+        Float factor = Float.parseFloat(maxRate) * 10;
+        return Math.min(factor == 0 ? TvApp.getApplication().getAutoBitrate() : (factor.intValue() * 100000), TvApp.getApplication().getServerBitrateLimit());
+    }
+
+
 
     public static PopupMenu createPopupMenu(Activity activity, View view, int gravity) {
         return new PopupMenu(activity, view, gravity);

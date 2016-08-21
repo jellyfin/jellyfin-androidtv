@@ -326,7 +326,7 @@ public class PlaybackController {
                 vlcOptions.setDeviceId(mApplication.getApiClient().getDeviceId());
                 vlcOptions.setItemId(item.getId());
                 vlcOptions.setMediaSources(item.getMediaSources());
-                vlcOptions.setMaxBitrate(getMaxBitrate());
+                vlcOptions.setMaxBitrate(Utils.getMaxBitrate());
                 if (vlcErrorEncountered) vlcOptions.setEnableDirectStream(false);
                 vlcOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
                 vlcOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
@@ -338,7 +338,7 @@ public class PlaybackController {
                 internalOptions.setDeviceId(mApplication.getApiClient().getDeviceId());
                 internalOptions.setItemId(item.getId());
                 internalOptions.setMediaSources(item.getMediaSources());
-                internalOptions.setMaxBitrate(getMaxBitrate());
+                internalOptions.setMaxBitrate(Utils.getMaxBitrate());
                 if (exoErrorEncountered) internalOptions.setEnableDirectStream(false);
                 internalOptions.setMaxAudioChannels(Utils.downMixAudio() ? 2 : null); //have to downmix at server
                 internalOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
@@ -355,7 +355,7 @@ public class PlaybackController {
                 internalOptions.setProfile(internalProfile);
 
                 mDefaultSubIndex = transcodedSubtitle;
-                TvApp.getApplication().getLogger().Debug("Max bitrate is: " + getMaxBitrate());
+                TvApp.getApplication().getLogger().Debug("Max bitrate is: " + Utils.getMaxBitrate());
 
                 playInternal(getCurrentlyPlayingItem(), position, vlcOptions, internalOptions);
                 mPlaybackState = PlaybackState.BUFFERING;
@@ -390,13 +390,6 @@ public class PlaybackController {
 
                 break;
         }
-    }
-
-    public int getMaxBitrate() {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mApplication);
-        String maxRate = sharedPref.getString("pref_max_bitrate", "0");
-        Float factor = Float.parseFloat(maxRate) * 10;
-        return Math.min(factor == 0 ? TvApp.getApplication().getAutoBitrate() : (factor.intValue() * 100000), TvApp.getApplication().getServerBitrateLimit());
     }
 
     public int getBufferAmount() {
