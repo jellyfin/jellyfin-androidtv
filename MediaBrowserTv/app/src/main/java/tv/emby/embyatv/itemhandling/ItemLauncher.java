@@ -220,7 +220,7 @@ public class ItemLauncher {
                 break;
             case Chapter:
                 final ChapterItemInfo chapter = rowItem.getChapterInfo();
-                if (TvApp.getApplication().useExternalPlayer(rowItem.getType())) {
+                if (TvApp.getApplication().useExternalPlayer("Movie")) {
                     Utils.showToast(application, "Cannot direct play chapter with external player");
                 } else {
                     //Start playback of the item at the chapter point
