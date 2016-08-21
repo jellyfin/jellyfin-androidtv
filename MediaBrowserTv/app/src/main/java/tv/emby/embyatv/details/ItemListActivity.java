@@ -565,7 +565,7 @@ public class ItemListActivity extends BaseActivity {
 
     private void play(List<BaseItemDto> items) {
         if ("Video".equals(mBaseItem.getMediaType())) {
-            Intent intent = new Intent(mActivity, PlaybackOverlayActivity.class);
+            Intent intent = new Intent(mActivity, mApplication.getPlaybackActivityClass(mBaseItem.getType()));
             //Resume first item if needed
             BaseItemDto first = items.size() > 0 ? items.get(0) : null;
             if (first != null && first.getUserData() != null) {
