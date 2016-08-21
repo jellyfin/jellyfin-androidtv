@@ -105,6 +105,9 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         updatePreference(findPreference(key));
     }
 
+    private String[] extPlayerVideoDep = new String[] {"pref_enable_cinema_mode","pref_refresh_switching","pref_audio_option","pref_bitstream_ac3","pref_bitstream_dts"};
+    private String[] extPlayerLiveTvDep = new String[] {"pref_live_direct","pref_enable_vlc_livetv"};
+
     private void updatePreference(Preference preference) {
         if (preference instanceof ListPreference) {
             ListPreference listPreference = (ListPreference) preference;
@@ -134,6 +137,18 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 // enable other live tv direct only options
                 Preference live = findPreference("pref_enable_vlc_livetv");
                 if (live != null) live.setEnabled(cb.isChecked());
+            } else if (cb.getKey().equals("pref_video_use_external")) {
+                // enable/disable other related items
+                for (String key: extPlayerVideoDep) {
+                    Preference pref = findPreference(key);
+                    if (pref != null) pref.setEnabled(!cb.isChecked());
+                }
+            } else if (cb.getKey().equals("pref_live_tv_use_external")) {
+                // enable/disable other related items
+                for (String key: extPlayerLiveTvDep) {
+                    Preference pref = findPreference(key);
+                    if (pref != null) pref.setEnabled(!cb.isChecked());
+                }
             }
         }
     }

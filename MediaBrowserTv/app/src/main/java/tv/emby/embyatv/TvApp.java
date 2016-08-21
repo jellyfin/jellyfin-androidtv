@@ -400,6 +400,19 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
         return getPrefs().getString("pref_login_behavior", "0").equals("1") && getConfiguredAutoCredentials().getServerInfo().getId() != null;
     }
 
+    public boolean useExternalPlayer(String itemType) {
+        switch (itemType) {
+            case "Movie":
+            case "Episode":
+            case "Video":
+                return getPrefs().getBoolean("pref_video_use_external", false);
+            case "TvChannel":
+                return getPrefs().getBoolean("pref_live_tv_use_external", false);
+            default:
+                return false;
+        }
+    }
+
     public Calendar getLastMoviePlayback() {
         return lastMoviePlayback.after(lastPlayback) ? lastMoviePlayback : lastPlayback;
     }

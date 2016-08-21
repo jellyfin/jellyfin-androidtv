@@ -649,7 +649,7 @@ public class Utils {
                 break;
 
             default:
-                if (allowIntros && TvApp.getApplication().getPrefs().getBoolean("pref_enable_cinema_mode", true)) {
+                if (allowIntros && !TvApp.getApplication().useExternalPlayer(mainItem.getType()) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_cinema_mode", true)) {
                     //Intros
                     TvApp.getApplication().getApiClient().GetIntrosAsync(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
                         @Override
@@ -708,7 +708,7 @@ public class Utils {
                         break;
 
                     default:
-                        Intent intent = new Intent(activity, ExternalPlayerActivity.class);
+                        Intent intent = new Intent(activity, TvApp.getApplication().useExternalPlayer(item.getType()) ? ExternalPlayerActivity.class : PlaybackOverlayActivity.class);
                         MediaManager.setCurrentVideoQueue(response);
                         intent.putExtra("Position", pos);
                         if (!(activity instanceof Activity))
