@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,6 +40,7 @@ public class ExternalPlayerActivity extends Activity {
 
     long mLastPlayerStart = 0;
     boolean isLiveTv;
+    boolean noPlayerError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,16 +66,16 @@ public class ExternalPlayerActivity extends Activity {
 
         long playerFinishedTime = System.currentTimeMillis();
         stopReportLoop();
+        Utils.ReportStopped(mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, 0);
 
         //Check against a total failure (no apps installed)
         if (playerFinishedTime - mLastPlayerStart < 1000) {
-            // less than a second - probably no player (should display message)
-            mApplication.getLogger().Info("Playback took less than a second - assuming it failed and exiting");
-            if (!MediaManager.isVideoQueueModified()) MediaManager.clearVideoQueue();
-            finish();
+            // less than a second - probably no player explain the option
+            mApplication.getLogger().Info("Playback took less than a second - assuming it failed");
+            if (!noPlayerError) handlePlayerError();
+            return;
         }
 
-        Utils.ReportStopped(mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, 0);
         //If item didn't play as long as its duration - confirm we want to mark watched
         long runtime = mItemsToPlay.get(mCurrentNdx).getRunTimeTicks() != null ? mItemsToPlay.get(mCurrentNdx).getRunTimeTicks() / 10000 : 0;
         if (!isLiveTv && playerFinishedTime - mLastPlayerStart < runtime * .9) {
@@ -98,6 +100,35 @@ public class ExternalPlayerActivity extends Activity {
             markPlayed(mItemsToPlay.get(mCurrentNdx).getId());
             playNext();
         }
+    }
+
+    private void handlePlayerError() {
+        if (!MediaManager.isVideoQueueModified()) MediaManager.clearVideoQueue();
+
+        new AlertDialog.Builder(this)
+                .setTitle("No Player")
+                .setMessage("It doesn't appear you have a video capable app installed.  This option requires you install a 3rd party application for playing video content.")
+                .setPositiveButton(R.string.btn_got_it, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setNegativeButton("Turn this option off", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferences prefs = mApplication.getPrefs();
+                        prefs.edit().putBoolean("pref_video_use_external", false).apply();
+                        prefs.edit().putBoolean("pref_live_tv_use_external", false).apply();
+                    }
+                })
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        finish();
+                    }
+                })
+                .show();
+
     }
 
     private void startReportLoop() {
@@ -192,10 +223,9 @@ public class ExternalPlayerActivity extends Activity {
                         startActivityForResult(external, 1);
 
                     } catch (ActivityNotFoundException e) {
-                        //This does not appear to actually fire...
+                        noPlayerError = true;
                         mApplication.getLogger().ErrorException("Error launching external player", e);
-                        if (!MediaManager.isVideoQueueModified()) MediaManager.clearVideoQueue();
-                        finish();
+                        handlePlayerError();
                     }
 
                 }
