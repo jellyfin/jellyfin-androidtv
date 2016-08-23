@@ -193,7 +193,7 @@ public class ExternalPlayerActivity extends Activity {
 
             if (!isLiveTv && mApplication.getPrefs().getBoolean("pref_send_path_external", false)) {
                 // Just pass the path directly
-                startExternalActivity(item.getPath(), item.getContainer() != null ? item.getContainer() : "*");
+                startExternalActivity(preparePath(item.getPath()), item.getContainer() != null ? item.getContainer() : "*");
             } else {
                 //Build options for player
                 VideoOptions options = new VideoOptions();
@@ -241,11 +241,23 @@ public class ExternalPlayerActivity extends Activity {
         }
     }
 
+    protected String preparePath(String rawPath) {
+        if (rawPath == null) return "";
+        String lower = rawPath.toLowerCase();
+        if (!rawPath.contains("://")) {
+            rawPath = rawPath.replace("\\\\",""); // remove UNC prefix if there
+            //prefix with smb
+            rawPath = "smb://"+rawPath;
+        }
+
+        return rawPath.replaceAll("\\\\","/");
+    }
+
     protected void startExternalActivity(String path, String container) {
         Intent external = new Intent(Intent.ACTION_VIEW);
         external.setDataAndType(Uri.parse(path), "video/"+container);
 
-        mApplication.getLogger().Info("Starting external playback of url: %s and mime: video/%s",path,container);
+        mApplication.getLogger().Info("Starting external playback of path: %s and mime: video/%s",path,container);
 
         try {
             mLastPlayerStart = System.currentTimeMillis();
