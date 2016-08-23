@@ -193,7 +193,7 @@ public class ExternalPlayerActivity extends Activity {
 
             if (!isLiveTv && mApplication.getPrefs().getBoolean("pref_send_path_external", false)) {
                 // Just pass the path directly
-                startExternalActivity(item.getPath(), "*");
+                startExternalActivity(item.getPath(), item.getContainer() != null ? item.getContainer() : "*");
             } else {
                 //Build options for player
                 VideoOptions options = new VideoOptions();
