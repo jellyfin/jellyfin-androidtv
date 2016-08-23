@@ -1,6 +1,7 @@
 package tv.emby.embyatv.settings;
 
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -103,6 +104,14 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         }
 
         updatePreference(findPreference(key));
+
+        if (key.equals("pref_send_path_external") && ((CheckBoxPreference)findPreference(key)).isChecked()) {
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("W A R N I N G")
+                    .setMessage("This feature will only work if you have properly setup your library on the server with network paths or setup Path Substitution AND the external player app you are using can directly access these locations over the network.  If playback fails, disable this option.")
+                    .setPositiveButton(R.string.btn_got_it, null)
+                    .show();
+        }
     }
 
     private String[] extPlayerVideoDep = new String[] {"pref_enable_cinema_mode","pref_refresh_switching","pref_audio_option","pref_bitstream_ac3","pref_bitstream_dts"};
@@ -153,6 +162,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 }
             }
         }
+
     }
 }
 
