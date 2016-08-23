@@ -23,6 +23,7 @@ import mediabrowser.model.dlna.VideoOptions;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.EmptyRequestResult;
+import mediabrowser.model.session.PlayMethod;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.util.ProfileHelper;
@@ -193,6 +194,8 @@ public class ExternalPlayerActivity extends Activity {
 
             if (!isLiveTv && mApplication.getPrefs().getBoolean("pref_send_path_external", false)) {
                 // Just pass the path directly
+                mCurrentStreamInfo = new StreamInfo();
+                mCurrentStreamInfo.setPlayMethod(PlayMethod.DirectPlay);
                 startExternalActivity(preparePath(item.getPath()), item.getContainer() != null ? item.getContainer() : "*");
             } else {
                 //Build options for player
