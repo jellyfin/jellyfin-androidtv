@@ -191,65 +191,73 @@ public class ExternalPlayerActivity extends Activity {
             final BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
             isLiveTv = item.getType().equals("TvChannel");
 
-            //Build options for each player
-            VideoOptions options = new VideoOptions();
-            options.setDeviceId(mApplication.getApiClient().getDeviceId());
-            options.setItemId(item.getId());
-            options.setMediaSources(item.getMediaSources());
-            options.setMaxBitrate(Utils.getMaxBitrate());
-            options.setProfile(ProfileHelper.getExternalProfile());
+            if (!isLiveTv && mApplication.getPrefs().getBoolean("pref_send_path_external", false)) {
+                // Just pass the path directly
+                startExternalActivity(item.getPath(), "*");
+            } else {
+                //Build options for player
+                VideoOptions options = new VideoOptions();
+                options.setDeviceId(mApplication.getApiClient().getDeviceId());
+                options.setItemId(item.getId());
+                options.setMediaSources(item.getMediaSources());
+                options.setMaxBitrate(Utils.getMaxBitrate());
+                options.setProfile(ProfileHelper.getExternalProfile());
 
-            // Get playback info for each player and then decide on which one to use
-            mApplication.getPlaybackManager().getVideoStreamInfo(mApplication.getApiClient().getServerInfo().getId(), options, item.getResumePositionTicks(), false, mApplication.getApiClient(), new Response<StreamInfo>() {
-                @Override
-                public void onResponse(StreamInfo response) {
-                    mCurrentStreamInfo = response;
+                // Get playback info for each player and then decide on which one to use
+                mApplication.getPlaybackManager().getVideoStreamInfo(mApplication.getApiClient().getServerInfo().getId(), options, item.getResumePositionTicks(), false, mApplication.getApiClient(), new Response<StreamInfo>() {
+                    @Override
+                    public void onResponse(StreamInfo response) {
+                        mCurrentStreamInfo = response;
 
-                    //Construct a static URL to sent to player
-                    //String url = mApplication.getApiClient().getApiUrl() + "/videos/" + response.getItemId() + "/stream?static=true&mediaSourceId=" + response.getMediaSourceId();
+                        //Construct a static URL to sent to player
+                        //String url = mApplication.getApiClient().getApiUrl() + "/videos/" + response.getItemId() + "/stream?static=true&mediaSourceId=" + response.getMediaSourceId();
 
-                    String url = response.getMediaUrl();
-                    //And request an activity to play it
-                    Intent external = new Intent(Intent.ACTION_VIEW);
-                    String container = response.getMediaSource().getContainer() != null ? response.getMediaSource().getContainer() : "*";
-                    external.setDataAndType(Uri.parse(url), "video/"+container);
-
-                    mApplication.getLogger().Info("Starting external playback of %s url: %s and mime: video/%s",item.getName(),url,container);
-
-                    try {
-                        mLastPlayerStart = System.currentTimeMillis();
-                        Utils.ReportStart(mItemsToPlay.get(mCurrentNdx), 0);
-                        startReportLoop();
-                        startActivityForResult(external, 1);
-
-                    } catch (ActivityNotFoundException e) {
-                        noPlayerError = true;
-                        mApplication.getLogger().ErrorException("Error launching external player", e);
-                        handlePlayerError();
+                        String url = response.getMediaUrl();
+                        //And request an activity to play it
+                        startExternalActivity(url, response.getMediaSource().getContainer() != null ? response.getMediaSource().getContainer() : "*");
                     }
 
-                }
-
-                @Override
-                public void onError(Exception exception) {
-                    mApplication.getLogger().ErrorException("Error getting playback stream info", exception);
-                    if (exception instanceof PlaybackException) {
-                        PlaybackException ex = (PlaybackException) exception;
-                        switch (ex.getErrorCode()) {
-                            case NotAllowed:
-                                Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_playback_not_allowed));
-                                break;
-                            case NoCompatibleStream:
-                                Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_playback_incompatible));
-                                break;
-                            case RateLimitExceeded:
-                                Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_playback_restricted));
-                                break;
+                    @Override
+                    public void onError(Exception exception) {
+                        mApplication.getLogger().ErrorException("Error getting playback stream info", exception);
+                        if (exception instanceof PlaybackException) {
+                            PlaybackException ex = (PlaybackException) exception;
+                            switch (ex.getErrorCode()) {
+                                case NotAllowed:
+                                    Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_playback_not_allowed));
+                                    break;
+                                case NoCompatibleStream:
+                                    Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_playback_incompatible));
+                                    break;
+                                case RateLimitExceeded:
+                                    Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_playback_restricted));
+                                    break;
+                            }
                         }
                     }
-                }
 
-            });
+                });
+            }
         }
+    }
+
+    protected void startExternalActivity(String path, String container) {
+        Intent external = new Intent(Intent.ACTION_VIEW);
+        external.setDataAndType(Uri.parse(path), "video/"+container);
+
+        mApplication.getLogger().Info("Starting external playback of url: %s and mime: video/%s",path,container);
+
+        try {
+            mLastPlayerStart = System.currentTimeMillis();
+            Utils.ReportStart(mItemsToPlay.get(mCurrentNdx), 0);
+            startReportLoop();
+            startActivityForResult(external, 1);
+
+        } catch (ActivityNotFoundException e) {
+            noPlayerError = true;
+            mApplication.getLogger().ErrorException("Error launching external player", e);
+            handlePlayerError();
+        }
+
     }
 }
