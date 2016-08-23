@@ -108,7 +108,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         if (key.equals("pref_send_path_external") && ((CheckBoxPreference)findPreference(key)).isChecked()) {
             new AlertDialog.Builder(getActivity())
                     .setTitle("W A R N I N G")
-                    .setMessage("This feature will only work if you have properly setup your library on the server with network paths or setup Path Substitution AND the external player app you are using can directly access these locations over the network.  If playback fails, disable this option.")
+                    .setMessage("This feature will only work if you have properly setup your library on the server with network paths or setup Path Substitution AND the external player app you are using can directly access these locations over the network.  If playback fails or you didn't understand any of that, disable this option.")
                     .setPositiveButton(R.string.btn_got_it, null)
                     .show();
         }
