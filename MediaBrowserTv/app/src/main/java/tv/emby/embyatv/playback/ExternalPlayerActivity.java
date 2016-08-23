@@ -200,7 +200,7 @@ public class ExternalPlayerActivity extends Activity {
             options.setProfile(ProfileHelper.getExternalProfile());
 
             // Get playback info for each player and then decide on which one to use
-            mApplication.getPlaybackManager().getVideoStreamInfo(mApplication.getApiClient().getServerInfo().getId(), options, false, mApplication.getApiClient(), new Response<StreamInfo>() {
+            mApplication.getPlaybackManager().getVideoStreamInfo(mApplication.getApiClient().getServerInfo().getId(), options, item.getResumePositionTicks(), false, mApplication.getApiClient(), new Response<StreamInfo>() {
                 @Override
                 public void onResponse(StreamInfo response) {
                     mCurrentStreamInfo = response;
@@ -208,7 +208,7 @@ public class ExternalPlayerActivity extends Activity {
                     //Construct a static URL to sent to player
                     //String url = mApplication.getApiClient().getApiUrl() + "/videos/" + response.getItemId() + "/stream?static=true&mediaSourceId=" + response.getMediaSourceId();
 
-                    String url = response.ToUrl(mApplication.getApiClient().getApiUrl(), mApplication.getApiClient().getAccessToken());
+                    String url = response.getMediaUrl();
                     //And request an activity to play it
                     Intent external = new Intent(Intent.ACTION_VIEW);
                     String container = response.getMediaSource().getContainer() != null ? response.getMediaSource().getContainer() : "*";
