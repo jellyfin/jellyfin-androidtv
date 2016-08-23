@@ -139,6 +139,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 if (live != null) live.setEnabled(cb.isChecked());
             } else if (cb.getKey().equals("pref_video_use_external")) {
                 // enable/disable other related items
+                Preference direct = findPreference("pref_send_path_external");
+                if (direct != null) direct.setEnabled(cb.isChecked());
                 for (String key: extPlayerVideoDep) {
                     Preference pref = findPreference(key);
                     if (pref != null) pref.setEnabled(!cb.isChecked());
