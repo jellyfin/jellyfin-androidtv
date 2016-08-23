@@ -396,7 +396,7 @@ public class PlaybackController {
         return 600;
     }
 
-    private void playInternal(final BaseItemDto item, final long position, final VideoOptions vlcOptions, final VideoOptions internalOptions) {
+    private void playInternal(final BaseItemDto item, final Long position, final VideoOptions vlcOptions, final VideoOptions internalOptions) {
         final ApiClient apiClient = mApplication.getApiClient();
         mApplication.setCurrentPlayingItem(item);
         if (isLiveTv) {
@@ -406,11 +406,11 @@ public class PlaybackController {
         }
 
         // Get playback info for each player and then decide on which one to use
-        mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), vlcOptions, false, apiClient, new Response<StreamInfo>() {
+        mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), vlcOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
             @Override
             public void onResponse(final StreamInfo vlcResponse) {
                 mApplication.getLogger().Info("VLC would " + (vlcResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream"));
-                mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, false, apiClient, new Response<StreamInfo>() {
+                mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
                     @Override
                     public void onResponse(StreamInfo internalResponse) {
                         mApplication.getLogger().Info("Internal player would " + (internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream"));
@@ -436,7 +436,7 @@ public class PlaybackController {
                             newProfile.setDirectPlayProfiles(new DirectPlayProfile[]{});
                             internalOptions.setProfile(newProfile);
                             mApplication.getLogger().Info("Forcing transcode due to non-default audio chosen");
-                            mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, false, apiClient, new Response<StreamInfo>() {
+                            mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
                                 @Override
                                 public void onResponse(StreamInfo response) {
                                     //re-set this
@@ -526,13 +526,8 @@ public class PlaybackController {
         // get subtitle info
         mSubtitleStreams = response.GetSubtitleProfiles(false, mApplication.getApiClient().getApiUrl(), mApplication.getApiClient().getAccessToken());
 
-        // set start point if transcoding to mkv
-        if (mPlaybackMethod == PlayMethod.Transcode && response.getContainer().equals("mkv")) {
-            response.setStartPositionTicks(position * 10000);
-        }
-
         mFragment.updateDisplay();
-        String path = response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken());
+        String path = response.getMediaUrl();
 
         // when using VLC if source is stereo or we're on the Fire platform with AC3 - use most compatible output
         if (!mVideoManager.isNativeMode() && ((isLiveTv && Utils.isFireTv()) || (response.getMediaSource() != null && response.getMediaSource().getDefaultAudioStream() != null && response.getMediaSource().getDefaultAudioStream().getChannels() != null && (response.getMediaSource().getDefaultAudioStream().getChannels() <= 2
@@ -787,10 +782,20 @@ public class PlaybackController {
         if (mPlaybackMethod == PlayMethod.Transcode) {
             //mkv transcodes require re-start of stream for seek
             mVideoManager.stopPlayback();
-            mCurrentStreamInfo.setStartPositionTicks(pos * 10000);
+            mApplication.getPlaybackManager().changeVideoStream(mCurrentStreamInfo, mApplication.getApiClient().getServerInfo().getId(), mCurrentOptions, pos * 10000, mApplication.getApiClient(), new Response<StreamInfo>() {
+                @Override
+                public void onResponse(StreamInfo response) {
+                    mCurrentStreamInfo = response;
+                    mVideoManager.setVideoPath(response.getMediaUrl());
+                    mVideoManager.start();
+                }
 
-            mVideoManager.setVideoPath(mCurrentStreamInfo.ToUrl(mApplication.getApiClient().getApiUrl(), mApplication.getApiClient().getAccessToken()));
-            mVideoManager.start();
+                @Override
+                public void onError(Exception exception) {
+                    Utils.showToast(mApplication.getCurrentActivity(), R.string.msg_video_playback_error);
+                    mApplication.getLogger().ErrorException("Error trying to seek transcoded stream", exception);
+                }
+            });
         } else {
             if (mVideoManager.isNativeMode() && "ts".equals(mCurrentStreamInfo.getContainer())) {
                 //Exo does not support seeking in .ts
