@@ -321,10 +321,6 @@ public class VideoManager implements IVLCVout.Callback {
         return false;
     }
 
-    public boolean addSubtitleTrack(String path) {
-        return !nativeMode && mVlcPlayer.setSubtitleFile(path);
-    }
-
     public int getAudioTrack() {
         return nativeMode ? -1 : mVlcPlayer.getAudioTrack();
     }
@@ -446,7 +442,7 @@ public class VideoManager implements IVLCVout.Callback {
 //            options.add("Universal (UTF-8)");
             options.add("-v");
 
-            mLibVLC = new LibVLC(options);
+            mLibVLC = new LibVLC(TvApp.getApplication(), options);
             TvApp.getApplication().getLogger().Info("Network buffer set to " + buffer);
             LibVLC.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
                 @Override
@@ -727,12 +723,6 @@ public class VideoManager implements IVLCVout.Callback {
     @Override
     public void onSurfacesDestroyed(IVLCVout ivlcVout) {
 
-    }
-
-    @Override
-    public void onHardwareAccelerationError(IVLCVout ivlcVout) {
-        TvApp.getApplication().getLogger().Error("VLC Hardware acceleration error");
-        TvApp.getApplication().getPlaybackController().playerErrorEncountered();
     }
 
     public Integer translateVlcAudioId(Integer vlcId) {

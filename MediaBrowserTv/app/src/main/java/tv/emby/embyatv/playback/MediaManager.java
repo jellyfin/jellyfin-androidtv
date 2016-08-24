@@ -223,7 +223,7 @@ public class MediaManager {
                 options.add("--no-audio-time-stretch");
                 options.add("-v");
 
-                mLibVLC = new LibVLC(options);
+                mLibVLC = new LibVLC(TvApp.getApplication(), options);
                 LibVLC.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
                     @Override
                     public void onNativeCrash() {
