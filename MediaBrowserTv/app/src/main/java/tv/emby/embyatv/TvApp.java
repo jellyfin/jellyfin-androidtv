@@ -406,6 +406,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
             case "Movie":
             case "Episode":
             case "Video":
+            case "Series":
                 return getPrefs().getBoolean("pref_video_use_external", false);
             case "TvChannel":
             case "Program":
