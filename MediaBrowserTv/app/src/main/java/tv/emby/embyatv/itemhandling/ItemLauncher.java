@@ -220,24 +220,20 @@ public class ItemLauncher {
                 break;
             case Chapter:
                 final ChapterItemInfo chapter = rowItem.getChapterInfo();
-                if (TvApp.getApplication().useExternalPlayer("Movie")) {
-                    Utils.showToast(application, "Cannot direct play chapter with external player");
-                } else {
-                    //Start playback of the item at the chapter point
-                    application.getApiClient().GetItemAsync(chapter.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>(){
-                        @Override
-                        public void onResponse(BaseItemDto response) {
-                            List<BaseItemDto> items = new ArrayList<>();
-                            items.add(response);
-                            MediaManager.setCurrentVideoQueue(items);
-                            Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
-                            Long start = chapter.getStartPositionTicks() / 10000;
-                            intent.putExtra("Position", start.intValue());
-                            activity.startActivity(intent);
-                        }
-                    });
+                //Start playback of the item at the chapter point
+                application.getApiClient().GetItemAsync(chapter.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>(){
+                    @Override
+                    public void onResponse(BaseItemDto response) {
+                        List<BaseItemDto> items = new ArrayList<>();
+                        items.add(response);
+                        MediaManager.setCurrentVideoQueue(items);
+                        Intent intent = new Intent(activity, application.getPlaybackActivityClass(response.getType()));
+                        Long start = chapter.getStartPositionTicks() / 10000;
+                        intent.putExtra("Position", start.intValue());
+                        activity.startActivity(intent);
+                    }
+                });
 
-                }
                 break;
             case Server:
                 //Log in to selected server

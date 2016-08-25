@@ -687,7 +687,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         if (Utils.CanPlay(mBaseItem)) {
             mDetailsOverviewRow.addAction(mResumeButton);
-            mResumeButton.setVisibility(("Series".equals(mBaseItem.getType()) && ! mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume() && !mApplication.useExternalPlayer(mBaseItem.getType())) ? View.VISIBLE : View.GONE);
+            mResumeButton.setVisibility(("Series".equals(mBaseItem.getType()) && ! mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume() ) ? View.VISIBLE : View.GONE);
 
             ImageButton play = new ImageButton(this, R.drawable.play, buttonSize, getString(Utils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), null, new View.OnClickListener() {
                 @Override

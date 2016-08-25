@@ -40,6 +40,7 @@ public class ExternalPlayerActivity extends Activity {
     Runnable mReportLoop;
 
     long mLastPlayerStart = 0;
+    Long mPosition = 0l;
     boolean isLiveTv;
     boolean noPlayerError;
 
@@ -57,17 +58,23 @@ public class ExternalPlayerActivity extends Activity {
             return;
         }
 
+        mPosition = (long) getIntent().getIntExtra("Position", 0);
+
         launchExternalPlayer(0);
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mApplication.getLogger().Debug("Returned from player... "+ resultCode);
-
         long playerFinishedTime = System.currentTimeMillis();
+        mApplication.getLogger().Debug("Returned from player... "+ resultCode);
+        //MX Player will return position
+        int pos = data != null ? data.getIntExtra("position", 0) : 0;
+        if (pos > 0) mApplication.getLogger().Info("Player returned position: "+pos);
+        Long reportPos = (long) pos * 10000;
+
         stopReportLoop();
-        Utils.ReportStopped(mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, 0);
+        Utils.ReportStopped(mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, reportPos);
 
         //Check against a total failure (no apps installed)
         if (playerFinishedTime - mLastPlayerStart < 1000) {
@@ -77,29 +84,39 @@ public class ExternalPlayerActivity extends Activity {
             return;
         }
 
-        //If item didn't play as long as its duration - confirm we want to mark watched
         long runtime = mItemsToPlay.get(mCurrentNdx).getRunTimeTicks() != null ? mItemsToPlay.get(mCurrentNdx).getRunTimeTicks() / 10000 : 0;
-        if (!isLiveTv && playerFinishedTime - mLastPlayerStart < runtime * .9) {
-            new AlertDialog.Builder(this)
-                    .setTitle("Mark Watched")
-                    .setMessage("The item didn't appear to play as long as its duration. Mark watched?")
-                    .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            markPlayed(mItemsToPlay.get(mCurrentNdx).getId());
-                            playNext();
-                        }
-                    })
-                    .setNegativeButton(R.string.lbl_no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            playNext();
-                        }
-                    })
-                    .show();
+        if (pos == 0) {
+            //If item didn't play as long as its duration - confirm we want to mark watched
+            if (!isLiveTv && playerFinishedTime - mLastPlayerStart < runtime * .9) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Mark Watched")
+                        .setMessage("The item didn't appear to play as long as its duration. Mark watched?")
+                        .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                markPlayed(mItemsToPlay.get(mCurrentNdx).getId());
+                                playNext();
+                            }
+                        })
+                        .setNegativeButton(R.string.lbl_no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                playNext();
+                            }
+                        })
+                        .show();
+            } else {
+                markPlayed(mItemsToPlay.get(mCurrentNdx).getId());
+                playNext();
+            }
+
         } else {
-            markPlayed(mItemsToPlay.get(mCurrentNdx).getId());
-            playNext();
+            if (!isLiveTv && pos > (runtime * .9)) {
+                playNext();
+            } else {
+                mItemsToPlay.remove(0);
+                finish();
+            }
         }
     }
 
@@ -137,7 +154,7 @@ public class ExternalPlayerActivity extends Activity {
         mReportLoop = new Runnable() {
             @Override
             public void run() {
-                    Utils.ReportProgress(mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, null, false);
+                    Utils.ReportProgress(mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, mPosition, false);
 
                 mApplication.setLastUserInteraction(System.currentTimeMillis());
                 mHandler.postDelayed(this, 15000);
@@ -259,6 +276,16 @@ public class ExternalPlayerActivity extends Activity {
     protected void startExternalActivity(String path, String container) {
         Intent external = new Intent(Intent.ACTION_VIEW);
         external.setDataAndType(Uri.parse(path), "video/"+container);
+
+        BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
+
+        //These parms are for MX Player
+        if (mPosition > 0) external.putExtra("position", mPosition);
+        external.putExtra("return_result", true);
+        if (item != null) {
+            external.putExtra("title", item.getName());
+        }
+        //End MX Player
 
         mApplication.getLogger().Info("Starting external playback of path: %s and mime: video/%s",path,container);
 
