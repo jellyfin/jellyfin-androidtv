@@ -19,6 +19,7 @@ import java.io.IOException;
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.entities.ImageType;
+import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
 import mediabrowser.model.livetv.RecordingQuery;
@@ -246,6 +247,7 @@ public class HomeFragment extends StdBrowseFragment {
         resumeItems.setImageTypeLimit(1);
         resumeItems.setEnableTotalRecordCount(false);
         resumeItems.setCollapseBoxSetItems(false);
+        resumeItems.setExcludeLocationTypes(new LocationType[] {LocationType.Virtual});
         resumeItems.setLimit(50);
         resumeItems.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
         resumeItems.setSortBy(new String[]{ItemSortBy.DatePlayed});
