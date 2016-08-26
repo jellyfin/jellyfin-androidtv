@@ -108,6 +108,8 @@ public class CardPresenter extends Presenter {
                             break;
                         case "Season":
                         case "Series":
+                            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tv);
+                            break;
                         case "Episode":
                             //TvApp.getApplication().getLogger().Debug("**** Image width: "+ cardWidth + " Aspect: " + Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()) + " Item: "+itemDto.getName());
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tv);
