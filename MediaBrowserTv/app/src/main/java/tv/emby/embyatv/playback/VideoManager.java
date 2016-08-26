@@ -248,7 +248,12 @@ public class VideoManager implements IVLCVout.Callback {
 
     public void setVideoPath(String path) {
         mCurrentVideoPath = path;
-        TvApp.getApplication().getLogger().Info("Video path set to: "+path);
+        try {
+            TvApp.getApplication().getLogger().Info("Video path set to: "+path);
+
+        } catch(Exception e){
+            TvApp.getApplication().getLogger().ErrorException("Error writing path to log",e);
+        }
 
         if (nativeMode) {
             try {
@@ -442,7 +447,7 @@ public class VideoManager implements IVLCVout.Callback {
 //            options.add("Universal (UTF-8)");
             options.add("-v");
 
-            mLibVLC = new LibVLC(TvApp.getApplication(), options);
+            mLibVLC = new LibVLC(options);
             TvApp.getApplication().getLogger().Info("Network buffer set to " + buffer);
             LibVLC.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
                 @Override
@@ -713,6 +718,12 @@ public class VideoManager implements IVLCVout.Callback {
             }
         });
 
+    }
+
+    @Override
+    public void onHardwareAccelerationError(IVLCVout ivlcVout) {
+        TvApp.getApplication().getLogger().Error("VLC Hardware acceleration error");
+        TvApp.getApplication().getPlaybackController().playerErrorEncountered();
     }
 
     @Override
