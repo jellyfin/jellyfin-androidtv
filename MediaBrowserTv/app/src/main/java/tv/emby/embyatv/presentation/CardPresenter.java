@@ -314,6 +314,7 @@ public class CardPresenter extends Presenter {
 
         protected void resetCardViewImage() {
             mCardView.clearBanner();
+            mCardView.setUnwatchedCount(-1);
             if (!validContext()) return;
             //TvApp.getApplication().getLogger().Debug("Resetting card image");
             try {
