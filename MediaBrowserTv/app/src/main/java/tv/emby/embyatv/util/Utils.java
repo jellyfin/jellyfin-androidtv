@@ -339,7 +339,7 @@ public class Utils {
     }
 
     public static String getBannerImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
-        if (!item.getHasBanner()) return getPrimaryImageUrl(item, apiClient, !"MusicArtist".equals(item.getType()) && !"MusicAlbum".equals(item.getType()), false, maxHeight);
+        if (!item.getHasBanner()) return getPrimaryImageUrl(item, apiClient, false, maxHeight);
         ImageOptions options = new ImageOptions();
         options.setTag(item.getImageTags().get(ImageType.Banner));
         options.setImageType(ImageType.Banner);
@@ -351,10 +351,6 @@ public class Utils {
                 options.setPercentPlayed(pct.intValue());
             }
 
-            options.setAddPlayedIndicator(userData.getPlayed());
-            if (item.getIsFolder() && userData.getUnplayedItemCount() != null && userData.getUnplayedItemCount() > 0)
-                options.setUnPlayedCount(userData.getUnplayedItemCount());
-
         }
 
         return apiClient.GetImageUrl(item.getId(), options);
@@ -362,7 +358,7 @@ public class Utils {
     }
 
     public static String getThumbImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
-        if (!item.getHasThumb()) return getPrimaryImageUrl(item, apiClient, !"MusicArtist".equals(item.getType()) && !"MusicAlbum".equals(item.getType()), true, maxHeight);
+        if (!item.getHasThumb()) return getPrimaryImageUrl(item, apiClient, true, maxHeight);
         ImageOptions options = new ImageOptions();
         options.setTag(item.getImageTags().get(ImageType.Thumb));
         options.setImageType(ImageType.Thumb);
@@ -374,21 +370,17 @@ public class Utils {
                 options.setPercentPlayed(pct.intValue());
             }
 
-            options.setAddPlayedIndicator(userData.getPlayed());
-            if (item.getIsFolder() && userData.getUnplayedItemCount() != null && userData.getUnplayedItemCount() > 0)
-                options.setUnPlayedCount(userData.getUnplayedItemCount());
-
         }
 
         return apiClient.GetImageUrl(item.getId(), options);
 
     }
 
-    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched, boolean preferParentThumb, int maxHeight) {
-        return getPrimaryImageUrl(item, apiClient, showWatched, true, preferParentThumb, false, maxHeight);
+    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, boolean preferParentThumb, int maxHeight) {
+        return getPrimaryImageUrl(item, apiClient, true, preferParentThumb, false, maxHeight);
     }
 
-    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched, boolean showProgress, boolean preferParentThumb, boolean preferSeriesPoster, int maxHeight) {
+    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, boolean showProgress, boolean preferParentThumb, boolean preferSeriesPoster, int maxHeight) {
         ImageOptions options = new ImageOptions();
         String itemId = item.getId();
         String imageTag = item.getImageTags() != null ? item.getImageTags().get(ImageType.Primary) : null;
@@ -435,11 +427,6 @@ public class Utils {
                     && userData.getPlayedPercentage() > 0 && userData.getPlayedPercentage() < 99) {
                 Double pct = userData.getPlayedPercentage();
                 options.setPercentPlayed(pct.intValue());
-            }
-            if (showWatched) {
-                options.setAddPlayedIndicator(userData.getPlayed());
-                if (item.getIsFolder() && userData.getUnplayedItemCount() != null && userData.getUnplayedItemCount() > 0)
-                    options.setUnPlayedCount(userData.getUnplayedItemCount());
             }
 
         }

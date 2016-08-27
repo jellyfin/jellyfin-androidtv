@@ -267,7 +267,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private void updatePoster() {
         if (isFinishing()) return;
         Picasso.with(mActivity)
-                .load(Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(),false, false, posterHeight))
+                .load(Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), false, posterHeight))
                 .skipMemoryCache()
                 .resize(posterWidth, posterHeight)
                 .centerInside()
@@ -327,7 +327,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             posterWidth = (int)((aspect) * posterHeight);
             if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
-            String primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(),false, false, posterHeight);
+            String primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), false, posterHeight);
             mDetailsOverviewRow = new MyDetailsOverviewRow(item);
 
             mDetailsOverviewRow.setSummary(item.getOverview());

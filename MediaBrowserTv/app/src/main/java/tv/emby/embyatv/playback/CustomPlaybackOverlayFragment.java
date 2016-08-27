@@ -1199,7 +1199,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         if (getActivity() != null && !getActivity().isFinishing()) {
             int height = Utils.convertDpToPixel(getActivity(), 300);
             int width = Utils.convertDpToPixel(getActivity(), 150);
-            String posterImageUrl = Utils.getPrimaryImageUrl(item, mApplication.getApiClient(), false, false, false, preferSeries, height);
+            String posterImageUrl = Utils.getPrimaryImageUrl(item, mApplication.getApiClient(), false, false, preferSeries, height);
             if (posterImageUrl != null) Picasso.with(getActivity()).load(posterImageUrl).skipMemoryCache().resize(width, height).centerInside().into(target);
 
         }

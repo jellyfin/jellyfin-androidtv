@@ -21,7 +21,8 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:gravity="right">
         <ImageView
             android:id="@+id/main_image"
             lb:layout_viewType="main"
@@ -39,6 +40,41 @@
             android:layout_alignBottom="@+id/main_image"
             android:layout_alignEnd="@+id/main_image"
             android:visibility="gone"/>
+        <RelativeLayout
+            android:id="@+id/watchedIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/main_image"
+            android:gravity="end"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="4dp"
+            android:layout_alignParentEnd="true"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/watched"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/greencircle" />
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:id="@+id/unwatchedCount"
+                android:textAlignment="center"
+                android:visibility="invisible"
+                android:gravity="center"
+                android:layout_marginTop="5dp" />
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:id="@+id/checkMark"
+                android:src="@drawable/whitecheck"
+                android:layout_alignEnd="@+id/watched"
+                android:layout_alignTop="@+id/watched"
+                android:layout_marginTop="-7dp"
+                />
+
+        </RelativeLayout>
         <RelativeLayout
             android:id="@+id/name_overlay"
             android:layout_width="match_parent"
