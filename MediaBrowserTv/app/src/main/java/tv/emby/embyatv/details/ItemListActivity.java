@@ -510,7 +510,7 @@ public class ItemListActivity extends BaseActivity {
                 int posterWidth = (int)((aspect) * posterHeight);
                 if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(this, 150);  //Guard against zero size images causing picasso to barf
 
-                String primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(),false, false, posterHeight);
+                String primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), false, posterHeight);
 
                 Picasso.with(this)
                         .load(primaryImageUrl)

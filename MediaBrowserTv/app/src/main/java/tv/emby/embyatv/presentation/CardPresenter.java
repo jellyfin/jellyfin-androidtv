@@ -20,6 +20,7 @@ import com.bumptech.glide.request.target.Target;
 import java.util.Date;
 
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import tv.emby.embyatv.R;
@@ -89,12 +90,14 @@ public class CardPresenter extends Presenter {
 
                 case BaseItem:
                     BaseItemDto itemDto = mItem.getBaseItem();
+                    boolean showWatched = true;
                     Double aspect = imageType.equals(ImageType.BANNER) ? 5.414 : imageType.equals(ImageType.THUMB) ? 1.779 : Utils.NullCoalesce(Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()), .7777777);
                     switch (itemDto.getType()) {
                         case "Audio":
                         case "MusicAlbum":
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.audio);
                             if (aspect < 0.8) aspect = 1.0;
+                            showWatched = false;
                             break;
                         case "Person":
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.person);
@@ -102,6 +105,7 @@ public class CardPresenter extends Presenter {
                         case "MusicArtist":
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.person);
                             if (aspect <.8) aspect = 1.0;
+                            showWatched = false;
                             break;
                         case "RecordingGroup":
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.recgroup);
@@ -139,6 +143,12 @@ public class CardPresenter extends Presenter {
                             break;
                         case "Photo":
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.photo);
+                            showWatched = false;
+                            break;
+                        case "PhotoAlbum":
+                        case "Playlist":
+                            showWatched = false;
+                            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.folder);
                             break;
                         default:
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.video);
@@ -150,6 +160,18 @@ public class CardPresenter extends Presenter {
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
                     if (itemDto.getLocationType() == LocationType.Offline) mCardView.setBanner(R.drawable.offlinebanner);
                     if (itemDto.getIsPlaceHolder() != null && itemDto.getIsPlaceHolder()) mCardView.setBanner(R.drawable.externaldiscbanner);
+                    if (showWatched) {
+                        UserItemDataDto userData = itemDto.getUserData();
+                        if (userData != null) {
+                            if (userData.getPlayed()) {
+                                mCardView.setUnwatchedCount(0);
+                            } else {
+                                if (userData.getUnplayedItemCount() != null) {
+                                    mCardView.setUnwatchedCount(userData.getUnplayedItemCount());
+                                }
+                            }
+                        }
+                    }
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     break;
                 case LiveTvChannel:

@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import mediabrowser.model.dto.BaseItemDto;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.util.Utils;
@@ -41,6 +40,9 @@ public class MyImageCardView extends BaseCardView {
     private TextView mContentView;
     private ImageView mBadgeImage;
     private ImageView mFavIcon;
+    private RelativeLayout mWatchedIndicator;
+    private ImageView mWatchedMark;
+    private TextView mUnwatchedCount;
     private int BANNER_SIZE = Utils.convertDpToPixel(TvApp.getApplication(), 50);
 
     public MyImageCardView(Context context) {
@@ -79,6 +81,9 @@ public class MyImageCardView extends BaseCardView {
         mInfoOverlay = (ViewGroup) v.findViewById(tv.emby.embyatv.R.id.name_overlay);
         mInfoOverlay.setVisibility(GONE);
         mFavIcon = (ImageView) v.findViewById(tv.emby.embyatv.R.id.favIcon);
+        mWatchedIndicator = (RelativeLayout) v.findViewById(tv.emby.embyatv.R.id.watchedIndicator);
+        mWatchedMark = (ImageView) v.findViewById(tv.emby.embyatv.R.id.checkMark);
+        mUnwatchedCount = (TextView) v.findViewById(tv.emby.embyatv.R.id.unwatchedCount);
 
         if (mInfoArea != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.lbImageCardView,
@@ -340,6 +345,21 @@ public class MyImageCardView extends BaseCardView {
     public void clearBanner() {
         if (mBanner != null) {
             mBanner.setVisibility(GONE);
+        }
+    }
+
+    public void setUnwatchedCount(int count) {
+        if (count > 0) {
+            mUnwatchedCount.setText(Integer.toString(count));
+            mUnwatchedCount.setVisibility(VISIBLE);
+            mWatchedMark.setVisibility(INVISIBLE);
+            mWatchedIndicator.setVisibility(VISIBLE);
+        } else if (count == 0) {
+            mWatchedMark.setVisibility(VISIBLE);
+            mUnwatchedCount.setVisibility(INVISIBLE);
+            mWatchedIndicator.setVisibility(VISIBLE);
+        } else {
+            mWatchedIndicator.setVisibility(GONE);
         }
     }
 
