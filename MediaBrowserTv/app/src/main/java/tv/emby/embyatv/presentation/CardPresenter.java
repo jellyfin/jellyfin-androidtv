@@ -91,6 +91,7 @@ public class CardPresenter extends Presenter {
                 case BaseItem:
                     BaseItemDto itemDto = mItem.getBaseItem();
                     boolean showWatched = true;
+                    boolean showProgress = false;
                     Double aspect = imageType.equals(ImageType.BANNER) ? 5.414 : imageType.equals(ImageType.THUMB) ? 1.779 : Utils.NullCoalesce(Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()), .7777777);
                     switch (itemDto.getType()) {
                         case "Audio":
@@ -130,6 +131,7 @@ public class CardPresenter extends Presenter {
                                     mCardView.setBanner(R.drawable.offlinebanner);
                                     break;
                             }
+                            showProgress = true;
                             break;
                         case "CollectionFolder":
                         case "Folder":
@@ -150,6 +152,11 @@ public class CardPresenter extends Presenter {
                             showWatched = false;
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.folder);
                             break;
+                        case "Movie":
+                        case "Video":
+                            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.video);
+                            showProgress = true;
+                            break;
                         default:
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.video);
                             break;
@@ -160,17 +167,21 @@ public class CardPresenter extends Presenter {
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
                     if (itemDto.getLocationType() == LocationType.Offline) mCardView.setBanner(R.drawable.offlinebanner);
                     if (itemDto.getIsPlaceHolder() != null && itemDto.getIsPlaceHolder()) mCardView.setBanner(R.drawable.externaldiscbanner);
-                    if (showWatched) {
-                        UserItemDataDto userData = itemDto.getUserData();
-                        if (userData != null) {
-                            if (userData.getPlayed()) {
-                                mCardView.setUnwatchedCount(0);
-                            } else {
-                                if (userData.getUnplayedItemCount() != null) {
-                                    mCardView.setUnwatchedCount(userData.getUnplayedItemCount());
-                                }
+                    UserItemDataDto userData = itemDto.getUserData();
+                    if (showWatched && userData != null) {
+                        if (userData.getPlayed()) {
+                            mCardView.setUnwatchedCount(0);
+                        } else {
+                            if (userData.getUnplayedItemCount() != null) {
+                                mCardView.setUnwatchedCount(userData.getUnplayedItemCount());
                             }
                         }
+                    }
+
+                    if(showProgress && itemDto.getRunTimeTicks() != null && itemDto.getRunTimeTicks() > 0 && userData != null && userData.getPlaybackPositionTicks() > 0) {
+                        mCardView.setProgress(((int)(userData.getPlaybackPositionTicks() * 100.0 / itemDto.getRunTimeTicks()))); // force floating pt math with 100.0
+                    } else {
+                        mCardView.setProgress(0);
                     }
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     break;
@@ -315,6 +326,7 @@ public class CardPresenter extends Presenter {
         protected void resetCardViewImage() {
             mCardView.clearBanner();
             mCardView.setUnwatchedCount(-1);
+            mCardView.setProgress(0);
             if (!validContext()) return;
             //TvApp.getApplication().getLogger().Debug("Resetting card image");
             try {

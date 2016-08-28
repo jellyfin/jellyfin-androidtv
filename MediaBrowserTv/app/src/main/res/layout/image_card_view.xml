@@ -40,6 +40,17 @@
             android:layout_alignBottom="@+id/main_image"
             android:layout_alignEnd="@+id/main_image"
             android:visibility="gone"/>
+        <ProgressBar
+            style="@style/overlay_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/resumeProgress"
+            android:layout_alignParentBottom="true"
+            android:maxHeight="5sp"
+            android:visibility="gone"
+            android:max="100" />
+
+
         <RelativeLayout
             android:id="@+id/watchedIndicator"
             android:layout_width="wrap_content"
@@ -116,6 +127,7 @@
         </RelativeLayout>
 
     </RelativeLayout>
+
     <android.support.v17.leanback.widget.NonOverlappingFrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

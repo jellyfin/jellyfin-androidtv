@@ -362,22 +362,12 @@ public class Utils {
         ImageOptions options = new ImageOptions();
         options.setTag(item.getImageTags().get(ImageType.Thumb));
         options.setImageType(ImageType.Thumb);
-        UserItemDataDto userData = item.getUserData();
-        if (userData != null && !"MusicArtist".equals(item.getType()) && !"MusicAlbum".equals(item.getType())) {
-            if (Arrays.asList(ProgressIndicatorTypes).contains(item.getType()) && userData.getPlayedPercentage() != null
-                    && userData.getPlayedPercentage() > 0 && userData.getPlayedPercentage() < 99) {
-                Double pct = userData.getPlayedPercentage();
-                options.setPercentPlayed(pct.intValue());
-            }
-
-        }
-
         return apiClient.GetImageUrl(item.getId(), options);
 
     }
 
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, boolean preferParentThumb, int maxHeight) {
-        return getPrimaryImageUrl(item, apiClient, true, preferParentThumb, false, maxHeight);
+        return getPrimaryImageUrl(item, apiClient, false, preferParentThumb, false, maxHeight);
     }
 
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, boolean showProgress, boolean preferParentThumb, boolean preferSeriesPoster, int maxHeight) {

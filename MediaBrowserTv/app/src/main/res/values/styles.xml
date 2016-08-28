@@ -13,6 +13,12 @@
         <item name="android:maxHeight">5sp</item>
     </style>
 
+    <style name="overlay_progress" parent="android:Widget.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/green_progress_overlay</item>
+        <item name="android:minHeight">5sp</item>
+        <item name="android:maxHeight">5sp</item>
+    </style>
+
     <style name="PopupSlideInTop">
         <item name="android:windowEnterAnimation">@anim/abc_slide_in_top</item>
         <item name="android:windowExitAnimation">@anim/abc_slide_out_top</item>
