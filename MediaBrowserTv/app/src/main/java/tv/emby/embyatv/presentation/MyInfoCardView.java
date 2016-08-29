@@ -46,7 +46,7 @@ public class MyInfoCardView extends FrameLayout {
             case Video:
             case Subtitle:
                 if (ms.getType() != MediaStreamType.Video && ms.getLanguage() != null) addRow("Language: ", Utils.FirstToUpper(ms.getLanguage()));
-                addRow("Codec: ", ms.getCodec().toUpperCase());
+                if (ms.getCodec() != null) addRow("Codec: ", ms.getCodec().toUpperCase());
                 if (ms.getProfile() != null) addRow("Profile: ",ms.getProfile());
                 if (ms.getLevel() != null && ms.getLevel() > 0) addRow("Level: ", ms.getLevel().toString());
                 if (ms.getChannelLayout() != null) addRow("Layout: ", ms.getChannelLayout());
