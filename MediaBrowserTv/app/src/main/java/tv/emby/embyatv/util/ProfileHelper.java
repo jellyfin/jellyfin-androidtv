@@ -187,7 +187,7 @@ public class ProfileHelper {
                 TvApp.getApplication().getLogger().Info("*** Excluding DTS and AC3 audio from direct play due to compatible audio setting");
                 videoDirectPlayProfile.setAudioCodec("aac,mp3,mp2");
             } else {
-                videoDirectPlayProfile.setAudioCodec("aac,ac3,eac3,aac_latm,mp3,mp2" + (allowDTS ? ",dca" : ""));
+                videoDirectPlayProfile.setAudioCodec("aac,ac3,eac3,aac_latm,mp3,mp2" + (allowDTS ? ",dca,dts" : ""));
             }
             videoDirectPlayProfile.setType(DlnaProfileType.Video);
             directPlayProfiles.add(videoDirectPlayProfile);
