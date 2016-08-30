@@ -70,7 +70,7 @@ public class ProfileHelper {
     public static DeviceProfile getExternalProfile() {
         DeviceProfile profile = new DeviceProfile();
 
-        profile.setName("Android");
+        profile.setName("Android-External");
         profile.setMaxStaticBitrate(100000000);
 
         DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
@@ -118,9 +118,10 @@ public class ProfileHelper {
 
     public static void setVlcOptions(DeviceProfile profile, boolean isLiveTv) {
 
+        profile.setName("Android-VLC");
         DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
-        videoDirectPlayProfile.setContainer("m4v,3gp,ts,mpegts,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,m2v,avi,mpg,mpeg,mp4,webm");
-        videoDirectPlayProfile.setAudioCodec("aac,mp3,mp2,ac3,wma,wmav2,dca,pcm,PCM_S16LE,PCM_S24LE,opus,flac" + (Utils.downMixAudio() || !isLiveTv ? "" : ",aac_latm"));
+        videoDirectPlayProfile.setContainer("m4v,3gp,ts,mpegts,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,m2v,avi,mpg,mpeg,mp4,webm,wtv");
+        videoDirectPlayProfile.setAudioCodec("aac,mp3,mp2,ac3,wma,wmav2,dca,dts,pcm,PCM_S16LE,PCM_S24LE,opus,flac" + (Utils.downMixAudio() || !isLiveTv ? "" : ",aac_latm"));
         videoDirectPlayProfile.setType(DlnaProfileType.Video);
 
         DirectPlayProfile audioDirectPlayProfile = new DirectPlayProfile();
@@ -143,28 +144,6 @@ public class ProfileHelper {
                         new ProfileCondition(ProfileConditionType.GreaterThanEqual, ProfileConditionValue.RefFrames, "2"),
                 });
 
-        CodecProfile refFramesProfile = new CodecProfile();
-        refFramesProfile.setType(CodecType.Video);
-        refFramesProfile.setCodec("h264");
-        refFramesProfile.setConditions(new ProfileCondition[]
-                {
-                        new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.RefFrames, "12"),
-                });
-        refFramesProfile.setApplyConditions(new ProfileCondition[] {
-                new ProfileCondition(ProfileConditionType.GreaterThanEqual, ProfileConditionValue.Width, "1200")
-        });
-
-        CodecProfile refFramesProfile2 = new CodecProfile();
-        refFramesProfile2.setType(CodecType.Video);
-        refFramesProfile2.setCodec("h264");
-        refFramesProfile2.setConditions(new ProfileCondition[]
-                {
-                        new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.RefFrames, "4"),
-                });
-        refFramesProfile2.setApplyConditions(new ProfileCondition[] {
-                new ProfileCondition(ProfileConditionType.GreaterThanEqual, ProfileConditionValue.Width, "1900")
-        });
-
         ContainerProfile videoContainerProfile = new ContainerProfile();
         videoContainerProfile.setType(DlnaProfileType.Video);
         videoContainerProfile.setContainer("avi");
@@ -177,7 +156,7 @@ public class ProfileHelper {
         videoAudioCodecProfile.setType(CodecType.VideoAudio);
         videoAudioCodecProfile.setConditions(new ProfileCondition[]{new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.AudioChannels, "6")});
 
-        profile.setCodecProfiles(new CodecProfile[]{getHevcProfile(), h264MainProfile, refFramesProfile, refFramesProfile2, videoAudioCodecProfile});
+        profile.setCodecProfiles(new CodecProfile[]{getHevcProfile(), h264MainProfile, videoAudioCodecProfile});
         profile.setContainerProfiles(new ContainerProfile[] {videoContainerProfile});
         profile.setSubtitleProfiles(new SubtitleProfile[]{
                 getSubtitleProfile("srt", SubtitleDeliveryMethod.External),
@@ -190,11 +169,13 @@ public class ProfileHelper {
                 getSubtitleProfile("dvdsub", SubtitleDeliveryMethod.Embed),
                 getSubtitleProfile("vtt", SubtitleDeliveryMethod.Embed),
                 getSubtitleProfile("sub", SubtitleDeliveryMethod.Embed),
+                getSubtitleProfile("smi", SubtitleDeliveryMethod.Embed),
                 getSubtitleProfile("idx", SubtitleDeliveryMethod.Embed)
         });
     }
 
     public static void setExoOptions(DeviceProfile profile, boolean isLiveTv, boolean allowDTS) {
+        profile.setName("Android-Exo");
 
         List<DirectPlayProfile> directPlayProfiles = new ArrayList<>();
         if (!isLiveTv || TvApp.getApplication().directStreamLiveTv()) {
