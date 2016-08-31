@@ -327,7 +327,11 @@ public class PlaybackController {
                 vlcOptions.setItemId(item.getId());
                 vlcOptions.setMediaSources(item.getMediaSources());
                 vlcOptions.setMaxBitrate(Utils.getMaxBitrate());
-                if (vlcErrorEncountered) vlcOptions.setEnableDirectStream(false);
+                if (vlcErrorEncountered) {
+                    mApplication.getLogger().Info("*** Disabling direct play/stream due to previous error");
+                    vlcOptions.setEnableDirectStream(false);
+                    vlcOptions.setEnableDirectPlay(false);
+                }
                 vlcOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
                 vlcOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
                 DeviceProfile vlcProfile = ProfileHelper.getBaseProfile();
@@ -418,7 +422,7 @@ public class PlaybackController {
                         mApplication.getLogger().Info(useDeinterlacing ? "Explicit deinterlacing will be used" : "Explicit deinterlacing will NOT be used");
 
                         // Now look at both responses and choose the one that direct plays or bitstreams - favor VLC
-                        useVlc = !vlcResponse.getPlayMethod().equals(PlayMethod.Transcode)
+                        useVlc = !vlcErrorEncountered && !vlcResponse.getPlayMethod().equals(PlayMethod.Transcode)
                                 && (Utils.is60() || !mApplication.getPrefs().getBoolean("pref_bitstream_ac3", false) || !"ac3".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec()))
                                 && (Utils.downMixAudio() || !Utils.is60() || internalResponse.getPlayMethod().equals(PlayMethod.Transcode) || !mApplication.getPrefs().getBoolean("pref_bitstream_dts", false) || internalResponse.getMediaSource() == null || internalResponse.getMediaSource().getDefaultAudioStream() == null || (!internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dca") && !internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("DCA")))
                                 && (!isLiveTv || (mApplication.directStreamLiveTv() && mApplication.useVlcForLiveTv()))
