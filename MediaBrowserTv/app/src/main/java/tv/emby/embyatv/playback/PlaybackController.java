@@ -167,7 +167,7 @@ public class PlaybackController {
     }
 
     public void playerErrorEncountered() {
-        if (useVlc) vlcErrorEncountered = true; else exoErrorEncountered = true;
+        if (mVideoManager.isNativeMode()) exoErrorEncountered = true; else vlcErrorEncountered = true;
         playbackRetries++;
 
         if (playbackRetries < 3) {
