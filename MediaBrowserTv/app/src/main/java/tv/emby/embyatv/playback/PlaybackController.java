@@ -329,8 +329,8 @@ public class PlaybackController {
                 vlcOptions.setMaxBitrate(Utils.getMaxBitrate());
                 if (vlcErrorEncountered) {
                     mApplication.getLogger().Info("*** Disabling direct play/stream due to previous error");
-                    vlcOptions.setEnableDirectStream(false);
-                    vlcOptions.setEnableDirectPlay(false);
+//                    vlcOptions.setEnableDirectStream(false);
+//                    vlcOptions.setEnableDirectPlay(false);
                 }
                 vlcOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
                 vlcOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);

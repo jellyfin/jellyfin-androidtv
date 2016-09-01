@@ -621,7 +621,7 @@ public class VideoManager implements IVLCVout.Callback {
         });
 
         mVlcHandler.setOnErrorListener(listener);
-        //errorListener = listener;
+        errorListener = listener;
     }
 
     public void fakeError() {
