@@ -510,7 +510,7 @@ public class ItemListActivity extends BaseActivity {
                 int posterWidth = (int)((aspect) * posterHeight);
                 if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(this, 150);  //Guard against zero size images causing picasso to barf
 
-                String primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(),false, false, posterHeight);
+                String primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), false, posterHeight);
 
                 Picasso.with(this)
                         .load(primaryImageUrl)
@@ -565,7 +565,7 @@ public class ItemListActivity extends BaseActivity {
 
     private void play(List<BaseItemDto> items) {
         if ("Video".equals(mBaseItem.getMediaType())) {
-            Intent intent = new Intent(mActivity, PlaybackOverlayActivity.class);
+            Intent intent = new Intent(mActivity, mApplication.getPlaybackActivityClass(mBaseItem.getType()));
             //Resume first item if needed
             BaseItemDto first = items.size() > 0 ? items.get(0) : null;
             if (first != null && first.getUserData() != null) {
@@ -602,7 +602,7 @@ public class ItemListActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         if (mItems.size() > 0) {
-                            if (mBaseItem.getId().equals(VIDEO_QUEUE)) {
+                            if (mBaseItem.getId().equals(VIDEO_QUEUE) || mBaseItem.getId().equals(FAV_SONGS)) {
                                 List<BaseItemDto> shuffled = new ArrayList<>(mItems);
                                 Collections.shuffle(shuffled);
                                 play(shuffled);

@@ -1,5 +1,6 @@
 package tv.emby.embyatv.playback;
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.ComponentName;
 import android.content.Context;
@@ -22,6 +23,7 @@ import android.support.v17.leanback.widget.RowPresenter;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -1197,7 +1199,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         if (getActivity() != null && !getActivity().isFinishing()) {
             int height = Utils.convertDpToPixel(getActivity(), 300);
             int width = Utils.convertDpToPixel(getActivity(), 150);
-            String posterImageUrl = Utils.getPrimaryImageUrl(item, mApplication.getApiClient(), false, false, false, preferSeries, height);
+            String posterImageUrl = Utils.getPrimaryImageUrl(item, mApplication.getApiClient(), false, false, preferSeries, height);
             if (posterImageUrl != null) Picasso.with(getActivity()).load(posterImageUrl).skipMemoryCache().resize(width, height).centerInside().into(target);
 
         }
@@ -1303,7 +1305,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     showGuide();
                 }
             }));
-        } else if (!TextUtils.isEmpty(item.getOverview())) {
+        }
+
+        if (!TextUtils.isEmpty(item.getOverview())) {
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.infoicon, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1563,17 +1567,19 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             addButtons(current);
             InfoLayoutHelper.addInfoRow(mActivity, current, mInfoRow, true, false, mPlaybackController.getCurrentMediaSource().GetDefaultAudioStream(mPlaybackController.getAudioStreamIndex()));
 
-            StreamInfo stream = mPlaybackController.getCurrentStreamInfo();
-            if (stream != null) {
-                switch (stream.getPlayMethod()) {
+            if (mApplication.getPrefs().getBoolean("pref_enable_debug", false)) {
+                StreamInfo stream = mPlaybackController.getCurrentStreamInfo();
+                if (stream != null) {
+                    switch (stream.getPlayMethod()) {
 
-                    case Transcode:
-                        InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Trans" + (mPlaybackController.mVideoManager.isNativeMode() ? "/I" : "/V"));
-                        break;
-                    case DirectStream:
-                    case DirectPlay:
-                        InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Direct" + (mPlaybackController.mVideoManager.isNativeMode() ? "/I" : "/V"));
-                        break;
+                        case Transcode:
+                            InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Trans" + (mPlaybackController.mVideoManager.isNativeMode() ? "/I" : "/V"));
+                            break;
+                        case DirectStream:
+                        case DirectPlay:
+                            InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Direct" + (mPlaybackController.mVideoManager.isNativeMode() ? "/I" : "/V"));
+                            break;
+                    }
                 }
             }
 

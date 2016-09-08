@@ -164,16 +164,13 @@ public class BaseRowItem {
         }
     }
 
-    private static String[] noWatchedTypes = new String[] {"PhotoAlbum","MusicAlbum","MusicArtist", "Audio","Playlist"};
-    private static List<String> noWatchedTypesList = Arrays.asList(noWatchedTypes);
-
     public String getPrimaryImageUrl(int maxHeight) {
         switch (type) {
 
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
-                return Utils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(), !noWatchedTypesList.contains(baseItem.getType()), preferParentThumb, maxHeight);
+                return Utils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(), preferParentThumb, maxHeight);
             case Person:
                 return Utils.getPrimaryImageUrl(person, TvApp.getApplication().getApiClient(), maxHeight);
             case User:

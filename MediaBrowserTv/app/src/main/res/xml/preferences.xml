@@ -44,8 +44,13 @@
             />
         <CheckBoxPreference android:key="pref_enable_info_panel"
             android:title="@string/lbl_show_info_panel"
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:summary="@string/desc_info_panel"
+            />
+        <CheckBoxPreference android:key="pref_enable_premieres"
+            android:title="@string/lbl_show_premieres"
+            android:defaultValue="false"
+            android:summary="@string/desc_premieres"
             />
         <CheckBoxPreference android:key="pref_enable_themes"
             android:title="@string/lbl_enable_seasonal_themes"
@@ -73,30 +78,25 @@
             android:defaultValue="true"
             android:summary="@string/sum_tv_queuing"
             />
+        <CheckBoxPreference android:key="pref_video_use_external"
+            android:title="Use External Player for Videos"
+            android:defaultValue="false"
+            android:summary="Requires a capable app to play video types"
+            />
+        <CheckBoxPreference android:key="pref_send_path_external"
+            android:title="Pass Direct Path"
+            android:defaultValue="false"
+            android:summary="Pass the file system path instead of streaming url"
+            />
+
         <CheckBoxPreference android:key="pref_enable_cinema_mode"
             android:title="@string/lbl_enable_cinema_mode"
             android:defaultValue="true"
             android:summary="@string/sum_enable_cinema_mode"
             />
-        <CheckBoxPreference android:key="pref_enable_vlc"
-            android:title="@string/lbl_use_vlc"
+        <CheckBoxPreference android:key="pref_refresh_switching"
+            android:title="@string/lbl_refresh_switching"
             android:defaultValue="true"
-            android:summary="@string/desc_use_vlc"
-            />
-        <CheckBoxPreference android:key="pref_live_direct"
-            android:title="@string/lbl_direct_stream_live"
-            android:defaultValue="true"
-            />
-        <CheckBoxPreference android:key="pref_enable_vlc_livetv"
-            android:title="@string/lbl_use_vlc_livetv"
-            android:defaultValue="true"
-            android:summary="@string/desc_use_vlc_livetv"
-            />
-        <ListPreference android:key="pref_vlc_max_res"
-            android:title="@string/lbl_vlc_max_res"
-            android:defaultValue="2900"
-            android:entries="@array/pref_vlc_max_entries"
-            android:entryValues="@array/pref_vlc_max_values"
             />
         <ListPreference android:key="pref_audio_option"
             android:title="@string/lbl_audio_output"
@@ -109,10 +109,29 @@
             android:summary="@string/desc_bitstream_ac3"
             android:defaultValue="true"
             />
+        <CheckBoxPreference android:key="pref_bitstream_dts"
+            android:title="@string/lbl_bitstream_dts"
+            android:summary="@string/desc_bitstream_ac3"
+            android:defaultValue="false"
+            />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_live_tv_cat" android:key="pref_live_tv_category">
+        <CheckBoxPreference android:key="pref_live_tv_use_external"
+            android:title="Use External Player for Live TV"
+            android:defaultValue="false"
+            android:summary="Requires a capable app to play live streams"
+            />
+        <CheckBoxPreference android:key="pref_live_direct"
+            android:title="@string/lbl_direct_stream_live"
+            android:defaultValue="true"
+            />
+        <CheckBoxPreference android:key="pref_enable_vlc_livetv"
+            android:title="@string/lbl_use_vlc_livetv"
+            android:defaultValue="true"
+            android:summary="@string/desc_use_vlc_livetv"
+            />
         <CheckBoxPreference android:key="pref_guide_sort_date"
             android:title="@string/pref_sort_date_option"
             android:defaultValue="true"

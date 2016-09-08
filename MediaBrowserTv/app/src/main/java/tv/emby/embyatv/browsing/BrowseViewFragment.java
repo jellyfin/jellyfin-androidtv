@@ -1,27 +1,38 @@
 package tv.emby.embyatv.browsing;
 
 import android.os.Bundle;
+import android.support.v17.leanback.widget.HeaderItem;
+import android.support.v17.leanback.widget.ListRow;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.entities.ImageType;
+import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
+import mediabrowser.model.livetv.RecordingGroupQuery;
 import mediabrowser.model.livetv.RecordingQuery;
+import mediabrowser.model.livetv.TimerInfoDto;
+import mediabrowser.model.livetv.TimerQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
+import mediabrowser.model.querying.LatestItemsQuery;
 import mediabrowser.model.querying.NextUpQuery;
+import mediabrowser.model.results.TimerInfoDtoResult;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.ChangeTriggerType;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.StdItemQuery;
+import tv.emby.embyatv.util.Utils;
 
 /**
  * Created by Eric on 12/4/2014.
@@ -53,23 +64,21 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 resumeMovies.setRecursive(true);
                 resumeMovies.setParentId(mFolder.getId());
                 resumeMovies.setImageTypeLimit(1);
+                resumeMovies.setLimit(50);
+                resumeMovies.setCollapseBoxSetItems(false);
+                resumeMovies.setEnableTotalRecordCount(false);
                 resumeMovies.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
                 resumeMovies.setSortBy(new String[]{ItemSortBy.DatePlayed});
                 resumeMovies.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_continue_watching), resumeMovies, 50, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_continue_watching), resumeMovies, 0, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback}));
 
                 //Latest
-                StdItemQuery latestMovies = new StdItemQuery();
-                latestMovies.setIncludeItemTypes(new String[]{"Movie"});
-                latestMovies.setRecursive(true);
+                LatestItemsQuery latestMovies = new LatestItemsQuery();
+                latestMovies.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
                 latestMovies.setParentId(mFolder.getId());
                 latestMovies.setLimit(50);
                 latestMovies.setImageTypeLimit(1);
-                latestMovies.setCollapseBoxSetItems(false);
-                if (TvApp.getApplication().getCurrentUser().getConfiguration().getHidePlayedInLatest()) latestMovies.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
-                latestMovies.setSortBy(new String[]{ItemSortBy.DateCreated});
-                latestMovies.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestMovies, 0, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestMovies, new ChangeTriggerType[] {ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
                 StdItemQuery favorites = new StdItemQuery();
@@ -105,31 +114,32 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 mRows.add(new BrowseRowDef(mApplication.getResources().getString(R.string.lbl_next_up), nextUpQuery, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}));
 
                 //Premieres
-                StdItemQuery newQuery = new StdItemQuery(new ItemFields[]{ItemFields.DateCreated, ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
-                newQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                newQuery.setIncludeItemTypes(new String[]{"Episode"});
-                newQuery.setParentId(mFolder.getId());
-                newQuery.setRecursive(true);
-                newQuery.setIsVirtualUnaired(false);
-                newQuery.setIsMissing(false);
-                newQuery.setImageTypeLimit(1);
-                newQuery.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
-                newQuery.setSortBy(new String[]{ItemSortBy.DateCreated});
-                newQuery.setSortOrder(SortOrder.Descending);
-                newQuery.setLimit(300);
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_new_premieres), newQuery, 0, true, true, new ChangeTriggerType[] {ChangeTriggerType.TvPlayback}, QueryType.Premieres));
+                if (mApplication.getPrefs().getBoolean("pref_enable_premieres", false)) {
+                    StdItemQuery newQuery = new StdItemQuery(new ItemFields[]{ItemFields.DateCreated, ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
+                    newQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                    newQuery.setIncludeItemTypes(new String[]{"Episode"});
+                    newQuery.setParentId(mFolder.getId());
+                    newQuery.setRecursive(true);
+                    newQuery.setIsVirtualUnaired(false);
+                    newQuery.setIsMissing(false);
+                    newQuery.setImageTypeLimit(1);
+                    newQuery.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
+                    newQuery.setSortBy(new String[]{ItemSortBy.DateCreated});
+                    newQuery.setSortOrder(SortOrder.Descending);
+                    newQuery.setEnableTotalRecordCount(false);
+                    newQuery.setLimit(300);
+                    mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_new_premieres), newQuery, 0, true, true, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}, QueryType.Premieres));
+                }
 
                 //Latest content added
-                StdItemQuery latestSeries = new StdItemQuery();
-                latestSeries.setIncludeItemTypes(new String[]{"Series"});
-                latestSeries.setRecursive(true);
+                LatestItemsQuery latestSeries = new LatestItemsQuery();
+                latestSeries.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
+                latestSeries.setIncludeItemTypes(new String[]{"Episode"});
+                latestSeries.setGroupItems(true);
                 latestSeries.setParentId(mFolder.getId());
                 latestSeries.setLimit(50);
                 latestSeries.setImageTypeLimit(1);
-                if (TvApp.getApplication().getCurrentUser().getConfiguration().getHidePlayedInLatest()) latestSeries.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
-                latestSeries.setSortBy(new String[]{ItemSortBy.DateLastContentAdded});
-                latestSeries.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestSeries, 0, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestSeries, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
                 StdItemQuery tvFavorites = new StdItemQuery();
@@ -146,15 +156,14 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
             case "music":
 
                 //Latest
-                StdItemQuery latestAlbums = new StdItemQuery();
-                latestAlbums.setIncludeItemTypes(new String[]{"MusicAlbum"});
-                latestAlbums.setRecursive(true);
+                LatestItemsQuery latestAlbums = new LatestItemsQuery();
+                latestAlbums.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
+                latestAlbums.setIncludeItemTypes(new String[]{"Audio"});
+                latestAlbums.setGroupItems(true);
                 latestAlbums.setImageTypeLimit(1);
                 latestAlbums.setParentId(mFolder.getId());
                 latestAlbums.setLimit(50);
-                latestAlbums.setSortBy(new String[]{ItemSortBy.DateLastContentAdded});
-                latestAlbums.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestAlbums, 0, false, true, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestAlbums, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
                 //Last Played
                 StdItemQuery lastPlayed = new StdItemQuery();
@@ -165,6 +174,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 lastPlayed.setFilters(new ItemFilter[]{ItemFilter.IsPlayed});
                 lastPlayed.setSortBy(new String[]{ItemSortBy.DatePlayed});
                 lastPlayed.setSortOrder(SortOrder.Descending);
+                lastPlayed.setEnableTotalRecordCount(false);
                 lastPlayed.setLimit(50);
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_last_played), lastPlayed, 0, false, true, new ChangeTriggerType[] {ChangeTriggerType.MusicPlayback, ChangeTriggerType.LibraryUpdated}));
 
@@ -197,7 +207,8 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 onNow.setFields(new ItemFields[] {ItemFields.Overview, ItemFields.PrimaryImageAspectRatio, ItemFields.ChannelInfo});
                 onNow.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 onNow.setImageTypeLimit(1);
-                onNow.setLimit(200);
+                onNow.setEnableTotalRecordCount(false);
+                onNow.setLimit(150);
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_on_now), onNow));
 
                 //Upcoming
@@ -207,17 +218,9 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 upcomingTv.setIsAiring(false);
                 upcomingTv.setHasAired(false);
                 upcomingTv.setImageTypeLimit(1);
-                upcomingTv.setLimit(200);
+                upcomingTv.setEnableTotalRecordCount(false);
+                upcomingTv.setLimit(150);
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_coming_up), upcomingTv));
-
-                //Latest Recordings
-                RecordingQuery recordings = new RecordingQuery();
-                recordings.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
-                recordings.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                recordings.setEnableImages(true);
-                recordings.setImageTypeLimit(1);
-                recordings.setLimit(40);
-                mRows.add(new BrowseRowDef("Latest Recordings", recordings));
 
                 //Fav Channels
                 LiveTvChannelQuery favTv = new LiveTvChannelQuery();
@@ -232,7 +235,119 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 otherTv.setIsFavorite(false);
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_other_channels), otherTv));
 
-                rowLoader.loadRows(mRows);
+                //Latest Recordings
+                RecordingQuery recordings = new RecordingQuery();
+                recordings.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+                recordings.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                recordings.setEnableImages(true);
+                recordings.setLimit(40);
+
+                //Do a straight query and then split the returned items into logical groups
+                TvApp.getApplication().getApiClient().GetLiveTvRecordingsAsync(recordings, new Response<ItemsResult>() {
+                    @Override
+                    public void onResponse(ItemsResult response) {
+                        final ItemsResult recordingsResponse = response;
+                        final long ticks24 = 1000 * 60 * 60 * 24;
+
+                        // Also get scheduled recordings for next 24 hours
+                        final TimerQuery scheduled = new TimerQuery();
+                        TvApp.getApplication().getApiClient().GetLiveTvTimersAsync(scheduled, new Response<TimerInfoDtoResult>(){
+                            @Override
+                            public void onResponse(TimerInfoDtoResult response) {
+                                List<BaseItemDto> nearTimers = new ArrayList<>();
+                                long next24 = System.currentTimeMillis() + ticks24;
+                                //Get scheduled items for next 24 hours
+                                for (TimerInfoDto timer : response.getItems()) {
+                                    if (Utils.convertToLocalDate(timer.getStartDate()).getTime() <= next24) {
+                                        BaseItemDto programInfo = timer.getProgramInfo();
+                                        if (programInfo == null) {
+                                            programInfo = new BaseItemDto();
+                                            programInfo.setId(timer.getId());
+                                            programInfo.setChannelName(timer.getChannelName());
+                                            programInfo.setName(Utils.NullCoalesce(timer.getName(),"Unknown"));
+                                            TvApp.getApplication().getLogger().Warn("No program info for timer %s.  Creating one...", programInfo.getName());
+                                            programInfo.setType("Program");
+                                            programInfo.setTimerId(timer.getId());
+                                            programInfo.setSeriesTimerId(timer.getSeriesTimerId());
+                                            programInfo.setStartDate(timer.getStartDate());
+                                            programInfo.setEndDate(timer.getEndDate());
+                                        }
+                                        programInfo.setLocationType(LocationType.Virtual);
+                                        nearTimers.add(programInfo);
+                                    }
+                                }
+
+                                if (recordingsResponse.getTotalRecordCount() > 0) {
+                                    List<BaseItemDto> dayItems = new ArrayList<>();
+                                    List<BaseItemDto> weekItems = new ArrayList<>();
+
+                                    long past24 = System.currentTimeMillis() - ticks24;
+                                    long pastWeek = System.currentTimeMillis() - (ticks24 * 7);
+                                    for (BaseItemDto item : recordingsResponse.getItems()) {
+                                        if (item.getDateCreated() != null) {
+                                            if (Utils.convertToLocalDate(item.getDateCreated()).getTime() >= past24) {
+                                                dayItems.add(item);
+                                            } else if (Utils.convertToLocalDate(item.getDateCreated()).getTime() >= pastWeek) {
+                                                weekItems.add(item);
+                                            }
+                                        }
+                                    }
+
+                                    //First put all recordings in and retrieve
+                                    //All Recordings
+                                    RecordingQuery recordings = new RecordingQuery();
+                                    recordings.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+                                    recordings.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                                    recordings.setEnableImages(true);
+                                    mRows.add(new BrowseRowDef("Recent Recordings", recordings, 50));
+                                    //All Recordings by group - will only be there for non-internal TV
+                                    RecordingGroupQuery recordingGroups = new RecordingGroupQuery();
+                                    recordingGroups.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                                    mRows.add(new BrowseRowDef("All Recordings", recordingGroups));
+                                    rowLoader.loadRows(mRows);
+
+                                    //Now insert our smart rows
+                                    if (weekItems.size() > 0) {
+                                        ItemRowAdapter weekAdapter = new ItemRowAdapter(weekItems, mCardPresenter, mRowsAdapter, true);
+                                        weekAdapter.Retrieve();
+                                        ListRow weekRow = new ListRow(new HeaderItem("Past Week"), weekAdapter);
+                                        mRowsAdapter.add(0, weekRow);
+                                    }
+                                    if (nearTimers.size() > 0) {
+                                        ItemRowAdapter scheduledAdapter = new ItemRowAdapter(nearTimers, mCardPresenter, mRowsAdapter, true);
+                                        scheduledAdapter.Retrieve();
+                                        ListRow scheduleRow = new ListRow(new HeaderItem("Scheduled in Next 24 Hours"), scheduledAdapter);
+                                        mRowsAdapter.add(0, scheduleRow);
+                                    }
+                                    if (dayItems.size() > 0) {
+                                        ItemRowAdapter dayAdapter = new ItemRowAdapter(dayItems, mCardPresenter, mRowsAdapter, true);
+                                        dayAdapter.Retrieve();
+                                        ListRow dayRow = new ListRow(new HeaderItem("Past 24 Hours"), dayAdapter);
+                                        mRowsAdapter.add(0, dayRow);
+                                    }
+
+                                } else {
+                                    // no recordings
+                                    rowLoader.loadRows(mRows);
+                                    if (nearTimers.size() > 0) {
+                                        ItemRowAdapter scheduledAdapter = new ItemRowAdapter(nearTimers, mCardPresenter, mRowsAdapter, true);
+                                        scheduledAdapter.Retrieve();
+                                        ListRow scheduleRow = new ListRow(new HeaderItem("Scheduled in Next 24 Hours"), scheduledAdapter);
+                                        mRowsAdapter.add(0, scheduleRow);
+                                    } else {
+                                        mTitle.setText(R.string.lbl_no_recordings);
+
+                                    }
+                                }
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(Exception exception) {
+                        Utils.showToast(mApplication, exception.getLocalizedMessage());
+                    }
+                });
 
                 break;
             default:

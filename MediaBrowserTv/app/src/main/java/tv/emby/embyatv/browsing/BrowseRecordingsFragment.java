@@ -86,15 +86,23 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                             long past24 = System.currentTimeMillis() - ticks24;
                             long pastWeek = System.currentTimeMillis() - (ticks24 * 7);
                             for (BaseItemDto item : recordingsResponse.getItems()) {
-                                if (Utils.convertToLocalDate(item.getStartDate()).getTime() >= past24) {
-                                    dayItems.add(item);
-                                } else if (Utils.convertToLocalDate(item.getStartDate()).getTime() >= pastWeek) {
-                                    weekItems.add(item);
+                                if (item.getDateCreated() != null) {
+                                    if (Utils.convertToLocalDate(item.getDateCreated()).getTime() >= past24) {
+                                        dayItems.add(item);
+                                    } else if (Utils.convertToLocalDate(item.getDateCreated()).getTime() >= pastWeek) {
+                                        weekItems.add(item);
+                                    }
                                 }
                             }
 
                             //First put all recordings in and retrieve
-                            //All Recordings by group
+                            //All Recordings
+                            RecordingQuery recordings = new RecordingQuery();
+                            recordings.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+                            recordings.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                            recordings.setEnableImages(true);
+                            mRows.add(new BrowseRowDef("Recent Recordings", recordings, 50));
+                            //All Recordings by group - will only be there for non-internal TV
                             RecordingGroupQuery recordingGroups = new RecordingGroupQuery();
                             recordingGroups.setUserId(TvApp.getApplication().getCurrentUser().getId());
                             mRows.add(new BrowseRowDef("All Recordings", recordingGroups));

@@ -1,7 +1,6 @@
 package tv.emby.embyatv.playback;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
 import android.media.MediaPlayer;
@@ -60,6 +59,8 @@ public class VideoManager implements IVLCVout.Callback {
     private int mVideoVisibleWidth;
     private int mSarNum;
     private int mSarDen;
+    private int mCurrentBuffer;
+    private boolean mIsInterlaced;
 
     private long mForcedTime = -1;
     private long mLastTime = -1;
@@ -70,7 +71,7 @@ public class VideoManager implements IVLCVout.Callback {
     public boolean isContracted = false;
     private boolean hasSubtitlesSurface = false;
 
-    public VideoManager(PlaybackOverlayActivity activity, View view, int buffer) {
+    public VideoManager(PlaybackOverlayActivity activity, View view) {
         mActivity = activity;
         mSurfaceView = (SurfaceView) view.findViewById(R.id.player_surface);
         mSurfaceHolder = mSurfaceView.getHolder();
@@ -86,8 +87,10 @@ public class VideoManager implements IVLCVout.Callback {
         }
         mVideoView = (EMVideoView) view.findViewById(R.id.videoView);
 
-        createPlayer(buffer);
+    }
 
+    public void init(int buffer, boolean isInterlaced) {
+        createPlayer(buffer, isInterlaced);
     }
 
     public void setNativeMode(boolean value) {
@@ -245,7 +248,12 @@ public class VideoManager implements IVLCVout.Callback {
 
     public void setVideoPath(String path) {
         mCurrentVideoPath = path;
-        TvApp.getApplication().getLogger().Info("Video path set to: "+path);
+        try {
+            TvApp.getApplication().getLogger().Info("Video path set to: "+path);
+
+        } catch(Exception e){
+            TvApp.getApplication().getLogger().ErrorException("Error writing path to log",e);
+        }
 
         if (nativeMode) {
             try {
@@ -318,17 +326,13 @@ public class VideoManager implements IVLCVout.Callback {
         return false;
     }
 
-    public boolean addSubtitleTrack(String path) {
-        return !nativeMode && mVlcPlayer.setSubtitleFile(path);
-    }
-
     public int getAudioTrack() {
         return nativeMode ? -1 : mVlcPlayer.getAudioTrack();
     }
 
     public void setAudioTrack(int ndx, List<MediaStream> allStreams) {
         if (!nativeMode) {
-            //find the relative order of our sub index within the sub tracks in VLC
+            //find the relative order of our audio index within the audio tracks in VLC
             int vlcIndex = 1; // start at 1 to account for "disabled"
             for (MediaStream stream : allStreams) {
                 if (stream.getType() == MediaStreamType.Audio && !stream.getIsExternal()) {
@@ -344,8 +348,8 @@ public class VideoManager implements IVLCVout.Callback {
                 vlcTrack = mVlcPlayer.getAudioTracks()[vlcIndex];
 
             } catch (IndexOutOfBoundsException e) {
-                TvApp.getApplication().getLogger().Error("Could not locate subtitle with index %s in vlc track info", ndx);
-                mVlcPlayer.setAudioTrack(vlcIndex);
+                TvApp.getApplication().getLogger().Error("Could not locate audio with index %s in vlc track info", ndx);
+                mVlcPlayer.setAudioTrack(ndx);
                 return;
             } catch (NullPointerException e){
                 TvApp.getApplication().getLogger().Error("No subtitle tracks found in player trying to set subtitle with index %s in vlc track info", ndx);
@@ -415,7 +419,9 @@ public class VideoManager implements IVLCVout.Callback {
         releasePlayer();
     }
 
-    private void createPlayer(int buffer) {
+    private void createPlayer(int buffer, boolean isInterlaced) {
+        if (mVlcPlayer != null && mIsInterlaced == isInterlaced && mCurrentBuffer == buffer) return; // don't need to re-create
+
         try {
 
             // Create a new media player
@@ -433,6 +439,10 @@ public class VideoManager implements IVLCVout.Callback {
             options.add("--audio-resampler");
             options.add("soxr");
             options.add("--stats");
+            if (isInterlaced) {
+                options.add("--video-filter=deinterlace");
+                options.add("--deinterlace-mode=Bob");
+            }
 //            options.add("--subsdec-encoding");
 //            options.add("Universal (UTF-8)");
             options.add("-v");
@@ -597,6 +607,8 @@ public class VideoManager implements IVLCVout.Callback {
         if (hasSubtitlesSurface) mSubtitlesSurface.invalidate();
     }
 
+    PlaybackListener errorListener;
+
     public void setOnErrorListener(final PlaybackListener listener) {
         mVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
@@ -609,6 +621,11 @@ public class VideoManager implements IVLCVout.Callback {
         });
 
         mVlcHandler.setOnErrorListener(listener);
+        errorListener = listener;
+    }
+
+    public void fakeError() {
+        if (errorListener != null) errorListener.onEvent();
     }
 
     public void setOnCompletionListener(final PlaybackListener listener) {
@@ -704,6 +721,12 @@ public class VideoManager implements IVLCVout.Callback {
     }
 
     @Override
+    public void onHardwareAccelerationError(IVLCVout ivlcVout) {
+        TvApp.getApplication().getLogger().Error("VLC Hardware acceleration error");
+        TvApp.getApplication().getPlaybackController().playerErrorEncountered();
+    }
+
+    @Override
     public void onSurfacesCreated(IVLCVout ivlcVout) {
 
     }
@@ -711,11 +734,6 @@ public class VideoManager implements IVLCVout.Callback {
     @Override
     public void onSurfacesDestroyed(IVLCVout ivlcVout) {
 
-    }
-
-    @Override
-    public void onHardwareAccelerationError(IVLCVout ivlcVout) {
-        TvApp.getApplication().getLogger().Error("VLC Hardware acceleration error");
     }
 
     public Integer translateVlcAudioId(Integer vlcId) {

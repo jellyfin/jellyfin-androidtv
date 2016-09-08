@@ -25,6 +25,13 @@ public class LogReporter {
         if (TvApp.getApplication().getCurrentSystemInfo() != null) report.setServerName(TvApp.getApplication().getCurrentSystemInfo().getServerName());
         if (TvApp.getApplication().getCurrentUser() != null) report.setUserName(TvApp.getApplication().getCurrentUser().getName());
 
+        TvApp.getApplication().getLogger().Info("** OS Version: %s",report.getOsVersionString());
+        TvApp.getApplication().getLogger().Info("** App Version: %s",report.getAppVersion());
+        TvApp.getApplication().getLogger().Info("** Device: %s",report.getDeviceInfo());
+        TvApp.getApplication().getLogger().Info("** Server: %s",report.getServerName());
+        TvApp.getApplication().getLogger().Info("** User: %s",report.getUserName());
+
+
         //get log
         try {
             Process process = Runtime.getRuntime().exec("logcat -d");

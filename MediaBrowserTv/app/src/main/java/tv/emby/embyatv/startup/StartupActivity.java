@@ -59,12 +59,16 @@ public class StartupActivity extends Activity {
 
         //Migrate prefs
         if (Integer.parseInt(application.getConfigVersion()) < 2) {
-            application.getPrefs().edit().putString("pref_vlc_max_res", "2900").commit();
             application.getSystemPrefs().edit().putString("sys_pref_config_version", "2").commit();
         }
         if (Integer.parseInt(application.getConfigVersion()) < 3) {
-            application.getPrefs().edit().putString("pref_max_bitrate", "0").commit();
-            application.getSystemPrefs().edit().putString("sys_pref_config_version", "3").commit();
+            application.getPrefs().edit().putString("pref_max_bitrate", "0").apply();
+            application.getSystemPrefs().edit().putString("sys_pref_config_version", "3").apply();
+        }
+        if (Integer.parseInt(application.getConfigVersion()) < 4) {
+            application.getPrefs().edit().putBoolean("pref_enable_premieres", false).apply();
+            application.getPrefs().edit().putBoolean("pref_enable_info_panel", false).apply();
+            application.getSystemPrefs().edit().putString("sys_pref_config_version", "4").apply();
         }
 
         //Ensure we have prefs

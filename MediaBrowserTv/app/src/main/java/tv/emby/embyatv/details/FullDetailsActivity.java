@@ -47,8 +47,10 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.ImageOptions;
+import mediabrowser.model.dto.MediaSourceInfo;
 import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.ImageType;
+import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.PersonType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.SeriesTimerInfoDto;
@@ -71,6 +73,7 @@ import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.presentation.CardPresenter;
+import tv.emby.embyatv.presentation.InfoCardPresenter;
 import tv.emby.embyatv.presentation.MyDetailsOverviewRowPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.SpecialsQuery;
@@ -264,7 +267,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private void updatePoster() {
         if (isFinishing()) return;
         Picasso.with(mActivity)
-                .load(Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(),false, false, posterHeight))
+                .load(Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true, false, false, posterHeight))
                 .skipMemoryCache()
                 .resize(posterWidth, posterHeight)
                 .centerInside()
@@ -324,7 +327,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             posterWidth = (int)((aspect) * posterHeight);
             if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
-            String primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(),false, false, posterHeight);
+            String primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true, false, false, posterHeight);
             mDetailsOverviewRow = new MyDetailsOverviewRow(item);
 
             mDetailsOverviewRow.setSummary(item.getOverview());
@@ -458,6 +461,27 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                 ItemRowAdapter similarMoviesAdapter = new ItemRowAdapter(similar, QueryType.SimilarMovies, new CardPresenter(), adapter);
                 addItemRow(adapter, similarMoviesAdapter, 4, mActivity.getString(R.string.lbl_similar_movies));
+
+                addInfoRows(adapter);
+                break;
+            case "Trailer":
+
+                //Cast/Crew
+                if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
+                    ItemRowAdapter castAdapter = new ItemRowAdapter(mBaseItem.getPeople(), new CardPresenter(), adapter);
+                    addItemRow(adapter, castAdapter, 0, mActivity.getString(R.string.lbl_cast_crew));
+                }
+
+                //Similar
+                SimilarItemsQuery similarTrailer = new SimilarItemsQuery();
+                similarTrailer.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
+                similarTrailer.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                similarTrailer.setId(mBaseItem.getId());
+                similarTrailer.setLimit(10);
+
+                ItemRowAdapter similarTrailerAdapter = new ItemRowAdapter(similarTrailer, QueryType.SimilarMovies, new CardPresenter(), adapter);
+                addItemRow(adapter, similarTrailerAdapter, 4, mActivity.getString(R.string.lbl_similar_movies));
+                addInfoRows(adapter);
                 break;
             case "Person":
 
@@ -539,11 +563,29 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     ItemRowAdapter nextAdapter = new ItemRowAdapter(nextEpisodes, 0 , false, true, new CardPresenter(), adapter);
                     addItemRow(adapter, nextAdapter, 5, "Next Episodes");
                 }
+                addInfoRows(adapter);
                 break;
 
         }
 
 
+    }
+
+    private void addInfoRows(ArrayObjectAdapter adapter) {
+        if (TvApp.getApplication().getPrefs().getBoolean("pref_enable_debug", false) && mBaseItem.getMediaSources() != null) {
+            for (MediaSourceInfo ms : mBaseItem.getMediaSources()) {
+                if (ms.getMediaStreams() != null && ms.getMediaStreams().size() > 0) {
+                    HeaderItem header = new HeaderItem("Media Details"+(ms.getContainer() != null ? " (" +ms.getContainer()+")" : ""));
+                    ArrayObjectAdapter infoAdapter = new ArrayObjectAdapter(new InfoCardPresenter());
+                    for (MediaStream stream : ms.getMediaStreams()) {
+                        infoAdapter.add(stream);
+                    }
+
+                    adapter.add(new ListRow(header, infoAdapter));
+
+                }
+            }
+        }
     }
 
     private void updateInfo(BaseItemDto item) {
@@ -645,7 +687,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         if (Utils.CanPlay(mBaseItem)) {
             mDetailsOverviewRow.addAction(mResumeButton);
-            mResumeButton.setVisibility(("Series".equals(mBaseItem.getType()) && ! mBaseItem.getUserData().getPlayed()) || mBaseItem.getCanResume() ? View.VISIBLE : View.GONE);
+            mResumeButton.setVisibility(("Series".equals(mBaseItem.getType()) && ! mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume() ) ? View.VISIBLE : View.GONE);
 
             ImageButton play = new ImageButton(this, R.drawable.play, buttonSize, getString(Utils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), null, new View.OnClickListener() {
                 @Override
@@ -1033,7 +1075,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 if ("MusicArtist".equals(item.getType())) {
                     MediaManager.playNow(response);
                 } else {
-                    Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                    Intent intent = new Intent(activity, mApplication.getPlaybackActivityClass(item.getType()));
                     MediaManager.setCurrentVideoQueue(response);
                     intent.putExtra("Position", pos);
                     startActivity(intent);
@@ -1045,7 +1087,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     protected void play(final BaseItemDto[] items, final int pos, final boolean shuffle) {
         List<BaseItemDto> itemsToPlay = Arrays.asList(items);
-        Intent intent = new Intent(this, PlaybackOverlayActivity.class);
+        Intent intent = new Intent(this, mApplication.getPlaybackActivityClass(items[0].getType()));
         if (shuffle) Collections.shuffle(itemsToPlay);
         MediaManager.setCurrentVideoQueue(itemsToPlay);
         intent.putExtra("Position", pos);

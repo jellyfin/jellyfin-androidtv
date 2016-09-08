@@ -296,7 +296,7 @@ public class RecommendationManager {
                     .setPriority(0)
                     .setTitle(item.getName())
                     .setDescription(item.getOverview())
-                    .setBitmap(Utils.getBitmapFromURL(Utils.getPrimaryImageUrl(item, TvApp.getApplication().getApiClient(), false, true, 300)))
+                    .setBitmap(Utils.getBitmapFromURL(Utils.getPrimaryImageUrl(item, TvApp.getApplication().getApiClient(), true, true, false, 300)))
                     .setBackground(Utils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true))
                     .setIntent(buildPendingIntent(item))
                     .build();

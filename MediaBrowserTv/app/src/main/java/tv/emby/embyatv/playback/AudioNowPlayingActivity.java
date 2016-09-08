@@ -404,7 +404,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         int posterWidth = (int) ((aspect) * posterHeight);
         if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
-        String primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, mApplication.getApiClient(),false, false, posterHeight);
+        String primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, mApplication.getApiClient(), false, posterHeight);
         mApplication.getLogger().Debug("Audio Poster url: " + primaryImageUrl);
         Picasso.with(mActivity)
                 .load(primaryImageUrl)
