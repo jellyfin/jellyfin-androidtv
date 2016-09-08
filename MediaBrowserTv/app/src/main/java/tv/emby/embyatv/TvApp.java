@@ -28,13 +28,16 @@ import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.apiinteraction.android.VolleyHttpClient;
 import mediabrowser.apiinteraction.playback.PlaybackManager;
 import mediabrowser.logging.ConsoleLogger;
+import mediabrowser.model.configuration.ServerConfiguration;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.entities.DisplayPreferences;
 import mediabrowser.model.logging.ILogger;
+import mediabrowser.model.net.EndPointInfo;
 import mediabrowser.model.registration.RegistrationInfo;
 import mediabrowser.model.system.SystemInfo;
 import tv.emby.embyatv.base.BaseActivity;
+import tv.emby.embyatv.playback.ExternalPlayerActivity;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackController;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
@@ -86,6 +89,9 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     private boolean isPaid = false;
     private RegistrationInfo registrationInfo;
+    private ServerConfiguration serverConfiguration;
+
+    private int maxRemoteBitrate = -1;
 
     private Calendar lastPlayback = Calendar.getInstance();
     private Calendar lastMoviePlayback = Calendar.getInstance();
@@ -208,7 +214,13 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     public void setAudioMuted(boolean value) {
         audioMuted = value;
-        audioManager.setStreamMute(AudioManager.STREAM_MUSIC, audioMuted);
+        getLogger().Info("Setting mute state to: "+audioMuted);
+        if (Utils.is60()) {
+            audioManager.adjustVolume(audioMuted ? AudioManager.ADJUST_MUTE : AudioManager.ADJUST_UNMUTE, 0);
+
+        } else {
+            audioManager.setStreamMute(AudioManager.STREAM_MUSIC, audioMuted);
+        }
     }
 
     public boolean isAudioMuted() { return audioMuted; }
@@ -250,6 +262,30 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
                 @Override
                 public void onError(Exception exception) {
                     logger.ErrorException("Unable to obtain system info.", exception);
+                }
+            });
+
+            //Also get server configuration and fill in max remote bitrate if we are remote
+            getApiClient().GetEndPointInfo(new Response<EndPointInfo>() {
+                @Override
+                public void onResponse(EndPointInfo response) {
+                    if (!response.getIsInNetwork()) {
+                        getApiClient().GetServerConfigurationAsync(new Response<ServerConfiguration>() {
+                            @Override
+                            public void onResponse(ServerConfiguration response) {
+                                serverConfiguration = response;
+                                maxRemoteBitrate = serverConfiguration.getRemoteClientBitrateLimit();
+                                getLogger().Info("Server bitrate limit set to ", maxRemoteBitrate);
+                            }
+
+                            @Override
+                            public void onError(Exception exception) {
+                                getLogger().ErrorException("Unable to retrieve server configuration",exception);
+                            }
+                        });
+                    } else {
+                        getLogger().Info("** Local connection - no server bitrate limit");
+                    }
                 }
             });
         }
@@ -363,6 +399,26 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     public boolean getIsAutoLoginConfigured() {
         return getPrefs().getString("pref_login_behavior", "0").equals("1") && getConfiguredAutoCredentials().getServerInfo().getId() != null;
+    }
+
+    public boolean useExternalPlayer(String itemType) {
+        switch (itemType) {
+            case "Movie":
+            case "Episode":
+            case "Video":
+            case "Series":
+            case "Recording":
+                return getPrefs().getBoolean("pref_video_use_external", false);
+            case "TvChannel":
+            case "Program":
+                return getPrefs().getBoolean("pref_live_tv_use_external", false);
+            default:
+                return false;
+        }
+    }
+
+    public Class getPlaybackActivityClass(String itemType) {
+        return useExternalPlayer(itemType) ? ExternalPlayerActivity.class : PlaybackOverlayActivity.class;
     }
 
     public Calendar getLastMoviePlayback() {
@@ -659,4 +715,10 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     public void setPlayingIntros(boolean playingIntros) {
         this.playingIntros = playingIntros;
     }
+
+    public ServerConfiguration getServerConfiguration() {
+        return serverConfiguration;
+    }
+
+    public int getServerBitrateLimit() { return maxRemoteBitrate > 0 ? maxRemoteBitrate : 100000000; }
 }

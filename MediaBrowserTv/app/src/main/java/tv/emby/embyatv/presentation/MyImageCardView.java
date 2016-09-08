@@ -16,11 +16,12 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import mediabrowser.model.dto.BaseItemDto;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.util.Utils;
@@ -41,6 +42,10 @@ public class MyImageCardView extends BaseCardView {
     private TextView mContentView;
     private ImageView mBadgeImage;
     private ImageView mFavIcon;
+    private RelativeLayout mWatchedIndicator;
+    private ImageView mWatchedMark;
+    private TextView mUnwatchedCount;
+    private ProgressBar mProgress;
     private int BANNER_SIZE = Utils.convertDpToPixel(TvApp.getApplication(), 50);
 
     public MyImageCardView(Context context) {
@@ -79,6 +84,10 @@ public class MyImageCardView extends BaseCardView {
         mInfoOverlay = (ViewGroup) v.findViewById(tv.emby.embyatv.R.id.name_overlay);
         mInfoOverlay.setVisibility(GONE);
         mFavIcon = (ImageView) v.findViewById(tv.emby.embyatv.R.id.favIcon);
+        mWatchedIndicator = (RelativeLayout) v.findViewById(tv.emby.embyatv.R.id.watchedIndicator);
+        mWatchedMark = (ImageView) v.findViewById(tv.emby.embyatv.R.id.checkMark);
+        mUnwatchedCount = (TextView) v.findViewById(tv.emby.embyatv.R.id.unwatchedCount);
+        mProgress = (ProgressBar) v.findViewById(tv.emby.embyatv.R.id.resumeProgress);
 
         if (mInfoArea != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.lbImageCardView,
@@ -90,7 +99,6 @@ public class MyImageCardView extends BaseCardView {
                 a.recycle();
             }
         }
-
     }
 
 
@@ -169,6 +177,9 @@ public class MyImageCardView extends BaseCardView {
         lp.height = height;
         mImageView.setLayoutParams(lp);
         if (mBanner != null) mBanner.setX(width - BANNER_SIZE);
+        ViewGroup.LayoutParams lp2 = mProgress.getLayoutParams();
+        lp2.width = width;
+        mProgress.setLayoutParams(lp2);
     }
 
     public Drawable getMainImage() {
@@ -341,6 +352,30 @@ public class MyImageCardView extends BaseCardView {
     public void clearBanner() {
         if (mBanner != null) {
             mBanner.setVisibility(GONE);
+        }
+    }
+
+    public void setUnwatchedCount(int count) {
+        if (count > 0) {
+            mUnwatchedCount.setText(Integer.toString(count));
+            mUnwatchedCount.setVisibility(VISIBLE);
+            mWatchedMark.setVisibility(INVISIBLE);
+            mWatchedIndicator.setVisibility(VISIBLE);
+        } else if (count == 0) {
+            mWatchedMark.setVisibility(VISIBLE);
+            mUnwatchedCount.setVisibility(INVISIBLE);
+            mWatchedIndicator.setVisibility(VISIBLE);
+        } else {
+            mWatchedIndicator.setVisibility(GONE);
+        }
+    }
+
+    public void setProgress(int pct) {
+        if (pct > 0) {
+            mProgress.setProgress(pct);
+            mProgress.setVisibility(VISIBLE);
+        } else {
+            mProgress.setVisibility(GONE);
         }
     }
 

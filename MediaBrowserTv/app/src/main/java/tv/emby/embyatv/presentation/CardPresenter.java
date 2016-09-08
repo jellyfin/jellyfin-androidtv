@@ -2,17 +2,25 @@ package tv.emby.embyatv.presentation;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v17.leanback.widget.Presenter;
+import android.support.v7.graphics.Palette;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.Date;
 
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import tv.emby.embyatv.R;
@@ -82,12 +90,15 @@ public class CardPresenter extends Presenter {
 
                 case BaseItem:
                     BaseItemDto itemDto = mItem.getBaseItem();
+                    boolean showWatched = true;
+                    boolean showProgress = false;
                     Double aspect = imageType.equals(ImageType.BANNER) ? 5.414 : imageType.equals(ImageType.THUMB) ? 1.779 : Utils.NullCoalesce(Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()), .7777777);
                     switch (itemDto.getType()) {
                         case "Audio":
                         case "MusicAlbum":
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.audio);
                             if (aspect < 0.8) aspect = 1.0;
+                            showWatched = false;
                             break;
                         case "Person":
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.person);
@@ -95,12 +106,15 @@ public class CardPresenter extends Presenter {
                         case "MusicArtist":
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.person);
                             if (aspect <.8) aspect = 1.0;
+                            showWatched = false;
                             break;
                         case "RecordingGroup":
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.recgroup);
                             break;
                         case "Season":
                         case "Series":
+                            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tv);
+                            break;
                         case "Episode":
                             //TvApp.getApplication().getLogger().Debug("**** Image width: "+ cardWidth + " Aspect: " + Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()) + " Item: "+itemDto.getName());
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tv);
@@ -117,6 +131,7 @@ public class CardPresenter extends Presenter {
                                     mCardView.setBanner(R.drawable.offlinebanner);
                                     break;
                             }
+                            showProgress = true;
                             break;
                         case "CollectionFolder":
                         case "Folder":
@@ -130,6 +145,17 @@ public class CardPresenter extends Presenter {
                             break;
                         case "Photo":
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.photo);
+                            showWatched = false;
+                            break;
+                        case "PhotoAlbum":
+                        case "Playlist":
+                            showWatched = false;
+                            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.folder);
+                            break;
+                        case "Movie":
+                        case "Video":
+                            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.video);
+                            showProgress = true;
                             break;
                         default:
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.video);
@@ -141,6 +167,22 @@ public class CardPresenter extends Presenter {
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
                     if (itemDto.getLocationType() == LocationType.Offline) mCardView.setBanner(R.drawable.offlinebanner);
                     if (itemDto.getIsPlaceHolder() != null && itemDto.getIsPlaceHolder()) mCardView.setBanner(R.drawable.externaldiscbanner);
+                    UserItemDataDto userData = itemDto.getUserData();
+                    if (showWatched && userData != null) {
+                        if (userData.getPlayed()) {
+                            mCardView.setUnwatchedCount(0);
+                        } else {
+                            if (userData.getUnplayedItemCount() != null) {
+                                mCardView.setUnwatchedCount(userData.getUnplayedItemCount());
+                            }
+                        }
+                    }
+
+                    if(showProgress && itemDto.getRunTimeTicks() != null && itemDto.getRunTimeTicks() > 0 && userData != null && userData.getPlaybackPositionTicks() > 0) {
+                        mCardView.setProgress(((int)(userData.getPlaybackPositionTicks() * 100.0 / itemDto.getRunTimeTicks()))); // force floating pt math with 100.0
+                    } else {
+                        mCardView.setProgress(0);
+                    }
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     break;
                 case LiveTvChannel:
@@ -204,7 +246,7 @@ public class CardPresenter extends Presenter {
                 case Chapter:
                     cardWidth = (int)(1.779 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                    mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.video);
+                    mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.chaptertile);
                     break;
                 case SearchHint:
                     switch (mItem.getSearchHint().getType()) {
@@ -263,10 +305,17 @@ public class CardPresenter extends Presenter {
                     //TvApp.getApplication().getLogger().Debug("Loading card image");
                     Glide.with(getContext())
                             .load(url)
+                            .asBitmap()
                             .override(cardWidth, cardHeight)
                             .centerCrop()
                             .error(mDefaultCardImage)
-                            .into(mCardView.getMainImageView());
+                            .into(new BitmapImageViewTarget(mCardView.getMainImageView()) {
+                                @Override
+                                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                    super.onResourceReady(resource, glideAnimation);
+                                    mCardView.setBackgroundColor(Utils.darker(Palette.from(resource).generate().getMutedColor(TvApp.getApplication().getResources().getColor(R.color.lb_basic_card_bg_color)), .6f));
+                                }
+                            });
                 }
 
             } catch (IllegalArgumentException e) {
@@ -276,6 +325,8 @@ public class CardPresenter extends Presenter {
 
         protected void resetCardViewImage() {
             mCardView.clearBanner();
+            mCardView.setUnwatchedCount(-1);
+            mCardView.setProgress(0);
             if (!validContext()) return;
             //TvApp.getApplication().getLogger().Debug("Resetting card image");
             try {

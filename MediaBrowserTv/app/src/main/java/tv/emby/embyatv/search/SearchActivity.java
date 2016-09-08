@@ -7,9 +7,10 @@ import android.speech.SpeechRecognizer;
 
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.util.Utils;
 
-public class SearchActivity extends Activity {
+public class SearchActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

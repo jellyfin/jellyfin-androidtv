@@ -53,6 +53,7 @@ public class TvApiEventListener extends ApiEventListener {
 
     @Override
     public void onGeneralCommand(ApiClient client, GeneralCommand command) {
+        TvApp.getApplication().getLogger().Info("General command is: "+command.getName());
         switch (command.getName().toLowerCase()) {
             case "mute":
                 TvApp.getApplication().setAudioMuted(true);
@@ -146,7 +147,7 @@ public class TvApiEventListener extends ApiEventListener {
                         switch (response.getItems()[0].getMediaType()) {
                             case "Video":
                                 MediaManager.setCurrentVideoQueue(Arrays.asList(response.getItems()));
-                                Intent intent = new Intent(TvApp.getApplication().getCurrentActivity(), PlaybackOverlayActivity.class);
+                                Intent intent = new Intent(TvApp.getApplication().getCurrentActivity(), TvApp.getApplication().getPlaybackActivityClass(response.getItems()[0].getType()));
                                 TvApp.getApplication().getCurrentActivity().startActivity(intent);
                                 break;
                             case "Audio":

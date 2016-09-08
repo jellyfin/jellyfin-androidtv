@@ -47,7 +47,7 @@ public class ItemLauncher {
         launch(rowItem, adapter, pos, activity, false);
     }
 
-    public static void launch(BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity, final boolean noHistory) {
+    public static void launch(final BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity, final boolean noHistory) {
         final TvApp application = TvApp.getApplication();
         MediaManager.setCurrentMediaAdapter(adapter);
 
@@ -196,7 +196,7 @@ public class ItemLauncher {
                                 Utils.getItemsToPlay(baseItem, baseItem.getType().equals("Movie"), false, new Response<List<BaseItemDto>>() {
                                     @Override
                                     public void onResponse(List<BaseItemDto> response) {
-                                        Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                                        Intent intent = new Intent(activity,application.getPlaybackActivityClass(baseItem.getType()));
                                         MediaManager.setCurrentVideoQueue(response);
                                         intent.putExtra("Position", 0);
                                         activity.startActivity(intent);
@@ -227,12 +227,13 @@ public class ItemLauncher {
                         List<BaseItemDto> items = new ArrayList<>();
                         items.add(response);
                         MediaManager.setCurrentVideoQueue(items);
-                        Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                        Intent intent = new Intent(activity, application.getPlaybackActivityClass(response.getType()));
                         Long start = chapter.getStartPositionTicks() / 10000;
                         intent.putExtra("Position", start.intValue());
                         activity.startActivity(intent);
                     }
                 });
+
                 break;
             case Server:
                 //Log in to selected server
@@ -261,6 +262,12 @@ public class ItemLauncher {
                             intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(response));
 
                             activity.startActivity(intent);
+
+                        } else if ("Audio".equals(response.getType())) {
+                            Utils.retrieveAndPlay(response.getId(), false, activity);
+                            //produce item menu
+//                            KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, rowItem, (BaseActivity) activity);
+                            return;
 
                         } else {
                             Intent intent = new Intent(activity, FullDetailsActivity.class);
@@ -303,7 +310,7 @@ public class ItemLauncher {
                                 public void onResponse(BaseItemDto response) {
                                     List<BaseItemDto> items = new ArrayList<>();
                                     items.add(response);
-                                    Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                                    Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(response.getType()));
                                     MediaManager.setCurrentVideoQueue(items);
                                     intent.putExtra("Position", 0);
                                     activity.startActivity(intent);
@@ -318,14 +325,14 @@ public class ItemLauncher {
 
             case LiveTvChannel:
                 //Just tune to it by playing
-                ChannelInfoDto channel = rowItem.getChannelInfo();
+                final ChannelInfoDto channel = rowItem.getChannelInfo();
                 TvApp.getApplication().getApiClient().GetItemAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         Utils.getItemsToPlay(response, false, false, new Response<List<BaseItemDto>>() {
                             @Override
                             public void onResponse(List<BaseItemDto> response) {
-                                Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                                Intent intent = new Intent(activity, application.getPlaybackActivityClass(channel.getType()));
                                 MediaManager.setCurrentVideoQueue(response);
                                 intent.putExtra("Position", 0);
                                 activity.startActivity(intent);
@@ -352,7 +359,7 @@ public class ItemLauncher {
                             TvApp.getApplication().getApiClient().GetItemAsync(rowItem.getRecordingInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
-                                    Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                                    Intent intent = new Intent(activity, application.getPlaybackActivityClass(rowItem.getType()));
                                     List<BaseItemDto> items = new ArrayList<>();
                                     items.add(response);
                                     MediaManager.setCurrentVideoQueue(items);

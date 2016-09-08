@@ -2,9 +2,11 @@ package tv.emby.embyatv.util;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +19,7 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Display;
@@ -87,6 +90,7 @@ import tv.emby.embyatv.browsing.MainActivity;
 import tv.emby.embyatv.details.FullDetailsActivity;
 import tv.emby.embyatv.details.ItemListActivity;
 import tv.emby.embyatv.model.ChapterItemInfo;
+import tv.emby.embyatv.playback.ExternalPlayerActivity;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackOverlayActivity;
 import tv.emby.embyatv.startup.ConnectActivity;
@@ -335,7 +339,7 @@ public class Utils {
     }
 
     public static String getBannerImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
-        if (!item.getHasBanner()) return getPrimaryImageUrl(item, apiClient, !"MusicArtist".equals(item.getType()) && !"MusicAlbum".equals(item.getType()), false, maxHeight);
+        if (!item.getHasBanner()) return getPrimaryImageUrl(item, apiClient, false, maxHeight);
         ImageOptions options = new ImageOptions();
         options.setTag(item.getImageTags().get(ImageType.Banner));
         options.setImageType(ImageType.Banner);
@@ -347,10 +351,6 @@ public class Utils {
                 options.setPercentPlayed(pct.intValue());
             }
 
-            options.setAddPlayedIndicator(userData.getPlayed());
-            if (item.getIsFolder() && userData.getUnplayedItemCount() != null && userData.getUnplayedItemCount() > 0)
-                options.setUnPlayedCount(userData.getUnplayedItemCount());
-
         }
 
         return apiClient.GetImageUrl(item.getId(), options);
@@ -358,33 +358,19 @@ public class Utils {
     }
 
     public static String getThumbImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
-        if (!item.getHasThumb()) return getPrimaryImageUrl(item, apiClient, !"MusicArtist".equals(item.getType()) && !"MusicAlbum".equals(item.getType()), true, maxHeight);
+        if (!item.getHasThumb()) return getPrimaryImageUrl(item, apiClient, true, maxHeight);
         ImageOptions options = new ImageOptions();
         options.setTag(item.getImageTags().get(ImageType.Thumb));
         options.setImageType(ImageType.Thumb);
-        UserItemDataDto userData = item.getUserData();
-        if (userData != null && !"MusicArtist".equals(item.getType()) && !"MusicAlbum".equals(item.getType())) {
-            if (Arrays.asList(ProgressIndicatorTypes).contains(item.getType()) && userData.getPlayedPercentage() != null
-                    && userData.getPlayedPercentage() > 0 && userData.getPlayedPercentage() < 99) {
-                Double pct = userData.getPlayedPercentage();
-                options.setPercentPlayed(pct.intValue());
-            }
-
-            options.setAddPlayedIndicator(userData.getPlayed());
-            if (item.getIsFolder() && userData.getUnplayedItemCount() != null && userData.getUnplayedItemCount() > 0)
-                options.setUnPlayedCount(userData.getUnplayedItemCount());
-
-        }
-
         return apiClient.GetImageUrl(item.getId(), options);
 
     }
 
-    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched, boolean preferParentThumb, int maxHeight) {
-        return getPrimaryImageUrl(item, apiClient, showWatched, true, preferParentThumb, false, maxHeight);
+    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, boolean preferParentThumb, int maxHeight) {
+        return getPrimaryImageUrl(item, apiClient, false, preferParentThumb, false, maxHeight);
     }
 
-    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched, boolean showProgress, boolean preferParentThumb, boolean preferSeriesPoster, int maxHeight) {
+    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, boolean showProgress, boolean preferParentThumb, boolean preferSeriesPoster, int maxHeight) {
         ImageOptions options = new ImageOptions();
         String itemId = item.getId();
         String imageTag = item.getImageTags() != null ? item.getImageTags().get(ImageType.Primary) : null;
@@ -431,11 +417,6 @@ public class Utils {
                     && userData.getPlayedPercentage() > 0 && userData.getPlayedPercentage() < 99) {
                 Double pct = userData.getPlayedPercentage();
                 options.setPercentPlayed(pct.intValue());
-            }
-            if (showWatched) {
-                options.setAddPlayedIndicator(userData.getPlayed());
-                if (item.getIsFolder() && userData.getUnplayedItemCount() != null && userData.getUnplayedItemCount() > 0)
-                    options.setUnPlayedCount(userData.getUnplayedItemCount());
             }
 
         }
@@ -571,6 +552,7 @@ public class Utils {
                 query.setLimit(150); // guard against too many items
                 query.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
                 query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                query.setParentId(mainItem.getId());
                 TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
@@ -644,7 +626,7 @@ public class Utils {
                 break;
 
             default:
-                if (allowIntros && TvApp.getApplication().getPrefs().getBoolean("pref_enable_cinema_mode", true)) {
+                if (allowIntros && !TvApp.getApplication().useExternalPlayer(mainItem.getType()) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_cinema_mode", true)) {
                     //Intros
                     TvApp.getApplication().getApiClient().GetIntrosAsync(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
                         @Override
@@ -688,7 +670,8 @@ public class Utils {
                             MediaManager.playNow(response);
 
                         } else {
-                            Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                            String itemType = response.size() > 0 ? response.get(0).getType() : "";
+                            Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(itemType));
                             MediaManager.setCurrentVideoQueue(response);
                             intent.putExtra("Position", pos);
                             if (!(activity instanceof Activity))
@@ -703,7 +686,7 @@ public class Utils {
                         break;
 
                     default:
-                        Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                        Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(item.getType()));
                         MediaManager.setCurrentVideoQueue(response);
                         intent.putExtra("Position", pos);
                         if (!(activity instanceof Activity))
@@ -1163,8 +1146,8 @@ public class Utils {
         ToneHandler.startTone(type, ms);
     }
 
-    public static void ReportProgress(BaseItemDto item, StreamInfo currentStreamInfo, long position, boolean isPaused) {
-        if (item != null) {
+    public static void ReportProgress(BaseItemDto item, StreamInfo currentStreamInfo, Long position, boolean isPaused) {
+        if (item != null && currentStreamInfo != null) {
             PlaybackProgressInfo info = new PlaybackProgressInfo();
             ApiClient apiClient = TvApp.getApplication().getApiClient();
             info.setItemId(item.getId());
@@ -1173,6 +1156,10 @@ public class Utils {
             info.setCanSeek(currentStreamInfo.getRunTimeTicks() != null && currentStreamInfo.getRunTimeTicks() > 0);
             info.setIsMuted(TvApp.getApplication().isAudioMuted());
             info.setPlayMethod(currentStreamInfo.getPlayMethod());
+            if (TvApp.getApplication().getPlaybackController() != null && TvApp.getApplication().getPlaybackController().isPlaying()) {
+                info.setAudioStreamIndex(TvApp.getApplication().getPlaybackController().getAudioStreamIndex());
+                info.setSubtitleStreamIndex(TvApp.getApplication().getPlaybackController().getSubtitleStreamIndex());
+            }
             TvApp.getApplication().getPlaybackManager().reportPlaybackProgress(info, currentStreamInfo, false, apiClient, new EmptyResponse());
         }
 
@@ -1441,16 +1428,6 @@ public class Utils {
         return value == null || value.equals("");
     }
 
-    //todo replace with custom error reporter
-//    public static void PutCustomAcraData() {
-//        TvApp app = TvApp.getApplication();
-//        ApiClient apiClient = app.getApiClient();
-//        if (apiClient != null) {
-//            if (app.getCurrentUser() != null) ACRA.getErrorReporter().putCustomData("mbUser", app.getCurrentUser().getName());
-//            ACRA.getErrorReporter().putCustomData("serverInfo", app.getSerializer().SerializeToString(app.getCurrentSystemInfo()));
-//        }
-//    }
-
     public static boolean versionGreaterThanOrEqual(String firstVersion, String secondVersion) {
         try {
             String[] firstVersionComponents = firstVersion.split("[.]");
@@ -1505,6 +1482,15 @@ public class Utils {
         }
     }
 
+    public static int getMaxBitrate() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(TvApp.getApplication());
+        String maxRate = sharedPref.getString("pref_max_bitrate", "0");
+        Float factor = Float.parseFloat(maxRate) * 10;
+        return Math.min(factor == 0 ? TvApp.getApplication().getAutoBitrate() : (factor.intValue() * 100000), TvApp.getApplication().getServerBitrateLimit());
+    }
+
+
+
     public static PopupMenu createPopupMenu(Activity activity, View view, int gravity) {
         return new PopupMenu(activity, view, gravity);
     }
@@ -1513,6 +1499,8 @@ public class Utils {
         return Build.MODEL.startsWith("AFT");
     }
     public static boolean isFireTvStick() { return Build.MODEL.equals("AFTM"); }
+
+    public static boolean is1stGenFireTv() { return Build.MODEL.equals("AFTB"); }
 
     public static boolean isShield() { return Build.MODEL.equals("SHIELD Android TV"); }
 
@@ -1685,6 +1673,21 @@ public class Utils {
         }
 
         return (isFireTv() && !is50()) || "1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"));
+    }
+
+    /**
+     * Returns darker version of specified <code>color</code>.
+     */
+    public static int darker (int color, float factor) {
+        int a = Color.alpha( color );
+        int r = Color.red( color );
+        int g = Color.green( color );
+        int b = Color.blue( color );
+
+        return Color.argb( a,
+                Math.max( (int)(r * factor), 0 ),
+                Math.max( (int)(g * factor), 0 ),
+                Math.max( (int)(b * factor), 0 ) );
     }
 
 }

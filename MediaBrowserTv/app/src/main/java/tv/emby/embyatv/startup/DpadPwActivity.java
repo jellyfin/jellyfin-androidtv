@@ -56,6 +56,16 @@ public class DpadPwActivity extends Activity {
             case KeyEvent.KEYCODE_DPAD_LEFT:
             case KeyEvent.KEYCODE_DPAD_RIGHT:
             case KeyEvent.KEYCODE_DPAD_UP:
+            case KeyEvent.KEYCODE_0:
+            case KeyEvent.KEYCODE_1:
+            case KeyEvent.KEYCODE_2:
+            case KeyEvent.KEYCODE_3:
+            case KeyEvent.KEYCODE_4:
+            case KeyEvent.KEYCODE_5:
+            case KeyEvent.KEYCODE_6:
+            case KeyEvent.KEYCODE_7:
+            case KeyEvent.KEYCODE_8:
+            case KeyEvent.KEYCODE_9:
                 if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && System.currentTimeMillis() - lastKeyDown > longPressSensitivity) {
                     if (processed) return true; //some controllers appear to double send the up on a long press
                     TvApp.getApplication().getLogger().Debug("Password finished");
@@ -94,14 +104,15 @@ public class DpadPwActivity extends Activity {
                     Utils.Beep(300);
                     //Remove the single-click value
                     password = password.substring(0,password.length()-1);
-                    processKey(keyCode, true);
+                    processKey(keyCode, true, event);
                 } else {
                     lastKeyUp = System.currentTimeMillis();
                     Utils.Beep();
-                    processKey(keyCode, false);
+                    processKey(keyCode, false, event);
                 }
                 processed = false;
                 return true;
+
             default:
                 processed = false;
                 return super.onKeyUp(keyCode, event);
@@ -109,7 +120,7 @@ public class DpadPwActivity extends Activity {
         }
     }
 
-    private void processKey(int keyCode, boolean doubleClick) {
+    private void processKey(int keyCode, boolean doubleClick, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_UP:
                 password += doubleClick ? 6 : 1;
@@ -125,6 +136,18 @@ public class DpadPwActivity extends Activity {
                 break;
             case KeyEvent.KEYCODE_DPAD_CENTER:
                 password += doubleClick ? 5 : 0;
+                break;
+            case KeyEvent.KEYCODE_0:
+            case KeyEvent.KEYCODE_1:
+            case KeyEvent.KEYCODE_2:
+            case KeyEvent.KEYCODE_3:
+            case KeyEvent.KEYCODE_4:
+            case KeyEvent.KEYCODE_5:
+            case KeyEvent.KEYCODE_6:
+            case KeyEvent.KEYCODE_7:
+            case KeyEvent.KEYCODE_8:
+            case KeyEvent.KEYCODE_9:
+                password += (char)event.getUnicodeChar();
                 break;
         }
         //TvApp.getApplication().getLogger().Debug(password);

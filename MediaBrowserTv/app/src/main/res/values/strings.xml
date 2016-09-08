@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <string name="app_name">Emby</string>
     <string name="current_queue">Current Queue</string>
@@ -243,7 +241,7 @@
     <string name="lbl_show_info_panel">Show Info Panel</string>
     <string name="lbl_enable_debug">Enable debug options</string>
     <string name="desc_info_panel">Show a panel with details on the current item on screens without detail information</string>
-    <string name="desc_debug">Show a send logs button on the home screen</string>
+    <string name="desc_debug">Turn on to provide extra information for debugging</string>
     <string name="lbl_showing">Showing</string>
     <string name="lbl_all_items">All Items</string>
     <string name="lbl_sorted_by">sorted by</string>
@@ -329,7 +327,7 @@
     <string name="lbl_switch_server">Switch Server</string>
     <string name="lbl_forget">Forget</string>
     <string name="lbl_new_premieres">New Premieres</string>
-    <string name="lbl_bitstream_ac3">Bitstream audio</string>
+    <string name="lbl_bitstream_ac3">Bitstream Dolby Digital audio</string>
     <string name="desc_bitstream_ac3">Requires capable hardware</string>
     <string name="lbl_normal">Normal</string>
     <string name="lbl_zoom">Zoom</string>
@@ -347,6 +345,10 @@
     <string name="lbl_show_backdrop">Show Backdrop while Browsing</string>
     <string name="lbl_use_vlc_livetv">Attempt to use VLC for live TV</string>
     <string name="desc_use_vlc_livetv">Use VLC for direct streamed Live TV if available</string>
+    <string name="lbl_refresh_switching">Enable Refresh Rate Switching</string>
+    <string name="lbl_show_premieres">Show Season Premieres on Home Screen</string>
+    <string name="desc_premieres">Show a row of new episode 1s for the series you watch</string>
+    <string name="lbl_bitstream_dts">Bitstream DTS audio</string>
 
 
 </resources>

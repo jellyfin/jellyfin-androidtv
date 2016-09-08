@@ -1,3 +1,3 @@
 cd C:\Users\spam\AppData\Local\Android\sdk\platform-tools
-adb connect 192.168.1.136
+adb connect 192.168.1.114
 pause

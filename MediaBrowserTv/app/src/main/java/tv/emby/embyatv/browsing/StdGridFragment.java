@@ -239,7 +239,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                 mGridAdapter = new ItemRowAdapter(mRowDef.getProgramQuery(), mCardPresenter, null);
                 break;
             case LiveTvRecording:
-                mGridAdapter = new ItemRowAdapter(mRowDef.getRecordingQuery(), mCardPresenter, null);
+                mGridAdapter = new ItemRowAdapter(mRowDef.getRecordingQuery(), mRowDef.getChunkSize(), mCardPresenter, null);
                 break;
             case LiveTvRecordingGroup:
                 mGridAdapter = new ItemRowAdapter(mRowDef.getRecordingGroupQuery(), mCardPresenter, null);
@@ -589,7 +589,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                             setTitle(mFolder.getName());
 
                         }
-                    }, 250);
+                    }, 500);
                 } else focusGrid();
             }
         });
