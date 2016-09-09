@@ -257,7 +257,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 if (mSelectedProgramView != null && mSelectedProgramView.isLast() && System.currentTimeMillis() - mLastFocusChanged > 1000) Utils.showToast(mActivity, "page ahead...");
                 break;
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                if (mSelectedProgramView != null && mSelectedProgramView.isFirst() && System.currentTimeMillis() - mLastFocusChanged > 1000) Utils.showToast(mActivity, "page back...");
+                if (mSelectedProgramView != null && mSelectedProgramView.isFirst() && Utils.convertToLocalDate(mSelectedProgram.getStartDate()).getTime() > mCurrentLocalGuideStart && System.currentTimeMillis() - mLastFocusChanged > 1000) Utils.showToast(mActivity, "page back...");
                 break;
         }
 
