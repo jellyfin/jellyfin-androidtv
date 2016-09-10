@@ -95,7 +95,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 collections.setIncludeItemTypes(new String[]{"BoxSet"});
                 collections.setRecursive(true);
                 collections.setImageTypeLimit(1);
-                collections.setParentId(mFolder.getId());
+                //collections.setParentId(mFolder.getId());
                 collections.setSortBy(new String[]{ItemSortBy.SortName});
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_collections), collections, 60, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated}));
 
