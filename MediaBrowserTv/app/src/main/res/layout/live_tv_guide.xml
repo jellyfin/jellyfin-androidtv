@@ -64,41 +64,19 @@
             android:gravity="center_vertical" />
     </HorizontalScrollView>
 
-    <Button
-        android:layout_width="40sp"
-        android:layout_height="30sp"
-        android:text=" &lt; "
-        android:id="@+id/pgBack"
-        android:enabled="false"
-        android:textSize="22sp"
-        android:background="@drawable/guide_hdr_button"
-        android:layout_alignBottom="@+id/displayDate"
-        android:textAlignment="center"
-        android:layout_alignParentStart="true" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="30sp"
         android:text="Medium Text"
         android:id="@+id/displayDate"
         android:layout_above="@+id/programVScroller"
+        android:layout_toStartOf="@+id/timelineHScroller"
+        android:layout_alignParentStart="true"
         android:background="#ff007d8d"
         android:gravity="center"
         android:textSize="14sp"
-        android:layout_toRightOf="@id/pgBack"
-        android:layout_toLeftOf="@+id/pgAhead" />
-
-    <Button
-        android:layout_width="40sp"
-        android:layout_height="30sp"
-        android:text=" &gt; "
-        android:id="@+id/pgAhead"
         android:enabled="false"
-        android:textSize="22sp"
-        android:background="@drawable/guide_hdr_button"
-        android:layout_alignBottom="@+id/displayDate"
-        android:textAlignment="center"
-        android:layout_toLeftOf="@+id/timelineHScroller" />
+        android:textColor="#fafcfd" />
 
     <tv.emby.embyatv.ui.ClockUserView
         android:layout_width="wrap_content"
@@ -197,6 +175,31 @@
         android:layout_marginBottom="10sp"
         android:src="@drawable/filter"
         android:scaleType="fitCenter" />
+
+    <ImageButton
+        android:layout_width="35sp"
+        android:layout_height="35sp"
+        android:id="@+id/dateButton"
+        android:layout_marginRight="10sp"
+        android:layout_alignParentEnd="false"
+        android:layout_above="@+id/timelineHScroller"
+        android:layout_marginBottom="10sp"
+        android:src="@drawable/calendar"
+        android:scaleType="fitCenter"
+        android:layout_toLeftOf="@+id/filterButton" />
+
+    <ImageButton
+        android:layout_width="35sp"
+        android:layout_height="35sp"
+        android:id="@+id/resetButton"
+        android:layout_marginRight="10sp"
+        android:layout_alignParentEnd="false"
+        android:layout_above="@+id/timelineHScroller"
+        android:layout_marginBottom="10sp"
+        android:src="@drawable/resettime"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        android:layout_toLeftOf="@+id/dateButton" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
