@@ -29,6 +29,8 @@
     <color name="btn_idle_end">#323030</color>
     <color name="btn_focused_start">#c308720b</color>
     <color name="btn_focused_end">#c309500c</color>
+    <color name="btn_focused_blue_start">#c30b6497</color>
+    <color name="btn_focused_blue_end">#c30e577c</color>
 
     <color name="guide_movie_bg">#32053a05</color>
     <color name="guide_sports_bg">#3228108e</color>
