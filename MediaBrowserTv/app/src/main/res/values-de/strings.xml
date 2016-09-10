@@ -256,7 +256,7 @@
     <string name="lbl_season">Staffel</string>
     <string name="lbl__continuing">FORTGEFÜHRT</string>
     <string name="lbl_ended">BEENDET</string>
-    <string name="msg_confirm_pin">Bitte bestätigen Sie den PIN bei mediabrowser.tv/pin</string>
+    <string name="msg_confirm_pin">Bitte bestätigen Sie den PIN bei emby.media/pin</string>
     <string name="btn_start_now">Starte jetzt</string>
     <string name="btn_stop">Stop</string>
     <string name="btn_filter">Filter</string>
@@ -291,14 +291,14 @@
     <string name="lbl_album">Album</string>
     <string name="lbl_episodes">Episode</string>
     <string name="lbl_enable_cinema_mode">Aktiviere Cinema Mode</string>
-    <string name="sum_enable_cinema_mode">Wenn auf dem Server aktiviert werden Intros und Previews vor dem Hauptfilm angezeigt</string>
+    <string name="sum_enable_cinema_mode">Wenn auf dem Server aktiviert, werden Intros und Previews vor dem Hauptfilm angezeigt</string>
     <string name="lbl_cm_premiere">Der Cinema Mode benötigt eine aktive Emby Premiere Mitgliedschaft</string>
     <string name="lbl_playlists">Wiedergabelisten</string>
     <string name="lbl_of">von</string>
-    <string name="msg_added_item_to_queue">"Element wurde an Warteschlangenposition eingefügt "</string>
+    <string name="msg_added_item_to_queue">"Element wurde eingefügt an Warteschlangenposition "</string>
     <string name="lbl_replace_queue_paren">(ersetze Warteschlange)</string>
     <string name="msg_items_added">" Elemente hinzugefügt"</string>
-    <string name="msg_total_items_in_queue">" in Warteschlange"</string>
+    <string name="msg_total_items_in_queue">" Gesamteinträge in Warteschlange"</string>
     <string name="lbl_add_to_queue">Zur Warteschlange hinzufügen</string>
     <string name="lbl_open_artist">Zeige Künstler</string>
     <string name="lbl_open_album">Zeige Album</string>
@@ -307,13 +307,13 @@
     <string name="lbl_next_item">Nächstes Element</string>
     <string name="lbl_prev_item">Vorheriges Element</string>
     <string name="lbl_shuffle">Zufällig</string>
-    <string name="msg_reshuffle_audio_queue">Aktuelle Wiedergabeliste durchmischen?</string>
-    <string name="lbl_up_next_colon">"Folgt: "</string>
+    <string name="msg_reshuffle_audio_queue">Aktuelle Wiedergabeliste neu durchmischen?</string>
+    <string name="lbl_up_next_colon">"Es folgt: "</string>
     <string name="lbl_now_playing">Läuft</string>
     <string name="lbl_play_from_here">Abspielen von hier</string>
     <string name="lbl_remove_from_queue">Entferne aus Warteschlange</string>
     <string name="lbl_goto_now_playing">Gehe zu aktuelle Wiedergabe</string>
-    <string name="lbl_instant_mix">Zufallswiedergabe</string>
+    <string name="lbl_instant_mix">Schnellmix</string>
     <string name="lbl_save_as_playlist">Speicher als Wiedergabeliste</string>
     <string name="lbl_delete">Lösche</string>
     <string name="msg_item_added">" Element hinzugefügt"</string>
@@ -323,5 +323,5 @@
     <string name="lbl_enable_seasonal_themes">Aktiviere Saison Themes</string>
     <string name="desc_seasonal_themes">Erlaube besondere Farben und Empfehlungen abhängig von der Jahreszeit</string>
     <string name="desc_automatic_fav_songs">Automatische Playlist der favorisierten und gemochten Songs.</string>
-    <string name="lbl_switch_server">Wechsel Server</string>
+    <string name="lbl_switch_server">Server wechseln</string>
 </resources>
