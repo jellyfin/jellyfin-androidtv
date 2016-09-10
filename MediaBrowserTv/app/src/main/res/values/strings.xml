@@ -257,7 +257,7 @@
     <string name="lbl_season">Season</string>
     <string name="lbl__continuing"> CONTINUING </string>
     <string name="lbl_ended"> ENDED </string>
-    <string name="msg_confirm_pin">Please confirm the above pin at mediabrowser.tv/pin</string>
+    <string name="msg_confirm_pin">Please confirm the above pin at emby.media/pin</string>
     <string name="btn_start_now">Start Now</string>
     <string name="btn_stop">Stop</string>
     <string name="btn_filter">Filter</string>
