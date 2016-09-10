@@ -42,6 +42,7 @@ public class TvManager {
     private static HashMap<String, ArrayList<BaseItemDto>> mProgramsDict = new HashMap<>();
     private static Calendar needLoadTime;
     private static Calendar programNeedLoadTime;
+    private static boolean forceReload;
 
     public static String getLastLiveTvChannel() {
         return TvApp.getApplication().getSystemPrefs().getString("sys_pref_last_tv_channel", null);
@@ -64,6 +65,10 @@ public class TvManager {
 
     public static void resetChannels() {
         allChannels = null;
+    }
+
+    public static void forceReload() {
+        forceReload = true;
     }
 
     public static int getAllChannelsIndex(String id) {
@@ -143,11 +148,11 @@ public class TvManager {
         return ndx;
     }
 
-    public static void getProgramsAsync(int startNdx, int endNdx, Calendar endTime, final EmptyResponse outerResponse) {
-        final Calendar start = new GregorianCalendar(TimeZone.getTimeZone("Z"));
+    public static void getProgramsAsync(int startNdx, int endNdx, final Calendar start, Calendar endTime, final EmptyResponse outerResponse) {
         start.set(Calendar.MINUTE, start.get(Calendar.MINUTE) >= 30 ? 30 : 0);
         start.set(Calendar.SECOND, 1);
-        if (needLoadTime == null || start.after(needLoadTime) || !mProgramsDict.containsKey(channelIds[startNdx]) || !mProgramsDict.containsKey(channelIds[endNdx])) {
+        if (forceReload || needLoadTime == null || start.after(needLoadTime) || !mProgramsDict.containsKey(channelIds[startNdx]) || !mProgramsDict.containsKey(channelIds[endNdx])) {
+            forceReload = false;
             ProgramQuery query = new ProgramQuery();
             query.setUserId(TvApp.getApplication().getCurrentUser().getId());
             endNdx = endNdx > channelIds.length ? channelIds.length : endNdx+1; //array copy range final ndx is exclusive
