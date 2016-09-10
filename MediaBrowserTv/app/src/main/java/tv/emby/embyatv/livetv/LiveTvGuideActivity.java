@@ -64,7 +64,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     public static final int PAGEBUTTON_WIDTH = 120 * PIXELS_PER_MINUTE;
     public static final int PAGE_SIZE = 75;
     public static final int NORMAL_HOURS = 9;
-    public static final int FILTERED_HOURS = 3;
+    public static final int FILTERED_HOURS = 4;
 
     private LiveTvGuideActivity mActivity;
     private TextView mDisplayDate;
@@ -510,6 +510,8 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 final ChannelInfoDto channel = TvManager.getChannel(i);
                 List<BaseItemDto> programs = TvManager.getProgramsForChannel(channel.getId(), mFilters);
                 final LinearLayout row = getProgramRow(programs, channel.getId());
+                if (row == null) continue; // no row to show
+
                 if (first) {
                     first = false;
                     firstFocusView = row;
@@ -578,6 +580,8 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         LinearLayout programRow = new LinearLayout(this);
 
         if (programs.size() == 0) {
+            if (mFilters.any()) return null; // don't show rows with no program data
+
             BaseItemDto empty = new BaseItemDto();
             int duration = ((Long)((mCurrentLocalGuideEnd - mCurrentLocalGuideStart) / 60000)).intValue();
             empty.setName("  <No Program Data Available>");
