@@ -323,4 +323,5 @@
     <string name="lbl_enable_seasonal_themes">Habilitar Temas Estacionales</string>
     <string name="desc_seasonal_themes">Permitir colores especiales y sugerencias en ciertos momentos del año</string>
     <string name="desc_automatic_fav_songs">Lista de reproducción automática con favoritos y canciones que le gustan</string>
+    <string name="lbl_switch_server">Cambiar de Servidor</string>
 </resources>

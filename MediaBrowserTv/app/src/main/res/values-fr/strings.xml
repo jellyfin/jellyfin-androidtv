@@ -35,7 +35,7 @@
     <string name="video_error_server_inaccessible">Serveur inaccessible</string>
     <string name="home_title">Accueil</string>
     <string name="btn_cancel">Annuler</string>
-    <string name="btn_manually">Entrez l\'adresse du serveur</string>
+    <string name="btn_manually">Passer et entrez l\'adresse IP</string>
     <string name="txt_expired">Emby pour Android TV expiré</string>
     <string name="txt_expired_exp">Cette version de développement a expiré. Veuillez chercher une mise à jour ou une nouvelle installation depuis le store. Merci d\'utiliser Emby !</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
@@ -217,7 +217,7 @@
     <string name="lbl_end_padding">Padding de fin (minutes)</string>
     <string name="lbl_required_to_record">Requis pour enregistrer</string>
     <string name="lbl_similar_items_library">Eléments semblables dans votre bibliothèque</string>
-    <string name="lbl_record_any_channel">Enregistrer n\'importe chaîne</string>
+    <string name="lbl_record_any_channel">Enregistrer n\'importe quelle chaîne</string>
     <string name="lbl_record_any_time">Enregistrer à n\'importe quelle heure</string>
     <string name="lbl_only_new_episodes">Uniquement les nouveaux épisodes</string>
     <string name="lbl_repeat_options">Options de répétition</string>
@@ -256,7 +256,7 @@
     <string name="lbl_season">Saison</string>
     <string name="lbl__continuing">POURSUIVRE</string>
     <string name="lbl_ended">TERMINÉ</string>
-    <string name="msg_confirm_pin">Veuillez confirmer le code pin à l\'adresse mediabrowser.tv/pin</string>
+    <string name="msg_confirm_pin">Veuillez confirmer le code pin à l\'adresse emby.media/pin</string>
     <string name="btn_start_now">Commencer maintenant</string>
     <string name="btn_stop">Arrêter</string>
     <string name="btn_filter">Filtre</string>
@@ -264,7 +264,7 @@
     <string name="lbl_filters">Filtres</string>
     <string name="msg_subtitles_loading">Chargement des sous-titres...</string>
     <string name="msg_unable_load_subs">Impossible de charger les sous-titres</string>
-    <string name="msg_burn_sub_warning">Brûler dans un sous-marin peut prendre quelques minutes. Soyez patient ...</string>
+    <string name="msg_burn_sub_warning">Inscrire les sous-titre peut prendre quelques minutes. Soyez patient ...</string>
     <string name="lbl_recording">Enregistrement</string>
     <string name="lbl_no_recordings">Aucun enregistrement disponible</string>
     <string name="lbl_live_tv_guide">Programme de la TV en direct</string>
@@ -299,7 +299,7 @@
     <string name="lbl_replace_queue_paren">(remplacer la liste de lecture)</string>
     <string name="msg_items_added">" éléments ajoutés"</string>
     <string name="msg_total_items_in_queue">" éléments dans la liste de lecture"</string>
-    <string name="lbl_add_to_queue">Ajouter la liste de lecture</string>
+    <string name="lbl_add_to_queue">Ajouter à la liste de lecture</string>
     <string name="lbl_open_artist">Ouvrir la fiche de l\'artiste</string>
     <string name="lbl_open_album">Ouvrir l\'album</string>
     <string name="lbl_reshuffle_queue">Lire aléatoirement la liste de lecture</string>
@@ -323,4 +323,5 @@
     <string name="lbl_enable_seasonal_themes">Activer les thèmes de saisons</string>
     <string name="desc_seasonal_themes">Activer la couleurs et les suggestions spéciales à certains moments de l\'année</string>
     <string name="desc_automatic_fav_songs">Playlist automatique des chansons ajoutées en favoris et aimée</string>
+    <string name="lbl_switch_server">Changer de serveur</string>
 </resources>
