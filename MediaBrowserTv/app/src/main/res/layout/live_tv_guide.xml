@@ -76,7 +76,7 @@
         android:gravity="center"
         android:textSize="14sp"
         android:enabled="false"
-     />
+        android:textColor="#fafcfd" />
 
     <tv.emby.embyatv.ui.ClockUserView
         android:layout_width="wrap_content"
@@ -175,6 +175,18 @@
         android:layout_marginBottom="10sp"
         android:src="@drawable/filter"
         android:scaleType="fitCenter" />
+
+    <ImageButton
+        android:layout_width="35sp"
+        android:layout_height="35sp"
+        android:id="@+id/dateButton"
+        android:layout_marginRight="10sp"
+        android:layout_alignParentEnd="false"
+        android:layout_above="@+id/timelineHScroller"
+        android:layout_marginBottom="10sp"
+        android:src="@drawable/calendar"
+        android:scaleType="fitCenter"
+        android:layout_toLeftOf="@+id/filterButton" />
 
     <RelativeLayout
         android:layout_width="fill_parent"

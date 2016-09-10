@@ -1,6 +1,7 @@
 package tv.emby.embyatv.livetv;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,6 +29,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import mediabrowser.apiinteraction.EmptyResponse;
@@ -137,6 +140,13 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             }
         });
 
+        findViewById(R.id.dateButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePicker();
+            }
+        });
+
         mProgramRows.setFocusable(false);
         mChannelScroller = (ScrollView) findViewById(R.id.channelScroller);
         ObservableScrollView programVScroller = (ObservableScrollView) findViewById(R.id.programVScroller);
@@ -236,6 +246,13 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mCurrentLocalGuideStart > System.currentTimeMillis()) TvManager.forceReload(); //we paged ahead - force a re-load if we come back in
+    }
+
+    @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_MENU:
@@ -263,6 +280,16 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         return super.onKeyUp(keyCode, event);
     }
 
+    private void showDatePicker() {
+        new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                pageGuideTo(new GregorianCalendar(year, monthOfYear, dayOfMonth, 6, 0).getTime().getTime()); //start at 6am
+            }
+        }, mCurrentGuideStart.get(Calendar.YEAR), mCurrentGuideStart.get(Calendar.MONTH), mCurrentGuideStart.get(Calendar.DAY_OF_MONTH))
+        .show();
+    }
+
     private void requestGuidePage(final long startTime) {
         inGuidePagingRequest = true;
         new AlertDialog.Builder(mActivity)
@@ -271,12 +298,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        TvApp.getApplication().getLogger().Info("page to "+new Date(startTime));
-                        TvManager.forceReload(); // don't allow cache
-                        if (mSelectedProgram != null) mFirstFocusChannelId = mSelectedProgram.getChannelId();
-                        focusAtEnd = startTime < mCurrentLocalGuideStart;
-                        fillTimeLine(startTime, getGuideHours());
-                        loadProgramData();
+                        pageGuideTo(startTime);
                     }
                 })
                 .setNegativeButton(R.string.lbl_no, null)
@@ -287,6 +309,15 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                     }
                 })
                 .show();
+    }
+
+    private void pageGuideTo(long startTime) {
+        TvApp.getApplication().getLogger().Info("page to "+new Date(startTime));
+        TvManager.forceReload(); // don't allow cache
+        if (mSelectedProgram != null) mFirstFocusChannelId = mSelectedProgram.getChannelId();
+        focusAtEnd = startTime < mCurrentLocalGuideStart;
+        fillTimeLine(startTime, getGuideHours());
+        loadProgramData();
     }
 
     private LiveProgramDetailPopup mDetailPopup;
