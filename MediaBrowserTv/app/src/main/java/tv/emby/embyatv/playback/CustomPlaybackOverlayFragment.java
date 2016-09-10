@@ -896,7 +896,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mProgramRows.removeAllViews();
         mChannelStatus.setText("");
         mFilterStatus.setText("");
-        TvManager.getProgramsAsync(mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideEnd, new EmptyResponse() {
+        TvManager.getProgramsAsync(mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideStart, mCurrentGuideEnd, new EmptyResponse() {
             @Override
             public void onResponse() {
                 TvApp.getApplication().getLogger().Debug("*** Programs response");
