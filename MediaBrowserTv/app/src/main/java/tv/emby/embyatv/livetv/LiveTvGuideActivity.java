@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
-import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -34,7 +33,6 @@ import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.livetv.ChannelInfoDto;
-import mediabrowser.model.livetv.SeriesTimerInfoDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
@@ -47,7 +45,6 @@ import tv.emby.embyatv.ui.LiveProgramDetailPopup;
 import tv.emby.embyatv.ui.ObservableHorizontalScrollView;
 import tv.emby.embyatv.ui.ObservableScrollView;
 import tv.emby.embyatv.ui.ProgramGridCell;
-import tv.emby.embyatv.ui.RecordPopup;
 import tv.emby.embyatv.ui.ScrollViewListener;
 import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.Utils;
@@ -88,11 +85,13 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
     private List<ChannelInfoDto> mAllChannels;
     private String mFirstFocusChannelId;
+    private boolean focusAtEnd;
     private GuideFilters mFilters = new GuideFilters();
 
     private Calendar mCurrentGuideStart;
     private Calendar mCurrentGuideEnd;
-    private long mCurrentLocalGuideStart;
+    private boolean inGuidePagingRequest;
+    private long mCurrentLocalGuideStart = System.currentTimeMillis();
     private long mCurrentLocalGuideEnd;
     private int mCurrentDisplayChannelStartNdx = 0;
     private int mCurrentDisplayChannelEndNdx = 0;
@@ -184,7 +183,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     }
 
     private void load() {
-        fillTimeLine(getGuideHours());
+        fillTimeLine(mCurrentLocalGuideStart, getGuideHours());
         TvManager.loadAllChannels(new Response<Integer>() {
             @Override
             public void onResponse(Integer ndx) {
@@ -208,7 +207,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     }
 
     private void reload() {
-        fillTimeLine(getGuideHours());
+        fillTimeLine(mCurrentLocalGuideStart, getGuideHours());
         displayChannels(mCurrentDisplayChannelStartNdx, PAGE_SIZE);
         mLastLoad = System.currentTimeMillis();
     }
@@ -254,14 +253,40 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 }
 
             case KeyEvent.KEYCODE_DPAD_RIGHT:
-                if (mSelectedProgramView != null && mSelectedProgramView.isLast() && System.currentTimeMillis() - mLastFocusChanged > 1000) Utils.showToast(mActivity, "page ahead...");
+                if (!inGuidePagingRequest && mSelectedProgramView != null && mSelectedProgramView.isLast() && System.currentTimeMillis() - mLastFocusChanged > 1000) requestGuidePage(mCurrentLocalGuideEnd);
                 break;
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                if (mSelectedProgramView != null && mSelectedProgramView.isFirst() && Utils.convertToLocalDate(mSelectedProgram.getStartDate()).getTime() > mCurrentLocalGuideStart && System.currentTimeMillis() - mLastFocusChanged > 1000) Utils.showToast(mActivity, "page back...");
+                if (!inGuidePagingRequest && mSelectedProgramView != null && mSelectedProgramView.isFirst() && Utils.convertToLocalDate(mSelectedProgram.getStartDate()).getTime() > System.currentTimeMillis() && System.currentTimeMillis() - mLastFocusChanged > 1000) requestGuidePage(mCurrentLocalGuideStart - (getGuideHours()*60*60000));
                 break;
         }
 
         return super.onKeyUp(keyCode, event);
+    }
+
+    private void requestGuidePage(final long startTime) {
+        inGuidePagingRequest = true;
+        new AlertDialog.Builder(mActivity)
+                .setTitle("Load Guide Data")
+                .setMessage("Load " + (startTime > mCurrentLocalGuideStart ? "next " : "previous ") +getGuideHours()+" hours?")
+                .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        TvApp.getApplication().getLogger().Info("page to "+new Date(startTime));
+                        TvManager.forceReload(); // don't allow cache
+                        if (mSelectedProgram != null) mFirstFocusChannelId = mSelectedProgram.getChannelId();
+                        focusAtEnd = startTime < mCurrentLocalGuideStart;
+                        fillTimeLine(startTime, getGuideHours());
+                        loadProgramData();
+                    }
+                })
+                .setNegativeButton(R.string.lbl_no, null)
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        inGuidePagingRequest = false;
+                    }
+                })
+                .show();
     }
 
     private LiveProgramDetailPopup mDetailPopup;
@@ -391,11 +416,16 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         TvApp.getApplication().getLogger().Debug("*** Display channels pre-execute");
         mSpinner.setVisibility(View.VISIBLE);
 
-        mChannels.removeAllViews();
+        loadProgramData();
+
+    }
+
+    private void loadProgramData() {
         mProgramRows.removeAllViews();
+        mChannels.removeAllViews();
         mChannelStatus.setText("");
         mFilterStatus.setText("");
-        TvManager.getProgramsAsync(mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideEnd, new EmptyResponse() {
+        TvManager.getProgramsAsync(mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideStart, mCurrentGuideEnd, new EmptyResponse() {
             @Override
             public void onResponse() {
                 TvApp.getApplication().getLogger().Debug("*** Programs response");
@@ -404,12 +434,13 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 mDisplayProgramsTask.execute(mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx);
             }
         });
+
     }
 
     DisplayProgramsTask mDisplayProgramsTask;
     class DisplayProgramsTask extends AsyncTask<Integer, Integer, Void> {
 
-        View firstRow;
+        View firstFocusView;
         int displayedChannels = 0;
 
         @Override
@@ -450,13 +481,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 final LinearLayout row = getProgramRow(programs, channel.getId());
                 if (first) {
                     first = false;
-                    firstRow = row;
-                }
-
-                // put focus on the last tuned channel
-                if (channel.getId().equals(mFirstFocusChannelId)) {
-                    firstRow = row;
-                    mFirstFocusChannelId = null; // only do this first time in not while paging around
+                    firstFocusView = row;
                 }
 
                 // set focus parameters if we are not on first row
@@ -474,6 +499,13 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                         mChannels.addView(header);
                         header.loadImage();
                         mProgramRows.addView(row);
+                        // put focus on the last tuned channel
+                        if (channel.getId().equals(mFirstFocusChannelId)) {
+                            firstFocusView = focusAtEnd ? row.getChildAt(row.getChildCount()-1) : row;
+                            focusAtEnd = false;
+                            mFirstFocusChannelId = null;
+                        }
+
                     }
                 });
 
@@ -499,11 +531,11 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             }
 
             mChannelStatus.setText(displayedChannels+" of "+mAllChannels.size()+" channels");
-            mFilterStatus.setText(mFilters.toString() + " for next "+getGuideHours()+" hours");
+            mFilterStatus.setText(mFilters.toString() + " for "+getGuideHours()+" hours");
             mFilterStatus.setTextColor(mFilters.any() ? Color.WHITE : Color.GRAY);
 
             mSpinner.setVisibility(View.GONE);
-            if (firstRow != null) firstRow.requestFocus();
+            if (firstFocusView != null) firstFocusView.requestFocus();
 
         }
     }
@@ -589,8 +621,9 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         return programRow;
     }
 
-    private void fillTimeLine(int hours) {
+    private void fillTimeLine(long start, int hours) {
         mCurrentGuideStart = Calendar.getInstance();
+        mCurrentGuideStart.setTime(new Date(start));
         mCurrentGuideStart.set(Calendar.MINUTE, mCurrentGuideStart.get(Calendar.MINUTE) >= 30 ? 30 : 0);
         mCurrentGuideStart.set(Calendar.SECOND, 0);
         mCurrentGuideStart.set(Calendar.MILLISECOND, 0);
