@@ -188,6 +188,19 @@
         android:scaleType="fitCenter"
         android:layout_toLeftOf="@+id/filterButton" />
 
+    <ImageButton
+        android:layout_width="35sp"
+        android:layout_height="35sp"
+        android:id="@+id/resetButton"
+        android:layout_marginRight="10sp"
+        android:layout_alignParentEnd="false"
+        android:layout_above="@+id/timelineHScroller"
+        android:layout_marginBottom="10sp"
+        android:src="@drawable/resettime"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        android:layout_toLeftOf="@+id/dateButton" />
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

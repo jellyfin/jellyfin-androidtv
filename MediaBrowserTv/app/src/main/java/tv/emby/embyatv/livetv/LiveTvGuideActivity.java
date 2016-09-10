@@ -44,6 +44,7 @@ import tv.emby.embyatv.base.IMessageListener;
 import tv.emby.embyatv.ui.GuideChannelHeader;
 import tv.emby.embyatv.ui.GuidePagingButton;
 import tv.emby.embyatv.ui.HorizontalScrollViewListener;
+import tv.emby.embyatv.ui.ImageButton;
 import tv.emby.embyatv.ui.LiveProgramDetailPopup;
 import tv.emby.embyatv.ui.ObservableHorizontalScrollView;
 import tv.emby.embyatv.ui.ObservableScrollView;
@@ -81,6 +82,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     private ScrollView mChannelScroller;
     private HorizontalScrollView mTimelineScroller;
     private View mSpinner;
+    private View mResetButton;
 
     private BaseItemDto mSelectedProgram;
     private ProgramGridCell mSelectedProgramView;
@@ -144,6 +146,14 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             @Override
             public void onClick(View v) {
                 showDatePicker();
+            }
+        });
+
+        mResetButton = findViewById(R.id.resetButton);
+        mResetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pageGuideTo(System.currentTimeMillis());
             }
         });
 
@@ -273,7 +283,10 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 if (!inGuidePagingRequest && mSelectedProgramView != null && mSelectedProgramView.isLast() && System.currentTimeMillis() - mLastFocusChanged > 1000) requestGuidePage(mCurrentLocalGuideEnd);
                 break;
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                if (!inGuidePagingRequest && mSelectedProgramView != null && mSelectedProgramView.isFirst() && Utils.convertToLocalDate(mSelectedProgram.getStartDate()).getTime() > System.currentTimeMillis() && System.currentTimeMillis() - mLastFocusChanged > 1000) requestGuidePage(mCurrentLocalGuideStart - (getGuideHours()*60*60000));
+                if (!inGuidePagingRequest && mSelectedProgramView != null && mSelectedProgramView.isFirst() && Utils.convertToLocalDate(mSelectedProgram.getStartDate()).getTime() > System.currentTimeMillis() && System.currentTimeMillis() - mLastFocusChanged > 1000) {
+                    focusAtEnd = true;
+                    requestGuidePage(mCurrentLocalGuideStart - (getGuideHours()*60*60000));
+                }
                 break;
         }
 
@@ -286,8 +299,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 pageGuideTo(new GregorianCalendar(year, monthOfYear, dayOfMonth, 6, 0).getTime().getTime()); //start at 6am
             }
-        }, mCurrentGuideStart.get(Calendar.YEAR), mCurrentGuideStart.get(Calendar.MONTH), mCurrentGuideStart.get(Calendar.DAY_OF_MONTH))
-        .show();
+        }, mCurrentGuideStart.get(Calendar.YEAR), mCurrentGuideStart.get(Calendar.MONTH), mCurrentGuideStart.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     private void requestGuidePage(final long startTime) {
@@ -315,7 +327,6 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         TvApp.getApplication().getLogger().Info("page to "+new Date(startTime));
         TvManager.forceReload(); // don't allow cache
         if (mSelectedProgram != null) mFirstFocusChannelId = mSelectedProgram.getChannelId();
-        focusAtEnd = startTime < mCurrentLocalGuideStart;
         fillTimeLine(startTime, getGuideHours());
         loadProgramData();
     }
@@ -566,6 +577,8 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             mChannelStatus.setText(displayedChannels+" of "+mAllChannels.size()+" channels");
             mFilterStatus.setText(mFilters.toString() + " for "+getGuideHours()+" hours");
             mFilterStatus.setTextColor(mFilters.any() ? Color.WHITE : Color.GRAY);
+
+            mResetButton.setVisibility(mCurrentLocalGuideStart > System.currentTimeMillis() ? View.VISIBLE : View.GONE); // show reset button if paged ahead
 
             mSpinner.setVisibility(View.GONE);
             if (firstFocusView != null) firstFocusView.requestFocus();
