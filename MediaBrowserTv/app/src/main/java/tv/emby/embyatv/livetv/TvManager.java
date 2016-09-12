@@ -49,8 +49,8 @@ public class TvManager {
     }
 
     public static void setLastLiveTvChannel(String id) {
-        TvApp.getApplication().getSystemPrefs().edit().putString("sys_pref_prev_tv_channel", TvApp.getApplication().getSystemPrefs().getString("sys_pref_last_tv_channel", null)).commit();
-        TvApp.getApplication().getSystemPrefs().edit().putString("sys_pref_last_tv_channel", id).commit();
+        TvApp.getApplication().getSystemPrefs().edit().putString("sys_pref_prev_tv_channel", TvApp.getApplication().getSystemPrefs().getString("sys_pref_last_tv_channel", null)).apply();
+        TvApp.getApplication().getSystemPrefs().edit().putString("sys_pref_last_tv_channel", id).apply();
         updateLastPlayedDate(id);
         sortChannels();
     }
@@ -70,6 +70,7 @@ public class TvManager {
     public static void forceReload() {
         forceReload = true;
     }
+    public static boolean shouldForceReload() { return forceReload; }
 
     public static int getAllChannelsIndex(String id) {
         for (int i = 0; i < allChannels.size(); i++) {

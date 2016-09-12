@@ -850,7 +850,7 @@ public class PlaybackController {
         }
     }
 
-    private void updateTvProgramInfo() {
+    public void updateTvProgramInfo() {
         // Get the current program info when playing a live TV channel
         final BaseItemDto channel = getCurrentlyPlayingItem();
         if (channel.getType().equals("TvChannel")) {
@@ -865,6 +865,7 @@ public class PlaybackController {
                         channel.setOfficialRating(program.getOfficialRating());
                         channel.setOverview(program.getOverview());
                         channel.setRunTimeTicks(program.getRunTimeTicks());
+                        channel.setCurrentProgram(program);
                         mCurrentProgramEndTime = channel.getEndDate() != null ? Utils.convertToLocalDate(channel.getEndDate()).getTime() : 0;
                         mCurrentProgramStartTime = channel.getPremiereDate() != null ? Utils.convertToLocalDate(channel.getPremiereDate()).getTime() : 0;
                         mFragment.updateDisplay();
