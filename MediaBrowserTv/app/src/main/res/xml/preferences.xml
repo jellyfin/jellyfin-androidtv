@@ -19,6 +19,11 @@
             android:summary="@string/pref_alt_pw_entry_desc"
             android:defaultValue="false"
             />
+        <CheckBoxPreference android:key="pref_live_tv_mode"
+            android:title="@string/pref_live_tv_mode"
+            android:summary="@string/pref_live_tv_mode_desc"
+            android:defaultValue="false"
+            />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_general" >
