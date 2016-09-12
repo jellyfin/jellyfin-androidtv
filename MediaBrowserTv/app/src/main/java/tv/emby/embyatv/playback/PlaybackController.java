@@ -1047,16 +1047,35 @@ public class PlaybackController {
             public void onEvent() {
                 if (isPlaying() && updateProgress) {
                     updateProgress = false;
-                    if (isLiveTv && mVideoManager.isNativeMode() && lastProgressPosition > 0 && lastProgressPosition == mVideoManager.getCurrentPosition()) {
-                        mApplication.getLogger().Debug("************** playback appears to have stalled - attempting re-start");
-                        mVideoManager.stopPlayback();
-                        mPlaybackState = PlaybackState.IDLE;
-                        isRestart = true;
-                        play(0);
-                    } else {
-                        lastProgressPosition = mVideoManager.getCurrentPosition();
-                        //mApplication.getLogger().Debug("******* progress listener fired");
-                    }
+//                    if (isLiveTv && mVideoManager.isNativeMode() && lastProgressPosition > 0 && lastProgressPosition == mVideoManager.getCurrentPosition()) {
+//                        mApplication.getLogger().Debug("************** playback appears to have stalled - attempting re-start");
+//                        mVideoManager.stopPlayback();
+//
+//                        //close the stream if need to
+//                        if (mCurrentStreamInfo.getMediaSource().getLiveStreamId() != null) {
+//                            mApplication.getApiClient().closeLiveStream(mCurrentStreamInfo.getMediaSource().getLiveStreamId(), new EmptyResponse() {
+//                                @Override
+//                                public void onResponse() {
+//                                    mPlaybackState = PlaybackState.IDLE;
+//                                    isRestart = true;
+//                                    play(0);
+//                                }
+//
+//                                @Override
+//                                public void onError(Exception ex) {
+//                                    Utils.showToast(mApplication, R.string.msg_video_playback_error);
+//                                    mFragment.finish();
+//                                }
+//                            });
+//                        } else {
+//                            mPlaybackState = PlaybackState.IDLE;
+//                            isRestart = true;
+//                            play(0);
+//                        }
+//                    } else {
+//                        lastProgressPosition = mVideoManager.getCurrentPosition();
+//                        //mApplication.getLogger().Debug("******* progress listener fired");
+//                    }
                     boolean continueUpdate = true;
                     if (!spinnerOff) {
                         if (mStartPosition > 0) {
