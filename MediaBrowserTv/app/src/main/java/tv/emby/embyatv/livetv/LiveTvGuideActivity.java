@@ -1,7 +1,6 @@
 package tv.emby.embyatv.livetv;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -17,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,7 +28,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import mediabrowser.apiinteraction.EmptyResponse;
@@ -41,10 +39,10 @@ import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.base.CustomMessage;
 import tv.emby.embyatv.base.IMessageListener;
+import tv.emby.embyatv.ui.FriendlyDateButton;
 import tv.emby.embyatv.ui.GuideChannelHeader;
 import tv.emby.embyatv.ui.GuidePagingButton;
 import tv.emby.embyatv.ui.HorizontalScrollViewListener;
-import tv.emby.embyatv.ui.ImageButton;
 import tv.emby.embyatv.ui.LiveProgramDetailPopup;
 import tv.emby.embyatv.ui.ObservableHorizontalScrollView;
 import tv.emby.embyatv.ui.ObservableScrollView;
@@ -95,7 +93,6 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
     private Calendar mCurrentGuideStart;
     private Calendar mCurrentGuideEnd;
-    private boolean inGuidePagingRequest;
     private long mCurrentLocalGuideStart = System.currentTimeMillis();
     private long mCurrentLocalGuideEnd;
     private int mCurrentDisplayChannelStartNdx = 0;
@@ -280,10 +277,10 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 }
 
             case KeyEvent.KEYCODE_DPAD_RIGHT:
-                if (!inGuidePagingRequest && mSelectedProgramView != null && mSelectedProgramView.isLast() && System.currentTimeMillis() - mLastFocusChanged > 1000) requestGuidePage(mCurrentLocalGuideEnd);
+                if (getCurrentFocus() instanceof ProgramGridCell && mSelectedProgramView != null && mSelectedProgramView.isLast() && System.currentTimeMillis() - mLastFocusChanged > 1000) requestGuidePage(mCurrentLocalGuideEnd);
                 break;
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                if (!inGuidePagingRequest && mSelectedProgramView != null && mSelectedProgramView.isFirst() && Utils.convertToLocalDate(mSelectedProgram.getStartDate()).getTime() > System.currentTimeMillis() && System.currentTimeMillis() - mLastFocusChanged > 1000) {
+                if (getCurrentFocus() instanceof ProgramGridCell && mSelectedProgramView != null && mSelectedProgramView.isFirst() && Utils.convertToLocalDate(mSelectedProgram.getStartDate()).getTime() > System.currentTimeMillis() && System.currentTimeMillis() - mLastFocusChanged > 1000) {
                     focusAtEnd = true;
                     requestGuidePage(mCurrentLocalGuideStart - (getGuideHours()*60*60000));
                 }
@@ -293,17 +290,37 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         return super.onKeyUp(keyCode, event);
     }
 
+    View.OnClickListener datePickedListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            pageGuideTo(((FriendlyDateButton)v).getDate());
+            dateDialog.dismiss();
+        }
+    };
+
+    AlertDialog dateDialog;
+
     private void showDatePicker() {
-        new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                pageGuideTo(new GregorianCalendar(year, monthOfYear, dayOfMonth, 6, 0).getTime().getTime()); //start at 6am
-            }
-        }, mCurrentGuideStart.get(Calendar.YEAR), mCurrentGuideStart.get(Calendar.MONTH), mCurrentGuideStart.get(Calendar.DAY_OF_MONTH)).show();
+        FrameLayout scrollPane = (FrameLayout) getLayoutInflater().inflate(R.layout.horizontal_scroll_pane, null);
+        LinearLayout scrollItems = (LinearLayout) scrollPane.findViewById(R.id.scrollItems);
+        for (long increment = 0; increment < 15; increment++) {
+            scrollItems.addView(new FriendlyDateButton(this, System.currentTimeMillis() + (increment * 86400000), datePickedListener));
+        }
+
+        dateDialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.lbl_select_date)
+                .setView(scrollPane)
+                .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .show();
+
     }
 
     private void requestGuidePage(final long startTime) {
-        inGuidePagingRequest = true;
         new AlertDialog.Builder(mActivity)
                 .setTitle("Load Guide Data")
                 .setMessage("Load " + (startTime > mCurrentLocalGuideStart ? "next " : "previous ") +getGuideHours()+" hours?")
@@ -314,12 +331,6 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                     }
                 })
                 .setNegativeButton(R.string.lbl_no, null)
-                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        inGuidePagingRequest = false;
-                    }
-                })
                 .show();
     }
 
@@ -581,7 +592,9 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             mResetButton.setVisibility(mCurrentLocalGuideStart > System.currentTimeMillis() ? View.VISIBLE : View.GONE); // show reset button if paged ahead
 
             mSpinner.setVisibility(View.GONE);
-            if (firstFocusView != null) firstFocusView.requestFocus();
+            if (firstFocusView != null) {
+                firstFocusView.requestFocus();
+            }
 
         }
     }
@@ -765,6 +778,5 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         mHandler.removeCallbacks(detailUpdateTask);
         mHandler.postDelayed(detailUpdateTask, 500);
         mLastFocusChanged = System.currentTimeMillis();
-
     }
 }

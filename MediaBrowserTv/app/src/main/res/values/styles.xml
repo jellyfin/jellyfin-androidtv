@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="@style/Theme.Leanback"></style>
+    <style name="AppTheme" parent="@style/Theme.Leanback">
+        <item name="android:datePickerStyle">@style/DatePickerCustom</item>
+
+    </style>
+
+    <style name="DatePickerCustom" >
+        <item name="android:datePickerMode">spinner</item>
+    </style>
 
     <style name="spaced_buttons">
         <item name="android:layout_marginLeft">10dp</item>
