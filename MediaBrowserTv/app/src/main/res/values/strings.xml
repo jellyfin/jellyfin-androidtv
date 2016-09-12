@@ -351,6 +351,8 @@
     <string name="lbl_bitstream_dts">Bitstream DTS audio</string>
     <string name="lbl_in_x_days">In %s days</string>
     <string name="lbl_select_date">Select Date</string>
+    <string name="pref_live_tv_mode">Live TV Mode</string>
+    <string name="pref_live_tv_mode_desc">Go directly to last played live TV channel</string>
 
 
 </resources>

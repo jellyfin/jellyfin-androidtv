@@ -35,6 +35,8 @@ import tv.emby.embyatv.base.CustomMessage;
 import tv.emby.embyatv.base.IMessageListener;
 import tv.emby.embyatv.integration.RecommendationManager;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
+import tv.emby.embyatv.livetv.LiveTvGuideActivity;
+import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.model.ChangeTriggerType;
 import tv.emby.embyatv.playback.AudioEventListener;
 import tv.emby.embyatv.playback.MediaManager;
@@ -135,6 +137,14 @@ public class HomeFragment extends StdBrowseFragment {
                 }
             }
         });
+
+        if (mApplication.getPrefs().getBoolean("pref_live_tv_mode",false)) {
+            //open guide activity and tell it to start last channel
+            Intent guide = new Intent(getActivity(), LiveTvGuideActivity.class);
+            guide.putExtra("loadLast", true);
+
+            startActivity(guide);
+        }
 
     }
 

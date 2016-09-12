@@ -98,6 +98,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     private int mCurrentDisplayChannelStartNdx = 0;
     private int mCurrentDisplayChannelEndNdx = 0;
     private long mLastFocusChanged;
+    private boolean mLoadLastChannel;
 
     private Handler mHandler = new Handler();
 
@@ -193,6 +194,9 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             }
         });
 
+        //auto launch channel if indicated
+        mLoadLastChannel = getIntent().getBooleanExtra("loadLast", false);
+
     }
 
     private int getGuideHours() {
@@ -233,6 +237,21 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     protected void onResume() {
         super.onResume();
 
+        if (mLoadLastChannel) {
+            mLoadLastChannel = false;
+            String channel = TvManager.getLastLiveTvChannel();
+            if (channel != null) {
+                Utils.retrieveAndPlay(channel, false, this);
+            } else {
+                doLoad();
+            }
+
+        } else {
+            doLoad();
+        }
+    }
+
+    protected void doLoad() {
         if (System.currentTimeMillis() > mLastLoad + 3600000) {
             if (mAllChannels == null) {
                 mAllChannels = TvManager.getAllChannels();
@@ -242,6 +261,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
             mFirstFocusChannelId = TvManager.getLastLiveTvChannel();
         }
+
     }
 
     @Override
