@@ -335,6 +335,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     }
 
     private void pageGuideTo(long startTime) {
+        if (startTime < System.currentTimeMillis()) startTime = System.currentTimeMillis(); // don't allow the past
         TvApp.getApplication().getLogger().Info("page to "+new Date(startTime));
         TvManager.forceReload(); // don't allow cache
         if (mSelectedProgram != null) mFirstFocusChannelId = mSelectedProgram.getChannelId();
@@ -595,7 +596,6 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             if (firstFocusView != null) {
                 firstFocusView.requestFocus();
             }
-
         }
     }
 
