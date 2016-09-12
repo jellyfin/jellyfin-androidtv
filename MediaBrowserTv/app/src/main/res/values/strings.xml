@@ -353,6 +353,8 @@
     <string name="lbl_select_date">Select Date</string>
     <string name="pref_live_tv_mode">Live TV Mode</string>
     <string name="pref_live_tv_mode_desc">Go directly to last played live TV channel</string>
+    <string name="lbl_just_this_once">Just this once</string>
+    <string name="msg_record_entire_series">Record entire series?</string>
 
 
 </resources>

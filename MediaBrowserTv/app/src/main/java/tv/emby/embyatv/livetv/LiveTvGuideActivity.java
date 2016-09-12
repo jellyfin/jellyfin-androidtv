@@ -252,7 +252,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     }
 
     protected void doLoad() {
-        if (System.currentTimeMillis() > mLastLoad + 3600000) {
+        if (TvManager.shouldForceReload() || System.currentTimeMillis() > mLastLoad + 3600000) {
             if (mAllChannels == null) {
                 mAllChannels = TvManager.getAllChannels();
                 if (mAllChannels == null) load();

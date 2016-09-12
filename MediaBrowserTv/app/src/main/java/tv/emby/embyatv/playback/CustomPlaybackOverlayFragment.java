@@ -1,9 +1,11 @@
 package tv.emby.embyatv.playback;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -62,6 +64,7 @@ import mediabrowser.model.dto.ImageOptions;
 import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.livetv.ChannelInfoDto;
+import mediabrowser.model.livetv.SeriesTimerInfoDto;
 import mediabrowser.model.mediainfo.SubtitleTrackEvent;
 import mediabrowser.model.mediainfo.SubtitleTrackInfo;
 import tv.emby.embyatv.R;
@@ -1305,6 +1308,16 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     showGuide();
                 }
             }));
+
+            // record button
+            if (item.getCurrentProgram() != null) {
+                mButtonRow.addView(new ImageButton(mActivity, item.getCurrentProgram().getTimerId() != null ? R.drawable.rec : R.drawable.recwhite, mButtonSize, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        toggleRecording(mPlaybackController.getCurrentlyPlayingItem());
+                    }
+                }));
+            }
         }
 
         if (!TextUtils.isEmpty(item.getOverview())) {
@@ -1505,6 +1518,146 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }
         }
         return ndx - 1;
+    }
+
+    private void toggleRecording(BaseItemDto item) {
+        final BaseItemDto program = item.getCurrentProgram();
+
+        if (program != null) {
+            if (program.getTimerId() != null) {
+                // cancel
+                if (program.getSeriesTimerId() != null) {
+                    new AlertDialog.Builder(mActivity)
+                            .setTitle(R.string.lbl_cancel_recording)
+                            .setMessage(R.string.msg_cancel_entire_series)
+                            .setPositiveButton(R.string.lbl_cancel_series, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    cancelRecording(program, true);
+                                }
+                            })
+                            .setNegativeButton("Just this one", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    cancelRecording(program, false);
+                                }
+                            })
+                            .show();
+                } else {
+                    new AlertDialog.Builder(mActivity)
+                            .setTitle(R.string.lbl_cancel_recording)
+                            .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    cancelRecording(program, false);
+                                }
+                            })
+                            .setNegativeButton(R.string.lbl_no, null)
+                            .show();
+                }
+            } else {
+                if (Utils.isTrue(program.getIsSeries())) {
+                    new AlertDialog.Builder(mActivity)
+                            .setTitle(R.string.lbl_record_series)
+                            .setMessage(R.string.msg_record_entire_series)
+                            .setPositiveButton(R.string.lbl_record_series, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    recordProgram(program, true);
+                                }
+                            })
+                            .setNegativeButton(R.string.lbl_just_this_once, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    recordProgram(program, false);
+                                }
+                            })
+                            .show();
+                } else {
+                    recordProgram(program, false);
+                }
+            }
+        }
+    }
+
+    private void cancelRecording(BaseItemDto program, boolean series) {
+
+        if (program != null) {
+            if (series) {
+                mApplication.getApiClient().CancelLiveTvSeriesTimerAsync(program.getSeriesTimerId(), new EmptyResponse() {
+                    @Override
+                    public void onResponse() {
+                        Utils.showToast(mActivity, R.string.msg_recording_cancelled);
+                        mPlaybackController.updateTvProgramInfo();
+                        TvManager.forceReload();
+                    }
+
+                    @Override
+                    public void onError(Exception ex) {
+                        Utils.showToast(mActivity, R.string.msg_unable_to_cancel);
+                    }
+                });
+            } else {
+                mApplication.getApiClient().CancelLiveTvTimerAsync(program.getTimerId(), new EmptyResponse() {
+                    @Override
+                    public void onResponse() {
+                        Utils.showToast(mActivity, R.string.msg_recording_cancelled);
+                        mPlaybackController.updateTvProgramInfo();
+                        TvManager.forceReload();
+                    }
+
+                    @Override
+                    public void onError(Exception ex) {
+                        Utils.showToast(mActivity, R.string.msg_unable_to_cancel);
+                    }
+                });
+
+            }
+        }
+    }
+
+    private void recordProgram(final BaseItemDto program, final boolean series) {
+        Utils.showToast(mActivity, "Not Yet Implemented");
+        return;
+
+//        if (program != null) {
+//            mApplication.getApiClient().GetDefaultLiveTvTimerInfo(new Response<SeriesTimerInfoDto>() {
+//                @Override
+//                public void onResponse(SeriesTimerInfoDto response) {
+//                    response.setProgramId(program.getId());
+//                    if (series) {
+//                        mApplication.getApiClient().CreateLiveTvSeriesTimerAsync(response, new EmptyResponse() {
+//                            @Override
+//                            public void onResponse() {
+//                                Utils.showToast(mActivity, R.string.msg_set_to_record);
+//                                mPlaybackController.updateTvProgramInfo();
+//                                TvManager.forceReload();
+//                            }
+//
+//                            @Override
+//                            public void onError(Exception ex) {
+//                                Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
+//                            }
+//                        });
+//                    } else {
+//                        mApplication.getApiClient().CreateLiveTvTimerAsync(response, new EmptyResponse() {
+//                            @Override
+//                            public void onResponse() {
+//                                Utils.showToast(mActivity, R.string.msg_set_to_record);
+//                                mPlaybackController.updateTvProgramInfo();
+//                                TvManager.forceReload();
+//                            }
+//
+//                            @Override
+//                            public void onError(Exception ex) {
+//                                Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
+//                            }
+//                        });
+//                    }
+//                }
+//            });
+//        }
+
     }
 
     AudioDelayPopup mAudioPopup;
