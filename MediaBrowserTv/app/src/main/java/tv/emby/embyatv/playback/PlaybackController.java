@@ -108,6 +108,11 @@ public class PlaybackController {
         setupCallbacks();
     }
 
+    public void setItems(List<BaseItemDto> items) {
+        mItems = items;
+        mCurrentIndex = 0;
+    }
+
     public PlayMethod getPlaybackMethod() {
         return mPlaybackMethod;
     }
