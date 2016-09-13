@@ -390,7 +390,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     private void refreshCurrentItem() {
         if (mCurrentItem != null && !"Photo".equals(mCurrentItem.getType()) && !"MusicArtist".equals(mCurrentItem.getType())
                 && !"MusicAlbum".equals(mCurrentItem.getType()) && !"Playlist".equals(mCurrentItem.getType())) {
-            TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override
                 public void onResponse() {
