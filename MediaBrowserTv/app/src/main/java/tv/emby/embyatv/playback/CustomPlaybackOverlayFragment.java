@@ -51,6 +51,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -593,7 +594,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         break;
                 }
             } else if (item instanceof ChannelInfoDto) {
-                Utils.Beep(50);
+                Utils.Beep(100);
                 hidePopupPanel();
                 switchChannel(((ChannelInfoDto)item).getId());
             }
@@ -716,8 +717,21 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             mPlaybackController.stop();
             mCurrentProgress.setVisibility(View.VISIBLE);
             hideGuide();
-            Utils.retrieveAndPlay(id, false, mActivity);
-            finish();
+            mApplication.getApiClient().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                @Override
+                public void onResponse(BaseItemDto response) {
+                    List<BaseItemDto> items = new ArrayList<BaseItemDto>();
+                    items.add(response);
+                    mPlaybackController.setItems(items);
+                    mPlaybackController.play(0);
+                }
+
+                @Override
+                public void onError(Exception exception) {
+                    Utils.showToast(mApplication, R.string.msg_video_playback_error);
+                    finish();
+                }
+            });
         }
     }
 
