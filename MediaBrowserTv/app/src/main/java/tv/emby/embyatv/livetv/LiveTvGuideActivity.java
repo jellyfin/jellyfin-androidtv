@@ -758,6 +758,8 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     };
 
     private void detailUpdateInternal() {
+        if (mSelectedProgram == null) return;
+
         mTitle.setText(mSelectedProgram.getName());
         mSummary.setText(mSelectedProgram.getOverview());
         if (mSelectedProgram.getId() != null) {
