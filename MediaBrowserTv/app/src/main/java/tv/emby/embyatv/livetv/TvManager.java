@@ -95,25 +95,31 @@ public class TvManager {
     }
 
     public static void loadAllChannels(final Response<Integer> outerResponse) {
-        //Get channels
-        LiveTvChannelQuery query = new LiveTvChannelQuery();
-        query.setUserId(TvApp.getApplication().getCurrentUser().getId());
-        query.setEnableFavoriteSorting(true);
-        query.setAddCurrentProgram(false);
-        TvApp.getApplication().getLogger().Debug("*** About to load channels");
-        TvApp.getApplication().getApiClient().GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
-            @Override
-            public void onResponse(final ChannelInfoDtoResult response) {
-                TvApp.getApplication().getLogger().Debug("*** channel query response");
-                allChannels = new ArrayList<>();
-                int ndx = 0;
-                if (response.getTotalRecordCount() > 0) {
-                    Collections.addAll(allChannels, response.getItems());
-                }
+        //Get channels if needed
+        if (allChannels != null && allChannels.size() > 0) {
+            TvApp.getApplication().getLogger().Info("*** Channels already loaded - returning %s channels", allChannels.size());
+            outerResponse.onResponse(sortChannels());
+        } else {
+            LiveTvChannelQuery query = new LiveTvChannelQuery();
+            query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+            query.setEnableFavoriteSorting(true);
+            query.setAddCurrentProgram(true);
+            TvApp.getApplication().getLogger().Debug("*** About to load channels");
+            TvApp.getApplication().getApiClient().GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
+                @Override
+                public void onResponse(final ChannelInfoDtoResult response) {
+                    TvApp.getApplication().getLogger().Debug("*** channel query response");
+                    allChannels = new ArrayList<>();
+                    int ndx = 0;
+                    if (response.getTotalRecordCount() > 0) {
+                        Collections.addAll(allChannels, response.getItems());
+                    }
 
-                outerResponse.onResponse(sortChannels());
-            }
-        });
+                    outerResponse.onResponse(sortChannels());
+                }
+            });
+
+        }
 
     }
 

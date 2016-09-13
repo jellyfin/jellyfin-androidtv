@@ -33,6 +33,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -78,6 +79,7 @@ import tv.emby.embyatv.livetv.ILiveTvGuide;
 import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.presentation.CardPresenter;
+import tv.emby.embyatv.presentation.ChannelCardPresenter;
 import tv.emby.embyatv.presentation.PositionableListRowPresenter;
 import tv.emby.embyatv.ui.AudioDelayPopup;
 import tv.emby.embyatv.ui.GuideChannelHeader;
@@ -590,6 +592,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         hidePopupPanel();
                         break;
                 }
+            } else if (item instanceof ChannelInfoDto) {
+                Utils.Beep(50);
+                hidePopupPanel();
+                switchChannel(((ChannelInfoDto)item).getId());
             }
         }
     };
@@ -606,6 +612,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             if (mPopupPanelVisible && (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE)) {
                 //back should just hide the popup panel
                 hidePopupPanel();
+                if (mPlaybackController.isLiveTv()) hide(); //also close this if live tv
                 return true;
             }
             if (mGuideVisible) {
@@ -658,6 +665,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     // up or down should close panel
                     if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN || keyCode == KeyEvent.KEYCODE_DPAD_UP) {
                         hidePopupPanel();
+                        if (mPlaybackController.isLiveTv()) hide(); //also close this if live tv
                         return true;
                     } else {
                         return false;
@@ -676,8 +684,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     return true;
                 }
 
-                if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && !mIsVisible && !mPlaybackController.isLiveTv()) {
-                    mPlaybackController.pause();
+                if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && !mIsVisible) {
+                    if (mPlaybackController.isLiveTv())
+                        showChapterPanel();
+                    else
+                        mPlaybackController.pause();
                 }
 
                 //if we're not visible, show us
@@ -1019,7 +1030,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         if (programs.size() == 0) {
             BaseItemDto empty = new BaseItemDto();
-            empty.setName("  <No Program Data Available>");
+            empty.setName(mApplication.getString(R.string.no_program_data));
             empty.setChannelId(channelId);
             empty.setStartDate(Utils.convertToUtcDate(new Date(mCurrentLocalGuideStart)));
             empty.setEndDate(Utils.convertToUtcDate(new Date(mCurrentLocalGuideStart + (150 * 60000))));
@@ -1301,6 +1312,36 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 }));
             }
 
+            //Create quick channel change row
+            TvManager.loadAllChannels(new Response<Integer>() {
+                @Override
+                public void onResponse(Integer response) {
+                    ArrayObjectAdapter channelAdapter = new ArrayObjectAdapter(new ChannelCardPresenter());
+                    channelAdapter.addAll(0, TvManager.getAllChannels());
+                    if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
+                    mChapterRow = new ListRow(new HeaderItem("Channels"), channelAdapter);
+                    mPopupRowAdapter.add(mChapterRow);
+
+                }
+            });
+
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.channelbar, mButtonSize, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showChapterPanel();
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            int ndx = TvManager.getAllChannelsIndex(mPlaybackController.getCurrentlyPlayingItem().getId());
+                            if (ndx > 0) {
+                                mPopupRowPresenter.setPosition(ndx);
+                            }
+
+                        }
+                    },500);
+                }
+            }));
+
             // guide button
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.guidebutton, mButtonSize, new View.OnClickListener() {
                 @Override
@@ -1318,6 +1359,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     }
                 }));
             }
+
+            //adjust popup for channels
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mPopupArea.getLayoutParams();
+            params.height = Utils.convertDpToPixel(mActivity, 170);
+            mPopupArea.setLayoutParams(params);
+
         }
 
         if (!TextUtils.isEmpty(item.getOverview())) {
@@ -1617,46 +1664,46 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     private void recordProgram(final BaseItemDto program, final boolean series) {
-        Utils.showToast(mActivity, "Not Yet Implemented");
-        return;
+//        Utils.showToast(mActivity, "Not Yet Implemented");
+//        return;
 
-//        if (program != null) {
-//            mApplication.getApiClient().GetDefaultLiveTvTimerInfo(new Response<SeriesTimerInfoDto>() {
-//                @Override
-//                public void onResponse(SeriesTimerInfoDto response) {
-//                    response.setProgramId(program.getId());
-//                    if (series) {
-//                        mApplication.getApiClient().CreateLiveTvSeriesTimerAsync(response, new EmptyResponse() {
-//                            @Override
-//                            public void onResponse() {
-//                                Utils.showToast(mActivity, R.string.msg_set_to_record);
-//                                mPlaybackController.updateTvProgramInfo();
-//                                TvManager.forceReload();
-//                            }
-//
-//                            @Override
-//                            public void onError(Exception ex) {
-//                                Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
-//                            }
-//                        });
-//                    } else {
-//                        mApplication.getApiClient().CreateLiveTvTimerAsync(response, new EmptyResponse() {
-//                            @Override
-//                            public void onResponse() {
-//                                Utils.showToast(mActivity, R.string.msg_set_to_record);
-//                                mPlaybackController.updateTvProgramInfo();
-//                                TvManager.forceReload();
-//                            }
-//
-//                            @Override
-//                            public void onError(Exception ex) {
-//                                Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
-//                            }
-//                        });
-//                    }
-//                }
-//            });
-//        }
+        if (program != null) {
+            mApplication.getApiClient().GetDefaultLiveTvTimerInfo(new Response<SeriesTimerInfoDto>() {
+                @Override
+                public void onResponse(SeriesTimerInfoDto response) {
+                    response.setProgramId(program.getId());
+                    if (series) {
+                        mApplication.getApiClient().CreateLiveTvSeriesTimerAsync(response, new EmptyResponse() {
+                            @Override
+                            public void onResponse() {
+                                Utils.showToast(mActivity, R.string.msg_set_to_record);
+                                mPlaybackController.updateTvProgramInfo();
+                                TvManager.forceReload();
+                            }
+
+                            @Override
+                            public void onError(Exception ex) {
+                                Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
+                            }
+                        });
+                    } else {
+                        mApplication.getApiClient().CreateLiveTvTimerAsync(response, new EmptyResponse() {
+                            @Override
+                            public void onResponse() {
+                                Utils.showToast(mActivity, R.string.msg_set_to_record);
+                                mPlaybackController.updateTvProgramInfo();
+                                TvManager.forceReload();
+                            }
+
+                            @Override
+                            public void onError(Exception ex) {
+                                Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
+                            }
+                        });
+                    }
+                }
+            });
+        }
 
     }
 
