@@ -38,6 +38,7 @@ import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.model.ChangeTriggerType;
+import tv.emby.embyatv.model.DisplayPriorityType;
 import tv.emby.embyatv.playback.AudioEventListener;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.presentation.GridButtonPresenter;
@@ -211,16 +212,16 @@ public class HomeFragment extends StdBrowseFragment {
 
                 //Now others based on first library type
                 if (response.getTotalRecordCount() > 0) {
-                    String firstType = ("tvshows".equals(response.getItems()[0].getCollectionType())) ? "s" : ("livetv".equals(response.getItems()[0].getCollectionType()) ? "t" : "m");
-                    switch (firstType) {
-                        case "s":
+                    mApplication.setDisplayPriority("tvshows".equals(response.getItems()[0].getCollectionType()) ? DisplayPriorityType.TvShows : ("livetv".equals(response.getItems()[0].getCollectionType()) ? DisplayPriorityType.LiveTv : DisplayPriorityType.Movies));
+                    switch (mApplication.getDisplayPriority()) {
+                        case TvShows:
                             addNextUp();
                             addPremieres();
                             addLatestMovies();
                             addOnNow();
                             break;
 
-                        case "t":
+                        case LiveTv:
                             addOnNow();
                             addNextUp();
                             addPremieres();
