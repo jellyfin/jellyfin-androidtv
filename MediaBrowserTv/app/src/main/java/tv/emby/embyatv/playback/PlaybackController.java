@@ -428,8 +428,8 @@ public class PlaybackController {
 
                         // Now look at both responses and choose the one that direct plays or bitstreams - favor VLC
                         useVlc = !vlcErrorEncountered && !vlcResponse.getPlayMethod().equals(PlayMethod.Transcode)
-                                && (Utils.is60() || !mApplication.getPrefs().getBoolean("pref_bitstream_ac3", false) || !"ac3".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec()))
-                                && (Utils.downMixAudio() || !Utils.is60() || internalResponse.getPlayMethod().equals(PlayMethod.Transcode) || !mApplication.getPrefs().getBoolean("pref_bitstream_dts", false) || internalResponse.getMediaSource() == null || internalResponse.getMediaSource().getDefaultAudioStream() == null || (!internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dca") && !internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("DCA")))
+                                && (Utils.is60() || !mApplication.getPrefs().getBoolean("pref_bitstream_ac3", false) || (!"ac3".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec()) && !"truehd".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec())))
+                                && (Utils.downMixAudio() || !Utils.is60() || internalResponse.getPlayMethod().equals(PlayMethod.Transcode) || !mApplication.getPrefs().getBoolean("pref_bitstream_dts", false) || internalResponse.getMediaSource() == null || internalResponse.getMediaSource().getDefaultAudioStream() == null || (!internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dca") && !internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dts")))
                                 && (!isLiveTv || (mApplication.directStreamLiveTv() && mApplication.useVlcForLiveTv()))
                                 && (!Utils.isFireTvStick() || (vlcResponse.getMediaSource().getVideoStream() != null && vlcResponse.getMediaSource().getVideoStream().getWidth() < 1000));
 
@@ -540,7 +540,7 @@ public class PlaybackController {
 
         // when using VLC if source is stereo or we're on the Fire platform with AC3 - use most compatible output
         if (!mVideoManager.isNativeMode() && ((isLiveTv && Utils.isFireTv()) || (response.getMediaSource() != null && response.getMediaSource().getDefaultAudioStream() != null && response.getMediaSource().getDefaultAudioStream().getChannels() != null && (response.getMediaSource().getDefaultAudioStream().getChannels() <= 2
-                || (Utils.isFireTv() && "ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec())))))) {
+                || (Utils.isFireTv() && ("ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec()) || "truehd".equals(response.getMediaSource().getDefaultAudioStream().getCodec()))))))) {
             mVideoManager.setCompatibleAudio();
             mApplication.getLogger().Info("Setting compatible audio mode...");
             //Utils.showToast(mApplication, "Compatible");
