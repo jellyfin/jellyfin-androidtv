@@ -37,6 +37,7 @@ import mediabrowser.model.net.EndPointInfo;
 import mediabrowser.model.registration.RegistrationInfo;
 import mediabrowser.model.system.SystemInfo;
 import tv.emby.embyatv.base.BaseActivity;
+import tv.emby.embyatv.model.DisplayPriorityType;
 import tv.emby.embyatv.playback.ExternalPlayerActivity;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.playback.PlaybackController;
@@ -106,6 +107,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     private boolean audioMuted;
     private boolean playingIntros;
+    private DisplayPriorityType displayPriority = DisplayPriorityType.Movies;
 
     private BaseActivity currentActivity;
 
@@ -721,4 +723,12 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     }
 
     public int getServerBitrateLimit() { return maxRemoteBitrate > 0 ? maxRemoteBitrate : 100000000; }
+
+    public DisplayPriorityType getDisplayPriority() {
+        return displayPriority;
+    }
+
+    public void setDisplayPriority(DisplayPriorityType displayPriority) {
+        this.displayPriority = displayPriority;
+    }
 }
