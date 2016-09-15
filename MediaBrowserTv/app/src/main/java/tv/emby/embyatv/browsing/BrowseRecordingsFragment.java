@@ -49,46 +49,46 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
         recordings.setLimit(40);
         mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_recent_recordings), recordings, 40));
 
-        //Movies
-        RecordingQuery movies = new RecordingQuery();
-        movies.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
-        movies.setUserId(TvApp.getApplication().getCurrentUser().getId());
-        movies.setEnableImages(true);
-        //movies.setIsMovie(true);
-        BrowseRowDef moviesDef = new BrowseRowDef(mActivity.getString(R.string.lbl_movies), movies, 60);
-
-        //Shows
-        RecordingQuery shows = new RecordingQuery();
-        shows.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
-        shows.setUserId(TvApp.getApplication().getCurrentUser().getId());
-        shows.setEnableImages(true);
-        //shows.setIsSeries(true);
-        BrowseRowDef showsDef = new BrowseRowDef(mActivity.getString(R.string.lbl_tv_series), shows, 60);
-
-        //Insert order based on pref
-        if (mApplication.getDisplayPriority() == DisplayPriorityType.Movies) {
-            mRows.add(moviesDef);
-            mRows.add(showsDef);
-        } else {
-            mRows.add(showsDef);
-            mRows.add(moviesDef);
-        }
-
-        //Sports
-        RecordingQuery sports = new RecordingQuery();
-        sports.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
-        sports.setUserId(TvApp.getApplication().getCurrentUser().getId());
-        sports.setEnableImages(true);
-        //sports.setIsSports(true);
-        mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_sports), sports, 60));
-
-        //Kids
-        RecordingQuery kids = new RecordingQuery();
-        kids.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
-        kids.setUserId(TvApp.getApplication().getCurrentUser().getId());
-        kids.setEnableImages(true);
-        //kids.setIsKids(true);
-        mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_kids), kids, 60));
+//        //Movies
+//        RecordingQuery movies = new RecordingQuery();
+//        movies.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+//        movies.setUserId(TvApp.getApplication().getCurrentUser().getId());
+//        movies.setEnableImages(true);
+//        //movies.setIsMovie(true);
+//        BrowseRowDef moviesDef = new BrowseRowDef(mActivity.getString(R.string.lbl_movies), movies, 60);
+//
+//        //Shows
+//        RecordingQuery shows = new RecordingQuery();
+//        shows.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+//        shows.setUserId(TvApp.getApplication().getCurrentUser().getId());
+//        shows.setEnableImages(true);
+//        //shows.setIsSeries(true);
+//        BrowseRowDef showsDef = new BrowseRowDef(mActivity.getString(R.string.lbl_tv_series), shows, 60);
+//
+//        //Insert order based on pref
+//        if (mApplication.getDisplayPriority() == DisplayPriorityType.Movies) {
+//            mRows.add(moviesDef);
+//            mRows.add(showsDef);
+//        } else {
+//            mRows.add(showsDef);
+//            mRows.add(moviesDef);
+//        }
+//
+//        //Sports
+//        RecordingQuery sports = new RecordingQuery();
+//        sports.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+//        sports.setUserId(TvApp.getApplication().getCurrentUser().getId());
+//        sports.setEnableImages(true);
+//        //sports.setIsSports(true);
+//        mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_sports), sports, 60));
+//
+//        //Kids
+//        RecordingQuery kids = new RecordingQuery();
+//        kids.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+//        kids.setUserId(TvApp.getApplication().getCurrentUser().getId());
+//        kids.setEnableImages(true);
+//        //kids.setIsKids(true);
+//        mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_kids), kids, 60));
 
         //All Recordings by group - will only be there for non-internal TV
         RecordingGroupQuery recordingGroups = new RecordingGroupQuery();
