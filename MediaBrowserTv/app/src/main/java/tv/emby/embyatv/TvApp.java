@@ -521,6 +521,10 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
                 isValid() ? "Registered" : "Expired";
     }
 
+    public boolean canManageRecordings() {
+        return currentUser != null && currentUser.getPolicy().getEnableLiveTvManagement() && isRegistered();
+    }
+
     public PlaybackManager getPlaybackManager() {
         return playbackManager;
     }
