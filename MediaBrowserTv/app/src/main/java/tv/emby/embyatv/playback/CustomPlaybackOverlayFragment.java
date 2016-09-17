@@ -1365,7 +1365,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }));
 
             // record button
-            if (item.getCurrentProgram() != null) {
+            if (item.getCurrentProgram() != null && mApplication.canManageRecordings()) {
                 mButtonRow.addView(new ImageButton(mActivity, item.getCurrentProgram().getTimerId() != null ? R.drawable.rec : R.drawable.recwhite, mButtonSize, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

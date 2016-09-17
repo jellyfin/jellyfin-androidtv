@@ -758,7 +758,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             mDetailsOverviewRow.addAction(trailer);
         }
 
-        if (mProgramInfo != null) {
+        if (mProgramInfo != null && mApplication.canManageRecordings()) {
             if (Utils.convertToLocalDate(mBaseItem.getEndDate()).getTime() > System.currentTimeMillis()) {
                 //Record button
                 mRecordButton = new ImageButton(this, mProgramInfo.getTimerId() != null ? R.drawable.rec : R.drawable.recwhite, buttonSize, getString(R.string.lbl_record), null, new View.OnClickListener() {
