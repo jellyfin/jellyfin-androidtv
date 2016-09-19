@@ -67,6 +67,11 @@ public class TvManager {
         allChannels = null;
     }
 
+    public static void clearCache() {
+        forceReload = true;
+        allChannels = null;
+    }
+
     public static void forceReload() {
         forceReload = true;
     }
