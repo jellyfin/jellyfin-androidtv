@@ -37,6 +37,7 @@ import mediabrowser.model.net.EndPointInfo;
 import mediabrowser.model.registration.RegistrationInfo;
 import mediabrowser.model.system.SystemInfo;
 import tv.emby.embyatv.base.BaseActivity;
+import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.model.DisplayPriorityType;
 import tv.emby.embyatv.playback.ExternalPlayerActivity;
 import tv.emby.embyatv.playback.MediaManager;
@@ -176,6 +177,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     public void setCurrentUser(UserDto currentUser) {
         this.currentUser = currentUser;
+        TvManager.clearCache();
     }
 
     public GsonJsonSerializer getSerializer() {
