@@ -17,8 +17,8 @@
     <color name="default_background">#3d3d3d</color>
     <color name="settings_background">#d04c4c4c</color>
     <color name="semi_trans_dark">#49000000</color>
-    <color name="gray_gradient_start">#ff7c7c7c</color>
-    <color name="gray_gradient_end">#ffbebebe</color>
+    <color name="gray_gradient_start">#1d1d1d</color>
+    <color name="gray_gradient_end">#333333</color>
     <color name="green_gradient_start">#057c1f</color>
     <color name="green_gradient_end">#0c8f06</color>
     <color name="red_gradient_start">#7c0b09</color>
@@ -30,11 +30,11 @@
     <color name="btn_focused_start">#c308720b</color>
     <color name="btn_focused_end">#c309500c</color>
     <color name="btn_focused_blue_start">#c30b6497</color>
-    <color name="btn_focused_blue_end">#c30e577c</color>
+    <color name="btn_focused_blue_end">#c3082c3e</color>
 
     <color name="guide_movie_bg">#32053a05</color>
     <color name="guide_sports_bg">#3228108e</color>
-    <color name="guide_news_bg">#1e05678e</color>
+    <color name="guide_news_bg">#0d8abacc</color>
     <color name="guide_kids_bg">#328e7e02</color>
 
     <color name="black_transparent">#97000000</color>
@@ -48,4 +48,6 @@
     <color name="halloween_end">#643c00</color>
     <color name="holiday_start">#8d001b</color>
     <color name="holiday_end">#640001</color>
+    <color name="dark_green_gradient_start" >#c306610a</color>
+    <color name="dark_green_gradient_end" >#c3064d07</color>
 </resources>
