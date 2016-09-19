@@ -12,8 +12,10 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:maxLines="1"
-        android:layout_margin="5sp"
-        android:textSize="14sp" />
+        android:textSize="18sp"
+        android:layout_marginLeft="5sp"
+        android:layout_marginTop="2sp"
+        android:layout_marginBottom="2sp" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -24,7 +26,8 @@
         android:layout_marginLeft="5sp"
         android:layout_marginBottom="5sp"
         android:layout_marginRight="5sp"
-        android:id="@+id/infoRow"></LinearLayout>
+        android:id="@+id/infoRow"
+        android:layout_marginTop="2sp"></LinearLayout>
 
     <ImageView
         android:layout_width="wrap_content"
@@ -35,5 +38,6 @@
         android:layout_toRightOf="@+id/infoRow"
         android:layout_alignBottom="@+id/infoRow"
         android:layout_alignTop="@+id/infoRow"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitCenter"
+        android:layout_marginTop="2sp" />
 </RelativeLayout>

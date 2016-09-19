@@ -317,6 +317,11 @@ public class InfoLayoutHelper {
 
             addSpacer(activity, layout, "  ");
         }
+        if (Utils.isTrue(item.getHasSubtitles())) {
+            addBlockText(activity, layout, "CC");
+            addSpacer(activity, layout, "  ");
+
+        }
     }
 
     private static void addSeriesStatus(Activity activity, BaseItemDto item, LinearLayout layout) {
@@ -348,7 +353,7 @@ public class InfoLayoutHelper {
     }
 
     public static void addBlockText(Activity activity, LinearLayout layout, String text, int size) {
-        addBlockText(activity, layout, text, size, Color.DKGRAY, R.drawable.gray_gradient);
+        addBlockText(activity, layout, text, size, Color.GRAY, R.drawable.gray_gradient);
     }
 
     public static void addBlockText(Activity activity, LinearLayout layout, String text, int size, int textColor, int backgroundRes) {

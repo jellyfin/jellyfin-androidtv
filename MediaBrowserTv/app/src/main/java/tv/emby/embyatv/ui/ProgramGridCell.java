@@ -2,6 +2,7 @@ package tv.emby.embyatv.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,7 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
         this.addView(v);
 
         mProgramName = (TextView) findViewById(R.id.programName);
+        mProgramName.setTypeface(TvApp.getApplication().getDefaultFont());
         mInfoRow = (LinearLayout) findViewById(R.id.infoRow);
         mProgramName.setText(program.getName());
         mProgram = program;
@@ -67,12 +69,20 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
         setBackgroundColor(mBackgroundColor);
 
         if (program.getStartDate() != null && program.getEndDate() != null) {
-            TextView time = new TextView(context);
             Date localStart = Utils.convertToLocalDate(program.getStartDate());
-            if (localStart.getTime() + 60000 < activity.getCurrentLocalStartDate()) mProgramName.setText("<< "+mProgramName.getText());
-            time.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(program.getStartDate()))
-                    + "-" + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(program.getEndDate())));
-            mInfoRow.addView(time);
+            if (localStart.getTime() + 60000 < activity.getCurrentLocalStartDate()) {
+                mProgramName.setText("<< "+mProgramName.getText());
+                TextView time = new TextView(context);
+                time.setTypeface(TvApp.getApplication().getDefaultFont());
+                time.setTextSize(12);
+                time.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(program.getStartDate())));
+                mInfoRow.addView(time);
+            }
+        }
+
+        if (Utils.isTrue(program.getIsSeries()) && !Utils.isTrue(program.getIsNews()) && !Utils.isTrue(program.getIsRepeat())) {
+            InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
+            InfoLayoutHelper.addBlockText(context, mInfoRow, TvApp.getApplication().getString(R.string.lbl_new), 10, Color.GRAY, R.drawable.dark_green_gradient);
         }
 
         if (program.getOfficialRating() != null && !program.getOfficialRating().equals("0")) {
@@ -105,7 +115,7 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
 
         if (gainFocus) {
-            setBackgroundColor(getResources().getColor(R.color.lb_default_brand_color));
+            setBackgroundColor(getResources().getColor(R.color.btn_focused_blue_end));
             mActivity.setSelectedProgram(this);
         } else {
             setBackgroundColor(mBackgroundColor);
