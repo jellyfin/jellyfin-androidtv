@@ -174,11 +174,11 @@ public class InfoLayoutHelper {
             addBlockText(activity, layout, TvApp.getApplication().getString(R.string.lbl_new), 12, Color.GRAY, R.drawable.dark_green_gradient);
             addSpacer(activity, layout, "  ");
         } else if (Utils.isTrue(item.getIsSeries()) && !Utils.isTrue(item.getIsNews())) {
-            addBlockText(activity, layout, TvApp.getApplication().getString(R.string.lbl_repeat), 12, Color.GRAY, R.drawable.btn_focus_blue);
+            addBlockText(activity, layout, TvApp.getApplication().getString(R.string.lbl_repeat), 12, Color.GRAY, R.color.lb_default_brand_color);
             addSpacer(activity, layout, "  ");
         }
         if (Utils.isTrue(item.getIsLive())) {
-            addBlockText(activity, layout, TvApp.getApplication().getString(R.string.lbl_live), 12, Color.GRAY, R.drawable.btn_non_focus_blue);
+            addBlockText(activity, layout, TvApp.getApplication().getString(R.string.lbl_live), 12, Color.GRAY, R.color.lb_default_brand_color);
             addSpacer(activity, layout, "  ");
 
         }
@@ -365,7 +365,7 @@ public class InfoLayoutHelper {
     }
 
     public static void addBlockText(Activity activity, LinearLayout layout, String text, int size) {
-        addBlockText(activity, layout, text, size, Color.GRAY, R.drawable.gray_gradient);
+        addBlockText(activity, layout, text, size, Color.BLACK, R.drawable.gray_gradient);
     }
 
     public static void addBlockText(Activity activity, LinearLayout layout, String text, int size, int textColor, int backgroundRes) {
