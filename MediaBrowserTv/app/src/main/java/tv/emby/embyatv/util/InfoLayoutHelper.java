@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.SeriesStatus;
@@ -170,6 +169,19 @@ public class InfoLayoutHelper {
         name.setTextSize(textSize);
         name.setText(Utils.GetProgramSubText(item)+"  ");
         layout.addView(name);
+
+        if (Utils.isNew(item)) {
+            addBlockText(activity, layout, TvApp.getApplication().getString(R.string.lbl_new), 12, Color.GRAY, R.drawable.dark_green_gradient);
+            addSpacer(activity, layout, "  ");
+        } else if (Utils.isTrue(item.getIsSeries()) && !Utils.isTrue(item.getIsNews())) {
+            addBlockText(activity, layout, TvApp.getApplication().getString(R.string.lbl_repeat), 12, Color.GRAY, R.drawable.btn_focus_blue);
+            addSpacer(activity, layout, "  ");
+        }
+        if (Utils.isTrue(item.getIsLive())) {
+            addBlockText(activity, layout, TvApp.getApplication().getString(R.string.lbl_live), 12, Color.GRAY, R.drawable.btn_non_focus_blue);
+            addSpacer(activity, layout, "  ");
+
+        }
     }
 
     private static void addSubText(Activity activity, BaseRowItem item, LinearLayout layout) {

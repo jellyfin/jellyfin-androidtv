@@ -362,6 +362,7 @@
     <string name="lbl_all_recordings">All Recordings</string>
     <string name="lbl_repeat">Repeat</string>
     <string name="lbl_new">New</string>
+    <string name="lbl_live">Live</string>
 
 
 </resources>

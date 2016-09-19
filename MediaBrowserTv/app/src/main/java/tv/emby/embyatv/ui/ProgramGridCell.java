@@ -17,7 +17,6 @@ import mediabrowser.model.dto.BaseItemDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.livetv.ILiveTvGuide;
-import tv.emby.embyatv.livetv.LiveTvGuideActivity;
 import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.Utils;
 
@@ -80,7 +79,7 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
             }
         }
 
-        if (Utils.isTrue(program.getIsSeries()) && !Utils.isTrue(program.getIsNews()) && !Utils.isTrue(program.getIsRepeat())) {
+        if (Utils.isNew(program)) {
             InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
             InfoLayoutHelper.addBlockText(context, mInfoRow, TvApp.getApplication().getString(R.string.lbl_new), 10, Color.GRAY, R.drawable.dark_green_gradient);
         }
