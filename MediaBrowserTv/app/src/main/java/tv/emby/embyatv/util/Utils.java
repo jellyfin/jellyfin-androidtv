@@ -1165,6 +1165,10 @@ public class Utils {
 
     }
 
+    public static boolean isNew(BaseItemDto program) {
+        return isTrue(program.getIsSeries()) && !isTrue(program.getIsNews()) && !isTrue(program.getIsRepeat());
+    }
+
     public static boolean isTrue(Boolean value) {
         return value != null && value;
     }
