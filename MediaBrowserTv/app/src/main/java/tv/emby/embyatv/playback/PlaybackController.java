@@ -842,7 +842,7 @@ public class PlaybackController {
     }
 
     public void skip(int msec) {
-        if (isPlaying()) {
+        if (isPlaying() && spinnerOff && mVideoManager.getCurrentPosition() > 0) { //guard against skipping before playback has truly begun
             mHandler.removeCallbacks(skipRunnable);
             stopReportLoop();
             updateProgress = false; // turn this off so we can show where it will be jumping to
