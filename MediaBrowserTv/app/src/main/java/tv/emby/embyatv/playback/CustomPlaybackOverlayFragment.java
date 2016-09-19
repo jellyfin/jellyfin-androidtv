@@ -139,7 +139,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     TextView mSubtitleText;
 
     //Live guide items
-    public static final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(TvApp.getApplication(),6);
+    public static final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(TvApp.getApplication(),7);
     public static final int PAGE_SIZE = 75;
     RelativeLayout mTvGuide;
     private TextView mDisplayDate;

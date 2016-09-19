@@ -57,7 +57,7 @@ import tv.emby.embyatv.util.Utils;
 public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
     public static final int ROW_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(),55);
-    public static final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(TvApp.getApplication(),6);
+    public static final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(TvApp.getApplication(),7);
     private static final int IMAGE_SIZE = Utils.convertDpToPixel(TvApp.getApplication(), 150);
     public static final int PAGEBUTTON_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 20);
     public static final int PAGEBUTTON_WIDTH = 120 * PIXELS_PER_MINUTE;
