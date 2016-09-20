@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.v17.leanback.widget.BaseCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v7.graphics.Palette;
 import android.view.View;
@@ -132,6 +133,8 @@ public class CardPresenter extends Presenter {
                                     break;
                             }
                             showProgress = true;
+                            //Always show info for episodes
+                            mCardView.setCardType(BaseCardView.CARD_TYPE_INFO_UNDER);
                             break;
                         case "CollectionFolder":
                         case "Folder":
@@ -217,6 +220,8 @@ public class CardPresenter extends Presenter {
                     }
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tv);
+                    //Always show info for programs
+                    mCardView.setCardType(BaseCardView.CARD_TYPE_INFO_UNDER);
                     break;
 
                 case LiveTvRecording:
