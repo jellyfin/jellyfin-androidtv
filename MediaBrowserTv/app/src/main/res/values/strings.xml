@@ -363,6 +363,7 @@
     <string name="lbl_repeat">Repeat</string>
     <string name="lbl_new">New</string>
     <string name="lbl_live">Live</string>
+    <string name="lbl_schedule">Schedule</string>
 
 
 </resources>

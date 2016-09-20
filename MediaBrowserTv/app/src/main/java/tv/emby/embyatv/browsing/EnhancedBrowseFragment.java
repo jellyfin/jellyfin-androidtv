@@ -85,6 +85,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     protected static final int ALBUMS = 7;
     protected static final int ARTISTS = 8;
     public static final int FAVSONGS = 9;
+    protected static final int SCHEDULE = 10;
+    protected static final int SERIES = 11;
     protected BaseItemDto mFolder;
     protected String itemTypeString;
     protected boolean showViews = true;
@@ -490,6 +492,11 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         getActivity().startActivity(favIntent);
                         break;
 
+                    case SCHEDULE:
+                        Intent schedIntent = new Intent(getActivity(), BrowseScheduleActivity.class);
+                        getActivity().startActivity(schedIntent);
+                        break;
+
                     default:
                         Toast.makeText(getActivity(), item.toString() + mApplication.getString(R.string.msg_not_implemented), Toast.LENGTH_SHORT)
                                 .show();
@@ -520,7 +527,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             }
 
             if (!(item instanceof BaseRowItem)) {
-                mTitle.setText(mFolder.getName());
+                mTitle.setText(mFolder != null ? mFolder.getName() : "");
                 mInfoRow.removeAllViews();
                 mSummary.setText("");
                 //fill in default background

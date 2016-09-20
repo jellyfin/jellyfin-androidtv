@@ -2,6 +2,7 @@ package tv.emby.embyatv.browsing;
 
 import android.os.Handler;
 import android.support.v17.leanback.app.BrowseFragment;
+import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
@@ -24,6 +25,8 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.DisplayPriorityType;
+import tv.emby.embyatv.presentation.GridButtonPresenter;
+import tv.emby.embyatv.ui.GridButton;
 import tv.emby.embyatv.util.Utils;
 
 /**
@@ -40,6 +43,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
     @Override
     protected void setupQueries(final IRowLoader rowLoader) {
 
+        showViews = true;
         mTitle.setText(TvApp.getApplication().getResources().getString(R.string.lbl_loading_elipses));
         //Latest Recordings
         RecordingQuery recordings = new RecordingQuery();
@@ -147,6 +151,17 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                     }
 
         });
+
+    }
+
+    @Override
+    protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
+        HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_views));
+
+        GridButtonPresenter mGridPresenter = new GridButtonPresenter();
+        ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
+        gridRowAdapter.add(new GridButton(SCHEDULE, TvApp.getApplication().getString(R.string.lbl_schedule), R.drawable.clock));
+        rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
 
     }
 }

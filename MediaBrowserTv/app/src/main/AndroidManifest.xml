@@ -68,6 +68,7 @@
         <activity android:name=".livetv.LiveTvGuideActivity" />
         <activity android:name=".browsing.GenericGridActivity" />
         <activity android:name=".browsing.BrowseRecordingsActivity" />
+        <activity android:name=".browsing.BrowseScheduleActivity" />
         <activity android:name=".validation.UnlockActivity" />
         <activity android:name=".details.PhotoPlayerActivity" />
         <activity android:name=".details.ItemListActivity" />
