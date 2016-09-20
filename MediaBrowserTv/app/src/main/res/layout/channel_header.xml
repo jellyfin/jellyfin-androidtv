@@ -11,9 +11,9 @@
         android:id="@+id/channelName"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_margin="3sp"
+        android:layout_margin="2sp"
         android:maxLines="1"
-        android:textSize="14sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:layout_width="100sp"
