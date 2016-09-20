@@ -160,12 +160,13 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginLeft="@dimen/lb_basic_card_info_text_margin"
+                android:layout_marginEnd="15dp"
                 android:layout_marginBottom="@dimen/lb_basic_card_info_text_margin"
                 android:maxLines="1"
                 android:fontFamily="sans-serif-condensed"
                 android:textColor="@color/lb_basic_card_content_text_color"
                 android:textSize="@dimen/lb_basic_card_content_text_size"
-                android:ellipsize="none" />
+                android:ellipsize="end" />
             <ImageView
                 android:id="@+id/extra_badge"
                 android:layout_width="@dimen/lb_basic_card_info_badge_size"

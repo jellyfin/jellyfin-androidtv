@@ -344,7 +344,7 @@ public class BaseRowItem {
             case LiveTvChannel:
                 return channelInfo.getNumber();
             case LiveTvProgram:
-                return Utils.GetProgramSubText(baseItem);
+                return baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : baseItem.getChannelName();
             case LiveTvRecording:
                 return (baseItem.getChannelName() != null ? baseItem.getChannelName() + " - " : "") + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
                         new SimpleDateFormat("d MMM").format(Utils.convertToLocalDate(baseItem.getStartDate())) + " " +
@@ -494,6 +494,8 @@ public class BaseRowItem {
             case BaseItem:
                 if (baseItem.getType().equals("Movie") && baseItem.getCriticRating() != null) {
                     return baseItem.getCriticRating() > 59 ? TvApp.getApplication().getDrawableCompat(R.drawable.fresh) : TvApp.getApplication().getDrawableCompat(R.drawable.rotten);
+                } else if (baseItem.getType().equals("Program") && baseItem.getTimerId() != null) {
+                    return baseItem.getSeriesTimerId() != null ? TvApp.getApplication().getDrawableCompat(R.drawable.recseries) : TvApp.getApplication().getDrawableCompat(R.drawable.rec);
                 }
                 break;
             case Person:
@@ -505,6 +507,10 @@ public class BaseRowItem {
                     return TvApp.getApplication().getDrawableCompat(R.drawable.lock);
                 }
                 break;
+            case LiveTvProgram:
+                if (baseItem.getTimerId() != null) {
+                    return baseItem.getSeriesTimerId() != null ? TvApp.getApplication().getDrawableCompat(R.drawable.recseries) : TvApp.getApplication().getDrawableCompat(R.drawable.rec);
+                }
             case Chapter:
                 break;
         }
