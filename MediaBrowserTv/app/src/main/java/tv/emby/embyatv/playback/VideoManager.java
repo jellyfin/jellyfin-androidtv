@@ -226,6 +226,7 @@ public class VideoManager implements IVLCVout.Callback {
     public long seekTo(long pos) {
         if (nativeMode) {
             Long intPos = pos;
+            TvApp.getApplication().getLogger().Info("Exo length in seek is: " + mVideoView.getDuration());
             mVideoView.seekTo(intPos.intValue());
             return pos;
         } else {
