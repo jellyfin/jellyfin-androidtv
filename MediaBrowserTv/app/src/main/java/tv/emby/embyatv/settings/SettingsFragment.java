@@ -146,13 +146,15 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 // enable other live tv direct only options
                 Preference live = findPreference("pref_enable_vlc_livetv");
                 if (live != null) live.setEnabled(cb.isChecked());
-                Preference shift = findPreference("pref_live_shift");
-                if (shift != null) shift.setEnabled(!cb.isChecked());
-            } else if (cb.getKey().equals("pref_live_shift")) {
-                // enable/disable related options
-                Preference direct = findPreference("pref_live_direct");
-                if (direct != null) direct.setEnabled(!cb.isChecked());
-            } else if (cb.getKey().equals("pref_video_use_external")) {
+//                Preference shift = findPreference("pref_live_shift");
+//                if (shift != null) shift.setEnabled(!cb.isChecked());
+            } else
+//            if (cb.getKey().equals("pref_live_shift")) {
+//                // enable/disable related options
+//                Preference direct = findPreference("pref_live_direct");
+//                if (direct != null) direct.setEnabled(!cb.isChecked());
+//            } else
+            if (cb.getKey().equals("pref_video_use_external")) {
                 // enable/disable other related items
                 Preference direct = findPreference("pref_send_path_external");
                 if (direct != null) direct.setEnabled(cb.isChecked());

@@ -129,7 +129,7 @@ public class PlaybackController {
     }
     public MediaSourceInfo getCurrentMediaSource() { return mCurrentStreamInfo != null && mCurrentStreamInfo.getMediaSource() != null ? mCurrentStreamInfo.getMediaSource() : getCurrentlyPlayingItem().getMediaSources().get(0);}
     public StreamInfo getCurrentStreamInfo() { return mCurrentStreamInfo; }
-    public boolean canSeek() {return !isLiveTv || !mApplication.directStreamLiveTv();}
+    public boolean canSeek() {return !isLiveTv;}
     public boolean isLiveTv() { return isLiveTv; }
     public int getSubtitleStreamIndex() {return (mCurrentOptions != null && mCurrentOptions.getSubtitleStreamIndex() != null) ? mCurrentOptions.getSubtitleStreamIndex() : -1; }
     public Integer getAudioStreamIndex() {
@@ -1059,10 +1059,10 @@ public class PlaybackController {
                 if (mPlaybackState == PlaybackState.BUFFERING) {
                     mPlaybackState = PlaybackState.PLAYING;
                     mFragment.updateEndTime(isLiveTv && getCurrentlyPlayingItem().getEndDate() != null ? Utils.convertToLocalDate(getCurrentlyPlayingItem().getEndDate()).getTime() - System.currentTimeMillis() : mVideoManager.getDuration() - mStartPosition);
-                    mCurrentTranscodeStartTime = System.currentTimeMillis();
+                    mCurrentTranscodeStartTime = mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode ? System.currentTimeMillis() : 0;
                     startReportLoop();
                 }
-                TvApp.getApplication().getLogger().Info("Play method: ", mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode ? "Trans" : "Direct");
+                TvApp.getApplication().getLogger().Info("Play method: %s", mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode ? "Trans" : "Direct");
 
                 if (mPlaybackState == PlaybackState.PAUSED) {
                     mPlaybackState = PlaybackState.PLAYING;
@@ -1114,13 +1114,13 @@ public class PlaybackController {
                     }
                     if (continueUpdate) {
                         mApplication.setLastUserInteraction(System.currentTimeMillis()); // don't want to auto logoff during playback
-                        if (isLiveTv && mCurrentProgramEndTime > 0 && getTimeShiftedProgress() >= mCurrentProgramEndTime) {
+                        if (isLiveTv && mCurrentProgramEndTime > 0 && System.currentTimeMillis() >= mCurrentProgramEndTime) {
                             // crossed fire off an async routine to update the program info
                             updateTvProgramInfo();
                         }
-                        final Long currentTime = isLiveTv && mCurrentProgramStartTime > 0 ? getTimeShiftedProgress() : mVideoManager.getCurrentPosition();
+                        final Long currentTime = isLiveTv && mCurrentProgramStartTime > 0 ? getRealTimeProgress() : mVideoManager.getCurrentPosition();
                         mFragment.setCurrentTime(currentTime);
-                        if (isLiveTv && !directStreamLiveTv) mFragment.setSecondaryTime(getRealTimeProgress());
+                        //if (isLiveTv && !directStreamLiveTv) mFragment.setSecondaryTime(getRealTimeProgress());
                         mCurrentPosition = currentTime;
                         mFragment.updateSubtitles(currentTime);
                     }

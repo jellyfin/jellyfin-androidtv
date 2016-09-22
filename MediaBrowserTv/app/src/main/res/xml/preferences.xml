@@ -128,10 +128,10 @@
             android:defaultValue="false"
             android:summary="Requires a capable app to play live streams"
             />
-        <CheckBoxPreference android:key="pref_live_shift"
-            android:title="@string/lbl_time_shift_live"
-            android:defaultValue="true"
-            />
+        <!--<CheckBoxPreference android:key="pref_live_shift"-->
+            <!--android:title="@string/lbl_time_shift_live"-->
+            <!--android:defaultValue="true"-->
+            <!--/>-->
         <CheckBoxPreference android:key="pref_live_direct"
             android:title="@string/lbl_direct_stream_live"
             android:defaultValue="false"
