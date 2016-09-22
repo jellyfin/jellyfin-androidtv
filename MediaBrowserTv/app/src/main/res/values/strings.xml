@@ -364,6 +364,7 @@
     <string name="lbl_new">New</string>
     <string name="lbl_live">Live</string>
     <string name="lbl_schedule">Schedule</string>
+    <string name="lbl_time_shift_live">Enable Live TV Time Shifting</string>
 
 
 </resources>
