@@ -685,11 +685,14 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     return true;
                 }
 
-                if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && !mIsVisible) {
-                    if (mPlaybackController.isLiveTv())
-                        showChapterPanel();
-                    else
-                        mPlaybackController.pause();
+                if (keyCode == KeyEvent.KEYCODE_DPAD_UP && !mIsVisible && mPlaybackController.isLiveTv()) {
+                    showChapterPanel();
+                    return true;
+                }
+
+                if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && !mIsVisible && mPlaybackController.canSeek()) {
+                    mPlaybackController.pause();
+                    return true;
                 }
 
                 //if we're not visible, show us
@@ -1734,6 +1737,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             mCurrentPos.setText(Utils.formatMillis(time));
             mRemainingTime.setText(mCurrentDuration > 0 ? "-" + Utils.formatMillis(mCurrentDuration - time) : "");
         }
+    }
+
+    @Override
+    public void setSecondaryTime(long time) {
+        mCurrentProgress.setSecondaryProgress(((Long)time).intValue());
     }
 
     @Override
