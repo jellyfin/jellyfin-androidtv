@@ -70,6 +70,12 @@ public class StartupActivity extends Activity {
             application.getPrefs().edit().putBoolean("pref_enable_info_panel", false).apply();
             application.getSystemPrefs().edit().putString("sys_pref_config_version", "4").apply();
         }
+        if (Integer.parseInt(application.getConfigVersion()) < 5) {
+            application.getPrefs().edit().putBoolean("pref_live_shift", true).apply();
+            application.getPrefs().edit().putBoolean("pref_live_direct", false).apply();
+            application.getSystemPrefs().edit().putString("sys_pref_config_version", "5").apply();
+        }
+
 
         //Ensure we have prefs
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);

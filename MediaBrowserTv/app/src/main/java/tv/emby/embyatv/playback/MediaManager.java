@@ -555,7 +555,7 @@ public class MediaManager {
         options.setItemId(item.getId());
         options.setMaxBitrate(TvApp.getApplication().getAutoBitrate());
         options.setMediaSources(item.getMediaSources());
-        DeviceProfile profile = ProfileHelper.getBaseProfile();
+        DeviceProfile profile = ProfileHelper.getBaseProfile(false);
         if (Utils.is60()) {
             ProfileHelper.setExoOptions(profile, false, true);
         } else {

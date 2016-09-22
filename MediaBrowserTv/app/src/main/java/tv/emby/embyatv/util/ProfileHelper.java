@@ -24,7 +24,7 @@ import tv.emby.embyatv.TvApp;
 public class ProfileHelper {
     private static MediaCodecCapabilitiesTest MediaTest = new MediaCodecCapabilitiesTest();
 
-    public static DeviceProfile getBaseProfile() {
+    public static DeviceProfile getBaseProfile(boolean isLiveTv) {
         DeviceProfile profile = new DeviceProfile();
 
         profile.setName("Android");
@@ -33,14 +33,26 @@ public class ProfileHelper {
 
         List<TranscodingProfile> transcodingProfiles = new ArrayList<>();
 
-        TranscodingProfile mkvProfile = new TranscodingProfile();
-        mkvProfile.setContainer("mkv");
-        mkvProfile.setVideoCodec("h264");
-        mkvProfile.setAudioCodec("aac,mp3");
-        mkvProfile.setType(DlnaProfileType.Video);
-        mkvProfile.setContext(EncodingContext.Streaming);
-        mkvProfile.setCopyTimestamps(true);
-        transcodingProfiles.add(mkvProfile);
+        TranscodingProfile transProfile = new TranscodingProfile();
+        if (isLiveTv) {
+            transProfile.setContainer("ts");
+            transProfile.setVideoCodec("h264");
+            transProfile.setAudioCodec("aac,mp3");
+            transProfile.setType(DlnaProfileType.Video);
+            transProfile.setContext(EncodingContext.Streaming);
+            transProfile.setProtocol("hls");
+
+        } else {
+            transProfile.setContainer("mkv");
+            transProfile.setVideoCodec("h264");
+            transProfile.setAudioCodec("aac,mp3");
+            transProfile.setType(DlnaProfileType.Video);
+            transProfile.setContext(EncodingContext.Streaming);
+            transProfile.setCopyTimestamps(true);
+
+        }
+
+        transcodingProfiles.add(transProfile);
 
         TranscodingProfile tempVar = new TranscodingProfile();
         tempVar.setContainer("mp3");
@@ -119,20 +131,23 @@ public class ProfileHelper {
     public static void setVlcOptions(DeviceProfile profile, boolean isLiveTv) {
 
         profile.setName("Android-VLC");
-        DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
-        videoDirectPlayProfile.setContainer("m4v,3gp,ts,mpegts,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,m2v,avi,mpg,mpeg,mp4,webm,wtv");
-        videoDirectPlayProfile.setAudioCodec("aac,mp3,mp2,ac3,eac3,wma,wmav2,dca,dts,pcm,PCM_S16LE,PCM_S24LE,opus,flac,truehd" + (Utils.downMixAudio() || !isLiveTv ? "" : ",aac_latm"));
-        videoDirectPlayProfile.setType(DlnaProfileType.Video);
+        if (!isLiveTv || TvApp.getApplication().directStreamLiveTv()) {
+            DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
+            videoDirectPlayProfile.setContainer("m4v,3gp,ts,mpegts,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,m2v,avi,mpg,mpeg,mp4,webm,wtv");
+            videoDirectPlayProfile.setAudioCodec("aac,mp3,mp2,ac3,eac3,wma,wmav2,dca,dts,pcm,PCM_S16LE,PCM_S24LE,opus,flac,truehd" + (Utils.downMixAudio() || !isLiveTv ? "" : ",aac_latm"));
+            videoDirectPlayProfile.setType(DlnaProfileType.Video);
 
-        DirectPlayProfile audioDirectPlayProfile = new DirectPlayProfile();
-        audioDirectPlayProfile.setContainer("flac,aac,mp3,mpa,wav,wma,mp2,ogg,oga,webma,ape");
-        audioDirectPlayProfile.setType(DlnaProfileType.Audio);
+            DirectPlayProfile audioDirectPlayProfile = new DirectPlayProfile();
+            audioDirectPlayProfile.setContainer("flac,aac,mp3,mpa,wav,wma,mp2,ogg,oga,webma,ape");
+            audioDirectPlayProfile.setType(DlnaProfileType.Audio);
 
-        DirectPlayProfile photoDirectPlayProfile = new DirectPlayProfile();
-        photoDirectPlayProfile.setContainer("jpg,jpeg,png,gif");
-        photoDirectPlayProfile.setType(DlnaProfileType.Photo);
+            DirectPlayProfile photoDirectPlayProfile = new DirectPlayProfile();
+            photoDirectPlayProfile.setContainer("jpg,jpeg,png,gif");
+            photoDirectPlayProfile.setType(DlnaProfileType.Photo);
 
-        profile.setDirectPlayProfiles(new DirectPlayProfile[]{videoDirectPlayProfile, audioDirectPlayProfile, photoDirectPlayProfile});
+            profile.setDirectPlayProfiles(new DirectPlayProfile[]{videoDirectPlayProfile, audioDirectPlayProfile, photoDirectPlayProfile});
+
+        }
 
         CodecProfile h264MainProfile = new CodecProfile();
         h264MainProfile.setType(CodecType.Video);
