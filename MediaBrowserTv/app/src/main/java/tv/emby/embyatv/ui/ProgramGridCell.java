@@ -95,7 +95,7 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
         }
 
         if (program.getSeriesTimerId() != null) {
-            mRecIndicator.setImageResource(R.drawable.recseries);
+            mRecIndicator.setImageResource(program.getTimerId() != null ? R.drawable.recseries : R.drawable.recserieswhite);
         } else if (program.getTimerId() != null) {
             mRecIndicator.setImageResource(R.drawable.rec);
         }
@@ -132,7 +132,7 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
 
     public void setRecTimer(String id) {
         mProgram.setTimerId(id);
-        mRecIndicator.setImageResource(id != null ? R.drawable.rec : R.drawable.blank10x10);
+        mRecIndicator.setImageResource(id != null ? (mProgram.getSeriesTimerId() != null ? R.drawable.recseries : R.drawable.rec) : mProgram.getSeriesTimerId() != null ? R.drawable.recserieswhite : R.drawable.blank10x10);
     }
     public void setRecSeriesTimer(String id) {
         mProgram.setSeriesTimerId(id);

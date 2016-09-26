@@ -100,6 +100,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private ImageButton mPrevButton;
     private ImageButton mRecordButton;
     private ImageButton mRecSeriesButton;
+    private ImageButton mSeriesSettingsButton;
     private ImageButton mWatchedToggleButton;
 
     private Target mBackgroundTarget;
@@ -313,6 +314,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     public void setRecSeriesTimer(String id) {
         mProgramInfo.setSeriesTimerId(id);
         if (mRecSeriesButton != null) mRecSeriesButton.setImageResource(id == null ? R.drawable.recserieswhite : R.drawable.recseries);
+        if (mSeriesSettingsButton != null) mSeriesSettingsButton.setVisibility(id == null ? View.GONE : View.VISIBLE);
     }
 
     private class BuildDorTask extends AsyncTask<BaseItemDto, Integer, MyDetailsOverviewRow> {
@@ -765,7 +767,40 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     @Override
                     public void onClick(View v) {
                         if (mProgramInfo.getTimerId() == null) {
-                            showRecordingOptions(false);
+                            //Create one-off recording with defaults
+                            mApplication.getApiClient().GetDefaultLiveTvTimerInfo(mProgramInfo.getId(), new Response<SeriesTimerInfoDto>() {
+                                @Override
+                                public void onResponse(SeriesTimerInfoDto response) {
+                                    mApplication.getApiClient().CreateLiveTvTimerAsync(response, new EmptyResponse() {
+                                        @Override
+                                        public void onResponse() {
+                                            // we have to re-retrieve the program to get the timer id
+                                            TvApp.getApplication().getApiClient().GetLiveTvProgramAsync(mProgramInfo.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                                                @Override
+                                                public void onResponse(BaseItemDto response) {
+                                                    mProgramInfo = response;
+                                                    setRecSeriesTimer(response.getSeriesTimerId());
+                                                    setRecTimer(response.getTimerId());
+                                                    Utils.showToast(mActivity, R.string.msg_set_to_record);
+
+                                                }
+                                            });
+                                        }
+
+                                        @Override
+                                        public void onError(Exception ex) {
+                                            mApplication.getLogger().ErrorException("Error creating recording", ex);
+                                            Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onError(Exception exception) {
+                                    mApplication.getLogger().ErrorException("Error creating recording", exception);
+                                    Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
+                                }
+                            });
                         } else {
                             TvApp.getApplication().getApiClient().CancelLiveTvTimerAsync(mProgramInfo.getTimerId(), new EmptyResponse() {
                                 @Override
@@ -793,7 +828,40 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     @Override
                     public void onClick(View v) {
                         if (mProgramInfo.getSeriesTimerId() == null) {
-                            showRecordingOptions(true);
+                            //Create series recording with default options
+                            mApplication.getApiClient().GetDefaultLiveTvTimerInfo(mProgramInfo.getId(), new Response<SeriesTimerInfoDto>() {
+                                @Override
+                                public void onResponse(SeriesTimerInfoDto response) {
+                                    mApplication.getApiClient().CreateLiveTvSeriesTimerAsync(response, new EmptyResponse() {
+                                        @Override
+                                        public void onResponse() {
+                                            // we have to re-retrieve the program to get the timer id
+                                            TvApp.getApplication().getApiClient().GetLiveTvProgramAsync(mProgramInfo.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                                                @Override
+                                                public void onResponse(BaseItemDto response) {
+                                                    mProgramInfo = response;
+                                                    setRecSeriesTimer(response.getSeriesTimerId());
+                                                    setRecTimer(response.getTimerId());
+                                                    Utils.showToast(mActivity, R.string.msg_set_to_record);
+                                                }
+                                            });
+                                        }
+
+                                        @Override
+                                        public void onError(Exception ex) {
+                                            mApplication.getLogger().ErrorException("Error creating recording", ex);
+                                            Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onError(Exception exception) {
+                                    mApplication.getLogger().ErrorException("Error creating recording", exception);
+                                    Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
+                                }
+                            });
+
                         } else {
                             new AlertDialog.Builder(mActivity)
                                     .setTitle(getString(R.string.lbl_cancel_series))
@@ -806,6 +874,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                                 @Override
                                                 public void onResponse() {
                                                     setRecSeriesTimer(null);
+                                                    setRecTimer(null);
                                                     TvApp.getApplication().setLastDeletedItemId(mProgramInfo.getId());
                                                     Utils.showToast(mActivity, R.string.msg_recording_cancelled);
                                                 }
@@ -823,6 +892,17 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 });
 
                 mDetailsOverviewRow.addAction(mRecSeriesButton);
+
+                mSeriesSettingsButton = new ImageButton(this, R.drawable.cog, buttonSize, getString(R.string.lbl_series_settings), null, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showRecordingOptions(true);
+                    }
+                });
+
+                mSeriesSettingsButton.setVisibility(mProgramInfo.getSeriesTimerId() != null ? View.VISIBLE : View.GONE);
+
+                mDetailsOverviewRow.addAction(mSeriesSettingsButton);
             }
         }
 
@@ -948,7 +1028,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             getWindowManager().getDefaultDisplay().getSize(size);
             mRecordPopup = new RecordPopup(this, mTitle, (size.x/2) - (width/2), mTitle.getTop(), width);
         }
-        TvApp.getApplication().getApiClient().GetDefaultLiveTvTimerInfo(mProgramInfo.getId(), new Response<SeriesTimerInfoDto>() {
+        TvApp.getApplication().getApiClient().GetLiveTvSeriesTimerAsync(mProgramInfo.getSeriesTimerId(), new Response<SeriesTimerInfoDto>() {
             @Override
             public void onResponse(SeriesTimerInfoDto response) {
                 if (recordSeries || Utils.isTrue(mProgramInfo.getIsSports())){

@@ -365,6 +365,10 @@
     <string name="lbl_live">Live</string>
     <string name="lbl_schedule">Schedule</string>
     <string name="lbl_time_shift_live">Enable Live TV Time Shifting</string>
+    <string name="lbl_episode_not_record">This showing will NOT record</string>
+    <string name="lbl_series_settings">Series Settings</string>
+    <string name="msg_settings_updated">Settings updated</string>
+    <string name="lbl_save">Save</string>
 
 
 </resources>
