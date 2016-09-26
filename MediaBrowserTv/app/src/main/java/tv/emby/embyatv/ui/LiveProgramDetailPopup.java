@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import java.util.Date;
@@ -48,6 +49,7 @@ public class LiveProgramDetailPopup {
     LinearLayout mDButtonRow;
     LinearLayout mDSimilarRow;
     Button mFirstButton;
+    Button mSeriesSettingsButton;
 
     EmptyResponse mTuneAction;
 
@@ -134,6 +136,7 @@ public class LiveProgramDetailPopup {
                                 @Override
                                 public void onResponse() {
                                     selectedGridView.setRecTimer(null);
+                                    program.setTimerId(null);
                                     dismiss();
                                     Utils.showToast(mActivity, R.string.msg_recording_cancelled);
                                 }
@@ -158,12 +161,45 @@ public class LiveProgramDetailPopup {
                     rec.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            showRecordingOptions(false);
+                            //Create one-off recording with defaults
+                            TvApp.getApplication().getApiClient().GetDefaultLiveTvTimerInfo(mProgram.getId(), new Response<SeriesTimerInfoDto>() {
+                                @Override
+                                public void onResponse(SeriesTimerInfoDto response) {
+                                    TvApp.getApplication().getApiClient().CreateLiveTvTimerAsync(response, new EmptyResponse() {
+                                        @Override
+                                        public void onResponse() {
+                                            // we have to re-retrieve the program to get the timer id
+                                            TvApp.getApplication().getApiClient().GetLiveTvProgramAsync(mProgram.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                                                @Override
+                                                public void onResponse(BaseItemDto response) {
+                                                    mProgram = response;
+                                                    mSelectedProgramView.setRecSeriesTimer(response.getSeriesTimerId());
+                                                    mSelectedProgramView.setRecTimer(response.getTimerId());
+                                                    Utils.showToast(mActivity, R.string.msg_set_to_record);
+                                                    dismiss();
+                                                }
+                                            });
+                                        }
+
+                                        @Override
+                                        public void onError(Exception ex) {
+                                            TvApp.getApplication().getLogger().ErrorException("Error creating recording", ex);
+                                            Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onError(Exception exception) {
+                                    TvApp.getApplication().getLogger().ErrorException("Error creating recording", exception);
+                                    Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
+                                }
+                            });
                         }
                     });
                     mDButtonRow.addView(rec);
                     if (mFirstButton == null) mFirstButton = rec;
-                    mDRecordInfo.setText("");
+                    mDRecordInfo.setText(program.getSeriesTimerId() == null ? "" : mActivity.getString(R.string.lbl_episode_not_record));
                 }
                 if (Utils.isTrue(program.getIsSeries())) {
                     if (program.getSeriesTimerId() != null) {
@@ -186,6 +222,8 @@ public class LiveProgramDetailPopup {
                                                     @Override
                                                     public void onResponse() {
                                                         selectedGridView.setRecSeriesTimer(null);
+                                                        program.setSeriesTimerId(null);
+                                                        mSeriesSettingsButton.setVisibility(View.GONE);
                                                         dismiss();
                                                         Utils.showToast(mActivity, R.string.msg_recording_cancelled);
                                                     }
@@ -209,11 +247,60 @@ public class LiveProgramDetailPopup {
                         rec.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                showRecordingOptions(true);
+                                //Create series recording with defaults
+                                TvApp.getApplication().getApiClient().GetDefaultLiveTvTimerInfo(mProgram.getId(), new Response<SeriesTimerInfoDto>() {
+                                    @Override
+                                    public void onResponse(SeriesTimerInfoDto response) {
+                                        TvApp.getApplication().getApiClient().CreateLiveTvSeriesTimerAsync(response, new EmptyResponse() {
+                                            @Override
+                                            public void onResponse() {
+                                                // we have to re-retrieve the program to get the timer id
+                                                TvApp.getApplication().getApiClient().GetLiveTvProgramAsync(mProgram.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                                                    @Override
+                                                    public void onResponse(BaseItemDto response) {
+                                                        mProgram = response;
+                                                        mSelectedProgramView.setRecSeriesTimer(response.getSeriesTimerId());
+                                                        mSelectedProgramView.setRecTimer(response.getTimerId());
+                                                        if (mSeriesSettingsButton != null) mSeriesSettingsButton.setVisibility(View.VISIBLE);
+                                                        Utils.showToast(mActivity, R.string.msg_set_to_record);
+                                                        dismiss();
+                                                    }
+                                                });
+                                            }
+
+                                            @Override
+                                            public void onError(Exception ex) {
+                                                TvApp.getApplication().getLogger().ErrorException("Error creating recording", ex);
+                                                Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onError(Exception exception) {
+                                        TvApp.getApplication().getLogger().ErrorException("Error creating recording", exception);
+                                        Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
+                                    }
+                                });
                             }
                         });
                         mDButtonRow.addView(rec);
                     }
+
+                    // manage series button
+                    mSeriesSettingsButton = new Button(mActivity);
+                    mSeriesSettingsButton.setText(mActivity.getResources().getString(R.string.lbl_series_settings));
+                    mSeriesSettingsButton.setTextColor(Color.WHITE);
+                    mSeriesSettingsButton.setBackground(mActivity.getResources().getDrawable(R.drawable.emby_button));
+                    mSeriesSettingsButton.setVisibility(mProgram.getSeriesTimerId() != null ? View.VISIBLE : View.GONE);
+                    mSeriesSettingsButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showRecordingOptions(true);
+                        }
+                    });
+
+                    mDButtonRow.addView(mSeriesSettingsButton);
                 }
 
             }
@@ -279,7 +366,7 @@ public class LiveProgramDetailPopup {
 
     public void showRecordingOptions(final boolean recordSeries) {
         if (mRecordPopup == null) mRecordPopup = new RecordPopup(mActivity, mAnchor, mPosLeft, mPosTop, mPopup.getWidth());
-        TvApp.getApplication().getApiClient().GetDefaultLiveTvTimerInfo(mProgram.getId(), new Response<SeriesTimerInfoDto>() {
+        TvApp.getApplication().getApiClient().GetLiveTvSeriesTimerAsync(mProgram.getSeriesTimerId(), new Response<SeriesTimerInfoDto>() {
             @Override
             public void onResponse(SeriesTimerInfoDto response) {
                 mRecordPopup.setContent(mProgram, response, mSelectedProgramView, recordSeries);

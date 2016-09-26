@@ -54,7 +54,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/lbl_record"
+            android:text="@string/lbl_save"
             android:id="@+id/okButton"
             android:background="@drawable/emby_button"
             android:minWidth="90dp"
