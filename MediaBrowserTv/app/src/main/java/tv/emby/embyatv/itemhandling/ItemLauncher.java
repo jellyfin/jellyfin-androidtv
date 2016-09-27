@@ -375,6 +375,17 @@ public class ItemLauncher {
                 }
                 break;
 
+            case SeriesTimer:
+                //Start details fragment for display and playback
+                Intent timerIntent = new Intent(activity, FullDetailsActivity.class);
+                timerIntent.putExtra("ItemId", rowItem.getItemId());
+                timerIntent.putExtra("ItemType", "SeriesTimer");
+                timerIntent.putExtra("SeriesTimer", TvApp.getApplication().getSerializer().SerializeToString(rowItem.getSeriesTimerInfo()));
+
+                activity.startActivity(timerIntent);
+                break;
+
+
             case GridButton:
                 switch (rowItem.getGridButton().getId()) {
                     case TvApp.LIVE_TV_GUIDE_OPTION_ID:
