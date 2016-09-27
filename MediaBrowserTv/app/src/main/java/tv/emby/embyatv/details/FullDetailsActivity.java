@@ -176,6 +176,16 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             @Override
             public void onMessageReceived(CustomMessage message) {
                 if (message == CustomMessage.ActionComplete && mSeriesTimerInfo != null && "SeriesTimer".equals(mBaseItem.getType())) {
+                    //update info
+                    mApplication.getApiClient().GetLiveTvSeriesTimerAsync(mSeriesTimerInfo.getId(), new Response<SeriesTimerInfoDto>() {
+                        @Override
+                        public void onResponse(SeriesTimerInfoDto response) {
+                            mSeriesTimerInfo = response;
+                            mBaseItem.setOverview(Utils.buildOverview(mSeriesTimerInfo));
+                            mDorPresenter.getSummaryView().setText(mBaseItem.getOverview());
+                        }
+                    });
+
                     mRowsAdapter.removeItems(1, mRowsAdapter.size()-1); // delete all but detail row
                     //re-retrieve the schedule after giving it a second to rebuild
                     new Handler().postDelayed(new Runnable() {
@@ -1111,6 +1121,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     public void showRecordingOptions(String id, final BaseItemDto program, final boolean recordSeries) {
         if (mRecordPopup == null) {
             int width = Utils.convertDpToPixel(this, 600);
+            int height = Utils.convertDpToPixel(this, 800);
             Point size = new Point();
             getWindowManager().getDefaultDisplay().getSize(size);
             mRecordPopup = new RecordPopup(this, mTitle, (size.x/2) - (width/2), mTitle.getTop(), width);

@@ -239,6 +239,12 @@ public class Utils {
         return result;
     }
 
+    public static String formatSeconds(int seconds) {
+        return seconds < 60 ? seconds + " " + TvApp.getApplication().getString(R.string.lbl_seconds) :
+                seconds < 360 ? seconds / 60 + " " + TvApp.getApplication().getString(seconds < 120 ? R.string.lbl_minute : R.string.lbl_minutes) :
+                        seconds / 360 + " " + TvApp.getApplication().getString( seconds < 720 ? R.string.lbl_hour : R.string.lbl_hours);
+    }
+
     public static int convertDpToPixel(Context ctx, int dp) {
         float density = ctx.getResources().getDisplayMetrics().density;
         return Math.round((float) dp * density);
@@ -993,7 +999,11 @@ public class Utils {
                 "\n" +
                 timer.getDayPattern() +
                 " " +
-                (isTrue(timer.getRecordAnyTime()) ? TvApp.getApplication().getString(R.string.lbl_at_any_time) : "");
+                (isTrue(timer.getRecordAnyTime()) ? TvApp.getApplication().getString(R.string.lbl_at_any_time) : "") +
+                "\n" +
+                "Starting " + (timer.getPrePaddingSeconds() > 0 ? formatSeconds(timer.getPrePaddingSeconds()) + " Early" : "On Schedule") +
+                " And Ending " + (timer.getPostPaddingSeconds() > 0 ? formatSeconds(timer.getPostPaddingSeconds()) + " After Schedule" : "On Schedule")
+                ;
 
 
     }

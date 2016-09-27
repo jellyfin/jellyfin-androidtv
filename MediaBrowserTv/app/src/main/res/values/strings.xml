@@ -213,9 +213,9 @@
     <string name="lbl_tune_to_channel">Tune to Channel</string>
     <string name="msg_recording_now">Recording Now</string>
     <string name="msg_will_record">Will Record</string>
-    <string name="lbl_begin_padding">Begin Padding (mins)</string>
+    <string name="lbl_begin_padding">Begin Padding</string>
     <string name="lbl_program_ended">Program Ended</string>
-    <string name="lbl_end_padding">End Padding (mins)</string>
+    <string name="lbl_end_padding">End Padding</string>
     <string name="lbl_required_to_record">Required to record</string>
     <string name="lbl_similar_items_library">Similar Items in your Library</string>
     <string name="lbl_record_any_channel">Record on any channel</string>
@@ -373,6 +373,12 @@
     <string name="lbl_any_channel">Any Channel</string>
     <string name="lbl_all_episodes">All Episodes</string>
     <string name="lbl_at_any_time">At Any Time</string>
+    <string name="lbl_seconds">Seconds</string>
+    <string name="lbl_minutes">Minutes</string>
+    <string name="lbl_hour">Hour</string>
+    <string name="lbl_minute">Minute</string>
+    <string name="lbl_hours">Hours</string>
+    <string name="lbl_on_schedule">On Schedule</string>
 
 
 </resources>
