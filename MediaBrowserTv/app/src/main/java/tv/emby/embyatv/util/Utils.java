@@ -989,7 +989,9 @@ public class Utils {
                 " " +
                 (isTrue(timer.getRecordAnyChannel()) ? TvApp.getApplication().getString(R.string.lbl_any_channel) : timer.getChannelName()) +
                 "\n" +
-                timer.getDayPattern();
+                timer.getDayPattern() +
+                " " +
+                (isTrue(timer.getRecordAnyTime()) ? TvApp.getApplication().getString(R.string.lbl_at_any_time) : "");
 
 
     }
