@@ -342,7 +342,7 @@ public class BaseRowItem {
             case SearchHint:
                 return searchHint.getItemId();
             case SeriesTimer:
-                return seriesTimerInfo.getProgramId();
+                return seriesTimerInfo.getId();
         }
 
         return null;

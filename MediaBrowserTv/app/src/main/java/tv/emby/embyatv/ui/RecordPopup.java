@@ -250,6 +250,8 @@ public class RecordPopup {
 
     private void setTimelineRow(LinearLayout timelineRow, BaseItemDto program) {
         timelineRow.removeAllViews();
+        if (program.getStartDate() == null) return;
+
         Date local = Utils.convertToLocalDate(program.getStartDate());
         TextView on = new TextView(mActivity);
         on.setText(mActivity.getString(R.string.lbl_on));

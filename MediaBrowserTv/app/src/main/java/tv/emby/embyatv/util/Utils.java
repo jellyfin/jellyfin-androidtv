@@ -382,6 +382,7 @@ public class Utils {
     }
 
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, boolean showProgress, boolean preferParentThumb, boolean preferSeriesPoster, int maxHeight) {
+        if (item.getType().equals("SeriesTimer")) return "android.resource://tv.emby.embyatv/" + R.drawable.seriestimer;
         ImageOptions options = new ImageOptions();
         String itemId = item.getId();
         String imageTag = item.getImageTags() != null ? item.getImageTags().get(ImageType.Primary) : null;
@@ -787,6 +788,7 @@ public class Utils {
                 && ((item.getIsPlaceHolder() == null || !item.getIsPlaceHolder())
                 && (!item.getType().equals("Episode") || !item.getLocationType().equals(LocationType.Virtual)))
                 && (!item.getType().equals("Person"))
+                && (!item.getType().equals("SeriesTimer"))
                 && (!item.getIsFolder() || item.getChildCount() == null || item.getChildCount() > 0);
     }
 
