@@ -16,6 +16,7 @@ import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.livetv.ChannelInfoDto;
+import mediabrowser.model.livetv.SeriesTimerInfoDto;
 import mediabrowser.model.search.SearchHint;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
@@ -35,6 +36,7 @@ public class BaseRowItem {
     private UserDto user;
     private SearchHint searchHint;
     private ChannelInfoDto channelInfo;
+    private SeriesTimerInfoDto seriesTimerInfo;
     private GridButton gridButton;
     private ItemType type;
     private boolean preferParentThumb = false;
@@ -74,6 +76,11 @@ public class BaseRowItem {
     public BaseRowItem(ServerInfo server) {
         this.serverInfo = server;
         this.type = ItemType.Server;
+    }
+
+    public BaseRowItem(SeriesTimerInfoDto timer) {
+        this.seriesTimerInfo = timer;
+        this.type = ItemType.SeriesTimer;
     }
 
     public BaseRowItem(BaseItemPerson person) {
@@ -118,6 +125,7 @@ public class BaseRowItem {
     public ChannelInfoDto getChannelInfo() { return channelInfo; }
     public BaseItemDto getProgramInfo() { return baseItem; }
     public BaseItemDto getRecordingInfo() { return baseItem; }
+    public SeriesTimerInfoDto getSeriesTimerInfo() { return seriesTimerInfo; }
     public GridButton getGridButton() { return gridButton; }
 
     public boolean isChapter() { return type == ItemType.Chapter; }
@@ -141,6 +149,8 @@ public class BaseRowItem {
                 return person != null;
             case Chapter:
                 return chapterInfo != null;
+            case SeriesTimer:
+                return seriesTimerInfo != null;
             default:
                 return true; //compatibility
         }
@@ -183,6 +193,9 @@ public class BaseRowItem {
                 return "android.resource://tv.emby.embyatv/" + R.drawable.server;
             case GridButton:
                 return "android.resource://tv.emby.embyatv/" + gridButton.getImageIndex();
+            case SeriesTimer:
+                return "android.resource://tv.emby.embyatv/" + R.drawable.seriestimer;
+
             case SearchHint:
                 return !Utils.IsEmpty(searchHint.getPrimaryImageTag()) ? Utils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag(), TvApp.getApplication().getApiClient()) :
                         !Utils.IsEmpty(searchHint.getThumbImageItemId()) ? Utils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag(), TvApp.getApplication().getApiClient()) : null;
@@ -270,6 +283,8 @@ public class BaseRowItem {
                 return channelInfo.getName();
             case GridButton:
                 return gridButton.getText();
+            case SeriesTimer:
+                return seriesTimerInfo.getName();
             case SearchHint:
                 return (searchHint.getSeries() != null ? searchHint.getSeries() + " - " : "") + searchHint.getName();
         }
@@ -298,6 +313,8 @@ public class BaseRowItem {
                 return channelInfo.getName();
             case GridButton:
                 return gridButton.getText();
+            case SeriesTimer:
+                return seriesTimerInfo.getName();
         }
 
         return TvApp.getApplication().getString(R.string.lbl_bracket_unknown);
@@ -324,6 +341,8 @@ public class BaseRowItem {
                 return null;
             case SearchHint:
                 return searchHint.getItemId();
+            case SeriesTimer:
+                return seriesTimerInfo.getProgramId();
         }
 
         return null;
@@ -355,6 +374,8 @@ public class BaseRowItem {
                 return date != null ? DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(date).getTime()).toString() : TvApp.getApplication().getString(R.string.lbl_never);
             case SearchHint:
                 return searchHint.getType();
+            case SeriesTimer:
+                return (Utils.isTrue(seriesTimerInfo.getRecordAnyChannel()) ? "All Channels" : seriesTimerInfo.getChannelName()) + " " + seriesTimerInfo.getDayPattern();
         }
 
         return "";
@@ -381,6 +402,8 @@ public class BaseRowItem {
                 return channelInfo.getType();
             case GridButton:
                 return "GridButton";
+            case SeriesTimer:
+                return "SeriesTimer";
         }
 
         return "";
@@ -408,6 +431,8 @@ public class BaseRowItem {
                 break;
             case GridButton:
                 break;
+            case SeriesTimer:
+                return Utils.buildOverview(seriesTimerInfo);
         }
 
         return "";
@@ -564,7 +589,7 @@ public class BaseRowItem {
     public enum ItemType {
         BaseItem,
         Person,
-        Server, User, Chapter, SearchHint, LiveTvChannel, LiveTvRecording, GridButton, LiveTvProgram
+        Server, User, Chapter, SearchHint, LiveTvChannel, LiveTvRecording, GridButton, SeriesTimer, LiveTvProgram
     }
 
     public enum SelectAction {

@@ -72,6 +72,8 @@ import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.MediaStreamType;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
+import mediabrowser.model.livetv.SeriesTimerInfoDto;
+import mediabrowser.model.livetv.TimerInfoDto;
 import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
@@ -288,6 +290,15 @@ public class Utils {
         options.setMaxHeight(maxHeight);
         options.setImageType(ImageType.Primary);
         return apiClient.GetImageUrl(studio.getId(), options);
+    }
+
+    public static String getPrimaryImageUrl(SeriesTimerInfoDto timer, ApiClient apiClient, int maxHeight) {
+        if (timer.getProgramId() == null) return null;
+        TvApp.getApplication().getLogger().Debug("***** Program ID: %s",timer.getProgramId());
+        ImageOptions options = new ImageOptions();
+        options.setMaxHeight(maxHeight);
+        options.setImageType(ImageType.Primary);
+        return apiClient.GetImageUrl(timer.getProgramId(), options);
     }
 
     public static String getPrimaryImageUrl(UserDto item, ApiClient apiClient) {
@@ -966,6 +977,20 @@ public class Utils {
                 ((day != Calendar.getInstance().get(Calendar.DAY_OF_YEAR) ? getFriendlyDate(start.getTime()) + " " : "") +
                         android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(start.getTime()) + "-"
                         + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getEndDate())));
+
+    }
+
+    public static String buildOverview(SeriesTimerInfoDto timer) {
+        return TvApp.getApplication().getString(R.string.msg_will_record) +
+                " " +
+                (isTrue(timer.getRecordNewOnly()) ? TvApp.getApplication().getString(R.string.lbl_only_new_episodes) : TvApp.getApplication().getString(R.string.lbl_all_episodes)) +
+                "\n" +
+                TvApp.getApplication().getString(R.string.lbl_on) +
+                " " +
+                (isTrue(timer.getRecordAnyChannel()) ? TvApp.getApplication().getString(R.string.lbl_any_channel) : timer.getChannelName()) +
+                "\n" +
+                timer.getDayPattern();
+
 
     }
 

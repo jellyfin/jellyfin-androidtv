@@ -16,6 +16,7 @@ import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
 import mediabrowser.model.livetv.RecordingGroupQuery;
 import mediabrowser.model.livetv.RecordingQuery;
+import mediabrowser.model.livetv.SeriesTimerQuery;
 import mediabrowser.model.livetv.TimerInfoDto;
 import mediabrowser.model.livetv.TimerQuery;
 import mediabrowser.model.querying.ItemFields;
@@ -349,6 +350,11 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                     }
                 });
 
+                break;
+
+            case "seriestimers":
+                mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_series_recordings), new SeriesTimerQuery()));
+                rowLoader.loadRows(mRows);
                 break;
             default:
                 // Fall back to rows defined by the view children

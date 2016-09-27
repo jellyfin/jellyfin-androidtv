@@ -21,6 +21,7 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.browsing.BrowseRecordingsActivity;
+import tv.emby.embyatv.browsing.BrowseScheduleActivity;
 import tv.emby.embyatv.browsing.CollectionActivity;
 import tv.emby.embyatv.browsing.GenericFolderActivity;
 import tv.emby.embyatv.browsing.GenericGridActivity;
@@ -405,6 +406,22 @@ public class ItemLauncher {
                         }
 
                         activity.startActivity(queueIntent);
+                        break;
+
+                    case TvApp.LIVE_TV_SERIES_OPTION_ID:
+                        Intent seriesIntent = new Intent(activity, UserViewActivity.class);
+                        BaseItemDto seriesTimers = new BaseItemDto();
+                        seriesTimers.setId("SERIESTIMERS");
+                        seriesTimers.setCollectionType("SeriesTimers");
+                        seriesTimers.setName(activity.getString(R.string.lbl_series_recordings));
+                        seriesIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(seriesTimers));
+
+                        activity.startActivity(seriesIntent);
+                        break;
+
+                    case TvApp.LIVE_TV_SCHEDULE_OPTION_ID:
+                        Intent schedIntent = new Intent(activity, BrowseScheduleActivity.class);
+                        activity.startActivity(schedIntent);
                         break;
 
 

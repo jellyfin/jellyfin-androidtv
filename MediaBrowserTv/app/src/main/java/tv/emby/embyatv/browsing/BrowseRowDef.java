@@ -4,6 +4,7 @@ import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
 import mediabrowser.model.livetv.RecordingGroupQuery;
 import mediabrowser.model.livetv.RecordingQuery;
+import mediabrowser.model.livetv.SeriesTimerQuery;
 import mediabrowser.model.querying.ArtistsQuery;
 import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.LatestItemsQuery;
@@ -33,6 +34,7 @@ public class BrowseRowDef {
     private RecommendedProgramQuery programQuery;
     private RecordingQuery recordingQuery;
     private RecordingGroupQuery recordingGroupQuery;
+    private SeriesTimerQuery seriesTimerQuery;
 
     private ArtistsQuery artistsQuery;
     private SeasonQuery seasonQuery;
@@ -91,6 +93,13 @@ public class BrowseRowDef {
         headerText = header;
         this.nextUpQuery = query;
         this.queryType = QueryType.NextUp;
+    }
+
+    public BrowseRowDef(String header, SeriesTimerQuery query) {
+        headerText = header;
+        this.seriesTimerQuery = query;
+        this.staticHeight = true;
+        this.queryType = QueryType.SeriesTimer;
     }
 
     public BrowseRowDef(String header, NextUpQuery query, ChangeTriggerType[] changeTriggers) {
@@ -227,6 +236,8 @@ public class BrowseRowDef {
     }
 
     public ArtistsQuery getArtistsQuery() { return artistsQuery; }
+
+    public SeriesTimerQuery getSeriesTimerQuery() { return seriesTimerQuery; }
 
     public ChangeTriggerType[] getChangeTriggers() {
         return changeTriggers;

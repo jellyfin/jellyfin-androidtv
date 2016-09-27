@@ -279,6 +279,15 @@ public class CardPresenter extends Presenter {
                     mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.video);
                     break;
 
+                case SeriesTimer:
+                    cardHeight = !m.isStaticHeight() ? pHeight : sHeight;
+                    cardWidth = (int)(1.779 * cardHeight);
+                    mCardView.setMainImageDimensions(cardWidth, cardHeight);
+                    mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.seriestimer);
+                    //Always show info for timers
+                    mCardView.setCardType(BaseCardView.CARD_TYPE_INFO_UNDER);
+                    break;
+
             }
         }
 
