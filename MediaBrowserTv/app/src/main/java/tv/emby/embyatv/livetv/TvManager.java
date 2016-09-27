@@ -3,6 +3,10 @@ package tv.emby.embyatv.livetv;
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
+import android.support.v17.leanback.widget.ArrayObjectAdapter;
+import android.support.v17.leanback.widget.HeaderItem;
+import android.support.v17.leanback.widget.ListRow;
+import android.support.v17.leanback.widget.Presenter;
 import android.text.format.DateUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,14 +26,19 @@ import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.ImageType;
+import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.ProgramQuery;
+import mediabrowser.model.livetv.TimerInfoDto;
+import mediabrowser.model.livetv.TimerQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.results.ChannelInfoDtoResult;
+import mediabrowser.model.results.TimerInfoDtoResult;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.ui.ProgramGridCell;
 import tv.emby.embyatv.util.Utils;
 
@@ -291,7 +300,69 @@ public class TvManager {
         return null;
     }
 
+    public static void getScheduleRowsAsync(TimerQuery query, final Presenter presenter, final ArrayObjectAdapter rowAdapter, final Response<Integer> outerResponse) {
+        TvApp.getApplication().getApiClient().GetLiveTvTimersAsync(query, new Response<TimerInfoDtoResult>() {
+            @Override
+            public void onResponse(TimerInfoDtoResult response) {
+                List<BaseItemDto> currentTimers = new ArrayList<>();
+                //Get scheduled items and break out by day
+                int currentDay = 0;
+                for (TimerInfoDto timer : response.getItems()) {
+                    int thisDay = getDayInt(Utils.convertToLocalDate(timer.getStartDate()));
+                    if (thisDay != currentDay) {
+                        if (currentDay > 0 && currentTimers.size() > 0) {
+                            //Add the last set of timers as a row
+                            addRow(currentTimers, presenter, rowAdapter);
+                            currentTimers.clear();
+                        }
+                        currentDay = thisDay;
+                    }
+                    BaseItemDto programInfo = timer.getProgramInfo();
+                    if (programInfo == null) {
+                        programInfo = new BaseItemDto();
+                        programInfo.setId(timer.getId());
+                        programInfo.setChannelName(timer.getChannelName());
+                        programInfo.setName(Utils.NullCoalesce(timer.getName(), "Unknown"));
+                        TvApp.getApplication().getLogger().Warn("No program info for timer %s.  Creating one...", programInfo.getName());
+                        programInfo.setType("Program");
+                        programInfo.setTimerId(timer.getId());
+                        programInfo.setSeriesTimerId(timer.getSeriesTimerId());
+                        programInfo.setStartDate(timer.getStartDate());
+                        programInfo.setEndDate(timer.getEndDate());
+                    }
+                    programInfo.setLocationType(LocationType.Virtual);
+                    currentTimers.add(programInfo);
 
+                }
+
+                if (currentTimers.size() > 0) addRow(currentTimers, presenter, rowAdapter);
+
+                outerResponse.onResponse(rowAdapter.size());
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                outerResponse.onError(exception);
+            }
+
+        });
+
+    }
+
+    private static void addRow(List<BaseItemDto> timers, Presenter presenter, ArrayObjectAdapter rowAdapter) {
+        ItemRowAdapter scheduledAdapter = new ItemRowAdapter(timers, presenter, rowAdapter, true);
+        scheduledAdapter.Retrieve();
+        ListRow scheduleRow = new ListRow(new HeaderItem(Utils.getFriendlyDate(Utils.convertToLocalDate(timers.get(0).getStartDate()), true)), scheduledAdapter);
+        rowAdapter.add(scheduleRow);
+
+    }
+
+    private static int getDayInt(Date fulldate) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(fulldate);
+        return cal.get(Calendar.DAY_OF_YEAR);
+    }
 
 
 }
