@@ -7,12 +7,16 @@ import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import java.text.DateFormatSymbols;
@@ -36,7 +40,7 @@ import tv.emby.embyatv.util.Utils;
  * Created by Eric on 6/3/2015.
  */
 public class RecordPopup {
-    final int SERIES_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 540);
+    final int SERIES_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 500);
     final int NORMAL_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 400);
     final List<String> DayValues = Arrays.asList("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
 
@@ -51,13 +55,12 @@ public class RecordPopup {
 
     BaseActivity mActivity;
     TextView mDTitle;
-    TextView mDSummary;
     LinearLayout mDTimeline;
     View mSeriesOptions;
     GridLayout mWeekdayOptions;
     CheckBox[] mWeekdayChecks = new CheckBox[7];
-    EditText mPrePadding;
-    EditText mPostPadding;
+    Spinner mPrePadding;
+    Spinner mPostPadding;
     CheckBox mPreRequired;
     CheckBox mPostRequired;
     CheckBox mOnlyNew;
@@ -65,6 +68,12 @@ public class RecordPopup {
     CheckBox mAnyChannel;
     Button mOkButton;
     Button mCancelButton;
+
+    String MINUTE = TvApp.getApplication().getString(R.string.lbl_minute);
+    String MINUTES = TvApp.getApplication().getString(R.string.lbl_minutes);
+    String HOURS = TvApp.getApplication().getString(R.string.lbl_hours);
+    ArrayList<String> mPaddingDisplayOptions = new ArrayList<>(Arrays.asList(TvApp.getApplication().getString(R.string.lbl_on_schedule),"1  "+MINUTE,"5  "+MINUTES,"15 "+MINUTES,"30 "+MINUTES,"60 "+MINUTES,"90 "+MINUTES,"2  "+HOURS,"3  "+HOURS));
+    ArrayList<Integer> mPaddingValues = new ArrayList<>(Arrays.asList(0,60,300,900,1800,3600,5400,7200,10800));
 
     public RecordPopup(BaseActivity activity, View anchorView, int left, int top, int width) {
         mActivity = activity;
@@ -80,11 +89,33 @@ public class RecordPopup {
         mPopup.setBackgroundDrawable(new BitmapDrawable()); // necessary for popup to dismiss
         mDTitle = (TextView)layout.findViewById(R.id.title);
         mDTitle.setTypeface(roboto);
-        mDSummary = (TextView)layout.findViewById(R.id.summary);
-        mDSummary.setTypeface(roboto);
 
-        mPrePadding = (EditText) layout.findViewById(R.id.prePadding);
-        mPostPadding = (EditText) layout.findViewById(R.id.postPadding);
+        mPrePadding = (Spinner) layout.findViewById(R.id.prePadding);
+        mPrePadding.setAdapter(new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, mPaddingDisplayOptions));
+        mPrePadding.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mCurrentOptions.setPrePaddingSeconds(mPaddingValues.get(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mPostPadding = (Spinner) layout.findViewById(R.id.postPadding);
+        mPostPadding.setAdapter(new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, mPaddingDisplayOptions));
+        mPostPadding.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mCurrentOptions.setPostPaddingSeconds(mPaddingValues.get(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         mPreRequired = (CheckBox) layout.findViewById(R.id.prePadReq);
         mPostRequired = (CheckBox) layout.findViewById(R.id.postPadReq);
 
@@ -113,8 +144,6 @@ public class RecordPopup {
             @Override
             public void onClick(View v) {
                 try {
-                    mCurrentOptions.setPrePaddingSeconds(Integer.parseInt(mPrePadding.getText().toString()));
-                    mCurrentOptions.setPostPaddingSeconds(Integer.parseInt(mPostPadding.getText().toString()));
                     mCurrentOptions.setIsPrePaddingRequired(mPreRequired.isChecked());
                     mCurrentOptions.setIsPostPaddingRequired(mPostRequired.isChecked());
                 } catch (Exception e) {
@@ -199,19 +228,13 @@ public class RecordPopup {
         mSelectedView = selectedView;
 
         mDTitle.setText(program.getName());
-        mDSummary.setText(program.getOverview());
-        if (mDSummary.getLineCount() < 2) {
-            mDSummary.setGravity(Gravity.CENTER);
-        } else {
-            mDSummary.setGravity(Gravity.LEFT);
-        }
 
         // build timeline info
         setTimelineRow(mDTimeline, program);
 
         // set defaults
-        mPrePadding.setText(String.valueOf(current.getPrePaddingSeconds()/60));
-        mPostPadding.setText(String.valueOf(current.getPostPaddingSeconds()/60));
+        mPrePadding.setSelection(getPaddingNdx(current.getPrePaddingSeconds()));
+        mPostPadding.setSelection(getPaddingNdx(current.getPostPaddingSeconds()));
         mPreRequired.setChecked(current.getIsPrePaddingRequired());
         mPostRequired.setChecked(current.getIsPostPaddingRequired());
 
@@ -236,6 +259,14 @@ public class RecordPopup {
             mSeriesOptions.setVisibility(View.GONE);
         }
 
+    }
+
+    private int getPaddingNdx(int seconds) {
+        for (int i = 0; i < mPaddingValues.size(); i++) {
+            if (mPaddingValues.get(i) > seconds) return i-1;
+        }
+
+        return 0;
     }
 
     public void show() {
