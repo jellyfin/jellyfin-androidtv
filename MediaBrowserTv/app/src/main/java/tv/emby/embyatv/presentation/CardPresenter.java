@@ -213,7 +213,6 @@ public class CardPresenter extends Presenter {
                             break;
                         case Virtual:
                             if (program.getStartDate() != null && Utils.convertToLocalDate(program.getStartDate()).getTime() > System.currentTimeMillis()) mCardView.setBanner(R.drawable.futurebanner);
-                            if (program.getEndDate() != null && Utils.convertToLocalDate(program.getEndDate()).getTime() < System.currentTimeMillis()) mCardView.setBanner(R.drawable.missingbanner);
                             break;
                         case Offline:
                             break;
