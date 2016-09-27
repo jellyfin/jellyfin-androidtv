@@ -161,6 +161,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
         gridRowAdapter.add(new GridButton(SCHEDULE, TvApp.getApplication().getString(R.string.lbl_schedule), R.drawable.clock));
+        gridRowAdapter.add(new GridButton(SERIES, mActivity.getString(R.string.lbl_series_recordings), R.drawable.seriestimerp));
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
 
     }

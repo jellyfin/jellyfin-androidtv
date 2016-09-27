@@ -369,6 +369,9 @@
     <string name="lbl_series_settings">Series Settings</string>
     <string name="msg_settings_updated">Settings updated</string>
     <string name="lbl_save">Save</string>
+    <string name="lbl_series_recordings">Series Recordings</string>
+    <string name="lbl_any_channel">Any Channel</string>
+    <string name="lbl_all_episodes">All Episodes</string>
 
 
 </resources>

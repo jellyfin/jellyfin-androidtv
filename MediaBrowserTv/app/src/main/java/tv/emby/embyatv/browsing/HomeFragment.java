@@ -322,7 +322,7 @@ public class HomeFragment extends StdBrowseFragment {
             recordings.setUserId(TvApp.getApplication().getCurrentUser().getId());
             recordings.setEnableImages(true);
             recordings.setLimit(40);
-            mRows.add(new BrowseRowDef("Latest Recordings", recordings));
+            mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_recordings), recordings));
         }
 
     }

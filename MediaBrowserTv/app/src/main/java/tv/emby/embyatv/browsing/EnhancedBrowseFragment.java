@@ -301,6 +301,9 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                 case Premieres:
                     rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), mCardPresenter, mRowsAdapter, def.getQueryType());
                     break;
+                case SeriesTimer:
+                    rowAdapter = new ItemRowAdapter(def.getSeriesTimerQuery(), mCardPresenter, mRowsAdapter);
+                    break;
                 default:
                     rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), ps, mRowsAdapter, def.getQueryType());
                     break;
@@ -490,6 +493,17 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         favIntent.putExtra("ParentId", mFolder.getId());
 
                         getActivity().startActivity(favIntent);
+                        break;
+
+                    case SERIES:
+                        Intent seriesIntent = new Intent(getActivity(), UserViewActivity.class);
+                        BaseItemDto seriesTimers = new BaseItemDto();
+                        seriesTimers.setId("SERIESTIMERS");
+                        seriesTimers.setCollectionType("SeriesTimers");
+                        seriesTimers.setName(mActivity.getString(R.string.lbl_series_recordings));
+                        seriesIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(seriesTimers));
+
+                        getActivity().startActivity(seriesIntent);
                         break;
 
                     case SCHEDULE:

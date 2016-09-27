@@ -64,6 +64,8 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
     public static final int LIVE_TV_RECORDINGS_OPTION_ID = 2000;
     public static final int VIDEO_QUEUE_OPTION_ID = 3000;
+    public static final int LIVE_TV_SCHEDULE_OPTION_ID = 4000;
+    public static final int LIVE_TV_SERIES_OPTION_ID = 5000;
 
     private static final int SEARCH_PERMISSION = 0;
 
