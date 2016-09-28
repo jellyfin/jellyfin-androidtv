@@ -496,7 +496,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         break;
 
                     case SERIES:
-                        Intent seriesIntent = new Intent(getActivity(), UserViewActivity.class);
+                    case TvApp.LIVE_TV_SERIES_OPTION_ID:
+                        Intent seriesIntent = new Intent(mActivity, UserViewActivity.class);
                         BaseItemDto seriesTimers = new BaseItemDto();
                         seriesTimers.setId("SERIESTIMERS");
                         seriesTimers.setCollectionType("SeriesTimers");
@@ -507,8 +508,18 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         break;
 
                     case SCHEDULE:
-                        Intent schedIntent = new Intent(getActivity(), BrowseScheduleActivity.class);
+                    case TvApp.LIVE_TV_SCHEDULE_OPTION_ID:
+                        Intent schedIntent = new Intent(mActivity, BrowseScheduleActivity.class);
                         getActivity().startActivity(schedIntent);
+                        break;
+
+                    case TvApp.LIVE_TV_RECORDINGS_OPTION_ID:
+                        Intent recordings = new Intent(mActivity, BrowseRecordingsActivity.class);
+                        BaseItemDto folder = new BaseItemDto();
+                        folder.setId("");
+                        folder.setName(TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv));
+                        recordings.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(folder));
+                        mActivity.startActivity(recordings);
                         break;
 
                     default:
