@@ -1,6 +1,7 @@
 package tv.emby.embyatv.browsing;
 
 import android.os.Bundle;
+import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 
@@ -31,14 +32,18 @@ import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.ChangeTriggerType;
+import tv.emby.embyatv.presentation.GridButtonPresenter;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.StdItemQuery;
+import tv.emby.embyatv.ui.GridButton;
 import tv.emby.embyatv.util.Utils;
 
 /**
  * Created by Eric on 12/4/2014.
  */
 public class BrowseViewFragment extends EnhancedBrowseFragment {
+
+    boolean isLiveTvLibrary;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -202,6 +207,9 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 rowLoader.loadRows(mRows);
                 break;
             case "livetv":
+                isLiveTvLibrary = true;
+                showViews = true;
+
                 //On now
                 RecommendedProgramQuery onNow = new RecommendedProgramQuery();
                 onNow.setIsAiring(true);
@@ -393,4 +401,24 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
     }
 
+    @Override
+    protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
+        if (isLiveTvLibrary) {
+            //Views row
+            HeaderItem gridHeader = new HeaderItem(mRowsAdapter.size(), mApplication.getString(R.string.lbl_views));
+
+            GridButtonPresenter mGridPresenter = new GridButtonPresenter();
+            ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
+            gridRowAdapter.add(new GridButton(TvApp.LIVE_TV_RECORDINGS_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv), R.drawable.recgroup));
+            if (mApplication.canManageRecordings()) {
+                gridRowAdapter.add(new GridButton(TvApp.LIVE_TV_SCHEDULE_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_schedule), R.drawable.clock));
+                gridRowAdapter.add(new GridButton(TvApp.LIVE_TV_SERIES_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_series), R.drawable.seriestimerp));
+            }
+
+            mRowsAdapter.add(new ListRow(gridHeader, gridRowAdapter));
+
+        } else {
+            super.addAdditionalRows(rowAdapter);
+        }
+    }
 }
