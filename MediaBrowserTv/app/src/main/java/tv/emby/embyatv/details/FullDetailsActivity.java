@@ -8,7 +8,9 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,12 +26,14 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.support.v7.graphics.Palette;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -76,8 +80,10 @@ import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.model.ChapterItemInfo;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.presentation.CardPresenter;
+import tv.emby.embyatv.presentation.CustomListRowPresenter;
 import tv.emby.embyatv.presentation.InfoCardPresenter;
 import tv.emby.embyatv.presentation.MyDetailsOverviewRowPresenter;
+import tv.emby.embyatv.presentation.MyPicassoBackgroundManagerTarget;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.SpecialsQuery;
 import tv.emby.embyatv.querying.StdItemQuery;
@@ -124,6 +130,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     private MyDetailsOverviewRowPresenter mDorPresenter;
     private MyDetailsOverviewRow mDetailsOverviewRow;
+    private CustomListRowPresenter mListRowPresenter;
+    private Drawable mRowBackground = TvApp.getApplication().getResources().getDrawable(R.drawable.dark_gradient);
 
     private TvApp mApplication;
     private FullDetailsActivity mActivity;
@@ -144,14 +152,26 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         mApplication = TvApp.getApplication();
         mActivity = this;
         roboto = mApplication.getDefaultFont();
-
         mTitle = (TextView) findViewById(R.id.fdTitle);
         mTitle.setTypeface(roboto);
         mTitle.setShadowLayer(5, 5, 5, Color.BLACK);
         mGenreRow = (LinearLayout) findViewById(R.id.fdGenreRow);
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         backgroundManager.attach(getWindow());
-        mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
+
+        if (TvApp.getApplication().getCurrentBackground() != null) {
+            int[] colors = new int[2];
+            colors[0] = Utils.darker(Palette.from(TvApp.getApplication().getCurrentBackground()).generate().getMutedColor(TvApp.getApplication().getResources().getColor(R.color.black_transparent)), .6f);
+            colors[1] = Utils.darker(colors[0], .1f);
+
+            GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors);
+            gd.setCornerRadius(0f);
+            gd.setGradientCenter(.6f, .5f);
+            gd.setAlpha(200);
+            mRowBackground = gd;
+        }
+
+        mBackgroundTarget = new MyPicassoBackgroundManagerTarget(backgroundManager);
         mMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
@@ -439,7 +459,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
             ClassPresenterSelector ps = new ClassPresenterSelector();
             ps.addClassPresenter(MyDetailsOverviewRow.class, mDorPresenter);
-            ps.addClassPresenter(ListRow.class, new ListRowPresenter());
+            mListRowPresenter = new CustomListRowPresenter(mRowBackground);
+            ps.addClassPresenter(ListRow.class, mListRowPresenter);
             mRowsAdapter = new ArrayObjectAdapter(ps);
             mRowsFragment.setAdapter(mRowsAdapter);
             mRowsAdapter.add(detailsOverviewRow);
@@ -1121,7 +1142,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     public void showRecordingOptions(String id, final BaseItemDto program, final boolean recordSeries) {
         if (mRecordPopup == null) {
             int width = Utils.convertDpToPixel(this, 600);
-            int height = Utils.convertDpToPixel(this, 800);
             Point size = new Point();
             getWindowManager().getDefaultDisplay().getSize(size);
             mRecordPopup = new RecordPopup(this, mTitle, (size.x/2) - (width/2), mTitle.getTop(), width);

@@ -15,17 +15,13 @@
 package tv.emby.embyatv.browsing;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
-import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
@@ -45,14 +41,10 @@ import android.widget.PopupWindow;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import javax.microedition.khronos.opengles.GL10;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
@@ -64,27 +56,23 @@ import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.base.CustomMessage;
 import tv.emby.embyatv.base.IKeyListener;
 import tv.emby.embyatv.base.IMessageListener;
-import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
 import tv.emby.embyatv.itemhandling.BaseRowItem;
 import tv.emby.embyatv.itemhandling.ItemLauncher;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
 import tv.emby.embyatv.model.FilterOptions;
+import tv.emby.embyatv.model.ImageType;
 import tv.emby.embyatv.model.PosterSize;
-import tv.emby.embyatv.model.ViewType;
 import tv.emby.embyatv.playback.MediaManager;
 import tv.emby.embyatv.presentation.CardPresenter;
 import tv.emby.embyatv.presentation.HorizontalGridPresenter;
-import tv.emby.embyatv.model.ImageType;
 import tv.emby.embyatv.querying.QueryType;
 import tv.emby.embyatv.querying.ViewQuery;
-import tv.emby.embyatv.search.SearchActivity;
 import tv.emby.embyatv.ui.CharSelectedListener;
 import tv.emby.embyatv.ui.DisplayPrefsPopup;
 import tv.emby.embyatv.ui.HorizontalGridFragment;
 import tv.emby.embyatv.ui.ImageButton;
 import tv.emby.embyatv.ui.JumpList;
 import tv.emby.embyatv.util.KeyProcessor;
-import tv.emby.embyatv.util.RemoteControlReceiver;
 import tv.emby.embyatv.util.Utils;
 
 public class StdGridFragment extends HorizontalGridFragment implements IGridLoader {
@@ -327,6 +315,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                 backgroundManager.setBitmap(resource);
+                mApplication.setCurrentBackground(resource);
             }
         };
     }

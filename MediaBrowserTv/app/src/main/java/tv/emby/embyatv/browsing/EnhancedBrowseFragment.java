@@ -606,6 +606,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                 backgroundManager.setBitmap(resource);
+                TvApp.getApplication().setCurrentBackground(resource);
             }
         };
     }

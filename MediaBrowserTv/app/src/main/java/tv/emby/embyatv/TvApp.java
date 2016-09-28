@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
@@ -107,6 +108,8 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     private long lastUserInteraction = System.currentTimeMillis();
 
     private boolean searchAllowed = Build.VERSION.SDK_INT < 23;
+
+    private Bitmap currentBackground;
 
     private boolean audioMuted;
     private boolean playingIntros;
@@ -738,5 +741,13 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     public void setDisplayPriority(DisplayPriorityType displayPriority) {
         this.displayPriority = displayPriority;
+    }
+
+    public Bitmap getCurrentBackground() {
+        return currentBackground;
+    }
+
+    public void setCurrentBackground(Bitmap currentBackground) {
+        this.currentBackground = currentBackground;
     }
 }
