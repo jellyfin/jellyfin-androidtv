@@ -24,6 +24,7 @@ import tv.emby.embyatv.itemhandling.BaseRowItem;
 public class InfoLayoutHelper {
 
     private static int textSize = 16;
+    private static int BTMARGIN = Utils.convertDpToPixel(TvApp.getApplication(), -2);
 
     public static void addInfoRow(Activity activity, BaseRowItem item, LinearLayout layout, boolean includeRuntime, boolean includeEndtime) {
         switch (item.getItemType()) {
@@ -365,7 +366,7 @@ public class InfoLayoutHelper {
     }
 
     public static void addBlockText(Activity activity, LinearLayout layout, String text, int size) {
-        addBlockText(activity, layout, text, size, Color.BLACK, R.drawable.gray_gradient);
+        addBlockText(activity, layout, text, size, Color.BLACK, R.drawable.block_text_bg);
     }
 
     public static void addBlockText(Activity activity, LinearLayout layout, String text, int size, int textColor, int backgroundRes) {
@@ -374,6 +375,9 @@ public class InfoLayoutHelper {
         view.setTextColor(textColor);
         view.setText(" " + text + " ");
         view.setBackgroundResource(backgroundRes);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        params.setMargins(0,BTMARGIN,0,0);
+        view.setLayoutParams(params);
         layout.addView(view);
 
     }
