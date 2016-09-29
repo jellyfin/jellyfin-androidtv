@@ -1019,7 +1019,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         }
 
         UserItemDataDto userData = mBaseItem.getUserData();
-        if (userData != null) {
+        if (userData != null && mProgramInfo == null) {
             if (!"MusicArtist".equals(mBaseItem.getType()) && !"Person".equals(mBaseItem.getType())) {
                 mWatchedToggleButton = new TextUnderButton(this, userData.getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck, buttonSize, getString(R.string.lbl_toggle_watched), markWatchedListener);
                 mDetailsOverviewRow.addAction(mWatchedToggleButton);
@@ -1048,7 +1048,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 }
             });
 
-            mPrevButton.setVisibility(View.GONE);
             mDetailsOverviewRow.addAction(mPrevButton);
 
             //now go get our prev episode id
@@ -1064,6 +1063,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                         if (!mBaseItem.getId().equals(response.getItems()[0].getId())) {
                             mPrevItemId = response.getItems()[0].getId();
                             mPrevButton.setVisibility(View.VISIBLE);
+                        } else {
+                            mPrevButton.setVisibility(View.GONE);
                         }
                     }
                 }
@@ -1302,48 +1303,50 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                         }).setPositiveButton(getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                            if (data.getPlayed())  markUnPlayed(v); else markPlayed(v);
+                            if (data.getPlayed())  markUnPlayed(); else markPlayed();
                     }
                 }).show();
 
             } else {
                 if (data.getPlayed()) {
-                    markUnPlayed(v);
+                    markUnPlayed();
                 } else {
-                    markPlayed(v);
+                    markPlayed();
                 }
             }
 
         }
     };
 
-    private void markPlayed(final View v) {
+    private void markPlayed() {
         mApplication.getApiClient().MarkPlayedAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), null, new Response<UserItemDataDto>() {
             @Override
             public void onResponse(UserItemDataDto response) {
                 mBaseItem.setUserData(response);
-                ((TextUnderButton) v).setImageResource(R.drawable.redcheck);
+                mWatchedToggleButton.setImageResource(R.drawable.redcheck);
                 //adjust resume
                 if (mResumeButton != null && !mBaseItem.getCanResume())
                     mResumeButton.setVisibility(View.GONE);
                 //force lists to re-fetch
                 TvApp.getApplication().setLastPlayback(Calendar.getInstance());
+                showMoreButtonIfNeeded();
             }
         });
 
     }
 
-    private void markUnPlayed(final View v) {
+    private void markUnPlayed() {
         mApplication.getApiClient().MarkUnplayedAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), new Response<UserItemDataDto>() {
             @Override
             public void onResponse(UserItemDataDto response) {
                 mBaseItem.setUserData(response);
-                ((TextUnderButton) v).setImageResource(R.drawable.whitecheck);
+                mWatchedToggleButton.setImageResource(R.drawable.whitecheck);
                 //adjust resume
                 if (mResumeButton != null && !mBaseItem.getCanResume())
                     mResumeButton.setVisibility(View.GONE);
                 //force lists to re-fetch
                 TvApp.getApplication().setLastPlayback(Calendar.getInstance());
+                showMoreButtonIfNeeded();
             }
         });
 
