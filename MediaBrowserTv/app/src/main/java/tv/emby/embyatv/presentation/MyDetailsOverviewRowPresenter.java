@@ -46,6 +46,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
         private TextView mInfoValue2;
         private TextView mInfoValue3;
 
+        private RelativeLayout mLeftFrame;
 
         private Typeface roboto;
 
@@ -68,6 +69,8 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
             mInfoValue2 = (TextView) rootView.findViewById(R.id.infoValue2);
             mInfoValue3 = (TextView) rootView.findViewById(R.id.infoValue3);
 
+            mLeftFrame = (RelativeLayout) rootView.findViewById(R.id.leftFrame);
+
             mGenreRow = (LinearLayout) rootView.findViewById(R.id.fdGenreRow);
             mInfoRow =  (LinearLayout)rootView.findViewById(R.id.fdMainInfoRow);
             mPoster = (ImageView) rootView.findViewById(R.id.mainImage);
@@ -76,6 +79,11 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
             mSummary = (TextView) rootView.findViewById(R.id.fdSummaryText);
             mSummary.setTypeface(roboto);
 
+        }
+
+        public void collapseLeftFrame() {
+            ViewGroup.LayoutParams params = mLeftFrame.getLayoutParams();
+            params.width = Utils.convertDpToPixel(TvApp.getApplication(),100);
         }
 
     }
@@ -111,17 +119,19 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
             case "Person":
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) vh.mSummary.getLayoutParams();
                 params.topMargin = 10;
-                vh.mSummary.setHeight(Utils.convertDpToPixel(TvApp.getApplication(), 400));
-                vh.mSummary.setMaxLines(12);
+                params.height = Utils.convertDpToPixel(TvApp.getApplication(), 400);
+                vh.mSummary.setMaxLines(11);
                 vh.mGenreRow.setVisibility(View.GONE);
                 vh.mInfoRow.setVisibility(View.GONE);
+                vh.collapseLeftFrame();
 
                 break;
             case "MusicArtist":
                 RelativeLayout.LayoutParams artistParams = (RelativeLayout.LayoutParams) vh.mSummary.getLayoutParams();
                 artistParams.topMargin = 20;
-                vh.mSummary.setHeight(Utils.convertDpToPixel(TvApp.getApplication(), 380));
-                vh.mSummary.setMaxLines(12);
+                artistParams.height = Utils.convertDpToPixel(TvApp.getApplication(), 350);
+                vh.mSummary.setMaxLines(8);
+                vh.collapseLeftFrame();
 
                 break;
         }

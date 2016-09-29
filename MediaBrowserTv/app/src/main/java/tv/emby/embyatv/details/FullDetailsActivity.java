@@ -289,8 +289,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         mClockLoop = new Runnable() {
             @Override
             public void run() {
-                mDorPresenter.updateEndTime(getEndTime());
-                mLoopHandler.postDelayed(this, 15000);
+                if (mBaseItem != null && ((mBaseItem.getRunTimeTicks() != null && mBaseItem.getRunTimeTicks() > 0) || mBaseItem.getOriginalRunTimeTicks() != null)) {
+                    mDorPresenter.updateEndTime(getEndTime());
+                    mLoopHandler.postDelayed(this, 15000);
+                }
             }
         };
 
@@ -379,7 +381,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
             // Figure image size
             Double aspect = Utils.getImageAspectRatio(item, false);
-            posterHeight = aspect > 1 ? Utils.convertDpToPixel(mActivity, 160) : Utils.convertDpToPixel(mActivity, 200);
+            posterHeight = aspect > 1 ? Utils.convertDpToPixel(mActivity, 160) : Utils.convertDpToPixel(mActivity, "Person".equals(item.getType()) || "MusicArtist".equals(item.getType()) ? 300 : 200);
             posterWidth = (int)((aspect) * posterHeight);
             if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
@@ -686,7 +688,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     private String getEndTime() {
-        if (mBaseItem != null) {
+        if (mBaseItem != null && !"MusicArtist".equals(mBaseItem.getType()) && !"Person".equals(mBaseItem.getType())) {
             Long runtime = Utils.NullCoalesce(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
             if (runtime != null && runtime > 0) {
                 long endTimeTicks = "Program".equals(mBaseItem.getType()) && mBaseItem.getEndDate() != null ? Utils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
