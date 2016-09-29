@@ -399,7 +399,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                     BaseItemPerson director = Utils.GetFirstPerson(item, PersonType.Director);
 
-                    mDetailsOverviewRow.setInfoItem1(new InfoItem(getString(R.string.lbl_directed_by), director != null ? director.getName() : getString(R.string.lbl_bracket_unknown)));
+                    mDetailsOverviewRow.setInfoItem1("Series".equals(item.getType()) ? new InfoItem(getString(R.string.lbl_seasons), item.getChildCount().toString()) :
+                            new InfoItem(getString(R.string.lbl_directed_by), director != null ? director.getName() : getString(R.string.lbl_bracket_unknown)));
 
                     if ((item.getRunTimeTicks() != null && item.getRunTimeTicks() > 0) || item.getOriginalRunTimeTicks() != null) {
                         mDetailsOverviewRow.setInfoItem2(new InfoItem(getString(R.string.lbl_runs), getRunTime()));
