@@ -3,8 +3,8 @@
     android:shape="rectangle">
     <corners android:radius="2dp" />
     <gradient
-        android:startColor="@color/btn_focused_start"
-        android:endColor="@color/btn_focused_end"
+        android:startColor="#686868"
+        android:endColor="#696969"
         android:angle="270" />
 
 </shape>

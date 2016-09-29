@@ -214,6 +214,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mPersons = people;
+        staticHeight = true;
         queryType = QueryType.StaticPeople;
     }
 
@@ -221,6 +222,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mChapters = chapters;
+        staticHeight = true;
         queryType = QueryType.StaticChapters;
     }
 

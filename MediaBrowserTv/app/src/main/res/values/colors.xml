@@ -19,8 +19,8 @@
     <color name="semi_trans_dark">#49000000</color>
     <color name="gray_gradient_start">#898989</color>
     <color name="gray_gradient_end">#4b4b4b</color>
-    <color name="green_gradient_start">#057c1f</color>
-    <color name="green_gradient_end">#0c8f06</color>
+    <color name="green_gradient_start">#044b13</color>
+    <color name="green_gradient_end">#085c04</color>
     <color name="red_gradient_start">#7c0b09</color>
     <color name="red_gradient_end">#900d10</color>
     <color name="fastlane_fire">#ff161b21</color>

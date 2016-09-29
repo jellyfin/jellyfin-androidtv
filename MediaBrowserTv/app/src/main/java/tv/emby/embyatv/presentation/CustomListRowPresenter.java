@@ -1,9 +1,14 @@
 package tv.emby.embyatv.presentation;
 
 import android.graphics.drawable.Drawable;
+import android.support.v17.leanback.widget.BaseCardView;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.view.View;
+import android.view.ViewGroup;
+
+import tv.emby.embyatv.TvApp;
+import tv.emby.embyatv.util.Utils;
 
 /**
  * Created by Eric on 10/12/2015.
@@ -11,7 +16,8 @@ import android.view.View;
 public class CustomListRowPresenter extends ListRowPresenter {
 
     private View viewHolder;
-    private int backgroundColor = 0;
+    private Integer backgroundColor;
+    private Integer topPadding;
     private Drawable backgroundDrawable;
 
     public CustomListRowPresenter(int color) {
@@ -19,8 +25,9 @@ public class CustomListRowPresenter extends ListRowPresenter {
         this.backgroundColor = color;
     }
 
-    public CustomListRowPresenter(Drawable drawable) {
+    public CustomListRowPresenter(Drawable drawable, Integer topPadding) {
         super();
+        this.topPadding = topPadding;
         this.backgroundDrawable = drawable;
     }
 
@@ -29,9 +36,14 @@ public class CustomListRowPresenter extends ListRowPresenter {
         super.onBindRowViewHolder(holder, item);
 
         viewHolder = (View) holder.view.getParent();
+
+        if (topPadding != null) {
+            viewHolder.setPadding(viewHolder.getPaddingLeft(), topPadding, viewHolder.getPaddingRight(), viewHolder.getPaddingBottom());
+        }
+
         if (backgroundDrawable != null) {
             viewHolder.setBackground(backgroundDrawable);
-        } else {
+        } else if (backgroundColor != null) {
             viewHolder.setBackgroundColor(backgroundColor);
         }
     }
