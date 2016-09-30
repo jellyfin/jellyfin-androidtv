@@ -123,7 +123,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private MyDetailsOverviewRowPresenter mDorPresenter;
     private MyDetailsOverviewRow mDetailsOverviewRow;
     private CustomListRowPresenter mListRowPresenter;
-    private Drawable mRowBackground = TvApp.getApplication().getResources().getDrawable(R.drawable.dark_gradient);
+    private Drawable mRowBackground = TvApp.getApplication().getCurrentBackgroundGradient();
 
     private TvApp mApplication;
     private FullDetailsActivity mActivity;
@@ -146,18 +146,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         backgroundManager.attach(getWindow());
         backgroundManager.setDimLayer(getDrawable(R.drawable.left_fade));
-
-        if (TvApp.getApplication().getCurrentBackground() != null) {
-            int[] colors = new int[2];
-            colors[0] = Utils.darker(Palette.from(TvApp.getApplication().getCurrentBackground()).generate().getMutedColor(TvApp.getApplication().getResources().getColor(R.color.black_transparent)), .6f);
-            colors[1] = Utils.darker(colors[0], .1f);
-
-            GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors);
-            gd.setCornerRadius(0f);
-            gd.setGradientCenter(.6f, .5f);
-            gd.setAlpha(200);
-            mRowBackground = gd;
-        }
 
         mBackgroundTarget = new MyPicassoBackgroundManagerTarget(backgroundManager);
         mMetrics = new DisplayMetrics();
