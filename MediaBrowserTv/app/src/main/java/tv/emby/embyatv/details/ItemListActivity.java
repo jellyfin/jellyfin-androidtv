@@ -118,6 +118,7 @@ public class ItemListActivity extends BaseActivity {
         mTitle = (TextView) findViewById(R.id.fdTitle);
         mTitle.setTypeface(roboto);
         mTitle.setShadowLayer(5, 5, 5, Color.BLACK);
+        mTitle.setText(getString(R.string.loading));
         mGenreRow = (LinearLayout) findViewById(R.id.fdGenreRow);
         mPoster = (ImageView) findViewById(R.id.mainImage);
         mButtonRow = (LinearLayout) findViewById(R.id.fdButtonRow);
