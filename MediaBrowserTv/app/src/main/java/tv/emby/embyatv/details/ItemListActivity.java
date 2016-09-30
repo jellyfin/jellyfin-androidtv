@@ -133,17 +133,7 @@ public class ItemListActivity extends BaseActivity {
         params.width = Utils.convertDpToPixel(TvApp.getApplication(),100);
 
         //create list background gradient
-        if (TvApp.getApplication().getCurrentBackground() != null) {
-            int[] colors = new int[2];
-            colors[0] = Utils.darker(Palette.from(TvApp.getApplication().getCurrentBackground()).generate().getMutedColor(TvApp.getApplication().getResources().getColor(R.color.black_transparent)), .6f);
-            colors[1] = Utils.darker(colors[0], .1f);
-
-            GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors);
-            gd.setCornerRadius(0f);
-            gd.setGradientCenter(.6f, .5f);
-            gd.setAlpha(200);
-            mItemList.setBackground(gd);
-        }
+        mItemList.setBackground(mApplication.getCurrentBackgroundGradient());
 
 
         mMetrics = new DisplayMetrics();
