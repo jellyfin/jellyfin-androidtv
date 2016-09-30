@@ -8,8 +8,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Handler;
@@ -17,6 +19,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.graphics.Palette;
 import android.text.format.DateUtils;
 import android.util.Log;
 
@@ -108,6 +111,8 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     private boolean searchAllowed = Build.VERSION.SDK_INT < 23;
 
+    private GradientDrawable currentBackgroundGradient;
+
     private boolean audioMuted;
     private boolean playingIntros;
     private DisplayPriorityType displayPriority = DisplayPriorityType.Movies;
@@ -123,6 +128,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
         app = (TvApp)getApplicationContext();
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
+        setCurrentBackgroundGradient(new int[] {ContextCompat.getColor(this, R.color.lb_default_brand_color_dark), ContextCompat.getColor(this, R.color.lb_default_brand_color)});
 
         logger.Info("Application object created");
 
@@ -140,7 +146,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
                         }
                     });
                 } else {
-                    Log.e("MediaBrowserTv", "Uncaught exception is: ", ex);
+                    Log.e("EmbyAndroidTv", "Uncaught exception is: ", ex);
                     ex.printStackTrace();
                     android.os.Process.killProcess(android.os.Process.myPid());
                     System.exit(10);
@@ -738,5 +744,24 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     public void setDisplayPriority(DisplayPriorityType displayPriority) {
         this.displayPriority = displayPriority;
+    }
+
+    public GradientDrawable getCurrentBackgroundGradient() {
+        return currentBackgroundGradient;
+    }
+
+    public void setCurrentBackground(Bitmap currentBackground) {
+        int[] colors = new int[2];
+        colors[0] = Utils.darker(Palette.from(currentBackground).generate().getMutedColor(ContextCompat.getColor(this, R.color.black_transparent)), .6f);
+        colors[1] = Utils.darker(colors[0], .1f);
+        setCurrentBackgroundGradient(colors);
+    }
+
+    private void setCurrentBackgroundGradient(int[] colors) {
+        currentBackgroundGradient = new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors);
+        currentBackgroundGradient.setCornerRadius(0f);
+        currentBackgroundGradient.setGradientCenter(.6f, .5f);
+        currentBackgroundGradient.setAlpha(200);
+
     }
 }

@@ -445,9 +445,13 @@ public class Utils {
     }
 
     public static String getLogoImageUrl(BaseItemDto item, ApiClient apiClient) {
+        return getLogoImageUrl(item, apiClient, 440);
+    }
+
+    public static String getLogoImageUrl(BaseItemDto item, ApiClient apiClient, int maxWidth) {
         if (item != null) {
             ImageOptions options = new ImageOptions();
-            options.setMaxWidth(440);
+            options.setMaxWidth(maxWidth);
             options.setImageType(ImageType.Logo);
             if (item.getHasLogo()) {
                 options.setTag(item.getImageTags().get(ImageType.Logo));

@@ -68,7 +68,7 @@ public class ImageButton extends ImageView {
         public void onFocusChange(View v, boolean hasFocus) {
             if (hasFocus) {
                 if (mHelpView != null) mHelpView.setText(mHelpText);
-                v.setBackgroundColor(getResources().getColor(R.color.lb_default_brand_color));
+                v.setBackgroundResource(R.drawable.btn_focus);
                 if (mGotFocusListener != null) mGotFocusListener.gotFocus(v);
             } else {
                 if (mHelpView != null) mHelpView.setText("");
