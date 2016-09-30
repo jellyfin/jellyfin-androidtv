@@ -23,7 +23,7 @@ public class DetailRowView extends FrameLayout {
 
     private void inflateView(Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        inflater.inflate(R.layout.details_overview_row, this);
+        inflater.inflate(R.layout.new_details_overview_row, this);
 
     }
 

@@ -14,7 +14,7 @@
     <color name="orange_transparent">#AAFADCA7</color>
     <color name="orange">#FADCA7</color>
     <color name="yellow">#EEFF41</color>
-    <color name="default_background">#3d3d3d</color>
+    <color name="default_background">#1e1e1e</color>
     <color name="settings_background">#d04c4c4c</color>
     <color name="semi_trans_dark">#49000000</color>
     <color name="gray_gradient_start">#898989</color>
