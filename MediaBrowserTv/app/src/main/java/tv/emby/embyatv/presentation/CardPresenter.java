@@ -238,6 +238,7 @@ public class CardPresenter extends Presenter {
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.server);
                 case Person:
+                    cardHeight = !m.isStaticHeight() ? pHeight : sHeight;
                     cardWidth = (int)(.777777777 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.person);
@@ -248,6 +249,7 @@ public class CardPresenter extends Presenter {
                     mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.person);
                     break;
                 case Chapter:
+                    cardHeight = !m.isStaticHeight() ? pHeight : sHeight;
                     cardWidth = (int)(1.779 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.chaptertile);

@@ -85,6 +85,7 @@ public class BaseRowItem {
 
     public BaseRowItem(BaseItemPerson person) {
         this.person = person;
+        this.staticHeight = true;
         type = ItemType.Person;
     }
 
@@ -100,6 +101,7 @@ public class BaseRowItem {
 
     public BaseRowItem(ChapterItemInfo chapter) {
         this.chapterInfo = chapter;
+        this.staticHeight = true;
         type = ItemType.Chapter;
     }
 

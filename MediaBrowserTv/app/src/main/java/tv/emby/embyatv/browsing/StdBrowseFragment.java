@@ -261,6 +261,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                 backgroundManager.setBitmap(resource);
+                mApplication.setCurrentBackground(resource);
             }
         };
 

@@ -41,7 +41,7 @@ public class ItemPanel extends RelativeLayout {
             title = (TextView) v.findViewById(R.id.title);
             infoRow = (LinearLayout) v.findViewById(R.id.infoRow);
             summary = (TextView) v.findViewById(R.id.summary);
-            Typeface roboto = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Light.ttf");
+            Typeface roboto = TvApp.getApplication().getDefaultFont();
             title.setTypeface(roboto);
             summary.setTypeface(roboto);
         }
