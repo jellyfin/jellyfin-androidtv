@@ -20,6 +20,8 @@ public class CustomListRowPresenter extends ListRowPresenter {
     private Integer topPadding;
     private Drawable backgroundDrawable;
 
+    public CustomListRowPresenter() { super();}
+
     public CustomListRowPresenter(int color) {
         super();
         this.backgroundColor = color;
