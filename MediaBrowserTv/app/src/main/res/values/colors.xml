@@ -29,6 +29,8 @@
     <color name="btn_idle_end">#323030</color>
     <color name="btn_focused_start">#c308720b</color>
     <color name="btn_focused_end">#c309500c</color>
+    <color name="txt_focused_start">#6108720b</color>
+    <color name="txt_focused_end">#6109500c</color>
     <color name="btn_focused_blue_start">#c30b6497</color>
     <color name="btn_focused_blue_end">#c3082c3e</color>
 

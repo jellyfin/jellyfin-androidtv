@@ -379,6 +379,7 @@
     <string name="lbl_minute">Minute</string>
     <string name="lbl_hours">Hours</string>
     <string name="lbl_on_schedule">On Schedule</string>
+    <string name="title_activity_expanded_text">ExpandedTextActivity</string>
 
 
 </resources>

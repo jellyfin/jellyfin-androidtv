@@ -119,8 +119,8 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
             case "Person":
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) vh.mSummary.getLayoutParams();
                 params.topMargin = 10;
-                params.height = Utils.convertDpToPixel(TvApp.getApplication(), 400);
-                vh.mSummary.setMaxLines(11);
+                params.height = Utils.convertDpToPixel(TvApp.getApplication(), 200);
+                vh.mSummary.setMaxLines(10);
                 vh.mGenreRow.setVisibility(View.GONE);
                 vh.mInfoRow.setVisibility(View.GONE);
                 vh.collapseLeftFrame();
@@ -129,7 +129,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
             case "MusicArtist":
                 RelativeLayout.LayoutParams artistParams = (RelativeLayout.LayoutParams) vh.mSummary.getLayoutParams();
                 artistParams.topMargin = 20;
-                artistParams.height = Utils.convertDpToPixel(TvApp.getApplication(), 350);
+                artistParams.height = Utils.convertDpToPixel(TvApp.getApplication(), 170);
                 vh.mSummary.setMaxLines(8);
                 vh.collapseLeftFrame();
 
