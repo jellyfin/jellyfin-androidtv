@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
@@ -18,6 +19,7 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.support.v7.graphics.Palette;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
@@ -103,6 +105,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
 
     private BaseItemDto mBaseItem;
     private ListRow mQueueRow;
+    private Drawable mListBackground;
 
     private long lastUserInteraction;
     private boolean ssActive;
@@ -255,6 +258,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
 
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         backgroundManager.attach(getWindow());
+        backgroundManager.setDimLayer(getDrawable(R.drawable.left_fade));
         mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
         mMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
@@ -262,12 +266,25 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mRowsFragment = new RowsFragment();
         getFragmentManager().beginTransaction().add(R.id.rowsFragment, mRowsFragment).commit();
 
+        //create list background gradient
+        if (TvApp.getApplication().getCurrentBackground() != null) {
+            int[] colors = new int[2];
+            colors[0] = Utils.darker(Palette.from(TvApp.getApplication().getCurrentBackground()).generate().getMutedColor(TvApp.getApplication().getResources().getColor(R.color.black_transparent)), .6f);
+            colors[1] = Utils.darker(colors[0], .1f);
+
+            GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors);
+            gd.setCornerRadius(0f);
+            gd.setGradientCenter(.6f, .5f);
+            gd.setAlpha(200);
+            mListBackground = gd;
+        }
         mRowsFragment.setOnItemViewClickedListener(new ItemViewClickedListener());
         mRowsFragment.setOnItemViewSelectedListener(new ItemViewSelectedListener());
-        mAudioQueuePresenter = new PositionableListRowPresenter();
+        mAudioQueuePresenter = new PositionableListRowPresenter(mListBackground, 10);
         mRowsAdapter = new ArrayObjectAdapter(mAudioQueuePresenter);
         mRowsFragment.setAdapter(mRowsAdapter);
         addQueue();
+
 
         mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
 
