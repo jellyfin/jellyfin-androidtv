@@ -31,7 +31,7 @@
             android:name=".browsing.MainActivity"
             android:label="@string/app_name"
             android:logo="@drawable/app_icon"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".startup.StartupActivity"
             android:label="@string/app_name"
@@ -46,13 +46,13 @@
         </activity>
         <activity
             android:name=".startup.ConnectActivity"
-            android:label="@string/title_activity_connect"></activity>
+            android:label="@string/title_activity_connect" />
         <activity
             android:name=".startup.SelectUserActivity"
-            android:label="@string/title_activity_select_user"></activity>
+            android:label="@string/title_activity_select_user" />
         <activity
             android:name=".playback.PlaybackOverlayActivity"
-            android:label="PlaybackOverlayActivity"></activity>
+            android:label="PlaybackOverlayActivity" />
         <activity android:name=".browsing.GenericFolderActivity" />
         <activity android:name=".browsing.UserViewActivity" />
         <activity android:name=".startup.SelectServerActivity" />
@@ -76,7 +76,7 @@
         <activity android:name=".playback.ExternalPlayerActivity" />
         <activity
             android:name=".startup.DpadPwActivity"
-            android:label="@string/title_activity_dpad_pw"></activity>
+            android:label="@string/title_activity_dpad_pw" />
         <activity android:name="tv.emby.iap.PurchaseActivity" />
 
         <receiver android:name=".util.RemoteControlReceiver">
@@ -91,6 +91,9 @@
             android:exported="true"
             android:grantUriPermissions="true" />
 
+        <activity
+            android:name=".details.ExpandedTextActivity"
+            android:label="@string/title_activity_expanded_text"></activity>
     </application>
 
 </manifest>
