@@ -1326,7 +1326,12 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     mResumeButton.setVisibility(View.GONE);
                 //force lists to re-fetch
                 TvApp.getApplication().setLastPlayback(Calendar.getInstance());
-                showMoreButtonIfNeeded();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showMoreButtonIfNeeded();
+                    }
+                },100); //delay this just a bit to be sure button visibility has taken effect
             }
         });
 
@@ -1343,7 +1348,12 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     mResumeButton.setVisibility(View.GONE);
                 //force lists to re-fetch
                 TvApp.getApplication().setLastPlayback(Calendar.getInstance());
-                showMoreButtonIfNeeded();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showMoreButtonIfNeeded();
+                    }
+                },100); //delay this just a bit to be sure button visibility has taken effect
             }
         });
 
