@@ -1058,6 +1058,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                             mPrevButton.setVisibility(View.GONE);
                         }
                     }
+                    showMoreButtonIfNeeded();
                 }
             });
 
@@ -1168,7 +1169,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         moreButton.setVisibility(View.GONE);
         mDetailsOverviewRow.addAction(moreButton);
-        showMoreButtonIfNeeded();
+        if (!"Episode".equals(mBaseItem.getType())) showMoreButtonIfNeeded();  //Episodes check for previous and then call this above
 
     }
 
