@@ -17,7 +17,7 @@
             android:textSize="14sp"
             android:textAllCaps="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="155dp"
+            android:layout_marginTop="165dp"
             android:id="@+id/infoTitle1"
             android:textAlignment="viewEnd" />
 
@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/fdTitle"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="55sp"
+            android:layout_marginTop="65sp"
             android:textSize="32sp"
             android:maxLines="2"
             android:ellipsize="end"
