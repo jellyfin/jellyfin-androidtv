@@ -132,9 +132,6 @@ public class ItemListActivity extends BaseActivity {
         ViewGroup.LayoutParams params = leftFrame.getLayoutParams();
         params.width = Utils.convertDpToPixel(TvApp.getApplication(),100);
 
-        //create list background gradient
-        mItemList.setBackground(mApplication.getCurrentBackgroundGradient());
-
 
         mMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
@@ -477,6 +474,9 @@ public class ItemListActivity extends BaseActivity {
                     //update our status
                     mAudioEventListener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, MediaManager.getCurrentAudioItem());
                 }
+                //create list background gradient
+                mItemList.setBackground(mApplication.getCurrentBackgroundGradient());
+
                 updateBackdrop();
             }
         }
