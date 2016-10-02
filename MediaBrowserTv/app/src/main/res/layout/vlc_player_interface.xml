@@ -324,7 +324,7 @@
 
     <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="275sp"
+        android:layout_height="225sp"
         android:id="@+id/popupArea"
         android:visibility="gone"
         android:background="@color/black"
