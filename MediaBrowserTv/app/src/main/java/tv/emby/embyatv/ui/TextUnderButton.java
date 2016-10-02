@@ -1,14 +1,11 @@
 package tv.emby.embyatv.ui;
 
 import android.content.Context;
-import android.graphics.Rect;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 
 import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.model.GotFocusEvent;
 
 /**
@@ -51,6 +48,7 @@ public class TextUnderButton extends RelativeLayout {
         mButton.setOnClickListener(clicked);
         mButton.setOnFocusChangeListener(focusChange);
 
+
     }
 
     public void setText(String text) { mLabel.setText(text); }
@@ -90,5 +88,9 @@ public class TextUnderButton extends RelativeLayout {
     public void setEnabled(boolean enabled) {
         mButton.setFocusable(enabled);
         mButton.setFocusableInTouchMode(enabled);
+    }
+
+    public boolean isVisible() {
+        return getVisibility() == View.VISIBLE;
     }
 }

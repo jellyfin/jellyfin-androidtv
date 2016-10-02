@@ -226,12 +226,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                     mBaseItem = response;
                                     if (mResumeButton != null) {
                                         mResumeButton.setVisibility(("Series".equals(mBaseItem.getType()) && ! mBaseItem.getUserData().getPlayed()) || response.getCanResume() ? View.VISIBLE : View.GONE);
-                                        new Handler().postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                showMoreButtonIfNeeded();
-                                            }
-                                        },100); //delay this just a bit to be sure button visibility has taken effect
+                                        showMoreButtonIfNeeded();
                                     }
                                     updatePlayedDate();
                                     updateWatched();
@@ -1199,16 +1194,33 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     }
 
-    private void showMoreButtonIfNeeded() {
-        if (mDetailsOverviewRow.getVisibleActions() > 5) {
+    int collapsedOptions = 0 ;
 
-            if (favButton != null) favButton.setVisibility(View.GONE);
-            if (queueButton != null) queueButton.setVisibility(View.GONE);
-            if (goToSeriesButton != null) goToSeriesButton.setVisibility(View.GONE);
-            if (deleteButton != null) deleteButton.setVisibility(View.GONE);
+    private void showMoreButtonIfNeeded() {
+        int visibleOptions = mDetailsOverviewRow.getVisibleActions() + (moreButton.isVisible() ? collapsedOptions - 1 : 0);
+
+        if (visibleOptions > 5) {
+
+            if (favButton != null) {
+                favButton.setVisibility(View.GONE);
+                collapsedOptions++;
+            }
+            if (queueButton != null) {
+                queueButton.setVisibility(View.GONE);
+                collapsedOptions++;
+            }
+            if (goToSeriesButton != null) {
+                goToSeriesButton.setVisibility(View.GONE);
+                collapsedOptions++;
+            }
+            if (deleteButton != null) {
+                deleteButton.setVisibility(View.GONE);
+                collapsedOptions++;
+            }
 
             moreButton.setVisibility(View.VISIBLE);
         } else {
+            collapsedOptions = 0;
             if (favButton != null) favButton.setVisibility(View.VISIBLE);
             if (queueButton != null) queueButton.setVisibility(View.VISIBLE);
             if (goToSeriesButton != null) goToSeriesButton.setVisibility(View.VISIBLE);
@@ -1347,12 +1359,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     mResumeButton.setVisibility(View.GONE);
                 //force lists to re-fetch
                 TvApp.getApplication().setLastPlayback(Calendar.getInstance());
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        showMoreButtonIfNeeded();
-                    }
-                },100); //delay this just a bit to be sure button visibility has taken effect
+                showMoreButtonIfNeeded();
             }
         });
 
@@ -1369,12 +1376,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     mResumeButton.setVisibility(View.GONE);
                 //force lists to re-fetch
                 TvApp.getApplication().setLastPlayback(Calendar.getInstance());
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        showMoreButtonIfNeeded();
-                    }
-                },100); //delay this just a bit to be sure button visibility has taken effect
+                showMoreButtonIfNeeded();
             }
         });
 

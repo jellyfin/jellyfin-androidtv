@@ -65,7 +65,7 @@ public class MyDetailsOverviewRow extends Row {
     public int getVisibleActions() {
         int actions = 0;
         for (int i = 0; i < mActions.size(); i++) {
-            if (mActions.get(i).getVisibility() != View.GONE) actions++;
+            if (mActions.get(i).isVisible()) actions++;
         }
         return actions;
     }
