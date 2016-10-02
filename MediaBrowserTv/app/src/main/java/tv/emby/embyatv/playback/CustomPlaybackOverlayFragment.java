@@ -686,7 +686,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 }
 
                 if (keyCode == KeyEvent.KEYCODE_DPAD_UP && !mIsVisible && mPlaybackController.isLiveTv()) {
-                    showChapterPanel();
+                    showQuickChannelChanger();
                     return true;
                 }
 
@@ -1295,6 +1295,20 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mCurrentDuration = andDuration.intValue();
     }
 
+    private void showQuickChannelChanger() {
+        showChapterPanel();
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int ndx = TvManager.getAllChannelsIndex(TvManager.getLastLiveTvChannel());
+                if (ndx > 0) {
+                    mPopupRowPresenter.setPosition(ndx);
+                }
+
+            }
+        },500);
+    }
+
     private void addButtons(BaseItemDto item) {
         mButtonRow.removeAllViews();
 
@@ -1345,17 +1359,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.channelbar, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showChapterPanel();
-                    mHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            int ndx = TvManager.getAllChannelsIndex(mPlaybackController.getCurrentlyPlayingItem().getId());
-                            if (ndx > 0) {
-                                mPopupRowPresenter.setPosition(ndx);
-                            }
-
-                        }
-                    },500);
+                    showQuickChannelChanger();
                 }
             }));
 
