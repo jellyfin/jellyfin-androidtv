@@ -36,6 +36,7 @@ import com.squareup.picasso.Target;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
@@ -622,6 +623,26 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     ItemRowAdapter nextAdapter = new ItemRowAdapter(nextEpisodes, 0 , false, true, new CardPresenter(true, 240), adapter);
                     addItemRow(adapter, nextAdapter, 5, "Next Episodes");
                 }
+
+                //Guest stars
+                if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
+                    List<BaseItemPerson> guests = new ArrayList<>();
+                    for (BaseItemPerson person : mBaseItem.getPeople()) {
+                        if (PersonType.GuestStar.equals(person.getType())) guests.add(person);
+                    }
+                    if (guests.size() > 0) {
+                        ItemRowAdapter castAdapter = new ItemRowAdapter(guests.toArray(new BaseItemPerson[guests.size()]), new CardPresenter(true, 240), adapter);
+                        addItemRow(adapter, castAdapter, 0, mActivity.getString(R.string.lbl_guest_stars));
+                    }
+                }
+
+                //Chapters
+                if (mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
+                    List<ChapterItemInfo> chapters = Utils.buildChapterItems(mBaseItem);
+                    ItemRowAdapter chapterAdapter = new ItemRowAdapter(chapters, new CardPresenter(true, 240), adapter);
+                    addItemRow(adapter, chapterAdapter, 1, mActivity.getString(R.string.lbl_chapters));
+                }
+
                 addInfoRows(adapter);
                 break;
 

@@ -380,6 +380,7 @@
     <string name="lbl_hours">Hours</string>
     <string name="lbl_on_schedule">On Schedule</string>
     <string name="title_activity_expanded_text">ExpandedTextActivity</string>
+    <string name="lbl_guest_stars">Guest Stars</string>
 
 
 </resources>
