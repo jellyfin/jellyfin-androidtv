@@ -1259,7 +1259,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             int width = Utils.convertDpToPixel(this, 600);
             Point size = new Point();
             getWindowManager().getDefaultDisplay().getSize(size);
-            mRecordPopup = new RecordPopup(this, mRowsFragment.getView(), (size.x/2) - (width/2), mRowsFragment.getView().getTop(), width);
+            mRecordPopup = new RecordPopup(this, mRowsFragment.getView(), (size.x/2) - (width/2), mRowsFragment.getView().getTop()+40, width);
         }
         TvApp.getApplication().getApiClient().GetLiveTvSeriesTimerAsync(id, new Response<SeriesTimerInfoDto>() {
             @Override
