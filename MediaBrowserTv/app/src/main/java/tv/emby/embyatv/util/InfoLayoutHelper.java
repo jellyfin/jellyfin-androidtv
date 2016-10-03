@@ -207,11 +207,13 @@ public class InfoLayoutHelper {
     }
 
     private static void addSeasonEpisode(Activity activity, BaseItemDto item, LinearLayout layout) {
-            String text = "S"+item.getParentIndexNumber()+" E"+item.getIndexNumber() + (item.getIndexNumberEnd() != null ? "-" + item.getIndexNumberEnd() : "")+"  ";
+        if (item.getIndexNumber() != null) {
+            String text = (item.getParentIndexNumber() != null ? "S"+item.getParentIndexNumber() : "") +" E"+item.getIndexNumber() + (item.getIndexNumberEnd() != null ? "-" + item.getIndexNumberEnd() : "")+"  ";
             TextView time = new TextView(activity);
             time.setTextSize(textSize);
             time.setText(text);
             layout.addView(time);
+        }
     }
 
     private static void addCriticInfo(Activity activity, BaseItemDto item, LinearLayout layout) {

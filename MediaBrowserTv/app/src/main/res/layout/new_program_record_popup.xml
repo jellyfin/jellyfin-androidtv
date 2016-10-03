@@ -143,7 +143,6 @@
             android:layout_height="wrap_content"
             android:text="@string/lbl_repeat_options"
             android:id="@+id/textView12"
-            android:gravity="center_horizontal"
             android:textSize="16sp"
             android:textColor="@android:color/holo_blue_light" />
 
