@@ -118,7 +118,7 @@ public class CardPresenter extends Presenter {
                             break;
                         case "Episode":
                             //TvApp.getApplication().getLogger().Debug("**** Image width: "+ cardWidth + " Aspect: " + Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()) + " Item: "+itemDto.getName());
-                            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tv);
+                            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tvl);
                             switch (itemDto.getLocationType()) {
 
                                 case FileSystem:
@@ -201,7 +201,7 @@ public class CardPresenter extends Presenter {
                 case LiveTvProgram:
                     BaseItemDto program = mItem.getProgramInfo();
                     Double programAspect = program.getPrimaryImageAspectRatio();
-                    if (programAspect == null) programAspect = .66667;
+                    if (programAspect == null) programAspect = Utils.isTrue(program.getIsMovie()) ? .66667 : 1.779;
                     cardHeight = !m.isStaticHeight() ? programAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((programAspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
@@ -218,7 +218,7 @@ public class CardPresenter extends Presenter {
                             break;
                     }
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                    mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tv);
+                    mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tvl);
                     //Always show info for programs
                     mCardView.setCardType(BaseCardView.CARD_TYPE_INFO_UNDER);
                     break;
@@ -312,7 +312,7 @@ public class CardPresenter extends Presenter {
                     //TvApp.getApplication().getLogger().Debug("Clearing card image");
                     Glide.with(getContext())
                             .load("nothing")
-                            .centerCrop()
+                            .fitCenter()
                             .error(mDefaultCardImage)
                             .into(mCardView.getMainImageView());
 
@@ -322,7 +322,6 @@ public class CardPresenter extends Presenter {
                             .load(url)
                             .asBitmap()
                             .override(cardWidth, cardHeight)
-                            .centerCrop()
                             .error(mDefaultCardImage)
                             .into(new BitmapImageViewTarget(mCardView.getMainImageView()) {
                                 @Override
