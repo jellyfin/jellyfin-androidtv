@@ -189,6 +189,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mNextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         queryType = QueryType.NextUp;
         this.preferParentThumb = preferParentThumb;
+        this.staticHeight = true;
         add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
@@ -1097,7 +1098,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     if (adapter.size() > 0) adapter.clear();
                     int i = 0;
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++, item, preferParentThumb, false));
+                        adapter.add(new BaseRowItem(i++, item, preferParentThumb, staticHeight));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);

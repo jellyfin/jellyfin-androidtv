@@ -106,6 +106,7 @@ public class BrowseRowDef {
         headerText = header;
         this.nextUpQuery = query;
         this.queryType = QueryType.NextUp;
+        this.staticHeight = true;
         this.changeTriggers = changeTriggers;
     }
 
