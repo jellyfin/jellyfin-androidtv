@@ -150,6 +150,7 @@ public class RecordPopup {
                     updated.setPostPaddingSeconds(mCurrentOptions.getPostPaddingSeconds());
                     updated.setIsPrePaddingRequired(mCurrentOptions.getIsPrePaddingRequired());
                     updated.setIsPostPaddingRequired(mCurrentOptions.getIsPostPaddingRequired());
+
                     TvApp.getApplication().getApiClient().UpdateLiveTvTimerAsync(updated, new EmptyResponse() {
                         @Override
                         public void onResponse() {
