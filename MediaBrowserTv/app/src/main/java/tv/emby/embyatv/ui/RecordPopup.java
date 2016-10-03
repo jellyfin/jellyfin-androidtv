@@ -40,9 +40,8 @@ import tv.emby.embyatv.util.Utils;
  * Created by Eric on 6/3/2015.
  */
 public class RecordPopup {
-    final int SERIES_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 500);
-    final int NORMAL_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 400);
-    final List<String> DayValues = Arrays.asList("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+    final int SERIES_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 420);
+    final int NORMAL_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 330);
 
     PopupWindow mPopup;
     String mProgramId;
@@ -57,12 +56,9 @@ public class RecordPopup {
     TextView mDTitle;
     LinearLayout mDTimeline;
     View mSeriesOptions;
-    GridLayout mWeekdayOptions;
-    CheckBox[] mWeekdayChecks = new CheckBox[7];
     Spinner mPrePadding;
     Spinner mPostPadding;
-    CheckBox mPreRequired;
-    CheckBox mPostRequired;
+
     CheckBox mOnlyNew;
     CheckBox mAnyTime;
     CheckBox mAnyChannel;
@@ -81,7 +77,7 @@ public class RecordPopup {
         mPosLeft = left;
         mPosTop = top;
         LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.program_record_popup, null);
+        View layout = inflater.inflate(R.layout.new_program_record_popup, null);
         Typeface roboto = Typeface.createFromAsset(mActivity.getAssets(), "fonts/Roboto-Light.ttf");
         mPopup = new PopupWindow(layout, width, NORMAL_HEIGHT);
         mPopup.setFocusable(true);
@@ -116,45 +112,18 @@ public class RecordPopup {
 
             }
         });
-        mPreRequired = (CheckBox) layout.findViewById(R.id.prePadReq);
-        mPostRequired = (CheckBox) layout.findViewById(R.id.postPadReq);
 
         mOnlyNew = (CheckBox) layout.findViewById(R.id.onlyNew);
         mAnyChannel = (CheckBox) layout.findViewById(R.id.anyChannel);
         mAnyTime = (CheckBox) layout.findViewById(R.id.anyTime);
 
         mSeriesOptions = layout.findViewById(R.id.seriesOptions);
-        mWeekdayOptions = (GridLayout) layout.findViewById(R.id.weekdayOptions);
-        int i = -1;
-        for (String day : DateFormatSymbols.getInstance().getWeekdays()) {
-            if (i < 0) {
-                //first one is blank
-                i++;
-                continue;
-            }
-            CheckBox cbx = new CheckBox(mActivity);
-            cbx.setText(day);
-            cbx.setTextSize(14);
-            mWeekdayChecks[i++] = cbx;
-            mWeekdayOptions.addView(cbx);
-        }
 
         mOkButton = (Button) layout.findViewById(R.id.okButton);
         mOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    mCurrentOptions.setIsPrePaddingRequired(mPreRequired.isChecked());
-                    mCurrentOptions.setIsPostPaddingRequired(mPostRequired.isChecked());
-                } catch (Exception e) {
-                    TvApp.getApplication().getLogger().ErrorException("Error parsing padding values",e);
-                }
                 if (mRecordSeries) {
-                    mCurrentOptions.setDays(new ArrayList<String>());
-                    for (int i = 0; i < 7; i++) {
-                        if (mWeekdayChecks[i].isChecked())
-                            mCurrentOptions.getDays().add(DayValues.get(i));
-                    }
                     mCurrentOptions.setRecordNewOnly(mOnlyNew.isChecked());
                     mCurrentOptions.setRecordAnyChannel(mAnyChannel.isChecked());
                     mCurrentOptions.setRecordAnyTime(mAnyTime.isChecked());
@@ -235,19 +204,10 @@ public class RecordPopup {
         // set defaults
         mPrePadding.setSelection(getPaddingNdx(current.getPrePaddingSeconds()));
         mPostPadding.setSelection(getPaddingNdx(current.getPostPaddingSeconds()));
-        mPreRequired.setChecked(current.getIsPrePaddingRequired());
-        mPostRequired.setChecked(current.getIsPostPaddingRequired());
 
         if (recordSeries) {
             mPopup.setHeight(SERIES_HEIGHT);
             mSeriesOptions.setVisibility(View.VISIBLE);
-
-            // select proper days
-            int i = 0;
-            for (CheckBox day : mWeekdayChecks) {
-                day.setChecked(current.getDays().contains(DayValues.get(i)));
-                i++;
-            }
 
             // and other options
             mAnyChannel.setChecked(current.getRecordAnyChannel());
