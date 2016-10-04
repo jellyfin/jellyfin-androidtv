@@ -449,7 +449,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     public void setLastMusicPlayback(long time) { lastMusicPlayback = time; }
     public long getLastMusicPlayback() { return lastMusicPlayback; }
 
-    public boolean directStreamLiveTv() { return !getPrefs().getBoolean("pref_live_shift", false) && getPrefs().getBoolean("pref_live_direct", true); }
+    public boolean directStreamLiveTv() { return getPrefs().getBoolean("pref_live_direct", true); }
 
     public void setDirectStreamLiveTv(boolean value) { getPrefs().edit().putBoolean("pref_live_direct", value).commit(); }
 
