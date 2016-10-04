@@ -17,6 +17,7 @@ import mediabrowser.model.dto.BaseItemDto;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.livetv.ILiveTvGuide;
+import tv.emby.embyatv.livetv.TvManager;
 import tv.emby.embyatv.util.InfoLayoutHelper;
 import tv.emby.embyatv.util.Utils;
 
@@ -56,16 +57,7 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
         mInfoRow.setFocusable(false);
         mRecIndicator = (ImageView) findViewById(R.id.recIndicator);
 
-        if (Utils.isTrue(program.getIsMovie()))
-            mBackgroundColor = getResources().getColor(R.color.guide_movie_bg);
-        else if (Utils.isTrue(program.getIsNews()))
-            mBackgroundColor = getResources().getColor(R.color.guide_news_bg);
-        else if (Utils.isTrue(program.getIsSports()))
-            mBackgroundColor = getResources().getColor(R.color.guide_sports_bg);
-        else if (Utils.isTrue(program.getIsKids()))
-            mBackgroundColor = getResources().getColor(R.color.guide_kids_bg);
-
-        setBackgroundColor(mBackgroundColor);
+        setCellBackground();
 
         if (program.getStartDate() != null && program.getEndDate() != null) {
             Date localStart = Utils.convertToLocalDate(program.getStartDate());
@@ -79,9 +71,19 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
             }
         }
 
-        if (Utils.isNew(program)) {
+        if (TvManager.getPrefs().showNewIndicator && Utils.isNew(program) && (!TvManager.getPrefs().showPremiereIndicator || !Utils.isTrue(program.getIsPremiere()))) {
             InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
             InfoLayoutHelper.addBlockText(context, mInfoRow, TvApp.getApplication().getString(R.string.lbl_new), 10, Color.GRAY, R.drawable.dark_green_gradient);
+        }
+
+        if (TvManager.getPrefs().showPremiereIndicator && Utils.isTrue(program.getIsPremiere())) {
+            InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
+            InfoLayoutHelper.addBlockText(context, mInfoRow, TvApp.getApplication().getString(R.string.lbl_premiere), 10, Color.GRAY, R.drawable.dark_green_gradient);
+        }
+
+        if (TvManager.getPrefs().showRepeatIndicator && Utils.isTrue(program.getIsRepeat())) {
+            InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
+            InfoLayoutHelper.addBlockText(context, mInfoRow, TvApp.getApplication().getString(R.string.lbl_repeat), 10, Color.GRAY, R.color.lb_default_brand_color);
         }
 
         if (program.getOfficialRating() != null && !program.getOfficialRating().equals("0")) {
@@ -89,7 +91,7 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
             InfoLayoutHelper.addBlockText(context, mInfoRow, program.getOfficialRating(), 10);
         }
 
-        if (program.getIsHD() != null && program.getIsHD()) {
+        if (TvManager.getPrefs().showHDIndicator && Utils.isTrue(program.getIsHD())) {
             InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
             InfoLayoutHelper.addBlockText(context, mInfoRow, "HD", 10);
         }
@@ -109,12 +111,29 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
 
     }
 
+    public void setCellBackground() {
+        if (TvManager.getPrefs().colorCodeGuide) {
+            if (Utils.isTrue(mProgram.getIsMovie()))
+                mBackgroundColor = getResources().getColor(R.color.guide_movie_bg);
+            else if (Utils.isTrue(mProgram.getIsNews()))
+                mBackgroundColor = getResources().getColor(R.color.guide_news_bg);
+            else if (Utils.isTrue(mProgram.getIsSports()))
+                mBackgroundColor = getResources().getColor(R.color.guide_sports_bg);
+            else if (Utils.isTrue(mProgram.getIsKids()))
+                mBackgroundColor = getResources().getColor(R.color.guide_kids_bg);
+
+            setBackgroundColor(mBackgroundColor);
+        }
+
+
+    }
+
     @Override
     protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
 
         if (gainFocus) {
-            setBackgroundColor(getResources().getColor(R.color.btn_focused_blue_end));
+            setBackgroundColor(getResources().getColor(R.color.btn_focused_end));
             mActivity.setSelectedProgram(this);
         } else {
             setBackgroundColor(mBackgroundColor);

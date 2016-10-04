@@ -186,6 +186,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     public void setCurrentUser(UserDto currentUser) {
         this.currentUser = currentUser;
         TvManager.clearCache();
+        this.displayPrefsCache = new HashMap<>();
     }
 
     public GsonJsonSerializer getSerializer() {
@@ -625,17 +626,25 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     }
 
     public void updateDisplayPrefs(DisplayPreferences preferences) {
+        updateDisplayPrefs("ATV", preferences);
+    }
+
+    public void updateDisplayPrefs(String app, DisplayPreferences preferences) {
         displayPrefsCache.put(preferences.getId(), preferences);
-        getApiClient().UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), "ATV", new EmptyResponse());
+        getApiClient().UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), app, new EmptyResponse());
         logger.Debug("Display prefs updated for "+preferences.getId()+" isFavorite: "+preferences.getCustomPrefs().get("FavoriteOnly"));
     }
 
-    public void getDisplayPrefsAsync(final String key, final Response<DisplayPreferences> outerResponse) {
+    public void getDisplayPrefsAsync(String key, Response<DisplayPreferences> response) {
+        getDisplayPrefsAsync(key, "ATV", response);
+    }
+
+    public void getDisplayPrefsAsync(final String key, String app, final Response<DisplayPreferences> outerResponse) {
         if (displayPrefsCache.containsKey(key)) {
             logger.Debug("Display prefs loaded from cache "+key);
             outerResponse.onResponse(displayPrefsCache.get(key));
         } else {
-            getApiClient().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), "ATV", new Response<DisplayPreferences>(){
+            getApiClient().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), app, new Response<DisplayPreferences>(){
                 @Override
                 public void onResponse(DisplayPreferences response) {
                     if (response.getSortBy() == null) response.setSortBy("SortName");
