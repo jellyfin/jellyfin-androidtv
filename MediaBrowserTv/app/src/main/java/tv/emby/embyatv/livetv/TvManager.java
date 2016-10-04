@@ -137,7 +137,7 @@ public class TvManager {
 
     }
 
-    private static void updatePrefs(LiveTvPrefs newPrefs) {
+    public static void updatePrefs(LiveTvPrefs newPrefs) {
         prefs = newPrefs;
         HashMap<String,String> current = displayPrefs.getCustomPrefs();
         current.put("livetv-channelorder", newPrefs.channelOrder);
@@ -150,12 +150,6 @@ public class TvManager {
         current.put("guide-indicator-repeat", String.valueOf(newPrefs.showRepeatIndicator));
 
         TvApp.getApplication().updateDisplayPrefs("emby", displayPrefs);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                resetChannels();
-            }
-        },500);
     }
 
     private static void translatePrefs(DisplayPreferences displayPrefs) {

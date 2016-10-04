@@ -382,6 +382,10 @@
     <string name="title_activity_expanded_text">ExpandedTextActivity</string>
     <string name="lbl_guest_stars">Guest Stars</string>
     <string name="lbl_premiere">Premiere</string>
+    <string name="lbl_sort_by">Sort by</string>
+    <string name="lbl_show_indicators">Show Indicators For</string>
+    <string name="lbl_guide_option_played">Last Played</string>
+    <string name="lbl_guide_option_number">Channel Number</string>
 
 
 </resources>

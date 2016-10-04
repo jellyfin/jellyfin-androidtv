@@ -14,6 +14,8 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
@@ -22,10 +24,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +44,7 @@ import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.base.BaseActivity;
 import tv.emby.embyatv.base.CustomMessage;
 import tv.emby.embyatv.base.IMessageListener;
+import tv.emby.embyatv.model.LiveTvPrefs;
 import tv.emby.embyatv.ui.FriendlyDateButton;
 import tv.emby.embyatv.ui.GuideChannelHeader;
 import tv.emby.embyatv.ui.GuidePagingButton;
@@ -137,6 +143,13 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             @Override
             public void onClick(View v) {
                 showFilterOptions();
+            }
+        });
+
+        findViewById(R.id.optionsButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showOptions();
             }
         });
 
@@ -288,7 +301,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 break;
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                if ((mDetailPopup == null || !mDetailPopup.isShowing()) && (mFilterPopup == null || !mFilterPopup.isShowing())
+                if ((mDetailPopup == null || !mDetailPopup.isShowing()) && (mFilterPopup == null || !mFilterPopup.isShowing()) && (mOptionsPopup == null || !mOptionsPopup.isShowing())
                         && mSelectedProgram != null && mSelectedProgram.getChannelId() != null) {
                     // tune to the current channel
                     Utils.Beep();
@@ -449,6 +462,115 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         }
     }
 
+    private OptionsPopup mOptionsPopup;
+    class OptionsPopup {
+
+        final int WIDTH = Utils.convertDpToPixel(TvApp.getApplication(), 300);
+        final int HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 460);
+
+        PopupWindow mPopup;
+        LiveTvGuideActivity mActivity;
+        CheckBox mHd;
+        CheckBox mLive;
+        CheckBox mRepeat;
+        CheckBox mNew;
+        CheckBox mColorCode;
+        CheckBox mFavTop;
+        Spinner mSortBy;
+        CheckBox mPremiere;
+        String mCurrentSort;
+
+        Button mSaveButton;
+        Button mCancelButton;
+
+        OptionsPopup(LiveTvGuideActivity activity) {
+            mActivity = activity;
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.guide_options_popup, null);
+            mPopup = new PopupWindow(layout, WIDTH, HEIGHT);
+            mPopup.setFocusable(true);
+            mPopup.setOutsideTouchable(true);
+            mPopup.setBackgroundDrawable(new BitmapDrawable()); // necessary for popup to dismiss
+            mPopup.setAnimationStyle(R.style.PopupSlideInRight);
+            mHd = (CheckBox) layout.findViewById(R.id.hd);
+            mRepeat = (CheckBox) layout.findViewById(R.id.repeat);
+            mLive = (CheckBox) layout.findViewById(R.id.live);
+            mNew = (CheckBox) layout.findViewById(R.id.newEpisodes);
+            mColorCode = (CheckBox) layout.findViewById(R.id.colorCode);
+            mPremiere = (CheckBox) layout.findViewById(R.id.premieres);
+            mFavTop = (CheckBox) layout.findViewById(R.id.favTop);
+            mSortBy = (Spinner) layout.findViewById(R.id.sortBy);
+
+            mSaveButton = (Button) layout.findViewById(R.id.okButton);
+            mSaveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LiveTvPrefs prefs = TvManager.getPrefs();
+                    prefs.showHDIndicator = mHd.isChecked();
+                    prefs.showPremiereIndicator = mPremiere.isChecked();
+                    prefs.showNewIndicator = mNew.isChecked();
+                    prefs.favsAtTop = mFavTop.isChecked();
+                    prefs.colorCodeGuide = mColorCode.isChecked();
+                    prefs.showRepeatIndicator = mRepeat.isChecked();
+                    prefs.channelOrder = mCurrentSort;
+
+                    TvManager.updatePrefs(prefs);
+
+                    load();
+                    mPopup.dismiss();
+                }
+            });
+            mCancelButton = (Button) layout.findViewById(R.id.cancelButton);
+            mCancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPopup.dismiss();
+                }
+            });
+
+            mSortBy.setAdapter(new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, new ArrayList<>(Arrays.asList(getString(R.string.lbl_guide_option_played), getString(R.string.lbl_guide_option_number)))));
+
+            mSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    mCurrentSort = position == 0 ? "DatePlayed" : "Number";
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+        }
+
+        public boolean isShowing() {
+            return (mPopup != null && mPopup.isShowing());
+        }
+
+        public void show() {
+            LiveTvPrefs prefs = TvManager.getPrefs();
+
+            mHd.setChecked(prefs.showHDIndicator);
+            mRepeat.setChecked(prefs.showRepeatIndicator);
+            mLive.setChecked(prefs.showLiveIndicator);
+            mNew.setChecked(prefs.showNewIndicator);
+            mRepeat.setChecked(prefs.showRepeatIndicator);
+            mColorCode.setChecked(prefs.colorCodeGuide);
+            mPremiere.setChecked(prefs.showPremiereIndicator);
+            mSortBy.setSelection(prefs.channelOrder.equals("DatePlayed") ? 0 : 1);
+
+            mPopup.showAtLocation(mTimelineScroller, Gravity.NO_GRAVITY, mTimelineScroller.getRight(), mSummary.getTop()-20);
+
+        }
+
+        public void dismiss() {
+            if (mPopup != null && mPopup.isShowing()) {
+                mPopup.dismiss();
+            }
+        }
+    }
+
     public void dismissProgramOptions() {
         if (mDetailPopup != null) mDetailPopup.dismiss();
     }
@@ -473,6 +595,13 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
     }
 
+
+    public void showOptions() {
+
+        if (mOptionsPopup == null) mOptionsPopup = new OptionsPopup(this);
+        mOptionsPopup.show();
+
+    }
 
     public void displayChannels(int start, int max) {
         int end = start + max;

@@ -141,11 +141,6 @@
             android:defaultValue="true"
             android:summary="@string/desc_use_vlc_livetv"
             />
-        <CheckBoxPreference android:key="pref_guide_sort_date"
-            android:title="@string/pref_sort_date_option"
-            android:defaultValue="true"
-            android:summary="@string/pref_sort_date_desc"
-            />
     </PreferenceCategory>
 
 </PreferenceScreen>
