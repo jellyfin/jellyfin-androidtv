@@ -166,19 +166,34 @@
         android:textColor="@color/gray_gradient_end" />
 
     <ImageButton
-        android:layout_width="35sp"
-        android:layout_height="35sp"
-        android:id="@+id/filterButton"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:id="@+id/optionsButton"
         android:layout_marginRight="10sp"
         android:layout_alignParentEnd="true"
         android:layout_above="@+id/timelineHScroller"
         android:layout_marginBottom="10sp"
-        android:src="@drawable/filter"
+        android:src="@drawable/cog"
+        android:padding="3dp"
+        android:background="@drawable/emby_button"
         android:scaleType="fitCenter" />
 
     <ImageButton
-        android:layout_width="35sp"
-        android:layout_height="35sp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:id="@+id/filterButton"
+        android:layout_marginRight="10sp"
+        android:layout_toLeftOf="@id/optionsButton"
+        android:layout_above="@+id/timelineHScroller"
+        android:layout_marginBottom="10sp"
+        android:src="@drawable/filter"
+        android:padding="6dp"
+        android:background="@drawable/emby_button"
+        android:scaleType="fitCenter" />
+
+    <ImageButton
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:id="@+id/dateButton"
         android:layout_marginRight="10sp"
         android:layout_alignParentEnd="false"
@@ -186,11 +201,13 @@
         android:layout_marginBottom="10sp"
         android:src="@drawable/calendar"
         android:scaleType="fitCenter"
+        android:padding="6dp"
+        android:background="@drawable/emby_button"
         android:layout_toLeftOf="@+id/filterButton" />
 
     <ImageButton
-        android:layout_width="35sp"
-        android:layout_height="35sp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:id="@+id/resetButton"
         android:layout_marginRight="10sp"
         android:layout_alignParentEnd="false"
@@ -199,6 +216,8 @@
         android:src="@drawable/resettime"
         android:scaleType="fitCenter"
         android:visibility="gone"
+        android:padding="6dp"
+        android:background="@drawable/emby_button"
         android:layout_toLeftOf="@+id/dateButton" />
 
     <RelativeLayout

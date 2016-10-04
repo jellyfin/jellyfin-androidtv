@@ -2,6 +2,7 @@ package tv.emby.embyatv.livetv;
 
 import android.app.Activity;
 import android.graphics.Typeface;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
@@ -25,6 +26,7 @@ import java.util.TimeZone;
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.entities.DisplayPreferences;
 import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.livetv.ChannelInfoDto;
@@ -39,6 +41,7 @@ import mediabrowser.model.results.TimerInfoDtoResult;
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.TvApp;
 import tv.emby.embyatv.itemhandling.ItemRowAdapter;
+import tv.emby.embyatv.model.LiveTvPrefs;
 import tv.emby.embyatv.ui.ProgramGridCell;
 import tv.emby.embyatv.util.Utils;
 
@@ -52,6 +55,9 @@ public class TvManager {
     private static Calendar needLoadTime;
     private static Calendar programNeedLoadTime;
     private static boolean forceReload;
+
+    private static DisplayPreferences displayPrefs;
+    private static LiveTvPrefs prefs = new LiveTvPrefs();
 
     public static String getLastLiveTvChannel() {
         return TvApp.getApplication().getSystemPrefs().getString("sys_pref_last_tv_channel", null);
@@ -76,9 +82,12 @@ public class TvManager {
         allChannels = null;
     }
 
+    public static LiveTvPrefs getPrefs() { return prefs; }
+
     public static void clearCache() {
         forceReload = true;
         allChannels = null;
+        displayPrefs = null;
     }
 
     public static void forceReload() {
@@ -114,34 +123,117 @@ public class TvManager {
             TvApp.getApplication().getLogger().Info("*** Channels already loaded - returning %s channels", allChannels.size());
             outerResponse.onResponse(sortChannels());
         } else {
-            LiveTvChannelQuery query = new LiveTvChannelQuery();
-            query.setUserId(TvApp.getApplication().getCurrentUser().getId());
-            query.setEnableFavoriteSorting(true);
-            query.setAddCurrentProgram(true);
-            TvApp.getApplication().getLogger().Debug("*** About to load channels");
-            TvApp.getApplication().getApiClient().GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
-                @Override
-                public void onResponse(final ChannelInfoDtoResult response) {
-                    TvApp.getApplication().getLogger().Debug("*** channel query response");
-                    allChannels = new ArrayList<>();
-                    int ndx = 0;
-                    if (response.getTotalRecordCount() > 0) {
-                        Collections.addAll(allChannels, response.getItems());
+            if (displayPrefs == null) {
+                getLiveTvPrefs(new EmptyResponse() {
+                    @Override
+                    public void onResponse() {
+                        loadAllChannelsInternal(outerResponse);
                     }
-
-                    outerResponse.onResponse(sortChannels());
-                }
-            });
-
+                });
+            } else {
+                loadAllChannelsInternal(outerResponse);
+            }
         }
 
     }
+
+    private static void updatePrefs(LiveTvPrefs newPrefs) {
+        prefs = newPrefs;
+        HashMap<String,String> current = displayPrefs.getCustomPrefs();
+        current.put("livetv-channelorder", newPrefs.channelOrder);
+        current.put("guide-colorcodedbackgrounds", String.valueOf(newPrefs.colorCodeGuide));
+        current.put("livetv-favoritechannelsattop", String.valueOf(newPrefs.favsAtTop));
+        current.put("guide-indicator-hd", String.valueOf(newPrefs.showHDIndicator));
+        current.put("guide-indicator-live", String.valueOf(newPrefs.showLiveIndicator));
+        current.put("guide-indicator-new", String.valueOf(newPrefs.showNewIndicator));
+        current.put("guide-indicator-premiere", String.valueOf(newPrefs.showPremiereIndicator));
+        current.put("guide-indicator-repeat", String.valueOf(newPrefs.showRepeatIndicator));
+
+        TvApp.getApplication().updateDisplayPrefs("emby", displayPrefs);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                resetChannels();
+            }
+        },500);
+    }
+
+    private static void translatePrefs(DisplayPreferences displayPrefs) {
+        HashMap<String,String> customPrefs = displayPrefs.getCustomPrefs();
+        if (customPrefs != null) {
+            prefs.channelOrder = Utils.NullCoalesce(customPrefs.get("livetv-channelorder"), "DatePlayed");
+            prefs.colorCodeGuide = Boolean.parseBoolean(customPrefs.get("guide-colorcodedbackgrounds"));
+            prefs.favsAtTop = Boolean.parseBoolean(Utils.NullCoalesce(customPrefs.get("livetv-favoritechannelsattop"),"true"));
+            prefs.showHDIndicator = Boolean.parseBoolean(customPrefs.get("guide-indicator-hd"));
+            prefs.showLiveIndicator = Boolean.parseBoolean(Utils.NullCoalesce(customPrefs.get("livetv-guide-indicator-live"),"true"));
+            prefs.showNewIndicator = Boolean.parseBoolean(customPrefs.get("guide-indicator-new"));
+            prefs.showPremiereIndicator = Boolean.parseBoolean(Utils.NullCoalesce(customPrefs.get("guide-indicator-premiere"),"true"));
+            prefs.showRepeatIndicator = Boolean.parseBoolean(customPrefs.get("guide-indicator-repeat"));
+        }
+    }
+
+    private static void getLiveTvPrefs(final EmptyResponse outerResponse) {
+        TvApp.getApplication().getDisplayPrefsAsync("usersettings","emby", new Response<DisplayPreferences>() {
+            @Override
+            public void onResponse(DisplayPreferences response) {
+                displayPrefs = response;
+                // Parse out our values
+                translatePrefs(displayPrefs);
+                outerResponse.onResponse();
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving live tv prefs", exception);
+                displayPrefs = new DisplayPreferences();
+                displayPrefs.setCustomPrefs(new HashMap<String, String>());
+                outerResponse.onResponse();
+            }
+        });
+    }
+
+    private static void loadAllChannelsInternal(final Response<Integer> outerResponse) {
+        LiveTvChannelQuery query = new LiveTvChannelQuery();
+        query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        query.setAddCurrentProgram(true);
+        if (prefs.favsAtTop) query.setEnableFavoriteSorting(true);
+        //todo add sorting when available
+        TvApp.getApplication().getLogger().Debug("*** About to load channels");
+        TvApp.getApplication().getApiClient().GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
+            @Override
+            public void onResponse(final ChannelInfoDtoResult response) {
+                TvApp.getApplication().getLogger().Debug("*** channel query response");
+                allChannels = new ArrayList<>();
+                if (response.getTotalRecordCount() > 0) {
+                    Collections.addAll(allChannels, response.getItems());
+                }
+
+                outerResponse.onResponse(sortChannels());
+            }
+        });
+
+    }
+
+    private static int fillChannelIds() {
+        int ndx = 0;
+        channelIds = new String[allChannels.size()];
+        String last = getLastLiveTvChannel();
+        int i = 0;
+        for (ChannelInfoDto channel : allChannels) {
+            channelIds[i++] = channel.getId();
+            if (channel.getId().equals(last)) ndx = i;
+            //TvApp.getApplication().getLogger().Debug("Last played for "+channel.getName()+ " is "+channel.getUserData().getLastPlayedDate());
+        }
+
+        return ndx;
+    }
+
 
     public static int sortChannels() {
         int ndx = 0;
         if (allChannels != null) {
             //Sort by last played - if selected
-            if (TvApp.getApplication().getPrefs().getBoolean("pref_guide_sort_date", true)) {
+            if ("DatePlayed".equals(prefs.channelOrder)) {
                 Collections.sort(allChannels, Collections.reverseOrder(new Comparator<ChannelInfoDto>() {
                     @Override
                     public int compare(ChannelInfoDto lhs, ChannelInfoDto rhs) {
@@ -154,16 +246,8 @@ public class TvManager {
                 }));
             }
 
-
             //And  fill in channel IDs
-            channelIds = new String[allChannels.size()];
-            String last = getLastLiveTvChannel();
-            int i = 0;
-            for (ChannelInfoDto channel : allChannels) {
-                channelIds[i++] = channel.getId();
-                if (channel.getId().equals(last)) ndx = i;
-                //TvApp.getApplication().getLogger().Debug("Last played for "+channel.getName()+ " is "+channel.getUserData().getLastPlayedDate());
-            }
+            ndx = fillChannelIds();
         }
 
         return ndx;

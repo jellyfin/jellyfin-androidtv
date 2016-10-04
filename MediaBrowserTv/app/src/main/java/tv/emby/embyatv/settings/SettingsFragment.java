@@ -99,10 +99,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             }
         }
 
-        if (key.equals("pref_guide_sort_date")) {
-            TvManager.resetChannels();
-        }
-
         updatePreference(findPreference(key));
 
         if (key.equals("pref_send_path_external") && ((CheckBoxPreference)findPreference(key)).isChecked()) {
