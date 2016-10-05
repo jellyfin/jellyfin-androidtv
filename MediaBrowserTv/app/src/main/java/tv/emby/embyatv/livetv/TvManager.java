@@ -150,6 +150,7 @@ public class TvManager {
         current.put("guide-indicator-repeat", String.valueOf(newPrefs.showRepeatIndicator));
 
         TvApp.getApplication().updateDisplayPrefs("emby", displayPrefs);
+        allChannels = null; //force a re-fetch
     }
 
     private static void translatePrefs(DisplayPreferences displayPrefs) {
