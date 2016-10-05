@@ -728,7 +728,7 @@ public class Utils {
         TvApp.getApplication().getApiClient().GetItemAsync(id, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
             @Override
             public void onResponse(BaseItemDto response) {
-                Long pos = position != null ? position / 10000 : response.getUserData() != null ? response.getUserData().getPlaybackPositionTicks() / 10000 : 0;
+                Long pos = position != null ? position / 10000 : response.getUserData() != null ? (response.getUserData().getPlaybackPositionTicks() / 10000) - TvApp.getApplication().getResumePreroll() : 0;
                 play(response, pos.intValue(), shuffle, activity);
             }
 

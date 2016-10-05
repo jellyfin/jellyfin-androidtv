@@ -258,6 +258,12 @@ public class PlaybackController {
         }
 
         mApplication.getLogger().Debug("Play called with pos: " + position + " and sub index: "+transcodedSubtitle);
+
+        if (position < 0) {
+            mApplication.getLogger().Info("Negative start requested - adjusting to zero");
+            position = 0;
+        }
+
         switch (mPlaybackState) {
             case PLAYING:
                 // do nothing

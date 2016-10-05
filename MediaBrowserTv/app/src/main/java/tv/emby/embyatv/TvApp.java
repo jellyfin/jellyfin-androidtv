@@ -455,6 +455,14 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     public boolean useVlcForLiveTv() { return getPrefs().getBoolean("pref_enable_vlc_livetv", true); }
 
+    public int getResumePreroll() {
+        try {
+            return Integer.parseInt(getPrefs().getString("pref_resume_preroll","0")) * 1000;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
     public Calendar getLastTvPlayback() {
         return lastTvPlayback.after(lastPlayback) ? lastTvPlayback : lastPlayback;
     }

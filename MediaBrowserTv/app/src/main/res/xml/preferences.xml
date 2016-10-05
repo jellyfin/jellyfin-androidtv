@@ -83,25 +83,16 @@
             android:defaultValue="true"
             android:summary="@string/sum_tv_queuing"
             />
-        <CheckBoxPreference android:key="pref_video_use_external"
-            android:title="Use External Player for Videos"
-            android:defaultValue="false"
-            android:summary="Requires a capable app to play video types"
+        <ListPreference android:key="pref_resume_preroll"
+            android:title="@string/lbl_resume_preroll"
+            android:defaultValue="0"
+            android:entries="@array/pref_preroll_options"
+            android:entryValues="@array/pref_preroll_values"
             />
-        <CheckBoxPreference android:key="pref_send_path_external"
-            android:title="Pass Direct Path"
-            android:defaultValue="false"
-            android:summary="Pass the file system path instead of streaming url"
-            />
-
         <CheckBoxPreference android:key="pref_enable_cinema_mode"
             android:title="@string/lbl_enable_cinema_mode"
             android:defaultValue="true"
             android:summary="@string/sum_enable_cinema_mode"
-            />
-        <CheckBoxPreference android:key="pref_refresh_switching"
-            android:title="@string/lbl_refresh_switching"
-            android:defaultValue="true"
             />
         <ListPreference android:key="pref_audio_option"
             android:title="@string/lbl_audio_output"
@@ -119,15 +110,25 @@
             android:summary="@string/desc_bitstream_ac3"
             android:defaultValue="false"
             />
+        <CheckBoxPreference android:key="pref_refresh_switching"
+            android:title="@string/lbl_refresh_switching"
+            android:defaultValue="true"
+            />
+        <CheckBoxPreference android:key="pref_video_use_external"
+            android:title="Use External Player for Videos"
+            android:defaultValue="false"
+            android:summary="Requires a capable app to play video types"
+            />
+        <CheckBoxPreference android:key="pref_send_path_external"
+            android:title="Pass Direct Path"
+            android:defaultValue="false"
+            android:summary="Pass the file system path instead of streaming url"
+            />
+
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_live_tv_cat" android:key="pref_live_tv_category">
-        <CheckBoxPreference android:key="pref_live_tv_use_external"
-            android:title="Use External Player for Live TV"
-            android:defaultValue="false"
-            android:summary="Requires a capable app to play live streams"
-            />
         <!--<CheckBoxPreference android:key="pref_live_shift"-->
             <!--android:title="@string/lbl_time_shift_live"-->
             <!--android:defaultValue="true"-->
@@ -140,6 +141,11 @@
             android:title="@string/lbl_use_vlc_livetv"
             android:defaultValue="true"
             android:summary="@string/desc_use_vlc_livetv"
+            />
+        <CheckBoxPreference android:key="pref_live_tv_use_external"
+            android:title="Use External Player for Live TV"
+            android:defaultValue="false"
+            android:summary="Requires a capable app to play live streams"
             />
     </PreferenceCategory>
 
