@@ -11,10 +11,12 @@ import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.ApiEventListener;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.entities.LibraryUpdateInfo;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.session.BrowseRequest;
 import mediabrowser.model.session.GeneralCommand;
+import mediabrowser.model.session.MessageCommand;
 import mediabrowser.model.session.PlayRequest;
 import mediabrowser.model.session.PlaystateRequest;
 import mediabrowser.model.session.SessionInfoDto;
@@ -49,6 +51,12 @@ public class TvApiEventListener extends ApiEventListener {
 
             }
         }
+    }
+
+    @Override
+    public void onLibraryChanged(ApiClient client, LibraryUpdateInfo info) {
+        TvApp.getApplication().getLogger().Debug("Library Changed. Added %o items. Removed %o items. Changed %o items.", info.getItemsAdded().size(), info.getItemsRemoved().size(), info.getItemsUpdated().size());
+        if (info.getItemsAdded().size() > 0 || info.getItemsRemoved().size() > 0) TvApp.getApplication().setLastLibraryChange(Calendar.getInstance());
     }
 
     @Override
