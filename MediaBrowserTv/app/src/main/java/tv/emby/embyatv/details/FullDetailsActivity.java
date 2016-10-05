@@ -810,7 +810,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 } else {
                     //resume
                     Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
-                    play(mBaseItem, pos.intValue(), false);
+                    play(mBaseItem, pos.intValue() - mApplication.getResumePreroll(), false);
 
                 }
             }

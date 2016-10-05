@@ -386,6 +386,7 @@
     <string name="lbl_show_indicators">Show Indicators For</string>
     <string name="lbl_guide_option_played">Last Played</string>
     <string name="lbl_guide_option_number">Channel Number</string>
+    <string name="lbl_resume_preroll">Resume pre-roll</string>
 
 
 </resources>
