@@ -783,7 +783,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private TextUnderButton moreButton;
 
     private void addButtons(int buttonSize) {
-        mResumeButton = new TextUnderButton(this, R.drawable.resume, buttonSize, "Series".equals(mBaseItem.getType()) ? getString(R.string.lbl_play_next_up) : getString(R.string.lbl_resume), new View.OnClickListener() {
+        mResumeButton = new TextUnderButton(this, R.drawable.resume, buttonSize, 2, "Series".equals(mBaseItem.getType()) ? getString(R.string.lbl_play_next_up) : getString(R.string.lbl_resume), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if ("Series".equals(mBaseItem.getType())) {
@@ -820,7 +820,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             mDetailsOverviewRow.addAction(mResumeButton);
             mResumeButton.setVisibility(("Series".equals(mBaseItem.getType()) && ! mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume() ) ? View.VISIBLE : View.GONE);
 
-            TextUnderButton play = new TextUnderButton(this, R.drawable.play, buttonSize, getString(Utils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
+            TextUnderButton play = new TextUnderButton(this, R.drawable.play, buttonSize, 2, getString(Utils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     play(mBaseItem, 0, false);
@@ -887,7 +887,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         if (mProgramInfo != null && mApplication.canManageRecordings()) {
             if (Utils.convertToLocalDate(mBaseItem.getEndDate()).getTime() > System.currentTimeMillis()) {
                 //Record button
-                mRecordButton = new TextUnderButton(this, mProgramInfo.getTimerId() != null ? R.drawable.rec : R.drawable.recwhite, buttonSize, getString(R.string.lbl_record), new View.OnClickListener() {
+                mRecordButton = new TextUnderButton(this, mProgramInfo.getTimerId() != null ? R.drawable.rec : R.drawable.recwhite, buttonSize, 4, getString(R.string.lbl_record), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (mProgramInfo.getTimerId() == null) {
@@ -948,7 +948,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             }
 
             if (mProgramInfo.getIsSeries() != null && mProgramInfo.getIsSeries()) {
-                mRecSeriesButton= new TextUnderButton(this, mProgramInfo.getSeriesTimerId() != null ? R.drawable.recseries : R.drawable.recserieswhite, buttonSize, getString(R.string.lbl_record_series), new View.OnClickListener() {
+                mRecSeriesButton= new TextUnderButton(this, mProgramInfo.getSeriesTimerId() != null ? R.drawable.recseries : R.drawable.recserieswhite, buttonSize, 4, getString(R.string.lbl_record_series), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (mProgramInfo.getSeriesTimerId() == null) {
@@ -1017,7 +1017,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                 mDetailsOverviewRow.addAction(mRecSeriesButton);
 
-                mSeriesSettingsButton = new TextUnderButton(this, R.drawable.cog, buttonSize, getString(R.string.lbl_series_settings), new View.OnClickListener() {
+                mSeriesSettingsButton = new TextUnderButton(this, R.drawable.cog, buttonSize, 2, getString(R.string.lbl_series_settings), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         showRecordingOptions(mProgramInfo.getSeriesTimerId(), mProgramInfo, true);
@@ -1049,7 +1049,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         if ("Episode".equals(mBaseItem.getType()) && mBaseItem.getSeriesId() != null) {
             //add the prev button first so it will be there in proper position - we'll show it later if needed
-            mPrevButton = new TextUnderButton(this, R.drawable.prev, buttonSize, "Previous Episode", new View.OnClickListener() {
+            mPrevButton = new TextUnderButton(this, R.drawable.prev, buttonSize, 2, "Previous Episode", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mPrevItemId != null) {

@@ -7,6 +7,7 @@ import android.widget.*;
 
 import tv.emby.embyatv.R;
 import tv.emby.embyatv.model.GotFocusEvent;
+import tv.emby.embyatv.util.Utils;
 
 /**
  * Created by Eric on 2/20/2015.
@@ -25,10 +26,14 @@ public class TextUnderButton extends RelativeLayout {
     private GotFocusEvent mGotFocusListener;
 
     public TextUnderButton(Context context, int imageResource, int size, final OnClickListener clicked) {
-        this(context, imageResource, size, null, clicked);
+        this(context, imageResource, size, null, null, clicked);
     }
 
     public TextUnderButton(Context context, int imageResource, int size, String label, final OnClickListener clicked) {
+        this(context, imageResource, size, null, label, clicked);
+    }
+
+    public TextUnderButton(Context context, int imageResource, int size, Integer padding, String label, final OnClickListener clicked) {
         super(context);
 
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -41,13 +46,17 @@ public class TextUnderButton extends RelativeLayout {
         } else {
             mLabel.setText(label);
         }
+
         mButton = (android.widget.ImageButton) v.findViewById(R.id.imageButton);
 
         mButton.setImageResource(imageResource);
         mButton.setMaxHeight(size);
         mButton.setOnClickListener(clicked);
         mButton.setOnFocusChangeListener(focusChange);
-
+        if (padding != null) {
+            int amt = Utils.convertDpToPixel(context, padding);
+            mButton.setPadding(amt, amt, amt, amt);
+        }
 
     }
 
