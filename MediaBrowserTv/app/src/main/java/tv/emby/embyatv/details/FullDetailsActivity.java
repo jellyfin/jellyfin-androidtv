@@ -829,7 +829,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             mDetailsOverviewRow.addAction(play);
 
             if (!mBaseItem.getIsFolder() && !Utils.isLiveTv(mBaseItem)) {
-                queueButton = new TextUnderButton(this, R.drawable.addtoqueue, buttonSize, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
+                queueButton = new TextUnderButton(this, R.drawable.addtoqueue, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         addItemToQueue();
@@ -839,7 +839,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             }
 
             if (mBaseItem.getIsFolder()) {
-                TextUnderButton shuffle = new TextUnderButton(this, R.drawable.shuffle, buttonSize, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
+                TextUnderButton shuffle = new TextUnderButton(this, R.drawable.shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         play(mBaseItem, 0, true);
@@ -1038,7 +1038,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             }
 
             //Favorite
-            favButton = new TextUnderButton(this, userData.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, getString(R.string.lbl_toggle_favorite), new View.OnClickListener() {
+            favButton = new TextUnderButton(this, userData.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, 2, getString(R.string.lbl_toggle_favorite), new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
                     toggleFavorite();
@@ -1049,7 +1049,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         if ("Episode".equals(mBaseItem.getType()) && mBaseItem.getSeriesId() != null) {
             //add the prev button first so it will be there in proper position - we'll show it later if needed
-            mPrevButton = new TextUnderButton(this, R.drawable.prev, buttonSize, 2, "Previous Episode", new View.OnClickListener() {
+            mPrevButton = new TextUnderButton(this, R.drawable.prev, buttonSize, 3, "Previous Episode", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mPrevItemId != null) {
@@ -1094,7 +1094,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         if (("Recording".equals(mBaseItem.getType()) && TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvManagement() && mBaseItem.getCanDelete()) ||
                 (("Movie".equals(mBaseItem.getType()) || "Episode".equals(mBaseItem.getType()) || "Video".equals(mBaseItem.getType())) && TvApp.getApplication().getCurrentUser().getPolicy().getEnableContentDeletion())) {
-            final Activity activity = this;
             deleteButton = new TextUnderButton(this, R.drawable.trash, buttonSize, getString(R.string.lbl_delete), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
