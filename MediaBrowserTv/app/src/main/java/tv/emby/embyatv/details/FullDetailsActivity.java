@@ -226,6 +226,9 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                     mBaseItem = response;
                                     if (mResumeButton != null) {
                                         mResumeButton.setVisibility(("Series".equals(mBaseItem.getType()) && ! mBaseItem.getUserData().getPlayed()) || response.getCanResume() ? View.VISIBLE : View.GONE);
+                                        if (response.getCanResume()){
+                                            mResumeButton.setText(String.format(getString(R.string.lbl_resume_from), Utils.formatMillis(response.getUserData().getPlaybackPositionTicks()/10000)));
+                                        }
                                         showMoreButtonIfNeeded();
                                     }
                                     updatePlayedDate();
@@ -783,7 +786,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private TextUnderButton moreButton;
 
     private void addButtons(int buttonSize) {
-        mResumeButton = new TextUnderButton(this, R.drawable.resume, buttonSize, 2, "Series".equals(mBaseItem.getType()) ? getString(R.string.lbl_play_next_up) : getString(R.string.lbl_resume), new View.OnClickListener() {
+        mResumeButton = new TextUnderButton(this, R.drawable.resume, buttonSize, 2, "Series".equals(mBaseItem.getType()) ? getString(R.string.lbl_play_next_up) : String.format(getString(R.string.lbl_resume_from), Utils.formatMillis(mBaseItem.getUserData().getPlaybackPositionTicks()/10000)), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if ("Series".equals(mBaseItem.getType())) {
