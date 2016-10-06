@@ -565,7 +565,7 @@ public class ItemListActivity extends BaseActivity {
 
     private void addButtons(int buttonSize) {
         if (Utils.CanPlay(mBaseItem)) {
-            TextUnderButton play = new TextUnderButton(this, R.drawable.play, buttonSize, getString(mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
+            TextUnderButton play = new TextUnderButton(this, R.drawable.play, buttonSize, 2, getString(mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mItems.size() > 0) {
@@ -579,7 +579,7 @@ public class ItemListActivity extends BaseActivity {
             mButtonRow.addView(play);
             play.requestFocus();
             if (mBaseItem.getIsFolder()) {
-                TextUnderButton shuffle = new TextUnderButton(this, R.drawable.shuffle, buttonSize, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
+                TextUnderButton shuffle = new TextUnderButton(this, R.drawable.shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (mItems.size() > 0) {
@@ -603,7 +603,7 @@ public class ItemListActivity extends BaseActivity {
         }
 
         if ("MusicAlbum".equals(mBaseItem.getType())) {
-            TextUnderButton mix = new TextUnderButton(this, R.drawable.mix, buttonSize, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
+            TextUnderButton mix = new TextUnderButton(this, R.drawable.mix, buttonSize, 2, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
                     Utils.Beep();
@@ -617,7 +617,7 @@ public class ItemListActivity extends BaseActivity {
         if (!mItemId.equals(FAV_SONGS)) {
             if (!mItemId.equals(VIDEO_QUEUE)) {
                 //Favorite
-                TextUnderButton fav = new TextUnderButton(this, mBaseItem.getUserData().getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, getString(R.string.lbl_toggle_favorite), new View.OnClickListener() {
+                TextUnderButton fav = new TextUnderButton(this, mBaseItem.getUserData().getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize,2, getString(R.string.lbl_toggle_favorite), new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
                         UserItemDataDto data = mBaseItem.getUserData();
@@ -638,7 +638,7 @@ public class ItemListActivity extends BaseActivity {
 
             if ("Playlist".equals(mBaseItem.getType())) {
                 if (VIDEO_QUEUE.equals(mBaseItem.getId())) {
-                    mButtonRow.addView(new TextUnderButton(this, R.drawable.saveplaylist, buttonSize, getString(R.string.lbl_save_as_playlist), new View.OnClickListener() {
+                    mButtonRow.addView(new TextUnderButton(this, R.drawable.saveplaylist, buttonSize, 2, getString(R.string.lbl_save_as_playlist), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             MediaManager.saveVideoQueue(mActivity);
@@ -707,7 +707,7 @@ public class ItemListActivity extends BaseActivity {
         }
 
         if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {
-            TextUnderButton artist = new TextUnderButton(this, R.drawable.user, buttonSize, getString(R.string.lbl_open_artist), new View.OnClickListener() {
+            TextUnderButton artist = new TextUnderButton(this, R.drawable.user, buttonSize, 4, getString(R.string.lbl_open_artist), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent artist = new Intent(mActivity, FullDetailsActivity.class);
