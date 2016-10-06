@@ -29,6 +29,7 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.DisplayPreferences;
 import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.LocationType;
+import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.ProgramQuery;
@@ -192,7 +193,8 @@ public class TvManager {
         query.setUserId(TvApp.getApplication().getCurrentUser().getId());
         query.setAddCurrentProgram(true);
         if (prefs.favsAtTop) query.setEnableFavoriteSorting(true);
-        //todo add sorting when available
+        query.setSortOrder("DatePlayed".equals(prefs.channelOrder) ? SortOrder.Descending : null);
+        query.setSortBy(new String[] {"DatePlayed".equals(prefs.channelOrder) ? "DatePlayed" : "SortName"});
         TvApp.getApplication().getLogger().Debug("*** About to load channels");
         TvApp.getApplication().getApiClient().GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
             @Override
