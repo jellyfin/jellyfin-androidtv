@@ -1061,7 +1061,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                                         }
                                         if (existing == null) {
                                             TvApp.getApplication().getLogger().Debug("Adding new episode 1 to premieres " + item.getSeriesName());
-                                            adapter.add(new BaseRowItem(i++, item, preferParentThumb, false));
+                                            adapter.add(new BaseRowItem(i++, item, preferParentThumb, true));
 
                                         } else if (existing.getBaseItem().getParentIndexNumber() > item.getParentIndexNumber()) {
                                             //Replace the newer item with the earlier season
