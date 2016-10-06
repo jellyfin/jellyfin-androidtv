@@ -119,18 +119,10 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
             case "Person":
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) vh.mSummary.getLayoutParams();
                 params.topMargin = 10;
-                params.height = Utils.convertDpToPixel(TvApp.getApplication(), 200);
-                vh.mSummary.setMaxLines(10);
+                params.height = Utils.convertDpToPixel(TvApp.getApplication(), 185);
+                vh.mSummary.setMaxLines(9);
                 vh.mGenreRow.setVisibility(View.GONE);
                 vh.mInfoRow.setVisibility(View.GONE);
-                vh.collapseLeftFrame();
-
-                break;
-            case "MusicArtist":
-                RelativeLayout.LayoutParams artistParams = (RelativeLayout.LayoutParams) vh.mSummary.getLayoutParams();
-                artistParams.topMargin = 20;
-                artistParams.height = Utils.convertDpToPixel(TvApp.getApplication(), 170);
-                vh.mSummary.setMaxLines(8);
                 vh.collapseLeftFrame();
 
                 break;
@@ -161,9 +153,9 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
 
     public void setTitle(String text) {
         viewHolder.mTitle.setText(text);
-        if (text.length() > 32) {
-            // scale down the title so more will fit
-            viewHolder.mTitle.setTextSize(28);
+        if (text.length() > 28) {
+            // raise it up a bit
+            ((RelativeLayout.LayoutParams)viewHolder.mTitle.getLayoutParams()).topMargin = Utils.convertDpToPixel(TvApp.getApplication(), 55);
         }
     }
 
