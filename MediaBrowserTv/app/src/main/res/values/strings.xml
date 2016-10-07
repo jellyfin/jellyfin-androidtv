@@ -388,6 +388,7 @@
     <string name="lbl_guide_option_number">Channel Number</string>
     <string name="lbl_resume_preroll">Resume pre-roll</string>
     <string name="lbl_resume_from">Resume from %s</string>
+    <string name="lbl_more_like_this">More Like This</string>
 
 
 </resources>
