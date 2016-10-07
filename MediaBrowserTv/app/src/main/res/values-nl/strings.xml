@@ -323,4 +323,11 @@
     <string name="lbl_enable_seasonal_themes">Schakel seizoen thema\'s in</string>
     <string name="desc_seasonal_themes">Sta speciale kleuren en suggesties toe in bepaalde perioden van het jaar</string>
     <string name="desc_automatic_fav_songs">Automatische afspeellijst van favoriete en nummers die je leuk vindt</string>
+    <string name="lbl_switch_server">Server wijzigen</string>
+    <string name="lbl_forget">Vergeten</string>
+    <string name="lbl_normal">Normaal</string>
+    <string name="lbl_current_queue">Huidige wachtrij</string>
+    <string name="lbl_clear_queue">Wachtrij leegmaken</string>
+    <string name="lbl_play_next_up">Eerstvolgende afspelen</string>
+    <string name="lbl_open">Openen</string>
 </resources>

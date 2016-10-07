@@ -226,7 +226,7 @@
     <string name="msg_remote_already_playing">Solicitud de reproducción remota ignorada. Por favor primero detenga el ítem actual.</string>
     <string name="lbl_buffering_amount">Cantidad de búffer</string>
     <string name="pref_audio_direct">Directo</string>
-    <string name="pref_audio_compat">Compatible</string>
+    <string name="pref_audio_compat">Re-mezclar en Estéreo</string>
     <string name="lbl_audio_output">Salida de Audio</string>
     <string name="lbl_goto_series">Ir a Series</string>
     <string name="lbl_use_vlc">Emplear VLC para reproducción</string>
@@ -240,7 +240,7 @@
     <string name="lbl_show_info_panel">Mostrar Panel de Información</string>
     <string name="lbl_enable_debug">Habilitar opciones de depuración</string>
     <string name="desc_info_panel">Mostrar un panel con detalles del ítem actual en las pantallas que no cuentan con información detallada.</string>
-    <string name="desc_debug">Mostrar un botón de envío de bitácoras en la pantalla de inicio.</string>
+    <string name="desc_debug">Encender para proveer información adicional al depurar errores.</string>
     <string name="lbl_showing">Mostrando</string>
     <string name="lbl_all_items">Todos los Elementos</string>
     <string name="lbl_sorted_by">ordenado por</string>
@@ -256,7 +256,7 @@
     <string name="lbl_season">Temporada</string>
     <string name="lbl__continuing">CONTINUANDO</string>
     <string name="lbl_ended">FINALIZADO</string>
-    <string name="msg_confirm_pin">por favor confirme el pin en mediabrowser.tv/pin</string>
+    <string name="msg_confirm_pin">Por favor confirme el pin en emby.media/pin</string>
     <string name="btn_start_now">Iniciar Ahora</string>
     <string name="btn_stop">Detener</string>
     <string name="btn_filter">Filtro</string>
@@ -324,4 +324,28 @@
     <string name="desc_seasonal_themes">Permitir colores especiales y sugerencias en ciertos momentos del año</string>
     <string name="desc_automatic_fav_songs">Lista de reproducción automática con favoritos y canciones que le gustan</string>
     <string name="lbl_switch_server">Cambiar de Servidor</string>
+    <string name="lbl_forget">Olvidar</string>
+    <string name="lbl_new_premieres">Nuevos Estrenos</string>
+    <string name="lbl_bitstream_ac3">Transmisión directa de audio Dolby Digital</string>
+    <string name="desc_bitstream_ac3">Requiere un hardware compatible</string>
+    <string name="lbl_normal">Normal</string>
+    <string name="lbl_zoom">Escala</string>
+    <string name="lbl_horizontal_stretch">Ajuste Horizontal</string>
+    <string name="lbl_vertical_stretch">Ajuste Vertical</string>
+    <string name="lbl_audio_capabilitites">Capacidades de Audio</string>
+    <string name="msg_audio_warning">Esta app tiene la habilidad de hacer transmisión directa de ciertos formatos de audio multi canal. Si su hardware no soporta estos formatos, es posible que no se escuche el audio al reproducir algunos items. Esto es mas probable que pase si solo usa los altavoces de la TV. Si esto sucede, configure el Modo de Audio a \"Re-mezclar\" en las configuraciones de reproducción de la app.</string>
+    <string name="btn_got_it">Hecho</string>
+    <string name="btn_set_compatible_audio">Configurar Re-mezclar ahora</string>
+    <string name="lbl_current_queue">Cola Actual</string>
+    <string name="desc_current_video_queue">Items de video actualmente en cola para reproducción</string>
+    <string name="lbl_clear_queue">Vaciar Cola</string>
+    <string name="lbl_play_next_up">Reproducir Siguiente</string>
+    <string name="lbl_open">Abrir</string>
+    <string name="lbl_show_backdrop">Mostrar Imagen de Fondo mientras Navega</string>
+    <string name="lbl_use_vlc_livetv">Intentar usar VLC para TV en vivo</string>
+    <string name="desc_use_vlc_livetv">Usar VLC para transmisión directa de TV en vivo si esta disponible</string>
+    <string name="lbl_refresh_switching">Habilitar Cambio de Tasa de Refresqueo</string>
+    <string name="lbl_show_premieres">Mostrar los Estrenos de Temporada en la Pagina Principal</string>
+    <string name="desc_premieres">Mostrar una fila de nuevos episodios para series que esta viendo</string>
+    <string name="lbl_bitstream_dts">Transmision directa de audio DTS</string>
 </resources>
