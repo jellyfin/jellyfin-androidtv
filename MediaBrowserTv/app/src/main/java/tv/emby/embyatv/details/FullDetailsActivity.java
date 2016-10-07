@@ -518,7 +518,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 similar.setLimit(10);
 
                 ItemRowAdapter similarMoviesAdapter = new ItemRowAdapter(similar, QueryType.SimilarMovies, new CardPresenter(), adapter);
-                addItemRow(adapter, similarMoviesAdapter, 4, mActivity.getString(R.string.lbl_similar_movies));
+                addItemRow(adapter, similarMoviesAdapter, 4, mActivity.getString(R.string.lbl_more_like_this));
 
                 addInfoRows(adapter);
                 break;
@@ -538,7 +538,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 similarTrailer.setLimit(10);
 
                 ItemRowAdapter similarTrailerAdapter = new ItemRowAdapter(similarTrailer, QueryType.SimilarMovies, new CardPresenter(), adapter);
-                addItemRow(adapter, similarTrailerAdapter, 4, mActivity.getString(R.string.lbl_similar_movies));
+                addItemRow(adapter, similarTrailerAdapter, 4, mActivity.getString(R.string.lbl_more_like_this));
                 addInfoRows(adapter);
                 break;
             case "Person":
@@ -608,7 +608,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 similarSeries.setId(mBaseItem.getId());
                 similarSeries.setLimit(20);
                 ItemRowAdapter similarAdapter = new ItemRowAdapter(similarSeries, QueryType.SimilarSeries, new CardPresenter(), adapter);
-                addItemRow(adapter, similarAdapter, 4, mActivity.getString(R.string.lbl_similar_series));
+                addItemRow(adapter, similarAdapter, 4, mActivity.getString(R.string.lbl_more_like_this));
                 break;
 
             case "Episode":
