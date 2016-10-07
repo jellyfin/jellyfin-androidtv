@@ -71,8 +71,8 @@
     </string-array>
     <string-array name="pref_preroll_options" >
         <item>None</item>
-        <item>5 seconds</item>
-        <item>15 seconds</item>
+        <item>10 seconds</item>
+        <item>20 seconds</item>
         <item>30 seconds</item>
         <item>1 minute</item>
         <item>2 minutes</item>
@@ -80,8 +80,8 @@
     </string-array>
     <string-array name="pref_preroll_values" >
         <item>0</item>
-        <item>5</item>
-        <item>15</item>
+        <item>10</item>
+        <item>20</item>
         <item>30</item>
         <item>60</item>
         <item>120</item>
