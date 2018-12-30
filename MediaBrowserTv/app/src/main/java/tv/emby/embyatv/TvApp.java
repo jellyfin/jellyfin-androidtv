@@ -84,7 +84,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     private String lastDeletedItemId = "";
 
-    private boolean isPaid = false;
+    private boolean isPaid = true;
     private RegistrationInfo registrationInfo;
 
     private Calendar lastPlayback = Calendar.getInstance();
@@ -417,18 +417,23 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     }
 
     public boolean checkPaidCache() {
+        /*
         isPaid = getSystemPrefs().getString("kv","").equals(getApiClient().getDeviceId());
         logger.Info("Paid cache check: " + isPaid);
-        return isPaid;
+        Don't need the check if we just return true */
+        return true;
     }
 
     public boolean isPaid() {
-        return isPaid;
+        return true;
     }
 
     public void setPaid(boolean isPaid) {
+        /*
         this.isPaid = isPaid;
         getSystemPrefs().edit().putString("kv", isPaid ? getApiClient().getDeviceId() : "").commit();
+        Don't need to check if we return true*/
+        this.isPaid = true;
     }
 
     public RegistrationInfo getRegistrationInfo() {
@@ -444,7 +449,10 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     }
 
     public boolean isRegistered() {
+        /*
         return registrationInfo != null && registrationInfo.getIsRegistered();
+        return true for good measure */
+        return true;
     }
 
     public boolean isTrial() {
