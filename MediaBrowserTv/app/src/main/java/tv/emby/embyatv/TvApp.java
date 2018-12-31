@@ -84,7 +84,8 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     private String lastDeletedItemId = "";
 
-    private boolean isPaid = false;
+    //FIXME: This should eventually not be needed as a variable
+    private boolean isPaid = true;
     private RegistrationInfo registrationInfo;
 
     private Calendar lastPlayback = Calendar.getInstance();
@@ -416,19 +417,18 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
         this.lastUserInteraction = lastUserInteraction;
     }
 
+    //FIXME: This method should eventually be able to be removed
     public boolean checkPaidCache() {
-        isPaid = getSystemPrefs().getString("kv","").equals(getApiClient().getDeviceId());
-        logger.Info("Paid cache check: " + isPaid);
-        return isPaid;
+        return true;
     }
 
+    //FIXME: Again should eventually be able to be removed completely
     public boolean isPaid() {
-        return isPaid;
+        return true;
     }
 
     public void setPaid(boolean isPaid) {
-        this.isPaid = isPaid;
-        getSystemPrefs().edit().putString("kv", isPaid ? getApiClient().getDeviceId() : "").commit();
+        this.isPaid = true;
     }
 
     public RegistrationInfo getRegistrationInfo() {
@@ -443,8 +443,9 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
         return isPaid || (registrationInfo != null && (registrationInfo.getIsRegistered() || registrationInfo.getIsTrial()));
     }
 
+    //FIXME: Another method that we should eventually remove
     public boolean isRegistered() {
-        return registrationInfo != null && registrationInfo.getIsRegistered();
+        return true;
     }
 
     public boolean isTrial() {
