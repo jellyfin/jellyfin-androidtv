@@ -84,6 +84,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     private String lastDeletedItemId = "";
 
+    //FIXME: This should eventually not be needed as a variable
     private boolean isPaid = true;
     private RegistrationInfo registrationInfo;
 
@@ -416,10 +417,12 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
         this.lastUserInteraction = lastUserInteraction;
     }
 
+    //FIXME: This method should eventually be able to be removed
     public boolean checkPaidCache() {
         return true;
     }
 
+    //FIXME: Again should eventually be able to be removed completely
     public boolean isPaid() {
         return true;
     }
@@ -440,6 +443,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
         return isPaid || (registrationInfo != null && (registrationInfo.getIsRegistered() || registrationInfo.getIsTrial()));
     }
 
+    //FIXME: Another method that we should eventually remove
     public boolean isRegistered() {
         return true;
     }
