@@ -3,9 +3,9 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="@color/black">
 
-    <tv.emby.embyatv.playback.StdVideoView android:id="@+id/videoView" android:layout_width="fill_parent"
+    <org.jellyfin.androidtv.playback.StdVideoView android:id="@+id/videoView" android:layout_width="fill_parent"
         android:layout_height="match_parent" android:layout_gravity="center"
-        android:layout_centerInParent="true" android:layout_centerVertical="true"></tv.emby.embyatv.playback.StdVideoView>
+        android:layout_centerInParent="true" android:layout_centerVertical="true"></org.jellyfin.androidtv.playback.StdVideoView>
 
 
     <ProgressBar
@@ -128,7 +128,7 @@
         <view
             android:layout_width="32sp"
             android:layout_height="32sp"
-            class="tv.emby.embyatv.ui.ImageButton"
+            class="org.jellyfin.androidtv.ui.ImageButton"
             android:id="@+id/playPauseBtn"
             android:layout_alignStart="@+id/infoRow"
             android:layout_marginBottom="-12sp"

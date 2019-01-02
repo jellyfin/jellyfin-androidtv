@@ -1,9 +1,9 @@
-package tv.emby.embyatv.browsing;
+package org.jellyfin.androidtv.browsing;
 
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.PersonsQuery;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
 
 /**
  * Created by Eric on 12/4/2014.

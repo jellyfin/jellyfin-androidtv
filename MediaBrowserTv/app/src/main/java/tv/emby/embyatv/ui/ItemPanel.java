@@ -1,4 +1,4 @@
-package tv.emby.embyatv.ui;
+package org.jellyfin.androidtv.ui;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -9,10 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.itemhandling.BaseRowItem;
-import tv.emby.embyatv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.util.InfoLayoutHelper;
 
 /**
  * Created by Eric on 7/27/2015.

@@ -1,4 +1,4 @@
-package tv.emby.embyatv.browsing;
+package org.jellyfin.androidtv.browsing;
 
 import android.os.Bundle;
 
@@ -9,10 +9,10 @@ import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.SimilarItemsQuery;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.querying.QueryType;
-import tv.emby.embyatv.querying.StdItemQuery;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.querying.QueryType;
+import org.jellyfin.androidtv.querying.StdItemQuery;
 
 /**
  * Created by Eric on 12/4/2014.

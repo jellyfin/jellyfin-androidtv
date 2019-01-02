@@ -1,4 +1,4 @@
-package tv.emby.embyatv.presentation;
+package org.jellyfin.androidtv.presentation;
 
 /**
  * Created by Eric on 12/29/2014.
@@ -21,9 +21,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import mediabrowser.model.dto.BaseItemDto;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.itemhandling.BaseRowItem;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * A card view with an {@link ImageView} as its main region.
@@ -64,21 +64,21 @@ public class MyImageCardView extends BaseCardView {
         }
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(tv.emby.embyatv.R.layout.image_card_view, this);
+        View v = inflater.inflate(org.jellyfin.androidtv.R.layout.image_card_view, this);
 
-        mImageView = (ImageView) v.findViewById(tv.emby.embyatv.R.id.main_image);
-        mInfoArea = v.findViewById(tv.emby.embyatv.R.id.info_field);
-        mTitleView = (TextView) v.findViewById(tv.emby.embyatv.R.id.title_text);
-        mContentView = (TextView) v.findViewById(tv.emby.embyatv.R.id.content_text);
-        mBadgeImage = (ImageView) v.findViewById(tv.emby.embyatv.R.id.extra_badge);
-        mOverlayName = (TextView) v.findViewById(tv.emby.embyatv.R.id.overlay_text);
+        mImageView = (ImageView) v.findViewById(org.jellyfin.androidtv.R.id.main_image);
+        mInfoArea = v.findViewById(org.jellyfin.androidtv.R.id.info_field);
+        mTitleView = (TextView) v.findViewById(org.jellyfin.androidtv.R.id.title_text);
+        mContentView = (TextView) v.findViewById(org.jellyfin.androidtv.R.id.content_text);
+        mBadgeImage = (ImageView) v.findViewById(org.jellyfin.androidtv.R.id.extra_badge);
+        mOverlayName = (TextView) v.findViewById(org.jellyfin.androidtv.R.id.overlay_text);
         mOverlayName.setTypeface(TvApp.getApplication().getDefaultFont());
-        mOverlayCount = (TextView) v.findViewById(tv.emby.embyatv.R.id.overlay_count);
+        mOverlayCount = (TextView) v.findViewById(org.jellyfin.androidtv.R.id.overlay_count);
         mOverlayCount.setTypeface(TvApp.getApplication().getDefaultFont());
-        mOverlayIcon = (ImageView) v.findViewById(tv.emby.embyatv.R.id.icon);
-        mInfoOverlay = (ViewGroup) v.findViewById(tv.emby.embyatv.R.id.name_overlay);
+        mOverlayIcon = (ImageView) v.findViewById(org.jellyfin.androidtv.R.id.icon);
+        mInfoOverlay = (ViewGroup) v.findViewById(org.jellyfin.androidtv.R.id.name_overlay);
         mInfoOverlay.setVisibility(GONE);
-        mFavIcon = (ImageView) v.findViewById(tv.emby.embyatv.R.id.favIcon);
+        mFavIcon = (ImageView) v.findViewById(org.jellyfin.androidtv.R.id.favIcon);
 
         if (mInfoArea != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.lbImageCardView,
@@ -118,11 +118,11 @@ public class MyImageCardView extends BaseCardView {
 
     public void setPlayingIndicator(boolean playing) {
         if (playing) {
-            mBadgeImage.setBackgroundResource(tv.emby.embyatv.R.drawable.eq_animation);
+            mBadgeImage.setBackgroundResource(org.jellyfin.androidtv.R.drawable.eq_animation);
             mBadgeImage.setVisibility(VISIBLE);
             ((AnimationDrawable)mBadgeImage.getBackground()).start();
         } else {
-            mBadgeImage.setBackgroundResource(tv.emby.embyatv.R.drawable.blank10x10);
+            mBadgeImage.setBackgroundResource(org.jellyfin.androidtv.R.drawable.blank10x10);
         }
     }
 
@@ -230,15 +230,15 @@ public class MyImageCardView extends BaseCardView {
             switch (item.getType()) {
                 case "Photo":
                     mOverlayName.setText(item.getBaseItem().getPremiereDate() != null ? android.text.format.DateFormat.getDateFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(item.getBaseItem().getPremiereDate())) : item.getFullName());
-                    mOverlayIcon.setImageResource(tv.emby.embyatv.R.drawable.camera);
+                    mOverlayIcon.setImageResource(org.jellyfin.androidtv.R.drawable.camera);
                     break;
                 case "PhotoAlbum":
                     mOverlayName.setText(item.getFullName());
-                    mOverlayIcon.setImageResource(tv.emby.embyatv.R.drawable.photoalbum);
+                    mOverlayIcon.setImageResource(org.jellyfin.androidtv.R.drawable.photoalbum);
                     break;
                 case "Video":
                     mOverlayName.setText(item.getFullName());
-                    mOverlayIcon.setImageResource(tv.emby.embyatv.R.drawable.film);
+                    mOverlayIcon.setImageResource(org.jellyfin.androidtv.R.drawable.film);
                     break;
                 case "Playlist":
                 case "MusicArtist":
@@ -248,7 +248,7 @@ public class MyImageCardView extends BaseCardView {
                     break;
                 default:
                     mOverlayName.setText(item.getFullName());
-                    mOverlayIcon.setImageResource(item.isFolder() ? tv.emby.embyatv.R.drawable.foldersmall : tv.emby.embyatv.R.drawable.blank30x30);
+                    mOverlayIcon.setImageResource(item.isFolder() ? org.jellyfin.androidtv.R.drawable.foldersmall : org.jellyfin.androidtv.R.drawable.blank30x30);
                     break;
             }
             mOverlayCount.setText(item.getChildCountStr());

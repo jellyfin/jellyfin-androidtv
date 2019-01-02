@@ -1,4 +1,4 @@
-package tv.emby.embyatv.imagehandling;
+package org.jellyfin.androidtv.imagehandling;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;

@@ -17,9 +17,9 @@
  * https://code.google.com/p/dashclock/source/browse/main/src/main/java/com/google/android/apps/dashclock/configuration/ColorPreference.java 
  */
 
-package tv.emby.embyatv.settings;
+package org.jellyfin.androidtv.settings;
 
-import tv.emby.embyatv.R;
+import org.jellyfin.androidtv.R;
 
 
 import java.util.ArrayList;

@@ -182,7 +182,7 @@
         <view
             android:layout_width="28sp"
             android:layout_height="28sp"
-            class="tv.emby.embyatv.ui.ImageButton"
+            class="org.jellyfin.androidtv.ui.ImageButton"
             android:id="@+id/playPauseBtn"
             android:layout_alignStart="@+id/infoRow"
             android:layout_marginBottom="-12sp"
@@ -344,7 +344,7 @@
         android:id="@+id/topPanel"
         android:clickable="false">
 
-        <tv.emby.embyatv.ui.ClockUserView
+        <org.jellyfin.androidtv.ui.ClockUserView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textClock"

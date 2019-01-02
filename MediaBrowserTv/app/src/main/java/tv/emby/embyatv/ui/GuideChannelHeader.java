@@ -1,4 +1,4 @@
-package tv.emby.embyatv.ui;
+package org.jellyfin.androidtv.ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,10 +16,10 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import mediabrowser.model.livetv.ChannelInfoDto;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.livetv.LiveTvGuideActivity;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 5/4/2015.

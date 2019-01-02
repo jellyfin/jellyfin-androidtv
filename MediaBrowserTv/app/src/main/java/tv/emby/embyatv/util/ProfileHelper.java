@@ -1,4 +1,4 @@
-package tv.emby.embyatv.util;
+package org.jellyfin.androidtv.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import mediabrowser.model.dlna.ProfileConditionValue;
 import mediabrowser.model.dlna.SubtitleDeliveryMethod;
 import mediabrowser.model.dlna.SubtitleProfile;
 import mediabrowser.model.dlna.TranscodingProfile;
-import tv.emby.embyatv.TvApp;
+import org.jellyfin.androidtv.TvApp;
 
 /**
  * Created by Eric on 2/29/2016.

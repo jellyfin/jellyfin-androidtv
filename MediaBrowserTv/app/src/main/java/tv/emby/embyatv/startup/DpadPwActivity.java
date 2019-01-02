@@ -1,4 +1,4 @@
-package tv.emby.embyatv.startup;
+package org.jellyfin.androidtv.startup;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,9 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import mediabrowser.model.dto.UserDto;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.util.Utils;
 
 
 public class DpadPwActivity extends Activity {

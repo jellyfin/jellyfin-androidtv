@@ -1,8 +1,8 @@
-package tv.emby.embyatv.querying;
+package org.jellyfin.androidtv.querying;
 
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
-import tv.emby.embyatv.TvApp;
+import org.jellyfin.androidtv.TvApp;
 
 /**
  * Created by Eric on 12/5/2014.

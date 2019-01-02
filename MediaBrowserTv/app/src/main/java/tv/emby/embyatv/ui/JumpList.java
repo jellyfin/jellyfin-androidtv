@@ -1,11 +1,11 @@
-package tv.emby.embyatv.ui;
+package org.jellyfin.androidtv.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import tv.emby.embyatv.R;
+import org.jellyfin.androidtv.R;
 
 public class JumpList extends LinearLayout {
 

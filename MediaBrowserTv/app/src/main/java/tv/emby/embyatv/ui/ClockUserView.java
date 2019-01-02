@@ -1,4 +1,4 @@
-package tv.emby.embyatv.ui;
+package org.jellyfin.androidtv.ui;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -12,9 +12,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 7/22/2015.

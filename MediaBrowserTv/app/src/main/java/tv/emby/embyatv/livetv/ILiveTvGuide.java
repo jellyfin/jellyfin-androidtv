@@ -1,6 +1,6 @@
-package tv.emby.embyatv.livetv;
+package org.jellyfin.androidtv.livetv;
 
-import tv.emby.embyatv.ui.ProgramGridCell;
+import org.jellyfin.androidtv.ui.ProgramGridCell;
 
 /**
  * Created by Eric on 9/6/2015.

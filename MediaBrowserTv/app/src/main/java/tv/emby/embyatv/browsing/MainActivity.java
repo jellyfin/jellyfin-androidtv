@@ -1,14 +1,14 @@
-package tv.emby.embyatv.browsing;
+package org.jellyfin.androidtv.browsing;
 
 import android.os.Bundle;
 
 import java.io.IOException;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.base.BaseActivity;
-import tv.emby.embyatv.startup.LogonCredentials;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.startup.LogonCredentials;
+import org.jellyfin.androidtv.util.Utils;
 
 public class MainActivity extends BaseActivity {
 

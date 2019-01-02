@@ -1,4 +1,4 @@
-package tv.emby.embyatv.playback;
+package org.jellyfin.androidtv.playback;
 
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
@@ -32,21 +32,21 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import mediabrowser.model.dto.BaseItemDto;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.base.BaseActivity;
-import tv.emby.embyatv.details.FullDetailsActivity;
-import tv.emby.embyatv.details.ItemListActivity;
-import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
-import tv.emby.embyatv.itemhandling.BaseRowItem;
-import tv.emby.embyatv.model.GotFocusEvent;
-import tv.emby.embyatv.presentation.PositionableListRowPresenter;
-import tv.emby.embyatv.ui.ClockUserView;
-import tv.emby.embyatv.ui.GenreButton;
-import tv.emby.embyatv.ui.ImageButton;
-import tv.emby.embyatv.util.InfoLayoutHelper;
-import tv.emby.embyatv.util.KeyProcessor;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.details.FullDetailsActivity;
+import org.jellyfin.androidtv.details.ItemListActivity;
+import org.jellyfin.androidtv.imagehandling.PicassoBackgroundManagerTarget;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.model.GotFocusEvent;
+import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
+import org.jellyfin.androidtv.ui.ClockUserView;
+import org.jellyfin.androidtv.ui.GenreButton;
+import org.jellyfin.androidtv.ui.ImageButton;
+import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.KeyProcessor;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 2/19/2015.

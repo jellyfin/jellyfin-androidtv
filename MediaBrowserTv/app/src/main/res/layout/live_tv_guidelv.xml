@@ -16,7 +16,7 @@
     </ListView>
 
 
-        <tv.emby.embyatv.ui.ObservableHorizontalScrollView
+        <org.jellyfin.androidtv.ui.ObservableHorizontalScrollView
             android:layout_width="fill_parent"
             android:background="#ff0b0e14"
             android:layout_height="fill_parent"
@@ -31,7 +31,7 @@
                 android:id="@+id/programRows">
 
             </ListView>
-        </tv.emby.embyatv.ui.ObservableHorizontalScrollView>
+        </org.jellyfin.androidtv.ui.ObservableHorizontalScrollView>
 
     <HorizontalScrollView
         android:layout_width="match_parent"

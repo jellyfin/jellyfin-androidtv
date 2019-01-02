@@ -1,10 +1,10 @@
-package tv.emby.embyatv.startup;
+package org.jellyfin.androidtv.startup;
 
 import android.app.Activity;
 import android.os.Bundle;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.base.BaseActivity;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.base.BaseActivity;
 
 public class SelectServerActivity extends BaseActivity {
 

@@ -1,4 +1,4 @@
-package tv.emby.embyatv.ui;
+package org.jellyfin.androidtv.ui;
 
 import android.app.Fragment;
 import android.content.ClipData;
@@ -23,14 +23,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mediabrowser.model.entities.SortOrder;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.itemhandling.BaseRowItem;
-import tv.emby.embyatv.itemhandling.ItemRowAdapter;
-import tv.emby.embyatv.model.FilterOptions;
-import tv.emby.embyatv.presentation.HorizontalGridPresenter;
-import tv.emby.embyatv.util.InfoLayoutHelper;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.model.FilterOptions;
+import org.jellyfin.androidtv.presentation.HorizontalGridPresenter;
+import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 8/17/2015.

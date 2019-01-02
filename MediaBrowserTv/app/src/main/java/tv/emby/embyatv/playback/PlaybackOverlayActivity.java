@@ -11,15 +11,15 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package tv.emby.embyatv.playback;
+package org.jellyfin.androidtv.playback;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.base.BaseActivity;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
 
 /**
  * PlaybackOverlayActivity for video playback that loads PlaybackOverlayFragment

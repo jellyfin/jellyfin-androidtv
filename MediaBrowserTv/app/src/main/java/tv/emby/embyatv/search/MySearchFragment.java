@@ -1,4 +1,4 @@
-package tv.emby.embyatv.search;
+package org.jellyfin.androidtv.search;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -19,13 +19,13 @@ import com.squareup.picasso.Target;
 
 import java.util.Timer;
 
-import tv.emby.embyatv.itemhandling.BaseRowItem;
-import tv.emby.embyatv.itemhandling.ItemLauncher;
-import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.itemhandling.ItemRowAdapter;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.itemhandling.ItemLauncher;
+import org.jellyfin.androidtv.imagehandling.PicassoBackgroundManagerTarget;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 1/26/2015.

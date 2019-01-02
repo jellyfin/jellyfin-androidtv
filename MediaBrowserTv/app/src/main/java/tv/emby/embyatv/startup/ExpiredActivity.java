@@ -12,14 +12,14 @@
  * the License.
  */
 
-package tv.emby.embyatv.startup;
+package org.jellyfin.androidtv.startup;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import tv.emby.embyatv.R;
+import org.jellyfin.androidtv.R;
 
 /*
  * Details activity class that loads LeanbackDetailsFragment class

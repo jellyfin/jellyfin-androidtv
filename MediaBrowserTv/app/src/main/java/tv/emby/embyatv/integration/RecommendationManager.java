@@ -1,4 +1,4 @@
-package tv.emby.embyatv.integration;
+package org.jellyfin.androidtv.integration;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -24,12 +24,12 @@ import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
 import mediabrowser.model.querying.SimilarItemsQuery;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.browsing.MainActivity;
-import tv.emby.embyatv.querying.StdItemQuery;
-import tv.emby.embyatv.startup.StartupActivity;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.browsing.MainActivity;
+import org.jellyfin.androidtv.querying.StdItemQuery;
+import org.jellyfin.androidtv.startup.StartupActivity;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 3/1/2015.

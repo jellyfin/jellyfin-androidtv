@@ -1,4 +1,4 @@
-package tv.emby.embyatv.browsing;
+package org.jellyfin.androidtv.browsing;
 
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
@@ -17,10 +17,10 @@ import mediabrowser.model.livetv.TimerQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.results.TimerInfoDtoResult;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.itemhandling.ItemRowAdapter;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 9/3/2015.

@@ -1,4 +1,4 @@
-package tv.emby.embyatv.details;
+package org.jellyfin.androidtv.details;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -40,26 +40,26 @@ import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.base.BaseActivity;
-import tv.emby.embyatv.base.IKeyListener;
-import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
-import tv.emby.embyatv.itemhandling.BaseRowItem;
-import tv.emby.embyatv.itemhandling.ItemLauncher;
-import tv.emby.embyatv.model.GotFocusEvent;
-import tv.emby.embyatv.playback.AudioEventListener;
-import tv.emby.embyatv.playback.MediaManager;
-import tv.emby.embyatv.playback.PlaybackController;
-import tv.emby.embyatv.playback.PlaybackOverlayActivity;
-import tv.emby.embyatv.querying.StdItemQuery;
-import tv.emby.embyatv.ui.GenreButton;
-import tv.emby.embyatv.ui.ImageButton;
-import tv.emby.embyatv.ui.ItemListView;
-import tv.emby.embyatv.ui.ItemRowView;
-import tv.emby.embyatv.util.InfoLayoutHelper;
-import tv.emby.embyatv.util.KeyProcessor;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.base.IKeyListener;
+import org.jellyfin.androidtv.imagehandling.PicassoBackgroundManagerTarget;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.itemhandling.ItemLauncher;
+import org.jellyfin.androidtv.model.GotFocusEvent;
+import org.jellyfin.androidtv.playback.AudioEventListener;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.playback.PlaybackController;
+import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
+import org.jellyfin.androidtv.querying.StdItemQuery;
+import org.jellyfin.androidtv.ui.GenreButton;
+import org.jellyfin.androidtv.ui.ImageButton;
+import org.jellyfin.androidtv.ui.ItemListView;
+import org.jellyfin.androidtv.ui.ItemRowView;
+import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.KeyProcessor;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 11/22/2015.

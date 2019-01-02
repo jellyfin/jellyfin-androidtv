@@ -1,4 +1,4 @@
-package tv.emby.embyatv.integration;
+package org.jellyfin.androidtv.integration;
 /**
  * The MIT License (MIT)
  * Copyright (c) 2014 David Carver
@@ -40,7 +40,7 @@ package tv.emby.embyatv.integration;
         import com.squareup.okhttp.OkHttpClient;
         import com.squareup.okhttp.OkUrlFactory;
 
-        import tv.emby.embyatv.TvApp;
+        import org.jellyfin.androidtv.TvApp;
 
 /**
  * Provides a background image for Recommendations for a RecommendationCardView.
@@ -64,7 +64,7 @@ package tv.emby.embyatv.integration;
  */
 public class RecommendationContentProvider extends ContentProvider {
 
-    public static String AUTHORITY = "tv.emby.embyatv.recommendations";
+    public static String AUTHORITY = "org.jellyfin.androidtv.recommendations";
     public static String CONTENT_URI = "content://" + AUTHORITY + "/";
 
     @Override

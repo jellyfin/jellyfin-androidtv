@@ -1,4 +1,4 @@
-package tv.emby.embyatv.browsing;
+package org.jellyfin.androidtv.browsing;
 
 import java.util.List;
 

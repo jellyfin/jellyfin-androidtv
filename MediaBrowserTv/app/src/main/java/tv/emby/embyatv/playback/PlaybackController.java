@@ -1,4 +1,4 @@
-package tv.emby.embyatv.playback;
+package org.jellyfin.androidtv.playback;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -30,12 +30,12 @@ import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.mediainfo.SubtitleTrackInfo;
 import mediabrowser.model.session.PlayMethod;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.livetv.TvManager;
-import tv.emby.embyatv.ui.ImageButton;
-import tv.emby.embyatv.util.ProfileHelper;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.livetv.TvManager;
+import org.jellyfin.androidtv.ui.ImageButton;
+import org.jellyfin.androidtv.util.ProfileHelper;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 12/9/2014.

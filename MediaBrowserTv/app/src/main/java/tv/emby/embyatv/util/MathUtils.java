@@ -1,4 +1,4 @@
-package tv.emby.embyatv.util;
+package org.jellyfin.androidtv.util;
 
 import android.graphics.RectF;
 

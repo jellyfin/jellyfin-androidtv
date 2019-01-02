@@ -1,4 +1,4 @@
-package tv.emby.embyatv.playback;
+package org.jellyfin.androidtv.playback;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -35,17 +35,17 @@ import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.playlists.PlaylistCreationRequest;
 import mediabrowser.model.playlists.PlaylistCreationResult;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.base.CustomMessage;
-import tv.emby.embyatv.itemhandling.AudioQueueItem;
-import tv.emby.embyatv.itemhandling.BaseRowItem;
-import tv.emby.embyatv.itemhandling.ItemRowAdapter;
-import tv.emby.embyatv.presentation.CardPresenter;
-import tv.emby.embyatv.querying.QueryType;
-import tv.emby.embyatv.util.ProfileHelper;
-import tv.emby.embyatv.util.RemoteControlReceiver;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.CustomMessage;
+import org.jellyfin.androidtv.itemhandling.AudioQueueItem;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.presentation.CardPresenter;
+import org.jellyfin.androidtv.querying.QueryType;
+import org.jellyfin.androidtv.util.ProfileHelper;
+import org.jellyfin.androidtv.util.RemoteControlReceiver;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 10/22/2015.

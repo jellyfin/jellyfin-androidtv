@@ -1,4 +1,4 @@
-package tv.emby.embyatv.util;
+package org.jellyfin.androidtv.util;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -80,20 +80,20 @@ import mediabrowser.model.session.PlaybackProgressInfo;
 import mediabrowser.model.session.PlaybackStartInfo;
 import mediabrowser.model.session.PlaybackStopInfo;
 import mediabrowser.model.users.AuthenticationResult;
-import tv.emby.embyatv.BuildConfig;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.browsing.MainActivity;
-import tv.emby.embyatv.details.FullDetailsActivity;
-import tv.emby.embyatv.details.ItemListActivity;
-import tv.emby.embyatv.model.ChapterItemInfo;
-import tv.emby.embyatv.playback.MediaManager;
-import tv.emby.embyatv.playback.PlaybackOverlayActivity;
-import tv.emby.embyatv.startup.ConnectActivity;
-import tv.emby.embyatv.startup.DpadPwActivity;
-import tv.emby.embyatv.startup.LogonCredentials;
-import tv.emby.embyatv.startup.SelectServerActivity;
-import tv.emby.embyatv.startup.SelectUserActivity;
+import org.jellyfin.androidtv.BuildConfig;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.browsing.MainActivity;
+import org.jellyfin.androidtv.details.FullDetailsActivity;
+import org.jellyfin.androidtv.details.ItemListActivity;
+import org.jellyfin.androidtv.model.ChapterItemInfo;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
+import org.jellyfin.androidtv.startup.ConnectActivity;
+import org.jellyfin.androidtv.startup.DpadPwActivity;
+import org.jellyfin.androidtv.startup.LogonCredentials;
+import org.jellyfin.androidtv.startup.SelectServerActivity;
+import org.jellyfin.androidtv.startup.SelectUserActivity;
 
 /**
  * A collection of utility methods, all static.
@@ -764,7 +764,7 @@ public class Utils {
     }
 
     public static String getStoreUrl() {
-        return isFireTv() ? "http://www.amazon.com/Emby-for-Fire-TV/dp/B00VVJKTW8/ref=sr_1_2?s=mobile-apps&ie=UTF8&qid=1430569449&sr=1-2" : "https://play.google.com/store/apps/details?id=tv.emby.embyatv";
+        return isFireTv() ? "http://www.amazon.com/Emby-for-Fire-TV/dp/B00VVJKTW8/ref=sr_1_2?s=mobile-apps&ie=UTF8&qid=1430569449&sr=1-2" : "https://play.google.com/store/apps/details?id=org.jellyfin.androidtv";
     }
 
     private static void addMainItem(BaseItemDto mainItem, final List<BaseItemDto> items, final Response<List<BaseItemDto>> outerResponse) {

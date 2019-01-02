@@ -12,7 +12,7 @@
  * the License.
  */
 
-package tv.emby.embyatv.browsing;
+package org.jellyfin.androidtv.browsing;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -58,34 +58,34 @@ import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.DisplayPreferences;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.base.BaseActivity;
-import tv.emby.embyatv.base.CustomMessage;
-import tv.emby.embyatv.base.IKeyListener;
-import tv.emby.embyatv.base.IMessageListener;
-import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
-import tv.emby.embyatv.itemhandling.BaseRowItem;
-import tv.emby.embyatv.itemhandling.ItemLauncher;
-import tv.emby.embyatv.itemhandling.ItemRowAdapter;
-import tv.emby.embyatv.model.FilterOptions;
-import tv.emby.embyatv.model.PosterSize;
-import tv.emby.embyatv.model.ViewType;
-import tv.emby.embyatv.playback.MediaManager;
-import tv.emby.embyatv.presentation.CardPresenter;
-import tv.emby.embyatv.presentation.HorizontalGridPresenter;
-import tv.emby.embyatv.model.ImageType;
-import tv.emby.embyatv.querying.QueryType;
-import tv.emby.embyatv.querying.ViewQuery;
-import tv.emby.embyatv.search.SearchActivity;
-import tv.emby.embyatv.ui.CharSelectedListener;
-import tv.emby.embyatv.ui.DisplayPrefsPopup;
-import tv.emby.embyatv.ui.HorizontalGridFragment;
-import tv.emby.embyatv.ui.ImageButton;
-import tv.emby.embyatv.ui.JumpList;
-import tv.emby.embyatv.util.KeyProcessor;
-import tv.emby.embyatv.util.RemoteControlReceiver;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.base.CustomMessage;
+import org.jellyfin.androidtv.base.IKeyListener;
+import org.jellyfin.androidtv.base.IMessageListener;
+import org.jellyfin.androidtv.imagehandling.PicassoBackgroundManagerTarget;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.itemhandling.ItemLauncher;
+import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.model.FilterOptions;
+import org.jellyfin.androidtv.model.PosterSize;
+import org.jellyfin.androidtv.model.ViewType;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.presentation.CardPresenter;
+import org.jellyfin.androidtv.presentation.HorizontalGridPresenter;
+import org.jellyfin.androidtv.model.ImageType;
+import org.jellyfin.androidtv.querying.QueryType;
+import org.jellyfin.androidtv.querying.ViewQuery;
+import org.jellyfin.androidtv.search.SearchActivity;
+import org.jellyfin.androidtv.ui.CharSelectedListener;
+import org.jellyfin.androidtv.ui.DisplayPrefsPopup;
+import org.jellyfin.androidtv.ui.HorizontalGridFragment;
+import org.jellyfin.androidtv.ui.ImageButton;
+import org.jellyfin.androidtv.ui.JumpList;
+import org.jellyfin.androidtv.util.KeyProcessor;
+import org.jellyfin.androidtv.util.RemoteControlReceiver;
+import org.jellyfin.androidtv.util.Utils;
 
 public class StdGridFragment extends HorizontalGridFragment implements IGridLoader {
     private static final String TAG = "StdGridFragment";

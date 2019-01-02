@@ -1,4 +1,4 @@
-package tv.emby.embyatv.presentation;
+package org.jellyfin.androidtv.presentation;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -12,11 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.details.MyDetailsOverviewRow;
-import tv.emby.embyatv.ui.ImageButton;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.details.MyDetailsOverviewRow;
+import org.jellyfin.androidtv.ui.ImageButton;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 5/22/2015.

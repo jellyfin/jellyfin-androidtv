@@ -1,4 +1,4 @@
-package tv.emby.embyatv.util;
+package org.jellyfin.androidtv.util;
 
 import android.os.Build;
 
@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.http.HttpHeaders;
 import mediabrowser.apiinteraction.http.HttpRequest;
-import tv.emby.embyatv.TvApp;
+import org.jellyfin.androidtv.TvApp;
 
 /**
  * Created by Eric on 2/28/2016.

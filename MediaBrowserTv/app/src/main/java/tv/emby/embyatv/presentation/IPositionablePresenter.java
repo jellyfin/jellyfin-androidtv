@@ -1,4 +1,4 @@
-package tv.emby.embyatv.presentation;
+package org.jellyfin.androidtv.presentation;
 
 /**
  * Created by Eric on 10/23/2015.

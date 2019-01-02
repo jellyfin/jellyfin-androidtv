@@ -1,4 +1,4 @@
-package tv.emby.embyatv;
+package org.jellyfin.androidtv;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -34,15 +34,15 @@ import mediabrowser.model.entities.DisplayPreferences;
 import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.registration.RegistrationInfo;
 import mediabrowser.model.system.SystemInfo;
-import tv.emby.embyatv.base.BaseActivity;
-import tv.emby.embyatv.playback.MediaManager;
-import tv.emby.embyatv.playback.PlaybackController;
-import tv.emby.embyatv.playback.PlaybackOverlayActivity;
-import tv.emby.embyatv.search.SearchActivity;
-import tv.emby.embyatv.startup.LogonCredentials;
-import tv.emby.embyatv.util.LogReporter;
-import tv.emby.embyatv.util.Utils;
-import tv.emby.embyatv.validation.AppValidator;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.playback.PlaybackController;
+import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
+import org.jellyfin.androidtv.search.SearchActivity;
+import org.jellyfin.androidtv.startup.LogonCredentials;
+import org.jellyfin.androidtv.util.LogReporter;
+import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.validation.AppValidator;
 
 import java.util.Calendar;
 import java.util.HashMap;

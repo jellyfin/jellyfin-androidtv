@@ -1,4 +1,4 @@
-package tv.emby.embyatv.ui;
+package org.jellyfin.androidtv.ui;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -25,11 +25,11 @@ import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.livetv.SeriesTimerInfoDto;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.base.BaseActivity;
-import tv.emby.embyatv.base.CustomMessage;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.base.CustomMessage;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 6/3/2015.

@@ -1,10 +1,10 @@
-package tv.emby.embyatv.validation;
+package org.jellyfin.androidtv.validation;
 
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.registration.RegistrationInfo;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.playback.SubtitleHelper;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.playback.SubtitleHelper;
+import org.jellyfin.androidtv.util.Utils;
 import tv.emby.iap.ErrorSeverity;
 import tv.emby.iap.ErrorType;
 import tv.emby.iap.IResultHandler;

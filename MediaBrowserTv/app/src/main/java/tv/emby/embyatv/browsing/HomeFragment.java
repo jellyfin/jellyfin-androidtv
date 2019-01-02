@@ -1,4 +1,4 @@
-package tv.emby.embyatv.browsing;
+package org.jellyfin.androidtv.browsing;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,26 +26,26 @@ import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.base.CustomMessage;
-import tv.emby.embyatv.base.IMessageListener;
-import tv.emby.embyatv.integration.RecommendationManager;
-import tv.emby.embyatv.itemhandling.ItemRowAdapter;
-import tv.emby.embyatv.model.ChangeTriggerType;
-import tv.emby.embyatv.playback.AudioEventListener;
-import tv.emby.embyatv.playback.MediaManager;
-import tv.emby.embyatv.presentation.GridButtonPresenter;
-import tv.emby.embyatv.presentation.ThemeManager;
-import tv.emby.embyatv.querying.QueryType;
-import tv.emby.embyatv.querying.StdItemQuery;
-import tv.emby.embyatv.querying.ViewQuery;
-import tv.emby.embyatv.settings.SettingsActivity;
-import tv.emby.embyatv.startup.LogonCredentials;
-import tv.emby.embyatv.startup.SelectUserActivity;
-import tv.emby.embyatv.ui.GridButton;
-import tv.emby.embyatv.util.Utils;
-import tv.emby.embyatv.validation.UnlockActivity;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.CustomMessage;
+import org.jellyfin.androidtv.base.IMessageListener;
+import org.jellyfin.androidtv.integration.RecommendationManager;
+import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.model.ChangeTriggerType;
+import org.jellyfin.androidtv.playback.AudioEventListener;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.presentation.GridButtonPresenter;
+import org.jellyfin.androidtv.presentation.ThemeManager;
+import org.jellyfin.androidtv.querying.QueryType;
+import org.jellyfin.androidtv.querying.StdItemQuery;
+import org.jellyfin.androidtv.querying.ViewQuery;
+import org.jellyfin.androidtv.settings.SettingsActivity;
+import org.jellyfin.androidtv.startup.LogonCredentials;
+import org.jellyfin.androidtv.startup.SelectUserActivity;
+import org.jellyfin.androidtv.ui.GridButton;
+import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.validation.UnlockActivity;
 
 /**
  * Created by Eric on 12/4/2014.

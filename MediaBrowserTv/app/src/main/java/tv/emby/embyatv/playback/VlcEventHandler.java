@@ -1,4 +1,4 @@
-package tv.emby.embyatv.playback;
+package org.jellyfin.androidtv.playback;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.os.Message;
 
 import org.videolan.libvlc.MediaPlayer.Event;
 
-import tv.emby.embyatv.TvApp;
+import org.jellyfin.androidtv.TvApp;
 
 /**
  * Created by Eric on 6/13/2015.

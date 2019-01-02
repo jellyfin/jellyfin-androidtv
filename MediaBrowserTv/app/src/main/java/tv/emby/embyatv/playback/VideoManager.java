@@ -1,4 +1,4 @@
-package tv.emby.embyatv.playback;
+package org.jellyfin.androidtv.playback;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -25,9 +25,9 @@ import java.util.List;
 import mediabrowser.model.dto.MediaSourceInfo;
 import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.MediaStreamType;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 7/11/2015.

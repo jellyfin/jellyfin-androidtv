@@ -1,4 +1,4 @@
-package tv.emby.embyatv.querying;
+package org.jellyfin.androidtv.querying;
 
 /**
  * Created by Eric on 12/5/2014.

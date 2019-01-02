@@ -1,4 +1,4 @@
-package tv.emby.embyatv.presentation;
+package org.jellyfin.androidtv.presentation;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,12 +15,12 @@ import java.util.Date;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.livetv.ChannelInfoDto;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.base.BaseActivity;
-import tv.emby.embyatv.itemhandling.BaseRowItem;
-import tv.emby.embyatv.model.ImageType;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.model.ImageType;
+import org.jellyfin.androidtv.util.Utils;
 
 public class CardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";
@@ -280,7 +280,7 @@ public class CardPresenter extends Presenter {
             //TvApp.getApplication().getLogger().Debug("Resetting card image");
             try {
                 Glide.with(getContext())
-                        .load(Uri.parse("android.resource://tv.emby.embyatv/drawable/loading"))
+                        .load(Uri.parse("android.resource://org.jellyfin.androidtv/drawable/loading"))
                         .fitCenter()
                         .error(mDefaultCardImage)
                         .into(mCardView.getMainImageView());

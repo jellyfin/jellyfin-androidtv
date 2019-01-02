@@ -1,4 +1,4 @@
-package tv.emby.embyatv.settings;
+package org.jellyfin.androidtv.settings;
 
 /*
  * Copyright (C) 2013 The Android Open Source Project

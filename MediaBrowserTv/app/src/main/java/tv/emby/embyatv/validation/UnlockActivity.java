@@ -1,4 +1,4 @@
-package tv.emby.embyatv.validation;
+package org.jellyfin.androidtv.validation;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,11 +22,11 @@ import mediabrowser.apiinteraction.http.HttpRequest;
 import mediabrowser.model.connect.ConnectUser;
 import mediabrowser.model.registration.AppstoreRegRequest;
 import mediabrowser.model.registration.RegistrationInfo;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.base.BaseActivity;
-import tv.emby.embyatv.util.DelayedMessage;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.util.DelayedMessage;
+import org.jellyfin.androidtv.util.Utils;
 import tv.emby.iap.ErrorSeverity;
 import tv.emby.iap.ErrorType;
 import tv.emby.iap.IResultHandler;

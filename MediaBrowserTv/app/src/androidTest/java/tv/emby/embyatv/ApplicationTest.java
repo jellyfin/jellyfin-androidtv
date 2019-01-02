@@ -1,4 +1,4 @@
-package tv.emby.embyatv;
+package org.jellyfin.androidtv;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

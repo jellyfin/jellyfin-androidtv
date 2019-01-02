@@ -1,4 +1,4 @@
-package tv.emby.embyatv.details;
+package org.jellyfin.androidtv.details;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mediabrowser.model.dto.BaseItemDto;
-import tv.emby.embyatv.ui.ImageButton;
+import org.jellyfin.androidtv.ui.ImageButton;
 
 /**
  * Created by Eric on 5/22/2015.
