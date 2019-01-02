@@ -189,7 +189,6 @@ public class StartupActivity extends Activity {
                         public void onResponse(final UserDto response) {
                             application.setCurrentUser(response);
                             if (application.getDirectItemId() != null) {
-                                application.validate();
                                 application.determineAutoBitrate();
                                 if (response.getHasPassword()
                                         && (!application.getIsAutoLoginConfigured()

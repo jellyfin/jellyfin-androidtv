@@ -45,7 +45,6 @@ import org.jellyfin.androidtv.startup.LogonCredentials;
 import org.jellyfin.androidtv.startup.SelectUserActivity;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.validation.UnlockActivity;
 
 /**
  * Created by Eric on 12/4/2014.
@@ -67,8 +66,6 @@ public class HomeFragment extends StdBrowseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
 
         MainTitle = this.getString(R.string.home_title);
-        //Validate the app
-        TvApp.getApplication().validate();
 
         super.onActivityCreated(savedInstanceState);
 
@@ -422,10 +419,6 @@ public class HomeFragment extends StdBrowseFragment {
                     case SETTINGS:
                         Intent settings = new Intent(getActivity(), SettingsActivity.class);
                         getActivity().startActivity(settings);
-                        break;
-                    case UNLOCK:
-                        Intent unlock = new Intent(getActivity(), UnlockActivity.class);
-                        getActivity().startActivity(unlock);
                         break;
                     case REPORT:
                         Utils.reportError(getActivity(), "Send Log to Dev");
