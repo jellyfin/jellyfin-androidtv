@@ -27,13 +27,13 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.util.DelayedMessage;
 import org.jellyfin.androidtv.util.Utils;
-import tv.emby.iap.ErrorSeverity;
-import tv.emby.iap.ErrorType;
-import tv.emby.iap.IResultHandler;
-import tv.emby.iap.IabValidator;
-import tv.emby.iap.InAppProduct;
-import tv.emby.iap.PurchaseActivity;
-import tv.emby.iap.ResultType;
+import tv.jellyfin.iap.ErrorSeverity;
+import tv.jellyfin.iap.ErrorType;
+import tv.jellyfin.iap.IResultHandler;
+import tv.jellyfin.iap.IabValidator;
+import tv.jellyfin.iap.InAppProduct;
+import tv.jellyfin.iap.PurchaseActivity;
+import tv.jellyfin.iap.ResultType;
 
 public class UnlockActivity extends BaseActivity {
 
@@ -50,7 +50,7 @@ public class UnlockActivity extends BaseActivity {
         if (TvApp.getApplication().getCurrentSystemInfo() == null || !Utils.versionGreaterThanOrEqual(TvApp.getApplication().getCurrentSystemInfo().getVersion(), "3.0.5768.7")) {
             new AlertDialog.Builder(this)
                     .setTitle("Incompatible Server Version")
-                    .setMessage("Please update your Emby Server to be compatible with this app.")
+                    .setMessage("Please update your Jellyfin Server to be compatible with this app.")
                     .setPositiveButton(getString(R.string.btn_ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -190,7 +190,7 @@ public class UnlockActivity extends BaseActivity {
                     TvApp.getApplication().setPaid(true);
                     finish();
                 } else {
-                    if (currentProduct.getEmbyFeatureCode() != null) {
+                    if (currentProduct.getJellyfinFeatureCode() != null) {
                         if (data == null) {
                             handleRegError("No data returned from IAB library");
                         } else {
@@ -200,7 +200,7 @@ public class UnlockActivity extends BaseActivity {
                             request.setStore(data.getStringExtra("store"));
                             request.setApplication(TvApp.getApplication().getPackageName());
                             request.setProduct(currentProduct.getSku());
-                            request.setFeature(currentProduct.getEmbyFeatureCode());
+                            request.setFeature(currentProduct.getJellyfinFeatureCode());
                             request.setType(currentProduct.getProductType().toString());
                             if (data.getStringExtra("storeId") != null) request.setStoreId(data.getStringExtra("storeId"));
                             request.setStoreToken(data.getStringExtra("storeToken"));
@@ -241,7 +241,7 @@ public class UnlockActivity extends BaseActivity {
     protected void handleRegError(String msg) {
         new AlertDialog.Builder(this)
                 .setTitle("Registration Error")
-                .setMessage("There was an error registering with the Emby server.  Please contact Emby support at http://emby.media/community. "+msg)
+                .setMessage("There was an error registering with the Jellyfin server.  Please contact Jellyfin support at http://jellyfin.media/community. "+msg)
                 .setPositiveButton(getString(R.string.btn_ok), null)
                 .show();
     }

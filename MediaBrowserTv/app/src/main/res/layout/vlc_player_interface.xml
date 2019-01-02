@@ -301,7 +301,7 @@
             android:text="@string/btn_start_now"
             android:id="@+id/nextButton"
             android:layout_below="@+id/nextUpInfoRow"
-            android:background="@drawable/emby_button"
+            android:background="@drawable/jellyfin_button"
             android:layout_alignParentEnd="true"
             android:minWidth="120sp"
             android:layout_marginRight="20sp" />
@@ -312,7 +312,7 @@
             android:layout_height="wrap_content"
             android:text="@string/btn_stop"
             android:id="@+id/cancelButton"
-            android:background="@drawable/emby_button"
+            android:background="@drawable/jellyfin_button"
             android:layout_below="@+id/nextButton"
             android:layout_alignEnd="@+id/nextButton"
             android:minWidth="120sp"

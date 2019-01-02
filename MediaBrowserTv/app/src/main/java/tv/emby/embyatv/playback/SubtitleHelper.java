@@ -114,7 +114,7 @@ public class SubtitleHelper {
         }
 
         if (mExternalStorageAvailable && mExternalStorageWriteable){
-            File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "emby");
+            File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "jellyfin");
             directory = new File(directory, "subtitles");
             return new File(directory, filename).getPath();
         }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Emby</string>
+    <string name="app_name">Jellyfin</string>
     <string name="current_queue">Aktuální fronta</string>
     <string name="error">Chyba</string>
     <string name="ok">OK</string>
@@ -36,8 +36,8 @@
     <string name="home_title">Domů</string>
     <string name="btn_cancel">Zrušit</string>
     <string name="btn_manually">Zadejte adresu serveru</string>
-    <string name="txt_expired">Emby pro Android TV vypršelo</string>
-    <string name="txt_expired_exp">Tato vývojová verze vypršela. Podívejte se prosím na dostupné aktualizace nebo instalace v obchodě. Děkujeme, že používáte Emby!</string>
+    <string name="txt_expired">Jellyfin pro Android TV vypršelo</string>
+    <string name="txt_expired_exp">Tato vývojová verze vypršela. Podívejte se prosím na dostupné aktualizace nebo instalace v obchodě. Děkujeme, že používáte Jellyfin!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Funkce při spuštění</string>
     <string name="pref_show_login">Zobrazit obrazovku pro přihlášení</string>
@@ -263,7 +263,7 @@
     <string name="lbl_live_tv_guide">Průvodce Live TV</string>
     <string name="lbl_recorded_tv">TV nahrávky</string>
     <string name="btn_ok">OK</string>
-    <string name="msg_email_entry1">Zadejte prosím validní emailovou adresu, na kterou byl odeslán klíč Emby Premiere</string>
+    <string name="msg_email_entry1">Zadejte prosím validní emailovou adresu, na kterou byl odeslán klíč Jellyfin Premiere</string>
     <string name="msg_invalid_email">Nevalidní emailová adresa</string>
     <string name="pref_live_tv_cat">LIVE TV</string>
     <string name="lbl_programs">Programy</string>

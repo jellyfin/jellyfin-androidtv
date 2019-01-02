@@ -138,7 +138,7 @@
     <orderEntry type="library" exported="" name="Gradle: __local_aars__:C.\Users\Ben\Documents\Programming Stuff\Jellyfin\jellyfin-androidtv\MediaBrowserTv\app\libs\apiclient.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.squareup.okio:okio:1.6.0@jar" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.android.support:support-v4-23.1.1" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: __local_aars__:C.\Users\Ben\Documents\Programming Stuff\Jellyfin\jellyfin-androidtv\MediaBrowserTv\app\amazonLibs\emby.amazoniap.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: __local_aars__:C.\Users\Ben\Documents\Programming Stuff\Jellyfin\jellyfin-androidtv\MediaBrowserTv\app\amazonLibs\jellyfin.amazoniap.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.mcxiaoke.volley:library:1.0.19@jar" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.github.bumptech.glide:glide:3.7.0@jar" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.android.support:support-annotations:23.1.1@jar" level="project" />

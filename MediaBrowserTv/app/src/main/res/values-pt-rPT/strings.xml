@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Emby</string>
+    <string name="app_name">Jellyfin</string>
     <string name="current_queue">Fila Atual</string>
     <string name="error">Erro</string>
     <string name="ok">OK</string>
@@ -33,7 +33,7 @@
     <string name="home_title">Início</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="btn_manually">Saltar e Inserir o Endereço IP</string>
-    <string name="txt_expired_exp">Esta versão de desenvolvimento expirou. Por favor veja se encontra uma atualização ou instalação na loja. Obrigado por usar o Emby!</string>
+    <string name="txt_expired_exp">Esta versão de desenvolvimento expirou. Por favor veja se encontra uma atualização ou instalação na loja. Obrigado por usar o Jellyfin!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_show_login_value">0</string>
     <string name="pref_auto_login_value">1</string>

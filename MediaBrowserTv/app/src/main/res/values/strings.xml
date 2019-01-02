@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
 
-    <string name="app_name">Emby</string>
+    <string name="app_name">Jellyfin</string>
     <string name="current_queue">Current Queue</string>
     <string name="error">Error</string>
     <string name="ok">OK</string>
@@ -39,8 +39,8 @@
     <string name="home_title">Home</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_manually">Skip and Enter IP Address</string>
-    <string name="txt_expired">Emby for Android TV is Expired</string>
-    <string name="txt_expired_exp">This development version has expired.   Please look for an update or install from the store.  Thank you for using Emby!</string>
+    <string name="txt_expired">Jellyfin for Android TV is Expired</string>
+    <string name="txt_expired_exp">This development version has expired.   Please look for an update or install from the store.  Thank you for using Jellyfin!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Start Up Behavior</string>
     <string name="pref_show_login">Show Login Screen</string>
@@ -173,12 +173,12 @@
     <string name="msg_playback_incompatible">Cannot play this video format</string>
     <string name="lbl_never">Never</string>
     <string name="lbl_unlock_app">Unlock App</string>
-    <string name="lbl_emby_premiere">Upgrade to Emby Premiere</string>
-    <string name="lbl_premiere_desc">With Emby Premiere you get not only full functionality in this app but also a host of other features in both the server and other apps across your entire Emby environment.</string>
+    <string name="lbl_jellyfin_premiere">Upgrade to Jellyfin Premiere</string>
+    <string name="lbl_premiere_desc">With Jellyfin Premiere you get not only full functionality in this app but also a host of other features in both the server and other apps across your entire Jellyfin environment.</string>
     <string name="lbl_unlock_desc">Unlock the app for full functionality by purchasing it here. If you are an active Supporter using a local server you should not need to do this. Be sure your server has your supporter key in place.</string>
-    <string name="lbl_premiere_desc2">Free access to some apps on other platforms, sync your content to supported mobile devices or the web client for offline viewing, enjoy a theater experience with Cinema Mode, enhance your images with CoverArt and much, much more.  Try Emby Premiere today.</string>
+    <string name="lbl_premiere_desc2">Free access to some apps on other platforms, sync your content to supported mobile devices or the web client for offline viewing, enjoy a theater experience with Cinema Mode, enhance your images with CoverArt and much, much more.  Try Jellyfin Premiere today.</string>
     <string name="btn_next">Next</string>
-    <string name="msg_just_unlock_confirm">Just unlock this app?  This option will not include any of the features of Emby Premiere.  It will just allow full functionality in this app.  Are you sure…?</string>
+    <string name="msg_just_unlock_confirm">Just unlock this app?  This option will not include any of the features of Jellyfin Premiere.  It will just allow full functionality in this app.  Are you sure…?</string>
     <string name="btn_unlock">No Thanks, Just Unlock This App</string>
     <string name="btn_monthly_prefix">Sign Me Up for </string>
     <string name="btn_monthly_suffix">/Month</string>
@@ -272,15 +272,15 @@
     <string name="lbl_no_recordings">No Recordings Available</string>
     <string name="lbl_live_tv_guide">Live TV Guide</string>
     <string name="lbl_recorded_tv">Recorded TV</string>
-    <string name="btn_emby_premiere">Emby Premiere</string>
+    <string name="btn_jellyfin_premiere">Jellyfin Premiere</string>
     <string name="btn_ok">OK</string>
-    <string name="msg_email_entry1">Please enter a valid email address to which to send your Emby Premiere Key</string>
+    <string name="msg_email_entry1">Please enter a valid email address to which to send your Jellyfin Premiere Key</string>
     <string name="msg_email_entry2">Very sorry but we need to be sure this is correct. Please enter the email again.</string>
     <string name="msg_entries_not_match">Entries did not match.  Please try again.</string>
     <string name="msg_invalid_email">Invalid Email Address</string>
     <string name="btn_monthly_default">Sign Me Up for $6.49/Month</string>
-    <string name="msg_premiere_nag_title">Consider Emby Premiere</string>
-    <string name="msg_premiere_nag_msg">Emby Premiere gives you many features such as mobile sync, cinema mode and CoverArt. Try Emby Premiere today.</string>
+    <string name="msg_premiere_nag_title">Consider Jellyfin Premiere</string>
+    <string name="msg_premiere_nag_msg">Jellyfin Premiere gives you many features such as mobile sync, cinema mode and CoverArt. Try Jellyfin Premiere today.</string>
     <string name="pref_live_tv_cat">LIVE TV</string>
     <string name="pref_sort_date_option">Sort guide by last played time</string>
     <string name="pref_sort_date_desc">Show last played channels at top of guide</string>
@@ -295,7 +295,7 @@
     <string name="lbl_episodes">Episodes</string>
     <string name="lbl_enable_cinema_mode">Enable Cinema Mode</string>
     <string name="sum_enable_cinema_mode">If enabled on the server, enable intros and previews before movie playback</string>
-    <string name="lbl_cm_premiere">Cinema Mode requires an active Emby Premiere membership</string>
+    <string name="lbl_cm_premiere">Cinema Mode requires an active Jellyfin Premiere membership</string>
     <string name="lbl_playlists">Playlists</string>
     <string name="lbl_of">of</string>
     <string name="msg_added_item_to_queue">"Item added to queue at position "</string>

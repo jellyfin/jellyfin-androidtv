@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Emby</string>
+    <string name="app_name">Jellyfin</string>
     <string name="current_queue">Cola Actual</string>
     <string name="error">Error</string>
     <string name="ok">OK</string>
@@ -36,8 +36,8 @@
     <string name="home_title">Inicio</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="btn_manually">Saltar e Ingresar Dirección IP</string>
-    <string name="txt_expired">Emby para Andrioid TV ha Expirado</string>
-    <string name="txt_expired_exp">La vesión de desarrollo ha expirado. Por favor busque una actualización o instale desde la tienda. Gracias por usar Emby!</string>
+    <string name="txt_expired">Jellyfin para Andrioid TV ha Expirado</string>
+    <string name="txt_expired_exp">La vesión de desarrollo ha expirado. Por favor busque una actualización o instale desde la tienda. Gracias por usar Jellyfin!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Comportamiento de Arranque</string>
     <string name="pref_show_login">Mostrar Pantalla de Inicio de Sesión</string>
@@ -170,12 +170,12 @@
     <string name="msg_playback_incompatible">No es posible reproducir este formato de video.</string>
     <string name="lbl_never">Nunca</string>
     <string name="lbl_unlock_app">Desbloquear App</string>
-    <string name="lbl_emby_premiere">Actualice a Emby Premiere</string>
-    <string name="lbl_premiere_desc">Con Emby Premiere no solamente obtiene la funcionalidad total en esta aplicación, sino también muchas otras características tanto en el servidor, como en otras apps en todo su ambiente Emby.</string>
+    <string name="lbl_jellyfin_premiere">Actualice a Jellyfin Premiere</string>
+    <string name="lbl_premiere_desc">Con Jellyfin Premiere no solamente obtiene la funcionalidad total en esta aplicación, sino también muchas otras características tanto en el servidor, como en otras apps en todo su ambiente Jellyfin.</string>
     <string name="lbl_unlock_desc">Desbloquee la app para obtener todas las funciones al comprarla en aquí. Si usted es un Aficionado activo que emplea un servidor local no necesitará hacer esto. Asegúrese de que su servidor tenga registrada su clave de aficionado.</string>
-    <string name="lbl_premiere_desc2">Acceso gratuito a algunas apps en otras plataformas, sincronización de sus contenidos en dispositivos móbiles soportados o en el cliente web para visualización fuera de línea, disfrute la experiencia del cine con Modo Cine, mejore sus imágenes con CoverArt y mucho más. Pruebe Emby Premiere Hoy.</string>
+    <string name="lbl_premiere_desc2">Acceso gratuito a algunas apps en otras plataformas, sincronización de sus contenidos en dispositivos móbiles soportados o en el cliente web para visualización fuera de línea, disfrute la experiencia del cine con Modo Cine, mejore sus imágenes con CoverArt y mucho más. Pruebe Jellyfin Premiere Hoy.</string>
     <string name="btn_next">Siguiente</string>
-    <string name="msg_just_unlock_confirm">¿Desbloquear únicamente esta app? Esta opción no incluye cualquiera de las características de Emby Premiere. Únicamente permitirá la funcionalidad total de esta app. ¿Está usted seguro...?</string>
+    <string name="msg_just_unlock_confirm">¿Desbloquear únicamente esta app? Esta opción no incluye cualquiera de las características de Jellyfin Premiere. Únicamente permitirá la funcionalidad total de esta app. ¿Está usted seguro...?</string>
     <string name="btn_unlock">No Gracias, solamente Desbloquee Esta App</string>
     <string name="btn_monthly_prefix">Quiero registrarme por</string>
     <string name="btn_monthly_suffix">/Mes</string>
@@ -269,15 +269,15 @@
     <string name="lbl_no_recordings">No hay Grabaciones Disponibles</string>
     <string name="lbl_live_tv_guide">Guía de TV en Vivo</string>
     <string name="lbl_recorded_tv">Grabaciones de TV</string>
-    <string name="btn_emby_premiere">Emby Premiere</string>
+    <string name="btn_jellyfin_premiere">Jellyfin Premiere</string>
     <string name="btn_ok">OK</string>
-    <string name="msg_email_entry1">Por favor capture una dirección de correo electrónico válida a la cual se enviará su clave de Emby Premiere</string>
+    <string name="msg_email_entry1">Por favor capture una dirección de correo electrónico válida a la cual se enviará su clave de Jellyfin Premiere</string>
     <string name="msg_email_entry2">Lo sentimos mucho pero debemos estar seguros que esto es correcto. Por favor capture su correo electónico nuevamente.</string>
     <string name="msg_entries_not_match">Las capturas no coinciden. Por favor inténtelo nuevamente.</string>
     <string name="msg_invalid_email">Dirección de Correo Electónico Inválida</string>
     <string name="btn_monthly_default">Quiero registrarme por $6.49/Mes</string>
-    <string name="msg_premiere_nag_title">Considere Emby Premiere</string>
-    <string name="msg_premiere_nag_msg">Emby Premiere le proporciona muchas características como sincronización móvil, modo cine y CoverArt. Pruebe Emby Premiere hoy.</string>
+    <string name="msg_premiere_nag_title">Considere Jellyfin Premiere</string>
+    <string name="msg_premiere_nag_msg">Jellyfin Premiere le proporciona muchas características como sincronización móvil, modo cine y CoverArt. Pruebe Jellyfin Premiere hoy.</string>
     <string name="pref_live_tv_cat">TV EN VIVO</string>
     <string name="pref_sort_date_option">Ordenar la guía por último horario reproducido</string>
     <string name="pref_sort_date_desc">Mostrar los últimos canales reproducidos al comienzo de la guía</string>
@@ -292,7 +292,7 @@
     <string name="lbl_episodes">Episodios</string>
     <string name="lbl_enable_cinema_mode">Activar Modo Cine</string>
     <string name="sum_enable_cinema_mode">Al habilitase en el servidor, se activan entradas y vistas previas antes de reproducir películas</string>
-    <string name="lbl_cm_premiere">Modo Cine requiere de una membresía Emby Premiere activa</string>
+    <string name="lbl_cm_premiere">Modo Cine requiere de una membresía Jellyfin Premiere activa</string>
     <string name="lbl_playlists">Listas de Reproducción</string>
     <string name="lbl_of">de</string>
     <string name="msg_added_item_to_queue">"ítem agregado a la cola en la posición "</string>

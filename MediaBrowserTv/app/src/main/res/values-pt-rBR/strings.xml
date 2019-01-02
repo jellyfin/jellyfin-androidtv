@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Emby</string>
+    <string name="app_name">Jellyfin</string>
     <string name="current_queue">Fila Atual</string>
     <string name="error">Erro</string>
     <string name="ok">OK</string>
@@ -36,8 +36,8 @@
     <string name="home_title">Início</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="btn_manually">Ignorar e Digitar o Endereço IP</string>
-    <string name="txt_expired">O Emby for Android TV Expirou</string>
-    <string name="txt_expired_exp">Esta versão de desenvolvimento expirou. Por favor, busque uma atualização ou instale da loja. Obrigado por usar o Emby!</string>
+    <string name="txt_expired">O Jellyfin for Android TV Expirou</string>
+    <string name="txt_expired_exp">Esta versão de desenvolvimento expirou. Por favor, busque uma atualização ou instale da loja. Obrigado por usar o Jellyfin!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Comportamento de Início</string>
     <string name="pref_show_login">Mostrar Tela de Login</string>
@@ -170,12 +170,12 @@
     <string name="msg_playback_incompatible">Não pode reproduzir este formato de vídeo</string>
     <string name="lbl_never">Nunca</string>
     <string name="lbl_unlock_app">Desbloquear App</string>
-    <string name="lbl_emby_premiere">Atualizar para o Emby Premiere</string>
-    <string name="lbl_premiere_desc">Com o Emby Premiere você consegue não só obter todas as funcionalidades do app, mas também características adicionais tanto no servidor como em apps do ambiente Emby.</string>
+    <string name="lbl_jellyfin_premiere">Atualizar para o Jellyfin Premiere</string>
+    <string name="lbl_premiere_desc">Com o Jellyfin Premiere você consegue não só obter todas as funcionalidades do app, mas também características adicionais tanto no servidor como em apps do ambiente Jellyfin.</string>
     <string name="lbl_unlock_desc">Desbloqueie a app para ter todas as funcionalidades comprando aqui. Se for um colaborador ativo usando um servidor local, não é necessário fazer isto. Certifique-se que seu servidor tem a chave de colaborador inserida.</string>
-    <string name="lbl_premiere_desc2">Acesso gratuito a alguns apps em outras plataformas, sincronizar seu conteúdo para dispositivos móveis suportados ou o cliente web para visualização offline, aproveitar uma experiência de cinema com o Cinema Mode, melhorar suas imagens com o CoverArt e muito, muito mais. Experimente hoje o Emby Premiere.</string>
+    <string name="lbl_premiere_desc2">Acesso gratuito a alguns apps em outras plataformas, sincronizar seu conteúdo para dispositivos móveis suportados ou o cliente web para visualização offline, aproveitar uma experiência de cinema com o Cinema Mode, melhorar suas imagens com o CoverArt e muito, muito mais. Experimente hoje o Jellyfin Premiere.</string>
     <string name="btn_next">Próximo</string>
-    <string name="msg_just_unlock_confirm">Desbloquear apenas este app? Esta opção não incluirá nenhuma das funcionalidades do Emby Premiere. Permitirá apenas as funcionalidades completas deste app. Você tem certeza...?</string>
+    <string name="msg_just_unlock_confirm">Desbloquear apenas este app? Esta opção não incluirá nenhuma das funcionalidades do Jellyfin Premiere. Permitirá apenas as funcionalidades completas deste app. Você tem certeza...?</string>
     <string name="btn_unlock">Não, Obrigado, Desbloqueie Apenas Este App</string>
     <string name="btn_monthly_prefix">Registre-me por</string>
     <string name="btn_monthly_suffix">/Mês</string>
@@ -269,15 +269,15 @@
     <string name="lbl_no_recordings">Não Existem Gravações Disponíveis</string>
     <string name="lbl_live_tv_guide">Guia da TV ao Vivo</string>
     <string name="lbl_recorded_tv">TV Gravada</string>
-    <string name="btn_emby_premiere">Emby Premiere</string>
+    <string name="btn_jellyfin_premiere">Jellyfin Premiere</string>
     <string name="btn_ok">OK</string>
-    <string name="msg_email_entry1">Por favor, digite um endereço de email válido para o qual será enviada sua chave Emby Premiere</string>
+    <string name="msg_email_entry1">Por favor, digite um endereço de email válido para o qual será enviada sua chave Jellyfin Premiere</string>
     <string name="msg_email_entry2">Desculpe, mas precisamos ter certeza que isto está correto. Por favor, digite novamente o email.</string>
     <string name="msg_entries_not_match">As entradas não conferem. Por favor, tente novamente.</string>
     <string name="msg_invalid_email">Endereço de Email Inválido</string>
     <string name="btn_monthly_default">Registre-me por $6.49/Mês</string>
-    <string name="msg_premiere_nag_title">Considere o Emby Premiere</string>
-    <string name="msg_premiere_nag_msg">O Emby Premiere oferece muitas funcionalidades como sincronização móvel, cinema mode e CoverArt. Experimente hoje o Emby Premiere.</string>
+    <string name="msg_premiere_nag_title">Considere o Jellyfin Premiere</string>
+    <string name="msg_premiere_nag_msg">O Jellyfin Premiere oferece muitas funcionalidades como sincronização móvel, cinema mode e CoverArt. Experimente hoje o Jellyfin Premiere.</string>
     <string name="pref_live_tv_cat">TV AO VIVO</string>
     <string name="pref_sort_date_option">Ordenar o guia pela última reprodução</string>
     <string name="pref_sort_date_desc">Exibir os últimos canais reproduzidos no topo do guia</string>
@@ -292,7 +292,7 @@
     <string name="lbl_episodes">Episódios</string>
     <string name="lbl_enable_cinema_mode">Ativar Cinema Mode</string>
     <string name="sum_enable_cinema_mode">Se ativado no servidor, ativa intros e pré-visualizações antes da reprodução do filme</string>
-    <string name="lbl_cm_premiere">Cinema Mode necessita uma associação ativa do Emby Premiere</string>
+    <string name="lbl_cm_premiere">Cinema Mode necessita uma associação ativa do Jellyfin Premiere</string>
     <string name="lbl_playlists">Listas de Reprodução</string>
     <string name="lbl_of">de</string>
     <string name="msg_added_item_to_queue">"Item adicionado à fila na posição "</string>

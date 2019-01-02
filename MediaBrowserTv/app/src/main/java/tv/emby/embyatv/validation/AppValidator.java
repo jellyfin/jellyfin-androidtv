@@ -5,13 +5,13 @@ import mediabrowser.model.registration.RegistrationInfo;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.playback.SubtitleHelper;
 import org.jellyfin.androidtv.util.Utils;
-import tv.emby.iap.ErrorSeverity;
-import tv.emby.iap.ErrorType;
-import tv.emby.iap.IResultHandler;
-import tv.emby.iap.IabValidator;
-import tv.emby.iap.InAppProduct;
-import tv.emby.iap.PurchaseResult;
-import tv.emby.iap.ResultType;
+import tv.jellyfin.iap.ErrorSeverity;
+import tv.jellyfin.iap.ErrorType;
+import tv.jellyfin.iap.IResultHandler;
+import tv.jellyfin.iap.IabValidator;
+import tv.jellyfin.iap.InAppProduct;
+import tv.jellyfin.iap.PurchaseResult;
+import tv.jellyfin.iap.ResultType;
 
 /**
  * Created by Eric on 3/3/2015.

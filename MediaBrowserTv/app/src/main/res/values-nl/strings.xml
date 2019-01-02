@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Emby</string>
+    <string name="app_name">Jellyfin</string>
     <string name="current_queue">Huidige wachtlijst</string>
     <string name="error">Fout</string>
     <string name="ok">OK</string>
@@ -36,8 +36,8 @@
     <string name="home_title">Hoofdpagina</string>
     <string name="btn_cancel">Annuleren</string>
     <string name="btn_manually">Overslaan en IP adres opgeven</string>
-    <string name="txt_expired">Emby voor Android TV is verlopen</string>
-    <string name="txt_expired_exp">Deze ontwikkelingsversie is verlopen. Controleer of er nieuwe updates zijn of installeer vanuit de store. Bedankt voor het gebruiken van Emby!</string>
+    <string name="txt_expired">Jellyfin voor Android TV is verlopen</string>
+    <string name="txt_expired_exp">Deze ontwikkelingsversie is verlopen. Controleer of er nieuwe updates zijn of installeer vanuit de store. Bedankt voor het gebruiken van Jellyfin!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Opstart gedrag</string>
     <string name="pref_show_login">Toon Login Scherm</string>
@@ -170,12 +170,12 @@
     <string name="msg_playback_incompatible">Kan dit videoformaat niet afspelen</string>
     <string name="lbl_never">Nooit</string>
     <string name="lbl_unlock_app">Ontgrendel App</string>
-    <string name="lbl_emby_premiere">Upgrade naar Emby Premiere</string>
-    <string name="lbl_premiere_desc">Met Emby Premiere krijgt u niet alleen de volledige functionaliteit van deze app, maar ook andere functies, zowel op de server als in de andere apps</string>
+    <string name="lbl_jellyfin_premiere">Upgrade naar Jellyfin Premiere</string>
+    <string name="lbl_premiere_desc">Met Jellyfin Premiere krijgt u niet alleen de volledige functionaliteit van deze app, maar ook andere functies, zowel op de server als in de andere apps</string>
     <string name="lbl_unlock_desc">Ontgrendel de app voor volledige functionaliteit door het hier te kopen. Als u een actieve supporter bent en lokaal aanmeldt hoeft u dit niet te doen. Zorg ervoor dat uw supporter sleutel op de server is geïnstalleerd.</string>
-    <string name="lbl_premiere_desc2">Gratis toegang tot sommige apps op andere platforms, synchroniseer uw media naar mobiele apparaten die dit ondersteunen zodat u deze offline kunt bekijken. Kijk alsof u in een bioscoop bent met Cinema Mode, verbeter uw afbeeldingen met CoverArt en nog veel meer. Probeer Emby Premiere!</string>
+    <string name="lbl_premiere_desc2">Gratis toegang tot sommige apps op andere platforms, synchroniseer uw media naar mobiele apparaten die dit ondersteunen zodat u deze offline kunt bekijken. Kijk alsof u in een bioscoop bent met Cinema Mode, verbeter uw afbeeldingen met CoverArt en nog veel meer. Probeer Jellyfin Premiere!</string>
     <string name="btn_next">Volgende</string>
-    <string name="msg_just_unlock_confirm">Alleen deze app beschikbaar maken? Deze optie bevat niet de functies van Emby Premiere. Dit geeft alleen volledige functionaliteit aan deze app, Weet u dit zeker?</string>
+    <string name="msg_just_unlock_confirm">Alleen deze app beschikbaar maken? Deze optie bevat niet de functies van Jellyfin Premiere. Dit geeft alleen volledige functionaliteit aan deze app, Weet u dit zeker?</string>
     <string name="btn_unlock">Nee, bedankt, geef me alleen volledige functionaliteit voor deze app</string>
     <string name="btn_monthly_prefix">Meld me aan voor</string>
     <string name="btn_monthly_suffix">/maand</string>
@@ -256,7 +256,7 @@
     <string name="lbl_season">Seizoen</string>
     <string name="lbl__continuing">Wordt vervolgd</string>
     <string name="lbl_ended">Afgelopen</string>
-    <string name="msg_confirm_pin">Bevestig de bovenstaande pin op emby.media/pin</string>
+    <string name="msg_confirm_pin">Bevestig de bovenstaande pin op jellyfin.media/pin</string>
     <string name="btn_start_now">Nu Starten</string>
     <string name="btn_stop">Stop</string>
     <string name="btn_filter">Filter</string>
@@ -269,15 +269,15 @@
     <string name="lbl_no_recordings">Geen opnames beschikbaar</string>
     <string name="lbl_live_tv_guide">Live TV gids</string>
     <string name="lbl_recorded_tv">Tv-opnamen</string>
-    <string name="btn_emby_premiere">Emby Premiere</string>
+    <string name="btn_jellyfin_premiere">Jellyfin Premiere</string>
     <string name="btn_ok">Ok</string>
-    <string name="msg_email_entry1">Geef een geldig e-mail adres op waar de Emby Premiere sleutel naar toe gestuurd moet worden</string>
+    <string name="msg_email_entry1">Geef een geldig e-mail adres op waar de Jellyfin Premiere sleutel naar toe gestuurd moet worden</string>
     <string name="msg_email_entry2">We moeten zeker weten dat het e-mail adres klopt. Vul het nogmaals in.</string>
     <string name="msg_entries_not_match">Velden komen niet overeen, probeer het nog een keer.</string>
     <string name="msg_invalid_email">Foutief E-mail Adres</string>
     <string name="btn_monthly_default">Meld me aan voor $6,49/maand</string>
-    <string name="msg_premiere_nag_title">Overweeg Emby Premiere</string>
-    <string name="msg_premiere_nag_msg">Emby Premiere geeft u veel functies zoals synchroniseren met mobiele apparaten, Cinema Mode en CoverArt. Probeer Emby Premiere!</string>
+    <string name="msg_premiere_nag_title">Overweeg Jellyfin Premiere</string>
+    <string name="msg_premiere_nag_msg">Jellyfin Premiere geeft u veel functies zoals synchroniseren met mobiele apparaten, Cinema Mode en CoverArt. Probeer Jellyfin Premiere!</string>
     <string name="pref_live_tv_cat">Live TV</string>
     <string name="pref_sort_date_option">Sorteer gids op laatst afgespeeld</string>
     <string name="pref_sort_date_desc">Toon de laatst gebruikte kanalen boven in de gids</string>
@@ -292,7 +292,7 @@
     <string name="lbl_episodes">Afleveringen</string>
     <string name="lbl_enable_cinema_mode">Cinema Mode inschakelen</string>
     <string name="sum_enable_cinema_mode">Als dit ingeschakeld is op de server speel dan intro\'s en previews voor de film</string>
-    <string name="lbl_cm_premiere">Cinema Mode vereist een actief Emby Premiere abonnement</string>
+    <string name="lbl_cm_premiere">Cinema Mode vereist een actief Jellyfin Premiere abonnement</string>
     <string name="lbl_playlists">Afspeellijst</string>
     <string name="lbl_of">van</string>
     <string name="msg_added_item_to_queue">"Item aan de lijst toegevoegd op positie "</string>

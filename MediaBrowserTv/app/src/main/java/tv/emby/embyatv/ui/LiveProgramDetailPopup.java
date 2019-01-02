@@ -126,7 +126,7 @@ public class LiveProgramDetailPopup {
                     Button cancel = new Button(mActivity);
                     cancel.setText(mActivity.getResources().getString(R.string.lbl_cancel_recording));
                     cancel.setTextColor(Color.WHITE);
-                    cancel.setBackground(mActivity.getResources().getDrawable(R.drawable.emby_button));
+                    cancel.setBackground(mActivity.getResources().getDrawable(R.drawable.jellyfin_button));
                     cancel.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -154,7 +154,7 @@ public class LiveProgramDetailPopup {
                     Button rec = new Button(mActivity);
                     rec.setText(mActivity.getResources().getString(R.string.lbl_record));
                     rec.setTextColor(Color.WHITE);
-                    rec.setBackground(mActivity.getResources().getDrawable(R.drawable.emby_button));
+                    rec.setBackground(mActivity.getResources().getDrawable(R.drawable.jellyfin_button));
                     rec.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -171,7 +171,7 @@ public class LiveProgramDetailPopup {
                         Button cancel = new Button(mActivity);
                         cancel.setText(mActivity.getResources().getString(R.string.lbl_cancel_series));
                         cancel.setTextColor(Color.WHITE);
-                        cancel.setBackground(mActivity.getResources().getDrawable(R.drawable.emby_button));
+                        cancel.setBackground(mActivity.getResources().getDrawable(R.drawable.jellyfin_button));
                         cancel.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -205,7 +205,7 @@ public class LiveProgramDetailPopup {
                         Button rec = new Button(mActivity);
                         rec.setText(mActivity.getResources().getString(R.string.lbl_record_series));
                         rec.setTextColor(Color.WHITE);
-                        rec.setBackground(mActivity.getResources().getDrawable(R.drawable.emby_button));
+                        rec.setBackground(mActivity.getResources().getDrawable(R.drawable.jellyfin_button));
                         rec.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -256,7 +256,7 @@ public class LiveProgramDetailPopup {
         Button btn = new Button(mActivity);
         btn.setText(mActivity.getResources().getString(stringResource));
         btn.setTextColor(Color.WHITE);
-        btn.setBackground(mActivity.getResources().getDrawable(R.drawable.emby_button));
+        btn.setBackground(mActivity.getResources().getDrawable(R.drawable.jellyfin_button));
         layout.addView(btn);
         return btn;
     }
