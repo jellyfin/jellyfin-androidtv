@@ -169,7 +169,7 @@ public class StartupActivity extends Activity {
         application.setDirectItemId(getIntent().getStringExtra("ItemId"));
 
         //Load any saved login creds
-        application.setConfiguredAutoCredentials(Utils.GetSavedLoginCredentials(application.getDirectItemId() == null ? "tv.mediabrowser.login.json" : "tv.emby.lastlogin.json"));
+        application.setConfiguredAutoCredentials(Utils.GetSavedLoginCredentials(application.getDirectItemId() == null ? "tv.mediabrowser.login.json" : "tv.jellyfin.lastlogin.json"));
 
         //And use those credentials if option is set
         if (application.getIsAutoLoginConfigured() || application.getDirectItemId() != null) {

@@ -234,7 +234,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
                     if (getCurrentActivity() != null && !Utils.versionGreaterThanOrEqual(currentSystemInfo.getVersion(), "3.0.5882.0")) {
                         new AlertDialog.Builder(getCurrentActivity())
                                 .setTitle("Incompatible Server Version")
-                                .setMessage("Please update your Emby Server to avoid potential seeking problems during playback.")
+                                .setMessage("Please update your Jellyfin Server to avoid potential seeking problems during playback.")
                                 .setPositiveButton(getString(R.string.btn_ok), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {

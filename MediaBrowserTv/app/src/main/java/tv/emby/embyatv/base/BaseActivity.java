@@ -144,7 +144,7 @@ public class BaseActivity extends Activity {
             public void run() {
                 if (System.currentTimeMillis() > app.getLastUserInteraction() + timeoutInterval) {
                     app.getLogger().Info("Logging off due to inactivity "+app.getLastUserInteraction());
-                    Utils.showToast(app, "Emby Logging off due to inactivity...");
+                    Utils.showToast(app, "Jellyfin Logging off due to inactivity...");
                     if (app.getPlaybackController() != null && app.getPlaybackController().isPaused()) {
                         app.getLogger().Info("Playback was paused, stopping gracefully...");
                         app.getPlaybackController().stop();

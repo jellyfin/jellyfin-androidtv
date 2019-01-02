@@ -74,7 +74,7 @@ public class HomeFragment extends StdBrowseFragment {
 
         //Save last login so we can get back proper context on entry
         try {
-            Utils.SaveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), "tv.emby.lastlogin.json");
+            Utils.SaveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), "tv.jellyfin.lastlogin.json");
         } catch (IOException e) {
             TvApp.getApplication().getLogger().ErrorException("Unable to save login creds", e);
         }
@@ -108,7 +108,7 @@ public class HomeFragment extends StdBrowseFragment {
 //        new Handler().postDelayed(new Runnable() {
 //            @Override
 //            public void run() {
-//                mActivity.showMessage("Thank You for Testing", "Thank you for helping to test this app.  Please check out the new music functionality and LEAVE FEEDBACK in the testing forum at emby.media/community.",10000);
+//                mActivity.showMessage("Thank You for Testing", "Thank you for helping to test this app.  Please check out the new music functionality and LEAVE FEEDBACK in the testing forum at jellyfin.media/community.",10000);
 //
 //            }
 //        }, 2000);
@@ -143,7 +143,7 @@ public class HomeFragment extends StdBrowseFragment {
         if (unlockButton != null && (TvApp.getApplication().isRegistered() || TvApp.getApplication().isPaid())) {
             toolsRow.remove(unlockButton);
             if (!TvApp.getApplication().isRegistered()) {
-                premiereButton = new GridButton(UNLOCK, mApplication.getString(R.string.btn_emby_premiere), R.drawable.embyicon);
+                premiereButton = new GridButton(UNLOCK, mApplication.getString(R.string.btn_jellyfin_premiere), R.drawable.jellyfinicon);
                 toolsRow.add(premiereButton);
             }
         } else {
@@ -374,7 +374,7 @@ public class HomeFragment extends StdBrowseFragment {
                     unlockButton = new GridButton(UNLOCK, mApplication.getString(R.string.lbl_unlock), R.drawable.unlock);
                     toolsRow.add(unlockButton);
                 } else if (!TvApp.getApplication().isRegistered()) {
-                    premiereButton = new GridButton(UNLOCK, mApplication.getString(R.string.btn_emby_premiere), R.drawable.embyicon);
+                    premiereButton = new GridButton(UNLOCK, mApplication.getString(R.string.btn_jellyfin_premiere), R.drawable.jellyfinicon);
                     toolsRow.add(premiereButton);
                 }
             }

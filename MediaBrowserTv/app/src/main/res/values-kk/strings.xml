@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Emby</string>
+    <string name="app_name">Jellyfin</string>
     <string name="current_queue">Ағымдық кезек</string>
     <string name="error">Қате</string>
     <string name="ok">ЖАРАЙДЫ</string>
@@ -36,8 +36,8 @@
     <string name="home_title">Басты</string>
     <string name="btn_cancel">Болдырмау</string>
     <string name="btn_manually">Өткізіп жіберу және IP-мекенжайды енгізу</string>
-    <string name="txt_expired">Android TV үшін арналған Embyr мерзімі аяқталған</string>
-    <string name="txt_expired_exp">Осы жасақтаушылық нұсқасының мерзімі аяқталды. Жаңартуды іздеңіз немесе дүкенден орнатыңыз. Emby бағдарламасын пайдаланғаныңызға алғыс айтамыз!</string>
+    <string name="txt_expired">Android TV үшін арналған Jellyfinr мерзімі аяқталған</string>
+    <string name="txt_expired_exp">Осы жасақтаушылық нұсқасының мерзімі аяқталды. Жаңартуды іздеңіз немесе дүкенден орнатыңыз. Jellyfin бағдарламасын пайдаланғаныңызға алғыс айтамыз!</string>
     <string name="byletter_letters">АӘБВГҒДЕЖЗИЙКҚЛМНҢОӨПРСТУҰҮФХҺЦЧШЩЪЫІЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Бастаудағы қасиеті</string>
     <string name="pref_show_login">Кіру экранын көрсету</string>
@@ -170,12 +170,12 @@
     <string name="msg_playback_incompatible">Осы бейне пішімін ойнату мүмкін емес</string>
     <string name="lbl_never">Ешқашан</string>
     <string name="lbl_unlock_app">Қолданбаны құрсаудан босату</string>
-    <string name="lbl_emby_premiere">Emby Premiere дейін жаңарту</string>
-    <string name="lbl_premiere_desc">Emby Premiere арқылы сіз тек қана осы қолданбаның толық функционалдығын емес, сонымен қатар сервер мен барлық Emby қоршаған ортасы екеуінде өзге қолданбаларда да басқа мүмкіндіктерге ие боласыз.</string>
+    <string name="lbl_jellyfin_premiere">Jellyfin Premiere дейін жаңарту</string>
+    <string name="lbl_premiere_desc">Jellyfin Premiere арқылы сіз тек қана осы қолданбаның толық функционалдығын емес, сонымен қатар сервер мен барлық Jellyfin қоршаған ортасы екеуінде өзге қолданбаларда да басқа мүмкіндіктерге ие боласыз.</string>
     <string name="lbl_unlock_desc">Толық жұмыстығы үшін мынадан сатып алу арқылы қолданбаны құрсаудан босатыңыз. Егер жергілікті серверді пайдаланған белсенді жақтаушы болып табылсаңыз, онда осы әрекет қажет емес. Серверде жақтаушы кілтіңіз болғанына көз жеткізіңіз.</string>
-    <string name="lbl_premiere_desc2">Басқа платформаларда кейбір қолданбаларға еркін қол жеткізіңіз, дербес қарау үшін қолдаудағы ұтқыр құрылғыларда немесе веб-клиентте мазмұныңызды үндестіріңіз, кинотеатр режімінде кинозал әсерін тамашалаңыз, CoverArt арқылы суреттеріңізді жақсартыңыз және оннан да көп тағы басқа. Emby Premiere артықшыларын бүгін тексеріп көріңіз.</string>
+    <string name="lbl_premiere_desc2">Басқа платформаларда кейбір қолданбаларға еркін қол жеткізіңіз, дербес қарау үшін қолдаудағы ұтқыр құрылғыларда немесе веб-клиентте мазмұныңызды үндестіріңіз, кинотеатр режімінде кинозал әсерін тамашалаңыз, CoverArt арқылы суреттеріңізді жақсартыңыз және оннан да көп тағы басқа. Jellyfin Premiere артықшыларын бүгін тексеріп көріңіз.</string>
     <string name="btn_next">Келесі</string>
-    <string name="msg_just_unlock_confirm">Жай ғана осы қолданбаның құлпын ашамыз ба? Бұл Emby Premiere еш мүмкіндіктердің қамтымайды. Бұл тек қана осы қолданбадағы толық функционалдығына рұқсат етеді. Сенімдісіз бе…?</string>
+    <string name="msg_just_unlock_confirm">Жай ғана осы қолданбаның құлпын ашамыз ба? Бұл Jellyfin Premiere еш мүмкіндіктердің қамтымайды. Бұл тек қана осы қолданбадағы толық функционалдығына рұқсат етеді. Сенімдісіз бе…?</string>
     <string name="btn_unlock">Жоқ,тек қана осы қолданба үшін құлыпты ашу</string>
     <string name="btn_monthly_prefix">Мені мынау үшін тіркеңіз</string>
     <string name="btn_monthly_suffix">/ай</string>
@@ -269,15 +269,15 @@
     <string name="lbl_no_recordings">Жазбалар қол жетімді емес</string>
     <string name="lbl_live_tv_guide">Эфирлік телегид</string>
     <string name="lbl_recorded_tv">Жазылған ТД</string>
-    <string name="btn_emby_premiere">Emby Premiere</string>
+    <string name="btn_jellyfin_premiere">Jellyfin Premiere</string>
     <string name="btn_ok">ЖАРАЙДЫ</string>
-    <string name="msg_email_entry1">Emby Premiere кілтін жіберу үшін жарамды э-пошта мекенжайын енгізіңіз</string>
+    <string name="msg_email_entry1">Jellyfin Premiere кілтін жіберу үшін жарамды э-пошта мекенжайын енгізіңіз</string>
     <string name="msg_email_entry2">Өте өкінішті, бірақ бұл дұрыс екеніне күмән болуымыз қажет. Қайтадан э-поштаны енгізіңіз.</string>
     <string name="msg_entries_not_match">Жазбалар сәйкес емес. Қайталаңыз.</string>
     <string name="msg_invalid_email">Э-поштаның мекенжайы жарамсыз</string>
     <string name="btn_monthly_default">Мені $6.49/ай үшін тіркеңіз</string>
-    <string name="msg_premiere_nag_title">Emby Premiere қарастырыңыз</string>
-    <string name="msg_premiere_nag_msg">Emby Premiere көптеген мүмкіндіктерді береді, мысалы, ұтқырлық үндестіру, кинотеатр режімі және CoverArt. Emby Premiere артықшыларын бүгін тексеріп көріңіз.</string>
+    <string name="msg_premiere_nag_title">Jellyfin Premiere қарастырыңыз</string>
+    <string name="msg_premiere_nag_msg">Jellyfin Premiere көптеген мүмкіндіктерді береді, мысалы, ұтқырлық үндестіру, кинотеатр режімі және CoverArt. Jellyfin Premiere артықшыларын бүгін тексеріп көріңіз.</string>
     <string name="pref_live_tv_cat">ЭФИРЛІК ТД</string>
     <string name="pref_sort_date_option">Телегидті соңғы ойнатылған уақыты бойынша сұрыптау</string>
     <string name="pref_sort_date_desc">Соңғы ойнатылған арналарды телегидтің  жоғарысында көрсету</string>
@@ -292,7 +292,7 @@
     <string name="lbl_episodes">Бөлімдер</string>
     <string name="lbl_enable_cinema_mode">Кинотеатр режімін қосу</string>
     <string name="sum_enable_cinema_mode">Егер серверде қосылған болса, фильм ойнату алдынан кіріспелер мен алдын-ала көріністерге рұқсат етіледі</string>
-    <string name="lbl_cm_premiere">Кинотеатр режімі үшін белсенді Emby Premiere мүшелігі қажет</string>
+    <string name="lbl_cm_premiere">Кинотеатр режімі үшін белсенді Jellyfin Premiere мүшелігі қажет</string>
     <string name="lbl_playlists">Ойнату тізімдері</string>
     <string name="lbl_of">келесіден</string>
     <string name="msg_added_item_to_queue">"Тармақ кезекке үстелген жайғасымы "</string>
