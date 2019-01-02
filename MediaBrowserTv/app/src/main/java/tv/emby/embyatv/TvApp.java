@@ -42,7 +42,6 @@ import org.jellyfin.androidtv.search.SearchActivity;
 import org.jellyfin.androidtv.startup.LogonCredentials;
 import org.jellyfin.androidtv.util.LogReporter;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.validation.AppValidator;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -452,9 +451,6 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
         return registrationInfo != null && registrationInfo.getIsTrial() && !isPaid;
     }
 
-    public void validate() {
-        new AppValidator().validate();
-    }
 
     public String getRegistrationString() {
         return isTrial() ? "In Trial. Expires " + DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(registrationInfo.getExpirationDate()).getTime()).toString() :
