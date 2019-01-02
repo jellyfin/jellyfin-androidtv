@@ -1,4 +1,4 @@
-package tv.emby.embyatv.presentation;
+package org.jellyfin.androidtv.presentation;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.ui.GridButton;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.ui.GridButton;
 
 public class GridButtonPresenter extends Presenter {
 

@@ -1,13 +1,13 @@
-package tv.emby.embyatv.util;
+package org.jellyfin.androidtv.util;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
 
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.playback.AudioNowPlayingActivity;
-import tv.emby.embyatv.playback.MediaManager;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.playback.AudioNowPlayingActivity;
+import org.jellyfin.androidtv.playback.MediaManager;
 
 /**
  * Created by Eric on 4/17/2015.

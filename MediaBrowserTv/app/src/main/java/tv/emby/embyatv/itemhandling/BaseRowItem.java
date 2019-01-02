@@ -1,4 +1,4 @@
-package tv.emby.embyatv.itemhandling;
+package org.jellyfin.androidtv.itemhandling;
 
 import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
@@ -17,11 +17,11 @@ import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.search.SearchHint;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.model.ChapterItemInfo;
-import tv.emby.embyatv.ui.GridButton;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.model.ChapterItemInfo;
+import org.jellyfin.androidtv.ui.GridButton;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 12/15/2014.
@@ -152,9 +152,9 @@ public class BaseRowItem {
             case LiveTvProgram:
             case LiveTvRecording:
                 switch (imageType) {
-                    case tv.emby.embyatv.model.ImageType.BANNER:
+                    case org.jellyfin.androidtv.model.ImageType.BANNER:
                         return Utils.getBannerImageUrl(baseItem, TvApp.getApplication().getApiClient(), maxHeight);
-                    case tv.emby.embyatv.model.ImageType.THUMB:
+                    case org.jellyfin.androidtv.model.ImageType.THUMB:
                         return Utils.getThumbImageUrl(baseItem, TvApp.getApplication().getApiClient(), maxHeight);
                     default:
                         return getPrimaryImageUrl(maxHeight);
@@ -183,9 +183,9 @@ public class BaseRowItem {
             case LiveTvChannel:
                 return Utils.getPrimaryImageUrl(channelInfo, TvApp.getApplication().getApiClient());
             case Server:
-                return "android.resource://tv.emby.embyatv/" + R.drawable.server;
+                return "android.resource://org.jellyfin.androidtv/" + R.drawable.server;
             case GridButton:
-                return "android.resource://tv.emby.embyatv/" + gridButton.getImageIndex();
+                return "android.resource://org.jellyfin.androidtv/" + gridButton.getImageIndex();
             case SearchHint:
                 return !Utils.IsEmpty(searchHint.getPrimaryImageTag()) ? Utils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag(), TvApp.getApplication().getApiClient()) :
                         !Utils.IsEmpty(searchHint.getThumbImageItemId()) ? Utils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag(), TvApp.getApplication().getApiClient()) : null;

@@ -1,4 +1,4 @@
-package tv.emby.embyatv.ui;
+package org.jellyfin.androidtv.ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,9 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.livetv.ILiveTvGuide;
-import tv.emby.embyatv.livetv.LiveTvGuideActivity;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.livetv.ILiveTvGuide;
+import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
 
 /**
  * Created by Eric on 5/8/2015.

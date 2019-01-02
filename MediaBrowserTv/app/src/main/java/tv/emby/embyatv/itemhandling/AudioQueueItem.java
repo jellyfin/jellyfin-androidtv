@@ -1,4 +1,4 @@
-package tv.emby.embyatv.itemhandling;
+package org.jellyfin.androidtv.itemhandling;
 
 import mediabrowser.model.dto.BaseItemDto;
 

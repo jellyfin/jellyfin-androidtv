@@ -1,4 +1,4 @@
-package tv.emby.embyatv.presentation;
+package org.jellyfin.androidtv.presentation;
 
 import android.app.Activity;
 import android.graphics.Paint;
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 12/19/2014.

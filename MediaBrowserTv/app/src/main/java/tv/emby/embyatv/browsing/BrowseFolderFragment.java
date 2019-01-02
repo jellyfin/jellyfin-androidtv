@@ -1,4 +1,4 @@
-package tv.emby.embyatv.browsing;
+package org.jellyfin.androidtv.browsing;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,10 +12,10 @@ import android.support.v17.leanback.widget.RowPresenter;
 import android.widget.Toast;
 
 import mediabrowser.model.dto.BaseItemDto;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.presentation.GridButtonPresenter;
-import tv.emby.embyatv.ui.GridButton;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.presentation.GridButtonPresenter;
+import org.jellyfin.androidtv.ui.GridButton;
 
 /**
  * Created by Eric on 12/4/2014.

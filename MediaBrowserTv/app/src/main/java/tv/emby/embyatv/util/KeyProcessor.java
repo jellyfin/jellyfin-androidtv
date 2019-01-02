@@ -1,4 +1,4 @@
-package tv.emby.embyatv.util;
+package org.jellyfin.androidtv.util;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -17,18 +17,18 @@ import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemsResult;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.base.BaseActivity;
-import tv.emby.embyatv.base.CustomMessage;
-import tv.emby.embyatv.details.PhotoPlayerActivity;
-import tv.emby.embyatv.details.ItemListActivity;
-import tv.emby.embyatv.itemhandling.AudioQueueItem;
-import tv.emby.embyatv.itemhandling.BaseRowItem;
-import tv.emby.embyatv.playback.AudioNowPlayingActivity;
-import tv.emby.embyatv.playback.MediaManager;
-import tv.emby.embyatv.playback.PlaybackOverlayActivity;
-import tv.emby.embyatv.querying.StdItemQuery;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.base.CustomMessage;
+import org.jellyfin.androidtv.details.PhotoPlayerActivity;
+import org.jellyfin.androidtv.details.ItemListActivity;
+import org.jellyfin.androidtv.itemhandling.AudioQueueItem;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.playback.AudioNowPlayingActivity;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
+import org.jellyfin.androidtv.querying.StdItemQuery;
 
 /**
  * Created by Eric on 4/17/2015.

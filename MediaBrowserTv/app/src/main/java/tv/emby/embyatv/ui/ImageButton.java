@@ -1,4 +1,4 @@
-package tv.emby.embyatv.ui;
+package org.jellyfin.androidtv.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.model.GotFocusEvent;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.model.GotFocusEvent;
 
 /**
  * Created by Eric on 2/20/2015.

@@ -1,4 +1,4 @@
-package tv.emby.embyatv.search;
+package org.jellyfin.androidtv.search;
 
 import android.app.Activity;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
@@ -6,9 +6,9 @@ import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 
 import mediabrowser.model.search.SearchQuery;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.itemhandling.ItemRowAdapter;
-import tv.emby.embyatv.presentation.CardPresenter;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.presentation.CardPresenter;
 
 /**
  * Created by Eric on 4/8/2015.

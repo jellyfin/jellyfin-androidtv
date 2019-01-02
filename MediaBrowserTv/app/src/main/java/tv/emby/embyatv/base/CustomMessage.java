@@ -1,4 +1,4 @@
-package tv.emby.embyatv.base;
+package org.jellyfin.androidtv.base;
 
 /**
  * Created by Eric on 4/20/2015.

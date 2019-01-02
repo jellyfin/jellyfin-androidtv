@@ -1,4 +1,4 @@
-package tv.emby.embyatv.integration;
+package org.jellyfin.androidtv.integration;
 
 public class Recommendation {
     private RecommendationType type;

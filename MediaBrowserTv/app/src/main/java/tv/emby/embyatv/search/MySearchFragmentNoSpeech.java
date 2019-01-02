@@ -1,4 +1,4 @@
-package tv.emby.embyatv.search;
+package org.jellyfin.androidtv.search;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -18,11 +18,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.itemhandling.BaseRowItem;
-import tv.emby.embyatv.itemhandling.ItemLauncher;
-import tv.emby.embyatv.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.itemhandling.ItemLauncher;
+import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 
 /**
  * Created by Eric on 4/8/2015.

@@ -1,4 +1,4 @@
-package tv.emby.embyatv.querying;
+package org.jellyfin.androidtv.querying;
 
 public enum QueryType {
     Items,

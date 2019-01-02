@@ -1,8 +1,8 @@
-package tv.emby.embyatv.presentation;
+package org.jellyfin.androidtv.presentation;
 
 import mediabrowser.model.dto.BaseItemDto;
-import tv.emby.embyatv.util.InfoLayoutHelper;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.Utils;
 
 public class DetailsDescriptionPresenter extends MyAbstractDetailsPresenter {
     @Override

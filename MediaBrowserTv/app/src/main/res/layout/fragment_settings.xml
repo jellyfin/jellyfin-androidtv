@@ -29,8 +29,8 @@
         android:layout_marginLeft="240sp"
         android:layout_marginRight="240sp"
         android:layout_height="match_parent" android:id="@+id/fragment_settings"
-        android:name="tv.emby.embyatv.settings.SettingsFragment"
-        tools:context="tv.emby.embyatv.settings.SettingsFragment">
+        android:name="org.jellyfin.androidtv.settings.SettingsFragment"
+        tools:context="org.jellyfin.androidtv.settings.SettingsFragment">
 
     </fragment>
 

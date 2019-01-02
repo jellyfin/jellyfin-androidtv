@@ -1,4 +1,4 @@
-package tv.emby.embyatv.startup;
+package org.jellyfin.androidtv.startup;
 
 import android.Manifest;
 import android.app.Activity;
@@ -32,14 +32,14 @@ import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.serialization.IJsonSerializer;
 import mediabrowser.model.session.ClientCapabilities;
 import mediabrowser.model.session.GeneralCommandType;
-import tv.emby.embyatv.BuildConfig;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.browsing.MainActivity;
-import tv.emby.embyatv.details.FullDetailsActivity;
-import tv.emby.embyatv.eventhandling.TvApiEventListener;
-import tv.emby.embyatv.playback.MediaManager;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.BuildConfig;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.browsing.MainActivity;
+import org.jellyfin.androidtv.details.FullDetailsActivity;
+import org.jellyfin.androidtv.eventhandling.TvApiEventListener;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.util.Utils;
 
 
 public class StartupActivity extends Activity {

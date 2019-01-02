@@ -1,4 +1,4 @@
-package tv.emby.embyatv.integration;
+package org.jellyfin.androidtv.integration;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -12,8 +12,8 @@ import android.util.Log;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 3/1/2015.

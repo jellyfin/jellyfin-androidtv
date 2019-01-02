@@ -1,6 +1,6 @@
-package tv.emby.embyatv.util;
+package org.jellyfin.androidtv.util;
 
-import tv.emby.embyatv.BuildConfig;
+import org.jellyfin.androidtv.BuildConfig;
 
 /**
  * Created by Eric on 2/28/2016.

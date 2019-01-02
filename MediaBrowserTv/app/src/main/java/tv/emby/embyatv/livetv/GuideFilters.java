@@ -1,10 +1,10 @@
-package tv.emby.embyatv.livetv;
+package org.jellyfin.androidtv.livetv;
 
 import android.content.SharedPreferences;
 
 import mediabrowser.model.dto.BaseItemDto;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 5/13/2015.

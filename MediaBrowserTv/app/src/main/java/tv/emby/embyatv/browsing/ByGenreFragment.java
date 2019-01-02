@@ -1,4 +1,4 @@
-package tv.emby.embyatv.browsing;
+package org.jellyfin.androidtv.browsing;
 
 import android.os.Bundle;
 
@@ -7,9 +7,9 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsByNameQuery;
 import mediabrowser.model.querying.ItemsResult;
-import tv.emby.embyatv.util.DelayedMessage;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.querying.StdItemQuery;
+import org.jellyfin.androidtv.util.DelayedMessage;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.querying.StdItemQuery;
 
 /**
  * Created by Eric on 12/4/2014.

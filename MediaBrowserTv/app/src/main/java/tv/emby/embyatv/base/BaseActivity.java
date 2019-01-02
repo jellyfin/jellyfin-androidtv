@@ -1,4 +1,4 @@
-package tv.emby.embyatv.base;
+package org.jellyfin.androidtv.base;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,10 +15,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.search.SearchActivity;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.search.SearchActivity;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 2/18/2015.

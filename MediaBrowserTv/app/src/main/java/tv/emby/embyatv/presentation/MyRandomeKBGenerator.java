@@ -1,4 +1,4 @@
-package tv.emby.embyatv.presentation;
+package org.jellyfin.androidtv.presentation;
 /*
  * Copyright 2014 Flavio Faria
  *
@@ -26,7 +26,7 @@ import com.flaviofaria.kenburnsview.TransitionGenerator;
 
 import java.util.Random;
 
-import tv.emby.embyatv.util.MathUtils;
+import org.jellyfin.androidtv.util.MathUtils;
 
 /**
  * Created by Eric on 10/26/2015.

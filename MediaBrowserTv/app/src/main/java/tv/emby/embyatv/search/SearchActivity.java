@@ -1,13 +1,13 @@
-package tv.emby.embyatv.search;
+package org.jellyfin.androidtv.search;
 
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.SpeechRecognizer;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.util.Utils;
 
 public class SearchActivity extends Activity {
 

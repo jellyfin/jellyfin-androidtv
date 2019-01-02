@@ -1,9 +1,9 @@
-package tv.emby.embyatv.startup;
+package org.jellyfin.androidtv.startup;
 
 import android.app.Activity;
 import android.os.Bundle;
 
-import tv.emby.embyatv.R;
+import org.jellyfin.androidtv.R;
 
 
 public class SelectUserActivity extends Activity {

@@ -1,4 +1,4 @@
-package tv.emby.embyatv.livetv;
+package org.jellyfin.androidtv.livetv;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -35,22 +35,22 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.SeriesTimerInfoDto;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.base.BaseActivity;
-import tv.emby.embyatv.base.CustomMessage;
-import tv.emby.embyatv.base.IMessageListener;
-import tv.emby.embyatv.ui.GuideChannelHeader;
-import tv.emby.embyatv.ui.GuidePagingButton;
-import tv.emby.embyatv.ui.HorizontalScrollViewListener;
-import tv.emby.embyatv.ui.LiveProgramDetailPopup;
-import tv.emby.embyatv.ui.ObservableHorizontalScrollView;
-import tv.emby.embyatv.ui.ObservableScrollView;
-import tv.emby.embyatv.ui.ProgramGridCell;
-import tv.emby.embyatv.ui.RecordPopup;
-import tv.emby.embyatv.ui.ScrollViewListener;
-import tv.emby.embyatv.util.InfoLayoutHelper;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.base.CustomMessage;
+import org.jellyfin.androidtv.base.IMessageListener;
+import org.jellyfin.androidtv.ui.GuideChannelHeader;
+import org.jellyfin.androidtv.ui.GuidePagingButton;
+import org.jellyfin.androidtv.ui.HorizontalScrollViewListener;
+import org.jellyfin.androidtv.ui.LiveProgramDetailPopup;
+import org.jellyfin.androidtv.ui.ObservableHorizontalScrollView;
+import org.jellyfin.androidtv.ui.ObservableScrollView;
+import org.jellyfin.androidtv.ui.ProgramGridCell;
+import org.jellyfin.androidtv.ui.RecordPopup;
+import org.jellyfin.androidtv.ui.ScrollViewListener;
+import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 5/3/2015.

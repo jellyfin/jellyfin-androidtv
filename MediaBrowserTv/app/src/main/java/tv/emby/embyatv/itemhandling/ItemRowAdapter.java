@@ -1,4 +1,4 @@
-package tv.emby.embyatv.itemhandling;
+package org.jellyfin.androidtv.itemhandling;
 
 import android.os.Handler;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
@@ -39,24 +39,24 @@ import mediabrowser.model.results.ChannelInfoDtoResult;
 import mediabrowser.model.search.SearchHint;
 import mediabrowser.model.search.SearchHintResult;
 import mediabrowser.model.search.SearchQuery;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.browsing.EnhancedBrowseFragment;
-import tv.emby.embyatv.livetv.TvManager;
-import tv.emby.embyatv.model.ChangeTriggerType;
-import tv.emby.embyatv.model.ChapterItemInfo;
-import tv.emby.embyatv.model.FilterOptions;
-import tv.emby.embyatv.playback.MediaManager;
-import tv.emby.embyatv.presentation.IPositionablePresenter;
-import tv.emby.embyatv.presentation.TextItemPresenter;
-import tv.emby.embyatv.querying.QueryType;
-import tv.emby.embyatv.querying.SpecialsQuery;
-import tv.emby.embyatv.querying.StdItemQuery;
-import tv.emby.embyatv.querying.TrailersQuery;
-import tv.emby.embyatv.querying.ViewQuery;
-import tv.emby.embyatv.ui.GridButton;
-import tv.emby.embyatv.ui.HorizontalGridFragment;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.browsing.EnhancedBrowseFragment;
+import org.jellyfin.androidtv.livetv.TvManager;
+import org.jellyfin.androidtv.model.ChangeTriggerType;
+import org.jellyfin.androidtv.model.ChapterItemInfo;
+import org.jellyfin.androidtv.model.FilterOptions;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.presentation.IPositionablePresenter;
+import org.jellyfin.androidtv.presentation.TextItemPresenter;
+import org.jellyfin.androidtv.querying.QueryType;
+import org.jellyfin.androidtv.querying.SpecialsQuery;
+import org.jellyfin.androidtv.querying.StdItemQuery;
+import org.jellyfin.androidtv.querying.TrailersQuery;
+import org.jellyfin.androidtv.querying.ViewQuery;
+import org.jellyfin.androidtv.ui.GridButton;
+import org.jellyfin.androidtv.ui.HorizontalGridFragment;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 12/5/2014.

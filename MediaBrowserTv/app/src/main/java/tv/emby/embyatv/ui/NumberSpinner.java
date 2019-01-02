@@ -1,4 +1,4 @@
-package tv.emby.embyatv.ui;
+package org.jellyfin.androidtv.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import tv.emby.embyatv.R;
+import org.jellyfin.androidtv.R;
 
 public class NumberSpinner extends FrameLayout {
     long mValue = 0;

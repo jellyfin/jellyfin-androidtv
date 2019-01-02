@@ -1,4 +1,4 @@
-package tv.emby.embyatv.model;
+package org.jellyfin.androidtv.model;
 
 import android.view.View;
 

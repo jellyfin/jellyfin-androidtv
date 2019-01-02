@@ -1,4 +1,4 @@
-package tv.emby.embyatv.details;
+package org.jellyfin.androidtv.details;
 
 import android.animation.Animator;
 import android.os.Bundle;
@@ -26,16 +26,16 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import mediabrowser.model.dto.BaseItemDto;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.base.BaseActivity;
-import tv.emby.embyatv.base.IKeyListener;
-import tv.emby.embyatv.itemhandling.BaseRowItem;
-import tv.emby.embyatv.itemhandling.ItemRowAdapter;
-import tv.emby.embyatv.playback.MediaManager;
-import tv.emby.embyatv.presentation.MyRandomeKBGenerator;
-import tv.emby.embyatv.presentation.PositionableListRowPresenter;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.base.IKeyListener;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.presentation.MyRandomeKBGenerator;
+import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 10/22/2015.

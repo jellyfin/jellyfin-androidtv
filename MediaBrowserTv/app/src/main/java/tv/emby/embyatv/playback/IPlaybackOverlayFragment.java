@@ -1,4 +1,4 @@
-package tv.emby.embyatv.playback;
+package org.jellyfin.androidtv.playback;
 
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.mediainfo.SubtitleTrackInfo;

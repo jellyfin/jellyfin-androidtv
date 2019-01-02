@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res/tv.emby.embyatv">
+    xmlns:app="http://schemas.android.com/apk/res/org.jellyfin.androidtv">
 
     <PreferenceCategory android:title="@string/pref_startup_cat" >
         <ListPreference android:key="pref_login_behavior"
@@ -28,7 +28,7 @@
             android:entries="@array/pref_timeout_entries"
             android:entryValues="@array/pref_timeout_values"
             />
-        <tv.emby.embyatv.settings.ColorPreference
+        <org.jellyfin.androidtv.settings.ColorPreference
             android:key="pref_sideline_color"
             android:title="@string/lbl_sideline_color"
             android:summary="@string/desc_sideline_color"

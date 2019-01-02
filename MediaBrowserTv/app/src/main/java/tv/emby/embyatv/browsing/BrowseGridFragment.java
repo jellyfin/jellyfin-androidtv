@@ -1,13 +1,13 @@
-package tv.emby.embyatv.browsing;
+package org.jellyfin.androidtv.browsing;
 
 import android.os.Bundle;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.model.querying.ArtistsQuery;
 import mediabrowser.model.querying.ItemFields;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.model.ChangeTriggerType;
-import tv.emby.embyatv.querying.StdItemQuery;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.model.ChangeTriggerType;
+import org.jellyfin.androidtv.querying.StdItemQuery;
 
 /**
  * Created by Eric on 8/16/2015.

@@ -1,4 +1,4 @@
-package tv.emby.embyatv.browsing;
+package org.jellyfin.androidtv.browsing;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -42,25 +42,25 @@ import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.DisplayPreferences;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.base.BaseActivity;
-import tv.emby.embyatv.base.CustomMessage;
-import tv.emby.embyatv.base.IKeyListener;
-import tv.emby.embyatv.base.IMessageListener;
-import tv.emby.embyatv.details.ItemListActivity;
-import tv.emby.embyatv.itemhandling.BaseRowItem;
-import tv.emby.embyatv.itemhandling.ItemLauncher;
-import tv.emby.embyatv.itemhandling.ItemRowAdapter;
-import tv.emby.embyatv.playback.MediaManager;
-import tv.emby.embyatv.presentation.CardPresenter;
-import tv.emby.embyatv.presentation.GridButtonPresenter;
-import tv.emby.embyatv.presentation.PositionableListRowPresenter;
-import tv.emby.embyatv.querying.QueryType;
-import tv.emby.embyatv.querying.ViewQuery;
-import tv.emby.embyatv.ui.GridButton;
-import tv.emby.embyatv.util.InfoLayoutHelper;
-import tv.emby.embyatv.util.KeyProcessor;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.base.CustomMessage;
+import org.jellyfin.androidtv.base.IKeyListener;
+import org.jellyfin.androidtv.base.IMessageListener;
+import org.jellyfin.androidtv.details.ItemListActivity;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.itemhandling.ItemLauncher;
+import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.presentation.CardPresenter;
+import org.jellyfin.androidtv.presentation.GridButtonPresenter;
+import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
+import org.jellyfin.androidtv.querying.QueryType;
+import org.jellyfin.androidtv.querying.ViewQuery;
+import org.jellyfin.androidtv.ui.GridButton;
+import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.KeyProcessor;
 
 /**
  * Created by Eric on 5/17/2015.

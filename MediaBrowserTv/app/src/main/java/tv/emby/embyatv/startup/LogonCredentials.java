@@ -1,4 +1,4 @@
-package tv.emby.embyatv.startup;
+package org.jellyfin.androidtv.startup;
 
 import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.UserDto;

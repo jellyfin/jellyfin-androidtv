@@ -1,4 +1,4 @@
-package tv.emby.embyatv.ui;
+package org.jellyfin.androidtv.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,14 +14,14 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import mediabrowser.model.dto.BaseItemDto;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.itemhandling.BaseRowItem;
-import tv.emby.embyatv.playback.AudioEventListener;
-import tv.emby.embyatv.playback.AudioNowPlayingActivity;
-import tv.emby.embyatv.playback.MediaManager;
-import tv.emby.embyatv.playback.PlaybackController;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.playback.AudioEventListener;
+import org.jellyfin.androidtv.playback.AudioNowPlayingActivity;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.playback.PlaybackController;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 7/22/2015.

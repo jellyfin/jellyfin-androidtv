@@ -1,4 +1,4 @@
-package tv.emby.embyatv.presentation;
+package org.jellyfin.androidtv.presentation;
 
 /**
  * Created by Eric on 8/17/2015.
@@ -19,8 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
 
 /**
  * A presenter that renders objects in a horizontal grid.

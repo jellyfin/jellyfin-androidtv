@@ -1,4 +1,4 @@
-package tv.emby.embyatv.browsing;
+package org.jellyfin.androidtv.browsing;
 
 public interface IGridLoader {
     void loadGrid(BrowseRowDef rowDef);

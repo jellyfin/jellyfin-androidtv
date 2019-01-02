@@ -1,4 +1,4 @@
-package tv.emby.embyatv.presentation;
+package org.jellyfin.androidtv.presentation;
 
 import android.graphics.Color;
 import android.support.v17.leanback.widget.Presenter;
@@ -6,8 +6,8 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
 
 /**
  * Created by Eric on 1/12/2015.

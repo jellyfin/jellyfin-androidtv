@@ -1,9 +1,9 @@
-package tv.emby.embyatv.browsing;
+package org.jellyfin.androidtv.browsing;
 
 import android.os.Bundle;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.base.BaseActivity;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.base.BaseActivity;
 
 public class UserViewActivity extends BaseActivity {
 

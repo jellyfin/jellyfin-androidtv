@@ -1,4 +1,4 @@
-package tv.emby.embyatv.integration;
+package org.jellyfin.androidtv.integration;
 
 import android.app.NotificationManager;
 import android.content.Context;
@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import tv.emby.embyatv.TvApp;
+import org.jellyfin.androidtv.TvApp;
 
 /**
  * Created by Eric on 3/1/2015.

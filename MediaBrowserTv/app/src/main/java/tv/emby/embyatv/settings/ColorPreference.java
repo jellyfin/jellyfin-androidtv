@@ -17,7 +17,7 @@
  * https://code.google.com/p/dashclock/source/browse/main/src/main/java/com/google/android/apps/dashclock/configuration/ColorPreference.java 
  */
 
-package tv.emby.embyatv.settings;
+package org.jellyfin.androidtv.settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +45,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import tv.emby.embyatv.R;
+import org.jellyfin.androidtv.R;
 
 /**
  * A preference that allows the user to choose an application or shortcut.

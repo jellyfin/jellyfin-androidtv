@@ -1,4 +1,4 @@
-package tv.emby.embyatv.base;
+package org.jellyfin.androidtv.base;
 
 import android.view.KeyEvent;
 

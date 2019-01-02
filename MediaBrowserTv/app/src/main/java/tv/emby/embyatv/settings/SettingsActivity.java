@@ -1,9 +1,9 @@
-package tv.emby.embyatv.settings;
+package org.jellyfin.androidtv.settings;
 
 import android.os.Bundle;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.base.BaseActivity;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.base.BaseActivity;
 
 public class SettingsActivity extends BaseActivity {
 

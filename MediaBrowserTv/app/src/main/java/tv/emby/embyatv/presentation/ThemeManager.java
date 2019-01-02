@@ -1,4 +1,4 @@
-package tv.emby.embyatv.presentation;
+package org.jellyfin.androidtv.presentation;
 
 import android.media.MediaPlayer;
 import android.os.Handler;
@@ -6,10 +6,10 @@ import android.os.Handler;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.base.BaseActivity;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 10/24/2015.

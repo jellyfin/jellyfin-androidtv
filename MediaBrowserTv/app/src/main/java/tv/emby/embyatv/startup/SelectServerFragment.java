@@ -1,4 +1,4 @@
-package tv.emby.embyatv.startup;
+package org.jellyfin.androidtv.startup;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -22,20 +22,20 @@ import java.util.List;
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.apiclient.ServerInfo;
-import tv.emby.embyatv.base.BaseActivity;
-import tv.emby.embyatv.base.CustomMessage;
-import tv.emby.embyatv.base.IKeyListener;
-import tv.emby.embyatv.base.IMessageListener;
-import tv.emby.embyatv.browsing.CustomBrowseFragment;
-import tv.emby.embyatv.ui.GridButton;
-import tv.emby.embyatv.itemhandling.ItemRowAdapter;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.browsing.StdBrowseFragment;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.util.KeyProcessor;
-import tv.emby.embyatv.util.Utils;
-import tv.emby.embyatv.presentation.CardPresenter;
-import tv.emby.embyatv.presentation.GridButtonPresenter;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.base.CustomMessage;
+import org.jellyfin.androidtv.base.IKeyListener;
+import org.jellyfin.androidtv.base.IMessageListener;
+import org.jellyfin.androidtv.browsing.CustomBrowseFragment;
+import org.jellyfin.androidtv.ui.GridButton;
+import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.browsing.StdBrowseFragment;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.util.KeyProcessor;
+import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.presentation.CardPresenter;
+import org.jellyfin.androidtv.presentation.GridButtonPresenter;
 
 /**
  * Created by Eric on 12/4/2014.

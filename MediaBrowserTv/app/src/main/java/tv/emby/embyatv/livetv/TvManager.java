@@ -1,4 +1,4 @@
-package tv.emby.embyatv.livetv;
+package org.jellyfin.androidtv.livetv;
 
 import android.app.Activity;
 import android.graphics.Typeface;
@@ -28,10 +28,10 @@ import mediabrowser.model.livetv.ProgramQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.results.ChannelInfoDtoResult;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.ui.ProgramGridCell;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.ui.ProgramGridCell;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 9/4/2015.

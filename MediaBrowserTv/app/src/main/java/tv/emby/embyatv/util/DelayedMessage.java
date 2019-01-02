@@ -1,12 +1,12 @@
-package tv.emby.embyatv.util;
+package org.jellyfin.androidtv.util;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
 
 /**
  * Created by Eric on 12/28/2014.

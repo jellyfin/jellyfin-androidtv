@@ -1,4 +1,4 @@
-package tv.emby.embyatv.startup;
+package org.jellyfin.androidtv.startup;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,9 +17,9 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.connect.PinCreationResult;
 import mediabrowser.model.connect.PinExchangeResult;
 import mediabrowser.model.connect.PinStatusResult;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.util.Utils;
 
 
 public class ConnectActivity extends Activity {

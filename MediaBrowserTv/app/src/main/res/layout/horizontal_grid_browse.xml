@@ -81,7 +81,7 @@
         android:layout_alignLeft="@+id/title"
         android:layout_alignBottom="@+id/counter" />
 
-    <tv.emby.embyatv.ui.ClockUserView
+    <org.jellyfin.androidtv.ui.ClockUserView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/clock"
@@ -90,7 +90,7 @@
         android:layout_alignParentEnd="true"
         android:alpha=".9" />
 
-    <tv.emby.embyatv.ui.NowPlayingBug
+    <org.jellyfin.androidtv.ui.NowPlayingBug
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/npBug"

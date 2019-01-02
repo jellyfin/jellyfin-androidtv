@@ -1,4 +1,4 @@
-package tv.emby.embyatv.itemhandling;
+package org.jellyfin.androidtv.itemhandling;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,27 +17,27 @@ import mediabrowser.model.entities.DisplayPreferences;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.search.SearchHint;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.base.BaseActivity;
-import tv.emby.embyatv.browsing.BrowseRecordingsActivity;
-import tv.emby.embyatv.browsing.CollectionActivity;
-import tv.emby.embyatv.browsing.GenericFolderActivity;
-import tv.emby.embyatv.browsing.GenericGridActivity;
-import tv.emby.embyatv.browsing.MainActivity;
-import tv.emby.embyatv.browsing.UserViewActivity;
-import tv.emby.embyatv.details.FullDetailsActivity;
-import tv.emby.embyatv.details.PhotoPlayerActivity;
-import tv.emby.embyatv.details.ItemListActivity;
-import tv.emby.embyatv.livetv.LiveTvGuideActivity;
-import tv.emby.embyatv.model.ChapterItemInfo;
-import tv.emby.embyatv.model.ViewType;
-import tv.emby.embyatv.playback.MediaManager;
-import tv.emby.embyatv.playback.PlaybackOverlayActivity;
-import tv.emby.embyatv.startup.SelectUserActivity;
-import tv.emby.embyatv.util.DelayedMessage;
-import tv.emby.embyatv.util.KeyProcessor;
-import tv.emby.embyatv.util.Utils;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.browsing.BrowseRecordingsActivity;
+import org.jellyfin.androidtv.browsing.CollectionActivity;
+import org.jellyfin.androidtv.browsing.GenericFolderActivity;
+import org.jellyfin.androidtv.browsing.GenericGridActivity;
+import org.jellyfin.androidtv.browsing.MainActivity;
+import org.jellyfin.androidtv.browsing.UserViewActivity;
+import org.jellyfin.androidtv.details.FullDetailsActivity;
+import org.jellyfin.androidtv.details.PhotoPlayerActivity;
+import org.jellyfin.androidtv.details.ItemListActivity;
+import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
+import org.jellyfin.androidtv.model.ChapterItemInfo;
+import org.jellyfin.androidtv.model.ViewType;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
+import org.jellyfin.androidtv.startup.SelectUserActivity;
+import org.jellyfin.androidtv.util.DelayedMessage;
+import org.jellyfin.androidtv.util.KeyProcessor;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 12/21/2014.

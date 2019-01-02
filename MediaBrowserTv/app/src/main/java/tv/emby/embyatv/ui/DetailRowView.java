@@ -1,11 +1,11 @@
-package tv.emby.embyatv.ui;
+package org.jellyfin.androidtv.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 
-import tv.emby.embyatv.R;
+import org.jellyfin.androidtv.R;
 
 /**
  * Created by Eric on 11/22/2015.
