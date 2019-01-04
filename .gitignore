@@ -1,11 +1,11 @@
-.idea
-.gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
+*.iml
 .DS_Store
+local.properties
+gradle.properties
+gradlew
+gradlew.bat
+
+/.idea
+/.gradle
 /build
-MediaBrowserTv/app/manifest-merger-release-report.txt
-MediaBrowserTv/app/app-release.apk
-AdbConnect - Fire.bat
-AdbConnect Shield.bat
+/gradle
