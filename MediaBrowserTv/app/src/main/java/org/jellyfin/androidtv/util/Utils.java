@@ -1322,7 +1322,6 @@ public class Utils {
                 }).setPositiveButton(context.getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                    new LogReporter().sendReport("User", null);
                     showToast(context, context.getString(R.string.msg_report_sent));
             }
         }).show();
