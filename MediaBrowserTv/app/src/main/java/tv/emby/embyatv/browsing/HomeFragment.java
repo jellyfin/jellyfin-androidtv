@@ -71,7 +71,7 @@ public class HomeFragment extends StdBrowseFragment {
 
         //Save last login so we can get back proper context on entry
         try {
-            Utils.SaveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), "tv.jellyfin.lastlogin.json");
+            Utils.SaveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), "credentials.json");
         } catch (IOException e) {
             TvApp.getApplication().getLogger().ErrorException("Unable to save login creds", e);
         }

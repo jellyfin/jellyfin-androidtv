@@ -35,7 +35,7 @@ import org.jellyfin.androidtv.util.Utils;
  * Created by Eric on 3/1/2015.
  */
 public class RecommendationManager {
-    private final String REC_FILE_NAME = "tv.mediabrowser.recommentations.json";
+    private final String REC_FILE_NAME = "reccomendations.json";
     private final Integer MAX_TV_RECS = 3;
     private final Integer MAX_MOVIE_RECS = 4;
 
