@@ -117,25 +117,12 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread thread, Throwable ex) {
-                if (!getApiClient().getServerInfo().getName().equals("Dev Server")) {
-                    ex.printStackTrace();
-                    new LogReporter().sendReport("Exception", new EmptyResponse() {
-                        @Override
-                        public void onResponse() {
-
-                            android.os.Process.killProcess(android.os.Process.myPid());
-                            System.exit(10);
-                        }
-                    });
-                } else {
-                    Log.e("MediaBrowserTv", "Uncaught exception is: ", ex);
-                    ex.printStackTrace();
-                    android.os.Process.killProcess(android.os.Process.myPid());
-                    System.exit(10);
-
-                }
+                Log.e("MediaBrowserTv", "Uncaught exception is: ", ex);
+                ex.printStackTrace();
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(10);
             }
-                      });
+        });
 
     }
 
