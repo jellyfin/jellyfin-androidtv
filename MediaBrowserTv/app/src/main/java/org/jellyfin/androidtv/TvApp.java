@@ -40,7 +40,6 @@ import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
 import org.jellyfin.androidtv.search.SearchActivity;
 import org.jellyfin.androidtv.startup.LogonCredentials;
-import org.jellyfin.androidtv.util.LogReporter;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.util.Calendar;
@@ -117,25 +116,13 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread thread, Throwable ex) {
-                if (!getApiClient().getServerInfo().getName().equals("Dev Server")) {
-                    ex.printStackTrace();
-                    new LogReporter().sendReport("Exception", new EmptyResponse() {
-                        @Override
-                        public void onResponse() {
+                Log.e("MediaBrowserTv", "Uncaught exception is: ", ex);
+                ex.printStackTrace();
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(10);
 
-                            android.os.Process.killProcess(android.os.Process.myPid());
-                            System.exit(10);
-                        }
-                    });
-                } else {
-                    Log.e("MediaBrowserTv", "Uncaught exception is: ", ex);
-                    ex.printStackTrace();
-                    android.os.Process.killProcess(android.os.Process.myPid());
-                    System.exit(10);
-
-                }
             }
-                      });
+        });
 
     }
 
