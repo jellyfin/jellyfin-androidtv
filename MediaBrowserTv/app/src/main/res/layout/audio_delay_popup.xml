@@ -14,7 +14,7 @@
         android:layout_centerHorizontal="true"
         android:textColor="@android:color/holo_blue_light" />
 
-    <tv.emby.embyatv.ui.NumberSpinner
+    <org.jellyfin.androidtv.ui.NumberSpinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/numberSpinner"

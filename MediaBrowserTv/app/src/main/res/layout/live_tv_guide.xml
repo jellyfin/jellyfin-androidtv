@@ -22,7 +22,7 @@
             android:id="@+id/channels"/>
     </ScrollView>
 
-    <tv.emby.embyatv.ui.ObservableScrollView
+    <org.jellyfin.androidtv.ui.ObservableScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/programVScroller"
@@ -31,7 +31,7 @@
         android:layout_toEndOf="@+id/channelScroller"
         android:layout_alignBottom="@+id/channelScroller">
 
-        <tv.emby.embyatv.ui.ObservableHorizontalScrollView
+        <org.jellyfin.androidtv.ui.ObservableHorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/programHScroller" >
@@ -43,8 +43,8 @@
                 android:id="@+id/programRows">
 
             </LinearLayout>
-        </tv.emby.embyatv.ui.ObservableHorizontalScrollView>
-    </tv.emby.embyatv.ui.ObservableScrollView>
+        </org.jellyfin.androidtv.ui.ObservableHorizontalScrollView>
+    </org.jellyfin.androidtv.ui.ObservableScrollView>
 
     <HorizontalScrollView
         android:layout_width="match_parent"
@@ -78,7 +78,7 @@
         android:enabled="false"
         android:textColor="#fafcfd" />
 
-    <tv.emby.embyatv.ui.ClockUserView
+    <org.jellyfin.androidtv.ui.ClockUserView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/clock"

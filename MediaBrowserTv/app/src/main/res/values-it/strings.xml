@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Emby</string>
+    <string name="app_name">Jellyfin</string>
     <string name="current_queue">Attualmente in coda</string>
     <string name="error">Errore</string>
     <string name="ok">Ok</string>
@@ -27,7 +27,7 @@
     <string name="action_settings">Impostazioni</string>
     <string name="txt_loading">Caricamento...</string>
     <string name="title_activity_connect">Attività alla connessione</string>
-    <string name="txt_signinconnect">Accedi con Emby Connect</string>
+    <string name="txt_signinconnect">Accedi con Jellyfin Connect</string>
     <string name="title_activity_select_user">Attività Selezione Utente</string>
     <string name="selusr_pleaseselect">Per favore seleziona un utente</string>
     <string name="error_fragment_message">Errore</string>
@@ -36,8 +36,8 @@
     <string name="home_title">Home</string>
     <string name="btn_cancel">Annulla</string>
     <string name="btn_manually">Inserisci l\'indirizzo del server</string>
-    <string name="txt_expired">Emby per Android TV è scaduto</string>
-    <string name="txt_expired_exp">La versione per sviluppatori è scaduta. Per favore cerca un aggiornamento o installalo dallo store. Grazie per aver usato Emby</string>
+    <string name="txt_expired">Jellyfin per Android TV è scaduto</string>
+    <string name="txt_expired_exp">La versione per sviluppatori è scaduta. Per favore cerca un aggiornamento o installalo dallo store. Grazie per aver usato Jellyfin</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Comportamento all\'avvio</string>
     <string name="pref_show_login">Mostra schermata di accesso</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tv.emby.embyatv">
+    package="org.jellyfin.androidtv" >
 
     <uses-feature
         android:name="android.software.leanback"
@@ -26,33 +26,37 @@
         android:icon="@drawable/logoicon512"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.Leanback" >
         <activity
             android:name=".browsing.MainActivity"
             android:label="@string/app_name"
             android:logo="@drawable/app_icon"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape" >
+        </activity>
         <activity
             android:name=".startup.StartupActivity"
             android:label="@string/app_name"
             android:logo="@drawable/app_icon"
-            android:noHistory="true">
+            android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".startup.ConnectActivity"
-            android:label="@string/title_activity_connect" />
+            android:label="@string/title_activity_connect" >
+        </activity>
         <activity
             android:name=".startup.SelectUserActivity"
-            android:label="@string/title_activity_select_user" />
+            android:label="@string/title_activity_select_user" >
+        </activity>
         <activity
             android:name=".playback.PlaybackOverlayActivity"
-            android:label="PlaybackOverlayActivity" />
+            android:label="PlaybackOverlayActivity" >
+        </activity>
         <activity android:name=".browsing.GenericFolderActivity" />
         <activity android:name=".browsing.UserViewActivity" />
         <activity android:name=".startup.SelectServerActivity" />
@@ -68,16 +72,16 @@
         <activity android:name=".livetv.LiveTvGuideActivity" />
         <activity android:name=".browsing.GenericGridActivity" />
         <activity android:name=".browsing.BrowseRecordingsActivity" />
-        <activity android:name=".browsing.BrowseScheduleActivity" />
         <activity android:name=".validation.UnlockActivity" />
         <activity android:name=".details.PhotoPlayerActivity" />
         <activity android:name=".details.ItemListActivity" />
         <activity android:name=".playback.AudioNowPlayingActivity" />
-        <activity android:name=".playback.ExternalPlayerActivity" />
         <activity
             android:name=".startup.DpadPwActivity"
-            android:label="@string/title_activity_dpad_pw" />
-        <activity android:name="tv.emby.iap.PurchaseActivity" />
+            android:label="@string/title_activity_dpad_pw" >
+        </activity>
+
+        <activity android:name="tv.jellyfin.iap.PurchaseActivity" />
 
         <receiver android:name=".util.RemoteControlReceiver">
             <intent-filter>
@@ -86,14 +90,11 @@
         </receiver>
 
         <provider
+            android:authorities="org.jellyfin.androidtv.recommendations"
             android:name=".integration.RecommendationContentProvider"
-            android:authorities="tv.emby.embyatv.recommendations"
+            android:grantUriPermissions="true"
             android:exported="true"
-            android:grantUriPermissions="true" />
-
-        <activity
-            android:name=".details.ExpandedTextActivity"
-            android:label="@string/title_activity_expanded_text"></activity>
+            />
     </application>
 
 </manifest>

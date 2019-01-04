@@ -17,7 +17,7 @@
 
     </FrameLayout>
 
-    <tv.emby.embyatv.ui.ClockUserView
+    <org.jellyfin.androidtv.ui.ClockUserView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/fdClock"
@@ -28,7 +28,7 @@
         android:layout_marginRight="40sp"
         android:alpha=".8" />
 
-    <tv.emby.embyatv.ui.NowPlayingBug
+    <org.jellyfin.androidtv.ui.NowPlayingBug
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/npBug"

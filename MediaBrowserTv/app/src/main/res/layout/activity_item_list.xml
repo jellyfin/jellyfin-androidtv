@@ -21,13 +21,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <tv.emby.embyatv.ui.DetailRowView
+            <org.jellyfin.androidtv.ui.DetailRowView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:id="@+id/details"
                 android:layout_marginBottom="10sp" />
 
-            <tv.emby.embyatv.ui.ItemListView
+            <org.jellyfin.androidtv.ui.ItemListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/songs"
@@ -39,7 +39,7 @@
         </RelativeLayout>
     </ScrollView>
 
-    <tv.emby.embyatv.ui.ClockUserView
+    <org.jellyfin.androidtv.ui.ClockUserView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/fdClock"
@@ -50,7 +50,7 @@
         android:layout_marginRight="40sp"
         android:alpha=".8" />
 
-    <tv.emby.embyatv.ui.NowPlayingBug
+    <org.jellyfin.androidtv.ui.NowPlayingBug
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/npBug"

@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:text="-"
         android:id="@+id/btnDecrease"
-        android:background="@drawable/emby_button"
+        android:background="@drawable/jellyfin_button"
         android:textSize="22sp"
         style="?android:attr/buttonStyleSmall" />
 
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:text="+"
         android:id="@+id/btnIncrease"
-        android:background="@drawable/emby_button"
+        android:background="@drawable/jellyfin_button"
         android:textSize="22sp"
         style="?android:attr/buttonStyleSmall" />
 
