@@ -33,8 +33,8 @@
     <string name="home_title">Hem</string>
     <string name="btn_cancel">Avbryt</string>
     <string name="btn_manually">Skriv in server-adress</string>
-    <string name="txt_expired">Emby för Android TV har löpt ut</string>
-    <string name="txt_expired_exp">Den här utvecklarversionen har löpt ut. Updatera eller installera från butiken. Tack för att du använder Emby!</string>
+    <string name="txt_expired">Jellyfin för Android TV har löpt ut</string>
+    <string name="txt_expired_exp">Den här utvecklarversionen har löpt ut. Updatera eller installera från butiken. Tack för att du använder Jellyfin!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ</string>
     <string name="pref_show_login_value">0</string>
 </resources>

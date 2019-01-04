@@ -108,7 +108,7 @@
                     <view
                         android:layout_width="28sp"
                         android:layout_height="28sp"
-                        class="tv.emby.embyatv.ui.ImageButton"
+                        class="org.jellyfin.androidtv.ui.ImageButton"
                         android:id="@+id/prevBtn"
                         android:src="@drawable/btnprev"
                         android:focusable="true"
@@ -119,7 +119,7 @@
                     <view
                         android:layout_width="28sp"
                         android:layout_height="28sp"
-                        class="tv.emby.embyatv.ui.ImageButton"
+                        class="org.jellyfin.androidtv.ui.ImageButton"
                         android:id="@+id/nextBtn"
                         android:src="@drawable/btnnext"
                         android:focusable="true"
@@ -130,7 +130,7 @@
                     <view
                         android:layout_width="28sp"
                         android:layout_height="28sp"
-                        class="tv.emby.embyatv.ui.ImageButton"
+                        class="org.jellyfin.androidtv.ui.ImageButton"
                         android:id="@+id/repeatBtn"
                         android:src="@drawable/loop"
                         android:focusable="true"
@@ -141,7 +141,7 @@
                     <view
                         android:layout_width="28sp"
                         android:layout_height="28sp"
-                        class="tv.emby.embyatv.ui.ImageButton"
+                        class="org.jellyfin.androidtv.ui.ImageButton"
                         android:id="@+id/shuffleBtn"
                         android:src="@drawable/shuffle"
                         android:focusable="true"
@@ -152,7 +152,7 @@
                     <view
                         android:layout_width="28sp"
                         android:layout_height="28sp"
-                        class="tv.emby.embyatv.ui.ImageButton"
+                        class="org.jellyfin.androidtv.ui.ImageButton"
                         android:id="@+id/saveBtn"
                         android:src="@drawable/saveplaylist"
                         android:focusable="true"
@@ -163,7 +163,7 @@
                     <view
                         android:layout_width="28sp"
                         android:layout_height="28sp"
-                        class="tv.emby.embyatv.ui.ImageButton"
+                        class="org.jellyfin.androidtv.ui.ImageButton"
                         android:id="@+id/albumBtn"
                         android:src="@drawable/audioicon"
                         android:focusable="true"
@@ -174,7 +174,7 @@
                     <view
                         android:layout_width="28sp"
                         android:layout_height="28sp"
-                        class="tv.emby.embyatv.ui.ImageButton"
+                        class="org.jellyfin.androidtv.ui.ImageButton"
                         android:id="@+id/artistBtn"
                         android:src="@drawable/user"
                         android:focusable="true"
@@ -221,7 +221,7 @@
                 <view
                     android:layout_width="28sp"
                     android:layout_height="28sp"
-                    class="tv.emby.embyatv.ui.ImageButton"
+                    class="org.jellyfin.androidtv.ui.ImageButton"
                     android:id="@+id/playPauseBtn"
                     android:layout_alignStart="@+id/songTitle"
                     android:layout_marginBottom="-12sp"
@@ -308,7 +308,7 @@
         </RelativeLayout>
     </ScrollView>
 
-    <tv.emby.embyatv.ui.ClockUserView
+    <org.jellyfin.androidtv.ui.ClockUserView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/clock"
