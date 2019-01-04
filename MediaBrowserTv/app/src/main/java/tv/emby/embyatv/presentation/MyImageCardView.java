@@ -24,6 +24,9 @@ import mediabrowser.model.dto.BaseItemDto;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.R
+
+
 
 /**
  * A card view with an {@link ImageView} as its main region.
@@ -64,21 +67,21 @@ public class MyImageCardView extends BaseCardView {
         }
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(org.jellyfin.androidtv.R.layout.image_card_view, this);
+        View v = inflater.inflate(R.layout.image_card_view, this);
 
-        mImageView = (ImageView) v.findViewById(org.jellyfin.androidtv.R.id.main_image);
-        mInfoArea = v.findViewById(org.jellyfin.androidtv.R.id.info_field);
-        mTitleView = (TextView) v.findViewById(org.jellyfin.androidtv.R.id.title_text);
-        mContentView = (TextView) v.findViewById(org.jellyfin.androidtv.R.id.content_text);
-        mBadgeImage = (ImageView) v.findViewById(org.jellyfin.androidtv.R.id.extra_badge);
-        mOverlayName = (TextView) v.findViewById(org.jellyfin.androidtv.R.id.overlay_text);
+        mImageView = (ImageView) v.findViewById(R.id.main_image);
+        mInfoArea = v.findViewById(R.id.info_field);
+        mTitleView = (TextView) v.findViewById(R.id.title_text);
+        mContentView = (TextView) v.findViewById(R.id.content_text);
+        mBadgeImage = (ImageView) v.findViewById(R.id.extra_badge);
+        mOverlayName = (TextView) v.findViewById(R.id.overlay_text);
         mOverlayName.setTypeface(TvApp.getApplication().getDefaultFont());
-        mOverlayCount = (TextView) v.findViewById(org.jellyfin.androidtv.R.id.overlay_count);
+        mOverlayCount = (TextView) v.findViewById(R.id.overlay_count);
         mOverlayCount.setTypeface(TvApp.getApplication().getDefaultFont());
-        mOverlayIcon = (ImageView) v.findViewById(org.jellyfin.androidtv.R.id.icon);
-        mInfoOverlay = (ViewGroup) v.findViewById(org.jellyfin.androidtv.R.id.name_overlay);
+        mOverlayIcon = (ImageView) v.findViewById(R.id.icon);
+        mInfoOverlay = (ViewGroup) v.findViewById(R.id.name_overlay);
         mInfoOverlay.setVisibility(GONE);
-        mFavIcon = (ImageView) v.findViewById(org.jellyfin.androidtv.R.id.favIcon);
+        mFavIcon = (ImageView) v.findViewById(R.id.favIcon);
 
         if (mInfoArea != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.lbImageCardView,
@@ -118,11 +121,11 @@ public class MyImageCardView extends BaseCardView {
 
     public void setPlayingIndicator(boolean playing) {
         if (playing) {
-            mBadgeImage.setBackgroundResource(org.jellyfin.androidtv.R.drawable.eq_animation);
+            mBadgeImage.setBackgroundResource(R.drawable.eq_animation);
             mBadgeImage.setVisibility(VISIBLE);
             ((AnimationDrawable)mBadgeImage.getBackground()).start();
         } else {
-            mBadgeImage.setBackgroundResource(org.jellyfin.androidtv.R.drawable.blank10x10);
+            mBadgeImage.setBackgroundResource(R.drawable.blank10x10);
         }
     }
 
@@ -230,15 +233,15 @@ public class MyImageCardView extends BaseCardView {
             switch (item.getType()) {
                 case "Photo":
                     mOverlayName.setText(item.getBaseItem().getPremiereDate() != null ? android.text.format.DateFormat.getDateFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(item.getBaseItem().getPremiereDate())) : item.getFullName());
-                    mOverlayIcon.setImageResource(org.jellyfin.androidtv.R.drawable.camera);
+                    mOverlayIcon.setImageResource(R.drawable.camera);
                     break;
                 case "PhotoAlbum":
                     mOverlayName.setText(item.getFullName());
-                    mOverlayIcon.setImageResource(org.jellyfin.androidtv.R.drawable.photoalbum);
+                    mOverlayIcon.setImageResource(R.drawable.photoalbum);
                     break;
                 case "Video":
                     mOverlayName.setText(item.getFullName());
-                    mOverlayIcon.setImageResource(org.jellyfin.androidtv.R.drawable.film);
+                    mOverlayIcon.setImageResource(R.drawable.film);
                     break;
                 case "Playlist":
                 case "MusicArtist":
@@ -248,7 +251,7 @@ public class MyImageCardView extends BaseCardView {
                     break;
                 default:
                     mOverlayName.setText(item.getFullName());
-                    mOverlayIcon.setImageResource(item.isFolder() ? org.jellyfin.androidtv.R.drawable.foldersmall : org.jellyfin.androidtv.R.drawable.blank30x30);
+                    mOverlayIcon.setImageResource(item.isFolder() ? R.drawable.foldersmall : R.drawable.blank30x30);
                     break;
             }
             mOverlayCount.setText(item.getChildCountStr());
