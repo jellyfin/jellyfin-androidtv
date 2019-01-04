@@ -7,7 +7,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
     defaultConfig {
-        applicationId "tv.emby.embyatv"
+        applicationId "org.jellyfin.androidtv"
         minSdkVersion 21
         targetSdkVersion 23
         versionCode 1190

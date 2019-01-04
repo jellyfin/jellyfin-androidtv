@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Emby</string>
+    <string name="app_name">Jellyfin</string>
     <string name="current_queue">τρέχουσα ουρά</string>
     <string name="error">Error</string>
     <string name="ok">Εντάξει</string>
@@ -37,29 +37,29 @@
     <string name="home_title">Home</string>
     <string name="btn_cancel">ακυρώ</string>
     <string name="btn_manually">Μεταφορά και Εισάγετε τη διεύθυνση</string>
-    <string name="txt_expired">Emby για το Android τηλεόραση έχει λήξει</string>
-    <string name="txt_expired_exp">Αυτή η έκδοση ανάπτυξης έχει λήξει . Παρακαλώ κοιτάξτε για μια ενημερωμένη έκδοση ή να εγκαταστήσετε από το κατάστημα . Σας ευχαριστούμε που χρησιμοποιείτε Emby !</string>
+    <string name="txt_expired">Jellyfin για το Android τηλεόραση έχει λήξει</string>
+    <string name="txt_expired_exp">Αυτή η έκδοση ανάπτυξης έχει λήξει . Παρακαλώ κοιτάξτε για μια ενημερωμένη έκδοση ή να εγκαταστήσετε από το κατάστημα . Σας ευχαριστούμε που χρησιμοποιείτε Jellyfin !</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
-    <string name="lbl_emby_premiere">Αναβάθμιση σε Emby Premiere</string>
-    <string name="lbl_premiere_desc">Με Emby Premiere δεν σας πάρει μόνο πλήρη λειτουργικότητα σε αυτό το app , αλλά και μια σειρά από άλλα χαρακτηριστικά τόσο στο διακομιστή όσο και άλλες εφαρμογές σε ολόκληρο το περιβάλλον Emby σας .</string>
-    <string name="lbl_premiere_desc2">Δωρεάν πρόσβαση σε ορισμένες εφαρμογές και σε άλλες πλατφόρμες , συγχρονίσετε το περιεχόμενό σας να υποστηρίζεται κινητές συσκευές ή εφαρμογή web για προβολή χωρίς σύνδεση , μπορείτε να απολαύσετε την εμπειρία του θεάτρου με λειτουργία Cinema Mode , βελτιώστε τις εικόνες σας με CoverArt και πολλά , πολλά άλλα . Δοκιμάστε Emby Πρεμιέρα σήμερα.</string>
-    <string name="msg_just_unlock_confirm">Μόλις ξεκλειδώσετε αυτό το app ; Αυτή η επιλογή δεν θα περιλαμβάνουν οποιοδήποτε από τα χαρακτηριστικά της Emby Premiere . Θα επιτρέψει μόνο πλήρη λειτουργικότητα σε αυτό το app . Είσαι σίγουρος…?</string>
+    <string name="lbl_jellyfin_premiere">Αναβάθμιση σε Jellyfin Premiere</string>
+    <string name="lbl_premiere_desc">Με Jellyfin Premiere δεν σας πάρει μόνο πλήρη λειτουργικότητα σε αυτό το app , αλλά και μια σειρά από άλλα χαρακτηριστικά τόσο στο διακομιστή όσο και άλλες εφαρμογές σε ολόκληρο το περιβάλλον Jellyfin σας .</string>
+    <string name="lbl_premiere_desc2">Δωρεάν πρόσβαση σε ορισμένες εφαρμογές και σε άλλες πλατφόρμες , συγχρονίσετε το περιεχόμενό σας να υποστηρίζεται κινητές συσκευές ή εφαρμογή web για προβολή χωρίς σύνδεση , μπορείτε να απολαύσετε την εμπειρία του θεάτρου με λειτουργία Cinema Mode , βελτιώστε τις εικόνες σας με CoverArt και πολλά , πολλά άλλα . Δοκιμάστε Jellyfin Πρεμιέρα σήμερα.</string>
+    <string name="msg_just_unlock_confirm">Μόλις ξεκλειδώσετε αυτό το app ; Αυτή η επιλογή δεν θα περιλαμβάνουν οποιοδήποτε από τα χαρακτηριστικά της Jellyfin Premiere . Θα επιτρέψει μόνο πλήρη λειτουργικότητα σε αυτό το app . Είσαι σίγουρος…?</string>
     <string name="btn_unlock">"Όχι, ευχαριστώ, μόλις ξεκλειδώσετε αυτό το app
 "</string>
     <string name="btn_monthly_prefix">εγγραφή για</string>
     <string name="btn_monthly_suffix">/Μήνας</string>
-    <string name="btn_emby_premiere">"Emby Premiere
+    <string name="btn_jellyfin_premiere">"Jellyfin Premiere
 "</string>
     <string name="btn_ok">OK</string>
-    <string name="msg_email_entry1">Παρακαλώ εισάγετε μια έγκυρη διεύθυνση e-mail για να στείλετε σας Emby Premiere Κλειδί</string>
+    <string name="msg_email_entry1">Παρακαλώ εισάγετε μια έγκυρη διεύθυνση e-mail για να στείλετε σας Jellyfin Premiere Κλειδί</string>
     <string name="msg_email_entry2">Πολύ λυπάμαι , αλλά πρέπει να είμαστε βέβαιοι ότι αυτό είναι σωστό . Παρακαλώ εισάγετε ξανά το email.</string>
     <string name="msg_entries_not_match">Οι συμμετοχές δεν ταιριάζουν. Παρακαλώ προσπάθησε ξανά.</string>
     <string name="msg_invalid_email">"Μη έγκυρη διεύθυνση e-mail
 "</string>
     <string name="btn_monthly_default">εγγραφή για $ 6.49 / Μήνας</string>
-    <string name="msg_premiere_nag_title">"Σκεφτείτε Emby Premiere
+    <string name="msg_premiere_nag_title">"Σκεφτείτε Jellyfin Premiere
 "</string>
-    <string name="msg_premiere_nag_msg">Emby Premiere σας δίνει πολλές δυνατότητες , όπως τα κινητά συγχρονισμό , τη λειτουργία και τον κινηματογράφο CoverArt . Δοκιμάστε Emby Πρεμιέρα σήμερα.</string>
+    <string name="msg_premiere_nag_msg">Jellyfin Premiere σας δίνει πολλές δυνατότητες , όπως τα κινητά συγχρονισμό , τη λειτουργία και τον κινηματογράφο CoverArt . Δοκιμάστε Jellyfin Πρεμιέρα σήμερα.</string>
     <string name="pref_live_tv_cat">LIVE TV</string>
     <string name="pref_sort_date_option">Ταξινόμηση καθοδηγήσει από την τελευταία ώρα παιχνιδιού</string>
     <string name="pref_sort_date_desc">Εμφάνιση των τελευταίων έπαιξε κανάλια στην κορυφή του οδηγού</string>
@@ -74,7 +74,7 @@
     <string name="lbl_episodes">επεισόδια</string>
     <string name="lbl_enable_cinema_mode">Ενεργοποιήστε τη λειτουργία Κινηματογράφος</string>
     <string name="sum_enable_cinema_mode">Αν ενεργοποιηθεί στο διακομιστή , ενεργοποιήστε εισάγω και προεπισκόπηση πριν από την αναπαραγωγή ταινιών</string>
-    <string name="lbl_cm_premiere">Λειτουργία κινηματογράφου απαιτεί την ενεργό ένταξη Emby Premiere</string>
+    <string name="lbl_cm_premiere">Λειτουργία κινηματογράφου απαιτεί την ενεργό ένταξη Jellyfin Premiere</string>
     <string name="lbl_playlists">Λίστες αναπαραγωγής</string>
     <string name="lbl_of">του</string>
     <string name="msg_added_item_to_queue">"Στοιχείο που προστίθεται στην ουρά στη θέση"</string>

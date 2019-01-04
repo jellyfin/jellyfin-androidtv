@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tv.emby.embyatv" >
+    package="org.jellyfin.androidtv" >
 
     <uses-feature
         android:name="android.software.leanback"
@@ -81,7 +81,7 @@
             android:label="@string/title_activity_dpad_pw" >
         </activity>
 
-        <activity android:name="tv.emby.iap.PurchaseActivity" />
+        <activity android:name="tv.jellyfin.iap.PurchaseActivity" />
 
         <receiver android:name=".util.RemoteControlReceiver">
             <intent-filter>
@@ -90,7 +90,7 @@
         </receiver>
 
         <provider
-            android:authorities="tv.emby.embyatv.recommendations"
+            android:authorities="org.jellyfin.androidtv.recommendations"
             android:name=".integration.RecommendationContentProvider"
             android:grantUriPermissions="true"
             android:exported="true"
