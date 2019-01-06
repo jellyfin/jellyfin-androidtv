@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/org.jellyfin.androidtv">
+
+    <PreferenceCategory android:title="@string/pref_startup_cat" >
+        <ListPreference android:key="pref_login_behavior"
+            android:title="@string/pref_login_behavior_title"
+            android:defaultValue="@string/pref_show_login_value"
+            android:entries="@array/pref_startup_entries"
+            android:entryValues="@array/pref_startup_values"
+            />
+        <CheckBoxPreference android:key="pref_auto_pw_prompt"
+            android:title="@string/pref_prompt_pw"
+            android:defaultValue="false"
+            />
+
+        <CheckBoxPreference android:key="pref_alt_pw_entry"
+            android:title="@string/pref_alt_pw_entry"
+            android:summary="@string/pref_alt_pw_entry_desc"
+            android:defaultValue="false"
+            />
+        <CheckBoxPreference android:key="pref_live_tv_mode"
+            android:title="@string/pref_live_tv_mode"
+            android:summary="@string/pref_live_tv_mode_desc"
+            android:defaultValue="false"
+            />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_general" >
+        <ListPreference android:key="pref_auto_logoff_timeout"
+            android:title="@string/pref_auto_logoff_title"
+            android:defaultValue="3600000"
+            android:entries="@array/pref_timeout_entries"
+            android:entryValues="@array/pref_timeout_values"
+            />
+        <org.jellyfin.androidtv.settings.ColorPreference
+            android:key="pref_sideline_color"
+            android:title="@string/lbl_sideline_color"
+            android:summary="@string/desc_sideline_color"
+            android:defaultValue="@null"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            app:numColumns="5"
+            app:itemLayout="@layout/dash_grid_item_color"
+            />
+        <CheckBoxPreference android:key="pref_show_backdrop"
+            android:title="@string/lbl_show_backdrop"
+            android:defaultValue="true"
+            />
+        <CheckBoxPreference android:key="pref_enable_info_panel"
+            android:title="@string/lbl_show_info_panel"
+            android:defaultValue="false"
+            android:summary="@string/desc_info_panel"
+            />
+        <CheckBoxPreference android:key="pref_enable_premieres"
+            android:title="@string/lbl_show_premieres"
+            android:defaultValue="false"
+            android:summary="@string/desc_premieres"
+            />
+        <CheckBoxPreference android:key="pref_enable_themes"
+            android:title="@string/lbl_enable_seasonal_themes"
+            android:defaultValue="true"
+            android:summary="@string/desc_seasonal_themes"
+            />
+
+        <CheckBoxPreference android:key="pref_enable_debug"
+            android:title="@string/lbl_enable_debug"
+            android:defaultValue="false"
+            android:summary="@string/desc_debug"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_playback" android:key="pref_playback_category" >
+        <ListPreference android:key="pref_max_bitrate"
+            android:title="@string/pref_max_bitrate_title"
+            android:defaultValue="30"
+            android:entries="@array/pref_bitrate_entries"
+            android:entryValues="@array/pref_bitrate_values"
+            />
+        <CheckBoxPreference android:key="pref_enable_tv_queuing"
+            android:title="@string/lbl_tv_queuing"
+            android:defaultValue="true"
+            android:summary="@string/sum_tv_queuing"
+            />
+        <ListPreference android:key="pref_resume_preroll"
+            android:title="@string/lbl_resume_preroll"
+            android:defaultValue="0"
+            android:entries="@array/pref_preroll_options"
+            android:entryValues="@array/pref_preroll_values"
+            />
+        <CheckBoxPreference android:key="pref_enable_cinema_mode"
+            android:title="@string/lbl_enable_cinema_mode"
+            android:defaultValue="true"
+            android:summary="@string/sum_enable_cinema_mode"
+            />
+        <ListPreference android:key="pref_audio_option"
+            android:title="@string/lbl_audio_output"
+            android:defaultValue="0"
+            android:entries="@array/pref_audio_options"
+            android:entryValues="@array/pref_audio_values"
+            />
+        <CheckBoxPreference android:key="pref_bitstream_ac3"
+            android:title="@string/lbl_bitstream_ac3"
+            android:summary="@string/desc_bitstream_ac3"
+            android:defaultValue="true"
+            />
+        <CheckBoxPreference android:key="pref_bitstream_dts"
+            android:title="@string/lbl_bitstream_dts"
+            android:summary="@string/desc_bitstream_ac3"
+            android:defaultValue="false"
+            />
+        <CheckBoxPreference android:key="pref_refresh_switching"
+            android:title="@string/lbl_refresh_switching"
+            android:defaultValue="true"
+            />
+        <CheckBoxPreference android:key="pref_video_use_external"
+            android:title="Use External Player for Videos"
+            android:defaultValue="false"
+            android:summary="Requires a capable app to play video types"
+            />
+        <CheckBoxPreference android:key="pref_send_path_external"
+            android:title="Pass Direct Path"
+            android:defaultValue="false"
+            android:summary="Pass the file system path instead of streaming url"
+            />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_live_tv_cat" android:key="pref_live_tv_category">
+        <!--<CheckBoxPreference android:key="pref_live_shift"-->
+            <!--android:title="@string/lbl_time_shift_live"-->
+            <!--android:defaultValue="true"-->
+            <!--/>-->
+        <CheckBoxPreference android:key="pref_live_direct"
+            android:title="@string/lbl_direct_stream_live"
+            android:defaultValue="false"
+            />
+        <CheckBoxPreference android:key="pref_enable_vlc_livetv"
+            android:title="@string/lbl_use_vlc_livetv"
+            android:defaultValue="true"
+            android:summary="@string/desc_use_vlc_livetv"
+            />
+        <CheckBoxPreference android:key="pref_live_tv_use_external"
+            android:title="Use External Player for Live TV"
+            android:defaultValue="false"
+            android:summary="Requires a capable app to play live streams"
+            />
+    </PreferenceCategory>
+
+</PreferenceScreen>

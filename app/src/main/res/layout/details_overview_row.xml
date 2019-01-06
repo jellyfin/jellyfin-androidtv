@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/detailsFrame">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/summaryBg"
+            android:maxHeight="300sp"
+            android:minHeight="300sp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+             />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fdPoster"
+            android:adjustViewBounds="false"
+            android:scaleType="fitCenter"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentStart="false"
+            android:layout_alignTop="@+id/summaryBg"
+            android:minWidth="250sp"
+            android:layout_alignLeft="@+id/summaryBg"
+            android:layout_alignBottom="@+id/summaryBg"
+            android:maxWidth="250sp"
+            android:layout_marginLeft="40sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fdSummaryText"
+            android:width="550sp"
+            android:height="195sp"
+            android:textSize="16sp"
+            android:layout_alignTop="@+id/summaryBg"
+            android:layout_alignParentRight="false"
+            android:layout_marginRight="150sp"
+            android:layout_marginTop="65sp"
+            android:layout_toRightOf="@+id/fdPoster"
+            android:layout_marginLeft="40sp"
+            android:layout_alignRight="@+id/summaryBg"
+            android:maxLines="9"
+            android:ellipsize="end" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/summaryBg"
+            android:layout_alignStart="@+id/fdSummaryText"
+            android:id="@+id/fdButtonRow"
+            android:layout_alignEnd="@+id/fdSummaryText"
+            android:layout_marginTop="207dp"
+            android:minHeight="35sp"
+            android:gravity="center"
+            android:showDividers="middle"
+            android:divider="@drawable/blank20x20"
+            android:layout_marginBottom="5sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/fdSummaryTitle"
+            android:layout_alignStart="@+id/fdSummaryText"
+            android:layout_alignTop="@+id/summaryBg"
+            android:layout_alignEnd="@+id/fdSummaryText"
+            android:layout_marginTop="5sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/fdSummarySubTitle"
+            android:layout_alignStart="@+id/fdSummaryText"
+            android:layout_below="@+id/fdSummaryTitle"
+            android:layout_alignEnd="@+id/fdSummaryTitle" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20sp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/fdButtonHelp"
+            android:layout_alignParentBottom="false"
+            android:layout_below="@+id/summaryBg"
+            android:layout_alignEnd="@+id/fdButtonRow"
+            android:gravity="center_horizontal"
+            android:layout_alignStart="@+id/fdButtonRow" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30sp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/fdLastPlayedText"
+            android:layout_alignStart="@+id/fdPoster"
+            android:gravity="center"
+            android:layout_below="@+id/summaryBg"
+            android:layout_alignEnd="@+id/fdPoster"
+            android:layout_alignParentBottom="false" />
+
+        <ImageView
+            android:layout_width="100sp"
+            android:layout_height="40sp"
+            android:id="@+id/studioImage"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="40sp"
+            android:layout_alignBottom="@+id/fdButtonRow"
+            android:alpha=".75" />
+
+    </RelativeLayout>
+
+
+</FrameLayout>

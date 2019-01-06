@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="2sp"
+    android:background="@drawable/light_border">
+
+    <TextView
+        android:layout_width="100sp"
+        android:layout_height="wrap_content"
+        android:text="Small Text"
+        android:id="@+id/channelName"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="2sp"
+        android:maxLines="1"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="100sp"
+        android:layout_height="wrap_content"
+        android:text="Small Text"
+        android:id="@+id/channelNumber"
+        android:maxLines="1"
+        android:textSize="14sp"
+        android:layout_marginLeft="3sp"
+        android:layout_marginRight="3sp"
+        android:layout_below="@+id/channelName"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="100sp"
+        android:layout_height="50sp"
+        android:id="@+id/channelImage"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/channelName"
+        android:scaleType="center" />
+</RelativeLayout>
