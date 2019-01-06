@@ -34,9 +34,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    amazonCompile fileTree(dir: 'amazonLibs', include: ['*.jar'])
     amazonCompile project(':exomedia-amazon')
-    googleCompile fileTree(dir: 'googleLibs', include: ['*.jar'])
+    googleCompile 'com.devbrackets.android:exomedia:2.5.6'
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'com.android.support:leanback-v17:23.1.1'
     compile 'com.android.support:appcompat-v7:23.1.1'
@@ -47,6 +46,5 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.7.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.7.0'
     compile 'com.google.guava:guava:18.0'
-    googleCompile 'com.devbrackets.android:exomedia:2.5.6'
     compile 'com.flaviofaria:kenburnsview:1.0.6'
 }
