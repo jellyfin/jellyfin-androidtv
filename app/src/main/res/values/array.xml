@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+
+    <string-array name="pref_startup_entries" >
+        <item>@string/pref_show_login</item>
+        <item>@string/pref_auto_login</item>
+    </string-array>
+    <string-array name="pref_startup_values" >
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="pref_bitrate_entries" >
+        <item>Auto</item>
+        <item>40 Mbits/sec</item>
+        <item>30 Mbits/sec</item>
+        <item>21 Mbits/sec</item>
+        <item>15 Mbits/sec</item>
+        <item>10 Mbits/sec</item>
+        <item>5 Mbits/sec</item>
+        <item>3 Mbits/sec</item>
+        <item>2 Mbits/sec</item>
+        <item>1.5 Mbits/sec</item>
+        <item>1 Mbit/sec</item>
+        <item>720 Kbits/sec</item>
+        <item>420 Kbits/sec</item>
+    </string-array>
+    <string-array name="pref_bitrate_values" >
+        <item>0</item>
+        <item>40</item>
+        <item>30</item>
+        <item>21</item>
+        <item>15</item>
+        <item>10</item>
+        <item>5</item>
+        <item>3</item>
+        <item>2</item>
+        <item>1.5</item>
+        <item>1</item>
+        <item>0.72</item>
+        <item>0.42</item>
+    </string-array>
+    <string-array name="pref_buffer_entries" >
+        <item>60 seconds</item>
+        <item>50 seconds</item>
+        <item>40 seconds</item>
+        <item>30 seconds</item>
+        <item>20 seconds</item>
+        <item>15 seconds</item>
+        <item>10 seconds</item>
+        <item>7 seconds</item>
+        <item>5 seconds</item>
+        <item>3 seconds</item>
+        <item>1 second</item>
+        <item>0.6 seconds</item>
+    </string-array>
+    <string-array name="pref_buffer_values" >
+        <item>60</item>
+        <item>50</item>
+        <item>40</item>
+        <item>30</item>
+        <item>20</item>
+        <item>15</item>
+        <item>10</item>
+        <item>7</item>
+        <item>5</item>
+        <item>3</item>
+        <item>1</item>
+        <item>0.6</item>
+    </string-array>
+    <string-array name="pref_timeout_entries" >
+        <item>30 Minutes</item>
+        <item>1 Hour</item>
+        <item>2 Hours</item>
+        <item>3 Hours</item>
+        <item>6 Hours</item>
+        <item>24 Hours</item>
+    </string-array>
+    <string-array name="pref_timeout_values" >
+        <item>1800000</item>
+        <item>3600000</item>
+        <item>7200000</item>
+        <item>10800000</item>
+        <item>21600000</item>
+        <item>86400000</item>
+    </string-array>
+    <string-array name="pref_vlc_max_entries" >
+        <item>All</item>
+        <item>720p and Below</item>
+        <item>SD Only</item>
+    </string-array>
+    <string-array name="pref_vlc_max_values" >
+        <item>2900</item>
+        <item>1300</item>
+        <item>730</item>
+    </string-array>
+    <string-array name="pref_audio_options" >
+        <item>@string/pref_audio_direct</item>
+        <item>@string/pref_audio_compat</item>
+    </string-array>
+    <string-array name="pref_audio_values" >
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="default_color_choice_values" translatable="false">
+        <item>#082804</item>
+        <item>#43A047</item>
+        <item>#009688</item>
+        <item>#141A5E</item>
+        <item>#2A3476</item>
+        <item>#01679F</item>
+        <item>#68228B</item>
+        <item>#450000</item>
+        <item>#9A0303</item>
+        <item>#902222</item>
+        <item>#AE5D01</item>
+        <item>#AA821F</item>
+        <item>#161b21</item>
+        <item>#333333</item>
+        <item>#455A64</item>
+    </string-array>
+</resources>

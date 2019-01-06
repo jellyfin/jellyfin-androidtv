@@ -1,0 +1,50 @@
+apply plugin: 'com.android.application'
+
+
+android {
+    signingConfigs {
+    }
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+    defaultConfig {
+        applicationId "org.jellyfin.androidtv"
+        minSdkVersion 21
+        targetSdkVersion 23
+        versionCode 1190
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+        google {
+            versionName = "1.1.90g"
+        }
+        amazon {
+            versionName = "1.1.90a"
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    amazonCompile project(':exomedia-amazon')
+    googleCompile 'com.devbrackets.android:exomedia:2.5.6'
+    compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'com.android.support:leanback-v17:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'com.squareup.picasso:picasso:2.3.2'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.google.code.gson:gson:2.5'
+    compile 'com.squareup.okhttp:okhttp:2.7.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.7.0'
+    compile 'com.google.guava:guava:18.0'
+    compile 'com.flaviofaria:kenburnsview:1.0.6'
+}

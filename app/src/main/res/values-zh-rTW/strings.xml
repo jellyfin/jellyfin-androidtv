@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="lbl_albums">專輯</string>
+    <string name="lbl_artists">演出者</string>
+    <string name="lbl_song">曲目</string>
+    <string name="lbl_songs">曲目</string>
+    <string name="lbl_album">專輯</string>
+    <string name="lbl_episodes">劇集</string>
+    <string name="lbl_enable_cinema_mode">開啟劇院模式</string>
+    <string name="sum_enable_cinema_mode">如果在伺服器上開啟此功能，即可預覽影片</string>
+    <string name="lbl_cm_premiere">劇院模式需要Jellyfin高級會員</string>
+    <string name="lbl_playlists">播放清單</string>
+    <string name="msg_added_item_to_queue">"項目已加入序列中的 "</string>
+    <string name="msg_items_added">" 個項目已加入"</string>
+    <string name="msg_total_items_in_queue">" 項"</string>
+    <string name="lbl_add_to_queue">加入序列</string>
+    <string name="lbl_open_artist">開啟演出者</string>
+    <string name="lbl_open_album">開啟專輯</string>
+</resources>

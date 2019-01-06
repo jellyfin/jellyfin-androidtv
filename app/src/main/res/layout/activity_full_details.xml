@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fdTitle"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20sp"
+        android:textSize="35sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginLeft="50sp"
+        android:layout_toLeftOf="@+id/npBug"
+        android:layout_alignParentStart="true" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="20sp"
+        android:id="@+id/fdMainInfoRow"
+        android:dividerPadding="4sp"
+        android:layout_below="@+id/fdTitle"
+        android:layout_alignStart="@+id/fdTitle"
+        android:layout_toLeftOf="@+id/fdClock" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fdMainInfoRow"
+        android:id="@+id/fdGenreRow"
+        android:layout_alignStart="@+id/fdMainInfoRow"
+        android:divider="@drawable/whitedivider"
+        android:minHeight="22sp"
+        android:layout_toLeftOf="@+id/fdClock" />
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="false"
+        android:id="@+id/rowsFragment"
+        android:layout_below="@+id/fdGenreRow"
+        android:layout_marginTop="10sp">
+
+    </FrameLayout>
+
+    <org.jellyfin.androidtv.ui.ClockUserView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fdClock"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/fdTitle"
+        android:layout_marginRight="40sp"
+        android:alpha=".8" />
+
+    <org.jellyfin.androidtv.ui.NowPlayingBug
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/npBug"
+        android:layout_alignBottom="@+id/fdClock"
+        android:layout_marginRight="25dp"
+        android:layout_toLeftOf="@+id/fdClock" />
+
+</RelativeLayout>
