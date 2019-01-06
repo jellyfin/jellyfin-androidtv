@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v17.leanback.R;
 import android.support.v17.leanback.widget.BaseCardView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -24,7 +23,7 @@ import mediabrowser.model.dto.BaseItemDto;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.R;
 
 
 
