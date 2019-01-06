@@ -131,7 +131,7 @@ public class HomeFragment extends StdBrowseFragment {
         if (unlockButton != null && (TvApp.getApplication().isRegistered() || TvApp.getApplication().isPaid())) {
             toolsRow.remove(unlockButton);
             if (!TvApp.getApplication().isRegistered()) {
-                premiereButton = new GridButton(UNLOCK, mApplication.getString(R.string.btn_jellyfin_premiere), R.drawable.jellyfinicon);
+                premiereButton = new GridButton(UNLOCK, mApplication.getString(R.string.btn_jellyfin_premiere), R.drawable.logoicon512);
                 toolsRow.add(premiereButton);
             }
         } else {
@@ -362,7 +362,7 @@ public class HomeFragment extends StdBrowseFragment {
                     unlockButton = new GridButton(UNLOCK, mApplication.getString(R.string.lbl_unlock), R.drawable.unlock);
                     toolsRow.add(unlockButton);
                 } else if (!TvApp.getApplication().isRegistered()) {
-                    premiereButton = new GridButton(UNLOCK, mApplication.getString(R.string.btn_jellyfin_premiere), R.drawable.jellyfinicon);
+                    premiereButton = new GridButton(UNLOCK, mApplication.getString(R.string.btn_jellyfin_premiere), R.drawable.logoicon512);
                     toolsRow.add(premiereButton);
                 }
             }
