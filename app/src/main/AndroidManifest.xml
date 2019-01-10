@@ -72,7 +72,6 @@
         <activity android:name=".livetv.LiveTvGuideActivity" />
         <activity android:name=".browsing.GenericGridActivity" />
         <activity android:name=".browsing.BrowseRecordingsActivity" />
-        <activity android:name=".validation.UnlockActivity" />
         <activity android:name=".details.PhotoPlayerActivity" />
         <activity android:name=".details.ItemListActivity" />
         <activity android:name=".playback.AudioNowPlayingActivity" />
@@ -80,8 +79,6 @@
             android:name=".startup.DpadPwActivity"
             android:label="@string/title_activity_dpad_pw" >
         </activity>
-
-        <activity android:name="tv.jellyfin.iap.PurchaseActivity" />
 
         <receiver android:name=".util.RemoteControlReceiver">
             <intent-filter>
