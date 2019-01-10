@@ -89,7 +89,6 @@ import org.jellyfin.androidtv.details.ItemListActivity;
 import org.jellyfin.androidtv.model.ChapterItemInfo;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
-import org.jellyfin.androidtv.startup.ConnectActivity;
 import org.jellyfin.androidtv.startup.DpadPwActivity;
 import org.jellyfin.androidtv.startup.LogonCredentials;
 import org.jellyfin.androidtv.startup.SelectServerActivity;
@@ -1598,16 +1597,11 @@ public class Utils {
     public static void handleConnectionResponse(final IConnectionManager connectionManager,  final Activity activity, ConnectionResult response) {
         ILogger logger = TvApp.getApplication().getLogger();
         switch (response.getState()) {
-            case ConnectSignIn:
-                logger.Debug("Sign in with connect...");
-                Intent intent = new Intent(activity, ConnectActivity.class);
-                activity.startActivity(intent);
-                break;
-
             case Unavailable:
                 logger.Debug("No server available...");
                 Utils.showToast(activity, "No MB Servers available...");
                 break;
+            case ConnectSignIn:
             case ServerSignIn:
                 logger.Debug("Sign in with server " + response.getServers().get(0).getName() + " total: " + response.getServers().size());
                 Utils.signInToServer(connectionManager, response.getServers().get(0), activity);
