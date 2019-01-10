@@ -46,10 +46,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".startup.ConnectActivity"
-            android:label="@string/title_activity_connect" >
-        </activity>
-        <activity
             android:name=".startup.SelectUserActivity"
             android:label="@string/title_activity_select_user" >
         </activity>
