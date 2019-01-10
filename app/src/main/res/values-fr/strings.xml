@@ -26,8 +26,6 @@
     <string name="title_activity_startup">Activité de démarrage</string>
     <string name="action_settings">Paramètres</string>
     <string name="txt_loading">Chargement...</string>
-    <string name="title_activity_connect">Connexion</string>
-    <string name="txt_signinconnect">Connexion avec Connect</string>
     <string name="title_activity_select_user">Sélection du compte utilisateur</string>
     <string name="selusr_pleaseselect">Veuillez choisir un utilisateur</string>
     <string name="error_fragment_message">Erreur</string>
@@ -62,7 +60,6 @@
     <string name="lbl_settings">Paramètres</string>
     <string name="lbl_app_settings">Paramètre de l\'application</string>
     <string name="lbl_logout">"Déconnexion "</string>
-    <string name="lbl_logout_connect">Déconnexion de Connect</string>
     <string name="lbl_send_logs">Envoyer les journaux d\'événements</string>
     <string name="lbl_library">Bibliothèque</string>
     <string name="lbl_continue_watching">Continuer la lecture</string>
@@ -128,7 +125,6 @@
     <string name="lbl_select_server">Sélectionnez un serveur</string>
     <string name="lbl_other_options">Autres options</string>
     <string name="lbl_enter_manually">Entrez manuellement</string>
-    <string name="lbl_login_with_connect">Connectez-vous avec Jellyfin Connect</string>
     <string name="lbl_select_user">Sélectionnez un utilisateur</string>
     <string name="lbl_paren_login_as">"(se connecter en tant que"</string>
     <string name="lbl_to_change_paren">"pour changer)"</string>

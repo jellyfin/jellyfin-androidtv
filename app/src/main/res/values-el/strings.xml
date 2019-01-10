@@ -27,8 +27,6 @@
     <string name="action_settings">ρυθμίσεις</string>
     <string name="txt_loading">"Φόρτωση...
 "</string>
-    <string name="title_activity_connect">ΣυνδέστεΔραστηριότητα</string>
-    <string name="txt_signinconnect">Σύνδεση με Connect</string>
     <string name="title_activity_select_user">Επιλέξτε δραστηριότητα του χρήστη</string>
     <string name="selusr_pleaseselect">Επιλέξτε ένα χρήστη</string>
     <string name="error_fragment_message">Σφάλμα</string>

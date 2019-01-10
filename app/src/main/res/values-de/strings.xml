@@ -26,8 +26,6 @@
     <string name="title_activity_startup">Erste Aktivität</string>
     <string name="action_settings">Einstellungen</string>
     <string name="txt_loading">Lade...</string>
-    <string name="title_activity_connect">VerbindungsAktivität</string>
-    <string name="txt_signinconnect">Anmelden mit Connect</string>
     <string name="title_activity_select_user">AuswahlBenutzerAktivität</string>
     <string name="selusr_pleaseselect">Bitte wählen Sie einen Benutzer</string>
     <string name="error_fragment_message">Fehler</string>
@@ -62,7 +60,6 @@
     <string name="lbl_settings">Einstellungen</string>
     <string name="lbl_app_settings">App Einstellungen</string>
     <string name="lbl_logout">"Ausloggen "</string>
-    <string name="lbl_logout_connect">Ausloggen von Connect</string>
     <string name="lbl_send_logs">Sende Berichte</string>
     <string name="lbl_library">Bibliothek</string>
     <string name="lbl_continue_watching">Weiter anschauen</string>
@@ -128,7 +125,6 @@
     <string name="lbl_select_server">Wähle einen Server</string>
     <string name="lbl_other_options">Weitere Optionen</string>
     <string name="lbl_enter_manually">manuelle Eingabe</string>
-    <string name="lbl_login_with_connect">Login mit Media Browser Connect</string>
     <string name="lbl_select_user">Wähle einen Benutzer</string>
     <string name="lbl_paren_login_as">" (einloggen als "</string>
     <string name="lbl_to_change_paren">" zum wechseln)"</string>
