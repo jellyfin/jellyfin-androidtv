@@ -35,7 +35,6 @@
     <fragment
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:name="org.jellyfin.androidtv.search.MySearchFragmentNoSpeech"
         android:id="@+id/fragment_search_no_speech"
         android:layout_marginTop="120sp"
