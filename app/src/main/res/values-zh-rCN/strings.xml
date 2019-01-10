@@ -25,8 +25,6 @@
     <string name="title_activity_startup">启动活动</string>
     <string name="action_settings">设置</string>
     <string name="txt_loading">正在载入...</string>
-    <string name="title_activity_connect">连接活动</string>
-    <string name="txt_signinconnect">连接登录</string>
     <string name="title_activity_select_user">选择用户活动</string>
     <string name="selusr_pleaseselect">请选择一个用户</string>
     <string name="error_fragment_message">错误</string>
@@ -118,7 +116,6 @@
     <string name="lbl_select_server">选择一个服务器</string>
     <string name="lbl_other_options">其它选项</string>
     <string name="lbl_enter_manually">手动输入</string>
-    <string name="lbl_login_with_connect">连接登录</string>
     <string name="lbl_select_user">选择一个用户</string>
     <string name="lbl_paren_login_as">"(登录为"</string>
     <string name="lbl_to_change_paren">"更换)"</string>

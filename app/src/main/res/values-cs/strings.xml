@@ -26,8 +26,6 @@
     <string name="title_activity_startup">Aktivity při spuštění</string>
     <string name="action_settings">Nastavení</string>
     <string name="txt_loading">Načítá se...</string>
-    <string name="title_activity_connect">Aktivity při připojení</string>
-    <string name="txt_signinconnect">Připojit pomocí Connect</string>
     <string name="title_activity_select_user">Aktivity při výběru uživatele</string>
     <string name="selusr_pleaseselect">Prosím vyberte uživatele</string>
     <string name="error_fragment_message">Chyba</string>
@@ -62,7 +60,6 @@
     <string name="lbl_settings">Nastavení</string>
     <string name="lbl_app_settings">Nastavení aplikace</string>
     <string name="lbl_logout">"Odhlásit "</string>
-    <string name="lbl_logout_connect">Odhlásit z Connect</string>
     <string name="lbl_send_logs">Odeslat žurnály</string>
     <string name="lbl_library">Knihovna</string>
     <string name="lbl_continue_watching">Pokračovat ve sledování</string>
@@ -128,7 +125,6 @@
     <string name="lbl_select_server">Vyber server</string>
     <string name="lbl_other_options">Další možnosti</string>
     <string name="lbl_enter_manually">Zadat manuálně</string>
-    <string name="lbl_login_with_connect">Přihlásit pomocí Connect</string>
     <string name="lbl_select_user">Vyber uživatele</string>
     <string name="lbl_paren_login_as">" (přihlásit jako "</string>
     <string name="lbl_to_change_paren">" pro změnu)"</string>

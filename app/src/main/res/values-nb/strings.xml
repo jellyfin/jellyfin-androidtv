@@ -25,7 +25,6 @@
     <string name="btn_skip_hint">Hopp over og logg inn manuelt</string>
     <string name="action_settings">Innstillinger</string>
     <string name="txt_loading">Laster inn....</string>
-    <string name="txt_signinconnect">Logg inn med Jellyfin Connect</string>
     <string name="selusr_pleaseselect">Velg en bruker</string>
     <string name="error_fragment_message">Feil</string>
     <string name="dismiss_error">Avvis</string>
@@ -48,7 +47,6 @@
     <string name="lbl_settings">Innstillinger</string>
     <string name="lbl_app_settings">App-innstillinger</string>
     <string name="lbl_logout">"Logg ut "</string>
-    <string name="lbl_logout_connect">Logg ut fra Connect</string>
     <string name="lbl_send_logs">Send logger</string>
     <string name="lbl_library">Bibliotek</string>
     <string name="lbl_continue_watching">Fortsett visning</string>
@@ -86,7 +84,6 @@
     <string name="lbl_select_server">Velg en server</string>
     <string name="lbl_other_options">Andre alternativer</string>
     <string name="lbl_enter_manually">Legg inn manuelt</string>
-    <string name="lbl_login_with_connect">Logg inn med Connect</string>
     <string name="lbl_select_user">Velg en bruker</string>
     <string name="lbl_paren_login_as">" (logg inn som "</string>
     <string name="lbl_login_as">"Logg inn som "</string>
