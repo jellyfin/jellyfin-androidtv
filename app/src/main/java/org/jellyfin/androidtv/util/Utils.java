@@ -1601,7 +1601,6 @@ public class Utils {
                 logger.Debug("No server available...");
                 Utils.showToast(activity, "No MB Servers available...");
                 break;
-            case ConnectSignIn:
             case ServerSignIn:
                 logger.Debug("Sign in with server " + response.getServers().get(0).getName() + " total: " + response.getServers().size());
                 Utils.signInToServer(connectionManager, response.getServers().get(0), activity);
@@ -1629,6 +1628,7 @@ public class Utils {
                     }
                 });
                 break;
+            case ConnectSignIn:
             case ServerSelection:
                 logger.Debug("Select A server");
                 connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>(){
