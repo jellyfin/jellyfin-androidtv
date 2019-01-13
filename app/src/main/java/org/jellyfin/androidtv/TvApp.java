@@ -460,14 +460,6 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
         return getResources().getDrawable(id);
     }
 
-    public boolean isConnectLogin() {
-        return getSystemPrefs().getBoolean("sys_pref_connect_login", false);
-    }
-
-    public void setConnectLogin(boolean value) {
-        TvApp.getApplication().getSystemPrefs().edit().putBoolean("sys_pref_connect_login", value).commit();
-    }
-
     public boolean isPlayingVideo() {
         return playbackController != null && currentActivity != null && currentActivity instanceof PlaybackOverlayActivity;
     }

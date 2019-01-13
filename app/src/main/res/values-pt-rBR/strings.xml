@@ -26,8 +26,6 @@
     <string name="title_activity_startup">AtividadeInício</string>
     <string name="action_settings">Ajustes</string>
     <string name="txt_loading">Carregando...</string>
-    <string name="title_activity_connect">AtividadeConexão</string>
-    <string name="txt_signinconnect">Entrar no Connect</string>
     <string name="title_activity_select_user">ActividadeSeleçãoUsuário</string>
     <string name="selusr_pleaseselect">Por favor, Selecione um Usuário</string>
     <string name="error_fragment_message">Erro</string>
@@ -62,7 +60,6 @@
     <string name="lbl_settings">Ajustes</string>
     <string name="lbl_app_settings">Ajustes da App</string>
     <string name="lbl_logout">"Sair"</string>
-    <string name="lbl_logout_connect">Sair do Connect</string>
     <string name="lbl_send_logs">Enviar Logs</string>
     <string name="lbl_library">Biblioteca</string>
     <string name="lbl_continue_watching">Continuar Assistindo</string>
@@ -128,7 +125,6 @@
     <string name="lbl_select_server">Selecionar um servidor</string>
     <string name="lbl_other_options">Outras opções</string>
     <string name="lbl_enter_manually">Digitar Manualmente</string>
-    <string name="lbl_login_with_connect">Login com o Connect</string>
     <string name="lbl_select_user">Selecionar um usuário</string>
     <string name="lbl_paren_login_as">" (entar como "</string>
     <string name="lbl_to_change_paren">" para alterar)"</string>

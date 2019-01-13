@@ -42,8 +42,6 @@ import org.jellyfin.androidtv.presentation.GridButtonPresenter;
  */
 public class SelectServerFragment extends CustomBrowseFragment {
     private static final int ENTER_MANUALLY = 0;
-    private static final int LOGIN_CONNECT = 1;
-    private static final int LOGOUT_CONNECT = 2;
     private List<ServerInfo> mServers = new ArrayList<>();
 
     @Override
@@ -76,12 +74,6 @@ public class SelectServerFragment extends CustomBrowseFragment {
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
         gridRowAdapter.add(new GridButton(ENTER_MANUALLY, mApplication.getString(R.string.lbl_enter_manually), R.drawable.edit));
-        if (TvApp.getApplication().isConnectLogin()) {
-            gridRowAdapter.add(new GridButton(LOGOUT_CONNECT, mApplication.getString(R.string.lbl_logout_connect), R.drawable.unlink));
-        } else {
-            gridRowAdapter.add(new GridButton(LOGIN_CONNECT, mApplication.getString(R.string.lbl_login_with_connect), R.drawable.chain));
-
-        }
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
 
@@ -121,22 +113,7 @@ public class SelectServerFragment extends CustomBrowseFragment {
                     case ENTER_MANUALLY:
                         Utils.EnterManualServerAddress(getActivity());
                         break;
-                    case LOGIN_CONNECT:
-                        Intent intent = new Intent(getActivity(), ConnectActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        startActivity(intent);
-                        break;
-
-                    case LOGOUT_CONNECT:
-                        TvApp.getApplication().getConnectionManager().Logout(new EmptyResponse() {
-                            @Override
-                            public void onResponse() {
-                                mApplication.setConnectLogin(false);
                                 TvApp.getApplication().getPrefs().edit().putString("pref_login_behavior", "0").apply();
-                                getActivity().finish();
-                            }
-                        });
-                        break;
                     default:
                         Toast.makeText(getActivity(), item.toString(), Toast.LENGTH_SHORT)
                                 .show();

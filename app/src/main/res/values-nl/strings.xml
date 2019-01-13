@@ -26,8 +26,6 @@
     <string name="title_activity_startup">OpstartActiviteit</string>
     <string name="action_settings">Instellingen</string>
     <string name="txt_loading">Laden...</string>
-    <string name="title_activity_connect">VerbindingActiviteit</string>
-    <string name="txt_signinconnect">Inloggen met Connect</string>
     <string name="title_activity_select_user">KiesGebruikerActiviteit</string>
     <string name="selusr_pleaseselect">Selecteer een Gebruiker</string>
     <string name="error_fragment_message">Fout</string>
@@ -62,7 +60,6 @@
     <string name="lbl_settings">Instellingen</string>
     <string name="lbl_app_settings">App Instellingen</string>
     <string name="lbl_logout">"Uitloggen "</string>
-    <string name="lbl_logout_connect">Log uit Connect</string>
     <string name="lbl_send_logs">Logs Versturen</string>
     <string name="lbl_library">Bibliotheek</string>
     <string name="lbl_continue_watching">Kijken hervatten</string>
@@ -128,7 +125,6 @@
     <string name="lbl_select_server">Selecteer een server</string>
     <string name="lbl_other_options">Andere opties</string>
     <string name="lbl_enter_manually">Handmatig invoeren</string>
-    <string name="lbl_login_with_connect">Inloggen met Connect</string>
     <string name="lbl_select_user">Selecteer een gebruiker</string>
     <string name="lbl_paren_login_as">" (log in als "</string>
     <string name="lbl_to_change_paren">" om aan te passen)"</string>

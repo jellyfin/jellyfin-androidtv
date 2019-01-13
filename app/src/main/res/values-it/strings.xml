@@ -26,8 +26,6 @@
     <string name="title_activity_startup">Attività all\'avvio</string>
     <string name="action_settings">Impostazioni</string>
     <string name="txt_loading">Caricamento...</string>
-    <string name="title_activity_connect">Attività alla connessione</string>
-    <string name="txt_signinconnect">Accedi con Jellyfin Connect</string>
     <string name="title_activity_select_user">Attività Selezione Utente</string>
     <string name="selusr_pleaseselect">Per favore seleziona un utente</string>
     <string name="error_fragment_message">Errore</string>
@@ -119,7 +117,6 @@
     <string name="lbl_select_server">Seleziona un server</string>
     <string name="lbl_other_options">Altre Opzioni</string>
     <string name="lbl_enter_manually">Inserisci manualmente</string>
-    <string name="lbl_login_with_connect">Accedi con Connect</string>
     <string name="lbl_select_user">Seleziona un Utente</string>
     <string name="lbl_paren_login_as">" (entra come "</string>
     <string name="lbl_to_change_paren">" per cambiare)"</string>

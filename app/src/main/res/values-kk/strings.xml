@@ -26,8 +26,6 @@
     <string name="title_activity_startup">БастаудағыӘрекеттер</string>
     <string name="action_settings">Параметрлер</string>
     <string name="txt_loading">Жүктеуде...</string>
-    <string name="title_activity_connect">ҚосылудағыӘрекеттер</string>
-    <string name="txt_signinconnect">Connect арқылы кіру</string>
     <string name="title_activity_select_user">ПайдаланушыӘрекетінТандау</string>
     <string name="selusr_pleaseselect">Пайдаланушыны тандаңыз</string>
     <string name="error_fragment_message">Қате</string>
@@ -62,7 +60,6 @@
     <string name="lbl_settings">Параметрлер</string>
     <string name="lbl_app_settings">Қолданба параметрлері</string>
     <string name="lbl_logout">"Шығу "</string>
-    <string name="lbl_logout_connect">Connect ішінен шығу</string>
     <string name="lbl_send_logs">Жіберу жұрналдары</string>
     <string name="lbl_library">Тасығышхана</string>
     <string name="lbl_continue_watching">Қарауды жалғастыру</string>
@@ -128,7 +125,6 @@
     <string name="lbl_select_server">Серверді тандау</string>
     <string name="lbl_other_options">Басқа параметрлер</string>
     <string name="lbl_enter_manually">Қолмен енгізу</string>
-    <string name="lbl_login_with_connect">Connect арқылы кіру</string>
     <string name="lbl_select_user">Пайдаланушыны тандау</string>
     <string name="lbl_paren_login_as">" (осы ретінде кіру "</string>
     <string name="lbl_to_change_paren">" ауыстыру үшін)"</string>
