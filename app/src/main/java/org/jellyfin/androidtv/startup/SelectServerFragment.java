@@ -113,7 +113,6 @@ public class SelectServerFragment extends CustomBrowseFragment {
                     case ENTER_MANUALLY:
                         Utils.EnterManualServerAddress(getActivity());
                         break;
-                                TvApp.getApplication().getPrefs().edit().putString("pref_login_behavior", "0").apply();
                     default:
                         Toast.makeText(getActivity(), item.toString(), Toast.LENGTH_SHORT)
                                 .show();

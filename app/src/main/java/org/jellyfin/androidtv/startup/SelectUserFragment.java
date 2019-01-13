@@ -106,7 +106,6 @@ public class SelectUserFragment extends CustomBrowseFragment {
                         // Manual login
                         Utils.EnterManualUser(getActivity());
                         break;
-                        TvApp.getApplication().getApiClient().Logout(new EmptyResponse());
                     case REPORT:
                         Utils.reportError(getActivity(), "Send Log to Dev");
                         break;
