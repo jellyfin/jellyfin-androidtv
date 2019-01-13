@@ -23,8 +23,6 @@
     <string name="title_activity_startup">StartupActivity</string>
     <string name="action_settings">Configurações</string>
     <string name="txt_loading">A Carregar...</string>
-    <string name="title_activity_connect">ConnectActivity</string>
-    <string name="txt_signinconnect">Inicie sessão com o Connect</string>
     <string name="title_activity_select_user">SelectUserActivity</string>
     <string name="selusr_pleaseselect">Por Favor Selecione um Utilizador</string>
     <string name="error_fragment_message">Erro</string>

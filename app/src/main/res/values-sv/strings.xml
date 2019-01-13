@@ -25,7 +25,6 @@
     <string name="title_activity_startup">Start-aktivitet</string>
     <string name="action_settings">Inställningar</string>
     <string name="txt_loading">Laddar...</string>
-    <string name="txt_signinconnect">Logga in med Connect</string>
     <string name="selusr_pleaseselect">Välj Användare</string>
     <string name="error_fragment_message">Fel</string>
     <string name="dismiss_error">Avvisa</string>
