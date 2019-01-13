@@ -26,8 +26,6 @@
     <string name="title_activity_startup">ActividadArranque</string>
     <string name="action_settings">Configuraciones</string>
     <string name="txt_loading">Cargando...</string>
-    <string name="title_activity_connect">ActividadConexión</string>
-    <string name="txt_signinconnect">Iniciar sesión con Connect</string>
     <string name="title_activity_select_user">ActicidadSeleccionarUsuario</string>
     <string name="selusr_pleaseselect">Por favor seleccione un Usuario</string>
     <string name="error_fragment_message">Error</string>
@@ -119,7 +117,6 @@
     <string name="lbl_select_server">Seleccione un servidor</string>
     <string name="lbl_other_options">Otras opciones</string>
     <string name="lbl_enter_manually">Ingresar Manualmente</string>
-    <string name="lbl_login_with_connect">Iniciar sesión con Connect</string>
     <string name="lbl_select_user">Seleccionar un Usuario</string>
     <string name="lbl_paren_login_as">" (iniciar sesión como "</string>
     <string name="lbl_to_change_paren">" para cambiar)"</string>

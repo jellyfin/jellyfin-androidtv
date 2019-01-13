@@ -26,8 +26,6 @@
     <string name="title_activity_startup">ДействияПриЗапуске</string>
     <string name="action_settings">Параметры</string>
     <string name="txt_loading">Загружается...</string>
-    <string name="title_activity_connect">ДействияПриСоединении</string>
-    <string name="txt_signinconnect">Вход через Connect</string>
     <string name="title_activity_select_user">ВыборДействийПользователя</string>
     <string name="selusr_pleaseselect">Выберите пользователя</string>
     <string name="error_fragment_message">Ошибка</string>
@@ -62,7 +60,6 @@
     <string name="lbl_settings">Параметры...</string>
     <string name="lbl_app_settings">Параметры приложения...</string>
     <string name="lbl_logout">"Выход... "</string>
-    <string name="lbl_logout_connect">Выйти из Connect</string>
     <string name="lbl_send_logs">Отправить журналы</string>
     <string name="lbl_library">Медиатека</string>
     <string name="lbl_continue_watching">Возобновимое</string>
@@ -128,7 +125,6 @@
     <string name="lbl_select_server">Выбор сервера</string>
     <string name="lbl_other_options">Другие возможности</string>
     <string name="lbl_enter_manually">Войти вручную</string>
-    <string name="lbl_login_with_connect">Войти через Connect</string>
     <string name="lbl_select_user">Выбрать пользователя</string>
     <string name="lbl_paren_login_as">" (войти как "</string>
     <string name="lbl_to_change_paren">" для замены)"</string>

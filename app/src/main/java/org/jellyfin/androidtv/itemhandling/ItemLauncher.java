@@ -427,7 +427,6 @@ public class ItemLauncher {
                                 @Override
                                 public void onResponse(UserDto response) {
                                     TvApp.getApplication().setCurrentUser(response);
-                                    TvApp.getApplication().setConnectLogin(true);
                                     Intent homeIntent = new Intent(activity, MainActivity.class);
                                     activity.startActivity(homeIntent);
                                 }

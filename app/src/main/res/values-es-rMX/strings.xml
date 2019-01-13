@@ -26,8 +26,6 @@
     <string name="title_activity_startup">ActividadArranque</string>
     <string name="action_settings">Configuraciones</string>
     <string name="txt_loading">Cargando...</string>
-    <string name="title_activity_connect">ActividadConexión</string>
-    <string name="txt_signinconnect">Iniciar sesión con Connect</string>
     <string name="title_activity_select_user">ActicidadSeleccionarUsuario</string>
     <string name="selusr_pleaseselect">Por favor seleccione un Usuario</string>
     <string name="error_fragment_message">Error</string>
@@ -62,7 +60,6 @@
     <string name="lbl_settings">Configuraciones</string>
     <string name="lbl_app_settings">Configuraciones del App</string>
     <string name="lbl_logout">"Cerrar Sesión "</string>
-    <string name="lbl_logout_connect">Cerrar Sesión de Connect</string>
     <string name="lbl_send_logs">Enviar Bitácoras</string>
     <string name="lbl_library">Biblioteca</string>
     <string name="lbl_continue_watching">Continuar Viendo</string>
@@ -128,7 +125,6 @@
     <string name="lbl_select_server">Seleccione un servidor</string>
     <string name="lbl_other_options">Otras opciones</string>
     <string name="lbl_enter_manually">Ingresar Manualmente</string>
-    <string name="lbl_login_with_connect">Iniciar sesión con Connect</string>
     <string name="lbl_select_user">Seleccionar un Usuario</string>
     <string name="lbl_paren_login_as">" (iniciar sesión como "</string>
     <string name="lbl_to_change_paren">" para cambiar)"</string>
