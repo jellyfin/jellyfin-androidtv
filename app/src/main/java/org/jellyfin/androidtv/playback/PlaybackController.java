@@ -155,16 +155,6 @@ public class PlaybackController {
     }
 
     private void play(long position, int transcodedSubtitle) {
-        if (!TvApp.getApplication().isValid()) {
-            Utils.showToast(TvApp.getApplication(), "Playback not supported. Please unlock or become a supporter.");
-            return;
-        }
-
-        if (TvApp.getApplication().isTrial()) {
-            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getRegistrationString()+". Unlock or become a supporter for unlimited playback.");
-
-        }
-
         mApplication.getLogger().Debug("Play called with pos: " + position + " and sub index: "+transcodedSubtitle);
         switch (mPlaybackState) {
             case PLAYING:
