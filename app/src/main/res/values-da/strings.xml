@@ -22,7 +22,6 @@
     <string name="video_error_unknown_error">Kunne ikke indlæse video</string>
     <string name="oops">Ups</string>
     <string name="btn_skip">Spring over</string>
-    <string name="btn_skip_hint">Spring over og log ind manuelt</string>
     <string name="title_activity_startup">StartupActivity</string>
     <string name="action_settings">Indstillinger</string>
     <string name="txt_loading">Indlæser...</string>
@@ -158,18 +157,11 @@
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Født "</string>
     <string name="lbl_loading_elipses">Indlæser...</string>
-    <string name="lbl_unlock">Lås op</string>
     <string name="msg_playback_not_allowed">Afspilning ikke tilladt på nuværende tidspunkt</string>
     <string name="msg_playback_restricted">Administratoren har begrænset afspilningen af denne genstand på nuværende tidspunkt</string>
     <string name="msg_playback_incompatible">Kan ikke afspille dette video format</string>
     <string name="lbl_never">Aldrig</string>
-    <string name="lbl_unlock_app">Oplås app</string>
-    <string name="lbl_unlock_desc">Køb app\'en her for at oplåse alle funktioner. Hvis du har status som aktiv supporter og bruger en lokal server burde dette ikke være nødvendigt. Vær sikker på at din server har din supporter nøgle placeret korrekt.</string>
     <string name="btn_next">Næste</string>
-    <string name="msg_invalid_purchase">Ugyldigt købsforsøg.</string>
-    <string name="msg_thank_you_unlocked">Tak! Appen er nu låst op.</string>
-    <string name="msg_purchase_error">Fejl i forbindelse med køb. Prøv igen senere.</string>
-    <string name="msg_unable_connect_google">Kunne ikke tilslutte til Google Play. Prøv igen senere.</string>
     <string name="msg_cannot_play_time">Kan ikke afspille denne genstand på nuværende tidspunkt</string>
     <string name="msg_cannot_play">Denne genstand kan ikke afspilles</string>
     <string name="lbl_no_items">Ingen filer</string>

@@ -21,7 +21,6 @@
     <string name="video_error_unknown_error">载入视频失败</string>
     <string name="oops">哎呀</string>
     <string name="btn_skip">跳过</string>
-    <string name="btn_skip_hint">跳过并手动登录</string>
     <string name="title_activity_startup">启动活动</string>
     <string name="action_settings">设置</string>
     <string name="txt_loading">正在载入...</string>
@@ -150,13 +149,7 @@
     <string name="msg_playback_restricted">现在管理员不允许播放此项目</string>
     <string name="msg_playback_incompatible">无法播放这个视频格式</string>
     <string name="lbl_never">从不</string>
-    <string name="lbl_unlock_app">解锁应用</string>
-    <string name="lbl_unlock_desc">在此购买以解锁应用的所有功能. 如果你是我们的捐助者则不需执行此操作. 请确保已在服务器上输入序列号, 如果你在远程操作, 那么可以连接登录.</string>
     <string name="btn_next">下一个</string>
-    <string name="msg_invalid_purchase">无效的购买操作.</string>
-    <string name="msg_thank_you_unlocked">谢谢, 应用已解锁.</string>
-    <string name="msg_purchase_error">购买出错, 请稍候再试.</string>
-    <string name="msg_unable_connect_google">无法连接到 Google Play 应用商店, 请稍候再试.</string>
     <string name="msg_cannot_play_time">现在无法播放此项目</string>
     <string name="msg_cannot_play">此项目不能播放</string>
     <string name="lbl_no_items">没有项目</string>
