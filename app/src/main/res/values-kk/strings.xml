@@ -250,8 +250,6 @@
     <string name="lbl_live_tv_guide">Эфирлік телегид</string>
     <string name="lbl_recorded_tv">Жазылған ТД</string>
     <string name="btn_ok">ЖАРАЙДЫ</string>
-    <string name="msg_premiere_nag_title">Jellyfin Premiere қарастырыңыз</string>
-    <string name="msg_premiere_nag_msg">Jellyfin Premiere көптеген мүмкіндіктерді береді, мысалы, ұтқырлық үндестіру, кинотеатр режімі және CoverArt. Jellyfin Premiere артықшыларын бүгін тексеріп көріңіз.</string>
     <string name="pref_live_tv_cat">ЭФИРЛІК ТД</string>
     <string name="pref_sort_date_option">Телегидті соңғы ойнатылған уақыты бойынша сұрыптау</string>
     <string name="pref_sort_date_desc">Соңғы ойнатылған арналарды телегидтің  жоғарысында көрсету</string>

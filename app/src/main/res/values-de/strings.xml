@@ -250,8 +250,6 @@
     <string name="lbl_live_tv_guide">TV Programmübersicht</string>
     <string name="lbl_recorded_tv">Aufnahmen</string>
     <string name="btn_ok">OK</string>
-    <string name="msg_premiere_nag_title">Erwägen Sie Jellyfin Premiere</string>
-    <string name="msg_premiere_nag_msg">Jellyfin Premiere erlaubt Ihnen weitere Features wie Mobile Synchronisation, Cinema Mode (Kino Modus) und CoverArt. Probieren Sie Jellyfin Premiere noch heute.</string>
     <string name="pref_live_tv_cat">LIVE TV</string>
     <string name="pref_sort_date_option">Sortiere Programmführer nach zulegt gesehen</string>
     <string name="pref_sort_date_desc">Zeige zuletzt gesehene Programme zu Beginn des Programmführers</string>

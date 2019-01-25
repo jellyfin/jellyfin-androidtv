@@ -250,8 +250,6 @@
     <string name="lbl_live_tv_guide">Programme de la TV en direct</string>
     <string name="lbl_recorded_tv">TV enregistrée</string>
     <string name="btn_ok">OK</string>
-    <string name="msg_premiere_nag_title">Veuillez envisager de passer à Jellyfin Premiere</string>
-    <string name="msg_premiere_nag_msg">Jellyfin Premiere vous offre de nombreuses fonctionnalités telles que la synchronisation mobile, le mode cinéma et les photos d\'illustrations. Essayez Jellyfin Premiere aujourd\'hui.</string>
     <string name="pref_live_tv_cat">TV EN DIRECT</string>
     <string name="pref_sort_date_option">Classer le programme TV par les derniers contenus vus</string>
     <string name="pref_sort_date_desc">Afficher les chaînes regardées en dernier, en haut de la liste des programmes</string>

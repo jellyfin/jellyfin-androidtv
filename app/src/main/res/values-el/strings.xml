@@ -38,9 +38,6 @@
     <string name="txt_expired_exp">Αυτή η έκδοση ανάπτυξης έχει λήξει . Παρακαλώ κοιτάξτε για μια ενημερωμένη έκδοση ή να εγκαταστήσετε από το κατάστημα . Σας ευχαριστούμε που χρησιμοποιείτε Jellyfin !</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="btn_ok">OK</string>
-    <string name="msg_premiere_nag_title">"Σκεφτείτε Jellyfin Premiere
-"</string>
-    <string name="msg_premiere_nag_msg">Jellyfin Premiere σας δίνει πολλές δυνατότητες , όπως τα κινητά συγχρονισμό , τη λειτουργία και τον κινηματογράφο CoverArt . Δοκιμάστε Jellyfin Πρεμιέρα σήμερα.</string>
     <string name="pref_live_tv_cat">LIVE TV</string>
     <string name="pref_sort_date_option">Ταξινόμηση καθοδηγήσει από την τελευταία ώρα παιχνιδιού</string>
     <string name="pref_sort_date_desc">Εμφάνιση των τελευταίων έπαιξε κανάλια στην κορυφή του οδηγού</string>
