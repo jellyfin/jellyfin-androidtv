@@ -250,8 +250,6 @@
     <string name="lbl_live_tv_guide">Live TV gids</string>
     <string name="lbl_recorded_tv">Tv-opnamen</string>
     <string name="btn_ok">Ok</string>
-    <string name="msg_premiere_nag_title">Overweeg Jellyfin Premiere</string>
-    <string name="msg_premiere_nag_msg">Jellyfin Premiere geeft u veel functies zoals synchroniseren met mobiele apparaten, Cinema Mode en CoverArt. Probeer Jellyfin Premiere!</string>
     <string name="pref_live_tv_cat">Live TV</string>
     <string name="pref_sort_date_option">Sorteer gids op laatst afgespeeld</string>
     <string name="pref_sort_date_desc">Toon de laatst gebruikte kanalen boven in de gids</string>

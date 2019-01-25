@@ -250,8 +250,6 @@
     <string name="lbl_live_tv_guide">Guía de TV en Vivo</string>
     <string name="lbl_recorded_tv">Grabaciones de TV</string>
     <string name="btn_ok">OK</string>
-    <string name="msg_premiere_nag_title">Considere Jellyfin Premiere</string>
-    <string name="msg_premiere_nag_msg">Jellyfin Premiere le proporciona muchas características como sincronización móvil, modo cine y CoverArt. Pruebe Jellyfin Premiere hoy.</string>
     <string name="pref_live_tv_cat">TV EN VIVO</string>
     <string name="pref_sort_date_option">Ordenar la guía por último horario reproducido</string>
     <string name="pref_sort_date_desc">Mostrar los últimos canales reproducidos al comienzo de la guía</string>

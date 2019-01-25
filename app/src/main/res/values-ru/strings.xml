@@ -250,8 +250,6 @@
     <string name="lbl_live_tv_guide">Эфирный телегид</string>
     <string name="lbl_recorded_tv">Записанное ТВ</string>
     <string name="btn_ok">ОК</string>
-    <string name="msg_premiere_nag_title">Учитывать Jellyfin Premiere</string>
-    <string name="msg_premiere_nag_msg">Jellyfin Premiere предоставит вам много компонентов, например, мобильную синхронизацию, режим кинотеатра и CoverArt. Попробуйте Jellyfin Premiere сегодня же.</string>
     <string name="pref_live_tv_cat">ТВ-ЭФИР</string>
     <string name="pref_sort_date_option">Сортировать телегид по времени последнего воспроизведения</string>
     <string name="pref_sort_date_desc">Показывать каналы воспроизведённые последними в начале телегида</string>
