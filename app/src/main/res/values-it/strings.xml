@@ -22,7 +22,6 @@
     <string name="video_error_unknown_error">Caricamento video fallito</string>
     <string name="oops">Oops</string>
     <string name="btn_skip">Salta</string>
-    <string name="btn_skip_hint">Salta e accedi manualmente</string>
     <string name="title_activity_startup">Attività all\'avvio</string>
     <string name="action_settings">Impostazioni</string>
     <string name="txt_loading">Caricamento...</string>
@@ -147,18 +146,11 @@
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Nato "</string>
     <string name="lbl_loading_elipses">Caricamento...</string>
-    <string name="lbl_unlock">Sblocca</string>
     <string name="msg_playback_not_allowed">Riproduzione non consentita al momento</string>
     <string name="msg_playback_restricted">L\'amministratore ha limitato la riproduzione di questo elemento</string>
     <string name="msg_playback_incompatible">Impossibile riprodurre questo formato video</string>
     <string name="lbl_never">Mai</string>
-    <string name="lbl_unlock_app">Sblocca App</string>
-    <string name="lbl_unlock_desc">Sblocca le funzionalità complete dell\'app acquistandola qui. Se hai una chiave Sostenitore non dovresti aver bisogno di farlo. Assicurati di averla inserita correttamente nelle impostazioni del server, oppure, se sei in remoto, di aver effettuato l\'accesso con Connect.</string>
     <string name="btn_next">Prossimo</string>
-    <string name="msg_invalid_purchase">Tentativo di acquisto non valido.</string>
-    <string name="msg_thank_you_unlocked">Grazie. L\'app ora è sbloccata.</string>
-    <string name="msg_purchase_error">Errore nell\'acquisto. Riprova più tardi.</string>
-    <string name="msg_unable_connect_google">Impossibile connettersi a Google Play. Per favore riprova più tardi.</string>
     <string name="msg_cannot_play_time">Impossibile riprodurre questo elemento</string>
     <string name="msg_cannot_play">Questo elemento non piò essere riprodotto.</string>
     <string name="lbl_no_items">Nessun elemento</string>

@@ -22,7 +22,6 @@
     <string name="video_error_unknown_error">Falla al cargar el vídeo</string>
     <string name="oops">Oops</string>
     <string name="btn_skip">Saltar</string>
-    <string name="btn_skip_hint">Saltar esto e iniciar sesión manualmente</string>
     <string name="title_activity_startup">ActividadArranque</string>
     <string name="action_settings">Configuraciones</string>
     <string name="txt_loading">Cargando...</string>
@@ -147,18 +146,11 @@
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Nació "</string>
     <string name="lbl_loading_elipses">Cargando...</string>
-    <string name="lbl_unlock">Desbloquear</string>
     <string name="msg_playback_not_allowed">En este momento la reproducción no permitida</string>
     <string name="msg_playback_restricted">En este momento el administrador ha restringido la reproducción de este ítem.</string>
     <string name="msg_playback_incompatible">No es posible reproducir este formato de video.</string>
     <string name="lbl_never">Nunca</string>
-    <string name="lbl_unlock_app">Desbloquear App</string>
-    <string name="lbl_unlock_desc">Desbloquear la app para obtener todas las funciones al comprarla en este lugar. Si usted es un Aficionado activo no necesitará hacer esto. Asegúrese de que su servidor tiene registrada su clave de aficionado o, si se encuentra remoto, que ha empleado Connect para iniciar sesión.</string>
     <string name="btn_next">Siguiente</string>
-    <string name="msg_invalid_purchase">Intento de compra inválido.</string>
-    <string name="msg_thank_you_unlocked">Gracias. La App ha sido desbloqueada.</string>
-    <string name="msg_purchase_error">Error en la compra. Por favor inténtelo nuevamente más tarde.</string>
-    <string name="msg_unable_connect_google">Imposible conectarse a Google Play. Por favor inténtelo nuevamente más tarde.</string>
     <string name="msg_cannot_play_time">En este momento no es posible reproducir el ítem</string>
     <string name="msg_cannot_play">Este ítem no pude reproducirse</string>
     <string name="lbl_no_items">No hay ítems</string>

@@ -22,7 +22,6 @@
     <string name="video_error_unknown_error">Nepodařilo se načíst video</string>
     <string name="oops">Sakra</string>
     <string name="btn_skip">Přeskočit</string>
-    <string name="btn_skip_hint">Přeskočit a přihlásit se manuálně</string>
     <string name="title_activity_startup">Aktivity při spuštění</string>
     <string name="action_settings">Nastavení</string>
     <string name="txt_loading">Načítá se...</string>
@@ -160,18 +159,11 @@
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Narozen "</string>
     <string name="lbl_loading_elipses">Načítá se...</string>
-    <string name="lbl_unlock">Odemknout</string>
     <string name="msg_playback_not_allowed">Přehrávání v této době není povoleno</string>
     <string name="msg_playback_restricted">Správce má omezenou přehrávání této položky v této době</string>
     <string name="msg_playback_incompatible">Nelze přehrát tento video formát</string>
     <string name="lbl_never">Nikdy</string>
-    <string name="lbl_unlock_app">Odemknout aplikaci</string>
-    <string name="lbl_unlock_desc">Odemknout aplikaci pro plnou funkcionalitu. Pokud jste aktivní přispěvovatel užívající lokální server neměli byste mít potřebu to dělat. Ujistěte se, že váš server má zádán správný klíč pro přispěvovatele.</string>
     <string name="btn_next">Další</string>
-    <string name="msg_invalid_purchase">Neplatný pokus o nákup.</string>
-    <string name="msg_thank_you_unlocked">Díky. Aplikace je nyní odemčena.</string>
-    <string name="msg_purchase_error">Chyba při nákupu. Prosím zkuste to znovu později.</string>
-    <string name="msg_unable_connect_google">Nelze se připojit k Google Play. Prosím zkuste to znovu později.</string>
     <string name="msg_cannot_play_time">Tuto položku nelze v této době přehrát</string>
     <string name="msg_cannot_play">Tuto položku nelze přehrávat</string>
     <string name="lbl_no_items">Žádné položky</string>
@@ -245,7 +237,6 @@
     <string name="lbl_season">Sezóna</string>
     <string name="lbl__continuing">POKRAČOVÁNÍ</string>
     <string name="lbl_ended">UKONČENO</string>
-    <string name="msg_confirm_pin">Potvrďte prosím výše uvedený pin na mediabrowser.tv/pin</string>
     <string name="btn_start_now">Začít teď</string>
     <string name="btn_stop">Stop</string>
     <string name="btn_filter">Filtr</string>
@@ -259,8 +250,6 @@
     <string name="lbl_live_tv_guide">Průvodce Live TV</string>
     <string name="lbl_recorded_tv">TV nahrávky</string>
     <string name="btn_ok">OK</string>
-    <string name="msg_email_entry1">Zadejte prosím validní emailovou adresu, na kterou byl odeslán klíč Jellyfin Premiere</string>
-    <string name="msg_invalid_email">Nevalidní emailová adresa</string>
     <string name="pref_live_tv_cat">LIVE TV</string>
     <string name="lbl_programs">Programy</string>
 </resources>

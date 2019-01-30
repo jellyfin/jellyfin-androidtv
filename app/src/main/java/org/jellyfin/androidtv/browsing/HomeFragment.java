@@ -53,12 +53,9 @@ public class HomeFragment extends StdBrowseFragment {
     private static final int LOGOUT = 0;
     private static final int SETTINGS = 1;
     private static final int REPORT = 2;
-    private static final int UNLOCK = 3;
 
     private ArrayObjectAdapter toolsRow;
-    private GridButton unlockButton;
     private GridButton sendLogsButton;
-    private GridButton premiereButton;
 
 
     @Override
@@ -126,18 +123,6 @@ public class HomeFragment extends StdBrowseFragment {
     public void onResume() {
         super.onResume();
 
-        //if we were locked before and have just unlocked, remove the button
-        if (unlockButton != null && (TvApp.getApplication().isRegistered() || TvApp.getApplication().isPaid())) {
-            toolsRow.remove(unlockButton);
-            if (!TvApp.getApplication().isRegistered()) {
-                premiereButton = new GridButton(UNLOCK, mApplication.getString(R.string.btn_jellyfin_premiere), R.drawable.logoicon512);
-                toolsRow.add(premiereButton);
-            }
-        } else {
-            if (premiereButton != null && TvApp.getApplication().isRegistered()) {
-                toolsRow.remove(premiereButton);
-            }
-        }
         addLogsButton();
         //make sure rows have had a chance to be created
         new Handler().postDelayed(new Runnable() {
@@ -352,19 +337,6 @@ public class HomeFragment extends StdBrowseFragment {
         toolsRow = new ArrayObjectAdapter(mGridPresenter);
         toolsRow.add(new GridButton(SETTINGS, mApplication.getString(R.string.lbl_app_settings), R.drawable.gears));
         toolsRow.add(new GridButton(LOGOUT, mApplication.getString(R.string.lbl_logout) + TvApp.getApplication().getCurrentUser().getName(), R.drawable.logout));
-        //give this some time to have validated
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (!TvApp.getApplication().isRegistered() && !TvApp.getApplication().isPaid()) {
-                    unlockButton = new GridButton(UNLOCK, mApplication.getString(R.string.lbl_unlock), R.drawable.unlock);
-                    toolsRow.add(unlockButton);
-                } else if (!TvApp.getApplication().isRegistered()) {
-                    premiereButton = new GridButton(UNLOCK, mApplication.getString(R.string.btn_jellyfin_premiere), R.drawable.logoicon512);
-                    toolsRow.add(premiereButton);
-                }
-            }
-        }, 5000);
 
         sendLogsButton = new GridButton(REPORT, mApplication.getString(R.string.lbl_send_logs), R.drawable.upload);
         rowAdapter.add(new ListRow(gridHeader, toolsRow));
