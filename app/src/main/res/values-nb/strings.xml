@@ -22,7 +22,6 @@
     <string name="video_error_unknown_error">Kunne ikke laste video</string>
     <string name="oops">Oops</string>
     <string name="btn_skip">Hopp over</string>
-    <string name="btn_skip_hint">Hopp over og logg inn manuelt</string>
     <string name="action_settings">Innstillinger</string>
     <string name="txt_loading">Laster inn....</string>
     <string name="selusr_pleaseselect">Velg en bruker</string>
@@ -108,12 +107,10 @@
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Født "</string>
     <string name="lbl_loading_elipses">Laster inn...</string>
-    <string name="lbl_unlock">Lås opp</string>
     <string name="msg_playback_not_allowed">Avspilling er for øyebilikket ikke tillatt</string>
     <string name="msg_playback_restricted">Administratoren har begrenset avspilling av dette elementet på denne tiden</string>
     <string name="msg_playback_incompatible">Kan ikke avspille denne type media</string>
     <string name="lbl_never">Aldri</string>
-    <string name="lbl_unlock_app">Lås opp App</string>
     <string name="btn_next">Neste</string>
     <string name="lbl_no_items">Ingen elementer</string>
     <string name="lbl_empty">Tom</string>

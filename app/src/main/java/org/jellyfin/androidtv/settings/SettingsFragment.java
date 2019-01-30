@@ -42,7 +42,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         // Set version info
         TextView ver = (TextView) getActivity().findViewById(R.id.settings_version_info);
-        ver.setText(String.format("%s %s", Utils.VersionString(), TvApp.getApplication().getRegistrationString()));
+        ver.setText(Utils.VersionString());
 
         // conditionally hide options that don't apply
         PreferenceCategory cat = (PreferenceCategory) findPreference("pref_playback_category");
@@ -51,12 +51,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             cat.removePreference(findPreference("pref_bitstream_ac3"));
         } else {
             cat.removePreference(findPreference("pref_refresh_switching"));
-        }
-        if (!TvApp.getApplication().isRegistered()) {
-            //Indicate that cinema mode requires premiere
-            CheckBoxPreference cm = (CheckBoxPreference) cat.findPreference("pref_enable_cinema_mode");
-            cm.setEnabled(false);
-            cm.setSummary(R.string.lbl_cm_premiere);
         }
     }
 

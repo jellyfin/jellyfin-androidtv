@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
 
     <string name="app_name">Jellyfin</string>
     <string name="current_queue">Current Queue</string>
@@ -23,7 +25,6 @@
     <string name="video_error_unknown_error">Failed to load video</string>
     <string name="oops">Oops</string>
     <string name="btn_skip">Skip</string>
-    <string name="btn_skip_hint">Skip this and log in manually</string>
     <string name="title_activity_startup">StartupActivity</string>
     <string name="action_settings">Settings</string>
     <string name="txt_loading">Loading...</string>
@@ -117,10 +118,10 @@
     <string name="lbl_toggle_watched">Toggle Watched</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_if_resumed">" if resumed)"</string>
-    <string name="lbl_runs">"Runs"</string>
-    <string name="lbl_min">" min"</string>
-    <string name="lbl_ends">"Ends"</string>
-    <string name="lbl_directed_by">"Directed By"</string>
+    <string name="lbl_runs">"Runs: "</string>
+    <string name="lbl_min">" min "</string>
+    <string name="lbl_ends">"Ends: "</string>
+    <string name="lbl_directed_by">"Directed By: "</string>
     <string name="lbl_last_played">"Last Played "</string>
     <string name="lbl_never_played">Never Played</string>
     <string name="lbl_select_server">Select a server</string>
@@ -161,25 +162,11 @@
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Born "</string>
     <string name="lbl_loading_elipses">Loading...</string>
-    <string name="lbl_unlock">Unlock</string>
     <string name="msg_playback_not_allowed">Playback not allowed at this time</string>
     <string name="msg_playback_restricted">The administrator has restricted playback of this item at this time</string>
     <string name="msg_playback_incompatible">Cannot play this video format</string>
     <string name="lbl_never">Never</string>
-    <string name="lbl_unlock_app">Unlock App</string>
-    <string name="lbl_jellyfin_premiere">Upgrade to Jellyfin Premiere</string>
-    <string name="lbl_premiere_desc">With Jellyfin Premiere you get not only full functionality in this app but also a host of other features in both the server and other apps across your entire Jellyfin environment.</string>
-    <string name="lbl_unlock_desc">Unlock the app for full functionality by purchasing it here. If you are an active Supporter using a local server you should not need to do this. Be sure your server has your supporter key in place.</string>
-    <string name="lbl_premiere_desc2">Free access to some apps on other platforms, sync your content to supported mobile devices or the web client for offline viewing, enjoy a theater experience with Cinema Mode, enhance your images with CoverArt and much, much more.  Try Jellyfin Premiere today.</string>
     <string name="btn_next">Next</string>
-    <string name="msg_just_unlock_confirm">Just unlock this app?  This option will not include any of the features of Jellyfin Premiere.  It will just allow full functionality in this app.  Are you sure…?</string>
-    <string name="btn_unlock">No Thanks, Just Unlock This App</string>
-    <string name="btn_monthly_prefix">Sign Me Up for </string>
-    <string name="btn_monthly_suffix">/Month</string>
-    <string name="msg_invalid_purchase">Invalid purchase attempt.</string>
-    <string name="msg_thank_you_unlocked">Thank You. App is now unlocked.</string>
-    <string name="msg_purchase_error">Error with purchase.  Please try again later.</string>
-    <string name="msg_unable_connect_google">Unable to connect to Google Play. Please try again later.</string>
     <string name="msg_cannot_play_time">Cannot play this item at this time</string>
     <string name="msg_cannot_play">This item cannot be played</string>
     <string name="lbl_no_items">No Items</string>
@@ -209,9 +196,9 @@
     <string name="lbl_tune_to_channel">Tune to Channel</string>
     <string name="msg_recording_now">Recording Now</string>
     <string name="msg_will_record">Will Record</string>
-    <string name="lbl_begin_padding">Begin Padding</string>
+    <string name="lbl_begin_padding">Begin Padding (mins)</string>
     <string name="lbl_program_ended">Program Ended</string>
-    <string name="lbl_end_padding">End Padding</string>
+    <string name="lbl_end_padding">End Padding (mins)</string>
     <string name="lbl_required_to_record">Required to record</string>
     <string name="lbl_similar_items_library">Similar Items in your Library</string>
     <string name="lbl_record_any_channel">Record on any channel</string>
@@ -237,7 +224,7 @@
     <string name="lbl_show_info_panel">Show Info Panel</string>
     <string name="lbl_enable_debug">Enable debug options</string>
     <string name="desc_info_panel">Show a panel with details on the current item on screens without detail information</string>
-    <string name="desc_debug">Turn on to provide extra information for debugging</string>
+    <string name="desc_debug">Show a send logs button on the home screen</string>
     <string name="lbl_showing">Showing</string>
     <string name="lbl_all_items">All Items</string>
     <string name="lbl_sorted_by">sorted by</string>
@@ -253,7 +240,6 @@
     <string name="lbl_season">Season</string>
     <string name="lbl__continuing"> CONTINUING </string>
     <string name="lbl_ended"> ENDED </string>
-    <string name="msg_confirm_pin">Please confirm the above pin at emby.media/pin</string>
     <string name="btn_start_now">Start Now</string>
     <string name="btn_stop">Stop</string>
     <string name="btn_filter">Filter</string>
@@ -266,15 +252,7 @@
     <string name="lbl_no_recordings">No Recordings Available</string>
     <string name="lbl_live_tv_guide">Live TV Guide</string>
     <string name="lbl_recorded_tv">Recorded TV</string>
-    <string name="btn_jellyfin_premiere">Jellyfin Premiere</string>
     <string name="btn_ok">OK</string>
-    <string name="msg_email_entry1">Please enter a valid email address to which to send your Jellyfin Premiere Key</string>
-    <string name="msg_email_entry2">Very sorry but we need to be sure this is correct. Please enter the email again.</string>
-    <string name="msg_entries_not_match">Entries did not match.  Please try again.</string>
-    <string name="msg_invalid_email">Invalid Email Address</string>
-    <string name="btn_monthly_default">Sign Me Up for $6.49/Month</string>
-    <string name="msg_premiere_nag_title">Consider Jellyfin Premiere</string>
-    <string name="msg_premiere_nag_msg">Jellyfin Premiere gives you many features such as mobile sync, cinema mode and CoverArt. Try Jellyfin Premiere today.</string>
     <string name="pref_live_tv_cat">LIVE TV</string>
     <string name="pref_sort_date_option">Sort guide by last played time</string>
     <string name="pref_sort_date_desc">Show last played channels at top of guide</string>
@@ -289,7 +267,6 @@
     <string name="lbl_episodes">Episodes</string>
     <string name="lbl_enable_cinema_mode">Enable Cinema Mode</string>
     <string name="sum_enable_cinema_mode">If enabled on the server, enable intros and previews before movie playback</string>
-    <string name="lbl_cm_premiere">Cinema Mode requires an active Jellyfin Premiere membership</string>
     <string name="lbl_playlists">Playlists</string>
     <string name="lbl_of">of</string>
     <string name="msg_added_item_to_queue">"Item added to queue at position "</string>
@@ -323,7 +300,7 @@
     <string name="lbl_switch_server">Switch Server</string>
     <string name="lbl_forget">Forget</string>
     <string name="lbl_new_premieres">New Premieres</string>
-    <string name="lbl_bitstream_ac3">Bitstream Dolby Digital audio</string>
+    <string name="lbl_bitstream_ac3">Bitstream audio</string>
     <string name="desc_bitstream_ac3">Requires capable hardware</string>
     <string name="lbl_normal">Normal</string>
     <string name="lbl_zoom">Zoom</string>
@@ -338,53 +315,6 @@
     <string name="lbl_clear_queue">Clear Queue</string>
     <string name="lbl_play_next_up">Play Next Up</string>
     <string name="lbl_open">Open</string>
-    <string name="lbl_show_backdrop">Show Backdrop while Browsing</string>
-    <string name="lbl_use_vlc_livetv">Attempt to use VLC for live TV</string>
-    <string name="desc_use_vlc_livetv">Use VLC for direct streamed Live TV if available</string>
-    <string name="lbl_refresh_switching">Enable Refresh Rate Switching</string>
-    <string name="lbl_show_premieres">Show Season Premieres on Home Screen</string>
-    <string name="desc_premieres">Show a row of new episode 1s for the series you watch</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS audio</string>
-    <string name="lbl_in_x_days">In %s days</string>
-    <string name="lbl_select_date">Select Date</string>
-    <string name="pref_live_tv_mode">Live TV Mode</string>
-    <string name="pref_live_tv_mode_desc">Go directly to last played live TV channel</string>
-    <string name="lbl_just_this_once">Just this once</string>
-    <string name="msg_record_entire_series">Record entire series?</string>
-    <string name="no_program_data"><![CDATA["  <No Program Data Available>"]]></string>
-    <string name="lbl_sports">Sports</string>
-    <string name="lbl_kids">Kids</string>
-    <string name="lbl_recent_recordings">Recent Recordings</string>
-    <string name="lbl_all_recordings">All Recordings</string>
-    <string name="lbl_repeat">Repeat</string>
-    <string name="lbl_new">New</string>
-    <string name="lbl_live">Live</string>
-    <string name="lbl_schedule">Schedule</string>
-    <string name="lbl_time_shift_live">Enable Live TV Time Shifting</string>
-    <string name="lbl_episode_not_record">This showing will NOT record</string>
-    <string name="lbl_series_settings">Series Settings</string>
-    <string name="msg_settings_updated">Settings updated</string>
-    <string name="lbl_save">Save</string>
-    <string name="lbl_series_recordings">Series Recordings</string>
-    <string name="lbl_any_channel">Any Channel</string>
-    <string name="lbl_all_episodes">All Episodes</string>
-    <string name="lbl_at_any_time">At Any Time</string>
-    <string name="lbl_seconds">Seconds</string>
-    <string name="lbl_minutes">Minutes</string>
-    <string name="lbl_hour">Hour</string>
-    <string name="lbl_minute">Minute</string>
-    <string name="lbl_hours">Hours</string>
-    <string name="lbl_on_schedule">On Schedule</string>
-    <string name="title_activity_expanded_text">ExpandedTextActivity</string>
-    <string name="lbl_guest_stars">Guest Stars</string>
-    <string name="lbl_premiere">Premiere</string>
-    <string name="lbl_sort_by">Sort by</string>
-    <string name="lbl_show_indicators">Show Indicators For</string>
-    <string name="lbl_guide_option_played">Last Played</string>
-    <string name="lbl_guide_option_number">Channel Number</string>
-    <string name="lbl_resume_preroll">Resume pre-roll</string>
-    <string name="lbl_resume_from">Resume from %s</string>
-    <string name="lbl_more_like_this">More Like This</string>
 
 
 </resources>

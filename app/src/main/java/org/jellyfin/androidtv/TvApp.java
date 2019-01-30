@@ -32,7 +32,6 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.entities.DisplayPreferences;
 import mediabrowser.model.logging.ILogger;
-import mediabrowser.model.registration.RegistrationInfo;
 import mediabrowser.model.system.SystemInfo;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.playback.MediaManager;
@@ -81,10 +80,6 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     private HashMap<String, DisplayPreferences> displayPrefsCache = new HashMap<>();
 
     private String lastDeletedItemId = "";
-
-    //FIXME: This should eventually not be needed as a variable
-    private boolean isPaid = true;
-    private RegistrationInfo registrationInfo;
 
     private Calendar lastPlayback = Calendar.getInstance();
     private Calendar lastMoviePlayback = Calendar.getInstance();
@@ -308,24 +303,6 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
             currentActivity.showMessage(title, msg, timeout, iconResource, null);
         }
     }
-    private long getLastNagTime() { return getSystemPrefs().getLong("lastNagTime",0); }
-
-    private void setLastNagTime(long time) { getSystemPrefs().edit().putLong("lastNagTime", System.currentTimeMillis()).commit(); }
-
-    public void premiereNag() {
-        if (!isRegistered() && System.currentTimeMillis() - (86400000 * 7) > getLastNagTime()) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (currentActivity != null && !currentActivity.isFinishing()) {
-                        currentActivity.showMessage(getString(R.string.msg_premiere_nag_title), getString(R.string.msg_premiere_nag_msg), 10000);
-                        setLastNagTime(System.currentTimeMillis());
-                    }
-
-                }
-            },2500);
-        }
-    }
 
     public LogonCredentials getConfiguredAutoCredentials() {
         return configuredAutoCredentials;
@@ -401,47 +378,6 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     public void setLastUserInteraction(long lastUserInteraction) {
         this.lastUserInteraction = lastUserInteraction;
-    }
-
-    //FIXME: This method should eventually be able to be removed
-    public boolean checkPaidCache() {
-        return true;
-    }
-
-    //FIXME: Again should eventually be able to be removed completely
-    public boolean isPaid() {
-        return true;
-    }
-
-    public void setPaid(boolean isPaid) {
-        this.isPaid = true;
-    }
-
-    public RegistrationInfo getRegistrationInfo() {
-        return registrationInfo;
-    }
-
-    public void setRegistrationInfo(RegistrationInfo registrationInfo) {
-        this.registrationInfo = registrationInfo;
-    }
-
-    public boolean isValid() {
-        return isPaid || (registrationInfo != null && (registrationInfo.getIsRegistered() || registrationInfo.getIsTrial()));
-    }
-
-    //FIXME: Another method that we should eventually remove
-    public boolean isRegistered() {
-        return true;
-    }
-
-    public boolean isTrial() {
-        return registrationInfo != null && registrationInfo.getIsTrial() && !isPaid;
-    }
-
-
-    public String getRegistrationString() {
-        return isTrial() ? "In Trial. Expires " + DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(registrationInfo.getExpirationDate()).getTime()).toString() :
-                isValid() ? "Registered" : "Expired";
     }
 
     public PlaybackManager getPlaybackManager() {
