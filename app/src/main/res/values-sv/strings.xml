@@ -21,7 +21,6 @@
     <string name="video_error_unknown_error">Misslyckades att ladda video</string>
     <string name="oops">Hoppsan</string>
     <string name="btn_skip">Hoppa över</string>
-    <string name="btn_skip_hint">Hoppa över och logga in manuellt</string>
     <string name="title_activity_startup">Start-aktivitet</string>
     <string name="action_settings">Inställningar</string>
     <string name="txt_loading">Laddar...</string>
