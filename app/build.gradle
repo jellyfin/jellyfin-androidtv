@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+def version = "1.1.90"
 
 android {
     compileSdkVersion 28
@@ -8,7 +9,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1190
-        versionName "1.1.90"
+        versionName version
     }
 
     buildTypes {
@@ -26,11 +27,11 @@ android {
     productFlavors {
         google {
             dimension = "version"
-            versionName += "g"
+            versionName = version + "g"
         }
         amazon {
             dimension = "version"
-            versionName += "a"
+            versionName = version + "a"
         }
     }
 
