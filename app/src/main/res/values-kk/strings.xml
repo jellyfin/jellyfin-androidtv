@@ -1,45 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Jellyfin</string>
-    <string name="current_queue">Ағымдық кезек</string>
     <string name="error">Қате</string>
     <string name="ok">ЖАРАЙДЫ</string>
-    <string name="pause">Кідірту</string>
-    <string name="play">Ойнату</string>
-    <string name="stop">Тоқтату</string>
-    <string name="init_text">00:00</string>
-    <string name="play_pause_description">Ойнатуды кідірту түймешігі</string>
-    <string name="loading">Жүктеуде...</string>
-    <string name="no_video_found">Еш бейне табылмады</string>
-    <string name="version">Нұсқасы: %1$s</string>
-    <string name="preferences">ТЕҢШЕЛІМДЕР</string>
-    <string name="personal_settings">Өзіндік параметрлер</string>
-    <string name="movie">Фильм</string>
-    <string name="start_position">бастауЖайғасым</string>
-    <string name="search_results">Іздеу нәтижелері</string>
-    <string name="video_error_media_load_timeout">Тасығыш жүктелуінің қүту уақыты өтті</string>
-    <string name="video_error_server_unaccessible">Тасығыш сервер қол жетімді емес</string>
     <string name="video_error_unknown_error">Бейне жүктеу сәтсіз</string>
-    <string name="oops">Ойбай!</string>
-    <string name="btn_skip">Өткізу</string>
-    <string name="title_activity_startup">БастаудағыӘрекеттер</string>
-    <string name="action_settings">Параметрлер</string>
     <string name="txt_loading">Жүктеуде...</string>
     <string name="title_activity_select_user">ПайдаланушыӘрекетінТандау</string>
-    <string name="selusr_pleaseselect">Пайдаланушыны тандаңыз</string>
-    <string name="error_fragment_message">Қате</string>
-    <string name="dismiss_error">Қабылдамау</string>
-    <string name="video_error_server_inaccessible">Сервер қатынаулы емес</string>
     <string name="home_title">Басты</string>
     <string name="btn_cancel">Болдырмау</string>
-    <string name="btn_manually">Өткізіп жіберу және IP-мекенжайды енгізу</string>
     <string name="txt_expired">Android TV үшін арналған Jellyfinr мерзімі аяқталған</string>
     <string name="txt_expired_exp">Осы жасақтаушылық нұсқасының мерзімі аяқталды. Жаңартуды іздеңіз немесе дүкенден орнатыңыз. Jellyfin бағдарламасын пайдаланғаныңызға алғыс айтамыз!</string>
     <string name="byletter_letters">АӘБВГҒДЕЖЗИЙКҚЛМНҢОӨПРСТУҰҮФХҺЦЧШЩЪЫІЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Бастаудағы қасиеті</string>
     <string name="pref_show_login">Кіру экранын көрсету</string>
     <string name="pref_show_login_value">0</string>
-    <string name="pref_auto_login_value">1</string>
     <string name="pref_playback">ОЙНАТУ</string>
     <string name="pref_max_bitrate_title">Ағынмен тасымалдау ең көп қарқыны</string>
     <string name="pref_auto_login">Осы пайдаланушы ретінде автоматты түрде кіру</string>
@@ -48,7 +22,6 @@
     <string name="pref_prompt_pw">Құпия сөз үшін шақыру</string>
     <string name="pref_alt_pw_entry">Тоғыспа арқылы құпия сөзді енгізу теңшелетін әдісін пайдаланыңыз</string>
     <string name="pref_alt_pw_entry_desc">Бөлмедегі әлдекімге құпия сөзді әшкерелемей тек қана тоғыспа пернелері арқылы сандық құпия сөзді енгізуді қосады</string>
-    <string name="pref_enable_hls_label">HLS ағынмен тасымалдауды қосу</string>
     <string name="title_activity_dpad_pw">Құпия сөзді енгізу</string>
     <string name="enter_password">Құпия сөзді енгізу</string>
     <string name="dpad_entry_desc">Сандық құпия сөзді енгізу үшін басқару тақтаңыздағы \"қиылыс бағыттауышты\" пайдаланыңыз. Түймешікті бір рет басу - тізімдегі бірінші сан үшін, немесе екі рет басу - екінші үшін. Мысалдар: 1 үшін \"жоғарығаны\" бірі рет басыңыз, немесе 5 үшін \"тандауды\" екі рет басыңыз. Аяқталғанша дейін \"тандау\" түймешігін, немесе қайта бастау үшін сол жақтағы түймешігін 1 секунд басып ұстаңыз да босатыңыз.</string>
@@ -76,7 +49,6 @@
     <string name="lbl_latest">Ең кейінгі</string>
     <string name="lbl_by_name">Атымен</string>
     <string name="lbl_favorites">Тандаулылар</string>
-    <string name="lbl_latest_recordings">Ең кейінгі жазбалар</string>
     <string name="lbl_coming_up">Алдағы</string>
     <string name="lbl_favorite_channels">Тандаулы арналар</string>
     <string name="lbl_other_channels">Басқа арналар</string>
@@ -85,7 +57,6 @@
     <string name="lbl_tv_series">Телехикаялар</string>
     <string name="lbl_other">Басқа</string>
     <string name="lbl_latest_additions">Ең кейінгі үстемелер</string>
-    <string name="lbl_suggested_movies">Ұсынылған фильмдер</string>
     <string name="lbl_because_you_watched">"Өйткені қарадыңыз "</string>
     <string name="lbl_resume">Жалғастыру</string>
     <string name="lbl_play_all">Бәрін ойнату</string>
@@ -96,7 +67,6 @@
     <string name="lbl_cancel_series">Телехикаяны болдырмау</string>
     <string name="lbl_record_series">Телехикаяны жазу</string>
     <string name="lbl_record">Жазу</string>
-    <string name="lbl_details">Толық мәліметтер</string>
     <string name="msg_set_to_record">Берілім жазуы орнатылды</string>
     <string name="msg_unable_to_create_recording">Жазбаны жасау мүмкін емес</string>
     <string name="msg_recording_cancelled">Жазба болдырылмады</string>
@@ -120,7 +90,6 @@
     <string name="lbl_ends">"Аяқталуы: "</string>
     <string name="lbl_directed_by">"Режиссері "</string>
     <string name="lbl_last_played">"Ең кейінгі ойнатылған "</string>
-    <string name="lbl_never_played">Ешқашан ойнатылмаған</string>
     <string name="lbl_select_server">Серверді тандау</string>
     <string name="lbl_other_options">Басқа параметрлер</string>
     <string name="lbl_enter_manually">Қолмен енгізу</string>
@@ -132,8 +101,6 @@
     <string name="lbl_people">Адамдар</string>
     <string name="lbl_videos">Бейнелер</string>
     <string name="lbl_recordings">Жазбалар</string>
-    <string name="lbl_parens_external">" (сыртқы)"</string>
-    <string name="lbl_parens_internal">" (ішкі)"</string>
     <string name="lbl_parens_forced">" (мәжбүрлі)"</string>
     <string name="lbl_none">Ешқандай</string>
     <string name="msg_video_playback_error">"Бейне ойнату қатесі - "</string>
@@ -163,12 +130,10 @@
     <string name="msg_playback_restricted">Әкімші қазіргі уақытта осы тармақ ойнатылуын шектеген</string>
     <string name="msg_playback_incompatible">Осы бейне пішімін ойнату мүмкін емес</string>
     <string name="lbl_never">Ешқашан</string>
-    <string name="btn_next">Келесі</string>
     <string name="msg_cannot_play_time">Қазіргі уақытта осы тармақ ойнатылуы мүмкін емес</string>
     <string name="msg_cannot_play">Осы тармақ ойнатылуы мүмкін емес</string>
     <string name="lbl_no_items">Тармақтар жоқ</string>
     <string name="lbl_empty">Бос</string>
-    <string name="sum_enable_hls">Егер ойнату қиыншылықтары кедессе тек қана ажыратыңыз</string>
     <string name="lbl_tv_queuing">Келесі бөлімдердің бәрін кезекке қою</string>
     <string name="sum_tv_queuing">Эпизод ойнату кезінде маусымда қалғандарды ойнату кезегіне үстеңіз</string>
     <string name="lbl_search_hint">Мәтінді іздеу (пернетақта үшін тандаңыз)</string>
@@ -185,7 +150,6 @@
     <string name="lbl_confirm_mark_unwatched">Бұл барлық мазмұнды ойнатылмаған деп белгілейді. Сіз оған ӘБДЕН сенімдісіз бе?</string>
     <string name="msg_no_playable_items">Ойнатылатын тармақтар жоқ</string>
     <string name="lbl_unwatched">Қаралмаған</string>
-    <string name="lbl_series">Телехикая</string>
     <string name="lbl_load_channels">"Арналарды жүктеу "</string>
     <string name="lbl_today">Бүгін</string>
     <string name="lbl_tomorrow">Ертең</string>
@@ -205,7 +169,6 @@
     <string name="lbl_days">Күндер</string>
     <string name="msg_cancel_entire_series">Шынымен осы ТЕЛЕХИКАЯНЫҢ БӘРІН болдырмау қажет пе?</string>
     <string name="msg_remote_already_playing">Қашықтан ойнату сұранысы еленбейді. Алдынан ағымдағы элементті тоқтатыңыз.</string>
-    <string name="lbl_buffering_amount">Буферлеу мөлшері</string>
     <string name="pref_audio_direct">Тікелей</string>
     <string name="pref_audio_compat">Сыйсымды</string>
     <string name="lbl_audio_output">Дыбыс шығысы</string>
@@ -216,8 +179,6 @@
     <string name="lbl_sideline_color">Бүйірлік сызық түсі</string>
     <string name="desc_sideline_color">Бүйрлік тақтасынындағы санат түсі</string>
     <string name="lbl_vlc_max_res">Тікелей ағынмен тасымалдау әрекеті үшін ең жоғарғы ажыратымдылығы</string>
-    <string name="lbl_allow_vlc_transcode">Қайта кодталған ағындар үшін VLC пайдалану</string>
-    <string name="desc_allow_vlc_transcode">Кейбір қайта кодталған ағындармен VLC үшін ақаулықтар болды.</string>
     <string name="lbl_show_info_panel">Ақпар тақтасын көрсету</string>
     <string name="lbl_enable_debug">Күйкелтіру параметрлерін қосу</string>
     <string name="desc_info_panel">Толық ақпараты жоқ экрандардағы ағымдық тармақта мәліметтері бар тақтаны көрсету</string>
@@ -267,7 +228,6 @@
     <string name="lbl_playlists">Ойнату тізімдері</string>
     <string name="lbl_of">келесіден</string>
     <string name="msg_added_item_to_queue">"Тармақ кезекке үстелген жайғасымы "</string>
-    <string name="lbl_replace_queue_paren">(кезекті алмастыру)</string>
     <string name="msg_items_added">" тармақ үстелген"</string>
     <string name="msg_total_items_in_queue">" тармақ түгел кезекте"</string>
     <string name="lbl_add_to_queue">Кезекке үстеу</string>

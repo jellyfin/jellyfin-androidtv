@@ -1,45 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Jellyfin</string>
-    <string name="current_queue">Nuværende kø</string>
     <string name="error">Fejl</string>
     <string name="ok">OK</string>
-    <string name="pause">Pause</string>
-    <string name="play">Afspil</string>
-    <string name="stop">Stop</string>
-    <string name="init_text">00:00</string>
-    <string name="play_pause_description">Afspil Pause knap</string>
-    <string name="loading">Indlæser</string>
-    <string name="no_video_found">Ingen video blev fundet</string>
-    <string name="version">Version: %1$s</string>
-    <string name="preferences">INDSTILLINGER</string>
-    <string name="personal_settings">Personlige indstillinger</string>
-    <string name="movie">Film</string>
-    <string name="start_position">startPosition</string>
-    <string name="search_results">Søgeresultater</string>
-    <string name="video_error_media_load_timeout">Indlæsning af medie brugte for lang tid på at reagere</string>
-    <string name="video_error_server_unaccessible">Medieserver kunne ikke kontaktes</string>
     <string name="video_error_unknown_error">Kunne ikke indlæse video</string>
-    <string name="oops">Ups</string>
-    <string name="btn_skip">Spring over</string>
-    <string name="title_activity_startup">StartupActivity</string>
-    <string name="action_settings">Indstillinger</string>
     <string name="txt_loading">Indlæser...</string>
     <string name="title_activity_select_user">SelectUserActivity</string>
-    <string name="selusr_pleaseselect">Vælg venligst en bruger</string>
-    <string name="error_fragment_message">Fejl</string>
-    <string name="dismiss_error">Afvis</string>
-    <string name="video_error_server_inaccessible">Server utilgængelig</string>
     <string name="home_title">Hjem</string>
     <string name="btn_cancel">Annuller</string>
-    <string name="btn_manually">Indtast server adresse</string>
     <string name="txt_expired">Jellyfin for Android TV er udløbet</string>
     <string name="txt_expired_exp">Denne udviklingsversion er udløbet. Find venligst en opdatering eller installer fra butikken.    Tak fordi du benytter Jellyfin!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Adfærd ved opstart</string>
     <string name="pref_show_login">Vis login skærm</string>
     <string name="pref_show_login_value">0</string>
-    <string name="pref_auto_login_value">1</string>
     <string name="pref_playback">AFSPILNING</string>
     <string name="pref_max_bitrate_title">Maks Streaming Bitrate</string>
     <string name="pref_auto_login">Log automatisk ind som denne bruger</string>
@@ -48,7 +22,6 @@
     <string name="pref_prompt_pw">Spørg efter kodeord</string>
     <string name="pref_alt_pw_entry">Brug brugerdefineret d-pad indtastningsmetode</string>
     <string name="pref_alt_pw_entry_desc">Aktiverer numerisk kodeordsindtastning med d-pad knapperne uden at vise koden til alle i rummet</string>
-    <string name="pref_enable_hls_label">Aktiver HLS streaming</string>
     <string name="title_activity_dpad_pw">Indtast kodeord</string>
     <string name="enter_password">Indtast kodeord</string>
     <string name="dpad_entry_desc">Brug D-Padden på din fjernbetjening til at indtaste et numerisk kodeord. Enkelt klik på en knap for det første tal eller dobbelt klik for det anden tal. Foreksempel: enkelt klik \"up\" for 1 eller dobbelt klik \"select\" for 5. Hold \"select\" knappen nede i 1 sekund og slip når du er færdig eller tryk på den venstre knap for at begynde forfra.</string>
@@ -76,7 +49,6 @@
     <string name="lbl_latest">Seneste</string>
     <string name="lbl_by_name">ved Navn</string>
     <string name="lbl_favorites">Favoritter</string>
-    <string name="lbl_latest_recordings">Seneste optagelser</string>
     <string name="lbl_coming_up">Næste</string>
     <string name="lbl_favorite_channels">Favorit kanaler</string>
     <string name="lbl_other_channels">Andre kanaler</string>
@@ -85,7 +57,6 @@
     <string name="lbl_tv_series">TV serier</string>
     <string name="lbl_other">Andre</string>
     <string name="lbl_latest_additions">Seneste tilføjelser</string>
-    <string name="lbl_suggested_movies">Foreslåede film</string>
     <string name="lbl_because_you_watched">"Fordi du har set "</string>
     <string name="lbl_resume">Genoptag</string>
     <string name="lbl_play_all">Afspil alle</string>
@@ -96,7 +67,6 @@
     <string name="lbl_cancel_series">Annuller serie</string>
     <string name="lbl_record_series">Optag serie</string>
     <string name="lbl_record">Optag</string>
-    <string name="lbl_details">Detaljer</string>
     <string name="msg_set_to_record">Indstillet til optagelse</string>
     <string name="msg_unable_to_create_recording">Kunne ikke danne optagelse</string>
     <string name="msg_recording_cancelled">Optagelse annulleret</string>
@@ -120,7 +90,6 @@
     <string name="lbl_ends">"Slutter: "</string>
     <string name="lbl_directed_by">"Instrueret af: "</string>
     <string name="lbl_last_played">"Sidst afspillet "</string>
-    <string name="lbl_never_played">Aldrig afspillet</string>
     <string name="lbl_select_server">Vælg en server</string>
     <string name="lbl_other_options">Andre indstillinger</string>
     <string name="lbl_enter_manually">Indtast manuelt</string>
@@ -130,8 +99,6 @@
     <string name="lbl_login_as">"Login som "</string>
     <string name="lbl_tv">TV</string>
     <string name="lbl_people">Mennesker</string>
-    <string name="lbl_parens_external">" (ekstern)"</string>
-    <string name="lbl_parens_internal">" (intern)"</string>
     <string name="lbl_parens_forced">" (tvungen)"</string>
     <string name="lbl_none">Ingen</string>
     <string name="msg_video_playback_error">"Videoafspilnings fejl - "</string>
@@ -161,12 +128,10 @@
     <string name="msg_playback_restricted">Administratoren har begrænset afspilningen af denne genstand på nuværende tidspunkt</string>
     <string name="msg_playback_incompatible">Kan ikke afspille dette video format</string>
     <string name="lbl_never">Aldrig</string>
-    <string name="btn_next">Næste</string>
     <string name="msg_cannot_play_time">Kan ikke afspille denne genstand på nuværende tidspunkt</string>
     <string name="msg_cannot_play">Denne genstand kan ikke afspilles</string>
     <string name="lbl_no_items">Ingen filer</string>
     <string name="lbl_empty">Tom</string>
-    <string name="sum_enable_hls">Deaktiver kun hvis det opleves problemer med afspilning</string>
     <string name="lbl_tv_queuing">Sat alle følgende episode i kø</string>
     <string name="sum_tv_queuing">Tilføj resten af sæsonen til afspilningskøen når en episode afspilles</string>
     <string name="lbl_search_hint">Søg i tekst (vælg for keyboard)</string>
@@ -183,7 +148,6 @@
     <string name="lbl_confirm_mark_unwatched">Dette vil markere alt indhold som uafspillet. Er du helt sikker?</string>
     <string name="msg_no_playable_items">Intet indhold kan afspilles</string>
     <string name="lbl_unwatched">Ikke set</string>
-    <string name="lbl_series">Serier</string>
     <string name="lbl_load_channels">"Indlæs kanaler "</string>
     <string name="lbl_today">I dag</string>
     <string name="lbl_tomorrow">I morgen</string>
