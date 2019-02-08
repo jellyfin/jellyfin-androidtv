@@ -3,19 +3,10 @@
     <color name="background_gradient_end">#d0484848</color>
     <color name="fastlane_background">#ff082804</color>
     <color name="search_opaque">#ff007d8d</color>
-    <color name="detail_background">#ff007d8d</color>
-    <color name="text_higlight">#ff007d8d</color>
-    <color name="soft_opaque">#30000000</color>
-    <color name="img_soft_opaque">#30FF0000</color>
-    <color name="img_full_opaque">#00000000</color>
     <color name="black_opaque">#AA000000</color>
     <color name="black">#ff000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="orange_transparent">#AAFADCA7</color>
-    <color name="orange">#FADCA7</color>
-    <color name="yellow">#EEFF41</color>
     <color name="default_background">#3d3d3d</color>
-    <color name="settings_background">#d04c4c4c</color>
     <color name="semi_trans_dark">#49000000</color>
     <color name="gray_gradient_start">#ff7c7c7c</color>
     <color name="gray_gradient_end">#ffbebebe</color>
@@ -37,7 +28,6 @@
 
     <color name="black_transparent">#97000000</color>
     <color name="black_transparent_light">#74000000</color>
-    <color name="popup_background">#ff004655</color>
     <color name="dark_gradient_start">#ff060606</color>
     <color name="dark_gradient_end">#ff181818</color>
 
