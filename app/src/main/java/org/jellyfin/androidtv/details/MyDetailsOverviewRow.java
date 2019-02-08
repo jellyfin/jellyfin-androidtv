@@ -7,11 +7,12 @@ import android.graphics.drawable.Drawable;
 import android.support.v17.leanback.widget.Row;
 import android.view.View;
 
+import org.jellyfin.androidtv.ui.ImageButton;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import mediabrowser.model.dto.BaseItemDto;
-import org.jellyfin.androidtv.ui.ImageButton;
 
 /**
  * Created by Eric on 5/22/2015.

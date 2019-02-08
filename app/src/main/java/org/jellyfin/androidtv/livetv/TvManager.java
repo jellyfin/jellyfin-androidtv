@@ -2,10 +2,14 @@ package org.jellyfin.androidtv.livetv;
 
 import android.app.Activity;
 import android.graphics.Typeface;
-import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.ui.ProgramGridCell;
+import org.jellyfin.androidtv.util.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,17 +25,11 @@ import java.util.TimeZone;
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.ProgramQuery;
-import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.results.ChannelInfoDtoResult;
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.ui.ProgramGridCell;
-import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 9/4/2015.
