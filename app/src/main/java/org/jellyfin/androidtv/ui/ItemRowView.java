@@ -14,11 +14,10 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.util.Utils;
+
+import mediabrowser.model.dto.BaseItemDto;
 
 /**
  * Created by Eric on 11/21/2015.

@@ -8,18 +8,17 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.querying.StdItemQuery;
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemsResult;
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.querying.StdItemQuery;
 
 /**
  * Created by Eric on 11/21/2015.

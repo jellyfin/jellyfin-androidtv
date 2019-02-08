@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.presentation;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -10,17 +9,17 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.model.ImageType;
+import org.jellyfin.androidtv.util.Utils;
+
 import java.util.Date;
 
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.livetv.ChannelInfoDto;
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.base.BaseActivity;
-import org.jellyfin.androidtv.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.model.ImageType;
-import org.jellyfin.androidtv.util.Utils;
 
 public class CardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";

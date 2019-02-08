@@ -21,21 +21,20 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.flaviofaria.kenburnsview.KenBurnsView;
-import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import mediabrowser.model.dto.BaseItemDto;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.base.IKeyListener;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.presentation.MyRandomeKBGenerator;
 import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.util.Utils;
+
+import mediabrowser.model.dto.BaseItemDto;
 
 /**
  * Created by Eric on 10/22/2015.

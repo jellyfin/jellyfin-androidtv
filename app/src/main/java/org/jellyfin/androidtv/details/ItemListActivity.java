@@ -24,22 +24,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.dto.UserItemDataDto;
-import mediabrowser.model.library.PlayAccess;
-import mediabrowser.model.playlists.PlaylistItemQuery;
-import mediabrowser.model.querying.ItemFields;
-import mediabrowser.model.querying.ItemFilter;
-import mediabrowser.model.querying.ItemSortBy;
-import mediabrowser.model.querying.ItemsResult;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
@@ -58,8 +42,24 @@ import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.ItemListView;
 import org.jellyfin.androidtv.ui.ItemRowView;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
-import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
+import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.apiinteraction.Response;
+import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.dto.UserItemDataDto;
+import mediabrowser.model.library.PlayAccess;
+import mediabrowser.model.playlists.PlaylistItemQuery;
+import mediabrowser.model.querying.ItemFields;
+import mediabrowser.model.querying.ItemFilter;
+import mediabrowser.model.querying.ItemSortBy;
+import mediabrowser.model.querying.ItemsResult;
 
 /**
  * Created by Eric on 11/22/2015.

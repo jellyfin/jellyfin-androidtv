@@ -6,9 +6,6 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-
 /**
  * Created by Eric on 1/12/2015.
  */

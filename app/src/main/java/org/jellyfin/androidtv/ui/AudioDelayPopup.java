@@ -6,14 +6,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.PopupWindow;
-import android.widget.Spinner;
 
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.entities.DisplayPreferences;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.util.Utils;

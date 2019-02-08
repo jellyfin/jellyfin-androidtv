@@ -11,11 +11,12 @@ import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.widget.Toast;
 
-import mediabrowser.model.dto.BaseItemDto;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.GridButton;
+
+import mediabrowser.model.dto.BaseItemDto;
 
 /**
  * Created by Eric on 12/4/2014.

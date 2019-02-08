@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 
 /**
  * A presenter that renders objects in a horizontal grid.
