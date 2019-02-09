@@ -12,7 +12,7 @@ ENV ANDROID_DIR=/usr/lib/android-sdk
 RUN echo "deb http://deb.debian.org/debian stretch-backports main" >> /etc/apt/sources.list.d/backports.list \
  && apt-get update \
  && apt-get install -y mmv wget unzip git \
- && apt-get install -t stretch-backports -y npm android-sdk openjdk-8-jdk
+ && apt-get install -t stretch-backports -y android-sdk openjdk-8-jdk
 
 # Install Android repository tools
 RUN rm -rf ${ANDROID_DIR}/tools \
