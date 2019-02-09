@@ -10,17 +10,17 @@ case ${RELEASE} in
     'production')
         RELEASE_SUFFIX=""
         NODE_ENV="production"
-        RFLAG="--release"
+        RFLAG="assembleRelease"
     ;;
     'unminified')
         RELEASE_SUFFIX="unminified_"
         NODE_ENV="development"
-        RFLAG="--release"
+        RFLAG="assembleRelease"
     ;;
     'debug')
-        RELEASE_SUFFIX="debug_"
+        RELEASE_SUFFIX=""
         NODE_ENV="development"
-        RFLAG=""
+        RFLAG="assembleDebug"
     ;;
 esac
 
@@ -32,11 +32,8 @@ export NODE_ENV
 pushd ${SOURCE_DIR}
 
 # Build APK
-which gradle
-gradle --version
-gradle tasks
-gradle assembleDebug
+bash gradlew ${RFLAG}
 
 # Move the artifacts out
 mkdir -p ${ARTIFACT_DIR}/apk
-mmv "${SOURCE_DIR}/platforms/android/build/outputs/apk/android-*.apk" "${ARTIFACT_DIR}/apk/jellyfin-android_${RELEASE_SUFFIX}#1.apk"
+mmv "${SOURCE_DIR}/app/build/outputs/apk/app-*.apk" "${ARTIFACT_DIR}/apk/jellyfin-android_${RELEASE_SUFFIX}#1.apk"
