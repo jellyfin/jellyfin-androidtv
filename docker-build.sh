@@ -8,11 +8,9 @@ set -o xtrace
 # Handle the release type
 case ${RELEASE} in
     'production')
-        RELEASE_SUFFIX=""
         RFLAG="assembleRelease"
     ;;
     'debug')
-        RELEASE_SUFFIX=""
         RFLAG="assembleDebug"
     ;;
 esac
@@ -28,4 +26,4 @@ bash gradlew ${RFLAG}
 
 # Move the artifacts out
 mkdir -p ${ARTIFACT_DIR}/apk
-mmv "${SOURCE_DIR}/app/build/outputs/apk/*/*/app-*.apk" "${ARTIFACT_DIR}/apk/jellyfin-android_#1_${RELEASE_SUFFIX}#3.apk"
+mmv "${SOURCE_DIR}/app/build/outputs/apk/*/*/app-*.apk" "${ARTIFACT_DIR}/apk/jellyfin-androidtv_#1_#3.apk"
