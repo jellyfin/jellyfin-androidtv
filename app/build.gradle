@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-def version = "1.1.90"
 
 android {
     compileSdkVersion 28
@@ -9,7 +8,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1190
-        versionName version
+        versionName "1.1.90"
     }
 
     buildTypes {
@@ -23,18 +22,6 @@ android {
         }
     }
 
-    flavorDimensions "version"
-    productFlavors {
-        google {
-            dimension = "version"
-            versionName = version + "g"
-        }
-        amazon {
-            dimension = "version"
-            versionName = version + "a"
-        }
-    }
-
     lintOptions {
         abortOnError false
     }
@@ -42,8 +29,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    amazonImplementation project(':exomedia-amazon')
-    googleImplementation 'com.devbrackets.android:exomedia:2.5.6'
+    implementation 'com.devbrackets.android:exomedia:2.5.6'
     implementation 'com.android.support:recyclerview-v7:23.1.1'
     implementation 'com.android.support:leanback-v17:23.1.1'
     implementation 'com.android.support:appcompat-v7:23.1.1'
