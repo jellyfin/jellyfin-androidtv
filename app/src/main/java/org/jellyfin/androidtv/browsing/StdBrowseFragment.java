@@ -43,12 +43,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import mediabrowser.apiinteraction.EmptyResponse;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
@@ -68,6 +62,13 @@ import org.jellyfin.androidtv.ui.ClockUserView;
 import org.jellyfin.androidtv.ui.ItemPanel;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import mediabrowser.apiinteraction.EmptyResponse;
 
 public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     private static final String TAG = "StdBrowseFragment";

@@ -17,7 +17,15 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.Target;
 
+<<<<<<< HEAD
+import java.util.Date;
+
+import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserItemDataDto;
+import mediabrowser.model.entities.LocationType;
+import mediabrowser.model.livetv.ChannelInfoDto;
+=======
+>>>>>>> 17b66b07... Merge pull request #38 from thornbill/cleanup
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;

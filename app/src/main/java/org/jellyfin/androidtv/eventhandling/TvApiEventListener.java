@@ -2,7 +2,15 @@ package org.jellyfin.androidtv.eventhandling;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
+
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.itemhandling.ItemLauncher;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
+import org.jellyfin.androidtv.querying.StdItemQuery;
+import org.jellyfin.androidtv.util.Utils;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -20,14 +28,6 @@ import mediabrowser.model.session.MessageCommand;
 import mediabrowser.model.session.PlayRequest;
 import mediabrowser.model.session.PlaystateRequest;
 import mediabrowser.model.session.SessionInfoDto;
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.itemhandling.ItemLauncher;
-import org.jellyfin.androidtv.playback.MediaManager;
-import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
-import org.jellyfin.androidtv.querying.StdItemQuery;
-import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 2/14/2015.

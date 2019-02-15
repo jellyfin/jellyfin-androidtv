@@ -1,45 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Jellyfin</string>
-    <string name="current_queue">File d\'attente</string>
     <string name="error">Erreur</string>
     <string name="ok">OK</string>
-    <string name="pause">Pause</string>
-    <string name="play">Lire</string>
-    <string name="stop">Arrêter</string>
-    <string name="init_text">00:00</string>
-    <string name="play_pause_description">Bouton de Lecture / Pause</string>
-    <string name="loading">Chargement...</string>
-    <string name="no_video_found">Aucune vidéo trouvée</string>
-    <string name="version">Version: %1$s</string>
-    <string name="preferences">Préférences</string>
-    <string name="personal_settings">Paramètres personnels</string>
-    <string name="movie">Film</string>
-    <string name="start_position">Position de départ</string>
-    <string name="search_results">Résultats de recherche</string>
-    <string name="video_error_media_load_timeout">Temps de chargement du média dépassé</string>
-    <string name="video_error_server_unaccessible">Le serveur n\'a pas pu être contacté</string>
     <string name="video_error_unknown_error">Echec de chargement de la vidéo</string>
-    <string name="oops">Oups</string>
-    <string name="btn_skip">Ignorer</string>
-    <string name="title_activity_startup">Activité de démarrage</string>
-    <string name="action_settings">Paramètres</string>
     <string name="txt_loading">Chargement...</string>
     <string name="title_activity_select_user">Sélection du compte utilisateur</string>
-    <string name="selusr_pleaseselect">Veuillez choisir un utilisateur</string>
-    <string name="error_fragment_message">Erreur</string>
-    <string name="dismiss_error">Ignorer</string>
-    <string name="video_error_server_inaccessible">Serveur inaccessible</string>
     <string name="home_title">Accueil</string>
     <string name="btn_cancel">Annuler</string>
-    <string name="btn_manually">Entrez l\'adresse du serveur</string>
     <string name="txt_expired">Jellyfin pour Android TV expiré</string>
     <string name="txt_expired_exp">Cette version de développement a expiré. Veuillez chercher une mise à jour ou une nouvelle installation depuis le store. Merci d\'utiliser Jellyfin !</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Démarrage</string>
     <string name="pref_show_login">Ecran de login</string>
     <string name="pref_show_login_value">0</string>
-    <string name="pref_auto_login_value">1</string>
     <string name="pref_playback">Lecture</string>
     <string name="pref_max_bitrate_title">Débit max de streaming</string>
     <string name="pref_auto_login">Se connecter automatiquement avec cet utilisateur</string>
@@ -48,7 +22,6 @@
     <string name="pref_prompt_pw">Demander le mot de passe</string>
     <string name="pref_alt_pw_entry">Utiliser la technique du mot de passe numérique d-pad</string>
     <string name="pref_alt_pw_entry_desc">Active la saisie des mots de passe numérique avec les touches d-pad sans montrer le mot de passe à tout le monde dans la pièce</string>
-    <string name="pref_enable_hls_label">Activer le streaming HLS</string>
     <string name="title_activity_dpad_pw">Entrer le mot de passe</string>
     <string name="enter_password">Entrer le mot de passe</string>
     <string name="dpad_entry_desc">Utilisez le bouton multidirectionnel de votre télécommande pour entrer un mot de passe numérique. Un simple clic sur un bouton sélectionne le premier chiffre ; un double-clic sélectionne le second. Exemples : un simple clic sur le bouton vers le haut sélectionne \'1\', un double-clic sélectionne \'5\'. Maintenez appuyé pendant 1 seconde puis relâchez le bouton \'select\' quand vous avez terminé, ou le bouton de gauche pour recommencer.</string>
@@ -76,7 +49,6 @@
     <string name="lbl_latest">Derniers</string>
     <string name="lbl_by_name">Par nom</string>
     <string name="lbl_favorites">Favoris</string>
-    <string name="lbl_latest_recordings">Derniers enregistrements</string>
     <string name="lbl_coming_up">A venir</string>
     <string name="lbl_favorite_channels">Chaînes favorites</string>
     <string name="lbl_other_channels">Autres chaînes</string>
@@ -85,7 +57,6 @@
     <string name="lbl_tv_series">Séries TV</string>
     <string name="lbl_other">Autre</string>
     <string name="lbl_latest_additions">Derniers ajouts</string>
-    <string name="lbl_suggested_movies">Films suggérés</string>
     <string name="lbl_because_you_watched">"Parce que vous avez regardé"</string>
     <string name="lbl_resume">Reprendre</string>
     <string name="lbl_play_all">Lire tout</string>
@@ -96,7 +67,6 @@
     <string name="lbl_cancel_series">Annuler la série</string>
     <string name="lbl_record_series">Enregistrer la série</string>
     <string name="lbl_record">Enregistrer</string>
-    <string name="lbl_details">Détails</string>
     <string name="msg_set_to_record">Programme marqué pour l\'enregistrement</string>
     <string name="msg_unable_to_create_recording">Impossible de créer l\'enregistrement</string>
     <string name="msg_recording_cancelled">Enregistrement annulé</string>
@@ -120,7 +90,6 @@
     <string name="lbl_ends">"Fin :"</string>
     <string name="lbl_directed_by">"Réalisé par :"</string>
     <string name="lbl_last_played">"Dernière lecture"</string>
-    <string name="lbl_never_played">Jamais lu</string>
     <string name="lbl_select_server">Sélectionnez un serveur</string>
     <string name="lbl_other_options">Autres options</string>
     <string name="lbl_enter_manually">Entrez manuellement</string>
@@ -132,8 +101,6 @@
     <string name="lbl_people">Personnes</string>
     <string name="lbl_videos">Vidéos</string>
     <string name="lbl_recordings">Enregistrements</string>
-    <string name="lbl_parens_external">" (externe)"</string>
-    <string name="lbl_parens_internal">" (interne)"</string>
     <string name="lbl_parens_forced">" (forcé)"</string>
     <string name="lbl_none">Aucun</string>
     <string name="msg_video_playback_error">"Erreur de lecture de la vidéo - "</string>
@@ -163,12 +130,10 @@
     <string name="msg_playback_restricted">L\'administrateur a restreint la lecture de cet élément pour le moment</string>
     <string name="msg_playback_incompatible">Impossible de lire ce format vidéo</string>
     <string name="lbl_never">Jamais</string>
-    <string name="btn_next">Suivant</string>
     <string name="msg_cannot_play_time">Impossible de lire cet élément pour le moment</string>
     <string name="msg_cannot_play">Impossible de lire cet élément</string>
     <string name="lbl_no_items">Aucun élément</string>
     <string name="lbl_empty">Vide</string>
-    <string name="sum_enable_hls">Désactiver uniquement si des problèmes de lecture apparaissent</string>
     <string name="lbl_tv_queuing">Mettre en file tous les épisodes suivants</string>
     <string name="sum_tv_queuing">Ajouter le reste de la saison à la liste lors de la lecture d\'un épisode</string>
     <string name="lbl_search_hint">Recherche texte</string>
@@ -185,7 +150,6 @@
     <string name="lbl_confirm_mark_unwatched">Cette action marquera tout le contenu comme non vu. Etes-vous VRAIMENT sûr ?</string>
     <string name="msg_no_playable_items">Aucun élément à lire</string>
     <string name="lbl_unwatched">Non lu</string>
-    <string name="lbl_series">Série</string>
     <string name="lbl_load_channels">"Charger les chaînes "</string>
     <string name="lbl_today">Aujourd\'hui</string>
     <string name="lbl_tomorrow">Demain</string>
@@ -205,7 +169,6 @@
     <string name="lbl_days">Jours</string>
     <string name="msg_cancel_entire_series">Etes-vous sûr de vouloir annuler cette SERIE ENTIERE ?</string>
     <string name="msg_remote_already_playing">Requête de lecture à distance ignorée. Veuillez arrêter la lecture de l\'élément en cours d\'abord.</string>
-    <string name="lbl_buffering_amount">Taille du buffering</string>
     <string name="pref_audio_direct">Direct</string>
     <string name="pref_audio_compat">Compatible</string>
     <string name="lbl_audio_output">Sortie audio</string>
@@ -216,8 +179,6 @@
     <string name="lbl_sideline_color">Couleur de la bordure</string>
     <string name="desc_sideline_color">Couleur du panneau latéral de catégories</string>
     <string name="lbl_vlc_max_res">Résolution max pour une tentative de streaming direct</string>
-    <string name="lbl_allow_vlc_transcode">Utiliser VLC pour les flux transcodés</string>
-    <string name="desc_allow_vlc_transcode">VLC rencontre des difficultés avec certains flux transcodés. Désactivez cette fonctionnalité pour forcer la lecture de tous les transcodages avec le lecteur natif.</string>
     <string name="lbl_show_info_panel">Afficher le panneau d\'information</string>
     <string name="lbl_enable_debug">Activer les options de debuggage</string>
     <string name="desc_info_panel">Affiche un panneau de détails sur l\'élément courant pour les écrans qui ne montrent pas d\'information détaillée</string>
@@ -267,7 +228,6 @@
     <string name="lbl_playlists">Playlists</string>
     <string name="lbl_of">de</string>
     <string name="msg_added_item_to_queue">"Éléments ajoutés dans la file d'attente "</string>
-    <string name="lbl_replace_queue_paren">(remplacer la liste de lecture)</string>
     <string name="msg_items_added">" éléments ajoutés"</string>
     <string name="msg_total_items_in_queue">" éléments dans la liste de lecture"</string>
     <string name="lbl_add_to_queue">Ajouter la liste de lecture</string>

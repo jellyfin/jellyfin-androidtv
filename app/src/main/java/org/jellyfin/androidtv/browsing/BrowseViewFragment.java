@@ -2,6 +2,12 @@ package org.jellyfin.androidtv.browsing;
 
 import android.os.Bundle;
 
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.model.ChangeTriggerType;
+import org.jellyfin.androidtv.querying.QueryType;
+import org.jellyfin.androidtv.querying.StdItemQuery;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +23,6 @@ import mediabrowser.model.querying.ItemQuery;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.model.ChangeTriggerType;
-import org.jellyfin.androidtv.querying.QueryType;
-import org.jellyfin.androidtv.querying.StdItemQuery;
 
 /**
  * Created by Eric on 12/4/2014.

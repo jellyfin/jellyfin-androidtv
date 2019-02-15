@@ -19,12 +19,6 @@
 
 package org.jellyfin.androidtv.settings;
 
-import org.jellyfin.androidtv.R;
-
-
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -43,7 +37,11 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import org.jellyfin.androidtv.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ColorDialog extracted from {@link ColorPreference}.

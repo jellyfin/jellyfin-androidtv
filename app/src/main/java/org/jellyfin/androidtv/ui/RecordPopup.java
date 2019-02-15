@@ -15,6 +15,12 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.base.CustomMessage;
+import org.jellyfin.androidtv.util.Utils;
+
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,11 +31,6 @@ import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.livetv.SeriesTimerInfoDto;
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.base.BaseActivity;
-import org.jellyfin.androidtv.base.CustomMessage;
-import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 6/3/2015.

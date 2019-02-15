@@ -7,6 +7,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,9 +18,6 @@ import java.util.Date;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.SeriesStatus;
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 
 /**
  * Created by Eric on 4/29/2015.

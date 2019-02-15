@@ -13,13 +13,13 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.widget.TextView;
 
-import java.io.IOException;
-
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.startup.LogonCredentials;
 import org.jellyfin.androidtv.util.Utils;
+
+import java.io.IOException;
 
 
 /**

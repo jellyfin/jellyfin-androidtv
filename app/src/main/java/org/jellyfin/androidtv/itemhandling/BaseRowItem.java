@@ -3,6 +3,12 @@ package org.jellyfin.androidtv.itemhandling;
 import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.model.ChapterItemInfo;
+import org.jellyfin.androidtv.ui.GridButton;
+import org.jellyfin.androidtv.util.Utils;
+
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -17,11 +23,6 @@ import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.search.SearchHint;
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.model.ChapterItemInfo;
-import org.jellyfin.androidtv.ui.GridButton;
-import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 12/15/2014.

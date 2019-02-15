@@ -22,25 +22,23 @@ package org.jellyfin.androidtv.integration;
  * SOFTWARE.
  */
 
-        import java.io.FileNotFoundException;
-        import java.io.IOException;
-        import java.io.InputStream;
-        import java.io.OutputStream;
-        import java.net.HttpURLConnection;
-        import java.net.URL;
-        import java.net.URLDecoder;
+import android.content.ContentProvider;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.ParcelFileDescriptor;
+import android.util.Log;
 
-        import android.content.ContentProvider;
-        import android.content.ContentValues;
-        import android.database.Cursor;
-        import android.net.Uri;
-        import android.os.ParcelFileDescriptor;
-        import android.util.Log;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.OkUrlFactory;
 
-        import com.squareup.okhttp.OkHttpClient;
-        import com.squareup.okhttp.OkUrlFactory;
-
-        import org.jellyfin.androidtv.TvApp;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLDecoder;
 
 /**
  * Provides a background image for Recommendations for a RecommendationCardView.

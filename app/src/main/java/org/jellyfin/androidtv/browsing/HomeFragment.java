@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.browsing;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,21 +12,8 @@ import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
-import android.app.AlertDialog;
 import android.widget.Toast;
 
-import java.io.IOException;
-
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.entities.SortOrder;
-import mediabrowser.model.livetv.RecommendedProgramQuery;
-import mediabrowser.model.livetv.RecordingQuery;
-import mediabrowser.model.querying.ItemFields;
-import mediabrowser.model.querying.ItemFilter;
-import mediabrowser.model.querying.ItemSortBy;
-import mediabrowser.model.querying.ItemsResult;
-import mediabrowser.model.querying.NextUpQuery;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.CustomMessage;
@@ -45,6 +33,18 @@ import org.jellyfin.androidtv.startup.LogonCredentials;
 import org.jellyfin.androidtv.startup.SelectUserActivity;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.util.Utils;
+
+import java.io.IOException;
+
+import mediabrowser.apiinteraction.Response;
+import mediabrowser.model.entities.SortOrder;
+import mediabrowser.model.livetv.RecommendedProgramQuery;
+import mediabrowser.model.livetv.RecordingQuery;
+import mediabrowser.model.querying.ItemFields;
+import mediabrowser.model.querying.ItemFilter;
+import mediabrowser.model.querying.ItemSortBy;
+import mediabrowser.model.querying.ItemsResult;
+import mediabrowser.model.querying.NextUpQuery;
 
 /**
  * Created by Eric on 12/4/2014.

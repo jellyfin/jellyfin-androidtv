@@ -3,8 +3,12 @@ package org.jellyfin.androidtv.browsing;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.util.Utils;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import mediabrowser.apiinteraction.Response;
@@ -17,10 +21,6 @@ import mediabrowser.model.livetv.TimerQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.results.TimerInfoDtoResult;
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
-import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 9/3/2015.
