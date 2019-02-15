@@ -973,15 +973,32 @@ public class Utils {
     }
 
     public static String GetProgramSubText(BaseItemDto baseItem) {
-        Calendar start = Calendar.getInstance();
-        start.setTime(Utils.convertToLocalDate(baseItem.getStartDate()));
-        int day = start.get(Calendar.DAY_OF_YEAR);
-        return (baseItem.getChannelName() != null ? baseItem.getChannelName() + " - " : "") +
-            (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() + " " : "") +
-            ((day != Calendar.getInstance().get(Calendar.DAY_OF_YEAR) ? getFriendlyDate(start.getTime()) + " " : "") +
-                DateFormat.getTimeFormat(TvApp.getApplication()).format(start.getTime()) + "-" +
-                DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getEndDate())));
+        StringBuilder builder = new StringBuilder();
+        // Add the channel name if set
+        if (baseItem.getChannelName() != null) {
+            builder.append(baseItem.getChannelName())
+                    .append(" - ");
+        }
+        // Add the episode title if set
+        if (baseItem.getEpisodeTitle() != null) {
+            builder.append(baseItem.getEpisodeTitle())
+                    .append(" ");
+        }
 
+        Calendar startTime = Calendar.getInstance();
+        startTime.setTime(convertToLocalDate(baseItem.getStartDate()));
+        // If the start time is on a different day, add the date
+        if (startTime.get(Calendar.DAY_OF_YEAR) != Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
+            builder.append(getFriendlyDate(startTime.getTime()))
+                    .append(" ");
+        }
+        // Add the start and end time
+        java.text.DateFormat dateFormat = DateFormat.getTimeFormat(TvApp.getApplication());
+        builder.append(dateFormat.format(startTime.getTime()))
+                .append("-")
+                .append(dateFormat.format(convertToLocalDate(baseItem.getEndDate())));
+
+        return builder.toString();
     }
 
     public static BaseItemPerson GetFirstPerson(BaseItemDto item, String type) {
