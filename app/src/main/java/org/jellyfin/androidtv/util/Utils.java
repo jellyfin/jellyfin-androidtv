@@ -19,6 +19,7 @@ import android.media.ToneGenerator;
 import android.os.Build;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -879,8 +880,8 @@ public class Utils {
                     case "Program":
                     case "TvChannel":
                         if (item.getPremiereDate() != null && item.getEndDate() != null) {
-                            addWithDivider(sb, android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(convertToLocalDate(item.getPremiereDate()))
-                            + "-"+ android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(convertToLocalDate(item.getEndDate())));
+                            addWithDivider(sb, DateFormat.getTimeFormat(TvApp.getApplication()).format(convertToLocalDate(item.getPremiereDate()))
+                            + "-"+ DateFormat.getTimeFormat(TvApp.getApplication()).format(convertToLocalDate(item.getEndDate())));
                         }
                         break;
                     default:
@@ -972,14 +973,32 @@ public class Utils {
     }
 
     public static String GetProgramSubText(BaseItemDto baseItem) {
-        Calendar start = Calendar.getInstance();
-        start.setTime(Utils.convertToLocalDate(baseItem.getStartDate()));
-        int day = start.get(Calendar.DAY_OF_YEAR);
-        return baseItem.getChannelName() + " - " + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
-                ((day != Calendar.getInstance().get(Calendar.DAY_OF_YEAR) ? getFriendlyDate(start.getTime()) + " " : "") +
-                        android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(start.getTime()) + "-"
-                        + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getEndDate())));
+        StringBuilder builder = new StringBuilder();
+        // Add the channel name if set
+        if (baseItem.getChannelName() != null) {
+            builder.append(baseItem.getChannelName())
+                    .append(" - ");
+        }
+        // Add the episode title if set
+        if (baseItem.getEpisodeTitle() != null) {
+            builder.append(baseItem.getEpisodeTitle())
+                    .append(" ");
+        }
 
+        Calendar startTime = Calendar.getInstance();
+        startTime.setTime(convertToLocalDate(baseItem.getStartDate()));
+        // If the start time is on a different day, add the date
+        if (startTime.get(Calendar.DAY_OF_YEAR) != Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
+            builder.append(getFriendlyDate(startTime.getTime()))
+                    .append(" ");
+        }
+        // Add the start and end time
+        java.text.DateFormat dateFormat = DateFormat.getTimeFormat(TvApp.getApplication());
+        builder.append(dateFormat.format(startTime.getTime()))
+                .append("-")
+                .append(dateFormat.format(convertToLocalDate(baseItem.getEndDate())));
+
+        return builder.toString();
     }
 
     public static BaseItemPerson GetFirstPerson(BaseItemDto item, String type) {
@@ -1306,7 +1325,7 @@ public class Utils {
             if (cal.get(Calendar.DAY_OF_YEAR) < now.get(Calendar.DAY_OF_YEAR)+7 && cal.get(Calendar.DAY_OF_YEAR) > now.get(Calendar.DAY_OF_YEAR)) return cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
         }
 
-        return android.text.format.DateFormat.getDateFormat(TvApp.getApplication()).format(date);
+        return DateFormat.getDateFormat(TvApp.getApplication()).format(date);
     }
 
     public static void reportError(final Context context, final String msg) {
@@ -1479,8 +1498,8 @@ public class Utils {
     }
 
     public static String getCurrentFormattedTime() {
-        String fullTime = android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(new Date());
-        return android.text.format.DateFormat.is24HourFormat(TvApp.getApplication()) ?
+        String fullTime = DateFormat.getTimeFormat(TvApp.getApplication()).format(new Date());
+        return DateFormat.is24HourFormat(TvApp.getApplication()) ?
                 fullTime
                 : TextUtils.substring(fullTime, 0, fullTime.length()-3 ); // strip off am/pm
     }
