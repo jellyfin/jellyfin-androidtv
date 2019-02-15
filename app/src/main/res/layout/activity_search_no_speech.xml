@@ -46,7 +46,7 @@
         android:id="@+id/imageView10"
         android:layout_alignBottom="@+id/searchField"
         android:layout_toStartOf="@+id/searchField"
-        android:src="@drawable/abc_ic_search_api_mtrl_alpha"
+        android:src="@drawable/lb_ic_in_app_search"
         android:layout_marginRight="10sp" />
 
 
