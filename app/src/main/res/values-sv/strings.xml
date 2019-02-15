@@ -1,36 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="current_queue">Aktuell Kö</string>
     <string name="error">Fel</string>
     <string name="ok">OK</string>
-    <string name="pause">Pausa</string>
-    <string name="play">Spela</string>
-    <string name="stop">Stoppa</string>
-    <string name="init_text">00:00</string>
-    <string name="play_pause_description">Pausa/Spela upp-knapp</string>
-    <string name="loading">Laddar...</string>
-    <string name="no_video_found">Hittade ingen video</string>
-    <string name="version">Version: %1$s</string>
-    <string name="preferences">INSTÄLLNINGAR</string>
-    <string name="personal_settings">Personliga Inställningar</string>
-    <string name="movie">Film</string>
-    <string name="start_position">startposition</string>
-    <string name="search_results">Sökresultat</string>
-    <string name="video_error_media_load_timeout">Laddandet av media överskred tidsgränsen</string>
-    <string name="video_error_server_unaccessible">Media-servern var ej kontaktbar</string>
     <string name="video_error_unknown_error">Misslyckades att ladda video</string>
-    <string name="oops">Hoppsan</string>
-    <string name="btn_skip">Hoppa över</string>
-    <string name="title_activity_startup">Start-aktivitet</string>
-    <string name="action_settings">Inställningar</string>
     <string name="txt_loading">Laddar...</string>
-    <string name="selusr_pleaseselect">Välj Användare</string>
-    <string name="error_fragment_message">Fel</string>
-    <string name="dismiss_error">Avvisa</string>
-    <string name="video_error_server_inaccessible">Server ej tillgänglig</string>
     <string name="home_title">Hem</string>
     <string name="btn_cancel">Avbryt</string>
-    <string name="btn_manually">Skriv in server-adress</string>
     <string name="txt_expired">Jellyfin för Android TV har löpt ut</string>
     <string name="txt_expired_exp">Den här utvecklarversionen har löpt ut. Updatera eller installera från butiken. Tack för att du använder Jellyfin!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ</string>

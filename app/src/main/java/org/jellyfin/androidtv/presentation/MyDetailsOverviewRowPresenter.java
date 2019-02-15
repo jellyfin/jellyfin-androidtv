@@ -1,8 +1,6 @@
 package org.jellyfin.androidtv.presentation;
 
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.v17.leanback.widget.DetailsOverviewRow;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.view.LayoutInflater;
 import android.view.View;

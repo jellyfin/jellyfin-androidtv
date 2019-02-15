@@ -1,40 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Jellyfin</string>
-    <string name="current_queue">Fila Atual</string>
     <string name="error">Erro</string>
     <string name="ok">OK</string>
-    <string name="pause">Pausar</string>
-    <string name="play">Reproduzir</string>
-    <string name="stop">Parar</string>
-    <string name="init_text">00:00</string>
-    <string name="play_pause_description">Botão Reproduzir Pausar</string>
-    <string name="loading">A Carregar...</string>
-    <string name="no_video_found">Nenhum vídeo foi encontrado</string>
-    <string name="version">Versão: %1$s</string>
-    <string name="preferences">PREFERÊNCIAS</string>
-    <string name="personal_settings">Configurações Pessoais</string>
-    <string name="movie">Filme</string>
-    <string name="start_position">posiçãoInicial</string>
-    <string name="search_results">Resultados da Pesquisa</string>
     <string name="video_error_unknown_error">Erro a carregar o vídeo</string>
-    <string name="oops">Oops</string>
-    <string name="btn_skip">Saltar</string>
-    <string name="title_activity_startup">StartupActivity</string>
-    <string name="action_settings">Configurações</string>
     <string name="txt_loading">A Carregar...</string>
     <string name="title_activity_select_user">SelectUserActivity</string>
-    <string name="selusr_pleaseselect">Por Favor Selecione um Utilizador</string>
-    <string name="error_fragment_message">Erro</string>
-    <string name="dismiss_error">Dispensar</string>
-    <string name="video_error_server_inaccessible">Servidor Inacessível</string>
     <string name="home_title">Início</string>
     <string name="btn_cancel">Cancelar</string>
-    <string name="btn_manually">Saltar e Inserir o Endereço IP</string>
     <string name="txt_expired_exp">Esta versão de desenvolvimento expirou. Por favor veja se encontra uma atualização ou instalação na loja. Obrigado por usar o Jellyfin!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_show_login_value">0</string>
-    <string name="pref_auto_login_value">1</string>
     <string name="pref_playback">REPRODUÇÃO</string>
     <string name="settings_title">Definições</string>
     <string name="pref_startup_cat">INICIAR SESSÃO</string>
@@ -59,7 +35,6 @@
     <string name="lbl_latest">Mais recente</string>
     <string name="lbl_by_name">Por Nome</string>
     <string name="lbl_favorites">Favoritos</string>
-    <string name="lbl_latest_recordings">Últimas Gravações</string>
     <string name="lbl_coming_up">Já a Seguir</string>
     <string name="lbl_favorite_channels">Canais Favoritos</string>
     <string name="lbl_other_channels">Outros Canais</string>
@@ -68,7 +43,6 @@
     <string name="lbl_tv_series">Séries de TV</string>
     <string name="lbl_other">Outro</string>
     <string name="lbl_latest_additions">Últimas Adições</string>
-    <string name="lbl_suggested_movies">Filmes Sugeridos</string>
     <string name="lbl_because_you_watched">"Porque viu "</string>
     <string name="lbl_resume">Retomar</string>
     <string name="lbl_play_all">Reproduzir Tudo</string>
@@ -79,7 +53,6 @@
     <string name="lbl_cancel_series">Cancelar Série</string>
     <string name="lbl_record_series">Gravar Série</string>
     <string name="lbl_record">Gravar</string>
-    <string name="lbl_details">Detalhes</string>
     <string name="msg_set_to_record">Programa definido para ser gravado</string>
     <string name="msg_unable_to_create_recording">Não foi possível criar gravação</string>
     <string name="msg_recording_cancelled">Gravação Cancelada</string>
@@ -98,8 +71,6 @@
     <string name="lbl_login_as">"Inicie sessão como "</string>
     <string name="lbl_tv">TV</string>
     <string name="lbl_people">Pessoas</string>
-    <string name="lbl_parens_external">" (externo)"</string>
-    <string name="lbl_parens_internal">" (interno)"</string>
     <string name="lbl_none">Nenhum</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_please_wait">Por favor aguarde</string>

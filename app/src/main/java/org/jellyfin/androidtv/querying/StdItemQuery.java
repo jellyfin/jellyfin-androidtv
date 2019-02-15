@@ -1,8 +1,9 @@
 package org.jellyfin.androidtv.querying;
 
+import org.jellyfin.androidtv.TvApp;
+
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemQuery;
-import org.jellyfin.androidtv.TvApp;
 
 /**
  * Created by Eric on 12/5/2014.

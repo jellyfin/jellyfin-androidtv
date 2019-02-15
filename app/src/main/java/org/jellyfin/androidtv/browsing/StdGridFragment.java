@@ -15,17 +15,13 @@
 package org.jellyfin.androidtv.browsing;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
-import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
@@ -45,47 +41,40 @@ import android.widget.PopupWindow;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
-import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javax.microedition.khronos.opengles.GL10;
-
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.entities.DisplayPreferences;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.base.CustomMessage;
 import org.jellyfin.androidtv.base.IKeyListener;
 import org.jellyfin.androidtv.base.IMessageListener;
-import org.jellyfin.androidtv.imagehandling.PicassoBackgroundManagerTarget;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.model.FilterOptions;
+import org.jellyfin.androidtv.model.ImageType;
 import org.jellyfin.androidtv.model.PosterSize;
-import org.jellyfin.androidtv.model.ViewType;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.HorizontalGridPresenter;
-import org.jellyfin.androidtv.model.ImageType;
 import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.ViewQuery;
-import org.jellyfin.androidtv.search.SearchActivity;
 import org.jellyfin.androidtv.ui.CharSelectedListener;
 import org.jellyfin.androidtv.ui.DisplayPrefsPopup;
 import org.jellyfin.androidtv.ui.HorizontalGridFragment;
 import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.JumpList;
 import org.jellyfin.androidtv.util.KeyProcessor;
-import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.Utils;
+
+import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.apiinteraction.Response;
+import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.entities.DisplayPreferences;
 
 public class StdGridFragment extends HorizontalGridFragment implements IGridLoader {
     private static final String TAG = "StdGridFragment";

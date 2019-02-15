@@ -1,45 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Jellyfin</string>
-    <string name="current_queue">Текущая очередь</string>
     <string name="error">Ошибка</string>
     <string name="ok">ОК</string>
-    <string name="pause">Приостановить</string>
-    <string name="play">Воспроизвести</string>
-    <string name="stop">Остановить</string>
-    <string name="init_text">00:00</string>
-    <string name="play_pause_description">Кнопка приостановки воспроизведения</string>
-    <string name="loading">Загружается...</string>
-    <string name="no_video_found">Видео не было найдено</string>
-    <string name="version">Версия: %1$s</string>
-    <string name="preferences">НАСТРОЙКИ</string>
-    <string name="personal_settings">Личные параметры...</string>
-    <string name="movie">Фильм</string>
-    <string name="start_position">стартоваяПозиция</string>
-    <string name="search_results">Результаты поиска</string>
-    <string name="video_error_media_load_timeout">Истекло время ожидания загрузки медиаданных</string>
-    <string name="video_error_server_unaccessible">Медиа-сервер был недоступен</string>
     <string name="video_error_unknown_error">Не удалось загрузить видео</string>
-    <string name="oops">Ой!</string>
-    <string name="btn_skip">Пропустить</string>
-    <string name="title_activity_startup">ДействияПриЗапуске</string>
-    <string name="action_settings">Параметры</string>
     <string name="txt_loading">Загружается...</string>
     <string name="title_activity_select_user">ВыборДействийПользователя</string>
-    <string name="selusr_pleaseselect">Выберите пользователя</string>
-    <string name="error_fragment_message">Ошибка</string>
-    <string name="dismiss_error">Прекратить</string>
-    <string name="video_error_server_inaccessible">Сервер недоступен</string>
     <string name="home_title">Главное</string>
     <string name="btn_cancel">Отменить</string>
-    <string name="btn_manually">Пропустить и ввести IP-адрес сервера</string>
     <string name="txt_expired">Срок Jellyfin для Android TV истёк</string>
     <string name="txt_expired_exp">Истёк срок этой разработочной версии. Поищите обновление или установите из магазина. Благодарим за использование Jellyfin!</string>
     <string name="byletter_letters">АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Поведение при запуске</string>
     <string name="pref_show_login">Показывать экран входа</string>
     <string name="pref_show_login_value">0</string>
-    <string name="pref_auto_login_value">1</string>
     <string name="pref_playback">ВОСПРОИЗВЕДЕНИЕ</string>
     <string name="pref_max_bitrate_title">Макс. потоковая скорость</string>
     <string name="pref_auto_login">Автовход как этот пользователь</string>
@@ -48,7 +22,6 @@
     <string name="pref_prompt_pw">Запрашивать пароль</string>
     <string name="pref_alt_pw_entry">Использовать способ ввода пароля настраиваемой \"крестовиной\".</string>
     <string name="pref_alt_pw_entry_desc">Включение ввода цифрового пароля только клавишами \"крестовины\", без выставления пароля на обозрение</string>
-    <string name="pref_enable_hls_label">Включить HLS-трансляцию</string>
     <string name="title_activity_dpad_pw">Ввод пароля</string>
     <string name="enter_password">Ввести пароль</string>
     <string name="dpad_entry_desc">Используйте \"крестовину\" на пульте, чтобы вводить цифровой пароль. Одиночное нажатие на кнопку - для первой цифры в списке, или двойное нажатие - для второй. Примеры: Одиночное нажатие \"Вверх\" - для 1, или двойное нажатие \"Выбор\" -  для 5. Нажмите на 1-у секунду и отпустите кнопку \"Выбор\", когда закончите или левую кнопку, чтобы начать снова.</string>
@@ -76,7 +49,6 @@
     <string name="lbl_latest">Последнее</string>
     <string name="lbl_by_name">По названиям</string>
     <string name="lbl_favorites">Избранное...</string>
-    <string name="lbl_latest_recordings">Последние записи</string>
     <string name="lbl_coming_up">Ожидаемое</string>
     <string name="lbl_favorite_channels">Избранные каналы</string>
     <string name="lbl_other_channels">Другие каналы</string>
@@ -85,7 +57,6 @@
     <string name="lbl_tv_series">ТВ-сериалы</string>
     <string name="lbl_other">Другое</string>
     <string name="lbl_latest_additions">Последние добавленные</string>
-    <string name="lbl_suggested_movies">Предлагаемые фильмы</string>
     <string name="lbl_because_you_watched">"Ибо просмотрено"</string>
     <string name="lbl_resume">Возобновить</string>
     <string name="lbl_play_all">Воспр. все</string>
@@ -96,7 +67,6 @@
     <string name="lbl_cancel_series">Отменить сериал</string>
     <string name="lbl_record_series">Записать сериал</string>
     <string name="lbl_record">Записать</string>
-    <string name="lbl_details">Подробности</string>
     <string name="msg_set_to_record">Передачу назначить к записи</string>
     <string name="msg_unable_to_create_recording">Невозможно создать запись</string>
     <string name="msg_recording_cancelled">Запись отменена</string>
@@ -120,7 +90,6 @@
     <string name="lbl_ends">"Кончается: "</string>
     <string name="lbl_directed_by">"Режиссёр: "</string>
     <string name="lbl_last_played">"Последний раз воспроизводилось "</string>
-    <string name="lbl_never_played">Никогда не воспроизводилось</string>
     <string name="lbl_select_server">Выбор сервера</string>
     <string name="lbl_other_options">Другие возможности</string>
     <string name="lbl_enter_manually">Войти вручную</string>
@@ -132,8 +101,6 @@
     <string name="lbl_people">Люди</string>
     <string name="lbl_videos">Видео</string>
     <string name="lbl_recordings">Записи</string>
-    <string name="lbl_parens_external">" (внешние)"</string>
-    <string name="lbl_parens_internal">" (внутренние)"</string>
     <string name="lbl_parens_forced">" (форсированные)"</string>
     <string name="lbl_none">Ничего</string>
     <string name="msg_video_playback_error">"Ошибка воспроизведения видео - "</string>
@@ -163,12 +130,10 @@
     <string name="msg_playback_restricted">Администратор запретил воспроизведение данного элемента в настоящее время</string>
     <string name="msg_playback_incompatible">Невозможно воспроизвести данный видеоформат</string>
     <string name="lbl_never">Никогда</string>
-    <string name="btn_next">Далее...</string>
     <string name="msg_cannot_play_time">Невозможно воспроизвести данный элемент в настоящее время</string>
     <string name="msg_cannot_play">Этот элемент невозможно воспроизвести</string>
     <string name="lbl_no_items">Нет элементов</string>
     <string name="lbl_empty">Пусто</string>
-    <string name="sum_enable_hls">Отключать только если возникают проблемы воспроизведения</string>
     <string name="lbl_tv_queuing">Поставить в очередь все последующие эпизоды</string>
     <string name="sum_tv_queuing">Добавить остаток сезона в очередь воспроизведения, когда воспроизводится эпизод</string>
     <string name="lbl_search_hint">Искомый текст (выбор для клавиатуры)</string>
@@ -185,7 +150,6 @@
     <string name="lbl_confirm_mark_unwatched">Всё содержание будет отмечено как невоспроизведённое. Вы СОВЕРШЕННО уверены?</string>
     <string name="msg_no_playable_items">Нет воспроизводимых элементов</string>
     <string name="lbl_unwatched">Непросмотренное</string>
-    <string name="lbl_series">Сериал</string>
     <string name="lbl_load_channels">"Загрузить каналы "</string>
     <string name="lbl_today">Сегодня</string>
     <string name="lbl_tomorrow">Завтра</string>
@@ -205,7 +169,6 @@
     <string name="lbl_days">Дни</string>
     <string name="msg_cancel_entire_series">Вы действительно хотите отменить этот ВЕСЬ СЕРИАЛ?</string>
     <string name="msg_remote_already_playing">Отклонён удалённый запрос на воспроизведение. Сначала остановите текущий элемент.</string>
-    <string name="lbl_buffering_amount">Общий размер буфера</string>
     <string name="pref_audio_direct">Напрямую</string>
     <string name="pref_audio_compat">Совместимо</string>
     <string name="lbl_audio_output">Выход звука</string>
@@ -216,8 +179,6 @@
     <string name="lbl_sideline_color">Цвет боковой линии</string>
     <string name="desc_sideline_color">Цвет категории боковой панели</string>
     <string name="lbl_vlc_max_res">Максимальное разрешение для попытки прямой трансляции</string>
-    <string name="lbl_allow_vlc_transcode">Использовать VLC для перекодированных потоков</string>
-    <string name="desc_allow_vlc_transcode">В VLC имеются проблемы с некоторыми перекодированными потоками. Выключите это, чтобы принудительно направить всё перекодированное на внутренний проигрыватель.</string>
     <string name="lbl_show_info_panel">Показывать инфо-панель</string>
     <string name="lbl_enable_debug">Включить отладочные параметры</string>
     <string name="desc_info_panel">Показывается панель с подробностями текущего элемента на экранах без подробных сведений</string>
@@ -267,7 +228,6 @@
     <string name="lbl_playlists">Плей-листы</string>
     <string name="lbl_of">из</string>
     <string name="msg_added_item_to_queue">"Элемент добавлен в очередь на позиции "</string>
-    <string name="lbl_replace_queue_paren">(замена очереди)</string>
     <string name="msg_items_added">" элементов добавлено"</string>
     <string name="msg_total_items_in_queue">" элементов всего в очереди"</string>
     <string name="lbl_add_to_queue">Добавить в очередь</string>

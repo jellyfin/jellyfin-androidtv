@@ -1,45 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Jellyfin</string>
-    <string name="current_queue">Aktuální fronta</string>
     <string name="error">Chyba</string>
     <string name="ok">OK</string>
-    <string name="pause">Pauza</string>
-    <string name="play">Přehrát</string>
-    <string name="stop">Zastavit</string>
-    <string name="init_text">00:00</string>
-    <string name="play_pause_description">Tlačítko přehrát/zastavit</string>
-    <string name="loading">Načítá se...</string>
-    <string name="no_video_found">Nebyla nalezena žádná videa</string>
-    <string name="version">Verze: %1$s</string>
-    <string name="preferences">PŘEDVOLBY</string>
-    <string name="personal_settings">Osobní nastavení</string>
-    <string name="movie">Film</string>
-    <string name="start_position">Počáteční pozice</string>
-    <string name="search_results">Výsledky vyhledávání</string>
-    <string name="video_error_media_load_timeout">Vypršel čas při nahrávání média</string>
-    <string name="video_error_server_unaccessible">Média server je nedostupný</string>
     <string name="video_error_unknown_error">Nepodařilo se načíst video</string>
-    <string name="oops">Sakra</string>
-    <string name="btn_skip">Přeskočit</string>
-    <string name="title_activity_startup">Aktivity při spuštění</string>
-    <string name="action_settings">Nastavení</string>
     <string name="txt_loading">Načítá se...</string>
     <string name="title_activity_select_user">Aktivity při výběru uživatele</string>
-    <string name="selusr_pleaseselect">Prosím vyberte uživatele</string>
-    <string name="error_fragment_message">Chyba</string>
-    <string name="dismiss_error">Opustit</string>
-    <string name="video_error_server_inaccessible">Server nedostupný</string>
     <string name="home_title">Domů</string>
     <string name="btn_cancel">Zrušit</string>
-    <string name="btn_manually">Zadejte adresu serveru</string>
     <string name="txt_expired">Jellyfin pro Android TV vypršelo</string>
     <string name="txt_expired_exp">Tato vývojová verze vypršela. Podívejte se prosím na dostupné aktualizace nebo instalace v obchodě. Děkujeme, že používáte Jellyfin!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Funkce při spuštění</string>
     <string name="pref_show_login">Zobrazit obrazovku pro přihlášení</string>
     <string name="pref_show_login_value">0</string>
-    <string name="pref_auto_login_value">1</string>
     <string name="pref_playback">PŘEHRÁVÁNÍ</string>
     <string name="pref_max_bitrate_title">Maximální datový tok</string>
     <string name="pref_auto_login">Automaticky přihlásit jako tento uživatel</string>
@@ -48,7 +22,6 @@
     <string name="pref_prompt_pw">Vyzvat k zadání hesla</string>
     <string name="pref_alt_pw_entry">Použít vlastní techniku D-pad pro zadání hesla</string>
     <string name="pref_alt_pw_entry_desc">Povolit numerické zadání hesla pouze s klíčem d-pad bez vystavení hesla všem v místnosti</string>
-    <string name="pref_enable_hls_label">Povolit streamování HLS</string>
     <string name="title_activity_dpad_pw">Zadejte heslo</string>
     <string name="enter_password">Zadejte heslo</string>
     <string name="dpad_entry_desc">Pomocí D-pad na dálkovém ovládání zadejte číselné heslo. Kliknout na tlačítko pro první položku uvedenou na seznamu, nebo dvojklik pro druhou položku. např. jedno kliknutí na tlačítko \"up\" na 1 nebo dvojité kliknutí a uvolnění \"vybere\" 5. Podržte na 1 sekundu a uvolněte, nebo použijte levé tlačítko pro spuštění od začátku.</string>
@@ -76,7 +49,6 @@
     <string name="lbl_latest">Nejnovější</string>
     <string name="lbl_by_name">Dle názvu</string>
     <string name="lbl_favorites">Oblíbené</string>
-    <string name="lbl_latest_recordings">Nejnovější nahrávky</string>
     <string name="lbl_coming_up">Právě vychází</string>
     <string name="lbl_favorite_channels">Oblíbené kanály</string>
     <string name="lbl_other_channels">Další kanály</string>
@@ -85,7 +57,6 @@
     <string name="lbl_tv_series">Seriály</string>
     <string name="lbl_other">Další</string>
     <string name="lbl_latest_additions">Nejnověji přidáno</string>
-    <string name="lbl_suggested_movies">Doporučené filmy</string>
     <string name="lbl_because_you_watched">"Protože jste sledovali "</string>
     <string name="lbl_resume">Pokračovat</string>
     <string name="lbl_play_all">Přehrát vše</string>
@@ -96,7 +67,6 @@
     <string name="lbl_cancel_series">Ukončení seriálu</string>
     <string name="lbl_record_series">Záznam seriálů</string>
     <string name="lbl_record">Záznam</string>
-    <string name="lbl_details">Detaily</string>
     <string name="msg_set_to_record">Program nastaven na záznam</string>
     <string name="msg_unable_to_create_recording">Nelze vytvořit záznam</string>
     <string name="msg_recording_cancelled">Nahrávání zrušeno</string>
@@ -120,7 +90,6 @@
     <string name="lbl_ends">"Končí: "</string>
     <string name="lbl_directed_by">"Režie: "</string>
     <string name="lbl_last_played">"Shlédnuto posledně "</string>
-    <string name="lbl_never_played">Zatím nepřehráno</string>
     <string name="lbl_select_server">Vyber server</string>
     <string name="lbl_other_options">Další možnosti</string>
     <string name="lbl_enter_manually">Zadat manuálně</string>
@@ -132,8 +101,6 @@
     <string name="lbl_people">Lidé</string>
     <string name="lbl_videos">Videa</string>
     <string name="lbl_recordings">Nahrávky</string>
-    <string name="lbl_parens_external">" (externí)"</string>
-    <string name="lbl_parens_internal">" (interní)"</string>
     <string name="lbl_parens_forced">" (vynucené)"</string>
     <string name="lbl_none">Žádné</string>
     <string name="msg_video_playback_error">"Chyba při přehrávání videa - "</string>
@@ -163,12 +130,10 @@
     <string name="msg_playback_restricted">Správce má omezenou přehrávání této položky v této době</string>
     <string name="msg_playback_incompatible">Nelze přehrát tento video formát</string>
     <string name="lbl_never">Nikdy</string>
-    <string name="btn_next">Další</string>
     <string name="msg_cannot_play_time">Tuto položku nelze v této době přehrát</string>
     <string name="msg_cannot_play">Tuto položku nelze přehrávat</string>
     <string name="lbl_no_items">Žádné položky</string>
     <string name="lbl_empty">prázdný</string>
-    <string name="sum_enable_hls">Zakázat pouze tehdy, pokud dochází k potížím s přehráváním</string>
     <string name="lbl_tv_queuing">Zařadit všechny následné epizody</string>
     <string name="sum_tv_queuing">Přidejte zbytek sezony do fronty přehrávání při přehrávání epizody</string>
     <string name="lbl_search_hint">Hledaný text (vyberte pro klávesnici)</string>
@@ -185,7 +150,6 @@
     <string name="lbl_confirm_mark_unwatched">Toto označí veškerý obsah, jako nepřehraný. Jste si opravdu jistí?</string>
     <string name="msg_no_playable_items">Žádné hratelné položky</string>
     <string name="lbl_unwatched">Neshlédnuto</string>
-    <string name="lbl_series">Seriály</string>
     <string name="lbl_load_channels">"Načíst kanály "</string>
     <string name="lbl_today">Dnes</string>
     <string name="lbl_tomorrow">Zítra</string>
@@ -205,7 +169,6 @@
     <string name="lbl_days">Dny</string>
     <string name="msg_cancel_entire_series">Jste si jisti, že chcete zrušit CELÝ SERIÁL?</string>
     <string name="msg_remote_already_playing">Vzdálený požadavek na přehrání ignorováno. Prosím, zastavte nejprve aktuální položku.</string>
-    <string name="lbl_buffering_amount">Velikost ukládání do vyrovnávací paměti</string>
     <string name="pref_audio_direct">Přímé</string>
     <string name="pref_audio_compat">Kompatibilní</string>
     <string name="lbl_audio_output">Výstup audia</string>
@@ -216,8 +179,6 @@
     <string name="lbl_sideline_color">Boční barva</string>
     <string name="desc_sideline_color">Barva kategorie postranního panelu</string>
     <string name="lbl_vlc_max_res">Maximální rozlišení pro přímý stream</string>
-    <string name="lbl_allow_vlc_transcode">Použít VLC pro překódované streamy</string>
-    <string name="desc_allow_vlc_transcode">VLC má problémy s překódováním některých streamů. Tuto funkci vypněte k vynucení překódovíní na nativním přehrávači.</string>
     <string name="lbl_show_info_panel">Zobrazit informační panel</string>
     <string name="lbl_enable_debug">Povolit debugovací volby</string>
     <string name="desc_info_panel">Zobrazit panel s informací o aktuální položce na obrazovkách bez podrobnějších informací</string>

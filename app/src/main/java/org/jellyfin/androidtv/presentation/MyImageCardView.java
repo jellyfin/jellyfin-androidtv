@@ -19,11 +19,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import mediabrowser.model.dto.BaseItemDto;
+import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.R;
 
 
 
