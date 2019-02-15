@@ -1,45 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Jellyfin</string>
-    <string name="current_queue">Huidige wachtlijst</string>
     <string name="error">Fout</string>
     <string name="ok">OK</string>
-    <string name="pause">Pauze</string>
-    <string name="play">Afspelen</string>
-    <string name="stop">Stop</string>
-    <string name="init_text">00:00</string>
-    <string name="play_pause_description">Afspeel/Pauze Knop</string>
-    <string name="loading">Laden...</string>
-    <string name="no_video_found">Geen video gevonden</string>
-    <string name="version">Versie: %1$s</string>
-    <string name="preferences">VOORKEUREN</string>
-    <string name="personal_settings">Persoonlijke Instellingen</string>
-    <string name="movie">Film</string>
-    <string name="start_position">startPositie</string>
-    <string name="search_results">Zoekresultaten</string>
-    <string name="video_error_media_load_timeout">Laden media duurde te lang</string>
-    <string name="video_error_server_unaccessible">Media server was niet bereikbaar</string>
     <string name="video_error_unknown_error">Laden video is mislukt</string>
-    <string name="oops">Oeps</string>
-    <string name="btn_skip">Overslaan</string>
-    <string name="title_activity_startup">OpstartActiviteit</string>
-    <string name="action_settings">Instellingen</string>
     <string name="txt_loading">Laden...</string>
     <string name="title_activity_select_user">KiesGebruikerActiviteit</string>
-    <string name="selusr_pleaseselect">Selecteer een Gebruiker</string>
-    <string name="error_fragment_message">Fout</string>
-    <string name="dismiss_error">Negeer</string>
-    <string name="video_error_server_inaccessible">Server niet toegankelijk</string>
     <string name="home_title">Hoofdpagina</string>
     <string name="btn_cancel">Annuleren</string>
-    <string name="btn_manually">Overslaan en IP adres opgeven</string>
     <string name="txt_expired">Jellyfin voor Android TV is verlopen</string>
     <string name="txt_expired_exp">Deze ontwikkelingsversie is verlopen. Controleer of er nieuwe updates zijn of installeer vanuit de store. Bedankt voor het gebruiken van Jellyfin!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Opstart gedrag</string>
     <string name="pref_show_login">Toon Login Scherm</string>
     <string name="pref_show_login_value">0</string>
-    <string name="pref_auto_login_value">1</string>
     <string name="pref_playback">AFSPELEN</string>
     <string name="pref_max_bitrate_title">Max Streaming Bitrate</string>
     <string name="pref_auto_login">Automatisch inloggen als deze gebruiker</string>
@@ -48,7 +22,6 @@
     <string name="pref_prompt_pw">Vraag Wachtwoord</string>
     <string name="pref_alt_pw_entry">Gebruik eigen d-pad wachtwoord invoermethode</string>
     <string name="pref_alt_pw_entry_desc">Inschakelen numeriek wachtwoord met alleen d-pad toetsen zonder het wachtwoord aan iedereen in de kamer te tonen</string>
-    <string name="pref_enable_hls_label">HLS streaming activeren</string>
     <string name="title_activity_dpad_pw">Wachtwoord invoeren</string>
     <string name="enter_password">Wachtwoord invoeren</string>
     <string name="dpad_entry_desc">Gebruik de D-Pad op uw afstandsbediening om een ​​numeriek wachtwoord in te voeren. Klik eenmaal op een knop voor het eerste weergegeven nummer of dubbelklik voor het tweede. Bijv. klik eenmaal \'boven\' voor 1 of dubbelklik op \'selecteren\' voor 5. Houd 1 seconde vast en laat de knop \'select\' los wanneer u klaar bent of druk op de linker knop om opnieuw te beginnen.</string>
@@ -76,7 +49,6 @@
     <string name="lbl_latest">Laatste</string>
     <string name="lbl_by_name">Op naam</string>
     <string name="lbl_favorites">Favorieten</string>
-    <string name="lbl_latest_recordings">Laatste opnames</string>
     <string name="lbl_coming_up">Aankomend</string>
     <string name="lbl_favorite_channels">Favoriete kanalen</string>
     <string name="lbl_other_channels">Andere kanalen</string>
@@ -85,7 +57,6 @@
     <string name="lbl_tv_series">TV Series</string>
     <string name="lbl_other">Andere</string>
     <string name="lbl_latest_additions">Laatste toevoegingen</string>
-    <string name="lbl_suggested_movies">Voorgestelde films</string>
     <string name="lbl_because_you_watched">"Omdat u keek naar {0}"</string>
     <string name="lbl_resume">Hervatten</string>
     <string name="lbl_play_all">Speel alles</string>
@@ -96,7 +67,6 @@
     <string name="lbl_cancel_series">Annuleer serie</string>
     <string name="lbl_record_series">Serie Opnemen</string>
     <string name="lbl_record">Opnemen</string>
-    <string name="lbl_details">Details</string>
     <string name="msg_set_to_record">Programma ingesteld om op te nemen</string>
     <string name="msg_unable_to_create_recording">Niet mogelijk om de opname te maken</string>
     <string name="msg_recording_cancelled">Opname geannuleerd</string>
@@ -120,7 +90,6 @@
     <string name="lbl_ends">"Eindigt: "</string>
     <string name="lbl_directed_by">"Geregisseerd door: "</string>
     <string name="lbl_last_played">"Laatst afgespeeld "</string>
-    <string name="lbl_never_played">Nooit afgespeeld</string>
     <string name="lbl_select_server">Selecteer een server</string>
     <string name="lbl_other_options">Andere opties</string>
     <string name="lbl_enter_manually">Handmatig invoeren</string>
@@ -132,8 +101,6 @@
     <string name="lbl_people">Mensen</string>
     <string name="lbl_videos">Videos</string>
     <string name="lbl_recordings">Opnames</string>
-    <string name="lbl_parens_external">" (extern)"</string>
-    <string name="lbl_parens_internal">" (intern)"</string>
     <string name="lbl_parens_forced">" (geforceerd)"</string>
     <string name="lbl_none">Geen</string>
     <string name="msg_video_playback_error">"Video afspeel fout - "</string>
@@ -163,12 +130,10 @@
     <string name="msg_playback_restricted">De beheerder heeft afspelen van dit item tot bepaalde tijdstippen beperkt</string>
     <string name="msg_playback_incompatible">Kan dit videoformaat niet afspelen</string>
     <string name="lbl_never">Nooit</string>
-    <string name="btn_next">Volgende</string>
     <string name="msg_cannot_play_time">Kan dit item momenteel niet afspelen</string>
     <string name="msg_cannot_play">Dit item kan niet afgespeeld worden</string>
     <string name="lbl_no_items">Geen items</string>
     <string name="lbl_empty">Leeg</string>
-    <string name="sum_enable_hls">Alleen uitschakelen als u problemen met afspelen hebt</string>
     <string name="lbl_tv_queuing">Zet alle volgende afleveringen in de wachtrij</string>
     <string name="sum_tv_queuing">Voeg de rest van het seizoen toe aan de afspeelwachtrij als er een aflevering afgespeeld wordt.</string>
     <string name="lbl_search_hint">Zoek tekst (selecteer voor toetsenbord)</string>
@@ -185,7 +150,6 @@
     <string name="lbl_confirm_mark_unwatched">Dit markeert alles als niet gezien. Weet u dit heel zeker?</string>
     <string name="msg_no_playable_items">Geen afspeelbare items</string>
     <string name="lbl_unwatched">Ongezien</string>
-    <string name="lbl_series">Series</string>
     <string name="lbl_load_channels">"Laad kanalen "</string>
     <string name="lbl_today">Vandaag</string>
     <string name="lbl_tomorrow">Morgen</string>
@@ -205,7 +169,6 @@
     <string name="lbl_days">Dagen</string>
     <string name="msg_cancel_entire_series">Weet u zeker dat u de hele serie wilt annuleren?</string>
     <string name="msg_remote_already_playing">Afspelen op afstand opdracht genegeerd, stop eerst het huidige onderdeel.</string>
-    <string name="lbl_buffering_amount">Buffer Grootte</string>
     <string name="pref_audio_direct">Direct</string>
     <string name="pref_audio_compat">Compatible</string>
     <string name="lbl_audio_output">Geluid uitgang</string>
@@ -216,8 +179,6 @@
     <string name="lbl_sideline_color">Kleur zij-lijn</string>
     <string name="desc_sideline_color">Kleur van het categorie paneel</string>
     <string name="lbl_vlc_max_res">Maximale resolutie waarop direct streamen geprobeerd wordt</string>
-    <string name="lbl_allow_vlc_transcode">Gebruik VLC voor getranscodeerde streams</string>
-    <string name="desc_allow_vlc_transcode">VLC heeft problemen met sommige getranscodeerde streams, schakel dit uit om de standaard speler te gebruiken.</string>
     <string name="lbl_show_info_panel">Toon info paneel</string>
     <string name="lbl_enable_debug">Schakel debug mogelijkheden in</string>
     <string name="desc_info_panel">Laat een paneel met detail informatie zien op schermen zonder detail informatie</string>
@@ -267,7 +228,6 @@
     <string name="lbl_playlists">Afspeellijst</string>
     <string name="lbl_of">van</string>
     <string name="msg_added_item_to_queue">"Item aan de lijst toegevoegd op positie "</string>
-    <string name="lbl_replace_queue_paren">(vervang wachtrij)</string>
     <string name="msg_items_added">" Items toegevoegd"</string>
     <string name="msg_total_items_in_queue">" items in de wachtrij"</string>
     <string name="lbl_add_to_queue">Toevoegen aan wachtrij</string>

@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.startup;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import org.jellyfin.androidtv.R;

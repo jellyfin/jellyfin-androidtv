@@ -7,11 +7,17 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.View;
 
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.livetv.TvManager;
+import org.jellyfin.androidtv.ui.ImageButton;
+import org.jellyfin.androidtv.util.ProfileHelper;
+import org.jellyfin.androidtv.util.Utils;
+
 import java.util.List;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.Response;
-import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.model.dlna.DeviceProfile;
 import mediabrowser.model.dlna.DirectPlayProfile;
 import mediabrowser.model.dlna.PlaybackException;
@@ -21,7 +27,6 @@ import mediabrowser.model.dlna.SubtitleStreamInfo;
 import mediabrowser.model.dlna.VideoOptions;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.MediaSourceInfo;
-import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.MediaStreamType;
@@ -30,12 +35,6 @@ import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.mediainfo.SubtitleTrackInfo;
 import mediabrowser.model.session.PlayMethod;
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.livetv.TvManager;
-import org.jellyfin.androidtv.ui.ImageButton;
-import org.jellyfin.androidtv.util.ProfileHelper;
-import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 12/9/2014.

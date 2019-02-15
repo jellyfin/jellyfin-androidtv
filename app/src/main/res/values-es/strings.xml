@@ -1,52 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Jellyfin</string>
-    <string name="current_queue">Cola Actual</string>
     <string name="error">Error</string>
     <string name="ok">OK</string>
-    <string name="pause">Pausar</string>
-    <string name="play">Reproducir</string>
-    <string name="stop">Detener</string>
-    <string name="init_text">00:00</string>
-    <string name="play_pause_description">Boton Reproducir Detener</string>
-    <string name="loading">Cargando...</string>
-    <string name="no_video_found">No se encontró ningún vídeo</string>
-    <string name="version">Versión: %1$s</string>
-    <string name="preferences">PREFERENCIAS</string>
-    <string name="personal_settings">Configuración Personal</string>
-    <string name="movie">Película</string>
-    <string name="start_position">posiciónInicial</string>
-    <string name="search_results">Resultados de la Búsqueda</string>
-    <string name="video_error_media_load_timeout">El tiempo de carga del medio ha expirado</string>
-    <string name="video_error_server_unaccessible">El servidor de medios no pudo encontrarse</string>
     <string name="video_error_unknown_error">Falla al cargar el vídeo</string>
-    <string name="oops">Oops</string>
-    <string name="btn_skip">Saltar</string>
-    <string name="title_activity_startup">ActividadArranque</string>
-    <string name="action_settings">Configuraciones</string>
     <string name="txt_loading">Cargando...</string>
     <string name="title_activity_select_user">ActicidadSeleccionarUsuario</string>
-    <string name="selusr_pleaseselect">Por favor seleccione un Usuario</string>
-    <string name="error_fragment_message">Error</string>
-    <string name="dismiss_error">Ocultar</string>
-    <string name="video_error_server_inaccessible">Servidor inaccesible</string>
     <string name="home_title">Inicio</string>
     <string name="btn_cancel">Cancelar</string>
-    <string name="btn_manually">Ingresar Dirección del Servidor</string>
     <string name="txt_expired">Jellyfin para Andrioid TV ha Expirado</string>
     <string name="txt_expired_exp">La vesión de desarrollo ha expirado. Por favor busque una actualización o instale desde la tienda. Gracias por usar Jellyfin!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Comportamiento de Arranque</string>
     <string name="pref_show_login">Mostrar Pantalla de Inicio de Sesión</string>
     <string name="pref_show_login_value">0</string>
-    <string name="pref_auto_login_value">1</string>
     <string name="pref_playback">REPRODUCIR</string>
     <string name="pref_max_bitrate_title">Tasa de Bits de Transmisión Máxima</string>
     <string name="pref_auto_login">Iniciar sesión con este usuario automáticamente</string>
     <string name="settings_title">Configuraciones</string>
     <string name="pref_startup_cat">INICIAR SESIÓN</string>
     <string name="pref_prompt_pw">Solicitar una Contraseña</string>
-    <string name="pref_enable_hls_label">Habilitar Transmisión HLS</string>
     <string name="title_activity_dpad_pw">Introducir Contraseña</string>
     <string name="enter_password">Introducir Contraseña</string>
     <string name="dpad_entry_desc">Emplee el D-Pad en su control remoto para introducir una contraseña numérica. Haga clic en un botón para el primer número listado o doble clic para el segundo. p. Ej. haga click en \'Arriba\' para 1 o doble click \'seleccionar\' para 5. Mantenga presionado por un segundo y después libere el boton \'seleccionar\' cuando haya terminado o el botón de \'izquierda\' para comenzar nuevamente.</string>
@@ -73,7 +46,6 @@
     <string name="lbl_latest">Recientes</string>
     <string name="lbl_by_name">Por Nombre</string>
     <string name="lbl_favorites">Favoritos</string>
-    <string name="lbl_latest_recordings">Grabaciones Recientes</string>
     <string name="lbl_coming_up">Próximos</string>
     <string name="lbl_favorite_channels">Canales Favoritos</string>
     <string name="lbl_other_channels">Otros Canales</string>
@@ -82,7 +54,6 @@
     <string name="lbl_tv_series">Series de TV</string>
     <string name="lbl_other">Otro</string>
     <string name="lbl_latest_additions">Adiciones Recientes</string>
-    <string name="lbl_suggested_movies">Películas Sugeridas</string>
     <string name="lbl_because_you_watched">"Porque viste "</string>
     <string name="lbl_resume">Continuar</string>
     <string name="lbl_play_all">Reproducir Todos</string>
@@ -90,7 +61,6 @@
     <string name="lbl_play">Reproducir</string>
     <string name="lbl_cancel">Cancelar</string>
     <string name="lbl_record">Grabar</string>
-    <string name="lbl_details">Detalles</string>
     <string name="msg_set_to_record">Programa establecido para grabar</string>
     <string name="msg_unable_to_create_recording">Imposible crear grabación</string>
     <string name="msg_recording_cancelled">Grabación Cancelada</string>
@@ -112,7 +82,6 @@
     <string name="lbl_ends">"Termina: "</string>
     <string name="lbl_directed_by">"Dirigido Por: "</string>
     <string name="lbl_last_played">"Reproducido Recientemente "</string>
-    <string name="lbl_never_played">Nunca Reproducido</string>
     <string name="lbl_select_server">Seleccione un servidor</string>
     <string name="lbl_other_options">Otras opciones</string>
     <string name="lbl_enter_manually">Ingresar Manualmente</string>
@@ -122,8 +91,6 @@
     <string name="lbl_login_as">"Iniciar Sesión como "</string>
     <string name="lbl_tv">TV</string>
     <string name="lbl_people">Gente</string>
-    <string name="lbl_parens_external">" (externo)"</string>
-    <string name="lbl_parens_internal">" (interno)"</string>
     <string name="lbl_parens_forced">" (forzado)"</string>
     <string name="lbl_none">Ninguno</string>
     <string name="msg_video_playback_error">"Error de reproducción de video - "</string>
@@ -150,12 +117,10 @@
     <string name="msg_playback_restricted">En este momento el administrador ha restringido la reproducción de este ítem.</string>
     <string name="msg_playback_incompatible">No es posible reproducir este formato de video.</string>
     <string name="lbl_never">Nunca</string>
-    <string name="btn_next">Siguiente</string>
     <string name="msg_cannot_play_time">En este momento no es posible reproducir el ítem</string>
     <string name="msg_cannot_play">Este ítem no pude reproducirse</string>
     <string name="lbl_no_items">No hay ítems</string>
     <string name="lbl_empty">Vacío</string>
-    <string name="sum_enable_hls">Deshabilitar únicamente si está experimentando problemas de reproducción</string>
     <string name="lbl_tv_queuing">Encolar todos los episodios subsecuentes</string>
     <string name="sum_tv_queuing">Añadir el resto de la temporada a la cola de reproducción al reproducir un episodio</string>
 </resources>

@@ -2,6 +2,11 @@ package org.jellyfin.androidtv.browsing;
 
 import android.os.Bundle;
 
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.querying.QueryType;
+import org.jellyfin.androidtv.querying.StdItemQuery;
+
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.SortOrder;
@@ -9,10 +14,6 @@ import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.SimilarItemsQuery;
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.querying.QueryType;
-import org.jellyfin.androidtv.querying.StdItemQuery;
 
 /**
  * Created by Eric on 12/4/2014.

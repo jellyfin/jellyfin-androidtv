@@ -26,6 +26,20 @@ import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import org.jellyfin.androidtv.BuildConfig;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.browsing.MainActivity;
+import org.jellyfin.androidtv.details.FullDetailsActivity;
+import org.jellyfin.androidtv.details.ItemListActivity;
+import org.jellyfin.androidtv.model.ChapterItemInfo;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
+import org.jellyfin.androidtv.startup.DpadPwActivity;
+import org.jellyfin.androidtv.startup.LogonCredentials;
+import org.jellyfin.androidtv.startup.SelectServerActivity;
+import org.jellyfin.androidtv.startup.SelectUserActivity;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -80,19 +94,6 @@ import mediabrowser.model.session.PlaybackProgressInfo;
 import mediabrowser.model.session.PlaybackStartInfo;
 import mediabrowser.model.session.PlaybackStopInfo;
 import mediabrowser.model.users.AuthenticationResult;
-import org.jellyfin.androidtv.BuildConfig;
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.browsing.MainActivity;
-import org.jellyfin.androidtv.details.FullDetailsActivity;
-import org.jellyfin.androidtv.details.ItemListActivity;
-import org.jellyfin.androidtv.model.ChapterItemInfo;
-import org.jellyfin.androidtv.playback.MediaManager;
-import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
-import org.jellyfin.androidtv.startup.DpadPwActivity;
-import org.jellyfin.androidtv.startup.LogonCredentials;
-import org.jellyfin.androidtv.startup.SelectServerActivity;
-import org.jellyfin.androidtv.startup.SelectUserActivity;
 
 /**
  * A collection of utility methods, all static.

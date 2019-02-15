@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
@@ -12,13 +13,22 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Build;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.text.format.DateUtils;
 import android.util.Log;
+
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.playback.PlaybackController;
+import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
+import org.jellyfin.androidtv.search.SearchActivity;
+import org.jellyfin.androidtv.startup.LogonCredentials;
+import org.jellyfin.androidtv.util.Utils;
+
+import java.util.Calendar;
+import java.util.HashMap;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.EmptyResponse;
@@ -33,17 +43,6 @@ import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.entities.DisplayPreferences;
 import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.system.SystemInfo;
-import org.jellyfin.androidtv.base.BaseActivity;
-import org.jellyfin.androidtv.playback.MediaManager;
-import org.jellyfin.androidtv.playback.PlaybackController;
-import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
-import org.jellyfin.androidtv.search.SearchActivity;
-import org.jellyfin.androidtv.startup.LogonCredentials;
-import org.jellyfin.androidtv.util.Utils;
-
-import java.util.Calendar;
-import java.util.HashMap;
-import android.Manifest;
 
 /**
  * Created by Eric on 11/24/2014.

@@ -10,15 +10,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.Date;
-
-import mediabrowser.model.dto.BaseItemDto;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.livetv.ILiveTvGuide;
-import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.Utils;
+
+import java.util.Date;
+
+import mediabrowser.model.dto.BaseItemDto;
 
 /**
  * Created by Eric on 5/4/2015.

@@ -42,29 +42,8 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.squareup.okhttp.internal.Util;
 import com.squareup.picasso.Picasso;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.apiinteraction.android.GsonJsonSerializer;
-import mediabrowser.model.dlna.StreamInfo;
-import mediabrowser.model.dlna.SubtitleStreamInfo;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.dto.ChapterInfoDto;
-import mediabrowser.model.dto.ImageOptions;
-import mediabrowser.model.entities.ImageType;
-import mediabrowser.model.entities.MediaStream;
-import mediabrowser.model.livetv.ChannelInfoDto;
-import mediabrowser.model.mediainfo.SubtitleTrackEvent;
-import mediabrowser.model.mediainfo.SubtitleTrackInfo;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.CustomMessage;
@@ -91,6 +70,25 @@ import org.jellyfin.androidtv.ui.ValueChangedListener;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.Utils;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.apiinteraction.Response;
+import mediabrowser.model.dlna.StreamInfo;
+import mediabrowser.model.dlna.SubtitleStreamInfo;
+import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.dto.ChapterInfoDto;
+import mediabrowser.model.dto.ImageOptions;
+import mediabrowser.model.entities.ImageType;
+import mediabrowser.model.entities.MediaStream;
+import mediabrowser.model.livetv.ChannelInfoDto;
+import mediabrowser.model.mediainfo.SubtitleTrackEvent;
+import mediabrowser.model.mediainfo.SubtitleTrackInfo;
 
 /**
  * Created by Eric on 4/28/2015.
