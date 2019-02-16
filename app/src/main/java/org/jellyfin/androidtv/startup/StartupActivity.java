@@ -141,7 +141,8 @@ public class StartupActivity extends Activity {
         capabilities.setDeviceProfile(new AndroidProfile(Utils.getProfileOptions()));
         capabilities.setSupportsMediaControl(true);
         capabilities.setSupportedCommands(supportedCommands);
-        capabilities.setIconUrl("https://raw.githubusercontent.com/MediaBrowser/MediaBrowser.Android/master/servericon.png");
+//        TODO: Add new icon url
+//        capabilities.setIconUrl("");
 
         IJsonSerializer jsonSerializer = new GsonJsonSerializer();
 
