@@ -764,10 +764,6 @@ public class Utils {
         });
     }
 
-    public static String getStoreUrl() {
-        return isFireTv() ? "http://www.amazon.com/Jellyfin-for-Fire-TV/dp/B00VVJKTW8/ref=sr_1_2?s=mobile-apps&ie=UTF8&qid=1430569449&sr=1-2" : "https://play.google.com/store/apps/details?id=org.jellyfin.androidtv";
-    }
-
     private static void addMainItem(BaseItemDto mainItem, final List<BaseItemDto> items, final Response<List<BaseItemDto>> outerResponse) {
         items.add(mainItem);
         if (mainItem.getPartCount() != null && mainItem.getPartCount() > 1) {
