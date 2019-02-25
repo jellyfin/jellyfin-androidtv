@@ -1,0 +1,59 @@
+apply plugin: 'com.android.application'
+def version = "1.1.90"
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1190
+        versionName version
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+        }
+    }
+
+    flavorDimensions "version"
+    productFlavors {
+        google {
+            dimension = "version"
+            versionName = version + "g"
+        }
+        amazon {
+            dimension = "version"
+            versionName = version + "a"
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    amazonImplementation project(':exomedia-amazon')
+    googleImplementation 'com.devbrackets.android:exomedia:2.5.6'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.android.support:leanback-v17:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.mcxiaoke.volley:library:1.0.19'
+    implementation 'com.squareup.picasso:picasso:2.3.2'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.google.code.gson:gson:2.5'
+    implementation 'com.squareup.okhttp:okhttp:2.7.0'
+    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.7.0'
+    implementation 'com.google.guava:guava:18.0'
+    implementation 'com.flaviofaria:kenburnsview:1.0.6'
+    implementation 'org.java-websocket:Java-WebSocket:1.3.0'
+}
