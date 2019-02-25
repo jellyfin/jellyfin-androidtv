@@ -86,7 +86,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             ListPreference listPreference = (ListPreference) findPreference(key);
             if (listPreference.getValue().equals("1")) {
                 try {
-                    Utils.SaveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), "tv.mediabrowser.login.json");
+                    Utils.SaveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), TvApp.CREDENTIALS_PATH);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
