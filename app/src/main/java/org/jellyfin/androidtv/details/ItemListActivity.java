@@ -6,14 +6,17 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
+import android.support.v7.graphics.Palette;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -23,26 +26,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
-
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.base.BaseActivity;
-import org.jellyfin.androidtv.base.IKeyListener;
-import org.jellyfin.androidtv.imagehandling.PicassoBackgroundManagerTarget;
-import org.jellyfin.androidtv.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.itemhandling.ItemLauncher;
-import org.jellyfin.androidtv.model.GotFocusEvent;
-import org.jellyfin.androidtv.playback.AudioEventListener;
-import org.jellyfin.androidtv.playback.MediaManager;
-import org.jellyfin.androidtv.playback.PlaybackController;
-import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
-import org.jellyfin.androidtv.querying.StdItemQuery;
-import org.jellyfin.androidtv.ui.GenreButton;
-import org.jellyfin.androidtv.ui.ImageButton;
-import org.jellyfin.androidtv.ui.ItemListView;
-import org.jellyfin.androidtv.ui.ItemRowView;
-import org.jellyfin.androidtv.util.InfoLayoutHelper;
-import org.jellyfin.androidtv.util.Utils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,6 +43,27 @@ import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.base.IKeyListener;
+import org.jellyfin.androidtv.imagehandling.PicassoBackgroundManagerTarget;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.itemhandling.ItemLauncher;
+import org.jellyfin.androidtv.model.GotFocusEvent;
+import org.jellyfin.androidtv.playback.AudioEventListener;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.playback.PlaybackController;
+import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
+import org.jellyfin.androidtv.querying.StdItemQuery;
+import org.jellyfin.androidtv.ui.GenreButton;
+import org.jellyfin.androidtv.ui.ImageButton;
+import org.jellyfin.androidtv.ui.ItemListView;
+import org.jellyfin.androidtv.ui.ItemRowView;
+import org.jellyfin.androidtv.ui.TextUnderButton;
+import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.KeyProcessor;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 11/22/2015.
@@ -73,12 +77,8 @@ public class ItemListActivity extends BaseActivity {
     private TextView mTitle;
     private LinearLayout mGenreRow;
     private ImageView mPoster;
-    private TextView mButtonHelp;
-    private TextView mSummaryTitle;
-    private TextView mTimeLine;
     private TextView mSummary;
     private LinearLayout mButtonRow;
-    private ImageView mStudioImage;
     private ItemListView mItemList;
     private ScrollView mScrollView;
     private ItemRowView mCurrentRow;
@@ -118,17 +118,20 @@ public class ItemListActivity extends BaseActivity {
         mTitle = (TextView) findViewById(R.id.fdTitle);
         mTitle.setTypeface(roboto);
         mTitle.setShadowLayer(5, 5, 5, Color.BLACK);
+        mTitle.setText(getString(R.string.loading));
         mGenreRow = (LinearLayout) findViewById(R.id.fdGenreRow);
-        mPoster = (ImageView) findViewById(R.id.fdPoster);
-        mStudioImage = (ImageView) findViewById(R.id.studioImage);
-        mButtonHelp = (TextView) findViewById(R.id.fdButtonHelp);
+        mPoster = (ImageView) findViewById(R.id.mainImage);
         mButtonRow = (LinearLayout) findViewById(R.id.fdButtonRow);
-        mSummaryTitle = (TextView) findViewById(R.id.fdSummaryTitle);
-        mTimeLine = (TextView) findViewById(R.id.fdSummarySubTitle);
         mSummary = (TextView) findViewById(R.id.fdSummaryText);
         mSummary.setTypeface(roboto);
         mItemList = (ItemListView) findViewById(R.id.songs);
         mScrollView = (ScrollView) findViewById(R.id.scrollView);
+
+        //adjust left frame
+        RelativeLayout leftFrame = (RelativeLayout) findViewById(R.id.leftFrame);
+        ViewGroup.LayoutParams params = leftFrame.getLayoutParams();
+        params.width = Utils.convertDpToPixel(TvApp.getApplication(),100);
+
 
         mMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
@@ -155,18 +158,6 @@ public class ItemListActivity extends BaseActivity {
             @Override
             public void onRowClicked(ItemRowView row) {
                 showMenu(row, !"Audio".equals(row.getItem().getType()));
-            }
-        });
-
-        //Adjust layout for our display - no summary title
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mTimeLine.getLayoutParams();
-        params.topMargin = 20;
-        mSummaryTitle.setVisibility(View.GONE);
-
-        mButtonRow.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) mButtonHelp.setText("");
             }
         });
 
@@ -207,6 +198,7 @@ public class ItemListActivity extends BaseActivity {
 
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         backgroundManager.attach(getWindow());
+        backgroundManager.setDimLayer(getDrawable(R.drawable.left_fade));
         mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
         mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
 
@@ -219,7 +211,6 @@ public class ItemListActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         rotateBackdrops();
-        startClock();
         MediaManager.addAudioEventListener(mAudioEventListener);
         // and fire it to be sure we're updated
         mAudioEventListener.onPlaybackStateChange(MediaManager.isPlayingAudio() ? PlaybackController.PlaybackState.PLAYING : PlaybackController.PlaybackState.IDLE, MediaManager.getCurrentAudioItem());
@@ -416,9 +407,7 @@ public class ItemListActivity extends BaseActivity {
         addGenres(mGenreRow);
         addButtons(BUTTON_SIZE);
         mSummary.setText(mBaseItem.getOverview());
-        mTimeLine.setText(getEndTime());
 
-        if (!mItemId.equals(FAV_SONGS) && !mItemId.equals(VIDEO_QUEUE)) updateBackground(Utils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
         updatePoster(mBaseItem);
 
         //get items
@@ -441,6 +430,7 @@ public class ItemListActivity extends BaseActivity {
                     mTitle.setText(mBaseItem.getName());
                     mItemList.addItems(MediaManager.getCurrentVideoQueue());
                     mItems.addAll(MediaManager.getCurrentVideoQueue());
+                    updateBackdrop();
                     break;
                 default:
                     PlaylistItemQuery playlistSongs = new PlaylistItemQuery();
@@ -484,6 +474,10 @@ public class ItemListActivity extends BaseActivity {
                     //update our status
                     mAudioEventListener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, MediaManager.getCurrentAudioItem());
                 }
+                //create list background gradient
+                mItemList.setBackground(mApplication.getCurrentBackgroundGradient());
+
+                updateBackdrop();
             }
         }
 
@@ -500,16 +494,16 @@ public class ItemListActivity extends BaseActivity {
                 mPoster.setImageResource(R.drawable.genericmusic);
                 break;
             case VIDEO_QUEUE:
-                mPoster.setImageResource(R.drawable.playlist);
+                mPoster.setImageResource(R.drawable.transplaylist);
                 break;
             default:
                 // Figure image size
                 Double aspect = Utils.getImageAspectRatio(item, false);
-                int posterHeight = aspect > 1 ? Utils.convertDpToPixel(this, 170) : Utils.convertDpToPixel(this, 300);
+                int posterHeight = aspect > 1 ? Utils.convertDpToPixel(this, 160) : Utils.convertDpToPixel(this, 250);
                 int posterWidth = (int)((aspect) * posterHeight);
                 if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(this, 150);  //Guard against zero size images causing picasso to barf
 
-                String primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(),false, false, posterHeight);
+                String primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), false, posterHeight);
 
                 Picasso.with(this)
                         .load(primaryImageUrl)
@@ -544,18 +538,6 @@ public class ItemListActivity extends BaseActivity {
         return "";
     }
 
-    private void startClock() {
-        mClockLoop = new Runnable() {
-            @Override
-            public void run() {
-                mTimeLine.setText(getEndTime());
-                mLoopHandler.postDelayed(this, 15000);
-            }
-        };
-
-        mLoopHandler.postDelayed(mClockLoop, 15000);
-    }
-
     private void stopClock() {
         if (mLoopHandler != null && mClockLoop != null) {
             mLoopHandler.removeCallbacks(mClockLoop);
@@ -564,7 +546,7 @@ public class ItemListActivity extends BaseActivity {
 
     private void play(List<BaseItemDto> items) {
         if ("Video".equals(mBaseItem.getMediaType())) {
-            Intent intent = new Intent(mActivity, PlaybackOverlayActivity.class);
+            Intent intent = new Intent(mActivity, mApplication.getPlaybackActivityClass(mBaseItem.getType()));
             //Resume first item if needed
             BaseItemDto first = items.size() > 0 ? items.get(0) : null;
             if (first != null && first.getUserData() != null) {
@@ -583,7 +565,7 @@ public class ItemListActivity extends BaseActivity {
 
     private void addButtons(int buttonSize) {
         if (Utils.CanPlay(mBaseItem)) {
-            ImageButton play = new ImageButton(this, R.drawable.play, buttonSize, getString(mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), mButtonHelp, new View.OnClickListener() {
+            TextUnderButton play = new TextUnderButton(this, R.drawable.play, buttonSize, 2, getString(mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mItems.size() > 0) {
@@ -597,13 +579,18 @@ public class ItemListActivity extends BaseActivity {
             mButtonRow.addView(play);
             play.requestFocus();
             if (mBaseItem.getIsFolder()) {
-                ImageButton shuffle = new ImageButton(this, R.drawable.shuffle, buttonSize, getString(R.string.lbl_shuffle_all), mButtonHelp, new View.OnClickListener() {
+                TextUnderButton shuffle = new TextUnderButton(this, R.drawable.shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (mItems.size() > 0) {
-                            List<BaseItemDto> shuffled = new ArrayList<>(mItems);
-                            Collections.shuffle(shuffled);
-                            play(shuffled);
+                            if (mBaseItem.getId().equals(VIDEO_QUEUE) || mBaseItem.getId().equals(FAV_SONGS)) {
+                                List<BaseItemDto> shuffled = new ArrayList<>(mItems);
+                                Collections.shuffle(shuffled);
+                                play(shuffled);
+                            } else {
+                                //use server retrieval in order to get all items
+                                Utils.retrieveAndPlay(mBaseItem.getId(), true, mActivity);
+                            }
 
                         } else {
                             Utils.showToast(mActivity, R.string.msg_no_playable_items);
@@ -611,11 +598,12 @@ public class ItemListActivity extends BaseActivity {
                     }
                 });
                 mButtonRow.addView(shuffle);
+                shuffle.setGotFocusListener(mainAreaFocusListener);
             }
         }
 
         if ("MusicAlbum".equals(mBaseItem.getType())) {
-            ImageButton mix = new ImageButton(this, R.drawable.mix, buttonSize, getString(R.string.lbl_instant_mix), mButtonHelp, new View.OnClickListener() {
+            TextUnderButton mix = new TextUnderButton(this, R.drawable.mix, buttonSize, 2, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
                     Utils.Beep();
@@ -623,12 +611,13 @@ public class ItemListActivity extends BaseActivity {
                 }
             });
             mButtonRow.addView(mix);
+            mix.setGotFocusListener(mainAreaFocusListener);
         }
 
         if (!mItemId.equals(FAV_SONGS)) {
             if (!mItemId.equals(VIDEO_QUEUE)) {
                 //Favorite
-                ImageButton fav = new ImageButton(this, mBaseItem.getUserData().getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, getString(R.string.lbl_toggle_favorite), mButtonHelp, new View.OnClickListener() {
+                TextUnderButton fav = new TextUnderButton(this, mBaseItem.getUserData().getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize,2, getString(R.string.lbl_toggle_favorite), new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
                         UserItemDataDto data = mBaseItem.getUserData();
@@ -643,12 +632,13 @@ public class ItemListActivity extends BaseActivity {
                     }
                 });
                 mButtonRow.addView(fav);
+                fav.setGotFocusListener(mainAreaFocusListener);
 
             }
 
             if ("Playlist".equals(mBaseItem.getType())) {
                 if (VIDEO_QUEUE.equals(mBaseItem.getId())) {
-                    mButtonRow.addView(new ImageButton(this, R.drawable.saveplaylist, buttonSize, getString(R.string.lbl_save_as_playlist), mButtonHelp, new View.OnClickListener() {
+                    mButtonRow.addView(new TextUnderButton(this, R.drawable.saveplaylist, buttonSize, 2, getString(R.string.lbl_save_as_playlist), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             MediaManager.saveVideoQueue(mActivity);
@@ -656,7 +646,7 @@ public class ItemListActivity extends BaseActivity {
                     }));
                 }
 
-                ImageButton delete = new ImageButton(this, R.drawable.trash, buttonSize, getString(R.string.lbl_delete), mButtonHelp, new View.OnClickListener() {
+                TextUnderButton delete = new TextUnderButton(this, R.drawable.trash, buttonSize, getString(R.string.lbl_delete), new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
                         if (mBaseItem.getId().equals(VIDEO_QUEUE)) {
@@ -712,11 +702,12 @@ public class ItemListActivity extends BaseActivity {
                 });
 
                 mButtonRow.addView(delete);
+                delete.setGotFocusListener(mainAreaFocusListener);
             }
         }
 
         if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {
-            ImageButton artist = new ImageButton(this, R.drawable.user, buttonSize, getString(R.string.lbl_open_artist), mButtonHelp, new View.OnClickListener() {
+            TextUnderButton artist = new TextUnderButton(this, R.drawable.user, buttonSize, 4, getString(R.string.lbl_open_artist), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent artist = new Intent(mActivity, FullDetailsActivity.class);
@@ -726,19 +717,37 @@ public class ItemListActivity extends BaseActivity {
                 }
             });
             mButtonRow.addView(artist);
+            artist.setGotFocusListener(mainAreaFocusListener);
         }
 
     }
+
+    private BaseItemDto getRandomListItem() {
+        if (mItems == null || mItems.size() == 0) return null;
+
+        return mItems.get(Utils.randInt(0, mItems.size() - 1));
+    }
+
     private void rotateBackdrops() {
         mBackdropLoop = new Runnable() {
             @Override
             public void run() {
-                updateBackground(Utils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true));
+                updateBackdrop();
                 mLoopHandler.postDelayed(this, FullDetailsActivity.BACKDROP_ROTATION_INTERVAL);
             }
         };
 
         mLoopHandler.postDelayed(mBackdropLoop, FullDetailsActivity.BACKDROP_ROTATION_INTERVAL);
+    }
+
+    private void updateBackdrop() {
+        String url = Utils.getBackdropImageUrl(mBaseItem, mApplication.getApiClient(), true);
+        if (url == null) {
+            BaseItemDto item = getRandomListItem();
+            if (item != null) url = Utils.getBackdropImageUrl(item, mApplication.getApiClient(), true);
+        }
+        if (url != null) updateBackground(url);
+
     }
 
     private void stopRotate() {

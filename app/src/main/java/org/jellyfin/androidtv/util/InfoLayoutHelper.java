@@ -7,10 +7,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.itemhandling.BaseRowItem;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,6 +14,9 @@ import java.util.Date;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.SeriesStatus;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 
 /**
  * Created by Eric on 4/29/2015.
@@ -25,6 +24,7 @@ import mediabrowser.model.entities.SeriesStatus;
 public class InfoLayoutHelper {
 
     private static int textSize = 16;
+    private static int BTMARGIN = Utils.convertDpToPixel(TvApp.getApplication(), -2);
 
     public static void addInfoRow(Activity activity, BaseRowItem item, LinearLayout layout, boolean includeRuntime, boolean includeEndtime) {
         switch (item.getItemType()) {
@@ -53,7 +53,7 @@ public class InfoLayoutHelper {
                 addBoxSetCounts(activity, item, layout);
                 break;
             case "Series":
-                addSeasonCount(activity, item, layout);
+                //addSeasonCount(activity, item, layout);
                 addSeriesAirs(activity, item, layout);
                 addDate(activity, item, layout);
                 includeEndTime = false;
@@ -66,7 +66,7 @@ public class InfoLayoutHelper {
                 break;
             case "MusicArtist":
                 Integer artistAlbums = item.getAlbumCount() != null ? item.getAlbumCount() : item.getChildCount();
-                addCount(activity, artistAlbums, layout, artistAlbums == 1 ? activity.getResources().getString(R.string.lbl_album) : activity.getResources().getString(R.string.lbl_albums));
+                addCount(activity, artistAlbums, layout, artistAlbums != null && artistAlbums == 1 ? activity.getResources().getString(R.string.lbl_album) : activity.getResources().getString(R.string.lbl_albums));
                 return;
             case "MusicAlbum":
                 String artist = item.getAlbumArtist() != null ? item.getAlbumArtist() : item.getArtists() != null && item.getAlbumArtists().size() > 0 ? item.getArtists().get(0) : null;
@@ -170,6 +170,19 @@ public class InfoLayoutHelper {
         name.setTextSize(textSize);
         name.setText(Utils.GetProgramSubText(item)+"  ");
         layout.addView(name);
+
+        if (Utils.isNew(item)) {
+            addBlockText(activity, layout, TvApp.getApplication().getString(R.string.lbl_new), 12, Color.GRAY, R.drawable.dark_green_gradient);
+            addSpacer(activity, layout, "  ");
+        } else if (Utils.isTrue(item.getIsSeries()) && !Utils.isTrue(item.getIsNews())) {
+            addBlockText(activity, layout, TvApp.getApplication().getString(R.string.lbl_repeat), 12, Color.GRAY, R.color.lb_default_brand_color);
+            addSpacer(activity, layout, "  ");
+        }
+        if (Utils.isTrue(item.getIsLive())) {
+            addBlockText(activity, layout, TvApp.getApplication().getString(R.string.lbl_live), 12, Color.GRAY, R.color.lb_default_brand_color);
+            addSpacer(activity, layout, "  ");
+
+        }
     }
 
     private static void addSubText(Activity activity, BaseRowItem item, LinearLayout layout) {
@@ -194,11 +207,13 @@ public class InfoLayoutHelper {
     }
 
     private static void addSeasonEpisode(Activity activity, BaseItemDto item, LinearLayout layout) {
-            String text = "S"+item.getParentIndexNumber()+" E"+item.getIndexNumber() + (item.getIndexNumberEnd() != null ? "-" + item.getIndexNumberEnd() : "")+"  ";
+        if (item.getIndexNumber() != null) {
+            String text = (item.getParentIndexNumber() != null ? "S"+item.getParentIndexNumber() : "") +" E"+item.getIndexNumber() + (item.getIndexNumberEnd() != null ? "-" + item.getIndexNumberEnd() : "")+"  ";
             TextView time = new TextView(activity);
             time.setTextSize(textSize);
             time.setText(text);
             layout.addView(time);
+        }
     }
 
     private static void addCriticInfo(Activity activity, BaseItemDto item, LinearLayout layout) {
@@ -317,6 +332,11 @@ public class InfoLayoutHelper {
 
             addSpacer(activity, layout, "  ");
         }
+        if (Utils.isTrue(item.getHasSubtitles())) {
+            addBlockText(activity, layout, "CC");
+            addSpacer(activity, layout, "  ");
+
+        }
     }
 
     private static void addSeriesStatus(Activity activity, BaseItemDto item, LinearLayout layout) {
@@ -348,7 +368,7 @@ public class InfoLayoutHelper {
     }
 
     public static void addBlockText(Activity activity, LinearLayout layout, String text, int size) {
-        addBlockText(activity, layout, text, size, Color.DKGRAY, R.drawable.gray_gradient);
+        addBlockText(activity, layout, text, size, Color.BLACK, R.drawable.block_text_bg);
     }
 
     public static void addBlockText(Activity activity, LinearLayout layout, String text, int size, int textColor, int backgroundRes) {
@@ -357,6 +377,9 @@ public class InfoLayoutHelper {
         view.setTextColor(textColor);
         view.setText(" " + text + " ");
         view.setBackgroundResource(backgroundRes);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        params.setMargins(0,BTMARGIN,0,0);
+        view.setLayoutParams(params);
         layout.addView(view);
 
     }

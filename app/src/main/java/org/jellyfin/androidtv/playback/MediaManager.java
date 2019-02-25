@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -16,17 +17,6 @@ import com.devbrackets.android.exomedia.EMAudioPlayer;
 import com.devbrackets.android.exomedia.event.EMMediaProgressEvent;
 import com.devbrackets.android.exomedia.listener.EMProgressCallback;
 
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.base.CustomMessage;
-import org.jellyfin.androidtv.itemhandling.AudioQueueItem;
-import org.jellyfin.androidtv.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
-import org.jellyfin.androidtv.presentation.CardPresenter;
-import org.jellyfin.androidtv.querying.QueryType;
-import org.jellyfin.androidtv.util.ProfileHelper;
-import org.jellyfin.androidtv.util.RemoteControlReceiver;
-import org.jellyfin.androidtv.util.Utils;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 
@@ -38,12 +28,24 @@ import java.util.List;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.Response;
+import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.model.dlna.AudioOptions;
 import mediabrowser.model.dlna.DeviceProfile;
 import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.playlists.PlaylistCreationRequest;
 import mediabrowser.model.playlists.PlaylistCreationResult;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.CustomMessage;
+import org.jellyfin.androidtv.itemhandling.AudioQueueItem;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.presentation.CardPresenter;
+import org.jellyfin.androidtv.querying.QueryType;
+import org.jellyfin.androidtv.util.ProfileHelper;
+import org.jellyfin.androidtv.util.RemoteControlReceiver;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 10/22/2015.
@@ -553,14 +555,14 @@ public class MediaManager {
         options.setItemId(item.getId());
         options.setMaxBitrate(TvApp.getApplication().getAutoBitrate());
         options.setMediaSources(item.getMediaSources());
-        DeviceProfile profile = ProfileHelper.getBaseProfile();
+        DeviceProfile profile = ProfileHelper.getBaseProfile(false);
         if (Utils.is60()) {
             ProfileHelper.setExoOptions(profile, false, true);
         } else {
-            ProfileHelper.setVlcOptions(profile);
+            ProfileHelper.setVlcOptions(profile, false);
         }
         options.setProfile(profile);
-        TvApp.getApplication().getPlaybackManager().getAudioStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
+        TvApp.getApplication().getPlaybackManager().getAudioStreamInfo(apiClient.getServerInfo().getId(), options, item.getResumePositionTicks(), false, apiClient, new Response<StreamInfo>() {
             @Override
             public void onResponse(StreamInfo response) {
                 mCurrentAudioItem = item;
@@ -571,8 +573,8 @@ public class MediaManager {
                     mExoplayer.setDataSource(TvApp.getApplication(), Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken())));
                     mExoplayer.start();
                 } else {
-                    TvApp.getApplication().getLogger().Info("Playback attempt via VLC of " + response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()));
-                    Media media = new Media(mLibVLC, Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken())));
+                    TvApp.getApplication().getLogger().Info("Playback attempt via VLC of " + response.getMediaUrl());
+                    Media media = new Media(mLibVLC, Uri.parse(response.getMediaUrl()));
                     media.parse();
                     mVlcPlayer.setMedia(media);
 

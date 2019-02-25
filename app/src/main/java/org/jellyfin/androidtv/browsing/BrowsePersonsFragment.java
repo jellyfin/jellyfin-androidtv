@@ -1,10 +1,9 @@
 package org.jellyfin.androidtv.browsing;
 
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.PersonsQuery;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
 
 /**
  * Created by Eric on 12/4/2014.

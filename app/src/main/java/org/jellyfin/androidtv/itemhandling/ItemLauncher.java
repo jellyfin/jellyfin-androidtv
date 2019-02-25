@@ -4,28 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.KeyEvent;
 
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.base.BaseActivity;
-import org.jellyfin.androidtv.browsing.BrowseRecordingsActivity;
-import org.jellyfin.androidtv.browsing.CollectionActivity;
-import org.jellyfin.androidtv.browsing.GenericFolderActivity;
-import org.jellyfin.androidtv.browsing.GenericGridActivity;
-import org.jellyfin.androidtv.browsing.MainActivity;
-import org.jellyfin.androidtv.browsing.UserViewActivity;
-import org.jellyfin.androidtv.details.FullDetailsActivity;
-import org.jellyfin.androidtv.details.ItemListActivity;
-import org.jellyfin.androidtv.details.PhotoPlayerActivity;
-import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
-import org.jellyfin.androidtv.model.ChapterItemInfo;
-import org.jellyfin.androidtv.model.ViewType;
-import org.jellyfin.androidtv.playback.MediaManager;
-import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
-import org.jellyfin.androidtv.startup.SelectUserActivity;
-import org.jellyfin.androidtv.util.DelayedMessage;
-import org.jellyfin.androidtv.util.KeyProcessor;
-import org.jellyfin.androidtv.util.Utils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +17,28 @@ import mediabrowser.model.entities.DisplayPreferences;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.search.SearchHint;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.browsing.BrowseRecordingsActivity;
+import org.jellyfin.androidtv.browsing.BrowseScheduleActivity;
+import org.jellyfin.androidtv.browsing.CollectionActivity;
+import org.jellyfin.androidtv.browsing.GenericFolderActivity;
+import org.jellyfin.androidtv.browsing.GenericGridActivity;
+import org.jellyfin.androidtv.browsing.MainActivity;
+import org.jellyfin.androidtv.browsing.UserViewActivity;
+import org.jellyfin.androidtv.details.FullDetailsActivity;
+import org.jellyfin.androidtv.details.PhotoPlayerActivity;
+import org.jellyfin.androidtv.details.ItemListActivity;
+import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
+import org.jellyfin.androidtv.model.ChapterItemInfo;
+import org.jellyfin.androidtv.model.ViewType;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
+import org.jellyfin.androidtv.startup.SelectUserActivity;
+import org.jellyfin.androidtv.util.DelayedMessage;
+import org.jellyfin.androidtv.util.KeyProcessor;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 12/21/2014.
@@ -48,7 +48,7 @@ public class ItemLauncher {
         launch(rowItem, adapter, pos, activity, false);
     }
 
-    public static void launch(BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity, final boolean noHistory) {
+    public static void launch(final BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity, final boolean noHistory) {
         final TvApp application = TvApp.getApplication();
         MediaManager.setCurrentMediaAdapter(adapter);
 
@@ -197,7 +197,7 @@ public class ItemLauncher {
                                 Utils.getItemsToPlay(baseItem, baseItem.getType().equals("Movie"), false, new Response<List<BaseItemDto>>() {
                                     @Override
                                     public void onResponse(List<BaseItemDto> response) {
-                                        Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                                        Intent intent = new Intent(activity,application.getPlaybackActivityClass(baseItem.getType()));
                                         MediaManager.setCurrentVideoQueue(response);
                                         intent.putExtra("Position", 0);
                                         activity.startActivity(intent);
@@ -228,12 +228,13 @@ public class ItemLauncher {
                         List<BaseItemDto> items = new ArrayList<>();
                         items.add(response);
                         MediaManager.setCurrentVideoQueue(items);
-                        Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                        Intent intent = new Intent(activity, application.getPlaybackActivityClass(response.getType()));
                         Long start = chapter.getStartPositionTicks() / 10000;
                         intent.putExtra("Position", start.intValue());
                         activity.startActivity(intent);
                     }
                 });
+
                 break;
             case Server:
                 //Log in to selected server
@@ -262,6 +263,12 @@ public class ItemLauncher {
                             intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(response));
 
                             activity.startActivity(intent);
+
+                        } else if ("Audio".equals(response.getType())) {
+                            Utils.retrieveAndPlay(response.getId(), false, activity);
+                            //produce item menu
+//                            KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, rowItem, (BaseActivity) activity);
+                            return;
 
                         } else {
                             Intent intent = new Intent(activity, FullDetailsActivity.class);
@@ -304,7 +311,7 @@ public class ItemLauncher {
                                 public void onResponse(BaseItemDto response) {
                                     List<BaseItemDto> items = new ArrayList<>();
                                     items.add(response);
-                                    Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                                    Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(response.getType()));
                                     MediaManager.setCurrentVideoQueue(items);
                                     intent.putExtra("Position", 0);
                                     activity.startActivity(intent);
@@ -319,14 +326,14 @@ public class ItemLauncher {
 
             case LiveTvChannel:
                 //Just tune to it by playing
-                ChannelInfoDto channel = rowItem.getChannelInfo();
+                final ChannelInfoDto channel = rowItem.getChannelInfo();
                 TvApp.getApplication().getApiClient().GetItemAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         Utils.getItemsToPlay(response, false, false, new Response<List<BaseItemDto>>() {
                             @Override
                             public void onResponse(List<BaseItemDto> response) {
-                                Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                                Intent intent = new Intent(activity, application.getPlaybackActivityClass(channel.getType()));
                                 MediaManager.setCurrentVideoQueue(response);
                                 intent.putExtra("Position", 0);
                                 activity.startActivity(intent);
@@ -353,7 +360,7 @@ public class ItemLauncher {
                             TvApp.getApplication().getApiClient().GetItemAsync(rowItem.getRecordingInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
-                                    Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                                    Intent intent = new Intent(activity, application.getPlaybackActivityClass(rowItem.getType()));
                                     List<BaseItemDto> items = new ArrayList<>();
                                     items.add(response);
                                     MediaManager.setCurrentVideoQueue(items);
@@ -367,6 +374,17 @@ public class ItemLauncher {
                         break;
                 }
                 break;
+
+            case SeriesTimer:
+                //Start details fragment for display and playback
+                Intent timerIntent = new Intent(activity, FullDetailsActivity.class);
+                timerIntent.putExtra("ItemId", rowItem.getItemId());
+                timerIntent.putExtra("ItemType", "SeriesTimer");
+                timerIntent.putExtra("SeriesTimer", TvApp.getApplication().getSerializer().SerializeToString(rowItem.getSeriesTimerInfo()));
+
+                activity.startActivity(timerIntent);
+                break;
+
 
             case GridButton:
                 switch (rowItem.getGridButton().getId()) {
@@ -399,6 +417,22 @@ public class ItemLauncher {
                         }
 
                         activity.startActivity(queueIntent);
+                        break;
+
+                    case TvApp.LIVE_TV_SERIES_OPTION_ID:
+                        Intent seriesIntent = new Intent(activity, UserViewActivity.class);
+                        BaseItemDto seriesTimers = new BaseItemDto();
+                        seriesTimers.setId("SERIESTIMERS");
+                        seriesTimers.setCollectionType("SeriesTimers");
+                        seriesTimers.setName(activity.getString(R.string.lbl_series_recordings));
+                        seriesIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(seriesTimers));
+
+                        activity.startActivity(seriesIntent);
+                        break;
+
+                    case TvApp.LIVE_TV_SCHEDULE_OPTION_ID:
+                        Intent schedIntent = new Intent(activity, BrowseScheduleActivity.class);
+                        activity.startActivity(schedIntent);
                         break;
 
 

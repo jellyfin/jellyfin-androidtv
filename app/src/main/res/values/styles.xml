@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="AppTheme" parent="@style/Theme.Leanback">
+        <item name="android:datePickerStyle">@style/DatePickerCustom</item>
+
+    </style>
+
+    <style name="DatePickerCustom" >
+        <item name="android:datePickerMode">spinner</item>
+    </style>
 
     <style name="spaced_buttons">
         <item name="android:layout_marginLeft">10dp</item>
@@ -8,6 +16,12 @@
 
     <style name="player_progress" parent="android:Widget.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/green_progress</item>
+        <item name="android:minHeight">5sp</item>
+        <item name="android:maxHeight">5sp</item>
+    </style>
+
+    <style name="overlay_progress" parent="android:Widget.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/green_progress_overlay</item>
         <item name="android:minHeight">5sp</item>
         <item name="android:maxHeight">5sp</item>
     </style>

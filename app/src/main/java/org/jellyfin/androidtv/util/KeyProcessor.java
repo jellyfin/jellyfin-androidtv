@@ -8,19 +8,6 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.PopupMenu;
 
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.base.BaseActivity;
-import org.jellyfin.androidtv.base.CustomMessage;
-import org.jellyfin.androidtv.details.ItemListActivity;
-import org.jellyfin.androidtv.details.PhotoPlayerActivity;
-import org.jellyfin.androidtv.itemhandling.AudioQueueItem;
-import org.jellyfin.androidtv.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.playback.AudioNowPlayingActivity;
-import org.jellyfin.androidtv.playback.MediaManager;
-import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
-import org.jellyfin.androidtv.querying.StdItemQuery;
-
 import java.util.List;
 
 import mediabrowser.apiinteraction.EmptyResponse;
@@ -30,6 +17,18 @@ import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemsResult;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.base.CustomMessage;
+import org.jellyfin.androidtv.details.PhotoPlayerActivity;
+import org.jellyfin.androidtv.details.ItemListActivity;
+import org.jellyfin.androidtv.itemhandling.AudioQueueItem;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.playback.AudioNowPlayingActivity;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
+import org.jellyfin.androidtv.querying.StdItemQuery;
 
 /**
  * Created by Eric on 4/17/2015.
@@ -160,7 +159,8 @@ public class KeyProcessor {
                         if (rowItem.getGridButton().getId() == TvApp.VIDEO_QUEUE_OPTION_ID) {
                             //Queue already there - just kick off playback
                             Utils.Beep();
-                            Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                            String itemType = MediaManager.getCurrentVideoQueue().size() > 0 ? MediaManager.getCurrentVideoQueue().get(0).getType() : "";
+                            Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(itemType));
                             activity.startActivity(intent);
                         }
                         break;

@@ -7,6 +7,42 @@ import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.PresenterSelector;
 
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.TimeZone;
+
+import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.apiinteraction.Response;
+import mediabrowser.model.apiclient.ServerInfo;
+import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.dto.BaseItemPerson;
+import mediabrowser.model.dto.UserDto;
+import mediabrowser.model.livetv.ChannelInfoDto;
+import mediabrowser.model.livetv.LiveTvChannelQuery;
+import mediabrowser.model.livetv.RecommendedProgramQuery;
+import mediabrowser.model.livetv.RecordingGroupQuery;
+import mediabrowser.model.livetv.RecordingQuery;
+import mediabrowser.model.livetv.SeriesTimerInfoDto;
+import mediabrowser.model.livetv.SeriesTimerQuery;
+import mediabrowser.model.net.HttpException;
+import mediabrowser.model.querying.ArtistsQuery;
+import mediabrowser.model.querying.ItemFields;
+import mediabrowser.model.querying.ItemQuery;
+import mediabrowser.model.querying.ItemsResult;
+import mediabrowser.model.querying.LatestItemsQuery;
+import mediabrowser.model.querying.NextUpQuery;
+import mediabrowser.model.querying.PersonsQuery;
+import mediabrowser.model.querying.SeasonQuery;
+import mediabrowser.model.querying.SimilarItemsQuery;
+import mediabrowser.model.querying.UpcomingEpisodesQuery;
+import mediabrowser.model.results.ChannelInfoDtoResult;
+import mediabrowser.model.results.SeriesTimerInfoDtoResult;
+import mediabrowser.model.search.SearchHint;
+import mediabrowser.model.search.SearchHintResult;
+import mediabrowser.model.search.SearchQuery;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.browsing.EnhancedBrowseFragment;
@@ -26,38 +62,6 @@ import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.HorizontalGridFragment;
 import org.jellyfin.androidtv.util.Utils;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.TimeZone;
-
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.apiclient.ServerInfo;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.dto.BaseItemPerson;
-import mediabrowser.model.dto.UserDto;
-import mediabrowser.model.livetv.ChannelInfoDto;
-import mediabrowser.model.livetv.LiveTvChannelQuery;
-import mediabrowser.model.livetv.RecommendedProgramQuery;
-import mediabrowser.model.livetv.RecordingGroupQuery;
-import mediabrowser.model.livetv.RecordingQuery;
-import mediabrowser.model.net.HttpException;
-import mediabrowser.model.querying.ArtistsQuery;
-import mediabrowser.model.querying.ItemFields;
-import mediabrowser.model.querying.ItemQuery;
-import mediabrowser.model.querying.ItemsResult;
-import mediabrowser.model.querying.NextUpQuery;
-import mediabrowser.model.querying.PersonsQuery;
-import mediabrowser.model.querying.SeasonQuery;
-import mediabrowser.model.querying.SimilarItemsQuery;
-import mediabrowser.model.querying.UpcomingEpisodesQuery;
-import mediabrowser.model.results.ChannelInfoDtoResult;
-import mediabrowser.model.search.SearchHint;
-import mediabrowser.model.search.SearchHintResult;
-import mediabrowser.model.search.SearchQuery;
-
 /**
  * Created by Eric on 12/5/2014.
  */
@@ -76,6 +80,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private RecordingQuery mTvRecordingQuery;
     private RecordingGroupQuery mTvRecordingGroupQuery;
     private ArtistsQuery mArtistsQuery;
+    private LatestItemsQuery mLatestQuery;
+    private SeriesTimerQuery mSeriesTimerQuery;
     private QueryType queryType;
 
     private String mSortBy;
@@ -183,6 +189,25 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mNextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         queryType = QueryType.NextUp;
         this.preferParentThumb = preferParentThumb;
+        this.staticHeight = true;
+        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+    }
+
+    public ItemRowAdapter(SeriesTimerQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+        super(presenter);
+        mParent = parent;
+        mSeriesTimerQuery = query;
+        queryType = QueryType.SeriesTimer;
+        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+    }
+
+    public ItemRowAdapter(LatestItemsQuery query, boolean preferParentThumb, Presenter presenter, ArrayObjectAdapter parent) {
+        super(presenter);
+        mParent = parent;
+        mLatestQuery = query;
+        mLatestQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        queryType = QueryType.LatestItems;
+        this.preferParentThumb = preferParentThumb;
         add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
@@ -190,6 +215,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mPersons = people;
+        staticHeight = true;
         queryType = QueryType.StaticPeople;
     }
 
@@ -197,6 +223,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mChapters = chapters;
+        staticHeight = true;
         queryType = QueryType.StaticChapters;
     }
 
@@ -256,11 +283,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
-    public ItemRowAdapter(RecordingQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(RecordingQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
         super(presenter);
         mParent = parent;
         mTvRecordingQuery = query;
+        this.chunkSize = chunkSize;
         queryType = QueryType.LiveTvRecording;
+        staticHeight = true;
         add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
@@ -548,6 +577,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             case NextUp:
                 Retrieve(mNextUpQuery);
                 break;
+            case LatestItems:
+                Retrieve(mLatestQuery);
+                break;
             case Upcoming:
                 Retrieve(mUpcomingQuery);
                 break;
@@ -616,6 +648,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
             case ContinueWatching:
                 RetrieveContinueWatching(mQuery);
+                break;
+            case SeriesTimer:
+                Retrieve(mSeriesTimerQuery);
                 break;
         }
     }
@@ -762,7 +797,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         TvApp.getApplication().getApiClient().GetSearchHintsAsync(query, new Response<SearchHintResult>() {
             @Override
             public void onResponse(SearchHintResult response) {
-                if (response.getTotalRecordCount() > 0) {
+                if (response.getSearchHints() != null && response.getSearchHints().length > 0) {
                     int i = 0;
                     if (adapter.size() > 0) adapter.clear();
                     for (SearchHint item : response.getSearchHints()) {
@@ -837,12 +872,12 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     }
 
-    public void Retrieve(ItemQuery query) {
+    public void Retrieve(final ItemQuery query) {
         TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
-                if (response.getTotalRecordCount() > 0) {
-                    setTotalItems(response.getTotalRecordCount());
+                if (response.getItems() != null && response.getItems().length > 0) {
+                    setTotalItems(query.getEnableTotalRecordCount() ? response.getTotalRecordCount() : response.getItems().length);
                     int i = getItemsLoaded();
                     int prevItems = i == 0 && size() > 0 ? size() : 0;
                     for (BaseItemDto item : response.getItems()) {
@@ -909,7 +944,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         clear();
         if (MediaManager.hasVideoQueueItems()) {
             TvApp.getApplication().getLogger().Debug("Adding video queue...");
-            add(new BaseRowItem(new GridButton(TvApp.VIDEO_QUEUE_OPTION_ID, TvApp.getApplication().getString(R.string.lbl_current_queue), R.drawable.playlist)));
+            add(new BaseRowItem(new GridButton(TvApp.VIDEO_QUEUE_OPTION_ID, TvApp.getApplication().getString(R.string.lbl_current_queue), R.drawable.videoqueue)));
             itemsLoaded = 1;
         }
         Retrieve(query);
@@ -919,11 +954,44 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         TvApp.getApplication().getApiClient().GetAlbumArtistsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
-                if (response.getTotalRecordCount() > 0) {
+                if (response.getItems() != null && response.getItems().length > 0) {
                     setTotalItems(response.getTotalRecordCount());
                     int i = getItemsLoaded();
                     int prevItems = i == 0 && size() > 0 ? size() : 0;
                     for (BaseItemDto item : response.getItems()) {
+                        add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
+                        //TvApp.getApplication().getLogger().Debug("Item Type: "+item.getType());
+                    }
+                    setItemsLoaded(i);
+                    if (i == 0) {
+                        removeRow();
+                    } else if (prevItems > 0) {
+                        // remove previous items as we re-retrieved
+                        // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
+                        removeItems(0, prevItems);
+                    }
+                } else {
+                    // no results - don't show us
+                    setTotalItems(0);
+                    removeRow();
+                }
+
+                setCurrentlyRetrieving(false);
+                notifyRetrieveFinished();
+
+            }
+        });
+    }
+
+    public void Retrieve(LatestItemsQuery query) {
+        TvApp.getApplication().getApiClient().GetLatestItems(query, new Response<BaseItemDto[]>() {
+            @Override
+            public void onResponse(BaseItemDto[] response) {
+                if (response != null && response.length > 0) {
+                    setTotalItems(response.length);
+                    int i = getItemsLoaded();
+                    int prevItems = i == 0 && size() > 0 ? size() : 0;
+                    for (BaseItemDto item : response) {
                         add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
                         //TvApp.getApplication().getLogger().Debug("Item Type: "+item.getType());
                     }
@@ -954,7 +1022,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         NextUpQuery nextUp = new NextUpQuery();
         nextUp.setUserId(query.getUserId());
         nextUp.setParentId(query.getParentId());
-        nextUp.setLimit(75);
+        nextUp.setLimit(50);
         TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(nextUp, new Response<ItemsResult>() {
             @Override
             public void onResponse(final ItemsResult nextUpResponse) {
@@ -962,7 +1030,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     @Override
                     public void onResponse(ItemsResult response) {
                         if (adapter.size() > 0) adapter.clear();
-                        if (response.getTotalRecordCount() > 0) {
+                        if (response.getItems() != null && response.getItems().length > 0) {
                             int i = 0;
                             Calendar compare = Calendar.getInstance();
                             compare.add(Calendar.MONTH, -2);
@@ -993,7 +1061,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                                         }
                                         if (existing == null) {
                                             TvApp.getApplication().getLogger().Debug("Adding new episode 1 to premieres " + item.getSeriesName());
-                                            adapter.add(new BaseRowItem(i++, item, preferParentThumb, false));
+                                            adapter.add(new BaseRowItem(i++, item, preferParentThumb, true));
 
                                         } else if (existing.getBaseItem().getParentIndexNumber() > item.getParentIndexNumber()) {
                                             //Replace the newer item with the earlier season
@@ -1026,11 +1094,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(final ItemsResult response) {
-                if (response.getTotalRecordCount() > 0) {
+                if (response.getItems() != null && response.getItems().length > 0) {
                     if (adapter.size() > 0) adapter.clear();
                     int i = 0;
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++, item, preferParentThumb, false));
+                        adapter.add(new BaseRowItem(i++, item, preferParentThumb, staticHeight));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
@@ -1095,7 +1163,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         TvApp.getApplication().getApiClient().GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
             @Override
             public void onResponse(ChannelInfoDtoResult response) {
-                if (response.getTotalRecordCount() > 0) {
+                if (response.getItems() != null && response.getItems().length > 0) {
                     int i = itemsLoaded;
                     if (i == 0 && adapter.size() > 0) adapter.clear();
                     for (ChannelInfoDto item : response.getItems()) {
@@ -1130,7 +1198,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onResponse(ItemsResult response) {
                 TvManager.updateProgramsNeedsLoadTime();
-                if (response.getTotalRecordCount() > 0) {
+                if (response.getItems() != null && response.getItems().length > 0) {
                     int i = 0;
                     int prevItems = adapter.size() > 0 ? adapter.size() : 0;
                     if (query.getIsAiring()) {
@@ -1176,7 +1244,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         TvApp.getApplication().getApiClient().GetLiveTvRecordingGroupsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
-                if (response.getTotalRecordCount() > 0) {
+                if (response.getItems() != null && response.getItems().length > 0) {
                     int i = 0;
                     int prevItems = adapter.size() > 0 ? adapter.size() : 0;
                     for (BaseItemDto item : response.getItems()) {
@@ -1213,22 +1281,70 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         });
     }
 
+    public void Retrieve(final SeriesTimerQuery query) {
+        final ItemRowAdapter adapter = this;
+        TvApp.getApplication().getApiClient().GetLiveTvSeriesTimersAsync(query, new Response<SeriesTimerInfoDtoResult>() {
+            @Override
+            public void onResponse(SeriesTimerInfoDtoResult response) {
+                if (response.getItems() != null && response.getItems().length > 0) {
+                    int i = 0;
+                    int prevItems = adapter.size() > 0 ? adapter.size() : 0;
+                    for (SeriesTimerInfoDto item : response.getItems()) {
+                        adapter.add(new BaseRowItem(item));
+                        i++;
+                    }
+                    totalItems = response.getTotalRecordCount();
+                    setItemsLoaded(itemsLoaded + i);
+                    if (i == 0) {
+                        removeRow();
+                    } else if (prevItems > 0) {
+                        // remove previous items as we re-retrieved
+                        // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
+                        removeItems(0, prevItems);
+                    }
+                } else {
+                    // no results - don't show us
+                    removeRow();
+                }
+
+                currentlyRetrieving = false;
+
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error retrieving live tv series timers", exception);
+                removeRow();
+                Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                currentlyRetrieving = false;
+            }
+        });
+    }
+
     public void Retrieve(final RecordingQuery query) {
         final ItemRowAdapter adapter = this;
         TvApp.getApplication().getApiClient().GetLiveTvRecordingsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
-                if (response.getTotalRecordCount() > 0) {
+                if (response.getItems() != null && response.getItems().length > 0) {
                     int i = 0;
                     int prevItems = adapter.size() > 0 ? adapter.size() : 0;
-                    if (query.getGroupId() == null) {
+                    if (adapter.chunkSize == 0) {
                         // and recordings as first item if showing all
                         adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_RECORDINGS_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv), R.drawable.recgroup)));
                         i++;
+                        if (TvApp.getApplication().canManageRecordings()) {
+                            // and schedule
+                            adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_SCHEDULE_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_schedule), R.drawable.clock)));
+                            i++;
+                            // and series
+                            adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_SERIES_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_series), R.drawable.seriestimerp)));
+                            i++;
+                        }
                     }
 
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(item));
+                        adapter.add(new BaseRowItem(item, staticHeight));
                         i++;
                     }
                     totalItems = response.getTotalRecordCount();
@@ -1331,7 +1447,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         TvApp.getApplication().getApiClient().GetSimilarItems(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
-                if (response.getTotalRecordCount() > 0) {
+                if (response.getItems() != null && response.getItems().length > 0) {
                     int i = 0;
                     if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
@@ -1364,7 +1480,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         TvApp.getApplication().getApiClient().GetSimilarItems(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
-                if (response.getTotalRecordCount() > 0) {
+                if (response.getItems() != null && response.getItems().length > 0) {
                     int i = 0;
                     if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
@@ -1397,7 +1513,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         TvApp.getApplication().getApiClient().GetUpcomingEpisodesAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
-                if (response.getTotalRecordCount() > 0) {
+                if (response.getItems() != null && response.getItems().length > 0) {
                     int i = 0;
                     if (adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
@@ -1431,7 +1547,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         TvApp.getApplication().getApiClient().GetPeopleAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
-                if (response.getTotalRecordCount() > 0) {
+                if (response.getItems() != null && response.getItems().length > 0) {
                     int i = itemsLoaded;
                     if (i == 0 && adapter.size() > 0) adapter.clear();
                     for (BaseItemDto item : response.getItems()) {
@@ -1464,7 +1580,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         TvApp.getApplication().getApiClient().GetSeasonsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
-                if (response.getTotalRecordCount() > 0) {
+                if (response.getItems() != null && response.getItems().length > 0) {
                     int i = 0;
                     int prevItems = adapter.size() > 0 ? adapter.size() : 0;
                     for (BaseItemDto item : response.getItems()) {

@@ -14,10 +14,11 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.util.Utils;
-
+import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 11/21/2015.
@@ -88,7 +89,7 @@ public class ItemRowView extends FrameLayout {
     protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
         if (gainFocus) {
-            mWholeRow.setBackgroundResource(R.color.lb_default_brand_color);
+            mWholeRow.setBackgroundResource(R.drawable.btn_focus);
             playSoundEffect(SoundEffectConstants.getContantForFocusDirection(direction));
             if (rowSelectedListener != null) rowSelectedListener.onRowSelected(this);
         } else {

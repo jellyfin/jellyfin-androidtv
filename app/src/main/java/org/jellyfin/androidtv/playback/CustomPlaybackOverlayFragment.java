@@ -1,8 +1,11 @@
 package org.jellyfin.androidtv.playback;
 
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -22,6 +25,7 @@ import android.support.v17.leanback.widget.RowPresenter;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -29,6 +33,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -44,6 +49,26 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import mediabrowser.apiinteraction.EmptyResponse;
+import mediabrowser.apiinteraction.Response;
+import mediabrowser.model.dlna.StreamInfo;
+import mediabrowser.model.dlna.SubtitleStreamInfo;
+import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.dto.ChapterInfoDto;
+import mediabrowser.model.dto.ImageOptions;
+import mediabrowser.model.entities.ImageType;
+import mediabrowser.model.entities.MediaStream;
+import mediabrowser.model.livetv.ChannelInfoDto;
+import mediabrowser.model.livetv.SeriesTimerInfoDto;
+import mediabrowser.model.mediainfo.SubtitleTrackEvent;
+import mediabrowser.model.mediainfo.SubtitleTrackInfo;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.CustomMessage;
@@ -55,6 +80,7 @@ import org.jellyfin.androidtv.livetv.ILiveTvGuide;
 import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.presentation.CardPresenter;
+import org.jellyfin.androidtv.presentation.ChannelCardPresenter;
 import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.AudioDelayPopup;
 import org.jellyfin.androidtv.ui.GuideChannelHeader;
@@ -70,25 +96,6 @@ import org.jellyfin.androidtv.ui.ValueChangedListener;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.Utils;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dlna.StreamInfo;
-import mediabrowser.model.dlna.SubtitleStreamInfo;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.dto.ChapterInfoDto;
-import mediabrowser.model.dto.ImageOptions;
-import mediabrowser.model.entities.ImageType;
-import mediabrowser.model.entities.MediaStream;
-import mediabrowser.model.livetv.ChannelInfoDto;
-import mediabrowser.model.mediainfo.SubtitleTrackEvent;
-import mediabrowser.model.mediainfo.SubtitleTrackInfo;
 
 /**
  * Created by Eric on 4/28/2015.
@@ -132,7 +139,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     TextView mSubtitleText;
 
     //Live guide items
-    public static final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(TvApp.getApplication(),6);
+    public static final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(TvApp.getApplication(),7);
     public static final int PAGE_SIZE = 75;
     RelativeLayout mTvGuide;
     private TextView mDisplayDate;
@@ -184,7 +191,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     int mButtonSize;
 
     boolean mFadeEnabled = false;
-    boolean mIsVisible = true;
+    boolean mIsVisible = false;
     boolean mPopupPanelVisible = false;
     boolean mNextUpPanelVisible = false;
     boolean mSmNextUpPanelVisible = false;
@@ -586,6 +593,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         hidePopupPanel();
                         break;
                 }
+            } else if (item instanceof ChannelInfoDto) {
+                Utils.Beep(100);
+                hidePopupPanel();
+                switchChannel(((ChannelInfoDto)item).getId());
             }
         }
     };
@@ -593,9 +604,16 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private View.OnKeyListener keyListener = new View.OnKeyListener() {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+            if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP && mActivity != null && !mActivity.isFinishing()) {
+                mActivity.finish();
+                return true;
+            }
+
             if (mPopupPanelVisible && (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE)) {
                 //back should just hide the popup panel
                 hidePopupPanel();
+                if (mPlaybackController.isLiveTv()) hide(); //also close this if live tv
                 return true;
             }
             if (mGuideVisible) {
@@ -648,6 +666,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     // up or down should close panel
                     if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN || keyCode == KeyEvent.KEYCODE_DPAD_UP) {
                         hidePopupPanel();
+                        if (mPlaybackController.isLiveTv()) hide(); //also close this if live tv
                         return true;
                     } else {
                         return false;
@@ -666,8 +685,14 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     return true;
                 }
 
-                if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && !mIsVisible && !mPlaybackController.isLiveTv()) {
+                if (keyCode == KeyEvent.KEYCODE_DPAD_UP && !mIsVisible && mPlaybackController.isLiveTv()) {
+                    showQuickChannelChanger();
+                    return true;
+                }
+
+                if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && !mIsVisible && mPlaybackController.canSeek()) {
                     mPlaybackController.pause();
+                    return true;
                 }
 
                 //if we're not visible, show us
@@ -695,8 +720,21 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             mPlaybackController.stop();
             mCurrentProgress.setVisibility(View.VISIBLE);
             hideGuide();
-            Utils.retrieveAndPlay(id, false, mActivity);
-            finish();
+            mApplication.getApiClient().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                @Override
+                public void onResponse(BaseItemDto response) {
+                    List<BaseItemDto> items = new ArrayList<BaseItemDto>();
+                    items.add(response);
+                    mPlaybackController.setItems(items);
+                    mPlaybackController.play(0);
+                }
+
+                @Override
+                public void onError(Exception exception) {
+                    Utils.showToast(mApplication, R.string.msg_video_playback_error);
+                    finish();
+                }
+            });
         }
     }
 
@@ -718,7 +756,15 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mAudioManager.registerMediaButtonEventReceiver(new ComponentName(TvApp.getApplication().getPackageName(), RemoteControlReceiver.class.getName()));
         //TODO implement conditional logic for api 21+
 
-        if (!mIsVisible) show(); // in case we were paused during video playback
+        if (TvApp.getApplication().isPlayingIntros()) {
+            // don't show overlay
+            TvApp.getApplication().setPlayingIntros(false);
+        } else {
+            if (!mIsVisible) {
+                show(); // in case we were paused during video playback
+                setFadingEnabled(true);
+            }
+        }
 
     }
 
@@ -881,7 +927,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mProgramRows.removeAllViews();
         mChannelStatus.setText("");
         mFilterStatus.setText("");
-        TvManager.getProgramsAsync(mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideEnd, new EmptyResponse() {
+        TvManager.getProgramsAsync(mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideStart, mCurrentGuideEnd, new EmptyResponse() {
             @Override
             public void onResponse() {
                 TvApp.getApplication().getLogger().Debug("*** Programs response");
@@ -1001,7 +1047,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         if (programs.size() == 0) {
             BaseItemDto empty = new BaseItemDto();
-            empty.setName("  <No Program Data Available>");
+            empty.setName(mApplication.getString(R.string.no_program_data));
             empty.setChannelId(channelId);
             empty.setStartDate(Utils.convertToUtcDate(new Date(mCurrentLocalGuideStart)));
             empty.setEndDate(Utils.convertToUtcDate(new Date(mCurrentLocalGuideStart + (150 * 60000))));
@@ -1184,7 +1230,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         if (getActivity() != null && !getActivity().isFinishing()) {
             int height = Utils.convertDpToPixel(getActivity(), 300);
             int width = Utils.convertDpToPixel(getActivity(), 150);
-            String posterImageUrl = Utils.getPrimaryImageUrl(item, mApplication.getApiClient(), false, false, false, preferSeries, height);
+            String posterImageUrl = Utils.getPrimaryImageUrl(item, mApplication.getApiClient(), false, false, preferSeries, height);
             if (posterImageUrl != null) Picasso.with(getActivity()).load(posterImageUrl).skipMemoryCache().resize(width, height).centerInside().into(target);
 
         }
@@ -1249,6 +1295,20 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mCurrentDuration = andDuration.intValue();
     }
 
+    private void showQuickChannelChanger() {
+        showChapterPanel();
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int ndx = TvManager.getAllChannelsIndex(TvManager.getLastLiveTvChannel());
+                if (ndx > 0) {
+                    mPopupRowPresenter.setPosition(ndx);
+                }
+
+            }
+        },500);
+    }
+
     private void addButtons(BaseItemDto item) {
         mButtonRow.removeAllViews();
 
@@ -1283,6 +1343,26 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 }));
             }
 
+            //Create quick channel change row
+            TvManager.loadAllChannels(new Response<Integer>() {
+                @Override
+                public void onResponse(Integer response) {
+                    ArrayObjectAdapter channelAdapter = new ArrayObjectAdapter(new ChannelCardPresenter());
+                    channelAdapter.addAll(0, TvManager.getAllChannels());
+                    if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
+                    mChapterRow = new ListRow(new HeaderItem("Channels"), channelAdapter);
+                    mPopupRowAdapter.add(mChapterRow);
+
+                }
+            });
+
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.channelbar, mButtonSize, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showQuickChannelChanger();
+                }
+            }));
+
             // guide button
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.guidebutton, mButtonSize, new View.OnClickListener() {
                 @Override
@@ -1290,7 +1370,25 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     showGuide();
                 }
             }));
-        } else if (!TextUtils.isEmpty(item.getOverview())) {
+
+            // record button
+            if (item.getCurrentProgram() != null && mApplication.canManageRecordings()) {
+                mButtonRow.addView(new ImageButton(mActivity, item.getCurrentProgram().getTimerId() != null ? R.drawable.rec : R.drawable.recwhite, mButtonSize, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        toggleRecording(mPlaybackController.getCurrentlyPlayingItem());
+                    }
+                }));
+            }
+
+            //adjust popup for channels
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mPopupArea.getLayoutParams();
+            params.height = Utils.convertDpToPixel(mActivity, 170);
+            mPopupArea.setLayoutParams(params);
+
+        }
+
+        if (!TextUtils.isEmpty(item.getOverview())) {
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.infoicon, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1316,10 +1414,14 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
                     List<MediaStream> audioTracks = TvApp.getApplication().getPlaybackManager().getInPlaybackSelectableAudioStreams(mPlaybackController.getCurrentStreamInfo());
                     Integer currentAudioIndex = mPlaybackController.getAudioStreamIndex();
+                    if (!mPlaybackController.isNativeMode() && currentAudioIndex > audioTracks.size()) {
+                        //VLC has translated this to an ID - we need to translate back to our index positionally
+                        currentAudioIndex = mPlaybackController.translateVlcAudioId(currentAudioIndex);
+                    }
 
                     PopupMenu audioMenu = Utils.createPopupMenu(getActivity(), v, Gravity.RIGHT);
                     for (MediaStream audio : audioTracks) {
-                        MenuItem item = audioMenu.getMenu().add(0, audio.getIndex(), audio.getIndex(), Utils.SafeToUpper(audio.getLanguage()) + " " + Utils.SafeToUpper(audio.getCodec()) + " (" + audio.getChannelLayout() + ")");
+                        MenuItem item = audioMenu.getMenu().add(0, audio.getIndex(), audio.getIndex(), audio.getDisplayTitle());
                         if (currentAudioIndex != null && currentAudioIndex == audio.getIndex()) item.setChecked(true);
                     }
                     audioMenu.getMenu().setGroupCheckable(0, true, false);
@@ -1362,7 +1464,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     int currentSubIndex = mPlaybackController.getSubtitleStreamIndex();
                     if (currentSubIndex < 0) none.setChecked(true);
                     for (SubtitleStreamInfo sub : subtitles) {
-                        MenuItem item = subMenu.getMenu().add(0, sub.getIndex(), sub.getIndex(), Utils.FirstToUpper(sub.getName() != null ? sub.getName() : sub.getLanguage()) + (sub.getIsForced() ? mApplication.getString(R.string.lbl_parens_forced) : ""));
+                        MenuItem item = subMenu.getMenu().add(0, sub.getIndex(), sub.getIndex(), sub.getDisplayTitle());
                         if (currentSubIndex == sub.getIndex()) item.setChecked(true);
                     }
                     subMenu.getMenu().setGroupCheckable(0, true, false);
@@ -1408,7 +1510,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }));
 
             //Create chapter row for later use
-            ItemRowAdapter chapterAdapter = new ItemRowAdapter(Utils.buildChapterItems(item), new CardPresenter(), new ArrayObjectAdapter());
+            ItemRowAdapter chapterAdapter = new ItemRowAdapter(Utils.buildChapterItems(item), new CardPresenter(true, 220), new ArrayObjectAdapter());
             chapterAdapter.Retrieve();
             if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
             mChapterRow = new ListRow(new HeaderItem(mActivity.getString(R.string.chapters)), chapterAdapter);
@@ -1486,6 +1588,146 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         return ndx - 1;
     }
 
+    private void toggleRecording(BaseItemDto item) {
+        final BaseItemDto program = item.getCurrentProgram();
+
+        if (program != null) {
+            if (program.getTimerId() != null) {
+                // cancel
+                if (program.getSeriesTimerId() != null) {
+                    new AlertDialog.Builder(mActivity)
+                            .setTitle(R.string.lbl_cancel_recording)
+                            .setMessage(R.string.msg_cancel_entire_series)
+                            .setPositiveButton(R.string.lbl_cancel_series, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    cancelRecording(program, true);
+                                }
+                            })
+                            .setNegativeButton("Just this one", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    cancelRecording(program, false);
+                                }
+                            })
+                            .show();
+                } else {
+                    new AlertDialog.Builder(mActivity)
+                            .setTitle(R.string.lbl_cancel_recording)
+                            .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    cancelRecording(program, false);
+                                }
+                            })
+                            .setNegativeButton(R.string.lbl_no, null)
+                            .show();
+                }
+            } else {
+                if (Utils.isTrue(program.getIsSeries())) {
+                    new AlertDialog.Builder(mActivity)
+                            .setTitle(R.string.lbl_record_series)
+                            .setMessage(R.string.msg_record_entire_series)
+                            .setPositiveButton(R.string.lbl_record_series, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    recordProgram(program, true);
+                                }
+                            })
+                            .setNegativeButton(R.string.lbl_just_this_once, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    recordProgram(program, false);
+                                }
+                            })
+                            .show();
+                } else {
+                    recordProgram(program, false);
+                }
+            }
+        }
+    }
+
+    private void cancelRecording(BaseItemDto program, boolean series) {
+
+        if (program != null) {
+            if (series) {
+                mApplication.getApiClient().CancelLiveTvSeriesTimerAsync(program.getSeriesTimerId(), new EmptyResponse() {
+                    @Override
+                    public void onResponse() {
+                        Utils.showToast(mActivity, R.string.msg_recording_cancelled);
+                        mPlaybackController.updateTvProgramInfo();
+                        TvManager.forceReload();
+                    }
+
+                    @Override
+                    public void onError(Exception ex) {
+                        Utils.showToast(mActivity, R.string.msg_unable_to_cancel);
+                    }
+                });
+            } else {
+                mApplication.getApiClient().CancelLiveTvTimerAsync(program.getTimerId(), new EmptyResponse() {
+                    @Override
+                    public void onResponse() {
+                        Utils.showToast(mActivity, R.string.msg_recording_cancelled);
+                        mPlaybackController.updateTvProgramInfo();
+                        TvManager.forceReload();
+                    }
+
+                    @Override
+                    public void onError(Exception ex) {
+                        Utils.showToast(mActivity, R.string.msg_unable_to_cancel);
+                    }
+                });
+
+            }
+        }
+    }
+
+    private void recordProgram(final BaseItemDto program, final boolean series) {
+//        Utils.showToast(mActivity, "Not Yet Implemented");
+//        return;
+
+        if (program != null) {
+            mApplication.getApiClient().GetDefaultLiveTvTimerInfo(new Response<SeriesTimerInfoDto>() {
+                @Override
+                public void onResponse(SeriesTimerInfoDto response) {
+                    response.setProgramId(program.getId());
+                    if (series) {
+                        mApplication.getApiClient().CreateLiveTvSeriesTimerAsync(response, new EmptyResponse() {
+                            @Override
+                            public void onResponse() {
+                                Utils.showToast(mActivity, R.string.msg_set_to_record);
+                                mPlaybackController.updateTvProgramInfo();
+                                TvManager.forceReload();
+                            }
+
+                            @Override
+                            public void onError(Exception ex) {
+                                Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
+                            }
+                        });
+                    } else {
+                        mApplication.getApiClient().CreateLiveTvTimerAsync(response, new EmptyResponse() {
+                            @Override
+                            public void onResponse() {
+                                Utils.showToast(mActivity, R.string.msg_set_to_record);
+                                mPlaybackController.updateTvProgramInfo();
+                                TvManager.forceReload();
+                            }
+
+                            @Override
+                            public void onError(Exception ex) {
+                                Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+
+    }
+
     AudioDelayPopup mAudioPopup;
 
     @Override
@@ -1499,6 +1741,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             mCurrentPos.setText(Utils.formatMillis(time));
             mRemainingTime.setText(mCurrentDuration > 0 ? "-" + Utils.formatMillis(mCurrentDuration - time) : "");
         }
+    }
+
+    @Override
+    public void setSecondaryTime(long time) {
+        mCurrentProgress.setSecondaryProgress(((Long)time).intValue());
     }
 
     @Override
@@ -1546,17 +1793,19 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             addButtons(current);
             InfoLayoutHelper.addInfoRow(mActivity, current, mInfoRow, true, false, mPlaybackController.getCurrentMediaSource().GetDefaultAudioStream(mPlaybackController.getAudioStreamIndex()));
 
-            StreamInfo stream = mPlaybackController.getCurrentStreamInfo();
-            if (stream != null) {
-                switch (stream.getPlayMethod()) {
+            if (mApplication.getPrefs().getBoolean("pref_enable_debug", false)) {
+                StreamInfo stream = mPlaybackController.getCurrentStreamInfo();
+                if (stream != null) {
+                    switch (stream.getPlayMethod()) {
 
-                    case Transcode:
-                        InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Trans" + (mPlaybackController.mVideoManager.isNativeMode() ? "/I" : "/V"));
-                        break;
-                    case DirectStream:
-                    case DirectPlay:
-                        InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Direct" + (mPlaybackController.mVideoManager.isNativeMode() ? "/I" : "/V"));
-                        break;
+                        case Transcode:
+                            InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Trans" + (mPlaybackController.mVideoManager.isNativeMode() ? "/I" : "/V"));
+                            break;
+                        case DirectStream:
+                        case DirectPlay:
+                            InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Direct" + (mPlaybackController.mVideoManager.isNativeMode() ? "/I" : "/V"));
+                            break;
+                    }
                 }
             }
 

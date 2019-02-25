@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.base;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,10 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.search.SearchActivity;
 import org.jellyfin.androidtv.util.Utils;
 
 /**
@@ -139,16 +142,16 @@ public class BaseActivity extends Activity {
         loop = new Runnable() {
             @Override
             public void run() {
-                if (System.currentTimeMillis() > app.getLastUserInteraction() + timeoutInterval) {
+                if (app != null && System.currentTimeMillis() > app.getLastUserInteraction() + timeoutInterval) {
                     app.getLogger().Info("Logging off due to inactivity "+app.getLastUserInteraction());
-                    Utils.showToast(app, "Jellyfin Logging off due to inactivity...");
+                    Utils.showToast(app, "jellyfin Logging off due to inactivity...");
                     if (app.getPlaybackController() != null && app.getPlaybackController().isPaused()) {
                         app.getLogger().Info("Playback was paused, stopping gracefully...");
                         app.getPlaybackController().stop();
                     }
                     finish();
                 } else {
-                    handler.postDelayed(this, 30000);
+                    handler.postDelayed(this, 60000);
                 }
             }
         };

@@ -1,7 +1,7 @@
 <FrameLayout
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+	xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="#ff000000">
 
@@ -23,7 +23,7 @@
         android:background="@drawable/default_background"
         android:layout_marginTop="10sp" />
 
-    <fragment
+    <fragment 
         android:layout_width="478dp"
         android:layout_marginTop="80sp"
         android:layout_marginBottom="50sp"

@@ -95,7 +95,7 @@ public class PlaybackOverlayActivity extends BaseActivity {
 
     private void loadViews() {
         if (mApplication.getPlaybackController() != null) {
-            mVideoManager = new VideoManager(this, findViewById(android.R.id.content), mApplication.getPlaybackController().getBufferAmount());
+            mVideoManager = new VideoManager(this, findViewById(android.R.id.content));
             mApplication.getPlaybackController().init(mVideoManager, findViewById(R.id.bufferingProgress));
         }
     }

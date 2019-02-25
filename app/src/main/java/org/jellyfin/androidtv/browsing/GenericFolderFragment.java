@@ -2,10 +2,6 @@ package org.jellyfin.androidtv.browsing;
 
 import android.os.Bundle;
 
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.querying.StdItemQuery;
-
 import java.util.Arrays;
 
 import mediabrowser.model.entities.SortOrder;
@@ -13,6 +9,9 @@ import mediabrowser.model.livetv.RecordingQuery;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemSortBy;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.querying.StdItemQuery;
 
 /**
  * Created by Eric on 12/4/2014.

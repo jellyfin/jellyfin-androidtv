@@ -1,6 +1,8 @@
 package org.jellyfin.androidtv.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import mediabrowser.model.dto.BaseItemDto;

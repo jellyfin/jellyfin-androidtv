@@ -69,7 +69,6 @@
         android:layout_width="fill_parent"
         android:layout_height="50sp"
         android:id="@+id/buttonRow"
-        android:layout_alignStart="@+id/timeline"
         android:layout_marginTop="15sp"
         android:showDividers="middle"
         android:divider="@drawable/blank10x10"

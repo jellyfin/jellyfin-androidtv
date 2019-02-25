@@ -71,11 +71,12 @@
         android:id="@+id/displayDate"
         android:layout_above="@+id/programVScroller"
         android:layout_toStartOf="@+id/timelineHScroller"
+        android:layout_alignParentStart="true"
         android:background="#ff007d8d"
         android:gravity="center"
-        android:layout_alignParentStart="true"
         android:textSize="14sp"
-        android:enabled="false" />
+        android:enabled="false"
+        android:textColor="#fafcfd" />
 
     <org.jellyfin.androidtv.ui.ClockUserView
         android:layout_width="wrap_content"
@@ -165,21 +166,67 @@
         android:textColor="@color/gray_gradient_end" />
 
     <ImageButton
-        android:layout_width="35sp"
-        android:layout_height="35sp"
-        android:id="@+id/filterButton"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:id="@+id/optionsButton"
         android:layout_marginRight="10sp"
         android:layout_alignParentEnd="true"
         android:layout_above="@+id/timelineHScroller"
         android:layout_marginBottom="10sp"
-        android:src="@drawable/filter"
+        android:src="@drawable/cog"
+        android:padding="3dp"
+        android:background="@drawable/jellyfin_button"
         android:scaleType="fitCenter" />
+
+    <ImageButton
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:id="@+id/filterButton"
+        android:layout_marginRight="10sp"
+        android:layout_toLeftOf="@id/optionsButton"
+        android:layout_above="@+id/timelineHScroller"
+        android:layout_marginBottom="10sp"
+        android:src="@drawable/filter"
+        android:padding="6dp"
+        android:background="@drawable/jellyfin_button"
+        android:scaleType="fitCenter" />
+
+    <ImageButton
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:id="@+id/dateButton"
+        android:layout_marginRight="10sp"
+        android:layout_alignParentEnd="false"
+        android:layout_above="@+id/timelineHScroller"
+        android:layout_marginBottom="10sp"
+        android:src="@drawable/calendar"
+        android:scaleType="fitCenter"
+        android:padding="6dp"
+        android:background="@drawable/jellyfin_button"
+        android:layout_toLeftOf="@+id/filterButton" />
+
+    <ImageButton
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:id="@+id/resetButton"
+        android:layout_marginRight="10sp"
+        android:layout_alignParentEnd="false"
+        android:layout_above="@+id/timelineHScroller"
+        android:layout_marginBottom="10sp"
+        android:src="@drawable/resettime"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        android:padding="6dp"
+        android:background="@drawable/jellyfin_button"
+        android:layout_toLeftOf="@+id/dateButton" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/spinner"
-        android:background="@color/black_transparent">
+        android:background="@color/black_transparent"
+        android:focusable="true"
+        android:clickable="true">
 
         <TextView
             android:layout_width="wrap_content"

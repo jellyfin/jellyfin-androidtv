@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;

@@ -43,6 +43,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import mediabrowser.apiinteraction.EmptyResponse;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
@@ -63,13 +69,6 @@ import org.jellyfin.androidtv.ui.ItemPanel;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import mediabrowser.apiinteraction.EmptyResponse;
-
 public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     private static final String TAG = "StdBrowseFragment";
 
@@ -78,6 +77,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     protected String MainTitle;
     protected boolean ShowBadge = true;
     protected boolean ShowInfoPanel = true;
+    protected boolean ShowFanart = false;
     protected TvApp mApplication;
     protected BaseActivity mActivity;
     protected BaseRowItem mCurrentItem;
@@ -143,6 +143,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
         // set info panel option
         ShowInfoPanel = mApplication.getPrefs().getBoolean("pref_enable_info_panel", true);
+        ShowFanart = mApplication.getPrefs().getBoolean("pref_show_backdrop", true);
 
         //React to deletion
         if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(TvApp.getApplication().getLastDeletedItemId())) {
@@ -191,6 +192,9 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                 case NextUp:
                     rowAdapter = new ItemRowAdapter(def.getNextUpQuery(), true, mCardPresenter, mRowsAdapter);
                     break;
+                case LatestItems:
+                    rowAdapter = new ItemRowAdapter(def.getLatestItemsQuery(), true, mCardPresenter, mRowsAdapter);
+                    break;
                 case Season:
                     rowAdapter = new ItemRowAdapter(def.getSeasonQuery(), mCardPresenter, mRowsAdapter);
                     break;
@@ -216,7 +220,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
                     rowAdapter = new ItemRowAdapter(def.getProgramQuery(), mCardPresenter, mRowsAdapter);
                     break;
                 case LiveTvRecording:
-                    rowAdapter = new ItemRowAdapter(def.getRecordingQuery(), mCardPresenter, mRowsAdapter);
+                    rowAdapter = new ItemRowAdapter(def.getRecordingQuery(), def.getChunkSize(), mCardPresenter, mRowsAdapter);
                     break;
                 case LiveTvRecordingGroup:
                     rowAdapter = new ItemRowAdapter(def.getRecordingGroupQuery(), mCardPresenter, mRowsAdapter);
@@ -257,8 +261,10 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                 backgroundManager.setBitmap(resource);
+                mApplication.setCurrentBackground(resource);
             }
         };
+
     }
 
     protected void setupUIElements() {
@@ -460,8 +466,10 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
             ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)row).getAdapter();
             adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
 
-            mBackgroundUrl = rowItem.getBackdropImageUrl();
-            startBackgroundTimer();
+            if (ShowFanart) {
+                mBackgroundUrl = rowItem.getBackdropImageUrl();
+                startBackgroundTimer();
+            }
 
         }
     }

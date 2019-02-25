@@ -2,10 +2,9 @@ package org.jellyfin.androidtv.livetv;
 
 import android.content.SharedPreferences;
 
+import mediabrowser.model.dto.BaseItemDto;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.util.Utils;
-
-import mediabrowser.model.dto.BaseItemDto;
 
 /**
  * Created by Eric on 5/13/2015.

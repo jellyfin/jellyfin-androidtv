@@ -1,21 +1,25 @@
 package org.jellyfin.androidtv.ui;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Rect;
+import android.net.Uri;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import mediabrowser.model.livetv.ChannelInfoDto;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.util.Utils;
-
-import mediabrowser.model.livetv.ChannelInfoDto;
 
 /**
  * Created by Eric on 5/4/2015.

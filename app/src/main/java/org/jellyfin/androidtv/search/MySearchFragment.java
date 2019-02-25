@@ -17,14 +17,15 @@ import android.util.DisplayMetrics;
 
 import com.squareup.picasso.Target;
 
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.imagehandling.PicassoBackgroundManagerTarget;
+import java.util.Timer;
+
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.itemhandling.ItemLauncher;
+import org.jellyfin.androidtv.imagehandling.PicassoBackgroundManagerTarget;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.util.Utils;
-
-import java.util.Timer;
 
 /**
  * Created by Eric on 1/26/2015.

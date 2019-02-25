@@ -5,11 +5,10 @@ import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 
+import mediabrowser.model.search.SearchQuery;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.presentation.CardPresenter;
-
-import mediabrowser.model.search.SearchQuery;
 
 /**
  * Created by Eric on 4/8/2015.
@@ -36,7 +35,7 @@ public class SearchRunnable implements Runnable {
 
         if (!musicOnly) {
             //Get search results by type
-            SearchQuery people = getSearchQuery(new String[] {"Person"});
+            SearchQuery people = getSearchQuery(new String[] {"Person","People"});
             ItemRowAdapter peopleAdapter = new ItemRowAdapter(people, new CardPresenter(), mRowsAdapter);
             ListRow peopleRow = new ListRow(new HeaderItem(activity.getString(R.string.lbl_people)), peopleAdapter);
             peopleAdapter.setRow(peopleRow);

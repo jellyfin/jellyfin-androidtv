@@ -1,6 +1,13 @@
 package org.jellyfin.androidtv.playback;
 
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+
 import org.videolan.libvlc.MediaPlayer.Event;
+
+import org.jellyfin.androidtv.TvApp;
 
 /**
  * Created by Eric on 6/13/2015.

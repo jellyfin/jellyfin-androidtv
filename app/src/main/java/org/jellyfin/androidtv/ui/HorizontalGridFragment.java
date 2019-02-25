@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.ui;
 
 import android.app.Fragment;
+import android.content.ClipData;
 import android.os.Bundle;
 import android.support.v17.leanback.widget.ObjectAdapter;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
@@ -15,8 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import mediabrowser.model.entities.SortOrder;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
@@ -25,11 +31,6 @@ import org.jellyfin.androidtv.model.FilterOptions;
 import org.jellyfin.androidtv.presentation.HorizontalGridPresenter;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.Utils;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import mediabrowser.model.entities.SortOrder;
 
 /**
  * Created by Eric on 8/17/2015.

@@ -2,15 +2,7 @@ package org.jellyfin.androidtv.eventhandling;
 
 import android.content.Context;
 import android.content.Intent;
-
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.itemhandling.ItemLauncher;
-import org.jellyfin.androidtv.playback.MediaManager;
-import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
-import org.jellyfin.androidtv.querying.StdItemQuery;
-import org.jellyfin.androidtv.util.Utils;
+import android.media.AudioManager;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -19,13 +11,23 @@ import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.ApiEventListener;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.entities.LibraryUpdateInfo;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.session.BrowseRequest;
 import mediabrowser.model.session.GeneralCommand;
+import mediabrowser.model.session.MessageCommand;
 import mediabrowser.model.session.PlayRequest;
 import mediabrowser.model.session.PlaystateRequest;
 import mediabrowser.model.session.SessionInfoDto;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.itemhandling.ItemLauncher;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
+import org.jellyfin.androidtv.querying.StdItemQuery;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 2/14/2015.
@@ -52,7 +54,14 @@ public class TvApiEventListener extends ApiEventListener {
     }
 
     @Override
+    public void onLibraryChanged(ApiClient client, LibraryUpdateInfo info) {
+        TvApp.getApplication().getLogger().Debug("Library Changed. Added %o items. Removed %o items. Changed %o items.", info.getItemsAdded().size(), info.getItemsRemoved().size(), info.getItemsUpdated().size());
+        if (info.getItemsAdded().size() > 0 || info.getItemsRemoved().size() > 0) TvApp.getApplication().setLastLibraryChange(Calendar.getInstance());
+    }
+
+    @Override
     public void onGeneralCommand(ApiClient client, GeneralCommand command) {
+        TvApp.getApplication().getLogger().Info("General command is: "+command.getName());
         switch (command.getName().toLowerCase()) {
             case "mute":
                 TvApp.getApplication().setAudioMuted(true);
@@ -146,7 +155,7 @@ public class TvApiEventListener extends ApiEventListener {
                         switch (response.getItems()[0].getMediaType()) {
                             case "Video":
                                 MediaManager.setCurrentVideoQueue(Arrays.asList(response.getItems()));
-                                Intent intent = new Intent(TvApp.getApplication().getCurrentActivity(), PlaybackOverlayActivity.class);
+                                Intent intent = new Intent(TvApp.getApplication().getCurrentActivity(), TvApp.getApplication().getPlaybackActivityClass(response.getItems()[0].getType()));
                                 TvApp.getApplication().getCurrentActivity().startActivity(intent);
                                 break;
                             case "Audio":
