@@ -47,6 +47,8 @@ import mediabrowser.model.results.TimerInfoDtoResult;
  * Created by Eric on 9/4/2015.
  */
 public class TvManager {
+    private static final String DISPLAY_PREFS_APP_NAME = "jellyfin";
+
     private static List<ChannelInfoDto> allChannels;
     private static String[] channelIds;
     private static HashMap<String, ArrayList<BaseItemDto>> mProgramsDict = new HashMap<>();
@@ -147,7 +149,7 @@ public class TvManager {
         current.put("guide-indicator-premiere", String.valueOf(newPrefs.showPremiereIndicator));
         current.put("guide-indicator-repeat", String.valueOf(newPrefs.showRepeatIndicator));
 
-        TvApp.getApplication().updateDisplayPrefs("emby", displayPrefs);
+        TvApp.getApplication().updateDisplayPrefs(DISPLAY_PREFS_APP_NAME, displayPrefs);
         allChannels = null; //force a re-fetch
     }
 
@@ -166,7 +168,7 @@ public class TvManager {
     }
 
     private static void getLiveTvPrefs(final EmptyResponse outerResponse) {
-        TvApp.getApplication().getDisplayPrefsAsync("usersettings","emby", new Response<DisplayPreferences>() {
+        TvApp.getApplication().getDisplayPrefsAsync("usersettings", DISPLAY_PREFS_APP_NAME, new Response<DisplayPreferences>() {
             @Override
             public void onResponse(DisplayPreferences response) {
                 displayPrefs = response;
