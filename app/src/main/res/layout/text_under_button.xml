@@ -10,7 +10,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:focusable="true"
-        android:background="@drawable/emby_button"
+        android:background="@drawable/jellyfin_button"
         android:scaleType="fitCenter"
         android:id="@+id/imageButton" />
 

@@ -82,7 +82,6 @@
         <provider
             android:authorities="org.jellyfin.androidtv.recommendations"
             android:name=".integration.RecommendationContentProvider"
-            android:authorities="tv.emby.embyatv.recommendations"
             android:exported="true"
             android:grantUriPermissions="true" />
 

@@ -7,16 +7,19 @@ import android.support.v17.leanback.widget.ListRow;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.model.ChangeTriggerType;
+import org.jellyfin.androidtv.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.StdItemQuery;
+import org.jellyfin.androidtv.ui.GridButton;
+import org.jellyfin.androidtv.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
@@ -33,6 +36,7 @@ import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.LatestItemsQuery;
 import mediabrowser.model.querying.NextUpQuery;
+import mediabrowser.model.results.TimerInfoDtoResult;
 
 /**
  * Created by Eric on 12/4/2014.

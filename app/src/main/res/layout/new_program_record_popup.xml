@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:text="@string/lbl_save"
             android:id="@+id/okButton"
-            android:background="@drawable/emby_button"
+            android:background="@drawable/jellyfin_button"
             android:minWidth="90dp"
             android:layout_marginRight="10sp"
             android:textColor="@android:color/white" />
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/lbl_cancel"
-            android:background="@drawable/emby_button"
+            android:background="@drawable/jellyfin_button"
             android:id="@+id/cancelButton"
             android:minWidth="90dp"
             android:layout_marginLeft="10sp"
@@ -94,7 +94,7 @@
                 android:spinnerMode="dialog"
                 android:layout_marginLeft="5dp"
                 android:layout_below="@+id/textView1"
-                android:background="@drawable/emby_button" />
+                android:background="@drawable/jellyfin_button" />
 
         </RelativeLayout>
 
@@ -123,7 +123,7 @@
                 android:spinnerMode="dialog"
                 android:layout_below="@+id/textView2"
                 android:layout_marginLeft="5sp"
-                android:background="@drawable/emby_button" />
+                android:background="@drawable/jellyfin_button" />
 
 
         </RelativeLayout>

@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.presentation;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.view.LayoutInflater;
@@ -13,8 +14,13 @@ import android.widget.TextView;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.details.MyDetailsOverviewRow;
-import org.jellyfin.androidtv.ui.ImageButton;
+import org.jellyfin.androidtv.model.InfoItem;
+import org.jellyfin.androidtv.ui.GenreButton;
+import org.jellyfin.androidtv.ui.TextUnderButton;
+import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.Utils;
+
+import mediabrowser.model.dto.BaseItemDto;
 
 /**
  * Created by Eric on 5/22/2015.

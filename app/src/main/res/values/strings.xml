@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-
     <string name="app_name">Jellyfin</string>
     <string name="error">Error</string>
     <string name="ok">OK</string>
+    <string name="play">Play</string>
     <string name="video_error_unknown_error">Failed to load video</string>
-    <string name="txt_loading">Loading...</string>
+    <string name="loading">Loading…</string>
+    <string name="txt_loading">Loading…</string>
     <string name="title_activity_select_user">SelectUserActivity</string>
     <string name="home_title">Home</string>
     <string name="btn_cancel">Cancel</string>
@@ -79,6 +80,7 @@
     <string name="lbl_items">Items</string>
     <string name="lbl_item">Item</string>
     <string name="lbl_similar_movies">Similar Movies</string>
+    <string name="lbl_series">Series</string>
     <string name="lbl_seasons">Seasons</string>
     <string name="lbl_upcoming">Upcoming</string>
     <string name="lbl_similar_series">Similar Series</string>

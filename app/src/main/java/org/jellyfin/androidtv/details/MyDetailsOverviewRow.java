@@ -7,7 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.support.v17.leanback.widget.Row;
 import android.view.View;
 
-import org.jellyfin.androidtv.ui.ImageButton;
+import org.jellyfin.androidtv.model.InfoItem;
+import org.jellyfin.androidtv.ui.TextUnderButton;
 
 import java.util.ArrayList;
 import java.util.List;

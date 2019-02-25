@@ -1,15 +1,13 @@
-package tv.emby.embyatv.presentation;
+package org.jellyfin.androidtv.presentation;
 
 import android.content.Context;
 import android.support.v17.leanback.widget.Presenter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.entities.MediaStream;
+import org.jellyfin.androidtv.TvApp;
+
 import mediabrowser.model.livetv.ChannelInfoDto;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.util.Utils;
 
 public class ChannelCardPresenter extends Presenter {
 

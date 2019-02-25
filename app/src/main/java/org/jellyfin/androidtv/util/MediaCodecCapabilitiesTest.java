@@ -1,9 +1,9 @@
-package tv.emby.embyatv.util;
+package org.jellyfin.androidtv.util;
 
 import android.media.MediaCodecInfo;
 import android.media.MediaCodecList;
 
-import tv.emby.embyatv.TvApp;
+import org.jellyfin.androidtv.TvApp;
 
 import static android.media.MediaFormat.MIMETYPE_VIDEO_HEVC;
 import static android.media.MediaFormat.MIMETYPE_VIDEO_H263;

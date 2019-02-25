@@ -388,7 +388,7 @@ public class Utils {
     }
 
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, boolean showProgress, boolean preferParentThumb, boolean preferSeriesPoster, int maxHeight) {
-        if (item.getType().equals("SeriesTimer")) return "android.resource://tv.emby.embyatv/" + R.drawable.seriestimer;
+        if (item.getType().equals("SeriesTimer")) return "android.resource://org.jellyfin.androidtv/" + R.drawable.seriestimer;
         ImageOptions options = new ImageOptions();
         String itemId = item.getId();
         String imageTag = item.getImageTags() != null ? item.getImageTags().get(ImageType.Primary) : null;
@@ -1672,7 +1672,6 @@ public class Utils {
                         @Override
                         public void onResponse(UserDto response) {
                             TvApp.getApplication().setCurrentUser(response);
-                            TvApp.getApplication().setConnectLogin(true);
                             Intent homeIntent = new Intent(activity, MainActivity.class);
                             activity.startActivity(homeIntent);
                         }
