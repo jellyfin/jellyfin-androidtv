@@ -175,7 +175,7 @@
         android:layout_marginBottom="10sp"
         android:src="@drawable/cog"
         android:padding="3dp"
-        android:background="@drawable/emby_button"
+        android:background="@drawable/jellyfin_button"
         android:scaleType="fitCenter" />
 
     <ImageButton
@@ -188,7 +188,7 @@
         android:layout_marginBottom="10sp"
         android:src="@drawable/filter"
         android:padding="6dp"
-        android:background="@drawable/emby_button"
+        android:background="@drawable/jellyfin_button"
         android:scaleType="fitCenter" />
 
     <ImageButton
@@ -202,7 +202,7 @@
         android:src="@drawable/calendar"
         android:scaleType="fitCenter"
         android:padding="6dp"
-        android:background="@drawable/emby_button"
+        android:background="@drawable/jellyfin_button"
         android:layout_toLeftOf="@+id/filterButton" />
 
     <ImageButton
@@ -217,7 +217,7 @@
         android:scaleType="fitCenter"
         android:visibility="gone"
         android:padding="6dp"
-        android:background="@drawable/emby_button"
+        android:background="@drawable/jellyfin_button"
         android:layout_toLeftOf="@+id/dateButton" />
 
     <RelativeLayout

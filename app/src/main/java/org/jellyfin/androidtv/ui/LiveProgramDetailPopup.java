@@ -290,7 +290,7 @@ public class LiveProgramDetailPopup {
                     mSeriesSettingsButton = new Button(mActivity);
                     mSeriesSettingsButton.setText(mActivity.getResources().getString(R.string.lbl_series_settings));
                     mSeriesSettingsButton.setTextColor(Color.WHITE);
-                    mSeriesSettingsButton.setBackground(mActivity.getResources().getDrawable(R.drawable.emby_button));
+                    mSeriesSettingsButton.setBackground(mActivity.getResources().getDrawable(R.drawable.jellyfin_button));
                     mSeriesSettingsButton.setVisibility(mProgram.getSeriesTimerId() != null ? View.VISIBLE : View.GONE);
                     mSeriesSettingsButton.setOnClickListener(new View.OnClickListener() {
                         @Override

@@ -32,7 +32,7 @@
             android:text="@string/lbl_save"
             android:id="@+id/okButton"
             android:textColor="@android:color/white"
-            android:background="@drawable/emby_button"
+            android:background="@drawable/jellyfin_button"
             android:minWidth="100dp" />
 
         <Button
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:text="@string/lbl_cancel"
             android:textColor="@android:color/white"
-            android:background="@drawable/emby_button"
+            android:background="@drawable/jellyfin_button"
             android:minWidth="100dp"
             android:id="@+id/cancelButton" />
     </LinearLayout>
@@ -63,7 +63,7 @@
         android:layout_marginStart="10dp"
         android:spinnerMode="dialog"
         android:layout_below="@id/sortLabel"
-        android:background="@drawable/emby_button"
+        android:background="@drawable/jellyfin_button"
         />
 
     <CheckBox

@@ -1,11 +1,11 @@
 package org.jellyfin.androidtv.search;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.speech.SpeechRecognizer;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
 
 public class SearchActivity extends BaseActivity {
 

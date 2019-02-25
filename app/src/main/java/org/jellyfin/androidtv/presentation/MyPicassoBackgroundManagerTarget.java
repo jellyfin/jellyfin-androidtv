@@ -1,14 +1,12 @@
-package tv.emby.embyatv.presentation;
+package org.jellyfin.androidtv.presentation;
 
 import android.graphics.Bitmap;
 import android.support.v17.leanback.app.BackgroundManager;
 
 import com.squareup.picasso.Picasso;
 
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.imagehandling.PicassoBackgroundManagerTarget;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.imagehandling.PicassoBackgroundManagerTarget;
 
 /**
  * Created by spam on 9/28/2016.

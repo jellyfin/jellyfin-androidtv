@@ -1,4 +1,4 @@
-package tv.emby.embyatv.playback;
+package org.jellyfin.androidtv.playback;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,25 +9,22 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v17.leanback.app.BackgroundManager;
+
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.util.ProfileHelper;
+import org.jellyfin.androidtv.util.Utils;
 
 import java.util.List;
 
-import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dlna.DeviceProfile;
 import mediabrowser.model.dlna.PlaybackException;
 import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dlna.VideoOptions;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserItemDataDto;
-import mediabrowser.model.entities.EmptyRequestResult;
 import mediabrowser.model.session.PlayMethod;
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.util.ProfileHelper;
-import tv.emby.embyatv.util.Utils;
 
 public class ExternalPlayerActivity extends Activity {
 

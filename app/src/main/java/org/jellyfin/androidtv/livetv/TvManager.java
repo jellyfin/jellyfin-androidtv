@@ -2,12 +2,18 @@ package org.jellyfin.androidtv.livetv;
 
 import android.app.Activity;
 import android.graphics.Typeface;
+import android.support.v17.leanback.widget.ArrayObjectAdapter;
+import android.support.v17.leanback.widget.HeaderItem;
+import android.support.v17.leanback.widget.ListRow;
+import android.support.v17.leanback.widget.Presenter;
 import android.text.format.DateUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.model.LiveTvPrefs;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.util.Utils;
 
@@ -25,11 +31,17 @@ import java.util.TimeZone;
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
+import mediabrowser.model.entities.DisplayPreferences;
+import mediabrowser.model.entities.LocationType;
+import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.ProgramQuery;
+import mediabrowser.model.livetv.TimerInfoDto;
+import mediabrowser.model.livetv.TimerQuery;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.results.ChannelInfoDtoResult;
+import mediabrowser.model.results.TimerInfoDtoResult;
 
 /**
  * Created by Eric on 9/4/2015.

@@ -1,15 +1,16 @@
 package org.jellyfin.androidtv.browsing;
 
 import android.os.Handler;
-import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
-import android.support.v17.leanback.widget.ListRowPresenter;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.model.DisplayPriorityType;
+import org.jellyfin.androidtv.presentation.GridButtonPresenter;
+import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.util.ArrayList;
@@ -23,7 +24,6 @@ import mediabrowser.model.livetv.RecordingQuery;
 import mediabrowser.model.livetv.TimerInfoDto;
 import mediabrowser.model.livetv.TimerQuery;
 import mediabrowser.model.querying.ItemFields;
-import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.results.TimerInfoDtoResult;
 
 /**

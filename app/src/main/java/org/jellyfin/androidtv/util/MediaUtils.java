@@ -1,10 +1,10 @@
-package tv.emby.embyatv.util;
+package org.jellyfin.androidtv.util;
 
 import android.media.MediaCodecList;
 import android.media.MediaFormat;
 import android.media.MediaCodecInfo;
 
-import tv.emby.embyatv.TvApp;
+import org.jellyfin.androidtv.TvApp;
 
 /**
  * Created by spam on 7/15/2016.

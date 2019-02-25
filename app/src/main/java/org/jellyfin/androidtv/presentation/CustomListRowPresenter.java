@@ -1,14 +1,9 @@
-package tv.emby.embyatv.presentation;
+package org.jellyfin.androidtv.presentation;
 
 import android.graphics.drawable.Drawable;
-import android.support.v17.leanback.widget.BaseCardView;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.view.View;
-import android.view.ViewGroup;
-
-import tv.emby.embyatv.TvApp;
-import tv.emby.embyatv.util.Utils;
 
 /**
  * Created by Eric on 10/12/2015.

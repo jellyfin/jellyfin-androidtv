@@ -113,7 +113,7 @@
             android:minHeight="22sp"
              />
 
-        <tv.emby.embyatv.ui.ExpandableTextView
+        <org.jellyfin.androidtv.ui.ExpandableTextView
             android:layout_width="match_parent"
             android:id="@+id/fdSummaryText"
             android:transitionName="summary"

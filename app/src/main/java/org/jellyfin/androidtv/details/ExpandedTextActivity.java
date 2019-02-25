@@ -1,11 +1,11 @@
-package tv.emby.embyatv.details;
+package org.jellyfin.androidtv.details;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.widget.TextView;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.TvApp;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
 
 public class ExpandedTextActivity extends Activity {
 

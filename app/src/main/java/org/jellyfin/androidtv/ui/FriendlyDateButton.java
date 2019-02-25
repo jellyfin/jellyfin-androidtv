@@ -1,18 +1,16 @@
-package tv.emby.embyatv.ui;
+package org.jellyfin.androidtv.ui;
 
 import android.content.Context;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.util.Utils;
 
-import tv.emby.embyatv.R;
-import tv.emby.embyatv.util.Utils;
+import java.util.Date;
 
 /**
  * Created by spam on 9/12/2016.

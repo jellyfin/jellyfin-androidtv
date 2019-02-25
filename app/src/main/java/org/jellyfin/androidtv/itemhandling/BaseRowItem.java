@@ -197,7 +197,7 @@ public class BaseRowItem {
             case GridButton:
                 return "android.resource://org.jellyfin.androidtv/" + gridButton.getImageIndex();
             case SeriesTimer:
-                return "android.resource://tv.emby.embyatv/" + R.drawable.seriestimer;
+                return "android.resource://org.jellyfin.androidtv/" + R.drawable.seriestimer;
             case SearchHint:
                 return !Utils.IsEmpty(searchHint.getPrimaryImageTag()) ? Utils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag(), TvApp.getApplication().getApiClient()) :
                         !Utils.IsEmpty(searchHint.getThumbImageItemId()) ? Utils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag(), TvApp.getApplication().getApiClient()) : null;

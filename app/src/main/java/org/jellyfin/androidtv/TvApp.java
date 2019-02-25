@@ -23,6 +23,9 @@ import android.support.v7.graphics.Palette;
 import android.util.Log;
 
 import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.livetv.TvManager;
+import org.jellyfin.androidtv.model.DisplayPriorityType;
+import org.jellyfin.androidtv.playback.ExternalPlayerActivity;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
@@ -46,6 +49,7 @@ import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.entities.DisplayPreferences;
 import mediabrowser.model.logging.ILogger;
+import mediabrowser.model.net.EndPointInfo;
 import mediabrowser.model.system.SystemInfo;
 
 /**
@@ -457,7 +461,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     }
 
     public boolean canManageRecordings() {
-        return currentUser != null && currentUser.getPolicy().getEnableLiveTvManagement() && isRegistered();
+        return currentUser != null && currentUser.getPolicy().getEnableLiveTvManagement();
     }
 
     public PlaybackManager getPlaybackManager() {

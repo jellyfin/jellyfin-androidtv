@@ -15,7 +15,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -25,8 +24,6 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.Utils;
-
-
 
 /**
  * A card view with an {@link ImageView} as its main region.
@@ -86,10 +83,10 @@ public class MyImageCardView extends BaseCardView {
         mInfoOverlay = (ViewGroup) v.findViewById(R.id.name_overlay);
         mInfoOverlay.setVisibility(GONE);
         mFavIcon = (ImageView) v.findViewById(R.id.favIcon);
-        mWatchedIndicator = (RelativeLayout) v.findViewById(tv.emby.embyatv.R.id.watchedIndicator);
-        mWatchedMark = (ImageView) v.findViewById(tv.emby.embyatv.R.id.checkMark);
-        mUnwatchedCount = (TextView) v.findViewById(tv.emby.embyatv.R.id.unwatchedCount);
-        mProgress = (ProgressBar) v.findViewById(tv.emby.embyatv.R.id.resumeProgress);
+        mWatchedIndicator = (RelativeLayout) v.findViewById(R.id.watchedIndicator);
+        mWatchedMark = (ImageView) v.findViewById(R.id.checkMark);
+        mUnwatchedCount = (TextView) v.findViewById(R.id.unwatchedCount);
+        mProgress = (ProgressBar) v.findViewById(R.id.resumeProgress);
 
         if (mInfoArea != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.lbImageCardView,

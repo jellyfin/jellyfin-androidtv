@@ -1,4 +1,4 @@
-package tv.emby.embyatv.model;
+package org.jellyfin.androidtv.model;
 
 /**
  * Created by spam on 9/29/2016.
