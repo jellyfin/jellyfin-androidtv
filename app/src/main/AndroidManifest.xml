@@ -52,7 +52,6 @@
         <activity android:name=".browsing.UserViewActivity" />
         <activity android:name=".startup.SelectServerActivity" />
         <activity android:name=".browsing.CollectionActivity" />
-        <activity android:name=".startup.ExpiredActivity" />
         <activity android:name=".browsing.ByLetterActivity" />
         <activity android:name=".browsing.ByGenreActivity" />
         <activity android:name=".settings.SettingsActivity" />

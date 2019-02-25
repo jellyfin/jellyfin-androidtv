@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Emby</string>
     <string name="error">Erreur</string>
     <string name="ok">OK</string>
     <string name="play">Lire</string>
@@ -10,8 +9,6 @@
     <string name="title_activity_select_user">Sélection de l\'utilisateur</string>
     <string name="home_title">Accueil</string>
     <string name="btn_cancel">Annuler</string>
-    <string name="txt_expired">Emby pour Android TV est périmé</string>
-    <string name="txt_expired_exp">Cette version de développement a expiré. S\'il vous plaît rechercher une mise à jour sur le playstore. Merci d\'utiliser Emby!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Démarrage</string>
     <string name="pref_show_login">Afficher l\'écran de connexion</string>

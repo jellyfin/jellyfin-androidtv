@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Jellyfin</string>
     <string name="error">Қате</string>
     <string name="ok">ЖАРАЙДЫ</string>
     <string name="video_error_unknown_error">Бейне жүктеу сәтсіз</string>
@@ -8,8 +7,6 @@
     <string name="title_activity_select_user">ПайдаланушыӘрекетінТандау</string>
     <string name="home_title">Басты</string>
     <string name="btn_cancel">Болдырмау</string>
-    <string name="txt_expired">Android TV үшін арналған Jellyfinr мерзімі аяқталған</string>
-    <string name="txt_expired_exp">Осы жасақтаушылық нұсқасының мерзімі аяқталды. Жаңартуды іздеңіз немесе дүкенден орнатыңыз. Jellyfin бағдарламасын пайдаланғаныңызға алғыс айтамыз!</string>
     <string name="byletter_letters">АӘБВГҒДЕЖЗИЙКҚЛМНҢОӨПРСТУҰҮФХҺЦЧШЩЪЫІЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Бастаудағы қасиеті</string>
     <string name="pref_show_login">Кіру экранын көрсету</string>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Jellyfin</string>
     <string name="error">Fout</string>
     <string name="ok">OK</string>
     <string name="video_error_unknown_error">Laden video is mislukt</string>
@@ -8,8 +7,6 @@
     <string name="title_activity_select_user">KiesGebruikerActiviteit</string>
     <string name="home_title">Hoofdpagina</string>
     <string name="btn_cancel">Annuleren</string>
-    <string name="txt_expired">Jellyfin voor Android TV is verlopen</string>
-    <string name="txt_expired_exp">Deze ontwikkelingsversie is verlopen. Controleer of er nieuwe updates zijn of installeer vanuit de store. Bedankt voor het gebruiken van Jellyfin!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Opstart gedrag</string>
     <string name="pref_show_login">Toon Login Scherm</string>
