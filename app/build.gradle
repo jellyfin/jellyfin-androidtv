@@ -22,15 +22,7 @@ android {
             debuggable true
         }
     }
-    splits {
-        abi {
-            enable true
-            reset()
-            include 'x86', 'armeabi-v7a', 'x86_64'
-            universalApk true
-        }
-    }
-
+   
     flavorDimensions "version"
     productFlavors {
         google {
