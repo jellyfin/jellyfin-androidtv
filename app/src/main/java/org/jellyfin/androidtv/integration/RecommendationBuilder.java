@@ -9,10 +9,11 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import org.jellyfin.androidtv.util.Utils;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 3/1/2015.

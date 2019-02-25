@@ -1,8 +1,8 @@
 package org.jellyfin.androidtv.presentation;
 
-import org.jellyfin.androidtv.util.InfoLayoutHelper;
-
 import mediabrowser.model.dto.BaseItemDto;
+import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.Utils;
 
 public class DetailsDescriptionPresenter extends MyAbstractDetailsPresenter {
     @Override

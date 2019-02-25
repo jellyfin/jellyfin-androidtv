@@ -3,12 +3,12 @@ package org.jellyfin.androidtv.integration;
 import android.app.NotificationManager;
 import android.content.Context;
 
-import org.jellyfin.androidtv.TvApp;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import org.jellyfin.androidtv.TvApp;
 
 /**
  * Created by Eric on 3/1/2015.

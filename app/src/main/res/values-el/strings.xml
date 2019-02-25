@@ -1,18 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Jellyfin</string>
+    <string name="app_name">jellyfin</string>
+    <string name="current_queue">τρέχουσα ουρά</string>
     <string name="error">Error</string>
     <string name="ok">Εντάξει</string>
+    <string name="pause">Παύση</string>
+    <string name="play">παίζει</string>
+    <string name="stop">Στάση</string>
+    <string name="init_text">00:00</string>
+    <string name="play_pause_description">Αναπαραγωγή Παύση Button</string>
+    <string name="loading">Φόρτωση…</string>
+    <string name="no_video_found">Δεν βρέθηκε το βίντεο</string>
+    <string name="version">Έκδοση : %1$s</string>
+    <string name="preferences">ΠΡΟΤΙΜΗΣΕΙΣ</string>
+    <string name="personal_settings">Προσωπικές ρυθμίσεις</string>
+    <string name="movie">Ταινία</string>
+    <string name="start_position">Θέση εκκίνησης</string>
+    <string name="search_results">Αποτελέσματα αναζήτησης</string>
+    <string name="video_error_media_load_timeout">Τοποθέτηση μέσων εκτύπωσης timed out</string>
+    <string name="video_error_server_unaccessible">Διακομιστής Media δεν ήταν προσβάσιμα</string>
     <string name="video_error_unknown_error">Απέτυχε να φορτώσει το βίντεο</string>
+    <string name="oops">Oops</string>
+    <string name="btn_skip">Παραλείπω</string>
+    <string name="btn_skip_hint">Μετάβαση αυτό και να συνδεθείτε μη αυτόματα</string>
+    <string name="title_activity_startup">ΕκκίνησηΔραστηριότητα</string>
+    <string name="action_settings">ρυθμίσεις</string>
     <string name="txt_loading">"Φόρτωση...
 "</string>
+    <string name="title_activity_connect">ΣυνδέστεΔραστηριότητα</string>
+    <string name="txt_signinconnect">Σύνδεση με Connect</string>
     <string name="title_activity_select_user">Επιλέξτε δραστηριότητα του χρήστη</string>
+    <string name="selusr_pleaseselect">Επιλέξτε ένα χρήστη</string>
+    <string name="error_fragment_message">Σφάλμα</string>
+    <string name="dismiss_error">Απολύω</string>
+    <string name="video_error_server_inaccessible">διακομιστή Απρόσιτο</string>
     <string name="home_title">Home</string>
     <string name="btn_cancel">ακυρώ</string>
-    <string name="txt_expired">Jellyfin για το Android τηλεόραση έχει λήξει</string>
-    <string name="txt_expired_exp">Αυτή η έκδοση ανάπτυξης έχει λήξει . Παρακαλώ κοιτάξτε για μια ενημερωμένη έκδοση ή να εγκαταστήσετε από το κατάστημα . Σας ευχαριστούμε που χρησιμοποιείτε Jellyfin !</string>
+    <string name="btn_manually">Μεταφορά και Εισάγετε τη διεύθυνση</string>
+    <string name="txt_expired">jellyfin για το Android τηλεόραση έχει λήξει</string>
+    <string name="txt_expired_exp">Αυτή η έκδοση ανάπτυξης έχει λήξει . Παρακαλώ κοιτάξτε για μια ενημερωμένη έκδοση ή να εγκαταστήσετε από το κατάστημα . Σας ευχαριστούμε που χρησιμοποιείτε jellyfin !</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="lbl_jellyfin_premiere">Αναβάθμιση σε jellyfin Premiere</string>
+    <string name="lbl_premiere_desc">Με jellyfin Premiere δεν σας πάρει μόνο πλήρη λειτουργικότητα σε αυτό το app , αλλά και μια σειρά από άλλα χαρακτηριστικά τόσο στο διακομιστή όσο και άλλες εφαρμογές σε ολόκληρο το περιβάλλον jellyfin σας .</string>
+    <string name="lbl_premiere_desc2">Δωρεάν πρόσβαση σε ορισμένες εφαρμογές και σε άλλες πλατφόρμες , συγχρονίσετε το περιεχόμενό σας να υποστηρίζεται κινητές συσκευές ή εφαρμογή web για προβολή χωρίς σύνδεση , μπορείτε να απολαύσετε την εμπειρία του θεάτρου με λειτουργία Cinema Mode , βελτιώστε τις εικόνες σας με CoverArt και πολλά , πολλά άλλα . Δοκιμάστε jellyfin Πρεμιέρα σήμερα.</string>
+    <string name="msg_just_unlock_confirm">Μόλις ξεκλειδώσετε αυτό το app ; Αυτή η επιλογή δεν θα περιλαμβάνουν οποιοδήποτε από τα χαρακτηριστικά της jellyfin Premiere . Θα επιτρέψει μόνο πλήρη λειτουργικότητα σε αυτό το app . Είσαι σίγουρος…?</string>
+    <string name="btn_unlock">"Όχι, ευχαριστώ, μόλις ξεκλειδώσετε αυτό το app
+"</string>
+    <string name="btn_monthly_prefix">εγγραφή για</string>
+    <string name="btn_monthly_suffix">/Μήνας</string>
+    <string name="btn_jellyfin_premiere">"jellyfin Premiere
+"</string>
     <string name="btn_ok">OK</string>
+    <string name="msg_email_entry1">Παρακαλώ εισάγετε μια έγκυρη διεύθυνση e-mail για να στείλετε σας jellyfin Premiere Κλειδί</string>
+    <string name="msg_email_entry2">Πολύ λυπάμαι , αλλά πρέπει να είμαστε βέβαιοι ότι αυτό είναι σωστό . Παρακαλώ εισάγετε ξανά το email.</string>
+    <string name="msg_entries_not_match">Οι συμμετοχές δεν ταιριάζουν. Παρακαλώ προσπάθησε ξανά.</string>
+    <string name="msg_invalid_email">"Μη έγκυρη διεύθυνση e-mail
+"</string>
+    <string name="btn_monthly_default">εγγραφή για $ 6.49 / Μήνας</string>
+    <string name="msg_premiere_nag_title">"Σκεφτείτε jellyfin Premiere
+"</string>
+    <string name="msg_premiere_nag_msg">jellyfin Premiere σας δίνει πολλές δυνατότητες , όπως τα κινητά συγχρονισμό , τη λειτουργία και τον κινηματογράφο CoverArt . Δοκιμάστε jellyfin Πρεμιέρα σήμερα.</string>
     <string name="pref_live_tv_cat">LIVE TV</string>
     <string name="pref_sort_date_option">Ταξινόμηση καθοδηγήσει από την τελευταία ώρα παιχνιδιού</string>
     <string name="pref_sort_date_desc">Εμφάνιση των τελευταίων έπαιξε κανάλια στην κορυφή του οδηγού</string>
@@ -27,9 +74,11 @@
     <string name="lbl_episodes">επεισόδια</string>
     <string name="lbl_enable_cinema_mode">Ενεργοποιήστε τη λειτουργία Κινηματογράφος</string>
     <string name="sum_enable_cinema_mode">Αν ενεργοποιηθεί στο διακομιστή , ενεργοποιήστε εισάγω και προεπισκόπηση πριν από την αναπαραγωγή ταινιών</string>
+    <string name="lbl_cm_premiere">Λειτουργία κινηματογράφου απαιτεί την ενεργό ένταξη jellyfin Premiere</string>
     <string name="lbl_playlists">Λίστες αναπαραγωγής</string>
     <string name="lbl_of">του</string>
     <string name="msg_added_item_to_queue">"Στοιχείο που προστίθεται στην ουρά στη θέση"</string>
+    <string name="lbl_replace_queue_paren">( αντικατάσταση ουρά )</string>
     <string name="msg_items_added">"στοιχεία που προστίθενται"</string>
     <string name="msg_total_items_in_queue">"συνολικής στοιχεία στην ουρά"</string>
     <string name="lbl_add_to_queue">Προσθήκη στην ουρά</string>

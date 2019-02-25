@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.util;
 
-import org.jellyfin.androidtv.TvApp;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +16,7 @@ import mediabrowser.model.dlna.ProfileConditionValue;
 import mediabrowser.model.dlna.SubtitleDeliveryMethod;
 import mediabrowser.model.dlna.SubtitleProfile;
 import mediabrowser.model.dlna.TranscodingProfile;
+import org.jellyfin.androidtv.TvApp;
 
 /**
  * Created by Eric on 2/29/2016.

@@ -3,12 +3,6 @@ package org.jellyfin.androidtv.itemhandling;
 import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.model.ChapterItemInfo;
-import org.jellyfin.androidtv.ui.GridButton;
-import org.jellyfin.androidtv.util.Utils;
-
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -22,7 +16,13 @@ import mediabrowser.model.dto.BaseItemPerson;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.livetv.ChannelInfoDto;
+import mediabrowser.model.livetv.SeriesTimerInfoDto;
 import mediabrowser.model.search.SearchHint;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.model.ChapterItemInfo;
+import org.jellyfin.androidtv.ui.GridButton;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 12/15/2014.
@@ -36,6 +36,7 @@ public class BaseRowItem {
     private UserDto user;
     private SearchHint searchHint;
     private ChannelInfoDto channelInfo;
+    private SeriesTimerInfoDto seriesTimerInfo;
     private GridButton gridButton;
     private ItemType type;
     private boolean preferParentThumb = false;
@@ -77,8 +78,14 @@ public class BaseRowItem {
         this.type = ItemType.Server;
     }
 
+    public BaseRowItem(SeriesTimerInfoDto timer) {
+        this.seriesTimerInfo = timer;
+        this.type = ItemType.SeriesTimer;
+    }
+
     public BaseRowItem(BaseItemPerson person) {
         this.person = person;
+        this.staticHeight = true;
         type = ItemType.Person;
     }
 
@@ -94,6 +101,7 @@ public class BaseRowItem {
 
     public BaseRowItem(ChapterItemInfo chapter) {
         this.chapterInfo = chapter;
+        this.staticHeight = true;
         type = ItemType.Chapter;
     }
 
@@ -119,6 +127,7 @@ public class BaseRowItem {
     public ChannelInfoDto getChannelInfo() { return channelInfo; }
     public BaseItemDto getProgramInfo() { return baseItem; }
     public BaseItemDto getRecordingInfo() { return baseItem; }
+    public SeriesTimerInfoDto getSeriesTimerInfo() { return seriesTimerInfo; }
     public GridButton getGridButton() { return gridButton; }
 
     public boolean isChapter() { return type == ItemType.Chapter; }
@@ -142,6 +151,8 @@ public class BaseRowItem {
                 return person != null;
             case Chapter:
                 return chapterInfo != null;
+            case SeriesTimer:
+                return seriesTimerInfo != null;
             default:
                 return true; //compatibility
         }
@@ -165,16 +176,13 @@ public class BaseRowItem {
         }
     }
 
-    private static String[] noWatchedTypes = new String[] {"PhotoAlbum","MusicAlbum","MusicArtist", "Audio","Playlist"};
-    private static List<String> noWatchedTypesList = Arrays.asList(noWatchedTypes);
-
     public String getPrimaryImageUrl(int maxHeight) {
         switch (type) {
 
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
-                return Utils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(), !noWatchedTypesList.contains(baseItem.getType()), preferParentThumb, maxHeight);
+                return Utils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(), preferParentThumb, maxHeight);
             case Person:
                 return Utils.getPrimaryImageUrl(person, TvApp.getApplication().getApiClient(), maxHeight);
             case User:
@@ -187,6 +195,9 @@ public class BaseRowItem {
                 return "android.resource://org.jellyfin.androidtv/" + R.drawable.server;
             case GridButton:
                 return "android.resource://org.jellyfin.androidtv/" + gridButton.getImageIndex();
+            case SeriesTimer:
+                return "android.resource://org.jellyfin.androidtv/" + R.drawable.seriestimer;
+
             case SearchHint:
                 return !Utils.IsEmpty(searchHint.getPrimaryImageTag()) ? Utils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag(), TvApp.getApplication().getApiClient()) :
                         !Utils.IsEmpty(searchHint.getThumbImageItemId()) ? Utils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag(), TvApp.getApplication().getApiClient()) : null;
@@ -274,6 +285,8 @@ public class BaseRowItem {
                 return channelInfo.getName();
             case GridButton:
                 return gridButton.getText();
+            case SeriesTimer:
+                return seriesTimerInfo.getName();
             case SearchHint:
                 return (searchHint.getSeries() != null ? searchHint.getSeries() + " - " : "") + searchHint.getName();
         }
@@ -302,6 +315,8 @@ public class BaseRowItem {
                 return channelInfo.getName();
             case GridButton:
                 return gridButton.getText();
+            case SeriesTimer:
+                return seriesTimerInfo.getName();
         }
 
         return TvApp.getApplication().getString(R.string.lbl_bracket_unknown);
@@ -328,6 +343,8 @@ public class BaseRowItem {
                 return null;
             case SearchHint:
                 return searchHint.getItemId();
+            case SeriesTimer:
+                return seriesTimerInfo.getId();
         }
 
         return null;
@@ -348,7 +365,7 @@ public class BaseRowItem {
             case LiveTvChannel:
                 return channelInfo.getNumber();
             case LiveTvProgram:
-                return Utils.GetProgramSubText(baseItem);
+                return baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : baseItem.getChannelName();
             case LiveTvRecording:
                 return (baseItem.getChannelName() != null ? baseItem.getChannelName() + " - " : "") + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
                         new SimpleDateFormat("d MMM").format(Utils.convertToLocalDate(baseItem.getStartDate())) + " " +
@@ -359,6 +376,8 @@ public class BaseRowItem {
                 return date != null ? DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(date).getTime()).toString() : TvApp.getApplication().getString(R.string.lbl_never);
             case SearchHint:
                 return searchHint.getType();
+            case SeriesTimer:
+                return (Utils.isTrue(seriesTimerInfo.getRecordAnyChannel()) ? "All Channels" : seriesTimerInfo.getChannelName()) + " " + seriesTimerInfo.getDayPattern();
         }
 
         return "";
@@ -385,6 +404,8 @@ public class BaseRowItem {
                 return channelInfo.getType();
             case GridButton:
                 return "GridButton";
+            case SeriesTimer:
+                return "SeriesTimer";
         }
 
         return "";
@@ -412,6 +433,8 @@ public class BaseRowItem {
                 break;
             case GridButton:
                 break;
+            case SeriesTimer:
+                return Utils.buildOverview(seriesTimerInfo);
         }
 
         return "";
@@ -498,6 +521,8 @@ public class BaseRowItem {
             case BaseItem:
                 if (baseItem.getType().equals("Movie") && baseItem.getCriticRating() != null) {
                     return baseItem.getCriticRating() > 59 ? TvApp.getApplication().getDrawableCompat(R.drawable.fresh) : TvApp.getApplication().getDrawableCompat(R.drawable.rotten);
+                } else if (baseItem.getType().equals("Program") && baseItem.getTimerId() != null) {
+                    return baseItem.getSeriesTimerId() != null ? TvApp.getApplication().getDrawableCompat(R.drawable.recseries) : TvApp.getApplication().getDrawableCompat(R.drawable.rec);
                 }
                 break;
             case Person:
@@ -509,6 +534,10 @@ public class BaseRowItem {
                     return TvApp.getApplication().getDrawableCompat(R.drawable.lock);
                 }
                 break;
+            case LiveTvProgram:
+                if (baseItem.getTimerId() != null) {
+                    return baseItem.getSeriesTimerId() != null ? TvApp.getApplication().getDrawableCompat(R.drawable.recseries) : TvApp.getApplication().getDrawableCompat(R.drawable.rec);
+                }
             case Chapter:
                 break;
         }
@@ -562,7 +591,7 @@ public class BaseRowItem {
     public enum ItemType {
         BaseItem,
         Person,
-        Server, User, Chapter, SearchHint, LiveTvChannel, LiveTvRecording, GridButton, LiveTvProgram
+        Server, User, Chapter, SearchHint, LiveTvChannel, LiveTvRecording, GridButton, SeriesTimer, LiveTvProgram
     }
 
     public enum SelectAction {

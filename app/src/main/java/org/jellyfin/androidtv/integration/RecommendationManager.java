@@ -6,15 +6,9 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.browsing.MainActivity;
-import org.jellyfin.androidtv.querying.StdItemQuery;
-import org.jellyfin.androidtv.startup.StartupActivity;
-import org.jellyfin.androidtv.util.Utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,6 +24,12 @@ import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.querying.NextUpQuery;
 import mediabrowser.model.querying.SimilarItemsQuery;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.browsing.MainActivity;
+import org.jellyfin.androidtv.querying.StdItemQuery;
+import org.jellyfin.androidtv.startup.StartupActivity;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 3/1/2015.

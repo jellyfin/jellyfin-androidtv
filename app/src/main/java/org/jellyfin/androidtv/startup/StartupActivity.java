@@ -12,16 +12,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
-import org.jellyfin.androidtv.BuildConfig;
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.browsing.MainActivity;
-import org.jellyfin.androidtv.details.FullDetailsActivity;
-import org.jellyfin.androidtv.eventhandling.TvApiEventListener;
-import org.jellyfin.androidtv.playback.MediaManager;
-import org.jellyfin.androidtv.util.Utils;
-
 import java.util.ArrayList;
+import java.util.List;
 
 import mediabrowser.apiinteraction.ApiEventListener;
 import mediabrowser.apiinteraction.ConnectionResult;
@@ -34,11 +26,20 @@ import mediabrowser.apiinteraction.android.VolleyHttpClient;
 import mediabrowser.apiinteraction.android.profiles.AndroidProfile;
 import mediabrowser.apiinteraction.playback.PlaybackManager;
 import mediabrowser.model.apiclient.ConnectionState;
+import mediabrowser.model.apiclient.ServerInfo;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.serialization.IJsonSerializer;
 import mediabrowser.model.session.ClientCapabilities;
 import mediabrowser.model.session.GeneralCommandType;
+import org.jellyfin.androidtv.BuildConfig;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.browsing.MainActivity;
+import org.jellyfin.androidtv.details.FullDetailsActivity;
+import org.jellyfin.androidtv.eventhandling.TvApiEventListener;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.util.Utils;
 
 
 public class StartupActivity extends Activity {
@@ -151,8 +152,8 @@ public class StartupActivity extends Activity {
         capabilities.setDeviceProfile(new AndroidProfile(Utils.getProfileOptions()));
         capabilities.setSupportsMediaControl(true);
         capabilities.setSupportedCommands(supportedCommands);
-//        TODO: Add new icon url
-//        capabilities.setIconUrl("");
+        capabilities.setAppStoreUrl(Utils.getStoreUrl());
+        capabilities.setIconUrl("https://raw.githubusercontent.com/MediaBrowser/MediaBrowser.Android/master/servericon.png");
 
         IJsonSerializer jsonSerializer = new GsonJsonSerializer();
 

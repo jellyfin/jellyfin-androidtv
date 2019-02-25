@@ -33,6 +33,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import mediabrowser.model.dto.BaseItemDto;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
@@ -48,8 +49,6 @@ import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
-
-import mediabrowser.model.dto.BaseItemDto;
 
 /**
  * Created by Eric on 2/19/2015.

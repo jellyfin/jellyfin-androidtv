@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,19 +16,19 @@ import android.widget.PopupWindow;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.base.BaseActivity;
-import org.jellyfin.androidtv.livetv.TvManager;
-import org.jellyfin.androidtv.util.InfoLayoutHelper;
-import org.jellyfin.androidtv.util.Utils;
-
 import java.util.Date;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.livetv.SeriesTimerInfoDto;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
+import org.jellyfin.androidtv.livetv.TvManager;
+import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 9/8/2015.
@@ -290,7 +291,7 @@ public class LiveProgramDetailPopup {
                     mSeriesSettingsButton = new Button(mActivity);
                     mSeriesSettingsButton.setText(mActivity.getResources().getString(R.string.lbl_series_settings));
                     mSeriesSettingsButton.setTextColor(Color.WHITE);
-                    mSeriesSettingsButton.setBackground(mActivity.getResources().getDrawable(R.drawable.emby_button));
+                    mSeriesSettingsButton.setBackground(mActivity.getResources().getDrawable(R.drawable.jellyfin_button));
                     mSeriesSettingsButton.setVisibility(mProgram.getSeriesTimerId() != null ? View.VISIBLE : View.GONE);
                     mSeriesSettingsButton.setOnClickListener(new View.OnClickListener() {
                         @Override

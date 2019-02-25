@@ -10,11 +10,10 @@ import android.view.KeyEvent;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import mediabrowser.model.dto.UserDto;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.util.Utils;
-
-import mediabrowser.model.dto.UserDto;
 
 
 public class DpadPwActivity extends Activity {

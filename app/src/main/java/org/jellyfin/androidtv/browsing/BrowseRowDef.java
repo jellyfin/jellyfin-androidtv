@@ -1,9 +1,5 @@
 package org.jellyfin.androidtv.browsing;
 
-import org.jellyfin.androidtv.model.ChangeTriggerType;
-import org.jellyfin.androidtv.querying.QueryType;
-import org.jellyfin.androidtv.querying.ViewQuery;
-
 import mediabrowser.model.livetv.LiveTvChannelQuery;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
 import mediabrowser.model.livetv.RecordingGroupQuery;
@@ -17,6 +13,9 @@ import mediabrowser.model.querying.PersonsQuery;
 import mediabrowser.model.querying.SeasonQuery;
 import mediabrowser.model.querying.SimilarItemsQuery;
 import mediabrowser.model.querying.UpcomingEpisodesQuery;
+import org.jellyfin.androidtv.model.ChangeTriggerType;
+import org.jellyfin.androidtv.querying.QueryType;
+import org.jellyfin.androidtv.querying.ViewQuery;
 
 /**
  * Created by Eric on 12/4/2014.

@@ -9,22 +9,23 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.v17.leanback.R;
 import android.support.v17.leanback.widget.BaseCardView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.jellyfin.androidtv.R;
+
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.Utils;
-
-
 
 /**
  * A card view with an {@link ImageView} as its main region.
@@ -42,6 +43,10 @@ public class MyImageCardView extends BaseCardView {
     private TextView mContentView;
     private ImageView mBadgeImage;
     private ImageView mFavIcon;
+    private RelativeLayout mWatchedIndicator;
+    private ImageView mWatchedMark;
+    private TextView mUnwatchedCount;
+    private ProgressBar mProgress;
     private int BANNER_SIZE = Utils.convertDpToPixel(TvApp.getApplication(), 50);
 
     public MyImageCardView(Context context) {
@@ -65,21 +70,25 @@ public class MyImageCardView extends BaseCardView {
         }
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.image_card_view, this);
+        View v = inflater.inflate(org.jellyfin.androidtv.R.layout.image_card_view, this);
 
-        mImageView = (ImageView) v.findViewById(R.id.main_image);
-        mInfoArea = v.findViewById(R.id.info_field);
-        mTitleView = (TextView) v.findViewById(R.id.title_text);
-        mContentView = (TextView) v.findViewById(R.id.content_text);
-        mBadgeImage = (ImageView) v.findViewById(R.id.extra_badge);
-        mOverlayName = (TextView) v.findViewById(R.id.overlay_text);
+        mImageView = (ImageView) v.findViewById(org.jellyfin.androidtv.R.id.main_image);
+        mInfoArea = v.findViewById(org.jellyfin.androidtv.R.id.info_field);
+        mTitleView = (TextView) v.findViewById(org.jellyfin.androidtv.R.id.title_text);
+        mContentView = (TextView) v.findViewById(org.jellyfin.androidtv.R.id.content_text);
+        mBadgeImage = (ImageView) v.findViewById(org.jellyfin.androidtv.R.id.extra_badge);
+        mOverlayName = (TextView) v.findViewById(org.jellyfin.androidtv.R.id.overlay_text);
         mOverlayName.setTypeface(TvApp.getApplication().getDefaultFont());
-        mOverlayCount = (TextView) v.findViewById(R.id.overlay_count);
+        mOverlayCount = (TextView) v.findViewById(org.jellyfin.androidtv.R.id.overlay_count);
         mOverlayCount.setTypeface(TvApp.getApplication().getDefaultFont());
-        mOverlayIcon = (ImageView) v.findViewById(R.id.icon);
-        mInfoOverlay = (ViewGroup) v.findViewById(R.id.name_overlay);
+        mOverlayIcon = (ImageView) v.findViewById(org.jellyfin.androidtv.R.id.icon);
+        mInfoOverlay = (ViewGroup) v.findViewById(org.jellyfin.androidtv.R.id.name_overlay);
         mInfoOverlay.setVisibility(GONE);
-        mFavIcon = (ImageView) v.findViewById(R.id.favIcon);
+        mFavIcon = (ImageView) v.findViewById(org.jellyfin.androidtv.R.id.favIcon);
+        mWatchedIndicator = (RelativeLayout) v.findViewById(org.jellyfin.androidtv.R.id.watchedIndicator);
+        mWatchedMark = (ImageView) v.findViewById(org.jellyfin.androidtv.R.id.checkMark);
+        mUnwatchedCount = (TextView) v.findViewById(org.jellyfin.androidtv.R.id.unwatchedCount);
+        mProgress = (ProgressBar) v.findViewById(org.jellyfin.androidtv.R.id.resumeProgress);
 
         if (mInfoArea != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.lbImageCardView,
@@ -91,7 +100,6 @@ public class MyImageCardView extends BaseCardView {
                 a.recycle();
             }
         }
-
     }
 
 
@@ -119,11 +127,11 @@ public class MyImageCardView extends BaseCardView {
 
     public void setPlayingIndicator(boolean playing) {
         if (playing) {
-            mBadgeImage.setBackgroundResource(R.drawable.eq_animation);
+            mBadgeImage.setBackgroundResource(org.jellyfin.androidtv.R.drawable.eq_animation);
             mBadgeImage.setVisibility(VISIBLE);
             ((AnimationDrawable)mBadgeImage.getBackground()).start();
         } else {
-            mBadgeImage.setBackgroundResource(R.drawable.blank10x10);
+            mBadgeImage.setBackgroundResource(org.jellyfin.androidtv.R.drawable.blank10x10);
         }
     }
 
@@ -170,6 +178,9 @@ public class MyImageCardView extends BaseCardView {
         lp.height = height;
         mImageView.setLayoutParams(lp);
         if (mBanner != null) mBanner.setX(width - BANNER_SIZE);
+        ViewGroup.LayoutParams lp2 = mProgress.getLayoutParams();
+        lp2.width = width;
+        mProgress.setLayoutParams(lp2);
     }
 
     public Drawable getMainImage() {
@@ -231,15 +242,15 @@ public class MyImageCardView extends BaseCardView {
             switch (item.getType()) {
                 case "Photo":
                     mOverlayName.setText(item.getBaseItem().getPremiereDate() != null ? android.text.format.DateFormat.getDateFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(item.getBaseItem().getPremiereDate())) : item.getFullName());
-                    mOverlayIcon.setImageResource(R.drawable.camera);
+                    mOverlayIcon.setImageResource(org.jellyfin.androidtv.R.drawable.camera);
                     break;
                 case "PhotoAlbum":
                     mOverlayName.setText(item.getFullName());
-                    mOverlayIcon.setImageResource(R.drawable.photoalbum);
+                    mOverlayIcon.setImageResource(org.jellyfin.androidtv.R.drawable.photoalbum);
                     break;
                 case "Video":
                     mOverlayName.setText(item.getFullName());
-                    mOverlayIcon.setImageResource(R.drawable.film);
+                    mOverlayIcon.setImageResource(org.jellyfin.androidtv.R.drawable.film);
                     break;
                 case "Playlist":
                 case "MusicArtist":
@@ -249,7 +260,7 @@ public class MyImageCardView extends BaseCardView {
                     break;
                 default:
                     mOverlayName.setText(item.getFullName());
-                    mOverlayIcon.setImageResource(item.isFolder() ? R.drawable.foldersmall : R.drawable.blank30x30);
+                    mOverlayIcon.setImageResource(item.isFolder() ? org.jellyfin.androidtv.R.drawable.foldersmall : org.jellyfin.androidtv.R.drawable.blank30x30);
                     break;
             }
             mOverlayCount.setText(item.getChildCountStr());
@@ -342,6 +353,30 @@ public class MyImageCardView extends BaseCardView {
     public void clearBanner() {
         if (mBanner != null) {
             mBanner.setVisibility(GONE);
+        }
+    }
+
+    public void setUnwatchedCount(int count) {
+        if (count > 0) {
+            mUnwatchedCount.setText(Integer.toString(count));
+            mUnwatchedCount.setVisibility(VISIBLE);
+            mWatchedMark.setVisibility(INVISIBLE);
+            mWatchedIndicator.setVisibility(VISIBLE);
+        } else if (count == 0) {
+            mWatchedMark.setVisibility(VISIBLE);
+            mUnwatchedCount.setVisibility(INVISIBLE);
+            mWatchedIndicator.setVisibility(VISIBLE);
+        } else {
+            mWatchedIndicator.setVisibility(GONE);
+        }
+    }
+
+    public void setProgress(int pct) {
+        if (pct > 0) {
+            mProgress.setProgress(pct);
+            mProgress.setVisibility(VISIBLE);
+        } else {
+            mProgress.setVisibility(GONE);
         }
     }
 

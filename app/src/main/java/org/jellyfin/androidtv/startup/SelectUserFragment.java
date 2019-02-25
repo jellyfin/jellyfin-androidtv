@@ -15,21 +15,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.browsing.CustomBrowseFragment;
-import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
-import org.jellyfin.androidtv.presentation.CardPresenter;
-import org.jellyfin.androidtv.presentation.GridButtonPresenter;
-import org.jellyfin.androidtv.ui.GridButton;
-import org.jellyfin.androidtv.util.Utils;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.model.apiclient.ServerInfo;
+import org.jellyfin.androidtv.browsing.CustomBrowseFragment;
+import org.jellyfin.androidtv.ui.GridButton;
+import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.browsing.StdBrowseFragment;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.presentation.CardPresenter;
+import org.jellyfin.androidtv.presentation.GridButtonPresenter;
+import org.jellyfin.androidtv.util.Utils;
 
 /**
  * Created by Eric on 12/4/2014.

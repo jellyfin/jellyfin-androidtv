@@ -94,7 +94,7 @@
                 android:spinnerMode="dialog"
                 android:layout_marginLeft="5dp"
                 android:layout_below="@+id/textView1"
-                android:background="@drawable/emby_button" />
+                android:background="@drawable/jellyfin_button" />
 
             <CheckBox
                 android:layout_width="wrap_content"
@@ -134,7 +134,7 @@
                 android:spinnerMode="dialog"
                 android:layout_below="@+id/textView2"
                 android:layout_marginLeft="5sp"
-                android:background="@drawable/emby_button" />
+                android:background="@drawable/jellyfin_button" />
 
 
             <CheckBox

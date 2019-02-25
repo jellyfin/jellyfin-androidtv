@@ -24,9 +24,9 @@ import android.view.animation.Interpolator;
 import com.flaviofaria.kenburnsview.Transition;
 import com.flaviofaria.kenburnsview.TransitionGenerator;
 
-import org.jellyfin.androidtv.util.MathUtils;
-
 import java.util.Random;
+
+import org.jellyfin.androidtv.util.MathUtils;
 
 /**
  * Created by Eric on 10/26/2015.

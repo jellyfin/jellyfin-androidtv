@@ -1,13 +1,16 @@
 package org.jellyfin.androidtv.search;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.SpeechRecognizer;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.util.Utils;
 
-public class SearchActivity extends Activity {
+public class SearchActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

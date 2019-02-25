@@ -8,6 +8,7 @@
     <string name="lbl_episodes">劇集</string>
     <string name="lbl_enable_cinema_mode">開啟劇院模式</string>
     <string name="sum_enable_cinema_mode">如果在伺服器上開啟此功能，即可預覽影片</string>
+    <string name="lbl_cm_premiere">劇院模式需要jellyfin高級會員</string>
     <string name="lbl_playlists">播放清單</string>
     <string name="msg_added_item_to_queue">"項目已加入序列中的 "</string>
     <string name="msg_items_added">" 個項目已加入"</string>

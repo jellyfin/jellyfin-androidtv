@@ -3,13 +3,13 @@ package org.jellyfin.androidtv.presentation;
 import android.media.MediaPlayer;
 import android.os.Handler;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.util.Utils;
-
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 /**
  * Created by Eric on 10/24/2015.

@@ -13,15 +13,15 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import mediabrowser.model.dto.BaseItemDto;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.playback.AudioEventListener;
 import org.jellyfin.androidtv.playback.AudioNowPlayingActivity;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.util.Utils;
-
-import mediabrowser.model.dto.BaseItemDto;
 
 /**
  * Created by Eric on 7/22/2015.
