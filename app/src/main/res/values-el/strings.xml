@@ -14,8 +14,6 @@
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="btn_ok">OK</string>
     <string name="pref_live_tv_cat">LIVE TV</string>
-    <string name="pref_sort_date_option">Ταξινόμηση καθοδηγήσει από την τελευταία ώρα παιχνιδιού</string>
-    <string name="pref_sort_date_desc">Εμφάνιση των τελευταίων έπαιξε κανάλια στην κορυφή του οδηγού</string>
     <string name="msg_error_live_stream">Σφάλμα συνεχή ροή ζωντανή τηλεόραση . Θα προσπαθήσουμε ξανά ...</string>
     <string name="lbl_direct_stream_live">Άμεση ρεύμα ζωντανά τηλεόραση</string>
     <string name="lbl_programs">προγράμμα</string>
