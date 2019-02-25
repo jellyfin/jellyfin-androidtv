@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="error">Fel</string>
+    <string name="ok">OK</string>
+    <string name="video_error_unknown_error">Misslyckades att ladda video</string>
+    <string name="txt_loading">Laddar...</string>
+    <string name="home_title">Hem</string>
+    <string name="btn_cancel">Avbryt</string>
+    <string name="txt_expired">Jellyfin för Android TV har löpt ut</string>
+    <string name="txt_expired_exp">Den här utvecklarversionen har löpt ut. Updatera eller installera från butiken. Tack för att du använder Jellyfin!</string>
+    <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ</string>
+    <string name="pref_show_login_value">0</string>
+</resources>
