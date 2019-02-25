@@ -58,8 +58,10 @@ import mediabrowser.model.system.SystemInfo;
 
 
 public class TvApp extends Application implements ActivityCompat.OnRequestPermissionsResultCallback {
-
     public static String FEATURE_CODE = "androidtv";
+
+    public static final String CREDENTIALS_PATH = "org.jellyfin.androidtv.login.json";
+
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
     public static final int LIVE_TV_RECORDINGS_OPTION_ID = 2000;
     public static final int VIDEO_QUEUE_OPTION_ID = 3000;
@@ -129,7 +131,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread thread, Throwable ex) {
-                Log.e("MediaBrowserTv", "Uncaught exception is: ", ex);
+                Log.e(getString(R.string.app_name), "Uncaught exception is: ", ex);
                 ex.printStackTrace();
                 android.os.Process.killProcess(android.os.Process.myPid());
                 System.exit(10);
