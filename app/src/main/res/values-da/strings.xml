@@ -58,7 +58,6 @@
     <string name="lbl_other">Andre</string>
     <string name="lbl_latest_additions">Seneste tilføjelser</string>
     <string name="lbl_because_you_watched">"Fordi du har set "</string>
-    <string name="lbl_resume">Genoptag</string>
     <string name="lbl_play_all">Afspil alle</string>
     <string name="lbl_shuffle_all">Bland alle</string>
     <string name="lbl_play">Afspil</string>
@@ -77,14 +76,11 @@
     <string name="lbl_trailers">Trailere</string>
     <string name="lbl_items">Genstande</string>
     <string name="lbl_item">Genstand</string>
-    <string name="lbl_similar_movies">Lignende film</string>
     <string name="lbl_seasons">Sæsoner</string>
     <string name="lbl_upcoming">Kommende</string>
-    <string name="lbl_similar_series">Lignende serier</string>
     <string name="lbl_toggle_favorite">Vis favoritt</string>
     <string name="lbl_toggle_watched">Vis afspillede</string>
     <string name="lbl_sd">SD</string>
-    <string name="lbl_if_resumed">" hvis genoptaget)"</string>
     <string name="lbl_runs">"Spilletid: "</string>
     <string name="lbl_min">" min "</string>
     <string name="lbl_ends">"Slutter: "</string>
@@ -99,7 +95,6 @@
     <string name="lbl_login_as">"Login som "</string>
     <string name="lbl_tv">TV</string>
     <string name="lbl_people">Mennesker</string>
-    <string name="lbl_parens_forced">" (tvungen)"</string>
     <string name="lbl_none">Ingen</string>
     <string name="msg_video_playback_error">"Videoafspilnings fejl - "</string>
     <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>
@@ -158,12 +153,10 @@
     <string name="lbl_begin_padding">Start optagelse før program (minutter)</string>
     <string name="lbl_program_ended">Program sluttede</string>
     <string name="lbl_end_padding">Stop optagelse efter program (minutter)</string>
-    <string name="lbl_required_to_record">Kræv for optagelse</string>
     <string name="lbl_similar_items_library">Lignende indhold i dit bibliotek</string>
     <string name="lbl_record_any_channel">Optag på enhver kanal</string>
     <string name="lbl_record_any_time">Optag på ethvert tidspunkt</string>
     <string name="lbl_only_new_episodes">Kun nye episoder</string>
     <string name="lbl_repeat_options">Repeat indstillinger</string>
-    <string name="lbl_days">Dage</string>
     <string name="msg_cancel_entire_series">Er du sikker på du ønsker at annullere hele serien?</string>
 </resources>

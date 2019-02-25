@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="lbl_emby_premiere">Actualizare la Emby Premiere</string>
-    <string name="lbl_premiere_desc">Cu Emby Premiere obțineți nu doar funcționalitatea completă a acestei aplicații, ci și o mulțime de alte beneficii inclusiv in aplicația server, cât și în celelalte aplicații, în întreaga experiență Emby.</string>
-    <string name="lbl_premiere_desc2">Accesați gratuit la aplicațiile multi-platformă, sincronizați conținutul dvs pe toate tipurile dispozitive mobile suportate sau pe clientul web pentru vizualizarea offline, vă bucurați de o experiență ca la cinema cu Modul Cinema, vă imbunătățiți imaginile cu CoverArt și mult mai multe. Încercați astăzi Emby Premiere.</string>
-    <string name="msg_just_unlock_confirm">Doar deblocați această aplicație? Această opțiune nu va include nici o facilitate a Emby Premiere. Doar vă va permite să utilizați funcționalitatea completă a acestei aplicații. Sunteți sigur(ă)...?</string>
-    <string name="btn_unlock">Nu mulțumesc, doar deblochează această aplicație</string>
-    <string name="btn_monthly_prefix">Înregistrează-mă pentru</string>
-    <string name="btn_monthly_suffix">/Lună</string>
-    <string name="btn_emby_premiere">Emby Premiere</string>
     <string name="btn_ok">OK</string>
-    <string name="msg_email_entry1">Vă rugăm, introduceți o adresă de email validă la care să vă trimitem cheia pentru Emby Premiere</string>
     <string name="lbl_albums">Albume</string>
     <string name="lbl_artists">Artiști</string>
     <string name="lbl_song">Cântec</string>
@@ -18,11 +9,9 @@
     <string name="lbl_episodes">Episoade</string>
     <string name="lbl_enable_cinema_mode">Activează modul Cinema</string>
     <string name="sum_enable_cinema_mode">Dacă este activ pe server, activează introduceri și previzualizări la începerea redării fiecărui film</string>
-    <string name="lbl_cm_premiere">Modul Cinema necesită o licențiere Emby Premiere</string>
     <string name="lbl_playlists">Liste de redare</string>
     <string name="lbl_of">din</string>
     <string name="msg_added_item_to_queue">"Elementul a fost adăugat în listă la poziția "</string>
-    <string name="lbl_replace_queue_paren">(înlocuiește lista)</string>
     <string name="msg_items_added">" elemente adăugate"</string>
     <string name="msg_total_items_in_queue">" total elemente in listă"</string>
     <string name="lbl_add_to_queue">Adaugă în listă</string>

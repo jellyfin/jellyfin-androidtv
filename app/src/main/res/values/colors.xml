@@ -7,7 +7,6 @@
     <color name="black">#ff000000</color>
     <color name="white">#FFFFFF</color>
     <color name="default_background">#3d3d3d</color>
-    <color name="semi_trans_dark">#49000000</color>
     <color name="gray_gradient_start">#898989</color>
     <color name="gray_gradient_end">#4b4b4b</color>
     <color name="green_gradient_start">#044b13</color>
@@ -22,8 +21,6 @@
     <color name="btn_focused_end">#c309500c</color>
     <color name="txt_focused_start">#6108720b</color>
     <color name="txt_focused_end">#6109500c</color>
-    <color name="btn_focused_blue_start">#c30b6497</color>
-    <color name="btn_focused_blue_end">#c3082c3e</color>
 
     <color name="guide_movie_bg">#328E24AA</color>
     <color name="guide_sports_bg">#323949AB</color>
