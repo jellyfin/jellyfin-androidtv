@@ -2,30 +2,20 @@ package org.jellyfin.androidtv.util;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.text.format.DateFormat;
-import android.view.Display;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -38,7 +28,6 @@ import org.jellyfin.androidtv.details.FullDetailsActivity;
 import org.jellyfin.androidtv.details.ItemListActivity;
 import org.jellyfin.androidtv.model.ChapterItemInfo;
 import org.jellyfin.androidtv.playback.MediaManager;
-import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
 import org.jellyfin.androidtv.startup.DpadPwActivity;
 import org.jellyfin.androidtv.startup.LogonCredentials;
 import org.jellyfin.androidtv.startup.SelectServerActivity;
@@ -52,7 +41,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -88,7 +76,6 @@ import mediabrowser.model.entities.MediaStreamType;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.livetv.SeriesTimerInfoDto;
-import mediabrowser.model.livetv.TimerInfoDto;
 import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
@@ -105,49 +92,7 @@ import mediabrowser.model.users.AuthenticationResult;
  * A collection of utility methods, all static.
  */
 public class Utils {
-
-    /*
-     * Making sure public utility methods remain static
-     */
-    private Utils() {
-    }
-
     private static int maxPrimaryImageHeight = 370;
-
-    /**
-     * Returns the screen/display size
-     *
-     * @param context
-     * @return
-     */
-    public static Point getDisplaySize(Context context) {
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-        return new Point(width, height);
-    }
-
-    /**
-     * Shows an error dialog with a given text message.
-     *
-     * @param context
-     * @param errorString
-     */
-    public static final void showErrorDialog(Context context, String errorString) {
-        new AlertDialog.Builder(context).setTitle(R.string.error)
-                .setMessage(errorString)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                })
-                .create()
-                .show();
-    }
 
     /**
      * Shows a (long) toast
@@ -167,14 +112,6 @@ public class Utils {
      */
     public static void showToast(Context context, int resourceId) {
         Toast.makeText(context, context.getString(resourceId), Toast.LENGTH_LONG).show();
-    }
-
-    public static byte[] encrypt(String x) throws Exception {
-        java.security.MessageDigest d = null;
-        d = java.security.MessageDigest.getInstance("SHA-1");
-        d.reset();
-        d.update(x.getBytes());
-        return d.digest();
     }
 
     /**
@@ -248,21 +185,6 @@ public class Utils {
     public static int convertDpToPixel(Context ctx, int dp) {
         float density = ctx.getResources().getDisplayMetrics().density;
         return Math.round((float) dp * density);
-    }
-
-    public static Drawable writeOnDrawable(Resources resources, int drawableId, String text){
-
-        Bitmap bm = BitmapFactory.decodeResource(resources, drawableId).copy(Bitmap.Config.ARGB_8888, true);
-
-        Paint paint = new Paint();
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.WHITE);
-        paint.setTextSize(30);
-
-        Canvas canvas = new Canvas(bm);
-        canvas.drawText(text, 0, bm.getHeight()/2, paint);
-
-        return new BitmapDrawable(resources, bm);
     }
 
     public static boolean isLiveTv(BaseItemDto item) {
@@ -717,7 +639,6 @@ public class Utils {
                 }
             }
         });
-
     }
 
     public static void retrieveAndPlay(String id, boolean shuffle, Context activity) {
@@ -738,7 +659,6 @@ public class Utils {
                 Utils.showToast(activity, R.string.msg_video_playback_error);
             }
         });
-
     }
 
     public static void playInstantMix(String seedId) {
@@ -786,7 +706,6 @@ public class Utils {
         } else {
             outerResponse.onResponse(items);
         }
-
     }
 
     public static boolean CanPlay(BaseItemDto item) {
@@ -796,109 +715,6 @@ public class Utils {
                 && (!item.getType().equals("Person"))
                 && (!item.getType().equals("SeriesTimer"))
                 && (!item.getIsFolder() || item.getChildCount() == null || item.getChildCount() > 0);
-    }
-
-    private static String divider = "   |   ";
-    public static String getInfoRow(BaseItemDto item) {
-        StringBuilder sb = new StringBuilder();
-        String type = item.getType();
-
-        switch (type) {
-            case "Person":
-                if (item.getPremiereDate() != null) {
-                    sb.append(TvApp.getApplication().getString(R.string.lbl_born));
-                    sb.append(new SimpleDateFormat("d MMM y").format(convertToLocalDate(item.getPremiereDate())));
-                }
-                if (item.getEndDate() != null) {
-                    addWithDivider(sb, "Died ");
-                    sb.append(new SimpleDateFormat("d MMM y").format(item.getEndDate()));
-                    sb.append(" (");
-                    sb.append(numYears(item.getPremiereDate(), item.getEndDate()));
-                    sb.append(")");
-                } else {
-                    if (item.getPremiereDate() != null) {
-                        sb.append(" (");
-                        sb.append(numYears(item.getPremiereDate(), Calendar.getInstance()));
-                        sb.append(")");
-                    }
-                }
-                break;
-            default:
-                if (item.getType().equals("Episode")) {
-                    sb.append("S");
-                    sb.append(item.getParentIndexNumber());
-                    sb.append(", E");
-                    sb.append(item.getIndexNumber());
-                }
-
-                if (item.getCommunityRating() != null) {
-                    addWithDivider(sb, item.getCommunityRating());
-                }
-                if (item.getCriticRating() != null) {
-                    if (sb.length() > 0) sb.append(" / ");
-                    sb.append(item.getCriticRating());
-                    sb.append("%");
-                }
-
-                MediaStream video = null;
-
-                if (item.getMediaStreams() != null) {
-                    for (MediaStream stream : item.getMediaStreams()) {
-                        if (stream.getType() == MediaStreamType.Video) {
-                            video = stream;
-                            break;
-                        }
-                    }
-                }
-
-                if (video != null) {
-                    if (video.getWidth() > 1910) {
-                        addWithDivider(sb, "1080");
-                    } else if (video.getWidth() > 1270) {
-                        addWithDivider(sb, "720");
-                    }
-                }
-
-                if (item.getRunTimeTicks() != null && item.getRunTimeTicks() >  0) {
-                    addWithDivider(sb, item.getRunTimeTicks() / 600000000);
-                    sb.append("m");
-                }
-
-                if (item.getOfficialRating() != null && !item.getOfficialRating().equals("0")) {
-                    addWithDivider(sb, item.getOfficialRating());
-                }
-
-                switch (item.getType()) {
-                    case "Series":
-                        if (item.getAirDays() != null && item.getAirDays().size() > 0) {
-                            addWithDivider(sb, item.getAirDays().get(0));
-                            sb.append(" ");
-                        }
-                        if (item.getAirTime() != null) {
-                            sb.append(item.getAirTime());
-                        }
-                        if (item.getStatus() != null) {
-                            addWithDivider(sb, item.getStatus());
-                        }
-
-                        break;
-                    case "Program":
-                    case "TvChannel":
-                        if (item.getPremiereDate() != null && item.getEndDate() != null) {
-                            addWithDivider(sb, DateFormat.getTimeFormat(TvApp.getApplication()).format(convertToLocalDate(item.getPremiereDate()))
-                            + "-"+ DateFormat.getTimeFormat(TvApp.getApplication()).format(convertToLocalDate(item.getEndDate())));
-                        }
-                        break;
-                    default:
-                        if (item.getPremiereDate() != null) {
-                            addWithDivider(sb, new SimpleDateFormat("d MMM y").format(convertToLocalDate(item.getPremiereDate())));
-                        }
-
-                }
-
-        }
-
-        return sb.toString();
     }
 
     public static int numYears(Date start, Date end) {
@@ -924,27 +740,6 @@ public class Utils {
             age--;
         }
         return age;
-    }
-
-    private static void addWithDivider(StringBuilder sb, String value) {
-        if (sb.length() > 0) {
-            sb.append(divider);
-        }
-        sb.append(value);
-    }
-
-    private static void addWithDivider(StringBuilder sb, Long value) {
-        if (sb.length() > 0) {
-            sb.append(divider);
-        }
-        sb.append(value);
-    }
-
-    private static void addWithDivider(StringBuilder sb, Float value) {
-        if (sb.length() > 0) {
-            sb.append(divider);
-        }
-        sb.append(value);
     }
 
     public static String GetFullName(BaseItemDto item) {
@@ -1022,8 +817,6 @@ public class Utils {
                 "Starting " + (timer.getPrePaddingSeconds() > 0 ? formatSeconds(timer.getPrePaddingSeconds()) + " Early" : "On Schedule") +
                 " And Ending " + (timer.getPostPaddingSeconds() > 0 ? formatSeconds(timer.getPostPaddingSeconds()) + " After Schedule" : "On Schedule")
                 ;
-
-
     }
 
     public static BaseItemPerson GetFirstPerson(BaseItemDto item, String type) {
@@ -1055,7 +848,6 @@ public class Utils {
         }
 
         return chapters;
-
     }
 
     public static MediaStream GetMediaStream(MediaSourceInfo mediaSource, int index) {
@@ -1116,9 +908,7 @@ public class Utils {
                     TvApp.getApplication().setLastTvPlayback(Calendar.getInstance());
                     break;
             }
-
         }
-
     }
 
     public static void ReportStart(BaseItemDto item, long pos) {
@@ -1184,6 +974,7 @@ public class Utils {
         }).show();
 
     }
+
     // send the tone to the "alarm" stream (classic beeps go there) with 50% volume
     private static ToneGenerator ToneHandler = new ToneGenerator(AudioManager.STREAM_ALARM, 50);
 
@@ -1193,10 +984,6 @@ public class Utils {
 
     public static void Beep(int ms) {
         MakeTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, ms);
-    }
-
-    public static void ClickSound() {
-        MakeTone(ToneGenerator.TONE_CDMA_PIP, 50);
     }
 
     public static void MakeTone(int type, int ms) {
@@ -1219,7 +1006,6 @@ public class Utils {
             }
             TvApp.getApplication().getPlaybackManager().reportPlaybackProgress(info, currentStreamInfo, false, apiClient, new EmptyResponse());
         }
-
     }
 
     public static boolean isNew(BaseItemDto program) {
@@ -1231,11 +1017,8 @@ public class Utils {
     }
 
     public static Date convertToLocalDate(Date utcDate) {
-
-
         TimeZone timeZone = Calendar.getInstance().getTimeZone();
         Date convertedDate = new Date( utcDate.getTime() + timeZone.getRawOffset() );
-
 
         if ( timeZone.inDaylightTime(convertedDate) ) {
             Date dstDate = new Date( convertedDate.getTime() + timeZone.getDSTSavings() );
@@ -1246,13 +1029,10 @@ public class Utils {
             }
         }
 
-
         return convertedDate;
     }
 
     public static Date convertToUtcDate(Date localDate) {
-
-
         TimeZone timeZone = Calendar.getInstance().getTimeZone();
         Date convertedDate = new Date( localDate.getTime() - timeZone.getRawOffset() );
 
@@ -1266,9 +1046,9 @@ public class Utils {
             }
         }
 
-
         return convertedDate;
     }
+
     /**
      * Returns a pseudo-random number between min and max, inclusive.
      * The difference between min and max can be at most
@@ -1459,22 +1239,12 @@ public class Utils {
         return TvApp.getApplication().getString(R.string.lbl_version_colon) + BuildConfig.VERSION_NAME;
     }
 
-    public static String SafeToUpper(String value) {
-        if (value == null) return "";
-        return value.toUpperCase();
-    }
-
     public static String FirstToUpper(String value) {
         if (value == null || value.length() == 0) return "";
         return value.substring(0, 1).toUpperCase() + (value.length() > 1 ? value.substring(1) : "");
     }
 
     public static String NullCoalesce(String obj, String def) {
-        if (obj == null) return def;
-        return obj;
-    }
-
-    public static int NullCoalesce(Integer obj, int def) {
         if (obj == null) return def;
         return obj;
     }
@@ -1520,18 +1290,6 @@ public class Utils {
         }
     }
 
-    public static int getReleaseVersion(String version) {
-        String[] components = version.split("[.]");
-        return components.length > 2 ? Integer.parseInt(components[2]) : 0;
-    }
-
-    public static String getCurrentFormattedTime() {
-        String fullTime = DateFormat.getTimeFormat(TvApp.getApplication()).format(new Date());
-        return DateFormat.is24HourFormat(TvApp.getApplication()) ?
-                fullTime
-                : TextUtils.substring(fullTime, 0, fullTime.length()-3 ); // strip off am/pm
-    }
-
     public static Bitmap getBitmapFromURL(String src) {
         try {
             URL url = new URL(src);
@@ -1554,8 +1312,6 @@ public class Utils {
         return Math.min(factor == 0 ? TvApp.getApplication().getAutoBitrate() : (factor.intValue() * 100000), TvApp.getApplication().getServerBitrateLimit());
     }
 
-
-
     public static PopupMenu createPopupMenu(Activity activity, View view, int gravity) {
         return new PopupMenu(activity, view, gravity);
     }
@@ -1563,9 +1319,8 @@ public class Utils {
     public static boolean isFireTv() {
         return Build.MODEL.startsWith("AFT");
     }
-    public static boolean isFireTvStick() { return Build.MODEL.equals("AFTM"); }
 
-    public static boolean is1stGenFireTv() { return Build.MODEL.equals("AFTB"); }
+    public static boolean isFireTvStick() { return Build.MODEL.equals("AFTM"); }
 
     public static boolean isShield() { return Build.MODEL.equals("SHIELD Android TV"); }
 
@@ -1574,17 +1329,9 @@ public class Utils {
     public static boolean is50() {
         return Build.VERSION.SDK_INT >= 21;
     }
-    public static boolean isGreaterThan51() { return Build.VERSION.RELEASE.equals("5.1.1") || is60(); }
 
     public static boolean is60() {
         return Build.VERSION.SDK_INT >= 23;
-    }
-    public static boolean isGingerbreadOrLater() {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD;
-    }
-
-    public static boolean supportsAc3() {
-        return true;
     }
 
     public static int getBrandColor() {
