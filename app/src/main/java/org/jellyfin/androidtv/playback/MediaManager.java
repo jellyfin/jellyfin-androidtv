@@ -24,6 +24,7 @@ import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.querying.QueryType;
+import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ProfileHelper;
 import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.Utils;
@@ -198,7 +199,7 @@ public class MediaManager {
         try {
 
             // Create a new media player based on platform
-            if (Utils.is60()) {
+            if (DeviceUtils.is60()) {
                 nativeMode = true;
                 mExoplayer = new EMAudioPlayer(TvApp.getApplication());
                 mExoplayer.setProgressCallback(new EMProgressCallback() {
@@ -554,7 +555,7 @@ public class MediaManager {
         options.setMaxBitrate(TvApp.getApplication().getAutoBitrate());
         options.setMediaSources(item.getMediaSources());
         DeviceProfile profile = ProfileHelper.getBaseProfile(false);
-        if (Utils.is60()) {
+        if (DeviceUtils.is60()) {
             ProfileHelper.setExoOptions(profile, false, true);
         } else {
             ProfileHelper.setVlcOptions(profile, false);

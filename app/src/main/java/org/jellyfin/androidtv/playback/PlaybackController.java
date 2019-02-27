@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.ui.ImageButton;
+import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ProfileHelper;
 import org.jellyfin.androidtv.util.Utils;
 
@@ -97,7 +98,7 @@ public class PlaybackController {
         mHandler = new Handler();
         mSubHelper = new SubtitleHelper(TvApp.getApplication().getCurrentActivity());
 
-        refreshRateSwitchingEnabled = Utils.is60() && mApplication.getPrefs().getBoolean("pref_refresh_switching", false);
+        refreshRateSwitchingEnabled = DeviceUtils.is60() && mApplication.getPrefs().getBoolean("pref_refresh_switching", false);
         if (refreshRateSwitchingEnabled) getDisplayModes();
 
     }
@@ -350,7 +351,7 @@ public class PlaybackController {
                 internalOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
                 internalOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
                 DeviceProfile internalProfile = ProfileHelper.getBaseProfile(isLiveTv);
-                if (Utils.is60() || mApplication.getPrefs().getBoolean("pref_bitstream_ac3", true)) {
+                if (DeviceUtils.is60() || mApplication.getPrefs().getBoolean("pref_bitstream_ac3", true)) {
                     ProfileHelper.setExoOptions(internalProfile, isLiveTv, true);
                     ProfileHelper.addAc3Streaming(internalProfile, true);
                     mApplication.getLogger().Info("*** Using extended Exoplayer profile options");
@@ -459,11 +460,24 @@ public class PlaybackController {
                             boolean useDeinterlacing = vlcResponse.getMediaSource().getVideoStream().getIsInterlaced() && (vlcResponse.getMediaSource().getVideoStream().getWidth() == null || vlcResponse.getMediaSource().getVideoStream().getWidth() > 1200);
                             mApplication.getLogger().Info(useDeinterlacing ? "Explicit deinterlacing will be used" : "Explicit deinterlacing will NOT be used");
 
+                            // TODO: Clean up this logic
                             // Now look at both responses and choose the one that direct plays or bitstreams - favor VLC
-                            useVlc = !vlcErrorEncountered && !vlcResponse.getPlayMethod().equals(PlayMethod.Transcode)
-                                    && (Utils.is60() || !mApplication.getPrefs().getBoolean("pref_bitstream_ac3", false) || (!"ac3".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec()) && !"truehd".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec())))
-                                    && (Utils.downMixAudio() || !Utils.is60() || internalResponse.getPlayMethod().equals(PlayMethod.Transcode) || !mApplication.getPrefs().getBoolean("pref_bitstream_dts", false) || internalResponse.getMediaSource() == null || internalResponse.getMediaSource().getDefaultAudioStream() == null || (!internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dca") && !internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dts")))
-                                    && (!Utils.isFireTvStick() || (vlcResponse.getMediaSource().getVideoStream() != null && vlcResponse.getMediaSource().getVideoStream().getWidth() < 1000));
+                            useVlc = !vlcErrorEncountered &&
+                                    !vlcResponse.getPlayMethod().equals(PlayMethod.Transcode) &&
+                                    (DeviceUtils.is60() ||
+                                        !mApplication.getPrefs().getBoolean("pref_bitstream_ac3", false) ||
+                                        (!"ac3".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec()) &&
+                                                !"truehd".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec())))  &&
+                                    (Utils.downMixAudio() ||
+                                            !DeviceUtils.is60() ||
+                                            internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ||
+                                            !mApplication.getPrefs().getBoolean("pref_bitstream_dts", false) ||
+                                            internalResponse.getMediaSource() == null ||
+                                            internalResponse.getMediaSource().getDefaultAudioStream() == null ||
+                                            (!internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dca") &&
+                                                    !internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dts")))  &&
+                                    (!DeviceUtils.isFireTvStick() |
+                                            (vlcResponse.getMediaSource().getVideoStream() != null && vlcResponse.getMediaSource().getVideoStream().getWidth() < 1000));
 
                             mApplication.getLogger().Info(useVlc ? "Preferring VLC" : "Will use internal player");
                             mVideoManager.init(getBufferAmount(), useDeinterlacing);
@@ -564,8 +578,15 @@ public class PlaybackController {
         String path = response.getMediaUrl();
 
         // when using VLC if source is stereo or we're on the Fire platform with AC3 - use most compatible output
-        if (!mVideoManager.isNativeMode() && ((isLiveTv && Utils.isFireTv()) || (response.getMediaSource() != null && response.getMediaSource().getDefaultAudioStream() != null && response.getMediaSource().getDefaultAudioStream().getChannels() != null && (response.getMediaSource().getDefaultAudioStream().getChannels() <= 2
-                || (Utils.isFireTv() && ("ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec()) || "truehd".equals(response.getMediaSource().getDefaultAudioStream().getCodec()))))))) {
+        if (!mVideoManager.isNativeMode() &&
+                ((isLiveTv && DeviceUtils.isFireTv()) ||
+                        (response.getMediaSource() != null &&
+                                response.getMediaSource().getDefaultAudioStream() != null &&
+                                response.getMediaSource().getDefaultAudioStream().getChannels() != null &&
+                                (response.getMediaSource().getDefaultAudioStream().getChannels() <= 2 ||
+                                        (DeviceUtils.isFireTv() &&
+                                                ("ac3".equals(response.getMediaSource().getDefaultAudioStream().getCodec()) ||
+                                                        "truehd".equals(response.getMediaSource().getDefaultAudioStream().getCodec()))))))) {
             mVideoManager.setCompatibleAudio();
             mApplication.getLogger().Info("Setting compatible audio mode...");
             //Utils.showToast(mApplication, "Compatible");

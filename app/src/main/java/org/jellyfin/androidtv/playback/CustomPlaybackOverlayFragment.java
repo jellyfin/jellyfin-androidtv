@@ -70,6 +70,7 @@ import org.jellyfin.androidtv.ui.ObservableScrollView;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.ScrollViewListener;
 import org.jellyfin.androidtv.ui.ValueChangedListener;
+import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.Utils;
@@ -671,36 +672,38 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     }
                 }
 
-                if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT && !mIsVisible && !Utils.isFireTv() && !mPlaybackController.isLiveTv()) {
-                    Utils.Beep(100);
-                    mPlaybackController.skip(30000);
-                    return true;
-                }
+                if (!mIsVisible) {
+                    if (!DeviceUtils.isFireTv() && !mPlaybackController.isLiveTv()) {
+                        if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                            Utils.Beep(100);
+                            mPlaybackController.skip(30000);
+                            return true;
+                        }
 
-                if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT && !mIsVisible && !Utils.isFireTv() && !mPlaybackController.isLiveTv()) {
-                    Utils.Beep(100);
-                    mPlaybackController.skip(-11000);
-                    return true;
-                }
+                        if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                            Utils.Beep(100);
+                            mPlaybackController.skip(-11000);
+                            return true;
+                        }
+                    }
 
-                if (keyCode == KeyEvent.KEYCODE_DPAD_UP && !mIsVisible && mPlaybackController.isLiveTv()) {
-                    showQuickChannelChanger();
-                    return true;
-                }
+                    if (keyCode == KeyEvent.KEYCODE_DPAD_UP && mPlaybackController.isLiveTv()) {
+                        showQuickChannelChanger();
+                        return true;
+                    }
 
-                if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && !mIsVisible && mPlaybackController.canSeek()) {
-                    mPlaybackController.pause();
-                    return true;
-                }
+                    if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && mPlaybackController.canSeek()) {
+                        mPlaybackController.pause();
+                        return true;
+                    }
 
-                //if we're not visible, show us
-                if (!mIsVisible) show();
+                    //if we're not visible, show us
+                    show();
+                }
 
                 //and then manage our fade timer
                 if (mFadeEnabled) startFadeTimer();
-
             }
-
 
             return false;
         }
@@ -1310,7 +1313,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private void addButtons(BaseItemDto item) {
         mButtonRow.removeAllViews();
 
-        if (!Utils.isFireTv() && mPlaybackController.canSeek()) {
+        if (!DeviceUtils.isFireTv() && mPlaybackController.canSeek()) {
             // on-screen jump buttons for Nexus
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.repeat, mButtonSize, new View.OnClickListener() {
                 @Override
