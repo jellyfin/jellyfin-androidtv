@@ -56,6 +56,7 @@ import org.jellyfin.androidtv.ui.IRecordingIndicatorView;
 import org.jellyfin.androidtv.ui.RecordPopup;
 import org.jellyfin.androidtv.ui.TextUnderButton;
 import org.jellyfin.androidtv.util.DelayedMessage;
+import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 
@@ -304,7 +305,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private void updatePoster() {
         if (isFinishing()) return;
         Picasso.with(mActivity)
-                .load(Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true, false, false, posterHeight))
+                .load(ImageUtils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true, false, false, posterHeight))
                 .skipMemoryCache()
                 .resize(posterWidth, posterHeight)
                 .centerInside()
@@ -371,13 +372,13 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             BaseItemDto item = params[0];
 
             // Figure image size
-            Double aspect = Utils.getImageAspectRatio(item, false);
+            Double aspect = ImageUtils.getImageAspectRatio(item, false);
             posterHeight = aspect > 1 ? Utils.convertDpToPixel(mActivity, 160) : Utils.convertDpToPixel(mActivity, "Person".equals(item.getType()) || "MusicArtist".equals(item.getType()) ? 300 : 200);
             posterWidth = (int)((aspect) * posterHeight);
             if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
-            String primaryImageUrl = Utils.getLogoImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), 600);
-            if (primaryImageUrl == null) primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true, false, false, posterHeight);
+            String primaryImageUrl = ImageUtils.getLogoImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), 600);
+            if (primaryImageUrl == null) primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true, false, false, posterHeight);
             mDetailsOverviewRow = new MyDetailsOverviewRow(item);
 
             mDetailsOverviewRow.setSummary(item.getOverview());
@@ -414,7 +415,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 int height = Utils.convertDpToPixel(mActivity, 40);
                 int width = Utils.convertDpToPixel(mActivity, 100);
                 if (item.getStudios() != null && item.getStudios().length > 0 && item.getStudios()[0].getHasPrimaryImage()) {
-                    String studioImageUrl = Utils.getPrimaryImageUrl(item.getStudios()[0], mApplication.getApiClient(), height);
+                    String studioImageUrl = ImageUtils.getPrimaryImageUrl(item.getStudios()[0], mApplication.getApiClient(), height);
                     if (studioImageUrl != null) mDetailsOverviewRow.setStudioBitmap(mActivity, Picasso.with(mActivity).load(studioImageUrl).resize(width, height).centerInside().get());
                 } else {
                     if (item.getSeriesStudio() != null) {
@@ -674,7 +675,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         if (buttonTypeList.contains(item.getType())) addButtons(BUTTON_SIZE);
 //        updatePlayedDate();
 //
-        updateBackground(Utils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
+        updateBackground(ImageUtils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
 
         mLastUpdated = Calendar.getInstance();
 
@@ -1415,7 +1416,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         mBackdropLoop = new Runnable() {
             @Override
             public void run() {
-                updateBackground(Utils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true));
+                updateBackground(ImageUtils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true));
                 mLoopHandler.postDelayed(this, BACKDROP_ROTATION_INTERVAL);
             }
         };

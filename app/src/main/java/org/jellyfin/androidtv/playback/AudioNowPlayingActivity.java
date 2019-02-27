@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
@@ -19,7 +18,6 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
-import android.support.v7.graphics.Palette;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
@@ -45,6 +43,7 @@ import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.ClockUserView;
 import org.jellyfin.androidtv.ui.GenreButton;
 import org.jellyfin.androidtv.ui.ImageButton;
+import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
@@ -407,12 +406,12 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     private void updatePoster() {
         if (isFinishing()) return;
         // Figure image size
-        Double aspect = Utils.getImageAspectRatio(mBaseItem, false);
+        Double aspect = ImageUtils.getImageAspectRatio(mBaseItem, false);
         int posterHeight = aspect > 1 ? Utils.convertDpToPixel(mActivity, 150) : Utils.convertDpToPixel(mActivity, 250);
         int posterWidth = (int) ((aspect) * posterHeight);
         if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
-        String primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, mApplication.getApiClient(), false, posterHeight);
+        String primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, mApplication.getApiClient(), false, posterHeight);
         mApplication.getLogger().Debug("Audio Poster url: " + primaryImageUrl);
         Picasso.with(mActivity)
                 .load(primaryImageUrl)
@@ -474,7 +473,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
             //set progress to match duration
             mCurrentProgress.setMax(mCurrentDuration);
             addGenres(mGenreRow);
-            updateBackground(Utils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
+            updateBackground(ImageUtils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
         }
 
     }
@@ -527,7 +526,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mBackdropLoop = new Runnable() {
             @Override
             public void run() {
-                updateBackground(Utils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true));
+                updateBackground(ImageUtils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true));
                 //manage our "screen saver" too
                 if (MediaManager.isPlayingAudio() && !ssActive && System.currentTimeMillis() - lastUserInteraction > 60000) {
                     startScreenSaver();
@@ -584,7 +583,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
             if (ssActive) {
                 mLogoImage.setVisibility(View.VISIBLE);
                 Picasso.with(this)
-                        .load(Utils.getLogoImageUrl(mBaseItem, TvApp.getApplication().getApiClient()))
+                        .load(ImageUtils.getLogoImageUrl(mBaseItem, TvApp.getApplication().getApiClient()))
                         .resize(700, 200)
                         .centerInside()
                         .into(mLogoImage);

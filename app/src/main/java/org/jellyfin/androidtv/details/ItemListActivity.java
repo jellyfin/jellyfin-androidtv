@@ -42,6 +42,7 @@ import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.ItemListView;
 import org.jellyfin.androidtv.ui.ItemRowView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
+import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.Utils;
 
@@ -495,12 +496,12 @@ public class ItemListActivity extends BaseActivity {
                 break;
             default:
                 // Figure image size
-                Double aspect = Utils.getImageAspectRatio(item, false);
+                Double aspect = ImageUtils.getImageAspectRatio(item, false);
                 int posterHeight = aspect > 1 ? Utils.convertDpToPixel(this, 160) : Utils.convertDpToPixel(this, 250);
                 int posterWidth = (int)((aspect) * posterHeight);
                 if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(this, 150);  //Guard against zero size images causing picasso to barf
 
-                String primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), false, posterHeight);
+                String primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), false, posterHeight);
 
                 Picasso.with(this)
                         .load(primaryImageUrl)
@@ -738,10 +739,10 @@ public class ItemListActivity extends BaseActivity {
     }
 
     private void updateBackdrop() {
-        String url = Utils.getBackdropImageUrl(mBaseItem, mApplication.getApiClient(), true);
+        String url = ImageUtils.getBackdropImageUrl(mBaseItem, mApplication.getApiClient(), true);
         if (url == null) {
             BaseItemDto item = getRandomListItem();
-            if (item != null) url = Utils.getBackdropImageUrl(item, mApplication.getApiClient(), true);
+            if (item != null) url = ImageUtils.getBackdropImageUrl(item, mApplication.getApiClient(), true);
         }
         if (url != null) updateBackground(url);
 

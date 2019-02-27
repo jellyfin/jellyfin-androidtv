@@ -19,6 +19,7 @@ import org.jellyfin.androidtv.playback.AudioEventListener;
 import org.jellyfin.androidtv.playback.AudioNowPlayingActivity;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.playback.PlaybackController;
+import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.Utils;
 
 import mediabrowser.model.dto.BaseItemDto;
@@ -130,7 +131,7 @@ public class NowPlayingBug extends FrameLayout {
     private void setInfo(BaseItemDto item) {
         if (item == null) return;
 
-        Picasso.with(context).load(Utils.getPrimaryImageUrl(item, TvApp.getApplication().getApiClient())).error(R.drawable.audioicon).resize(35,35).centerInside().into(npIcon);
+        Picasso.with(context).load(ImageUtils.getPrimaryImageUrl(item, TvApp.getApplication().getApiClient())).error(R.drawable.audioicon).resize(35,35).centerInside().into(npIcon);
         currentDuration = Utils.formatMillis(item.getRunTimeTicks() != null ? item.getRunTimeTicks() / 10000 : 0);
         npDesc.setText(item.getAlbumArtist() != null ? item.getAlbumArtist() : item.getName());
 

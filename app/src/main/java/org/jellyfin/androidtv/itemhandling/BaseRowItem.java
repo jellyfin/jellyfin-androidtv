@@ -7,12 +7,11 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.model.ChapterItemInfo;
 import org.jellyfin.androidtv.ui.GridButton;
+import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
@@ -166,9 +165,9 @@ public class BaseRowItem {
             case LiveTvRecording:
                 switch (imageType) {
                     case org.jellyfin.androidtv.model.ImageType.BANNER:
-                        return Utils.getBannerImageUrl(baseItem, TvApp.getApplication().getApiClient(), maxHeight);
+                        return ImageUtils.getBannerImageUrl(baseItem, TvApp.getApplication().getApiClient(), maxHeight);
                     case org.jellyfin.androidtv.model.ImageType.THUMB:
-                        return Utils.getThumbImageUrl(baseItem, TvApp.getApplication().getApiClient(), maxHeight);
+                        return ImageUtils.getThumbImageUrl(baseItem, TvApp.getApplication().getApiClient(), maxHeight);
                     default:
                         return getPrimaryImageUrl(maxHeight);
                 }
@@ -183,15 +182,15 @@ public class BaseRowItem {
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
-                return Utils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(), preferParentThumb, maxHeight);
+                return ImageUtils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(), preferParentThumb, maxHeight);
             case Person:
-                return Utils.getPrimaryImageUrl(person, TvApp.getApplication().getApiClient(), maxHeight);
+                return ImageUtils.getPrimaryImageUrl(person, TvApp.getApplication().getApiClient(), maxHeight);
             case User:
-                return Utils.getPrimaryImageUrl(user, TvApp.getApplication().getLoginApiClient());
+                return ImageUtils.getPrimaryImageUrl(user, TvApp.getApplication().getLoginApiClient());
             case Chapter:
                 return chapterInfo.getImagePath();
             case LiveTvChannel:
-                return Utils.getPrimaryImageUrl(channelInfo, TvApp.getApplication().getApiClient());
+                return ImageUtils.getPrimaryImageUrl(channelInfo, TvApp.getApplication().getApiClient());
             case Server:
                 return "android.resource://org.jellyfin.androidtv/" + R.drawable.server;
             case GridButton:
@@ -199,8 +198,8 @@ public class BaseRowItem {
             case SeriesTimer:
                 return "android.resource://org.jellyfin.androidtv/" + R.drawable.seriestimer;
             case SearchHint:
-                return !Utils.IsEmpty(searchHint.getPrimaryImageTag()) ? Utils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag(), TvApp.getApplication().getApiClient()) :
-                        !Utils.IsEmpty(searchHint.getThumbImageItemId()) ? Utils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag(), TvApp.getApplication().getApiClient()) : null;
+                return !Utils.IsEmpty(searchHint.getPrimaryImageTag()) ? ImageUtils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag(), TvApp.getApplication().getApiClient()) :
+                        !Utils.IsEmpty(searchHint.getThumbImageItemId()) ? ImageUtils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag(), TvApp.getApplication().getApiClient()) : null;
         }
         return null;
     }
@@ -508,7 +507,7 @@ public class BaseRowItem {
     public String getBackdropImageUrl() {
         switch (type) {
             case BaseItem:
-                return Utils.getBackdropImageUrl(baseItem, TvApp.getApplication().getConnectionManager().GetApiClient(baseItem), true);
+                return ImageUtils.getBackdropImageUrl(baseItem, TvApp.getApplication().getConnectionManager().GetApiClient(baseItem), true);
 
         }
 
