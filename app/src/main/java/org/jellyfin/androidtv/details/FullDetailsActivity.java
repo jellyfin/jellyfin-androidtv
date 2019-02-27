@@ -695,13 +695,13 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     private String getRunTime() {
-        Long runtime = Utils.NullCoalesce(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
+        Long runtime = Utils.getSafeValue(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
         return runtime != null && runtime > 0 ? runtime / 600000000 + getString(R.string.lbl_min) : "";
     }
 
     private String getEndTime() {
         if (mBaseItem != null && !"MusicArtist".equals(mBaseItem.getType()) && !"Person".equals(mBaseItem.getType())) {
-            Long runtime = Utils.NullCoalesce(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
+            Long runtime = Utils.getSafeValue(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
             if (runtime != null && runtime > 0) {
                 long endTimeTicks = "Program".equals(mBaseItem.getType()) && mBaseItem.getEndDate() != null ? Utils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
                 if (mBaseItem.getCanResume()) {
