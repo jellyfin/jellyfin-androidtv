@@ -31,6 +31,7 @@ import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
 import org.jellyfin.androidtv.search.SearchActivity;
 import org.jellyfin.androidtv.startup.LogonCredentials;
+import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.util.Calendar;
@@ -212,7 +213,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     public void setAudioMuted(boolean value) {
         audioMuted = value;
         getLogger().Info("Setting mute state to: "+audioMuted);
-        if (Utils.is60()) {
+        if (DeviceUtils.is60()) {
             audioManager.adjustVolume(audioMuted ? AudioManager.ADJUST_MUTE : AudioManager.ADJUST_UNMUTE, 0);
 
         } else {

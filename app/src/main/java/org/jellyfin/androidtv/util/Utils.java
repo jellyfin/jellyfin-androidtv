@@ -1306,28 +1306,15 @@ public class Utils {
         return new PopupMenu(activity, view, gravity);
     }
 
-    public static boolean isFireTv() {
-        return Build.MODEL.startsWith("AFT");
-    }
-
-    public static boolean isFireTvStick() { return Build.MODEL.equals("AFTM"); }
-
-    public static boolean isShield() { return Build.MODEL.equals("SHIELD Android TV"); }
-
-    public static boolean isNexus() { return Build.MODEL.equals("Nexus Player"); }
-
-    public static boolean is50() {
-        return Build.VERSION.SDK_INT >= 21;
-    }
-
-    public static boolean is60() {
-        return Build.VERSION.SDK_INT >= 23;
-    }
-
     public static int getBrandColor() {
-        return TvApp.getApplication().getPrefs().getInt("pref_sideline_color", isFireTv() ?
-                TvApp.getApplication().getResources().getColor(R.color.fastlane_fire) :
-                TvApp.getApplication().getResources().getColor(R.color.fastlane_background));
+        TvApp application = TvApp.getApplication();
+        int deviceColor;
+        if (DeviceUtils.isFireTv()) {
+            deviceColor = application.getResources().getColor(R.color.fastlane_fire);
+        } else {
+            deviceColor = application.getResources().getColor(R.color.fastlane_background);
+        }
+        return application.getPrefs().getInt("pref_sideline_color", deviceColor);
     }
 
     public static void processPasswordEntry(Activity activity, UserDto user) {
@@ -1468,7 +1455,8 @@ public class Utils {
             return true;
         }
 
-        return (isFireTv() && !is50()) || "1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"));
+        return (DeviceUtils.isFireTv() && !DeviceUtils.is50()) ||
+                "1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"));
     }
 
     /**

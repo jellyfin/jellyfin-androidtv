@@ -154,7 +154,7 @@ public class ProfileHelper {
         h264MainProfile.setConditions(new ProfileCondition[]
                 {
                         new ProfileCondition(ProfileConditionType.EqualsAny, ProfileConditionValue.VideoProfile, "high|main|baseline|constrained baseline"),
-                        new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoLevel, Utils.isFireTvStick() ? "41" : "51"),
+                        new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoLevel, DeviceUtils.isFireTvStick() ? "41" : "51"),
                         new ProfileCondition(ProfileConditionType.GreaterThanEqual, ProfileConditionValue.RefFrames, "2"),
                 });
 
@@ -195,7 +195,7 @@ public class ProfileHelper {
         if (!isLiveTv || TvApp.getApplication().directStreamLiveTv()) {
             DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
             videoDirectPlayProfile.setContainer((isLiveTv ? "ts,mpegts," : "") + "m4v,mov,xvid,vob,mkv,wmv,asf,ogm,ogv,mp4,webm");
-            videoDirectPlayProfile.setVideoCodec(Utils.isShield() || Utils.isNexus() ? "h264,hevc,vp8,vp9,mpeg,mpeg2video" : "h264,vp8,vp9,mpeg,mpeg2video");
+            videoDirectPlayProfile.setVideoCodec(DeviceUtils.isShield() || DeviceUtils.isNexus() ? "h264,hevc,vp8,vp9,mpeg,mpeg2video" : "h264,vp8,vp9,mpeg,mpeg2video");
             if (Utils.downMixAudio()) {
                 //compatible audio mode - will need to transcode dts and ac3
                 TvApp.getApplication().getLogger().Info("*** Excluding DTS and AC3 audio from direct play due to compatible audio setting");
@@ -226,7 +226,7 @@ public class ProfileHelper {
         videoCodecProfile.setConditions(new ProfileCondition[]
                 {
                         new ProfileCondition(ProfileConditionType.EqualsAny, ProfileConditionValue.VideoProfile, "high|main|baseline|constrained baseline"),
-                        new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoLevel, Utils.isFireTvStick()? "41" : "51")
+                        new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoLevel, DeviceUtils.isFireTvStick()? "41" : "51")
                 });
 
         CodecProfile refFramesProfile = new CodecProfile();
