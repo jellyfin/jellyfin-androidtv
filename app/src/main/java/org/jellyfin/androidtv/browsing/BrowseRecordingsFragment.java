@@ -116,7 +116,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                             programInfo = new BaseItemDto();
                             programInfo.setId(timer.getId());
                             programInfo.setChannelName(timer.getChannelName());
-                            programInfo.setName(Utils.NullCoalesce(timer.getName(), "Unknown"));
+                            programInfo.setName(Utils.getSafeValue(timer.getName(), "Unknown"));
                             TvApp.getApplication().getLogger().Warn("No program info for timer %s.  Creating one...", programInfo.getName());
                             programInfo.setType("Program");
                             programInfo.setTimerId(timer.getId());

@@ -1244,19 +1244,9 @@ public class Utils {
         return value.substring(0, 1).toUpperCase() + (value.length() > 1 ? value.substring(1) : "");
     }
 
-    public static String NullCoalesce(String obj, String def) {
-        if (obj == null) return def;
-        return obj;
-    }
-
-    public static Long NullCoalesce(Long obj, Long def) {
-        if (obj == null) return def;
-        return obj;
-    }
-
-    public static Double NullCoalesce(Double obj, Double def) {
-        if (obj == null) return def;
-        return obj;
+    public static <T> T getSafeValue(T value, T defaultValue) {
+        if (value == null) return defaultValue;
+        return value;
     }
 
     public static boolean IsEmpty(String value) {

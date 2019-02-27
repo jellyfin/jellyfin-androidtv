@@ -11,11 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.request.target.Target;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -92,7 +89,7 @@ public class CardPresenter extends Presenter {
                     BaseItemDto itemDto = mItem.getBaseItem();
                     boolean showWatched = true;
                     boolean showProgress = false;
-                    Double aspect = imageType.equals(ImageType.BANNER) ? 5.414 : imageType.equals(ImageType.THUMB) ? 1.779 : Utils.NullCoalesce(Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()), .7777777);
+                    Double aspect = imageType.equals(ImageType.BANNER) ? 5.414 : imageType.equals(ImageType.THUMB) ? 1.779 : Utils.getSafeValue(Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()), .7777777);
                     switch (itemDto.getType()) {
                         case "Audio":
                         case "MusicAlbum":
@@ -189,7 +186,7 @@ public class CardPresenter extends Presenter {
                     break;
                 case LiveTvChannel:
                     ChannelInfoDto channel = mItem.getChannelInfo();
-                    Double tvAspect = imageType.equals(ImageType.BANNER) ? 5.414 : imageType.equals(ImageType.THUMB) ? 1.779 : Utils.NullCoalesce(channel.getPrimaryImageAspectRatio(), .7777777);
+                    Double tvAspect = imageType.equals(ImageType.BANNER) ? 5.414 : imageType.equals(ImageType.THUMB) ? 1.779 : Utils.getSafeValue(channel.getPrimaryImageAspectRatio(), .7777777);
                     cardHeight = !m.isStaticHeight() ? tvAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((tvAspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf
@@ -224,7 +221,7 @@ public class CardPresenter extends Presenter {
 
                 case LiveTvRecording:
                     BaseItemDto recording = mItem.getRecordingInfo();
-                    Double recordingAspect = imageType.equals(ImageType.BANNER) ? 5.414 : (imageType.equals(ImageType.THUMB) ? 1.779 : Utils.NullCoalesce(recording.getPrimaryImageAspectRatio(), .7777777));
+                    Double recordingAspect = imageType.equals(ImageType.BANNER) ? 5.414 : (imageType.equals(ImageType.THUMB) ? 1.779 : Utils.getSafeValue(recording.getPrimaryImageAspectRatio(), .7777777));
                     cardHeight = !m.isStaticHeight() ? recordingAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int)((recordingAspect) * cardHeight);
                     if (cardWidth < 10) cardWidth = 230;  //Guard against zero size images causing picasso to barf

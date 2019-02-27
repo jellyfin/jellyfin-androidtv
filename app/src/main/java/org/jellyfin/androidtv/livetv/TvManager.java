@@ -156,13 +156,13 @@ public class TvManager {
     private static void translatePrefs(DisplayPreferences displayPrefs) {
         HashMap<String,String> customPrefs = displayPrefs.getCustomPrefs();
         if (customPrefs != null) {
-            prefs.channelOrder = Utils.NullCoalesce(customPrefs.get("livetv-channelorder"), "DatePlayed");
+            prefs.channelOrder = Utils.getSafeValue(customPrefs.get("livetv-channelorder"), "DatePlayed");
             prefs.colorCodeGuide = Boolean.parseBoolean(customPrefs.get("guide-colorcodedbackgrounds"));
-            prefs.favsAtTop = Boolean.parseBoolean(Utils.NullCoalesce(customPrefs.get("livetv-favoritechannelsattop"),"true"));
+            prefs.favsAtTop = Boolean.parseBoolean(Utils.getSafeValue(customPrefs.get("livetv-favoritechannelsattop"),"true"));
             prefs.showHDIndicator = Boolean.parseBoolean(customPrefs.get("guide-indicator-hd"));
-            prefs.showLiveIndicator = Boolean.parseBoolean(Utils.NullCoalesce(customPrefs.get("livetv-guide-indicator-live"),"true"));
+            prefs.showLiveIndicator = Boolean.parseBoolean(Utils.getSafeValue(customPrefs.get("livetv-guide-indicator-live"),"true"));
             prefs.showNewIndicator = Boolean.parseBoolean(customPrefs.get("guide-indicator-new"));
-            prefs.showPremiereIndicator = Boolean.parseBoolean(Utils.NullCoalesce(customPrefs.get("guide-indicator-premiere"),"true"));
+            prefs.showPremiereIndicator = Boolean.parseBoolean(Utils.getSafeValue(customPrefs.get("guide-indicator-premiere"),"true"));
             prefs.showRepeatIndicator = Boolean.parseBoolean(customPrefs.get("guide-indicator-repeat"));
         }
     }
@@ -402,7 +402,7 @@ public class TvManager {
                         programInfo = new BaseItemDto();
                         programInfo.setId(timer.getId());
                         programInfo.setChannelName(timer.getChannelName());
-                        programInfo.setName(Utils.NullCoalesce(timer.getName(), "Unknown"));
+                        programInfo.setName(Utils.getSafeValue(timer.getName(), "Unknown"));
                         TvApp.getApplication().getLogger().Warn("No program info for timer %s.  Creating one...", programInfo.getName());
                         programInfo.setType("Program");
                         programInfo.setTimerId(timer.getId());

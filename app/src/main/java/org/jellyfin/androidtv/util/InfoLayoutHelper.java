@@ -160,7 +160,7 @@ public class InfoLayoutHelper {
         if (item.getAirDays() != null && item.getAirDays().size() > 0) {
             TextView textView = new TextView(activity);
             textView.setTextSize(textSize);
-            textView.setText(item.getAirDays().get(0) + " " + Utils.NullCoalesce(item.getAirTime(), "") +  "  ");
+            textView.setText(item.getAirDays().get(0) + " " + Utils.getSafeValue(item.getAirTime(), "") +  "  ");
             layout.addView(textView);
 
         }
@@ -196,7 +196,7 @@ public class InfoLayoutHelper {
     }
 
     private static void addRuntime(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeEndtime) {
-        Long runtime = Utils.NullCoalesce(item.getRunTimeTicks(), item.getOriginalRunTimeTicks());
+        Long runtime = Utils.getSafeValue(item.getRunTimeTicks(), item.getOriginalRunTimeTicks());
         if (runtime != null && runtime > 0) {
             long endTime = includeEndtime ? System.currentTimeMillis() + runtime / 10000 - (item.getUserData() != null && item.getCanResume() ? item.getUserData().getPlaybackPositionTicks()/10000 : 0) : 0;
             String text = runtime / 600000000 + activity.getString(R.string.lbl_min) + (endTime > 0 ? " (" + activity.getResources().getString(R.string.lbl_ends) + " " + android.text.format.DateFormat.getTimeFormat(activity).format(new Date(endTime)) + ")  " : "  ");
