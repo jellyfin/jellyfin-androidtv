@@ -71,6 +71,7 @@ import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.ScrollViewListener;
 import org.jellyfin.androidtv.ui.ValueChangedListener;
 import org.jellyfin.androidtv.util.DeviceUtils;
+import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.Utils;
@@ -1231,7 +1232,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         if (getActivity() != null && !getActivity().isFinishing()) {
             int height = Utils.convertDpToPixel(getActivity(), 300);
             int width = Utils.convertDpToPixel(getActivity(), 150);
-            String posterImageUrl = Utils.getPrimaryImageUrl(item, mApplication.getApiClient(), false, false, preferSeries, height);
+            String posterImageUrl = ImageUtils.getPrimaryImageUrl(item, mApplication.getApiClient(), false, false, preferSeries, height);
             if (posterImageUrl != null) Picasso.with(getActivity()).load(posterImageUrl).skipMemoryCache().resize(width, height).centerInside().into(target);
 
         }
@@ -1242,7 +1243,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         if (getActivity() != null && !getActivity().isFinishing()) {
             int height = Utils.convertDpToPixel(getActivity(), 60);
             int width = Utils.convertDpToPixel(getActivity(), 180);
-            String imageUrl = Utils.getLogoImageUrl(item, mApplication.getApiClient());
+            String imageUrl = ImageUtils.getLogoImageUrl(item, mApplication.getApiClient());
             if (imageUrl != null) Picasso.with(getActivity()).load(imageUrl).skipMemoryCache().resize(width, height).centerInside().into(target);
         }
     }
@@ -1252,7 +1253,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             int height = Utils.convertDpToPixel(mActivity, 30);
             int width = Utils.convertDpToPixel(mActivity, 70);
             if (item.getStudios() != null && item.getStudios().length > 0 && item.getStudios()[0].getHasPrimaryImage()) {
-                String studioImageUrl = Utils.getPrimaryImageUrl(item.getStudios()[0], mApplication.getApiClient(), height);
+                String studioImageUrl = ImageUtils.getPrimaryImageUrl(item.getStudios()[0], mApplication.getApiClient(), height);
                 if (studioImageUrl != null)
                     Picasso.with(mActivity).load(studioImageUrl).resize(width, height).centerInside().into(mStudioImage);
             } else {

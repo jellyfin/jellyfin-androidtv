@@ -44,6 +44,7 @@ import org.jellyfin.androidtv.ui.ObservableHorizontalScrollView;
 import org.jellyfin.androidtv.ui.ObservableScrollView;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.ScrollViewListener;
+import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.Utils;
 
@@ -894,7 +895,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         mSummary.setText(mSelectedProgram.getOverview());
         if (mSelectedProgram.getId() != null) {
             mDisplayDate.setText(Utils.getFriendlyDate(Utils.convertToLocalDate(mSelectedProgram.getStartDate())));
-            String url = Utils.getPrimaryImageUrl(mSelectedProgram, TvApp.getApplication().getApiClient());
+            String url = ImageUtils.getPrimaryImageUrl(mSelectedProgram, TvApp.getApplication().getApiClient());
             Picasso.with(mActivity).load(url).resize(IMAGE_SIZE, IMAGE_SIZE).centerInside().into(mImage);
 
             //info row
