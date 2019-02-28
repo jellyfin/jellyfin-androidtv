@@ -346,7 +346,7 @@ public class TvManager {
         channel.setTextColor(activity.getResources().getColor(android.R.color.holo_blue_light));
         timelineRow.addView(channel);
         TextView datetime = new TextView(activity);
-        datetime.setText(Utils.getFriendlyDate(local)+ " @ "+android.text.format.DateFormat.getTimeFormat(activity).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
+        datetime.setText(TimeUtils.getFriendlyDate(local)+ " @ "+android.text.format.DateFormat.getTimeFormat(activity).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
         timelineRow.addView(datetime);
 
     }
@@ -434,7 +434,7 @@ public class TvManager {
     private static void addRow(List<BaseItemDto> timers, Presenter presenter, ArrayObjectAdapter rowAdapter) {
         ItemRowAdapter scheduledAdapter = new ItemRowAdapter(timers, presenter, rowAdapter, true);
         scheduledAdapter.Retrieve();
-        ListRow scheduleRow = new ListRow(new HeaderItem(Utils.getFriendlyDate(TimeUtils.convertToLocalDate(timers.get(0).getStartDate()), true)), scheduledAdapter);
+        ListRow scheduleRow = new ListRow(new HeaderItem(TimeUtils.getFriendlyDate(TimeUtils.convertToLocalDate(timers.get(0).getStartDate()), true)), scheduledAdapter);
         rowAdapter.add(scheduleRow);
 
     }
