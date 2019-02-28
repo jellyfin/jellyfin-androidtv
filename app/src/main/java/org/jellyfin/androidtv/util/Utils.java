@@ -33,12 +33,14 @@ import org.jellyfin.androidtv.startup.LogonCredentials;
 import org.jellyfin.androidtv.startup.SelectServerActivity;
 import org.jellyfin.androidtv.startup.SelectUserActivity;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -590,7 +592,6 @@ public class Utils {
         startInfo.setPositionTicks(pos);
         TvApp.getApplication().getPlaybackManager().reportPlaybackStart(startInfo, false, TvApp.getApplication().getApiClient(), new EmptyResponse());
         TvApp.getApplication().getLogger().Info("Playback of " + item.getName() + " started.");
-
     }
 
     public static void EnterManualServerAddress(final Activity activity) {
@@ -612,7 +613,6 @@ public class Utils {
                 signInToServer(TvApp.getApplication().getConnectionManager(), addressValue.indexOf(":") < 0 ? addressValue + ":8096" : addressValue, activity);
             }
         }).show();
-
     }
 
     public static void EnterManualUser(final Activity activity) {
@@ -645,7 +645,6 @@ public class Utils {
                 }).show();
             }
         }).show();
-
     }
 
     // send the tone to the "alarm" stream (classic beeps go there) with 50% volume
@@ -810,7 +809,7 @@ public class Utils {
         TvApp app = TvApp.getApplication();
         try {
             InputStream credsFile = app.openFileInput(fileName);
-            String json = ReadStringFromFile(credsFile);
+            String json = readStringFromStream(credsFile);
             credsFile.close();
             return (LogonCredentials) app.getSerializer().DeserializeFromString(json, LogonCredentials.class);
         } catch (IOException e) {
@@ -822,24 +821,22 @@ public class Utils {
         }
     }
 
-    public static String ReadStringFromFile(InputStream inputStream) throws IOException {
-        StringBuilder fileContent = new StringBuilder("");
-
+    public static String readStringFromStream(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
-        int n;
-        while ((n = inputStream.read(buffer)) != -1)
-        {
-            fileContent.append(new String(buffer, 0, n));
+        int length;
+        while ((length = inputStream.read(buffer)) != -1) {
+            result.write(buffer, 0, length);
         }
 
-        return fileContent.toString();
+        return result.toString(StandardCharsets.UTF_8.name());
     }
 
-    public static String VersionString() {
+    public static String getVersionString() {
         return TvApp.getApplication().getString(R.string.lbl_version_colon) + BuildConfig.VERSION_NAME;
     }
 
-    public static String FirstToUpper(String value) {
+    public static String firstToUpper(String value) {
         if (value == null || value.length() == 0) return "";
         return value.substring(0, 1).toUpperCase() + (value.length() > 1 ? value.substring(1) : "");
     }
@@ -849,7 +846,7 @@ public class Utils {
         return value;
     }
 
-    public static boolean IsEmpty(String value) {
+    public static boolean isEmpty(String value) {
         return value == null || value.equals("");
     }
 
@@ -874,7 +871,6 @@ public class Utils {
             if (firstMajor == secondMajor && firstMinor == secondMinor && firstBuild == secondBuild && firstRelease < secondRelease) return false;
 
             return true;
-
         } catch (Exception e) {
             return false;
         }
@@ -887,8 +883,7 @@ public class Utils {
             connection.setDoInput(true);
             connection.connect();
             InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
+            return BitmapFactory.decodeStream(input);
         } catch (IOException e) {
             // Log exception
             return null;
@@ -961,17 +956,12 @@ public class Utils {
         return buf.toString();
     }
 
-    public static String MD5(String text)  {
+    public static String getMD5Hash(String text)  {
         try {
-            MessageDigest md;
-            md = MessageDigest.getInstance("MD5");
-            byte[] md5hash = new byte[32];
-            md.update(text.getBytes("iso-8859-1"), 0, text.length());
-            md5hash = md.digest();
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(text.getBytes(StandardCharsets.ISO_8859_1), 0, text.length());
+            byte[] md5hash = md.digest();
             return convertToHex(md5hash);
-
-        } catch (UnsupportedEncodingException e) {
-            return UUID.randomUUID().toString();
         } catch (NoSuchAlgorithmException e) {
             return UUID.randomUUID().toString();
         }
@@ -1073,5 +1063,4 @@ public class Utils {
                 Math.max( (int)(g * factor), 0 ),
                 Math.max( (int)(b * factor), 0 ) );
     }
-
 }

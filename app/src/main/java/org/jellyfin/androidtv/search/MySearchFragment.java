@@ -72,7 +72,7 @@ public class MySearchFragment extends SearchFragment
     @Override
     public boolean onQueryTextChange(String newQuery) {
         textEdited = true;
-        if (!Utils.IsEmpty(newQuery)) {
+        if (!Utils.isEmpty(newQuery)) {
             mHandler.removeCallbacks(mDelayedLoad);
             mDelayedLoad.setQueryString(newQuery);
             mHandler.postDelayed(mDelayedLoad, SEARCH_DELAY_MS);
@@ -85,7 +85,7 @@ public class MySearchFragment extends SearchFragment
     @Override
     public boolean onQueryTextSubmit(String query) {
         if (!textEdited) {
-            if (!Utils.IsEmpty(query)) {
+            if (!Utils.isEmpty(query)) {
                 mHandler.removeCallbacks(mDelayedLoad);
                 mDelayedLoad.setQueryString(query);
                 mHandler.postDelayed(mDelayedLoad, SEARCH_DELAY_MS);
