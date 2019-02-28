@@ -49,7 +49,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
-import java.util.TimeZone;
 import java.util.UUID;
 
 import mediabrowser.apiinteraction.ApiClient;
@@ -108,74 +107,6 @@ public class Utils {
      */
     public static void showToast(Context context, int resourceId) {
         Toast.makeText(context, context.getString(resourceId), Toast.LENGTH_LONG).show();
-    }
-
-    /**
-     * Formats time in milliseconds to hh:mm:ss string format.
-     *
-     * @param millis
-     * @return
-     */
-    public static String formatMillis(int millis) {
-        String result = "";
-        int hr = millis / 3600000;
-        millis %= 3600000;
-        int min = millis / 60000;
-        millis %= 60000;
-        int sec = millis / 1000;
-        if (hr > 0) {
-            result += hr + ":";
-        }
-        if (min >= 0) {
-            if (min > 9) {
-                result += min + ":";
-            } else {
-                result += "0" + min + ":";
-            }
-        }
-        if (sec > 9) {
-            result += sec;
-        } else {
-            result += "0" + sec;
-        }
-        return result;
-    }
-
-    /**
-     * Formats time in milliseconds to hh:mm:ss string format.
-     *
-     * @param millis
-     * @return
-     */
-    public static String formatMillis(long millis) {
-        String result = "";
-        long hr = millis / 3600000;
-        millis %= 3600000;
-        long min = millis / 60000;
-        millis %= 60000;
-        long sec = millis / 1000;
-        if (hr > 0) {
-            result += hr + ":";
-        }
-        if (min >= 0) {
-            if (min > 9) {
-                result += min + ":";
-            } else {
-                result += (hr > 0 ? "0" : "") + min + ":";
-            }
-        }
-        if (sec > 9) {
-            result += sec;
-        } else {
-            result += "0" + sec;
-        }
-        return result;
-    }
-
-    public static String formatSeconds(int seconds) {
-        return seconds < 60 ? seconds + " " + TvApp.getApplication().getString(R.string.lbl_seconds) :
-                seconds < 360 ? seconds / 60 + " " + TvApp.getApplication().getString(seconds < 120 ? R.string.lbl_minute : R.string.lbl_minutes) :
-                        seconds / 360 + " " + TvApp.getApplication().getString( seconds < 720 ? R.string.lbl_hour : R.string.lbl_hours);
     }
 
     public static int convertDpToPixel(Context ctx, int dp) {
@@ -528,7 +459,7 @@ public class Utils {
     public static String GetSubName(BaseItemDto item) {
         switch (item.getType()) {
             case "Episode":
-                String addendum = item.getLocationType().equals(LocationType.Virtual) && item.getPremiereDate() != null ? " (" +  getFriendlyDate(Utils.convertToLocalDate(item.getPremiereDate())) + ")" : "";
+                String addendum = item.getLocationType().equals(LocationType.Virtual) && item.getPremiereDate() != null ? " (" +  getFriendlyDate(TimeUtils.convertToLocalDate(item.getPremiereDate())) + ")" : "";
                 return item.getName() + addendum;
             case "Season":
                 return item.getChildCount() != null && item.getChildCount() > 0 ? item.getChildCount() + " " + TvApp.getApplication().getString(R.string.lbl_episodes) : "";
@@ -556,7 +487,7 @@ public class Utils {
         }
 
         Calendar startTime = Calendar.getInstance();
-        startTime.setTime(convertToLocalDate(baseItem.getStartDate()));
+        startTime.setTime(TimeUtils.convertToLocalDate(baseItem.getStartDate()));
         // If the start time is on a different day, add the date
         if (startTime.get(Calendar.DAY_OF_YEAR) != Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
             builder.append(getFriendlyDate(startTime.getTime()))
@@ -566,7 +497,7 @@ public class Utils {
         java.text.DateFormat dateFormat = DateFormat.getTimeFormat(TvApp.getApplication());
         builder.append(dateFormat.format(startTime.getTime()))
                 .append("-")
-                .append(dateFormat.format(convertToLocalDate(baseItem.getEndDate())));
+                .append(dateFormat.format(TimeUtils.convertToLocalDate(baseItem.getEndDate())));
 
         return builder.toString();
     }
@@ -584,8 +515,8 @@ public class Utils {
                 " " +
                 (isTrue(timer.getRecordAnyTime()) ? TvApp.getApplication().getString(R.string.lbl_at_any_time) : "") +
                 "\n" +
-                "Starting " + (timer.getPrePaddingSeconds() > 0 ? formatSeconds(timer.getPrePaddingSeconds()) + " Early" : "On Schedule") +
-                " And Ending " + (timer.getPostPaddingSeconds() > 0 ? formatSeconds(timer.getPostPaddingSeconds()) + " After Schedule" : "On Schedule")
+                "Starting " + (timer.getPrePaddingSeconds() > 0 ? TimeUtils.formatSeconds(timer.getPrePaddingSeconds()) + " Early" : "On Schedule") +
+                " And Ending " + (timer.getPostPaddingSeconds() > 0 ? TimeUtils.formatSeconds(timer.getPostPaddingSeconds()) + " After Schedule" : "On Schedule")
                 ;
     }
 
@@ -784,39 +715,6 @@ public class Utils {
 
     public static boolean isTrue(Boolean value) {
         return value != null && value;
-    }
-
-    public static Date convertToLocalDate(Date utcDate) {
-        TimeZone timeZone = Calendar.getInstance().getTimeZone();
-        Date convertedDate = new Date( utcDate.getTime() + timeZone.getRawOffset() );
-
-        if ( timeZone.inDaylightTime(convertedDate) ) {
-            Date dstDate = new Date( convertedDate.getTime() + timeZone.getDSTSavings() );
-
-
-            if (timeZone.inDaylightTime( dstDate )) {
-                convertedDate = dstDate;
-            }
-        }
-
-        return convertedDate;
-    }
-
-    public static Date convertToUtcDate(Date localDate) {
-        TimeZone timeZone = Calendar.getInstance().getTimeZone();
-        Date convertedDate = new Date( localDate.getTime() - timeZone.getRawOffset() );
-
-
-        if ( timeZone.inDaylightTime(localDate) ) {
-            Date dstDate = new Date( convertedDate.getTime() - timeZone.getDSTSavings() );
-
-
-            if (timeZone.inDaylightTime( dstDate )) {
-                convertedDate = dstDate;
-            }
-        }
-
-        return convertedDate;
     }
 
     /**

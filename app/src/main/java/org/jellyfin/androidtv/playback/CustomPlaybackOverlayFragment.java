@@ -74,6 +74,7 @@ import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.RemoteControlReceiver;
+import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.io.UnsupportedEncodingException;
@@ -1051,8 +1052,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             BaseItemDto empty = new BaseItemDto();
             empty.setName(mApplication.getString(R.string.no_program_data));
             empty.setChannelId(channelId);
-            empty.setStartDate(Utils.convertToUtcDate(new Date(mCurrentLocalGuideStart)));
-            empty.setEndDate(Utils.convertToUtcDate(new Date(mCurrentLocalGuideStart + (150 * 60000))));
+            empty.setStartDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart)));
+            empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + (150 * 60000))));
             ProgramGridCell cell = new ProgramGridCell(mActivity, mFragment, empty);
             cell.setId(currentCellId++);
             cell.setLayoutParams(new ViewGroup.LayoutParams(150 * PIXELS_PER_MINUTE, LiveTvGuideActivity.ROW_HEIGHT));
@@ -1063,7 +1064,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         long prevEnd = getCurrentLocalStartDate();
         for (BaseItemDto item : programs) {
-            long start = item.getStartDate() != null ? Utils.convertToLocalDate(item.getStartDate()).getTime() : getCurrentLocalStartDate();
+            long start = item.getStartDate() != null ? TimeUtils.convertToLocalDate(item.getStartDate()).getTime() : getCurrentLocalStartDate();
             if (start < getCurrentLocalStartDate()) start = getCurrentLocalStartDate();
             if (start > getCurrentLocalEndDate()) continue;
             if (start > prevEnd) {
@@ -1071,16 +1072,16 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 BaseItemDto empty = new BaseItemDto();
                 empty.setName("  <No Program Data Available>");
                 empty.setChannelId(channelId);
-                empty.setStartDate(Utils.convertToUtcDate(new Date(prevEnd)));
+                empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
                 Long duration = (start - prevEnd);
-                empty.setEndDate(Utils.convertToUtcDate(new Date(prevEnd + duration)));
+                empty.setEndDate(TimeUtils.convertToUtcDate(new Date(prevEnd + duration)));
                 ProgramGridCell cell = new ProgramGridCell(mActivity, mFragment, empty);
                 cell.setId(currentCellId++);
                 cell.setLayoutParams(new ViewGroup.LayoutParams(((Long) (duration / 60000)).intValue() * PIXELS_PER_MINUTE, LiveTvGuideActivity.ROW_HEIGHT));
                 cell.setFocusable(true);
                 programRow.addView(cell);
             }
-            long end = item.getEndDate() != null ? Utils.convertToLocalDate(item.getEndDate()).getTime() : getCurrentLocalEndDate();
+            long end = item.getEndDate() != null ? TimeUtils.convertToLocalDate(item.getEndDate()).getTime() : getCurrentLocalEndDate();
             if (end > getCurrentLocalEndDate()) end = getCurrentLocalEndDate();
             prevEnd = end;
             Long duration = (end - start) / 60000;
@@ -1156,7 +1157,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mGuideTitle.setText(mSelectedProgram.getName());
         mSummary.setText(mSelectedProgram.getOverview());
         if (mSelectedProgram.getId() != null) {
-            mDisplayDate.setText(Utils.getFriendlyDate(Utils.convertToLocalDate(mSelectedProgram.getStartDate())));
+            mDisplayDate.setText(Utils.getFriendlyDate(TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
 
             //info row
             InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mGuideInfoRow, false, false);
@@ -1735,13 +1736,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Override
     public void setCurrentTime(long time) {
         if (mNextUpPanelVisible) {
-            mStartsIn.setText(mCurrentDuration > 0 ? "Starts in " + Utils.formatMillis(mCurrentDuration - time) : "");
+            mStartsIn.setText(mCurrentDuration > 0 ? "Starts in " + TimeUtils.formatMillis(mCurrentDuration - time) : "");
         } else if (mSmNextUpPanelVisible) {
-            mSmStartsIn.setText(mCurrentDuration > 0 ? "Starts in " + Utils.formatMillis(mCurrentDuration - time) : "");
+            mSmStartsIn.setText(mCurrentDuration > 0 ? "Starts in " + TimeUtils.formatMillis(mCurrentDuration - time) : "");
         } else {
             mCurrentProgress.setProgress(((Long)time).intValue());
-            mCurrentPos.setText(Utils.formatMillis(time));
-            mRemainingTime.setText(mCurrentDuration > 0 ? "-" + Utils.formatMillis(mCurrentDuration - time) : "");
+            mCurrentPos.setText(TimeUtils.formatMillis(time));
+            mRemainingTime.setText(mCurrentDuration > 0 ? "-" + TimeUtils.formatMillis(mCurrentDuration - time) : "");
         }
     }
 

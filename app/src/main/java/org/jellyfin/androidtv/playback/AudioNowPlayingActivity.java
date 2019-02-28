@@ -46,6 +46,7 @@ import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
+import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 
 import mediabrowser.model.dto.BaseItemDto;
@@ -427,7 +428,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         if (mBaseItem != null) {
             updatePoster();
             updateInfo(mBaseItem);
-            mDisplayDuration = Utils.formatMillis((mBaseItem.getRunTimeTicks() != null ? mBaseItem.getRunTimeTicks() : 0) / 10000);
+            mDisplayDuration = TimeUtils.formatMillis((mBaseItem.getRunTimeTicks() != null ? mBaseItem.getRunTimeTicks() : 0) / 10000);
             // give audio a chance to start playing before updating next info
             mLoopHandler.postDelayed(new Runnable() {
                 @Override
@@ -480,11 +481,11 @@ public class AudioNowPlayingActivity extends BaseActivity  {
 
     public void setCurrentTime(long time) {
         if (ssActive) {
-            mSSTime.setText(Utils.formatMillis(time) + " / " + mDisplayDuration);
+            mSSTime.setText(TimeUtils.formatMillis(time) + " / " + mDisplayDuration);
         } else {
             mCurrentProgress.setProgress(((Long) time).intValue());
-            mCurrentPos.setText(Utils.formatMillis(time));
-            mRemainingTime.setText(mCurrentDuration > 0 ? "-" + Utils.formatMillis(mCurrentDuration - time) : "");
+            mCurrentPos.setText(TimeUtils.formatMillis(time));
+            mRemainingTime.setText(mCurrentDuration > 0 ? "-" + TimeUtils.formatMillis(mCurrentDuration - time) : "");
         }
     }
 

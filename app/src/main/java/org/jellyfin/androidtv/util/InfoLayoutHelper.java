@@ -80,7 +80,7 @@ public class InfoLayoutHelper {
                 return;
             case "Playlist":
                 if (item.getChildCount() != null) addCount(activity, item.getChildCount(), layout, item.getChildCount() == 1 ? activity.getResources().getString(R.string.lbl_item) : activity.getResources().getString(R.string.lbl_items));
-                if (item.getCumulativeRunTimeTicks() != null) addText(activity, " ("+Utils.formatMillis(item.getCumulativeRunTimeTicks() / 10000)+")", layout, 300);
+                if (item.getCumulativeRunTimeTicks() != null) addText(activity, " ("+ TimeUtils.formatMillis(item.getCumulativeRunTimeTicks() / 10000)+")", layout, 300);
                 break;
             default:
                 addDate(activity, item, layout);
@@ -266,7 +266,7 @@ public class InfoLayoutHelper {
                 StringBuilder sb = new StringBuilder();
                 if (item.getPremiereDate() != null) {
                     sb.append(TvApp.getApplication().getString(R.string.lbl_born));
-                    sb.append(new SimpleDateFormat("d MMM y").format(Utils.convertToLocalDate(item.getPremiereDate())));
+                    sb.append(new SimpleDateFormat("d MMM y").format(TimeUtils.convertToLocalDate(item.getPremiereDate())));
                 }
                 if (item.getEndDate() != null) {
                     sb.append("  |  Died ");
@@ -288,8 +288,8 @@ public class InfoLayoutHelper {
             case "Program":
             case "TvChannel":
                 if (item.getStartDate() != null && item.getEndDate() != null) {
-                    date.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(item.getStartDate()))
-                            + "-"+ android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(item.getEndDate())));
+                    date.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(item.getStartDate()))
+                            + "-"+ android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(item.getEndDate())));
                     layout.addView(date);
                     addSpacer(activity, layout, "    ");
                 }
@@ -303,7 +303,7 @@ public class InfoLayoutHelper {
                 break;
             default:
                 if (item.getPremiereDate() != null) {
-                    date.setText(new SimpleDateFormat("d MMM y").format(Utils.convertToLocalDate(item.getPremiereDate())));
+                    date.setText(new SimpleDateFormat("d MMM y").format(TimeUtils.convertToLocalDate(item.getPremiereDate())));
                     layout.addView(date);
                     addSpacer(activity, layout, "  ");
                 } else if (item.getProductionYear() != null && item.getProductionYear() > 0) {

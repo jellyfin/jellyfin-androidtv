@@ -11,6 +11,7 @@ import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.model.DisplayPriorityType;
 import org.jellyfin.androidtv.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.GridButton;
+import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.util.ArrayList;
@@ -110,7 +111,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                 long next24 = System.currentTimeMillis() + ticks24;
                 //Get scheduled items for next 24 hours
                 for (TimerInfoDto timer : response.getItems()) {
-                    if (Utils.convertToLocalDate(timer.getStartDate()).getTime() <= next24) {
+                    if (TimeUtils.convertToLocalDate(timer.getStartDate()).getTime() <= next24) {
                         BaseItemDto programInfo = timer.getProgramInfo();
                         if (programInfo == null) {
                             programInfo = new BaseItemDto();
