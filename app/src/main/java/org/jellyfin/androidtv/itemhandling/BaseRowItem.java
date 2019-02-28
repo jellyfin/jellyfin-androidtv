@@ -8,6 +8,7 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.model.ChapterItemInfo;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.util.ImageUtils;
+import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.text.SimpleDateFormat;
@@ -358,7 +359,7 @@ public class BaseRowItem {
                 return person.getRole();
             case Chapter:
                 Long pos = chapterInfo.getStartPositionTicks() / 10000;
-                return Utils.formatMillis(pos.intValue());
+                return TimeUtils.formatMillis(pos.intValue());
             case Server:
                 return serverInfo.getLocalAddress().substring(7);
             case LiveTvChannel:
@@ -367,12 +368,12 @@ public class BaseRowItem {
                 return baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : baseItem.getChannelName();
             case LiveTvRecording:
                 return (baseItem.getChannelName() != null ? baseItem.getChannelName() + " - " : "") + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
-                        new SimpleDateFormat("d MMM").format(Utils.convertToLocalDate(baseItem.getStartDate())) + " " +
-                        (android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getStartDate())) + "-"
-                                + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getEndDate())));
+                        new SimpleDateFormat("d MMM").format(TimeUtils.convertToLocalDate(baseItem.getStartDate())) + " " +
+                        (android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(baseItem.getStartDate())) + "-"
+                                + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(baseItem.getEndDate())));
             case User:
                 Date date = user.getLastActivityDate();
-                return date != null ? DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(date).getTime()).toString() : TvApp.getApplication().getString(R.string.lbl_never);
+                return date != null ? DateUtils.getRelativeTimeSpanString(TimeUtils.convertToLocalDate(date).getTime()).toString() : TvApp.getApplication().getString(R.string.lbl_never);
             case SearchHint:
                 return searchHint.getType();
             case SeriesTimer:
@@ -496,7 +497,7 @@ public class BaseRowItem {
 
     public String getChildCountStr() {
         if (baseItem != null && "Playlist".equals(baseItem.getType()) && baseItem.getCumulativeRunTimeTicks() != null) {
-            return Utils.formatMillis(baseItem.getCumulativeRunTimeTicks() / 10000);
+            return TimeUtils.formatMillis(baseItem.getCumulativeRunTimeTicks() / 10000);
         } else {
             Integer count = getChildCount();
             return count > 0 ? count.toString() : "";

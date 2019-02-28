@@ -16,6 +16,7 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.livetv.ILiveTvGuide;
 import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.util.Date;
@@ -61,13 +62,13 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
         setCellBackground();
 
         if (program.getStartDate() != null && program.getEndDate() != null) {
-            Date localStart = Utils.convertToLocalDate(program.getStartDate());
+            Date localStart = TimeUtils.convertToLocalDate(program.getStartDate());
             if (localStart.getTime() + 60000 < activity.getCurrentLocalStartDate()) {
                 mProgramName.setText("<< "+mProgramName.getText());
                 TextView time = new TextView(context);
                 time.setTypeface(TvApp.getApplication().getDefaultFont());
                 time.setTextSize(12);
-                time.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(program.getStartDate())));
+                time.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(program.getStartDate())));
                 mInfoRow.addView(time);
             }
         }

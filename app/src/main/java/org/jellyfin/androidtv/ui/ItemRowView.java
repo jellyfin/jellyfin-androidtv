@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.TimeUtils;
 
 import mediabrowser.model.dto.BaseItemDto;
 
@@ -124,7 +124,7 @@ public class ItemRowView extends FrameLayout {
                 updateWatched();
                 break;
         }
-        formattedTime = Utils.formatMillis(item.getRunTimeTicks() != null ? item.getRunTimeTicks()/10000 : 0);
+        formattedTime = TimeUtils.formatMillis(item.getRunTimeTicks() != null ? item.getRunTimeTicks()/10000 : 0);
         mRunTime.setText(formattedTime);
     }
 
@@ -141,7 +141,7 @@ public class ItemRowView extends FrameLayout {
         if (pos < 0) {
             mRunTime.setText(formattedTime);
         } else {
-            mRunTime.setText(Utils.formatMillis(pos) + " / "+ formattedTime);
+            mRunTime.setText(TimeUtils.formatMillis(pos) + " / "+ formattedTime);
         }
     }
 

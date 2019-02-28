@@ -20,6 +20,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.base.CustomMessage;
+import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.util.ArrayList;
@@ -240,7 +241,7 @@ public class RecordPopup {
         timelineRow.removeAllViews();
         if (program.getStartDate() == null) return;
 
-        Date local = Utils.convertToLocalDate(program.getStartDate());
+        Date local = TimeUtils.convertToLocalDate(program.getStartDate());
         TextView on = new TextView(mActivity);
         on.setText(mActivity.getString(R.string.lbl_on));
         timelineRow.addView(on);

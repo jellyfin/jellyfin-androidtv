@@ -58,6 +58,7 @@ import org.jellyfin.androidtv.ui.TextUnderButton;
 import org.jellyfin.androidtv.util.DelayedMessage;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.KeyProcessor;
+import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.io.IOException;
@@ -227,7 +228,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                     if (mResumeButton != null) {
                                         mResumeButton.setVisibility(("Series".equals(mBaseItem.getType()) && ! mBaseItem.getUserData().getPlayed()) || response.getCanResume() ? View.VISIBLE : View.GONE);
                                         if (response.getCanResume()){
-                                            mResumeButton.setText(String.format(getString(R.string.lbl_resume_from), Utils.formatMillis((response.getUserData().getPlaybackPositionTicks()/10000) - mApplication.getResumePreroll())));
+                                            mResumeButton.setText(String.format(getString(R.string.lbl_resume_from), TimeUtils.formatMillis((response.getUserData().getPlaybackPositionTicks()/10000) - mApplication.getResumePreroll())));
                                         }
                                         showMoreButtonIfNeeded();
                                     }
@@ -704,7 +705,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         if (mBaseItem != null && !"MusicArtist".equals(mBaseItem.getType()) && !"Person".equals(mBaseItem.getType())) {
             Long runtime = Utils.getSafeValue(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
             if (runtime != null && runtime > 0) {
-                long endTimeTicks = "Program".equals(mBaseItem.getType()) && mBaseItem.getEndDate() != null ? Utils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
+                long endTimeTicks = "Program".equals(mBaseItem.getType()) && mBaseItem.getEndDate() != null ? TimeUtils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
                 if (mBaseItem.getCanResume()) {
                     endTimeTicks = System.currentTimeMillis() + ((runtime - mBaseItem.getUserData().getPlaybackPositionTicks()) / 10000);
                     return android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks));
@@ -786,7 +787,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private TextUnderButton moreButton;
 
     private void addButtons(int buttonSize) {
-        mResumeButton = new TextUnderButton(this, R.drawable.resume, buttonSize, 2, "Series".equals(mBaseItem.getType()) ? getString(R.string.lbl_play_next_up) : String.format(getString(R.string.lbl_resume_from), Utils.formatMillis((mBaseItem.getUserData().getPlaybackPositionTicks()/10000) - mApplication.getResumePreroll())), new View.OnClickListener() {
+        mResumeButton = new TextUnderButton(this, R.drawable.resume, buttonSize, 2, "Series".equals(mBaseItem.getType()) ? getString(R.string.lbl_play_next_up) : String.format(getString(R.string.lbl_resume_from), TimeUtils.formatMillis((mBaseItem.getUserData().getPlaybackPositionTicks()/10000) - mApplication.getResumePreroll())), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if ("Series".equals(mBaseItem.getType())) {
@@ -888,7 +889,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         }
 
         if (mProgramInfo != null && mApplication.canManageRecordings()) {
-            if (Utils.convertToLocalDate(mBaseItem.getEndDate()).getTime() > System.currentTimeMillis()) {
+            if (TimeUtils.convertToLocalDate(mBaseItem.getEndDate()).getTime() > System.currentTimeMillis()) {
                 //Record button
                 mRecordButton = new TextUnderButton(this, mProgramInfo.getTimerId() != null ? R.drawable.rec : R.drawable.recwhite, buttonSize, 4, getString(R.string.lbl_record), new View.OnClickListener() {
                     @Override

@@ -13,6 +13,7 @@ import org.jellyfin.androidtv.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.StdItemQuery;
 import org.jellyfin.androidtv.ui.GridButton;
+import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.util.ArrayList;
@@ -267,7 +268,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                                 long next24 = System.currentTimeMillis() + ticks24;
                                 //Get scheduled items for next 24 hours
                                 for (TimerInfoDto timer : response.getItems()) {
-                                    if (Utils.convertToLocalDate(timer.getStartDate()).getTime() <= next24) {
+                                    if (TimeUtils.convertToLocalDate(timer.getStartDate()).getTime() <= next24) {
                                         BaseItemDto programInfo = timer.getProgramInfo();
                                         if (programInfo == null) {
                                             programInfo = new BaseItemDto();
@@ -294,9 +295,9 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                                     long pastWeek = System.currentTimeMillis() - (ticks24 * 7);
                                     for (BaseItemDto item : recordingsResponse.getItems()) {
                                         if (item.getDateCreated() != null) {
-                                            if (Utils.convertToLocalDate(item.getDateCreated()).getTime() >= past24) {
+                                            if (TimeUtils.convertToLocalDate(item.getDateCreated()).getTime() >= past24) {
                                                 dayItems.add(item);
-                                            } else if (Utils.convertToLocalDate(item.getDateCreated()).getTime() >= pastWeek) {
+                                            } else if (TimeUtils.convertToLocalDate(item.getDateCreated()).getTime() >= pastWeek) {
                                                 weekItems.add(item);
                                             }
                                         }

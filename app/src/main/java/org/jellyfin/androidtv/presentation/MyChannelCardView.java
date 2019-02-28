@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.TimeUtils;
 
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
@@ -40,7 +40,7 @@ public class MyChannelCardView extends FrameLayout {
         mChannelName.setText(channel.getNumber() + " " + channel.getName());
         BaseItemDto program = channel.getCurrentProgram();
         if (program != null) {
-            if (program.getEndDate() != null && System.currentTimeMillis() > Utils.convertToLocalDate(program.getEndDate()).getTime()) {
+            if (program.getEndDate() != null && System.currentTimeMillis() > TimeUtils.convertToLocalDate(program.getEndDate()).getTime()) {
                 //need to update program
                 TvApp.getApplication().getApiClient().GetItemAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
@@ -63,13 +63,13 @@ public class MyChannelCardView extends FrameLayout {
     private void updateDisplay(BaseItemDto program) {
         mProgramName.setText(program.getName());
         if (program.getStartDate() != null && program.getEndDate() != null) {
-            mTimeSlot.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(program.getStartDate()))
-                    + "-" + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(program.getEndDate())));
-            long start = Utils.convertToLocalDate(program.getStartDate()).getTime();
+            mTimeSlot.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(program.getStartDate()))
+                    + "-" + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(program.getEndDate())));
+            long start = TimeUtils.convertToLocalDate(program.getStartDate()).getTime();
             long current = System.currentTimeMillis() - start;
             if (current > 0)
             {
-                long duration = Utils.convertToLocalDate(program.getEndDate()).getTime() - start;
+                long duration = TimeUtils.convertToLocalDate(program.getEndDate()).getTime() - start;
                 mProgress.setProgress((int)((current*100.0/duration)));
             } else {
                 mProgress.setProgress(0);

@@ -3,9 +3,7 @@ package org.jellyfin.androidtv.playback;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,13 +14,12 @@ import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ProfileHelper;
+import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.util.List;
-import java.util.concurrent.RunnableFuture;
 
 import mediabrowser.apiinteraction.ApiClient;
-import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dlna.DeviceProfile;
 import mediabrowser.model.dlna.DirectPlayProfile;
@@ -919,8 +916,8 @@ public class PlaybackController {
                         channel.setOverview(program.getOverview());
                         channel.setRunTimeTicks(program.getRunTimeTicks());
                         channel.setCurrentProgram(program);
-                        mCurrentProgramEndTime = channel.getEndDate() != null ? Utils.convertToLocalDate(channel.getEndDate()).getTime() : 0;
-                        mCurrentProgramStartTime = channel.getPremiereDate() != null ? Utils.convertToLocalDate(channel.getPremiereDate()).getTime() : 0;
+                        mCurrentProgramEndTime = channel.getEndDate() != null ? TimeUtils.convertToLocalDate(channel.getEndDate()).getTime() : 0;
+                        mCurrentProgramStartTime = channel.getPremiereDate() != null ? TimeUtils.convertToLocalDate(channel.getPremiereDate()).getTime() : 0;
                         mFragment.updateDisplay();
                     }
                 }
@@ -1073,7 +1070,7 @@ public class PlaybackController {
 
                 if (mPlaybackState == PlaybackState.BUFFERING) {
                     mPlaybackState = PlaybackState.PLAYING;
-                    mFragment.updateEndTime(isLiveTv && getCurrentlyPlayingItem().getEndDate() != null ? Utils.convertToLocalDate(getCurrentlyPlayingItem().getEndDate()).getTime() - System.currentTimeMillis() : mVideoManager.getDuration() - mStartPosition);
+                    mFragment.updateEndTime(isLiveTv && getCurrentlyPlayingItem().getEndDate() != null ? TimeUtils.convertToLocalDate(getCurrentlyPlayingItem().getEndDate()).getTime() - System.currentTimeMillis() : mVideoManager.getDuration() - mStartPosition);
                     mCurrentTranscodeStartTime = mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode ? System.currentTimeMillis() : 0;
                     startReportLoop();
                 }

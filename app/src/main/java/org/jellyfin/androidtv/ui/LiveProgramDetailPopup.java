@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
@@ -20,6 +19,7 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.util.Date;
@@ -114,8 +114,8 @@ public class LiveProgramDetailPopup {
         //buttons
         mFirstButton = null;
         Date now = new Date();
-        Date local = Utils.convertToLocalDate(program.getStartDate());
-        if (Utils.convertToLocalDate(program.getEndDate()).getTime() > now.getTime()) {
+        Date local = TimeUtils.convertToLocalDate(program.getStartDate());
+        if (TimeUtils.convertToLocalDate(program.getEndDate()).getTime() > now.getTime()) {
             if (local.getTime() <= now.getTime()) {
                 // program in progress - tune first button
                 mFirstButton = createTuneButton();

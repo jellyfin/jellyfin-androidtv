@@ -19,6 +19,7 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.model.ImageType;
 import org.jellyfin.androidtv.util.ImageUtils;
+import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.util.Date;
@@ -125,7 +126,7 @@ public class CardPresenter extends Presenter {
                                 case Remote:
                                     break;
                                 case Virtual:
-                                    mCardView.setBanner((itemDto.getPremiereDate() != null ? Utils.convertToLocalDate(itemDto.getPremiereDate()) : new Date(System.currentTimeMillis()+1)).getTime() > System.currentTimeMillis() ? R.drawable.futurebanner : R.drawable.missingbanner);
+                                    mCardView.setBanner((itemDto.getPremiereDate() != null ? TimeUtils.convertToLocalDate(itemDto.getPremiereDate()) : new Date(System.currentTimeMillis()+1)).getTime() > System.currentTimeMillis() ? R.drawable.futurebanner : R.drawable.missingbanner);
                                     break;
                                 case Offline:
                                     mCardView.setBanner(R.drawable.offlinebanner);
@@ -210,7 +211,7 @@ public class CardPresenter extends Presenter {
                         case Remote:
                             break;
                         case Virtual:
-                            if (program.getStartDate() != null && Utils.convertToLocalDate(program.getStartDate()).getTime() > System.currentTimeMillis()) mCardView.setBanner(R.drawable.futurebanner);
+                            if (program.getStartDate() != null && TimeUtils.convertToLocalDate(program.getStartDate()).getTime() > System.currentTimeMillis()) mCardView.setBanner(R.drawable.futurebanner);
                             break;
                         case Offline:
                             break;
