@@ -73,7 +73,7 @@ public class RecommendationManager {
         if (isEnabled) {
             try {
                 InputStream recFile = TvApp.getApplication().openFileInput(REC_FILE_NAME);
-                String json = Utils.ReadStringFromFile(recFile);
+                String json = Utils.readStringFromStream(recFile);
                 recFile.close();
                 return (Recommendations) TvApp.getApplication().getSerializer().DeserializeFromString(json, Recommendations.class);
             } catch (IOException e) {
