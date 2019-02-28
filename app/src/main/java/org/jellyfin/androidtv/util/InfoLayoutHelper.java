@@ -272,12 +272,12 @@ public class InfoLayoutHelper {
                     sb.append("  |  Died ");
                     sb.append(new SimpleDateFormat("d MMM y").format(item.getEndDate()));
                     sb.append(" (");
-                    sb.append(Utils.numYears(item.getPremiereDate(), item.getEndDate()));
+                    sb.append(TimeUtils.numYears(item.getPremiereDate(), item.getEndDate()));
                     sb.append(")");
                 } else {
                     if (item.getPremiereDate() != null) {
                         sb.append(" (");
-                        sb.append(Utils.numYears(item.getPremiereDate(), Calendar.getInstance()));
+                        sb.append(TimeUtils.numYears(item.getPremiereDate(), Calendar.getInstance()));
                         sb.append(")");
                     }
                 }

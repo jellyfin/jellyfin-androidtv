@@ -45,9 +45,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 
 import mediabrowser.apiinteraction.ApiClient;
@@ -417,31 +415,6 @@ public class Utils {
                 && (!item.getIsFolder() || item.getChildCount() == null || item.getChildCount() > 0);
     }
 
-    public static int numYears(Date start, Date end) {
-        Calendar calStart = Calendar.getInstance();
-        calStart.setTime(start);
-        Calendar calEnd = Calendar.getInstance();
-        calEnd.setTime(end);
-        return numYears(calStart, calEnd);
-    }
-
-    public static int numYears(Date start, Calendar end) {
-        Calendar calStart = Calendar.getInstance();
-        calStart.setTime(start);
-        return numYears(calStart, end);
-    }
-
-    public static int numYears(Calendar start, Calendar end) {
-        int age = end.get(Calendar.YEAR) - start.get(Calendar.YEAR);
-        if (end.get(Calendar.MONTH) < start.get(Calendar.MONTH)) {
-            age--;
-        } else if (end.get(Calendar.MONTH) == start.get(Calendar.MONTH)
-                && end.get(Calendar.DAY_OF_MONTH) < start.get(Calendar.DAY_OF_MONTH)) {
-            age--;
-        }
-        return age;
-    }
-
     public static String GetFullName(BaseItemDto item) {
         switch (item.getType()) {
             case "Episode":
@@ -458,7 +431,7 @@ public class Utils {
     public static String GetSubName(BaseItemDto item) {
         switch (item.getType()) {
             case "Episode":
-                String addendum = item.getLocationType().equals(LocationType.Virtual) && item.getPremiereDate() != null ? " (" +  getFriendlyDate(TimeUtils.convertToLocalDate(item.getPremiereDate())) + ")" : "";
+                String addendum = item.getLocationType().equals(LocationType.Virtual) && item.getPremiereDate() != null ? " (" +  TimeUtils.getFriendlyDate(TimeUtils.convertToLocalDate(item.getPremiereDate())) + ")" : "";
                 return item.getName() + addendum;
             case "Season":
                 return item.getChildCount() != null && item.getChildCount() > 0 ? item.getChildCount() + " " + TvApp.getApplication().getString(R.string.lbl_episodes) : "";
@@ -489,7 +462,7 @@ public class Utils {
         startTime.setTime(TimeUtils.convertToLocalDate(baseItem.getStartDate()));
         // If the start time is on a different day, add the date
         if (startTime.get(Calendar.DAY_OF_YEAR) != Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
-            builder.append(getFriendlyDate(startTime.getTime()))
+            builder.append(TimeUtils.getFriendlyDate(startTime.getTime()))
                     .append(" ");
         }
         // Add the start and end time
@@ -735,8 +708,6 @@ public class Utils {
                         break;
                 }
             }
-
-
         });
     }
 
@@ -773,24 +744,6 @@ public class Utils {
 //        options.SupportsAc3 = is60();
 //        options.SupportsDts = is60();
         return options;
-    }
-
-    public static String getFriendlyDate(Date date) {
-        return getFriendlyDate(date, false);
-    }
-
-    public static String getFriendlyDate(Date date, boolean relative) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        Calendar now = Calendar.getInstance();
-        if (cal.get(Calendar.YEAR) == now.get(Calendar.YEAR)) {
-            if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)) return TvApp.getApplication().getString(R.string.lbl_today);
-            if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)+1) return TvApp.getApplication().getString(R.string.lbl_tomorrow);
-            if (cal.get(Calendar.DAY_OF_YEAR) < now.get(Calendar.DAY_OF_YEAR)+7 && cal.get(Calendar.DAY_OF_YEAR) > now.get(Calendar.DAY_OF_YEAR)) return cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
-            if (relative) return String.format(TvApp.getApplication().getString(R.string.lbl_in_x_days), cal.get(Calendar.DAY_OF_YEAR) - now.get(Calendar.DAY_OF_YEAR));
-        }
-
-        return DateFormat.getDateFormat(TvApp.getApplication()).format(date);
     }
 
     public static void reportError(final Context context, final String msg) {
