@@ -249,12 +249,12 @@ public class ImageUtils {
             options.setImageType(ImageType.Backdrop);
 
             if (item.getBackdropCount() > 0) {
-                int index = random ? Utils.randInt(0, item.getBackdropCount() - 1) : 0;
+                int index = random ? MathUtils.randInt(0, item.getBackdropCount() - 1) : 0;
                 options.setImageIndex(index);
                 options.setTag(item.getBackdropImageTags().get(index));
                 return apiClient.GetImageUrl(item, options);
             } else if (item.getParentBackdropImageTags() != null && item.getParentBackdropImageTags().size() > 0) {
-                int index = random ? Utils.randInt(0, item.getParentBackdropImageTags().size() - 1) : 0;
+                int index = random ? MathUtils.randInt(0, item.getParentBackdropImageTags().size() - 1) : 0;
                 options.setImageIndex(index);
                 options.setTag(item.getParentBackdropImageTags().get(index));
                 return apiClient.GetImageUrl(item.getParentBackdropItemId(), options);

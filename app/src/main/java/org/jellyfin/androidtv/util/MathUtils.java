@@ -2,11 +2,9 @@ package org.jellyfin.androidtv.util;
 
 import android.graphics.RectF;
 
-/**
- * Created by Eric on 10/26/2015.
- */
-public final class MathUtils {
+import java.util.Random;
 
+public class MathUtils {
     /**
      * Truncates a float number {@code f} to {@code decimalPlaces}.
      * @param f the number to be truncated.
@@ -18,7 +16,6 @@ public final class MathUtils {
         float decimalShift = (float) Math.pow(10, decimalPlaces);
         return Math.round(f * decimalShift) / decimalShift;
     }
-
 
     /**
      * Checks whether two {@link RectF} have the same aspect ratio.
@@ -36,7 +33,6 @@ public final class MathUtils {
         return (Math.abs(srcRectRatio-dstRectRatio) <= 0.01f);
     }
 
-
     /**
      * Computes the aspect ratio of a given rect.
      * @param rect the rect to have its aspect ratio computed.
@@ -44,5 +40,24 @@ public final class MathUtils {
      */
     public static float getRectRatio(RectF rect) {
         return rect.width() / rect.height();
+    }
+
+    /**
+     * Returns a pseudo-random number between min and max, inclusive.
+     * The difference between min and max can be at most
+     * <code>Integer.MAX_VALUE - 1</code>.
+     *
+     * @param min Minimum value
+     * @param max Maximum value.  Must be greater than min.
+     * @return Integer between min and max, inclusive.
+     * @see java.util.Random#nextInt(int)
+     */
+    public static int randInt(int min, int max) {
+        if (max <= min) return min;
+
+        // nextInt is normally exclusive of the top value,
+        // so add 1 to make it inclusive
+        Random rand = new Random();
+        return rand.nextInt((max - min) + 1) + min;
     }
 }

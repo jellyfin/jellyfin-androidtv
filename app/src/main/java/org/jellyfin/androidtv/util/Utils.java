@@ -48,7 +48,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 import java.util.UUID;
 
 import mediabrowser.apiinteraction.ApiClient;
@@ -717,26 +716,6 @@ public class Utils {
         return value != null && value;
     }
 
-    /**
-     * Returns a pseudo-random number between min and max, inclusive.
-     * The difference between min and max can be at most
-     * <code>Integer.MAX_VALUE - 1</code>.
-     *
-     * @param min Minimum value
-     * @param max Maximum value.  Must be greater than min.
-     * @return Integer between min and max, inclusive.
-     * @see java.util.Random#nextInt(int)
-     */
-    private static Random rand = new Random();
-    public static int randInt(int min, int max) {
-        if (max <= min) return min;
-
-        // nextInt is normally exclusive of the top value,
-        // so add 1 to make it inclusive
-
-        return rand.nextInt((max - min) + 1) + min;
-    }
-
     public static void signInToServer(IConnectionManager connectionManager, final ServerInfo server, final Activity activity) {
         connectionManager.Connect(server, new Response<ConnectionResult>() {
             @Override
@@ -891,7 +870,7 @@ public class Utils {
     }
 
     public static String ReadStringFromFile(InputStream inputStream) throws IOException {
-        StringBuffer fileContent = new StringBuffer("");
+        StringBuilder fileContent = new StringBuilder("");
 
         byte[] buffer = new byte[1024];
         int n;

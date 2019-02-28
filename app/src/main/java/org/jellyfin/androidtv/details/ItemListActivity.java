@@ -44,6 +44,7 @@ import org.jellyfin.androidtv.ui.ItemRowView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.MathUtils;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.util.ArrayList;
@@ -723,7 +724,7 @@ public class ItemListActivity extends BaseActivity {
     private BaseItemDto getRandomListItem() {
         if (mItems == null || mItems.size() == 0) return null;
 
-        return mItems.get(Utils.randInt(0, mItems.size() - 1));
+        return mItems.get(MathUtils.randInt(0, mItems.size() - 1));
     }
 
     private void rotateBackdrops() {
