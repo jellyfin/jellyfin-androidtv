@@ -18,6 +18,7 @@ import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 
 import java.util.Date;
 
@@ -73,7 +74,7 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
             }
         }
 
-        if (TvManager.getPrefs().showNewIndicator && Utils.isNew(program) && (!TvManager.getPrefs().showPremiereIndicator || !Utils.isTrue(program.getIsPremiere()))) {
+        if (TvManager.getPrefs().showNewIndicator && BaseItemUtils.isNew(program) && (!TvManager.getPrefs().showPremiereIndicator || !Utils.isTrue(program.getIsPremiere()))) {
             InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
             InfoLayoutHelper.addBlockText(context, mInfoRow, TvApp.getApplication().getString(R.string.lbl_new), 10, Color.GRAY, R.drawable.dark_green_gradient);
         }

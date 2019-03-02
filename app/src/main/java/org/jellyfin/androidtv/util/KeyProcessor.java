@@ -18,8 +18,9 @@ import org.jellyfin.androidtv.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.playback.AudioNowPlayingActivity;
 import org.jellyfin.androidtv.playback.MediaManager;
-import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
 import org.jellyfin.androidtv.querying.StdItemQuery;
+import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
+import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 
 import java.util.List;
 
@@ -75,7 +76,7 @@ public class KeyProcessor {
 
                     case BaseItem:
                         BaseItemDto item = rowItem.getBaseItem();
-                        if (!Utils.CanPlay(item)) return false;
+                        if (!BaseItemUtils.canPlay(item)) return false;
                         switch (item.getType()) {
                             case "Audio":
                                 if (rowItem instanceof AudioQueueItem) {
@@ -91,9 +92,9 @@ public class KeyProcessor {
                             case "ChannelVideoItem":
                             case "Trailer":
                                 // give some audible feedback
-                                Utils.Beep();
+                                Utils.beep();
                                 // retrieve full item and play
-                                Utils.retrieveAndPlay(item.getId(), false, activity);
+                                PlaybackHelper.retrieveAndPlay(item.getId(), false, activity);
                                 return true;
                             case "Series":
                             case "Season":
@@ -109,7 +110,7 @@ public class KeyProcessor {
                                 return true;
                             case "Photo":
                                 // open photo player
-                                Utils.Beep();
+                                Utils.beep();
                                 Intent photoIntent = new Intent(activity, PhotoPlayerActivity.class);
                                 photoIntent.putExtra("Play",true);
                                 activity.startActivity(photoIntent);
@@ -132,9 +133,9 @@ public class KeyProcessor {
                             case "Video":
                             case "Program":
                                 // give some audible feedback
-                                Utils.Beep();
+                                Utils.beep();
                                 // retrieve full item and play
-                                Utils.retrieveAndPlay(rowItem.getItemId(), false, activity);
+                                PlaybackHelper.retrieveAndPlay(rowItem.getItemId(), false, activity);
                                 return true;
                             case "Series":
                             case "Season":
@@ -146,20 +147,20 @@ public class KeyProcessor {
                     case LiveTvChannel:
                     case LiveTvRecording:
                         // give some audible feedback
-                        Utils.Beep();
+                        Utils.beep();
                         // retrieve full item and play
-                        Utils.retrieveAndPlay(rowItem.getItemId(), false, activity);
+                        PlaybackHelper.retrieveAndPlay(rowItem.getItemId(), false, activity);
                         return true;
                     case LiveTvProgram:
                         // give some audible feedback
-                        Utils.Beep();
+                        Utils.beep();
                         // retrieve channel this program belongs to and play
-                        Utils.retrieveAndPlay(rowItem.getProgramInfo().getChannelId(), false, activity);
+                        PlaybackHelper.retrieveAndPlay(rowItem.getProgramInfo().getChannelId(), false, activity);
                         return true;
                     case GridButton:
                         if (rowItem.getGridButton().getId() == TvApp.VIDEO_QUEUE_OPTION_ID) {
                             //Queue already there - just kick off playback
-                            Utils.Beep();
+                            Utils.beep();
                             String itemType = MediaManager.getCurrentVideoQueue().size() > 0 ? MediaManager.getCurrentVideoQueue().get(0).getType() : "";
                             Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(itemType));
                             activity.startActivity(intent);
@@ -262,7 +263,7 @@ public class KeyProcessor {
             // don't allow removal of last item - framework will crash trying to animate an empty row
             if (MediaManager.getCurrentAudioQueue().size() > 1) menu.getMenu().add(0, MENU_REMOVE_FROM_QUEUE, order++, R.string.lbl_remove_from_queue);
         } else {
-            if (Utils.CanPlay(item)) {
+            if (BaseItemUtils.canPlay(item)) {
                 if (item.getIsFolder() && !"MusicAlbum".equals(item.getType()) && !"Playlist".equals(item.getType()) && !"MusicArtist".equals(item.getType()) && userData!= null && userData.getUnplayedItemCount() !=null && userData.getUnplayedItemCount() > 0) menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
                 menu.getMenu().add(0, MENU_PLAY, order++, item.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play);
                 if (item.getIsFolder()) menu.getMenu().add(0, MENU_PLAY_SHUFFLE, order++, R.string.lbl_shuffle_all);
@@ -344,21 +345,21 @@ public class KeyProcessor {
             switch (item.getItemId()) {
                 case MENU_PLAY:
                     if (mCurrentItemId.equals(ItemListActivity.FAV_SONGS)) {
-                        Utils.play(mCurrentItem, 0, false, mCurrentActivity);
+                        PlaybackHelper.play(mCurrentItem, 0, false, mCurrentActivity);
                     } else {
-                        Utils.retrieveAndPlay(mCurrentItemId, false, mCurrentActivity);
+                        PlaybackHelper.retrieveAndPlay(mCurrentItemId, false, mCurrentActivity);
                     }
                     return true;
                 case MENU_PLAY_SHUFFLE:
                     if (mCurrentItemId.equals(ItemListActivity.FAV_SONGS)) {
-                        Utils.play(mCurrentItem, 0, false, mCurrentActivity);
+                        PlaybackHelper.play(mCurrentItem, 0, false, mCurrentActivity);
                     } else {
-                        Utils.retrieveAndPlay(mCurrentItemId, true, mCurrentActivity);
+                        PlaybackHelper.retrieveAndPlay(mCurrentItemId, true, mCurrentActivity);
                     }
                     return true;
                 case MENU_ADD_QUEUE:
                     if (isMusic) {
-                        Utils.getItemsToPlay(mCurrentItem, false, false, new Response<List<BaseItemDto>>() {
+                        PlaybackHelper.getItemsToPlay(mCurrentItem, false, false, new Response<List<BaseItemDto>>() {
                             @Override
                             public void onResponse(List<BaseItemDto> response) {
                                 MediaManager.addToAudioQueue(response);
@@ -401,7 +402,7 @@ public class KeyProcessor {
                             if (response.getTotalRecordCount() == 0) {
                                 Utils.showToast(mCurrentActivity, "No items to play");
                             } else {
-                                Utils.retrieveAndPlay(response.getItems()[0].getId(), false, mCurrentActivity);
+                                PlaybackHelper.retrieveAndPlay(response.getItems()[0].getId(), false, mCurrentActivity);
                             }
                         }
 
@@ -482,8 +483,8 @@ public class KeyProcessor {
                     MediaManager.playFrom(mCurrentRowItemNdx);
                     return true;
                 case MENU_INSTANT_MIX:
-                    Utils.Beep();
-                    Utils.playInstantMix(mCurrentItemId);
+                    Utils.beep();
+                    PlaybackHelper.playInstantMix(mCurrentItemId);
                     return true;
             }
 

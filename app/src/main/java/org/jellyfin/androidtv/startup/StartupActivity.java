@@ -19,7 +19,9 @@ import org.jellyfin.androidtv.browsing.MainActivity;
 import org.jellyfin.androidtv.details.FullDetailsActivity;
 import org.jellyfin.androidtv.eventhandling.TvApiEventListener;
 import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.util.ProfileHelper;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 
 import java.util.ArrayList;
 
@@ -148,7 +150,7 @@ public class StartupActivity extends Activity {
         capabilities.setPlayableMediaTypes(playableTypes);
         capabilities.setSupportsContentUploading(false);
         capabilities.setSupportsSync(false);
-        capabilities.setDeviceProfile(new AndroidProfile(Utils.getProfileOptions()));
+        capabilities.setDeviceProfile(new AndroidProfile(ProfileHelper.getProfileOptions()));
         capabilities.setSupportsMediaControl(true);
         capabilities.setSupportedCommands(supportedCommands);
 //        TODO: Add new icon url
@@ -178,7 +180,7 @@ public class StartupActivity extends Activity {
         application.setDirectItemId(getIntent().getStringExtra("ItemId"));
 
         //Load any saved login creds
-        application.setConfiguredAutoCredentials(Utils.GetSavedLoginCredentials(TvApp.CREDENTIALS_PATH));
+        application.setConfiguredAutoCredentials(AuthenticationHelper.getSavedLoginCredentials(TvApp.CREDENTIALS_PATH));
 
         //And use those credentials if option is set
         if (application.getIsAutoLoginConfigured() || application.getDirectItemId() != null) {
@@ -252,7 +254,7 @@ public class StartupActivity extends Activity {
         connectionManager.Connect(new Response<ConnectionResult>() {
             @Override
             public void onResponse(final ConnectionResult response) {
-                Utils.handleConnectionResponse(connectionManager, activity, response);
+                AuthenticationHelper.handleConnectionResponse(connectionManager, activity, response);
             }
 
             @Override

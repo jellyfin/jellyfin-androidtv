@@ -18,6 +18,7 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.startup.LogonCredentials;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 
 import java.io.IOException;
 
@@ -88,7 +89,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             ListPreference listPreference = (ListPreference) findPreference(key);
             if (listPreference.getValue().equals("1")) {
                 try {
-                    Utils.SaveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), TvApp.CREDENTIALS_PATH);
+                    AuthenticationHelper.saveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), TvApp.CREDENTIALS_PATH);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

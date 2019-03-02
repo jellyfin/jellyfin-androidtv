@@ -10,6 +10,7 @@ import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -199,8 +200,8 @@ public class BaseRowItem {
             case SeriesTimer:
                 return "android.resource://org.jellyfin.androidtv/" + R.drawable.seriestimer;
             case SearchHint:
-                return !Utils.isEmpty(searchHint.getPrimaryImageTag()) ? ImageUtils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag(), TvApp.getApplication().getApiClient()) :
-                        !Utils.isEmpty(searchHint.getThumbImageItemId()) ? ImageUtils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag(), TvApp.getApplication().getApiClient()) : null;
+                return Utils.isNonEmpty(searchHint.getPrimaryImageTag()) ? ImageUtils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag(), TvApp.getApplication().getApiClient()) :
+                        Utils.isNonEmpty(searchHint.getThumbImageItemId()) ? ImageUtils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag(), TvApp.getApplication().getApiClient()) : null;
         }
         return null;
     }
@@ -272,7 +273,7 @@ public class BaseRowItem {
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
-                return Utils.GetFullName(baseItem);
+                return BaseItemUtils.getFullName(baseItem);
             case Person:
                 return person.getName();
             case Chapter:
@@ -354,7 +355,7 @@ public class BaseRowItem {
         switch (type) {
 
             case BaseItem:
-                return Utils.GetSubName(baseItem);
+                return BaseItemUtils.getSubName(baseItem);
             case Person:
                 return person.getRole();
             case Chapter:
@@ -434,7 +435,7 @@ public class BaseRowItem {
             case GridButton:
                 break;
             case SeriesTimer:
-                return Utils.buildOverview(seriesTimerInfo);
+                return BaseItemUtils.getSeriesOverview(seriesTimerInfo);
         }
 
         return "";

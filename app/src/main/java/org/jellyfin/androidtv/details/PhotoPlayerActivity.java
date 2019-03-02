@@ -184,7 +184,7 @@ public class PhotoPlayerActivity extends BaseActivity {
     protected boolean handlePlayKey() {
         if (mPopupPanelVisible) {
             if (isPlaying) stop();
-            Utils.Beep();
+            Utils.beep();
             hideThumbPanel();
             MediaManager.setCurrentMediaPosition(mPopupRowPresenter.getPosition());
             loadImage(MediaManager.getCurrentMediaItem().getBaseItem(), currentImageView());

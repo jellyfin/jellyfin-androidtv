@@ -60,6 +60,8 @@ import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
+import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -179,7 +181,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                         @Override
                         public void onResponse(SeriesTimerInfoDto response) {
                             mSeriesTimerInfo = response;
-                            mBaseItem.setOverview(Utils.buildOverview(mSeriesTimerInfo));
+                            mBaseItem.setOverview(BaseItemUtils.getSeriesOverview(mSeriesTimerInfo));
                             mDorPresenter.getSummaryView().setText(mBaseItem.getOverview());
                         }
                     });
@@ -268,7 +270,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         if (mCurrentItem != null) {
             return KeyProcessor.HandleKey(keyCode, mCurrentItem, this) || super.onKeyUp(keyCode, event);
 
-        } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) && Utils.CanPlay(mBaseItem)) {
+        } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) && BaseItemUtils.canPlay(mBaseItem)) {
             //default play action
             Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
             play(mBaseItem, pos.intValue() , false);
@@ -339,7 +341,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             item.setSeriesTimerId(mSeriesTimerInfo.getId());
             item.setType("SeriesTimer");
             item.setName(mSeriesTimerInfo.getName());
-            item.setOverview(Utils.buildOverview(mSeriesTimerInfo));
+            item.setOverview(BaseItemUtils.getSeriesOverview(mSeriesTimerInfo));
 
             setBaseItem(item);
         } else {
@@ -390,7 +392,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     break;
                 default:
 
-                    BaseItemPerson director = Utils.GetFirstPerson(item, PersonType.Director);
+                    BaseItemPerson director = BaseItemUtils.getFirstPerson(item, PersonType.Director);
 
                     mDetailsOverviewRow.setInfoItem1("Series".equals(item.getType()) ? new InfoItem(getString(R.string.lbl_seasons), item.getChildCount().toString()) :
                             new InfoItem(getString(R.string.lbl_directed_by), director != null ? director.getName() : getString(R.string.lbl_bracket_unknown)));
@@ -506,7 +508,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                 //Chapters
                 if (mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
-                    List<ChapterItemInfo> chapters = Utils.buildChapterItems(mBaseItem);
+                    List<ChapterItemInfo> chapters = BaseItemUtils.buildChapterItems(mBaseItem);
                     ItemRowAdapter chapterAdapter = new ItemRowAdapter(chapters, new CardPresenter(true, 240), adapter);
                     addItemRow(adapter, chapterAdapter, 1, mActivity.getString(R.string.lbl_chapters));
                 }
@@ -637,7 +639,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                 //Chapters
                 if (mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
-                    List<ChapterItemInfo> chapters = Utils.buildChapterItems(mBaseItem);
+                    List<ChapterItemInfo> chapters = BaseItemUtils.buildChapterItems(mBaseItem);
                     ItemRowAdapter chapterAdapter = new ItemRowAdapter(chapters, new CardPresenter(true, 240), adapter);
                     addItemRow(adapter, chapterAdapter, 1, mActivity.getString(R.string.lbl_chapters));
                 }
@@ -820,11 +822,11 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             }
         });
 
-        if (Utils.CanPlay(mBaseItem)) {
+        if (BaseItemUtils.canPlay(mBaseItem)) {
             mDetailsOverviewRow.addAction(mResumeButton);
             mResumeButton.setVisibility(("Series".equals(mBaseItem.getType()) && ! mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume() ) ? View.VISIBLE : View.GONE);
 
-            TextUnderButton play = new TextUnderButton(this, R.drawable.play, buttonSize, 2, getString(Utils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
+            TextUnderButton play = new TextUnderButton(this, R.drawable.play, buttonSize, 2, getString(BaseItemUtils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     play(mBaseItem, 0, false);
@@ -832,7 +834,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             });
             mDetailsOverviewRow.addAction(play);
 
-            if (!mBaseItem.getIsFolder() && !Utils.isLiveTv(mBaseItem)) {
+            if (!mBaseItem.getIsFolder() && !BaseItemUtils.isLiveTv(mBaseItem)) {
                 queueButton = new TextUnderButton(this, R.drawable.addtoqueue, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -856,8 +858,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 TextUnderButton imix = new TextUnderButton(this, R.drawable.mix, buttonSize, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utils.Beep();
-                        Utils.playInstantMix(mBaseItem.getId());
+                        Utils.beep();
+                        PlaybackHelper.playInstantMix(mBaseItem.getId());
                     }
                 });
                 mDetailsOverviewRow.addAction(imix);
@@ -1387,7 +1389,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
         final Activity activity = this;
-        Utils.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), shuffle, new Response<List<BaseItemDto>>() {
+        PlaybackHelper.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), shuffle, new Response<List<BaseItemDto>>() {
             @Override
             public void onResponse(List<BaseItemDto> response) {
                 if ("MusicArtist".equals(item.getType())) {

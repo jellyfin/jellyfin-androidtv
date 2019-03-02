@@ -76,6 +76,8 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
+import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -595,7 +597,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         break;
                 }
             } else if (item instanceof ChannelInfoDto) {
-                Utils.Beep(100);
+                Utils.beep(100);
                 hidePopupPanel();
                 switchChannel(((ChannelInfoDto)item).getId());
             }
@@ -625,7 +627,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) &&
                         (mSelectedProgram != null && mSelectedProgram.getChannelId() != null)) {
                     // tune to the current channel
-                    Utils.Beep();
+                    Utils.beep();
                     switchChannel(mSelectedProgram.getChannelId());
                     return true;
                 }
@@ -677,13 +679,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 if (!mIsVisible) {
                     if (!DeviceUtils.isFireTv() && !mPlaybackController.isLiveTv()) {
                         if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-                            Utils.Beep(100);
+                            Utils.beep(100);
                             mPlaybackController.skip(30000);
                             return true;
                         }
 
                         if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                            Utils.Beep(100);
+                            Utils.beep(100);
                             mPlaybackController.skip(-11000);
                             return true;
                         }
@@ -1400,11 +1402,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }));
         }
 
-        Boolean hasSubs = Utils.GetSubtitleStreams(mPlaybackController.getCurrentMediaSource()).size() > 0;
-        Boolean hasMultiAudio = Utils.GetAudioStreams(mPlaybackController.getCurrentMediaSource()).size() > 1;
+        Boolean hasSubs = StreamHelper.getSubtitleStreams(mPlaybackController.getCurrentMediaSource()).size() > 0;
+        Boolean hasMultiAudio = StreamHelper.getAudioStreams(mPlaybackController.getCurrentMediaSource()).size() > 1;
 
         if (hasMultiAudio) {
-            mApplication.getLogger().Debug("Multiple Audio tracks found: "+Utils.GetAudioStreams(mPlaybackController.getCurrentMediaSource()).size());
+            mApplication.getLogger().Debug("Multiple Audio tracks found: "+ StreamHelper.getAudioStreams(mPlaybackController.getCurrentMediaSource()).size());
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.audiosel, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1513,7 +1515,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }));
 
             //Create chapter row for later use
-            ItemRowAdapter chapterAdapter = new ItemRowAdapter(Utils.buildChapterItems(item), new CardPresenter(true, 220), new ArrayObjectAdapter());
+            ItemRowAdapter chapterAdapter = new ItemRowAdapter(BaseItemUtils.buildChapterItems(item), new CardPresenter(true, 220), new ArrayObjectAdapter());
             chapterAdapter.Retrieve();
             if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
             mChapterRow = new ListRow(new HeaderItem(mActivity.getString(R.string.chapters)), chapterAdapter);

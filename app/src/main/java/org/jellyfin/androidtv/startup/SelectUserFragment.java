@@ -23,6 +23,7 @@ import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +104,7 @@ public class SelectUserFragment extends CustomBrowseFragment {
                         break;
                     case ENTER_MANUALLY:
                         // Manual login
-                        Utils.EnterManualUser(getActivity());
+                        AuthenticationHelper.enterManualUser(getActivity());
                         break;
                     case REPORT:
                         Utils.reportError(getActivity(), "Send Log to Dev");

@@ -46,6 +46,8 @@ import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.MathUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
+import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -340,7 +342,7 @@ public class ItemListActivity extends BaseActivity {
             mix.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    Utils.playInstantMix(row.getItem().getId());
+                    PlaybackHelper.playInstantMix(row.getItem().getId());
                     return true;
                 }
             });
@@ -563,7 +565,7 @@ public class ItemListActivity extends BaseActivity {
     }
 
     private void addButtons(int buttonSize) {
-        if (Utils.CanPlay(mBaseItem)) {
+        if (BaseItemUtils.canPlay(mBaseItem)) {
             TextUnderButton play = new TextUnderButton(this, R.drawable.play, buttonSize, 2, getString(mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -588,7 +590,7 @@ public class ItemListActivity extends BaseActivity {
                                 play(shuffled);
                             } else {
                                 //use server retrieval in order to get all items
-                                Utils.retrieveAndPlay(mBaseItem.getId(), true, mActivity);
+                                PlaybackHelper.retrieveAndPlay(mBaseItem.getId(), true, mActivity);
                             }
 
                         } else {
@@ -605,8 +607,8 @@ public class ItemListActivity extends BaseActivity {
             TextUnderButton mix = new TextUnderButton(this, R.drawable.mix, buttonSize, 2, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    Utils.Beep();
-                    Utils.playInstantMix(mBaseItem.getId());
+                    Utils.beep();
+                    PlaybackHelper.playInstantMix(mBaseItem.getId());
                 }
             });
             mButtonRow.addView(mix);

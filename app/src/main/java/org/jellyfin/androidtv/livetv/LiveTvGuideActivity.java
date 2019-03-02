@@ -48,6 +48,7 @@ import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -257,7 +258,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             mLoadLastChannel = false;
             String channel = TvManager.getLastLiveTvChannel();
             if (channel != null) {
-                Utils.retrieveAndPlay(channel, false, this);
+                PlaybackHelper.retrieveAndPlay(channel, false, this);
             } else {
                 doLoad();
             }
@@ -307,8 +308,8 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 if ((mDetailPopup == null || !mDetailPopup.isShowing()) && (mFilterPopup == null || !mFilterPopup.isShowing()) && (mOptionsPopup == null || !mOptionsPopup.isShowing())
                         && mSelectedProgram != null && mSelectedProgram.getChannelId() != null) {
                     // tune to the current channel
-                    Utils.Beep();
-                    Utils.retrieveAndPlay(mSelectedProgram.getChannelId(), false, this);
+                    Utils.beep();
+                    PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, this);
                     return true;
                 }
 
@@ -582,7 +583,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         if (mDetailPopup == null) mDetailPopup = new LiveProgramDetailPopup(this, mSummary.getWidth()+20, new EmptyResponse() {
             @Override
             public void onResponse() {
-                Utils.retrieveAndPlay(mSelectedProgram.getChannelId(), false, mActivity);
+                PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, mActivity);
             }
         });
 
