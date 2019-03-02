@@ -23,7 +23,7 @@ import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.util.KeyProcessor;
-import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,7 +105,7 @@ public class SelectServerFragment extends CustomBrowseFragment {
             if (item instanceof GridButton) {
                 switch (((GridButton) item).getId()) {
                     case ENTER_MANUALLY:
-                        Utils.EnterManualServerAddress(getActivity());
+                        AuthenticationHelper.enterManualServerAddress(getActivity());
                         break;
                     default:
                         Toast.makeText(getActivity(), item.toString(), Toast.LENGTH_SHORT)

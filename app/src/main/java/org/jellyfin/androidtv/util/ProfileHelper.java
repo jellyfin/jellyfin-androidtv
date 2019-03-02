@@ -1,10 +1,13 @@
 package org.jellyfin.androidtv.util;
 
+import android.os.Build;
+
 import org.jellyfin.androidtv.TvApp;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import mediabrowser.apiinteraction.android.profiles.AndroidProfileOptions;
 import mediabrowser.model.dlna.CodecProfile;
 import mediabrowser.model.dlna.CodecType;
 import mediabrowser.model.dlna.ContainerProfile;
@@ -19,9 +22,6 @@ import mediabrowser.model.dlna.SubtitleDeliveryMethod;
 import mediabrowser.model.dlna.SubtitleProfile;
 import mediabrowser.model.dlna.TranscodingProfile;
 
-/**
- * Created by Eric on 2/29/2016.
- */
 public class ProfileHelper {
     private static MediaCodecCapabilitiesTest MediaTest = new MediaCodecCapabilitiesTest();
 
@@ -325,5 +325,14 @@ public class ProfileHelper {
         subs.setFormat(format);
         subs.setMethod(method);
         return subs;
+    }
+
+    public static AndroidProfileOptions getProfileOptions() {
+        AndroidProfileOptions options = new AndroidProfileOptions(Build.MODEL);
+        options.SupportsHls = false;
+        options.SupportsMkv = true;
+//        options.SupportsAc3 = is60();
+//        options.SupportsDts = is60();
+        return options;
     }
 }

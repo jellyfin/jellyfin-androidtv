@@ -10,6 +10,8 @@ import android.widget.TextView;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
+import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -39,7 +41,7 @@ public class InfoLayoutHelper {
         }
     }
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
-        addInfoRow(activity, item, layout, includeRuntime, includeEndTime, Utils.GetFirstAudioStream(item));
+        addInfoRow(activity, item, layout, includeRuntime, includeEndTime, StreamHelper.getFirstAudioStream(item));
     }
 
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime, MediaStream audioStream) {
@@ -169,10 +171,10 @@ public class InfoLayoutHelper {
     private static void addProgramInfo(Activity activity, BaseItemDto item, LinearLayout layout) {
         TextView name = new TextView(activity);
         name.setTextSize(textSize);
-        name.setText(Utils.GetProgramSubText(item)+"  ");
+        name.setText(BaseItemUtils.getProgramSubText(item)+"  ");
         layout.addView(name);
 
-        if (Utils.isNew(item)) {
+        if (BaseItemUtils.isNew(item)) {
             addBlockText(activity, layout, TvApp.getApplication().getString(R.string.lbl_new), 12, Color.GRAY, R.drawable.dark_green_gradient);
             addSpacer(activity, layout, "  ");
         } else if (Utils.isTrue(item.getIsSeries()) && !Utils.isTrue(item.getIsNews())) {

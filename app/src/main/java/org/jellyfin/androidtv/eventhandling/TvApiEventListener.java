@@ -8,9 +8,9 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.playback.MediaManager;
-import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
 import org.jellyfin.androidtv.querying.StdItemQuery;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -24,7 +24,6 @@ import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemsResult;
 import mediabrowser.model.session.BrowseRequest;
 import mediabrowser.model.session.GeneralCommand;
-import mediabrowser.model.session.MessageCommand;
 import mediabrowser.model.session.PlayRequest;
 import mediabrowser.model.session.PlaystateRequest;
 import mediabrowser.model.session.SessionInfoDto;
@@ -171,7 +170,7 @@ public class TvApiEventListener extends ApiEventListener {
             if (command.getItemIds().length > 0) {
                 TvApp.getApplication().getLogger().Info("Playing single item by remote request");
                 Context context = TvApp.getApplication().getCurrentActivity() != null ? TvApp.getApplication().getCurrentActivity() : TvApp.getApplication();
-                Utils.retrieveAndPlay(command.getItemIds()[0], false, command.getStartPositionTicks() != null ? command.getStartPositionTicks() : 0, context);
+                PlaybackHelper.retrieveAndPlay(command.getItemIds()[0], false, command.getStartPositionTicks() != null ? command.getStartPositionTicks() : 0, context);
             }
         }
     }

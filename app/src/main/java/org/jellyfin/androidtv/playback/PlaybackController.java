@@ -16,6 +16,9 @@ import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ProfileHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
+import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
+import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 
 import java.util.List;
 
@@ -609,7 +612,7 @@ public class PlaybackController {
         mDefaultSubIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : mDefaultSubIndex;
 
         mApplication.setLastPlayedItem(item);
-        if (!isRestart) Utils.ReportStart(item, mbPos);
+        if (!isRestart) ReportingHelper.reportStart(item, mbPos);
         isRestart = false;
 
         //test
@@ -689,7 +692,7 @@ public class PlaybackController {
             return;
         }
 
-        MediaStream stream = Utils.GetMediaStream(getCurrentMediaSource(), index);
+        MediaStream stream = StreamHelper.getMediaStream(getCurrentMediaSource(), index);
         if (stream == null) {
             Utils.showToast(mApplication, "Unable to select subtitle");
             return;
@@ -799,7 +802,7 @@ public class PlaybackController {
                 e.printStackTrace();
             }
             Long mbPos = mCurrentPosition * 10000;
-            Utils.ReportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
+            ReportingHelper.reportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
             if (!isLiveTv) {
                 // update the actual items resume point
                 getCurrentlyPlayingItem().getUserData().setPlaybackPositionTicks(mbPos);
@@ -935,14 +938,14 @@ public class PlaybackController {
     }
 
     private void startReportLoop() {
-        Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
+        ReportingHelper.reportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
                 if (mPlaybackState == PlaybackState.PLAYING) {
                     long currentTime = isLiveTv ? getTimeShiftedProgress() : mVideoManager.getCurrentPosition();
 
-                    Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, false);
+                    ReportingHelper.reportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, false);
 
                     //Do this next up processing here because every 3 seconds is good enough
                     if (!nextItemReported && hasNextItem() && currentTime >= mNextItemThreshold){
@@ -958,7 +961,7 @@ public class PlaybackController {
     }
 
     private void startPauseReportLoop() {
-        Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
+        ReportingHelper.reportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
@@ -966,7 +969,7 @@ public class PlaybackController {
                 long currentTime = isLiveTv ? getTimeShiftedProgress() : mVideoManager.getCurrentPosition();
                 if (isLiveTv && !directStreamLiveTv) mFragment.setSecondaryTime(getRealTimeProgress());
 
-                Utils.ReportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, true);
+                ReportingHelper.reportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, true);
                 mHandler.postDelayed(this, 15000);
             }
         };
@@ -1024,7 +1027,7 @@ public class PlaybackController {
         mPlaybackState = PlaybackState.IDLE;
         stopReportLoop();
         Long mbPos = mVideoManager.getCurrentPosition() * 10000;
-        Utils.ReportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
+        ReportingHelper.reportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
         vlcErrorEncountered = false;
         exoErrorEncountered = false;
         if (mCurrentIndex < mItems.size() - 1) {
@@ -1052,7 +1055,7 @@ public class PlaybackController {
                 if (isLiveTv && directStreamLiveTv) {
                     Utils.showToast(mApplication, mApplication.getString(R.string.msg_error_live_stream));
                     directStreamLiveTv = false;
-                    Utils.retrieveAndPlay(getCurrentlyPlayingItem().getId(), false, mApplication);
+                    PlaybackHelper.retrieveAndPlay(getCurrentlyPlayingItem().getId(), false, mApplication);
                     mFragment.finish();
                 } else {
                     String msg = mApplication.getString(R.string.video_error_unknown_error);
