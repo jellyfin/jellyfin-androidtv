@@ -2,9 +2,11 @@ package org.jellyfin.androidtv.util;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +19,7 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
@@ -84,6 +87,8 @@ import mediabrowser.model.entities.MediaStream;
 import mediabrowser.model.entities.MediaStreamType;
 import mediabrowser.model.library.PlayAccess;
 import mediabrowser.model.livetv.ChannelInfoDto;
+import mediabrowser.model.livetv.SeriesTimerInfoDto;
+import mediabrowser.model.livetv.TimerInfoDto;
 import mediabrowser.model.logging.ILogger;
 import mediabrowser.model.querying.ItemFields;
 import mediabrowser.model.querying.ItemFilter;
@@ -234,6 +239,12 @@ public class Utils {
         return result;
     }
 
+    public static String formatSeconds(int seconds) {
+        return seconds < 60 ? seconds + " " + TvApp.getApplication().getString(R.string.lbl_seconds) :
+                seconds < 360 ? seconds / 60 + " " + TvApp.getApplication().getString(seconds < 120 ? R.string.lbl_minute : R.string.lbl_minutes) :
+                        seconds / 360 + " " + TvApp.getApplication().getString( seconds < 720 ? R.string.lbl_hour : R.string.lbl_hours);
+    }
+
     public static int convertDpToPixel(Context ctx, int dp) {
         float density = ctx.getResources().getDisplayMetrics().density;
         return Math.round((float) dp * density);
@@ -287,6 +298,15 @@ public class Utils {
         return apiClient.GetImageUrl(studio.getId(), options);
     }
 
+    public static String getPrimaryImageUrl(SeriesTimerInfoDto timer, ApiClient apiClient, int maxHeight) {
+        if (timer.getProgramId() == null) return null;
+        TvApp.getApplication().getLogger().Debug("***** Program ID: %s",timer.getProgramId());
+        ImageOptions options = new ImageOptions();
+        options.setMaxHeight(maxHeight);
+        options.setImageType(ImageType.Primary);
+        return apiClient.GetImageUrl(timer.getProgramId(), options);
+    }
+
     public static String getPrimaryImageUrl(UserDto item, ApiClient apiClient) {
         ImageOptions options = new ImageOptions();
         options.setTag(item.getPrimaryImageTag());
@@ -336,7 +356,7 @@ public class Utils {
     }
 
     public static String getBannerImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
-        if (!item.getHasBanner()) return getPrimaryImageUrl(item, apiClient, !"MusicArtist".equals(item.getType()) && !"MusicAlbum".equals(item.getType()), false, maxHeight);
+        if (!item.getHasBanner()) return getPrimaryImageUrl(item, apiClient, false, maxHeight);
         ImageOptions options = new ImageOptions();
         options.setTag(item.getImageTags().get(ImageType.Banner));
         options.setImageType(ImageType.Banner);
@@ -348,10 +368,6 @@ public class Utils {
                 options.setPercentPlayed(pct.intValue());
             }
 
-            options.setAddPlayedIndicator(userData.getPlayed());
-            if (item.getIsFolder() && userData.getUnplayedItemCount() != null && userData.getUnplayedItemCount() > 0)
-                options.setUnPlayedCount(userData.getUnplayedItemCount());
-
         }
 
         return apiClient.GetImageUrl(item.getId(), options);
@@ -359,33 +375,20 @@ public class Utils {
     }
 
     public static String getThumbImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
-        if (!item.getHasThumb()) return getPrimaryImageUrl(item, apiClient, !"MusicArtist".equals(item.getType()) && !"MusicAlbum".equals(item.getType()), true, maxHeight);
+        if (!item.getHasThumb()) return getPrimaryImageUrl(item, apiClient, true, maxHeight);
         ImageOptions options = new ImageOptions();
         options.setTag(item.getImageTags().get(ImageType.Thumb));
         options.setImageType(ImageType.Thumb);
-        UserItemDataDto userData = item.getUserData();
-        if (userData != null && !"MusicArtist".equals(item.getType()) && !"MusicAlbum".equals(item.getType())) {
-            if (Arrays.asList(ProgressIndicatorTypes).contains(item.getType()) && userData.getPlayedPercentage() != null
-                    && userData.getPlayedPercentage() > 0 && userData.getPlayedPercentage() < 99) {
-                Double pct = userData.getPlayedPercentage();
-                options.setPercentPlayed(pct.intValue());
-            }
-
-            options.setAddPlayedIndicator(userData.getPlayed());
-            if (item.getIsFolder() && userData.getUnplayedItemCount() != null && userData.getUnplayedItemCount() > 0)
-                options.setUnPlayedCount(userData.getUnplayedItemCount());
-
-        }
-
         return apiClient.GetImageUrl(item.getId(), options);
 
     }
 
-    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched, boolean preferParentThumb, int maxHeight) {
-        return getPrimaryImageUrl(item, apiClient, showWatched, true, preferParentThumb, false, maxHeight);
+    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, boolean preferParentThumb, int maxHeight) {
+        return getPrimaryImageUrl(item, apiClient, false, preferParentThumb, false, maxHeight);
     }
 
-    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, Boolean showWatched, boolean showProgress, boolean preferParentThumb, boolean preferSeriesPoster, int maxHeight) {
+    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, boolean showProgress, boolean preferParentThumb, boolean preferSeriesPoster, int maxHeight) {
+        if (item.getType().equals("SeriesTimer")) return "android.resource://org.jellyfin.androidtv/" + R.drawable.seriestimer;
         ImageOptions options = new ImageOptions();
         String itemId = item.getId();
         String imageTag = item.getImageTags() != null ? item.getImageTags().get(ImageType.Primary) : null;
@@ -433,11 +436,6 @@ public class Utils {
                 Double pct = userData.getPlayedPercentage();
                 options.setPercentPlayed(pct.intValue());
             }
-            if (showWatched) {
-                options.setAddPlayedIndicator(userData.getPlayed());
-                if (item.getIsFolder() && userData.getUnplayedItemCount() != null && userData.getUnplayedItemCount() > 0)
-                    options.setUnPlayedCount(userData.getUnplayedItemCount());
-            }
 
         }
 
@@ -447,9 +445,13 @@ public class Utils {
     }
 
     public static String getLogoImageUrl(BaseItemDto item, ApiClient apiClient) {
+        return getLogoImageUrl(item, apiClient, 440);
+    }
+
+    public static String getLogoImageUrl(BaseItemDto item, ApiClient apiClient, int maxWidth) {
         if (item != null) {
             ImageOptions options = new ImageOptions();
-            options.setMaxWidth(440);
+            options.setMaxWidth(maxWidth);
             options.setImageType(ImageType.Logo);
             if (item.getHasLogo()) {
                 options.setTag(item.getImageTags().get(ImageType.Logo));
@@ -496,6 +498,7 @@ public class Utils {
     public static void getItemsToPlay(final BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<BaseItemDto>> outerResponse) {
         final List<BaseItemDto> items = new ArrayList<>();
         ItemQuery query = new ItemQuery();
+        TvApp.getApplication().setPlayingIntros(false);
 
         switch (mainItem.getType()) {
             case "Episode":
@@ -550,7 +553,7 @@ public class Utils {
                 query.setSortBy(new String[]{shuffle ? ItemSortBy.Random : ItemSortBy.SortName});
                 query.setRecursive(true);
                 query.setLimit(50); // guard against too many items
-                query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.MediaStreams, ItemFields.Chapters, ItemFields.Path, ItemFields.PrimaryImageAspectRatio});
+                query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.MediaStreams, ItemFields.Chapters, ItemFields.Path, ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
                 query.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
@@ -571,6 +574,7 @@ public class Utils {
                 query.setLimit(150); // guard against too many items
                 query.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
                 query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                query.setParentId(mainItem.getId());
                 TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
@@ -644,7 +648,7 @@ public class Utils {
                 break;
 
             default:
-                if (allowIntros && TvApp.getApplication().getPrefs().getBoolean("pref_enable_cinema_mode", true)) {
+                if (allowIntros && !TvApp.getApplication().useExternalPlayer(mainItem.getType()) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_cinema_mode", true)) {
                     //Intros
                     TvApp.getApplication().getApiClient().GetIntrosAsync(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
                         @Override
@@ -652,6 +656,9 @@ public class Utils {
                             if (response.getTotalRecordCount() > 0){
                                 Collections.addAll(items, response.getItems());
                                 TvApp.getApplication().getLogger().Info(response.getTotalRecordCount() + " intro items added for playback.");
+                                TvApp.getApplication().setPlayingIntros(true);
+                            } else {
+                                TvApp.getApplication().setPlayingIntros(false);
                             }
                             //Finally, the main item including subsequent parts
                             addMainItem(mainItem, items, outerResponse);
@@ -685,7 +692,8 @@ public class Utils {
                             MediaManager.playNow(response);
 
                         } else {
-                            Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                            String itemType = response.size() > 0 ? response.get(0).getType() : "";
+                            Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(itemType));
                             MediaManager.setCurrentVideoQueue(response);
                             intent.putExtra("Position", pos);
                             if (!(activity instanceof Activity))
@@ -700,7 +708,7 @@ public class Utils {
                         break;
 
                     default:
-                        Intent intent = new Intent(activity, PlaybackOverlayActivity.class);
+                        Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(item.getType()));
                         MediaManager.setCurrentVideoQueue(response);
                         intent.putExtra("Position", pos);
                         if (!(activity instanceof Activity))
@@ -720,7 +728,7 @@ public class Utils {
         TvApp.getApplication().getApiClient().GetItemAsync(id, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
             @Override
             public void onResponse(BaseItemDto response) {
-                Long pos = position != null ? position / 10000 : response.getUserData() != null ? response.getUserData().getPlaybackPositionTicks() / 10000 : 0;
+                Long pos = position != null ? position / 10000 : response.getUserData() != null ? (response.getUserData().getPlaybackPositionTicks() / 10000) - TvApp.getApplication().getResumePreroll() : 0;
                 play(response, pos.intValue(), shuffle, activity);
             }
 
@@ -786,6 +794,7 @@ public class Utils {
                 && ((item.getIsPlaceHolder() == null || !item.getIsPlaceHolder())
                 && (!item.getType().equals("Episode") || !item.getLocationType().equals(LocationType.Virtual)))
                 && (!item.getType().equals("Person"))
+                && (!item.getType().equals("SeriesTimer"))
                 && (!item.getIsFolder() || item.getChildCount() == null || item.getChildCount() > 0);
     }
 
@@ -941,7 +950,7 @@ public class Utils {
     public static String GetFullName(BaseItemDto item) {
         switch (item.getType()) {
             case "Episode":
-                return item.getSeriesName() + " S" + item.getParentIndexNumber() + ", E" + item.getIndexNumber() + (item.getIndexNumberEnd() != null ? "-" + item.getIndexNumberEnd() : "");
+                return item.getSeriesName() + (item.getParentIndexNumber() != null ? " S" + item.getParentIndexNumber() : "") + (item.getIndexNumber() != null ? " E" + item.getIndexNumber() : "") + (item.getIndexNumberEnd() != null ? "-" + item.getIndexNumberEnd() : "");
             case "Audio":
             case "MusicAlbum":
                 // we actually want the artist name if available
@@ -995,6 +1004,26 @@ public class Utils {
                 .append(dateFormat.format(convertToLocalDate(baseItem.getEndDate())));
 
         return builder.toString();
+    }
+
+    public static String buildOverview(SeriesTimerInfoDto timer) {
+        return TvApp.getApplication().getString(R.string.msg_will_record) +
+                " " +
+                (isTrue(timer.getRecordNewOnly()) ? TvApp.getApplication().getString(R.string.lbl_only_new_episodes) : TvApp.getApplication().getString(R.string.lbl_all_episodes)) +
+                "\n" +
+                TvApp.getApplication().getString(R.string.lbl_on) +
+                " " +
+                (isTrue(timer.getRecordAnyChannel()) ? TvApp.getApplication().getString(R.string.lbl_any_channel) : timer.getChannelName()) +
+                "\n" +
+                timer.getDayPattern() +
+                " " +
+                (isTrue(timer.getRecordAnyTime()) ? TvApp.getApplication().getString(R.string.lbl_at_any_time) : "") +
+                "\n" +
+                "Starting " + (timer.getPrePaddingSeconds() > 0 ? formatSeconds(timer.getPrePaddingSeconds()) + " Early" : "On Schedule") +
+                " And Ending " + (timer.getPostPaddingSeconds() > 0 ? formatSeconds(timer.getPostPaddingSeconds()) + " After Schedule" : "On Schedule")
+                ;
+
+
     }
 
     public static BaseItemPerson GetFirstPerson(BaseItemDto item, String type) {
@@ -1174,8 +1203,8 @@ public class Utils {
         ToneHandler.startTone(type, ms);
     }
 
-    public static void ReportProgress(BaseItemDto item, StreamInfo currentStreamInfo, long position, boolean isPaused) {
-        if (item != null) {
+    public static void ReportProgress(BaseItemDto item, StreamInfo currentStreamInfo, Long position, boolean isPaused) {
+        if (item != null && currentStreamInfo != null) {
             PlaybackProgressInfo info = new PlaybackProgressInfo();
             ApiClient apiClient = TvApp.getApplication().getApiClient();
             info.setItemId(item.getId());
@@ -1184,9 +1213,17 @@ public class Utils {
             info.setCanSeek(currentStreamInfo.getRunTimeTicks() != null && currentStreamInfo.getRunTimeTicks() > 0);
             info.setIsMuted(TvApp.getApplication().isAudioMuted());
             info.setPlayMethod(currentStreamInfo.getPlayMethod());
+            if (TvApp.getApplication().getPlaybackController() != null && TvApp.getApplication().getPlaybackController().isPlaying()) {
+                info.setAudioStreamIndex(TvApp.getApplication().getPlaybackController().getAudioStreamIndex());
+                info.setSubtitleStreamIndex(TvApp.getApplication().getPlaybackController().getSubtitleStreamIndex());
+            }
             TvApp.getApplication().getPlaybackManager().reportPlaybackProgress(info, currentStreamInfo, false, apiClient, new EmptyResponse());
         }
 
+    }
+
+    public static boolean isNew(BaseItemDto program) {
+        return isTrue(program.getIsSeries()) && !isTrue(program.getIsNews()) && !isTrue(program.getIsRepeat());
     }
 
     public static boolean isTrue(Boolean value) {
@@ -1312,6 +1349,10 @@ public class Utils {
     }
 
     public static String getFriendlyDate(Date date) {
+        return getFriendlyDate(date, false);
+    }
+
+    public static String getFriendlyDate(Date date, boolean relative) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         Calendar now = Calendar.getInstance();
@@ -1319,6 +1360,7 @@ public class Utils {
             if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)) return TvApp.getApplication().getString(R.string.lbl_today);
             if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)+1) return TvApp.getApplication().getString(R.string.lbl_tomorrow);
             if (cal.get(Calendar.DAY_OF_YEAR) < now.get(Calendar.DAY_OF_YEAR)+7 && cal.get(Calendar.DAY_OF_YEAR) > now.get(Calendar.DAY_OF_YEAR)) return cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+            if (relative) return String.format(TvApp.getApplication().getString(R.string.lbl_in_x_days), cal.get(Calendar.DAY_OF_YEAR) - now.get(Calendar.DAY_OF_YEAR));
         }
 
         return DateFormat.getDateFormat(TvApp.getApplication()).format(date);
@@ -1451,16 +1493,6 @@ public class Utils {
         return value == null || value.equals("");
     }
 
-    //todo replace with custom error reporter
-//    public static void PutCustomAcraData() {
-//        TvApp app = TvApp.getApplication();
-//        ApiClient apiClient = app.getApiClient();
-//        if (apiClient != null) {
-//            if (app.getCurrentUser() != null) ACRA.getErrorReporter().putCustomData("mbUser", app.getCurrentUser().getName());
-//            ACRA.getErrorReporter().putCustomData("serverInfo", app.getSerializer().SerializeToString(app.getCurrentSystemInfo()));
-//        }
-//    }
-
     public static boolean versionGreaterThanOrEqual(String firstVersion, String secondVersion) {
         try {
             String[] firstVersionComponents = firstVersion.split("[.]");
@@ -1515,6 +1547,15 @@ public class Utils {
         }
     }
 
+    public static int getMaxBitrate() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(TvApp.getApplication());
+        String maxRate = sharedPref.getString("pref_max_bitrate", "0");
+        Float factor = Float.parseFloat(maxRate) * 10;
+        return Math.min(factor == 0 ? TvApp.getApplication().getAutoBitrate() : (factor.intValue() * 100000), TvApp.getApplication().getServerBitrateLimit());
+    }
+
+
+
     public static PopupMenu createPopupMenu(Activity activity, View view, int gravity) {
         return new PopupMenu(activity, view, gravity);
     }
@@ -1523,6 +1564,8 @@ public class Utils {
         return Build.MODEL.startsWith("AFT");
     }
     public static boolean isFireTvStick() { return Build.MODEL.equals("AFTM"); }
+
+    public static boolean is1stGenFireTv() { return Build.MODEL.equals("AFTB"); }
 
     public static boolean isShield() { return Build.MODEL.equals("SHIELD Android TV"); }
 
@@ -1622,27 +1665,42 @@ public class Utils {
                 Utils.signInToServer(connectionManager, response.getServers().get(0), activity);
                 break;
             case SignedIn:
-                logger.Debug("Ignoring saved connection manager sign in");
-                connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>(){
-                    @Override
-                    public void onResponse(ArrayList<ServerInfo> serverResponse) {
-                        if (serverResponse.size() == 1) {
-                            //Signed in before and have just one server so go directly to user screen
-                            Utils.signInToServer(connectionManager, serverResponse.get(0), activity);
-                        } else {
-                            //More than one server so show selection
-                            Intent serverIntent = new Intent(activity, SelectServerActivity.class);
-                            GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
-                            List<String> payload = new ArrayList<>();
-                            for (ServerInfo server : serverResponse) {
-                                payload.add(serializer.SerializeToString(server));
-                            }
-                            serverIntent.putExtra("Servers", payload.toArray(new String[payload.size()]));
-                            serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                            activity.startActivity(serverIntent);
+                ServerInfo serverInfo = response.getServers() != null && response.getServers().size() > 0 && response.getServers().get(0).getUserLinkType() != null ? response.getServers().get(0) : null;
+                if (serverInfo != null) {
+                    // go straight in for connect only
+                    response.getApiClient().GetUserAsync(serverInfo.getUserId(), new Response<UserDto>() {
+                        @Override
+                        public void onResponse(UserDto response) {
+                            TvApp.getApplication().setCurrentUser(response);
+                            Intent homeIntent = new Intent(activity, MainActivity.class);
+                            activity.startActivity(homeIntent);
                         }
-                    }
-                });
+                    });
+
+                } else {
+                    logger.Debug("Ignoring saved connection manager sign in");
+                    connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>(){
+                        @Override
+                        public void onResponse(ArrayList<ServerInfo> serverResponse) {
+                            if (serverResponse.size() == 1) {
+                                //Signed in before and have just one server so go directly to user screen
+                                Utils.signInToServer(connectionManager, serverResponse.get(0), activity);
+                            } else {
+                                //More than one server so show selection
+                                Intent serverIntent = new Intent(activity, SelectServerActivity.class);
+                                GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
+                                List<String> payload = new ArrayList<>();
+                                for (ServerInfo server : serverResponse) {
+                                    payload.add(serializer.SerializeToString(server));
+                                }
+                                serverIntent.putExtra("Servers", payload.toArray(new String[payload.size()]));
+                                serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                activity.startActivity(serverIntent);
+                            }
+                        }
+                    });
+
+                }
                 break;
             case ConnectSignIn:
             case ServerSelection:
@@ -1674,6 +1732,21 @@ public class Utils {
         }
 
         return (isFireTv() && !is50()) || "1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"));
+    }
+
+    /**
+     * Returns darker version of specified <code>color</code>.
+     */
+    public static int darker (int color, float factor) {
+        int a = Color.alpha( color );
+        int r = Color.red( color );
+        int g = Color.green( color );
+        int b = Color.blue( color );
+
+        return Color.argb( a,
+                Math.max( (int)(r * factor), 0 ),
+                Math.max( (int)(g * factor), 0 ),
+                Math.max( (int)(b * factor), 0 ) );
     }
 
 }

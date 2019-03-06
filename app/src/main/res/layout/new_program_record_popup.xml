@@ -16,27 +16,12 @@
         android:layout_marginTop="10sp"
         android:textColor="@android:color/holo_blue_light" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/summary"
-        android:textSize="16sp"
-        android:layout_marginRight="30sp"
-        android:layout_marginBottom="10sp"
-        android:layout_marginTop="10sp"
-        android:ellipsize="end"
-        android:maxLines="4"
-        android:layout_marginLeft="30sp"
-        android:minHeight="80sp"
-        android:gravity="center_vertical"
-        android:layout_below="@+id/title" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="25sp"
-        android:layout_below="@+id/summary"
-        android:layout_alignStart="@+id/summary"
+        android:layout_below="@+id/title"
         android:id="@+id/timeline"
         android:showDividers="middle"
         android:divider="@drawable/blank10x10"
@@ -54,7 +39,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/lbl_record"
+            android:text="@string/lbl_save"
             android:id="@+id/okButton"
             android:background="@drawable/jellyfin_button"
             android:minWidth="90dp"
@@ -88,7 +73,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/simple_border"
             android:padding="10sp"
             android:gravity="center_horizontal">
 
@@ -99,30 +83,18 @@
                 android:text="@string/lbl_begin_padding"
                 android:layout_marginBottom="10sp"
                 android:layout_alignParentTop="true"
-                android:textSize="14sp"
-                android:layout_marginTop="10sp" />
+                android:textColor="@android:color/holo_blue_light"
+                android:textSize="16sp"
+                android:layout_marginTop="5sp" />
 
-            <EditText
-                android:layout_width="40sp"
+            <Spinner
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:inputType="number"
                 android:id="@+id/prePadding"
-                android:layout_alignParentStart="false"
-                android:textSize="12sp"
-                android:layout_toRightOf="@+id/textView1"
-                android:layout_alignBottom="@+id/textView1"
-                android:layout_marginLeft="5sp" />
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lbl_required_to_record"
-                android:id="@+id/prePadReq"
-                android:layout_alignParentBottom="false"
-                android:layout_below="@+id/prePadding"
-                android:layout_marginTop="5sp"
-                android:textSize="14sp"
-                android:layout_alignParentStart="true" />
+                android:spinnerMode="dialog"
+                android:layout_marginLeft="5dp"
+                android:layout_below="@+id/textView1"
+                android:background="@drawable/jellyfin_button" />
 
         </RelativeLayout>
 
@@ -130,9 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/simple_border"
-            android:padding="10sp"
-            android:gravity="center_horizontal">
+            android:padding="10sp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -141,84 +111,47 @@
                 android:text="@string/lbl_end_padding"
                 android:layout_marginBottom="10sp"
                 android:layout_alignParentTop="true"
-                android:textSize="14sp"
+                android:textColor="@android:color/holo_blue_light"
+                android:textSize="16sp"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="10sp" />
+                android:layout_marginTop="5sp" />
 
-            <EditText
-                android:layout_width="40sp"
+            <Spinner
+                android:layout_width="140sp"
                 android:layout_height="wrap_content"
-                android:inputType="number"
                 android:id="@+id/postPadding"
-                android:layout_alignParentStart="false"
-                android:textSize="12sp"
-                android:layout_alignBottom="@+id/textView2"
-                android:layout_toRightOf="@+id/textView2"
-                android:layout_marginLeft="5sp" />
+                android:spinnerMode="dialog"
+                android:layout_below="@+id/textView2"
+                android:layout_marginLeft="5sp"
+                android:background="@drawable/jellyfin_button" />
 
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lbl_required_to_record"
-                android:id="@+id/postPadReq"
-                android:layout_alignParentBottom="false"
-                android:layout_marginTop="5sp"
-                android:textSize="14sp"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/postPadding" />
+
         </RelativeLayout>
 
     </LinearLayout>
 
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/linearLayout"
+        android:gravity="center_horizontal"
         android:paddingTop="20sp"
         android:id="@+id/seriesOptions">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/lbl_days"
-            android:id="@+id/textView11"
-            android:layout_alignLeft="@+id/weekdayOptions"
-            android:layout_alignRight="@+id/weekdayOptions"
-            android:layout_marginBottom="10sp"
-            android:gravity="center_horizontal"
-            android:textStyle="bold"
-            android:textColor="@android:color/holo_blue_light" />
-
-        <GridLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/weekdayOptions"
-            android:columnCount="2"
-            android:rowCount="4"
-            android:orientation="vertical"
-            android:layout_below="@+id/textView11"
-            android:layout_marginLeft="100sp"
-            android:minWidth="100sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/lbl_repeat_options"
             android:id="@+id/textView12"
-            android:gravity="center_horizontal"
-            android:layout_marginRight="20sp"
-            android:textStyle="bold"
-            android:layout_alignLeft="@+id/repeatOptions"
-            android:layout_alignRight="@+id/repeatOptions"
+            android:textSize="16sp"
             android:textColor="@android:color/holo_blue_light" />
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/weekdayOptions"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="100sp"
+            android:layout_below="@id/textView12"
+            android:paddingTop="10dp"
             android:id="@+id/repeatOptions">
 
             <CheckBox
@@ -226,21 +159,21 @@
                 android:layout_height="wrap_content"
                 android:text="@string/lbl_only_new_episodes"
                 android:id="@+id/onlyNew"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/lbl_record_any_time"
                 android:id="@+id/anyTime"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/lbl_record_any_channel"
                 android:id="@+id/anyChannel"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 />
         </LinearLayout>
 

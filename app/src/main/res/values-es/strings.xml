@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Jellyfin</string>
     <string name="error">Error</string>
     <string name="ok">OK</string>
     <string name="video_error_unknown_error">Falla al cargar el vídeo</string>
@@ -8,8 +7,6 @@
     <string name="title_activity_select_user">ActicidadSeleccionarUsuario</string>
     <string name="home_title">Inicio</string>
     <string name="btn_cancel">Cancelar</string>
-    <string name="txt_expired">Jellyfin para Andrioid TV ha Expirado</string>
-    <string name="txt_expired_exp">La vesión de desarrollo ha expirado. Por favor busque una actualización o instale desde la tienda. Gracias por usar Jellyfin!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Comportamiento de Arranque</string>
     <string name="pref_show_login">Mostrar Pantalla de Inicio de Sesión</string>
@@ -55,7 +52,6 @@
     <string name="lbl_other">Otro</string>
     <string name="lbl_latest_additions">Adiciones Recientes</string>
     <string name="lbl_because_you_watched">"Porque viste "</string>
-    <string name="lbl_resume">Continuar</string>
     <string name="lbl_play_all">Reproducir Todos</string>
     <string name="lbl_shuffle_all">Mezclar Todos</string>
     <string name="lbl_play">Reproducir</string>
@@ -69,14 +65,11 @@
     <string name="lbl_chapters">Capítulos</string>
     <string name="lbl_specials">Especiales</string>
     <string name="lbl_trailers">Avances</string>
-    <string name="lbl_similar_movies">Películas Similares</string>
     <string name="lbl_seasons">Temporadas</string>
     <string name="lbl_upcoming">Por Estrenar</string>
-    <string name="lbl_similar_series">Series Similares</string>
     <string name="lbl_toggle_favorite">Establecer como Favorito</string>
     <string name="lbl_toggle_watched">Establecer como Visto</string>
     <string name="lbl_sd">SD</string>
-    <string name="lbl_if_resumed">" si continuado)"</string>
     <string name="lbl_runs">"Duración: "</string>
     <string name="lbl_min">" min "</string>
     <string name="lbl_ends">"Termina: "</string>
@@ -91,7 +84,6 @@
     <string name="lbl_login_as">"Iniciar Sesión como "</string>
     <string name="lbl_tv">TV</string>
     <string name="lbl_people">Gente</string>
-    <string name="lbl_parens_forced">" (forzado)"</string>
     <string name="lbl_none">Ninguno</string>
     <string name="msg_video_playback_error">"Error de reproducción de video - "</string>
     <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>

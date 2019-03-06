@@ -16,6 +16,7 @@ import java.io.OutputStream;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.Response;
+import mediabrowser.apiinteraction.ResponseStreamInfo;
 import mediabrowser.model.entities.MediaStream;
 
 /**
@@ -50,14 +51,14 @@ public class SubtitleHelper {
 
         TvApp.getApplication().getLogger().Info("Subtitle url: "+url);
 
-        apiClient.getResponseStream(url, new Response<InputStream>(response){
+        apiClient.getResponseStream(url, new Response<ResponseStreamInfo>(response){
 
             @Override
-            public void onResponse(InputStream initialStream) {
+            public void onResponse(ResponseStreamInfo info) {
+                InputStream initialStream = info.Stream;
 
                 try {
                     Files.createParentDirs(file);
-
                     OutputStream outStream = new FileOutputStream(file);
 
                     try {

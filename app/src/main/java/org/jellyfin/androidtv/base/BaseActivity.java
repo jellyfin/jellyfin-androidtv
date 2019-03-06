@@ -139,7 +139,7 @@ public class BaseActivity extends Activity {
         loop = new Runnable() {
             @Override
             public void run() {
-                if (System.currentTimeMillis() > app.getLastUserInteraction() + timeoutInterval) {
+                if (app != null && System.currentTimeMillis() > app.getLastUserInteraction() + timeoutInterval) {
                     app.getLogger().Info("Logging off due to inactivity "+app.getLastUserInteraction());
                     Utils.showToast(app, "Jellyfin Logging off due to inactivity...");
                     if (app.getPlaybackController() != null && app.getPlaybackController().isPaused()) {
@@ -148,7 +148,7 @@ public class BaseActivity extends Activity {
                     }
                     finish();
                 } else {
-                    handler.postDelayed(this, 30000);
+                    handler.postDelayed(this, 60000);
                 }
             }
         };

@@ -86,10 +86,13 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     protected static final int ALBUMS = 7;
     protected static final int ARTISTS = 8;
     public static final int FAVSONGS = 9;
+    protected static final int SCHEDULE = 10;
+    protected static final int SERIES = 11;
     protected BaseItemDto mFolder;
     protected String itemTypeString;
     protected boolean showViews = true;
     protected boolean justLoaded = true;
+    protected boolean ShowFanart = false;
 
     protected BaseRowItem favSongsRowItem;
 
@@ -215,6 +218,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     public void onResume() {
         super.onResume();
 
+        ShowFanart = mApplication.getPrefs().getBoolean("pref_show_backdrop", true);
+
         //React to deletion
         if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(TvApp.getApplication().getLastDeletedItemId())) {
             ((ItemRowAdapter)mCurrentRow.getAdapter()).remove(mCurrentItem);
@@ -261,6 +266,9 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                 case NextUp:
                     rowAdapter = new ItemRowAdapter(def.getNextUpQuery(), true, mCardPresenter, mRowsAdapter);
                     break;
+                case LatestItems:
+                    rowAdapter = new ItemRowAdapter(def.getLatestItemsQuery(), true, mCardPresenter, mRowsAdapter);
+                    break;
                 case Season:
                     rowAdapter = new ItemRowAdapter(def.getSeasonQuery(), mCardPresenter, mRowsAdapter);
                     break;
@@ -286,13 +294,16 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                     rowAdapter = new ItemRowAdapter(def.getProgramQuery(), mCardPresenter, mRowsAdapter);
                     break;
                 case LiveTvRecording:
-                    rowAdapter = new ItemRowAdapter(def.getRecordingQuery(), mCardPresenter, mRowsAdapter);
+                    rowAdapter = new ItemRowAdapter(def.getRecordingQuery(), def.getChunkSize(), mCardPresenter, mRowsAdapter);
                     break;
                 case LiveTvRecordingGroup:
                     rowAdapter = new ItemRowAdapter(def.getRecordingGroupQuery(), mCardPresenter, mRowsAdapter);
                     break;
                 case Premieres:
                     rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), mCardPresenter, mRowsAdapter, def.getQueryType());
+                    break;
+                case SeriesTimer:
+                    rowAdapter = new ItemRowAdapter(def.getSeriesTimerQuery(), mCardPresenter, mRowsAdapter);
                     break;
                 default:
                     rowAdapter = new ItemRowAdapter(def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), ps, mRowsAdapter, def.getQueryType());
@@ -344,7 +355,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         gridRowAdapter.add(new GridButton(GRID, TvApp.getApplication().getString(R.string.lbl_all_items), R.drawable.grid));
         gridRowAdapter.add(new GridButton(BY_LETTER, mApplication.getString(R.string.lbl_by_letter), R.drawable.byletter));
         gridRowAdapter.add(new GridButton(GENRES, mApplication.getString(R.string.lbl_genres), R.drawable.genres));
-        gridRowAdapter.add(new GridButton(PERSONS, mApplication.getString(R.string.lbl_performers), R.drawable.actors));
+        //gridRowAdapter.add(new GridButton(PERSONS, mApplication.getString(R.string.lbl_performers), R.drawable.actors));
         gridRowAdapter.add(new GridButton(SEARCH, mApplication.getString(R.string.lbl_search), R.drawable.search));
 
     }
@@ -385,7 +396,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     private void refreshCurrentItem() {
         if (mCurrentItem != null && !"Photo".equals(mCurrentItem.getType()) && !"MusicArtist".equals(mCurrentItem.getType())
                 && !"MusicAlbum".equals(mCurrentItem.getType()) && !"Playlist".equals(mCurrentItem.getType())) {
-            TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override
                 public void onResponse() {
@@ -486,6 +496,33 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         getActivity().startActivity(favIntent);
                         break;
 
+                    case SERIES:
+                    case TvApp.LIVE_TV_SERIES_OPTION_ID:
+                        Intent seriesIntent = new Intent(mActivity, UserViewActivity.class);
+                        BaseItemDto seriesTimers = new BaseItemDto();
+                        seriesTimers.setId("SERIESTIMERS");
+                        seriesTimers.setCollectionType("SeriesTimers");
+                        seriesTimers.setName(mActivity.getString(R.string.lbl_series_recordings));
+                        seriesIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(seriesTimers));
+
+                        getActivity().startActivity(seriesIntent);
+                        break;
+
+                    case SCHEDULE:
+                    case TvApp.LIVE_TV_SCHEDULE_OPTION_ID:
+                        Intent schedIntent = new Intent(mActivity, BrowseScheduleActivity.class);
+                        getActivity().startActivity(schedIntent);
+                        break;
+
+                    case TvApp.LIVE_TV_RECORDINGS_OPTION_ID:
+                        Intent recordings = new Intent(mActivity, BrowseRecordingsActivity.class);
+                        BaseItemDto folder = new BaseItemDto();
+                        folder.setId("");
+                        folder.setName(TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv));
+                        recordings.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(folder));
+                        mActivity.startActivity(recordings);
+                        break;
+
                     default:
                         Toast.makeText(getActivity(), item.toString() + mApplication.getString(R.string.msg_not_implemented), Toast.LENGTH_SHORT)
                                 .show();
@@ -516,7 +553,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             }
 
             if (!(item instanceof BaseRowItem)) {
-                mTitle.setText(mFolder.getName());
+                mTitle.setText(mFolder != null ? mFolder.getName() : "");
                 mInfoRow.removeAllViews();
                 mSummary.setText("");
                 //fill in default background
@@ -538,8 +575,10 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)row).getAdapter();
             adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
 
-            mBackgroundUrl = rowItem.getBackdropImageUrl();
-            startBackgroundTimer();
+            if (ShowFanart) {
+                mBackgroundUrl = rowItem.getBackdropImageUrl();
+                startBackgroundTimer();
+            }
 
         }
     }
@@ -568,6 +607,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                 backgroundManager.setBitmap(resource);
+                TvApp.getApplication().setCurrentBackground(resource);
             }
         };
     }

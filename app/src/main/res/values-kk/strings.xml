@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Jellyfin</string>
     <string name="error">Қате</string>
     <string name="ok">ЖАРАЙДЫ</string>
     <string name="video_error_unknown_error">Бейне жүктеу сәтсіз</string>
@@ -8,8 +7,6 @@
     <string name="title_activity_select_user">ПайдаланушыӘрекетінТандау</string>
     <string name="home_title">Басты</string>
     <string name="btn_cancel">Болдырмау</string>
-    <string name="txt_expired">Android TV үшін арналған Jellyfinr мерзімі аяқталған</string>
-    <string name="txt_expired_exp">Осы жасақтаушылық нұсқасының мерзімі аяқталды. Жаңартуды іздеңіз немесе дүкенден орнатыңыз. Jellyfin бағдарламасын пайдаланғаныңызға алғыс айтамыз!</string>
     <string name="byletter_letters">АӘБВГҒДЕЖЗИЙКҚЛМНҢОӨПРСТУҰҮФХҺЦЧШЩЪЫІЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Бастаудағы қасиеті</string>
     <string name="pref_show_login">Кіру экранын көрсету</string>
@@ -58,7 +55,6 @@
     <string name="lbl_other">Басқа</string>
     <string name="lbl_latest_additions">Ең кейінгі үстемелер</string>
     <string name="lbl_because_you_watched">"Өйткені қарадыңыз "</string>
-    <string name="lbl_resume">Жалғастыру</string>
     <string name="lbl_play_all">Бәрін ойнату</string>
     <string name="lbl_shuffle_all">Бәрін араластыру</string>
     <string name="lbl_play">Ойнату</string>
@@ -77,14 +73,11 @@
     <string name="lbl_trailers">Трейлерлер</string>
     <string name="lbl_items">Тармақтар</string>
     <string name="lbl_item">Тармақ</string>
-    <string name="lbl_similar_movies">Ұқсас фильмдер</string>
     <string name="lbl_seasons">Маусымдар</string>
     <string name="lbl_upcoming">Күтілген</string>
-    <string name="lbl_similar_series">Ұқсас телехикаялар</string>
     <string name="lbl_toggle_favorite">Тандаулылықты қосу/ажырату</string>
     <string name="lbl_toggle_watched">Қаралғандықты қосу/ажырату</string>
     <string name="lbl_sd">SD</string>
-    <string name="lbl_if_resumed">" егер жалғастырылса)"</string>
     <string name="lbl_runs">"Ұзақтығы: "</string>
     <string name="lbl_min">" мин "</string>
     <string name="lbl_ends">"Аяқталуы: "</string>
@@ -101,7 +94,6 @@
     <string name="lbl_people">Адамдар</string>
     <string name="lbl_videos">Бейнелер</string>
     <string name="lbl_recordings">Жазбалар</string>
-    <string name="lbl_parens_forced">" (мәжбүрлі)"</string>
     <string name="lbl_none">Ешқандай</string>
     <string name="msg_video_playback_error">"Бейне ойнату қатесі - "</string>
     <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>
@@ -160,29 +152,24 @@
     <string name="lbl_begin_padding">Алға шегініс, мин</string>
     <string name="lbl_program_ended">Берілім аяқталды</string>
     <string name="lbl_end_padding">Артқа шегініс, мин</string>
-    <string name="lbl_required_to_record">Жазу үшін қажет</string>
     <string name="lbl_similar_items_library">Тасығышханаңыздағы ұқсас тармақтар</string>
     <string name="lbl_record_any_channel">Қайсыбір арнадан жазу</string>
     <string name="lbl_record_any_time">Қайсыбір уақытта жазу</string>
     <string name="lbl_only_new_episodes">Тек қана жаңа бөлімдерді</string>
     <string name="lbl_repeat_options">Қайталау нұсқалары</string>
-    <string name="lbl_days">Күндер</string>
     <string name="msg_cancel_entire_series">Шынымен осы ТЕЛЕХИКАЯНЫҢ БӘРІН болдырмау қажет пе?</string>
     <string name="msg_remote_already_playing">Қашықтан ойнату сұранысы еленбейді. Алдынан ағымдағы элементті тоқтатыңыз.</string>
     <string name="pref_audio_direct">Тікелей</string>
-    <string name="pref_audio_compat">Сыйсымды</string>
+    <string name="pref_audio_compat">Стереоға кемітіп микшерлеу</string>
     <string name="lbl_audio_output">Дыбыс шығысы</string>
     <string name="lbl_goto_series">Телехикаяларға өту</string>
-    <string name="lbl_use_vlc">Ойнату үшін VLC пайдалану</string>
-    <string name="desc_use_vlc">Мазмқнды тікелей ойнату үшін кіріктірілген VLC-ойнатқышты пайдану</string>
     <string name="lbl_select_color">Түсті таңдау</string>
     <string name="lbl_sideline_color">Бүйірлік сызық түсі</string>
     <string name="desc_sideline_color">Бүйрлік тақтасынындағы санат түсі</string>
-    <string name="lbl_vlc_max_res">Тікелей ағынмен тасымалдау әрекеті үшін ең жоғарғы ажыратымдылығы</string>
     <string name="lbl_show_info_panel">Ақпар тақтасын көрсету</string>
     <string name="lbl_enable_debug">Күйкелтіру параметрлерін қосу</string>
     <string name="desc_info_panel">Толық ақпараты жоқ экрандардағы ағымдық тармақта мәліметтері бар тақтаны көрсету</string>
-    <string name="desc_debug">Басты экранда Жұрналдарды жіберу түймешігін көрсету</string>
+    <string name="desc_debug">Жөндеу үшін қосымша ақпаратпен қамтамасыз етуді қосыңыз</string>
     <string name="lbl_showing">Көрсету</string>
     <string name="lbl_all_items">Барлық тармақтар</string>
     <string name="lbl_sorted_by">сүзу түрі</string>
@@ -212,8 +199,6 @@
     <string name="lbl_recorded_tv">Жазылған ТД</string>
     <string name="btn_ok">ЖАРАЙДЫ</string>
     <string name="pref_live_tv_cat">ЭФИРЛІК ТД</string>
-    <string name="pref_sort_date_option">Телегидті соңғы ойнатылған уақыты бойынша сұрыптау</string>
-    <string name="pref_sort_date_desc">Соңғы ойнатылған арналарды телегидтің  жоғарысында көрсету</string>
     <string name="msg_error_live_stream">Эфирлік ТД тарату қатесі. Қайталаймыз...</string>
     <string name="lbl_direct_stream_live">Эфирлік ТД тікелей тарату</string>
     <string name="lbl_programs">Көрсетімдер</string>
@@ -254,4 +239,29 @@
     <string name="lbl_enable_seasonal_themes">Маусымдық тақырыптарды қосу</string>
     <string name="desc_seasonal_themes">Жылдың белгілі бір уақыттарында арнайы түстер мен ұсыныстарға рұқсат ету</string>
     <string name="desc_automatic_fav_songs">Таңдамалы және ұнатылған әуендердің автоматты ойнату тізімі</string>
+    <string name="lbl_switch_server">Серверді өзгерту</string>
+    <string name="lbl_forget">Ұмыт</string>
+    <string name="lbl_new_premieres">Жаңа премьералар</string>
+    <string name="lbl_bitstream_ac3">Dolby Digital дыбысын тасымалдау</string>
+    <string name="desc_bitstream_ac3">Жарамды жабдықты қажет етеді</string>
+    <string name="lbl_normal">Кәдімгі</string>
+    <string name="lbl_zoom">Ұлғайту</string>
+    <string name="lbl_horizontal_stretch">Көлденең созу</string>
+    <string name="lbl_vertical_stretch">Тігінең созу</string>
+    <string name="lbl_audio_capabilitites">Дыбыс мүмкіндіктері</string>
+    <string name="msg_audio_warning">Бұл қолданбада кейбір көп арналы дыбыс пішімдерін тікелей тарату мүмкіндігі бар. Сіздің жабдық осы пішімдерді қолдамайтын болса, кейбір элементтерді ойнатқанда, еш дыбыс естілмеуі мүмкін. Ең алдымен, бұл теледидар динамиктерін ғана пайдаланған жағдайда болады. Егер бұл орын алса, қолданбадағы ойнату параметрлерінде Дыбыс режімін «төмендетіп араластыру» күйіне орнатыңыз.</string>
+    <string name="btn_got_it">Түсінікті</string>
+    <string name="btn_set_compatible_audio">ЕНді кемітіп микшерлеуді орнату</string>
+    <string name="lbl_current_queue">Ағымдық кезек</string>
+    <string name="desc_current_video_queue">Бейне тармақтар ойнату үшін қазіргі уақытта кезекте</string>
+    <string name="lbl_clear_queue">Кезекті тазалау</string>
+    <string name="lbl_play_next_up">Кезектегіні ойнату</string>
+    <string name="lbl_open">Ашу</string>
+    <string name="lbl_show_backdrop">Шарлағанда артқы суретті көрсету</string>
+    <string name="lbl_use_vlc_livetv">Эфирлік ТД үшін VLC пайдалануға әрекет</string>
+    <string name="desc_use_vlc_livetv">Қол жетімді болса, тікелей таратылған эфирлік ТД үшін VLC пайдалану</string>
+    <string name="lbl_refresh_switching">Жаңарту жиілігін ауыстыруды қосу</string>
+    <string name="lbl_show_premieres">Маусым премьераларын басты экранда көрсету</string>
+    <string name="desc_premieres">Қараған телехикаялар үшін жаңа бөлім жолын көрсету</string>
+    <string name="lbl_bitstream_dts">DTS дыбысты тасымалдау</string>
 </resources>

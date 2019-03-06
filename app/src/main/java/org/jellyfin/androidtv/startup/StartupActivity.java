@@ -58,13 +58,23 @@ public class StartupActivity extends Activity {
 
         //Migrate prefs
         if (Integer.parseInt(application.getConfigVersion()) < 2) {
-            application.getPrefs().edit().putString("pref_vlc_max_res", "2900").commit();
             application.getSystemPrefs().edit().putString("sys_pref_config_version", "2").commit();
         }
         if (Integer.parseInt(application.getConfigVersion()) < 3) {
-            application.getPrefs().edit().putString("pref_max_bitrate", "0").commit();
-            application.getSystemPrefs().edit().putString("sys_pref_config_version", "3").commit();
+            application.getPrefs().edit().putString("pref_max_bitrate", "0").apply();
+            application.getSystemPrefs().edit().putString("sys_pref_config_version", "3").apply();
         }
+        if (Integer.parseInt(application.getConfigVersion()) < 4) {
+            application.getPrefs().edit().putBoolean("pref_enable_premieres", false).apply();
+            application.getPrefs().edit().putBoolean("pref_enable_info_panel", false).apply();
+            application.getSystemPrefs().edit().putString("sys_pref_config_version", "4").apply();
+        }
+//        if (Integer.parseInt(application.getConfigVersion()) < 5) {
+//            application.getPrefs().edit().putBoolean("pref_live_shift", true).apply();
+//            application.getPrefs().edit().putBoolean("pref_live_direct", false).apply();
+//            application.getSystemPrefs().edit().putString("sys_pref_config_version", "5").apply();
+//        }
+
 
         //Ensure we have prefs
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
@@ -168,7 +178,7 @@ public class StartupActivity extends Activity {
         application.setDirectItemId(getIntent().getStringExtra("ItemId"));
 
         //Load any saved login creds
-        application.setConfiguredAutoCredentials(Utils.GetSavedLoginCredentials(application.getDirectItemId() == null ? "tv.mediabrowser.login.json" : "tv.jellyfin.lastlogin.json"));
+        application.setConfiguredAutoCredentials(Utils.GetSavedLoginCredentials(TvApp.CREDENTIALS_PATH));
 
         //And use those credentials if option is set
         if (application.getIsAutoLoginConfigured() || application.getDirectItemId() != null) {

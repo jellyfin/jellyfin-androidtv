@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#64000000">
+    android:background="@color/backdrop_overlay">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -26,9 +26,9 @@
         android:id="@+id/title"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="30sp"
+        android:layout_marginLeft="60sp"
         android:layout_marginTop="20sp"
-        android:textSize="35sp"
+        android:textSize="32sp"
         android:shadowColor="#ff000000"
         android:layout_toLeftOf="@+id/npBug"
         android:layout_marginRight="10sp"
