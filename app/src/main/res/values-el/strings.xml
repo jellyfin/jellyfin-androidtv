@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Jellyfin</string>
     <string name="error">Error</string>
     <string name="ok">Εντάξει</string>
     <string name="video_error_unknown_error">Απέτυχε να φορτώσει το βίντεο</string>
@@ -9,13 +8,9 @@
     <string name="title_activity_select_user">Επιλέξτε δραστηριότητα του χρήστη</string>
     <string name="home_title">Home</string>
     <string name="btn_cancel">ακυρώ</string>
-    <string name="txt_expired">Jellyfin για το Android τηλεόραση έχει λήξει</string>
-    <string name="txt_expired_exp">Αυτή η έκδοση ανάπτυξης έχει λήξει . Παρακαλώ κοιτάξτε για μια ενημερωμένη έκδοση ή να εγκαταστήσετε από το κατάστημα . Σας ευχαριστούμε που χρησιμοποιείτε Jellyfin !</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="btn_ok">OK</string>
     <string name="pref_live_tv_cat">LIVE TV</string>
-    <string name="pref_sort_date_option">Ταξινόμηση καθοδηγήσει από την τελευταία ώρα παιχνιδιού</string>
-    <string name="pref_sort_date_desc">Εμφάνιση των τελευταίων έπαιξε κανάλια στην κορυφή του οδηγού</string>
     <string name="msg_error_live_stream">Σφάλμα συνεχή ροή ζωντανή τηλεόραση . Θα προσπαθήσουμε ξανά ...</string>
     <string name="lbl_direct_stream_live">Άμεση ρεύμα ζωντανά τηλεόραση</string>
     <string name="lbl_programs">προγράμμα</string>

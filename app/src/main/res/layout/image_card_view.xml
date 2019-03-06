@@ -21,7 +21,8 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:gravity="right">
         <ImageView
             android:id="@+id/main_image"
             lb:layout_viewType="main"
@@ -39,6 +40,52 @@
             android:layout_alignBottom="@+id/main_image"
             android:layout_alignEnd="@+id/main_image"
             android:visibility="gone"/>
+        <ProgressBar
+            style="@style/overlay_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/resumeProgress"
+            android:layout_alignParentBottom="true"
+            android:maxHeight="5sp"
+            android:visibility="gone"
+            android:max="100" />
+
+
+        <RelativeLayout
+            android:id="@+id/watchedIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/main_image"
+            android:gravity="end"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="4dp"
+            android:layout_alignParentEnd="true"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/watched"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/greencircle" />
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:id="@+id/unwatchedCount"
+                android:textAlignment="center"
+                android:visibility="invisible"
+                android:gravity="center"
+                android:layout_marginTop="5dp" />
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:id="@+id/checkMark"
+                android:src="@drawable/whitecheck"
+                android:layout_alignEnd="@+id/watched"
+                android:layout_alignTop="@+id/watched"
+                android:layout_marginTop="-7dp"
+                />
+
+        </RelativeLayout>
         <RelativeLayout
             android:id="@+id/name_overlay"
             android:layout_width="match_parent"
@@ -80,6 +127,7 @@
         </RelativeLayout>
 
     </RelativeLayout>
+
     <android.support.v17.leanback.widget.NonOverlappingFrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -112,12 +160,13 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginLeft="@dimen/lb_basic_card_info_text_margin"
+                android:layout_marginEnd="15dp"
                 android:layout_marginBottom="@dimen/lb_basic_card_info_text_margin"
                 android:maxLines="1"
                 android:fontFamily="sans-serif-condensed"
                 android:textColor="@color/lb_basic_card_content_text_color"
                 android:textSize="@dimen/lb_basic_card_content_text_size"
-                android:ellipsize="none" />
+                android:ellipsize="end" />
             <ImageView
                 android:id="@+id/extra_badge"
                 android:layout_width="@dimen/lb_basic_card_info_badge_size"

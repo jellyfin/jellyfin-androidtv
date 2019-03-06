@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.settings;
 
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -45,12 +46,11 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         // conditionally hide options that don't apply
         PreferenceCategory cat = (PreferenceCategory) findPreference("pref_playback_category");
-        if (Utils.isFireTvStick()) cat.removePreference(findPreference("pref_vlc_max_res"));
         if (Utils.isFireTv() && !Utils.is50()) cat.removePreference(findPreference("pref_audio_option"));
         if (Utils.is60()) {
-            cat.removePreference(findPreference("pref_enable_vlc"));
-            cat.removePreference(findPreference("pref_vlc_max_res"));
             cat.removePreference(findPreference("pref_bitstream_ac3"));
+        } else {
+            cat.removePreference(findPreference("pref_refresh_switching"));
         }
     }
 
@@ -86,19 +86,26 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             ListPreference listPreference = (ListPreference) findPreference(key);
             if (listPreference.getValue().equals("1")) {
                 try {
-                    Utils.SaveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), "tv.mediabrowser.login.json");
+                    Utils.SaveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), TvApp.CREDENTIALS_PATH);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
 
-        if (key.equals("pref_guide_sort_date")) {
-            TvManager.resetChannels();
-        }
-
         updatePreference(findPreference(key));
+
+        if (key.equals("pref_send_path_external") && ((CheckBoxPreference)findPreference(key)).isChecked()) {
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("W A R N I N G")
+                    .setMessage("This feature will only work if you have properly setup your library on the server with network paths or setup Path Substitution AND the external player app you are using can directly access these locations over the network.  If playback fails or you didn't understand any of that, disable this option.")
+                    .setPositiveButton(R.string.btn_got_it, null)
+                    .show();
+        }
     }
+
+    private String[] extPlayerVideoDep = new String[] {"pref_enable_cinema_mode","pref_refresh_switching","pref_audio_option","pref_bitstream_ac3","pref_bitstream_dts"};
+    private String[] extPlayerLiveTvDep = new String[] {"pref_live_direct","pref_enable_vlc_livetv"};
 
     private void updatePreference(Preference preference) {
         if (preference instanceof ListPreference) {
@@ -125,12 +132,35 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         if (preference instanceof CheckBoxPreference) {
             CheckBoxPreference cb = (CheckBoxPreference) preference;
-            if (cb.getKey().equals("pref_enable_vlc")) {
-                // enable other vlc only options
-                Preference res = findPreference("pref_vlc_max_res");
-                if (res != null) res.setEnabled(cb.isChecked());
+            if (cb.getKey().equals("pref_live_direct")) {
+                // enable other live tv direct only options
+                Preference live = findPreference("pref_enable_vlc_livetv");
+                if (live != null) live.setEnabled(cb.isChecked());
+//                Preference shift = findPreference("pref_live_shift");
+//                if (shift != null) shift.setEnabled(!cb.isChecked());
+            } else
+//            if (cb.getKey().equals("pref_live_shift")) {
+//                // enable/disable related options
+//                Preference direct = findPreference("pref_live_direct");
+//                if (direct != null) direct.setEnabled(!cb.isChecked());
+//            } else
+            if (cb.getKey().equals("pref_video_use_external")) {
+                // enable/disable other related items
+                Preference direct = findPreference("pref_send_path_external");
+                if (direct != null) direct.setEnabled(cb.isChecked());
+                for (String key: extPlayerVideoDep) {
+                    Preference pref = findPreference(key);
+                    if (pref != null) pref.setEnabled(!cb.isChecked());
+                }
+            } else if (cb.getKey().equals("pref_live_tv_use_external")) {
+                // enable/disable other related items
+                for (String key: extPlayerLiveTvDep) {
+                    Preference pref = findPreference(key);
+                    if (pref != null) pref.setEnabled(!cb.isChecked());
+                }
             }
         }
+
     }
 }
 

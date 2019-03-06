@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Jellyfin</string>
     <string name="error">错误</string>
     <string name="ok">确定</string>
     <string name="video_error_unknown_error">载入视频失败</string>
@@ -8,8 +7,6 @@
     <string name="title_activity_select_user">选择用户活动</string>
     <string name="home_title">首页</string>
     <string name="btn_cancel">取消</string>
-    <string name="txt_expired">Jellyfin 安卓电视版已过期</string>
-    <string name="txt_expired_exp">开发版已过期. 请尽快更新或从应用商店安装. 感谢使用 Jellyfin!</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">启动行为</string>
     <string name="pref_show_login">显示登录界面</string>
@@ -55,7 +52,6 @@
     <string name="lbl_other">其它</string>
     <string name="lbl_latest_additions">最新增加</string>
     <string name="lbl_because_you_watched">"因为你已观看"</string>
-    <string name="lbl_resume">继续播放</string>
     <string name="lbl_play_all">全部播放</string>
     <string name="lbl_shuffle_all">随机播放</string>
     <string name="lbl_play">播放</string>
@@ -69,14 +65,11 @@
     <string name="lbl_chapters">章节</string>
     <string name="lbl_specials">特典</string>
     <string name="lbl_trailers">预告</string>
-    <string name="lbl_similar_movies">类似电影</string>
     <string name="lbl_seasons">剧季</string>
     <string name="lbl_upcoming">即将上映</string>
-    <string name="lbl_similar_series">类似剧集</string>
     <string name="lbl_toggle_favorite">切换收藏</string>
     <string name="lbl_toggle_watched">切换观看</string>
     <string name="lbl_sd">标清</string>
-    <string name="lbl_if_resumed">"如果继续播放)"</string>
     <string name="lbl_runs">"运行:"</string>
     <string name="lbl_min">"分钟"</string>
     <string name="lbl_ends">"结束:"</string>
@@ -91,7 +84,6 @@
     <string name="lbl_login_as">"登录为"</string>
     <string name="lbl_tv">电视</string>
     <string name="lbl_people">人物</string>
-    <string name="lbl_parens_forced">"(强制)"</string>
     <string name="lbl_none">无</string>
     <string name="msg_video_playback_error">"视频回放出错 -"</string>
     <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>

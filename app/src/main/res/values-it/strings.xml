@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Jellyfin</string>
     <string name="error">Errore</string>
     <string name="ok">Ok</string>
     <string name="video_error_unknown_error">Caricamento video fallito</string>
@@ -8,8 +7,6 @@
     <string name="title_activity_select_user">Attività Selezione Utente</string>
     <string name="home_title">Home</string>
     <string name="btn_cancel">Annulla</string>
-    <string name="txt_expired">Jellyfin per Android TV è scaduto</string>
-    <string name="txt_expired_exp">La versione per sviluppatori è scaduta. Per favore cerca un aggiornamento o installalo dallo store. Grazie per aver usato Jellyfin</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Comportamento all\'avvio</string>
     <string name="pref_show_login">Mostra schermata di accesso</string>
@@ -55,7 +52,6 @@
     <string name="lbl_other">Altro</string>
     <string name="lbl_latest_additions">Ultime Aggiunte</string>
     <string name="lbl_because_you_watched">"Perchè hai guardato "</string>
-    <string name="lbl_resume">Riprendi</string>
     <string name="lbl_play_all">Riproduci tutto</string>
     <string name="lbl_shuffle_all">Riproduci tutto a caso</string>
     <string name="lbl_play">Riproduci</string>
@@ -69,14 +65,11 @@
     <string name="lbl_chapters">Capitoli</string>
     <string name="lbl_specials">Speciali</string>
     <string name="lbl_trailers">Trailer</string>
-    <string name="lbl_similar_movies">Film Simili</string>
     <string name="lbl_seasons">Stagioni</string>
     <string name="lbl_upcoming">In Arrivo</string>
-    <string name="lbl_similar_series">Serie Simili</string>
     <string name="lbl_toggle_favorite">Preferito</string>
     <string name="lbl_toggle_watched">Visto</string>
     <string name="lbl_sd">SD</string>
-    <string name="lbl_if_resumed">" se ripreso"</string>
     <string name="lbl_runs">"Dura: "</string>
     <string name="lbl_min">" min "</string>
     <string name="lbl_ends">"Finisce: "</string>
@@ -91,7 +84,6 @@
     <string name="lbl_login_as">"Entra come "</string>
     <string name="lbl_tv">TV</string>
     <string name="lbl_people">Persone</string>
-    <string name="lbl_parens_forced">" (forzato)"</string>
     <string name="lbl_none">Nessuno</string>
     <string name="msg_video_playback_error">"Errore di riproduzione video - "</string>
     <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>
@@ -123,4 +115,34 @@
     <string name="lbl_empty">Vuoto</string>
     <string name="lbl_tv_queuing">Metti in coda tutti gli episodi sequenziali.</string>
     <string name="sum_tv_queuing">Aggiungi il resto della stagione alla coda di riproduzione quando riproduci un episodio.</string>
+    <string name="lbl_albums">Album</string>
+    <string name="lbl_artists">Artisti</string>
+    <string name="lbl_song">Brano</string>
+    <string name="lbl_songs">Canzoni</string>
+    <string name="lbl_album">Album</string>
+    <string name="lbl_episodes">Episodi</string>
+    <string name="lbl_enable_cinema_mode">Abilita la modalità cinema</string>
+    <string name="sum_enable_cinema_mode">Se abilitato sul server, abilita \"intro\" e anteprime prima dell\'inizio della riproduzione del film</string>
+    <string name="lbl_of">di</string>
+    <string name="msg_added_item_to_queue">"Elemento aggiunto in coda in posizione "</string>
+    <string name="msg_items_added">" elementi aggiunti"</string>
+    <string name="msg_total_items_in_queue">" totale elementi in coda"</string>
+    <string name="lbl_add_to_queue">Aggiungi alla coda</string>
+    <string name="lbl_open_artist">Apri Artista</string>
+    <string name="lbl_open_album">Apri Album</string>
+    <string name="lbl_reshuffle_queue">Rimescola la Coda</string>
+    <string name="lbl_toggle_repeat">Ripeti</string>
+    <string name="lbl_next_item">Prossimo elemento</string>
+    <string name="lbl_prev_item">Elemento Precedente</string>
+    <string name="lbl_now_playing">In Riproduzione</string>
+    <string name="lbl_play_from_here">Riproduci da qui</string>
+    <string name="lbl_remove_from_queue">Rimuovi dalla Coda</string>
+    <string name="lbl_goto_now_playing">Vai a \"In riproduzione\"</string>
+    <string name="lbl_instant_mix">Mix Istantaneo</string>
+    <string name="lbl_save_as_playlist">Salva come una Playlist</string>
+    <string name="lbl_delete">Elimina</string>
+    <string name="msg_item_added">" elemento aggiunto"</string>
+    <string name="btn_replace_queue">Sostituisci Coda</string>
+    <string name="lbl_items_in_queue">Elementi in Coda</string>
+    <string name="msg_replace_or_add_queue_q">Preferisci sostituire o aggiungere alla coda?</string>
 </resources>

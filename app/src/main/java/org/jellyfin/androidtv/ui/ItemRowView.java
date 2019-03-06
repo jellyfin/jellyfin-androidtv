@@ -88,7 +88,7 @@ public class ItemRowView extends FrameLayout {
     protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
         if (gainFocus) {
-            mWholeRow.setBackgroundResource(R.color.lb_default_brand_color);
+            mWholeRow.setBackgroundResource(R.drawable.btn_focus);
             playSoundEffect(SoundEffectConstants.getContantForFocusDirection(direction));
             if (rowSelectedListener != null) rowSelectedListener.onRowSelected(this);
         } else {

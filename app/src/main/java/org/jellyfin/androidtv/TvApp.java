@@ -9,17 +9,23 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.graphics.Palette;
 import android.util.Log;
 
 import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.livetv.TvManager;
+import org.jellyfin.androidtv.model.DisplayPriorityType;
+import org.jellyfin.androidtv.playback.ExternalPlayerActivity;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
@@ -38,10 +44,12 @@ import mediabrowser.apiinteraction.android.GsonJsonSerializer;
 import mediabrowser.apiinteraction.android.VolleyHttpClient;
 import mediabrowser.apiinteraction.playback.PlaybackManager;
 import mediabrowser.logging.ConsoleLogger;
+import mediabrowser.model.configuration.ServerConfiguration;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserDto;
 import mediabrowser.model.entities.DisplayPreferences;
 import mediabrowser.model.logging.ILogger;
+import mediabrowser.model.net.EndPointInfo;
 import mediabrowser.model.system.SystemInfo;
 
 /**
@@ -50,11 +58,15 @@ import mediabrowser.model.system.SystemInfo;
 
 
 public class TvApp extends Application implements ActivityCompat.OnRequestPermissionsResultCallback {
-
     public static String FEATURE_CODE = "androidtv";
+
+    public static final String CREDENTIALS_PATH = "org.jellyfin.androidtv.login.json";
+
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
     public static final int LIVE_TV_RECORDINGS_OPTION_ID = 2000;
     public static final int VIDEO_QUEUE_OPTION_ID = 3000;
+    public static final int LIVE_TV_SCHEDULE_OPTION_ID = 4000;
+    public static final int LIVE_TV_SERIES_OPTION_ID = 5000;
 
     private static final int SEARCH_PERMISSION = 0;
 
@@ -80,6 +92,10 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     private String lastDeletedItemId = "";
 
+    private ServerConfiguration serverConfiguration;
+
+    private int maxRemoteBitrate = -1;
+
     private Calendar lastPlayback = Calendar.getInstance();
     private Calendar lastMoviePlayback = Calendar.getInstance();
     private Calendar lastTvPlayback = Calendar.getInstance();
@@ -91,7 +107,11 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     private boolean searchAllowed = Build.VERSION.SDK_INT < 23;
 
+    private GradientDrawable currentBackgroundGradient;
+
     private boolean audioMuted;
+    private boolean playingIntros;
+    private DisplayPriorityType displayPriority = DisplayPriorityType.Movies;
 
     private BaseActivity currentActivity;
 
@@ -104,13 +124,14 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
         app = (TvApp)getApplicationContext();
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
+        setCurrentBackgroundGradient(new int[] {ContextCompat.getColor(this, R.color.lb_default_brand_color_dark), ContextCompat.getColor(this, R.color.lb_default_brand_color)});
 
         logger.Info("Application object created");
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread thread, Throwable ex) {
-                Log.e("MediaBrowserTv", "Uncaught exception is: ", ex);
+                Log.e(getString(R.string.app_name), "Uncaught exception is: ", ex);
                 ex.printStackTrace();
                 android.os.Process.killProcess(android.os.Process.myPid());
                 System.exit(10);
@@ -148,6 +169,8 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     public void setCurrentUser(UserDto currentUser) {
         this.currentUser = currentUser;
+        TvManager.clearCache();
+        this.displayPrefsCache = new HashMap<>();
     }
 
     public GsonJsonSerializer getSerializer() {
@@ -159,7 +182,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     }
 
     public ApiClient getApiClient() {
-        return connectionManager.GetApiClient(currentUser);
+        return currentUser != null ? connectionManager.GetApiClient(currentUser) : null;
     }
 
     public BaseItemDto getCurrentPlayingItem() {
@@ -188,7 +211,13 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     public void setAudioMuted(boolean value) {
         audioMuted = value;
-        audioManager.setStreamMute(AudioManager.STREAM_MUSIC, audioMuted);
+        getLogger().Info("Setting mute state to: "+audioMuted);
+        if (Utils.is60()) {
+            audioManager.adjustVolume(audioMuted ? AudioManager.ADJUST_MUTE : AudioManager.ADJUST_UNMUTE, 0);
+
+        } else {
+            audioManager.setStreamMute(AudioManager.STREAM_MUSIC, audioMuted);
+        }
     }
 
     public boolean isAudioMuted() { return audioMuted; }
@@ -230,6 +259,30 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
                 @Override
                 public void onError(Exception exception) {
                     logger.ErrorException("Unable to obtain system info.", exception);
+                }
+            });
+
+            //Also get server configuration and fill in max remote bitrate if we are remote
+            getApiClient().GetEndPointInfo(new Response<EndPointInfo>() {
+                @Override
+                public void onResponse(EndPointInfo response) {
+                    if (!response.getIsInNetwork()) {
+                        getApiClient().GetServerConfigurationAsync(new Response<ServerConfiguration>() {
+                            @Override
+                            public void onResponse(ServerConfiguration response) {
+                                serverConfiguration = response;
+                                maxRemoteBitrate = serverConfiguration.getRemoteClientBitrateLimit();
+                                getLogger().Info("Server bitrate limit set to ", maxRemoteBitrate);
+                            }
+
+                            @Override
+                            public void onError(Exception exception) {
+                                getLogger().ErrorException("Unable to retrieve server configuration",exception);
+                            }
+                        });
+                    } else {
+                        getLogger().Info("** Local connection - no server bitrate limit");
+                    }
                 }
             });
         }
@@ -327,6 +380,26 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
         return getPrefs().getString("pref_login_behavior", "0").equals("1") && getConfiguredAutoCredentials().getServerInfo().getId() != null;
     }
 
+    public boolean useExternalPlayer(String itemType) {
+        switch (itemType) {
+            case "Movie":
+            case "Episode":
+            case "Video":
+            case "Series":
+            case "Recording":
+                return getPrefs().getBoolean("pref_video_use_external", false);
+            case "TvChannel":
+            case "Program":
+                return getPrefs().getBoolean("pref_live_tv_use_external", false);
+            default:
+                return false;
+        }
+    }
+
+    public Class getPlaybackActivityClass(String itemType) {
+        return useExternalPlayer(itemType) ? ExternalPlayerActivity.class : PlaybackOverlayActivity.class;
+    }
+
     public Calendar getLastMoviePlayback() {
         return lastMoviePlayback.after(lastPlayback) ? lastMoviePlayback : lastPlayback;
     }
@@ -345,6 +418,16 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     public boolean directStreamLiveTv() { return getPrefs().getBoolean("pref_live_direct", true); }
 
     public void setDirectStreamLiveTv(boolean value) { getPrefs().edit().putBoolean("pref_live_direct", value).commit(); }
+
+    public boolean useVlcForLiveTv() { return getPrefs().getBoolean("pref_enable_vlc_livetv", true); }
+
+    public int getResumePreroll() {
+        try {
+            return Integer.parseInt(getPrefs().getString("pref_resume_preroll","0")) * 1000;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
 
     public Calendar getLastTvPlayback() {
         return lastTvPlayback.after(lastPlayback) ? lastTvPlayback : lastPlayback;
@@ -377,6 +460,10 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     public void setLastUserInteraction(long lastUserInteraction) {
         this.lastUserInteraction = lastUserInteraction;
+    }
+
+    public boolean canManageRecordings() {
+        return currentUser != null && currentUser.getPolicy().getEnableLiveTvManagement();
     }
 
     public PlaybackManager getPlaybackManager() {
@@ -461,17 +548,25 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     }
 
     public void updateDisplayPrefs(DisplayPreferences preferences) {
+        updateDisplayPrefs("ATV", preferences);
+    }
+
+    public void updateDisplayPrefs(String app, DisplayPreferences preferences) {
         displayPrefsCache.put(preferences.getId(), preferences);
-        getApiClient().UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), "ATV", new EmptyResponse());
+        getApiClient().UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), app, new EmptyResponse());
         logger.Debug("Display prefs updated for "+preferences.getId()+" isFavorite: "+preferences.getCustomPrefs().get("FavoriteOnly"));
     }
 
-    public void getDisplayPrefsAsync(final String key, final Response<DisplayPreferences> outerResponse) {
+    public void getDisplayPrefsAsync(String key, Response<DisplayPreferences> response) {
+        getDisplayPrefsAsync(key, "ATV", response);
+    }
+
+    public void getDisplayPrefsAsync(final String key, String app, final Response<DisplayPreferences> outerResponse) {
         if (displayPrefsCache.containsKey(key)) {
             logger.Debug("Display prefs loaded from cache "+key);
             outerResponse.onResponse(displayPrefsCache.get(key));
         } else {
-            getApiClient().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), "ATV", new Response<DisplayPreferences>(){
+            getApiClient().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), app, new Response<DisplayPreferences>(){
                 @Override
                 public void onResponse(DisplayPreferences response) {
                     if (response.getSortBy() == null) response.setSortBy("SortName");
@@ -558,5 +653,46 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     public void setLastVideoQueueChange(long lastVideoQueueChange) {
         this.lastVideoQueueChange = lastVideoQueueChange;
+    }
+
+    public boolean isPlayingIntros() {
+        return playingIntros;
+    }
+
+    public void setPlayingIntros(boolean playingIntros) {
+        this.playingIntros = playingIntros;
+    }
+
+    public ServerConfiguration getServerConfiguration() {
+        return serverConfiguration;
+    }
+
+    public int getServerBitrateLimit() { return maxRemoteBitrate > 0 ? maxRemoteBitrate : 100000000; }
+
+    public DisplayPriorityType getDisplayPriority() {
+        return displayPriority;
+    }
+
+    public void setDisplayPriority(DisplayPriorityType displayPriority) {
+        this.displayPriority = displayPriority;
+    }
+
+    public GradientDrawable getCurrentBackgroundGradient() {
+        return currentBackgroundGradient;
+    }
+
+    public void setCurrentBackground(Bitmap currentBackground) {
+        int[] colors = new int[2];
+        colors[0] = Utils.darker(Palette.from(currentBackground).generate().getMutedColor(ContextCompat.getColor(this, R.color.black_transparent)), .6f);
+        colors[1] = Utils.darker(colors[0], .1f);
+        setCurrentBackgroundGradient(colors);
+    }
+
+    private void setCurrentBackgroundGradient(int[] colors) {
+        currentBackgroundGradient = new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors);
+        currentBackgroundGradient.setCornerRadius(0f);
+        currentBackgroundGradient.setGradientCenter(.6f, .5f);
+        currentBackgroundGradient.setAlpha(200);
+
     }
 }

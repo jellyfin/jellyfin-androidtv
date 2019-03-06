@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backdrop_overlay"></FrameLayout>
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -43,16 +48,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:id="@+id/detailArea"
-                android:layout_marginTop="10dp"
-                android:background="@color/black_transparent">
+                android:layout_marginTop="5dp"
+                >
 
                 <ImageView
                     android:layout_width="250dp"
                     android:layout_height="match_parent"
                     android:id="@+id/poster"
                     android:layout_centerVertical="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginLeft="40dp" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="60dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -60,8 +65,8 @@
                     android:text="Song Title"
                     android:id="@+id/songTitle"
                     android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/poster"
-                    android:layout_marginLeft="40dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="140dp"
                     android:layout_marginTop="20dp"
                     android:textSize="24sp"
                     android:minLines="1"
@@ -186,6 +191,18 @@
                 </LinearLayout>
 
                 <TextView
+                    android:layout_width="320dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonTip"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:layout_below="@+id/buttonRow"
+                    android:layout_marginTop="5sp"
+                    android:layout_alignStart="@id/buttonRow"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_alignEnd="@+id/remainingTime" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1"
@@ -240,7 +257,7 @@
                     android:minWidth="525sp"
                     android:layout_alignParentBottom="false"
                     android:maxHeight="5sp"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="30dp"
                     android:layout_below="@+id/currentNdx"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/currentPos" />
@@ -271,17 +288,6 @@
                     android:textSize="16sp" />
 
             </RelativeLayout>
-
-            <TextView
-                android:layout_width="320dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonTip"
-                android:layout_alignParentBottom="false"
-                android:textSize="16sp"
-                android:gravity="center"
-                android:layout_below="@+id/detailArea"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:layout_marginLeft="370dp" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -326,7 +332,7 @@
         android:id="@+id/ssInfoArea"
         android:alpha="0"
         android:background="@drawable/top_fade"
-        android:paddingLeft="50dp"
+        android:paddingEnd="50dp"
         android:paddingTop="20dp">
 
         <TextView
@@ -334,7 +340,9 @@
             android:layout_height="wrap_content"
             android:text="0:43 / 4:00"
             android:id="@+id/ssTime"
-            android:textSize="44dp"
+            android:textSize="44sp"
+            android:layout_alignParentEnd="true"
+            android:textAlignment="viewEnd"
             android:alpha=".3" />
 
         <TextView
@@ -346,6 +354,8 @@
             android:layout_below="@+id/ssTime"
             android:maxLines="1"
             android:ellipsize="end"
+            android:layout_alignParentEnd="true"
+            android:textAlignment="viewEnd"
             android:alpha=".3" />
 
         <TextView
@@ -354,7 +364,9 @@
             android:text="2 of 23"
             android:id="@+id/ssQueueStatus"
             android:textSize="22sp"
+            android:layout_toLeftOf="@+id/ssUpNext"
             android:layout_below="@+id/ssAlbumSong"
+            android:textAlignment="viewEnd"
             android:alpha=".3" />
 
         <TextView
@@ -364,10 +376,11 @@
             android:id="@+id/ssUpNext"
             android:textSize="22sp"
             android:layout_below="@+id/ssAlbumSong"
-            android:layout_toRightOf="@+id/ssQueueStatus"
             android:layout_marginLeft="15dp"
             android:alpha=".3"
             android:ellipsize="end"
+            android:layout_alignParentEnd="true"
+            android:textAlignment="viewEnd"
             android:maxLines="1" />
     </RelativeLayout>
 

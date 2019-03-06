@@ -553,14 +553,14 @@ public class MediaManager {
         options.setItemId(item.getId());
         options.setMaxBitrate(TvApp.getApplication().getAutoBitrate());
         options.setMediaSources(item.getMediaSources());
-        DeviceProfile profile = ProfileHelper.getBaseProfile();
+        DeviceProfile profile = ProfileHelper.getBaseProfile(false);
         if (Utils.is60()) {
             ProfileHelper.setExoOptions(profile, false, true);
         } else {
-            ProfileHelper.setVlcOptions(profile);
+            ProfileHelper.setVlcOptions(profile, false);
         }
         options.setProfile(profile);
-        TvApp.getApplication().getPlaybackManager().getAudioStreamInfo(apiClient.getServerInfo().getId(), options, false, apiClient, new Response<StreamInfo>() {
+        TvApp.getApplication().getPlaybackManager().getAudioStreamInfo(apiClient.getServerInfo().getId(), options, item.getResumePositionTicks(), false, apiClient, new Response<StreamInfo>() {
             @Override
             public void onResponse(StreamInfo response) {
                 mCurrentAudioItem = item;
@@ -571,8 +571,8 @@ public class MediaManager {
                     mExoplayer.setDataSource(TvApp.getApplication(), Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken())));
                     mExoplayer.start();
                 } else {
-                    TvApp.getApplication().getLogger().Info("Playback attempt via VLC of " + response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()));
-                    Media media = new Media(mLibVLC, Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken())));
+                    TvApp.getApplication().getLogger().Info("Playback attempt via VLC of " + response.getMediaUrl());
+                    Media media = new Media(mLibVLC, Uri.parse(response.getMediaUrl()));
                     media.parse();
                     mVlcPlayer.setMedia(media);
 

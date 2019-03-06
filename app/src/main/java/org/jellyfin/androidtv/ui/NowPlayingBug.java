@@ -74,7 +74,7 @@ public class NowPlayingBug extends FrameLayout {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
 
         if (gainFocus) {
-            this.setBackgroundResource(R.color.lb_default_brand_color);
+            this.setBackgroundResource(R.drawable.btn_focus);
         } else {
             this.setBackground(null);
         }

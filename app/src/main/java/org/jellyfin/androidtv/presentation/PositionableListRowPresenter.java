@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.presentation;
 
+import android.graphics.drawable.Drawable;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.RowPresenter;
 
@@ -8,9 +9,16 @@ import org.jellyfin.androidtv.TvApp;
 /**
  * Created by Eric on 10/12/2015.
  */
-public class PositionableListRowPresenter extends ListRowPresenter implements IPositionablePresenter {
+public class PositionableListRowPresenter extends CustomListRowPresenter implements IPositionablePresenter {
 
     private ListRowPresenter.ViewHolder viewHolder;
+
+    public PositionableListRowPresenter() { super(); }
+
+    public PositionableListRowPresenter(Drawable background, Integer padding) {
+        super(background, padding);
+    }
+
     @Override
     protected void onBindRowViewHolder(RowPresenter.ViewHolder holder, Object item) {
         super.onBindRowViewHolder(holder, item);

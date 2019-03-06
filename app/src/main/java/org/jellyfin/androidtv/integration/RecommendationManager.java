@@ -87,8 +87,8 @@ public class RecommendationManager {
     public boolean validate() {
         if (isEnabled) {
             //Now validate that these are for this server and user.
-            if (!mRecommendations.getServerId().equals(TvApp.getApplication().getApiClient().getServerInfo().getId())
-                    || !mRecommendations.getUserId().equals(TvApp.getApplication().getCurrentUser().getId())) {
+            if (mRecommendations == null || mRecommendations.getServerId() == null || TvApp.getApplication().getApiClient().getServerInfo() == null || !mRecommendations.getServerId().equals(TvApp.getApplication().getApiClient().getServerInfo().getId())
+                  || mRecommendations.getUserId() == null || TvApp.getApplication().getCurrentUser() == null || !mRecommendations.getUserId().equals(TvApp.getApplication().getCurrentUser().getId())) {
                 //Nope - clear them out and start over for this user
                 clearAll();
                 createAll();
@@ -296,7 +296,7 @@ public class RecommendationManager {
                     .setPriority(0)
                     .setTitle(item.getName())
                     .setDescription(item.getOverview())
-                    .setBitmap(Utils.getBitmapFromURL(Utils.getPrimaryImageUrl(item, TvApp.getApplication().getApiClient(), false, true, 300)))
+                    .setBitmap(Utils.getBitmapFromURL(Utils.getPrimaryImageUrl(item, TvApp.getApplication().getApiClient(), true, true, false, 300)))
                     .setBackground(Utils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true))
                     .setIntent(buildPendingIntent(item))
                     .build();
