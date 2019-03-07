@@ -48,4 +48,5 @@ docker run --rm -e "RELEASE=${release}" -v "${package_temporary_dir}:/dist" "${i
 chown -R "${current_user}" "${package_temporary_dir}" &>/dev/null \
   || sudo chown -R "${current_user}" "${package_temporary_dir}" &>/dev/null
 # Move the APKs to the parent directory
-mv "${package_temporary_dir}"/apk/*.apk ../
+mkdir ../bin &>/dev/null || true
+mv "${package_temporary_dir}"/apk/*.apk ../bin
