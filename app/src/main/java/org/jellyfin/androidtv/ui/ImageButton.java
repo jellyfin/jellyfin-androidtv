@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.ui;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,7 +13,7 @@ import org.jellyfin.androidtv.model.GotFocusEvent;
 /**
  * Created by Eric on 2/20/2015.
  */
-public class ImageButton extends ImageView {
+public class ImageButton extends AppCompatImageView {
 
     public static int STATE_PRIMARY = 0;
     public static int STATE_SECONDARY = 1;

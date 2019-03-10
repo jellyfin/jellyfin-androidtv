@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="org.jellyfin.androidtv" >
 
     <uses-feature
@@ -8,7 +9,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <uses-feature
@@ -24,7 +24,9 @@
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:allowBackup="false"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".browsing.MainActivity"
             android:label="@string/app_name"
@@ -82,11 +84,12 @@
             android:authorities="org.jellyfin.androidtv.recommendations"
             android:name=".integration.RecommendationContentProvider"
             android:exported="true"
-            android:grantUriPermissions="true" />
+            android:grantUriPermissions="true"
+            tools:ignore="ExportedContentProvider" />
 
         <activity
             android:name=".details.ExpandedTextActivity"
-            android:label="@string/title_activity_expanded_text"></activity>
+            android:label="@string/title_activity_expanded_text" />
     </application>
 
 </manifest>
