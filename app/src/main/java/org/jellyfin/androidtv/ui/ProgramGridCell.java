@@ -16,7 +16,9 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.livetv.ILiveTvGuide;
 import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 
 import java.util.Date;
 
@@ -61,18 +63,18 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
         setCellBackground();
 
         if (program.getStartDate() != null && program.getEndDate() != null) {
-            Date localStart = Utils.convertToLocalDate(program.getStartDate());
+            Date localStart = TimeUtils.convertToLocalDate(program.getStartDate());
             if (localStart.getTime() + 60000 < activity.getCurrentLocalStartDate()) {
                 mProgramName.setText("<< "+mProgramName.getText());
                 TextView time = new TextView(context);
                 time.setTypeface(TvApp.getApplication().getDefaultFont());
                 time.setTextSize(12);
-                time.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(program.getStartDate())));
+                time.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(program.getStartDate())));
                 mInfoRow.addView(time);
             }
         }
 
-        if (TvManager.getPrefs().showNewIndicator && Utils.isNew(program) && (!TvManager.getPrefs().showPremiereIndicator || !Utils.isTrue(program.getIsPremiere()))) {
+        if (TvManager.getPrefs().showNewIndicator && BaseItemUtils.isNew(program) && (!TvManager.getPrefs().showPremiereIndicator || !Utils.isTrue(program.getIsPremiere()))) {
             InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
             InfoLayoutHelper.addBlockText(context, mInfoRow, TvApp.getApplication().getString(R.string.lbl_new), 10, Color.GRAY, R.drawable.dark_green_gradient);
         }

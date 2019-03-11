@@ -44,8 +44,11 @@ import org.jellyfin.androidtv.ui.ObservableHorizontalScrollView;
 import org.jellyfin.androidtv.ui.ObservableScrollView;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.ScrollViewListener;
+import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -255,7 +258,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             mLoadLastChannel = false;
             String channel = TvManager.getLastLiveTvChannel();
             if (channel != null) {
-                Utils.retrieveAndPlay(channel, false, this);
+                PlaybackHelper.retrieveAndPlay(channel, false, this);
             } else {
                 doLoad();
             }
@@ -305,8 +308,8 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 if ((mDetailPopup == null || !mDetailPopup.isShowing()) && (mFilterPopup == null || !mFilterPopup.isShowing()) && (mOptionsPopup == null || !mOptionsPopup.isShowing())
                         && mSelectedProgram != null && mSelectedProgram.getChannelId() != null) {
                     // tune to the current channel
-                    Utils.Beep();
-                    Utils.retrieveAndPlay(mSelectedProgram.getChannelId(), false, this);
+                    Utils.beep();
+                    PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, this);
                     return true;
                 }
 
@@ -314,7 +317,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 if (getCurrentFocus() instanceof ProgramGridCell && mSelectedProgramView != null && mSelectedProgramView.isLast() && System.currentTimeMillis() - mLastFocusChanged > 1000) requestGuidePage(mCurrentLocalGuideEnd);
                 break;
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                if (getCurrentFocus() instanceof ProgramGridCell && mSelectedProgramView != null && mSelectedProgramView.isFirst() && Utils.convertToLocalDate(mSelectedProgram.getStartDate()).getTime() > System.currentTimeMillis() && System.currentTimeMillis() - mLastFocusChanged > 1000) {
+                if (getCurrentFocus() instanceof ProgramGridCell && mSelectedProgramView != null && mSelectedProgramView.isFirst() && TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate()).getTime() > System.currentTimeMillis() && System.currentTimeMillis() - mLastFocusChanged > 1000) {
                     focusAtEnd = true;
                     requestGuidePage(mCurrentLocalGuideStart - (getGuideHours()*60*60000));
                 }
@@ -580,7 +583,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         if (mDetailPopup == null) mDetailPopup = new LiveProgramDetailPopup(this, mSummary.getWidth()+20, new EmptyResponse() {
             @Override
             public void onResponse() {
-                Utils.retrieveAndPlay(mSelectedProgram.getChannelId(), false, mActivity);
+                PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, mActivity);
             }
         });
 
@@ -762,8 +765,8 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             int duration = ((Long)((mCurrentLocalGuideEnd - mCurrentLocalGuideStart) / 60000)).intValue();
             empty.setName("  <No Program Data Available>");
             empty.setChannelId(channelId);
-            empty.setStartDate(Utils.convertToUtcDate(new Date(mCurrentLocalGuideStart)));
-            empty.setEndDate(Utils.convertToUtcDate(new Date(mCurrentLocalGuideStart+(duration*60000))));
+            empty.setStartDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart)));
+            empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart+(duration*60000))));
             ProgramGridCell cell = new ProgramGridCell(this, this, empty);
             cell.setId(currentCellId++);
             cell.setLayoutParams(new ViewGroup.LayoutParams(duration * PIXELS_PER_MINUTE, ROW_HEIGHT));
@@ -776,16 +779,16 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
         long prevEnd = getCurrentLocalStartDate();
         for (BaseItemDto item : programs) {
-            long start = item.getStartDate() != null ? Utils.convertToLocalDate(item.getStartDate()).getTime() : getCurrentLocalStartDate();
+            long start = item.getStartDate() != null ? TimeUtils.convertToLocalDate(item.getStartDate()).getTime() : getCurrentLocalStartDate();
             if (start < getCurrentLocalStartDate()) start = getCurrentLocalStartDate();
             if (start > prevEnd) {
                 // fill empty time slot
                 BaseItemDto empty = new BaseItemDto();
                 empty.setName("  <No Program Data Available>");
                 empty.setChannelId(channelId);
-                empty.setStartDate(Utils.convertToUtcDate(new Date(prevEnd)));
+                empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
                 Long duration = (start - prevEnd);
-                empty.setEndDate(Utils.convertToUtcDate(new Date(prevEnd+duration)));
+                empty.setEndDate(TimeUtils.convertToUtcDate(new Date(prevEnd+duration)));
                 ProgramGridCell cell = new ProgramGridCell(this, this, empty);
                 cell.setId(currentCellId++);
                 cell.setLayoutParams(new ViewGroup.LayoutParams(((Long)(duration / 60000)).intValue() * PIXELS_PER_MINUTE, ROW_HEIGHT));
@@ -793,7 +796,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 if (prevEnd == mCurrentLocalGuideStart) cell.setFirst();
                 programRow.addView(cell);
             }
-            long end = item.getEndDate() != null ? Utils.convertToLocalDate(item.getEndDate()).getTime() : getCurrentLocalEndDate();
+            long end = item.getEndDate() != null ? TimeUtils.convertToLocalDate(item.getEndDate()).getTime() : getCurrentLocalEndDate();
             if (end > getCurrentLocalEndDate()) end = getCurrentLocalEndDate();
             prevEnd = end;
             Long duration = (end - start) / 60000;
@@ -818,9 +821,9 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             BaseItemDto empty = new BaseItemDto();
             empty.setName("  <No Program Data Available>");
             empty.setChannelId(channelId);
-            empty.setStartDate(Utils.convertToUtcDate(new Date(prevEnd)));
+            empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
             Long duration = (mCurrentLocalGuideEnd - prevEnd);
-            empty.setEndDate(Utils.convertToUtcDate(new Date(prevEnd+duration)));
+            empty.setEndDate(TimeUtils.convertToUtcDate(new Date(prevEnd+duration)));
             ProgramGridCell cell = new ProgramGridCell(this, this, empty);
             cell.setId(currentCellId++);
             cell.setLayoutParams(new ViewGroup.LayoutParams(((Long)(duration / 60000)).intValue() * PIXELS_PER_MINUTE, ROW_HEIGHT));
@@ -840,7 +843,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         mCurrentGuideStart.set(Calendar.MILLISECOND, 0);
         mCurrentLocalGuideStart = mCurrentGuideStart.getTimeInMillis();
 
-        mDisplayDate.setText(Utils.getFriendlyDate(mCurrentGuideStart.getTime()));
+        mDisplayDate.setText(TimeUtils.getFriendlyDate(mCurrentGuideStart.getTime()));
         Calendar current = (Calendar) mCurrentGuideStart.clone();
         mCurrentGuideEnd = (Calendar) mCurrentGuideStart.clone();
         int oneHour = 60 * PIXELS_PER_MINUTE;
@@ -893,8 +896,8 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         mTitle.setText(mSelectedProgram.getName());
         mSummary.setText(mSelectedProgram.getOverview());
         if (mSelectedProgram.getId() != null) {
-            mDisplayDate.setText(Utils.getFriendlyDate(Utils.convertToLocalDate(mSelectedProgram.getStartDate())));
-            String url = Utils.getPrimaryImageUrl(mSelectedProgram, TvApp.getApplication().getApiClient());
+            mDisplayDate.setText(TimeUtils.getFriendlyDate(TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
+            String url = ImageUtils.getPrimaryImageUrl(mSelectedProgram, TvApp.getApplication().getApiClient());
             Picasso.with(mActivity).load(url).resize(IMAGE_SIZE, IMAGE_SIZE).centerInside().into(mImage);
 
             //info row

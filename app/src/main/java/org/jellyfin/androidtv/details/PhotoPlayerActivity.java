@@ -32,6 +32,7 @@ import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.presentation.MyRandomeKBGenerator;
 import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
+import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.Utils;
 
 import mediabrowser.model.dto.BaseItemDto;
@@ -183,7 +184,7 @@ public class PhotoPlayerActivity extends BaseActivity {
     protected boolean handlePlayKey() {
         if (mPopupPanelVisible) {
             if (isPlaying) stop();
-            Utils.Beep();
+            Utils.beep();
             hideThumbPanel();
             MediaManager.setCurrentMediaPosition(mPopupRowPresenter.getPosition());
             loadImage(MediaManager.getCurrentMediaItem().getBaseItem(), currentImageView());
@@ -339,7 +340,7 @@ public class PhotoPlayerActivity extends BaseActivity {
             if (target == nextImage) isLoadingNext = true;
             if (target == prevImage) isLoadingPrev = true;
             Picasso.with(this)
-                    .load(Utils.getPrimaryImageUrl(photo, displayWidth, displayHeight))
+                    .load(ImageUtils.getPrimaryImageUrl(photo, displayWidth, displayHeight))
                     .resize(displayWidth, displayHeight)
                     .centerInside()
                     .skipMemoryCache()

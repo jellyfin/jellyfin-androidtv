@@ -15,6 +15,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.util.ProfileHelper;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class ExternalPlayerActivity extends Activity {
         Long reportPos = (long) pos * 10000;
 
         stopReportLoop();
-        Utils.ReportStopped(mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, reportPos);
+        ReportingHelper.reportStopped(mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, reportPos);
 
         //Check against a total failure (no apps installed)
         if (playerFinishedTime - mLastPlayerStart < 1000) {
@@ -147,11 +148,11 @@ public class ExternalPlayerActivity extends Activity {
     }
 
     private void startReportLoop() {
-        Utils.ReportProgress(mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, null, false);
+        ReportingHelper.reportProgress(mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, null, false);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
-                    Utils.ReportProgress(mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, mPosition, false);
+                    ReportingHelper.reportProgress(mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, mPosition, false);
 
                 mApplication.setLastUserInteraction(System.currentTimeMillis());
                 mHandler.postDelayed(this, 15000);
@@ -288,7 +289,7 @@ public class ExternalPlayerActivity extends Activity {
 
         try {
             mLastPlayerStart = System.currentTimeMillis();
-            Utils.ReportStart(mItemsToPlay.get(mCurrentNdx), 0);
+            ReportingHelper.reportStart(mItemsToPlay.get(mCurrentNdx), 0);
             startReportLoop();
             startActivityForResult(external, 1);
 

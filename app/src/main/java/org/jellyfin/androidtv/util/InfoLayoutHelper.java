@@ -10,6 +10,8 @@ import android.widget.TextView;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
+import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -39,7 +41,7 @@ public class InfoLayoutHelper {
         }
     }
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
-        addInfoRow(activity, item, layout, includeRuntime, includeEndTime, Utils.GetFirstAudioStream(item));
+        addInfoRow(activity, item, layout, includeRuntime, includeEndTime, StreamHelper.getFirstAudioStream(item));
     }
 
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime, MediaStream audioStream) {
@@ -80,7 +82,7 @@ public class InfoLayoutHelper {
                 return;
             case "Playlist":
                 if (item.getChildCount() != null) addCount(activity, item.getChildCount(), layout, item.getChildCount() == 1 ? activity.getResources().getString(R.string.lbl_item) : activity.getResources().getString(R.string.lbl_items));
-                if (item.getCumulativeRunTimeTicks() != null) addText(activity, " ("+Utils.formatMillis(item.getCumulativeRunTimeTicks() / 10000)+")", layout, 300);
+                if (item.getCumulativeRunTimeTicks() != null) addText(activity, " ("+ TimeUtils.formatMillis(item.getCumulativeRunTimeTicks() / 10000)+")", layout, 300);
                 break;
             default:
                 addDate(activity, item, layout);
@@ -160,7 +162,7 @@ public class InfoLayoutHelper {
         if (item.getAirDays() != null && item.getAirDays().size() > 0) {
             TextView textView = new TextView(activity);
             textView.setTextSize(textSize);
-            textView.setText(item.getAirDays().get(0) + " " + Utils.NullCoalesce(item.getAirTime(), "") +  "  ");
+            textView.setText(item.getAirDays().get(0) + " " + Utils.getSafeValue(item.getAirTime(), "") +  "  ");
             layout.addView(textView);
 
         }
@@ -169,10 +171,10 @@ public class InfoLayoutHelper {
     private static void addProgramInfo(Activity activity, BaseItemDto item, LinearLayout layout) {
         TextView name = new TextView(activity);
         name.setTextSize(textSize);
-        name.setText(Utils.GetProgramSubText(item)+"  ");
+        name.setText(BaseItemUtils.getProgramSubText(item)+"  ");
         layout.addView(name);
 
-        if (Utils.isNew(item)) {
+        if (BaseItemUtils.isNew(item)) {
             addBlockText(activity, layout, TvApp.getApplication().getString(R.string.lbl_new), 12, Color.GRAY, R.drawable.dark_green_gradient);
             addSpacer(activity, layout, "  ");
         } else if (Utils.isTrue(item.getIsSeries()) && !Utils.isTrue(item.getIsNews())) {
@@ -196,7 +198,7 @@ public class InfoLayoutHelper {
     }
 
     private static void addRuntime(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeEndtime) {
-        Long runtime = Utils.NullCoalesce(item.getRunTimeTicks(), item.getOriginalRunTimeTicks());
+        Long runtime = Utils.getSafeValue(item.getRunTimeTicks(), item.getOriginalRunTimeTicks());
         if (runtime != null && runtime > 0) {
             long endTime = includeEndtime ? System.currentTimeMillis() + runtime / 10000 - (item.getUserData() != null && item.getCanResume() ? item.getUserData().getPlaybackPositionTicks()/10000 : 0) : 0;
             String text = runtime / 600000000 + activity.getString(R.string.lbl_min) + (endTime > 0 ? " (" + activity.getResources().getString(R.string.lbl_ends) + " " + android.text.format.DateFormat.getTimeFormat(activity).format(new Date(endTime)) + ")  " : "  ");
@@ -266,18 +268,18 @@ public class InfoLayoutHelper {
                 StringBuilder sb = new StringBuilder();
                 if (item.getPremiereDate() != null) {
                     sb.append(TvApp.getApplication().getString(R.string.lbl_born));
-                    sb.append(new SimpleDateFormat("d MMM y").format(Utils.convertToLocalDate(item.getPremiereDate())));
+                    sb.append(new SimpleDateFormat("d MMM y").format(TimeUtils.convertToLocalDate(item.getPremiereDate())));
                 }
                 if (item.getEndDate() != null) {
                     sb.append("  |  Died ");
                     sb.append(new SimpleDateFormat("d MMM y").format(item.getEndDate()));
                     sb.append(" (");
-                    sb.append(Utils.numYears(item.getPremiereDate(), item.getEndDate()));
+                    sb.append(TimeUtils.numYears(item.getPremiereDate(), item.getEndDate()));
                     sb.append(")");
                 } else {
                     if (item.getPremiereDate() != null) {
                         sb.append(" (");
-                        sb.append(Utils.numYears(item.getPremiereDate(), Calendar.getInstance()));
+                        sb.append(TimeUtils.numYears(item.getPremiereDate(), Calendar.getInstance()));
                         sb.append(")");
                     }
                 }
@@ -288,8 +290,8 @@ public class InfoLayoutHelper {
             case "Program":
             case "TvChannel":
                 if (item.getStartDate() != null && item.getEndDate() != null) {
-                    date.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(item.getStartDate()))
-                            + "-"+ android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(item.getEndDate())));
+                    date.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(item.getStartDate()))
+                            + "-"+ android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(item.getEndDate())));
                     layout.addView(date);
                     addSpacer(activity, layout, "    ");
                 }
@@ -303,7 +305,7 @@ public class InfoLayoutHelper {
                 break;
             default:
                 if (item.getPremiereDate() != null) {
-                    date.setText(new SimpleDateFormat("d MMM y").format(Utils.convertToLocalDate(item.getPremiereDate())));
+                    date.setText(new SimpleDateFormat("d MMM y").format(TimeUtils.convertToLocalDate(item.getPremiereDate())));
                     layout.addView(date);
                     addSpacer(activity, layout, "  ");
                 } else if (item.getProductionYear() != null && item.getProductionYear() > 0) {

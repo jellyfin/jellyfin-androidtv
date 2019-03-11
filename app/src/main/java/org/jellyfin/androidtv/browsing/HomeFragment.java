@@ -35,12 +35,12 @@ import org.jellyfin.androidtv.startup.LogonCredentials;
 import org.jellyfin.androidtv.startup.SelectUserActivity;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 
 import java.io.IOException;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.entities.ImageType;
 import mediabrowser.model.entities.LocationType;
 import mediabrowser.model.entities.SortOrder;
 import mediabrowser.model.livetv.RecommendedProgramQuery;
@@ -73,7 +73,7 @@ public class HomeFragment extends StdBrowseFragment {
 
         //Save last login so we can get back proper context on entry
         try {
-            Utils.SaveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), "credentials.json");
+            AuthenticationHelper.saveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), "credentials.json");
         } catch (IOException e) {
             TvApp.getApplication().getLogger().ErrorException("Unable to save login creds", e);
         }

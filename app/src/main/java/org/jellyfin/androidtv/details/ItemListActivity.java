@@ -42,8 +42,12 @@ import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.ItemListView;
 import org.jellyfin.androidtv.ui.ItemRowView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
+import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.MathUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
+import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -338,7 +342,7 @@ public class ItemListActivity extends BaseActivity {
             mix.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    Utils.playInstantMix(row.getItem().getId());
+                    PlaybackHelper.playInstantMix(row.getItem().getId());
                     return true;
                 }
             });
@@ -495,12 +499,12 @@ public class ItemListActivity extends BaseActivity {
                 break;
             default:
                 // Figure image size
-                Double aspect = Utils.getImageAspectRatio(item, false);
+                Double aspect = ImageUtils.getImageAspectRatio(item, false);
                 int posterHeight = aspect > 1 ? Utils.convertDpToPixel(this, 160) : Utils.convertDpToPixel(this, 250);
                 int posterWidth = (int)((aspect) * posterHeight);
                 if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(this, 150);  //Guard against zero size images causing picasso to barf
 
-                String primaryImageUrl = Utils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), false, posterHeight);
+                String primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), false, posterHeight);
 
                 Picasso.with(this)
                         .load(primaryImageUrl)
@@ -561,7 +565,7 @@ public class ItemListActivity extends BaseActivity {
     }
 
     private void addButtons(int buttonSize) {
-        if (Utils.CanPlay(mBaseItem)) {
+        if (BaseItemUtils.canPlay(mBaseItem)) {
             TextUnderButton play = new TextUnderButton(this, R.drawable.play, buttonSize, 2, getString(mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -586,7 +590,7 @@ public class ItemListActivity extends BaseActivity {
                                 play(shuffled);
                             } else {
                                 //use server retrieval in order to get all items
-                                Utils.retrieveAndPlay(mBaseItem.getId(), true, mActivity);
+                                PlaybackHelper.retrieveAndPlay(mBaseItem.getId(), true, mActivity);
                             }
 
                         } else {
@@ -603,8 +607,8 @@ public class ItemListActivity extends BaseActivity {
             TextUnderButton mix = new TextUnderButton(this, R.drawable.mix, buttonSize, 2, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    Utils.Beep();
-                    Utils.playInstantMix(mBaseItem.getId());
+                    Utils.beep();
+                    PlaybackHelper.playInstantMix(mBaseItem.getId());
                 }
             });
             mButtonRow.addView(mix);
@@ -722,7 +726,7 @@ public class ItemListActivity extends BaseActivity {
     private BaseItemDto getRandomListItem() {
         if (mItems == null || mItems.size() == 0) return null;
 
-        return mItems.get(Utils.randInt(0, mItems.size() - 1));
+        return mItems.get(MathUtils.randInt(0, mItems.size() - 1));
     }
 
     private void rotateBackdrops() {
@@ -738,10 +742,10 @@ public class ItemListActivity extends BaseActivity {
     }
 
     private void updateBackdrop() {
-        String url = Utils.getBackdropImageUrl(mBaseItem, mApplication.getApiClient(), true);
+        String url = ImageUtils.getBackdropImageUrl(mBaseItem, mApplication.getApiClient(), true);
         if (url == null) {
             BaseItemDto item = getRandomListItem();
-            if (item != null) url = Utils.getBackdropImageUrl(item, mApplication.getApiClient(), true);
+            if (item != null) url = ImageUtils.getBackdropImageUrl(item, mApplication.getApiClient(), true);
         }
         if (url != null) updateBackground(url);
 

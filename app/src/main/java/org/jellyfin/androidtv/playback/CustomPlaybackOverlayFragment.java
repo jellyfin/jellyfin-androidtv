@@ -70,9 +70,14 @@ import org.jellyfin.androidtv.ui.ObservableScrollView;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.ScrollViewListener;
 import org.jellyfin.androidtv.ui.ValueChangedListener;
+import org.jellyfin.androidtv.util.DeviceUtils;
+import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.RemoteControlReceiver;
+import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
+import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -592,7 +597,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         break;
                 }
             } else if (item instanceof ChannelInfoDto) {
-                Utils.Beep(100);
+                Utils.beep(100);
                 hidePopupPanel();
                 switchChannel(((ChannelInfoDto)item).getId());
             }
@@ -622,7 +627,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) &&
                         (mSelectedProgram != null && mSelectedProgram.getChannelId() != null)) {
                     // tune to the current channel
-                    Utils.Beep();
+                    Utils.beep();
                     switchChannel(mSelectedProgram.getChannelId());
                     return true;
                 }
@@ -671,36 +676,38 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     }
                 }
 
-                if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT && !mIsVisible && !Utils.isFireTv() && !mPlaybackController.isLiveTv()) {
-                    Utils.Beep(100);
-                    mPlaybackController.skip(30000);
-                    return true;
-                }
+                if (!mIsVisible) {
+                    if (!DeviceUtils.isFireTv() && !mPlaybackController.isLiveTv()) {
+                        if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                            Utils.beep(100);
+                            mPlaybackController.skip(30000);
+                            return true;
+                        }
 
-                if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT && !mIsVisible && !Utils.isFireTv() && !mPlaybackController.isLiveTv()) {
-                    Utils.Beep(100);
-                    mPlaybackController.skip(-11000);
-                    return true;
-                }
+                        if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                            Utils.beep(100);
+                            mPlaybackController.skip(-11000);
+                            return true;
+                        }
+                    }
 
-                if (keyCode == KeyEvent.KEYCODE_DPAD_UP && !mIsVisible && mPlaybackController.isLiveTv()) {
-                    showQuickChannelChanger();
-                    return true;
-                }
+                    if (keyCode == KeyEvent.KEYCODE_DPAD_UP && mPlaybackController.isLiveTv()) {
+                        showQuickChannelChanger();
+                        return true;
+                    }
 
-                if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && !mIsVisible && mPlaybackController.canSeek()) {
-                    mPlaybackController.pause();
-                    return true;
-                }
+                    if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && mPlaybackController.canSeek()) {
+                        mPlaybackController.pause();
+                        return true;
+                    }
 
-                //if we're not visible, show us
-                if (!mIsVisible) show();
+                    //if we're not visible, show us
+                    show();
+                }
 
                 //and then manage our fade timer
                 if (mFadeEnabled) startFadeTimer();
-
             }
-
 
             return false;
         }
@@ -1047,8 +1054,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             BaseItemDto empty = new BaseItemDto();
             empty.setName(mApplication.getString(R.string.no_program_data));
             empty.setChannelId(channelId);
-            empty.setStartDate(Utils.convertToUtcDate(new Date(mCurrentLocalGuideStart)));
-            empty.setEndDate(Utils.convertToUtcDate(new Date(mCurrentLocalGuideStart + (150 * 60000))));
+            empty.setStartDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart)));
+            empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + (150 * 60000))));
             ProgramGridCell cell = new ProgramGridCell(mActivity, mFragment, empty);
             cell.setId(currentCellId++);
             cell.setLayoutParams(new ViewGroup.LayoutParams(150 * PIXELS_PER_MINUTE, LiveTvGuideActivity.ROW_HEIGHT));
@@ -1059,7 +1066,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         long prevEnd = getCurrentLocalStartDate();
         for (BaseItemDto item : programs) {
-            long start = item.getStartDate() != null ? Utils.convertToLocalDate(item.getStartDate()).getTime() : getCurrentLocalStartDate();
+            long start = item.getStartDate() != null ? TimeUtils.convertToLocalDate(item.getStartDate()).getTime() : getCurrentLocalStartDate();
             if (start < getCurrentLocalStartDate()) start = getCurrentLocalStartDate();
             if (start > getCurrentLocalEndDate()) continue;
             if (start > prevEnd) {
@@ -1067,16 +1074,16 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 BaseItemDto empty = new BaseItemDto();
                 empty.setName("  <No Program Data Available>");
                 empty.setChannelId(channelId);
-                empty.setStartDate(Utils.convertToUtcDate(new Date(prevEnd)));
+                empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
                 Long duration = (start - prevEnd);
-                empty.setEndDate(Utils.convertToUtcDate(new Date(prevEnd + duration)));
+                empty.setEndDate(TimeUtils.convertToUtcDate(new Date(prevEnd + duration)));
                 ProgramGridCell cell = new ProgramGridCell(mActivity, mFragment, empty);
                 cell.setId(currentCellId++);
                 cell.setLayoutParams(new ViewGroup.LayoutParams(((Long) (duration / 60000)).intValue() * PIXELS_PER_MINUTE, LiveTvGuideActivity.ROW_HEIGHT));
                 cell.setFocusable(true);
                 programRow.addView(cell);
             }
-            long end = item.getEndDate() != null ? Utils.convertToLocalDate(item.getEndDate()).getTime() : getCurrentLocalEndDate();
+            long end = item.getEndDate() != null ? TimeUtils.convertToLocalDate(item.getEndDate()).getTime() : getCurrentLocalEndDate();
             if (end > getCurrentLocalEndDate()) end = getCurrentLocalEndDate();
             prevEnd = end;
             Long duration = (end - start) / 60000;
@@ -1103,7 +1110,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mCurrentGuideStart.set(Calendar.MILLISECOND, 0);
         mCurrentLocalGuideStart = mCurrentGuideStart.getTimeInMillis();
 
-        mDisplayDate.setText(Utils.getFriendlyDate(mCurrentGuideStart.getTime()));
+        mDisplayDate.setText(TimeUtils.getFriendlyDate(mCurrentGuideStart.getTime()));
         Calendar current = (Calendar) mCurrentGuideStart.clone();
         mCurrentGuideEnd = (Calendar) mCurrentGuideStart.clone();
         int oneHour = 60 * PIXELS_PER_MINUTE;
@@ -1152,7 +1159,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mGuideTitle.setText(mSelectedProgram.getName());
         mSummary.setText(mSelectedProgram.getOverview());
         if (mSelectedProgram.getId() != null) {
-            mDisplayDate.setText(Utils.getFriendlyDate(Utils.convertToLocalDate(mSelectedProgram.getStartDate())));
+            mDisplayDate.setText(TimeUtils.getFriendlyDate(TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
 
             //info row
             InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mGuideInfoRow, false, false);
@@ -1228,7 +1235,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         if (getActivity() != null && !getActivity().isFinishing()) {
             int height = Utils.convertDpToPixel(getActivity(), 300);
             int width = Utils.convertDpToPixel(getActivity(), 150);
-            String posterImageUrl = Utils.getPrimaryImageUrl(item, mApplication.getApiClient(), false, false, preferSeries, height);
+            String posterImageUrl = ImageUtils.getPrimaryImageUrl(item, mApplication.getApiClient(), false, false, preferSeries, height);
             if (posterImageUrl != null) Picasso.with(getActivity()).load(posterImageUrl).skipMemoryCache().resize(width, height).centerInside().into(target);
 
         }
@@ -1239,7 +1246,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         if (getActivity() != null && !getActivity().isFinishing()) {
             int height = Utils.convertDpToPixel(getActivity(), 60);
             int width = Utils.convertDpToPixel(getActivity(), 180);
-            String imageUrl = Utils.getLogoImageUrl(item, mApplication.getApiClient());
+            String imageUrl = ImageUtils.getLogoImageUrl(item, mApplication.getApiClient());
             if (imageUrl != null) Picasso.with(getActivity()).load(imageUrl).skipMemoryCache().resize(width, height).centerInside().into(target);
         }
     }
@@ -1249,7 +1256,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             int height = Utils.convertDpToPixel(mActivity, 30);
             int width = Utils.convertDpToPixel(mActivity, 70);
             if (item.getStudios() != null && item.getStudios().length > 0 && item.getStudios()[0].getHasPrimaryImage()) {
-                String studioImageUrl = Utils.getPrimaryImageUrl(item.getStudios()[0], mApplication.getApiClient(), height);
+                String studioImageUrl = ImageUtils.getPrimaryImageUrl(item.getStudios()[0], mApplication.getApiClient(), height);
                 if (studioImageUrl != null)
                     Picasso.with(mActivity).load(studioImageUrl).resize(width, height).centerInside().into(mStudioImage);
             } else {
@@ -1310,7 +1317,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private void addButtons(BaseItemDto item) {
         mButtonRow.removeAllViews();
 
-        if (!Utils.isFireTv() && mPlaybackController.canSeek()) {
+        if (!DeviceUtils.isFireTv() && mPlaybackController.canSeek()) {
             // on-screen jump buttons for Nexus
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.repeat, mButtonSize, new View.OnClickListener() {
                 @Override
@@ -1395,11 +1402,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }));
         }
 
-        Boolean hasSubs = Utils.GetSubtitleStreams(mPlaybackController.getCurrentMediaSource()).size() > 0;
-        Boolean hasMultiAudio = Utils.GetAudioStreams(mPlaybackController.getCurrentMediaSource()).size() > 1;
+        Boolean hasSubs = StreamHelper.getSubtitleStreams(mPlaybackController.getCurrentMediaSource()).size() > 0;
+        Boolean hasMultiAudio = StreamHelper.getAudioStreams(mPlaybackController.getCurrentMediaSource()).size() > 1;
 
         if (hasMultiAudio) {
-            mApplication.getLogger().Debug("Multiple Audio tracks found: "+Utils.GetAudioStreams(mPlaybackController.getCurrentMediaSource()).size());
+            mApplication.getLogger().Debug("Multiple Audio tracks found: "+ StreamHelper.getAudioStreams(mPlaybackController.getCurrentMediaSource()).size());
             mButtonRow.addView(new ImageButton(mActivity, R.drawable.audiosel, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1508,7 +1515,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }));
 
             //Create chapter row for later use
-            ItemRowAdapter chapterAdapter = new ItemRowAdapter(Utils.buildChapterItems(item), new CardPresenter(true, 220), new ArrayObjectAdapter());
+            ItemRowAdapter chapterAdapter = new ItemRowAdapter(BaseItemUtils.buildChapterItems(item), new CardPresenter(true, 220), new ArrayObjectAdapter());
             chapterAdapter.Retrieve();
             if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
             mChapterRow = new ListRow(new HeaderItem(mActivity.getString(R.string.chapters)), chapterAdapter);
@@ -1731,13 +1738,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Override
     public void setCurrentTime(long time) {
         if (mNextUpPanelVisible) {
-            mStartsIn.setText(mCurrentDuration > 0 ? "Starts in " + Utils.formatMillis(mCurrentDuration - time) : "");
+            mStartsIn.setText(mCurrentDuration > 0 ? "Starts in " + TimeUtils.formatMillis(mCurrentDuration - time) : "");
         } else if (mSmNextUpPanelVisible) {
-            mSmStartsIn.setText(mCurrentDuration > 0 ? "Starts in " + Utils.formatMillis(mCurrentDuration - time) : "");
+            mSmStartsIn.setText(mCurrentDuration > 0 ? "Starts in " + TimeUtils.formatMillis(mCurrentDuration - time) : "");
         } else {
             mCurrentProgress.setProgress(((Long)time).intValue());
-            mCurrentPos.setText(Utils.formatMillis(time));
-            mRemainingTime.setText(mCurrentDuration > 0 ? "-" + Utils.formatMillis(mCurrentDuration - time) : "");
+            mCurrentPos.setText(TimeUtils.formatMillis(time));
+            mRemainingTime.setText(mCurrentDuration > 0 ? "-" + TimeUtils.formatMillis(mCurrentDuration - time) : "");
         }
     }
 

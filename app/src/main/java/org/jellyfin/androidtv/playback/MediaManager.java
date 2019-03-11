@@ -24,9 +24,12 @@ import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.querying.QueryType;
+import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ProfileHelper;
 import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
+import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 
@@ -175,7 +178,7 @@ public class MediaManager {
 
         //Report progress to server every 5 secs
         if (System.currentTimeMillis() > lastProgressReport + 5000) {
-            Utils.ReportProgress(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000, isPaused());
+            ReportingHelper.reportProgress(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000, isPaused());
             lastProgressReport = System.currentTimeMillis();
             TvApp.getApplication().setLastUserInteraction(lastProgressReport);
         }
@@ -183,7 +186,7 @@ public class MediaManager {
     }
 
     private static void onComplete() {
-        Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition);
+        ReportingHelper.reportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition);
         nextAudioItem();
 
         //fire external listener if there
@@ -198,7 +201,7 @@ public class MediaManager {
         try {
 
             // Create a new media player based on platform
-            if (Utils.is60()) {
+            if (DeviceUtils.is60()) {
                 nativeMode = true;
                 mExoplayer = new EMAudioPlayer(TvApp.getApplication());
                 mExoplayer.setProgressCallback(new EMProgressCallback() {
@@ -371,7 +374,7 @@ public class MediaManager {
     public static int queueAudioItem(int pos, BaseItemDto item) {
         if (mCurrentAudioQueue == null) createAudioQueue(new ArrayList<BaseItemDto>());
         mCurrentAudioQueue.add(new BaseRowItem(pos, item));
-        TvApp.getApplication().showMessage(TvApp.getApplication().getString(R.string.msg_added_item_to_queue) + (pos + 1), Utils.GetFullName(item), 4000, R.drawable.audioicon);
+        TvApp.getApplication().showMessage(TvApp.getApplication().getString(R.string.msg_added_item_to_queue) + (pos + 1), BaseItemUtils.getFullName(item), 4000, R.drawable.audioicon);
         return pos;
     }
 
@@ -554,7 +557,7 @@ public class MediaManager {
         options.setMaxBitrate(TvApp.getApplication().getAutoBitrate());
         options.setMediaSources(item.getMediaSources());
         DeviceProfile profile = ProfileHelper.getBaseProfile(false);
-        if (Utils.is60()) {
+        if (DeviceUtils.is60()) {
             ProfileHelper.setExoOptions(profile, false, true);
         } else {
             ProfileHelper.setVlcOptions(profile, false);
@@ -588,7 +591,7 @@ public class MediaManager {
                 updateCurrentAudioItemPlaying(true);
                 TvApp.getApplication().setLastMusicPlayback(System.currentTimeMillis());
 
-                Utils.ReportStart(item, mCurrentAudioPosition * 10000);
+                ReportingHelper.reportStart(item, mCurrentAudioPosition * 10000);
                 for (AudioEventListener listener : mAudioEventListeners) {
                     TvApp.getApplication().getLogger().Info("Firing playback state change listener for item start. " + mCurrentAudioItem.getName());
                     listener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, mCurrentAudioItem);
@@ -701,7 +704,7 @@ public class MediaManager {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
             stop();
             updateCurrentAudioItemPlaying(false);
-            Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000);
+            ReportingHelper.reportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000);
             for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.IDLE, mCurrentAudioItem);
             }
@@ -720,7 +723,7 @@ public class MediaManager {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
             updateCurrentAudioItemPlaying(false);
             pause();
-            Utils.ReportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition * 10000);
+            ReportingHelper.reportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition * 10000);
             for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.PAUSED, mCurrentAudioItem);
             }
@@ -737,7 +740,7 @@ public class MediaManager {
             if (nativeMode) mExoplayer.start();
             else mVlcPlayer.play();
             updateCurrentAudioItemPlaying(true);
-            Utils.ReportStart(mCurrentAudioItem, mCurrentAudioPosition * 10000);
+            ReportingHelper.reportStart(mCurrentAudioItem, mCurrentAudioPosition * 10000);
             for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, mCurrentAudioItem);
             }

@@ -7,12 +7,13 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.model.ChapterItemInfo;
 import org.jellyfin.androidtv.ui.GridButton;
+import org.jellyfin.androidtv.util.ImageUtils;
+import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
@@ -166,9 +167,9 @@ public class BaseRowItem {
             case LiveTvRecording:
                 switch (imageType) {
                     case org.jellyfin.androidtv.model.ImageType.BANNER:
-                        return Utils.getBannerImageUrl(baseItem, TvApp.getApplication().getApiClient(), maxHeight);
+                        return ImageUtils.getBannerImageUrl(baseItem, TvApp.getApplication().getApiClient(), maxHeight);
                     case org.jellyfin.androidtv.model.ImageType.THUMB:
-                        return Utils.getThumbImageUrl(baseItem, TvApp.getApplication().getApiClient(), maxHeight);
+                        return ImageUtils.getThumbImageUrl(baseItem, TvApp.getApplication().getApiClient(), maxHeight);
                     default:
                         return getPrimaryImageUrl(maxHeight);
                 }
@@ -183,15 +184,15 @@ public class BaseRowItem {
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
-                return Utils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(), preferParentThumb, maxHeight);
+                return ImageUtils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(), preferParentThumb, maxHeight);
             case Person:
-                return Utils.getPrimaryImageUrl(person, TvApp.getApplication().getApiClient(), maxHeight);
+                return ImageUtils.getPrimaryImageUrl(person, TvApp.getApplication().getApiClient(), maxHeight);
             case User:
-                return Utils.getPrimaryImageUrl(user, TvApp.getApplication().getLoginApiClient());
+                return ImageUtils.getPrimaryImageUrl(user, TvApp.getApplication().getLoginApiClient());
             case Chapter:
                 return chapterInfo.getImagePath();
             case LiveTvChannel:
-                return Utils.getPrimaryImageUrl(channelInfo, TvApp.getApplication().getApiClient());
+                return ImageUtils.getPrimaryImageUrl(channelInfo, TvApp.getApplication().getApiClient());
             case Server:
                 return "android.resource://org.jellyfin.androidtv/" + R.drawable.server;
             case GridButton:
@@ -199,8 +200,8 @@ public class BaseRowItem {
             case SeriesTimer:
                 return "android.resource://org.jellyfin.androidtv/" + R.drawable.seriestimer;
             case SearchHint:
-                return !Utils.IsEmpty(searchHint.getPrimaryImageTag()) ? Utils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag(), TvApp.getApplication().getApiClient()) :
-                        !Utils.IsEmpty(searchHint.getThumbImageItemId()) ? Utils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag(), TvApp.getApplication().getApiClient()) : null;
+                return Utils.isNonEmpty(searchHint.getPrimaryImageTag()) ? ImageUtils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag(), TvApp.getApplication().getApiClient()) :
+                        Utils.isNonEmpty(searchHint.getThumbImageItemId()) ? ImageUtils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag(), TvApp.getApplication().getApiClient()) : null;
         }
         return null;
     }
@@ -272,7 +273,7 @@ public class BaseRowItem {
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
-                return Utils.GetFullName(baseItem);
+                return BaseItemUtils.getFullName(baseItem);
             case Person:
                 return person.getName();
             case Chapter:
@@ -354,12 +355,12 @@ public class BaseRowItem {
         switch (type) {
 
             case BaseItem:
-                return Utils.GetSubName(baseItem);
+                return BaseItemUtils.getSubName(baseItem);
             case Person:
                 return person.getRole();
             case Chapter:
                 Long pos = chapterInfo.getStartPositionTicks() / 10000;
-                return Utils.formatMillis(pos.intValue());
+                return TimeUtils.formatMillis(pos.intValue());
             case Server:
                 return serverInfo.getLocalAddress().substring(7);
             case LiveTvChannel:
@@ -368,12 +369,12 @@ public class BaseRowItem {
                 return baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : baseItem.getChannelName();
             case LiveTvRecording:
                 return (baseItem.getChannelName() != null ? baseItem.getChannelName() + " - " : "") + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
-                        new SimpleDateFormat("d MMM").format(Utils.convertToLocalDate(baseItem.getStartDate())) + " " +
-                        (android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getStartDate())) + "-"
-                                + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(Utils.convertToLocalDate(baseItem.getEndDate())));
+                        new SimpleDateFormat("d MMM").format(TimeUtils.convertToLocalDate(baseItem.getStartDate())) + " " +
+                        (android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(baseItem.getStartDate())) + "-"
+                                + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(baseItem.getEndDate())));
             case User:
                 Date date = user.getLastActivityDate();
-                return date != null ? DateUtils.getRelativeTimeSpanString(Utils.convertToLocalDate(date).getTime()).toString() : TvApp.getApplication().getString(R.string.lbl_never);
+                return date != null ? DateUtils.getRelativeTimeSpanString(TimeUtils.convertToLocalDate(date).getTime()).toString() : TvApp.getApplication().getString(R.string.lbl_never);
             case SearchHint:
                 return searchHint.getType();
             case SeriesTimer:
@@ -434,7 +435,7 @@ public class BaseRowItem {
             case GridButton:
                 break;
             case SeriesTimer:
-                return Utils.buildOverview(seriesTimerInfo);
+                return BaseItemUtils.getSeriesOverview(seriesTimerInfo);
         }
 
         return "";
@@ -497,7 +498,7 @@ public class BaseRowItem {
 
     public String getChildCountStr() {
         if (baseItem != null && "Playlist".equals(baseItem.getType()) && baseItem.getCumulativeRunTimeTicks() != null) {
-            return Utils.formatMillis(baseItem.getCumulativeRunTimeTicks() / 10000);
+            return TimeUtils.formatMillis(baseItem.getCumulativeRunTimeTicks() / 10000);
         } else {
             Integer count = getChildCount();
             return count > 0 ? count.toString() : "";
@@ -508,7 +509,7 @@ public class BaseRowItem {
     public String getBackdropImageUrl() {
         switch (type) {
             case BaseItem:
-                return Utils.getBackdropImageUrl(baseItem, TvApp.getApplication().getConnectionManager().GetApiClient(baseItem), true);
+                return ImageUtils.getBackdropImageUrl(baseItem, TvApp.getApplication().getConnectionManager().GetApiClient(baseItem), true);
 
         }
 

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 
 import mediabrowser.model.dto.UserDto;
 
@@ -70,9 +71,9 @@ public class DpadPwActivity extends Activity {
                 if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && System.currentTimeMillis() - lastKeyDown > longPressSensitivity) {
                     if (processed) return true; //some controllers appear to double send the up on a long press
                     TvApp.getApplication().getLogger().Debug("Password finished");
-                    Utils.MakeTone(ToneGenerator.TONE_CDMA_ANSWER, 200);
+                    Utils.makeTone(ToneGenerator.TONE_CDMA_ANSWER, 200);
                     processed = true;
-                    Utils.loginUser(user.getName(), password, TvApp.getApplication().getLoginApiClient(), this, directItemId);
+                    AuthenticationHelper.loginUser(user.getName(), password, TvApp.getApplication().getLoginApiClient(), this, directItemId);
                     return true;
                 }
                 if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT && System.currentTimeMillis() - lastKeyDown > longPressSensitivity) {
@@ -94,7 +95,7 @@ public class DpadPwActivity extends Activity {
                             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     String pw = password.getText().toString();
-                                    Utils.loginUser(user.getName(), pw, TvApp.getApplication().getLoginApiClient(), activity, directItemId);
+                                    AuthenticationHelper.loginUser(user.getName(), pw, TvApp.getApplication().getLoginApiClient(), activity, directItemId);
                                 }
                             }).show();
                     return true;
@@ -102,13 +103,13 @@ public class DpadPwActivity extends Activity {
                 lastKeyDown = Long.MAX_VALUE;
                 if (lastKey == keyCode && System.currentTimeMillis() - lastKeyUp <= doubleClickSensitivity) {
                     lastKeyUp = 0;
-                    Utils.Beep(300);
+                    Utils.beep(300);
                     //Remove the single-click value
                     password = password.substring(0,password.length()-1);
                     processKey(keyCode, true, event);
                 } else {
                     lastKeyUp = System.currentTimeMillis();
-                    Utils.Beep();
+                    Utils.beep();
                     processKey(keyCode, false, event);
                 }
                 processed = false;
