@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.ImageUtils;
 
 /**
  * Created by Eric on 7/22/2015.
@@ -42,7 +42,7 @@ public class ClockUserView extends RelativeLayout {
             username.setText(TvApp.getApplication().getCurrentUser().getName());
             ImageView userImage = (ImageView) v.findViewById(R.id.userImage);
             if (TvApp.getApplication().getCurrentUser().getHasPrimaryImage()) {
-                Picasso.with(context).load(Utils.getPrimaryImageUrl(TvApp.getApplication().getCurrentUser(), TvApp.getApplication().getApiClient())).error(R.drawable.user).resize(30,30).centerInside().into(userImage);
+                Picasso.with(context).load(ImageUtils.getPrimaryImageUrl(TvApp.getApplication().getCurrentUser(), TvApp.getApplication().getApiClient())).error(R.drawable.user).resize(30,30).centerInside().into(userImage);
             } else {
                 userImage.setImageResource(R.drawable.user);
             }

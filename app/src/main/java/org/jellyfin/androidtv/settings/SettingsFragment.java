@@ -15,9 +15,10 @@ import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.startup.LogonCredentials;
+import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 
 import java.io.IOException;
 
@@ -42,12 +43,14 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         // Set version info
         TextView ver = (TextView) getActivity().findViewById(R.id.settings_version_info);
-        ver.setText(Utils.VersionString());
+        ver.setText(Utils.getVersionString());
 
         // conditionally hide options that don't apply
         PreferenceCategory cat = (PreferenceCategory) findPreference("pref_playback_category");
-        if (Utils.isFireTv() && !Utils.is50()) cat.removePreference(findPreference("pref_audio_option"));
-        if (Utils.is60()) {
+        if (DeviceUtils.isFireTv() && !DeviceUtils.is50()) {
+            cat.removePreference(findPreference("pref_audio_option"));
+        }
+        if (DeviceUtils.is60()) {
             cat.removePreference(findPreference("pref_bitstream_ac3"));
         } else {
             cat.removePreference(findPreference("pref_refresh_switching"));
@@ -86,7 +89,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             ListPreference listPreference = (ListPreference) findPreference(key);
             if (listPreference.getValue().equals("1")) {
                 try {
-                    Utils.SaveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), TvApp.CREDENTIALS_PATH);
+                    AuthenticationHelper.saveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), TvApp.CREDENTIALS_PATH);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

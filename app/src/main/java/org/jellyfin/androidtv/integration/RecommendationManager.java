@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.browsing.MainActivity;
 import org.jellyfin.androidtv.querying.StdItemQuery;
 import org.jellyfin.androidtv.startup.StartupActivity;
+import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.io.IOException;
@@ -72,7 +73,7 @@ public class RecommendationManager {
         if (isEnabled) {
             try {
                 InputStream recFile = TvApp.getApplication().openFileInput(REC_FILE_NAME);
-                String json = Utils.ReadStringFromFile(recFile);
+                String json = Utils.readStringFromStream(recFile);
                 recFile.close();
                 return (Recommendations) TvApp.getApplication().getSerializer().DeserializeFromString(json, Recommendations.class);
             } catch (IOException e) {
@@ -296,8 +297,8 @@ public class RecommendationManager {
                     .setPriority(0)
                     .setTitle(item.getName())
                     .setDescription(item.getOverview())
-                    .setBitmap(Utils.getBitmapFromURL(Utils.getPrimaryImageUrl(item, TvApp.getApplication().getApiClient(), true, true, false, 300)))
-                    .setBackground(Utils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true))
+                    .setBitmap(Utils.getBitmapFromURL(ImageUtils.getPrimaryImageUrl(item, TvApp.getApplication().getApiClient(), true, true, false, 300)))
+                    .setBackground(ImageUtils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true))
                     .setIntent(buildPendingIntent(item))
                     .build();
 

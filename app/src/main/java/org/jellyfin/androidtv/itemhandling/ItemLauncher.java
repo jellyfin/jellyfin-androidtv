@@ -25,6 +25,8 @@ import org.jellyfin.androidtv.startup.SelectUserActivity;
 import org.jellyfin.androidtv.util.DelayedMessage;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
+import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -194,7 +196,7 @@ public class ItemLauncher {
                         case Play:
                             if (baseItem.getPlayAccess() == PlayAccess.Full) {
                                 //Just play it directly
-                                Utils.getItemsToPlay(baseItem, baseItem.getType().equals("Movie"), false, new Response<List<BaseItemDto>>() {
+                                PlaybackHelper.getItemsToPlay(baseItem, baseItem.getType().equals("Movie"), false, new Response<List<BaseItemDto>>() {
                                     @Override
                                     public void onResponse(List<BaseItemDto> response) {
                                         Intent intent = new Intent(activity,application.getPlaybackActivityClass(baseItem.getType()));
@@ -247,7 +249,7 @@ public class ItemLauncher {
                     Utils.processPasswordEntry(activity, user);
 
                 } else {
-                    Utils.loginUser(user.getName(), "", application.getLoginApiClient(), activity);
+                    AuthenticationHelper.loginUser(user.getName(), "", application.getLoginApiClient(), activity);
                 }
                 break;
 
@@ -265,7 +267,7 @@ public class ItemLauncher {
                             activity.startActivity(intent);
 
                         } else if ("Audio".equals(response.getType())) {
-                            Utils.retrieveAndPlay(response.getId(), false, activity);
+                            PlaybackHelper.retrieveAndPlay(response.getId(), false, activity);
                             //produce item menu
 //                            KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, rowItem, (BaseActivity) activity);
                             return;
@@ -330,7 +332,7 @@ public class ItemLauncher {
                 TvApp.getApplication().getApiClient().GetItemAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
-                        Utils.getItemsToPlay(response, false, false, new Response<List<BaseItemDto>>() {
+                        PlaybackHelper.getItemsToPlay(response, false, false, new Response<List<BaseItemDto>>() {
                             @Override
                             public void onResponse(List<BaseItemDto> response) {
                                 Intent intent = new Intent(activity, application.getPlaybackActivityClass(channel.getType()));

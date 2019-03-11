@@ -138,14 +138,14 @@ public class DisplayPrefsPopup {
         mPrefs = prefs;
         mChanged = false;
         if (collectionType == null) collectionType = "";
-        mImageSize.setSelection(Integer.parseInt(Utils.NullCoalesce(prefs.getCustomPrefs().get("PosterSize"), "0")));
-        mImageType.setSelection(Integer.parseInt(Utils.NullCoalesce(prefs.getCustomPrefs().get("ImageType"), "0")));
+        mImageSize.setSelection(Integer.parseInt(Utils.getSafeValue(prefs.getCustomPrefs().get("PosterSize"), "0")));
+        mImageType.setSelection(Integer.parseInt(Utils.getSafeValue(prefs.getCustomPrefs().get("ImageType"), "0")));
         switch (collectionType) {
             case "movies":
             case "tvshows":
             case "music":
                 mDefaultViewLayout.setVisibility(View.VISIBLE);
-                mInitialView.setSelection(Integer.parseInt(Utils.NullCoalesce(prefs.getCustomPrefs().get("DefaultView"), "0")));
+                mInitialView.setSelection(Integer.parseInt(Utils.getSafeValue(prefs.getCustomPrefs().get("DefaultView"), "0")));
                 break;
             default:
                 mDefaultViewLayout.setVisibility(View.GONE);

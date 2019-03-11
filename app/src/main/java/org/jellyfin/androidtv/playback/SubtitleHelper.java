@@ -92,7 +92,7 @@ public class SubtitleHelper {
 
     private String getSubtitleDownloadPath(MediaStream stream) {
 
-        String filename = Utils.MD5(stream.getDeliveryUrl());
+        String filename = Utils.getMD5Hash(stream.getDeliveryUrl());
 
         if (stream.getCodec() != null){
             filename += "." + stream.getCodec().toLowerCase();

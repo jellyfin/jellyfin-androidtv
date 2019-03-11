@@ -16,6 +16,7 @@ import com.devbrackets.android.exomedia.EMVideoView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.LibVLC;
@@ -78,7 +79,7 @@ public class VideoManager implements IVLCVout.Callback {
         mSurfaceHolder.addCallback(mSurfaceCallback);
         mSurfaceFrame = (FrameLayout) view.findViewById(R.id.player_surface_frame);
         mSubtitlesSurface = (SurfaceView) view.findViewById(R.id.subtitles_surface);
-        if (Utils.is50()) {
+        if (DeviceUtils.is50()) {
             mSubtitlesSurface.setZOrderMediaOverlay(true);
             mSubtitlesSurface.getHolder().setFormat(PixelFormat.TRANSLUCENT);
             hasSubtitlesSurface = true;

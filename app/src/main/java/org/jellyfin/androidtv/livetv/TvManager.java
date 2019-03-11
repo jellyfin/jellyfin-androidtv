@@ -15,6 +15,7 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.model.LiveTvPrefs;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
+import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.util.ArrayList;
@@ -156,13 +157,13 @@ public class TvManager {
     private static void translatePrefs(DisplayPreferences displayPrefs) {
         HashMap<String,String> customPrefs = displayPrefs.getCustomPrefs();
         if (customPrefs != null) {
-            prefs.channelOrder = Utils.NullCoalesce(customPrefs.get("livetv-channelorder"), "DatePlayed");
+            prefs.channelOrder = Utils.getSafeValue(customPrefs.get("livetv-channelorder"), "DatePlayed");
             prefs.colorCodeGuide = Boolean.parseBoolean(customPrefs.get("guide-colorcodedbackgrounds"));
-            prefs.favsAtTop = Boolean.parseBoolean(Utils.NullCoalesce(customPrefs.get("livetv-favoritechannelsattop"),"true"));
+            prefs.favsAtTop = Boolean.parseBoolean(Utils.getSafeValue(customPrefs.get("livetv-favoritechannelsattop"),"true"));
             prefs.showHDIndicator = Boolean.parseBoolean(customPrefs.get("guide-indicator-hd"));
-            prefs.showLiveIndicator = Boolean.parseBoolean(Utils.NullCoalesce(customPrefs.get("livetv-guide-indicator-live"),"true"));
+            prefs.showLiveIndicator = Boolean.parseBoolean(Utils.getSafeValue(customPrefs.get("livetv-guide-indicator-live"),"true"));
             prefs.showNewIndicator = Boolean.parseBoolean(customPrefs.get("guide-indicator-new"));
-            prefs.showPremiereIndicator = Boolean.parseBoolean(Utils.NullCoalesce(customPrefs.get("guide-indicator-premiere"),"true"));
+            prefs.showPremiereIndicator = Boolean.parseBoolean(Utils.getSafeValue(customPrefs.get("guide-indicator-premiere"),"true"));
             prefs.showRepeatIndicator = Boolean.parseBoolean(customPrefs.get("guide-indicator-repeat"));
         }
     }
@@ -295,7 +296,7 @@ public class TvManager {
         for (BaseItemDto program : programs) {
             String id = program.getChannelId();
             if (!mProgramsDict.containsKey(id)) mProgramsDict.put(id, new ArrayList<BaseItemDto>());
-            if (Utils.convertToLocalDate(program.getEndDate()).getTime() > start)
+            if (TimeUtils.convertToLocalDate(program.getEndDate()).getTime() > start)
                 mProgramsDict.get(id).add(program);
         }
         needLoadTime = (Calendar) startTime.clone();
@@ -335,7 +336,7 @@ public class TvManager {
 
     public static void setTimelineRow(Activity activity, LinearLayout timelineRow, BaseItemDto program) {
         timelineRow.removeAllViews();
-        Date local = Utils.convertToLocalDate(program.getStartDate());
+        Date local = TimeUtils.convertToLocalDate(program.getStartDate());
         TextView on = new TextView(activity);
         on.setText(activity.getResources().getString(R.string.lbl_on));
         timelineRow.addView(on);
@@ -345,7 +346,7 @@ public class TvManager {
         channel.setTextColor(activity.getResources().getColor(android.R.color.holo_blue_light));
         timelineRow.addView(channel);
         TextView datetime = new TextView(activity);
-        datetime.setText(Utils.getFriendlyDate(local)+ " @ "+android.text.format.DateFormat.getTimeFormat(activity).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
+        datetime.setText(TimeUtils.getFriendlyDate(local)+ " @ "+android.text.format.DateFormat.getTimeFormat(activity).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
         timelineRow.addView(datetime);
 
     }
@@ -388,7 +389,7 @@ public class TvManager {
                 //Get scheduled items and break out by day
                 int currentDay = 0;
                 for (TimerInfoDto timer : response.getItems()) {
-                    int thisDay = getDayInt(Utils.convertToLocalDate(timer.getStartDate()));
+                    int thisDay = getDayInt(TimeUtils.convertToLocalDate(timer.getStartDate()));
                     if (thisDay != currentDay) {
                         if (currentDay > 0 && currentTimers.size() > 0) {
                             //Add the last set of timers as a row
@@ -402,7 +403,7 @@ public class TvManager {
                         programInfo = new BaseItemDto();
                         programInfo.setId(timer.getId());
                         programInfo.setChannelName(timer.getChannelName());
-                        programInfo.setName(Utils.NullCoalesce(timer.getName(), "Unknown"));
+                        programInfo.setName(Utils.getSafeValue(timer.getName(), "Unknown"));
                         TvApp.getApplication().getLogger().Warn("No program info for timer %s.  Creating one...", programInfo.getName());
                         programInfo.setType("Program");
                         programInfo.setTimerId(timer.getId());
@@ -433,7 +434,7 @@ public class TvManager {
     private static void addRow(List<BaseItemDto> timers, Presenter presenter, ArrayObjectAdapter rowAdapter) {
         ItemRowAdapter scheduledAdapter = new ItemRowAdapter(timers, presenter, rowAdapter, true);
         scheduledAdapter.Retrieve();
-        ListRow scheduleRow = new ListRow(new HeaderItem(Utils.getFriendlyDate(Utils.convertToLocalDate(timers.get(0).getStartDate()), true)), scheduledAdapter);
+        ListRow scheduleRow = new ListRow(new HeaderItem(TimeUtils.getFriendlyDate(TimeUtils.convertToLocalDate(timers.get(0).getStartDate()), true)), scheduledAdapter);
         rowAdapter.add(scheduleRow);
 
     }

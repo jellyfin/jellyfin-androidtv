@@ -8,7 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.TimeUtils;
 
 import java.util.Date;
 
@@ -30,7 +30,7 @@ public class FriendlyDateButton extends FrameLayout {
         dateVal = thisDate;
         Date date = new Date(thisDate);
 
-        ((TextView)v.findViewById(R.id.friendlyName)).setText(Utils.getFriendlyDate(date, true));
+        ((TextView)v.findViewById(R.id.friendlyName)).setText(TimeUtils.getFriendlyDate(date, true));
         ((TextView)v.findViewById(R.id.date)).setText(android.text.format.DateFormat.getDateFormat(context).format(date));
 
     }
