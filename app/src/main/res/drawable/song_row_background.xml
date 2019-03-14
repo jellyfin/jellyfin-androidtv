@@ -7,6 +7,6 @@
         android:angle="90" />
     <stroke
         android:width="1sp"
-        android:color="@color/default_background"
+        android:color="?android:attr/windowBackground"
         />
 </shape>
