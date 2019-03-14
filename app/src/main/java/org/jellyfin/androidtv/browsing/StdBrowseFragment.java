@@ -15,7 +15,6 @@
 package org.jellyfin.androidtv.browsing;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
@@ -55,7 +54,6 @@ import org.jellyfin.androidtv.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
-import org.jellyfin.androidtv.presentation.ThemeManager;
 import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.ViewQuery;
 import org.jellyfin.androidtv.ui.ClockUserView;
@@ -86,7 +84,6 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ArrayObjectAdapter mRowsAdapter;
-    private Drawable mDefaultBackground;
     private SimpleTarget<Bitmap> mBackgroundTarget;
     private DisplayMetrics mMetrics;
     private Timer mBackgroundTimer;
@@ -138,9 +135,6 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     @Override
     public void onResume() {
         super.onResume();
-
-        // set fastLane (or headers) background color
-        setBrandColor(ThemeManager.getBrandColor());
 
         // set info panel option
         ShowInfoPanel = mApplication.getPrefs().getBoolean("pref_enable_info_panel", true);
@@ -253,7 +247,6 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
         final BackgroundManager backgroundManager = BackgroundManager.getInstance(getActivity());
         backgroundManager.attach(getActivity().getWindow());
-        mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
 
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
@@ -346,10 +339,6 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
 
             }
         });
-
-        // set search icon color
-        setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
-
     }
 
     private Runnable showItemPanel = new Runnable() {
@@ -475,30 +464,21 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
         }
     }
 
-    protected void setDefaultBackground(Drawable background) {
-        mDefaultBackground = background;
-    }
-
-    protected void setDefaultBackground(int resourceId) {
-        mDefaultBackground = getResources().getDrawable(resourceId);
-    }
-
     protected void updateBackground(String url) {
-        Glide.with(getActivity())
-                .load(url)
-                .asBitmap()
-                .override(mMetrics.widthPixels, mMetrics.heightPixels)
-                .centerCrop()
-                .error(mDefaultBackground)
-                .into(mBackgroundTarget);
-    }
-
-    protected void updateBackground(Drawable drawable) {
-        BackgroundManager.getInstance(getActivity()).setDrawable(drawable);
+        if (url == null) {
+            clearBackground();
+        } else {
+            Glide.with(getActivity())
+                    .load(url)
+                    .asBitmap()
+                    .override(mMetrics.widthPixels, mMetrics.heightPixels)
+                    .centerCrop()
+                    .into(mBackgroundTarget);
+        }
     }
 
     protected void clearBackground() {
-        BackgroundManager.getInstance(getActivity()).setDrawable(mDefaultBackground);
+        BackgroundManager.getInstance(getActivity()).setDrawable(null);
     }
 
     private void startBackgroundTimer() {
@@ -516,11 +496,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (mBackgroundUrl != null) {
-                        updateBackground(mBackgroundUrl);
-                    } else {
-                        updateBackground(mDefaultBackground);
-                    }
+                    updateBackground(mBackgroundUrl);
                 }
             });
 

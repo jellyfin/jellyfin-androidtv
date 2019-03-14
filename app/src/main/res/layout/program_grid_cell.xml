@@ -13,7 +13,7 @@
         android:layout_alignParentStart="true"
         android:maxLines="1"
         android:textSize="18sp"
-        android:layout_marginLeft="5sp"
+        android:layout_marginStart="5sp"
         android:layout_marginTop="2sp"
         android:layout_marginBottom="2sp" />
 
@@ -27,15 +27,14 @@
         android:layout_marginBottom="5sp"
         android:layout_marginRight="5sp"
         android:id="@+id/infoRow"
-        android:layout_marginTop="2sp"></LinearLayout>
+        android:layout_marginTop="2sp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="10sp"
         android:id="@+id/recIndicator"
         android:layout_toEndOf="@+id/infoRow"
-        android:layout_marginLeft="5sp"
-        android:layout_toRightOf="@+id/infoRow"
+        android:layout_marginStart="5sp"
         android:layout_alignBottom="@+id/infoRow"
         android:layout_alignTop="@+id/infoRow"
         android:scaleType="fitCenter"

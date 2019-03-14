@@ -2,9 +2,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <corners android:radius="2dp" />
-    <gradient
-        android:startColor="@color/btn_idle_start"
-        android:endColor="@color/btn_idle_end"
-        android:angle="270" />
-
+    <solid android:color="?android:attr/colorButtonNormal" />
 </shape>

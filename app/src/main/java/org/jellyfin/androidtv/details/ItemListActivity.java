@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
@@ -66,9 +65,6 @@ import mediabrowser.model.querying.ItemFilter;
 import mediabrowser.model.querying.ItemSortBy;
 import mediabrowser.model.querying.ItemsResult;
 
-/**
- * Created by Eric on 11/22/2015.
- */
 public class ItemListActivity extends BaseActivity {
 
     private int BUTTON_SIZE;
@@ -96,7 +92,6 @@ public class ItemListActivity extends BaseActivity {
     private TvApp mApplication;
     private BaseActivity mActivity;
     private Target mBackgroundTarget;
-    private Drawable mDefaultBackground;
     private DisplayMetrics mMetrics;
     private Handler mLoopHandler = new Handler();
     private Runnable mBackdropLoop;
@@ -201,7 +196,6 @@ public class ItemListActivity extends BaseActivity {
         backgroundManager.attach(getWindow());
         backgroundManager.setDimLayer(getDrawable(R.drawable.left_fade));
         mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
-        mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
 
         mItemId = getIntent().getStringExtra("ItemId");
         loadItem(mItemId);
@@ -759,14 +753,13 @@ public class ItemListActivity extends BaseActivity {
 
     protected void updateBackground(String url) {
         if (url == null) {
-            BackgroundManager.getInstance(this).setDrawable(mDefaultBackground);
+            BackgroundManager.getInstance(this).setDrawable(null);
         } else {
             Picasso.with(this)
                     .load(url)
                     .skipMemoryCache()
                     .resize(mMetrics.widthPixels, mMetrics.heightPixels)
                     .centerCrop()
-                    .error(mDefaultBackground)
                     .into(mBackgroundTarget);
         }
     }

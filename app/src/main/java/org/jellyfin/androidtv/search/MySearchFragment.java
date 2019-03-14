@@ -102,7 +102,7 @@ public class MySearchFragment extends SearchFragment
         backgroundManager.attach(getActivity().getWindow());
         mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
 
-        mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
+        mDefaultBackground = null;
 
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);

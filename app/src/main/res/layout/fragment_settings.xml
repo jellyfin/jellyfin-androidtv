@@ -2,38 +2,25 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:background="#ff000000">
-
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/imageView7"
-        android:layout_gravity="center"
-        android:src="@drawable/moviebg"
-        android:scaleType="fitXY"
-        android:alpha=".4" />
-
+    android:layout_width="match_parent">
 
     <SurfaceView
         android:layout_width="520sp"
         android:layout_height="420sp"
         android:id="@+id/surfaceView"
         android:layout_gravity="center"
-        android:background="@drawable/default_background"
         android:layout_marginTop="10sp" />
 
     <fragment
         android:layout_width="478dp"
         android:layout_marginTop="80sp"
         android:layout_marginBottom="50sp"
-        android:layout_marginLeft="240sp"
-        android:layout_marginRight="240sp"
-        android:layout_height="match_parent" android:id="@+id/fragment_settings"
+        android:layout_marginStart="240sp"
+        android:layout_marginEnd="240sp"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_settings"
         android:name="org.jellyfin.androidtv.settings.SettingsFragment"
-        tools:context="org.jellyfin.androidtv.settings.SettingsFragment">
-
-    </fragment>
+        tools:context="org.jellyfin.androidtv.settings.SettingsFragment" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -48,11 +35,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Version Info"
         android:id="@+id/settings_version_info"
-        android:layout_gravity="right|bottom"
-        android:layout_marginRight="30sp"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="30sp"
         android:layout_marginBottom="20sp" />
 
 </FrameLayout>
-
