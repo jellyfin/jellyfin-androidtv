@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/dark_gradient"
     android:padding="40dp">
 
     <TextView
@@ -12,7 +11,7 @@
         android:text="@string/lbl_display_preferences"
         android:id="@+id/textView17"
         android:layout_centerHorizontal="true"
-        android:textColor="@android:color/holo_blue_dark" />
+        android:textColor="?attr/defaultBrandColor" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -41,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/posterSize"
                 android:spinnerMode="dialog"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:background="@drawable/jellyfin_button" />
         </LinearLayout>
 
@@ -65,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/imageType"
                 android:spinnerMode="dialog"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:background="@drawable/jellyfin_button" />
         </LinearLayout>
 
@@ -89,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/initialView"
                 android:spinnerMode="dialog"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:background="@drawable/jellyfin_button" />
         </LinearLayout>
     </RelativeLayout>

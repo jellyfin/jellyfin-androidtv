@@ -95,9 +95,6 @@ import mediabrowser.model.querying.SeasonQuery;
 import mediabrowser.model.querying.SimilarItemsQuery;
 import mediabrowser.model.querying.UpcomingEpisodesQuery;
 
-/**
- * Created by Eric on 2/19/2015.
- */
 public class FullDetailsActivity extends BaseActivity implements IRecordingIndicatorView {
 
     private int BUTTON_SIZE;
@@ -110,7 +107,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private TextUnderButton mWatchedToggleButton;
 
     private Target mBackgroundTarget;
-    private Drawable mDefaultBackground;
     private DisplayMetrics mMetrics;
 
     protected BaseItemDto mProgramInfo;
@@ -162,8 +158,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         mRowsFragment.setOnItemViewSelectedListener(new ItemViewSelectedListener());
 
         mDorPresenter = new MyDetailsOverviewRowPresenter();
-
-        mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
 
         mItemId = getIntent().getStringExtra("ItemId");
         mChannelId = getIntent().getStringExtra("ChannelId");
@@ -1435,14 +1429,13 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     protected void updateBackground(String url) {
         if (url == null) {
-            BackgroundManager.getInstance(this).setDrawable(mDefaultBackground);
+            BackgroundManager.getInstance(this).setDrawable(null);
         } else {
             Picasso.with(this)
                     .load(url)
                     .skipMemoryCache()
                     .resize(mMetrics.widthPixels, mMetrics.heightPixels)
                     .centerCrop()
-                    .error(mDefaultBackground)
                     .into(mBackgroundTarget);
         }
     }

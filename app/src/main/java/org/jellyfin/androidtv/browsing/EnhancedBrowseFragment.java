@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -63,9 +62,6 @@ import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.entities.DisplayPreferences;
 
-/**
- * Created by Eric on 5/17/2015.
- */
 public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     private static final int BACKGROUND_UPDATE_DELAY = 100;
     Typeface roboto;
@@ -103,7 +99,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ArrayObjectAdapter mRowsAdapter;
-    private Drawable mDefaultBackground;
     private Timer mBackgroundTimer;
     private final Handler mHandler = new Handler();
     private String mBackgroundUrl;
@@ -162,7 +157,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         super.onActivityCreated(savedInstanceState);
 
         mApplication = TvApp.getApplication();
-        mDefaultBackground = mApplication.getDrawableCompat(R.drawable.blank10x10);
 
         prepareBackgroundManager();
 
@@ -595,10 +589,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     };
 
     private void prepareBackgroundManager() {
-
         final BackgroundManager backgroundManager = BackgroundManager.getInstance(getActivity());
         backgroundManager.attach(getActivity().getWindow());
-        mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
 
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
@@ -621,17 +613,12 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                     .asBitmap()
                     .override(mMetrics.widthPixels, mMetrics.heightPixels)
                     .centerCrop()
-                    .error(mDefaultBackground)
                     .into(mBackgroundTarget);
         }
     }
 
-    protected void updateBackground(Drawable drawable) {
-        BackgroundManager.getInstance(getActivity()).setDrawable(drawable);
-    }
-
     protected void clearBackground() {
-        BackgroundManager.getInstance(getActivity()).setDrawable(mDefaultBackground);
+        BackgroundManager.getInstance(getActivity()).setDrawable(null);
     }
 
     private void startBackgroundTimer() {
@@ -649,11 +636,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (mBackgroundUrl != null) {
-                        updateBackground(mBackgroundUrl);
-                    } else {
-                        updateBackground(mDefaultBackground);
-                    }
+                    updateBackground(mBackgroundUrl);
                 }
             });
 

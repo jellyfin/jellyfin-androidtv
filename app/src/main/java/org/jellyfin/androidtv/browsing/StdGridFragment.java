@@ -88,7 +88,6 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ItemRowAdapter mGridAdapter;
-    private Drawable mDefaultBackground;
     private SimpleTarget<Bitmap> mBackgroundTarget;
     private DisplayMetrics mMetrics;
     private Timer mBackgroundTimer;
@@ -307,7 +306,6 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
 
         final BackgroundManager backgroundManager = BackgroundManager.getInstance(getActivity());
         backgroundManager.attach(getActivity().getWindow());
-        mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
 
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
@@ -661,30 +659,21 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         }
     }
 
-    protected void setDefaultBackground(Drawable background) {
-        mDefaultBackground = background;
-    }
-
-    protected void setDefaultBackground(int resourceId) {
-        mDefaultBackground = getResources().getDrawable(resourceId);
-    }
-
     protected void updateBackground(String url) {
-        Glide.with(getActivity())
-                .load(url)
-                .asBitmap()
-                .override(mMetrics.widthPixels, mMetrics.heightPixels)
-                .centerCrop()
-                .error(mDefaultBackground)
-                .into(mBackgroundTarget);
-    }
-
-    protected void updateBackground(Drawable drawable) {
-        BackgroundManager.getInstance(getActivity()).setDrawable(drawable);
+        if (url == null) {
+            clearBackground();
+        } else {
+            Glide.with(getActivity())
+                    .load(url)
+                    .asBitmap()
+                    .override(mMetrics.widthPixels, mMetrics.heightPixels)
+                    .centerCrop()
+                    .into(mBackgroundTarget);
+        }
     }
 
     protected void clearBackground() {
-        BackgroundManager.getInstance(getActivity()).setDrawable(mDefaultBackground);
+        BackgroundManager.getInstance(getActivity()).setDrawable(null);
     }
 
     private void startBackgroundTimer() {
@@ -702,11 +691,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (mBackgroundUrl != null) {
                         updateBackground(mBackgroundUrl);
-                    } else {
-                        updateBackground(mDefaultBackground);
-                    }
                 }
             });
 

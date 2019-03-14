@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@drawable/dark_gradient">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
         android:layout_width="wrap_content"
@@ -10,7 +10,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textSize="30sp"
-        android:textColor="@android:color/holo_blue_light"
+        android:textColor="?attr/defaultBrandColor"
         android:text="@string/lbl_settings"
         android:layout_marginTop="10sp"
         android:layout_marginBottom="10sp"/>
@@ -51,7 +51,7 @@
         android:id="@+id/sortLabel"
         android:text="@string/lbl_sort_by"
         android:textSize="16sp"
-        android:textColor="@android:color/holo_blue_light"
+        android:textColor="?attr/defaultBrandColor"
         android:layout_marginStart="20dp"
         android:layout_below="@id/textView13"
         />
@@ -88,7 +88,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/indicatorLabel"
         android:text="@string/lbl_show_indicators"
-        android:textColor="@android:color/holo_blue_light"
+        android:textColor="?attr/defaultBrandColor"
         android:textSize="16sp"
         android:layout_marginTop="10dp"
         android:layout_below="@id/colorCode"
@@ -139,6 +139,5 @@
         android:id="@+id/repeat"
         android:layout_below="@+id/premieres"
         android:layout_marginStart="10dp"
-        android:layout_alignStart="@id/sortLabel"
-         />
+        android:layout_alignStart="@id/sortLabel" />
 </RelativeLayout>
