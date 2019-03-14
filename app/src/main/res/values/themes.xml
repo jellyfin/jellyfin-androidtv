@@ -6,7 +6,7 @@
         <item name="android:colorPrimaryDark">@color/grey</item>
         <item name="android:colorAccent">@color/jellyfin_blue</item>
         <!-- Background resource or color -->
-        <item name="android:windowBackground">@color/black</item>
+        <item name="android:windowBackground">@color/not_quite_black</item>
         <!-- Search FAB color -->
         <item name="defaultSearchColor">@color/jellyfin_blue</item>
         <!-- Default (non-active) button color -->
