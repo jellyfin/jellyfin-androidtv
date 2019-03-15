@@ -1,12 +1,12 @@
 package org.jellyfin.androidtv.util.apiclient;
 
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.model.compat.StreamInfo;
 
 import java.util.Calendar;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.session.PlaybackProgressInfo;
 import mediabrowser.model.session.PlaybackStartInfo;

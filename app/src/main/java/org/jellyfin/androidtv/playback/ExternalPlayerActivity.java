@@ -13,6 +13,9 @@ import android.support.v17.leanback.app.BackgroundManager;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.model.compat.PlaybackException;
+import org.jellyfin.androidtv.model.compat.StreamInfo;
+import org.jellyfin.androidtv.model.compat.VideoOptions;
 import org.jellyfin.androidtv.util.ProfileHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
@@ -20,9 +23,6 @@ import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import java.util.List;
 
 import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dlna.PlaybackException;
-import mediabrowser.model.dlna.StreamInfo;
-import mediabrowser.model.dlna.VideoOptions;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.UserItemDataDto;
 import mediabrowser.model.session.PlayMethod;

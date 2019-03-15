@@ -3,11 +3,11 @@ package org.jellyfin.androidtv.util;
 import android.os.Build;
 
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.model.compat.AndroidProfileOptions;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import mediabrowser.apiinteraction.android.profiles.AndroidProfileOptions;
 import mediabrowser.model.dlna.CodecProfile;
 import mediabrowser.model.dlna.CodecType;
 import mediabrowser.model.dlna.ContainerProfile;

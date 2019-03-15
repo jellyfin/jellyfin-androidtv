@@ -32,6 +32,9 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.UUID;
 
 import mediabrowser.model.dto.UserDto;
@@ -135,6 +138,25 @@ public class Utils {
 
     public static boolean isNonEmpty(String value) {
         return value != null && !value.equals("");
+    }
+
+    public static String join(String separator, Iterable<String> items) {
+        StringBuilder builder = new StringBuilder();
+
+        Iterator<String> iterator = items.iterator();
+        while (iterator.hasNext()) {
+            builder.append(iterator.next());
+
+            if (iterator.hasNext()) {
+                builder.append(separator);
+            }
+        }
+
+        return builder.toString();
+    }
+
+    public static String join(String separator, String[] items) {
+        return join(separator, Arrays.asList(items));
     }
 
     public static boolean versionGreaterThanOrEqual(String firstVersion, String secondVersion) {
