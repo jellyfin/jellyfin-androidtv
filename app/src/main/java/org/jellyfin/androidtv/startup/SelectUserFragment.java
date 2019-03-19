@@ -96,7 +96,7 @@ public class SelectUserFragment extends CustomBrowseFragment {
                                     for (ServerInfo server : serverResponse) {
                                         payload.add(serializer.SerializeToString(server));
                                     }
-                                    serverIntent.putExtra("Servers", payload.toArray(new String[payload.size()]));
+                                    serverIntent.putExtra("Servers", payload.toArray(new String[] {}));
                                     serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                     getActivity().startActivity(serverIntent);
                             }
