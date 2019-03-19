@@ -235,7 +235,7 @@ public class AuthenticationHelper {
                                 for (ServerInfo server : serverResponse) {
                                     payload.add(serializer.SerializeToString(server));
                                 }
-                                serverIntent.putExtra("Servers", payload.toArray());
+                                serverIntent.putExtra("Servers", payload.toArray(new String[] {}));
                                 serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                 activity.startActivity(serverIntent);
                             }
@@ -256,7 +256,7 @@ public class AuthenticationHelper {
                         for (ServerInfo server : serverResponse) {
                             payload.add(serializer.SerializeToString(server));
                         }
-                        serverIntent.putExtra("Servers", payload.toArray());
+                        serverIntent.putExtra("Servers", payload.toArray(new String[] {}));
                         serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         activity.startActivity(serverIntent);
                     }
