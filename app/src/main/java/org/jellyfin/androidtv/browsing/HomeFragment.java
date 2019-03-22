@@ -58,11 +58,6 @@ import mediabrowser.model.querying.NextUpQuery;
 public class HomeFragment extends StdBrowseFragment {
     private static final int LOGOUT = 0;
     private static final int SETTINGS = 1;
-    private static final int REPORT = 2;
-
-    private ArrayObjectAdapter toolsRow;
-    private GridButton sendLogsButton;
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -360,7 +355,7 @@ public class HomeFragment extends StdBrowseFragment {
         HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_settings));
 
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
-        toolsRow = new ArrayObjectAdapter(mGridPresenter);
+        ArrayObjectAdapter toolsRow = new ArrayObjectAdapter(mGridPresenter);
         toolsRow.add(new GridButton(SETTINGS, mApplication.getString(R.string.lbl_app_settings), R.drawable.gears));
         toolsRow.add(new GridButton(LOGOUT, mApplication.getString(R.string.lbl_logout) + TvApp.getApplication().getCurrentUser().getName(), R.drawable.logout));
         rowAdapter.add(new ListRow(gridHeader, toolsRow));
