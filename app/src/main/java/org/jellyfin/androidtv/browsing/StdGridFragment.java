@@ -691,7 +691,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                        updateBackground(mBackgroundUrl);
+                    updateBackground(mBackgroundUrl);
                 }
             });
 
