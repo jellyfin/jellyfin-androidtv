@@ -39,7 +39,6 @@ public class SelectUserFragment extends CustomBrowseFragment {
     private static final int GRID_ITEM_WIDTH = 200;
     private static final int GRID_ITEM_HEIGHT = 200;
     private static final int ENTER_MANUALLY = 0;
-    private static final int REPORT = 2;
     private static final int SWITCH_SERVER = 3;
     private ServerInfo mServer;
 
@@ -68,7 +67,6 @@ public class SelectUserFragment extends CustomBrowseFragment {
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
         gridRowAdapter.add(new GridButton(ENTER_MANUALLY, mApplication.getString(R.string.lbl_enter_manually), R.drawable.edit));
         gridRowAdapter.add(new GridButton(SWITCH_SERVER, mApplication.getString(R.string.lbl_switch_server), R.drawable.server));
-        gridRowAdapter.add(new GridButton(REPORT, mApplication.getString(R.string.lbl_send_logs), R.drawable.upload));
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
 
@@ -105,9 +103,6 @@ public class SelectUserFragment extends CustomBrowseFragment {
                     case ENTER_MANUALLY:
                         // Manual login
                         AuthenticationHelper.enterManualUser(getActivity());
-                        break;
-                    case REPORT:
-                        Utils.reportError(getActivity(), "Send Log to Dev");
                         break;
                     default:
                         Toast.makeText(getActivity(), item.toString(), Toast.LENGTH_SHORT)
