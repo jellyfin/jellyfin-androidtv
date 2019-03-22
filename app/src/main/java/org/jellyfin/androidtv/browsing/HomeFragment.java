@@ -137,13 +137,11 @@ public class HomeFragment extends StdBrowseFragment {
     public void onResume() {
         super.onResume();
 
-        addLogsButton();
         //make sure rows have had a chance to be created
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 addNowPlaying();
-                addLogsButton();
                 //check for resume row and add if not there
                 if (!hasResumeRow()) addContinueWatching();
             }
@@ -365,18 +363,7 @@ public class HomeFragment extends StdBrowseFragment {
         toolsRow = new ArrayObjectAdapter(mGridPresenter);
         toolsRow.add(new GridButton(SETTINGS, mApplication.getString(R.string.lbl_app_settings), R.drawable.gears));
         toolsRow.add(new GridButton(LOGOUT, mApplication.getString(R.string.lbl_logout) + TvApp.getApplication().getCurrentUser().getName(), R.drawable.logout));
-
-        sendLogsButton = new GridButton(REPORT, mApplication.getString(R.string.lbl_send_logs), R.drawable.upload);
         rowAdapter.add(new ListRow(gridHeader, toolsRow));
-    }
-
-    private void addLogsButton() {
-        if (toolsRow != null) {
-            if (TvApp.getApplication().getPrefs().getBoolean("pref_enable_debug",false)) {
-                if (toolsRow.indexOf(sendLogsButton) < 0) toolsRow.add(sendLogsButton);
-            } else if (toolsRow.indexOf(sendLogsButton) > -1) toolsRow.remove(sendLogsButton);
-        }
-
     }
 
     @Override
@@ -409,9 +396,6 @@ public class HomeFragment extends StdBrowseFragment {
                     case SETTINGS:
                         Intent settings = new Intent(getActivity(), SettingsActivity.class);
                         getActivity().startActivity(settings);
-                        break;
-                    case REPORT:
-                        Utils.reportError(getActivity(), "Send Log to Dev");
                         break;
                     default:
                         Toast.makeText(getActivity(), item.toString(), Toast.LENGTH_SHORT)
