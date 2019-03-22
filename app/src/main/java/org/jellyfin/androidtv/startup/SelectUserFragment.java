@@ -39,7 +39,6 @@ public class SelectUserFragment extends CustomBrowseFragment {
     private static final int GRID_ITEM_WIDTH = 200;
     private static final int GRID_ITEM_HEIGHT = 200;
     private static final int ENTER_MANUALLY = 0;
-    private static final int REPORT = 2;
     private static final int SWITCH_SERVER = 3;
     private ServerInfo mServer;
 
