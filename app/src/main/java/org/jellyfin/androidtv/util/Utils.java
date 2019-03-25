@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -189,14 +190,13 @@ public class Utils {
     }
 
     public static int getBrandColor() {
-        TvApp application = TvApp.getApplication();
-        int deviceColor;
-        if (DeviceUtils.isFireTv()) {
-            deviceColor = application.getResources().getColor(R.color.fastlane_fire);
-        } else {
-            deviceColor = application.getResources().getColor(R.color.fastlane_background);
-        }
-        return application.getPrefs().getInt("pref_sideline_color", deviceColor);
+        TypedArray styledAttributes = TvApp.getApplication()
+                .getTheme()
+                .obtainStyledAttributes(new int[] { R.attr.colorPrimary });
+        int brandColor = styledAttributes.getColor(0, 0);
+        styledAttributes.recycle();
+
+        return brandColor;
     }
 
     public static void processPasswordEntry(Activity activity, UserDto user) {

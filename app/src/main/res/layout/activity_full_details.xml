@@ -5,17 +5,13 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/backdrop_overlay"></FrameLayout>
-
+        android:background="@color/backdrop_overlay" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="false"
-        android:id="@+id/rowsFragment"
-        >
-
-    </FrameLayout>
+        android:id="@+id/rowsFragment" />
 
     <org.jellyfin.androidtv.ui.ClockUserView
         android:layout_width="wrap_content"
@@ -23,9 +19,8 @@
         android:id="@+id/fdClock"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="false"
-        android:layout_alignParentRight="true"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="40sp"
+        android:layout_marginEnd="40sp"
         android:alpha=".8" />
 
     <org.jellyfin.androidtv.ui.NowPlayingBug
@@ -33,7 +28,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/npBug"
         android:layout_alignBottom="@+id/fdClock"
-        android:layout_marginRight="25dp"
-        android:layout_toLeftOf="@+id/fdClock" />
+        android:layout_marginEnd="25dp"
+        android:layout_toStartOf="@+id/fdClock" />
 
 </RelativeLayout>

@@ -66,7 +66,7 @@
                 android:id="@+id/watched"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/greencircle" />
+                android:src="@drawable/circle_accent" />
             <TextView
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"

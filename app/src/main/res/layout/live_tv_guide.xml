@@ -6,8 +6,8 @@
         android:layout_width="160sp"
         android:layout_height="match_parent"
         android:id="@+id/channelScroller"
-        android:layout_gravity="top|left|center"
-        android:background="#ff201b1c"
+        android:layout_gravity="top|start|center"
+        android:background="@color/channel_scroller_bg"
         android:layout_marginTop="210sp"
         android:focusable="false"
         android:focusableInTouchMode="false"
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/programVScroller"
-        android:background="#ff0b0e14"
+        android:background="@color/program_scroller_bg"
         android:layout_alignTop="@+id/channelScroller"
         android:layout_toEndOf="@+id/channelScroller"
         android:layout_alignBottom="@+id/channelScroller">
@@ -53,7 +53,7 @@
         android:layout_above="@+id/programVScroller"
         android:layout_toEndOf="@+id/channelScroller"
         android:focusable="false"
-        android:background="#ff007d8d"
+        android:background="@color/timeline_bg"
         android:focusableInTouchMode="false">
 
         <LinearLayout
@@ -72,7 +72,7 @@
         android:layout_above="@+id/programVScroller"
         android:layout_toStartOf="@+id/timelineHScroller"
         android:layout_alignParentStart="true"
-        android:background="#ff007d8d"
+        android:background="@color/timeline_bg"
         android:gravity="center"
         android:textSize="14sp"
         android:enabled="false"
