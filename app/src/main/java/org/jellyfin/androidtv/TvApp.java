@@ -20,7 +20,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
-import android.util.Log;
 
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
@@ -44,7 +43,7 @@ import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.interaction.GsonJsonSerializer;
 import org.jellyfin.apiclient.interaction.VolleyHttpClient;
-import org.jellyfin.apiclient.logging.ConsoleLogger;
+import org.jellyfin.apiclient.logging.AndroidLogger;
 import org.jellyfin.apiclient.model.configuration.ServerConfiguration;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserDto;
@@ -53,22 +52,15 @@ import org.jellyfin.apiclient.model.logging.ILogger;
 import org.jellyfin.apiclient.model.net.EndPointInfo;
 import org.jellyfin.apiclient.model.system.SystemInfo;
 
-/**
- * Created by Eric on 11/24/2014.
- */
-
-
 public class TvApp extends Application implements ActivityCompat.OnRequestPermissionsResultCallback {
-    public static String FEATURE_CODE = "androidtv";
-
     public static final String CREDENTIALS_PATH = "org.jellyfin.androidtv.login.json";
-
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
     public static final int LIVE_TV_RECORDINGS_OPTION_ID = 2000;
     public static final int VIDEO_QUEUE_OPTION_ID = 3000;
     public static final int LIVE_TV_SCHEDULE_OPTION_ID = 4000;
     public static final int LIVE_TV_SERIES_OPTION_ID = 5000;
 
+    private static final String TAG = "Jellyfin-AndroidTV";
     private static final int SEARCH_PERMISSION = 0;
 
     private ILogger logger;
@@ -121,8 +113,8 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     @Override
     public void onCreate() {
         super.onCreate();
-        logger = new ConsoleLogger();
-        app = (TvApp)getApplicationContext();
+        logger = new AndroidLogger(TAG);
+        app = (TvApp) getApplicationContext();
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
         setCurrentBackgroundGradient(new int[] {ContextCompat.getColor(this, R.color.lb_default_brand_color_dark), ContextCompat.getColor(this, R.color.lb_default_brand_color)});
@@ -132,11 +124,10 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread thread, Throwable ex) {
-                Log.e(getString(R.string.app_name), "Uncaught exception is: ", ex);
+                logger.FatalException("Uncaught Exception", new Exception(ex));
                 ex.printStackTrace();
                 android.os.Process.killProcess(android.os.Process.myPid());
                 System.exit(10);
-
             }
         });
 
@@ -694,6 +685,5 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
         currentBackgroundGradient.setCornerRadius(0f);
         currentBackgroundGradient.setGradientCenter(.6f, .5f);
         currentBackgroundGradient.setAlpha(200);
-
     }
 }
