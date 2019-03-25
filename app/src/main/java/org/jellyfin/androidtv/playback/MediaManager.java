@@ -22,6 +22,8 @@ import org.jellyfin.androidtv.base.CustomMessage;
 import org.jellyfin.androidtv.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.model.compat.AudioOptions;
+import org.jellyfin.androidtv.model.compat.StreamInfo;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.util.DeviceUtils;
@@ -41,18 +43,12 @@ import java.util.List;
 
 import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dlna.AudioOptions;
 import mediabrowser.model.dlna.DeviceProfile;
-import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.playlists.PlaylistCreationRequest;
 import mediabrowser.model.playlists.PlaylistCreationResult;
 
-/**
- * Created by Eric on 10/22/2015.
- */
 public class MediaManager {
-
     private static ItemRowAdapter mCurrentMediaAdapter;
     private static int mCurrentMediaPosition = -1;
     private static String currentMediaTitle;
