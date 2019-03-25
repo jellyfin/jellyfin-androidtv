@@ -11,6 +11,10 @@ import android.view.WindowManager;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.livetv.TvManager;
+import org.jellyfin.androidtv.model.compat.PlaybackException;
+import org.jellyfin.androidtv.model.compat.StreamInfo;
+import org.jellyfin.androidtv.model.compat.SubtitleStreamInfo;
+import org.jellyfin.androidtv.model.compat.VideoOptions;
 import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ProfileHelper;
@@ -26,11 +30,7 @@ import mediabrowser.apiinteraction.ApiClient;
 import mediabrowser.apiinteraction.Response;
 import mediabrowser.model.dlna.DeviceProfile;
 import mediabrowser.model.dlna.DirectPlayProfile;
-import mediabrowser.model.dlna.PlaybackException;
-import mediabrowser.model.dlna.StreamInfo;
 import mediabrowser.model.dlna.SubtitleDeliveryMethod;
-import mediabrowser.model.dlna.SubtitleStreamInfo;
-import mediabrowser.model.dlna.VideoOptions;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.MediaSourceInfo;
 import mediabrowser.model.entities.LocationType;
@@ -42,9 +42,6 @@ import mediabrowser.model.livetv.ChannelInfoDto;
 import mediabrowser.model.mediainfo.SubtitleTrackInfo;
 import mediabrowser.model.session.PlayMethod;
 
-/**
- * Created by Eric on 12/9/2014.
- */
 public class PlaybackController {
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;

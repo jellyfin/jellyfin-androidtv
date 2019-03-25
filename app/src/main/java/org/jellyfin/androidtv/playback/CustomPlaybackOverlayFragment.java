@@ -56,6 +56,8 @@ import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.livetv.ILiveTvGuide;
 import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
+import org.jellyfin.androidtv.model.compat.StreamInfo;
+import org.jellyfin.androidtv.model.compat.SubtitleStreamInfo;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.ChannelCardPresenter;
 import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
@@ -88,8 +90,6 @@ import java.util.List;
 
 import mediabrowser.apiinteraction.EmptyResponse;
 import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dlna.StreamInfo;
-import mediabrowser.model.dlna.SubtitleStreamInfo;
 import mediabrowser.model.dto.BaseItemDto;
 import mediabrowser.model.dto.ChapterInfoDto;
 import mediabrowser.model.dto.ImageOptions;
@@ -100,11 +100,7 @@ import mediabrowser.model.livetv.SeriesTimerInfoDto;
 import mediabrowser.model.mediainfo.SubtitleTrackEvent;
 import mediabrowser.model.mediainfo.SubtitleTrackInfo;
 
-/**
- * Created by Eric on 4/28/2015.
- */
 public class CustomPlaybackOverlayFragment extends Fragment implements IPlaybackOverlayFragment, ILiveTvGuide {
-
     ImageView mPoster;
     ImageView mStudioImage;
     ImageView mLogoImage;
