@@ -33,16 +33,6 @@
             android:entries="@array/pref_timeout_entries"
             android:entryValues="@array/pref_timeout_values"
             />
-        <org.jellyfin.androidtv.settings.ColorPreference
-            android:key="pref_sideline_color"
-            android:title="@string/lbl_sideline_color"
-            android:summary="@string/desc_sideline_color"
-            android:defaultValue="@null"
-            android:negativeButtonText="@null"
-            android:positiveButtonText="@null"
-            app:numColumns="5"
-            app:itemLayout="@layout/dash_grid_item_color"
-            />
         <CheckBoxPreference android:key="pref_show_backdrop"
             android:title="@string/lbl_show_backdrop"
             android:defaultValue="true"

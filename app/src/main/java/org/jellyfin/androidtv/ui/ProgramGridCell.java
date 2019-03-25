@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
@@ -24,9 +25,6 @@ import java.util.Date;
 
 import mediabrowser.model.dto.BaseItemDto;
 
-/**
- * Created by Eric on 5/4/2015.
- */
 public class ProgramGridCell extends RelativeLayout implements IRecordingIndicatorView {
 
     private ILiveTvGuide mActivity;
@@ -51,14 +49,14 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
         View v = inflater.inflate(R.layout.program_grid_cell, this, false);
         this.addView(v);
 
-        mProgramName = (TextView) findViewById(R.id.programName);
+        mProgramName = findViewById(R.id.programName);
         mProgramName.setTypeface(TvApp.getApplication().getDefaultFont());
-        mInfoRow = (LinearLayout) findViewById(R.id.infoRow);
+        mInfoRow = findViewById(R.id.infoRow);
         mProgramName.setText(program.getName());
         mProgram = program;
         mProgramName.setFocusable(false);
         mInfoRow.setFocusable(false);
-        mRecIndicator = (ImageView) findViewById(R.id.recIndicator);
+        mRecIndicator = findViewById(R.id.recIndicator);
 
         setCellBackground();
 
@@ -136,7 +134,13 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
 
         if (gainFocus) {
-            setBackgroundColor(getResources().getColor(R.color.btn_focused_end));
+            TypedArray styledAttributes = TvApp.getApplication()
+                    .getTheme()
+                    .obtainStyledAttributes(new int[] { R.attr.colorPrimary });
+            int backgroundColor = styledAttributes.getColor(0, 0);
+            styledAttributes.recycle();
+
+            setBackgroundColor(backgroundColor);
             mActivity.setSelectedProgram(this);
         } else {
             setBackgroundColor(mBackgroundColor);

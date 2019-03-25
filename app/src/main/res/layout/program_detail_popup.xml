@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@drawable/dark_gradient">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
         android:layout_width="wrap_content"
@@ -14,7 +14,7 @@
         android:layout_marginLeft="20sp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10sp"
-        android:textColor="@android:color/holo_blue_light" />
+        android:textColor="?attr/defaultBrandColor" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -23,7 +23,7 @@
         android:layout_alignParentEnd="false"
         android:layout_below="@+id/title"
         android:id="@+id/infoRow"
-        android:layout_marginLeft="20sp"
+        android:layout_marginStart="20sp"
         android:gravity="center"
         android:layout_marginTop="10sp" />
 

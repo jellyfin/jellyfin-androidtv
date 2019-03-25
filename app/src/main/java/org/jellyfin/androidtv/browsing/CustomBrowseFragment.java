@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.browsing;
 
 import android.app.Fragment;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
@@ -40,9 +39,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * Created by Eric on 4/15/2015.
- */
 public class CustomBrowseFragment extends Fragment implements IRowLoader {
     private RowsFragment mRowsFragment;
     private static final int BACKGROUND_UPDATE_DELAY = 100;
@@ -56,7 +52,6 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ArrayObjectAdapter mRowsAdapter;
-    private Drawable mDefaultBackground;
     private SimpleTarget<Bitmap> mBackgroundTarget;
     private DisplayMetrics mMetrics;
     private Timer mBackgroundTimer;
@@ -201,7 +196,6 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
 
         final BackgroundManager backgroundManager = BackgroundManager.getInstance(getActivity());
         backgroundManager.attach(getActivity().getWindow());
-        mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
 
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
@@ -262,30 +256,21 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
         }
     }
 
-    protected void setDefaultBackground(Drawable background) {
-        mDefaultBackground = background;
-    }
-
-    protected void setDefaultBackground(int resourceId) {
-        mDefaultBackground = getResources().getDrawable(resourceId);
-    }
-
     protected void updateBackground(String url) {
-        Glide.with(getActivity())
-                .load(url)
-                .asBitmap()
-                .override(mMetrics.widthPixels, mMetrics.heightPixels)
-                .centerCrop()
-                .error(mDefaultBackground)
-                .into(mBackgroundTarget);
-    }
-
-    protected void updateBackground(Drawable drawable) {
-        BackgroundManager.getInstance(getActivity()).setDrawable(drawable);
+        if (url == null) {
+            clearBackground();
+        } else {
+            Glide.with(getActivity())
+                    .load(url)
+                    .asBitmap()
+                    .override(mMetrics.widthPixels, mMetrics.heightPixels)
+                    .centerCrop()
+                    .into(mBackgroundTarget);
+        }
     }
 
     protected void clearBackground() {
-        BackgroundManager.getInstance(getActivity()).setDrawable(mDefaultBackground);
+        BackgroundManager.getInstance(getActivity()).setDrawable(null);
     }
 
     private void startBackgroundTimer() {
@@ -303,11 +288,7 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (mBackgroundUrl != null) {
-                        updateBackground(mBackgroundUrl);
-                    } else {
-                        updateBackground(mDefaultBackground);
-                    }
+                    updateBackground(mBackgroundUrl);
                 }
             });
 

@@ -51,9 +51,6 @@ import org.jellyfin.androidtv.util.Utils;
 
 import mediabrowser.model.dto.BaseItemDto;
 
-/**
- * Created by Eric on 2/19/2015.
- */
 public class AudioNowPlayingActivity extends BaseActivity  {
 
     private int BUTTON_SIZE;
@@ -80,7 +77,6 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     private String mDisplayDuration;
 
     private Target mBackgroundTarget;
-    private Drawable mDefaultBackground;
     private DisplayMetrics mMetrics;
 
     private TextView mArtistName;
@@ -277,10 +273,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mRowsFragment.setAdapter(mRowsAdapter);
         addQueue();
 
-        mDefaultBackground = getResources().getDrawable(R.drawable.moviebg);
-
         mPlayPauseButton.requestFocus();
-
     }
 
     protected void addQueue() {
@@ -598,14 +591,13 @@ public class AudioNowPlayingActivity extends BaseActivity  {
 
     protected void updateBackground(String url) {
         if (url == null) {
-            BackgroundManager.getInstance(this).setDrawable(mDefaultBackground);
+            BackgroundManager.getInstance(this).setDrawable(null);
         } else {
             Picasso.with(this)
                     .load(url)
                     .skipMemoryCache()
                     .resize(mMetrics.widthPixels, mMetrics.heightPixels)
                     .centerCrop()
-                    .error(mDefaultBackground)
                     .into(mBackgroundTarget);
         }
     }
