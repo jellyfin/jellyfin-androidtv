@@ -17,9 +17,6 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.util.Utils;
 
-/**
- * Created by Eric on 2/18/2015.
- */
 public class BaseActivity extends Activity {
 
     private TvApp app = TvApp.getApplication();
@@ -50,11 +47,11 @@ public class BaseActivity extends Activity {
             @Override
             public void run() {
                 if (!isFinishing() && app.getCurrentActivity() != null) {
-                    FrameLayout root = (FrameLayout) findViewById(android.R.id.content);
+                    FrameLayout root = findViewById(android.R.id.content);
                     messageUi = View.inflate(app.getCurrentActivity(), R.layout.message, null);
-                    messageTitle = (TextView) messageUi.findViewById(R.id.msgTitle);
-                    messageMessage = (TextView) messageUi.findViewById(R.id.message);
-                    messageIcon = (ImageView) messageUi.findViewById(R.id.msgIcon);
+                    messageTitle = messageUi.findViewById(R.id.msgTitle);
+                    messageMessage = messageUi.findViewById(R.id.message);
+                    messageIcon = messageUi.findViewById(R.id.msgIcon);
                     messageUi.setAlpha(0);
                     FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.RIGHT | Gravity.BOTTOM);
                     params.bottomMargin = Utils.convertDpToPixel(TvApp.getApplication().getCurrentActivity(), 50);
@@ -136,16 +133,19 @@ public class BaseActivity extends Activity {
     }
 
     private void startAutoLogoffLoop() {
+        if (loop != null) return;
+
         loop = new Runnable() {
             @Override
             public void run() {
                 if (app != null && System.currentTimeMillis() > app.getLastUserInteraction() + timeoutInterval) {
-                    app.getLogger().Info("Logging off due to inactivity "+app.getLastUserInteraction());
+                    app.getLogger().Info("Logging off due to inactivity %d", app.getLastUserInteraction());
                     Utils.showToast(app, "Jellyfin Logging off due to inactivity...");
                     if (app.getPlaybackController() != null && app.getPlaybackController().isPaused()) {
                         app.getLogger().Info("Playback was paused, stopping gracefully...");
                         app.getPlaybackController().stop();
                     }
+                    handler.removeCallbacks(this);
                     finish();
                 } else {
                     handler.postDelayed(this, 60000);
@@ -154,7 +154,6 @@ public class BaseActivity extends Activity {
         };
 
         handler.postDelayed(loop, 60000);
-
     }
 
     public void registerKeyListener(IKeyListener listener) {
