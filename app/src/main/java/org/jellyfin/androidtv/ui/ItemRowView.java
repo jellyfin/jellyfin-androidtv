@@ -17,7 +17,7 @@ import android.widget.TextView;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.util.TimeUtils;
 
-import mediabrowser.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 /**
  * Created by Eric on 11/21/2015.

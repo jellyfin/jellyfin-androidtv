@@ -4,7 +4,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.querying.StdItemQuery;
 
-import mediabrowser.model.querying.ItemSortBy;
+import org.jellyfin.apiclient.model.querying.ItemSortBy;
 
 /**
  * Created by Eric on 12/4/2014.

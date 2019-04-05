@@ -24,13 +24,13 @@ import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 
 import java.util.List;
 
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.dto.UserItemDataDto;
-import mediabrowser.model.entities.SortOrder;
-import mediabrowser.model.querying.ItemFilter;
-import mediabrowser.model.querying.ItemsResult;
+import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.UserItemDataDto;
+import org.jellyfin.apiclient.model.entities.SortOrder;
+import org.jellyfin.apiclient.model.querying.ItemFilter;
+import org.jellyfin.apiclient.model.querying.ItemsResult;
 
 /**
  * Created by Eric on 4/17/2015.

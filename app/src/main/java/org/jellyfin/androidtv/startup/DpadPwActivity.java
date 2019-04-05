@@ -15,7 +15,7 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 
-import mediabrowser.model.dto.UserDto;
+import org.jellyfin.apiclient.model.dto.UserDto;
 
 
 public class DpadPwActivity extends Activity {

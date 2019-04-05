@@ -16,7 +16,7 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.GridButton;
 
-import mediabrowser.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 /**
  * Created by Eric on 12/4/2014.

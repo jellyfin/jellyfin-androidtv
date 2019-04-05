@@ -4,20 +4,20 @@ import org.jellyfin.androidtv.util.Utils;
 
 import java.util.ArrayList;
 
-import mediabrowser.model.dlna.DeviceProfile;
-import mediabrowser.model.dlna.DlnaProfileType;
-import mediabrowser.model.dlna.EncodingContext;
-import mediabrowser.model.dlna.SubtitleDeliveryMethod;
-import mediabrowser.model.dlna.SubtitleProfile;
-import mediabrowser.model.dlna.TranscodeSeekInfo;
-import mediabrowser.model.dto.MediaSourceInfo;
-import mediabrowser.model.dto.NameValuePair;
-import mediabrowser.model.entities.MediaStream;
-import mediabrowser.model.entities.MediaStreamType;
-import mediabrowser.model.extensions.StringHelper;
-import mediabrowser.model.mediainfo.MediaProtocol;
-import mediabrowser.model.mediainfo.TransportStreamTimestamp;
-import mediabrowser.model.session.PlayMethod;
+import org.jellyfin.apiclient.model.dlna.DeviceProfile;
+import org.jellyfin.apiclient.model.dlna.DlnaProfileType;
+import org.jellyfin.apiclient.model.dlna.EncodingContext;
+import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod;
+import org.jellyfin.apiclient.model.dlna.SubtitleProfile;
+import org.jellyfin.apiclient.model.dlna.TranscodeSeekInfo;
+import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
+import org.jellyfin.apiclient.model.dto.NameValuePair;
+import org.jellyfin.apiclient.model.entities.MediaStream;
+import org.jellyfin.apiclient.model.entities.MediaStreamType;
+import org.jellyfin.apiclient.model.extensions.StringHelper;
+import org.jellyfin.apiclient.model.mediainfo.MediaProtocol;
+import org.jellyfin.apiclient.model.mediainfo.TransportStreamTimestamp;
+import org.jellyfin.apiclient.model.session.PlayMethod;
 
 /**
  * Class StreamInfo.
@@ -506,7 +506,7 @@ public class StreamInfo {
         list.add(new NameValuePair("VideoCodec", (tempVar4 != null) ? tempVar4 : ""));
         list.add(new NameValuePair("AudioCodec", audioCodecs));
         list.add(new NameValuePair("AudioStreamIndex", item.getAudioStreamIndex() != null ? StringHelper.ToStringCultureInvariant(item.getAudioStreamIndex()) : ""));
-        list.add(new NameValuePair("SubtitleStreamIndex", item.getSubtitleStreamIndex() != null && item.getSubtitleDeliveryMethod() != mediabrowser.model.dlna.SubtitleDeliveryMethod.External ? StringHelper.ToStringCultureInvariant(item.getSubtitleStreamIndex()) : ""));
+        list.add(new NameValuePair("SubtitleStreamIndex", item.getSubtitleStreamIndex() != null && item.getSubtitleDeliveryMethod() != org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod.External ? StringHelper.ToStringCultureInvariant(item.getSubtitleStreamIndex()) : ""));
         list.add(new NameValuePair("VideoBitrate", item.getVideoBitrate() != null ? StringHelper.ToStringCultureInvariant(item.getVideoBitrate()) : ""));
         list.add(new NameValuePair("AudioBitrate", item.getAudioBitrate() != null ? StringHelper.ToStringCultureInvariant(item.getAudioBitrate()) : ""));
         list.add(new NameValuePair("MaxAudioChannels", item.getMaxAudioChannels() != null ? StringHelper.ToStringCultureInvariant(item.getMaxAudioChannels()) : ""));
@@ -543,7 +543,7 @@ public class StreamInfo {
 
         list.add(new NameValuePair("CopyTimestamps", (new Boolean(item.getCopyTimestamps())).toString().toLowerCase()));
         list.add(new NameValuePair("ForceLiveStream", (new Boolean(item.getForceLiveStream())).toString().toLowerCase()));
-        list.add(new NameValuePair("SubtitleMethod", item.getSubtitleStreamIndex() != null && item.getSubtitleDeliveryMethod() != mediabrowser.model.dlna.SubtitleDeliveryMethod.External ? item.getSubtitleDeliveryMethod().toString() : ""));
+        list.add(new NameValuePair("SubtitleMethod", item.getSubtitleStreamIndex() != null && item.getSubtitleDeliveryMethod() != org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod.External ? item.getSubtitleDeliveryMethod().toString() : ""));
 
         list.add(new NameValuePair("TranscodingMaxAudioChannels", item.getTranscodingMaxAudioChannels() != null ? StringHelper.ToStringCultureInvariant(item.getTranscodingMaxAudioChannels()) : ""));
         list.add(new NameValuePair("EnableSubtitlesInManifest", (new Boolean(item.getEnableSubtitlesInManifest())).toString().toLowerCase()));

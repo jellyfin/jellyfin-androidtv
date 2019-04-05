@@ -28,8 +28,8 @@ import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import mediabrowser.apiinteraction.android.GsonJsonSerializer;
-import mediabrowser.model.apiclient.ServerInfo;
+import org.jellyfin.apiclient.interaction.GsonJsonSerializer;
+import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 
 /**
  * Created by Eric on 12/4/2014.

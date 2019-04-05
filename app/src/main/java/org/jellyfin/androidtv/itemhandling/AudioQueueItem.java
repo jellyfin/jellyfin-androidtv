@@ -1,6 +1,6 @@
 package org.jellyfin.androidtv.itemhandling;
 
-import mediabrowser.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 /**
  * Created by Eric on 12/8/2015.

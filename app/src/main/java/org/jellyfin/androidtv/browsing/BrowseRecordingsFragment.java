@@ -17,15 +17,15 @@ import org.jellyfin.androidtv.util.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.entities.LocationType;
-import mediabrowser.model.livetv.RecordingGroupQuery;
-import mediabrowser.model.livetv.RecordingQuery;
-import mediabrowser.model.livetv.TimerInfoDto;
-import mediabrowser.model.livetv.TimerQuery;
-import mediabrowser.model.querying.ItemFields;
-import mediabrowser.model.results.TimerInfoDtoResult;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.entities.LocationType;
+import org.jellyfin.apiclient.model.livetv.RecordingGroupQuery;
+import org.jellyfin.apiclient.model.livetv.RecordingQuery;
+import org.jellyfin.apiclient.model.livetv.TimerInfoDto;
+import org.jellyfin.apiclient.model.livetv.TimerQuery;
+import org.jellyfin.apiclient.model.querying.ItemFields;
+import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
 
 /**
  * Created by Eric on 9/3/2015.

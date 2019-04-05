@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.model.compat;
 
-import mediabrowser.model.mediainfo.MediaProtocol;
-import mediabrowser.model.session.PlayMethod;
+import org.jellyfin.apiclient.model.mediainfo.MediaProtocol;
+import org.jellyfin.apiclient.model.session.PlayMethod;
 
 @Deprecated
 public class StreamInfoSorterComparator extends BaseStreamInfoSorter {

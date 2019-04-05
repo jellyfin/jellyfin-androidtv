@@ -6,8 +6,8 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.model.ChangeTriggerType;
 import org.jellyfin.androidtv.querying.StdItemQuery;
 
-import mediabrowser.model.querying.ArtistsQuery;
-import mediabrowser.model.querying.ItemFields;
+import org.jellyfin.apiclient.model.querying.ArtistsQuery;
+import org.jellyfin.apiclient.model.querying.ItemFields;
 
 /**
  * Created by Eric on 8/16/2015.

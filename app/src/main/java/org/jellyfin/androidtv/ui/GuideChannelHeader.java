@@ -16,7 +16,7 @@ import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.Utils;
 
-import mediabrowser.model.livetv.ChannelInfoDto;
+import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 
 /**
  * Created by Eric on 5/4/2015.

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import org.jellyfin.androidtv.TvApp;
 
-import mediabrowser.model.livetv.ChannelInfoDto;
+import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 
 public class ChannelCardPresenter extends Presenter {
 

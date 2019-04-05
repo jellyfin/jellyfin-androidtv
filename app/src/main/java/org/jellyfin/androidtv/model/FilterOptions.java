@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import mediabrowser.model.querying.ItemFilter;
+import org.jellyfin.apiclient.model.querying.ItemFilter;
 
 public class FilterOptions {
     private boolean favoriteOnly;

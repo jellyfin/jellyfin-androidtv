@@ -73,27 +73,27 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.dto.BaseItemPerson;
-import mediabrowser.model.dto.ImageOptions;
-import mediabrowser.model.dto.MediaSourceInfo;
-import mediabrowser.model.dto.UserItemDataDto;
-import mediabrowser.model.entities.ImageType;
-import mediabrowser.model.entities.MediaStream;
-import mediabrowser.model.entities.PersonType;
-import mediabrowser.model.livetv.ChannelInfoDto;
-import mediabrowser.model.livetv.SeriesTimerInfoDto;
-import mediabrowser.model.livetv.TimerQuery;
-import mediabrowser.model.querying.EpisodeQuery;
-import mediabrowser.model.querying.ItemFields;
-import mediabrowser.model.querying.ItemQuery;
-import mediabrowser.model.querying.ItemsResult;
-import mediabrowser.model.querying.NextUpQuery;
-import mediabrowser.model.querying.SeasonQuery;
-import mediabrowser.model.querying.SimilarItemsQuery;
-import mediabrowser.model.querying.UpcomingEpisodesQuery;
+import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemPerson;
+import org.jellyfin.apiclient.model.dto.ImageOptions;
+import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
+import org.jellyfin.apiclient.model.dto.UserItemDataDto;
+import org.jellyfin.apiclient.model.entities.ImageType;
+import org.jellyfin.apiclient.model.entities.MediaStream;
+import org.jellyfin.apiclient.model.entities.PersonType;
+import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
+import org.jellyfin.apiclient.model.livetv.TimerQuery;
+import org.jellyfin.apiclient.model.querying.EpisodeQuery;
+import org.jellyfin.apiclient.model.querying.ItemFields;
+import org.jellyfin.apiclient.model.querying.ItemQuery;
+import org.jellyfin.apiclient.model.querying.ItemsResult;
+import org.jellyfin.apiclient.model.querying.NextUpQuery;
+import org.jellyfin.apiclient.model.querying.SeasonQuery;
+import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
+import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 
 public class FullDetailsActivity extends BaseActivity implements IRecordingIndicatorView {
 

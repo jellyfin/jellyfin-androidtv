@@ -2,9 +2,9 @@ package org.jellyfin.androidtv.model.compat;
 
 import java.util.ArrayList;
 
-import mediabrowser.model.dlna.DeviceProfile;
-import mediabrowser.model.dlna.EncodingContext;
-import mediabrowser.model.dto.MediaSourceInfo;
+import org.jellyfin.apiclient.model.dlna.DeviceProfile;
+import org.jellyfin.apiclient.model.dlna.EncodingContext;
+import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 
 /**
  * Class AudioOptions.

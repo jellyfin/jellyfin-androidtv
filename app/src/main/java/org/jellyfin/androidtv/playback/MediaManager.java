@@ -41,12 +41,12 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import mediabrowser.apiinteraction.ApiClient;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dlna.DeviceProfile;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.playlists.PlaylistCreationRequest;
-import mediabrowser.model.playlists.PlaylistCreationResult;
+import org.jellyfin.apiclient.interaction.ApiClient;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dlna.DeviceProfile;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.playlists.PlaylistCreationRequest;
+import org.jellyfin.apiclient.model.playlists.PlaylistCreationResult;
 
 public class MediaManager {
     private static ItemRowAdapter mCurrentMediaAdapter;

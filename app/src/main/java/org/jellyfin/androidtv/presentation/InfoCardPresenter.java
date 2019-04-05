@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import org.jellyfin.androidtv.TvApp;
 
-import mediabrowser.model.entities.MediaStream;
+import org.jellyfin.apiclient.model.entities.MediaStream;
 
 public class InfoCardPresenter extends Presenter {
 

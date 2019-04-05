@@ -9,7 +9,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 
-import mediabrowser.model.search.SearchQuery;
+import org.jellyfin.apiclient.model.search.SearchQuery;
 
 /**
  * Created by Eric on 4/8/2015.
