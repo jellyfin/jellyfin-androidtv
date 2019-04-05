@@ -57,10 +57,10 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.entities.DisplayPreferences;
+import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 
 public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     private static final int BACKGROUND_UPDATE_DELAY = 100;

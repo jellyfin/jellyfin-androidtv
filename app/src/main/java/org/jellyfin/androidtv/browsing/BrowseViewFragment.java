@@ -19,25 +19,25 @@ import org.jellyfin.androidtv.util.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.entities.LocationType;
-import mediabrowser.model.entities.SortOrder;
-import mediabrowser.model.livetv.LiveTvChannelQuery;
-import mediabrowser.model.livetv.RecommendedProgramQuery;
-import mediabrowser.model.livetv.RecordingGroupQuery;
-import mediabrowser.model.livetv.RecordingQuery;
-import mediabrowser.model.livetv.SeriesTimerQuery;
-import mediabrowser.model.livetv.TimerInfoDto;
-import mediabrowser.model.livetv.TimerQuery;
-import mediabrowser.model.querying.ItemFields;
-import mediabrowser.model.querying.ItemFilter;
-import mediabrowser.model.querying.ItemQuery;
-import mediabrowser.model.querying.ItemSortBy;
-import mediabrowser.model.querying.ItemsResult;
-import mediabrowser.model.querying.LatestItemsQuery;
-import mediabrowser.model.querying.NextUpQuery;
-import mediabrowser.model.results.TimerInfoDtoResult;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.entities.LocationType;
+import org.jellyfin.apiclient.model.entities.SortOrder;
+import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
+import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery;
+import org.jellyfin.apiclient.model.livetv.RecordingGroupQuery;
+import org.jellyfin.apiclient.model.livetv.RecordingQuery;
+import org.jellyfin.apiclient.model.livetv.SeriesTimerQuery;
+import org.jellyfin.apiclient.model.livetv.TimerInfoDto;
+import org.jellyfin.apiclient.model.livetv.TimerQuery;
+import org.jellyfin.apiclient.model.querying.ItemFields;
+import org.jellyfin.apiclient.model.querying.ItemFilter;
+import org.jellyfin.apiclient.model.querying.ItemQuery;
+import org.jellyfin.apiclient.model.querying.ItemSortBy;
+import org.jellyfin.apiclient.model.querying.ItemsResult;
+import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
+import org.jellyfin.apiclient.model.querying.NextUpQuery;
+import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
 
 /**
  * Created by Eric on 12/4/2014.

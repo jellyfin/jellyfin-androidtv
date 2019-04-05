@@ -22,10 +22,10 @@ import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 
 import java.util.List;
 
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.dto.UserItemDataDto;
-import mediabrowser.model.session.PlayMethod;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.UserItemDataDto;
+import org.jellyfin.apiclient.model.session.PlayMethod;
 
 public class ExternalPlayerActivity extends Activity {
 

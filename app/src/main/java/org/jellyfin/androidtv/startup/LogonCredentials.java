@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.startup;
 
-import mediabrowser.model.apiclient.ServerInfo;
-import mediabrowser.model.dto.UserDto;
+import org.jellyfin.apiclient.model.apiclient.ServerInfo;
+import org.jellyfin.apiclient.model.dto.UserDto;
 
 /**
  * Created by Eric on 1/20/2015.

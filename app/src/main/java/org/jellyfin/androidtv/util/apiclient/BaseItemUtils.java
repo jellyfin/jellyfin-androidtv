@@ -13,14 +13,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.dto.BaseItemPerson;
-import mediabrowser.model.dto.ChapterInfoDto;
-import mediabrowser.model.dto.ImageOptions;
-import mediabrowser.model.entities.ImageType;
-import mediabrowser.model.entities.LocationType;
-import mediabrowser.model.library.PlayAccess;
-import mediabrowser.model.livetv.SeriesTimerInfoDto;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemPerson;
+import org.jellyfin.apiclient.model.dto.ChapterInfoDto;
+import org.jellyfin.apiclient.model.dto.ImageOptions;
+import org.jellyfin.apiclient.model.entities.ImageType;
+import org.jellyfin.apiclient.model.entities.LocationType;
+import org.jellyfin.apiclient.model.library.PlayAccess;
+import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 
 public class BaseItemUtils {
     public static boolean isLiveTv(BaseItemDto item) {

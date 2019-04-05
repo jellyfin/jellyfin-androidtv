@@ -25,15 +25,15 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-import mediabrowser.apiinteraction.ApiClient;
-import mediabrowser.apiinteraction.ConnectionResult;
-import mediabrowser.apiinteraction.IConnectionManager;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.apiinteraction.android.GsonJsonSerializer;
-import mediabrowser.model.apiclient.ServerInfo;
-import mediabrowser.model.dto.UserDto;
-import mediabrowser.model.logging.ILogger;
-import mediabrowser.model.users.AuthenticationResult;
+import org.jellyfin.apiclient.interaction.ApiClient;
+import org.jellyfin.apiclient.interaction.ConnectionResult;
+import org.jellyfin.apiclient.interaction.IConnectionManager;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.interaction.GsonJsonSerializer;
+import org.jellyfin.apiclient.model.apiclient.ServerInfo;
+import org.jellyfin.apiclient.model.dto.UserDto;
+import org.jellyfin.apiclient.model.logging.ILogger;
+import org.jellyfin.apiclient.model.users.AuthenticationResult;
 
 public class AuthenticationHelper {
     public static void enterManualServerAddress(final Activity activity) {

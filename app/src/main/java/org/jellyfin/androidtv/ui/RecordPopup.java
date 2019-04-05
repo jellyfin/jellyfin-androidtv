@@ -27,11 +27,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.livetv.SeriesTimerInfoDto;
-import mediabrowser.model.livetv.TimerInfoDto;
+import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
+import org.jellyfin.apiclient.model.livetv.TimerInfoDto;
 
 /**
  * Created by Eric on 6/3/2015.

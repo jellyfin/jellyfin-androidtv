@@ -66,7 +66,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import mediabrowser.apiinteraction.EmptyResponse;
+import org.jellyfin.apiclient.interaction.EmptyResponse;
 
 public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     private static final String TAG = "StdBrowseFragment";

@@ -13,7 +13,7 @@ import org.jellyfin.androidtv.ui.TextUnderButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import mediabrowser.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 /**
  * Created by Eric on 5/22/2015.

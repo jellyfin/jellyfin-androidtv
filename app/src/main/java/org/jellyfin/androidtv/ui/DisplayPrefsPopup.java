@@ -16,8 +16,8 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.util.Utils;
 
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.entities.DisplayPreferences;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 
 /**
  * Created by Eric on 8/23/2015.

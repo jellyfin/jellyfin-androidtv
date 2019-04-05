@@ -38,7 +38,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.UUID;
 
-import mediabrowser.model.dto.UserDto;
+import org.jellyfin.apiclient.model.dto.UserDto;
 
 /**
  * A collection of utility methods, all static.

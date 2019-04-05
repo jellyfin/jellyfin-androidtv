@@ -26,21 +26,21 @@ import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 
 import java.util.List;
 
-import mediabrowser.apiinteraction.ApiClient;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dlna.DeviceProfile;
-import mediabrowser.model.dlna.DirectPlayProfile;
-import mediabrowser.model.dlna.SubtitleDeliveryMethod;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.dto.MediaSourceInfo;
-import mediabrowser.model.entities.LocationType;
-import mediabrowser.model.entities.MediaStream;
-import mediabrowser.model.entities.MediaStreamType;
-import mediabrowser.model.extensions.StringHelper;
-import mediabrowser.model.library.PlayAccess;
-import mediabrowser.model.livetv.ChannelInfoDto;
-import mediabrowser.model.mediainfo.SubtitleTrackInfo;
-import mediabrowser.model.session.PlayMethod;
+import org.jellyfin.apiclient.interaction.ApiClient;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dlna.DeviceProfile;
+import org.jellyfin.apiclient.model.dlna.DirectPlayProfile;
+import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
+import org.jellyfin.apiclient.model.entities.LocationType;
+import org.jellyfin.apiclient.model.entities.MediaStream;
+import org.jellyfin.apiclient.model.entities.MediaStreamType;
+import org.jellyfin.apiclient.model.extensions.StringHelper;
+import org.jellyfin.apiclient.model.library.PlayAccess;
+import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
+import org.jellyfin.apiclient.model.session.PlayMethod;
 
 public class PlaybackController {
     List<BaseItemDto> mItems;

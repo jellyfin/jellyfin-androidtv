@@ -3,8 +3,8 @@ package org.jellyfin.androidtv.browsing;
 import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.livetv.TimerQuery;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.livetv.TimerQuery;
 
 /**
  * Created by Eric on 9/3/2015.

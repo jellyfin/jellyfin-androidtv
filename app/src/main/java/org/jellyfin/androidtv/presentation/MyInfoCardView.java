@@ -14,8 +14,8 @@ import org.jellyfin.androidtv.util.Utils;
 
 import java.text.NumberFormat;
 
-import mediabrowser.model.entities.MediaStream;
-import mediabrowser.model.entities.MediaStreamType;
+import org.jellyfin.apiclient.model.entities.MediaStream;
+import org.jellyfin.apiclient.model.entities.MediaStreamType;
 
 /**
  * Created by spam on 6/28/2016.

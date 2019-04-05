@@ -24,9 +24,9 @@ import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.apiinteraction.android.GsonJsonSerializer;
-import mediabrowser.model.apiclient.ServerInfo;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.interaction.GsonJsonSerializer;
+import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 
 public class SelectUserFragment extends CustomBrowseFragment {
     private static final int ENTER_MANUALLY = 0;

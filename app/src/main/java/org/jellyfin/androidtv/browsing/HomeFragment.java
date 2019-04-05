@@ -39,18 +39,18 @@ import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 
 import java.io.IOException;
 
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.entities.LocationType;
-import mediabrowser.model.entities.SortOrder;
-import mediabrowser.model.livetv.RecommendedProgramQuery;
-import mediabrowser.model.livetv.RecordingQuery;
-import mediabrowser.model.querying.ItemFields;
-import mediabrowser.model.querying.ItemFilter;
-import mediabrowser.model.querying.ItemSortBy;
-import mediabrowser.model.querying.ItemsResult;
-import mediabrowser.model.querying.LatestItemsQuery;
-import mediabrowser.model.querying.NextUpQuery;
+import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.entities.LocationType;
+import org.jellyfin.apiclient.model.entities.SortOrder;
+import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery;
+import org.jellyfin.apiclient.model.livetv.RecordingQuery;
+import org.jellyfin.apiclient.model.querying.ItemFields;
+import org.jellyfin.apiclient.model.querying.ItemFilter;
+import org.jellyfin.apiclient.model.querying.ItemSortBy;
+import org.jellyfin.apiclient.model.querying.ItemsResult;
+import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
+import org.jellyfin.apiclient.model.querying.NextUpQuery;
 
 /**
  * Created by Eric on 12/4/2014.
