@@ -8,11 +8,11 @@ import org.jellyfin.androidtv.querying.StdItemQuery;
 
 import java.util.Arrays;
 
-import mediabrowser.model.entities.SortOrder;
-import mediabrowser.model.livetv.RecordingQuery;
-import mediabrowser.model.querying.ItemFields;
-import mediabrowser.model.querying.ItemFilter;
-import mediabrowser.model.querying.ItemSortBy;
+import org.jellyfin.apiclient.model.entities.SortOrder;
+import org.jellyfin.apiclient.model.livetv.RecordingQuery;
+import org.jellyfin.apiclient.model.querying.ItemFields;
+import org.jellyfin.apiclient.model.querying.ItemFilter;
+import org.jellyfin.apiclient.model.querying.ItemSortBy;
 
 /**
  * Created by Eric on 12/4/2014.

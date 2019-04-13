@@ -15,16 +15,16 @@ import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.apiclient.ServerInfo;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.dto.BaseItemPerson;
-import mediabrowser.model.dto.UserDto;
-import mediabrowser.model.entities.ImageType;
-import mediabrowser.model.livetv.ChannelInfoDto;
-import mediabrowser.model.livetv.SeriesTimerInfoDto;
-import mediabrowser.model.search.SearchHint;
+import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.apiclient.ServerInfo;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemPerson;
+import org.jellyfin.apiclient.model.dto.UserDto;
+import org.jellyfin.apiclient.model.entities.ImageType;
+import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
+import org.jellyfin.apiclient.model.search.SearchHint;
 
 /**
  * Created by Eric on 12/15/2014.

@@ -24,10 +24,10 @@ import org.jellyfin.androidtv.util.Utils;
 
 import java.util.Date;
 
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.livetv.SeriesTimerInfoDto;
+import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 
 /**
  * Created by Eric on 9/8/2015.

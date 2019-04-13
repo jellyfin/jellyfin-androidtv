@@ -38,20 +38,20 @@ import org.jellyfin.androidtv.util.Utils;
 import java.util.Calendar;
 import java.util.HashMap;
 
-import mediabrowser.apiinteraction.ApiClient;
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.IConnectionManager;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.apiinteraction.android.GsonJsonSerializer;
-import mediabrowser.apiinteraction.android.VolleyHttpClient;
-import mediabrowser.logging.ConsoleLogger;
-import mediabrowser.model.configuration.ServerConfiguration;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.dto.UserDto;
-import mediabrowser.model.entities.DisplayPreferences;
-import mediabrowser.model.logging.ILogger;
-import mediabrowser.model.net.EndPointInfo;
-import mediabrowser.model.system.SystemInfo;
+import org.jellyfin.apiclient.interaction.ApiClient;
+import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.apiclient.interaction.IConnectionManager;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.interaction.GsonJsonSerializer;
+import org.jellyfin.apiclient.interaction.VolleyHttpClient;
+import org.jellyfin.apiclient.logging.ConsoleLogger;
+import org.jellyfin.apiclient.model.configuration.ServerConfiguration;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.UserDto;
+import org.jellyfin.apiclient.model.entities.DisplayPreferences;
+import org.jellyfin.apiclient.model.logging.ILogger;
+import org.jellyfin.apiclient.model.net.EndPointInfo;
+import org.jellyfin.apiclient.model.system.SystemInfo;
 
 /**
  * Created by Eric on 11/24/2014.

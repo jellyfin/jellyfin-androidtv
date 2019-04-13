@@ -2,29 +2,29 @@ package org.jellyfin.androidtv.model.compat;
 
 import java.util.Arrays;
 
-import mediabrowser.model.dlna.CodecProfile;
-import mediabrowser.model.dlna.CodecType;
-import mediabrowser.model.dlna.ConditionProcessor;
-import mediabrowser.model.dlna.ContainerProfile;
-import mediabrowser.model.dlna.DeviceProfile;
-import mediabrowser.model.dlna.DirectPlayProfile;
-import mediabrowser.model.dlna.DlnaProfileType;
-import mediabrowser.model.dlna.ProfileCondition;
-import mediabrowser.model.dlna.ProfileConditionType;
-import mediabrowser.model.dlna.SubtitleDeliveryMethod;
-import mediabrowser.model.dlna.SubtitleProfile;
-import mediabrowser.model.dlna.TranscodingProfile;
-import mediabrowser.model.dto.MediaSourceInfo;
-import mediabrowser.model.entities.MediaStream;
-import mediabrowser.model.entities.MediaStreamType;
-import mediabrowser.model.extensions.FloatHelper;
-import mediabrowser.model.extensions.IntHelper;
-import mediabrowser.model.extensions.ListHelper;
-import mediabrowser.model.extensions.StringHelper;
-import mediabrowser.model.logging.ILogger;
-import mediabrowser.model.mediainfo.MediaProtocol;
-import mediabrowser.model.mediainfo.TransportStreamTimestamp;
-import mediabrowser.model.session.PlayMethod;
+import org.jellyfin.apiclient.model.dlna.CodecProfile;
+import org.jellyfin.apiclient.model.dlna.CodecType;
+import org.jellyfin.apiclient.model.dlna.ConditionProcessor;
+import org.jellyfin.apiclient.model.dlna.ContainerProfile;
+import org.jellyfin.apiclient.model.dlna.DeviceProfile;
+import org.jellyfin.apiclient.model.dlna.DirectPlayProfile;
+import org.jellyfin.apiclient.model.dlna.DlnaProfileType;
+import org.jellyfin.apiclient.model.dlna.ProfileCondition;
+import org.jellyfin.apiclient.model.dlna.ProfileConditionType;
+import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod;
+import org.jellyfin.apiclient.model.dlna.SubtitleProfile;
+import org.jellyfin.apiclient.model.dlna.TranscodingProfile;
+import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
+import org.jellyfin.apiclient.model.entities.MediaStream;
+import org.jellyfin.apiclient.model.entities.MediaStreamType;
+import org.jellyfin.apiclient.model.extensions.FloatHelper;
+import org.jellyfin.apiclient.model.extensions.IntHelper;
+import org.jellyfin.apiclient.model.extensions.ListHelper;
+import org.jellyfin.apiclient.model.extensions.StringHelper;
+import org.jellyfin.apiclient.model.logging.ILogger;
+import org.jellyfin.apiclient.model.mediainfo.MediaProtocol;
+import org.jellyfin.apiclient.model.mediainfo.TransportStreamTimestamp;
+import org.jellyfin.apiclient.model.session.PlayMethod;
 
 @Deprecated
 public class StreamBuilder

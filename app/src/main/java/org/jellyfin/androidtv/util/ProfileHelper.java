@@ -8,19 +8,19 @@ import org.jellyfin.androidtv.model.compat.AndroidProfileOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-import mediabrowser.model.dlna.CodecProfile;
-import mediabrowser.model.dlna.CodecType;
-import mediabrowser.model.dlna.ContainerProfile;
-import mediabrowser.model.dlna.DeviceProfile;
-import mediabrowser.model.dlna.DirectPlayProfile;
-import mediabrowser.model.dlna.DlnaProfileType;
-import mediabrowser.model.dlna.EncodingContext;
-import mediabrowser.model.dlna.ProfileCondition;
-import mediabrowser.model.dlna.ProfileConditionType;
-import mediabrowser.model.dlna.ProfileConditionValue;
-import mediabrowser.model.dlna.SubtitleDeliveryMethod;
-import mediabrowser.model.dlna.SubtitleProfile;
-import mediabrowser.model.dlna.TranscodingProfile;
+import org.jellyfin.apiclient.model.dlna.CodecProfile;
+import org.jellyfin.apiclient.model.dlna.CodecType;
+import org.jellyfin.apiclient.model.dlna.ContainerProfile;
+import org.jellyfin.apiclient.model.dlna.DeviceProfile;
+import org.jellyfin.apiclient.model.dlna.DirectPlayProfile;
+import org.jellyfin.apiclient.model.dlna.DlnaProfileType;
+import org.jellyfin.apiclient.model.dlna.EncodingContext;
+import org.jellyfin.apiclient.model.dlna.ProfileCondition;
+import org.jellyfin.apiclient.model.dlna.ProfileConditionType;
+import org.jellyfin.apiclient.model.dlna.ProfileConditionValue;
+import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod;
+import org.jellyfin.apiclient.model.dlna.SubtitleProfile;
+import org.jellyfin.apiclient.model.dlna.TranscodingProfile;
 
 public class ProfileHelper {
     private static MediaCodecCapabilitiesTest MediaTest = new MediaCodecCapabilitiesTest();

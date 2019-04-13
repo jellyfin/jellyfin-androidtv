@@ -6,11 +6,11 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.querying.StdItemQuery;
 import org.jellyfin.androidtv.util.DelayedMessage;
 
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.querying.ItemSortBy;
-import mediabrowser.model.querying.ItemsByNameQuery;
-import mediabrowser.model.querying.ItemsResult;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.querying.ItemSortBy;
+import org.jellyfin.apiclient.model.querying.ItemsByNameQuery;
+import org.jellyfin.apiclient.model.querying.ItemsResult;
 
 /**
  * Created by Eric on 12/4/2014.

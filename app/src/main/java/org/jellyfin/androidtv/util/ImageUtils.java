@@ -7,16 +7,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import mediabrowser.apiinteraction.ApiClient;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.dto.BaseItemPerson;
-import mediabrowser.model.dto.ImageOptions;
-import mediabrowser.model.dto.StudioDto;
-import mediabrowser.model.dto.UserDto;
-import mediabrowser.model.dto.UserItemDataDto;
-import mediabrowser.model.entities.ImageType;
-import mediabrowser.model.livetv.ChannelInfoDto;
-import mediabrowser.model.livetv.SeriesTimerInfoDto;
+import org.jellyfin.apiclient.interaction.ApiClient;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemPerson;
+import org.jellyfin.apiclient.model.dto.ImageOptions;
+import org.jellyfin.apiclient.model.dto.StudioDto;
+import org.jellyfin.apiclient.model.dto.UserDto;
+import org.jellyfin.apiclient.model.dto.UserItemDataDto;
+import org.jellyfin.apiclient.model.entities.ImageType;
+import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 
 public class ImageUtils {
     public static final double ASPECT_RATIO_2_3 = .66667;

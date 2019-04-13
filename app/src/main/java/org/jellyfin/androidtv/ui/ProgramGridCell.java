@@ -23,7 +23,7 @@ import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 
 import java.util.Date;
 
-import mediabrowser.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 public class ProgramGridCell extends RelativeLayout implements IRecordingIndicatorView {
 

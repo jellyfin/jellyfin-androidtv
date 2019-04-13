@@ -27,20 +27,20 @@ import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 
 import java.util.ArrayList;
 
-import mediabrowser.apiinteraction.ApiEventListener;
-import mediabrowser.apiinteraction.ConnectionResult;
-import mediabrowser.apiinteraction.IConnectionManager;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.apiinteraction.android.AndroidConnectionManager;
-import mediabrowser.apiinteraction.android.AndroidDevice;
-import mediabrowser.apiinteraction.android.GsonJsonSerializer;
-import mediabrowser.apiinteraction.android.VolleyHttpClient;
-import mediabrowser.model.apiclient.ConnectionState;
-import mediabrowser.model.dto.UserDto;
-import mediabrowser.model.logging.ILogger;
-import mediabrowser.model.serialization.IJsonSerializer;
-import mediabrowser.model.session.ClientCapabilities;
-import mediabrowser.model.session.GeneralCommandType;
+import org.jellyfin.apiclient.interaction.ApiEventListener;
+import org.jellyfin.apiclient.interaction.ConnectionResult;
+import org.jellyfin.apiclient.interaction.IConnectionManager;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.interaction.AndroidConnectionManager;
+import org.jellyfin.apiclient.interaction.AndroidDevice;
+import org.jellyfin.apiclient.interaction.GsonJsonSerializer;
+import org.jellyfin.apiclient.interaction.VolleyHttpClient;
+import org.jellyfin.apiclient.model.apiclient.ConnectionState;
+import org.jellyfin.apiclient.model.dto.UserDto;
+import org.jellyfin.apiclient.model.logging.ILogger;
+import org.jellyfin.apiclient.model.serialization.IJsonSerializer;
+import org.jellyfin.apiclient.model.session.ClientCapabilities;
+import org.jellyfin.apiclient.model.session.GeneralCommandType;
 
 
 public class StartupActivity extends Activity {

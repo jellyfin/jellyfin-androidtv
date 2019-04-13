@@ -8,18 +8,18 @@ import org.jellyfin.androidtv.model.compat.VideoOptions;
 
 import java.util.ArrayList;
 
-import mediabrowser.apiinteraction.ApiClient;
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.apiinteraction.device.IDevice;
-import mediabrowser.model.dlna.PlaybackErrorCode;
-import mediabrowser.model.dto.MediaSourceInfo;
-import mediabrowser.model.entities.MediaStream;
-import mediabrowser.model.logging.ILogger;
-import mediabrowser.model.mediainfo.PlaybackInfoRequest;
-import mediabrowser.model.session.PlaybackProgressInfo;
-import mediabrowser.model.session.PlaybackStartInfo;
-import mediabrowser.model.session.PlaybackStopInfo;
+import org.jellyfin.apiclient.interaction.ApiClient;
+import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.interaction.device.IDevice;
+import org.jellyfin.apiclient.model.dlna.PlaybackErrorCode;
+import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
+import org.jellyfin.apiclient.model.entities.MediaStream;
+import org.jellyfin.apiclient.model.logging.ILogger;
+import org.jellyfin.apiclient.model.mediainfo.PlaybackInfoRequest;
+import org.jellyfin.apiclient.model.session.PlaybackProgressInfo;
+import org.jellyfin.apiclient.model.session.PlaybackStartInfo;
+import org.jellyfin.apiclient.model.session.PlaybackStopInfo;
 
 /**
  * Reimplementation of the PlaybackManager class from the apiclient with local item support removed.

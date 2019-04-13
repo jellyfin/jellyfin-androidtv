@@ -1,6 +1,6 @@
 package org.jellyfin.androidtv.model;
 
-import mediabrowser.model.entities.ChapterInfo;
+import org.jellyfin.apiclient.model.entities.ChapterInfo;
 
 /**
  * Created by Eric on 2/12/2015.

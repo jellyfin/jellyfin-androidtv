@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.playback;
 
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.mediainfo.SubtitleTrackInfo;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
 
 /**
  * Created by Eric on 4/28/2015.

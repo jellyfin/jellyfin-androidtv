@@ -29,20 +29,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.entities.DisplayPreferences;
-import mediabrowser.model.entities.LocationType;
-import mediabrowser.model.entities.SortOrder;
-import mediabrowser.model.livetv.ChannelInfoDto;
-import mediabrowser.model.livetv.LiveTvChannelQuery;
-import mediabrowser.model.livetv.ProgramQuery;
-import mediabrowser.model.livetv.TimerInfoDto;
-import mediabrowser.model.livetv.TimerQuery;
-import mediabrowser.model.querying.ItemsResult;
-import mediabrowser.model.results.ChannelInfoDtoResult;
-import mediabrowser.model.results.TimerInfoDtoResult;
+import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.entities.DisplayPreferences;
+import org.jellyfin.apiclient.model.entities.LocationType;
+import org.jellyfin.apiclient.model.entities.SortOrder;
+import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
+import org.jellyfin.apiclient.model.livetv.ProgramQuery;
+import org.jellyfin.apiclient.model.livetv.TimerInfoDto;
+import org.jellyfin.apiclient.model.livetv.TimerQuery;
+import org.jellyfin.apiclient.model.querying.ItemsResult;
+import org.jellyfin.apiclient.model.results.ChannelInfoDtoResult;
+import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
 
 /**
  * Created by Eric on 9/4/2015.
