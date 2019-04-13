@@ -88,17 +88,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.dto.ChapterInfoDto;
-import mediabrowser.model.dto.ImageOptions;
-import mediabrowser.model.entities.ImageType;
-import mediabrowser.model.entities.MediaStream;
-import mediabrowser.model.livetv.ChannelInfoDto;
-import mediabrowser.model.livetv.SeriesTimerInfoDto;
-import mediabrowser.model.mediainfo.SubtitleTrackEvent;
-import mediabrowser.model.mediainfo.SubtitleTrackInfo;
+import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.ChapterInfoDto;
+import org.jellyfin.apiclient.model.dto.ImageOptions;
+import org.jellyfin.apiclient.model.entities.ImageType;
+import org.jellyfin.apiclient.model.entities.MediaStream;
+import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
+import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackEvent;
+import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
 
 public class CustomPlaybackOverlayFragment extends Fragment implements IPlaybackOverlayFragment, ILiveTvGuide {
     ImageView mPoster;

@@ -1,6 +1,6 @@
 package org.jellyfin.androidtv.model.compat;
 
-import mediabrowser.model.dlna.PlaybackErrorCode;
+import org.jellyfin.apiclient.model.dlna.PlaybackErrorCode;
 
 @Deprecated
 public class PlaybackException extends RuntimeException {

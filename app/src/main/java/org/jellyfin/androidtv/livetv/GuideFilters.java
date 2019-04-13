@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.util.Utils;
 
-import mediabrowser.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 /**
  * Created by Eric on 5/13/2015.

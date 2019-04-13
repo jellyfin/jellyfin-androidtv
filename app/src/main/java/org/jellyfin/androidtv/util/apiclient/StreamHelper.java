@@ -3,10 +3,10 @@ package org.jellyfin.androidtv.util.apiclient;
 import java.util.ArrayList;
 import java.util.List;
 
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.dto.MediaSourceInfo;
-import mediabrowser.model.entities.MediaStream;
-import mediabrowser.model.entities.MediaStreamType;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
+import org.jellyfin.apiclient.model.entities.MediaStream;
+import org.jellyfin.apiclient.model.entities.MediaStreamType;
 
 public class StreamHelper {
     public static MediaStream getMediaStream(MediaSourceInfo mediaSource, int index) {

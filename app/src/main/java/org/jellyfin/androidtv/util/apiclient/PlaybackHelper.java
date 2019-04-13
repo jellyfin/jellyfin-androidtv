@@ -15,16 +15,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.entities.LocationType;
-import mediabrowser.model.livetv.ChannelInfoDto;
-import mediabrowser.model.querying.ItemFields;
-import mediabrowser.model.querying.ItemFilter;
-import mediabrowser.model.querying.ItemQuery;
-import mediabrowser.model.querying.ItemSortBy;
-import mediabrowser.model.querying.ItemsResult;
-import mediabrowser.model.querying.SimilarItemsQuery;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.entities.LocationType;
+import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+import org.jellyfin.apiclient.model.querying.ItemFields;
+import org.jellyfin.apiclient.model.querying.ItemFilter;
+import org.jellyfin.apiclient.model.querying.ItemQuery;
+import org.jellyfin.apiclient.model.querying.ItemSortBy;
+import org.jellyfin.apiclient.model.querying.ItemsResult;
+import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 
 public class PlaybackHelper {
     public static void getItemsToPlay(final BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<BaseItemDto>> outerResponse) {

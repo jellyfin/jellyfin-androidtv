@@ -14,10 +14,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import mediabrowser.apiinteraction.ApiClient;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.apiinteraction.ResponseStreamInfo;
-import mediabrowser.model.entities.MediaStream;
+import org.jellyfin.apiclient.interaction.ApiClient;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.interaction.ResponseStreamInfo;
+import org.jellyfin.apiclient.model.entities.MediaStream;
 
 /**
  * Created by Eric on 7/19/2015.

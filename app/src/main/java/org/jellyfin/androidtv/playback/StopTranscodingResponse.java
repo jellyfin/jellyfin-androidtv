@@ -4,10 +4,10 @@ import org.jellyfin.androidtv.model.compat.AudioOptions;
 import org.jellyfin.androidtv.model.compat.StreamInfo;
 import org.jellyfin.androidtv.model.compat.VideoOptions;
 
-import mediabrowser.apiinteraction.ApiClient;
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.logging.ILogger;
+import org.jellyfin.apiclient.interaction.ApiClient;
+import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.logging.ILogger;
 
 @Deprecated
 public class StopTranscodingResponse extends EmptyResponse {

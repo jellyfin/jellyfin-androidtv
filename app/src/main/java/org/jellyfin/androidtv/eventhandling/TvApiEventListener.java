@@ -15,18 +15,18 @@ import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import java.util.Arrays;
 import java.util.Calendar;
 
-import mediabrowser.apiinteraction.ApiClient;
-import mediabrowser.apiinteraction.ApiEventListener;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.entities.LibraryUpdateInfo;
-import mediabrowser.model.querying.ItemFields;
-import mediabrowser.model.querying.ItemsResult;
-import mediabrowser.model.session.BrowseRequest;
-import mediabrowser.model.session.GeneralCommand;
-import mediabrowser.model.session.PlayRequest;
-import mediabrowser.model.session.PlaystateRequest;
-import mediabrowser.model.session.SessionInfoDto;
+import org.jellyfin.apiclient.interaction.ApiClient;
+import org.jellyfin.apiclient.interaction.ApiEventListener;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.entities.LibraryUpdateInfo;
+import org.jellyfin.apiclient.model.querying.ItemFields;
+import org.jellyfin.apiclient.model.querying.ItemsResult;
+import org.jellyfin.apiclient.model.session.BrowseRequest;
+import org.jellyfin.apiclient.model.session.GeneralCommand;
+import org.jellyfin.apiclient.model.session.PlayRequest;
+import org.jellyfin.apiclient.model.session.PlaystateRequest;
+import org.jellyfin.apiclient.model.session.SessionInfoDto;
 
 /**
  * Created by Eric on 2/14/2015.

@@ -31,16 +31,16 @@ import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import mediabrowser.apiinteraction.ConnectionResult;
-import mediabrowser.apiinteraction.IConnectionManager;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.apiclient.ServerInfo;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.dto.UserDto;
-import mediabrowser.model.entities.DisplayPreferences;
-import mediabrowser.model.library.PlayAccess;
-import mediabrowser.model.livetv.ChannelInfoDto;
-import mediabrowser.model.search.SearchHint;
+import org.jellyfin.apiclient.interaction.ConnectionResult;
+import org.jellyfin.apiclient.interaction.IConnectionManager;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.apiclient.ServerInfo;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.UserDto;
+import org.jellyfin.apiclient.model.entities.DisplayPreferences;
+import org.jellyfin.apiclient.model.library.PlayAccess;
+import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+import org.jellyfin.apiclient.model.search.SearchHint;
 
 /**
  * Created by Eric on 12/21/2014.

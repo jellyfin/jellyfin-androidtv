@@ -24,10 +24,10 @@ import org.jellyfin.androidtv.util.Utils;
 
 import java.util.Date;
 
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.dto.UserItemDataDto;
-import mediabrowser.model.entities.LocationType;
-import mediabrowser.model.livetv.ChannelInfoDto;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.UserItemDataDto;
+import org.jellyfin.apiclient.model.entities.LocationType;
+import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 
 public class CardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";

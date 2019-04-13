@@ -56,10 +56,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.livetv.ChannelInfoDto;
+import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 
 /**
  * Created by Eric on 5/3/2015.

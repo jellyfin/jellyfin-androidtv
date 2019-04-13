@@ -3,12 +3,12 @@ package org.jellyfin.androidtv.model.compat;
 import android.media.MediaCodecInfo;
 import android.util.Range;
 
-import mediabrowser.model.dlna.CodecProfile;
-import mediabrowser.model.dlna.CodecType;
-import mediabrowser.model.dlna.ProfileCondition;
-import mediabrowser.model.dlna.ProfileConditionType;
-import mediabrowser.model.dlna.ProfileConditionValue;
-import mediabrowser.model.extensions.StringHelper;
+import org.jellyfin.apiclient.model.dlna.CodecProfile;
+import org.jellyfin.apiclient.model.dlna.CodecType;
+import org.jellyfin.apiclient.model.dlna.ProfileCondition;
+import org.jellyfin.apiclient.model.dlna.ProfileConditionType;
+import org.jellyfin.apiclient.model.dlna.ProfileConditionValue;
+import org.jellyfin.apiclient.model.extensions.StringHelper;
 
 import java.util.ArrayList;
 

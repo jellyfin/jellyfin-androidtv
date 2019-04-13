@@ -5,16 +5,16 @@ import org.jellyfin.androidtv.model.compat.PlaybackException;
 import org.jellyfin.androidtv.model.compat.StreamInfo;
 import org.jellyfin.androidtv.model.compat.VideoOptions;
 
-import mediabrowser.apiinteraction.ApiClient;
-import mediabrowser.apiinteraction.QueryStringDictionary;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dlna.DlnaProfileType;
-import mediabrowser.model.dto.MediaSourceInfo;
-import mediabrowser.model.mediainfo.LiveStreamRequest;
-import mediabrowser.model.mediainfo.LiveStreamResponse;
-import mediabrowser.model.mediainfo.MediaProtocol;
-import mediabrowser.model.mediainfo.PlaybackInfoResponse;
-import mediabrowser.model.session.PlayMethod;
+import org.jellyfin.apiclient.interaction.ApiClient;
+import org.jellyfin.apiclient.interaction.QueryStringDictionary;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dlna.DlnaProfileType;
+import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
+import org.jellyfin.apiclient.model.mediainfo.LiveStreamRequest;
+import org.jellyfin.apiclient.model.mediainfo.LiveStreamResponse;
+import org.jellyfin.apiclient.model.mediainfo.MediaProtocol;
+import org.jellyfin.apiclient.model.mediainfo.PlaybackInfoResponse;
+import org.jellyfin.apiclient.model.session.PlayMethod;
 
 import java.util.ArrayList;
 

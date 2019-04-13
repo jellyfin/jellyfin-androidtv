@@ -71,10 +71,10 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import mediabrowser.apiinteraction.EmptyResponse;
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.entities.DisplayPreferences;
+import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 
 public class StdGridFragment extends HorizontalGridFragment implements IGridLoader {
     private static final String TAG = "StdGridFragment";

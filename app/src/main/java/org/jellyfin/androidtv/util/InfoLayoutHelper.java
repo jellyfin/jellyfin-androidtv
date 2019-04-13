@@ -17,9 +17,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.entities.MediaStream;
-import mediabrowser.model.entities.SeriesStatus;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.entities.MediaStream;
+import org.jellyfin.apiclient.model.entities.SeriesStatus;
 
 /**
  * Created by Eric on 4/29/2015.

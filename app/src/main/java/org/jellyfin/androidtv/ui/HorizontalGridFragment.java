@@ -29,7 +29,7 @@ import org.jellyfin.androidtv.util.Utils;
 import java.util.HashMap;
 import java.util.Map;
 
-import mediabrowser.model.entities.SortOrder;
+import org.jellyfin.apiclient.model.entities.SortOrder;
 
 /**
  * Created by Eric on 8/17/2015.

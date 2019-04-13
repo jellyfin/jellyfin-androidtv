@@ -7,13 +7,13 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.StdItemQuery;
 
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.entities.SortOrder;
-import mediabrowser.model.querying.ItemFields;
-import mediabrowser.model.querying.ItemSortBy;
-import mediabrowser.model.querying.ItemsResult;
-import mediabrowser.model.querying.SimilarItemsQuery;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.entities.SortOrder;
+import org.jellyfin.apiclient.model.querying.ItemFields;
+import org.jellyfin.apiclient.model.querying.ItemSortBy;
+import org.jellyfin.apiclient.model.querying.ItemsResult;
+import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 
 /**
  * Created by Eric on 12/4/2014.

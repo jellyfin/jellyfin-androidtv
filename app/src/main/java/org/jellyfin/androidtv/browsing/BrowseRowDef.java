@@ -4,19 +4,19 @@ import org.jellyfin.androidtv.model.ChangeTriggerType;
 import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.ViewQuery;
 
-import mediabrowser.model.livetv.LiveTvChannelQuery;
-import mediabrowser.model.livetv.RecommendedProgramQuery;
-import mediabrowser.model.livetv.RecordingGroupQuery;
-import mediabrowser.model.livetv.RecordingQuery;
-import mediabrowser.model.livetv.SeriesTimerQuery;
-import mediabrowser.model.querying.ArtistsQuery;
-import mediabrowser.model.querying.ItemQuery;
-import mediabrowser.model.querying.LatestItemsQuery;
-import mediabrowser.model.querying.NextUpQuery;
-import mediabrowser.model.querying.PersonsQuery;
-import mediabrowser.model.querying.SeasonQuery;
-import mediabrowser.model.querying.SimilarItemsQuery;
-import mediabrowser.model.querying.UpcomingEpisodesQuery;
+import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
+import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery;
+import org.jellyfin.apiclient.model.livetv.RecordingGroupQuery;
+import org.jellyfin.apiclient.model.livetv.RecordingQuery;
+import org.jellyfin.apiclient.model.livetv.SeriesTimerQuery;
+import org.jellyfin.apiclient.model.querying.ArtistsQuery;
+import org.jellyfin.apiclient.model.querying.ItemQuery;
+import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
+import org.jellyfin.apiclient.model.querying.NextUpQuery;
+import org.jellyfin.apiclient.model.querying.PersonsQuery;
+import org.jellyfin.apiclient.model.querying.SeasonQuery;
+import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
+import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 
 /**
  * Created by Eric on 12/4/2014.

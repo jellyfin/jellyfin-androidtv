@@ -2,8 +2,8 @@ package org.jellyfin.androidtv.details;
 
 import org.jellyfin.androidtv.TvApp;
 
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 /**
  * Created by Eric on 3/23/2015.

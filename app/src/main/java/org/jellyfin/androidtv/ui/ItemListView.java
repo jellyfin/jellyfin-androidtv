@@ -15,10 +15,10 @@ import org.jellyfin.androidtv.querying.StdItemQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-import mediabrowser.apiinteraction.Response;
-import mediabrowser.model.dto.BaseItemDto;
-import mediabrowser.model.querying.ItemFields;
-import mediabrowser.model.querying.ItemsResult;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.querying.ItemFields;
+import org.jellyfin.apiclient.model.querying.ItemsResult;
 
 /**
  * Created by Eric on 11/21/2015.
