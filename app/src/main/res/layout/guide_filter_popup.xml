@@ -46,7 +46,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Movies"
+        android:text="@string/lbl_movies"
         android:id="@+id/movies"
         android:layout_below="@+id/textView13"
         android:layout_marginTop="35sp"
@@ -55,7 +55,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Series"
+        android:text="@string/lbl_series"
         android:id="@+id/series"
         android:layout_below="@+id/movies"
         android:layout_alignLeft="@+id/premiere" />
@@ -71,7 +71,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Kids"
+        android:text="@string/lbl_kids"
         android:id="@+id/kids"
         android:layout_below="@+id/news"
         android:layout_alignLeft="@+id/premiere" />
@@ -79,7 +79,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sports"
+        android:text="@string/lbl_sports"
         android:id="@+id/sports"
         android:layout_below="@+id/kids"
         android:layout_alignLeft="@+id/premiere" />

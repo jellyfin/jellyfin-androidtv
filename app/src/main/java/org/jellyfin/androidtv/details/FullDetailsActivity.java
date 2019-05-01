@@ -1049,7 +1049,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         if ("Episode".equals(mBaseItem.getType()) && mBaseItem.getSeriesId() != null) {
             //add the prev button first so it will be there in proper position - we'll show it later if needed
-            mPrevButton = new TextUnderButton(this, R.drawable.prev, buttonSize, 3, "Previous Episode", new View.OnClickListener() {
+            mPrevButton = new TextUnderButton(this, R.drawable.prev, buttonSize, 3, getString(R.string.lbl_previous_episode), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mPrevItemId != null) {
@@ -1151,7 +1151,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         }
 
         //Now, create a more button to show if needed
-        moreButton = new TextUnderButton(this, R.drawable.lb_ic_more, buttonSize, "More Options", new View.OnClickListener() {
+        moreButton = new TextUnderButton(this, R.drawable.lb_ic_more, buttonSize, getString(R.string.lbl_other_options), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //show popup
