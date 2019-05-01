@@ -103,7 +103,7 @@
     <string name="lbl_please_wait">Veuillez patienter</string>
     <string name="lbl_enter_user_name">Entrez le nom d\'utilisateur</string>
     <string name="lbl_enter_user_pw">Entrez le mot de passe utilisateur</string>
-    <string name="msg_little_longer">Cela prend un peu plus de temps que prévu...</string>
+    <string name="msg_little_longer">Cela prend un peu plus de temps que prévu…</string>
     <string name="msg_report_sent">Rapport envoyé au développeur. Merci.</string>
     <string name="lbl_report_msg_question">Voulez-vous envoyer un rapport au développeur ?</string>
     <string name="lbl_no">Non</string>
@@ -117,7 +117,7 @@
     <string name="lbl_valid_server_address">Veuillez entrer une adresse de serveur valide (IP ou nom de machine/domaine)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Né "</string>
-    <string name="lbl_loading_elipses">Chargement...</string>
+    <string name="lbl_loading_elipses">Chargement…</string>
     <string name="msg_playback_not_allowed">Lecture non autorisée pour l\'instant</string>
     <string name="msg_playback_restricted">L\'administrateur a restreint la lecture de cet élément pour le moment</string>
     <string name="msg_playback_incompatible">Impossible de lire ce format vidéo</string>
@@ -190,9 +190,9 @@
     <string name="btn_filter">Filtre</string>
     <string name="btn_clear_all">Tout effacer</string>
     <string name="lbl_filters">Filtres</string>
-    <string name="msg_subtitles_loading">Chargement des sous-titres...</string>
+    <string name="msg_subtitles_loading">Chargement des sous-titres…</string>
     <string name="msg_unable_load_subs">Impossible de charger les sous-titres</string>
-    <string name="msg_burn_sub_warning">Inscrire les sous-titre peut prendre quelques minutes. Soyez patient ...</string>
+    <string name="msg_burn_sub_warning">Inscrire les sous-titre peut prendre quelques minutes. Soyez patient …</string>
     <string name="lbl_recording">Enregistrement</string>
     <string name="lbl_no_recordings">Aucun enregistrement disponible</string>
     <string name="lbl_live_tv_guide">Programme de la TV en direct</string>
@@ -268,7 +268,7 @@
     <string name="lbl_use_vlc_livetv">Utiliser VLC pour la télévision en direct</string>
     <string name="lbl_vertical_stretch">Étirement vertical</string>
     <string name="lbl_zoom">Zoom</string>
-    <string name="loading">Chargements...</string>
+    <string name="loading">Chargements…</string>
     <string name="msg_audio_warning">Cette application a la possibilité de lire le flux de certains formats audio en multi-canal.Si votre matériel ne prend pas en charge ces formats, vous pouvez n\'entendre aucun bruit lors de la lecture des éléments.Ceci est probable si vous utilisez uniquement les enceintes du téléviseur.Si cela se produit, réglez le mode audio à «Downmix» dans les paramètres de lecture de l\'application.</string>
     <string name="play">Lire</string>
     <string name="lbl_at_any_time">tout le temps</string>
@@ -309,4 +309,8 @@
     <string name="lbl_next_episode">Épisode suivant</string>
     <string name="lbl_album_name">Nom de l\'album</string>
     <string name="lbl_song_title">titre de la chanson</string>
+    <string name="pref_use_external_player_title">Utiliser un lecteur externe pour les vidéos</string>
+    <string name="pref_use_external_player_summary">Nécessite une application capable de lire les vidéos</string>
+    <string name="pref_use_direct_path_title">Utiliser le chemin directe</string>
+    <string name="pref_use_direct_path_summary">Utiliser le chemin du fichier de l\'url de streaming</string>
 </resources>

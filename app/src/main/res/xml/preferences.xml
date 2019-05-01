@@ -105,12 +105,12 @@
             android:defaultValue="true"
             />
         <CheckBoxPreference android:key="pref_video_use_external"
-            android:title="Use External Player for Videos"
+            android:title="@string/pref_use_external_player_title"
             android:defaultValue="false"
-            android:summary="Requires a capable app to play video types"
+            android:summary="@string/pref_use_external_player_summary"
             />
         <CheckBoxPreference android:key="pref_send_path_external"
-            android:title="Pass Direct Path"
+            android:title="@string/pref_use_direct_path_title"
             android:defaultValue="false"
             android:summary="Pass the file system path instead of streaming url"
             />
