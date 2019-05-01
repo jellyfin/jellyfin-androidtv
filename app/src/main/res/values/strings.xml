@@ -307,6 +307,10 @@
     <string name="lbl_resume_preroll">Resume pre-roll</string>
     <string name="lbl_resume_from">Resume from %s</string>
     <string name="lbl_more_like_this">More Like This</string>
+    <string name="lbl_previous_episode">Previous Episode</string>
+    <string name="lbl_next_episode">Next Episode</string>
+    <string name="lbl_album_name">Album name</string>
+    <string name="lbl_song_title">Song Title</string>
 
 
 </resources>
