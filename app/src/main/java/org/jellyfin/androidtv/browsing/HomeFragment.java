@@ -68,7 +68,7 @@ public class HomeFragment extends StdBrowseFragment {
 
         //Save last login so we can get back proper context on entry
         try {
-            AuthenticationHelper.saveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), "credentials.json");
+            AuthenticationHelper.saveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), TvApp.CREDENTIALS_PATH);
         } catch (IOException e) {
             TvApp.getApplication().getLogger().ErrorException("Unable to save login creds", e);
         }
