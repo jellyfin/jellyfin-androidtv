@@ -5,6 +5,7 @@
  - [thornbill](https://github.com/thornbill)
  - [grafixeyehero](https://github.com/grafixeyehero)
  - [BnMcG](https://github.com/bnmcg)
+ - [Letroll](https://github.com/letroll)
 
 # Emby Contributors
 
