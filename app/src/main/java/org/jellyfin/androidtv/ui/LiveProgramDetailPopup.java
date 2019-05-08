@@ -29,9 +29,6 @@ import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 
-/**
- * Created by Eric on 9/8/2015.
- */
 public class LiveProgramDetailPopup {
     final int MOVIE_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 540);
     final int NORMAL_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 400);
@@ -67,16 +64,15 @@ public class LiveProgramDetailPopup {
         mPopup.setOutsideTouchable(true);
         mPopup.setBackgroundDrawable(new BitmapDrawable()); // necessary for popup to dismiss
         mPopup.setAnimationStyle(R.style.PopupSlideInTop);
-        mDTitle = (TextView)layout.findViewById(R.id.title);
+        mDTitle = layout.findViewById(R.id.title);
         mDTitle.setTypeface(roboto);
-        mDSummary = (TextView)layout.findViewById(R.id.summary);
+        mDSummary = layout.findViewById(R.id.summary);
         mDSummary.setTypeface(roboto);
-        mDRecordInfo = (TextView) layout.findViewById(R.id.recordLine);
-
-        mDTimeline = (LinearLayout) layout.findViewById(R.id.timeline);
-        mDButtonRow = (LinearLayout) layout.findViewById(R.id.buttonRow);
-        mDInfoRow = (LinearLayout) layout.findViewById(R.id.infoRow);
-        mDSimilarRow = (LinearLayout) layout.findViewById(R.id.similarRow);
+        mDRecordInfo = layout.findViewById(R.id.recordLine);
+        mDTimeline = layout.findViewById(R.id.timeline);
+        mDButtonRow = layout.findViewById(R.id.buttonRow);
+        mDInfoRow = layout.findViewById(R.id.infoRow);
+        mDSimilarRow = layout.findViewById(R.id.similarRow);
     }
 
     public boolean isShowing() {
@@ -127,7 +123,7 @@ public class LiveProgramDetailPopup {
                     Button cancel = new Button(mActivity);
                     cancel.setText(mActivity.getResources().getString(R.string.lbl_cancel_recording));
                     cancel.setTextColor(Color.WHITE);
-                    cancel.setBackground(mActivity.getResources().getDrawable(R.drawable.jellyfin_button));
+                    cancel.setBackground(TvApp.getApplication().getDrawable(R.drawable.jellyfin_button));
                     cancel.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -156,7 +152,7 @@ public class LiveProgramDetailPopup {
                     Button rec = new Button(mActivity);
                     rec.setText(mActivity.getResources().getString(R.string.lbl_record));
                     rec.setTextColor(Color.WHITE);
-                    rec.setBackground(mActivity.getResources().getDrawable(R.drawable.jellyfin_button));
+                    rec.setBackground(TvApp.getApplication().getDrawable(R.drawable.jellyfin_button));
                     rec.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -206,7 +202,7 @@ public class LiveProgramDetailPopup {
                         Button cancel = new Button(mActivity);
                         cancel.setText(mActivity.getResources().getString(R.string.lbl_cancel_series));
                         cancel.setTextColor(Color.WHITE);
-                        cancel.setBackground(mActivity.getResources().getDrawable(R.drawable.jellyfin_button));
+                        cancel.setBackground(TvApp.getApplication().getDrawable(R.drawable.jellyfin_button));
                         cancel.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -242,7 +238,7 @@ public class LiveProgramDetailPopup {
                         Button rec = new Button(mActivity);
                         rec.setText(mActivity.getResources().getString(R.string.lbl_record_series));
                         rec.setTextColor(Color.WHITE);
-                        rec.setBackground(mActivity.getResources().getDrawable(R.drawable.jellyfin_button));
+                        rec.setBackground(TvApp.getApplication().getDrawable(R.drawable.jellyfin_button));
                         rec.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -290,7 +286,7 @@ public class LiveProgramDetailPopup {
                     mSeriesSettingsButton = new Button(mActivity);
                     mSeriesSettingsButton.setText(mActivity.getResources().getString(R.string.lbl_series_settings));
                     mSeriesSettingsButton.setTextColor(Color.WHITE);
-                    mSeriesSettingsButton.setBackground(mActivity.getResources().getDrawable(R.drawable.jellyfin_button));
+                    mSeriesSettingsButton.setBackground(TvApp.getApplication().getDrawable(R.drawable.jellyfin_button));
                     mSeriesSettingsButton.setVisibility(mProgram.getSeriesTimerId() != null ? View.VISIBLE : View.GONE);
                     mSeriesSettingsButton.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -342,7 +338,7 @@ public class LiveProgramDetailPopup {
         Button btn = new Button(mActivity);
         btn.setText(mActivity.getResources().getString(stringResource));
         btn.setTextColor(Color.WHITE);
-        btn.setBackground(mActivity.getResources().getDrawable(R.drawable.jellyfin_button));
+        btn.setBackground(TvApp.getApplication().getDrawable(R.drawable.jellyfin_button));
         layout.addView(btn);
         return btn;
     }
