@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="200dp" android:layout_height="wrap_content"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/lb_basic_card_info_bg_color"
     android:padding="14dp"
     android:gravity="center">
@@ -9,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="WBTV 3.1"
+        tools:text="WBTV 3.1"
         android:id="@+id/name"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
@@ -20,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Bewitched"
+        tools:text="Bewitched"
         android:id="@+id/program"
         android:layout_below="@+id/name"
         android:layout_alignParentStart="true"
@@ -30,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="9:00am - 9:30am"
+        tools:text="9:00am - 9:30am"
         android:id="@+id/time"
         android:layout_below="@+id/program"
         android:layout_alignParentStart="true" />
