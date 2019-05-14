@@ -32,9 +32,6 @@ import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 
-/**
- * Created by Eric on 4/17/2015.
- */
 public class KeyProcessor {
 
     public static final int MENU_MARK_FAVORITE = 0;
@@ -258,38 +255,61 @@ public class KeyProcessor {
         int order = 0;
 
         if (rowItem instanceof AudioQueueItem) {
-            if (!(activity instanceof AudioNowPlayingActivity)) menu.getMenu().add(0, MENU_GOTO_NOW_PLAYING, order++, R.string.lbl_goto_now_playing);
-            if (rowItem.getBaseItem() != MediaManager.getCurrentAudioItem()) menu.getMenu().add(0, MENU_ADVANCE_QUEUE, order++, R.string.lbl_play_from_here);
+            if (!(activity instanceof AudioNowPlayingActivity)) {
+                menu.getMenu().add(0, MENU_GOTO_NOW_PLAYING, order++, R.string.lbl_goto_now_playing);
+            }
+            if (rowItem.getBaseItem() != MediaManager.getCurrentAudioItem()) {
+                menu.getMenu().add(0, MENU_ADVANCE_QUEUE, order++, R.string.lbl_play_from_here);
+            }
             // don't allow removal of last item - framework will crash trying to animate an empty row
-            if (MediaManager.getCurrentAudioQueue().size() > 1) menu.getMenu().add(0, MENU_REMOVE_FROM_QUEUE, order++, R.string.lbl_remove_from_queue);
+            if (MediaManager.getCurrentAudioQueue().size() > 1) {
+                menu.getMenu().add(0, MENU_REMOVE_FROM_QUEUE, order++, R.string.lbl_remove_from_queue);
+            }
         } else {
             if (BaseItemUtils.canPlay(item)) {
-                if (item.getIsFolder() && !"MusicAlbum".equals(item.getType()) && !"Playlist".equals(item.getType()) && !"MusicArtist".equals(item.getType()) && userData!= null && userData.getUnplayedItemCount() !=null && userData.getUnplayedItemCount() > 0) menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
-                menu.getMenu().add(0, MENU_PLAY, order++, item.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play);
-                if (item.getIsFolder()) menu.getMenu().add(0, MENU_PLAY_SHUFFLE, order++, R.string.lbl_shuffle_all);
-
+                if (item.getIsFolderItem()
+                        && !"MusicAlbum".equals(item.getType())
+                        && !"Playlist".equals(item.getType())
+                        && !"MusicArtist".equals(item.getType())
+                        && userData!= null
+                        && userData.getUnplayedItemCount() !=null
+                        && userData.getUnplayedItemCount() > 0) {
+                    menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
+                }
+                menu.getMenu().add(0, MENU_PLAY, order++, item.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play);
+                if (item.getIsFolderItem()) {
+                    menu.getMenu().add(0, MENU_PLAY_SHUFFLE, order++, R.string.lbl_shuffle_all);
+                }
             }
-            isMusic = "MusicAlbum".equals(item.getType()) || "MusicArtist".equals(item.getType()) || "Audio".equals(item.getType()) || ("Playlist".equals(item.getType()) && "Audio".equals(item.getMediaType()));
 
-            if (isMusic || !item.getIsFolder()) menu.getMenu().add(0, MENU_ADD_QUEUE, order++, R.string.lbl_add_to_queue);
+            isMusic = "MusicAlbum".equals(item.getType())
+                    || "MusicArtist".equals(item.getType())
+                    || "Audio".equals(item.getType())
+                    || ("Playlist".equals(item.getType()) && "Audio".equals(item.getMediaType()));
+
+            if (isMusic || !item.getIsFolderItem()) {
+                menu.getMenu().add(0, MENU_ADD_QUEUE, order++, R.string.lbl_add_to_queue);
+            }
 
             if (isMusic) {
-                if (!"Playlist".equals(item.getType())) menu.getMenu().add(0, MENU_INSTANT_MIX, order++, R.string.lbl_instant_mix);
+                if (!"Playlist".equals(item.getType())) {
+                    menu.getMenu().add(0, MENU_INSTANT_MIX, order++, R.string.lbl_instant_mix);
+                }
             } else {
-                if (userData != null && userData.getPlayed())
+                if (userData != null && userData.getPlayed()) {
                     menu.getMenu().add(0, MENU_UNMARK_PLAYED, order++, activity.getString(R.string.lbl_mark_unplayed));
-                else
+                } else {
                     menu.getMenu().add(0, MENU_MARK_PLAYED, order++, activity.getString(R.string.lbl_mark_played));
+                }
             }
-
-
         }
 
         if (userData != null) {
-            if (userData.getIsFavorite())
+            if (userData.getIsFavorite()) {
                 menu.getMenu().add(0, MENU_UNMARK_FAVORITE, order++, activity.getString(R.string.lbl_remove_favorite));
-            else
+            } else {
                 menu.getMenu().add(0, MENU_MARK_FAVORITE, order++, activity.getString(R.string.lbl_add_favorite));
+            }
 
             if (userData.getLikes() == null) {
                 menu.getMenu().add(0, MENU_LIKE, order++, activity.getString(R.string.lbl_like));
@@ -309,17 +329,18 @@ public class KeyProcessor {
         mCurrentRowItemNdx = rowItem.getIndex();
         mCurrentItemId = item.getId();
         mCurrentActivity = activity;
-        currentItemIsFolder = item.getIsFolder();
+        currentItemIsFolder = item.getIsFolderItem();
 
         menu.setOnMenuItemClickListener(menuItemClickListener);
         menu.show();
-
     }
 
     private static void createPlayMenu(BaseItemDto item, boolean isFolder, boolean isMusic, BaseActivity activity) {
         PopupMenu menu = Utils.createPopupMenu(activity, activity.getCurrentFocus(), Gravity.RIGHT);
         int order = 0;
-        if (!isMusic && !"Playlist".equals(item.getType())) menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
+        if (!isMusic && !"Playlist".equals(item.getType())) {
+            menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
+        }
         menu.getMenu().add(0, MENU_PLAY, order++, R.string.lbl_play_all);
         menu.getMenu().add(0, MENU_PLAY_SHUFFLE, order++, R.string.lbl_shuffle_all);
         if (isMusic) {
@@ -335,7 +356,6 @@ public class KeyProcessor {
 
         menu.setOnMenuItemClickListener(menuItemClickListener);
         menu.show();
-
     }
 
     private static PopupMenu.OnMenuItemClickListener menuItemClickListener = new PopupMenu.OnMenuItemClickListener() {

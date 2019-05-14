@@ -33,7 +33,7 @@ public class BaseItemUtils {
                 && (!item.getType().equals("Episode") || !item.getLocationType().equals(LocationType.Virtual)))
                 && (!item.getType().equals("Person"))
                 && (!item.getType().equals("SeriesTimer"))
-                && (!item.getIsFolder() || item.getChildCount() == null || item.getChildCount() > 0);
+                && (!item.getIsFolderItem() || item.getChildCount() == null || item.getChildCount() > 0);
     }
 
     public static String getFullName(BaseItemDto item) {

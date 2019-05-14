@@ -829,7 +829,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             mDetailsOverviewRow.addAction(mResumeButton);
             mResumeButton.setVisibility(("Series".equals(mBaseItem.getType()) && ! mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume() ) ? View.VISIBLE : View.GONE);
 
-            TextUnderButton play = new TextUnderButton(this, R.drawable.play, buttonSize, 2, getString(BaseItemUtils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
+            TextUnderButton play = new TextUnderButton(this, R.drawable.play, buttonSize, 2, getString(BaseItemUtils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     play(mBaseItem, 0, false);
@@ -837,7 +837,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             });
             mDetailsOverviewRow.addAction(play);
 
-            if (!mBaseItem.getIsFolder() && !BaseItemUtils.isLiveTv(mBaseItem)) {
+            if (!mBaseItem.getIsFolderItem() && !BaseItemUtils.isLiveTv(mBaseItem)) {
                 queueButton = new TextUnderButton(this, R.drawable.addtoqueue, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -847,7 +847,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 mDetailsOverviewRow.addAction(queueButton);
             }
 
-            if (mBaseItem.getIsFolder()) {
+            if (mBaseItem.getIsFolderItem()) {
                 TextUnderButton shuffle = new TextUnderButton(this, R.drawable.shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1329,7 +1329,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         @Override
         public void onClick(final View v) {
             final UserItemDataDto data = mBaseItem.getUserData();
-            if (mBaseItem.getIsFolder()) {
+            if (mBaseItem.getIsFolderItem()) {
                 new AlertDialog.Builder(mActivity)
                         .setTitle(getString(data.getPlayed() ? R.string.lbl_mark_unplayed : R.string.lbl_mark_played))
                         .setMessage(getString(data.getPlayed() ? R.string.lbl_confirm_mark_unwatched : R.string.lbl_confirm_mark_watched))
