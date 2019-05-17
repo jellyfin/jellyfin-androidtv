@@ -114,19 +114,18 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
 
     public void setCellBackground() {
         if (TvManager.getPrefs().colorCodeGuide) {
-            if (Utils.isTrue(mProgram.getIsMovie()))
+            if (Utils.isTrue(mProgram.getIsMovie())) {
                 mBackgroundColor = getResources().getColor(R.color.guide_movie_bg);
-            else if (Utils.isTrue(mProgram.getIsNews()))
+            } else if (Utils.isTrue(mProgram.getIsNews())) {
                 mBackgroundColor = getResources().getColor(R.color.guide_news_bg);
-            else if (Utils.isTrue(mProgram.getIsSports()))
+            } else if (Utils.isTrue(mProgram.getIsSports())) {
                 mBackgroundColor = getResources().getColor(R.color.guide_sports_bg);
-            else if (Utils.isTrue(mProgram.getIsKids()))
+            } else if (Utils.isTrue(mProgram.getIsKids())) {
                 mBackgroundColor = getResources().getColor(R.color.guide_kids_bg);
+            }
 
             setBackgroundColor(mBackgroundColor);
         }
-
-
     }
 
     @Override
