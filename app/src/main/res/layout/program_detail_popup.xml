@@ -14,8 +14,7 @@
         android:maxLines="1"
         android:layout_marginLeft="20sp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10sp"
-        android:textColor="?attr/defaultBrandColor" />
+        android:layout_marginTop="10sp" />
 
     <LinearLayout
         android:orientation="horizontal"
