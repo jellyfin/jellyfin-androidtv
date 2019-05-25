@@ -4,11 +4,9 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.querying.StdItemQuery;
 
+import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
 
-/**
- * Created by Eric on 12/4/2014.
- */
 public class ByLetterFragment extends CustomViewFragment {
 
     private static String letters = TvApp.getApplication().getResources().getString(R.string.byletter_letters);
@@ -16,7 +14,7 @@ public class ByLetterFragment extends CustomViewFragment {
     @Override
     protected void setupQueries(IRowLoader rowLoader) {
 
-        if (mFolder.getChildCount() > 0) {
+        if (Utils.getSafeValue(mFolder.getChildCount(), 0) > 0) {
             //First add a '#' item
             StdItemQuery numbers = new StdItemQuery();
             numbers.setParentId(mFolder.getId());
