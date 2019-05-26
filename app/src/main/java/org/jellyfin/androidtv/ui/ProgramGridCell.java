@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.ui;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
@@ -114,19 +113,18 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
 
     public void setCellBackground() {
         if (TvManager.getPrefs().colorCodeGuide) {
-            if (Utils.isTrue(mProgram.getIsMovie()))
+            if (Utils.isTrue(mProgram.getIsMovie())) {
                 mBackgroundColor = getResources().getColor(R.color.guide_movie_bg);
-            else if (Utils.isTrue(mProgram.getIsNews()))
+            } else if (Utils.isTrue(mProgram.getIsNews())) {
                 mBackgroundColor = getResources().getColor(R.color.guide_news_bg);
-            else if (Utils.isTrue(mProgram.getIsSports()))
+            } else if (Utils.isTrue(mProgram.getIsSports())) {
                 mBackgroundColor = getResources().getColor(R.color.guide_sports_bg);
-            else if (Utils.isTrue(mProgram.getIsKids()))
+            } else if (Utils.isTrue(mProgram.getIsKids())) {
                 mBackgroundColor = getResources().getColor(R.color.guide_kids_bg);
+            }
 
             setBackgroundColor(mBackgroundColor);
         }
-
-
     }
 
     @Override
@@ -134,19 +132,14 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
 
         if (gainFocus) {
-            TypedArray styledAttributes = TvApp.getApplication()
-                    .getTheme()
-                    .obtainStyledAttributes(new int[] { R.attr.colorPrimary });
-            int backgroundColor = styledAttributes.getColor(0, 0);
-            styledAttributes.recycle();
+            setBackgroundColor(Utils.getThemeColor(android.R.attr.colorAccent));
 
-            setBackgroundColor(backgroundColor);
             mActivity.setSelectedProgram(this);
         } else {
             setBackgroundColor(mBackgroundColor);
         }
 
-        //TvApp.getApplication().getLogger().Debug("Focus on "+mProgram.getName()+ " was " +(gainFocus ? "gained" : "lost"));
+//        TvApp.getApplication().getLogger().Debug("Focus on " + mProgram.getName() + " was " + (gainFocus ? "gained" : "lost"));
     }
 
     public BaseItemDto getProgram() { return mProgram; }
