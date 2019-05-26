@@ -211,14 +211,19 @@ public class Utils {
         return new PopupMenu(activity, view, gravity);
     }
 
-    public static int getBrandColor() {
+    public static int getThemeColor(int resourceId) {
         TypedArray styledAttributes = TvApp.getApplication()
+                .getCurrentActivity()
                 .getTheme()
-                .obtainStyledAttributes(new int[] { R.attr.colorPrimary });
-        int brandColor = styledAttributes.getColor(0, 0);
+                .obtainStyledAttributes(new int[] { resourceId });
+        int themeColor = styledAttributes.getColor(0, 0);
         styledAttributes.recycle();
 
-        return brandColor;
+        return themeColor;
+    }
+
+    public static int getBrandColor() {
+        return getThemeColor(android.R.attr.colorPrimary);
     }
 
     public static void processPasswordEntry(Activity activity, UserDto user) {
