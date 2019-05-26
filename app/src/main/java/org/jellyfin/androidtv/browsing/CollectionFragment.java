@@ -4,10 +4,8 @@ import android.os.Bundle;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.querying.StdItemQuery;
+import org.jellyfin.androidtv.util.Utils;
 
-/**
- * Created by Eric on 12/4/2014.
- */
 public class CollectionFragment extends EnhancedBrowseFragment {
 
     @Override
@@ -18,8 +16,7 @@ public class CollectionFragment extends EnhancedBrowseFragment {
 
     @Override
     protected void setupQueries(IRowLoader rowLoader) {
-
-        if (mFolder.getChildCount() > 0) {
+        if (Utils.getSafeValue(mFolder.getChildCount(), 0) > 0) {
             StdItemQuery movies = new StdItemQuery();
             movies.setParentId(mFolder.getId());
             movies.setIncludeItemTypes(new String[]{"Movie"});

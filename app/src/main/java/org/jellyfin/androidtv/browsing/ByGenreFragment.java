@@ -6,15 +6,13 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.querying.StdItemQuery;
 import org.jellyfin.androidtv.util.DelayedMessage;
 
+import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsByNameQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 
-/**
- * Created by Eric on 12/4/2014.
- */
 public class ByGenreFragment extends CustomViewFragment {
 
     @Override
@@ -25,7 +23,7 @@ public class ByGenreFragment extends CustomViewFragment {
     @Override
     protected void setupQueries(final IRowLoader rowLoader) {
 
-        if (mFolder.getChildCount() > 0) {
+        if (Utils.getSafeValue(mFolder.getChildCount(), 0) > 0) {
             final DelayedMessage message = new DelayedMessage(getActivity());
 
             //Get all genres for this folder
