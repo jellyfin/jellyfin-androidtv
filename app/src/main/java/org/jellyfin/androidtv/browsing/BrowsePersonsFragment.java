@@ -3,12 +3,10 @@ package org.jellyfin.androidtv.browsing;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 
+import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.PersonsQuery;
 
-/**
- * Created by Eric on 12/4/2014.
- */
 public class BrowsePersonsFragment extends CustomViewFragment {
 
     private static String letters = TvApp.getApplication().getResources().getString(R.string.byletter_letters);
@@ -16,7 +14,7 @@ public class BrowsePersonsFragment extends CustomViewFragment {
     @Override
     protected void setupQueries(IRowLoader rowLoader) {
 
-        if (mFolder.getChildCount() > 0) {
+        if (Utils.getSafeValue(mFolder.getChildCount(), 0) > 0) {
             //First add a '#' item
             PersonsQuery numbers = new PersonsQuery();
             numbers.setParentId(mFolder.getId());
