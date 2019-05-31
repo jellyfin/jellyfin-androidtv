@@ -42,9 +42,6 @@ import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.search.SearchHint;
 
-/**
- * Created by Eric on 12/21/2014.
- */
 public class ItemLauncher {
     public static void launch(BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity) {
         launch(rowItem, adapter, pos, activity, false);
@@ -170,7 +167,7 @@ public class ItemLauncher {
                 }
 
                 // or generic handling
-                if (baseItem.getIsFolder()) {
+                if (baseItem.getIsFolderItem()) {
                     // open generic folder browsing - but need display prefs
                     TvApp.getApplication().getDisplayPrefsAsync(baseItem.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
                         @Override
@@ -259,7 +256,7 @@ public class ItemLauncher {
                 application.getApiClient().GetItemAsync(hint.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
-                        if ((response.getIsFolder() && !"Series".equals(response.getType())) || "MusicArtist".equals(response.getType())) {
+                        if ((response.getIsFolderItem() && !"Series".equals(response.getType())) || "MusicArtist".equals(response.getType())) {
                             // open generic folder browsing
                             Intent intent = new Intent(activity, GenericGridActivity.class);
                             intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(response));
