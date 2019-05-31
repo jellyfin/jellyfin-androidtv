@@ -125,11 +125,11 @@
             <!--/>-->
         <CheckBoxPreference android:key="pref_live_direct"
             android:title="@string/lbl_direct_stream_live"
-            android:defaultValue="false"
+            android:defaultValue="true"
             />
         <CheckBoxPreference android:key="pref_enable_vlc_livetv"
             android:title="@string/lbl_use_vlc_livetv"
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:summary="@string/desc_use_vlc_livetv"
             />
         <CheckBoxPreference android:key="pref_live_tv_use_external"

@@ -411,7 +411,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     public void setDirectStreamLiveTv(boolean value) { getPrefs().edit().putBoolean("pref_live_direct", value).commit(); }
 
-    public boolean useVlcForLiveTv() { return getPrefs().getBoolean("pref_enable_vlc_livetv", true); }
+    public boolean useVlcForLiveTv() { return getPrefs().getBoolean("pref_enable_vlc_livetv", false); }
 
     public int getResumePreroll() {
         try {
