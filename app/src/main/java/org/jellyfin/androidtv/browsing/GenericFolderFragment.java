@@ -8,15 +8,13 @@ import org.jellyfin.androidtv.querying.StdItemQuery;
 
 import java.util.Arrays;
 
+import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.livetv.RecordingQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
 
-/**
- * Created by Eric on 12/4/2014.
- */
 public class GenericFolderFragment extends EnhancedBrowseFragment {
 
     @Override
@@ -39,7 +37,11 @@ public class GenericFolderFragment extends EnhancedBrowseFragment {
             rowLoader.loadRows(mRows);
         } else {
 
-            if (mFolder.getChildCount() > 0 || mFolder.getType().equals("Channel") || mFolder.getType().equals("ChannelFolderItem") || mFolder.getType().equals("UserView") || mFolder.getType().equals("CollectionFolder")) {
+            if (Utils.getSafeValue(mFolder.getChildCount(), 0) > 0 ||
+                    mFolder.getType().equals("Channel") ||
+                    mFolder.getType().equals("ChannelFolderItem") ||
+                    mFolder.getType().equals("UserView") ||
+                    mFolder.getType().equals("CollectionFolder")) {
                 boolean showSpecialViews = Arrays.asList(showSpecialViewTypes).contains(mFolder.getType()) && !"channels".equals(mFolder.getCollectionType());
 
                 if (showSpecialViews) {

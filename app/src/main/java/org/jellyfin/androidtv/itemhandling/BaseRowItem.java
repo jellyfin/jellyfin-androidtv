@@ -26,9 +26,6 @@ import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.search.SearchHint;
 
-/**
- * Created by Eric on 12/15/2014.
- */
 public class BaseRowItem {
     private int index;
     private BaseItemDto baseItem;
@@ -137,7 +134,9 @@ public class BaseRowItem {
     public boolean isBaseItem() { return type == ItemType.BaseItem; }
     public boolean getPreferParentThumb() { return preferParentThumb; }
     public ItemType getItemType() { return type; }
-    public boolean isFolder() { return type == ItemType.BaseItem && baseItem != null && baseItem.getIsFolder(); }
+    public boolean isFolder() {
+        return type == ItemType.BaseItem && baseItem != null && baseItem.getIsFolderItem();
+    }
     public boolean showCardInfoOverlay() {return type == ItemType.BaseItem && baseItem != null
             && ("Folder".equals(baseItem.getType()) || "PhotoAlbum".equals(baseItem.getType()) || "RecordingGroup".equals(baseItem.getType())
             || "UserView".equals(baseItem.getType()) || "CollectionFolder".equals(baseItem.getType()) || "Photo".equals(baseItem.getType())

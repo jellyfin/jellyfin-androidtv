@@ -560,7 +560,7 @@ public class ItemListActivity extends BaseActivity {
 
     private void addButtons(int buttonSize) {
         if (BaseItemUtils.canPlay(mBaseItem)) {
-            TextUnderButton play = new TextUnderButton(this, R.drawable.play, buttonSize, 2, getString(mBaseItem.getIsFolder() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
+            TextUnderButton play = new TextUnderButton(this, R.drawable.play, buttonSize, 2, getString(mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mItems.size() > 0) {
@@ -573,7 +573,7 @@ public class ItemListActivity extends BaseActivity {
             play.setGotFocusListener(mainAreaFocusListener);
             mButtonRow.addView(play);
             play.requestFocus();
-            if (mBaseItem.getIsFolder()) {
+            if (mBaseItem.getIsFolderItem()) {
                 TextUnderButton shuffle = new TextUnderButton(this, R.drawable.shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

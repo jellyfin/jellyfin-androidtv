@@ -165,7 +165,7 @@ public class StartupActivity extends Activity {
                 jsonSerializer,
                 logger,
                 volleyHttpClient,
-                "AndroidTv",
+                "AndroidTV",
                 BuildConfig.VERSION_NAME,
                 new AndroidDevice(application),
                 capabilities,

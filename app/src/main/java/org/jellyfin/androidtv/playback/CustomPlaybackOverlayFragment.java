@@ -288,17 +288,17 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         super.onActivityCreated(savedInstanceState);
         if (mItemsToPlay == null || mItemsToPlay.size() == 0) return;
 
-        mPoster = (ImageView) mActivity.findViewById(R.id.poster);
-        mNextUpPoster = (ImageView) mActivity.findViewById(R.id.nextUpPoster);
-        mStudioImage = (ImageView) mActivity.findViewById(R.id.studioImg);
-        mLogoImage = (ImageView) mActivity.findViewById(R.id.logoImage);
+        mPoster = mActivity.findViewById(R.id.poster);
+        mNextUpPoster = mActivity.findViewById(R.id.nextUpPoster);
+        mStudioImage = mActivity.findViewById(R.id.studioImg);
+        mLogoImage = mActivity.findViewById(R.id.logoImage);
         mTopPanel = mActivity.findViewById(R.id.topPanel);
         mBottomPanel = mActivity.findViewById(R.id.bottomPanel);
         mNextUpPanel = mActivity.findViewById(R.id.nextUpPanel);
 
         mSmNextUpPanel = mActivity.findViewById(R.id.smNextUpPanel);
 
-        mPlayPauseBtn = (ImageButton) mActivity.findViewById(R.id.playPauseBtn);
+        mPlayPauseBtn = mActivity.findViewById(R.id.playPauseBtn);
         mPlayPauseBtn.setSecondaryImage(R.drawable.lb_ic_pause);
         mPlayPauseBtn.setPrimaryImage(R.drawable.play);
         mPlayPauseBtn.setOnClickListener(new View.OnClickListener() {
@@ -307,49 +307,49 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 mPlaybackController.playPause();
             }
         });
-        mInfoRow = (LinearLayout) mActivity.findViewById(R.id.infoRow);
-        mNextUpInfoRow = (LinearLayout) mActivity.findViewById(R.id.nextUpInfoRow);
-        mButtonRow = (LinearLayout) mActivity.findViewById(R.id.buttonRow);
-        mInfoSummary = (TextView) mActivity.findViewById(R.id.infoSummary);
-        mTitle = (TextView) mActivity.findViewById(R.id.title);
-        mNextUpTitle = (TextView) mActivity.findViewById(R.id.nextUpTitle);
-        mSmNextUpTitle = (TextView) mActivity.findViewById(R.id.sm_upnext_title);
-        mNextUpSummary = (TextView) mActivity.findViewById(R.id.nextUpSummary);
+        mInfoRow = mActivity.findViewById(R.id.infoRow);
+        mNextUpInfoRow = mActivity.findViewById(R.id.nextUpInfoRow);
+        mButtonRow = mActivity.findViewById(R.id.buttonRow);
+        mInfoSummary = mActivity.findViewById(R.id.infoSummary);
+        mTitle = mActivity.findViewById(R.id.title);
+        mNextUpTitle = mActivity.findViewById(R.id.nextUpTitle);
+        mSmNextUpTitle = mActivity.findViewById(R.id.sm_upnext_title);
+        mNextUpSummary = mActivity.findViewById(R.id.nextUpSummary);
         Typeface font = Typeface.createFromAsset(mActivity.getAssets(), "fonts/Roboto-Light.ttf");
         mTitle.setTypeface(font);
         mNextUpTitle.setTypeface(font);
         mSmNextUpTitle.setTypeface(font);
         mNextUpSummary.setTypeface(font);
         mInfoSummary.setTypeface(font);
-        mEndTime = (TextView) mActivity.findViewById(R.id.endTime);
-        mCurrentPos = (TextView) mActivity.findViewById(R.id.currentPos);
-        mRemainingTime = (TextView) mActivity.findViewById(R.id.remainingTime);
-        mCurrentProgress = (ProgressBar) mActivity.findViewById(R.id.playerProgress);
-        mPopupArea = (FrameLayout) mActivity.findViewById(R.id.popupArea);
-        mStartsIn = (TextView) mActivity.findViewById(R.id.startsIn);
-        mNextButton = (Button) mActivity.findViewById(R.id.nextButton);
+        mEndTime = mActivity.findViewById(R.id.endTime);
+        mCurrentPos = mActivity.findViewById(R.id.currentPos);
+        mRemainingTime = mActivity.findViewById(R.id.remainingTime);
+        mCurrentProgress = mActivity.findViewById(R.id.playerProgress);
+        mPopupArea = mActivity.findViewById(R.id.popupArea);
+        mStartsIn = mActivity.findViewById(R.id.startsIn);
+        mNextButton = mActivity.findViewById(R.id.nextButton);
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPlaybackController.next();
             }
         });
-        mCancelButton = (Button) mActivity.findViewById(R.id.cancelButton);
+        mCancelButton = mActivity.findViewById(R.id.cancelButton);
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        mSmStartsIn = (TextView) mActivity.findViewById(R.id.sm_upnext_startsin);
-        mSmNextButton = (Button) mActivity.findViewById(R.id.btn_sm_upnext_next);
+        mSmStartsIn = mActivity.findViewById(R.id.sm_upnext_startsin);
+        mSmNextButton = mActivity.findViewById(R.id.btn_sm_upnext_next);
         mSmNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPlaybackController.next();
             }
         });
-        mSmCancelButton = (Button) mActivity.findViewById(R.id.btn_sm_upnext_cancel);
+        mSmCancelButton = mActivity.findViewById(R.id.btn_sm_upnext_cancel);
         mSmCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -358,7 +358,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         });
 
         //manual subtitles
-        mSubtitleText = (TextView) mActivity.findViewById(R.id.offLine_subtitleText);
+        mSubtitleText = mActivity.findViewById(R.id.offLine_subtitleText);
         mSubtitleText.setTextSize(32);
         mSubtitleText.setShadowLayer(1.6f,1.5f,1.3f, Color.BLACK);
         updateManualSubtitlePosition();
@@ -374,28 +374,28 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         //live guide
         Typeface roboto = TvApp.getApplication().getDefaultFont();
-        mDisplayDate = (TextView) mActivity.findViewById(R.id.displayDate);
-        mGuideTitle = (TextView) mActivity.findViewById(R.id.guideTitle);
+        mDisplayDate = mActivity.findViewById(R.id.displayDate);
+        mGuideTitle = mActivity.findViewById(R.id.guideTitle);
         mGuideTitle.setTypeface(roboto);
-        mGuideCurrentTitle = (TextView) mActivity.findViewById(R.id.guideCurrentTitle);
+        mGuideCurrentTitle = mActivity.findViewById(R.id.guideCurrentTitle);
         mGuideCurrentTitle.setTypeface(roboto);
-        mSummary = (TextView) mActivity.findViewById(R.id.summary);
+        mSummary = mActivity.findViewById(R.id.summary);
         mSummary.setTypeface(roboto);
-        mChannelStatus = (TextView) mActivity.findViewById(R.id.channelsStatus);
-        mFilterStatus = (TextView) mActivity.findViewById(R.id.filterStatus);
+        mChannelStatus = mActivity.findViewById(R.id.channelsStatus);
+        mFilterStatus = mActivity.findViewById(R.id.filterStatus);
         mChannelStatus.setTypeface(roboto);
         mFilterStatus.setTypeface(roboto);
         mChannelStatus.setTextColor(Color.GRAY);
         mFilterStatus.setTextColor(Color.GRAY);
-        mGuideInfoRow = (LinearLayout) mActivity.findViewById(R.id.guideInfoRow);
-        mChannels = (LinearLayout) mActivity.findViewById(R.id.channels);
-        mTimeline = (LinearLayout) mActivity.findViewById(R.id.timeline);
-        mProgramRows = (LinearLayout) mActivity.findViewById(R.id.programRows);
+        mGuideInfoRow = mActivity.findViewById(R.id.guideInfoRow);
+        mChannels = mActivity.findViewById(R.id.channels);
+        mTimeline = mActivity.findViewById(R.id.timeline);
+        mProgramRows = mActivity.findViewById(R.id.programRows);
         mGuideSpinner = mActivity.findViewById(R.id.spinner);
 
         mProgramRows.setFocusable(false);
-        mChannelScroller = (ScrollView) mActivity.findViewById(R.id.channelScroller);
-        ObservableScrollView programVScroller = (ObservableScrollView) mActivity.findViewById(R.id.programVScroller);
+        mChannelScroller = mActivity.findViewById(R.id.channelScroller);
+        ObservableScrollView programVScroller = mActivity.findViewById(R.id.programVScroller);
         programVScroller.setScrollViewListener(new ScrollViewListener() {
             @Override
             public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
@@ -403,14 +403,14 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }
         });
 
-        mTimelineScroller = (HorizontalScrollView) mActivity.findViewById(R.id.timelineHScroller);
+        mTimelineScroller = mActivity.findViewById(R.id.timelineHScroller);
         mTimelineScroller.setFocusable(false);
         mTimelineScroller.setFocusableInTouchMode(false);
         mTimeline.setFocusable(false);
         mTimeline.setFocusableInTouchMode(false);
         mChannelScroller.setFocusable(false);
         mChannelScroller.setFocusableInTouchMode(false);
-        ObservableHorizontalScrollView programHScroller = (ObservableHorizontalScrollView) mActivity.findViewById(R.id.programHScroller);
+        ObservableHorizontalScrollView programHScroller = mActivity.findViewById(R.id.programHScroller);
         programHScroller.setScrollViewListener(new HorizontalScrollViewListener() {
             @Override
             public void onScrollChanged(ObservableHorizontalScrollView scrollView, int x, int y, int oldx, int oldy) {
