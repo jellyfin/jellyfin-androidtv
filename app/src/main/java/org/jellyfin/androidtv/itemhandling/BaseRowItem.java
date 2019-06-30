@@ -361,7 +361,7 @@ public class BaseRowItem {
                 Long pos = chapterInfo.getStartPositionTicks() / 10000;
                 return TimeUtils.formatMillis(pos.intValue());
             case Server:
-                return serverInfo.getLocalAddress().substring(7);
+                return serverInfo.getLocalAddress() != null ? serverInfo.getLocalAddress().substring(7) : "";
             case LiveTvChannel:
                 return channelInfo.getNumber();
             case LiveTvProgram:
