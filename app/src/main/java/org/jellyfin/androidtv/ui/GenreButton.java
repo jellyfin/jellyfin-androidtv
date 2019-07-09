@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.ui;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.v7.widget.AppCompatTextView;
+import androidx.appcompat.widget.AppCompatTextView;
 
 /**
  * Created by Eric on 2/21/2015.

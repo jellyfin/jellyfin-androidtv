@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.presentation;
 
 import android.graphics.Bitmap;
-import android.support.v17.leanback.app.BackgroundManager;
+import androidx.leanback.app.BackgroundManager;
 
 import com.squareup.picasso.Picasso;
 
