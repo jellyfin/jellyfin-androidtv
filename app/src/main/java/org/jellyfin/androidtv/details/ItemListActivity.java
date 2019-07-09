@@ -7,7 +7,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v17.leanback.app.BackgroundManager;
+import androidx.leanback.app.BackgroundManager;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;

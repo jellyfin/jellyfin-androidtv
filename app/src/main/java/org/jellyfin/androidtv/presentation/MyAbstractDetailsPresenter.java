@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.presentation;
 
 import android.app.Activity;
 import android.graphics.Paint;
-import android.support.v17.leanback.widget.Presenter;
+import androidx.leanback.widget.Presenter;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,8 +36,8 @@ public abstract class MyAbstractDetailsPresenter extends Presenter {
 
         public ViewHolder(View view) {
             super(view);
-            mTitle = (TextView) view.findViewById(android.support.v17.leanback.R.id.lb_details_description_title);
-            mSubtitle = (TextView) view.findViewById(android.support.v17.leanback.R.id.lb_details_description_subtitle);
+            mTitle = (TextView) view.findViewById(androidx.leanback.R.id.lb_details_description_title);
+            mSubtitle = (TextView) view.findViewById(androidx.leanback.R.id.lb_details_description_subtitle);
             mActivity = (Activity) view.getContext();
             mInfoRow = new LinearLayout(mActivity);
             LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(Utils.convertDpToPixel(mActivity, 500), Utils.convertDpToPixel(mActivity,20));
@@ -48,23 +48,23 @@ public abstract class MyAbstractDetailsPresenter extends Presenter {
             int index = parent.indexOfChild(mSubtitle);
             parent.removeView(mSubtitle);
             parent.addView(mInfoRow, index);
-            mBody = (TextView) view.findViewById(android.support.v17.leanback.R.id.lb_details_description_body);
+            mBody = (TextView) view.findViewById(androidx.leanback.R.id.lb_details_description_body);
 
             Paint.FontMetricsInt titleFontMetricsInt = getFontMetricsInt(mTitle);
             final int titleAscent = view.getResources().getDimensionPixelSize(
-                    android.support.v17.leanback.R.dimen.lb_details_description_title_baseline);
+                    androidx.leanback.R.dimen.lb_details_description_title_baseline);
             // Ascent is negative
             mTitleMargin = titleAscent + titleFontMetricsInt.ascent;
 
             mUnderTitleBaselineMargin = view.getResources().getDimensionPixelSize(
-                    android.support.v17.leanback.R.dimen.lb_details_description_under_title_baseline_margin);
+                    androidx.leanback.R.dimen.lb_details_description_under_title_baseline_margin);
             mUnderSubtitleBaselineMargin = view.getResources().getDimensionPixelSize(
-                    android.support.v17.leanback.R.dimen.lb_details_description_under_subtitle_baseline_margin);
+                    androidx.leanback.R.dimen.lb_details_description_under_subtitle_baseline_margin);
 
             mTitleLineSpacing = view.getResources().getDimensionPixelSize(
-                    android.support.v17.leanback.R.dimen.lb_details_description_title_line_spacing);
+                    androidx.leanback.R.dimen.lb_details_description_title_line_spacing);
             mBodyLineSpacing = view.getResources().getDimensionPixelSize(
-                    android.support.v17.leanback.R.dimen.lb_details_description_body_line_spacing);
+                    androidx.leanback.R.dimen.lb_details_description_body_line_spacing);
 
             mBodyMaxLines = 6;
             mBodyMinLines = 4;
@@ -109,7 +109,7 @@ public abstract class MyAbstractDetailsPresenter extends Presenter {
     @Override
     public final ViewHolder onCreateViewHolder(ViewGroup parent) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(android.support.v17.leanback.R.layout.lb_details_description, parent, false);
+                .inflate(androidx.leanback.R.layout.lb_details_description, parent, false);
         return new ViewHolder(v);
     }
 

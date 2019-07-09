@@ -9,7 +9,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v17.leanback.widget.BaseCardView;
+import androidx.leanback.widget.BaseCardView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
