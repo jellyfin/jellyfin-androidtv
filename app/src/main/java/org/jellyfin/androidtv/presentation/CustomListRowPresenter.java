@@ -1,8 +1,8 @@
 package org.jellyfin.androidtv.presentation;
 
 import android.graphics.drawable.Drawable;
-import android.support.v17.leanback.widget.ListRowPresenter;
-import android.support.v17.leanback.widget.RowPresenter;
+import androidx.leanback.widget.ListRowPresenter;
+import androidx.leanback.widget.RowPresenter;
 import android.view.View;
 
 /**

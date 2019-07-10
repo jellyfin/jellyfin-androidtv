@@ -4,16 +4,16 @@ package org.jellyfin.androidtv.presentation;
  * Created by Eric on 8/17/2015.
  */
 
-import android.support.v17.leanback.widget.FocusHighlight;
-import android.support.v17.leanback.widget.FocusHighlightHelper;
-import android.support.v17.leanback.widget.HorizontalGridView;
-import android.support.v17.leanback.widget.ItemBridgeAdapter;
-import android.support.v17.leanback.widget.ObjectAdapter;
-import android.support.v17.leanback.widget.OnChildSelectedListener;
-import android.support.v17.leanback.widget.OnItemViewClickedListener;
-import android.support.v17.leanback.widget.OnItemViewSelectedListener;
-import android.support.v17.leanback.widget.Presenter;
-import android.support.v17.leanback.widget.ShadowOverlayContainer;
+import androidx.leanback.widget.FocusHighlight;
+import androidx.leanback.widget.FocusHighlightHelper;
+import androidx.leanback.widget.HorizontalGridView;
+import androidx.leanback.widget.ItemBridgeAdapter;
+import androidx.leanback.widget.ObjectAdapter;
+import androidx.leanback.widget.OnChildSelectedListener;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.OnItemViewSelectedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.ShadowOverlayContainer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;

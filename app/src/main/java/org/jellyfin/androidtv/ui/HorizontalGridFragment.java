@@ -2,12 +2,12 @@ package org.jellyfin.androidtv.ui;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v17.leanback.widget.ObjectAdapter;
-import android.support.v17.leanback.widget.OnItemViewClickedListener;
-import android.support.v17.leanback.widget.OnItemViewSelectedListener;
-import android.support.v17.leanback.widget.Presenter;
-import android.support.v17.leanback.widget.Row;
-import android.support.v17.leanback.widget.RowPresenter;
+import androidx.leanback.widget.ObjectAdapter;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.OnItemViewSelectedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;

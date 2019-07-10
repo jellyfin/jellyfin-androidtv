@@ -9,7 +9,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v17.leanback.app.BackgroundManager;
+import androidx.leanback.app.BackgroundManager;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;

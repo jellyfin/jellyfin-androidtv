@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v17.leanback.widget.Row;
+import androidx.leanback.widget.Row;
 import android.view.View;
 
 import org.jellyfin.androidtv.model.InfoItem;

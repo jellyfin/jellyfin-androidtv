@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.ui.login;
 
-import android.support.v17.leanback.app.GuidedStepSupportFragment;
-import android.support.v4.app.FragmentActivity;
+import androidx.leanback.app.GuidedStepSupportFragment;
+import androidx.fragment.app.FragmentActivity;
 
 public class GuidedLoginActivity extends FragmentActivity {
 
