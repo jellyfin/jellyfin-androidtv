@@ -4,9 +4,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.v17.leanback.widget.BaseCardView;
-import android.support.v17.leanback.widget.Presenter;
-import android.support.v7.graphics.Palette;
+import androidx.leanback.widget.BaseCardView;
+import androidx.leanback.widget.Presenter;
+import androidx.palette.graphics.Palette;
 import android.view.View;
 import android.view.ViewGroup;
 
