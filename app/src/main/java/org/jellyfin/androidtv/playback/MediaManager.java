@@ -220,17 +220,7 @@ public class MediaManager {
                 options.add("--no-audio-time-stretch");
                 options.add("-v");
 
-                mLibVLC = new LibVLC(options);
-                LibVLC.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
-                    @Override
-                    public void onNativeCrash() {
-                        new Exception().printStackTrace();
-                        //todo put our custom log reporter here...
-                        android.os.Process.killProcess(android.os.Process.myPid());
-                        System.exit(10);
-
-                    }
-                });
+                mLibVLC = new LibVLC(TvApp.getApplication(), options);
 
                 mVlcPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
                 mVlcPlayer.setAudioOutput(Utils.downMixAudio() ? "opensles_android" : "android_audiotrack");
