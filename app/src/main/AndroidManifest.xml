@@ -26,6 +26,7 @@
         android:largeHeap="true"
         android:theme="@style/Theme.Jellyfin"
         android:allowBackup="false"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".browsing.MainActivity"
