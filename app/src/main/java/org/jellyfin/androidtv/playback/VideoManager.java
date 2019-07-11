@@ -29,10 +29,7 @@ import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.MediaStreamType;
 
-/**
- * Created by Eric on 7/11/2015.
- */
-public class VideoManager implements IVLCVout.Callback {
+public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     public final static int ZOOM_NORMAL = 0;
     public final static int ZOOM_VERTICAL = 1;
@@ -431,12 +428,12 @@ public class VideoManager implements IVLCVout.Callback {
             options.add("--network-caching=" + buffer);
             options.add("--no-audio-time-stretch");
             options.add("--avcodec-skiploopfilter");
-            options.add("" + 1);
+            options.add("1");
             options.add("--avcodec-skip-frame");
             options.add("0");
             options.add("--avcodec-skip-idct");
             options.add("0");
-            options.add("--androidwindow-chroma");
+            options.add("--android-display-chroma");
             options.add("RV32");
             options.add("--audio-resampler");
             options.add("soxr");
@@ -449,18 +446,8 @@ public class VideoManager implements IVLCVout.Callback {
 //            options.add("Universal (UTF-8)");
             options.add("-v");
 
-            mLibVLC = new LibVLC(options);
+            mLibVLC = new LibVLC(TvApp.getApplication(), options);
             TvApp.getApplication().getLogger().Info("Network buffer set to " + buffer);
-            LibVLC.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
-                @Override
-                public void onNativeCrash() {
-                    new Exception().printStackTrace();
-                    //todo custom error reporter
-                    mActivity.finish();
-                    android.os.Process.killProcess(android.os.Process.myPid());
-                    System.exit(10);
-                }
-            });
 
             mVlcPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
             mVlcPlayer.setAudioOutput(Utils.downMixAudio() ? "opensles_android" : "android_audiotrack");
@@ -474,12 +461,9 @@ public class VideoManager implements IVLCVout.Callback {
             mVlcPlayer.getVLCVout().detachViews();
             mVlcPlayer.getVLCVout().setVideoView(mSurfaceView);
             if (hasSubtitlesSurface) mVlcPlayer.getVLCVout().setSubtitlesView(mSubtitlesSurface);
-            mVlcPlayer.getVLCVout().attachViews();
+            mVlcPlayer.getVLCVout().attachViews(this);
             TvApp.getApplication().getLogger().Debug("Surface attached");
             mSurfaceReady = true;
-            mVlcPlayer.getVLCVout().addCallback(this);
-
-
         } catch (Exception e) {
             TvApp.getApplication().getLogger().ErrorException("Error creating VLC player", e);
             Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_video_playback_error));
@@ -701,7 +685,7 @@ public class VideoManager implements IVLCVout.Callback {
     };
 
     @Override
-    public void onNewLayout(IVLCVout vout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
+    public void onNewVideoLayout(IVLCVout vout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
         if (width * height == 0 || isContracted)
             return;
 
@@ -719,23 +703,6 @@ public class VideoManager implements IVLCVout.Callback {
                 changeSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
             }
         });
-
-    }
-
-    @Override
-    public void onHardwareAccelerationError(IVLCVout ivlcVout) {
-        TvApp.getApplication().getLogger().Error("VLC Hardware acceleration error");
-        TvApp.getApplication().getPlaybackController().playerErrorEncountered();
-    }
-
-    @Override
-    public void onSurfacesCreated(IVLCVout ivlcVout) {
-
-    }
-
-    @Override
-    public void onSurfacesDestroyed(IVLCVout ivlcVout) {
-
     }
 
     public Integer translateVlcAudioId(Integer vlcId) {

@@ -51,4 +51,5 @@ dependencies {
     implementation 'com.squareup.okhttp:okhttp-urlconnection:2.7.0'
     implementation 'com.google.guava:guava:18.0'
     implementation 'com.flaviofaria:kenburnsview:1.0.6'
+    implementation 'org.videolan.android:libvlc-all:3.1.12'
 }
