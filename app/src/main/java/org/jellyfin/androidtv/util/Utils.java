@@ -212,9 +212,11 @@ public class Utils {
     }
 
     public static int getThemeColor(int resourceId) {
-        TypedArray styledAttributes = TvApp.getApplication()
-                .getCurrentActivity()
-                .getTheme()
+        return getThemeColor(TvApp.getApplication().getCurrentActivity(), resourceId);
+    }
+
+    public static int getThemeColor(Context context, int resourceId) {
+        TypedArray styledAttributes = context.getTheme()
                 .obtainStyledAttributes(new int[] { resourceId });
         int themeColor = styledAttributes.getColor(0, 0);
         styledAttributes.recycle();
@@ -224,6 +226,10 @@ public class Utils {
 
     public static int getBrandColor() {
         return getThemeColor(android.R.attr.colorPrimary);
+    }
+
+    public static int getBrandColor(Context context) {
+        return getThemeColor(context, android.R.attr.colorPrimary);
     }
 
     public static void processPasswordEntry(Activity activity, UserDto user) {
