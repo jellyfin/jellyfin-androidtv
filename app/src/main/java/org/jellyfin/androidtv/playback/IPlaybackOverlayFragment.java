@@ -3,9 +3,6 @@ package org.jellyfin.androidtv.playback;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
 
-/**
- * Created by Eric on 4/28/2015.
- */
 public interface IPlaybackOverlayFragment {
     void setCurrentTime(long time);
     void setSecondaryTime(long time);

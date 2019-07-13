@@ -22,7 +22,10 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -1863,7 +1866,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 mSubtitleText.setText("");
             }
         });
-
     }
 
     public void showSubLoadingMsg(final boolean show) {
@@ -1882,7 +1884,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     public void updateSubtitles(long positionMs) {
-
         if (lastReportedPosMs > 0){
             if (Math.abs(lastReportedPosMs - positionMs) < 500) {
                 return;
@@ -1906,7 +1907,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     private void setTimedText(final SubtitleTrackEvent textObj) {
-
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -1922,7 +1922,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     return;
                 }
 
-                mSubtitleText.setText(Html.fromHtml(text));
+                SpannableString span = new SpannableString(Html.fromHtml(text));
+                span.setSpan(new ForegroundColorSpan(Color.WHITE), 0, span.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                mSubtitleText.setText(span);
                 mSubtitleText.setVisibility(View.VISIBLE);
             }
         });
