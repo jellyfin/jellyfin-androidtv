@@ -477,10 +477,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mVlcPlayer.stop();
         mVlcPlayer.getVLCVout().detachViews();
         mVlcPlayer.release();
+        mLibVLC.release();
         mLibVLC = null;
         mVlcPlayer = null;
         mSurfaceView.setKeepScreenOn(false);
-
     }
 
     int normalWidth;
