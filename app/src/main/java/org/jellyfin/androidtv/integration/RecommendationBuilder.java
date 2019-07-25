@@ -100,7 +100,7 @@ public class RecommendationBuilder {
                         .setPriority(mPriority)
                         .setLocalOnly(true)
                         .setOngoing(true)
-                        .setColor(Utils.getBrandColor())
+                        .setColor(Utils.getBrandColor(mContext))
                         .setCategory(Notification.CATEGORY_RECOMMENDATION)
                         .setLargeIcon(mBitmap)
                         .setSmallIcon(mSmallIcon)
