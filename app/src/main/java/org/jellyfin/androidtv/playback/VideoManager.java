@@ -71,11 +71,11 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     public VideoManager(PlaybackOverlayActivity activity, View view) {
         mActivity = activity;
-        mSurfaceView = (SurfaceView) view.findViewById(R.id.player_surface);
+        mSurfaceView = view.findViewById(R.id.player_surface);
         mSurfaceHolder = mSurfaceView.getHolder();
         mSurfaceHolder.addCallback(mSurfaceCallback);
-        mSurfaceFrame = (FrameLayout) view.findViewById(R.id.player_surface_frame);
-        mSubtitlesSurface = (SurfaceView) view.findViewById(R.id.subtitles_surface);
+        mSurfaceFrame = view.findViewById(R.id.player_surface_frame);
+        mSubtitlesSurface = view.findViewById(R.id.subtitles_surface);
         if (DeviceUtils.is50()) {
             mSubtitlesSurface.setZOrderMediaOverlay(true);
             mSubtitlesSurface.getHolder().setFormat(PixelFormat.TRANSLUCENT);
@@ -83,8 +83,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         } else {
             mSubtitlesSurface.setVisibility(View.GONE);
         }
-        mVideoView = (EMVideoView) view.findViewById(R.id.videoView);
-
+        mVideoView = view.findViewById(R.id.videoView);
     }
 
     public void init(int buffer, boolean isInterlaced) {
