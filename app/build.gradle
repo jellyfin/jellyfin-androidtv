@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-def version = "0.9.0"
+def version = "0.9.1"
 
 android {
     compileSdkVersion 28
@@ -8,7 +8,7 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 900
+        versionCode 901
         versionName version
     }
 
