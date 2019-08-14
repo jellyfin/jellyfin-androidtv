@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.model.compat;
 
+import org.jellyfin.androidtv.constants.ContainerTypes;
+import org.jellyfin.androidtv.constants.MediaTypes;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.util.ArrayList;
@@ -14,7 +16,6 @@ import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.dto.NameValuePair;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.MediaStreamType;
-import org.jellyfin.apiclient.model.extensions.StringHelper;
 import org.jellyfin.apiclient.model.mediainfo.MediaProtocol;
 import org.jellyfin.apiclient.model.mediainfo.TransportStreamTimestamp;
 import org.jellyfin.apiclient.model.session.PlayMethod;
@@ -26,6 +27,10 @@ import org.jellyfin.apiclient.model.session.PlayMethod;
  */
 @Deprecated
 public class StreamInfo {
+    private static final String START_TIME_TICKS = "StartTimeTicks";
+    private static final String SUBTITLE_STREAM_INDEX = "SubtitleStreamIndex";
+    private static final String STATIC = "Static";
+
     public StreamInfo() {
         setAudioCodecs(new String[]{});
     }
@@ -428,13 +433,13 @@ public class StreamInfo {
             }
 
             // Try to keep the url clean by omitting defaults
-            if (StringHelper.EqualsIgnoreCase(pair.getName(), "StartTimeTicks") && StringHelper.EqualsIgnoreCase(pair.getValue(), "0")) {
+            if (START_TIME_TICKS.equalsIgnoreCase(pair.getName()) && "0".equalsIgnoreCase(pair.getValue())) {
                 continue;
             }
-            if (StringHelper.EqualsIgnoreCase(pair.getName(), "SubtitleStreamIndex") && StringHelper.EqualsIgnoreCase(pair.getValue(), "-1")) {
+            if (SUBTITLE_STREAM_INDEX.equalsIgnoreCase(pair.getName()) && "-1".equalsIgnoreCase(pair.getValue())) {
                 continue;
             }
-            if (StringHelper.EqualsIgnoreCase(pair.getName(), "Static") && StringHelper.EqualsIgnoreCase(pair.getValue(), "false")) {
+            if (STATIC.equalsIgnoreCase(pair.getName()) && "false".equalsIgnoreCase(pair.getValue())) {
                 continue;
             }
 
@@ -466,14 +471,14 @@ public class StreamInfo {
         baseUrl = baseUrl.replaceAll("[/]+$", "");
 
         if (getMediaType() == DlnaProfileType.Audio) {
-            if (StringHelper.EqualsIgnoreCase(getSubProtocol(), "hls")) {
+            if (MediaTypes.HLS.equalsIgnoreCase(getSubProtocol())) {
                 return String.format("%1$s/audio/%2$s/master.m3u8?%3$s", baseUrl, getItemId(), queryString);
             }
 
             return String.format("%1$s/audio/%2$s/stream%3$s?%4$s", baseUrl, getItemId(), extension, queryString);
         }
 
-        if (StringHelper.EqualsIgnoreCase(getSubProtocol(), "hls")) {
+        if (MediaTypes.HLS.equalsIgnoreCase(getSubProtocol())) {
             return String.format("%1$s/videos/%2$s/master.m3u8?%3$s", baseUrl, getItemId(), queryString);
         }
 
@@ -501,29 +506,29 @@ public class StreamInfo {
         list.add(new NameValuePair("DeviceId", (tempVar2 != null) ? tempVar2 : ""));
         String tempVar3 = item.getMediaSourceId();
         list.add(new NameValuePair("MediaSourceId", (tempVar3 != null) ? tempVar3 : ""));
-        list.add(new NameValuePair("Static", (new Boolean(item.getIsDirectStream())).toString().toLowerCase()));
+        list.add(new NameValuePair(STATIC, Boolean.valueOf(item.getIsDirectStream()).toString().toLowerCase()));
         String tempVar4 = item.getVideoCodec();
         list.add(new NameValuePair("VideoCodec", (tempVar4 != null) ? tempVar4 : ""));
         list.add(new NameValuePair("AudioCodec", audioCodecs));
-        list.add(new NameValuePair("AudioStreamIndex", item.getAudioStreamIndex() != null ? StringHelper.ToStringCultureInvariant(item.getAudioStreamIndex()) : ""));
-        list.add(new NameValuePair("SubtitleStreamIndex", item.getSubtitleStreamIndex() != null && item.getSubtitleDeliveryMethod() != org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod.External ? StringHelper.ToStringCultureInvariant(item.getSubtitleStreamIndex()) : ""));
-        list.add(new NameValuePair("VideoBitrate", item.getVideoBitrate() != null ? StringHelper.ToStringCultureInvariant(item.getVideoBitrate()) : ""));
-        list.add(new NameValuePair("AudioBitrate", item.getAudioBitrate() != null ? StringHelper.ToStringCultureInvariant(item.getAudioBitrate()) : ""));
-        list.add(new NameValuePair("MaxAudioChannels", item.getMaxAudioChannels() != null ? StringHelper.ToStringCultureInvariant(item.getMaxAudioChannels()) : ""));
+        list.add(new NameValuePair("AudioStreamIndex", item.getAudioStreamIndex() != null ? String.valueOf(item.getAudioStreamIndex()) : ""));
+        list.add(new NameValuePair("SubtitleStreamIndex", item.getSubtitleStreamIndex() != null && item.getSubtitleDeliveryMethod() != org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod.External ? String.valueOf(item.getSubtitleStreamIndex()) : ""));
+        list.add(new NameValuePair("VideoBitrate", item.getVideoBitrate() != null ? String.valueOf(item.getVideoBitrate()) : ""));
+        list.add(new NameValuePair("AudioBitrate", item.getAudioBitrate() != null ? String.valueOf(item.getAudioBitrate()) : ""));
+        list.add(new NameValuePair("MaxAudioChannels", item.getMaxAudioChannels() != null ? String.valueOf(item.getMaxAudioChannels()) : ""));
         list.add(new NameValuePair("MaxFramerate", item.getMaxFramerate() != null ? String.valueOf(item.getMaxFramerate()) : ""));
-        list.add(new NameValuePair("MaxWidth", item.getMaxWidth() != null ? StringHelper.ToStringCultureInvariant(item.getMaxWidth()) : ""));
-        list.add(new NameValuePair("MaxHeight", item.getMaxHeight() != null ? StringHelper.ToStringCultureInvariant(item.getMaxHeight()) : ""));
+        list.add(new NameValuePair("MaxWidth", item.getMaxWidth() != null ? String.valueOf(item.getMaxWidth()) : ""));
+        list.add(new NameValuePair("MaxHeight", item.getMaxHeight() != null ? String.valueOf(item.getMaxHeight()) : ""));
 
-        if (StringHelper.EqualsIgnoreCase(item.getSubProtocol(), "hls") && !item.getForceLiveStream()) {
-            list.add(new NameValuePair("StartTimeTicks", ""));
+        if (MediaTypes.HLS.equalsIgnoreCase(item.getSubProtocol()) && !item.getForceLiveStream()) {
+            list.add(new NameValuePair(START_TIME_TICKS, ""));
         } else {
-            list.add(new NameValuePair("StartTimeTicks", StringHelper.ToStringCultureInvariant(item.getStartPositionTicks())));
+            list.add(new NameValuePair(START_TIME_TICKS, String.valueOf(item.getStartPositionTicks())));
         }
 
-        list.add(new NameValuePair("Level", item.getVideoLevel() != null ? StringHelper.ToStringCultureInvariant(item.getVideoLevel()) : ""));
+        list.add(new NameValuePair("Level", item.getVideoLevel() != null ? String.valueOf(item.getVideoLevel()) : ""));
 
-        list.add(new NameValuePair("MaxRefFrames", item.getMaxRefFrames() != null ? StringHelper.ToStringCultureInvariant(item.getMaxRefFrames()) : ""));
-        list.add(new NameValuePair("MaxVideoBitDepth", item.getMaxVideoBitDepth() != null ? StringHelper.ToStringCultureInvariant(item.getMaxVideoBitDepth()) : ""));
+        list.add(new NameValuePair("MaxRefFrames", item.getMaxRefFrames() != null ? String.valueOf(item.getMaxRefFrames()) : ""));
+        list.add(new NameValuePair("MaxVideoBitDepth", item.getMaxVideoBitDepth() != null ? String.valueOf(item.getMaxVideoBitDepth()) : ""));
         String tempVar5 = item.getVideoProfile();
         list.add(new NameValuePair("Profile", (tempVar5 != null) ? tempVar5 : ""));
 
@@ -541,12 +546,12 @@ public class StreamInfo {
             list.add(new NameValuePair("ItemId", item.getItemId()));
         }
 
-        list.add(new NameValuePair("CopyTimestamps", (new Boolean(item.getCopyTimestamps())).toString().toLowerCase()));
-        list.add(new NameValuePair("ForceLiveStream", (new Boolean(item.getForceLiveStream())).toString().toLowerCase()));
+        list.add(new NameValuePair("CopyTimestamps", Boolean.valueOf(item.getCopyTimestamps()).toString().toLowerCase()));
+        list.add(new NameValuePair("ForceLiveStream", Boolean.valueOf(item.getForceLiveStream()).toString().toLowerCase()));
         list.add(new NameValuePair("SubtitleMethod", item.getSubtitleStreamIndex() != null && item.getSubtitleDeliveryMethod() != org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod.External ? item.getSubtitleDeliveryMethod().toString() : ""));
 
-        list.add(new NameValuePair("TranscodingMaxAudioChannels", item.getTranscodingMaxAudioChannels() != null ? StringHelper.ToStringCultureInvariant(item.getTranscodingMaxAudioChannels()) : ""));
-        list.add(new NameValuePair("EnableSubtitlesInManifest", (new Boolean(item.getEnableSubtitlesInManifest())).toString().toLowerCase()));
+        list.add(new NameValuePair("TranscodingMaxAudioChannels", item.getTranscodingMaxAudioChannels() != null ? String.valueOf(item.getTranscodingMaxAudioChannels()) : ""));
+        list.add(new NameValuePair("EnableSubtitlesInManifest", Boolean.valueOf(item.getEnableSubtitlesInManifest()).toString().toLowerCase()));
 
         String tempVar7 = item.getMediaSource().getETag();
         list.add(new NameValuePair("Tag", (tempVar7 != null) ? tempVar7 : ""));
@@ -580,7 +585,7 @@ public class StreamInfo {
         ArrayList<SubtitleStreamInfo> list = new ArrayList<SubtitleStreamInfo>();
 
         // HLS will preserve timestamps so we can just grab the full subtitle stream
-        long startPositionTicks = StringHelper.EqualsIgnoreCase(getSubProtocol(), "hls") ? 0 : (getPlayMethod() == PlayMethod.Transcode && !getCopyTimestamps() ? getStartPositionTicks() : 0);
+        long startPositionTicks = MediaTypes.HLS.equalsIgnoreCase(getSubProtocol()) ? 0 : (getPlayMethod() == PlayMethod.Transcode && !getCopyTimestamps() ? getStartPositionTicks() : 0);
 
         // First add the selected track
         if (getSubtitleStreamIndex() != null) {
@@ -630,8 +635,8 @@ public class StreamInfo {
         SubtitleStreamInfo info = tempVar;
 
         if (info.getDeliveryMethod() == SubtitleDeliveryMethod.External) {
-            if (getMediaSource().getProtocol() == MediaProtocol.File || !StringHelper.EqualsIgnoreCase(stream.getCodec(), subtitleProfile.getFormat())) {
-                info.setUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/%5$s/Stream.%6$s", baseUrl, getItemId(), getMediaSourceId(), StringHelper.ToStringCultureInvariant(stream.getIndex()), StringHelper.ToStringCultureInvariant(startPositionTicks), subtitleProfile.getFormat()));
+            if (getMediaSource().getProtocol() == MediaProtocol.File || !stream.getCodec().equalsIgnoreCase(subtitleProfile.getFormat())) {
+                info.setUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/%5$s/Stream.%6$s", baseUrl, getItemId(), getMediaSourceId(), String.valueOf(stream.getIndex()), String.valueOf(startPositionTicks), subtitleProfile.getFormat()));
 
                 if (!Utils.isEmpty(accessToken)) {
                     info.setUrl(info.getUrl() + "?api_key=" + accessToken);
@@ -777,7 +782,7 @@ public class StreamInfo {
         }
 
         for (String codec : getAudioCodecs()) {
-            if (StringHelper.EqualsIgnoreCase(codec, inputCodec)) {
+            if (codec.equalsIgnoreCase(inputCodec)) {
                 return codec;
             }
         }
@@ -815,8 +820,7 @@ public class StreamInfo {
     }
 
     public final TransportStreamTimestamp getTargetTimestamp() {
-        TransportStreamTimestamp defaultValue = StringHelper.EqualsIgnoreCase(getContainer(), "m2ts") ? TransportStreamTimestamp.Valid : TransportStreamTimestamp.None;
-
+        TransportStreamTimestamp defaultValue = ContainerTypes.M2TS.equalsIgnoreCase(getContainer()) ? TransportStreamTimestamp.Valid : TransportStreamTimestamp.None;
         TransportStreamTimestamp tempVar = getMediaSource().getTimestamp();
         return !getIsDirectStream() ? defaultValue : getMediaSource() == null ? defaultValue : (tempVar != null) ? tempVar : TransportStreamTimestamp.None;
     }

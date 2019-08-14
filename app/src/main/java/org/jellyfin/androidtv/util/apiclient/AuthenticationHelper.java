@@ -20,8 +20,6 @@ import org.jellyfin.androidtv.util.Utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -142,33 +140,29 @@ public class AuthenticationHelper {
     }
 
     public static void loginUser(String userName, String pw, ApiClient apiClient, final Activity activity, final String directEntryItemId) {
-        try {
-            apiClient.AuthenticateUserAsync(userName, pw, new Response<AuthenticationResult>() {
-                @Override
-                public void onResponse(AuthenticationResult authenticationResult) {
-                    TvApp application = TvApp.getApplication();
-                    application.getLogger().Debug("Signed in as " + authenticationResult.getUser().getName());
-                    application.setCurrentUser(authenticationResult.getUser());
-                    if (directEntryItemId == null) {
-                        Intent intent = new Intent(activity, MainActivity.class);
-                        activity.startActivity(intent);
-                    } else {
-                        Intent intent = new Intent(activity, FullDetailsActivity.class);
-                        intent.putExtra("ItemId", directEntryItemId);
-                        activity.startActivity(intent);
-                    }
+        apiClient.AuthenticateUserAsync(userName, pw, new Response<AuthenticationResult>() {
+            @Override
+            public void onResponse(AuthenticationResult authenticationResult) {
+                TvApp application = TvApp.getApplication();
+                application.getLogger().Debug("Signed in as " + authenticationResult.getUser().getName());
+                application.setCurrentUser(authenticationResult.getUser());
+                if (directEntryItemId == null) {
+                    Intent intent = new Intent(activity, MainActivity.class);
+                    activity.startActivity(intent);
+                } else {
+                    Intent intent = new Intent(activity, FullDetailsActivity.class);
+                    intent.putExtra("ItemId", directEntryItemId);
+                    activity.startActivity(intent);
                 }
+            }
 
-                @Override
-                public void onError(Exception exception) {
-                    super.onError(exception);
-                    TvApp.getApplication().getLogger().ErrorException("Error logging in", exception);
-                    Utils.showToast(activity, activity.getString(R.string.msg_invalid_id_pw));
-                }
-            });
-        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+            @Override
+            public void onError(Exception exception) {
+                super.onError(exception);
+                TvApp.getApplication().getLogger().ErrorException("Error logging in", exception);
+                Utils.showToast(activity, activity.getString(R.string.msg_invalid_id_pw));
+            }
+        });
     }
 
     public static void saveLoginCredentials(LogonCredentials creds, String fileName) throws IOException {
