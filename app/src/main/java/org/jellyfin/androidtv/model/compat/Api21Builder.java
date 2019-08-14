@@ -3,12 +3,12 @@ package org.jellyfin.androidtv.model.compat;
 import android.media.MediaCodecInfo;
 import android.util.Range;
 
+import org.jellyfin.androidtv.constants.CodecTypes;
 import org.jellyfin.apiclient.model.dlna.CodecProfile;
 import org.jellyfin.apiclient.model.dlna.CodecType;
 import org.jellyfin.apiclient.model.dlna.ProfileCondition;
 import org.jellyfin.apiclient.model.dlna.ProfileConditionType;
 import org.jellyfin.apiclient.model.dlna.ProfileConditionValue;
-import org.jellyfin.apiclient.model.extensions.StringHelper;
 
 import java.util.ArrayList;
 
@@ -38,8 +38,7 @@ public class Api21Builder extends Api16Builder {
 
         conditions.add(new ProfileCondition(ProfileConditionType.NotEquals, ProfileConditionValue.IsAnamorphic, "true"));
 
-        if (StringHelper.IndexOfIgnoreCase(profile.getCodec(), "h264") != -1) {
-
+        if (profile.getCodec() != null && profile.getCodec().toLowerCase().contains(CodecTypes.H264)) {
             conditions.add(new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoBitDepth, "8"));
         }
 
