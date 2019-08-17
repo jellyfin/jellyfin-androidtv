@@ -2,6 +2,9 @@ package org.jellyfin.androidtv.model.compat;
 
 import java.util.Arrays;
 
+import org.jellyfin.androidtv.constants.CodecTypes;
+import org.jellyfin.androidtv.constants.MediaTypes;
+import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dlna.CodecProfile;
 import org.jellyfin.apiclient.model.dlna.CodecType;
 import org.jellyfin.apiclient.model.dlna.ConditionProcessor;
@@ -17,10 +20,7 @@ import org.jellyfin.apiclient.model.dlna.TranscodingProfile;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.MediaStreamType;
-import org.jellyfin.apiclient.model.extensions.FloatHelper;
-import org.jellyfin.apiclient.model.extensions.IntHelper;
 import org.jellyfin.apiclient.model.extensions.ListHelper;
-import org.jellyfin.apiclient.model.extensions.StringHelper;
 import org.jellyfin.apiclient.model.logging.ILogger;
 import org.jellyfin.apiclient.model.mediainfo.MediaProtocol;
 import org.jellyfin.apiclient.model.mediainfo.TransportStreamTimestamp;
@@ -50,7 +50,7 @@ public class StreamBuilder
         java.util.ArrayList<MediaSourceInfo> mediaSources = new java.util.ArrayList<MediaSourceInfo>();
         for (MediaSourceInfo i : options.getMediaSources())
         {
-            if (tangible.DotNetToJavaStringHelper.isNullOrEmpty(options.getMediaSourceId()) || StringHelper.EqualsIgnoreCase(i.getId(), options.getMediaSourceId()))
+            if (Utils.isEmpty(options.getMediaSourceId()) || Utils.equalsIgnoreCase(i.getId(), options.getMediaSourceId()))
             {
                 mediaSources.add(i);
             }
@@ -82,7 +82,7 @@ public class StreamBuilder
         java.util.ArrayList<MediaSourceInfo> mediaSources = new java.util.ArrayList<MediaSourceInfo>();
         for (MediaSourceInfo i : options.getMediaSources())
         {
-            if (tangible.DotNetToJavaStringHelper.isNullOrEmpty(options.getMediaSourceId()) || StringHelper.EqualsIgnoreCase(i.getId(), options.getMediaSourceId()))
+            if (Utils.isEmpty(options.getMediaSourceId()) || Utils.equalsIgnoreCase(i.getId(), options.getMediaSourceId()))
             {
                 mediaSources.add(i);
             }
@@ -158,7 +158,7 @@ public class StreamBuilder
             String audioCodec = audioStream == null ? null : audioStream.getCodec();
 
             // Make sure audio codec profiles are satisfied
-            if (!tangible.DotNetToJavaStringHelper.isNullOrEmpty(audioCodec))
+            if (!Utils.isEmpty(audioCodec))
             {
                 java.util.ArrayList<ProfileCondition> conditions = new java.util.ArrayList<ProfileCondition>();
                 for (CodecProfile i : options.getProfile().getCodecProfiles())
@@ -237,7 +237,7 @@ public class StreamBuilder
             playlistItem.setEstimateContentLength(transcodingProfile.getEstimateContentLength());
             playlistItem.setContainer(transcodingProfile.getContainer());
 
-            if (tangible.DotNetToJavaStringHelper.isNullOrEmpty(transcodingProfile.getAudioCodec()))
+            if (Utils.isEmpty(transcodingProfile.getAudioCodec()))
             {
                 playlistItem.setAudioCodecs(new String[] { });
             }
@@ -391,7 +391,7 @@ public class StreamBuilder
             {
                 for (SubtitleProfile profile : subtitleProfiles)
                 {
-                    if (profile.getMethod() == SubtitleDeliveryMethod.External && StringHelper.EqualsIgnoreCase(profile.getFormat(), stream.getCodec()))
+                    if (profile.getMethod() == SubtitleDeliveryMethod.External && Utils.equalsIgnoreCase(profile.getFormat(), stream.getCodec()))
                     {
                         return stream.getIndex();
                     }
@@ -495,16 +495,12 @@ public class StreamBuilder
             playlistItem.setCopyTimestamps(transcodingProfile.getCopyTimestamps());
             playlistItem.setEnableSubtitlesInManifest(transcodingProfile.getEnableSubtitlesInManifest());
 
-            if (!tangible.DotNetToJavaStringHelper.isNullOrEmpty(transcodingProfile.getMaxAudioChannels()))
+            if (!Utils.isEmpty(transcodingProfile.getMaxAudioChannels()))
             {
-                int transcodingMaxAudioChannels = 0;
-                tangible.RefObject<Integer> tempRef_transcodingMaxAudioChannels = new tangible.RefObject<Integer>(transcodingMaxAudioChannels);
-                boolean tempVar6 = IntHelper.TryParseCultureInvariant(transcodingProfile.getMaxAudioChannels(), tempRef_transcodingMaxAudioChannels);
-                transcodingMaxAudioChannels = tempRef_transcodingMaxAudioChannels.argValue;
-                if (tempVar6)
-                {
+                try {
+                    int transcodingMaxAudioChannels = Integer.parseInt(transcodingProfile.getMaxAudioChannels());
                     playlistItem.setTranscodingMaxAudioChannels(transcodingMaxAudioChannels);
-                }
+                } catch (NumberFormatException ignored) {}
             }
             playlistItem.setSubProtocol(transcodingProfile.getProtocol());
             playlistItem.setAudioStreamIndex(audioStreamIndex);
@@ -631,10 +627,10 @@ public class StreamBuilder
         // Reduce the bitrate if we're downmixing
         if (targetAudioChannels != null && audioStream != null && audioStream.getChannels() != null && targetAudioChannels < audioStream.getChannels())
         {
-            defaultBitrate = StringHelper.EqualsIgnoreCase(targetAudioCodec, "ac3") ? 192000 : 128000;
+            defaultBitrate = CodecTypes.AC3.equalsIgnoreCase(targetAudioCodec) ? 192000 : 128000;
         }
 
-        if (StringHelper.EqualsIgnoreCase(subProtocol, "hls"))
+        if (MediaTypes.HLS.equalsIgnoreCase(subProtocol))
         {
             defaultBitrate = Math.min(384000, defaultBitrate);
         }
@@ -764,7 +760,7 @@ public class StreamBuilder
 
         String videoCodec = videoStream == null ? null : videoStream.getCodec();
 
-        if (tangible.DotNetToJavaStringHelper.isNullOrEmpty(videoCodec))
+        if (Utils.isEmpty(videoCodec))
         {
             String tempVar6 = profile.getName();
             String tempVar7 = mediaSource.getPath();
@@ -813,7 +809,7 @@ public class StreamBuilder
         {
             String audioCodec = audioStream.getCodec();
 
-            if (tangible.DotNetToJavaStringHelper.isNullOrEmpty(audioCodec))
+            if (Utils.isEmpty(audioCodec))
             {
                 String tempVar8 = profile.getName();
                 String tempVar9 = mediaSource.getPath();
@@ -910,7 +906,7 @@ public class StreamBuilder
                     continue;
                 }
 
-                if (subtitleStream.getIsTextSubtitleStream() == MediaStream.IsTextFormat(profile.getFormat()) && StringHelper.EqualsIgnoreCase(profile.getFormat(), subtitleStream.getCodec()))
+                if (subtitleStream.getIsTextSubtitleStream() == MediaStream.IsTextFormat(profile.getFormat()) && Utils.equalsIgnoreCase(profile.getFormat(), subtitleStream.getCodec()))
                 {
                     return profile;
                 }
@@ -947,7 +943,7 @@ public class StreamBuilder
 
             if ((profile.getMethod() == SubtitleDeliveryMethod.External && subtitleStream.getIsTextSubtitleStream() == MediaStream.IsTextFormat(profile.getFormat())) || (profile.getMethod() == SubtitleDeliveryMethod.Hls && subtitleStream.getIsTextSubtitleStream()))
             {
-                boolean requiresConversion = !StringHelper.EqualsIgnoreCase(subtitleStream.getCodec(), profile.getFormat());
+                boolean requiresConversion = !Utils.equalsIgnoreCase(subtitleStream.getCodec(), profile.getFormat());
 
                 if (!requiresConversion)
                 {
@@ -996,12 +992,12 @@ public class StreamBuilder
     {
         ValidateAudioInput(options);
 
-        if (options.getAudioStreamIndex() != null && tangible.DotNetToJavaStringHelper.isNullOrEmpty(options.getMediaSourceId()))
+        if (options.getAudioStreamIndex() != null && Utils.isEmpty(options.getMediaSourceId()))
         {
             throw new IllegalArgumentException("MediaSourceId is required when a specific audio stream is requested");
         }
 
-        if (options.getSubtitleStreamIndex() != null && tangible.DotNetToJavaStringHelper.isNullOrEmpty(options.getMediaSourceId()))
+        if (options.getSubtitleStreamIndex() != null && Utils.isEmpty(options.getMediaSourceId()))
         {
             throw new IllegalArgumentException("MediaSourceId is required when a specific subtitle stream is requested");
         }
@@ -1009,11 +1005,11 @@ public class StreamBuilder
 
     private void ValidateAudioInput(AudioOptions options)
     {
-        if (tangible.DotNetToJavaStringHelper.isNullOrEmpty(options.getItemId()))
+        if (Utils.isEmpty(options.getItemId()))
         {
             throw new IllegalArgumentException("ItemId is required");
         }
-        if (tangible.DotNetToJavaStringHelper.isNullOrEmpty(options.getDeviceId()))
+        if (Utils.isEmpty(options.getDeviceId()))
         {
             throw new IllegalArgumentException("DeviceId is required");
         }
@@ -1033,7 +1029,7 @@ public class StreamBuilder
         {
             String value = condition.getValue();
 
-            if (tangible.DotNetToJavaStringHelper.isNullOrEmpty(value))
+            if (Utils.isEmpty(value))
             {
                 continue;
             }
@@ -1048,26 +1044,18 @@ public class StreamBuilder
             {
                 case AudioBitrate:
                 {
-                    int num = 0;
-                    tangible.RefObject<Integer> tempRef_num = new tangible.RefObject<Integer>(num);
-                    boolean tempVar = IntHelper.TryParseCultureInvariant(value, tempRef_num);
-                    num = tempRef_num.argValue;
-                    if (tempVar)
-                    {
+                    try {
+                        int num = Integer.parseInt(value);
                         item.setAudioBitrate(num);
-                    }
+                    } catch (NumberFormatException ignored) {}
                     break;
                 }
                 case AudioChannels:
                 {
-                    int num = 0;
-                    tangible.RefObject<Integer> tempRef_num2 = new tangible.RefObject<Integer>(num);
-                    boolean tempVar2 = IntHelper.TryParseCultureInvariant(value, tempRef_num2);
-                    num = tempRef_num2.argValue;
-                    if (tempVar2)
-                    {
+                    try {
+                        int num = Integer.parseInt(value);
                         item.setMaxAudioChannels(num);
-                    }
+                    } catch (NumberFormatException ignored) {}
                     break;
                 }
                 case IsAnamorphic:
@@ -1084,26 +1072,18 @@ public class StreamBuilder
                 }
                 case RefFrames:
                 {
-                    int num = 0;
-                    tangible.RefObject<Integer> tempRef_num3 = new tangible.RefObject<Integer>(num);
-                    boolean tempVar3 = IntHelper.TryParseCultureInvariant(value, tempRef_num3);
-                    num = tempRef_num3.argValue;
-                    if (tempVar3)
-                    {
+                    try {
+                        int num = Integer.parseInt(value);
                         item.setMaxRefFrames(num);
-                    }
+                    } catch (NumberFormatException ignored) {}
                     break;
                 }
                 case VideoBitDepth:
                 {
-                    int num = 0;
-                    tangible.RefObject<Integer> tempRef_num4 = new tangible.RefObject<Integer>(num);
-                    boolean tempVar4 = IntHelper.TryParseCultureInvariant(value, tempRef_num4);
-                    num = tempRef_num4.argValue;
-                    if (tempVar4)
-                    {
+                    try {
+                        int num = Integer.parseInt(value);
                         item.setMaxVideoBitDepth(num);
-                    }
+                    } catch (NumberFormatException ignored) {}
                     break;
                 }
                 case VideoProfile:
@@ -1113,62 +1093,42 @@ public class StreamBuilder
                 }
                 case Height:
                 {
-                    int num = 0;
-                    tangible.RefObject<Integer> tempRef_num5 = new tangible.RefObject<Integer>(num);
-                    boolean tempVar5 = IntHelper.TryParseCultureInvariant(value, tempRef_num5);
-                    num = tempRef_num5.argValue;
-                    if (tempVar5)
-                    {
+                    try {
+                        int num = Integer.parseInt(value);
                         item.setMaxHeight(num);
-                    }
+                    } catch (NumberFormatException ignored) {}
                     break;
                 }
                 case VideoBitrate:
                 {
-                    int num = 0;
-                    tangible.RefObject<Integer> tempRef_num6 = new tangible.RefObject<Integer>(num);
-                    boolean tempVar6 = IntHelper.TryParseCultureInvariant(value, tempRef_num6);
-                    num = tempRef_num6.argValue;
-                    if (tempVar6)
-                    {
+                    try {
+                        int num = Integer.parseInt(value);
                         item.setVideoBitrate(num);
-                    }
+                    } catch (NumberFormatException ignored) {}
                     break;
                 }
                 case VideoFramerate:
                 {
-                    float num = 0F;
-                    tangible.RefObject<Float> tempRef_num7 = new tangible.RefObject<Float>(num);
-                    boolean tempVar7 = FloatHelper.TryParseCultureInvariant(value, tempRef_num7);
-                    num = tempRef_num7.argValue;
-                    if (tempVar7)
-                    {
+                    try {
+                        float num = Float.parseFloat(value);
                         item.setMaxFramerate(num);
-                    }
+                    } catch (NumberFormatException ignored) {}
                     break;
                 }
                 case VideoLevel:
                 {
-                    int num = 0;
-                    tangible.RefObject<Integer> tempRef_num8 = new tangible.RefObject<Integer>(num);
-                    boolean tempVar8 = IntHelper.TryParseCultureInvariant(value, tempRef_num8);
-                    num = tempRef_num8.argValue;
-                    if (tempVar8)
-                    {
+                    try {
+                        int num = Integer.parseInt(value);
                         item.setVideoLevel(num);
-                    }
+                    } catch (NumberFormatException ignored) {}
                     break;
                 }
                 case Width:
                 {
-                    int num = 0;
-                    tangible.RefObject<Integer> tempRef_num9 = new tangible.RefObject<Integer>(num);
-                    boolean tempVar9 = IntHelper.TryParseCultureInvariant(value, tempRef_num9);
-                    num = tempRef_num9.argValue;
-                    if (tempVar9)
-                    {
+                    try {
+                        int num = Integer.parseInt(value);
                         item.setMaxWidth(num);
-                    }
+                    } catch (NumberFormatException ignored) {}
                     break;
                 }
             }
@@ -1185,7 +1145,7 @@ public class StreamBuilder
             boolean any = false;
             for (String i : profile.GetContainers())
             {
-                if (StringHelper.EqualsIgnoreCase(i, mediaContainer))
+                if (Utils.equalsIgnoreCase(i, mediaContainer))
                 {
                     any = true;
                     break;
@@ -1203,7 +1163,7 @@ public class StreamBuilder
         {
             // Check audio codecs
             String audioCodec = audioStream == null ? null : audioStream.getCodec();
-            if (tangible.DotNetToJavaStringHelper.isNullOrEmpty(audioCodec) || !ListHelper.ContainsIgnoreCase(audioCodecs, audioCodec))
+            if (Utils.isEmpty(audioCodec) || !ListHelper.ContainsIgnoreCase(audioCodecs, audioCodec))
             {
                 return false;
             }
@@ -1222,7 +1182,7 @@ public class StreamBuilder
             boolean any = false;
             for (String i : profile.GetContainers())
             {
-                if (StringHelper.EqualsIgnoreCase(i, mediaContainer))
+                if (Utils.equalsIgnoreCase(i, mediaContainer))
                 {
                     any = true;
                     break;
@@ -1239,7 +1199,7 @@ public class StreamBuilder
         if (videoCodecs.size() > 0)
         {
             String videoCodec = videoStream == null ? null : videoStream.getCodec();
-            if (tangible.DotNetToJavaStringHelper.isNullOrEmpty(videoCodec) || !ListHelper.ContainsIgnoreCase(videoCodecs, videoCodec))
+            if (Utils.isEmpty(videoCodec) || !ListHelper.ContainsIgnoreCase(videoCodecs, videoCodec))
             {
                 return false;
             }
@@ -1251,7 +1211,7 @@ public class StreamBuilder
         {
             // Check audio codecs
             String audioCodec = audioStream == null ? null : audioStream.getCodec();
-            if (tangible.DotNetToJavaStringHelper.isNullOrEmpty(audioCodec) || !ListHelper.ContainsIgnoreCase(audioCodecs, audioCodec))
+            if (Utils.isEmpty(audioCodec) || !ListHelper.ContainsIgnoreCase(audioCodecs, audioCodec))
             {
                 return false;
             }

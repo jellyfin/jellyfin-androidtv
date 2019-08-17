@@ -455,18 +455,6 @@ public class ItemLauncher {
                         Utils.showToast(activity, "Server unavailable");
                         break;
                     case SignedIn:
-                        if (serverInfo.getUserLinkType() != null) {
-                            // go straight in for connect only
-                            response.getApiClient().GetUserAsync(serverInfo.getUserId(), new Response<UserDto>() {
-                                @Override
-                                public void onResponse(UserDto response) {
-                                    TvApp.getApplication().setCurrentUser(response);
-                                    Intent homeIntent = new Intent(activity, MainActivity.class);
-                                    activity.startActivity(homeIntent);
-                                }
-                            });
-                            break;
-                        }
                     case ServerSignIn:
                         //Set api client for login
                         TvApp.getApplication().setLoginApiClient(response.getApiClient());

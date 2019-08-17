@@ -10,6 +10,7 @@ import android.view.WindowManager;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.constants.ContainerTypes;
 import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.model.compat.PlaybackException;
 import org.jellyfin.androidtv.model.compat.StreamInfo;
@@ -36,7 +37,6 @@ import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.MediaStreamType;
-import org.jellyfin.apiclient.model.extensions.StringHelper;
 import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
@@ -726,7 +726,7 @@ public class PlaybackController {
                     mVideoManager.disableSubs();
                     mFragment.showSubLoadingMsg(true);
                     stream.setDeliveryMethod(SubtitleDeliveryMethod.External);
-                    stream.setDeliveryUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/0/Stream.JSON", mApplication.getApiClient().getApiUrl(), mCurrentStreamInfo.getItemId(), mCurrentStreamInfo.getMediaSourceId(), StringHelper.ToStringCultureInvariant(stream.getIndex())));
+                    stream.setDeliveryUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/0/Stream.JSON", mApplication.getApiClient().getApiUrl(), mCurrentStreamInfo.getItemId(), mCurrentStreamInfo.getMediaSourceId(), String.valueOf(stream.getIndex())));
                     mApplication.getApiClient().getSubtitles(stream.getDeliveryUrl(), new Response<SubtitleTrackInfo>() {
 
                         @Override
@@ -831,7 +831,7 @@ public class PlaybackController {
     public void seek(final long pos) {
         mApplication.getLogger().Debug("Seeking to " + pos);
         mApplication.getLogger().Debug("Container: "+mCurrentStreamInfo.getContainer());
-        if (mPlaybackMethod == PlayMethod.Transcode && "mkv".equals(mCurrentStreamInfo.getContainer())) {
+        if (mPlaybackMethod == PlayMethod.Transcode && ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer())) {
             //mkv transcodes require re-start of stream for seek
             mVideoManager.stopPlayback();
             mApplication.getPlaybackManager().changeVideoStream(mCurrentStreamInfo, mApplication.getApiClient().getServerInfo().getId(), mCurrentOptions, pos * 10000, mApplication.getApiClient(), new Response<StreamInfo>() {
@@ -849,11 +849,10 @@ public class PlaybackController {
                 }
             });
         } else {
-            if (mVideoManager.isNativeMode() && !isLiveTv && "ts".equals(mCurrentStreamInfo.getContainer())) {
+            if (mVideoManager.isNativeMode() && !isLiveTv && ContainerTypes.TS.equals(mCurrentStreamInfo.getContainer())) {
                 //Exo does not support seeking in .ts
                 Utils.showToast(TvApp.getApplication(), "Unable to seek");
-            } else
-            if (mVideoManager.seekTo(pos) >= 0) {
+            } else if (mVideoManager.seekTo(pos) >= 0) {
                 if (mFragment != null) {
                     mFragment.updateEndTime(mVideoManager.getDuration() - pos);
                 }
