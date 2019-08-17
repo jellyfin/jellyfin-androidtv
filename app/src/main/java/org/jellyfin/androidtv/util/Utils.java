@@ -128,6 +128,19 @@ public class Utils {
         return value.substring(0, 1).toUpperCase() + (value.length() > 1 ? value.substring(1) : "");
     }
 
+    /**
+     * A null safe version of {@code String.equalsIgnoreCase}.
+     */
+    public static boolean equalsIgnoreCase(String str1, String str2) {
+        if (str1 == null && str2 == null) {
+            return true;
+        }
+        if (str1 == null || str2 == null) {
+            return false;
+        }
+        return str1.equalsIgnoreCase(str2);
+    }
+
     public static <T> T getSafeValue(T value, T defaultValue) {
         if (value == null) return defaultValue;
         return value;
@@ -156,7 +169,7 @@ public class Utils {
         return builder.toString();
     }
 
-    public static String join(String separator, String[] items) {
+    public static String join(String separator, String... items) {
         return join(separator, Arrays.asList(items));
     }
 

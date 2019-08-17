@@ -20,8 +20,6 @@ import org.jellyfin.androidtv.util.Utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -142,33 +140,29 @@ public class AuthenticationHelper {
     }
 
     public static void loginUser(String userName, String pw, ApiClient apiClient, final Activity activity, final String directEntryItemId) {
-        try {
-            apiClient.AuthenticateUserAsync(userName, pw, new Response<AuthenticationResult>() {
-                @Override
-                public void onResponse(AuthenticationResult authenticationResult) {
-                    TvApp application = TvApp.getApplication();
-                    application.getLogger().Debug("Signed in as " + authenticationResult.getUser().getName());
-                    application.setCurrentUser(authenticationResult.getUser());
-                    if (directEntryItemId == null) {
-                        Intent intent = new Intent(activity, MainActivity.class);
-                        activity.startActivity(intent);
-                    } else {
-                        Intent intent = new Intent(activity, FullDetailsActivity.class);
-                        intent.putExtra("ItemId", directEntryItemId);
-                        activity.startActivity(intent);
-                    }
+        apiClient.AuthenticateUserAsync(userName, pw, new Response<AuthenticationResult>() {
+            @Override
+            public void onResponse(AuthenticationResult authenticationResult) {
+                TvApp application = TvApp.getApplication();
+                application.getLogger().Debug("Signed in as " + authenticationResult.getUser().getName());
+                application.setCurrentUser(authenticationResult.getUser());
+                if (directEntryItemId == null) {
+                    Intent intent = new Intent(activity, MainActivity.class);
+                    activity.startActivity(intent);
+                } else {
+                    Intent intent = new Intent(activity, FullDetailsActivity.class);
+                    intent.putExtra("ItemId", directEntryItemId);
+                    activity.startActivity(intent);
                 }
+            }
 
-                @Override
-                public void onError(Exception exception) {
-                    super.onError(exception);
-                    TvApp.getApplication().getLogger().ErrorException("Error logging in", exception);
-                    Utils.showToast(activity, activity.getString(R.string.msg_invalid_id_pw));
-                }
-            });
-        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+            @Override
+            public void onError(Exception exception) {
+                super.onError(exception);
+                TvApp.getApplication().getLogger().ErrorException("Error logging in", exception);
+                Utils.showToast(activity, activity.getString(R.string.msg_invalid_id_pw));
+            }
+        });
     }
 
     public static void saveLoginCredentials(LogonCredentials creds, String fileName) throws IOException {
@@ -207,42 +201,27 @@ public class AuthenticationHelper {
                 signInToServer(connectionManager, response.getServers().get(0), activity);
                 break;
             case SignedIn:
-                ServerInfo serverInfo = response.getServers() != null && response.getServers().size() > 0 && response.getServers().get(0).getUserLinkType() != null ? response.getServers().get(0) : null;
-                if (serverInfo != null) {
-                    // go straight in for connect only
-                    response.getApiClient().GetUserAsync(serverInfo.getUserId(), new Response<UserDto>() {
-                        @Override
-                        public void onResponse(UserDto response) {
-                            TvApp.getApplication().setCurrentUser(response);
-                            Intent homeIntent = new Intent(activity, MainActivity.class);
-                            activity.startActivity(homeIntent);
-                        }
-                    });
-
-                } else {
-                    logger.Debug("Ignoring saved connection manager sign in");
-                    connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>(){
-                        @Override
-                        public void onResponse(ArrayList<ServerInfo> serverResponse) {
-                            if (serverResponse.size() == 1) {
-                                //Signed in before and have just one server so go directly to user screen
-                                signInToServer(connectionManager, serverResponse.get(0), activity);
-                            } else {
-                                //More than one server so show selection
-                                Intent serverIntent = new Intent(activity, SelectServerActivity.class);
-                                GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
-                                List<String> payload = new ArrayList<>();
-                                for (ServerInfo server : serverResponse) {
-                                    payload.add(serializer.SerializeToString(server));
-                                }
-                                serverIntent.putExtra("Servers", payload.toArray(new String[] {}));
-                                serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                activity.startActivity(serverIntent);
+                logger.Debug("Ignoring saved connection manager sign in");
+                connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>(){
+                    @Override
+                    public void onResponse(ArrayList<ServerInfo> serverResponse) {
+                        if (serverResponse.size() == 1) {
+                            //Signed in before and have just one server so go directly to user screen
+                            signInToServer(connectionManager, serverResponse.get(0), activity);
+                        } else {
+                            //More than one server so show selection
+                            Intent serverIntent = new Intent(activity, SelectServerActivity.class);
+                            GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
+                            List<String> payload = new ArrayList<>();
+                            for (ServerInfo server : serverResponse) {
+                                payload.add(serializer.SerializeToString(server));
                             }
+                            serverIntent.putExtra("Servers", payload.toArray(new String[] {}));
+                            serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            activity.startActivity(serverIntent);
                         }
-                    });
-
-                }
+                    }
+                });
                 break;
             case ConnectSignIn:
             case ServerSelection:

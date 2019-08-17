@@ -3,6 +3,9 @@ package org.jellyfin.androidtv.model.compat;
 import android.media.MediaCodecInfo;
 import android.media.MediaCodecList;
 
+import org.jellyfin.androidtv.constants.CodecTypes;
+import org.jellyfin.androidtv.constants.ContainerTypes;
+import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dlna.CodecProfile;
 import org.jellyfin.apiclient.model.dlna.CodecType;
 import org.jellyfin.apiclient.model.dlna.DeviceProfile;
@@ -11,7 +14,6 @@ import org.jellyfin.apiclient.model.dlna.DlnaProfileType;
 import org.jellyfin.apiclient.model.dlna.ProfileCondition;
 import org.jellyfin.apiclient.model.dlna.ProfileConditionType;
 import org.jellyfin.apiclient.model.dlna.ProfileConditionValue;
-import org.jellyfin.apiclient.model.extensions.StringHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -80,9 +82,9 @@ public class Api16Builder {
         String[] videoProfiles = GetVideoProfiles(codecCapabilities);
         int maxLevel = getMaxLevel(codecCapabilities);
 
-        if (StringHelper.EqualsIgnoreCase(profile.getCodec(), "h264")){
+        if (CodecTypes.H264.equalsIgnoreCase(profile.getCodec())){
             if (videoProfiles.length > 0){
-                conditions.add(new ProfileCondition(ProfileConditionType.EqualsAny, ProfileConditionValue.VideoProfile, tangible.DotNetToJavaStringHelper.join("|", videoProfiles)));
+                conditions.add(new ProfileCondition(ProfileConditionType.EqualsAny, ProfileConditionValue.VideoProfile, Utils.join("|", videoProfiles)));
             }
             else{
                 conditions.add(new ProfileCondition(ProfileConditionType.EqualsAny, ProfileConditionValue.VideoProfile, Defaults.DefaultH264Profile));
@@ -201,13 +203,13 @@ public class Api16Builder {
 
         DirectPlayProfile profile = new DirectPlayProfile();
 
-        if (StringHelper.EqualsIgnoreCase(parts[0], "audio")) {
+        if ("audio".equalsIgnoreCase(parts[0])) {
             profile.setType(DlnaProfileType.Audio);
         }
-        else if (StringHelper.EqualsIgnoreCase(parts[0], "video")) {
+        else if ("video".equalsIgnoreCase(parts[0])) {
             profile.setType(DlnaProfileType.Video);
         }
-        else if (StringHelper.EqualsIgnoreCase(parts[0], "image")) {
+        else if ("image".equalsIgnoreCase(parts[0])) {
             profile.setType(DlnaProfileType.Photo);
         }
         else{
@@ -218,77 +220,73 @@ public class Api16Builder {
 
         // Since we can't get supported codecs per container, we'll have to hardcode them
         if (profile.getType()==DlnaProfileType.Video){
-
             profile.setContainer(codecType);
 
-            if (StringHelper.IndexOfIgnoreCase(codecType, "mp4") == 0){
-                profile.setContainer("mp4,m4v");
-                profile.setVideoCodec("h264,mpeg4");
-                profile.setAudioCodec("aac");
+            if (codecType.startsWith(ContainerTypes.MP4)){
+                profile.setContainer(Utils.join(",", ContainerTypes.MP4, ContainerTypes.M4V));
+                profile.setVideoCodec(Utils.join(",", CodecTypes.H264, CodecTypes.MPEG4));
+                profile.setAudioCodec(CodecTypes.AAC);
 
                 if (Defaults.SupportsMkv){
-                    profile.setContainer(profile.getContainer() + ",mkv");
+                    profile.setContainer(Utils.join(",", profile.getContainer(), ContainerTypes.MKV));
                 }
             }
-            else if (StringHelper.EqualsIgnoreCase("avc", codecType)){
-                profile.setContainer("mp4,m4v");
-                profile.setVideoCodec("h264,mpeg4");
-                profile.setAudioCodec("aac");
+            else if (CodecTypes.AVC.equalsIgnoreCase(codecType)){
+                profile.setContainer(Utils.join(",", ContainerTypes.MP4, ContainerTypes.M4V));
+                profile.setVideoCodec(Utils.join(",", CodecTypes.H264, CodecTypes.MPEG4));
+                profile.setAudioCodec(CodecTypes.AAC);
 
                 if (Defaults.SupportsMkv){
-                    profile.setContainer(profile.getContainer() + ",mkv");
+                    profile.setContainer(Utils.join(",", profile.getContainer(), ContainerTypes.MKV));
                 }
             }
-            else if (StringHelper.EqualsIgnoreCase("hevc", codecType)){
-                profile.setContainer("mp4,m4v");
-                profile.setVideoCodec("h265");
-                profile.setAudioCodec("aac");
+            else if (CodecTypes.HEVC.equalsIgnoreCase(codecType)){
+                profile.setContainer(Utils.join(",", ContainerTypes.MP4, ContainerTypes.M4V));
+                profile.setVideoCodec(CodecTypes.H265);
+                profile.setAudioCodec(CodecTypes.AAC);
 
                 if (Defaults.SupportsMkv){
-                    profile.setContainer(profile.getContainer() + ",mkv");
+                    profile.setContainer(Utils.join(",", profile.getContainer(), ContainerTypes.MKV));
                 }
             }
-            else if (StringHelper.IndexOfIgnoreCase(codecType, "vp8") != -1){
-                profile.setContainer("webm");
+            else if (codecType.contains(CodecTypes.VP8)){
+                profile.setContainer(ContainerTypes.WEBM);
             }
-            else if (StringHelper.IndexOfIgnoreCase(codecType, "vp9") != -1){
-                profile.setContainer("webm");
+            else if (codecType.contains(CodecTypes.VP9)){
+                profile.setContainer(ContainerTypes.WEBM);
             }
-            else if (StringHelper.EqualsIgnoreCase("3gpp", codecType)){
-                profile.setContainer("3gp");
+            else if (ContainerTypes._3GPP.equalsIgnoreCase(codecType)){
+                profile.setContainer(ContainerTypes._3GP);
             }
-            else if (StringHelper.EqualsIgnoreCase("mpeg2", codecType)){
-                profile.setContainer("ts,mpegts");
-                profile.setVideoCodec("mpeg2video,mpeg2");
-                profile.setAudioCodec("aac");
+            else if (CodecTypes.MPEG2.equalsIgnoreCase(codecType)){
+                profile.setContainer(Utils.join(",", ContainerTypes.TS, ContainerTypes.MPEGTS));
+                profile.setVideoCodec(Utils.join(",", CodecTypes.MPEG2VIDEO, CodecTypes.MPEG2));
+                profile.setAudioCodec(CodecTypes.AAC);
 
                 // If we need to add mp4, m4v or mkv then they must be kept separate from mpegts and in their own DirectPlayProfile
                 // This is because they have different rules regarding ac3 within the container
             }
             else {
-
                 profile.setContainer(codecType);
             }
         }
         else if (profile.getType()==DlnaProfileType.Audio){
-
-            if (StringHelper.IndexOfIgnoreCase(codecType, "mp4") == 0){
-                profile.setContainer("aac");
+            if (ContainerTypes.MP4.startsWith(codecType)){
+                profile.setContainer(CodecTypes.AAC);
             }
-            else if (StringHelper.EqualsIgnoreCase("mpeg", codecType)){
-                profile.setContainer("mp3");
+            else if (ContainerTypes.MPEG.equalsIgnoreCase(codecType)){
+                profile.setContainer(CodecTypes.MP3);
             }
-            else if (StringHelper.EqualsIgnoreCase("3gpp", codecType)){
-                profile.setContainer("3gp");
+            else if (ContainerTypes._3GPP.equalsIgnoreCase(codecType)){
+                profile.setContainer(ContainerTypes._3GP);
             }
-            else if (StringHelper.EqualsIgnoreCase("vorbis", codecType)){
-                profile.setContainer("webm,webma");
+            else if (CodecTypes.VORBIS.equalsIgnoreCase(codecType)){
+                profile.setContainer(Utils.join(",", ContainerTypes.WEBM, ContainerTypes.WEBMA));
             }
-            else if (StringHelper.EqualsIgnoreCase("opus", codecType)){
-                profile.setContainer("oga,ogg");
+            else if (CodecTypes.OPUS.equalsIgnoreCase(codecType)){
+                profile.setContainer(Utils.join(",", ContainerTypes.OGA, ContainerTypes.OGG));
             }
             else {
-
                 // Will cover flac, gsm, and others
                 profile.setContainer(codecType);
             }
@@ -308,10 +306,10 @@ public class Api16Builder {
         CodecProfile profile = new CodecProfile();
         ArrayList<ProfileCondition> conditions = new ArrayList<ProfileCondition>();
 
-        if (StringHelper.EqualsIgnoreCase(parts[0], "audio")) {
+        if ("audio".equalsIgnoreCase(parts[0])) {
             profile.setType(CodecType.Audio);
         }
-        else if (StringHelper.EqualsIgnoreCase(parts[0], "video")) {
+        else if ("video".equalsIgnoreCase(parts[0])) {
             profile.setType(CodecType.Video);
         }
         else{
@@ -320,42 +318,40 @@ public class Api16Builder {
 
         String codecType = parts[1].toLowerCase();
 
-        if (profile.getType()==CodecType.Video){
-
+        if (profile.getType()==CodecType.Video) {
             conditions.add(new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.Width, "1920"));
             conditions.add(new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.Height, "1080"));
             conditions.add(new ProfileCondition(ProfileConditionType.NotEquals, ProfileConditionValue.IsAnamorphic, "true"));
 
-            if (StringHelper.IndexOfIgnoreCase(codecType, "avc") != -1){
-                profile.setCodec("h264");
+            if (codecType.contains(CodecTypes.AVC)) {
+                profile.setCodec(CodecTypes.H264);
 
                 conditions.add(new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoBitDepth, "8"));
             }
-            else if (StringHelper.IndexOfIgnoreCase(codecType, "hevc") != -1){
-                profile.setCodec("h265");
+            else if (codecType.contains(CodecTypes.HEVC)) {
+                profile.setCodec(CodecTypes.H265);
             }
-            else if (StringHelper.IndexOfIgnoreCase(codecType, "vp8") != -1) {
-                profile.setCodec("vp8");
+            else if (codecType.contains(CodecTypes.VP8)) {
+                profile.setCodec(CodecTypes.VP8);
             }
-            else if (StringHelper.IndexOfIgnoreCase(codecType, "vp9") != -1) {
-                profile.setCodec("vp9");
+            else if (codecType.contains(CodecTypes.VP9)) {
+                profile.setCodec(CodecTypes.VP9);
             }
             else{
                 profile.setCodec(codecType);
             }
         }
         else if (profile.getType()==CodecType.Audio){
-
-            if (StringHelper.IndexOfIgnoreCase(codecType, "mp4") == 0){
-                profile.setCodec("aac");
+            if (codecType.startsWith(ContainerTypes.MP4)) {
+                profile.setCodec(CodecTypes.AAC);
             }
-            else if (StringHelper.EqualsIgnoreCase("mpeg", codecType)){
-                profile.setCodec("mp3");
+            else if (ContainerTypes.MPEG.equalsIgnoreCase(codecType)) {
+                profile.setCodec(CodecTypes.MP3);
 
                 conditions.add(new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.AudioBitrate, "320000"));
             }
-            else if (StringHelper.EqualsIgnoreCase("opus", codecType)){
-                profile.setCodec("vorbis");
+            else if (CodecTypes.OPUS.equalsIgnoreCase(codecType)) {
+                profile.setCodec(CodecTypes.VORBIS);
             }
             else{
                 profile.setCodec(codecType);
@@ -368,18 +364,15 @@ public class Api16Builder {
 
         newlyAddedCodecProfiles.add(profile);
 
-        if (profile.getType()==CodecType.Audio && StringHelper.EqualsIgnoreCase("aac", profile.getCodec())) {
+        if (profile.getType()==CodecType.Audio && CodecTypes.AAC.equalsIgnoreCase(profile.getCodec())) {
             // Create a duplicate under VideoAudioType
             CodecProfile videoAudioProfile = new CodecProfile();
             videoAudioProfile.setType(CodecType.VideoAudio);
-            videoAudioProfile.setCodec("aac");
+            videoAudioProfile.setCodec(CodecTypes.AAC);
 
-            ArrayList<ProfileCondition> videoAudioProfileConditions = new ArrayList<ProfileCondition>();
-
-            for (ProfileCondition pc : profile.getConditions()){
-
-                videoAudioProfileConditions.add(pc);
-            }
+            ArrayList<ProfileCondition> videoAudioProfileConditions = new ArrayList<>(
+                    Arrays.asList(profile.getConditions())
+            );
 
             videoAudioProfile.setConditions(videoAudioProfileConditions.toArray(new ProfileCondition[videoAudioProfileConditions.size()]));
 
@@ -392,19 +385,17 @@ public class Api16Builder {
     private boolean containsDirectPlayProfile(List<DirectPlayProfile> profiles, DirectPlayProfile newProfile){
         for (DirectPlayProfile profile : profiles){
             if (profile.getType() == newProfile.getType()) {
-                if (StringHelper.EqualsIgnoreCase(profile.getContainer(), newProfile.getContainer())) {
-
+                if (Utils.equalsIgnoreCase(profile.getContainer(), newProfile.getContainer())) {
                     if (profile.getType() == DlnaProfileType.Audio){
-                        if (StringHelper.EqualsIgnoreCase(profile.getAudioCodec(), newProfile.getAudioCodec())) {
+                        if (Utils.equalsIgnoreCase(profile.getAudioCodec(), newProfile.getAudioCodec())) {
                             return true;
                         }
                     }
                     else if (profile.getType() == DlnaProfileType.Video){
-                        if (StringHelper.EqualsIgnoreCase(profile.getVideoCodec(), newProfile.getVideoCodec())) {
+                        if (Utils.equalsIgnoreCase(profile.getVideoCodec(), newProfile.getVideoCodec())) {
                             return true;
                         }
                     }
-
                 }
             }
         }
@@ -414,8 +405,7 @@ public class Api16Builder {
     private boolean containsCodecProfile(List<CodecProfile> profiles, CodecProfile newProfile){
         for (CodecProfile profile : profiles){
             if (profile.getType() == newProfile.getType()) {
-                if (StringHelper.EqualsIgnoreCase(profile.getCodec(), newProfile.getCodec())) {
-
+                if (Utils.equalsIgnoreCase(profile.getCodec(), newProfile.getCodec())) {
                     return true;
                 }
             }
