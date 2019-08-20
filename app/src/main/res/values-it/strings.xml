@@ -66,8 +66,6 @@
     <string name="lbl_trailers">Trailer</string>
     <string name="lbl_seasons">Stagioni</string>
     <string name="lbl_upcoming">In Arrivo</string>
-    <string name="lbl_toggle_favorite">Preferito</string>
-    <string name="lbl_toggle_watched">Visto</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">"Dura: "</string>
     <string name="lbl_min">" min "</string>
@@ -130,7 +128,6 @@
     <string name="lbl_open_artist">Apri Artista</string>
     <string name="lbl_open_album">Apri Album</string>
     <string name="lbl_reshuffle_queue">Rimescola la Coda</string>
-    <string name="lbl_toggle_repeat">Ripeti</string>
     <string name="lbl_next_item">Prossimo elemento</string>
     <string name="lbl_prev_item">Elemento Precedente</string>
     <string name="lbl_now_playing">In Riproduzione</string>

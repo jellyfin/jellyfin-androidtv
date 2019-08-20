@@ -66,8 +66,6 @@
     <string name="lbl_trailers">预告</string>
     <string name="lbl_seasons">剧季</string>
     <string name="lbl_upcoming">即将上映</string>
-    <string name="lbl_toggle_favorite">切换收藏</string>
-    <string name="lbl_toggle_watched">切换观看</string>
     <string name="lbl_sd">标清</string>
     <string name="lbl_runs">"运行:"</string>
     <string name="lbl_min">"分钟"</string>

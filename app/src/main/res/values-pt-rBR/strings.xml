@@ -74,8 +74,6 @@
     <string name="lbl_item">Item</string>
     <string name="lbl_seasons">Temporadas</string>
     <string name="lbl_upcoming">Em Breve</string>
-    <string name="lbl_toggle_favorite">Alternar Favorito</string>
-    <string name="lbl_toggle_watched">Alternar Assistido</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">"Duração:"</string>
     <string name="lbl_min">"min"</string>
@@ -218,7 +216,6 @@
     <string name="lbl_open_artist">Abrir Artista</string>
     <string name="lbl_open_album">Abrir Álbum</string>
     <string name="lbl_reshuffle_queue">Reordenar Fila</string>
-    <string name="lbl_toggle_repeat">Repetir Alternar</string>
     <string name="lbl_next_item">Próximo Item</string>
     <string name="lbl_prev_item">Item Anterior</string>
     <string name="lbl_shuffle">Aleatório</string>

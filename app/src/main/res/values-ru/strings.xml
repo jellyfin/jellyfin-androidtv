@@ -76,8 +76,6 @@
     <string name="lbl_item">Элемент</string>
     <string name="lbl_seasons">Сезоны</string>
     <string name="lbl_upcoming">Ожидаемое</string>
-    <string name="lbl_toggle_favorite">Избранное/неизбранное</string>
-    <string name="lbl_toggle_watched">Просмотренное/непросмотренное</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">"Длится: "</string>
     <string name="lbl_min">" мин "</string>
@@ -220,7 +218,6 @@
     <string name="lbl_open_artist">Открыть исполнителя</string>
     <string name="lbl_open_album">Открыть альбом</string>
     <string name="lbl_reshuffle_queue">Снова перемешать очередь</string>
-    <string name="lbl_toggle_repeat">Режим повтора</string>
     <string name="lbl_next_item">Следующий элемент</string>
     <string name="lbl_prev_item">Предыдущий элемент</string>
     <string name="lbl_shuffle">Перемешать</string>

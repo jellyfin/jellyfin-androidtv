@@ -75,8 +75,6 @@
     <string name="lbl_item">Élément</string>
     <string name="lbl_seasons">Saisons</string>
     <string name="lbl_upcoming">A venir</string>
-    <string name="lbl_toggle_favorite">Afficher les favoris</string>
-    <string name="lbl_toggle_watched">Afficher comme vus</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">"Lancer: "</string>
     <string name="lbl_min">" min "</string>
@@ -220,7 +218,6 @@
     <string name="lbl_open_artist">Ouvrir Artiste</string>
     <string name="lbl_open_album">Ouvrir Album</string>
     <string name="lbl_reshuffle_queue">Mélanger la liste de lecture</string>
-    <string name="lbl_toggle_repeat">Activé la répétition</string>
     <string name="lbl_next_item">Élément suivant</string>
     <string name="lbl_prev_item">Élément précédent</string>
     <string name="lbl_shuffle">Mélanger</string>

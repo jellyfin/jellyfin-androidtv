@@ -74,8 +74,6 @@
     <string name="lbl_item">Genstand</string>
     <string name="lbl_seasons">Sæsoner</string>
     <string name="lbl_upcoming">Kommende</string>
-    <string name="lbl_toggle_favorite">Vis favoritt</string>
-    <string name="lbl_toggle_watched">Vis afspillede</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">"Spilletid: "</string>
     <string name="lbl_min">" min "</string>
