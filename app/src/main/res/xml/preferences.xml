@@ -132,9 +132,9 @@
             android:summary="@string/desc_use_vlc_livetv"
             />
         <CheckBoxPreference android:key="pref_live_tv_use_external"
-            android:title="Use External Player for Live TV"
+            android:title="@string/pref_external_live_tv_title"
             android:defaultValue="false"
-            android:summary="Requires a capable app to play live streams"
+            android:summary="@string/pref_external_live_tv_summary"
             />
     </PreferenceCategory>
 
