@@ -78,8 +78,8 @@
     <string name="lbl_series">Series</string>
     <string name="lbl_seasons">Seasons</string>
     <string name="lbl_upcoming">Upcoming</string>
-    <string name="lbl_toggle_favorite">Toggle Favorite</string>
-    <string name="lbl_toggle_watched">Toggle Watched</string>
+    <string name="lbl_favorite">Favorite</string>
+    <string name="lbl_watched">Watched</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">"Runs"</string>
     <string name="lbl_min">" min"</string>
@@ -222,7 +222,6 @@
     <string name="lbl_open_artist">Open Artist</string>
     <string name="lbl_open_album">Open Album</string>
     <string name="lbl_reshuffle_queue">Re-shuffle Queue</string>
-    <string name="lbl_toggle_repeat">Toggle Repeat</string>
     <string name="lbl_next_item">Next Item</string>
     <string name="lbl_prev_item">Previous Item</string>
     <string name="lbl_shuffle">Shuffle</string>

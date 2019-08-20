@@ -74,8 +74,6 @@
     <string name="lbl_item">Item</string>
     <string name="lbl_seasons">Seizoenen</string>
     <string name="lbl_upcoming">Straks</string>
-    <string name="lbl_toggle_favorite">Favoriet schakelen</string>
-    <string name="lbl_toggle_watched">Bekeken schakelen</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">"Duurt: "</string>
     <string name="lbl_min">"min"</string>
@@ -218,7 +216,6 @@
     <string name="lbl_open_artist">Open artiest</string>
     <string name="lbl_open_album">Open Album</string>
     <string name="lbl_reshuffle_queue">Wachtrij opnieuw mixen</string>
-    <string name="lbl_toggle_repeat">Herhaling schakelen</string>
     <string name="lbl_next_item">Volgend Item</string>
     <string name="lbl_prev_item">Vorig Item</string>
     <string name="lbl_shuffle">Willekeurig</string>

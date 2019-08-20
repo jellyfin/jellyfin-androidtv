@@ -74,8 +74,6 @@
     <string name="lbl_item">Položka</string>
     <string name="lbl_seasons">Sezóny</string>
     <string name="lbl_upcoming">Nové</string>
-    <string name="lbl_toggle_favorite">Přepnout oblíbené</string>
-    <string name="lbl_toggle_watched">Přepnout shlédnuté</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">"Spuštěno: "</string>
     <string name="lbl_min">" min "</string>
@@ -214,7 +212,6 @@
     <string name="lbl_add_to_queue">Přidat do fronty</string>
     <string name="lbl_open_artist">Otevřít úmělce</string>
     <string name="lbl_open_album">Otevřít album</string>
-    <string name="lbl_toggle_repeat">Přepnout opakování</string>
     <string name="lbl_next_item">Další</string>
     <string name="lbl_prev_item">Předchozí</string>
     <string name="lbl_shuffle">Náhodně</string>

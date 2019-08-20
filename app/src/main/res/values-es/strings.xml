@@ -66,8 +66,6 @@
     <string name="lbl_trailers">Avances</string>
     <string name="lbl_seasons">Temporadas</string>
     <string name="lbl_upcoming">Por Estrenar</string>
-    <string name="lbl_toggle_favorite">Establecer como Favorito</string>
-    <string name="lbl_toggle_watched">Establecer como Visto</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">"Duración: "</string>
     <string name="lbl_min">" min "</string>
