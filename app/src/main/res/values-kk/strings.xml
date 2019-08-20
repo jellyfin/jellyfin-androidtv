@@ -27,7 +27,6 @@
     <string name="pref_auto_logoff_title">Автоматты түрде жүйеден шығудың қүту уақыты өтті</string>
     <string name="pref_general">ЖАЛПЫ</string>
     <string name="lbl_settings">Параметрлер</string>
-    <string name="lbl_app_settings">Қолданба параметрлері</string>
     <string name="lbl_logout">"Шығу "</string>
     <string name="lbl_send_logs">Жіберу жұрналдары</string>
     <string name="lbl_library">Тасығышхана</string>

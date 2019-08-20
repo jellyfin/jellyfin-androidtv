@@ -29,7 +29,6 @@
     <string name="pref_auto_logoff_title">Tempo para Auto Logoff</string>
     <string name="pref_general">GERAL</string>
     <string name="lbl_settings">Configurações</string>
-    <string name="lbl_app_settings">Configurações da Aplicação</string>
     <string name="lbl_logout">"Sair"</string>
     <string name="lbl_send_logs">Enviar Logs</string>
     <string name="lbl_library">Biblioteca</string>

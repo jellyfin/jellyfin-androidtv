@@ -25,7 +25,6 @@
     <string name="pref_auto_logoff_title">Tempo prima dell\'uscita automatica</string>
     <string name="pref_general">Generale</string>
     <string name="lbl_settings">Impostazioni</string>
-    <string name="lbl_app_settings">Impostazioni App</string>
     <string name="lbl_logout">"Esci "</string>
     <string name="lbl_send_logs">Invia Logs</string>
     <string name="lbl_library">Libreria</string>

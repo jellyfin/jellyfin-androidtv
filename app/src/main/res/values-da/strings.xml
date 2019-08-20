@@ -27,7 +27,6 @@
     <string name="pref_auto_logoff_title">Automatisk log-ud timeout</string>
     <string name="pref_general">GENERELT</string>
     <string name="lbl_settings">Indstillinger</string>
-    <string name="lbl_app_settings">App indstillinger</string>
     <string name="lbl_logout">"Log ud "</string>
     <string name="lbl_send_logs">Send log</string>
     <string name="lbl_library">Bibliotek</string>

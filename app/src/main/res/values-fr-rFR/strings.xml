@@ -28,7 +28,6 @@
     <string name="pref_auto_logoff_title">Délais de déconnexion automatique</string>
     <string name="pref_general">GÉNÉRAL</string>
     <string name="lbl_settings">Paramètres</string>
-    <string name="lbl_app_settings">Paramètres de l\'application</string>
     <string name="lbl_logout">"Déconnexion "</string>
     <string name="lbl_send_logs">Envoyer de logs</string>
     <string name="lbl_library">Bibliothèque</string>

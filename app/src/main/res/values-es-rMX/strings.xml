@@ -27,7 +27,6 @@
     <string name="pref_auto_logoff_title">Tiempo de expiración de Cierre de Sesión Automático</string>
     <string name="pref_general">GENERAL</string>
     <string name="lbl_settings">Configuraciones</string>
-    <string name="lbl_app_settings">Configuraciones del App</string>
     <string name="lbl_logout">"Cerrar Sesión "</string>
     <string name="lbl_send_logs">Enviar Bitácoras</string>
     <string name="lbl_library">Biblioteca</string>
