@@ -27,7 +27,6 @@
     <string name="pref_auto_logoff_title">Esgotado Tempo para Sair Automaticamente</string>
     <string name="pref_general">GERAL</string>
     <string name="lbl_settings">Ajustes</string>
-    <string name="lbl_app_settings">Ajustes da App</string>
     <string name="lbl_logout">"Sair"</string>
     <string name="lbl_send_logs">Enviar Logs</string>
     <string name="lbl_library">Biblioteca</string>
