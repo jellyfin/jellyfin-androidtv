@@ -94,7 +94,7 @@
                     android:id="@+id/albumTitle"
                     android:layout_alignTop="@+id/from"
                     android:layout_toRightOf="@+id/from"
-                    android:layout_marginLeft="15sp"
+                    android:layout_marginLeft="5sp"
                     android:textSize="18sp" />
 
                 <LinearLayout
