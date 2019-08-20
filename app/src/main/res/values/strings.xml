@@ -20,7 +20,7 @@
     <string name="settings_title">Settings</string>
     <string name="pref_startup_cat">LOG IN</string>
     <string name="pref_prompt_pw">Prompt for Password</string>
-    <string name="pref_alt_pw_entry">Use Custom D-Pad Password Entry Technique</string>
+    <string name="pref_alt_pw_entry">Custom D-Pad Password Entry</string>
     <string name="pref_alt_pw_entry_desc">Numeric password entry using only the D-Pad keys</string>
     <string name="title_activity_dpad_pw">Enter Password</string>
     <string name="enter_password">Enter Password</string>
@@ -172,7 +172,7 @@
     <string name="lbl_show_info_panel">Show Information Panel</string>
     <string name="lbl_enable_debug">Debug Options</string>
     <string name="desc_info_panel">Show a panel with details on the current item for screens without detail information</string>
-    <string name="desc_debug">Turn on to provide extra information for debugging</string>
+    <string name="desc_debug">Provide extra information for debugging</string>
     <string name="lbl_showing">Showing</string>
     <string name="lbl_all_items">All Items</string>
     <string name="lbl_sorted_by">sorted by</string>
@@ -221,14 +221,14 @@
     <string name="lbl_add_to_queue">Add to Queue</string>
     <string name="lbl_open_artist">Open Artist</string>
     <string name="lbl_open_album">Open Album</string>
-    <string name="lbl_reshuffle_queue">Re-shuffle Queue</string>
+    <string name="lbl_reshuffle_queue">Re-Shuffle Queue</string>
     <string name="lbl_next_item">Next Item</string>
     <string name="lbl_prev_item">Previous Item</string>
     <string name="lbl_shuffle">Shuffle</string>
     <string name="msg_reshuffle_audio_queue">Re-shuffle current audio queue?</string>
     <string name="lbl_up_next_colon">"Up Next: "</string>
     <string name="lbl_now_playing">Now Playing</string>
-    <string name="lbl_play_from_here">Play From Here</string>
+    <string name="lbl_play_from_here">Play from Here</string>
     <string name="lbl_remove_from_queue">Remove from Queue</string>
     <string name="lbl_goto_now_playing">Go to Now Playing</string>
     <string name="lbl_instant_mix">Instant Mix</string>
@@ -261,7 +261,7 @@
     <string name="lbl_open">Open</string>
     <string name="lbl_show_backdrop">Show Backdrop While Browsing</string>
     <string name="lbl_use_vlc_livetv">Attempt to Use VLC for Live TV</string>
-    <string name="desc_use_vlc_livetv">Use VLC for direct streamed live TV if available</string>
+    <string name="desc_use_vlc_livetv">Use VLC for direct streaming live TV when available</string>
     <string name="lbl_refresh_switching">Refresh Rate Switching</string>
     <string name="lbl_show_premieres">Show Season Premieres on Home Screen</string>
     <string name="desc_premieres">Show a row of new episode pilots for any series you watch</string>
