@@ -87,10 +87,10 @@
     <string name="lbl_ends">"Ends"</string>
     <string name="lbl_directed_by">"Directed By"</string>
     <string name="lbl_last_played">"Last Played "</string>
-    <string name="lbl_select_server">Select a server</string>
-    <string name="lbl_other_options">Other options</string>
+    <string name="lbl_select_server">Select Server</string>
+    <string name="lbl_other_options">Other Options</string>
     <string name="lbl_enter_manually">Enter Manually</string>
-    <string name="lbl_select_user">Select a user</string>
+    <string name="lbl_select_user">Select User</string>
     <string name="lbl_paren_login_as">" (login as "</string>
     <string name="lbl_to_change_paren">" to change)"</string>
     <string name="lbl_login_as">"Login as "</string>
