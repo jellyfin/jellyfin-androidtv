@@ -64,7 +64,6 @@ public class NowPlayingBug extends FrameLayout {
                         Intent np = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
                         TvApp.getApplication().getCurrentActivity().startActivity(np);
                     }
-
                 }
             });
         }
@@ -89,7 +88,7 @@ public class NowPlayingBug extends FrameLayout {
 
         @Override
         public void onProgress(long pos) {
-            if (isShown()) npStatus.setText(TimeUtils.formatMillis(pos) + "/" + currentDuration);
+            if (isShown()) setStatus(pos);
         }
 
         @Override
@@ -97,7 +96,7 @@ public class NowPlayingBug extends FrameLayout {
             if (hasQueue) {
                 // may have just added one so update display
                 setInfo(MediaManager.getCurrentAudioItem());
-                npStatus.setText(TimeUtils.formatMillis(MediaManager.getCurrentAudioPosition()) + "/" + currentDuration);
+                setStatus(MediaManager.getCurrentAudioPosition());
                 setVisibility(VISIBLE);
             } else {
                 setVisibility(GONE);
@@ -113,7 +112,7 @@ public class NowPlayingBug extends FrameLayout {
             MediaManager.addAudioEventListener(listener);
             if (manageVisibility()) {
                 setInfo(MediaManager.getCurrentAudioItem());
-                npStatus.setText(TimeUtils.formatMillis(MediaManager.getCurrentAudioPosition()) + "/" + currentDuration);
+                setStatus(MediaManager.getCurrentAudioPosition());
             }
         }
     }
@@ -124,7 +123,6 @@ public class NowPlayingBug extends FrameLayout {
         if (!isInEditMode()) {
             // unhook our events
             MediaManager.removeAudioEventListener(listener);
-
         }
     }
 
@@ -134,7 +132,10 @@ public class NowPlayingBug extends FrameLayout {
         Picasso.with(context).load(ImageUtils.getPrimaryImageUrl(item, TvApp.getApplication().getApiClient())).error(R.drawable.audioicon).resize(35,35).centerInside().into(npIcon);
         currentDuration = TimeUtils.formatMillis(item.getRunTimeTicks() != null ? item.getRunTimeTicks() / 10000 : 0);
         npDesc.setText(item.getAlbumArtist() != null ? item.getAlbumArtist() : item.getName());
+    }
 
+    private void setStatus(long pos) {
+        npStatus.setText(String.format(getResources().getString(R.string.lbl_status), TimeUtils.formatMillis(pos), currentDuration));
     }
 
     public boolean manageVisibility() {

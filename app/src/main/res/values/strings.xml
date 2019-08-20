@@ -41,6 +41,7 @@
     <string name="lbl_views">Views</string>
     <string name="lbl_by_letter">By Letter</string>
     <string name="lbl_suggested">Suggested</string>
+    <string name="lbl_status">%s / %s</string>
     <string name="lbl_genres">Genres</string>
     <string name="lbl_performers">Performers</string>
     <string name="lbl_search">Search</string>
