@@ -27,7 +27,6 @@
     <string name="pref_auto_logoff_title">Timeout de déconnexion automatique</string>
     <string name="pref_general">Général</string>
     <string name="lbl_settings">Paramètres</string>
-    <string name="lbl_app_settings">Paramètre de l\'application</string>
     <string name="lbl_logout">"Déconnexion "</string>
     <string name="lbl_send_logs">Envoyer les journaux d\'événements</string>
     <string name="lbl_library">Bibliothèque</string>
@@ -75,8 +74,6 @@
     <string name="lbl_item">Elément</string>
     <string name="lbl_seasons">Saisons</string>
     <string name="lbl_upcoming">A venir</string>
-    <string name="lbl_toggle_favorite">Afficher les favoris</string>
-    <string name="lbl_toggle_watched">Afficher comme lu</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">"Durée:"</string>
     <string name="lbl_min">" min "</string>
@@ -219,7 +216,6 @@
     <string name="lbl_open_artist">Ouvrir la fiche de l\'artiste</string>
     <string name="lbl_open_album">Ouvrir l\'album</string>
     <string name="lbl_reshuffle_queue">Lire aléatoirement la liste de lecture</string>
-    <string name="lbl_toggle_repeat">Basculer la répétition</string>
     <string name="lbl_next_item">Prochain élément</string>
     <string name="lbl_prev_item">Élément précédent</string>
     <string name="lbl_shuffle">Aléatoire</string>

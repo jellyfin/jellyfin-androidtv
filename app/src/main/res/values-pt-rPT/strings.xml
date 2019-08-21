@@ -29,7 +29,6 @@
     <string name="pref_auto_logoff_title">Tempo para Auto Logoff</string>
     <string name="pref_general">GERAL</string>
     <string name="lbl_settings">Configurações</string>
-    <string name="lbl_app_settings">Configurações da Aplicação</string>
     <string name="lbl_logout">"Sair"</string>
     <string name="lbl_send_logs">Enviar Logs</string>
     <string name="lbl_library">Biblioteca</string>
@@ -77,8 +76,6 @@
     <string name="lbl_item">Item</string>
     <string name="lbl_seasons">Temporadas</string>
     <string name="lbl_upcoming">Próximos</string>
-    <string name="lbl_toggle_favorite">Alternar Favoritos</string>
-    <string name="lbl_toggle_watched">Alternar Vistos</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">"Duração: "</string>
     <string name="lbl_min">" min "</string>
@@ -222,7 +219,6 @@
     <string name="lbl_open_artist">Artista Livre</string>
     <string name="lbl_open_album">Álbum Livre</string>
     <string name="lbl_reshuffle_queue">Misturar fila novamente</string>
-    <string name="lbl_toggle_repeat">Repetir Alternar</string>
     <string name="lbl_next_item">Item Seguinte</string>
     <string name="lbl_prev_item">Item Anterior</string>
     <string name="lbl_shuffle">Misturar</string>

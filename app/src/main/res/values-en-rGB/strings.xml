@@ -3,7 +3,6 @@
     <string name="pref_login_behavior_title">Start Up Behaviour</string>
     <string name="lbl_favorites">Favourites</string>
     <string name="lbl_favorite_channels">Favourite Channels</string>
-    <string name="lbl_toggle_favorite">Toggle Favourite</string>
     <string name="lbl_remove_favorite">Remove Favourite</string>
     <string name="lbl_add_favorite">Add Favourite</string>
     <string name="lbl_sideline_color">Sideline Colour</string>

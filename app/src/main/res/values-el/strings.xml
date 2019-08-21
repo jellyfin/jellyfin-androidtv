@@ -31,7 +31,6 @@
     <string name="lbl_open_artist">Ανοίξτε Καλλιτέχνης</string>
     <string name="lbl_open_album">Ανοίξτε Άλμπουμ</string>
     <string name="lbl_reshuffle_queue">Re ανακάτεμα Ουρά</string>
-    <string name="lbl_toggle_repeat">Εναλλαγή Επανάληψη</string>
     <string name="lbl_next_item">επόμενο αντικείμενο</string>
     <string name="lbl_prev_item">προηγούμενο αντικείμενο</string>
     <string name="lbl_shuffle">Ανάμιξη</string>
