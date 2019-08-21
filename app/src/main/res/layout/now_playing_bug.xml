@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:padding="5dp">
 
     <ImageView
@@ -11,7 +12,7 @@
         />
 
     <TextView
-        android:layout_width="60sp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/npStatus"
         android:layout_alignParentBottom="false"
@@ -30,7 +31,6 @@
         android:layout_marginLeft="5sp"
         android:maxLines="1"
         android:ellipsize="end"
-        android:layout_alignLeft="@+id/npIcon"
         android:layout_below="@+id/npIcon"
         android:gravity="center"
         android:layout_alignRight="@+id/npStatus" />

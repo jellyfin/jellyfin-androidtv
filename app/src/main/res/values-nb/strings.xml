@@ -27,7 +27,6 @@
     <string name="pref_auto_logoff_title">Logg med ut automatisk tidsavbrudd</string>
     <string name="pref_general">GENERELT</string>
     <string name="lbl_settings">Innstillinger</string>
-    <string name="lbl_app_settings">App-innstillinger</string>
     <string name="lbl_logout">"Logg ut "</string>
     <string name="lbl_send_logs">Send logger</string>
     <string name="lbl_library">Bibliotek</string>
@@ -75,8 +74,6 @@
     <string name="lbl_item">Element</string>
     <string name="lbl_seasons">Sesonger</string>
     <string name="lbl_upcoming">Kommer</string>
-    <string name="lbl_toggle_favorite">Vis favoritter</string>
-    <string name="lbl_toggle_watched">Vis sette</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">"Kjører: "</string>
     <string name="lbl_min">" min "</string>
@@ -220,7 +217,6 @@
     <string name="lbl_open_artist">Åpne artist</string>
     <string name="lbl_open_album">Åpne album</string>
     <string name="lbl_reshuffle_queue">Tilfeldigrekkefølge på køen</string>
-    <string name="lbl_toggle_repeat">Slå på gjentakelse</string>
     <string name="lbl_next_item">Neste element</string>
     <string name="lbl_prev_item">Forrige element</string>
     <string name="lbl_shuffle">tilfeldig rekkefølge</string>

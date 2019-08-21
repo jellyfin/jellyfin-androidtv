@@ -84,8 +84,7 @@
                     android:minLines="1"
                     android:ellipsize="marquee"
                     android:layout_below="@+id/songTitle"
-                    android:layout_alignLeft="@+id/songTitle"
-                    android:textColor="@color/accent_material_light" />
+                    android:layout_alignLeft="@+id/songTitle" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -94,7 +93,7 @@
                     android:id="@+id/albumTitle"
                     android:layout_alignTop="@+id/from"
                     android:layout_toRightOf="@+id/from"
-                    android:layout_marginLeft="15sp"
+                    android:layout_marginLeft="5sp"
                     android:textSize="18sp" />
 
                 <LinearLayout
@@ -221,7 +220,6 @@
                     android:text="@string/lbl_of"
                     android:id="@+id/of"
                     android:textSize="18sp"
-                    android:textColor="@color/accent_material_light"
                     android:layout_toRightOf="@+id/currentNdx"
                     android:layout_alignTop="@+id/currentNdx"
                     android:layout_marginLeft="5sp" />

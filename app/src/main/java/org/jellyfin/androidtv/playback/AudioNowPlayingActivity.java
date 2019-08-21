@@ -170,7 +170,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mNextButton.setGotFocusListener(mainAreaFocusListener);
         mRepeatButton = (ImageButton) findViewById(R.id.repeatBtn);
         mRepeatButton.setHelpView(helpView);
-        mRepeatButton.setHelpText(getString(R.string.lbl_toggle_repeat));
+        mRepeatButton.setHelpText(getString(R.string.lbl_repeat));
         mRepeatButton.setPrimaryImage(R.drawable.loop);
         mRepeatButton.setSecondaryImage(R.drawable.loopred);
         mRepeatButton.setOnClickListener(new View.OnClickListener() {

@@ -27,7 +27,6 @@
     <string name="pref_auto_logoff_title">Автоматты түрде жүйеден шығудың қүту уақыты өтті</string>
     <string name="pref_general">ЖАЛПЫ</string>
     <string name="lbl_settings">Параметрлер</string>
-    <string name="lbl_app_settings">Қолданба параметрлері</string>
     <string name="lbl_logout">"Шығу "</string>
     <string name="lbl_send_logs">Жіберу жұрналдары</string>
     <string name="lbl_library">Тасығышхана</string>
@@ -75,8 +74,6 @@
     <string name="lbl_item">Тармақ</string>
     <string name="lbl_seasons">Маусымдар</string>
     <string name="lbl_upcoming">Күтілген</string>
-    <string name="lbl_toggle_favorite">Тандаулылықты қосу/ажырату</string>
-    <string name="lbl_toggle_watched">Қаралғандықты қосу/ажырату</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">"Ұзақтығы: "</string>
     <string name="lbl_min">" мин "</string>
@@ -219,7 +216,6 @@
     <string name="lbl_open_artist">Орындаушыны ашу</string>
     <string name="lbl_open_album">Альбомды ашу</string>
     <string name="lbl_reshuffle_queue">Кезекті қайта араластыру</string>
-    <string name="lbl_toggle_repeat">Қайталауды қосу/ажырату</string>
     <string name="lbl_next_item">Келесі тармақ</string>
     <string name="lbl_prev_item">Алдыңғы тармақ</string>
     <string name="lbl_shuffle">Араластыру</string>

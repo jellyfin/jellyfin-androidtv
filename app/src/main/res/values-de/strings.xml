@@ -27,7 +27,6 @@
     <string name="pref_auto_logoff_title">Automatisch Ausloggen</string>
     <string name="pref_general">ALLGEMEIN</string>
     <string name="lbl_settings">Einstellungen</string>
-    <string name="lbl_app_settings">App Einstellungen</string>
     <string name="lbl_logout">"Ausloggen "</string>
     <string name="lbl_send_logs">Sende Berichte</string>
     <string name="lbl_library">Bibliothek</string>
@@ -75,8 +74,6 @@
     <string name="lbl_item">Eintrag</string>
     <string name="lbl_seasons">Staffeln</string>
     <string name="lbl_upcoming">Als nächstes</string>
-    <string name="lbl_toggle_favorite">wechsel zu Favoriten</string>
-    <string name="lbl_toggle_watched">wechsel zu abgespielte</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">"Laufzeit: "</string>
     <string name="lbl_min">" min "</string>
@@ -219,7 +216,6 @@
     <string name="lbl_open_artist">Zeige Künstler</string>
     <string name="lbl_open_album">Zeige Album</string>
     <string name="lbl_reshuffle_queue">Mixe die Warteschlange</string>
-    <string name="lbl_toggle_repeat">Repeat</string>
     <string name="lbl_next_item">Nächstes Element</string>
     <string name="lbl_prev_item">Vorheriges Element</string>
     <string name="lbl_shuffle">Zufällig</string>

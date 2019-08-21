@@ -612,7 +612,7 @@ public class ItemListActivity extends BaseActivity {
         if (!mItemId.equals(FAV_SONGS)) {
             if (!mItemId.equals(VIDEO_QUEUE)) {
                 //Favorite
-                TextUnderButton fav = new TextUnderButton(this, mBaseItem.getUserData().getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize,2, getString(R.string.lbl_toggle_favorite), new View.OnClickListener() {
+                TextUnderButton fav = new TextUnderButton(this, mBaseItem.getUserData().getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize,2, getString(R.string.lbl_favorite), new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
                         UserItemDataDto data = mBaseItem.getUserData();

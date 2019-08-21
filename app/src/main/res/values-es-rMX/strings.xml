@@ -27,7 +27,6 @@
     <string name="pref_auto_logoff_title">Tiempo de expiración de Cierre de Sesión Automático</string>
     <string name="pref_general">GENERAL</string>
     <string name="lbl_settings">Configuraciones</string>
-    <string name="lbl_app_settings">Configuraciones del App</string>
     <string name="lbl_logout">"Cerrar Sesión "</string>
     <string name="lbl_send_logs">Enviar Bitácoras</string>
     <string name="lbl_library">Biblioteca</string>
@@ -75,8 +74,6 @@
     <string name="lbl_item">Ítem</string>
     <string name="lbl_seasons">Temporadas</string>
     <string name="lbl_upcoming">Por Estrenar</string>
-    <string name="lbl_toggle_favorite">Establecer como Favorito</string>
-    <string name="lbl_toggle_watched">Establecer como Visto</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">"Duración: "</string>
     <string name="lbl_min">" min "</string>
@@ -219,7 +216,6 @@
     <string name="lbl_open_artist">Abrir Artista</string>
     <string name="lbl_open_album">Abrir Álbum</string>
     <string name="lbl_reshuffle_queue">Re-mezclar Cola</string>
-    <string name="lbl_toggle_repeat">Cambiar Repetir</string>
     <string name="lbl_next_item">Ítem SIguiente</string>
     <string name="lbl_prev_item">Ítem Previo</string>
     <string name="lbl_shuffle">Mezclar</string>

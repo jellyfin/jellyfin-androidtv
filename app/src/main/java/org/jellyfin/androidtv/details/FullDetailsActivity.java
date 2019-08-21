@@ -1042,12 +1042,12 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         UserItemDataDto userData = mBaseItem.getUserData();
         if (userData != null && mProgramInfo == null) {
             if (!"MusicArtist".equals(mBaseItem.getType()) && !"Person".equals(mBaseItem.getType())) {
-                mWatchedToggleButton = new TextUnderButton(this, userData.getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck, buttonSize, getString(R.string.lbl_toggle_watched), markWatchedListener);
+                mWatchedToggleButton = new TextUnderButton(this, userData.getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck, buttonSize, getString(R.string.lbl_watched), markWatchedListener);
                 mDetailsOverviewRow.addAction(mWatchedToggleButton);
             }
 
             //Favorite
-            favButton = new TextUnderButton(this, userData.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, 2, getString(R.string.lbl_toggle_favorite), new View.OnClickListener() {
+            favButton = new TextUnderButton(this, userData.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, 2, getString(R.string.lbl_favorite), new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
                     toggleFavorite();
