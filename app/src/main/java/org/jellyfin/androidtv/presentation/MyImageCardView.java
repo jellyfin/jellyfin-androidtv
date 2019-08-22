@@ -388,6 +388,4 @@ public class MyImageCardView extends BaseCardView {
         mImageView.setAlpha(1f);
         super.onDetachedFromWindow();
     }
-
 }
-

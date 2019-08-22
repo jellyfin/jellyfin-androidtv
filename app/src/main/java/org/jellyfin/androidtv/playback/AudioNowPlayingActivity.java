@@ -343,8 +343,6 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                     MediaManager.prevAudioItem();
                     return true;
                 }
-                break;
-
         }
 
         if (ssActive) {
@@ -469,7 +467,6 @@ public class AudioNowPlayingActivity extends BaseActivity  {
             addGenres(mGenreRow);
             updateBackground(ImageUtils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
         }
-
     }
 
     public void setCurrentTime(long time) {
@@ -601,5 +598,4 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                     .into(mBackgroundTarget);
         }
     }
-
 }

@@ -175,5 +175,4 @@ public class ItemRowView extends FrameLayout {
     public static class RowClickedListener {
         public void onRowClicked(ItemRowView row) {};
     }
-
 }
