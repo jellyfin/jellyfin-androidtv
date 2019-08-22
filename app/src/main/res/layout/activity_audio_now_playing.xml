@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/backdrop_overlay"/>
-
 
     <TextView
         android:layout_width="wrap_content"
@@ -312,6 +312,7 @@
                 android:layout_marginBottom="25sp" />
 
         </RelativeLayout>
+
     </ScrollView>
 
     <org.jellyfin.androidtv.ui.ClockUserView
@@ -332,6 +333,7 @@
         android:id="@+id/ssInfoArea"
         android:alpha="0"
         android:background="@drawable/top_fade"
+        android:paddingStart="50dp"
         android:paddingEnd="50dp"
         android:paddingTop="20dp">
 
@@ -343,12 +345,12 @@
             android:textSize="44sp"
             android:layout_alignParentEnd="true"
             android:textAlignment="viewEnd"
-            android:alpha=".3" />
+            android:alpha="0.3" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Album / Song"
+            tools:text="Album / Song"
             android:id="@+id/ssAlbumSong"
             android:textSize="26sp"
             android:layout_below="@+id/ssTime"
@@ -356,7 +358,7 @@
             android:ellipsize="end"
             android:layout_alignParentEnd="true"
             android:textAlignment="viewEnd"
-            android:alpha=".3" />
+            android:alpha="0.3" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -367,7 +369,7 @@
             android:layout_toLeftOf="@+id/ssUpNext"
             android:layout_below="@+id/ssAlbumSong"
             android:textAlignment="viewEnd"
-            android:alpha=".3" />
+            android:alpha="0.3" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -382,6 +384,7 @@
             android:layout_alignParentEnd="true"
             android:textAlignment="viewEnd"
             android:maxLines="1" />
+
     </RelativeLayout>
 
     <ImageView
@@ -390,7 +393,7 @@
         android:id="@+id/artistLogo"
         android:layout_alignTop="@+id/artistTitle"
         android:layout_alignStart="@+id/artistTitle"
-        android:alpha=".3"
+        android:alpha="0.3"
         android:adjustViewBounds="false"
         android:layout_marginTop="10dp" />
 
