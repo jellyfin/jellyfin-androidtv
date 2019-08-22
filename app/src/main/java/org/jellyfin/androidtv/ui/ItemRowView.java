@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.ui;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.text.TextUtils;
@@ -151,9 +150,9 @@ public class ItemRowView extends FrameLayout {
 
     public boolean setPlaying(boolean playing) {
         if (playing) {
-            mIndexNo.setBackgroundResource(R.drawable.eq_animation);
+            // TODO use decent animation for equalizer icon
+            mIndexNo.setBackgroundResource(R.drawable.play);
             mIndexNo.setText("");
-            ((AnimationDrawable)mIndexNo.getBackground()).start();
         } else {
             mIndexNo.setBackgroundResource(R.drawable.blank10x10);
             mIndexNo.setText(Integer.toString(ourIndex));

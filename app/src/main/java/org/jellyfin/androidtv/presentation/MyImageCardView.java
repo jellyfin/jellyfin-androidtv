@@ -7,7 +7,6 @@ package org.jellyfin.androidtv.presentation;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import androidx.leanback.widget.BaseCardView;
 import android.text.TextUtils;
@@ -126,9 +125,9 @@ public class MyImageCardView extends BaseCardView {
 
     public void setPlayingIndicator(boolean playing) {
         if (playing) {
-            mBadgeImage.setBackgroundResource(R.drawable.eq_animation);
+            // TODO use decent animation for equalizer icon
+            mBadgeImage.setBackgroundResource(R.drawable.play);
             mBadgeImage.setVisibility(VISIBLE);
-            ((AnimationDrawable)mBadgeImage.getBackground()).start();
         } else {
             mBadgeImage.setBackgroundResource(R.drawable.blank10x10);
         }
