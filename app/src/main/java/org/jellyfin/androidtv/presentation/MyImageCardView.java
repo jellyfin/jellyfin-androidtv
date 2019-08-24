@@ -126,7 +126,7 @@ public class MyImageCardView extends BaseCardView {
     public void setPlayingIndicator(boolean playing) {
         if (playing) {
             // TODO use decent animation for equalizer icon
-            mBadgeImage.setBackgroundResource(R.drawable.play);
+            mBadgeImage.setBackgroundResource(R.drawable.ic_play);
             mBadgeImage.setVisibility(VISIBLE);
         } else {
             mBadgeImage.setBackgroundResource(R.drawable.blank10x10);
@@ -240,15 +240,15 @@ public class MyImageCardView extends BaseCardView {
             switch (item.getType()) {
                 case "Photo":
                     mOverlayName.setText(item.getBaseItem().getPremiereDate() != null ? android.text.format.DateFormat.getDateFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(item.getBaseItem().getPremiereDate())) : item.getFullName());
-                    mOverlayIcon.setImageResource(R.drawable.camera);
+                    mOverlayIcon.setImageResource(R.drawable.ic_camera);
                     break;
                 case "PhotoAlbum":
                     mOverlayName.setText(item.getFullName());
-                    mOverlayIcon.setImageResource(R.drawable.photoalbum);
+                    mOverlayIcon.setImageResource(R.drawable.ic_photos);
                     break;
                 case "Video":
                     mOverlayName.setText(item.getFullName());
-                    mOverlayIcon.setImageResource(R.drawable.film);
+                    mOverlayIcon.setImageResource(R.drawable.ic_film);
                     break;
                 case "Playlist":
                 case "MusicArtist":
@@ -258,7 +258,7 @@ public class MyImageCardView extends BaseCardView {
                     break;
                 default:
                     mOverlayName.setText(item.getFullName());
-                    mOverlayIcon.setImageResource(item.isFolder() ? R.drawable.foldersmall : R.drawable.blank30x30);
+                    mOverlayIcon.setImageResource(item.isFolder() ? R.drawable.ic_folder : R.drawable.blank30x30);
                     break;
             }
             mOverlayCount.setText(item.getChildCountStr());

@@ -155,7 +155,7 @@ public class ImageUtils {
 
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, boolean showProgress, boolean preferParentThumb, boolean preferSeriesPoster, int maxHeight) {
         if (item.getType().equals("SeriesTimer")) {
-            return "android.resource://org.jellyfin.androidtv/" + R.drawable.seriestimer;
+            return "android.resource://org.jellyfin.androidtv/" + R.drawable.tile_land_series_timer;
         }
 
         ImageOptions options = new ImageOptions();

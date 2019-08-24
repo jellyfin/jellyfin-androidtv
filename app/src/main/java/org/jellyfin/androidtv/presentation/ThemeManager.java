@@ -52,7 +52,7 @@ public class ThemeManager {
                     if (TvApp.getApplication().getCurrentActivity() == null || TvApp.getApplication().getCurrentActivity() != currentActivity) return;
                     MediaPlayer mp = MediaPlayer.create(TvApp.getApplication(), R.raw.howl);
                     mp.start();
-                    currentActivity.showMessage("Happy Halloween!", "Try some of our spooky suggestions", 10000, R.drawable.ghost, R.drawable.orange_gradient);
+                    currentActivity.showMessage("Happy Halloween!", "Try some of our spooky suggestions", 10000, R.drawable.ic_ghost, R.drawable.orange_gradient);
                 }
             }, 2000);
         } else
@@ -64,7 +64,7 @@ public class ThemeManager {
                     if (TvApp.getApplication().getCurrentActivity() == null || TvApp.getApplication().getCurrentActivity() != currentActivity) return;
                     MediaPlayer mp = MediaPlayer.create(TvApp.getApplication(), R.raw.sleighbells);
                     mp.start();
-                    currentActivity.showMessage("Happy Holidays!", "Try some of our holiday suggestions", 10000, R.drawable.snowflake, R.drawable.holiday_gradient);
+                    currentActivity.showMessage("Happy Holidays!", "Try some of our holiday suggestions", 10000, R.drawable.ic_snowflake, R.drawable.holiday_gradient);
                 }
             }, 2000);
         }

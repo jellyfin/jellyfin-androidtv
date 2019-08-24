@@ -35,7 +35,7 @@
             android:id="@+id/favIcon"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@drawable/redheart"
+            android:src="@drawable/ic_heart_red"
             android:alpha=".8"
             android:layout_alignBottom="@+id/main_image"
             android:layout_alignEnd="@+id/main_image"
@@ -79,7 +79,7 @@
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:id="@+id/checkMark"
-                android:src="@drawable/whitecheck"
+                android:src="@drawable/ic_watch"
                 android:layout_alignEnd="@+id/watched"
                 android:layout_alignTop="@+id/watched"
                 android:layout_marginTop="-7dp"
@@ -101,7 +101,7 @@
                 android:id="@+id/icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/foldersmall"
+                android:src="@drawable/ic_folder"
                 android:layout_alignParentStart="true"
                 android:layout_marginLeft="5dp" />
             <TextView

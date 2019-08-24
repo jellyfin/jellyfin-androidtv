@@ -151,7 +151,7 @@ public class ItemRowView extends FrameLayout {
     public boolean setPlaying(boolean playing) {
         if (playing) {
             // TODO use decent animation for equalizer icon
-            mIndexNo.setBackgroundResource(R.drawable.play);
+            mIndexNo.setBackgroundResource(R.drawable.ic_play);
             mIndexNo.setText("");
         } else {
             mIndexNo.setBackgroundResource(R.drawable.blank10x10);
