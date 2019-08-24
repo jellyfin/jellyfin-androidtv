@@ -262,7 +262,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     }
 
     protected void setupUIElements() {
-        if (ShowBadge) setBadgeDrawable(getActivity().getResources().getDrawable(R.drawable.logob400));
+        if (ShowBadge) setBadgeDrawable(getActivity().getResources().getDrawable(R.drawable.app_logo_transparent));
         setTitle(MainTitle); // Badge, when set, takes precedent over title
         setHeadersState(HEADERS_ENABLED);
         setHeadersTransitionOnBackEnabled(true);

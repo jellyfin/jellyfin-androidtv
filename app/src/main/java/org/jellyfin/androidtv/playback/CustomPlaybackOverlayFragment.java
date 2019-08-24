@@ -301,7 +301,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         mPlayPauseBtn = mActivity.findViewById(R.id.playPauseBtn);
         mPlayPauseBtn.setSecondaryImage(R.drawable.lb_ic_pause);
-        mPlayPauseBtn.setPrimaryImage(R.drawable.play);
+        mPlayPauseBtn.setPrimaryImage(R.drawable.ic_play);
         mPlayPauseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1297,7 +1297,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         if (!DeviceUtils.isFireTv() && mPlaybackController.canSeek()) {
             // on-screen jump buttons for Nexus
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.repeat, mButtonSize, new View.OnClickListener() {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_repeat, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mPlaybackController.skip(-11000);
@@ -1305,7 +1305,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 }
             }));
 
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.fastforward, mButtonSize, new View.OnClickListener() {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_fastforward, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mPlaybackController.skip(30000);
@@ -1317,7 +1317,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         if (mPlaybackController.isLiveTv()) {
             // prev channel button
             if (TvManager.getPrevLiveTvChannel() != null) {
-                mButtonRow.addView(new ImageButton(mActivity, R.drawable.prev, mButtonSize, new View.OnClickListener() {
+                mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_previous_episode, mButtonSize, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         switchChannel(TvManager.getPrevLiveTvChannel());
@@ -1337,7 +1337,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 }
             });
 
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.channelbar, mButtonSize, new View.OnClickListener() {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_channel_bar, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     showQuickChannelChanger();
@@ -1345,7 +1345,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }));
 
             // guide button
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.guidebutton, mButtonSize, new View.OnClickListener() {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_guide, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     showGuide();
@@ -1354,7 +1354,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
             // record button
             if (item.getCurrentProgram() != null && mApplication.canManageRecordings()) {
-                mButtonRow.addView(new ImageButton(mActivity, item.getCurrentProgram().getTimerId() != null ? R.drawable.rec : R.drawable.recwhite, mButtonSize, new View.OnClickListener() {
+                mButtonRow.addView(new ImageButton(mActivity, item.getCurrentProgram().getTimerId() != null ? R.drawable.ic_record_red : R.drawable.ic_record, mButtonSize, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         toggleRecording(mPlaybackController.getCurrentlyPlayingItem());
@@ -1369,7 +1369,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         }
 
         if (!TextUtils.isEmpty(item.getOverview())) {
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.infoicon, mButtonSize, new View.OnClickListener() {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_info, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     showInfo();
@@ -1382,7 +1382,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         if (hasMultiAudio) {
             mApplication.getLogger().Debug("Multiple Audio tracks found: "+ StreamHelper.getAudioStreams(mPlaybackController.getCurrentMediaSource()).size());
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.audiosel, mButtonSize, new View.OnClickListener() {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_select_audio, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mPlaybackController.getCurrentStreamInfo() == null) {
@@ -1429,7 +1429,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         if (hasSubs) {
             mApplication.getLogger().Debug("Subtitle tracks found: " + mPlaybackController.getSubtitleStreams().size());
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.subt, mButtonSize, new View.OnClickListener() {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_subtitle, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mPlaybackController.getCurrentStreamInfo() == null) {
@@ -1472,7 +1472,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         List<ChapterInfoDto> chapters = item.getChapters();
         if (chapters != null && chapters.size() > 0) {
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.chapter, mButtonSize, new View.OnClickListener() {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_select_chapter, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     showChapterPanel();
@@ -1514,14 +1514,14 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     mPlaybackController.setAudioDelay(value);
                 }
             });
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.adjust, mButtonSize, new View.OnClickListener() {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_adjust, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mAudioPopup.show(mPlaybackController.getAudioDelay());
                 }
             }));
         } else {
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.zoom, mButtonSize, new View.OnClickListener() {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_zoom, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     PopupMenu zoomMenu = Utils.createPopupMenu(mActivity, v, Gravity.RIGHT);

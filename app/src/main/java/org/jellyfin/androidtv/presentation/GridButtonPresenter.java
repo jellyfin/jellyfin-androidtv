@@ -43,7 +43,7 @@ public class GridButtonPresenter extends Presenter {
             super(view);
             mCardView = (MyImageCardView) view;
 
-            mDefaultCardImage = TvApp.getApplication().getResources().getDrawable(R.drawable.gears);
+            mDefaultCardImage = TvApp.getApplication().getResources().getDrawable(R.drawable.tile_settings);
         }
 
         public void setItem(GridButton m, int width, int height) {

@@ -934,7 +934,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     public void RetrieveAudioPlaylists(final ItemQuery query) {
         //Add specialized playlists first
         clear();
-        add(new GridButton(EnhancedBrowseFragment.FAVSONGS, TvApp.getApplication().getString(R.string.lbl_favorites), R.drawable.genericmusic));
+        add(new GridButton(EnhancedBrowseFragment.FAVSONGS, TvApp.getApplication().getString(R.string.lbl_favorites), R.drawable.favorites));
         itemsLoaded = 1;
         Retrieve(query);
     }
@@ -944,7 +944,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         clear();
         if (MediaManager.hasVideoQueueItems()) {
             TvApp.getApplication().getLogger().Debug("Adding video queue...");
-            add(new BaseRowItem(new GridButton(TvApp.VIDEO_QUEUE_OPTION_ID, TvApp.getApplication().getString(R.string.lbl_current_queue), R.drawable.videoqueue)));
+            add(new BaseRowItem(new GridButton(TvApp.VIDEO_QUEUE_OPTION_ID, TvApp.getApplication().getString(R.string.lbl_current_queue), R.drawable.tile_port_video_queue)));
             itemsLoaded = 1;
         }
         Retrieve(query);
@@ -1203,7 +1203,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int prevItems = adapter.size() > 0 ? adapter.size() : 0;
                     if (query.getIsAiring()) {
                         // show guide option as first item
-                        adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_GUIDE_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_live_tv_guide), R.drawable.guide)));
+                        adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_GUIDE_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_live_tv_guide), R.drawable.tile_port_guide)));
                         i++;
                     }
                     for (BaseItemDto item : response.getItems()) {
@@ -1331,14 +1331,14 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int prevItems = adapter.size() > 0 ? adapter.size() : 0;
                     if (adapter.chunkSize == 0) {
                         // and recordings as first item if showing all
-                        adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_RECORDINGS_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv), R.drawable.recgroup)));
+                        adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_RECORDINGS_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv), R.drawable.tile_port_record)));
                         i++;
                         if (TvApp.getApplication().canManageRecordings()) {
                             // and schedule
-                            adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_SCHEDULE_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_schedule), R.drawable.clock)));
+                            adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_SCHEDULE_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_schedule), R.drawable.tile_port_time)));
                             i++;
                             // and series
-                            adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_SERIES_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_series), R.drawable.seriestimerp)));
+                            adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_SERIES_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_series), R.drawable.tile_port_series_timer)));
                             i++;
                         }
                     }

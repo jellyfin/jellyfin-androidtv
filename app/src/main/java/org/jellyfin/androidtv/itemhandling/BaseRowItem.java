@@ -193,11 +193,11 @@ public class BaseRowItem {
             case LiveTvChannel:
                 return ImageUtils.getPrimaryImageUrl(channelInfo, TvApp.getApplication().getApiClient());
             case Server:
-                return "android.resource://org.jellyfin.androidtv/" + R.drawable.server;
+                return "android.resource://org.jellyfin.androidtv/" + R.drawable.tile_port_server;
             case GridButton:
                 return "android.resource://org.jellyfin.androidtv/" + gridButton.getImageIndex();
             case SeriesTimer:
-                return "android.resource://org.jellyfin.androidtv/" + R.drawable.seriestimer;
+                return "android.resource://org.jellyfin.androidtv/" + R.drawable.tile_land_series_timer;
             case SearchHint:
                 return Utils.isNonEmpty(searchHint.getPrimaryImageTag()) ? ImageUtils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag(), TvApp.getApplication().getApiClient()) :
                         Utils.isNonEmpty(searchHint.getThumbImageItemId()) ? ImageUtils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag(), TvApp.getApplication().getApiClient()) : null;
@@ -522,7 +522,7 @@ public class BaseRowItem {
                 if (baseItem.getType().equals("Movie") && baseItem.getCriticRating() != null) {
                     return baseItem.getCriticRating() > 59 ? TvApp.getApplication().getDrawableCompat(R.drawable.fresh) : TvApp.getApplication().getDrawableCompat(R.drawable.rotten);
                 } else if (baseItem.getType().equals("Program") && baseItem.getTimerId() != null) {
-                    return baseItem.getSeriesTimerId() != null ? TvApp.getApplication().getDrawableCompat(R.drawable.recseries) : TvApp.getApplication().getDrawableCompat(R.drawable.rec);
+                    return baseItem.getSeriesTimerId() != null ? TvApp.getApplication().getDrawableCompat(R.drawable.ic_record_series_red) : TvApp.getApplication().getDrawableCompat(R.drawable.ic_record_red);
                 }
                 break;
             case Person:
@@ -531,12 +531,12 @@ public class BaseRowItem {
                 break;
             case User:
                 if (user.getHasPassword()) {
-                    return TvApp.getApplication().getDrawableCompat(R.drawable.lock);
+                    return TvApp.getApplication().getDrawableCompat(R.drawable.ic_lock);
                 }
                 break;
             case LiveTvProgram:
                 if (baseItem.getTimerId() != null) {
-                    return baseItem.getSeriesTimerId() != null ? TvApp.getApplication().getDrawableCompat(R.drawable.recseries) : TvApp.getApplication().getDrawableCompat(R.drawable.rec);
+                    return baseItem.getSeriesTimerId() != null ? TvApp.getApplication().getDrawableCompat(R.drawable.ic_record_series_red) : TvApp.getApplication().getDrawableCompat(R.drawable.ic_record_red);
                 }
             case Chapter:
                 break;

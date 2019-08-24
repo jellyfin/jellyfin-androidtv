@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/startup_vertical_margin"
-        android:src="@drawable/logob400" />
+        android:src="@drawable/app_logo_transparent" />
 
     <TextView
         android:id="@+id/textView3"

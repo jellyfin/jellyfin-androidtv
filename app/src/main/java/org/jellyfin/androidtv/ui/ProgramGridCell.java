@@ -97,9 +97,9 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
         }
 
         if (program.getSeriesTimerId() != null) {
-            mRecIndicator.setImageResource(program.getTimerId() != null ? R.drawable.recseries : R.drawable.recserieswhite);
+            mRecIndicator.setImageResource(program.getTimerId() != null ? R.drawable.ic_record_series_red : R.drawable.ic_record_series);
         } else if (program.getTimerId() != null) {
-            mRecIndicator.setImageResource(R.drawable.rec);
+            mRecIndicator.setImageResource(R.drawable.ic_record_red);
         }
 
         setOnClickListener(new OnClickListener() {
@@ -151,10 +151,10 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
 
     public void setRecTimer(String id) {
         mProgram.setTimerId(id);
-        mRecIndicator.setImageResource(id != null ? (mProgram.getSeriesTimerId() != null ? R.drawable.recseries : R.drawable.rec) : mProgram.getSeriesTimerId() != null ? R.drawable.recserieswhite : R.drawable.blank10x10);
+        mRecIndicator.setImageResource(id != null ? (mProgram.getSeriesTimerId() != null ? R.drawable.ic_record_series_red : R.drawable.ic_record_red) : mProgram.getSeriesTimerId() != null ? R.drawable.ic_record_series : R.drawable.blank10x10);
     }
     public void setRecSeriesTimer(String id) {
         mProgram.setSeriesTimerId(id);
-        mRecIndicator.setImageResource(id != null ? R.drawable.recseries : R.drawable.blank10x10);
+        mRecIndicator.setImageResource(id != null ? R.drawable.ic_record_series_red : R.drawable.blank10x10);
     }
 }

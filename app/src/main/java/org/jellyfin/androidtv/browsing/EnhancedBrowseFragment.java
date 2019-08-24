@@ -326,14 +326,14 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
             switch (itemTypeString) {
                 case "Movie":
-                    gridRowAdapter.add(new GridButton(SUGGESTED, mApplication.getString(R.string.lbl_suggested), R.drawable.suggestions));
+                    gridRowAdapter.add(new GridButton(SUGGESTED, mApplication.getString(R.string.lbl_suggested), R.drawable.tile_suggestions));
                     addStandardViewButtons(gridRowAdapter);
                     break;
                 case "MusicAlbum":
-                    gridRowAdapter.add(new GridButton(ALBUMS, TvApp.getApplication().getString(R.string.lbl_albums), R.drawable.audio));
-                    gridRowAdapter.add(new GridButton(ARTISTS, TvApp.getApplication().getString(R.string.lbl_artists), R.drawable.artists));
-                    gridRowAdapter.add(new GridButton(GENRES, mApplication.getString(R.string.lbl_genres), R.drawable.genres));
-                    gridRowAdapter.add(new GridButton(SEARCH, mApplication.getString(R.string.lbl_search), R.drawable.search));
+                    gridRowAdapter.add(new GridButton(ALBUMS, TvApp.getApplication().getString(R.string.lbl_albums), R.drawable.tile_audio));
+                    gridRowAdapter.add(new GridButton(ARTISTS, TvApp.getApplication().getString(R.string.lbl_artists), R.drawable.tile_artists));
+                    gridRowAdapter.add(new GridButton(GENRES, mApplication.getString(R.string.lbl_genres), R.drawable.tile_genres));
+                    gridRowAdapter.add(new GridButton(SEARCH, mApplication.getString(R.string.lbl_search), R.drawable.tile_search));
                     break;
                 default:
                     addStandardViewButtons(gridRowAdapter);
@@ -346,11 +346,11 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     }
 
     protected void addStandardViewButtons(ArrayObjectAdapter gridRowAdapter) {
-        gridRowAdapter.add(new GridButton(GRID, TvApp.getApplication().getString(R.string.lbl_all_items), R.drawable.grid));
-        gridRowAdapter.add(new GridButton(BY_LETTER, mApplication.getString(R.string.lbl_by_letter), R.drawable.byletter));
-        gridRowAdapter.add(new GridButton(GENRES, mApplication.getString(R.string.lbl_genres), R.drawable.genres));
-        //gridRowAdapter.add(new GridButton(PERSONS, mApplication.getString(R.string.lbl_performers), R.drawable.actors));
-        gridRowAdapter.add(new GridButton(SEARCH, mApplication.getString(R.string.lbl_search), R.drawable.search));
+        gridRowAdapter.add(new GridButton(GRID, TvApp.getApplication().getString(R.string.lbl_all_items), R.drawable.tile_port_grid));
+        gridRowAdapter.add(new GridButton(BY_LETTER, mApplication.getString(R.string.lbl_by_letter), R.drawable.tile_letters));
+        gridRowAdapter.add(new GridButton(GENRES, mApplication.getString(R.string.lbl_genres), R.drawable.tile_genres));
+        //gridRowAdapter.add(new GridButton(PERSONS, mApplication.getString(R.string.lbl_performers), R.drawable.tile_actors));
+        gridRowAdapter.add(new GridButton(SEARCH, mApplication.getString(R.string.lbl_search), R.drawable.tile_search));
 
     }
 

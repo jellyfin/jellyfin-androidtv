@@ -311,7 +311,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     private void updateWatched() {
         if (mWatchedToggleButton != null && mBaseItem != null && mBaseItem.getUserData() != null && !isFinishing()) {
-            mWatchedToggleButton.setImageResource(mBaseItem.getUserData().getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck);
+            mWatchedToggleButton.setImageResource(mBaseItem.getUserData().getPlayed() ? R.drawable.ic_watch_red : R.drawable.ic_watch);
         }
     }
 
@@ -348,7 +348,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     @Override
     public void setRecTimer(String id) {
         mProgramInfo.setTimerId(id);
-        if (mRecordButton != null) mRecordButton.setImageResource(id == null ? R.drawable.recwhite : R.drawable.rec);
+        if (mRecordButton != null) mRecordButton.setImageResource(id == null ? R.drawable.ic_record : R.drawable.ic_record_red);
     }
 
     private int posterWidth;
@@ -357,7 +357,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     @Override
     public void setRecSeriesTimer(String id) {
         if (mProgramInfo != null) mProgramInfo.setSeriesTimerId(id);
-        if (mRecSeriesButton != null) mRecSeriesButton.setImageResource(id == null ? R.drawable.recserieswhite : R.drawable.recseries);
+        if (mRecSeriesButton != null) mRecSeriesButton.setImageResource(id == null ? R.drawable.ic_record_series : R.drawable.ic_record_series_red);
         if (mSeriesSettingsButton != null) mSeriesSettingsButton.setVisibility(id == null ? View.GONE : View.VISIBLE);
 
     }
@@ -738,7 +738,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             @Override
             public void onResponse(UserItemDataDto response) {
                 mBaseItem.setUserData(response);
-                favButton.setImageResource(response.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart);
+                favButton.setImageResource(response.getIsFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart);
                 TvApp.getApplication().setLastFavoriteUpdate(System.currentTimeMillis());
             }
         });
@@ -792,7 +792,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private TextUnderButton moreButton;
 
     private void addButtons(int buttonSize) {
-        mResumeButton = new TextUnderButton(this, R.drawable.resume, buttonSize, 2, "Series".equals(mBaseItem.getType()) ? getString(R.string.lbl_play_next_up) : String.format(getString(R.string.lbl_resume_from), TimeUtils.formatMillis((mBaseItem.getUserData().getPlaybackPositionTicks()/10000) - mApplication.getResumePreroll())), new View.OnClickListener() {
+        mResumeButton = new TextUnderButton(this, R.drawable.ic_resume, buttonSize, 2, "Series".equals(mBaseItem.getType()) ? getString(R.string.lbl_play_next_up) : String.format(getString(R.string.lbl_resume_from), TimeUtils.formatMillis((mBaseItem.getUserData().getPlaybackPositionTicks()/10000) - mApplication.getResumePreroll())), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if ("Series".equals(mBaseItem.getType())) {
@@ -829,7 +829,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             mDetailsOverviewRow.addAction(mResumeButton);
             mResumeButton.setVisibility(("Series".equals(mBaseItem.getType()) && ! mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume() ) ? View.VISIBLE : View.GONE);
 
-            TextUnderButton play = new TextUnderButton(this, R.drawable.play, buttonSize, 2, getString(BaseItemUtils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
+            TextUnderButton play = new TextUnderButton(this, R.drawable.ic_play, buttonSize, 2, getString(BaseItemUtils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     play(mBaseItem, 0, false);
@@ -838,7 +838,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             mDetailsOverviewRow.addAction(play);
 
             if (!mBaseItem.getIsFolderItem() && !BaseItemUtils.isLiveTv(mBaseItem)) {
-                queueButton = new TextUnderButton(this, R.drawable.addtoqueue, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
+                queueButton = new TextUnderButton(this, R.drawable.ic_addtoqueue, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         addItemToQueue();
@@ -848,7 +848,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             }
 
             if (mBaseItem.getIsFolderItem()) {
-                TextUnderButton shuffle = new TextUnderButton(this, R.drawable.shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
+                TextUnderButton shuffle = new TextUnderButton(this, R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         play(mBaseItem, 0, true);
@@ -858,7 +858,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             }
 
             if ("MusicArtist".equals(mBaseItem.getType())) {
-                TextUnderButton imix = new TextUnderButton(this, R.drawable.mix, buttonSize, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
+                TextUnderButton imix = new TextUnderButton(this, R.drawable.ic_mix, buttonSize, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Utils.beep();
@@ -871,7 +871,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         }
 
         if (mBaseItem.getLocalTrailerCount() != null && mBaseItem.getLocalTrailerCount() > 0) {
-            TextUnderButton trailer = new TextUnderButton(this, R.drawable.trailer, buttonSize, getString(R.string.lbl_play_trailers), new View.OnClickListener() {
+            TextUnderButton trailer = new TextUnderButton(this, R.drawable.ic_trailer, buttonSize, getString(R.string.lbl_play_trailers), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     TvApp.getApplication().getApiClient().GetLocalTrailersAsync(TvApp.getApplication().getCurrentUser().getId(), mBaseItem.getId(), new Response<BaseItemDto[]>() {
@@ -896,7 +896,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         if (mProgramInfo != null && mApplication.canManageRecordings()) {
             if (TimeUtils.convertToLocalDate(mBaseItem.getEndDate()).getTime() > System.currentTimeMillis()) {
                 //Record button
-                mRecordButton = new TextUnderButton(this, mProgramInfo.getTimerId() != null ? R.drawable.rec : R.drawable.recwhite, buttonSize, 4, getString(R.string.lbl_record), new View.OnClickListener() {
+                mRecordButton = new TextUnderButton(this, mProgramInfo.getTimerId() != null ? R.drawable.ic_record_red : R.drawable.ic_record, buttonSize, 4, getString(R.string.lbl_record), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (mProgramInfo.getTimerId() == null) {
@@ -957,7 +957,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             }
 
             if (mProgramInfo.getIsSeries() != null && mProgramInfo.getIsSeries()) {
-                mRecSeriesButton= new TextUnderButton(this, mProgramInfo.getSeriesTimerId() != null ? R.drawable.recseries : R.drawable.recserieswhite, buttonSize, 4, getString(R.string.lbl_record_series), new View.OnClickListener() {
+                mRecSeriesButton= new TextUnderButton(this, mProgramInfo.getSeriesTimerId() != null ? R.drawable.ic_record_series_red : R.drawable.ic_record_series, buttonSize, 4, getString(R.string.lbl_record_series), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (mProgramInfo.getSeriesTimerId() == null) {
@@ -1026,7 +1026,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                 mDetailsOverviewRow.addAction(mRecSeriesButton);
 
-                mSeriesSettingsButton = new TextUnderButton(this, R.drawable.cog, buttonSize, 2, getString(R.string.lbl_series_settings), new View.OnClickListener() {
+                mSeriesSettingsButton = new TextUnderButton(this, R.drawable.ic_settings, buttonSize, 2, getString(R.string.lbl_series_settings), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         showRecordingOptions(mProgramInfo.getSeriesTimerId(), mProgramInfo, true);
@@ -1042,12 +1042,12 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         UserItemDataDto userData = mBaseItem.getUserData();
         if (userData != null && mProgramInfo == null) {
             if (!"MusicArtist".equals(mBaseItem.getType()) && !"Person".equals(mBaseItem.getType())) {
-                mWatchedToggleButton = new TextUnderButton(this, userData.getPlayed() ? R.drawable.redcheck : R.drawable.whitecheck, buttonSize, getString(R.string.lbl_watched), markWatchedListener);
+                mWatchedToggleButton = new TextUnderButton(this, userData.getPlayed() ? R.drawable.ic_watch_red : R.drawable.ic_watch, buttonSize, getString(R.string.lbl_watched), markWatchedListener);
                 mDetailsOverviewRow.addAction(mWatchedToggleButton);
             }
 
             //Favorite
-            favButton = new TextUnderButton(this, userData.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize, 2, getString(R.string.lbl_favorite), new View.OnClickListener() {
+            favButton = new TextUnderButton(this, userData.getIsFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart, buttonSize, 2, getString(R.string.lbl_favorite), new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
                     toggleFavorite();
@@ -1058,7 +1058,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         if ("Episode".equals(mBaseItem.getType()) && mBaseItem.getSeriesId() != null) {
             //add the prev button first so it will be there in proper position - we'll show it later if needed
-            mPrevButton = new TextUnderButton(this, R.drawable.prev, buttonSize, 3, getString(R.string.lbl_previous_episode), new View.OnClickListener() {
+            mPrevButton = new TextUnderButton(this, R.drawable.ic_previous_episode, buttonSize, 3, getString(R.string.lbl_previous_episode), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mPrevItemId != null) {
@@ -1092,7 +1092,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 }
             });
 
-            goToSeriesButton = new TextUnderButton(this, R.drawable.tvicon, buttonSize, getString(R.string.lbl_goto_series), new View.OnClickListener() {
+            goToSeriesButton = new TextUnderButton(this, R.drawable.ic_tv, buttonSize, getString(R.string.lbl_goto_series), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     gotoSeries();
@@ -1103,7 +1103,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         if (("Recording".equals(mBaseItem.getType()) && TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvManagement() && mBaseItem.getCanDelete()) ||
                 (("Movie".equals(mBaseItem.getType()) || "Episode".equals(mBaseItem.getType()) || "Video".equals(mBaseItem.getType())) && TvApp.getApplication().getCurrentUser().getPolicy().getEnableContentDeletion())) {
-            deleteButton = new TextUnderButton(this, R.drawable.trash, buttonSize, getString(R.string.lbl_delete), new View.OnClickListener() {
+            deleteButton = new TextUnderButton(this, R.drawable.ic_trash, buttonSize, getString(R.string.lbl_delete), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     deleteItem();
@@ -1114,7 +1114,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         if (mSeriesTimerInfo != null && "SeriesTimer".equals(mBaseItem.getType())) {
             //Settings
-            mDetailsOverviewRow.addAction(new TextUnderButton(this, R.drawable.cog, buttonSize, getString(R.string.lbl_series_settings), new View.OnClickListener() {
+            mDetailsOverviewRow.addAction(new TextUnderButton(this, R.drawable.ic_settings, buttonSize, getString(R.string.lbl_series_settings), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //show recording options
@@ -1124,7 +1124,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
             //Delete
             final Activity activity = this;
-            TextUnderButton del = new TextUnderButton(this, R.drawable.trash, buttonSize, getString(R.string.lbl_cancel_series), new View.OnClickListener() {
+            TextUnderButton del = new TextUnderButton(this, R.drawable.ic_trash, buttonSize, getString(R.string.lbl_cancel_series), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     new AlertDialog.Builder(activity)
@@ -1361,7 +1361,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             @Override
             public void onResponse(UserItemDataDto response) {
                 mBaseItem.setUserData(response);
-                mWatchedToggleButton.setImageResource(R.drawable.redcheck);
+                mWatchedToggleButton.setImageResource(R.drawable.ic_watch_red);
                 //adjust resume
                 if (mResumeButton != null && !mBaseItem.getCanResume())
                     mResumeButton.setVisibility(View.GONE);
@@ -1378,7 +1378,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             @Override
             public void onResponse(UserItemDataDto response) {
                 mBaseItem.setUserData(response);
-                mWatchedToggleButton.setImageResource(R.drawable.whitecheck);
+                mWatchedToggleButton.setImageResource(R.drawable.ic_watch);
                 //adjust resume
                 if (mResumeButton != null && !mBaseItem.getCanResume())
                     mResumeButton.setVisibility(View.GONE);
