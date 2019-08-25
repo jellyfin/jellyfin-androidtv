@@ -37,10 +37,10 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:src="@drawable/ic_heart_red"
-            android:alpha=".8"
+            android:alpha="0.8"
             android:layout_alignBottom="@+id/main_image"
             android:layout_alignEnd="@+id/main_image"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <ProgressBar
             style="@style/overlay_progress"
@@ -170,7 +170,6 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="@dimen/lb_basic_card_info_text_margin"
-                android:layout_marginEnd="15dp"
                 android:layout_marginBottom="@dimen/lb_basic_card_info_text_margin"
                 android:maxLines="1"
                 android:fontFamily="sans-serif-condensed"
@@ -182,8 +181,10 @@
                 android:id="@+id/extra_badge"
                 android:layout_width="@dimen/lb_basic_card_info_badge_size"
                 android:layout_height="@dimen/lb_basic_card_info_badge_size"
-                android:layout_alignParentBottom="true"
+                android:layout_alignTop="@+id/title_text"
+                android:layout_alignBottom="@+id/content_text"
                 android:layout_alignParentEnd="true"
+                android:layout_marginStart="10dp"
                 android:scaleType="fitCenter"
                 android:visibility="gone"
                 android:contentDescription="@null" />
