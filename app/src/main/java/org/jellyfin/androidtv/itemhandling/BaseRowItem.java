@@ -43,7 +43,6 @@ public class BaseRowItem {
     private SelectAction selectAction = SelectAction.ShowDetails;
     private boolean isPlaying;
 
-
     public BaseRowItem(int index, BaseItemDto item) {
         this(index, item, false, false);
     }
@@ -51,10 +50,11 @@ public class BaseRowItem {
     public BaseRowItem(int index, BaseItemDto item, boolean preferParentThumb, boolean staticHeight) {
         this(index, item, preferParentThumb, staticHeight, SelectAction.ShowDetails);
     }
+
     public BaseRowItem(int index, BaseItemDto item, boolean preferParentThumb, boolean staticHeight, SelectAction selectAction) {
         this.index = index;
         this.baseItem = item;
-        type = item.getType().equals("Program") ? ItemType.LiveTvProgram : item.getType().equals("Recording") ? ItemType.LiveTvRecording : ItemType.BaseItem;
+        this.type = item.getType().equals("Program") ? ItemType.LiveTvProgram : item.getType().equals("Recording") ? ItemType.LiveTvRecording : ItemType.BaseItem;
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = staticHeight;
         this.selectAction = selectAction;
@@ -63,10 +63,12 @@ public class BaseRowItem {
     public BaseRowItem(int index, ChannelInfoDto channel) {
         this.index = index;
         this.channelInfo = channel;
-        type = ItemType.LiveTvChannel;
+        this.type = ItemType.LiveTvChannel;
     }
 
-    public BaseRowItem(BaseItemDto program, boolean staticHeight) { this(0, program, false, staticHeight);    }
+    public BaseRowItem(BaseItemDto program, boolean staticHeight) {
+        this(0, program, false, staticHeight);
+    }
 
     public BaseRowItem(BaseItemDto program) {
         this(0, program);
@@ -85,12 +87,12 @@ public class BaseRowItem {
     public BaseRowItem(BaseItemPerson person) {
         this.person = person;
         this.staticHeight = true;
-        type = ItemType.Person;
+        this.type = ItemType.Person;
     }
 
     public BaseRowItem(UserDto user) {
         this.user = user;
-        type = ItemType.User;
+        this.type = ItemType.User;
     }
 
     public BaseRowItem(SearchHint hint) {
@@ -101,23 +103,27 @@ public class BaseRowItem {
     public BaseRowItem(ChapterItemInfo chapter) {
         this.chapterInfo = chapter;
         this.staticHeight = true;
-        type = ItemType.Chapter;
+        this.type = ItemType.Chapter;
     }
 
     public BaseRowItem(GridButton button) {
         this.gridButton = button;
-        type = ItemType.GridButton;
-        staticHeight = true;
+        this.type = ItemType.GridButton;
+        this.staticHeight = true;
     }
 
     public int getIndex() {
         return index;
     }
-    public void setIndex(int ndx) { index = ndx; }
+
+    public void setIndex(int ndx) {
+        index = ndx;
+    }
 
     public BaseItemDto getBaseItem() {
         return baseItem;
     }
+
     public BaseItemPerson getPerson() { return person; }
     public ChapterItemInfo getChapterInfo() { return chapterInfo; }
     public ServerInfo getServerInfo() { return serverInfo; }
@@ -128,15 +134,16 @@ public class BaseRowItem {
     public BaseItemDto getRecordingInfo() { return baseItem; }
     public SeriesTimerInfoDto getSeriesTimerInfo() { return seriesTimerInfo; }
     public GridButton getGridButton() { return gridButton; }
-
     public boolean isChapter() { return type == ItemType.Chapter; }
     public boolean isPerson() { return type == ItemType.Person; }
     public boolean isBaseItem() { return type == ItemType.BaseItem; }
     public boolean getPreferParentThumb() { return preferParentThumb; }
     public ItemType getItemType() { return type; }
+
     public boolean isFolder() {
         return type == ItemType.BaseItem && baseItem != null && baseItem.getIsFolderItem();
     }
+
     public boolean showCardInfoOverlay() {return type == ItemType.BaseItem && baseItem != null
             && ("Folder".equals(baseItem.getType()) || "PhotoAlbum".equals(baseItem.getType()) || "RecordingGroup".equals(baseItem.getType())
             || "UserView".equals(baseItem.getType()) || "CollectionFolder".equals(baseItem.getType()) || "Photo".equals(baseItem.getType())
@@ -155,7 +162,8 @@ public class BaseRowItem {
             case SeriesTimer:
                 return seriesTimerInfo != null;
             default:
-                return true; //compatibility
+                // compatibility
+                return true;
         }
     }
 
@@ -179,7 +187,6 @@ public class BaseRowItem {
 
     public String getPrimaryImageUrl(int maxHeight) {
         switch (type) {
-
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
@@ -207,23 +214,16 @@ public class BaseRowItem {
 
     public boolean isFavorite() {
         switch (type) {
-
             case BaseItem:
             case LiveTvRecording:
             case LiveTvProgram:
                 return baseItem.getUserData() != null && baseItem.getUserData().getIsFavorite();
             case Person:
-                break;
             case Server:
-                break;
             case User:
-                break;
             case Chapter:
-                break;
             case SearchHint:
-                break;
             case LiveTvChannel:
-                break;
             case GridButton:
                 break;
         }
@@ -238,20 +238,13 @@ public class BaseRowItem {
             case LiveTvProgram:
                 return baseItem.getUserData() != null && baseItem.getUserData().getPlayed();
             case Person:
-                break;
             case Server:
-                break;
             case User:
-                break;
             case Chapter:
-                break;
             case SearchHint:
-                break;
             case LiveTvChannel:
-                break;
             case GridButton:
                 break;
-
         }
 
         return false;
@@ -268,7 +261,6 @@ public class BaseRowItem {
 
     public String getFullName() {
         switch (type) {
-
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
@@ -296,7 +288,6 @@ public class BaseRowItem {
 
     public String getName() {
         switch (type) {
-
             case BaseItem:
             case LiveTvRecording:
             case LiveTvProgram:
@@ -324,7 +315,6 @@ public class BaseRowItem {
 
     public String getItemId() {
         switch (type) {
-
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
@@ -352,7 +342,6 @@ public class BaseRowItem {
 
     public String getSubText() {
         switch (type) {
-
             case BaseItem:
                 return BaseItemUtils.getSubName(baseItem);
             case Person:
@@ -385,7 +374,6 @@ public class BaseRowItem {
 
     public String getType() {
         switch (type) {
-
             case BaseItem:
             case LiveTvRecording:
             case LiveTvProgram:
@@ -393,9 +381,7 @@ public class BaseRowItem {
             case Person:
                 return person.getType();
             case Server:
-                break;
             case User:
-                break;
             case Chapter:
                 break;
             case SearchHint:
@@ -409,28 +395,20 @@ public class BaseRowItem {
         }
 
         return "";
-
     }
 
     public String getSummary() {
         switch (type) {
-
             case BaseItem:
             case LiveTvRecording:
             case LiveTvProgram:
                 return baseItem.getOverview();
             case Person:
-                break;
             case Server:
-                break;
             case User:
-                break;
             case Chapter:
-                break;
             case SearchHint:
-                break;
             case LiveTvChannel:
-                break;
             case GridButton:
                 break;
             case SeriesTimer:
@@ -442,22 +420,15 @@ public class BaseRowItem {
 
     public long getRuntimeTicks() {
         switch (type) {
-
             case LiveTvRecording:
             case BaseItem:
                 return baseItem.getRunTimeTicks() != null ? baseItem.getRunTimeTicks() : 0;
             case Person:
-                break;
             case Server:
-                break;
             case User:
-                break;
             case Chapter:
-                break;
             case SearchHint:
-                break;
             case LiveTvChannel:
-                break;
             case GridButton:
                 break;
             case LiveTvProgram:
@@ -469,25 +440,16 @@ public class BaseRowItem {
 
     public int getChildCount() {
         switch (type) {
-
             case BaseItem:
                 return isFolder() && !"MusicArtist".equals(baseItem.getType()) && baseItem.getChildCount() != null ? baseItem.getChildCount() : -1;
             case Person:
-                break;
             case Server:
-                break;
             case User:
-                break;
             case Chapter:
-                break;
             case SearchHint:
-                break;
             case LiveTvChannel:
-                break;
             case LiveTvRecording:
-                break;
             case GridButton:
-                break;
             case LiveTvProgram:
                 break;
         }
@@ -501,7 +463,6 @@ public class BaseRowItem {
         } else {
             Integer count = getChildCount();
             return count > 0 ? count.toString() : "";
-
         }
     }
 
@@ -509,7 +470,6 @@ public class BaseRowItem {
         switch (type) {
             case BaseItem:
                 return ImageUtils.getBackdropImageUrl(baseItem, TvApp.getApplication().getConnectionManager().GetApiClient(baseItem), true);
-
         }
 
         return null;
@@ -517,7 +477,6 @@ public class BaseRowItem {
 
     public Drawable getBadgeImage() {
         switch (type) {
-
             case BaseItem:
                 if (baseItem.getType().equals("Movie") && baseItem.getCriticRating() != null) {
                     return baseItem.getCriticRating() > 59 ? TvApp.getApplication().getDrawableCompat(R.drawable.fresh) : TvApp.getApplication().getDrawableCompat(R.drawable.rotten);
@@ -526,7 +485,6 @@ public class BaseRowItem {
                 }
                 break;
             case Person:
-                break;
             case Server:
                 break;
             case User:
@@ -547,7 +505,6 @@ public class BaseRowItem {
 
     public void refresh(final EmptyResponse outerResponse) {
         switch (type) {
-
             case BaseItem:
                 TvApp.getApplication().getApiClient().GetItemAsync(getItemId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
@@ -558,21 +515,13 @@ public class BaseRowItem {
                 });
                 break;
             case Person:
-                break;
             case Server:
-                break;
             case User:
-                break;
             case Chapter:
-                break;
             case SearchHint:
-                break;
             case LiveTvChannel:
-                break;
             case LiveTvRecording:
-                break;
             case GridButton:
-                break;
             case LiveTvProgram:
                 break;
         }
@@ -585,13 +534,27 @@ public class BaseRowItem {
     public boolean isStaticHeight() {
         return staticHeight;
     }
-    public boolean isPlaying() { return isPlaying; }
-    public void setIsPlaying(boolean value) { isPlaying = value; }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setIsPlaying(boolean value) {
+        isPlaying = value;
+    }
 
     public enum ItemType {
         BaseItem,
         Person,
-        Server, User, Chapter, SearchHint, LiveTvChannel, LiveTvRecording, GridButton, SeriesTimer, LiveTvProgram
+        Server,
+        User,
+        Chapter,
+        SearchHint,
+        LiveTvChannel,
+        LiveTvRecording,
+        GridButton,
+        SeriesTimer,
+        LiveTvProgram
     }
 
     public enum SelectAction {
@@ -599,4 +562,3 @@ public class BaseRowItem {
         Play
     }
 }
-

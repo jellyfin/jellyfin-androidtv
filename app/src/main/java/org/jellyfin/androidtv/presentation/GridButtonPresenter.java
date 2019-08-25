@@ -19,7 +19,9 @@ public class GridButtonPresenter extends Presenter {
     private int mCardHeight = 220;
     private static ViewGroup mViewParent;
 
-    public GridButtonPresenter() { super();}
+    public GridButtonPresenter() {
+        super();
+    }
 
     public GridButtonPresenter(boolean showinfo, int width, int height) {
         this();
@@ -41,8 +43,8 @@ public class GridButtonPresenter extends Presenter {
 
         public ViewHolder(View view) {
             super(view);
-            mCardView = (MyImageCardView) view;
 
+            mCardView = (MyImageCardView) view;
             mDefaultCardImage = TvApp.getApplication().getResources().getDrawable(R.drawable.tile_settings);
         }
 
@@ -73,7 +75,6 @@ public class GridButtonPresenter extends Presenter {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
-        //Log.d(TAG, "onCreateViewHolder");
         mViewParent = parent;
 
         MyImageCardView cardView = new MyImageCardView(getContext(), mShowInfo);
@@ -91,22 +92,16 @@ public class GridButtonPresenter extends Presenter {
         ViewHolder vh = (ViewHolder) viewHolder;
 
         vh.setItem(gridItem, mCardWidth, mCardHeight);
-
-        //Log.d(TAG, "onBindViewHolder");
         vh.mCardView.setTitleText(gridItem.getText());
         vh.mCardView.setOverlayText(gridItem.getText());
         vh.updateCardViewImage(gridItem.getImageIndex());
-
     }
 
     @Override
     public void onUnbindViewHolder(Presenter.ViewHolder viewHolder) {
-        //Log.d(TAG, "onUnbindViewHolder");
     }
 
     @Override
     public void onViewAttachedToWindow(Presenter.ViewHolder viewHolder) {
-        //Log.d(TAG, "onViewAttachedToWindow");
     }
-
 }
