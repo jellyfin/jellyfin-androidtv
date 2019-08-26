@@ -44,8 +44,7 @@ public class ItemListView extends FrameLayout {
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.item_list, this);
         mContext = context;
-        mList = (LinearLayout) findViewById(R.id.songList);
-
+        mList = findViewById(R.id.songList);
     }
 
     public void setRowSelectedListener(ItemRowView.RowSelectedListener listener) { mRowSelectedListener = listener; }
@@ -61,9 +60,6 @@ public class ItemListView extends FrameLayout {
         for (BaseItemDto item : items) {
             addItem(item, i++);
         }
-        //Throw in another item just to provide some padding at the end of the scroll
-        mList.addView(new TextView(mContext));
-
     }
 
     public void addItem(BaseItemDto item, int ndx) {
@@ -97,7 +93,8 @@ public class ItemListView extends FrameLayout {
                 if (response.getItems() != null) {
                     int i = 0;
                     for (BaseItemDto item : response.getItems()) {
-                        View view = mList.getChildAt(i+1); // we have title view as first one
+                        // we have title view as first one
+                        View view = mList.getChildAt(i + 1);
                         if (view instanceof ItemRowView) {
                             ItemRowView row = (ItemRowView) view;
                             row.setItem(item, i++);

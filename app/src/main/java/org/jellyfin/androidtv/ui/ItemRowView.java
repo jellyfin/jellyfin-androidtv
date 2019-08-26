@@ -28,7 +28,6 @@ public class ItemRowView extends FrameLayout {
     TextView mItemName;
     TextView mExtraName;
     TextView mRunTime;
-    TextView mDivider;
     TextView mWatchedMark;
     Drawable normalBackground;
 
@@ -39,7 +38,6 @@ public class ItemRowView extends FrameLayout {
 
     RowSelectedListener rowSelectedListener;
     RowClickedListener rowClickedListener;
-    ItemRowView us;
 
     public ItemRowView(Context context) {
         super(context);
@@ -57,12 +55,12 @@ public class ItemRowView extends FrameLayout {
         this.rowSelectedListener = rowSelectedListener;
         this.rowClickedListener = rowClickedListener;
         setItem(song, ndx);
-        us = this;
+        final ItemRowView itemRowView = this;
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 playSoundEffect(SoundEffectConstants.CLICK);
-                if (rowClickedListener != null) rowClickedListener.onRowClicked(us);
+                if (rowClickedListener != null) rowClickedListener.onRowClicked(itemRowView);
             }
         });
     }
@@ -71,16 +69,14 @@ public class ItemRowView extends FrameLayout {
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.item_row, this);
         mContext = context;
-        mWholeRow = (RelativeLayout) findViewById(R.id.wholeRow);
-        mIndexNo = (TextView) findViewById(R.id.indexNo);
-        mItemName = (TextView) findViewById(R.id.songName);
-        mExtraName = (TextView) findViewById(R.id.artistName);
-        mRunTime = (TextView) findViewById(R.id.runTime);
-        mDivider = (TextView) findViewById(R.id.divider);
-        mWatchedMark = (TextView) findViewById(R.id.watchedMark);
+        mWholeRow = findViewById(R.id.wholeRow);
+        mIndexNo = findViewById(R.id.indexNo);
+        mItemName = findViewById(R.id.songName);
+        mExtraName = findViewById(R.id.artistName);
+        mRunTime = findViewById(R.id.runTime);
+        mWatchedMark = findViewById(R.id.watchedMark);
         normalBackground = mWholeRow.getBackground();
         setFocusable(true);
-
     }
 
     @Override
@@ -107,7 +103,6 @@ public class ItemRowView extends FrameLayout {
                     mExtraName.setText(artist);
                 } else {
                     mExtraName.setVisibility(GONE);
-                    mDivider.setVisibility(GONE);
                 }
                 break;
             default:
@@ -118,7 +113,6 @@ public class ItemRowView extends FrameLayout {
                 } else {
                     mItemName.setText(item.getName());
                     mExtraName.setVisibility(GONE);
-                    mDivider.setVisibility(GONE);
                 }
                 updateWatched();
                 break;
