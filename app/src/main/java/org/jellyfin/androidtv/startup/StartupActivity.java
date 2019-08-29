@@ -71,12 +71,6 @@ public class StartupActivity extends Activity {
             application.getPrefs().edit().putBoolean("pref_enable_info_panel", false).apply();
             application.getSystemPrefs().edit().putString("sys_pref_config_version", "4").apply();
         }
-//        if (Integer.parseInt(application.getConfigVersion()) < 5) {
-//            application.getPrefs().edit().putBoolean("pref_live_shift", true).apply();
-//            application.getPrefs().edit().putBoolean("pref_live_direct", false).apply();
-//            application.getSystemPrefs().edit().putString("sys_pref_config_version", "5").apply();
-//        }
-
 
         //Ensure we have prefs
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
@@ -97,14 +91,12 @@ public class StartupActivity extends Activity {
             // go straight into last connection
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-
         } else {
             //clear audio queue in case left over from last run
             MediaManager.clearAudioQueue();
             MediaManager.clearVideoQueue();
             establishConnection(this);
         }
-
     }
 
     @Override
@@ -153,12 +145,8 @@ public class StartupActivity extends Activity {
         capabilities.setDeviceProfile(new AndroidProfile(ProfileHelper.getProfileOptions()));
         capabilities.setSupportsMediaControl(true);
         capabilities.setSupportedCommands(supportedCommands);
-//        TODO: Add new icon url
-//        capabilities.setIconUrl("");
 
         IJsonSerializer jsonSerializer = new GsonJsonSerializer();
-
-
         ApiEventListener apiEventListener = new TvApiEventListener();
 
         final IConnectionManager connectionManager = new AndroidConnectionManager(application,
@@ -173,7 +161,6 @@ public class StartupActivity extends Activity {
 
         application.setConnectionManager(connectionManager);
         application.setSerializer((GsonJsonSerializer) jsonSerializer);
-
         application.setPlaybackManager(new PlaybackManager(new AndroidDevice(application), logger));
 
         //See if we are coming in via direct entry
@@ -262,8 +249,5 @@ public class StartupActivity extends Activity {
                 Utils.reportError(activity, "Error connecting");
             }
         });
-
     }
-
-
 }

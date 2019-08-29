@@ -1,8 +1,6 @@
 package org.jellyfin.androidtv.settings;
 
-
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -22,10 +20,6 @@ import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 
 import java.io.IOException;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Override
@@ -34,7 +28,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preferences);
-
     }
 
     @Override
@@ -42,7 +35,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         super.onActivityCreated(savedInstanceState);
 
         // Set version info
-        TextView ver = (TextView) getActivity().findViewById(R.id.settings_version_info);
+        TextView ver = getActivity().findViewById(R.id.settings_version_info);
         ver.setText(Utils.getVersionString());
 
         // conditionally hide options that don't apply
@@ -77,8 +70,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onPause() {
         super.onPause();
-        getPreferenceScreen().getSharedPreferences()
-                .unregisterOnSharedPreferenceChangeListener(this);
+        getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -100,8 +92,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         if (key.equals("pref_send_path_external") && ((CheckBoxPreference)findPreference(key)).isChecked()) {
             new AlertDialog.Builder(getActivity())
-                    .setTitle("W A R N I N G")
-                    .setMessage("This feature will only work if you have properly setup your library on the server with network paths or setup Path Substitution AND the external player app you are using can directly access these locations over the network.  If playback fails or you didn't understand any of that, disable this option.")
+                    .setTitle(getString(R.string.lbl_warning))
+                    .setMessage(getString(R.string.msg_external_path))
                     .setPositiveButton(R.string.btn_got_it, null)
                     .show();
         }
@@ -139,15 +131,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 // enable other live tv direct only options
                 Preference live = findPreference("pref_enable_vlc_livetv");
                 if (live != null) live.setEnabled(cb.isChecked());
-//                Preference shift = findPreference("pref_live_shift");
-//                if (shift != null) shift.setEnabled(!cb.isChecked());
-            } else
-//            if (cb.getKey().equals("pref_live_shift")) {
-//                // enable/disable related options
-//                Preference direct = findPreference("pref_live_direct");
-//                if (direct != null) direct.setEnabled(!cb.isChecked());
-//            } else
-            if (cb.getKey().equals("pref_video_use_external")) {
+            } else if (cb.getKey().equals("pref_video_use_external")) {
                 // enable/disable other related items
                 Preference direct = findPreference("pref_send_path_external");
                 if (direct != null) direct.setEnabled(cb.isChecked());
@@ -163,7 +147,5 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 }
             }
         }
-
     }
 }
-

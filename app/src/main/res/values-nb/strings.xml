@@ -10,12 +10,10 @@
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ</string>
     <string name="pref_login_behavior_title">Oppførsel ved oppstart</string>
     <string name="pref_show_login">Vis innloggingskjerm</string>
-    <string name="pref_show_login_value">0</string>
     <string name="pref_playback">AVSPILLING</string>
     <string name="pref_max_bitrate_title">Maks strømme bitrate</string>
     <string name="pref_auto_login">Automatikk logginn som denne brukeren</string>
     <string name="settings_title">Innstillinger</string>
-    <string name="pref_startup_cat">Logg inn</string>
     <string name="pref_prompt_pw">Spør om passord</string>
     <string name="pref_alt_pw_entry">Bruk egendefinert d-pad passord input teknikk</string>
     <string name="pref_alt_pw_entry_desc">Aktiver numerisk passord med bare d-pad tastene uten å eksponere passordet til alle i rommet</string>
@@ -108,7 +106,7 @@
     <string name="lbl_yes">Ja</string>
     <string name="msg_error_connecting_server">Feil med tilkobling til server</string>
     <string name="msg_invalid_id_pw">Feil bruker id eller passord</string>
-    <string name="lbl_version_colon">"Versjon: "</string>
+    <string name="lbl_version">"Versjon: "</string>
     <string name="lbl_ip_hint">192.168.1.1 eller https://minserver.no</string>
     <string name="lbl_enter_server_address">Skriv inn serveradresse</string>
     <string name="lbl_valid_server_address">Vennligst tast inn serveren sin adresse (IP, domene eller maskinnavn)</string>

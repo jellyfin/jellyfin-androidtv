@@ -12,12 +12,10 @@
     <string name="byletter_letters">АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Поведение при запуске</string>
     <string name="pref_show_login">Показывать экран входа</string>
-    <string name="pref_show_login_value">0</string>
     <string name="pref_playback">ВОСПРОИЗВЕДЕНИЕ</string>
     <string name="pref_max_bitrate_title">Макс. потоковая скорость</string>
     <string name="pref_auto_login">Автовход как этот пользователь</string>
     <string name="settings_title">Параметры</string>
-    <string name="pref_startup_cat">ВХОД</string>
     <string name="pref_prompt_pw">Запрашивать пароль</string>
     <string name="pref_alt_pw_entry">Использовать способ ввода пароля настраиваемой \"крестовиной\".</string>
     <string name="pref_alt_pw_entry_desc">Включение ввода цифрового пароля только клавишами \"крестовины\", без выставления пароля на обозрение</string>
@@ -110,7 +108,7 @@
     <string name="lbl_yes">Да</string>
     <string name="msg_error_connecting_server">Ошибка соединения с сервером</string>
     <string name="msg_invalid_id_pw">Неверные ID или пароль пользователя</string>
-    <string name="lbl_version_colon">"Версия: "</string>
+    <string name="lbl_version">"Версия: "</string>
     <string name="lbl_ip_hint">192.168.1.1 или https://myserver.com</string>
     <string name="lbl_enter_server_address">Ввести адрес сервера</string>
     <string name="lbl_valid_server_address">Введите адрес сервера (IP или домен/имя_машины)</string>
