@@ -16,7 +16,6 @@
     <string name="pref_max_bitrate_title">Bitrate max pour le streaming</string>
     <string name="pref_auto_login">Connexion automatique avec cet utilisateur</string>
     <string name="settings_title">Paramètres</string>
-    <string name="pref_startup_cat">CONNEXION</string>
     <string name="pref_prompt_pw">Demande du mot de passe</string>
     <string name="pref_alt_pw_entry">Utilise la technique custom de saisie du mot de passe par d-pad</string>
     <string name="pref_alt_pw_entry_desc">Activé la saisie de mot de passe numérique avec seulement les touches du d-pad sans afficher le mot de passe à tout le monde dans la pièce</string>
@@ -109,7 +108,7 @@
     <string name="lbl_yes">Oui</string>
     <string name="msg_error_connecting_server">Erreur lors de la connexion au serveur</string>
     <string name="msg_invalid_id_pw">Identifiant d\'utilisateur ou mot de passe invalide</string>
-    <string name="lbl_version_colon">"Version: "</string>
+    <string name="lbl_version">"Version: "</string>
     <string name="lbl_ip_hint">192.168.1.1 or https://monserveur.com</string>
     <string name="lbl_enter_server_address">Entrer l\'adresse du serveur</string>
     <string name="lbl_valid_server_address">S\'il vous plaît entrer l\'adresse du serveur(IP ou nom de domaine/de la machine)</string>
@@ -295,7 +294,6 @@
     <string name="msg_settings_updated">Paramètre mis à jour</string>
     <string name="pref_live_tv_mode_desc">Aller directement à la dernier chaîne regardé</string>
     <string name="pref_live_tv_mode">Mode tv</string>
-    <string name="pref_show_login_value">0</string>
     <string name="msg_record_entire_series">Enregistrer la série entière</string>
     <string name="lbl_seconds">Secondes</string>
     <string name="lbl_schedule">Programmation</string>

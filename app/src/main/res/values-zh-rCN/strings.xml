@@ -10,12 +10,10 @@
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">启动行为</string>
     <string name="pref_show_login">显示登录界面</string>
-    <string name="pref_show_login_value">0</string>
     <string name="pref_playback">回放</string>
     <string name="pref_max_bitrate_title">最大串流码率</string>
     <string name="pref_auto_login">自动以此用户登录</string>
     <string name="settings_title">设置</string>
-    <string name="pref_startup_cat">登录</string>
     <string name="pref_prompt_pw">密码提示</string>
     <string name="title_activity_dpad_pw">输入密码</string>
     <string name="enter_password">输入密码</string>
@@ -95,7 +93,7 @@
     <string name="lbl_yes">是</string>
     <string name="msg_error_connecting_server">连接服务器时出错</string>
     <string name="msg_invalid_id_pw">无效的用户名或密码</string>
-    <string name="lbl_version_colon">"版本:"</string>
+    <string name="lbl_version">"版本:"</string>
     <string name="lbl_ip_hint">192.168.1.1 或 https://myserver.com</string>
     <string name="lbl_enter_server_address">输入服务器地址</string>
     <string name="lbl_valid_server_address">请输入服务器地址 (IP, 域名, 或机器名)</string>

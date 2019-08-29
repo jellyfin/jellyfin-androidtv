@@ -10,12 +10,10 @@
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Comportamento de Início</string>
     <string name="pref_show_login">Mostrar Tela de Login</string>
-    <string name="pref_show_login_value">0</string>
     <string name="pref_playback">REPRODUÇÃO</string>
     <string name="pref_max_bitrate_title">Taxa de Streaming Max</string>
     <string name="pref_auto_login">Entrar automaticamente com este usuário</string>
     <string name="settings_title">Ajustes</string>
-    <string name="pref_startup_cat">ENTRAR</string>
     <string name="pref_prompt_pw">Pedir Senha</string>
     <string name="pref_alt_pw_entry">Usar técnica d-pad personalizada para digitação de senha</string>
     <string name="pref_alt_pw_entry_desc">Ativa a digitação de senha numérica somente com chaves d-pad, sem expor a senha para as pessoas na sala</string>
@@ -108,7 +106,7 @@
     <string name="lbl_yes">Sim</string>
     <string name="msg_error_connecting_server">Erro ao Conectar com o Servidor</string>
     <string name="msg_invalid_id_pw">Senha ou id de usuário inválido</string>
-    <string name="lbl_version_colon">"Versão: "</string>
+    <string name="lbl_version">"Versão: "</string>
     <string name="lbl_ip_hint">192.168.1.1 ou https://meuservidor.com</string>
     <string name="lbl_enter_server_address">Digite o Endereço do Servidor</string>
     <string name="lbl_valid_server_address">Por favor, digite o endereço do servidor (IP ou nome do domínio/máquina)</string>

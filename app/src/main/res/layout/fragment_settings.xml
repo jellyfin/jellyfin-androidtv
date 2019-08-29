@@ -4,17 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent">
 
-    <SurfaceView
-        android:layout_width="520sp"
-        android:layout_height="420sp"
-        android:id="@+id/surfaceView"
-        android:layout_gravity="center"
-        android:layout_marginTop="10sp" />
-
     <fragment
-        android:layout_width="478dp"
-        android:layout_marginTop="80sp"
-        android:layout_marginBottom="50sp"
+        android:layout_width="500dp"
         android:layout_marginStart="240sp"
         android:layout_marginEnd="240sp"
         android:layout_height="match_parent"
@@ -22,22 +13,30 @@
         android:name="org.jellyfin.androidtv.settings.SettingsFragment"
         tools:context="org.jellyfin.androidtv.settings.SettingsFragment" />
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/settings_title"
-        android:id="@+id/textView6"
-        android:layout_gravity="center_horizontal|top"
-        android:paddingTop="20sp" />
+        android:paddingStart="40dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="40dp"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/settings_version_info"
-        android:layout_gravity="end|bottom"
-        android:layout_marginEnd="30sp"
-        android:layout_marginBottom="20sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="30sp"
+            android:text="@string/settings_title"
+            android:layout_gravity="start|top" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/settings_version_info"
+            tools:text="Version"
+            android:paddingTop="10dp" />
+
+    </LinearLayout>
 
 </FrameLayout>
