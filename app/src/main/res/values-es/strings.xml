@@ -10,12 +10,10 @@
     <string name="byletter_letters">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Comportamiento de Arranque</string>
     <string name="pref_show_login">Mostrar Pantalla de Inicio de Sesión</string>
-    <string name="pref_show_login_value">0</string>
     <string name="pref_playback">REPRODUCIR</string>
     <string name="pref_max_bitrate_title">Tasa de Bits de Transmisión Máxima</string>
     <string name="pref_auto_login">Iniciar sesión con este usuario automáticamente</string>
     <string name="settings_title">Configuraciones</string>
-    <string name="pref_startup_cat">INICIAR SESIÓN</string>
     <string name="pref_prompt_pw">Solicitar una Contraseña</string>
     <string name="title_activity_dpad_pw">Introducir Contraseña</string>
     <string name="enter_password">Introducir Contraseña</string>
@@ -95,7 +93,7 @@
     <string name="lbl_yes">Si</string>
     <string name="msg_error_connecting_server">Error al Conectarse al Servidor</string>
     <string name="msg_invalid_id_pw">Id de Usuario o contraseña inválidos</string>
-    <string name="lbl_version_colon">"Versión: "</string>
+    <string name="lbl_version">"Versión: "</string>
     <string name="lbl_ip_hint">192.168.1.1 ó https://myserver.com</string>
     <string name="lbl_enter_server_address">Introduzca la Dirección del Servidor</string>
     <string name="lbl_valid_server_address">Por favor introduzca una dirección del servidor válida</string>

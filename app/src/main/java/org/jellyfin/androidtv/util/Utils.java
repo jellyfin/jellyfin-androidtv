@@ -120,7 +120,7 @@ public class Utils {
     }
 
     public static String getVersionString() {
-        return TvApp.getApplication().getString(R.string.lbl_version_colon) + BuildConfig.VERSION_NAME;
+        return TvApp.getApplication().getString(R.string.lbl_version) + BuildConfig.VERSION_NAME;
     }
 
     public static String firstToUpper(String value) {

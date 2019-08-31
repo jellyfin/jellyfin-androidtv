@@ -11,7 +11,7 @@
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:id="@+id/msgIcon"
-        android:src="@drawable/msginfo" />
+        android:src="@drawable/ic_info" />
 
     <TextView
         android:layout_width="wrap_content"

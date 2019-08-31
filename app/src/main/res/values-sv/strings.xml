@@ -7,5 +7,4 @@
     <string name="home_title">Hem</string>
     <string name="btn_cancel">Avbryt</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ</string>
-    <string name="pref_show_login_value">0</string>
 </resources>

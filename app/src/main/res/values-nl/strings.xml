@@ -10,12 +10,10 @@
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Opstart gedrag</string>
     <string name="pref_show_login">Toon Login Scherm</string>
-    <string name="pref_show_login_value">0</string>
     <string name="pref_playback">AFSPELEN</string>
     <string name="pref_max_bitrate_title">Max Streaming Bitrate</string>
     <string name="pref_auto_login">Automatisch inloggen als deze gebruiker</string>
     <string name="settings_title">Instellingen</string>
-    <string name="pref_startup_cat">INLOGGEN</string>
     <string name="pref_prompt_pw">Vraag Wachtwoord</string>
     <string name="pref_alt_pw_entry">Gebruik eigen d-pad wachtwoord invoermethode</string>
     <string name="pref_alt_pw_entry_desc">Inschakelen numeriek wachtwoord met alleen d-pad toetsen zonder het wachtwoord aan iedereen in de kamer te tonen</string>
@@ -108,7 +106,7 @@
     <string name="lbl_yes">Ja</string>
     <string name="msg_error_connecting_server">Fout bij verbinden met Server</string>
     <string name="msg_invalid_id_pw">Ongeldige Gebruiker id of wachtwoord</string>
-    <string name="lbl_version_colon">"Versie: "</string>
+    <string name="lbl_version">"Versie: "</string>
     <string name="lbl_ip_hint">IP Adres of https://mijnserver.com</string>
     <string name="lbl_enter_server_address">Invoeren Server Adres</string>
     <string name="lbl_valid_server_address">Vul het server adres in (IP adres of domein-/servernaam)</string>

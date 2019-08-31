@@ -486,10 +486,10 @@ public class ItemListActivity extends BaseActivity {
     private void updatePoster(BaseItemDto item){
         switch (mItemId) {
             case FAV_SONGS:
-                mPoster.setImageResource(R.drawable.genericmusic);
+                mPoster.setImageResource(R.drawable.favorites);
                 break;
             case VIDEO_QUEUE:
-                mPoster.setImageResource(R.drawable.transplaylist);
+                mPoster.setImageResource(R.drawable.ic_video_queue);
                 break;
             default:
                 // Figure image size
@@ -560,7 +560,7 @@ public class ItemListActivity extends BaseActivity {
 
     private void addButtons(int buttonSize) {
         if (BaseItemUtils.canPlay(mBaseItem)) {
-            TextUnderButton play = new TextUnderButton(this, R.drawable.play, buttonSize, 2, getString(mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
+            TextUnderButton play = new TextUnderButton(this, R.drawable.ic_play, buttonSize, 2, getString(mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mItems.size() > 0) {
@@ -574,7 +574,7 @@ public class ItemListActivity extends BaseActivity {
             mButtonRow.addView(play);
             play.requestFocus();
             if (mBaseItem.getIsFolderItem()) {
-                TextUnderButton shuffle = new TextUnderButton(this, R.drawable.shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
+                TextUnderButton shuffle = new TextUnderButton(this, R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (mItems.size() > 0) {
@@ -598,7 +598,7 @@ public class ItemListActivity extends BaseActivity {
         }
 
         if ("MusicAlbum".equals(mBaseItem.getType())) {
-            TextUnderButton mix = new TextUnderButton(this, R.drawable.mix, buttonSize, 2, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
+            TextUnderButton mix = new TextUnderButton(this, R.drawable.ic_mix, buttonSize, 2, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
                     Utils.beep();
@@ -612,7 +612,7 @@ public class ItemListActivity extends BaseActivity {
         if (!mItemId.equals(FAV_SONGS)) {
             if (!mItemId.equals(VIDEO_QUEUE)) {
                 //Favorite
-                TextUnderButton fav = new TextUnderButton(this, mBaseItem.getUserData().getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart, buttonSize,2, getString(R.string.lbl_favorite), new View.OnClickListener() {
+                TextUnderButton fav = new TextUnderButton(this, mBaseItem.getUserData().getIsFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart, buttonSize,2, getString(R.string.lbl_favorite), new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
                         UserItemDataDto data = mBaseItem.getUserData();
@@ -620,7 +620,7 @@ public class ItemListActivity extends BaseActivity {
                             @Override
                             public void onResponse(UserItemDataDto response) {
                                 mBaseItem.setUserData(response);
-                                ((ImageButton) v).setImageResource(response.getIsFavorite() ? R.drawable.redheart : R.drawable.whiteheart);
+                                ((ImageButton) v).setImageResource(response.getIsFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart);
                                 TvApp.getApplication().setLastFavoriteUpdate(System.currentTimeMillis());
                             }
                         });
@@ -633,7 +633,7 @@ public class ItemListActivity extends BaseActivity {
 
             if ("Playlist".equals(mBaseItem.getType())) {
                 if (VIDEO_QUEUE.equals(mBaseItem.getId())) {
-                    mButtonRow.addView(new TextUnderButton(this, R.drawable.saveplaylist, buttonSize, 2, getString(R.string.lbl_save_as_playlist), new View.OnClickListener() {
+                    mButtonRow.addView(new TextUnderButton(this, R.drawable.ic_save, buttonSize, 2, getString(R.string.lbl_save_as_playlist), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             MediaManager.saveVideoQueue(mActivity);
@@ -641,7 +641,7 @@ public class ItemListActivity extends BaseActivity {
                     }));
                 }
 
-                TextUnderButton delete = new TextUnderButton(this, R.drawable.trash, buttonSize, getString(R.string.lbl_delete), new View.OnClickListener() {
+                TextUnderButton delete = new TextUnderButton(this, R.drawable.ic_trash, buttonSize, getString(R.string.lbl_delete), new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
                         if (mBaseItem.getId().equals(VIDEO_QUEUE)) {
@@ -702,7 +702,7 @@ public class ItemListActivity extends BaseActivity {
         }
 
         if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {
-            TextUnderButton artist = new TextUnderButton(this, R.drawable.user, buttonSize, 4, getString(R.string.lbl_open_artist), new View.OnClickListener() {
+            TextUnderButton artist = new TextUnderButton(this, R.drawable.ic_user, buttonSize, 4, getString(R.string.lbl_open_artist), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent artist = new Intent(mActivity, FullDetailsActivity.class);

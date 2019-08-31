@@ -369,7 +369,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             }
         });
 
-        toolBar.addView(new ImageButton(getActivity(), R.drawable.sort, size, new View.OnClickListener() {
+        toolBar.addView(new ImageButton(getActivity(), R.drawable.ic_sort, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Create sort menu
@@ -396,7 +396,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         }));
 
         if (mRowDef.getQueryType() == QueryType.Items) {
-            mUnwatchedButton = new ImageButton(getActivity(), mGridAdapter.getFilters().isUnwatchedOnly() ? R.drawable.unwatchedred : R.drawable.unwatchedwhite, size, new View.OnClickListener() {
+            mUnwatchedButton = new ImageButton(getActivity(), mGridAdapter.getFilters().isUnwatchedOnly() ? R.drawable.ic_unwatch_red : R.drawable.ic_unwatch, size, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     FilterOptions filters = mGridAdapter.getFilters();
@@ -410,7 +410,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                     } else {
                         mGridAdapter.Retrieve();
                     }
-                    mUnwatchedButton.setImageResource(filters.isUnwatchedOnly() ? R.drawable.unwatchedred : R.drawable.unwatchedwhite);
+                    mUnwatchedButton.setImageResource(filters.isUnwatchedOnly() ? R.drawable.ic_unwatch_red : R.drawable.ic_unwatch);
 
 
                 }
@@ -418,7 +418,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             toolBar.addView(mUnwatchedButton);
         }
 
-        mFavoriteButton =new ImageButton(getActivity(), mGridAdapter.getFilters().isFavoriteOnly() ? R.drawable.redheart : R.drawable.whiteheart, size, new View.OnClickListener() {
+        mFavoriteButton =new ImageButton(getActivity(), mGridAdapter.getFilters().isFavoriteOnly() ? R.drawable.ic_heart_red : R.drawable.ic_heart, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FilterOptions filters = mGridAdapter.getFilters();
@@ -432,13 +432,13 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                 } else {
                     mGridAdapter.Retrieve();
                 }
-                mFavoriteButton.setImageResource(filters.isFavoriteOnly() ? R.drawable.redheart : R.drawable.whiteheart);
+                mFavoriteButton.setImageResource(filters.isFavoriteOnly() ? R.drawable.ic_heart_red : R.drawable.ic_heart);
 
             }
         });
         toolBar.addView(mFavoriteButton);
 
-        mLetterButton = new ImageButton(getActivity(), R.drawable.jumpletter, size, new View.OnClickListener() {
+        mLetterButton = new ImageButton(getActivity(), R.drawable.ic_jump_letter, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Open letter jump popup
@@ -447,14 +447,14 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         });
         toolBar.addView(mLetterButton);
 
-        toolBar.addView(new ImageButton(getActivity(), R.drawable.search2, size, new View.OnClickListener() {
+        toolBar.addView(new ImageButton(getActivity(), R.drawable.ic_search, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TvApp.getApplication().showSearch(getActivity(), "music".equals(mFolder.getCollectionType()) || "MusicAlbum".equals(mFolder.getType()) || "MusicArtist".equals(mFolder.getType()));
             }
         }));
 
-        toolBar.addView(new ImageButton(getActivity(), R.drawable.cog, size, new View.OnClickListener() {
+        toolBar.addView(new ImageButton(getActivity(), R.drawable.ic_settings, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDisplayPrefsPopup.show(mDisplayPrefs, mFolder.getCollectionType());

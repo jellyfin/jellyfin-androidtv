@@ -10,12 +10,10 @@
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Adfærd ved opstart</string>
     <string name="pref_show_login">Vis login skærm</string>
-    <string name="pref_show_login_value">0</string>
     <string name="pref_playback">AFSPILNING</string>
     <string name="pref_max_bitrate_title">Maks Streaming Bitrate</string>
     <string name="pref_auto_login">Log automatisk ind som denne bruger</string>
     <string name="settings_title">Indstillinger</string>
-    <string name="pref_startup_cat">LOG IN</string>
     <string name="pref_prompt_pw">Spørg efter kodeord</string>
     <string name="pref_alt_pw_entry">Brug brugerdefineret d-pad indtastningsmetode</string>
     <string name="pref_alt_pw_entry_desc">Aktiverer numerisk kodeordsindtastning med d-pad knapperne uden at vise koden til alle i rummet</string>
@@ -106,7 +104,7 @@
     <string name="lbl_yes">Ja</string>
     <string name="msg_error_connecting_server">Fejl ved oprettelse af forbindelse til serveren</string>
     <string name="msg_invalid_id_pw">Ugyldigt Bruger id eller kodeord</string>
-    <string name="lbl_version_colon">"Version: "</string>
+    <string name="lbl_version">"Version: "</string>
     <string name="lbl_ip_hint">192.168.1.1 eller https://myserver.com</string>
     <string name="lbl_enter_server_address">Indtast server adresse</string>
     <string name="lbl_valid_server_address">Venligst indtast serveradressen (IP eller domæne/servernavn)</string>

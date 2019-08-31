@@ -13,12 +13,11 @@
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Startup Behavior</string>
     <string name="pref_show_login">Show login screen</string>
-    <string name="pref_show_login_value">0</string>
-    <string name="pref_playback">PLAYBACK</string>
+    <string name="pref_playback">Playback</string>
     <string name="pref_max_bitrate_title">Max Streaming Bitrate</string>
     <string name="pref_auto_login">Automatically login as this user</string>
     <string name="settings_title">Settings</string>
-    <string name="pref_startup_cat">LOG IN</string>
+    <string name="pref_authentication_cat">Authentication</string>
     <string name="pref_prompt_pw">Prompt for Password</string>
     <string name="pref_alt_pw_entry">Custom D-Pad Password Entry</string>
     <string name="pref_alt_pw_entry_desc">Numeric password entry using only the D-Pad keys</string>
@@ -28,7 +27,7 @@
     <string name="dpad_pw_cancel">* Hold the \'down\' button down for 1 second and release if you have an alpha password or need a keyboard for entry</string>
     <string name="chapters">Chapters</string>
     <string name="pref_auto_logoff_title">Auto Logoff Timeout</string>
-    <string name="pref_general">GENERAL</string>
+    <string name="pref_general">General</string>
     <string name="lbl_settings">Settings</string>
     <string name="lbl_logout">Logout</string>
     <string name="lbl_send_logs">Send Logs</string>
@@ -101,7 +100,7 @@
     <string name="lbl_none">None</string>
     <string name="msg_video_playback_error">"Video Playback error - "</string>
     <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>
-    <string name="msg_access_restricted">Access Restricted at this time</string>
+    <string name="msg_access_restricted">Access restricted at this time</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_play_trailers">Play Trailer(s)</string>
     <string name="lbl_please_wait">Please Wait</string>
@@ -115,7 +114,7 @@
     <string name="lbl_yes">Yes</string>
     <string name="msg_error_connecting_server">Error Connecting to Server</string>
     <string name="msg_invalid_id_pw">Invalid User id or password</string>
-    <string name="lbl_version_colon">"Version: "</string>
+    <string name="lbl_version">"Version "</string>
     <string name="lbl_ip_hint">192.168.1.1 or https://myserver.com</string>
     <string name="lbl_enter_server_address">Enter Server Address</string>
     <string name="lbl_valid_server_address">Please enter the server address (IP or domain/machine name)</string>
@@ -139,6 +138,8 @@
     <string name="lbl_mark_played">Mark Played</string>
     <string name="lbl_remove_favorite">Remove Favorite</string>
     <string name="lbl_add_favorite">Add Favorite</string>
+    <string name="lbl_now_playing_track">%s of %s</string>
+    <string name="lbl_now_playing_album">from %s</string>
     <string name="lbl_like">Like</string>
     <string name="lbl_dislike">Dislike</string>
     <string name="lbl_unlike">Unlike</string>
@@ -202,7 +203,7 @@
     <string name="lbl_live_tv_guide">Live TV Guide</string>
     <string name="lbl_recorded_tv">Recorded TV</string>
     <string name="btn_ok">OK</string>
-    <string name="pref_live_tv_cat">LIVE TV</string>
+    <string name="pref_live_tv_cat">Live TV</string>
     <string name="msg_error_live_stream">Error streaming live TV.  Will re-try...</string>
     <string name="lbl_direct_stream_live">Direct Stream Live TV</string>
     <string name="lbl_programs">Programs</string>
@@ -215,6 +216,7 @@
     <string name="lbl_enable_cinema_mode">Cinema Mode</string>
     <string name="sum_enable_cinema_mode">Show intros and previews before movie playback when enabled by the server</string>
     <string name="lbl_playlists">Playlists</string>
+    <string name="lbl_warning">Warning</string>
     <string name="lbl_of">of</string>
     <string name="msg_added_item_to_queue">"Item added to queue at position "</string>
     <string name="msg_items_added">" items added"</string>
@@ -252,7 +254,8 @@
     <string name="lbl_horizontal_stretch">Horizontal Stretch</string>
     <string name="lbl_vertical_stretch">Vertical Stretch</string>
     <string name="lbl_audio_capabilitites">Audio Capabilities</string>
-    <string name="msg_audio_warning">This app has the ability to direct stream certain multi-channel audio formats.  If your hardware does not support these formats, you may hear no sound when playing some items. This is most likely if using only TV speakers. If this happens, set the Audio Mode to \'Downmix\' in the app playback settings.</string>
+    <string name="msg_audio_warning">This app has the ability to direct stream certain multi-channel audio formats. If your hardware does not support these formats, you may hear no sound when playing certain items. This can be fixed by changing the audio mode to \'downmix\' in the settings.</string>
+    <string name="msg_external_path">This feature will only work if you have properly set up your library on the server with network paths or path substitution and the client you are using can directly access these locations over the network.</string>
     <string name="btn_got_it">Got it</string>
     <string name="btn_set_compatible_audio">Set downmix now</string>
     <string name="lbl_current_queue">Current Queue</string>

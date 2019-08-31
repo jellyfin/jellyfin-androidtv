@@ -10,12 +10,10 @@
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Startverhalten</string>
     <string name="pref_show_login">Zeige Login-Bildschirm</string>
-    <string name="pref_show_login_value">0</string>
     <string name="pref_playback">WIEDERGABE</string>
     <string name="pref_max_bitrate_title">Maximale streaming Datenrate</string>
     <string name="pref_auto_login">Automatisch mit diesem User anmelden</string>
     <string name="settings_title">Einstellungen</string>
-    <string name="pref_startup_cat">ANMELDEN</string>
     <string name="pref_prompt_pw">Frage nach Passwort</string>
     <string name="pref_alt_pw_entry">Verwende eigene Steuerkreuz-Passwort Technik.</string>
     <string name="pref_alt_pw_entry_desc">Aktiviert die numerische Passworteingabe nur mit dem Steuerkreuz Tasten ohne das Passwort jedem im Raum anzuzeigen.</string>
@@ -108,7 +106,7 @@
     <string name="lbl_yes">Ja</string>
     <string name="msg_error_connecting_server">Fehler bei Serververbindung</string>
     <string name="msg_invalid_id_pw">Fahler Benutzername oder Passwort</string>
-    <string name="lbl_version_colon">"Version: "</string>
+    <string name="lbl_version">"Version: "</string>
     <string name="lbl_ip_hint">192.168.1.1 oder https://meinserver.com</string>
     <string name="lbl_enter_server_address">Server Adresse eingeben</string>
     <string name="lbl_valid_server_address">Bitte geben Sie die Server Adresse ein (IP oder Domain/Server Name)</string>

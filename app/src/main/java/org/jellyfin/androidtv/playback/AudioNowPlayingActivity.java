@@ -83,7 +83,6 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     private TextView mSongTitle;
     private TextView mAlbumTitle;
     private TextView mCurrentNdx;
-    private TextView mTotal;
     private ImageView mPoster;
     private ProgressBar mCurrentProgress;
     private TextView mCurrentPos;
@@ -119,36 +118,37 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mActivity = this;
         roboto = mApplication.getDefaultFont();
 
-        mClock = (ClockUserView) findViewById(R.id.clock);
-        mPoster = (ImageView) findViewById(R.id.poster);
-        mArtistName = (TextView) findViewById(R.id.artistTitle);
+        mClock = findViewById(R.id.clock);
+        mPoster = findViewById(R.id.poster);
+        mArtistName = findViewById(R.id.artistTitle);
         mArtistName.setTypeface(roboto);
-        mGenreRow = (LinearLayout) findViewById(R.id.genreRow);
-        mSongTitle = (TextView) findViewById(R.id.songTitle);
+        mGenreRow = findViewById(R.id.genreRow);
+        mSongTitle = findViewById(R.id.song);
         mSongTitle.setTypeface(roboto);
-        mAlbumTitle = (TextView) findViewById(R.id.albumTitle);
+        mAlbumTitle = findViewById(R.id.album);
         mAlbumTitle.setTypeface(roboto);
-        mCurrentNdx = (TextView) findViewById(R.id.currentNdx);
-        mScrollView = (ScrollView) findViewById(R.id.mainScroller);
-        mCounter = (TextView) findViewById(R.id.counter);
+        mCurrentNdx = findViewById(R.id.track);
+        mCurrentNdx.setTypeface(roboto);
+        mScrollView = findViewById(R.id.mainScroller);
+        mCounter = findViewById(R.id.counter);
         mCounter.setTypeface(roboto);
-        mLogoImage = (ImageView) findViewById(R.id.artistLogo);
+        mLogoImage = findViewById(R.id.artistLogo);
 
-        mSSArea = (RelativeLayout) findViewById(R.id.ssInfoArea);
-        mSSTime = (TextView) findViewById(R.id.ssTime);
+        mSSArea = findViewById(R.id.ssInfoArea);
+        mSSTime = findViewById(R.id.ssTime);
         mSSTime.setTypeface(roboto);
-        mSSAlbumSong = (TextView) findViewById(R.id.ssAlbumSong);
+        mSSAlbumSong = findViewById(R.id.ssAlbumSong);
         mSSAlbumSong.setTypeface(roboto);
-        mSSQueueStatus = (TextView) findViewById(R.id.ssQueueStatus);
+        mSSQueueStatus = findViewById(R.id.ssQueueStatus);
         mSSQueueStatus.setTypeface(roboto);
-        mSSUpNext = (TextView) findViewById(R.id.ssUpNext);
+        mSSUpNext = findViewById(R.id.ssUpNext);
         mSSUpNext.setTypeface(roboto);
 
-        mPlayPauseButton = (ImageButton) findViewById(R.id.playPauseBtn);
+        mPlayPauseButton = findViewById(R.id.playPauseBtn);
         mPlayPauseButton.setSecondaryImage(R.drawable.lb_ic_pause);
-        mPlayPauseButton.setPrimaryImage(R.drawable.play);
-        TextView helpView = (TextView) findViewById(R.id.buttonTip);
-        mPrevButton = (ImageButton) findViewById(R.id.prevBtn);
+        mPlayPauseButton.setPrimaryImage(R.drawable.ic_play);
+        TextView helpView = findViewById(R.id.buttonTip);
+        mPrevButton = findViewById(R.id.prevBtn);
         mPrevButton.setHelpView(helpView);
         mPrevButton.setHelpText(getString(R.string.lbl_prev_item));
         mPrevButton.setOnClickListener(new View.OnClickListener() {
@@ -158,7 +158,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
             }
         });
         mPrevButton.setGotFocusListener(mainAreaFocusListener);
-        mNextButton = (ImageButton) findViewById(R.id.nextBtn);
+        mNextButton = findViewById(R.id.nextBtn);
         mNextButton.setHelpView(helpView);
         mNextButton.setHelpText(getString(R.string.lbl_next_item));
         mNextButton.setOnClickListener(new View.OnClickListener() {
@@ -168,11 +168,11 @@ public class AudioNowPlayingActivity extends BaseActivity  {
             }
         });
         mNextButton.setGotFocusListener(mainAreaFocusListener);
-        mRepeatButton = (ImageButton) findViewById(R.id.repeatBtn);
+        mRepeatButton = findViewById(R.id.repeatBtn);
         mRepeatButton.setHelpView(helpView);
         mRepeatButton.setHelpText(getString(R.string.lbl_repeat));
-        mRepeatButton.setPrimaryImage(R.drawable.loop);
-        mRepeatButton.setSecondaryImage(R.drawable.loopred);
+        mRepeatButton.setPrimaryImage(R.drawable.ic_loop);
+        mRepeatButton.setSecondaryImage(R.drawable.ic_loop_red);
         mRepeatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,7 +180,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                 updateButtons(MediaManager.isPlayingAudio());
             }
         });
-        mSaveButton = (ImageButton) findViewById(R.id.saveBtn);
+        mSaveButton = findViewById(R.id.saveBtn);
         mSaveButton.setHelpView(helpView);
         mSaveButton.setHelpText(getString(R.string.lbl_save_as_playlist));
         mSaveButton.setOnClickListener(new View.OnClickListener() {
@@ -190,7 +190,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
             }
         });
         mRepeatButton.setGotFocusListener(mainAreaFocusListener);
-        mShuffleButton = (ImageButton) findViewById(R.id.shuffleBtn);
+        mShuffleButton = findViewById(R.id.shuffleBtn);
         mShuffleButton.setHelpView(helpView);
         mShuffleButton.setHelpText(getString(R.string.lbl_reshuffle_queue));
         mShuffleButton.setOnClickListener(new View.OnClickListener() {
@@ -212,7 +212,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
             }
         });
         mShuffleButton.setGotFocusListener(mainAreaFocusListener);
-        mAlbumButton = (ImageButton) findViewById(R.id.albumBtn);
+        mAlbumButton = findViewById(R.id.albumBtn);
         mAlbumButton.setHelpView(helpView);
         mAlbumButton.setHelpText(getString(R.string.lbl_open_album));
         mAlbumButton.setOnClickListener(new View.OnClickListener() {
@@ -224,7 +224,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
             }
         });
         mAlbumButton.setGotFocusListener(mainAreaFocusListener);
-        mArtistButton = (ImageButton) findViewById(R.id.artistBtn);
+        mArtistButton = findViewById(R.id.artistBtn);
         mArtistButton.setHelpView(helpView);
         mArtistButton.setHelpText(getString(R.string.lbl_open_artist));
         mArtistButton.setOnClickListener(new View.OnClickListener() {
@@ -240,10 +240,9 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         });
         mArtistButton.setGotFocusListener(mainAreaFocusListener);
 
-        mCurrentProgress = (ProgressBar) findViewById(R.id.playerProgress);
-        mCurrentPos = (TextView) findViewById(R.id.currentPos);
-        mRemainingTime = (TextView) findViewById(R.id.remainingTime);
-        mTotal = (TextView) findViewById(R.id.total);
+        mCurrentProgress = findViewById(R.id.playerProgress);
+        mCurrentPos = findViewById(R.id.currentPos);
+        mRemainingTime = findViewById(R.id.remainingTime);
 
         mPlayPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -343,8 +342,6 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                     MediaManager.prevAudioItem();
                     return true;
                 }
-                break;
-
         }
 
         if (ssActive) {
@@ -410,7 +407,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         Picasso.with(mActivity)
                 .load(primaryImageUrl)
                 .skipMemoryCache()
-                .error(R.drawable.audioicon)
+                .error(R.drawable.ic_audio)
                 .resize(posterWidth, posterHeight)
                 .centerInside()
                 .into(mPoster);
@@ -460,16 +457,16 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         if (item != null) {
             mArtistName.setText(getArtistName(item));
             mSongTitle.setText(item.getName());
-            mAlbumTitle.setText(item.getAlbum());
-            mCurrentNdx.setText(MediaManager.getCurrentAudioQueueDisplayPosition());
-            mTotal.setText(MediaManager.getCurrentAudioQueueDisplaySize());
+            mAlbumTitle.setText(String.format(getResources().getString(R.string.lbl_now_playing_album), item.getAlbum()));
+            mCurrentNdx.setText(String.format(getResources().getString(R.string.lbl_now_playing_track),
+                    MediaManager.getCurrentAudioQueueDisplayPosition(),
+                    MediaManager.getCurrentAudioQueueDisplaySize()));
             mCurrentDuration = ((Long)((item.getRunTimeTicks() != null ? item.getRunTimeTicks() : 0) / 10000)).intValue();
             //set progress to match duration
             mCurrentProgress.setMax(mCurrentDuration);
             addGenres(mGenreRow);
             updateBackground(ImageUtils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
         }
-
     }
 
     public void setCurrentTime(long time) {
@@ -601,5 +598,4 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                     .into(mBackgroundTarget);
         }
     }
-
 }

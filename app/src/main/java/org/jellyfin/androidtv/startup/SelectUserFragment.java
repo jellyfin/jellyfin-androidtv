@@ -55,8 +55,8 @@ public class SelectUserFragment extends CustomBrowseFragment {
 
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add(new GridButton(ENTER_MANUALLY, mApplication.getString(R.string.lbl_enter_manually), R.drawable.edit));
-        gridRowAdapter.add(new GridButton(SWITCH_SERVER, mApplication.getString(R.string.lbl_switch_server), R.drawable.server));
+        gridRowAdapter.add(new GridButton(ENTER_MANUALLY, mApplication.getString(R.string.lbl_enter_manually), R.drawable.tile_edit));
+        gridRowAdapter.add(new GridButton(SWITCH_SERVER, mApplication.getString(R.string.lbl_switch_server), R.drawable.tile_port_server));
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
 

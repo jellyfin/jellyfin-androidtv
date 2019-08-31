@@ -4,23 +4,23 @@
 
     <item android:title="@string/lbl_add_favorite"
         android:id="@+id/addFav"
-        android:icon="@drawable/whiteheart"
+        android:icon="@drawable/ic_heart"
         />
     <item android:title="@string/lbl_remove_favorite"
         android:id="@+id/remFav"
-        android:icon="@drawable/redheart"
+        android:icon="@drawable/ic_heart_red"
         />
     <item android:title="@string/lbl_add_to_queue"
         android:id="@+id/addQueue"
-        android:icon="@drawable/addtoqueue"
+        android:icon="@drawable/ic_addtoqueue"
         />
     <item android:title="@string/lbl_goto_series"
         android:id="@+id/gotoSeries"
-        android:icon="@drawable/tvicon"
+        android:icon="@drawable/ic_tv"
         />
     <item android:title="@string/lbl_delete"
         android:id="@+id/delete"
-        android:icon="@drawable/trash"
+        android:icon="@drawable/ic_trash"
         />
 
 </menu>

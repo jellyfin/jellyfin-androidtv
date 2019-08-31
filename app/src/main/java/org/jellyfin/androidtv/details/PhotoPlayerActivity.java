@@ -344,7 +344,7 @@ public class PhotoPlayerActivity extends BaseActivity {
                     .resize(displayWidth, displayHeight)
                     .centerInside()
                     .skipMemoryCache()
-                    .error(R.drawable.photo)
+                    .error(R.drawable.tile_land_photo)
                     .into(target, new Callback() {
                         @Override
                         public void onSuccess() {

@@ -925,23 +925,23 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mInfoRow, false, false);
 
             if (Utils.isTrue(mSelectedProgram.getIsNews())) {
-                mBackdrop.setImageResource(R.drawable.newsbanner);
+                mBackdrop.setImageResource(R.drawable.banner_news);
 
             } else if (Utils.isTrue(mSelectedProgram.getIsKids())) {
-                mBackdrop.setImageResource(R.drawable.kidsbanner);
+                mBackdrop.setImageResource(R.drawable.banner_kids);
 
             } else if (Utils.isTrue(mSelectedProgram.getIsSports())) {
-                mBackdrop.setImageResource(R.drawable.sportsbanner);
+                mBackdrop.setImageResource(R.drawable.banner_sports);
 
             } else if (Utils.isTrue(mSelectedProgram.getIsMovie())) {
-                mBackdrop.setImageResource(R.drawable.moviebanner);
+                mBackdrop.setImageResource(R.drawable.banner_movie);
 
             } else {
-                mBackdrop.setImageResource(R.drawable.tvbanner);
+                mBackdrop.setImageResource(R.drawable.banner_tv);
             }
         } else {
             mInfoRow.removeAllViews();
-            mBackdrop.setImageResource(R.drawable.tvbanner);
+            mBackdrop.setImageResource(R.drawable.banner_tv);
             mImage.setImageResource(R.drawable.blank10x10);
         }
     }

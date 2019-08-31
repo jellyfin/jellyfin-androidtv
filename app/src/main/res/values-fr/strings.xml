@@ -10,12 +10,10 @@
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Démarrage</string>
     <string name="pref_show_login">Ecran de login</string>
-    <string name="pref_show_login_value">0</string>
     <string name="pref_playback">Lecture</string>
     <string name="pref_max_bitrate_title">Débit max de streaming</string>
     <string name="pref_auto_login">Se connecter automatiquement avec cet utilisateur</string>
     <string name="settings_title">Paramètres</string>
-    <string name="pref_startup_cat">Connexion</string>
     <string name="pref_prompt_pw">Demander le mot de passe</string>
     <string name="pref_alt_pw_entry">Utiliser la technique du mot de passe numérique d-pad</string>
     <string name="pref_alt_pw_entry_desc">Active la saisie des mots de passe numérique avec les touches d-pad sans montrer le mot de passe à tout le monde dans la pièce</string>
@@ -108,7 +106,7 @@
     <string name="lbl_yes">Oui</string>
     <string name="msg_error_connecting_server">Erreur de connexion au serveur</string>
     <string name="msg_invalid_id_pw">Identifiant utilisateur ou mot de passe invalide</string>
-    <string name="lbl_version_colon">"Version : "</string>
+    <string name="lbl_version">"Version : "</string>
     <string name="lbl_ip_hint">192.168.1.1 ou https://monserveur.com</string>
     <string name="lbl_enter_server_address">Entrez l\'adresse du serveur</string>
     <string name="lbl_valid_server_address">Veuillez entrer une adresse de serveur valide (IP ou nom de machine/domaine)</string>

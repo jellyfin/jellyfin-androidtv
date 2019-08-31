@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.ui;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.text.TextUtils;
@@ -29,7 +28,6 @@ public class ItemRowView extends FrameLayout {
     TextView mItemName;
     TextView mExtraName;
     TextView mRunTime;
-    TextView mDivider;
     TextView mWatchedMark;
     Drawable normalBackground;
 
@@ -40,7 +38,6 @@ public class ItemRowView extends FrameLayout {
 
     RowSelectedListener rowSelectedListener;
     RowClickedListener rowClickedListener;
-    ItemRowView us;
 
     public ItemRowView(Context context) {
         super(context);
@@ -58,12 +55,12 @@ public class ItemRowView extends FrameLayout {
         this.rowSelectedListener = rowSelectedListener;
         this.rowClickedListener = rowClickedListener;
         setItem(song, ndx);
-        us = this;
+        final ItemRowView itemRowView = this;
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 playSoundEffect(SoundEffectConstants.CLICK);
-                if (rowClickedListener != null) rowClickedListener.onRowClicked(us);
+                if (rowClickedListener != null) rowClickedListener.onRowClicked(itemRowView);
             }
         });
     }
@@ -72,16 +69,14 @@ public class ItemRowView extends FrameLayout {
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.item_row, this);
         mContext = context;
-        mWholeRow = (RelativeLayout) findViewById(R.id.wholeRow);
-        mIndexNo = (TextView) findViewById(R.id.indexNo);
-        mItemName = (TextView) findViewById(R.id.songName);
-        mExtraName = (TextView) findViewById(R.id.artistName);
-        mRunTime = (TextView) findViewById(R.id.runTime);
-        mDivider = (TextView) findViewById(R.id.divider);
-        mWatchedMark = (TextView) findViewById(R.id.watchedMark);
+        mWholeRow = findViewById(R.id.wholeRow);
+        mIndexNo = findViewById(R.id.indexNo);
+        mItemName = findViewById(R.id.songName);
+        mExtraName = findViewById(R.id.artistName);
+        mRunTime = findViewById(R.id.runTime);
+        mWatchedMark = findViewById(R.id.watchedMark);
         normalBackground = mWholeRow.getBackground();
         setFocusable(true);
-
     }
 
     @Override
@@ -108,7 +103,6 @@ public class ItemRowView extends FrameLayout {
                     mExtraName.setText(artist);
                 } else {
                     mExtraName.setVisibility(GONE);
-                    mDivider.setVisibility(GONE);
                 }
                 break;
             default:
@@ -119,7 +113,6 @@ public class ItemRowView extends FrameLayout {
                 } else {
                     mItemName.setText(item.getName());
                     mExtraName.setVisibility(GONE);
-                    mDivider.setVisibility(GONE);
                 }
                 updateWatched();
                 break;
@@ -151,9 +144,9 @@ public class ItemRowView extends FrameLayout {
 
     public boolean setPlaying(boolean playing) {
         if (playing) {
-            mIndexNo.setBackgroundResource(R.drawable.eq_animation);
+            // TODO use decent animation for equalizer icon
+            mIndexNo.setBackgroundResource(R.drawable.ic_play);
             mIndexNo.setText("");
-            ((AnimationDrawable)mIndexNo.getBackground()).start();
         } else {
             mIndexNo.setBackgroundResource(R.drawable.blank10x10);
             mIndexNo.setText(Integer.toString(ourIndex));
@@ -176,5 +169,4 @@ public class ItemRowView extends FrameLayout {
     public static class RowClickedListener {
         public void onRowClicked(ItemRowView row) {};
     }
-
 }
