@@ -10,12 +10,10 @@
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Funkce při spuštění</string>
     <string name="pref_show_login">Zobrazit obrazovku pro přihlášení</string>
-    <string name="pref_show_login_value">0</string>
     <string name="pref_playback">PŘEHRÁVÁNÍ</string>
     <string name="pref_max_bitrate_title">Maximální datový tok</string>
     <string name="pref_auto_login">Automaticky přihlásit jako tento uživatel</string>
     <string name="settings_title">Nastavení</string>
-    <string name="pref_startup_cat">PŘIHLÁSIT</string>
     <string name="pref_prompt_pw">Vyzvat k zadání hesla</string>
     <string name="pref_alt_pw_entry">Použít vlastní techniku D-pad pro zadání hesla</string>
     <string name="pref_alt_pw_entry_desc">Povolit numerické zadání hesla pouze s klíčem d-pad bez vystavení hesla všem v místnosti</string>
@@ -108,7 +106,7 @@
     <string name="lbl_yes">Ano</string>
     <string name="msg_error_connecting_server">Chyba připojení k serveru</string>
     <string name="msg_invalid_id_pw">Neplatné ID uživatele nebo heslo</string>
-    <string name="lbl_version_colon">"Verze: "</string>
+    <string name="lbl_version">"Verze: "</string>
     <string name="lbl_ip_hint">192.168.1.1 nebo https://mujserver.cz</string>
     <string name="lbl_enter_server_address">Zadat adresu serveru</string>
     <string name="lbl_valid_server_address">Zadejte prosím adresu serveru (IP nebo doména/název stroje)</string>

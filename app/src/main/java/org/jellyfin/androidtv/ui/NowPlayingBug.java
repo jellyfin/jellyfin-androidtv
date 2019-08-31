@@ -129,7 +129,7 @@ public class NowPlayingBug extends FrameLayout {
     private void setInfo(BaseItemDto item) {
         if (item == null) return;
 
-        Picasso.with(context).load(ImageUtils.getPrimaryImageUrl(item, TvApp.getApplication().getApiClient())).error(R.drawable.audioicon).resize(35,35).centerInside().into(npIcon);
+        Picasso.with(context).load(ImageUtils.getPrimaryImageUrl(item, TvApp.getApplication().getApiClient())).error(R.drawable.ic_audio).resize(35,35).centerInside().into(npIcon);
         currentDuration = TimeUtils.formatMillis(item.getRunTimeTicks() != null ? item.getRunTimeTicks() / 10000 : 0);
         npDesc.setText(item.getAlbumArtist() != null ? item.getAlbumArtist() : item.getName());
     }

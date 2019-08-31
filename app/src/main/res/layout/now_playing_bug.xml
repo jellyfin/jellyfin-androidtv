@@ -8,7 +8,7 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:id="@+id/npIcon"
-        android:src="@drawable/audioicon"
+        android:src="@drawable/ic_audio"
         />
 
     <TextView

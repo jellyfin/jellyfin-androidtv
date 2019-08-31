@@ -290,7 +290,7 @@ public class RecommendationManager {
             rec.setRecId(mRecommendations.getRecId(type, type == RecommendationType.Movie ? MAX_MOVIE_RECS : MAX_TV_RECS));
             RecommendationBuilder builder = new RecommendationBuilder()
                     .setContext(TvApp.getApplication())
-                    .setSmallIcon(R.drawable.logoicon114);
+                    .setSmallIcon(R.drawable.app_icon_medium);
 
             Notification recommendation = builder
                     .setId(rec.getRecId())

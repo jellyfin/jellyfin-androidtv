@@ -44,12 +44,12 @@ public class ClockUserView extends RelativeLayout {
             if (TvApp.getApplication().getCurrentUser().getPrimaryImageTag() != null) {
                 Picasso.with(context)
                         .load(ImageUtils.getPrimaryImageUrl(TvApp.getApplication().getCurrentUser(), TvApp.getApplication().getApiClient()))
-                        .error(R.drawable.user)
+                        .error(R.drawable.ic_user)
                         .resize(30,30)
                         .centerInside()
                         .into(userImage);
             } else {
-                userImage.setImageResource(R.drawable.user);
+                userImage.setImageResource(R.drawable.ic_user);
             }
 
         }

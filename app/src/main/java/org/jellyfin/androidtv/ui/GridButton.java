@@ -22,7 +22,9 @@ public class GridButton {
         return id;
     }
 
-    public int getImageIndex() {return imageIndex;}
+    public int getImageIndex() {
+        return imageIndex;
+    }
 
     @Override
     public String toString() {

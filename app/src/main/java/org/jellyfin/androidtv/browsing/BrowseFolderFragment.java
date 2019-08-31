@@ -66,13 +66,12 @@ public class BrowseFolderFragment extends StdBrowseFragment {
 
             GridButtonPresenter mGridPresenter = new GridButtonPresenter();
             ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-            gridRowAdapter.add(new GridButton(BY_LETTER, mApplication.getString(R.string.lbl_by_letter), R.drawable.byletter));
+            gridRowAdapter.add(new GridButton(BY_LETTER, mApplication.getString(R.string.lbl_by_letter), R.drawable.tile_letters));
             if (itemTypeString != null && itemTypeString.equals("Movie"))
-                gridRowAdapter.add(new GridButton(SUGGESTED, mApplication.getString(R.string.lbl_suggested), R.drawable.suggestions));
-            gridRowAdapter.add(new GridButton(GENRES, mApplication.getString(R.string.lbl_genres), R.drawable.genres));
-            gridRowAdapter.add(new GridButton(PERSONS, mApplication.getString(R.string.lbl_performers), R.drawable.actors));
+                gridRowAdapter.add(new GridButton(SUGGESTED, mApplication.getString(R.string.lbl_suggested), R.drawable.tile_suggestions));
+            gridRowAdapter.add(new GridButton(GENRES, mApplication.getString(R.string.lbl_genres), R.drawable.tile_genres));
+            gridRowAdapter.add(new GridButton(PERSONS, mApplication.getString(R.string.lbl_performers), R.drawable.tile_actors));
             rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
-
         }
     }
 
@@ -86,7 +85,6 @@ public class BrowseFolderFragment extends StdBrowseFragment {
         @Override
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
-
             if (item instanceof GridButton) {
                 switch (((GridButton) item).getId()) {
                     case BY_LETTER:
@@ -96,7 +94,6 @@ public class BrowseFolderFragment extends StdBrowseFragment {
 
                         getActivity().startActivity(intent);
                         break;
-
                     case GENRES:
                         Intent genreIntent = new Intent(getActivity(), ByGenreActivity.class);
                         genreIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
@@ -104,7 +101,6 @@ public class BrowseFolderFragment extends StdBrowseFragment {
 
                         getActivity().startActivity(genreIntent);
                         break;
-
                     case SUGGESTED:
                         Intent suggIntent = new Intent(getActivity(), SuggestedMoviesActivity.class);
                         suggIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
@@ -112,7 +108,6 @@ public class BrowseFolderFragment extends StdBrowseFragment {
 
                         getActivity().startActivity(suggIntent);
                         break;
-
                     case PERSONS:
                         Intent personIntent = new Intent(getActivity(), BrowsePersonsActivity.class);
                         personIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
@@ -120,10 +115,8 @@ public class BrowseFolderFragment extends StdBrowseFragment {
 
                         getActivity().startActivity(personIntent);
                         break;
-
                     default:
-                        Toast.makeText(getActivity(), item.toString() + mApplication.getString(R.string.msg_not_implemented), Toast.LENGTH_SHORT)
-                                .show();
+                        Toast.makeText(getActivity(), item.toString() + mApplication.getString(R.string.msg_not_implemented), Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

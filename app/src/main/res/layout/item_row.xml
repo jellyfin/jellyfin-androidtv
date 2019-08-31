@@ -2,72 +2,66 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/wholeRow"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="70dp"
-    android:padding="8dp"
-    android:background="@drawable/song_row_background">
+    android:layout_marginStart="100dp"
+    android:layout_marginEnd="100dp"
+    android:padding="10dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/watchedMark"
-        android:textSize="18dp" />
+        android:textSize="18sp" />
 
     <TextView
         android:layout_width="30dp"
-        android:layout_height="22dp"
-        android:text="1"
+        android:layout_height="30dp"
+        tools:text="Track"
         android:id="@+id/indexNo"
-        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="13dp"
-        android:textSize="16dp"
-        android:gravity="right" />
+        android:layout_marginStart="10dp"
+        android:gravity="center"
+        android:minWidth="20dp"
+        android:textSize="16sp" />
 
-    <RelativeLayout
-        android:layout_width="550dp"
-        android:layout_toEndOf="@+id/indexNo"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/indexNo"
+        android:layout_toStartOf="@+id/runTime"
+        android:orientation="vertical"
         android:id="@+id/songArtist"
-        android:layout_marginLeft="20dp">
+        android:layout_marginStart="20dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Song name"
+            tools:text="Title"
             android:id="@+id/songName"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="5dp"
-            android:textSize="16dp" />
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" / "
-            android:id="@+id/divider"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/songName"
-            android:textSize="16dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist name"
+            tools:text="Artist"
             android:id="@+id/artistName"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/divider"
-            android:textSize="16dp" />
-    </RelativeLayout>
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textSize="12sp" />
+
+    </LinearLayout>
 
     <TextView
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="2:12"
+        tools:text="Time"
         android:id="@+id/runTime"
-        android:textSize="16dp"
-        android:layout_toRightOf="@+id/songArtist"
-        android:gravity="right"
-        android:layout_marginRight="5dp" />
+        android:textSize="16sp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true" />
 
 </RelativeLayout>

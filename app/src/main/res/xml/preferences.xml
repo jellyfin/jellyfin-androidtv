@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/pref_startup_cat" >
+    <PreferenceCategory android:title="@string/pref_authentication_cat" >
         <ListPreference android:key="pref_login_behavior"
             android:title="@string/pref_login_behavior_title"
-            android:defaultValue="@string/pref_show_login_value"
+            android:defaultValue="0"
             android:entries="@array/pref_startup_entries"
             android:entryValues="@array/pref_startup_values"
             />
@@ -12,7 +12,6 @@
             android:title="@string/pref_prompt_pw"
             android:defaultValue="false"
             />
-
         <CheckBoxPreference android:key="pref_alt_pw_entry"
             android:title="@string/pref_alt_pw_entry"
             android:summary="@string/pref_alt_pw_entry_desc"
@@ -51,13 +50,11 @@
             android:defaultValue="true"
             android:summary="@string/desc_seasonal_themes"
             />
-
         <CheckBoxPreference android:key="pref_enable_debug"
             android:title="@string/lbl_enable_debug"
             android:defaultValue="false"
             android:summary="@string/desc_debug"
             />
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_playback" android:key="pref_playback_category" >
@@ -113,15 +110,9 @@
             android:defaultValue="false"
             android:summary="@string/pref_use_direct_path_summary"
             />
-
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_live_tv_cat" android:key="pref_live_tv_category">
-        <!--<CheckBoxPreference android:key="pref_live_shift"-->
-            <!--android:title="@string/lbl_time_shift_live"-->
-            <!--android:defaultValue="true"-->
-            <!--/>-->
         <CheckBoxPreference android:key="pref_live_direct"
             android:title="@string/lbl_direct_stream_live"
             android:defaultValue="true"

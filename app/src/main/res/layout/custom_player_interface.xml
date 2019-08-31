@@ -5,10 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/black">
 
-    <org.jellyfin.androidtv.playback.StdVideoView android:id="@+id/videoView" android:layout_width="fill_parent"
-        android:layout_height="match_parent" android:layout_gravity="center"
-        android:layout_centerInParent="true" android:layout_centerVertical="true"></org.jellyfin.androidtv.playback.StdVideoView>
-
+    <org.jellyfin.androidtv.playback.StdVideoView
+        android:id="@+id/videoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
 
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
@@ -35,7 +36,7 @@
             android:layout_alignParentEnd="false"
             android:layout_alignParentBottom="true"
             android:background="@color/black"
-            android:alpha=".65" />
+            android:alpha="0.65" />
 
         <ImageView
             android:layout_width="150sp"
@@ -43,7 +44,7 @@
             android:id="@+id/poster"
             android:layout_centerVertical="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="30sp" />
+            android:layout_marginStart="30sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -53,9 +54,8 @@
             android:id="@+id/title"
             android:layout_alignTop="@+id/imageView13"
             android:layout_toEndOf="@+id/poster"
-            android:layout_toRightOf="@+id/poster"
             android:layout_marginTop="5sp"
-            android:layout_marginLeft="20sp"
+            android:layout_marginStart="20sp"
             android:maxWidth="600sp"
             android:maxLines="1" />
 
@@ -67,8 +67,8 @@
             android:layout_alignTop="@+id/title"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="5sp"
-            android:layout_marginRight="20sp"
-            android:alpha=".6" />
+            android:layout_marginEnd="20sp"
+            android:alpha="0.6" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -80,7 +80,7 @@
             android:layout_alignEnd="@+id/endTime"
             android:layout_below="@+id/title"
             android:layout_marginTop="5sp"
-            android:minHeight="30sp"></LinearLayout>
+            android:minHeight="30sp" />
 
         <ProgressBar
             style="@style/player_progress"
@@ -90,7 +90,7 @@
             android:minWidth="525sp"
             android:layout_alignParentBottom="false"
             android:maxHeight="5sp"
-            android:layout_marginLeft="325sp"
+            android:layout_marginStart="325sp"
             android:layout_below="@+id/infoRow"
             android:layout_marginTop="20sp" />
 
@@ -103,8 +103,8 @@
             android:layout_alignBottom="@+id/playerProgress"
             android:layout_marginBottom="-7sp"
             android:maxLines="1"
-            android:layout_marginLeft="15sp"
-            android:layout_toRightOf="@+id/playPauseBtn"
+            android:layout_marginStart="15sp"
+            android:layout_toEndOf="@+id/playPauseBtn"
             android:textSize="16sp" />
 
         <TextView
@@ -115,8 +115,8 @@
             android:id="@+id/remainingTime"
             android:layout_alignBottom="@+id/currentPos"
             android:layout_alignParentEnd="false"
-            android:layout_toRightOf="@+id/playerProgress"
-            android:layout_marginLeft="10sp"
+            android:layout_toEndOf="@+id/playerProgress"
+            android:layout_marginStart="10sp"
             android:textSize="16sp" />
 
         <ImageView
@@ -139,7 +139,7 @@
             android:clickable="true"
             android:focusableInTouchMode="true"
             android:layout_alignBottom="@+id/playerProgress"
-            android:layout_marginLeft="10sp" />
+            android:layout_marginStart="10sp" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -153,7 +153,7 @@
             android:layout_marginTop="10sp"
             android:gravity="center"
             android:layout_alignStart="@+id/currentPos"
-            android:layout_toStartOf="@+id/remainingTime"></LinearLayout>
+            android:layout_toStartOf="@+id/remainingTime" />
 
     </RelativeLayout>
 
@@ -168,13 +168,13 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="165sp"
+            android:layout_height="160sp"
             android:id="@+id/imageView14"
             android:layout_centerHorizontal="true"
             android:layout_alignParentEnd="false"
             android:layout_alignParentBottom="true"
             android:background="@color/black"
-            android:alpha=".95" />
+            android:alpha="0.95" />
 
         <ImageView
             android:layout_width="150sp"
@@ -182,7 +182,7 @@
             android:id="@+id/nextUpPoster"
             android:layout_centerVertical="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="30sp" />
+            android:layout_marginStart="30sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -192,12 +192,10 @@
             android:id="@+id/nextUpTitle"
             android:layout_alignTop="@+id/imageView14"
             android:layout_toEndOf="@+id/nextUpPoster"
-            android:layout_toRightOf="@+id/nextUpPoster"
             android:layout_marginTop="5sp"
-            android:layout_marginLeft="20sp"
+            android:layout_marginStart="20sp"
             android:maxWidth="600sp"
             android:maxLines="1" />
-
 
         <LinearLayout
             android:orientation="horizontal"
@@ -208,7 +206,7 @@
             android:measureWithLargestChild="false"
             android:layout_below="@+id/nextUpTitle"
             android:layout_marginTop="5sp"
-            android:minHeight="30sp"></LinearLayout>
+            android:minHeight="30sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -218,7 +216,7 @@
             android:layout_alignParentEnd="true"
             android:textSize="18sp"
             android:layout_alignBottom="@+id/nextUpTitle"
-            android:layout_marginRight="40sp" />
+            android:layout_marginEnd="40sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -227,9 +225,9 @@
             android:layout_below="@+id/nextUpInfoRow"
             android:layout_toEndOf="@+id/nextUpInfoRow"
             android:layout_alignParentEnd="false"
-            android:layout_alignLeft="@+id/nextUpTitle"
+            android:layout_alignStart="@+id/nextUpTitle"
             android:layout_marginTop="5sp"
-            android:layout_alignRight="@+id/nextUpInfoRow"
+            android:layout_alignEnd="@+id/nextUpInfoRow"
             android:textSize="14sp"
             android:maxLines="4"
             android:ellipsize="end" />
@@ -242,7 +240,7 @@
             android:id="@+id/nextButton"
             android:layout_below="@+id/nextUpInfoRow"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="20sp" />
+            android:layout_marginEnd="20sp" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -264,15 +262,15 @@
         android:id="@+id/popupArea"
         android:visibility="gone"
         android:background="@color/black"
-        android:layout_alignParentStart="true"
         android:layout_gravity="bottom">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_gravity="left|center_vertical"
-            android:id="@+id/rows_area"></LinearLayout>
+            android:layout_gravity="start|center_vertical"
+            android:id="@+id/rows_area" />
+
     </FrameLayout>
 
     <RelativeLayout
@@ -286,15 +284,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textClock"
-            android:layout_gravity="right|top"
+            android:layout_gravity="end|top"
             android:layout_marginTop="40sp"
-            android:layout_marginRight="40sp"
+            android:layout_marginEnd="40sp"
             android:typeface="sans"
             android:textSize="40sp"
             android:format12Hour="h:mm"
             android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
-
 
 </FrameLayout>

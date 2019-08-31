@@ -7,7 +7,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/imageView8"
-        android:src="@drawable/dpaddesc"
+        android:src="@drawable/dpad_description"
         android:layout_alignParentBottom="true"
         android:scaleType="centerCrop" />
 

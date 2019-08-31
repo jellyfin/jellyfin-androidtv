@@ -10,12 +10,10 @@
     <string name="byletter_letters">АӘБВГҒДЕЖЗИЙКҚЛМНҢОӨПРСТУҰҮФХҺЦЧШЩЪЫІЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Бастаудағы қасиеті</string>
     <string name="pref_show_login">Кіру экранын көрсету</string>
-    <string name="pref_show_login_value">0</string>
     <string name="pref_playback">ОЙНАТУ</string>
     <string name="pref_max_bitrate_title">Ағынмен тасымалдау ең көп қарқыны</string>
     <string name="pref_auto_login">Осы пайдаланушы ретінде автоматты түрде кіру</string>
     <string name="settings_title">Параметрлер</string>
-    <string name="pref_startup_cat">КІРУ</string>
     <string name="pref_prompt_pw">Құпия сөз үшін шақыру</string>
     <string name="pref_alt_pw_entry">Тоғыспа арқылы құпия сөзді енгізу теңшелетін әдісін пайдаланыңыз</string>
     <string name="pref_alt_pw_entry_desc">Бөлмедегі әлдекімге құпия сөзді әшкерелемей тек қана тоғыспа пернелері арқылы сандық құпия сөзді енгізуді қосады</string>
@@ -108,7 +106,7 @@
     <string name="lbl_yes">Иә</string>
     <string name="msg_error_connecting_server">Серверге қосылғандағы қате</string>
     <string name="msg_invalid_id_pw">Жарамсыз пайдаланушы id немесе құпия сөз</string>
-    <string name="lbl_version_colon">"Нұсқасы: "</string>
+    <string name="lbl_version">"Нұсқасы: "</string>
     <string name="lbl_ip_hint">192.168.1.1 немесе https://myserver.com</string>
     <string name="lbl_enter_server_address">Сервер мекенжайын енгізу</string>
     <string name="lbl_valid_server_address">Сервер мекенжайын енгізіңіз (IP немесе домен/машина аты</string>
