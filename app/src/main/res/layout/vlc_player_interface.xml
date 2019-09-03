@@ -187,7 +187,7 @@
             android:id="@+id/playPauseBtn"
             android:layout_alignStart="@+id/infoRow"
             android:layout_marginBottom="-12sp"
-            android:src="@drawable/lb_ic_pause"
+            android:src="@drawable/ic_pause"
             android:focusable="true"
             android:clickable="true"
             android:focusableInTouchMode="true"

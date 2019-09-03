@@ -12,7 +12,7 @@
         />
     <item android:title="@string/lbl_add_to_queue"
         android:id="@+id/addQueue"
-        android:icon="@drawable/ic_addtoqueue"
+        android:icon="@drawable/ic_add"
         />
     <item android:title="@string/lbl_goto_series"
         android:id="@+id/gotoSeries"
