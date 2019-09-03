@@ -248,7 +248,7 @@ public class MyImageCardView extends BaseCardView {
                     break;
                 case "Video":
                     mOverlayName.setText(item.getFullName());
-                    mOverlayIcon.setImageResource(R.drawable.ic_film);
+                    mOverlayIcon.setImageResource(R.drawable.ic_movie);
                     break;
                 case "Playlist":
                 case "MusicArtist":

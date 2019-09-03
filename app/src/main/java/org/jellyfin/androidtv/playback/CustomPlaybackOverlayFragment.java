@@ -300,7 +300,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mSmNextUpPanel = mActivity.findViewById(R.id.smNextUpPanel);
 
         mPlayPauseBtn = mActivity.findViewById(R.id.playPauseBtn);
-        mPlayPauseBtn.setSecondaryImage(R.drawable.lb_ic_pause);
+        mPlayPauseBtn.setSecondaryImage(R.drawable.ic_pause);
         mPlayPauseBtn.setPrimaryImage(R.drawable.ic_play);
         mPlayPauseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1297,7 +1297,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         if (!DeviceUtils.isFireTv() && mPlaybackController.canSeek()) {
             // on-screen jump buttons for Nexus
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_repeat, mButtonSize, new View.OnClickListener() {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_loop, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mPlaybackController.skip(-11000);
@@ -1429,7 +1429,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         if (hasSubs) {
             mApplication.getLogger().Debug("Subtitle tracks found: " + mPlaybackController.getSubtitleStreams().size());
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_subtitle, mButtonSize, new View.OnClickListener() {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_select_subtitle, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mPlaybackController.getCurrentStreamInfo() == null) {
