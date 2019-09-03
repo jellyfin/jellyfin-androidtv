@@ -47,21 +47,19 @@ public class ImageButton extends AppCompatImageView {
         mHelpView = helpView;
         mHelpText = helpText;
         setOnFocusChangeListener(focusChangeListener);
-
     }
 
     public void setHelpView(TextView view) {
         mHelpView = view;
     }
-    public void setHelpText(String text) { mHelpText = text; }
+
+    public void setHelpText(String text) {
+        mHelpText = text;
+    }
 
     public void setState(int state) {
         mState = state;
         if (mSecondaryImage > 0) setImageResource(mState == STATE_SECONDARY ? mSecondaryImage : mPrimaryImage);
-    }
-
-    public void toggleState() {
-        setState(mState == STATE_PRIMARY ? STATE_SECONDARY : STATE_PRIMARY);
     }
 
     private OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
@@ -78,7 +76,9 @@ public class ImageButton extends AppCompatImageView {
         }
     };
 
-    public void setGotFocusListener(GotFocusEvent event) { mGotFocusListener = event; }
+    public void setGotFocusListener(GotFocusEvent event) {
+        mGotFocusListener = event;
+    }
 
     public void setPrimaryImage(int mPrimaryImage) {
         this.mPrimaryImage = mPrimaryImage;

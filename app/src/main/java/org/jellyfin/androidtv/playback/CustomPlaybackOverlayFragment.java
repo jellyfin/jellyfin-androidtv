@@ -207,7 +207,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mApplication = TvApp.getApplication();
         mActivity = (PlaybackOverlayActivity) getActivity();
 
-        //stop any audio that may be playing
+        // stop any audio that may be playing
         MediaManager.stopAudio();
 
         mAudioManager = (AudioManager) mApplication.getSystemService(Context.AUDIO_SERVICE);
@@ -232,14 +232,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mApplication.setPlaybackController(new PlaybackController(mItemsToPlay, this));
         mPlaybackController = mApplication.getPlaybackController();
 
-        //set up fade task
+        // setup fade task
         mHideTask = new Runnable() {
             @Override
             public void run() {
                 if (mIsVisible) hide();
             }
         };
-
     }
 
     @Nullable
@@ -247,7 +246,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.vlc_player_interface, container);
 
-        // Inject the RowsFragment in the popup container
+        // inject the RowsFragment in the popup container
         if (getChildFragmentManager().findFragmentById(R.id.rows_area) == null) {
             mPopupRowsFragment = new RowsFragment();
             getChildFragmentManager().beginTransaction()
@@ -296,7 +295,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mTopPanel = mActivity.findViewById(R.id.topPanel);
         mBottomPanel = mActivity.findViewById(R.id.bottomPanel);
         mNextUpPanel = mActivity.findViewById(R.id.nextUpPanel);
-
         mSmNextUpPanel = mActivity.findViewById(R.id.smNextUpPanel);
 
         mPlayPauseBtn = mActivity.findViewById(R.id.playPauseBtn);
@@ -425,7 +423,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mChannels.setFocusable(false);
         mChannelScroller.setFocusable(false);
 
-        //Register to receive message from popup
+        // register to receive message from popup
         mActivity.registerMessageListener(new IMessageListener() {
             @Override
             public void onMessageReceived(CustomMessage message) {
@@ -436,12 +434,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
 
         Intent intent = mActivity.getIntent();
-        //start playing
         int startPos = intent.getIntExtra("Position", 0);
+
+        // start playing
         mPlaybackController.play(startPos);
 
         mPlayPauseBtn.requestFocus();
-
     }
 
     private void setupPopupAnimations() {
@@ -450,7 +448,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             @Override
             public void onAnimationStart(Animation animation) {
                 mPopupArea.setVisibility(View.VISIBLE);
-
             }
 
             @Override
@@ -460,14 +457,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
             @Override
             public void onAnimationRepeat(Animation animation) {
-
             }
         });
         hidePopup = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_out);
         hidePopup.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
             }
 
             @Override
@@ -478,7 +473,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
             @Override
             public void onAnimationRepeat(Animation animation) {
-
             }
         });
     }
@@ -498,7 +492,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
             @Override
             public void onAnimationRepeat(Animation animation) {
-
             }
         });
         hideNextUp = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_out);
@@ -558,7 +551,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     mPlaybackController.pause();
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS:
-                    //We don't do anything here on purpose
+                    // We don't do anything here on purpose
                     // On the Nexus we get this notification erroneously when first starting up
                     // and in any instance that we navigate away from our page, we already handle
                     // stopping video and handing back audio focus
@@ -597,14 +590,16 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }
 
             if (mPopupPanelVisible && (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE)) {
-                //back should just hide the popup panel
+                // back should just hide the popup panel
                 hidePopupPanel();
-                if (mPlaybackController.isLiveTv()) hide(); //also close this if live tv
+
+                // also close this if live tv
+                if (mPlaybackController.isLiveTv()) hide();
                 return true;
             }
             if (mGuideVisible) {
                 if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE) {
-                    //go back to normal
+                    // go back to normal
                     hideGuide();
                     return true;
                 } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) &&
@@ -701,7 +696,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private void switchChannel(String id) {
         if (id == null) return;
         if (mPlaybackController.getCurrentlyPlayingItem().getId().equals(id)) {
-            //same channel, just dismiss overlay
+            // same channel, just dismiss overlay
             hideGuide();
         } else {
             mPlaybackController.stop();
@@ -739,7 +734,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             return;
         }
 
-        //Register a media button receiver so that all media button presses will come to us and not another app
+        // register a media button receiver so that all media button presses will come to us and not another app
         mAudioManager.registerMediaButtonEventReceiver(new ComponentName(TvApp.getApplication().getPackageName(), RemoteControlReceiver.class.getName()));
         //TODO implement conditional logic for api 21+
 
@@ -762,16 +757,17 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             if (mPlaybackController.getCurrentlyPlayingItem() != null) RecommendationManager.getInstance().recommend(mPlaybackController.getCurrentlyPlayingItem().getId());
             mPlaybackController.removePreviousQueueItems();
         }
-
     }
 
     @Override
     public void onPause() {
         super.onPause();
         mPlaybackController.stop();
-        setPlayPauseActionState(ImageButton.STATE_PRIMARY); // in case we come back
 
-        //Give back audio focus
+        // in case we come back
+        setPlayPauseActionState(ImageButton.STATE_PRIMARY);
+
+        // give back audio focus
         mAudioManager.abandonAudioFocus(mAudioFocusChanged);
         mApplication.getLogger().Debug("Fragment pausing. IsFinishing: "+mActivity.isFinishing());
         if (!mActivity.isFinishing()) mActivity.finish(); // user hit "home" we want to back out
@@ -896,8 +892,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             });
 
         }
-        //
-
     }
 
     public void displayChannels(int start, int max) {
@@ -926,7 +920,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     DisplayProgramsTask mDisplayProgramsTask;
     class DisplayProgramsTask extends AsyncTask<Integer, Integer, Void> {
-
         View firstRow;
         int displayedChannels = 0;
 
@@ -995,7 +988,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 });
 
                 displayedChannels++;
-
             }
             return null;
         }
@@ -1021,16 +1013,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
             mGuideSpinner.setVisibility(View.GONE);
             if (firstRow != null) firstRow.requestFocus();
-
         }
     }
 
     private int currentCellId = 0;
 
     private LinearLayout getProgramRow(List<BaseItemDto> programs, String channelId) {
-
         LinearLayout programRow = new LinearLayout(mActivity);
-
         if (programs.size() == 0) {
             BaseItemDto empty = new BaseItemDto();
             empty.setName(mApplication.getString(R.string.no_program_data));
@@ -1068,7 +1057,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             if (end > getCurrentLocalEndDate()) end = getCurrentLocalEndDate();
             prevEnd = end;
             Long duration = (end - start) / 60000;
-            //TvApp.getApplication().getLogger().Debug("Duration for "+item.getName()+" is "+duration.intValue());
             if (duration > 0) {
                 ProgramGridCell program = new ProgramGridCell(mActivity, mFragment, item);
                 program.setId(currentCellId++);
@@ -1076,9 +1064,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 program.setFocusable(true);
 
                 programRow.addView(program);
-
             }
-
         }
 
         return programRow;
@@ -1109,7 +1095,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             //after first one, we always go on hours
             interval = 60;
         }
-
     }
 
     private Runnable detailUpdateTask = new Runnable() {
@@ -1129,7 +1114,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         detailUpdateInternal();
                     }
                 });
-
             } else {
                 detailUpdateInternal();
             }
@@ -1144,7 +1128,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
             //info row
             InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mGuideInfoRow, false, false);
-
         } else {
             mGuideInfoRow.removeAllViews();
         }
@@ -1179,7 +1162,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private Animation.AnimationListener hideAnimationListener = new Animation.AnimationListener() {
         @Override
         public void onAnimationStart(Animation animation) {
-
         }
 
         @Override
@@ -1190,7 +1172,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         @Override
         public void onAnimationRepeat(Animation animation) {
-
         }
     };
 
@@ -1216,7 +1197,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             int width = Utils.convertDpToPixel(getActivity(), 150);
             String posterImageUrl = ImageUtils.getPrimaryImageUrl(item, mApplication.getApiClient(), false, false, preferSeries, height);
             if (posterImageUrl != null) Picasso.with(getActivity()).load(posterImageUrl).skipMemoryCache().resize(width, height).centerInside().into(target);
-
         }
     }
 
@@ -1250,10 +1230,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     }
                     if (studioImageUrl != null)
                         Picasso.with(mActivity).load(studioImageUrl).resize(width, height).centerInside().into(mStudioImage);
-
                 } else {
                     mStudioImage.setImageResource(R.drawable.blank30x30);
-
                 }
             }
         }
@@ -1269,7 +1247,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 );
             }
         });
-
     }
 
     private void updateCurrentDuration(BaseItemDto item) {
@@ -1287,7 +1264,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 if (ndx > 0) {
                     mPopupRowPresenter.setPosition(ndx);
                 }
-
             }
         },500);
     }
@@ -1315,7 +1291,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         }
 
         if (mPlaybackController.isLiveTv()) {
-            // prev channel button
+            // previous channel button
             if (TvManager.getPrevLiveTvChannel() != null) {
                 mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_previous_episode, mButtonSize, new View.OnClickListener() {
                     @Override
@@ -1325,7 +1301,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 }));
             }
 
-            //Create quick channel change row
+            // create quick channel change row
             TvManager.loadAllChannels(new Response<Integer>() {
                 @Override
                 public void onResponse(Integer response) {
@@ -1362,7 +1338,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 }));
             }
 
-            //adjust popup for channels
+            // adjust popup for channels
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mPopupArea.getLayoutParams();
             params.height = Utils.convertDpToPixel(mActivity, 170);
             mPopupArea.setLayoutParams(params);
@@ -1377,8 +1353,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }));
         }
 
-        Boolean hasSubs = StreamHelper.getSubtitleStreams(mPlaybackController.getCurrentMediaSource()).size() > 0;
-        Boolean hasMultiAudio = StreamHelper.getAudioStreams(mPlaybackController.getCurrentMediaSource()).size() > 1;
+        boolean hasSubs = StreamHelper.getSubtitleStreams(mPlaybackController.getCurrentMediaSource()).size() > 0;
+        boolean hasMultiAudio = StreamHelper.getAudioStreams(mPlaybackController.getCurrentMediaSource()).size() > 1;
 
         if (hasMultiAudio) {
             mApplication.getLogger().Debug("Multiple Audio tracks found: "+ StreamHelper.getAudioStreams(mPlaybackController.getCurrentMediaSource()).size());
@@ -1399,7 +1375,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         currentAudioIndex = mPlaybackController.translateVlcAudioId(currentAudioIndex);
                     }
 
-                    PopupMenu audioMenu = Utils.createPopupMenu(getActivity(), v, Gravity.RIGHT);
+                    PopupMenu audioMenu = Utils.createPopupMenu(getActivity(), v, Gravity.END);
                     for (MediaStream audio : audioTracks) {
                         MenuItem item = audioMenu.getMenu().add(0, audio.getIndex(), audio.getIndex(), audio.getDisplayTitle());
                         if (currentAudioIndex != null && currentAudioIndex == audio.getIndex()) item.setChecked(true);
@@ -1420,7 +1396,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         }
                     });
                     audioMenu.show();
-
                 }
             }));
         } else {
@@ -1439,7 +1414,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     }
                     setFadingEnabled(false);
                     List<SubtitleStreamInfo> subtitles = mPlaybackController.getSubtitleStreams();
-                    PopupMenu subMenu = Utils.createPopupMenu(getActivity(), v, Gravity.RIGHT);
+                    PopupMenu subMenu = Utils.createPopupMenu(getActivity(), v, Gravity.END);
                     MenuItem none = subMenu.getMenu().add(0, -1, 0, mApplication.getString(R.string.lbl_none));
                     int currentSubIndex = mPlaybackController.getSubtitleStreamIndex();
                     if (currentSubIndex < 0) none.setChecked(true);
@@ -1463,7 +1438,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         }
                     });
                     subMenu.show();
-
                 }
             }));
         } else {
@@ -1483,13 +1457,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                             if (ndx > 0) {
                                 mPopupRowPresenter.setPosition(ndx);
                             }
-
                         }
                     },500);
                 }
             }));
 
-            //Create chapter row for later use
+            // create chapter row for later use
             ItemRowAdapter chapterAdapter = new ItemRowAdapter(BaseItemUtils.buildChapterItems(item), new CardPresenter(true, 220), new ArrayObjectAdapter());
             chapterAdapter.Retrieve();
             if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
@@ -1655,7 +1628,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         Utils.showToast(mActivity, R.string.msg_unable_to_cancel);
                     }
                 });
-
             }
         }
     }
@@ -1753,12 +1725,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             if (mNextUpPanelVisible) hideNextUpPanel();
             if (mSmNextUpPanelVisible) hideSmNextUpPanel();
             updateCurrentDuration(current);
-            //set progress to match duration
+            // set progress to match duration
             mCurrentProgress.setMax(mCurrentDuration);
-            //set other information
+            // set other information
             mTitle.setText(current.getName());
             mInfoSummary.setText(current.getOverview());
-            mGuideCurrentTitle.setText("   "+current.getName());
+            mGuideCurrentTitle.setText(current.getName());
             updatePoster(current, mPoster, true);
             updateLogo(current, mLogoImage);
             updateStudio(current);
@@ -1787,7 +1759,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Override
     public void nextItemThresholdHit(BaseItemDto nextItem) {
         mApplication.getLogger().Debug("Next Item is " + nextItem.getName());
-        //we need to retrieve full item for all info
+        // need to retrieve full item for all info
         mApplication.getApiClient().GetItemAsync(nextItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
             @Override
             public void onResponse(BaseItemDto response) {
@@ -1810,9 +1782,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private long lastReportedPosMs;
 
     private void updateManualSubtitlePosition() {
-        /*
-		 * Adjust subtitles margin based on Screen dimes
-		 */
+        // adjust subtitles margin based on screen dimension
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mSubtitleText.getLayoutParams();
         DisplayMetrics dm = new DisplayMetrics();
         mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -1861,7 +1831,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         }
 
         long positionTicks = positionMs * 10000;
-
         for (SubtitleTrackEvent caption : mManualSubs.getTrackEvents()) {
             if (positionTicks >= caption.getStartPositionTicks() && positionTicks <= caption.getEndPositionTicks()) {
                 setTimedText(caption);

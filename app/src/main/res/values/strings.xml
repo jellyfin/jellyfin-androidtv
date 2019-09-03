@@ -276,7 +276,7 @@
     <string name="pref_live_tv_mode_desc">Go directly to the last played live TV channel</string>
     <string name="lbl_just_this_once">Just this once</string>
     <string name="msg_record_entire_series">Record entire series?</string>
-    <string name="no_program_data"><![CDATA["  <No Program Data Available>"]]></string>
+    <string name="no_program_data"><![CDATA["<No Program Data Available>"]]></string>
     <string name="lbl_sports">Sports</string>
     <string name="lbl_kids">Kids</string>
     <string name="lbl_recent_recordings">Recent Recordings</string>
