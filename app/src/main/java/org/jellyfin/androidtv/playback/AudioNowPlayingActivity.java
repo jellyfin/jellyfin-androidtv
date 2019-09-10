@@ -145,7 +145,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mSSUpNext.setTypeface(roboto);
 
         mPlayPauseButton = findViewById(R.id.playPauseBtn);
-        mPlayPauseButton.setSecondaryImage(R.drawable.lb_ic_pause);
+        mPlayPauseButton.setSecondaryImage(R.drawable.ic_pause);
         mPlayPauseButton.setPrimaryImage(R.drawable.ic_play);
         TextView helpView = findViewById(R.id.buttonTip);
         mPrevButton = findViewById(R.id.prevBtn);
@@ -407,7 +407,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         Picasso.with(mActivity)
                 .load(primaryImageUrl)
                 .skipMemoryCache()
-                .error(R.drawable.ic_audio)
+                .error(R.drawable.ic_album)
                 .resize(posterWidth, posterHeight)
                 .centerInside()
                 .into(mPoster);

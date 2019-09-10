@@ -148,7 +148,7 @@
                         android:layout_height="28sp"
                         class="org.jellyfin.androidtv.ui.ImageButton"
                         android:id="@+id/prevBtn"
-                        android:src="@drawable/ic_prev"
+                        android:src="@drawable/ic_previous"
                         android:focusable="true"
                         android:clickable="true"
                         android:focusableInTouchMode="true" />
@@ -158,7 +158,7 @@
                         android:layout_height="28sp"
                         class="org.jellyfin.androidtv.ui.ImageButton"
                         android:id="@+id/playPauseBtn"
-                        android:src="@drawable/lb_ic_pause"
+                        android:src="@drawable/ic_pause"
                         android:focusable="true"
                         android:clickable="true"
                         android:focusableInTouchMode="true" />
@@ -208,7 +208,7 @@
                         android:layout_height="28sp"
                         class="org.jellyfin.androidtv.ui.ImageButton"
                         android:id="@+id/albumBtn"
-                        android:src="@drawable/ic_audio"
+                        android:src="@drawable/ic_album"
                         android:focusable="true"
                         android:clickable="true"
                         android:focusableInTouchMode="true" />
