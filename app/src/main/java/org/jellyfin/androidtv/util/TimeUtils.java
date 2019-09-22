@@ -18,6 +18,18 @@ public class TimeUtils {
     private static final int SECS_PER_MIN = 60;
     private static final int SECS_PER_HR = 60 * SECS_PER_MIN;
 
+    public static long secondsToMillis(double seconds) {
+        return Math.round(seconds * MILLIS_PER_SEC);
+    }
+
+    public static long minutesToMillis(double minutes) {
+        return Math.round(minutes * MILLIS_PER_MIN);
+    }
+
+    public static long hoursToMillis(double hours) {
+        return Math.round(hours * MILLIS_PER_HR);
+    }
+
     /**
      * Formats time in milliseconds to hh:mm:ss string format.
      *
@@ -148,10 +160,18 @@ public class TimeUtils {
         cal.setTime(date);
         Calendar now = Calendar.getInstance();
         if (cal.get(Calendar.YEAR) == now.get(Calendar.YEAR)) {
-            if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)) return TvApp.getApplication().getString(R.string.lbl_today);
-            if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)+1) return TvApp.getApplication().getString(R.string.lbl_tomorrow);
-            if (cal.get(Calendar.DAY_OF_YEAR) < now.get(Calendar.DAY_OF_YEAR)+7 && cal.get(Calendar.DAY_OF_YEAR) > now.get(Calendar.DAY_OF_YEAR)) return cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
-            if (relative) return String.format(TvApp.getApplication().getString(R.string.lbl_in_x_days), cal.get(Calendar.DAY_OF_YEAR) - now.get(Calendar.DAY_OF_YEAR));
+            if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)) {
+                return TvApp.getApplication().getString(R.string.lbl_today);
+            }
+            if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)+1) {
+                return TvApp.getApplication().getString(R.string.lbl_tomorrow);
+            }
+            if (cal.get(Calendar.DAY_OF_YEAR) < now.get(Calendar.DAY_OF_YEAR)+7 && cal.get(Calendar.DAY_OF_YEAR) > now.get(Calendar.DAY_OF_YEAR)) {
+                return cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+            }
+            if (relative) {
+                return String.format(TvApp.getApplication().getString(R.string.lbl_in_x_days), cal.get(Calendar.DAY_OF_YEAR) - now.get(Calendar.DAY_OF_YEAR));
+            }
         }
 
         return DateFormat.getDateFormat(TvApp.getApplication()).format(date);

@@ -43,6 +43,20 @@ import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
 import org.jellyfin.apiclient.model.session.PlayMethod;
 
 public class PlaybackController {
+    // Frequency to report playback progress
+    private final static long PROGRESS_REPORTING_INTERVAL = TimeUtils.secondsToMillis(3);
+    // Frequency to report paused state
+    private static final long PROGRESS_REPORTING_PAUSE_INTERVAL = TimeUtils.secondsToMillis(15);
+
+    // Minimum duration to show next up popup
+    private static final long NEXT_UP_MIN_LENGTH = TimeUtils.minutesToMillis(10);
+    // Minimum duration to show next up popup for longer
+    private static final long NEXT_UP_LONG_LENGTH = TimeUtils.hoursToMillis(1.25);
+    // The duration to display the next up popup for longer shows
+    private static final long NEXT_UP_LONG_DURATION = TimeUtils.minutesToMillis(3);
+    // The default duration to display the next up popup
+    private static final long NEXT_UP_DURATION = TimeUtils.secondsToMillis(30);
+
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
     SubtitleHelper mSubHelper;
@@ -66,7 +80,6 @@ public class PlaybackController {
 
     private Runnable mReportLoop;
     private Handler mHandler;
-    private static int REPORT_INTERVAL = 3000;
 
     private long mNextItemThreshold = Long.MAX_VALUE;
     private boolean nextItemReported;
@@ -374,17 +387,17 @@ public class PlaybackController {
 
                 if (hasNextItem()) {
                     // Determine the "next up" threshold
-                    if (duration > 600000) {
+                    if (duration > NEXT_UP_MIN_LENGTH) {
                         //only items longer than 10min to have this feature
                         nextItemReported = false;
-                        if (duration > 4500000) {
+                        if (duration > NEXT_UP_LONG_LENGTH) {
                             //longer than 1hr 15 it probably has pretty long credits
-                            mNextItemThreshold = duration - 180000; // 3 min
+                            mNextItemThreshold = duration - NEXT_UP_LONG_DURATION;
                         } else {
                             //std 30 min episode or less
-                            mNextItemThreshold = duration - 50000; // 50 seconds
+                            mNextItemThreshold = duration - NEXT_UP_DURATION;
                         }
-                        TvApp.getApplication().getLogger().Debug("Next item threshold set to "+ mNextItemThreshold);
+                        TvApp.getApplication().getLogger().Debug("Next item threshold set to " + mNextItemThreshold);
                     } else {
                         mNextItemThreshold = Long.MAX_VALUE;
                     }
@@ -944,16 +957,18 @@ public class PlaybackController {
                     ReportingHelper.reportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, false);
 
                     //Do this next up processing here because every 3 seconds is good enough
-                    if (!nextItemReported && hasNextItem() && currentTime >= mNextItemThreshold){
+                    if (!nextItemReported && hasNextItem() && currentTime >= mNextItemThreshold) {
                         nextItemReported = true;
                         mFragment.nextItemThresholdHit(getNextItem());
                     }
                 }
                 mApplication.setLastUserInteraction(System.currentTimeMillis());
-                if (mPlaybackState != PlaybackState.UNDEFINED && mPlaybackState != PlaybackState.IDLE) mHandler.postDelayed(this, REPORT_INTERVAL);
+                if (mPlaybackState != PlaybackState.UNDEFINED && mPlaybackState != PlaybackState.IDLE) {
+                    mHandler.postDelayed(this, PROGRESS_REPORTING_INTERVAL);
+                }
             }
         };
-        mHandler.postDelayed(mReportLoop, REPORT_INTERVAL);
+        mHandler.postDelayed(mReportLoop, PROGRESS_REPORTING_INTERVAL);
     }
 
     private void startPauseReportLoop() {
@@ -963,13 +978,15 @@ public class PlaybackController {
             public void run() {
 
                 long currentTime = isLiveTv ? getTimeShiftedProgress() : mVideoManager.getCurrentPosition();
-                if (isLiveTv && !directStreamLiveTv) mFragment.setSecondaryTime(getRealTimeProgress());
+                if (isLiveTv && !directStreamLiveTv) {
+                    mFragment.setSecondaryTime(getRealTimeProgress());
+                }
 
                 ReportingHelper.reportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, true);
-                mHandler.postDelayed(this, 15000);
+                mHandler.postDelayed(this, PROGRESS_REPORTING_PAUSE_INTERVAL);
             }
         };
-        mHandler.postDelayed(mReportLoop, 15000);
+        mHandler.postDelayed(mReportLoop, PROGRESS_REPORTING_PAUSE_INTERVAL);
     }
 
     private void stopReportLoop() {
@@ -977,7 +994,6 @@ public class PlaybackController {
             mHandler.removeCallbacks(mReportLoop);
 
         }
-
     }
 
     private void delayedSeek(final long position) {
