@@ -102,7 +102,7 @@ public class AuthenticationHelper {
                         activity.startActivity(userIntent);
                         break;
                     default:
-                        TvApp.getApplication().getLogger().Error("Unexpected response " + serverResult.getState() + " trying to sign in to specific server " + server.getLocalAddress());
+                        TvApp.getApplication().getLogger().Error("Unexpected response " + serverResult.getState() + " trying to sign in to specific server " + server.getAddress());
                         break;
                 }
             }
