@@ -130,7 +130,7 @@ public class AuthenticationHelper {
 
             @Override
             public void onError(Exception exception) {
-                Utils.reportError(activity, activity.getString(R.string.msg_error_connecting_server));
+                Utils.showToast(activity, activity.getString(R.string.msg_error_connecting_server));
             }
         });
     }

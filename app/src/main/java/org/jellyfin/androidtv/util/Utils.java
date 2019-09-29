@@ -90,24 +90,6 @@ public class Utils {
         return value != null && value;
     }
 
-    public static void reportError(final Context context, final String msg) {
-        if (context == null) return;
-        new AlertDialog.Builder(context)
-                .setTitle(msg)
-                .setMessage(context.getString(R.string.lbl_report_msg_question))
-                .setNegativeButton(context.getString(R.string.lbl_no), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        showToast(context, context.getString(R.string.msg_report_not_sent));
-                    }
-                }).setPositiveButton(context.getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                    showToast(context, context.getString(R.string.msg_report_sent));
-            }
-        }).show();
-    }
-
     public static String readStringFromStream(InputStream inputStream) throws IOException {
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
@@ -230,7 +212,7 @@ public class Utils {
 
     public static int getThemeColor(Context context, int resourceId) {
         TypedArray styledAttributes = context.getTheme()
-                .obtainStyledAttributes(new int[] { resourceId });
+                .obtainStyledAttributes(new int[]{resourceId});
         int themeColor = styledAttributes.getColor(0, 0);
         styledAttributes.recycle();
 
@@ -275,7 +257,7 @@ public class Utils {
 
     private static String convertToHex(byte[] data) {
         char[] hexChars = new char[data.length * 2];
-        for ( int j = 0; j < data.length; j++ ) {
+        for (int j = 0; j < data.length; j++) {
             int v = data[j] & 0xFF;
             hexChars[j * 2] = HEX_CHARS[v >>> 4];
             hexChars[j * 2 + 1] = HEX_CHARS[v & 0x0F];
@@ -283,7 +265,7 @@ public class Utils {
         return new String(hexChars);
     }
 
-    public static String getMD5Hash(String text)  {
+    public static String getMD5Hash(String text) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(text.getBytes(StandardCharsets.ISO_8859_1), 0, text.length());
@@ -302,21 +284,21 @@ public class Utils {
         }
 
         return (DeviceUtils.isFireTv() && !DeviceUtils.is50()) ||
-                "1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option","0"));
+                "1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option", "0"));
     }
 
     /**
      * Returns darker version of specified <code>color</code>.
      */
-    public static int darker (int color, float factor) {
-        int a = Color.alpha( color );
-        int r = Color.red( color );
-        int g = Color.green( color );
-        int b = Color.blue( color );
+    public static int darker(int color, float factor) {
+        int a = Color.alpha(color);
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
 
-        return Color.argb( a,
-                Math.max( (int)(r * factor), 0 ),
-                Math.max( (int)(g * factor), 0 ),
-                Math.max( (int)(b * factor), 0 ) );
+        return Color.argb(a,
+                Math.max((int) (r * factor), 0),
+                Math.max((int) (g * factor), 0),
+                Math.max((int) (b * factor), 0));
     }
 }

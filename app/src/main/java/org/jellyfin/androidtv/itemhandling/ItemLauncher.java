@@ -475,7 +475,6 @@ public class ItemLauncher {
                 message.Cancel();
                 Utils.showToast(activity, "Error Signing in to server");
                 exception.printStackTrace();
-                Utils.reportError(activity, "Error Signing in to server");
             }
         });
 

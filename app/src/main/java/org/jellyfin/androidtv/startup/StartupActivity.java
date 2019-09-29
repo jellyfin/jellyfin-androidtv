@@ -42,7 +42,6 @@ import org.jellyfin.apiclient.model.serialization.IJsonSerializer;
 import org.jellyfin.apiclient.model.session.ClientCapabilities;
 import org.jellyfin.apiclient.model.session.GeneralCommandType;
 
-
 public class StartupActivity extends Activity {
 
     private static final int NETWORK_PERMISSION = 1;
@@ -215,7 +214,7 @@ public class StartupActivity extends Activity {
                         @Override
                         public void onError(Exception exception) {
                             application.getLogger().ErrorException("Error Signing in", exception);
-                            Utils.reportError(activity, "Error Signing In");
+                            Utils.showToast(activity, "Error Signing In");
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -246,7 +245,7 @@ public class StartupActivity extends Activity {
 
             @Override
             public void onError(Exception exception) {
-                Utils.reportError(activity, "Error connecting");
+                Utils.showToast(activity, "Error connecting");
             }
         });
     }
