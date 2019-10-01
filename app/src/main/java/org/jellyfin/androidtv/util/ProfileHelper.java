@@ -180,7 +180,7 @@ public class ProfileHelper {
             ContainerTypes.WTV
         );
         videoDirectPlayProfile.setContainer(Utils.join(",", videoContainers));
-        List<String> audioCodecs = Arrays.asList(
+        List<String> audioCodecs = new ArrayList<>(Arrays.asList(
             CodecTypes.AAC,
             CodecTypes.MP3,
             CodecTypes.MP2,
@@ -195,7 +195,7 @@ public class ProfileHelper {
             CodecTypes.OPUS,
             CodecTypes.FLAC,
             CodecTypes.TRUEHD
-        );
+        ));
         if (!Utils.downMixAudio() && isLiveTv) {
             audioCodecs.add(CodecTypes.AAC_LATM);
         }
@@ -316,14 +316,14 @@ public class ProfileHelper {
                 TvApp.getApplication().getLogger().Info("*** Excluding DTS and AC3 audio from direct play due to compatible audio setting");
                 videoDirectPlayProfile.setAudioCodec(Utils.join(",", CodecTypes.AAC, CodecTypes.MP3, CodecTypes.MP2));
             } else {
-                List<String> audioCodecs = Arrays.asList(
+                List<String> audioCodecs = new ArrayList<>(Arrays.asList(
                     CodecTypes.AAC,
                     CodecTypes.AC3,
                     CodecTypes.EAC3,
                     CodecTypes.AAC_LATM,
                     CodecTypes.MP3,
                     CodecTypes.MP2
-                );
+                ));
                 if (allowDTS) {
                     audioCodecs.add(CodecTypes.DCA);
                     audioCodecs.add(CodecTypes.DTS);
