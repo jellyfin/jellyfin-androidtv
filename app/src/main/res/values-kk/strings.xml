@@ -3,7 +3,7 @@
     <string name="error">Қате</string>
     <string name="ok">ЖАРАЙДЫ</string>
     <string name="video_error_unknown_error">Бейне жүктеу сәтсіз</string>
-    <string name="txt_loading">Жүктеуде...</string>
+    <string name="txt_loading">Жүктеуде…</string>
     <string name="title_activity_select_user">ПайдаланушыӘрекетінТандау</string>
     <string name="home_title">Басты</string>
     <string name="btn_cancel">Болдырмау</string>
@@ -20,12 +20,12 @@
     <string name="title_activity_dpad_pw">Құпия сөзді енгізу</string>
     <string name="enter_password">Құпия сөзді енгізу</string>
     <string name="dpad_entry_desc">Сандық құпия сөзді енгізу үшін басқару тақтаңыздағы \"қиылыс бағыттауышты\" пайдаланыңыз. Түймешікті бір рет басу - тізімдегі бірінші сан үшін, немесе екі рет басу - екінші үшін. Мысалдар: 1 үшін \"жоғарығаны\" бірі рет басыңыз, немесе 5 үшін \"тандауды\" екі рет басыңыз. Аяқталғанша дейін \"тандау\" түймешігін, немесе қайта бастау үшін сол жақтағы түймешігін 1 секунд басып ұстаңыз да босатыңыз.</string>
-    <string name="dpad_pw_cancel">* Егер әріптік құпия сөзіңіз болса, немесе енгізу үшін пернетақта керек болса, \"төменге\" деген түймешікті 1 секунд үшін басып ұстаңыз да босатыңыз.</string>
+    <string name="dpad_pw_cancel">* Егер әріптік құпия сөзіңіз болса, немесе енгізу үшін пернетақта керек болса, \"төменге\" деген түймешікті 1 секунд үшін басып ұстаңыз да босатыңыз</string>
     <string name="chapters">Сахналар</string>
     <string name="pref_auto_logoff_title">Автоматты түрде жүйеден шығудың қүту уақыты өтті</string>
     <string name="pref_general">ЖАЛПЫ</string>
     <string name="lbl_settings">Параметрлер</string>
-    <string name="lbl_logout">"Шығу "</string>
+    <string name="lbl_logout">Шығу</string>
     <string name="lbl_send_logs">Жіберу жұрналдары</string>
     <string name="lbl_library">Тасығышхана</string>
     <string name="lbl_continue_watching">Қарауды жалғастыру</string>
@@ -39,7 +39,7 @@
     <string name="lbl_genres">Жанрлар</string>
     <string name="lbl_performers">Орындаушылар</string>
     <string name="lbl_search">Іздеу</string>
-    <string name="msg_not_implemented">"жүзеге асырылмаған"</string>
+    <string name="msg_not_implemented">" жүзеге асырылмаған"</string>
     <string name="lbl_latest">Ең кейінгі</string>
     <string name="lbl_by_name">Атымен</string>
     <string name="lbl_favorites">Тандаулылар</string>
@@ -73,10 +73,10 @@
     <string name="lbl_seasons">Маусымдар</string>
     <string name="lbl_upcoming">Күтілген</string>
     <string name="lbl_sd">SD</string>
-    <string name="lbl_runs">"Ұзақтығы: "</string>
-    <string name="lbl_min">" мин "</string>
-    <string name="lbl_ends">"Аяқталуы: "</string>
-    <string name="lbl_directed_by">"Режиссері "</string>
+    <string name="lbl_runs">Ұзақтығы</string>
+    <string name="lbl_min">" мин"</string>
+    <string name="lbl_ends">Аяқталуы</string>
+    <string name="lbl_directed_by">Режиссері</string>
     <string name="lbl_last_played">"Ең кейінгі ойнатылған "</string>
     <string name="lbl_select_server">Серверді тандау</string>
     <string name="lbl_other_options">Басқа параметрлер</string>
@@ -99,7 +99,7 @@
     <string name="lbl_enter_user_name">Пайдаланушы атын енгізу</string>
     <string name="lbl_enter_user_pw">Пайдаланушы құпия сөзін енгізу</string>
     <string name="msg_little_longer">Бұл күтілгеннен көбірек уақытты алатыны тәрізді...</string>
-    <string name="msg_report_sent">Жасақтаушыға баянат жіберілді. Рахмет!</string>
+    <string name="msg_report_sent">Жасақтаушыға баянат жіберілді. Рахмет.</string>
     <string name="lbl_report_msg_question">Баянатты жасақтаушыға жіберу қажет пе?</string>
     <string name="lbl_no">Жоқ</string>
     <string name="msg_report_not_sent">Баянат жіберілмеді</string>
@@ -184,7 +184,7 @@
     <string name="btn_stop">Тоқтату</string>
     <string name="btn_filter">Сүзу</string>
     <string name="btn_clear_all">Барлығын тазалау</string>
-    <string name="lbl_filters">Сүзгілер:</string>
+    <string name="lbl_filters">Сүзгілер</string>
     <string name="msg_subtitles_loading">Субтитрлер жүктелуде...</string>
     <string name="msg_unable_load_subs">Субтитрлерді жүктеу мүмкін емес</string>
     <string name="msg_burn_sub_warning">Субтитрлерді ойып беру бірнеше минөт алуы мүмкін. Кішкене шыдаңыз.</string>
