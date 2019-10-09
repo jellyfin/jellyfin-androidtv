@@ -297,4 +297,25 @@
     <string name="lbl_watched">Просмотренное</string>
     <string name="lbl_series">Сериал</string>
     <string name="lbl_status">%s / %s</string>
+    <string name="title_activity_expanded_text">ExpandedTextActivity</string>
+    <string name="pref_use_direct_path_summary">Выводить путь в файловой системе вместо URL потока</string>
+    <string name="pref_use_direct_path_title">Прямой вывод</string>
+    <string name="pref_external_live_tv_summary">Требуется совместимое приложение для воспроизведения эфирных трансляций</string>
+    <string name="pref_use_external_player_summary">Требуется совместимое приложение для воспроизведения видеотипов</string>
+    <string name="lbl_more_like_this">Ещё подобное этому</string>
+    <string name="lbl_resume_preroll">Откат для возобновления</string>
+    <string name="lbl_guide_option_played">Последнее воспроизведение</string>
+    <string name="lbl_hours">час</string>
+    <string name="lbl_minute">мин</string>
+    <string name="lbl_hour">час</string>
+    <string name="lbl_minutes">мин</string>
+    <string name="lbl_seconds">с</string>
+    <string name="lbl_series_recordings">Сериальные записи</string>
+    <string name="lbl_episode_not_record">Эта передача НЕ записывается</string>
+    <string name="lbl_schedule">Расписание</string>
+    <string name="no_program_data">&lt;Не доступны данные программы&gt;</string>
+    <string name="lbl_just_this_once">Только на этот раз</string>
+    <string name="pref_live_tv_mode_desc">Перейти сразу к последнему просмотренному эфирному каналу</string>
+    <string name="msg_external_path">Эта функция будет работать только в том случае, если вы правильно настроили свою медиатеку на сервере с сетевыми путями или подстановкой путей, а используемый клиент может получить прямой доступ к этим расположениям по сети.</string>
+    <string name="pref_authentication_cat">Проверка подлинности</string>
 </resources>
