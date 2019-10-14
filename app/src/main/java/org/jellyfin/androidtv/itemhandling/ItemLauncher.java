@@ -12,7 +12,6 @@ import org.jellyfin.androidtv.browsing.BrowseScheduleActivity;
 import org.jellyfin.androidtv.browsing.CollectionActivity;
 import org.jellyfin.androidtv.browsing.GenericFolderActivity;
 import org.jellyfin.androidtv.browsing.GenericGridActivity;
-import org.jellyfin.androidtv.browsing.MainActivity;
 import org.jellyfin.androidtv.browsing.UserViewActivity;
 import org.jellyfin.androidtv.details.FullDetailsActivity;
 import org.jellyfin.androidtv.details.ItemListActivity;

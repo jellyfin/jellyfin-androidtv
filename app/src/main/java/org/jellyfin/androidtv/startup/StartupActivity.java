@@ -33,12 +33,11 @@ import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.interaction.AndroidConnectionManager;
 import org.jellyfin.apiclient.interaction.AndroidDevice;
-import org.jellyfin.apiclient.interaction.GsonJsonSerializer;
 import org.jellyfin.apiclient.interaction.VolleyHttpClient;
 import org.jellyfin.apiclient.model.apiclient.ConnectionState;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.logging.ILogger;
-import org.jellyfin.apiclient.model.serialization.IJsonSerializer;
+import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 import org.jellyfin.apiclient.model.session.ClientCapabilities;
 import org.jellyfin.apiclient.model.session.GeneralCommandType;
 
@@ -145,7 +144,7 @@ public class StartupActivity extends Activity {
         capabilities.setSupportsMediaControl(true);
         capabilities.setSupportedCommands(supportedCommands);
 
-        IJsonSerializer jsonSerializer = new GsonJsonSerializer();
+        GsonJsonSerializer jsonSerializer = new GsonJsonSerializer();
         ApiEventListener apiEventListener = new TvApiEventListener();
 
         final IConnectionManager connectionManager = new AndroidConnectionManager(application,
@@ -159,7 +158,7 @@ public class StartupActivity extends Activity {
                 apiEventListener);
 
         application.setConnectionManager(connectionManager);
-        application.setSerializer((GsonJsonSerializer) jsonSerializer);
+        application.setSerializer(jsonSerializer);
         application.setPlaybackManager(new PlaybackManager(new AndroidDevice(application), logger));
 
         //See if we are coming in via direct entry
@@ -194,16 +193,13 @@ public class StartupActivity extends Activity {
                                     Utils.processPasswordEntry(activity, response, application.getDirectItemId());
                                 } else {
                                     //Can just go right into details
-
                                     Intent detailsIntent = new Intent(activity, FullDetailsActivity.class);
                                     detailsIntent.putExtra("ItemId", application.getDirectItemId());
                                     startActivity(detailsIntent);
                                 }
-
                             } else {
                                 if (response.getHasPassword() && application.getPrefs().getBoolean("pref_auto_pw_prompt", false)) {
                                     Utils.processPasswordEntry(activity, response);
-
                                 } else {
                                     Intent intent = new Intent(activity, MainActivity.class);
                                     activity.startActivity(intent);

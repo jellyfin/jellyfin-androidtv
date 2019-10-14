@@ -1,11 +1,8 @@
-package org.jellyfin.androidtv.startup;
+package org.jellyfin.androidtv.model;
 
 import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 import org.jellyfin.apiclient.model.dto.UserDto;
 
-/**
- * Created by Eric on 1/20/2015.
- */
 public class LogonCredentials {
     private ServerInfo serverInfo;
     private UserDto userDto;
@@ -30,5 +27,4 @@ public class LogonCredentials {
     public void setUserDto(UserDto userDto) {
         this.userDto = userDto;
     }
-
 }

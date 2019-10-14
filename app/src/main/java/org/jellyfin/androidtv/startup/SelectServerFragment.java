@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.startup;
 
 import android.os.Bundle;
+
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
@@ -8,6 +9,7 @@ import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
+
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -28,19 +30,15 @@ import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jellyfin.apiclient.interaction.GsonJsonSerializer;
 import org.jellyfin.apiclient.model.apiclient.ServerInfo;
+import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 
-/**
- * Created by Eric on 12/4/2014.
- */
 public class SelectServerFragment extends CustomBrowseFragment {
     private static final int ENTER_MANUALLY = 0;
     private List<ServerInfo> mServers = new ArrayList<>();
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-
         GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
         String[] passedItems = getActivity().getIntent().getStringArrayExtra("Servers");
         if (passedItems != null) {
