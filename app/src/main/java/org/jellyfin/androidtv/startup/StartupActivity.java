@@ -173,9 +173,10 @@ public class StartupActivity extends Activity {
             connectionManager.Connect(application.getConfiguredAutoCredentials().getServerInfo(), new Response<ConnectionResult>() {
                 @Override
                 public void onResponse(ConnectionResult response) {
+                    // Saved server login is unavailable
                     if (response.getState() == ConnectionState.Unavailable) {
-                        Utils.showToast( activity, "Unable to connect to configured server "+application.getConfiguredAutoCredentials().getServerInfo().getName());
-                        connectAutomatically(connectionManager, activity);
+                        Utils.showToast( activity,  R.string.msg_error_server_unavailable + ": " + application.getConfiguredAutoCredentials().getServerInfo().getName());
+                        AuthenticationHelper.automaticSignIn(connectionManager, activity);
                         return;
                     }
                     // Connected to server - load user and prompt for pw if necessary
@@ -210,11 +211,11 @@ public class StartupActivity extends Activity {
                         @Override
                         public void onError(Exception exception) {
                             application.getLogger().ErrorException("Error Signing in", exception);
-                            Utils.showToast(activity, "Error Signing In");
+                            Utils.showToast(activity, R.string.msg_error_signin);
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    connectAutomatically(connectionManager, activity);
+                                    AuthenticationHelper.automaticSignIn(connectionManager, activity);
                                 }
                             }, 5000);
                         }
@@ -223,26 +224,12 @@ public class StartupActivity extends Activity {
 
                 @Override
                 public void onError(Exception exception) {
-                    Utils.showToast( activity, "Unable to connect to configured server "+application.getConfiguredAutoCredentials().getServerInfo().getName());
-                    connectAutomatically(connectionManager, activity);
+                    Utils.showToast( activity, R.string.msg_error_connecting_server + ": " + application.getConfiguredAutoCredentials().getServerInfo().getName());
+                    AuthenticationHelper.automaticSignIn(connectionManager, activity);
                 }
             });
         } else {
-            connectAutomatically(connectionManager, activity);
-        }
-    }
-
-    private void connectAutomatically(final IConnectionManager connectionManager, final Activity activity){
-        connectionManager.Connect(new Response<ConnectionResult>() {
-            @Override
-            public void onResponse(final ConnectionResult response) {
-                AuthenticationHelper.handleConnectionResponse(connectionManager, activity, response);
+            AuthenticationHelper.automaticSignIn(connectionManager, activity);
             }
-
-            @Override
-            public void onError(Exception exception) {
-                Utils.showToast(activity, "Error connecting");
-            }
-        });
     }
 }

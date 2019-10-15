@@ -15,6 +15,7 @@ import org.jellyfin.androidtv.details.FullDetailsActivity;
 import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.startup.SelectServerActivity;
 import org.jellyfin.androidtv.startup.SelectUserActivity;
+import org.jellyfin.androidtv.util.DelayedMessage;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.io.IOException;
@@ -87,11 +88,19 @@ public class AuthenticationHelper {
         }).show();
     }
 
-    public static void signInToServer(IConnectionManager connectionManager, final ServerInfo server, final Activity activity) {
-        connectionManager.Connect(server, new Response<ConnectionResult>() {
+    private static Response<ConnectionResult> getSignInResponse(final Activity activity, final String address) {
+        // This is taking longer than expected message
+        final DelayedMessage message = new DelayedMessage(activity);
+
+        return new Response<ConnectionResult>() {
             @Override
             public void onResponse(ConnectionResult serverResult) {
+                message.Cancel();
+
                 switch (serverResult.getState()) {
+                    case Unavailable:
+                        Utils.showToast(activity, R.string.msg_error_server_unavailable);
+                        break;
                     case SignedIn:
                     case ServerSignIn:
                         //Set api client for login
@@ -102,37 +111,40 @@ public class AuthenticationHelper {
                         activity.startActivity(userIntent);
                         break;
                     default:
-                        TvApp.getApplication().getLogger().Error("Unexpected response " + serverResult.getState() + " trying to sign in to specific server " + server.getAddress());
-                        break;
-                }
-            }
-        });
-    }
-
-    public static void signInToServer(IConnectionManager connectionManager, String address, final Activity activity) {
-        connectionManager.Connect(address, new Response<ConnectionResult>() {
-            @Override
-            public void onResponse(ConnectionResult serverResult) {
-                switch (serverResult.getState()) {
-                    case ServerSignIn:
-                        //Set api client for login
-                        TvApp.getApplication().setLoginApiClient(serverResult.getApiClient());
-                        //Open user selection
-                        Intent userIntent = new Intent(activity, SelectUserActivity.class);
-                        userIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        activity.startActivity(userIntent);
-                        break;
-                    default:
-                        TvApp.getApplication().getLogger().Error("Unexpected response from server login "+ serverResult.getState());
+                        TvApp.getApplication().getLogger().Error("Unexpected response " + serverResult.getState() + " trying to sign in to specific server " + address);
                         Utils.showToast(activity, activity.getString(R.string.msg_error_connecting_server));
                 }
             }
 
             @Override
             public void onError(Exception exception) {
+                message.Cancel();
+                TvApp.getApplication().getLogger().ErrorException("Error trying to sign in to specific server " + address, exception);
                 Utils.showToast(activity, activity.getString(R.string.msg_error_connecting_server));
             }
-        });
+        };
+    }
+
+    /**
+     * Sign in to a specific server instance
+     *
+     * @param connectionManager Jellyfin API connection manager
+     * @param server            {@link org.jellyfin.apiclient.model.apiclient.ServerInfo ServerInfo} of the server to sign in to
+     * @param activity          Current Android activity
+     */
+    public static void signInToServer(IConnectionManager connectionManager, final ServerInfo server, final Activity activity) {
+        connectionManager.Connect(server, getSignInResponse(activity, server.getAddress()));
+    }
+
+    /**
+     * Sign in to a specific server instance
+     *
+     * @param connectionManager Jellyfin API connection manager
+     * @param address           URL of the server to sign in to
+     * @param activity          Current Android activity
+     */
+    public static void signInToServer(IConnectionManager connectionManager, String address, final Activity activity) {
+        connectionManager.Connect(address, getSignInResponse(activity, address));
     }
 
     public static void loginUser(String userName, String pw, ApiClient apiClient, final Activity activity) {
@@ -173,28 +185,36 @@ public class AuthenticationHelper {
         app.setConfiguredAutoCredentials(creds);
     }
 
-    public static LogonCredentials getSavedLoginCredentials(String fileName){
+    public static LogonCredentials getSavedLoginCredentials(String fileName) {
         TvApp app = TvApp.getApplication();
         try {
             InputStream credsFile = app.openFileInput(fileName);
             String json = Utils.readStringFromStream(credsFile);
             credsFile.close();
-            return (LogonCredentials) app.getSerializer().DeserializeFromString(json, LogonCredentials.class);
+            TvApp.getApplication().getLogger().Debug("Saved credential JSON: %s", json);
+            return app.getSerializer().DeserializeFromString(json, LogonCredentials.class);
         } catch (IOException e) {
             // none saved
             return new LogonCredentials(new ServerInfo(), new UserDto());
         } catch (Exception e) {
-            app.getLogger().ErrorException("Error interpreting saved login",e);
+            app.getLogger().ErrorException("Error interpreting saved login", e);
             return new LogonCredentials(new ServerInfo(), new UserDto());
         }
     }
 
-    public static void handleConnectionResponse(final IConnectionManager connectionManager,  final Activity activity, ConnectionResult response) {
+    /**
+     * Find the correct server instance to connect to based on a {@link org.jellyfin.apiclient.interaction.ConnectionResult ConnectionResult}
+     *
+     * @param connectionManager Jellyfin API connection manager
+     * @param activity          Current Android activity
+     * @param response          Response of the Connect API call
+     */
+    public static void handleConnectionResponse(final IConnectionManager connectionManager, final Activity activity, ConnectionResult response) {
         ILogger logger = TvApp.getApplication().getLogger();
         switch (response.getState()) {
             case Unavailable:
                 logger.Debug("No server available...");
-                Utils.showToast(activity, "No Jellyfin Servers available...");
+                Utils.showToast(activity, R.string.msg_error_server_unavailable);
                 break;
             case ServerSignIn:
                 logger.Debug("Sign in with server " + response.getServers().get(0).getName() + " total: " + response.getServers().size());
@@ -202,7 +222,7 @@ public class AuthenticationHelper {
                 break;
             case SignedIn:
                 logger.Debug("Ignoring saved connection manager sign in");
-                connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>(){
+                connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>() {
                     @Override
                     public void onResponse(ArrayList<ServerInfo> serverResponse) {
                         if (serverResponse.size() == 1) {
@@ -216,7 +236,7 @@ public class AuthenticationHelper {
                             for (ServerInfo server : serverResponse) {
                                 payload.add(serializer.SerializeToString(server));
                             }
-                            serverIntent.putExtra("Servers", payload.toArray(new String[] {}));
+                            serverIntent.putExtra("Servers", payload.toArray(new String[]{}));
                             serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                             activity.startActivity(serverIntent);
                         }
@@ -226,7 +246,7 @@ public class AuthenticationHelper {
             case ConnectSignIn:
             case ServerSelection:
                 logger.Debug("Select A server");
-                connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>(){
+                connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>() {
                     @Override
                     public void onResponse(ArrayList<ServerInfo> serverResponse) {
                         Intent serverIntent = new Intent(activity, SelectServerActivity.class);
@@ -235,13 +255,33 @@ public class AuthenticationHelper {
                         for (ServerInfo server : serverResponse) {
                             payload.add(serializer.SerializeToString(server));
                         }
-                        serverIntent.putExtra("Servers", payload.toArray(new String[] {}));
+                        serverIntent.putExtra("Servers", payload.toArray(new String[]{}));
                         serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         activity.startActivity(serverIntent);
                     }
                 });
                 break;
         }
+    }
 
+    /**
+     * Automatically sign in to available servers
+     *
+     * @param connectionManager Jellyfin API connection manager
+     * @param activity          Current Android activity
+     */
+    public static void automaticSignIn(final IConnectionManager connectionManager, final Activity activity) {
+        connectionManager.Connect(new Response<ConnectionResult>() {
+            @Override
+            public void onResponse(final ConnectionResult response) {
+                handleConnectionResponse(connectionManager, activity, response);
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                TvApp.getApplication().getLogger().ErrorException("Error trying to automatically sign in", exception);
+                Utils.showToast(activity, activity.getString(R.string.msg_error_connecting_server));
+            }
+        });
     }
 }

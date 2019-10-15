@@ -20,8 +20,6 @@ import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.model.ChapterItemInfo;
 import org.jellyfin.androidtv.model.ViewType;
 import org.jellyfin.androidtv.playback.MediaManager;
-import org.jellyfin.androidtv.startup.SelectUserActivity;
-import org.jellyfin.androidtv.util.DelayedMessage;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
@@ -30,10 +28,7 @@ import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jellyfin.apiclient.interaction.ConnectionResult;
-import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
@@ -68,14 +63,15 @@ public class ItemLauncher {
                         TvApp.getApplication().getDisplayPrefsAsync(baseItem.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
                             @Override
                             public void onResponse(DisplayPreferences response) {
-                                if (baseItem.getCollectionType() == null)
+                                if (baseItem.getCollectionType() == null) {
                                     baseItem.setCollectionType("unknown");
-                                TvApp.getApplication().getLogger().Debug("**** Collection type: "+baseItem.getCollectionType());
+                                }
+                                TvApp.getApplication().getLogger().Debug("**** Collection type: " + baseItem.getCollectionType());
                                 switch (baseItem.getCollectionType()) {
                                     case "movies":
                                     case "tvshows":
                                     case "music":
-                                        TvApp.getApplication().getLogger().Debug("**** View Type Pref: "+response.getCustomPrefs().get("DefaultView"));
+                                        TvApp.getApplication().getLogger().Debug("**** View Type Pref: " + response.getCustomPrefs().get("DefaultView"));
                                         if (ViewType.GRID.equals(response.getCustomPrefs().get("DefaultView"))) {
                                             // open grid browsing
                                             Intent folderIntent = new Intent(activity, GenericGridActivity.class);
@@ -113,7 +109,9 @@ public class ItemLauncher {
                         //Start activity for details display
                         Intent intent = new Intent(activity, FullDetailsActivity.class);
                         intent.putExtra("ItemId", baseItem.getId());
-                        if (noHistory) intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        if (noHistory) {
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        }
 
                         activity.startActivity(intent);
 
@@ -124,7 +122,9 @@ public class ItemLauncher {
                         //Start activity for song list display
                         Intent songListIntent = new Intent(activity, ItemListActivity.class);
                         songListIntent.putExtra("ItemId", baseItem.getId());
-                        if (noHistory) songListIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        if (noHistory) {
+                            songListIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        }
 
                         activity.startActivity(songListIntent);
 
@@ -140,7 +140,9 @@ public class ItemLauncher {
                         //Start activity for enhanced browse
                         Intent seasonIntent = new Intent(activity, GenericFolderActivity.class);
                         seasonIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
-                        if (noHistory) seasonIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        if (noHistory) {
+                            seasonIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        }
 
                         activity.startActivity(seasonIntent);
 
@@ -150,7 +152,9 @@ public class ItemLauncher {
                         // open collection browsing
                         Intent collectionIntent = new Intent(activity, CollectionActivity.class);
                         collectionIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
-                        if (noHistory) collectionIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        if (noHistory) {
+                            collectionIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        }
 
                         activity.startActivity(collectionIntent);
                         return;
@@ -173,7 +177,9 @@ public class ItemLauncher {
                         public void onResponse(DisplayPreferences response) {
                             Intent intent = new Intent(activity, GenericGridActivity.class);
                             intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
-                            if (noHistory) intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            if (noHistory) {
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            }
 
                             activity.startActivity(intent);
 
@@ -186,7 +192,9 @@ public class ItemLauncher {
                             //Start details fragment for display and playback
                             Intent intent = new Intent(activity, FullDetailsActivity.class);
                             intent.putExtra("ItemId", baseItem.getId());
-                            if (noHistory) intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            if (noHistory) {
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            }
                             activity.startActivity(intent);
                             break;
                         case Play:
@@ -195,7 +203,7 @@ public class ItemLauncher {
                                 PlaybackHelper.getItemsToPlay(baseItem, baseItem.getType().equals("Movie"), false, new Response<List<BaseItemDto>>() {
                                     @Override
                                     public void onResponse(List<BaseItemDto> response) {
-                                        Intent intent = new Intent(activity,application.getPlaybackActivityClass(baseItem.getType()));
+                                        Intent intent = new Intent(activity, application.getPlaybackActivityClass(baseItem.getType()));
                                         MediaManager.setCurrentVideoQueue(response);
                                         intent.putExtra("Position", 0);
                                         activity.startActivity(intent);
@@ -212,7 +220,9 @@ public class ItemLauncher {
                 //Start details fragment
                 Intent intent = new Intent(activity, FullDetailsActivity.class);
                 intent.putExtra("ItemId", rowItem.getPerson().getId());
-                if (noHistory) intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                if (noHistory) {
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                }
 
                 activity.startActivity(intent);
 
@@ -220,7 +230,7 @@ public class ItemLauncher {
             case Chapter:
                 final ChapterItemInfo chapter = rowItem.getChapterInfo();
                 //Start playback of the item at the chapter point
-                application.getApiClient().GetItemAsync(chapter.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>(){
+                application.getApiClient().GetItemAsync(chapter.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         List<BaseItemDto> items = new ArrayList<>();
@@ -236,7 +246,7 @@ public class ItemLauncher {
                 break;
             case Server:
                 //Log in to selected server
-                ServerSignIn(application.getConnectionManager(), rowItem.getServerInfo(), activity);
+                AuthenticationHelper.signInToServer(application.getConnectionManager(), rowItem.getServerInfo(), activity);
                 break;
 
             case User:
@@ -299,7 +309,7 @@ public class ItemLauncher {
                         programIntent.putExtra("ChannelId", program.getChannelId());
                         programIntent.putExtra("ProgramInfo", TvApp.getApplication().getSerializer().SerializeToString(program));
 
-                            activity.startActivity(programIntent);
+                        activity.startActivity(programIntent);
                         break;
                     case Play:
                         if (program.getPlayAccess() == PlayAccess.Full) {
@@ -432,50 +442,8 @@ public class ItemLauncher {
                         Intent schedIntent = new Intent(activity, BrowseScheduleActivity.class);
                         activity.startActivity(schedIntent);
                         break;
-
-
                 }
                 break;
-
-
         }
-
-    }
-
-    public static void ServerSignIn(final IConnectionManager connectionManager, final ServerInfo serverInfo, final Activity activity) {
-        //Connect to the selected server
-        final DelayedMessage message = new DelayedMessage(activity);
-        connectionManager.Connect(serverInfo, new Response<ConnectionResult>() {
-            @Override
-            public void onResponse(ConnectionResult response) {
-                message.Cancel();
-                switch (response.getState()) {
-                    case Unavailable:
-                        Utils.showToast(activity, "Server unavailable");
-                        break;
-                    case SignedIn:
-                    case ServerSignIn:
-                        //Set api client for login
-                        TvApp.getApplication().setLoginApiClient(response.getApiClient());
-                        //Open user selection
-                        Intent userIntent = new Intent(activity, SelectUserActivity.class);
-                        userIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        activity.startActivity(userIntent);
-                        break;
-                    case ConnectSignIn:
-                    case ServerSelection:
-                        Utils.showToast(activity, "Unexpected response from server connect: " + response.getState());
-                        break;
-                }
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                message.Cancel();
-                Utils.showToast(activity, "Error Signing in to server");
-                exception.printStackTrace();
-            }
-        });
-
     }
 }
