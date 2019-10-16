@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">Jellyfin</string>
-    <string name="error">에러</string>
+    <string name="error">오류</string>
     <string name="ok">확인</string>
     <string name="play">재생</string>
     <string name="video_error_unknown_error">영상을 불러오는데 실패함</string>
     <string name="loading">로딩 중…</string>
     <string name="txt_loading">로딩 중…</string>
-    <string name="title_activity_select_user"/>
+    <string name="title_activity_select_user">SelectUserActivity</string>
     <string name="home_title">홈</string>
     <string name="btn_cancel">취소</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
@@ -18,9 +18,9 @@
     <string name="pref_auto_login">이 사용자로 자동 로그인</string>
     <string name="settings_title">설정</string>
     <string name="pref_authentication_cat">인증</string>
-    <string name="pref_prompt_pw">암호 확인 창</string>
-    <string name="pref_alt_pw_entry">사용자 정의 D-Pad 비밀번호 입력</string>
-    <string name="pref_alt_pw_entry_desc"/>
+    <string name="pref_prompt_pw">비밀번호 확인 창</string>
+    <string name="pref_alt_pw_entry">사용자 지정 D-Pad 비밀번호</string>
+    <string name="pref_alt_pw_entry_desc">D-Pad키만 사용하는 숫자 비밀번호</string>
     <string name="title_activity_dpad_pw">비밀번호 입력</string>
     <string name="enter_password">비밀번호 입력</string>
     <string name="dpad_entry_desc"/>
@@ -32,7 +32,7 @@
     <string name="lbl_logout">로그아웃</string>
     <string name="lbl_send_logs">로그 전송</string>
     <string name="lbl_library">라이브러리</string>
-    <string name="lbl_continue_watching">이어보기</string>
+    <string name="lbl_continue_watching">계속 시청하기</string>
     <string name="lbl_latest_movies">최신 영화</string>
     <string name="lbl_next_up">다음</string>
     <string name="lbl_next_up_tv">다음 TV</string>
@@ -51,12 +51,12 @@
     <string name="lbl_coming_up">Coming Up</string>
     <string name="lbl_favorite_channels">즐겨찾는 채널</string>
     <string name="lbl_other_channels"/>
-    <string name="lbl_collections">콜렉션</string>
+    <string name="lbl_collections">컬렉션</string>
     <string name="lbl_movies">영화</string>
     <string name="lbl_tv_series">TV 시리즈</string>
     <string name="lbl_other"/>
-    <string name="lbl_latest_additions"/>
-    <string name="lbl_because_you_watched"/>
+    <string name="lbl_latest_additions">최근 추가됨</string>
+    <string name="lbl_because_you_watched">"시청했기 때문에 "</string>
     <string name="lbl_play_all">모두 재생</string>
     <string name="lbl_shuffle_all">모두 셔플</string>
     <string name="lbl_play">재생</string>
@@ -69,10 +69,10 @@
     <string name="msg_unable_to_create_recording">녹화 생성 불가</string>
     <string name="msg_recording_cancelled">녹화 취소됨</string>
     <string name="msg_unable_to_cancel">녹화 취소 불가</string>
-    <string name="lbl_cast_crew"/>
+    <string name="lbl_cast_crew">배역 및 제작진</string>
     <string name="lbl_chapters">챕터</string>
-    <string name="lbl_specials"/>
-    <string name="lbl_trailers">트레일러</string>
+    <string name="lbl_specials">스페셜</string>
+    <string name="lbl_trailers">예고편</string>
     <string name="lbl_items">항목</string>
     <string name="lbl_item">항목</string>
     <string name="lbl_series">시리즈</string>
@@ -88,7 +88,7 @@
     <string name="lbl_last_played">"마지막으로 재생됨 "</string>
     <string name="lbl_select_server">서버 선택</string>
     <string name="lbl_other_options">다른 옵션</string>
-    <string name="lbl_enter_manually"/>
+    <string name="lbl_enter_manually">직접 입력</string>
     <string name="lbl_select_user">사용자 선택</string>
     <string name="lbl_paren_login_as"/>
     <string name="lbl_to_change_paren"/>
@@ -100,15 +100,15 @@
     <string name="lbl_none">None</string>
     <string name="msg_video_playback_error">"영상 재생 에러 - "</string>
     <string name="lbl_bracket_unknown">&lt;알수없음&gt;</string>
-    <string name="msg_access_restricted"/>
-    <string name="lbl_trailer">"트레일러 "</string>
+    <string name="msg_access_restricted">현재 접근 제한됨</string>
+    <string name="lbl_trailer">"예고편 "</string>
     <string name="lbl_play_trailers">트레일러 재생</string>
     <string name="lbl_please_wait">기다려주십시오</string>
     <string name="lbl_enter_user_name">사용자 이름 입력</string>
     <string name="lbl_enter_user_pw">사용자 비밀번호 입력</string>
     <string name="msg_little_longer">생각했던 것보다 더 오래걸릴 수 있습니다 ..</string>
-    <string name="msg_report_sent">리포트가 개발자에게 전송되었습니다. 감사합니다.</string>
-    <string name="lbl_report_msg_question">리포트를 개발자에게 보내시겠습니까\?</string>
+    <string name="msg_report_sent">보고서가 개발자에게 전송되었습니다. 감사합니다.</string>
+    <string name="lbl_report_msg_question">개발자에게 보고서를 보내시겠습니까\?</string>
     <string name="lbl_no">아니오</string>
     <string name="msg_report_not_sent"/>
     <string name="lbl_yes">예</string>
@@ -157,12 +157,12 @@
     <string name="lbl_begin_padding"/>
     <string name="lbl_program_ended"/>
     <string name="lbl_end_padding"/>
-    <string name="lbl_similar_items_library"/>
+    <string name="lbl_similar_items_library">라이브러리내의 비슷한 항목</string>
     <string name="lbl_record_any_channel"/>
     <string name="lbl_record_any_time"/>
     <string name="lbl_only_new_episodes">새로운 에피소드만</string>
     <string name="lbl_repeat_options">반복 옵션</string>
-    <string name="msg_cancel_entire_series"/>
+    <string name="msg_cancel_entire_series">정말로 모든 시리즈를 취소하시겠습니까\?</string>
     <string name="msg_remote_already_playing"/>
     <string name="pref_audio_direct">다이렉트</string>
     <string name="pref_audio_compat"/>
@@ -183,7 +183,7 @@
     <string name="lbl_date_added">추가된 날짜</string>
     <string name="lbl_premier_date"/>
     <string name="lbl_critic_rating"/>
-    <string name="lbl_rating"/>
+    <string name="lbl_rating">평점</string>
     <string name="lbl_starting_with"/>
     <string name="btn_done">완료</string>
     <string name="lbl_display_preferences">환경 설정 표시</string>
@@ -203,9 +203,9 @@
     <string name="lbl_live_tv_guide">실시간 TV 가이드</string>
     <string name="lbl_recorded_tv">녹화된 TV</string>
     <string name="btn_ok">예</string>
-    <string name="pref_live_tv_cat">라이브 TV</string>
-    <string name="msg_error_live_stream">라이브 TV 스트리밍 에러. 다시 시도합니다 ..</string>
-    <string name="lbl_direct_stream_live">라이브 TV 다이렉트 스트림</string>
+    <string name="pref_live_tv_cat">실시간 TV</string>
+    <string name="msg_error_live_stream">실시간 TV 스트리밍에 오류가 발생했습니다. 다시 시도합니다 ..</string>
+    <string name="lbl_direct_stream_live">실시간 TV 다이렉트 스트림</string>
     <string name="lbl_programs">프로그램</string>
     <string name="lbl_albums">앨범</string>
     <string name="lbl_artists">아티스트</string>
@@ -214,7 +214,7 @@
     <string name="lbl_album">앨범</string>
     <string name="lbl_episodes">에피소드</string>
     <string name="lbl_enable_cinema_mode">시네마 모드</string>
-    <string name="sum_enable_cinema_mode"/>
+    <string name="sum_enable_cinema_mode">서버에서 활성화한 경우, 영화 재생 전에 인트로 및 미리보기 표시</string>
     <string name="lbl_playlists">플레이리스트</string>
     <string name="lbl_warning">경고</string>
     <string name="lbl_of"/>
@@ -234,7 +234,7 @@
     <string name="lbl_play_from_here"/>
     <string name="lbl_remove_from_queue"/>
     <string name="lbl_goto_now_playing"/>
-    <string name="lbl_instant_mix"/>
+    <string name="lbl_instant_mix">인스턴스 믹스</string>
     <string name="lbl_save_as_playlist">플레이리스트로 저장</string>
     <string name="lbl_delete">제거</string>
     <string name="msg_item_added">" 항목 추가됨"</string>
