@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.itemhandling;
 
 import android.os.Handler;
+
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
@@ -62,9 +63,6 @@ import org.jellyfin.apiclient.model.search.SearchHint;
 import org.jellyfin.apiclient.model.search.SearchHintResult;
 import org.jellyfin.apiclient.model.search.SearchQuery;
 
-/**
- * Created by Eric on 12/5/2014.
- */
 public class ItemRowAdapter extends ArrayObjectAdapter {
     private ItemQuery mQuery;
     private NextUpQuery mNextUpQuery;
@@ -90,7 +88,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private EmptyResponse mRetrieveStartedListener;
     private EmptyResponse mRetrieveFinishedListener;
 
-    private ChangeTriggerType[] reRetrieveTriggers = new ChangeTriggerType[] {};
+    private ChangeTriggerType[] reRetrieveTriggers = new ChangeTriggerType[]{};
     private Calendar lastFullRetrieve;
 
     private BaseItemPerson[] mPersons;
@@ -123,11 +121,21 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         }
     }
 
-    public boolean getPreferParentThumb() { return preferParentThumb; }
-    public boolean isStaticHeight() { return staticHeight; }
-    public QueryType getQueryType() { return queryType; }
+    public boolean getPreferParentThumb() {
+        return preferParentThumb;
+    }
 
-    public ArrayObjectAdapter getParent() { return mParent; }
+    public boolean isStaticHeight() {
+        return staticHeight;
+    }
+
+    public QueryType getQueryType() {
+        return queryType;
+    }
+
+    public ArrayObjectAdapter getParent() {
+        return mParent;
+    }
 
     public void setRow(ListRow row) {
         mRow = row;
@@ -136,6 +144,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     public void setReRetrieveTriggers(ChangeTriggerType[] reRetrieveTriggers) {
         this.reRetrieveTriggers = reRetrieveTriggers;
     }
+
     public ItemRowAdapter(ItemQuery query, int chunkSize, boolean preferParentThumb, Presenter presenter, ArrayObjectAdapter parent) {
         this(query, chunkSize, preferParentThumb, false, presenter, parent);
     }
@@ -148,7 +157,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.chunkSize = chunkSize;
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = staticHeight;
-        if (chunkSize > 0) mQuery.setLimit(chunkSize);
+        if (chunkSize > 0) {
+            mQuery.setLimit(chunkSize);
+        }
         this.queryType = queryType;
         add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
@@ -161,7 +172,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.chunkSize = chunkSize;
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = staticHeight;
-        if (chunkSize > 0) mQuery.setLimit(chunkSize);
+        if (chunkSize > 0) {
+            mQuery.setLimit(chunkSize);
+        }
         this.queryType = queryType;
         add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
@@ -177,7 +190,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mArtistsQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         staticHeight = true;
         this.chunkSize = chunkSize;
-        if (chunkSize > 0) mArtistsQuery.setLimit(chunkSize);
+        if (chunkSize > 0) {
+            mArtistsQuery.setLimit(chunkSize);
+        }
         queryType = QueryType.AlbumArtists;
         add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
@@ -190,7 +205,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.NextUp;
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = true;
-        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(SeriesTimerQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -198,7 +213,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mSeriesTimerQuery = query;
         queryType = QueryType.SeriesTimer;
-        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(LatestItemsQuery query, boolean preferParentThumb, Presenter presenter, ArrayObjectAdapter parent) {
@@ -208,7 +223,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mLatestQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         queryType = QueryType.LatestItems;
         this.preferParentThumb = preferParentThumb;
-        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(BaseItemPerson[] people, Presenter presenter, ArrayObjectAdapter parent) {
@@ -253,7 +268,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mSpecialsQuery = query;
         queryType = QueryType.Specials;
-        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(TrailersQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -261,7 +276,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mTrailersQuery = query;
         queryType = QueryType.Trailers;
-        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(LiveTvChannelQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
@@ -269,9 +284,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mTvChannelQuery = query;
         this.chunkSize = chunkSize;
-        if (chunkSize > 0) mTvChannelQuery.setLimit(chunkSize);
+        if (chunkSize > 0) {
+            mTvChannelQuery.setLimit(chunkSize);
+        }
         queryType = QueryType.LiveTvChannel;
-        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(RecommendedProgramQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -280,7 +297,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mTvProgramQuery = query;
         queryType = QueryType.LiveTvProgram;
         staticHeight = true;
-        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(RecordingQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
@@ -290,7 +307,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.chunkSize = chunkSize;
         queryType = QueryType.LiveTvRecording;
         staticHeight = true;
-        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(RecordingGroupQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -298,7 +315,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mTvRecordingGroupQuery = query;
         queryType = QueryType.LiveTvRecordingGroup;
-        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(SimilarItemsQuery query, QueryType queryType, Presenter presenter, ArrayObjectAdapter parent) {
@@ -307,7 +324,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mSimilarQuery = query;
         mSimilarQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         this.queryType = queryType;
-        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(UpcomingEpisodesQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -316,7 +333,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mUpcomingQuery = query;
         mUpcomingQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         queryType = QueryType.Upcoming;
-        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(SeasonQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -325,7 +342,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mSeasonQuery = query;
         mSeasonQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         queryType = QueryType.Season;
-        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(PersonsQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
@@ -334,9 +351,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.chunkSize = chunkSize;
         mPersonsQuery = query;
         mPersonsQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
-        if (chunkSize > 0) mPersonsQuery.setLimit(chunkSize);
+        if (chunkSize > 0) {
+            mPersonsQuery.setLimit(chunkSize);
+        }
         queryType = QueryType.Persons;
-        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(SearchQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -346,7 +365,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mSearchQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         mSearchQuery.setLimit(50);
         queryType = QueryType.Search;
-        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(ViewQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -354,7 +373,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         queryType = QueryType.Views;
         staticHeight = true;
-        add(new BaseRowItem(new GridButton(0,TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(ServerInfo serverInfo, Presenter presenter, ArrayObjectAdapter parent) {
@@ -383,7 +402,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         totalItems = amt;
     }
 
-    public int getTotalItems() { return totalItems; }
+    public int getTotalItems() {
+        return totalItems;
+    }
 
     public void setSortBy(HorizontalGridFragment.SortOption option) {
         if (!option.value.equals(mSortBy)) {
@@ -394,53 +415,69 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     mArtistsQuery.setSortOrder(option.order);
                     break;
                 default:
-                    mQuery.setSortBy(new String[] {mSortBy});
+                    mQuery.setSortBy(new String[]{mSortBy});
                     mQuery.setSortOrder(option.order);
                     break;
             }
-            if (!"SortName".equals(option.value)) setStartLetter(null);
+            if (!"SortName".equals(option.value)) {
+                setStartLetter(null);
+            }
         }
     }
 
     public BaseRowItem findByIndex(int ndx) {
         //search for actual index number and return matching item
         for (int i = 0; i < getItemsLoaded(); i++) {
-            BaseRowItem item = (BaseRowItem)this.get(i);
-            if (item.getIndex() == ndx) return item;
+            BaseRowItem item = (BaseRowItem) this.get(i);
+            if (item.getIndex() == ndx) {
+                return item;
+            }
         }
         return null;
     }
 
-    public String getSortBy() { return mSortBy; }
+    public String getSortBy() {
+        return mSortBy;
+    }
 
-    public FilterOptions getFilters() { return mFilters; }
+    public FilterOptions getFilters() {
+        return mFilters;
+    }
 
     public void setFilters(FilterOptions filters) {
         mFilters = filters;
-            switch (queryType) {
-                case AlbumArtists:
-                    mArtistsQuery.setFilters(mFilters != null ? mFilters.getFilters() : null);
-                    break;
-                default:
-                    mQuery.setFilters(mFilters != null ? mFilters.getFilters() : null);
-            }
+        switch (queryType) {
+            case AlbumArtists:
+                mArtistsQuery.setFilters(mFilters != null ? mFilters.getFilters() : null);
+                break;
+            default:
+                mQuery.setFilters(mFilters != null ? mFilters.getFilters() : null);
+        }
     }
 
     public void setPosition(int pos) {
-        ((IPositionablePresenter)(getParent().getPresenter(this))).setPosition(pos);
+        ((IPositionablePresenter) (getParent().getPresenter(this))).setPosition(pos);
     }
 
-    public String getStartLetter() { return mQuery != null ? mQuery.getNameStartsWithOrGreater() : null; }
+    public String getStartLetter() {
+        return mQuery != null ? mQuery.getNameStartsWithOrGreater() : null;
+    }
 
     public void setStartLetter(String value) {
         switch (queryType) {
             case AlbumArtists:
-                if (value != null && value.equals("#")) mArtistsQuery.setNameStartsWithOrGreater(null);
-                else mArtistsQuery.setNameStartsWithOrGreater(value);
+                if (value != null && value.equals("#")) {
+                    mArtistsQuery.setNameStartsWithOrGreater(null);
+                } else {
+                    mArtistsQuery.setNameStartsWithOrGreater(value);
+                }
                 break;
             default:
-                if (value != null && value.equals("#")) mQuery.setNameStartsWithOrGreater(null);
-                else mQuery.setNameStartsWithOrGreater(value);
+                if (value != null && value.equals("#")) {
+                    mQuery.setNameStartsWithOrGreater(null);
+                } else {
+                    mQuery.setNameStartsWithOrGreater(value);
+                }
                 break;
         }
     }
@@ -450,7 +487,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             // just clear us
             clear();
             return;
-        };
+        }
+        ;
 
         if (mParent.size() == 1) {
             // we will be removing the last row - show something and prevent the framework from crashing
@@ -483,7 +521,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     public void RetrieveNext() {
         switch (queryType) {
             case Persons:
-                if (fullyLoaded || mPersonsQuery == null || isCurrentlyRetrieving()) return;
+                if (fullyLoaded || mPersonsQuery == null || isCurrentlyRetrieving()) {
+                    return;
+                }
                 setCurrentlyRetrieving(true);
 
                 //set the query to go get the next chunk
@@ -492,7 +532,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
 
             case LiveTvChannel:
-                if (fullyLoaded || mTvChannelQuery == null || isCurrentlyRetrieving()) return;
+                if (fullyLoaded || mTvChannelQuery == null || isCurrentlyRetrieving()) {
+                    return;
+                }
                 setCurrentlyRetrieving(true);
 
                 //set the query to go get the next chunk
@@ -501,7 +543,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
 
             case AlbumArtists:
-                if (fullyLoaded || mArtistsQuery == null || isCurrentlyRetrieving()) return;
+                if (fullyLoaded || mArtistsQuery == null || isCurrentlyRetrieving()) {
+                    return;
+                }
                 setCurrentlyRetrieving(true);
 
                 //set the query to go get the next chunk
@@ -510,7 +554,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
 
             default:
-                if (fullyLoaded || mQuery == null || isCurrentlyRetrieving()) return;
+                if (fullyLoaded || mQuery == null || isCurrentlyRetrieving()) {
+                    return;
+                }
                 setCurrentlyRetrieving(true);
 
                 //set the query to go get the next chunk
@@ -521,7 +567,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     public boolean ReRetrieveIfNeeded() {
-        if (reRetrieveTriggers == null) return false;
+        if (reRetrieveTriggers == null) {
+            return false;
+        }
 
         boolean retrieve = false;
         TvApp app = TvApp.getApplication();
@@ -558,7 +606,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         }
 
         if (retrieve) {
-            TvApp.getApplication().getLogger().Info("Re-retrieving row of type "+ queryType);
+            TvApp.getApplication().getLogger().Info("Re-retrieving row of type " + queryType);
             Retrieve();
         }
 
@@ -665,7 +713,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 }
                 totalItems = response.length;
                 setItemsLoaded(totalItems);
-                if (totalItems == 0) removeRow();
+                if (totalItems == 0) {
+                    removeRow();
+                }
 
                 currentlyRetrieving = false;
             }
@@ -748,7 +798,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         currentlyRetrieving = false;
     }
 
-    private static String[] ignoreTypes = new String[] {"books","games"};
+    private static String[] ignoreTypes = new String[]{"books", "games"};
     private static List<String> ignoreTypeList = Arrays.asList(ignoreTypes);
 
     private void RetrieveViews() {
@@ -763,8 +813,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     for (BaseItemDto item : response.getItems()) {
                         //re-map the display prefs id to our actual id
                         item.setDisplayPreferencesId(item.getId());
-                        if (!ignoreTypeList.contains(item.getCollectionType()) && !ignoreTypeList.contains(item.getType()))
+                        if (!ignoreTypeList.contains(item.getCollectionType()) && !ignoreTypeList.contains(item.getType())) {
                             adapter.add(new BaseRowItem(i++, item, preferParentThumb, staticHeight));
+                        }
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
@@ -799,7 +850,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(SearchHintResult response) {
                 if (response.getSearchHints() != null && response.getSearchHints().length > 0) {
                     int i = 0;
-                    if (adapter.size() > 0) adapter.clear();
+                    if (adapter.size() > 0) {
+                        adapter.clear();
+                    }
                     for (SearchHint item : response.getSearchHints()) {
                         if (!ignoreTypeList.contains(item.getType())) {
                             i++;
@@ -808,7 +861,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
-                    if (itemsLoaded > 0 && mParent != null) mParent.add(mRow);
+                    if (itemsLoaded > 0 && mParent != null) {
+                        mParent.add(mRow);
+                    }
                 }
 
                 currentlyRetrieving = false;
@@ -895,7 +950,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                 } else {
                     // no results - don't show us
-                    if (getItemsLoaded() == 0) removeRow();
+                    if (getItemsLoaded() == 0) {
+                        removeRow();
+                    }
                 }
 
                 setCurrentlyRetrieving(false);
@@ -1029,7 +1086,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
-                        if (adapter.size() > 0) adapter.clear();
+                        if (adapter.size() > 0) {
+                            adapter.clear();
+                        }
                         if (response.getItems() != null && response.getItems().length > 0) {
                             int i = 0;
                             Calendar compare = Calendar.getInstance();
@@ -1038,7 +1097,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                             for (BaseItemDto item : response.getItems()) {
                                 if (item.getIndexNumber() != null && item.getIndexNumber() == 1 && (item.getDateCreated() == null || item.getDateCreated().after(compare.getTime()))
                                         && (item.getUserData() == null || item.getUserData().getLikes() == null || item.getUserData().getLikes())
-                                        ) {
+                                ) {
                                     // new unwatched episode 1 not disliked - check to be sure prev episode not already in next up
                                     BaseItemDto nextUpItem = null;
                                     for (int n = 0; n < nextUpItems.length; n++) {
@@ -1053,8 +1112,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                                         BaseRowItem existing = null;
                                         int existingPos = -1;
                                         for (int n = 0; n < adapter.size(); n++) {
-                                            if (((BaseRowItem)adapter.get(n)).getBaseItem().getSeriesId().equals(item.getSeriesId())) {
-                                                existing = (BaseRowItem)adapter.get(n);
+                                            if (((BaseRowItem) adapter.get(n)).getBaseItem().getSeriesId().equals(item.getSeriesId())) {
+                                                existing = (BaseRowItem) adapter.get(n);
                                                 existingPos = n;
                                                 break;
                                             }
@@ -1078,7 +1137,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                         }
 
 
-                        if (adapter.size() == 0) removeRow();
+                        if (adapter.size() == 0) {
+                            removeRow();
+                        }
                         currentlyRetrieving = false;
                     }
                 });
@@ -1095,7 +1156,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onResponse(final ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
-                    if (adapter.size() > 0) adapter.clear();
+                    if (adapter.size() > 0) {
+                        adapter.clear();
+                    }
                     int i = 0;
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(i++, item, preferParentThumb, staticHeight));
@@ -1108,7 +1171,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     } else {
                         //If this was for a single series, get the rest of the episodes in the season
                         if (query.getSeriesId() != null) {
-                            BaseItemDto first = adapter.size() == 1 ? ((BaseRowItem)adapter.get(0)).getBaseItem() : null;
+                            BaseItemDto first = adapter.size() == 1 ? ((BaseRowItem) adapter.get(0)).getBaseItem() : null;
                             if (first != null && first.getIndexNumber() != null && first.getSeasonId() != null) {
                                 StdItemQuery rest = new StdItemQuery();
                                 rest.setUserId(query.getUserId());
@@ -1165,14 +1228,18 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ChannelInfoDtoResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
                     int i = itemsLoaded;
-                    if (i == 0 && adapter.size() > 0) adapter.clear();
+                    if (i == 0 && adapter.size() > 0) {
+                        adapter.clear();
+                    }
                     for (ChannelInfoDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(i, item));
                         i++;
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(i);
-                    if (i == 0) removeRow();
+                    if (i == 0) {
+                        removeRow();
+                    }
                 } else {
                     // no results - don't show us
                     removeRow();
@@ -1382,13 +1449,17 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(BaseItemDto[] response) {
                 if (response.length > 0) {
                     int i = 0;
-                    if (adapter.size() > 0) adapter.clear();
+                    if (adapter.size() > 0) {
+                        adapter.clear();
+                    }
                     for (BaseItemDto item : response) {
                         adapter.add(new BaseRowItem(i++, item, preferParentThumb, false));
                     }
                     totalItems = response.length;
                     setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) removeRow();
+                    if (i == 0) {
+                        removeRow();
+                    }
                 } else {
                     // no results - don't show us
                     removeRow();
@@ -1415,14 +1486,18 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(BaseItemDto[] response) {
                 if (response.length > 0) {
                     int i = 0;
-                    if (adapter.size() > 0) adapter.clear();
+                    if (adapter.size() > 0) {
+                        adapter.clear();
+                    }
                     for (BaseItemDto item : response) {
                         item.setName(TvApp.getApplication().getString(R.string.lbl_trailer) + (i + 1));
                         adapter.add(new BaseRowItem(i++, item, preferParentThumb, false, BaseRowItem.SelectAction.Play));
                     }
                     totalItems = response.length;
                     setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) removeRow();
+                    if (i == 0) {
+                        removeRow();
+                    }
                 } else {
                     // no results - don't show us
                     removeRow();
@@ -1449,13 +1524,17 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
                     int i = 0;
-                    if (adapter.size() > 0) adapter.clear();
+                    if (adapter.size() > 0) {
+                        adapter.clear();
+                    }
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(i++, item));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) removeRow();
+                    if (i == 0) {
+                        removeRow();
+                    }
                 } else {
                     // no results - don't show us
                     removeRow();
@@ -1482,13 +1561,17 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
                     int i = 0;
-                    if (adapter.size() > 0) adapter.clear();
+                    if (adapter.size() > 0) {
+                        adapter.clear();
+                    }
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(i++, item));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) removeRow();
+                    if (i == 0) {
+                        removeRow();
+                    }
                 } else {
                     // no results - don't show us
                     removeRow();
@@ -1515,14 +1598,19 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
                     int i = 0;
-                    if (adapter.size() > 0) adapter.clear();
+                    if (adapter.size() > 0) {
+                        adapter.clear();
+                    }
                     for (BaseItemDto item : response.getItems()) {
-                        if (query.getParentId() == null || item.getSeriesId() == null || item.getSeriesId().equals(query.getParentId()))
+                        if (query.getParentId() == null || item.getSeriesId() == null || item.getSeriesId().equals(query.getParentId())) {
                             adapter.add(new BaseRowItem(i++, item));
+                        }
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) removeRow();
+                    if (i == 0) {
+                        removeRow();
+                    }
                 } else {
                     // no results - don't show us
                     removeRow();
@@ -1549,13 +1637,17 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
                     int i = itemsLoaded;
-                    if (i == 0 && adapter.size() > 0) adapter.clear();
+                    if (i == 0 && adapter.size() > 0) {
+                        adapter.clear();
+                    }
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(i++, item));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(i);
-                    if (i == 0) removeRow();
+                    if (i == 0) {
+                        removeRow();
+                    }
                 } else {
                     // no results - don't show us
                     removeRow();
