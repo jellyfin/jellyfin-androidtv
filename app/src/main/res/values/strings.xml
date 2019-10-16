@@ -114,6 +114,7 @@
     <string name="lbl_yes">Yes</string>
     <string name="msg_error_connecting_server">Error Connecting to Server</string>
     <string name="msg_error_server_unavailable">Server unavailable</string>
+    <string name="msg_error_server_version">Unsupported server version. Server version must be %1$s or later.</string>
     <string name="msg_error_signin">Error Signing In</string>
     <string name="msg_invalid_id_pw">Invalid User id or password</string>
     <string name="lbl_version">"Version "</string>

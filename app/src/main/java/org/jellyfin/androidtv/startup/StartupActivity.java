@@ -179,6 +179,14 @@ public class StartupActivity extends Activity {
                         AuthenticationHelper.automaticSignIn(connectionManager, activity);
                         return;
                     }
+
+                    // Check the server version
+                    if (!AuthenticationHelper.isSupportedServerVersion(response.getServers().get(0))) {
+                        Utils.showToast(activity, activity.getString(R.string.msg_error_server_version, TvApp.MINIMUM_SERVER_VERSION));
+                        AuthenticationHelper.automaticSignIn(connectionManager, activity);
+                        return;
+                    }
+
                     // Connected to server - load user and prompt for pw if necessary
                     application.setLoginApiClient(response.getApiClient());
                     response.getApiClient().GetUserAsync(application.getConfiguredAutoCredentials().getUserDto().getId(), new Response<UserDto>() {
@@ -230,6 +238,6 @@ public class StartupActivity extends Activity {
             });
         } else {
             AuthenticationHelper.automaticSignIn(connectionManager, activity);
-            }
+        }
     }
 }

@@ -53,6 +53,8 @@ import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 import org.jellyfin.apiclient.model.system.SystemInfo;
 
 public class TvApp extends Application implements ActivityCompat.OnRequestPermissionsResultCallback {
+    // The minimum supported server version. Trying to connect to an older server will display an error.
+    public static final String MINIMUM_SERVER_VERSION = "10.3.0";
     public static final String CREDENTIALS_PATH = "org.jellyfin.androidtv.login.json";
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
     public static final int LIVE_TV_RECORDINGS_OPTION_ID = 2000;

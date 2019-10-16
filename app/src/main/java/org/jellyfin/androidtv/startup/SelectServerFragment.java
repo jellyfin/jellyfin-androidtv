@@ -43,7 +43,7 @@ public class SelectServerFragment extends CustomBrowseFragment {
         String[] passedItems = getActivity().getIntent().getStringArrayExtra("Servers");
         if (passedItems != null) {
             for (String json : passedItems) {
-                mServers.add((ServerInfo) serializer.DeserializeFromString(json, ServerInfo.class));
+                mServers.add(serializer.DeserializeFromString(json, ServerInfo.class));
             }
         }
 

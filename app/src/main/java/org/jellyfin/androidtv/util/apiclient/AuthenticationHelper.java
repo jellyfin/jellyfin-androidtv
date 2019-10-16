@@ -97,6 +97,12 @@ public class AuthenticationHelper {
             public void onResponse(ConnectionResult serverResult) {
                 message.Cancel();
 
+                // Check the server version
+                if (!isSupportedServerVersion(serverResult.getServers().get(0))) {
+                    Utils.showToast(activity, activity.getString(R.string.msg_error_server_version, TvApp.MINIMUM_SERVER_VERSION));
+                    return;
+                }
+
                 switch (serverResult.getState()) {
                     case Unavailable:
                         Utils.showToast(activity, R.string.msg_error_server_unavailable);
@@ -283,5 +289,19 @@ public class AuthenticationHelper {
                 Utils.showToast(activity, activity.getString(R.string.msg_error_connecting_server));
             }
         });
+    }
+
+    /**
+     * Check if the server version is supported by the app.
+     *
+     * @param serverInfo The ServerInfo returned by a Connect API call
+     * @return true if the server version is supported or not specified
+     */
+    public static boolean isSupportedServerVersion(final ServerInfo serverInfo) {
+        if (serverInfo != null && serverInfo.getVersion() != null) {
+            return Utils.versionGreaterThanOrEqual(serverInfo.getVersion(), TvApp.MINIMUM_SERVER_VERSION);
+        }
+        // If a version is not available, allow the server
+        return true;
     }
 }
