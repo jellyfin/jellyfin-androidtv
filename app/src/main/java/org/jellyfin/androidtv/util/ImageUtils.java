@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.util;
 
+import org.jellyfin.androidtv.BuildConfig;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 
@@ -63,8 +64,10 @@ public class ImageUtils {
     }
 
     public static String getPrimaryImageUrl(SeriesTimerInfoDto timer, ApiClient apiClient, int maxHeight) {
-        if (timer.getProgramId() == null) return null;
-        TvApp.getApplication().getLogger().Debug("***** Program ID: %s",timer.getProgramId());
+        if (timer.getProgramId() == null) {
+            return null;
+        }
+        TvApp.getApplication().getLogger().Debug("***** Program ID: %s", timer.getProgramId());
         ImageOptions options = new ImageOptions();
         options.setMaxHeight(maxHeight);
         options.setImageType(ImageType.Primary);
@@ -80,7 +83,9 @@ public class ImageUtils {
     }
 
     public static String getPrimaryImageUrl(BaseItemDto item, int width, int height) {
-        if (!item.getHasPrimaryImage()) return null;
+        if (!item.getHasPrimaryImage()) {
+            return null;
+        }
         ImageOptions options = new ImageOptions();
         options.setTag(item.getImageTags().get(ImageType.Primary));
         options.setMaxWidth(width);
@@ -90,7 +95,9 @@ public class ImageUtils {
     }
 
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient) {
-        if (!item.getHasPrimaryImage()) return null;
+        if (!item.getHasPrimaryImage()) {
+            return null;
+        }
         ImageOptions options = new ImageOptions();
         options.setTag(item.getImageTags().get(ImageType.Primary));
         options.setMaxHeight(MAX_PRIMARY_IMAGE_HEIGHT);
@@ -99,7 +106,9 @@ public class ImageUtils {
     }
 
     public static String getPrimaryImageUrl(ChannelInfoDto item, ApiClient apiClient) {
-        if (!item.getHasPrimaryImage()) return null;
+        if (!item.getHasPrimaryImage()) {
+            return null;
+        }
         ImageOptions options = new ImageOptions();
         options.setTag(item.getImageTags().get(ImageType.Primary));
         options.setMaxHeight(MAX_PRIMARY_IMAGE_HEIGHT);
@@ -155,7 +164,7 @@ public class ImageUtils {
 
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, boolean showProgress, boolean preferParentThumb, boolean preferSeriesPoster, int maxHeight) {
         if (item.getType().equals("SeriesTimer")) {
-            return "android.resource://org.jellyfin.androidtv/" + R.drawable.tile_land_series_timer;
+            return getResourceUrl(R.drawable.tile_land_series_timer);
         }
 
         ImageOptions options = new ImageOptions();
@@ -262,5 +271,15 @@ public class ImageUtils {
         }
 
         return null;
+    }
+
+    /**
+     * A utility to return a URL reference to an image resource
+     *
+     * @param resourceId The id of the image resource
+     * @return The URL of the image resource
+     */
+    public static String getResourceUrl(int resourceId) {
+        return "android.resource://" + BuildConfig.APPLICATION_ID + "/" + resourceId;
     }
 }
