@@ -263,7 +263,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (mCurrentItem != null) {
             return KeyProcessor.HandleKey(keyCode, mCurrentItem, this) || super.onKeyUp(keyCode, event);
-
         } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) && BaseItemUtils.canPlay(mBaseItem)) {
             //default play action
             Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
@@ -792,7 +791,17 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private TextUnderButton moreButton;
 
     private void addButtons(int buttonSize) {
-        mResumeButton = new TextUnderButton(this, R.drawable.ic_resume, buttonSize, 2, "Series".equals(mBaseItem.getType()) ? getString(R.string.lbl_play_next_up) : String.format(getString(R.string.lbl_resume_from), TimeUtils.formatMillis((mBaseItem.getUserData().getPlaybackPositionTicks()/10000) - mApplication.getResumePreroll())), new View.OnClickListener() {
+        String buttonLabel;
+        if ("Series".equals(mBaseItem.getType()) || "SeriesTimer".equals(mBaseItem.getType())) {
+            buttonLabel = getString(R.string.lbl_play_next_up);
+        } else {
+            long startPos = 0;
+            if (mBaseItem.getCanResume()) {
+                startPos = (mBaseItem.getUserData().getPlaybackPositionTicks()/10000) - mApplication.getResumePreroll();
+            }
+            buttonLabel = String.format(getString(R.string.lbl_resume_from), TimeUtils.formatMillis(startPos));
+        }
+        mResumeButton = new TextUnderButton(this, R.drawable.ic_resume, buttonSize, 2, buttonLabel, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if ("Series".equals(mBaseItem.getType())) {
