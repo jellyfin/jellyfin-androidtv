@@ -48,9 +48,7 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.logging.ILogger;
-import org.jellyfin.apiclient.model.net.EndPointInfo;
 import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
-import org.jellyfin.apiclient.model.system.SystemInfo;
 
 public class TvApp extends Application implements ActivityCompat.OnRequestPermissionsResultCallback {
     // The minimum supported server version. Trying to connect to an older server will display an error.
