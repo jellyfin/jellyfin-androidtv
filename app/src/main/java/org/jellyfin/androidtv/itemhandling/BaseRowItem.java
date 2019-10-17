@@ -200,11 +200,11 @@ public class BaseRowItem {
             case LiveTvChannel:
                 return ImageUtils.getPrimaryImageUrl(channelInfo, TvApp.getApplication().getApiClient());
             case Server:
-                return "android.resource://org.jellyfin.androidtv/" + R.drawable.tile_port_server;
+                return ImageUtils.getResourceUrl(R.drawable.tile_port_server);
             case GridButton:
-                return "android.resource://org.jellyfin.androidtv/" + gridButton.getImageIndex();
+                return ImageUtils.getResourceUrl(gridButton.getImageIndex());
             case SeriesTimer:
-                return "android.resource://org.jellyfin.androidtv/" + R.drawable.tile_land_series_timer;
+                return ImageUtils.getResourceUrl(R.drawable.tile_land_series_timer);
             case SearchHint:
                 return Utils.isNonEmpty(searchHint.getPrimaryImageTag()) ? ImageUtils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag(), TvApp.getApplication().getApiClient()) :
                         Utils.isNonEmpty(searchHint.getThumbImageItemId()) ? ImageUtils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag(), TvApp.getApplication().getApiClient()) : null;
