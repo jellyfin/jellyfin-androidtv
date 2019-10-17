@@ -125,7 +125,14 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
             @Override
             public void uncaughtException(Thread thread, Throwable ex) {
                 logger.FatalException("Uncaught Exception", new Exception(ex));
-                ex.printStackTrace();
+                /*
+                 * If an Exception happens when an Activity is being initialized,
+                 * it seems to hit an infinite loop of trying to re-initialize the Activity.
+                 * To avoid this, we call finish on the current activity.
+                 */
+                if (currentActivity != null) {
+                    currentActivity.finish();
+                }
                 android.os.Process.killProcess(android.os.Process.myPid());
                 System.exit(10);
             }
