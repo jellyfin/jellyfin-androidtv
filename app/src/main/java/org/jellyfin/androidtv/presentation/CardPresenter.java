@@ -148,6 +148,10 @@ public class CardPresenter extends Presenter {
                             mCardView.setCardType(BaseCardView.CARD_TYPE_INFO_UNDER);
                             break;
                         case "CollectionFolder":
+                            // Force the aspect ratio to 16x9 because the server is returning the wrong value of 1
+                            aspect = ImageUtils.ASPECT_RATIO_16_9;
+                            mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tile_port_folder);
+                            break;
                         case "Folder":
                         case "MovieGenreFolder":
                         case "MusicGenreFolder":
