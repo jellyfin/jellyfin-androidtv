@@ -246,7 +246,7 @@ public class ItemLauncher {
                 break;
             case Server:
                 //Log in to selected server
-                AuthenticationHelper.signInToServer(application.getConnectionManager(), rowItem.getServerInfo(), activity);
+                AuthenticationHelper.signInToServer(application.getConnectionManager(), rowItem.getServerInfo().getAddress(), activity);
                 break;
 
             case User:

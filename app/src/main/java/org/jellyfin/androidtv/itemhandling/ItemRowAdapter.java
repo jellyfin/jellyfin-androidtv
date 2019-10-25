@@ -488,7 +488,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             clear();
             return;
         }
-        ;
 
         if (mParent.size() == 1) {
             // we will be removing the last row - show something and prevent the framework from crashing

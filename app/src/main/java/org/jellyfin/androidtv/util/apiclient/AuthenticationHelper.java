@@ -135,17 +135,6 @@ public class AuthenticationHelper {
      * Sign in to a specific server instance
      *
      * @param connectionManager Jellyfin API connection manager
-     * @param server            {@link org.jellyfin.apiclient.model.apiclient.ServerInfo ServerInfo} of the server to sign in to
-     * @param activity          Current Android activity
-     */
-    public static void signInToServer(IConnectionManager connectionManager, final ServerInfo server, final Activity activity) {
-        connectionManager.Connect(server, getSignInResponse(activity, server.getAddress()));
-    }
-
-    /**
-     * Sign in to a specific server instance
-     *
-     * @param connectionManager Jellyfin API connection manager
      * @param address           URL of the server to sign in to
      * @param activity          Current Android activity
      */
@@ -224,7 +213,7 @@ public class AuthenticationHelper {
                 break;
             case ServerSignIn:
                 logger.Debug("Sign in with server " + response.getServers().get(0).getName() + " total: " + response.getServers().size());
-                signInToServer(connectionManager, response.getServers().get(0), activity);
+                signInToServer(connectionManager, response.getServers().get(0).getAddress(), activity);
                 break;
             case SignedIn:
                 logger.Debug("Ignoring saved connection manager sign in");
@@ -233,7 +222,7 @@ public class AuthenticationHelper {
                     public void onResponse(ArrayList<ServerInfo> serverResponse) {
                         if (serverResponse.size() == 1) {
                             //Signed in before and have just one server so go directly to user screen
-                            signInToServer(connectionManager, serverResponse.get(0), activity);
+                            signInToServer(connectionManager, serverResponse.get(0).getAddress(), activity);
                         } else {
                             //More than one server so show selection
                             Intent serverIntent = new Intent(activity, SelectServerActivity.class);

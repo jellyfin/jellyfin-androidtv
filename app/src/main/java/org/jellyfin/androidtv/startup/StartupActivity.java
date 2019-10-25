@@ -175,7 +175,7 @@ public class StartupActivity extends Activity {
                 public void onResponse(ConnectionResult response) {
                     // Saved server login is unavailable
                     if (response.getState() == ConnectionState.Unavailable) {
-                        Utils.showToast( activity,  R.string.msg_error_server_unavailable + ": " + application.getConfiguredAutoCredentials().getServerInfo().getName());
+                        Utils.showToast(activity, R.string.msg_error_server_unavailable + ": " + application.getConfiguredAutoCredentials().getServerInfo().getName());
                         AuthenticationHelper.automaticSignIn(connectionManager, activity);
                         return;
                     }
