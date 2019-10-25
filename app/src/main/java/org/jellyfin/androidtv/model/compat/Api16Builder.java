@@ -271,7 +271,7 @@ public class Api16Builder {
             }
         }
         else if (profile.getType()==DlnaProfileType.Audio){
-            if (ContainerTypes.MP4.startsWith(codecType)){
+            if (codecType.startsWith(ContainerTypes.MP4)){
                 profile.setContainer(CodecTypes.AAC);
             }
             else if (ContainerTypes.MPEG.equalsIgnoreCase(codecType)){
