@@ -490,8 +490,8 @@ public class PlaybackController {
                                             internalResponse.getMediaSource() == null ||
                                             internalResponse.getMediaSource().getDefaultAudioStream() == null ||
                                             (!internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dca") &&
-                                                    !internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dts")))  &&
-                                    (!DeviceUtils.isFireTvStick() |
+                                                !internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dts")))  &&
+                                    (!DeviceUtils.isFireTvStick() ||
                                             (vlcResponse.getMediaSource().getVideoStream() != null && vlcResponse.getMediaSource().getVideoStream().getWidth() < 1000));
 
                             mApplication.getLogger().Info(useVlc ? "Preferring VLC" : "Will use internal player");
