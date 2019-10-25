@@ -467,7 +467,10 @@ public class PlaybackController {
                         @Override
                         public void onResponse(StreamInfo internalResponse) {
                             mApplication.getLogger().Info("Internal player would " + (internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream"));
-                            boolean useDeinterlacing = vlcResponse.getMediaSource().getVideoStream().getIsInterlaced() && (vlcResponse.getMediaSource().getVideoStream().getWidth() == null || vlcResponse.getMediaSource().getVideoStream().getWidth() > 1200);
+                            boolean useDeinterlacing = vlcResponse.getMediaSource().getVideoStream() != null &&
+                                    vlcResponse.getMediaSource().getVideoStream().getIsInterlaced() &&
+                                    (vlcResponse.getMediaSource().getVideoStream().getWidth() == null ||
+                                            vlcResponse.getMediaSource().getVideoStream().getWidth() > 1200);
                             mApplication.getLogger().Info(useDeinterlacing ? "Explicit deinterlacing will be used" : "Explicit deinterlacing will NOT be used");
 
                             // TODO: Clean up this logic
@@ -476,6 +479,8 @@ public class PlaybackController {
                                     !vlcResponse.getPlayMethod().equals(PlayMethod.Transcode) &&
                                     (DeviceUtils.is60() ||
                                         !mApplication.getPrefs().getBoolean("pref_bitstream_ac3", false) ||
+                                        vlcResponse.getMediaSource() == null ||
+                                        vlcResponse.getMediaSource().getDefaultAudioStream() == null ||
                                         (!"ac3".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec()) &&
                                                 !"truehd".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec())))  &&
                                     (Utils.downMixAudio() ||
