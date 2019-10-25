@@ -107,7 +107,7 @@
     <string name="msg_error_connecting_server">Tilkobling til server mislyktes</string>
     <string name="msg_invalid_id_pw">Feil bruker-ID eller passord</string>
     <string name="lbl_version">"Versjon "</string>
-    <string name="lbl_ip_hint">192.168.1.1 eller https://minserver.no</string>
+    <string name="lbl_ip_hint">192.168.1.100:8096 eller https://minserver.no</string>
     <string name="lbl_enter_server_address">Skriv inn serveradresse</string>
     <string name="lbl_valid_server_address">Vennligst tast inn serveren sin adresse (IP, domene eller maskinnavn)</string>
     <string name="lbl_ok">Ok</string>

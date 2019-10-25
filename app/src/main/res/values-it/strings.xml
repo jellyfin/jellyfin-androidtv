@@ -94,7 +94,7 @@
     <string name="msg_error_connecting_server">Errore nel contattare il server</string>
     <string name="msg_invalid_id_pw">Nome utente o password non validi</string>
     <string name="lbl_version">"Versione: "</string>
-    <string name="lbl_ip_hint">192.168.1.1 or https://ilmioserver.com</string>
+    <string name="lbl_ip_hint">192.168.1.100:8096 or https://ilmioserver.com</string>
     <string name="lbl_enter_server_address">Inserisci l\'indirizzo del server</string>
     <string name="lbl_valid_server_address">Per favore inserisci un indirizzo del server (indirizzo IP, dominio o nome computer)</string>
     <string name="lbl_ok">Ok</string>
