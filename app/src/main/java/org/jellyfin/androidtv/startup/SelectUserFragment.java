@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.interaction.GsonJsonSerializer;
 import org.jellyfin.apiclient.model.apiclient.ServerInfo;
+import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 
 public class SelectUserFragment extends CustomBrowseFragment {
     private static final int ENTER_MANUALLY = 0;

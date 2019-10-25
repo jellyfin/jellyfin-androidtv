@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.startup;
 
 import android.os.Bundle;
+
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
@@ -8,6 +9,7 @@ import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
+
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -28,30 +30,25 @@ import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jellyfin.apiclient.interaction.GsonJsonSerializer;
 import org.jellyfin.apiclient.model.apiclient.ServerInfo;
+import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 
-/**
- * Created by Eric on 12/4/2014.
- */
 public class SelectServerFragment extends CustomBrowseFragment {
     private static final int ENTER_MANUALLY = 0;
     private List<ServerInfo> mServers = new ArrayList<>();
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-
         GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
         String[] passedItems = getActivity().getIntent().getStringArrayExtra("Servers");
         if (passedItems != null) {
             for (String json : passedItems) {
-                mServers.add((ServerInfo) serializer.DeserializeFromString(json, ServerInfo.class));
+                mServers.add(serializer.DeserializeFromString(json, ServerInfo.class));
             }
         }
 
         mActivity = (BaseActivity) getActivity();
         super.onActivityCreated(savedInstanceState);
-
     }
 
     @Override
@@ -59,7 +56,7 @@ public class SelectServerFragment extends CustomBrowseFragment {
         super.addAdditionalRows(rowAdapter);
 
         HeaderItem serverHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_select_server));
-        ItemRowAdapter serverAdapter = new ItemRowAdapter(mServers.toArray(new ServerInfo[mServers.size()]), new CardPresenter(), rowAdapter);
+        ItemRowAdapter serverAdapter = new ItemRowAdapter(mServers.toArray(new ServerInfo[0]), new CardPresenter(), rowAdapter);
         serverAdapter.Retrieve();
         rowAdapter.add(new ListRow(serverHeader, serverAdapter));
 
@@ -87,9 +84,8 @@ public class SelectServerFragment extends CustomBrowseFragment {
                 @Override
                 public void onMessageReceived(CustomMessage message) {
                     switch (message) {
-
                         case RemoveCurrentItem:
-                            ((ItemRowAdapter)mCurrentRow.getAdapter()).remove(mCurrentItem);
+                            ((ItemRowAdapter) mCurrentRow.getAdapter()).remove(mCurrentItem);
                             break;
                     }
                 }
@@ -101,7 +97,6 @@ public class SelectServerFragment extends CustomBrowseFragment {
         @Override
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
-
             if (item instanceof GridButton) {
                 switch (((GridButton) item).getId()) {
                     case ENTER_MANUALLY:
@@ -115,5 +110,4 @@ public class SelectServerFragment extends CustomBrowseFragment {
             }
         }
     }
-
 }

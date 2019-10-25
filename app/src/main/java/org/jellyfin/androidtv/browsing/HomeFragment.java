@@ -31,7 +31,7 @@ import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.StdItemQuery;
 import org.jellyfin.androidtv.querying.ViewQuery;
 import org.jellyfin.androidtv.settings.SettingsActivity;
-import org.jellyfin.androidtv.startup.LogonCredentials;
+import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.startup.SelectUserActivity;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
@@ -51,9 +51,6 @@ import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
 
-/**
- * Created by Eric on 12/4/2014.
- */
 public class HomeFragment extends StdBrowseFragment {
     private static final int LOGOUT = 0;
     private static final int SETTINGS = 1;

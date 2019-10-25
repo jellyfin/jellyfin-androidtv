@@ -30,7 +30,7 @@ import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.PlaybackManager;
 import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
 import org.jellyfin.androidtv.search.SearchActivity;
-import org.jellyfin.androidtv.startup.LogonCredentials;
+import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.Utils;
 
@@ -41,7 +41,6 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.interaction.GsonJsonSerializer;
 import org.jellyfin.apiclient.interaction.VolleyHttpClient;
 import org.jellyfin.apiclient.logging.AndroidLogger;
 import org.jellyfin.apiclient.model.configuration.ServerConfiguration;
@@ -49,10 +48,11 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.logging.ILogger;
-import org.jellyfin.apiclient.model.net.EndPointInfo;
-import org.jellyfin.apiclient.model.system.SystemInfo;
+import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 
 public class TvApp extends Application implements ActivityCompat.OnRequestPermissionsResultCallback {
+    // The minimum supported server version. Trying to connect to an older server will display an error.
+    public static final String MINIMUM_SERVER_VERSION = "10.3.0";
     public static final String CREDENTIALS_PATH = "org.jellyfin.androidtv.login.json";
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
     public static final int LIVE_TV_RECORDINGS_OPTION_ID = 2000;
@@ -69,7 +69,6 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     private GsonJsonSerializer serializer;
     private static TvApp app;
     private UserDto currentUser;
-    private SystemInfo currentSystemInfo;
     private BaseItemDto currentPlayingItem;
     private BaseItemDto lastPlayedItem;
     private PlaybackController playbackController;
@@ -227,64 +226,6 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     public void setPlaybackController(PlaybackController playbackController) {
         this.playbackController = playbackController;
-    }
-
-    public SystemInfo getCurrentSystemInfo() { return currentSystemInfo; }
-
-    public void loadSystemInfo() {
-        if (getApiClient() != null) {
-            getApiClient().GetSystemInfoAsync(new Response<SystemInfo>() {
-                @Override
-                public void onResponse(SystemInfo response) {
-                    currentSystemInfo = response;
-                    logger.Info("Current server is " + response.getServerName() + " (ver " + response.getVersion() + ") running on " + response.getOperatingSystemDisplayName());
-                    //Server compat warning
-                    if (getCurrentActivity() != null && !Utils.versionGreaterThanOrEqual(currentSystemInfo.getVersion(), "3.0.5882.0")) {
-                        new AlertDialog.Builder(getCurrentActivity())
-                                .setTitle("Incompatible Server Version")
-                                .setMessage("Please update your Jellyfin Server to avoid potential seeking problems during playback.")
-                                .setPositiveButton(getString(R.string.btn_ok), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                    }
-                                })
-                                .setCancelable(false)
-                                .show();
-                    }
-
-                }
-
-                @Override
-                public void onError(Exception exception) {
-                    logger.ErrorException("Unable to obtain system info.", exception);
-                }
-            });
-
-            //Also get server configuration and fill in max remote bitrate if we are remote
-            getApiClient().GetEndPointInfo(new Response<EndPointInfo>() {
-                @Override
-                public void onResponse(EndPointInfo response) {
-                    if (!response.getIsInNetwork()) {
-                        getApiClient().GetServerConfigurationAsync(new Response<ServerConfiguration>() {
-                            @Override
-                            public void onResponse(ServerConfiguration response) {
-                                serverConfiguration = response;
-                                maxRemoteBitrate = serverConfiguration.getRemoteClientBitrateLimit();
-                                getLogger().Info("Server bitrate limit set to ", maxRemoteBitrate);
-                            }
-
-                            @Override
-                            public void onError(Exception exception) {
-                                getLogger().ErrorException("Unable to retrieve server configuration",exception);
-                            }
-                        });
-                    } else {
-                        getLogger().Info("** Local connection - no server bitrate limit");
-                    }
-                }
-            });
-        }
     }
 
     public void showSearch(final Activity activity, boolean musicOnly) {

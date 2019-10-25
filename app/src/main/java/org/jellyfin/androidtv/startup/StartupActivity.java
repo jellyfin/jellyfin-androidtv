@@ -33,12 +33,11 @@ import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.interaction.AndroidConnectionManager;
 import org.jellyfin.apiclient.interaction.AndroidDevice;
-import org.jellyfin.apiclient.interaction.GsonJsonSerializer;
 import org.jellyfin.apiclient.interaction.VolleyHttpClient;
 import org.jellyfin.apiclient.model.apiclient.ConnectionState;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.logging.ILogger;
-import org.jellyfin.apiclient.model.serialization.IJsonSerializer;
+import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 import org.jellyfin.apiclient.model.session.ClientCapabilities;
 import org.jellyfin.apiclient.model.session.GeneralCommandType;
 
@@ -145,7 +144,7 @@ public class StartupActivity extends Activity {
         capabilities.setSupportsMediaControl(true);
         capabilities.setSupportedCommands(supportedCommands);
 
-        IJsonSerializer jsonSerializer = new GsonJsonSerializer();
+        GsonJsonSerializer jsonSerializer = new GsonJsonSerializer();
         ApiEventListener apiEventListener = new TvApiEventListener();
 
         final IConnectionManager connectionManager = new AndroidConnectionManager(application,
@@ -159,7 +158,7 @@ public class StartupActivity extends Activity {
                 apiEventListener);
 
         application.setConnectionManager(connectionManager);
-        application.setSerializer((GsonJsonSerializer) jsonSerializer);
+        application.setSerializer(jsonSerializer);
         application.setPlaybackManager(new PlaybackManager(new AndroidDevice(application), logger));
 
         //See if we are coming in via direct entry
@@ -174,11 +173,20 @@ public class StartupActivity extends Activity {
             connectionManager.Connect(application.getConfiguredAutoCredentials().getServerInfo(), new Response<ConnectionResult>() {
                 @Override
                 public void onResponse(ConnectionResult response) {
+                    // Saved server login is unavailable
                     if (response.getState() == ConnectionState.Unavailable) {
-                        Utils.showToast( activity, "Unable to connect to configured server "+application.getConfiguredAutoCredentials().getServerInfo().getName());
-                        connectAutomatically(connectionManager, activity);
+                        Utils.showToast(activity, R.string.msg_error_server_unavailable + ": " + application.getConfiguredAutoCredentials().getServerInfo().getName());
+                        AuthenticationHelper.automaticSignIn(connectionManager, activity);
                         return;
                     }
+
+                    // Check the server version
+                    if (!AuthenticationHelper.isSupportedServerVersion(response.getServers().get(0))) {
+                        Utils.showToast(activity, activity.getString(R.string.msg_error_server_version, TvApp.MINIMUM_SERVER_VERSION));
+                        AuthenticationHelper.automaticSignIn(connectionManager, activity);
+                        return;
+                    }
+
                     // Connected to server - load user and prompt for pw if necessary
                     application.setLoginApiClient(response.getApiClient());
                     response.getApiClient().GetUserAsync(application.getConfiguredAutoCredentials().getUserDto().getId(), new Response<UserDto>() {
@@ -194,16 +202,13 @@ public class StartupActivity extends Activity {
                                     Utils.processPasswordEntry(activity, response, application.getDirectItemId());
                                 } else {
                                     //Can just go right into details
-
                                     Intent detailsIntent = new Intent(activity, FullDetailsActivity.class);
                                     detailsIntent.putExtra("ItemId", application.getDirectItemId());
                                     startActivity(detailsIntent);
                                 }
-
                             } else {
                                 if (response.getHasPassword() && application.getPrefs().getBoolean("pref_auto_pw_prompt", false)) {
                                     Utils.processPasswordEntry(activity, response);
-
                                 } else {
                                     Intent intent = new Intent(activity, MainActivity.class);
                                     activity.startActivity(intent);
@@ -214,11 +219,11 @@ public class StartupActivity extends Activity {
                         @Override
                         public void onError(Exception exception) {
                             application.getLogger().ErrorException("Error Signing in", exception);
-                            Utils.showToast(activity, "Error Signing In");
+                            Utils.showToast(activity, R.string.msg_error_signin);
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    connectAutomatically(connectionManager, activity);
+                                    AuthenticationHelper.automaticSignIn(connectionManager, activity);
                                 }
                             }, 5000);
                         }
@@ -227,26 +232,12 @@ public class StartupActivity extends Activity {
 
                 @Override
                 public void onError(Exception exception) {
-                    Utils.showToast( activity, "Unable to connect to configured server "+application.getConfiguredAutoCredentials().getServerInfo().getName());
-                    connectAutomatically(connectionManager, activity);
+                    Utils.showToast( activity, R.string.msg_error_connecting_server + ": " + application.getConfiguredAutoCredentials().getServerInfo().getName());
+                    AuthenticationHelper.automaticSignIn(connectionManager, activity);
                 }
             });
         } else {
-            connectAutomatically(connectionManager, activity);
+            AuthenticationHelper.automaticSignIn(connectionManager, activity);
         }
-    }
-
-    private void connectAutomatically(final IConnectionManager connectionManager, final Activity activity){
-        connectionManager.Connect(new Response<ConnectionResult>() {
-            @Override
-            public void onResponse(final ConnectionResult response) {
-                AuthenticationHelper.handleConnectionResponse(connectionManager, activity, response);
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Utils.showToast(activity, "Error connecting");
-            }
-        });
     }
 }
