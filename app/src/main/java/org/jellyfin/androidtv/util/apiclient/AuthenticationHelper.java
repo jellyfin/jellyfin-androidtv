@@ -51,7 +51,7 @@ public class AuthenticationHelper {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String addressValue = address.getText().toString();
                 TvApp.getApplication().getLogger().Debug("Entered address: " + addressValue);
-                signInToServer(TvApp.getApplication().getConnectionManager(), addressValue.indexOf(":") < 0 ? addressValue + ":8096" : addressValue, activity);
+                signInToServer(TvApp.getApplication().getConnectionManager(), addressValue, activity);
             }
         }).show();
     }

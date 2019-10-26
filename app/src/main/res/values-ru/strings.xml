@@ -109,7 +109,7 @@
     <string name="msg_error_connecting_server">Ошибка соединения с сервером</string>
     <string name="msg_invalid_id_pw">Неверные ID или пароль пользователя</string>
     <string name="lbl_version">"Версия: "</string>
-    <string name="lbl_ip_hint">192.168.1.1 или https://myserver.com</string>
+    <string name="lbl_ip_hint">192.168.1.100:8096 или https://myserver.com</string>
     <string name="lbl_enter_server_address">Ввести адрес сервера</string>
     <string name="lbl_valid_server_address">Введите адрес сервера (IP или домен/имя_машины)</string>
     <string name="lbl_ok">Ок</string>

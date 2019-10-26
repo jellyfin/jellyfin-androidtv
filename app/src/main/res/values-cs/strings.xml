@@ -107,7 +107,7 @@
     <string name="msg_error_connecting_server">Chyba připojení k serveru</string>
     <string name="msg_invalid_id_pw">Neplatné ID uživatele nebo heslo</string>
     <string name="lbl_version">"Verze: "</string>
-    <string name="lbl_ip_hint">192.168.1.1 nebo https://mujserver.cz</string>
+    <string name="lbl_ip_hint">192.168.1.100:8096 nebo https://mujserver.cz</string>
     <string name="lbl_enter_server_address">Zadat adresu serveru</string>
     <string name="lbl_valid_server_address">Zadejte prosím adresu serveru (IP nebo doména/název stroje)</string>
     <string name="lbl_ok">Ok</string>
