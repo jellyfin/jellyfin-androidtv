@@ -36,7 +36,7 @@
     <string name="lbl_suggested">推荐欣赏</string>
     <string name="lbl_genres">风格类型</string>
     <string name="lbl_performers">演员歌手</string>
-    <string name="msg_not_implemented">"尚未观看"</string>
+    <string name="msg_not_implemented">" 尚未观看"</string>
     <string name="lbl_latest">最新上映</string>
     <string name="lbl_by_name">名称顺序</string>
     <string name="lbl_favorites">我的收藏</string>
@@ -66,7 +66,7 @@
     <string name="lbl_upcoming">即将上映</string>
     <string name="lbl_sd">标清</string>
     <string name="lbl_runs">运行</string>
-    <string name="lbl_min">"分钟"</string>
+    <string name="lbl_min">" 分钟"</string>
     <string name="lbl_ends">结束</string>
     <string name="lbl_directed_by">导演</string>
     <string name="lbl_last_played">"上次播放 "</string>
@@ -75,7 +75,7 @@
     <string name="lbl_enter_manually">手动输入</string>
     <string name="lbl_select_user">选择一个用户</string>
     <string name="lbl_paren_login_as">" (登录为 "</string>
-    <string name="lbl_to_change_paren">"更换)"</string>
+    <string name="lbl_to_change_paren">" 更换)"</string>
     <string name="lbl_login_as">"登录为 "</string>
     <string name="lbl_tv">电视</string>
     <string name="lbl_people">人物</string>
@@ -83,7 +83,7 @@
     <string name="msg_video_playback_error">"视频回放出错- "</string>
     <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>
     <string name="msg_access_restricted">访问受限</string>
-    <string name="lbl_trailer">"预告片"</string>
+    <string name="lbl_trailer">"预告片 "</string>
     <string name="lbl_please_wait">请稍候</string>
     <string name="msg_little_longer">这将耗费较长时间...</string>
     <string name="msg_report_sent">报告已发送给开发人员. 谢谢.</string>
@@ -98,7 +98,7 @@
     <string name="lbl_enter_server_address">输入服务器地址</string>
     <string name="lbl_valid_server_address">请输入服务器地址 (IP, 域名, 或机器名)</string>
     <string name="lbl_ok">确定</string>
-    <string name="lbl_born">"生日"</string>
+    <string name="lbl_born">"生日 "</string>
     <string name="lbl_loading_elipses">正在载入...</string>
     <string name="msg_playback_not_allowed">此时不能回放</string>
     <string name="msg_playback_restricted">现在管理员不允许播放此项目</string>
