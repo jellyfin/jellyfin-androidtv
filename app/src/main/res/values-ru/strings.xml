@@ -318,4 +318,7 @@
     <string name="pref_live_tv_mode_desc">Перейти сразу к последнему просмотренному эфирному каналу</string>
     <string name="msg_external_path">Эта функция будет работать только в том случае, если вы правильно настроили свою медиатеку на сервере с сетевыми путями или подстановкой путей, а используемый клиент может получить прямой доступ к этим расположениям по сети.</string>
     <string name="pref_authentication_cat">Проверка подлинности</string>
+    <string name="msg_error_signin">При входе с сохранёнными учётными данными произошла ошибка.</string>
+    <string name="msg_error_server_version">Неподдерживаемая версия сервера. Она должна быть %1$s или более.</string>
+    <string name="msg_error_server_unavailable">Сервер недоступен</string>
 </resources>
