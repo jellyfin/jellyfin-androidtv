@@ -73,16 +73,16 @@
     <string name="lbl_seasons">Seizoenen</string>
     <string name="lbl_upcoming">Straks</string>
     <string name="lbl_sd">SD</string>
-    <string name="lbl_runs">"Duurt: "</string>
+    <string name="lbl_runs">Duurt:</string>
     <string name="lbl_min">"min"</string>
-    <string name="lbl_ends">"Eindigt: "</string>
-    <string name="lbl_directed_by">"Geregisseerd door: "</string>
-    <string name="lbl_last_played">"Laatst afgespeeld "</string>
+    <string name="lbl_ends">Eindigd:</string>
+    <string name="lbl_directed_by">Geregisseerd door:</string>
+    <string name="lbl_last_played">"Laatst afgespeeld: "</string>
     <string name="lbl_select_server">Selecteer een server</string>
     <string name="lbl_other_options">Andere opties</string>
     <string name="lbl_enter_manually">Handmatig invoeren</string>
     <string name="lbl_select_user">Selecteer een gebruiker</string>
-    <string name="lbl_paren_login_as">" (log in als "</string>
+    <string name="lbl_paren_login_as">" (inloggen als "</string>
     <string name="lbl_to_change_paren">" om aan te passen)"</string>
     <string name="lbl_login_as">"Inloggen als "</string>
     <string name="lbl_tv">TV</string>
@@ -240,4 +240,10 @@
     <string name="lbl_clear_queue">Wachtrij leegmaken</string>
     <string name="lbl_play_next_up">Eerstvolgende afspelen</string>
     <string name="lbl_open">Openen</string>
+    <string name="play">Afspelen</string>
+    <string name="lbl_watched">Bekeken</string>
+    <string name="lbl_favorite">Favoriet</string>
+    <string name="lbl_series">Series</string>
+    <string name="pref_authentication_cat">Authenticatie</string>
+    <string name="loading">Laden…</string>
 </resources>
