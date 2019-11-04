@@ -48,7 +48,7 @@ public class ProfileHelper {
 //
 //        } else {
             transProfile.setContainer(ContainerTypes.MKV);
-            transProfile.setVideoCodec(ContainerTypes.MP4);
+            transProfile.setVideoCodec(CodecTypes.H264);
             transProfile.setAudioCodec(Utils.join(",", CodecTypes.AAC, CodecTypes.MP3));
             transProfile.setType(DlnaProfileType.Video);
             transProfile.setContext(EncodingContext.Streaming);
