@@ -90,12 +90,12 @@ public class AuthenticationHelper {
 
     private static Response<ConnectionResult> getSignInResponse(final Activity activity, final String address) {
         // This is taking longer than expected message
-        final DelayedMessage message = new DelayedMessage(activity);
+//        final DelayedMessage message = new DelayedMessage(activity);
 
         return new Response<ConnectionResult>() {
             @Override
             public void onResponse(ConnectionResult serverResult) {
-                message.Cancel();
+//                message.Cancel();
 
                 // Check the server version
                 if (!isSupportedServerVersion(serverResult.getServers().get(0))) {
@@ -124,7 +124,7 @@ public class AuthenticationHelper {
 
             @Override
             public void onError(Exception exception) {
-                message.Cancel();
+//                message.Cancel();
                 TvApp.getApplication().getLogger().ErrorException("Error trying to sign in to specific server " + address, exception);
                 Utils.showToast(activity, activity.getString(R.string.msg_error_connecting_server));
             }
