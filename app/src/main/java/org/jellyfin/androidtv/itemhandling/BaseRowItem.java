@@ -124,31 +124,76 @@ public class BaseRowItem {
         return baseItem;
     }
 
-    public BaseItemPerson getPerson() { return person; }
-    public ChapterItemInfo getChapterInfo() { return chapterInfo; }
-    public ServerInfo getServerInfo() { return serverInfo; }
-    public UserDto getUser() { return user; }
-    public SearchHint getSearchHint() { return searchHint; }
-    public ChannelInfoDto getChannelInfo() { return channelInfo; }
-    public BaseItemDto getProgramInfo() { return baseItem; }
-    public BaseItemDto getRecordingInfo() { return baseItem; }
-    public SeriesTimerInfoDto getSeriesTimerInfo() { return seriesTimerInfo; }
-    public GridButton getGridButton() { return gridButton; }
-    public boolean isChapter() { return type == ItemType.Chapter; }
-    public boolean isPerson() { return type == ItemType.Person; }
-    public boolean isBaseItem() { return type == ItemType.BaseItem; }
-    public boolean getPreferParentThumb() { return preferParentThumb; }
-    public ItemType getItemType() { return type; }
+    public BaseItemPerson getPerson() {
+        return person;
+    }
+
+    public ChapterItemInfo getChapterInfo() {
+        return chapterInfo;
+    }
+
+    public ServerInfo getServerInfo() {
+        return serverInfo;
+    }
+
+    public UserDto getUser() {
+        return user;
+    }
+
+    public SearchHint getSearchHint() {
+        return searchHint;
+    }
+
+    public ChannelInfoDto getChannelInfo() {
+        return channelInfo;
+    }
+
+    public BaseItemDto getProgramInfo() {
+        return baseItem;
+    }
+
+    public BaseItemDto getRecordingInfo() {
+        return baseItem;
+    }
+
+    public SeriesTimerInfoDto getSeriesTimerInfo() {
+        return seriesTimerInfo;
+    }
+
+    public GridButton getGridButton() {
+        return gridButton;
+    }
+
+    public boolean isChapter() {
+        return type == ItemType.Chapter;
+    }
+
+    public boolean isPerson() {
+        return type == ItemType.Person;
+    }
+
+    public boolean isBaseItem() {
+        return type == ItemType.BaseItem;
+    }
+
+    public boolean getPreferParentThumb() {
+        return preferParentThumb;
+    }
+
+    public ItemType getItemType() {
+        return type;
+    }
 
     public boolean isFolder() {
         return type == ItemType.BaseItem && baseItem != null && baseItem.getIsFolderItem();
     }
 
-    public boolean showCardInfoOverlay() {return type == ItemType.BaseItem && baseItem != null
-            && ("Folder".equals(baseItem.getType()) || "PhotoAlbum".equals(baseItem.getType()) || "RecordingGroup".equals(baseItem.getType())
-            || "UserView".equals(baseItem.getType()) || "CollectionFolder".equals(baseItem.getType()) || "Photo".equals(baseItem.getType())
-            || "Video".equals(baseItem.getType()) || "Person".equals(baseItem.getType()) || "Playlist".equals(baseItem.getType())
-            || "MusicArtist".equals(baseItem.getType()));
+    public boolean showCardInfoOverlay() {
+        return type == ItemType.BaseItem && baseItem != null
+                && ("Folder".equals(baseItem.getType()) || "PhotoAlbum".equals(baseItem.getType()) || "RecordingGroup".equals(baseItem.getType())
+                || "UserView".equals(baseItem.getType()) || "CollectionFolder".equals(baseItem.getType()) || "Photo".equals(baseItem.getType())
+                || "Video".equals(baseItem.getType()) || "Person".equals(baseItem.getType()) || "Playlist".equals(baseItem.getType())
+                || "MusicArtist".equals(baseItem.getType()));
     }
 
     public boolean isValid() {
@@ -180,8 +225,8 @@ public class BaseRowItem {
                     default:
                         return getPrimaryImageUrl(maxHeight);
                 }
-                default:
-                    return getPrimaryImageUrl(maxHeight);
+            default:
+                return getPrimaryImageUrl(maxHeight);
         }
     }
 
@@ -206,8 +251,11 @@ public class BaseRowItem {
             case SeriesTimer:
                 return ImageUtils.getResourceUrl(R.drawable.tile_land_series_timer);
             case SearchHint:
-                return Utils.isNonEmpty(searchHint.getPrimaryImageTag()) ? ImageUtils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag(), TvApp.getApplication().getApiClient()) :
-                        Utils.isNonEmpty(searchHint.getThumbImageItemId()) ? ImageUtils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag(), TvApp.getApplication().getApiClient()) : null;
+                if (Utils.isNonEmpty(searchHint.getPrimaryImageTag())) {
+                    return ImageUtils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag(), TvApp.getApplication().getApiClient());
+                } else if (Utils.isNonEmpty(searchHint.getThumbImageItemId())) {
+                    return ImageUtils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag(), TvApp.getApplication().getApiClient());
+                }
         }
         return null;
     }
@@ -253,7 +301,9 @@ public class BaseRowItem {
     public String getCardName() {
         switch (type) {
             case BaseItem:
-                if ("Audio".equals(baseItem.getType())) return baseItem.getAlbumArtist() != null ? baseItem.getAlbumArtist() : baseItem.getAlbum() != null ? baseItem.getAlbum() : "<Unknown>";
+                if ("Audio".equals(baseItem.getType())) {
+                    return baseItem.getAlbumArtist() != null ? baseItem.getAlbumArtist() : baseItem.getAlbum() != null ? baseItem.getAlbum() : "<Unknown>";
+                }
             default:
                 return getFullName();
         }
@@ -291,7 +341,7 @@ public class BaseRowItem {
             case BaseItem:
             case LiveTvRecording:
             case LiveTvProgram:
-                return "Audio".equals(baseItem.getType())? getFullName() : baseItem.getName();
+                return "Audio".equals(baseItem.getType()) ? getFullName() : baseItem.getName();
             case Person:
                 return person.getName();
             case Server:
