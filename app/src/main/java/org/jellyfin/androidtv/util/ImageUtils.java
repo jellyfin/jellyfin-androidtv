@@ -195,6 +195,9 @@ public class ImageUtils {
             if (item.getType().equals("Season") && imageTag == null) {
                 imageTag = item.getSeriesPrimaryImageTag();
                 itemId = item.getSeriesId();
+            } else if (item.getType().equals("Program") && item.getHasThumb()) {
+                imageTag = item.getImageTags().get(ImageType.Thumb);
+                imageType = ImageType.Thumb;
             }
         }
 
