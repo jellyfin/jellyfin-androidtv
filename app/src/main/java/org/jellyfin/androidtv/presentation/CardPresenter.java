@@ -220,8 +220,11 @@ public class CardPresenter extends Presenter {
                 case LiveTvProgram:
                     BaseItemDto program = mItem.getProgramInfo();
                     Double programAspect = program.getPrimaryImageAspectRatio();
-                    if (programAspect == null) {
-                        programAspect = Utils.isTrue(program.getIsMovie()) ? ImageUtils.ASPECT_RATIO_2_3 : ImageUtils.ASPECT_RATIO_16_9;
+                    if (Utils.isTrue(program.getIsMovie())) {
+                        // The server reports the incorrect image aspect ratio for movies, so we are overriding it here
+                        programAspect = ImageUtils.ASPECT_RATIO_2_3;
+                    } else if (programAspect == null) {
+                        programAspect = ImageUtils.ASPECT_RATIO_16_9;
                     }
                     cardHeight = !m.isStaticHeight() ? programAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int) ((programAspect) * cardHeight);
