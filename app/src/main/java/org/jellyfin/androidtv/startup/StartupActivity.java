@@ -181,7 +181,8 @@ public class StartupActivity extends Activity {
                     }
 
                     // Check the server version
-                    if (!AuthenticationHelper.isSupportedServerVersion(response.getServers().get(0))) {
+                    if (!response.getServers().isEmpty() &&
+                            !AuthenticationHelper.isSupportedServerVersion(response.getServers().get(0))) {
                         Utils.showToast(activity, activity.getString(R.string.msg_error_server_version, TvApp.MINIMUM_SERVER_VERSION));
                         AuthenticationHelper.automaticSignIn(connectionManager, activity);
                         return;
