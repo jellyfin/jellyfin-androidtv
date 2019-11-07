@@ -98,7 +98,8 @@ public class AuthenticationHelper {
 //                message.Cancel();
 
                 // Check the server version
-                if (!isSupportedServerVersion(serverResult.getServers().get(0))) {
+                if (!serverResult.getServers().isEmpty() &&
+                        !isSupportedServerVersion(serverResult.getServers().get(0))) {
                     Utils.showToast(activity, activity.getString(R.string.msg_error_server_version, TvApp.MINIMUM_SERVER_VERSION));
                     return;
                 }
