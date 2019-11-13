@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.base;
 
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,12 +14,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.util.Utils;
 
-public class BaseActivity extends Activity {
-
+public abstract class BaseActivity extends Activity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private TvApp app = TvApp.getApplication();
     private long timeoutInterval = 3600000;
     private Handler handler = new Handler();
@@ -38,7 +41,7 @@ public class BaseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        timeoutInterval = Long.parseLong(PreferenceManager.getDefaultSharedPreferences(app).getString("pref_auto_logoff_timeout","3600000"));
+        timeoutInterval = Long.parseLong(PreferenceManager.getDefaultSharedPreferences(app).getString("pref_auto_logoff_timeout", "3600000"));
         startAutoLogoffLoop();
         TvApp.getApplication().setCurrentActivity(this);
 
@@ -79,8 +82,12 @@ public class BaseActivity extends Activity {
         if (messageUi != null && !isFinishing()) {
             messageTitle.setText(title);
             messageMessage.setText(msg);
-            if (icon != null) messageIcon.setImageResource(icon);
-            if (background != null) messageUi.setBackgroundResource(background);
+            if (icon != null) {
+                messageIcon.setImageResource(icon);
+            }
+            if (background != null) {
+                messageUi.setBackgroundResource(background);
+            }
             messageUi.animate().x(msgPos).alpha(1).setDuration(300);
             handler.postDelayed(new Runnable() {
                 @Override
@@ -89,7 +96,7 @@ public class BaseActivity extends Activity {
                         messageUi.animate().alpha(0).x(farRight).setDuration(300);
                     }
                 }
-            },timeout);
+            }, timeout);
         }
 
     }
@@ -122,7 +129,9 @@ public class BaseActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        if (handler != null && loop != null) handler.removeCallbacks(loop);
+        if (handler != null && loop != null) {
+            handler.removeCallbacks(loop);
+        }
         super.onDestroy();
     }
 
@@ -133,7 +142,9 @@ public class BaseActivity extends Activity {
     }
 
     private void startAutoLogoffLoop() {
-        if (loop != null) return;
+        if (loop != null) {
+            return;
+        }
 
         loop = new Runnable() {
             @Override
@@ -165,7 +176,9 @@ public class BaseActivity extends Activity {
     }
 
     public void sendMessage(CustomMessage message) {
-        if (messageListener != null) messageListener.onMessageReceived(message);
+        if (messageListener != null) {
+            messageListener.onMessageReceived(message);
+        }
     }
 
     @Override
@@ -177,5 +190,17 @@ public class BaseActivity extends Activity {
     public boolean onSearchRequested() {
         TvApp.getApplication().showSearch(this, false);
         return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        // Search functionality requests access to RECORD_AUDIO
+        if (requestCode == TvApp.SEARCH_PERMISSION) {
+            // If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                TvApp.getApplication().setVoiceSearchAllowed(true);
+            }
+            TvApp.showSearchWithPermission(this, false);
+        }
     }
 }

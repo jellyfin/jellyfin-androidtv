@@ -16,7 +16,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
@@ -50,7 +50,7 @@ import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.logging.ILogger;
 import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 
-public class TvApp extends Application implements ActivityCompat.OnRequestPermissionsResultCallback {
+public class TvApp extends Application {
     // The minimum supported server version. Trying to connect to an older server will display an error.
     public static final String MINIMUM_SERVER_VERSION = "10.3.0";
     public static final String CREDENTIALS_PATH = "org.jellyfin.androidtv.login.json";
@@ -59,9 +59,9 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     public static final int VIDEO_QUEUE_OPTION_ID = 3000;
     public static final int LIVE_TV_SCHEDULE_OPTION_ID = 4000;
     public static final int LIVE_TV_SERIES_OPTION_ID = 5000;
+    public static final int SEARCH_PERMISSION = 0;
 
     private static final String TAG = "Jellyfin-AndroidTV";
-    private static final int SEARCH_PERMISSION = 0;
 
     private ILogger logger;
     private IConnectionManager connectionManager;
@@ -97,7 +97,7 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     private long lastMusicPlayback = System.currentTimeMillis();
     private long lastUserInteraction = System.currentTimeMillis();
 
-    private boolean searchAllowed = Build.VERSION.SDK_INT < 23;
+    private boolean voiceSearchAllowed = Build.VERSION.SDK_INT < 23;
 
     private GradientDrawable currentBackgroundGradient;
 
@@ -229,9 +229,8 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     }
 
     public void showSearch(final Activity activity, boolean musicOnly) {
-        if (!searchAllowed && ContextCompat.checkSelfPermission(activity,
-                Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED) {
+        if (!voiceSearchAllowed &&
+                ContextCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             //request necessary permission
             logger.Info("Requesting search permission...");
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.RECORD_AUDIO)) {
@@ -249,39 +248,14 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
                 ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.RECORD_AUDIO}, SEARCH_PERMISSION);
             }
         } else {
-            showSearchInternal(activity, musicOnly);
+            showSearchWithPermission(activity, musicOnly);
         }
     }
 
-    private void showSearchInternal(Context activity, boolean musicOnly) {
+    public static void showSearchWithPermission(Context activity, boolean musicOnly) {
         Intent intent = new Intent(activity, SearchActivity.class);
         if (musicOnly) intent.putExtra("MusicOnly", true);
         activity.startActivity(intent);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case SEARCH_PERMISSION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay!
-                    searchAllowed = true;
-                    showSearchInternal(getCurrentActivity(), false);
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    Utils.showToast(this, "Search not allowed");
-                }
-                return;
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
     }
 
     public void showMessage(String title, String msg) {
@@ -571,12 +545,12 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
         this.httpClient = httpClient;
     }
 
-    public boolean isSearchAllowed() {
-        return searchAllowed;
+    public boolean isVoiceSearchAllowed() {
+        return voiceSearchAllowed;
     }
 
-    public void setSearchAllowed(boolean searchAllowed) {
-        this.searchAllowed = searchAllowed;
+    public void setVoiceSearchAllowed(boolean voiceSearchAllowed) {
+        this.voiceSearchAllowed = voiceSearchAllowed;
     }
 
     public BaseItemDto getLastPlayedItem() {
