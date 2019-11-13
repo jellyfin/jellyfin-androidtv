@@ -114,7 +114,7 @@
     <string name="lbl_yes">Тийм</string>
     <string name="msg_error_connecting_server">Сервертэй холбогдоход алдаа гарлаа.</string>
     <string name="msg_error_server_unavailable">Сервер тодорхойгүй</string>
-    <string name="msg_error_server_version">Дэмжигдээгүй серверийн хувилбар. Серверийн хувилбар% 1 $ s буюу түүнээс дээш байх шаардлагатай.</string>
+    <string name="msg_error_server_version">Дэмжигдээгүй серверийн хувилбар. Серверийн хувилбар %1$s буюу түүнээс дээш байх шаардлагатай.</string>
     <string name="msg_error_signin">Хадгалсан мэдээлэлтэйгээ нэвтрэх үед алдаа гарлаа.</string>
     <string name="msg_invalid_id_pw">Хэрэглэгчийн ID эсвэл нууц үг буруу байна</string>
     <string name="lbl_version">"Хувилбар "</string>
