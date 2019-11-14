@@ -318,4 +318,14 @@
     <string name="lbl_unwatched">未观看</string>
     <string name="msg_no_playable_items">没有可播放的项目</string>
     <string name="lbl_confirm_mark_unwatched">这将标记所有未播放的内容。你很确定吗\?</string>
+    <string name="desc_suggestions_holiday">偿试一些我们的节日建议</string>
+    <string name="title_suggestions_holiday">节日快乐！</string>
+    <string name="lbl_suggestions_holiday">节日建议</string>
+    <string name="desc_suggestions_halloween">偿试一些我们的怪异建议</string>
+    <string name="title_suggestions_halloween">万圣节快乐！</string>
+    <string name="lbl_suggestions_halloween">怪异建议</string>
+    <string name="lbl_suggestions">建议</string>
+    <string name="msg_error_signin">使用以前保存的密码凭据在登录时出错。</string>
+    <string name="msg_error_server_version">不支持的服务器版本，服务器版本必须为 %1$ 及以上版本。</string>
+    <string name="msg_error_server_unavailable">服务器不可用</string>
 </resources>
