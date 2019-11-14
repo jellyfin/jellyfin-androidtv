@@ -129,4 +129,22 @@
             />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_acra_category" android:key="pref_reporting_category">
+        <CheckBoxPreference android:key="acra.enable"
+            android:title="@string/pref_enable_acra"
+            android:summaryOn="@string/pref_acra_enabled"
+            android:summaryOff="@string/pref_acra_disabled"
+            android:defaultValue="false"/>
+        <CheckBoxPreference android:key="acra.alwaysaccept"
+            android:title="@string/pref_acra_alwaysaccept"
+            android:summaryOn="@string/pref_acra_alwaysaccept_enabled"
+            android:summaryOff="@string/pref_acra_alwaysaccept_disabled"
+            android:defaultValue="false"/>
+        <CheckBoxPreference android:key="acra.syslog.enable"
+            android:title="@string/pref_acra_syslog"
+            android:summaryOn="@string/pref_acra_syslog_enabled"
+            android:summaryOff="@string/pref_acra_syslog_disabled"
+            android:defaultValue="true"/>
+    </PreferenceCategory>
+
 </PreferenceScreen>

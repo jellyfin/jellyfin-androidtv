@@ -5,6 +5,11 @@ android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
 
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 28
@@ -37,6 +42,8 @@ android {
 }
 
 dependencies {
+    def acraVersion = '5.4.0'
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     amazonImplementation 'com.github.jellyfin:exomedia:amazon~2.5.6-SNAPSHOT'
     amazonImplementation 'com.github.amzn:exoplayer-amazon-port:amazon-r1.5.6-SNAPSHOT'
@@ -61,5 +68,7 @@ dependencies {
     implementation 'com.google.guava:guava:18.0'
     implementation 'com.flaviofaria:kenburnsview:1.0.6'
     implementation 'org.videolan.android:libvlc-all:3.1.12'
+    implementation "ch.acra:acra-http:$acraVersion"
+    implementation "ch.acra:acra-dialog:$acraVersion"
     testImplementation 'junit:junit:4.12'
 }

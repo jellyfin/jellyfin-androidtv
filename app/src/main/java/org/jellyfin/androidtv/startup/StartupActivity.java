@@ -58,7 +58,7 @@ public class StartupActivity extends Activity {
 
         //Migrate prefs
         if (Integer.parseInt(application.getConfigVersion()) < 2) {
-            application.getSystemPrefs().edit().putString("sys_pref_config_version", "2").commit();
+            application.getSystemPrefs().edit().putString("sys_pref_config_version", "2").apply();
         }
         if (Integer.parseInt(application.getConfigVersion()) < 3) {
             application.getPrefs().edit().putString("pref_max_bitrate", "0").apply();
@@ -68,6 +68,11 @@ public class StartupActivity extends Activity {
             application.getPrefs().edit().putBoolean("pref_enable_premieres", false).apply();
             application.getPrefs().edit().putBoolean("pref_enable_info_panel", false).apply();
             application.getSystemPrefs().edit().putString("sys_pref_config_version", "4").apply();
+        }
+
+        // Disable crash reporting if not already set
+        if (!application.getPrefs().contains("acra.enable")) {
+            application.getPrefs().edit().putBoolean("acra.enable", false).apply();
         }
 
         //Ensure we have prefs
