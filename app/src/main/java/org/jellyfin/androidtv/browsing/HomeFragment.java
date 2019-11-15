@@ -179,6 +179,7 @@ public class HomeFragment extends StdBrowseFragment {
                         case TvShows:
                             addNextUp();
                             addPremieres();
+                            addLatestTVShows();
                             addLatestMovies();
                             addOnNow();
                             break;
@@ -188,10 +189,12 @@ public class HomeFragment extends StdBrowseFragment {
                             addNextUp();
                             addPremieres();
                             addLatestMovies();
+                            addLatestTVShows();
                             break;
 
                         default:
                             addLatestMovies();
+                            addLatestTVShows();
                             addNextUp();
                             addPremieres();
                             addOnNow();
@@ -236,6 +239,15 @@ public class HomeFragment extends StdBrowseFragment {
         latestMovies.setLimit(50);
         mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest_movies), latestMovies, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated, ChangeTriggerType.MoviePlayback}));
 
+    }
+
+    protected void addLatestTVShows() {
+        LatestItemsQuery latestTVShows = new LatestItemsQuery();
+        latestTVShows.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
+        latestTVShows.setIncludeItemTypes(new String[]{"Series"});
+        latestTVShows.setImageTypeLimit(1);
+        latestTVShows.setLimit(50);
+        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest_tv_shows), latestTVShows, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated, ChangeTriggerType.TvPlayback}));
     }
 
     protected void addNextUp() {
