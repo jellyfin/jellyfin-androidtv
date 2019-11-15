@@ -180,6 +180,7 @@ public class HomeFragment extends StdBrowseFragment {
                             addNextUp();
                             addPremieres();
                             addLatestMovies();
+                            addLatestTVShows();
                             addOnNow();
                             break;
 
@@ -188,10 +189,12 @@ public class HomeFragment extends StdBrowseFragment {
                             addNextUp();
                             addPremieres();
                             addLatestMovies();
+                            addLatestTVShows();
                             break;
 
                         default:
                             addLatestMovies();
+                            addLatestTVShows();
                             addNextUp();
                             addPremieres();
                             addOnNow();
@@ -213,7 +216,7 @@ public class HomeFragment extends StdBrowseFragment {
 
     }
 
-    protected StdItemQuery getResumeQuery() {
+    private StdItemQuery getResumeQuery() {
         StdItemQuery resumeItems = new StdItemQuery();
         resumeItems.setMediaTypes(new String[] {"Video"});
         resumeItems.setRecursive(true);
@@ -228,7 +231,7 @@ public class HomeFragment extends StdBrowseFragment {
         return resumeItems;
     }
 
-    protected void addLatestMovies() {
+    private void addLatestMovies() {
         LatestItemsQuery latestMovies = new LatestItemsQuery();
         latestMovies.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
         latestMovies.setIncludeItemTypes(new String[]{"Movie"});
@@ -238,7 +241,17 @@ public class HomeFragment extends StdBrowseFragment {
 
     }
 
-    protected void addNextUp() {
+    private void addLatestTVShows() {
+        LatestItemsQuery latestTVShows = new LatestItemsQuery();
+        latestTVShows.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
+        latestTVShows.setIncludeItemTypes(new String[]{"Episode"});
+        latestTVShows.setImageTypeLimit(1);
+        latestTVShows.setLimit(50);
+        latestTVShows.setGroupItems(true);
+        mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest_tv_shows), latestTVShows, new ChangeTriggerType[] {ChangeTriggerType.LibraryUpdated, ChangeTriggerType.TvPlayback}));
+    }
+
+    private void addNextUp() {
         NextUpQuery nextUpQuery = new NextUpQuery();
         nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         nextUpQuery.setImageTypeLimit(1);
@@ -248,7 +261,7 @@ public class HomeFragment extends StdBrowseFragment {
 
     }
 
-    protected void addPremieres() {
+    private void addPremieres() {
         if (mApplication.getPrefs().getBoolean("pref_enable_premieres", false)) {
             StdItemQuery newQuery = new StdItemQuery(new ItemFields[]{ItemFields.DateCreated, ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
             newQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
@@ -268,7 +281,7 @@ public class HomeFragment extends StdBrowseFragment {
 
     }
 
-    protected void addOnNow() {
+    private void addOnNow() {
         if (TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvAccess()) {
             RecommendedProgramQuery onNow = new RecommendedProgramQuery();
             onNow.setIsAiring(true);
@@ -289,7 +302,7 @@ public class HomeFragment extends StdBrowseFragment {
 
     }
 
-    protected boolean hasResumeRow() {
+    private boolean hasResumeRow() {
         if (mRowsAdapter == null) return true;
         for (int i = 0; i < mRowsAdapter.size(); i++) {
             ListRow row = (ListRow)mRowsAdapter.get(i);
@@ -299,7 +312,7 @@ public class HomeFragment extends StdBrowseFragment {
         return false;
     }
 
-    protected void addContinueWatching() {
+    private void addContinueWatching() {
         //create the row and retrieve it to see if there are any before adding
         final ItemRowAdapter resume = new ItemRowAdapter(getResumeQuery(), 0, true, true, mCardPresenter, mRowsAdapter, QueryType.ContinueWatching);
         resume.setReRetrieveTriggers(new ChangeTriggerType[] {ChangeTriggerType.VideoQueueChange, ChangeTriggerType.TvPlayback, ChangeTriggerType.MoviePlayback});
@@ -317,7 +330,7 @@ public class HomeFragment extends StdBrowseFragment {
         resume.Retrieve();
     }
 
-    protected AudioEventListener audioEventListener = new AudioEventListener() {
+    private AudioEventListener audioEventListener = new AudioEventListener() {
         @Override
         public void onQueueStatusChanged(boolean hasQueue) {
             //remove on any change - it will re-add on resume
@@ -328,9 +341,9 @@ public class HomeFragment extends StdBrowseFragment {
         }
     };
 
-    protected ListRow nowPlayingRow;
+    private ListRow nowPlayingRow;
 
-    protected void addNowPlaying() {
+    private void addNowPlaying() {
         if (MediaManager.isPlayingAudio()) {
             if (nowPlayingRow == null) {
                 nowPlayingRow = new ListRow(new HeaderItem(getString(R.string.lbl_now_playing)), MediaManager.getManagedAudioQueue());
