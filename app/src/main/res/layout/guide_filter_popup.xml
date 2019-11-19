@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/windowBackground">
+    android:background="?attr/popupWindowBackground">
 
     <TextView
         android:layout_width="wrap_content"
@@ -11,7 +11,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textSize="30sp"
-        android:textColor="?attr/defaultBrandColor"
         android:text="@string/lbl_filters"
         android:layout_marginTop="10sp" />
 
@@ -65,7 +64,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="News"
+        android:text="@string/lbl_news"
         android:id="@+id/news"
         android:layout_below="@+id/series"
         android:layout_alignLeft="@+id/premiere" />
@@ -89,7 +88,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Only"
+        android:text="@string/lbl_new_only"
         android:id="@+id/premiere"
         android:layout_below="@+id/sports"
         android:layout_centerHorizontal="true"

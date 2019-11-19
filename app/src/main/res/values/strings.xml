@@ -330,4 +330,17 @@
     <string name="title_suggestions_holiday">Happy Holidays!</string>
     <string name="desc_suggestions_holiday">Try some of our holiday suggestions</string>
     <string name="lbl_latest_tv_shows">Latest TV Shows</string>
+    <string name="lbl_news">News</string>
+    <string name="lbl_new_only">New Only</string>
+    <string name="lbl_audio_delay">Audio Delay</string>
+    <string name="lbl_new_episodes">New Episodes</string>
+    <string name="lbl_premieres">Premieres</string>
+    <string name="lbl_repeat_episodes">Repeat Episodes</string>
+    <string name="lbl_live_broadcasts">Live Broadcasts</string>
+    <string name="lbl_hd_programs">HD Programs</string>
+    <string name="lbl_colored_backgrounds">Color Coded Backgrounds</string>
+    <string name="lbl_start_favorites">Place Favorites at Beginning</string>
+    <string name="lbl_default_view">Default View</string>
+    <string name="lbl_image_type">Image Type</string>
+    <string name="lbl_image_size">Image Size</string>
 </resources>
