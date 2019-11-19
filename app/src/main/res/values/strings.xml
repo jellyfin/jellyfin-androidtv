@@ -338,7 +338,7 @@
     <string name="lbl_repeat_episodes">Repeat Episodes</string>
     <string name="lbl_live_broadcasts">Live Broadcasts</string>
     <string name="lbl_hd_programs">HD Programs</string>
-    <string name="lbl_colored_backgrounds">Enable Color Coded Backgrounds</string>
+    <string name="lbl_colored_backgrounds">Color Coded Backgrounds</string>
     <string name="lbl_start_favorites">Place Favorites at Beginning</string>
     <string name="lbl_default_view">Default View</string>
     <string name="lbl_image_type">Image Type</string>
