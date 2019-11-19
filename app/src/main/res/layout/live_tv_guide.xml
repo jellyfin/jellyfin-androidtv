@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:id="@+id/channels"/>
+            android:id="@+id/channels" />
     </ScrollView>
 
     <org.jellyfin.androidtv.ui.ObservableScrollView
@@ -76,7 +76,7 @@
         android:layout_alignParentStart="true"
         android:background="@color/timeline_bg"
         android:gravity="center"
-        android:textSize="14sp"/>
+        android:textSize="14sp" />
 
     <ImageView
         android:layout_width="match_parent"
