@@ -6,6 +6,7 @@
  - [grafixeyehero](https://github.com/grafixeyehero)
  - [BnMcG](https://github.com/bnmcg)
  - [Letroll](https://github.com/letroll)
+ - [AndreasGB](https://github.com/andreasgb)
 
 # Emby Contributors
 

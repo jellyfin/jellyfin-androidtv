@@ -39,7 +39,9 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     amazonImplementation 'com.github.jellyfin:exomedia:amazon~2.5.6-SNAPSHOT'
+    amazonImplementation 'com.github.amzn:exoplayer-amazon-port:amazon-r1.5.6-SNAPSHOT'
     googleImplementation 'com.devbrackets.android:exomedia:2.5.6'
+    googleImplementation 'com.google.android.exoplayer:exoplayer:r1.5.6'
     implementation 'com.github.jellyfin:jellyfin-apiclient-java:master-SNAPSHOT'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.leanback:leanback:1.0.0'
