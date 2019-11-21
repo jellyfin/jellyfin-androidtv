@@ -328,4 +328,5 @@
     <string name="msg_error_signin">使用以前保存的密码凭据在登录时出错。</string>
     <string name="msg_error_server_version">不支持的服务器版本，服务器版本必须为 %1$s 及以上版本。</string>
     <string name="msg_error_server_unavailable">服务器不可用</string>
+    <string name="lbl_latest_tv_shows">最近电视剧</string>
 </resources>
