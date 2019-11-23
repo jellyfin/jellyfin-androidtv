@@ -321,4 +321,10 @@
     <string name="msg_error_signin">При входе с сохранёнными учётными данными произошла ошибка.</string>
     <string name="msg_error_server_version">Неподдерживаемая версия сервера. Она должна быть %1$s или более.</string>
     <string name="msg_error_server_unavailable">Сервер недоступен</string>
+    <string name="title_suggestions_holiday">Счастливых праздников!</string>
+    <string name="lbl_suggestions_holiday">Праздничные предложения</string>
+    <string name="title_suggestions_halloween">Счастливого Хэллоуина!</string>
+    <string name="lbl_suggestions">Предложения</string>
+    <string name="desc_suggestions_halloween">Попробуйте наши страшные предложения</string>
+    <string name="lbl_suggestions_halloween">Страшные предложения</string>
 </resources>
