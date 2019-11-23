@@ -306,4 +306,12 @@
     <string name="lbl_rating">Clasificación</string>
     <string name="lbl_critic_rating">Valoración crítica</string>
     <string name="lbl_premier_date">Fecha de estreno</string>
+    <string name="msg_error_signin">Ha habido un error iniciando sesión con tus credenciales guardadas.</string>
+    <string name="lbl_series_recordings">Grabaciones de Series</string>
+    <string name="lbl_audio_capabilitites">Capacidades de Audio</string>
+    <string name="lbl_ended">FINALIZADO</string>
+    <string name="lbl__continuing">CONTINUANDO</string>
+    <string name="lbl_from">desde</string>
+    <string name="msg_error_server_version">Versión de servidor no soportada. La versión del servidor debe ser %1$s o posterior.</string>
+    <string name="msg_error_server_unavailable">Servidor no disponible</string>
 </resources>
