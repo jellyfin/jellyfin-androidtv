@@ -82,7 +82,7 @@
         </receiver>
 
         <provider
-            android:authorities="org.jellyfin.androidtv.recommendations"
+            android:authorities="${applicationId}.recommendations"
             android:name=".integration.RecommendationContentProvider"
             android:exported="true"
             android:grantUriPermissions="true"
