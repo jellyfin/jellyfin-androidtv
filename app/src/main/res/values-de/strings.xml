@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="error">Fehler</string>
     <string name="ok">OK</string>
-    <string name="video_error_unknown_error">Fehler beim laden des Videos</string>
+    <string name="video_error_unknown_error">Fehler beim Laden des Videos</string>
     <string name="txt_loading">Lade...</string>
     <string name="title_activity_select_user">AuswahlBenutzerAktivität</string>
     <string name="home_title">Startbildschirm</string>
@@ -276,11 +276,11 @@
     <string name="lbl_album_name">Album Name</string>
     <string name="lbl_next_episode">Nächste Episode</string>
     <string name="lbl_previous_episode">Vorherige Episode</string>
-    <string name="lbl_more_like_this">Hierzu ähnlich</string>
+    <string name="lbl_more_like_this">Ähnliches</string>
     <string name="lbl_resume_from">Weiterschauen ab %s</string>
     <string name="lbl_resume_preroll">Rücksprung vor dem Weiterschauen</string>
     <string name="lbl_guide_option_number">Kanalnummer</string>
-    <string name="lbl_guide_option_played">Zuletzt Wiedergegeben</string>
+    <string name="lbl_guide_option_played">Zuletzt abgespielt</string>
     <string name="lbl_show_indicators">Symbole anzeigen für</string>
     <string name="lbl_sort_by">Sortieren nach</string>
     <string name="lbl_guest_stars">Gastauftritte</string>
@@ -292,21 +292,21 @@
     <string name="lbl_seconds">Sekunden</string>
     <string name="lbl_all_episodes">Alle Episoden</string>
     <string name="lbl_any_channel">Beliebiger Kanal</string>
-    <string name="lbl_series_recordings">Serienaufzeichnungen</string>
+    <string name="lbl_series_recordings">Aufnahmen von Serien</string>
     <string name="lbl_save">Speichern</string>
     <string name="msg_settings_updated">Einstellungen aktualisiert</string>
     <string name="lbl_series_settings">Serieneinstellungen</string>
-    <string name="lbl_episode_not_record">Diese Serie wird NICHT aufgezeichnet</string>
+    <string name="lbl_episode_not_record">Diese Serie wird NICHT aufgenommen</string>
     <string name="lbl_schedule">Zeitplan</string>
     <string name="lbl_live">Live</string>
     <string name="lbl_new">Neu</string>
     <string name="lbl_repeat">Wiederholen</string>
-    <string name="lbl_all_recordings">Alle Aufzeichnungen</string>
-    <string name="lbl_recent_recordings">Kürzliche Aufzeichnungen</string>
+    <string name="lbl_all_recordings">Alle Aufnahmen</string>
+    <string name="lbl_recent_recordings">Kürzliche Aufnahmen</string>
     <string name="lbl_kids">Kinder</string>
     <string name="lbl_sports">Sport</string>
     <string name="no_program_data">&lt;Keine Programmdaten verfügbar&gt;</string>
-    <string name="msg_record_entire_series">Gesamte Serie aufzeichnen\?</string>
+    <string name="msg_record_entire_series">Vollständige Serie aufnehmen\?</string>
     <string name="lbl_just_this_once">Nur dieses eine Mal</string>
     <string name="pref_live_tv_mode_desc">Direkt zum zuletzt abgespielten Live-TV-Kanal springen</string>
     <string name="pref_live_tv_mode">Live TV Modus</string>
@@ -324,6 +324,7 @@
     <string name="lbl_series">Serien</string>
     <string name="lbl_status">%s / %s</string>
     <string name="pref_authentication_cat">Authentifizierung</string>
-    <string name="loading">Lade…</string>
-    <string name="play">Abspielen</string>
+    <string name="loading">Laden...</string>
+    <string name="play">Wiedergabe</string>
+    <string name="lbl_at_any_time">Jederzeit</string>
 </resources>
