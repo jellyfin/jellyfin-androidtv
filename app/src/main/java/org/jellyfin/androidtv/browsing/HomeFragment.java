@@ -137,8 +137,8 @@ public class HomeFragment extends StdBrowseFragment {
             startActivity(guide);
         }
 
-        nowPlaying = new HomeFragmentNowPlayingRow(getContext());
-        footer = new HomeFragmentFooterRow(getContext());
+        nowPlaying = new HomeFragmentNowPlayingRow(getActivity());
+        footer = new HomeFragmentFooterRow(getActivity());
     }
 
     @Override
