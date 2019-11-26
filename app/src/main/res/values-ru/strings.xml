@@ -327,4 +327,19 @@
     <string name="lbl_suggestions">Предложения</string>
     <string name="desc_suggestions_halloween">Попробуйте наши страшные предложения</string>
     <string name="lbl_suggestions_halloween">Страшные предложения</string>
+    <string name="desc_suggestions_holiday">Попробуйте некоторые наши предложения к празднику</string>
+    <string name="lbl_image_size">Размер рисунка</string>
+    <string name="lbl_image_type">Тип рисунка</string>
+    <string name="lbl_default_view">Представление по умолчанию</string>
+    <string name="lbl_start_favorites">Разместить избранные в начале</string>
+    <string name="lbl_colored_backgrounds">Обозначеннные цветом фоны</string>
+    <string name="lbl_hd_programs">HD-передачи</string>
+    <string name="lbl_repeat_episodes">Повтор эпизодов</string>
+    <string name="lbl_premieres">Премьеры</string>
+    <string name="lbl_new_episodes">Новые эпизоды</string>
+    <string name="lbl_audio_delay">Задержка аудио</string>
+    <string name="lbl_new_only">Только новые</string>
+    <string name="lbl_news">Новости</string>
+    <string name="lbl_latest_tv_shows">Новейшие ТВ-передачи</string>
+    <string name="lbl_live_broadcasts">Прямые трансляции</string>
 </resources>
