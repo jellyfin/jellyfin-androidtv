@@ -262,7 +262,7 @@
     <string name="lbl_use_vlc_livetv">Utiliser VLC pour la télévision en direct</string>
     <string name="lbl_vertical_stretch">Étirement vertical</string>
     <string name="lbl_zoom">Zoom</string>
-    <string name="loading">Chargements…</string>
+    <string name="loading">Chargement…</string>
     <string name="msg_audio_warning">Cette application a la possibilité de lire le flux de certains formats audio en multi-canal.Si votre matériel ne prend pas en charge ces formats, vous pouvez n\'entendre aucun bruit lors de la lecture des éléments.Ceci est probable si vous utilisez uniquement les enceintes du téléviseur.Si cela se produit, réglez le mode audio à «Downmix» dans les paramètres de lecture de l\'application.</string>
     <string name="play">Lire</string>
     <string name="lbl_at_any_time">tout le temps</string>
