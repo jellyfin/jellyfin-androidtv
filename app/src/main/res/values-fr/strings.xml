@@ -217,7 +217,7 @@
     <string name="lbl_next_item">Prochain élément</string>
     <string name="lbl_prev_item">Élément précédent</string>
     <string name="lbl_shuffle">Aléatoire</string>
-    <string name="msg_reshuffle_audio_queue">Lire aléatoirement la liste de lecture actuelle?</string>
+    <string name="msg_reshuffle_audio_queue">Lire aléatoirement la liste de lecture actuelle \?</string>
     <string name="lbl_up_next_colon">"Suivant "</string>
     <string name="lbl_now_playing">En cours de lecture</string>
     <string name="lbl_play_from_here">Lire à partir d\'ici</string>
@@ -229,7 +229,7 @@
     <string name="msg_item_added">" élément ajouté"</string>
     <string name="btn_replace_queue">Remplacer la liste de lecture actuelle</string>
     <string name="lbl_items_in_queue">Éléments dans la liste de lecture</string>
-    <string name="msg_replace_or_add_queue_q">Voulez-vous remplacer la liste de lecture actuelle ou bien l’ajouter à celle-ci\?</string>
+    <string name="msg_replace_or_add_queue_q">Voulez-vous remplacer la liste de lecture actuelle ou bien l’ajouter à celle-ci \?</string>
     <string name="lbl_enable_seasonal_themes">Activer les thèmes de saisons</string>
     <string name="desc_seasonal_themes">Activer la couleurs et les suggestions spéciales à certains moments de l\'année</string>
     <string name="desc_automatic_fav_songs">Playlist automatique des chansons ajoutées en favoris et aimée</string>
@@ -245,7 +245,7 @@
     <string name="lbl_all_recordings">Tous les enregistrements</string>
     <string name="lbl_any_channel">Toutes les chaînes</string>
     <string name="lbl_audio_capabilitites">Caractéristiques audio</string>
-    <string name="lbl_bitstream_ac3">Bitstream Dolby Digital audio</string>
+    <string name="lbl_bitstream_ac3">Flux audio Dolby Digital</string>
     <string name="lbl_bitstream_dts">Audio bitstream DTS</string>
     <string name="lbl_clear_queue">Effacer la file d\'attente</string>
     <string name="lbl_current_queue">File d\'attente actuelle</string>
@@ -274,7 +274,7 @@
     <string name="lbl_hours">Heures</string>
     <string name="lbl_in_x_days">Dans %s jours</string>
     <string name="lbl_just_this_once">Juste une fois</string>
-    <string name="lbl_live">Live</string>
+    <string name="lbl_live">Direct</string>
     <string name="lbl_minute">Minute</string>
     <string name="lbl_minutes">Minutes</string>
     <string name="lbl_more_like_this">Plus du même genre</string>
@@ -294,7 +294,7 @@
     <string name="msg_settings_updated">Paramètre mis à jour</string>
     <string name="pref_live_tv_mode_desc">Aller directement à la dernier chaîne regardé</string>
     <string name="pref_live_tv_mode">Mode tv</string>
-    <string name="msg_record_entire_series">Enregistrer la série entière\?</string>
+    <string name="msg_record_entire_series">Enregistrer la série entière \?</string>
     <string name="lbl_seconds">Secondes</string>
     <string name="lbl_schedule">Programmation</string>
     <string name="lbl_resume_preroll">Reprise différé</string>
@@ -310,8 +310,8 @@
     <string name="lbl_now_playing_album">de %s</string>
     <string name="lbl_watched">Vu</string>
     <string name="msg_error_server_version">La version du serveur n\'est pas supporté. La version du serveur dois être %1$s ou ultérieur.</string>
-    <string name="pref_external_live_tv_summary">Requiert une application capable de lire des flux en directe</string>
-    <string name="pref_external_live_tv_title">Utiliser un Lecteur Externe pour la TV en Directe</string>
+    <string name="pref_external_live_tv_summary">Requiert une application capable de lire des flux en direct</string>
+    <string name="pref_external_live_tv_title">Utiliser un lecteur externe pour la TV en direct</string>
     <string name="lbl_warning">Attention</string>
     <string name="lbl_now_playing_track">%s de %s</string>
     <string name="msg_error_signin">Il y a eu une erreur de connexion avec les identifiants enregistrés.</string>
@@ -321,11 +321,21 @@
     <string name="lbl_suggestions">Suggestions</string>
     <string name="msg_external_path">Cette fonction ne fonctionnera que si vous avez correctement configuré votre bibliothèque sur le serveur avec des chemins d\'accès réseau ou des substitutions de chemins et que le client que vous utilisez peut accéder directement à ces emplacements via le réseau.</string>
     <string name="lbl_latest_tv_shows">Dernières Séries TV</string>
-    <string name="desc_suggestions_holiday">Essayer certaines de nos suggestions pour les vacances</string>
-    <string name="title_suggestions_holiday">Joyeuses vacances!</string>
+    <string name="desc_suggestions_holiday">Essayer certaines de nos suggestions pour les fêtes</string>
+    <string name="title_suggestions_holiday">Joyeuses fêtes !</string>
     <string name="lbl_suggestions_holiday">Suggestions pour les vacances</string>
     <string name="desc_suggestions_halloween">Essayer quelques-unes de nos effrayantes suggestions</string>
-    <string name="title_suggestions_halloween">Joyeux Halloween!</string>
+    <string name="title_suggestions_halloween">Joyeux Halloween !</string>
     <string name="lbl_suggestions_halloween">Suggestions effrayantes</string>
     <string name="lbl_favorite">Favoris</string>
+    <string name="lbl_image_size">Taille d\'image</string>
+    <string name="lbl_image_type">Type d\'image</string>
+    <string name="lbl_default_view">Vue par défaut</string>
+    <string name="lbl_start_favorites">Placer les favoris en premier</string>
+    <string name="lbl_hd_programs">Programmes HD</string>
+    <string name="lbl_live_broadcasts">Diffusion en direct</string>
+    <string name="lbl_premieres">Avant-premières</string>
+    <string name="lbl_new_episodes">Nouveaux épisodes</string>
+    <string name="lbl_audio_delay">Retard Audio</string>
+    <string name="lbl_news">Actualités</string>
 </resources>
