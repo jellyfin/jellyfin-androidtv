@@ -692,6 +692,14 @@ public class PlaybackController {
     private boolean burningSubs = false;
 
     public void switchSubtitleStream(int index) {
+        Integer currentIndex = mCurrentOptions.getSubtitleStreamIndex();
+
+        if (currentIndex != null && currentIndex == index) {
+            mApplication.getLogger().Debug("Not switching subtitles because the index didn't change.");
+
+            return;
+        }
+
         mApplication.getLogger().Debug("Setting subtitle index to: " + index);
         mCurrentOptions.setSubtitleStreamIndex(index >= 0 ? index : null);
 
