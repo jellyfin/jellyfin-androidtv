@@ -15,4 +15,18 @@
     <string name="lbl_add_to_queue">加入序列</string>
     <string name="lbl_open_artist">開啟演出者</string>
     <string name="lbl_open_album">開啟專輯</string>
+    <string name="lbl_latest_movies">最新電影</string>
+    <string name="lbl_continue_watching">繼續觀看</string>
+    <string name="lbl_library">資料庫</string>
+    <string name="lbl_send_logs">傳送 Logs</string>
+    <string name="lbl_logout">登出</string>
+    <string name="lbl_settings">設定</string>
+    <string name="enter_password">輸入密碼</string>
+    <string name="pref_authentication_cat">認證</string>
+    <string name="settings_title">設定</string>
+    <string name="btn_cancel">取消</string>
+    <string name="home_title">首頁</string>
+    <string name="play">播放</string>
+    <string name="ok">好</string>
+    <string name="error">錯誤</string>
 </resources>
