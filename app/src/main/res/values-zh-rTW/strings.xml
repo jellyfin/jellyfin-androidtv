@@ -37,4 +37,19 @@
     <string name="txt_loading">讀取中…</string>
     <string name="loading">讀取中…</string>
     <string name="video_error_unknown_error">讀取發生錯誤</string>
+    <string name="lbl_movies">電影</string>
+    <string name="lbl_other_channels">其他頻道</string>
+    <string name="lbl_favorite_channels">已收藏頻道</string>
+    <string name="lbl_favorites">收藏</string>
+    <string name="lbl_by_name">依照名稱</string>
+    <string name="lbl_latest">最新</string>
+    <string name="lbl_search">搜尋</string>
+    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_suggested">建議</string>
+    <string name="lbl_by_letter">依照字母</string>
+    <string name="lbl_views">觀看</string>
+    <string name="lbl_on_now">正在播放</string>
+    <string name="lbl_next_up">接著播放</string>
+    <string name="pref_general">一般</string>
+    <string name="dpad_pw_cancel">如果要輸入英文字母密碼請先長按下鍵</string>
 </resources>
