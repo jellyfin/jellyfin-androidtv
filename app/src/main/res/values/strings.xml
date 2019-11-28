@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">Jellyfin</string>
     <string name="error">Error</string>
-    <string name="ok">OK</string>
+    <string name="ok">Ok</string>
     <string name="play">Play</string>
     <string name="video_error_unknown_error">Failed to load video</string>
     <string name="loading">Loading…</string>
@@ -116,7 +116,7 @@
     <string name="msg_error_server_unavailable">Server unavailable</string>
     <string name="msg_error_server_version">Unsupported server version. Server version must be %1$s or later.</string>
     <string name="msg_error_signin">There was an error signing in with your saved credentials.</string>
-    <string name="msg_invalid_id_pw">Invalid User id or password</string>
+    <string name="msg_invalid_id_pw">Invalid User ID or password</string>
     <string name="lbl_version">"Version "</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 or https://myserver.com</string>
     <string name="lbl_enter_server_address">Enter Server Address</string>
@@ -137,7 +137,7 @@
     <string name="lbl_search_hint">Search text (select for keyboard)</string>
     <string name="lbl_play_first_unwatched">Play First Unwatched</string>
     <string name="lbl_confirm_mark_watched">This will mark all content as played.  Are you VERY sure?</string>
-    <string name="lbl_mark_unplayed">Mark Un-played</string>
+    <string name="lbl_mark_unplayed">Mark Unplayed</string>
     <string name="lbl_mark_played">Mark Played</string>
     <string name="lbl_remove_favorite">Remove Favorite</string>
     <string name="lbl_add_favorite">Add Favorite</string>
@@ -147,7 +147,7 @@
     <string name="lbl_dislike">Dislike</string>
     <string name="lbl_unlike">Unlike</string>
     <string name="lbl_remove_dislike">Remove Dislike</string>
-    <string name="lbl_confirm_mark_unwatched">This will mark all content as un-played.  Are you VERY sure?</string>
+    <string name="lbl_confirm_mark_unwatched">This will mark all content as unplayed. Are you VERY sure\?</string>
     <string name="msg_no_playable_items">No playable items</string>
     <string name="lbl_unwatched">Unwatched</string>
     <string name="lbl_load_channels">"Load Channels "</string>
@@ -187,7 +187,7 @@
     <string name="lbl_premier_date">Premier Date</string>
     <string name="lbl_critic_rating">Critic Rating</string>
     <string name="lbl_rating">Rating</string>
-    <string name="lbl_starting_with">"beginning with those who's name starts with"</string>
+    <string name="lbl_starting_with">beginning with those whose name starts with</string>
     <string name="btn_done">Done</string>
     <string name="lbl_display_preferences">Display Preferences</string>
     <string name="lbl_season">Season</string>
@@ -205,7 +205,7 @@
     <string name="lbl_no_recordings">No Recordings Available</string>
     <string name="lbl_live_tv_guide">Live TV Guide</string>
     <string name="lbl_recorded_tv">Recorded TV</string>
-    <string name="btn_ok">OK</string>
+    <string name="btn_ok">Ok</string>
     <string name="pref_live_tv_cat">Live TV</string>
     <string name="msg_error_live_stream">Error streaming live TV.  Will re-try...</string>
     <string name="lbl_direct_stream_live">Direct Stream Live TV</string>
