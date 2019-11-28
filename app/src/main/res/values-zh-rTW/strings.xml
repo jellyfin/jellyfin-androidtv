@@ -29,4 +29,12 @@
     <string name="play">播放</string>
     <string name="ok">好</string>
     <string name="error">錯誤</string>
+    <string name="title_activity_dpad_pw">輸入密碼</string>
+    <string name="pref_auto_login">自動使用此使用者登入</string>
+    <string name="pref_max_bitrate_title">最大串流比特率</string>
+    <string name="pref_playback">回放</string>
+    <string name="pref_show_login">顯示登入介面</string>
+    <string name="txt_loading">讀取中…</string>
+    <string name="loading">讀取中…</string>
+    <string name="video_error_unknown_error">讀取發生錯誤</string>
 </resources>
