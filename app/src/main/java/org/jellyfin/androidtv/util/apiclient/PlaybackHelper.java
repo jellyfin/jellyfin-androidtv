@@ -99,13 +99,13 @@ public class PlaybackHelper {
                 //get all songs
                 query.setIsMissing(false);
                 query.setIsVirtualUnaired(false);
-                query.setIncludeItemTypes(new String[]{"Audio"});
+                query.setMediaTypes(new String[]{"Audio"});
                 query.setSortBy(shuffle ? new String[] {ItemSortBy.Random} : "MusicArtist".equals(mainItem.getType()) ? new String[] {ItemSortBy.Album} : new String[] {ItemSortBy.SortName});
                 query.setRecursive(true);
                 query.setLimit(150); // guard against too many items
                 query.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
                 query.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                query.setParentId(mainItem.getId());
+                query.setArtistIds(new String[]{mainItem.getId()});
                 TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
