@@ -27,6 +27,7 @@ import java.util.List;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.EBaseItemType;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
@@ -64,7 +65,7 @@ public class KeyProcessor {
         switch (key) {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                if (MediaManager.isPlayingAudio() && (!rowItem.isBaseItem() || !rowItem.getBaseItem().getType().equals("Photo"))) {
+                if (MediaManager.isPlayingAudio() && (!rowItem.isBaseItem() || rowItem.getBaseItemType() != EBaseItemType.Photo)) {
                     MediaManager.pauseAudio();
                     return true;
                 }
@@ -74,38 +75,38 @@ public class KeyProcessor {
                     case BaseItem:
                         BaseItemDto item = rowItem.getBaseItem();
                         if (!BaseItemUtils.canPlay(item)) return false;
-                        switch (item.getType()) {
-                            case "Audio":
+                        switch (item.getEBaseItemType()) {
+                            case Audio:
                                 if (rowItem instanceof AudioQueueItem) {
                                     createItemMenu(rowItem, item.getUserData(), activity);
                                     return true;
                                 }
                                 //fall through...
-                            case "Movie":
-                            case "Episode":
-                            case "TvChannel":
-                            case "Video":
-                            case "Program":
-                            case "ChannelVideoItem":
-                            case "Trailer":
+                            case Movie:
+                            case Episode:
+                            case TvChannel:
+                            case Video:
+                            case Program:
+                            case ChannelVideoItem:
+                            case Trailer:
                                 // give some audible feedback
                                 Utils.beep();
                                 // retrieve full item and play
                                 PlaybackHelper.retrieveAndPlay(item.getId(), false, activity);
                                 return true;
-                            case "Series":
-                            case "Season":
-                            case "BoxSet":
+                            case Series:
+                            case Season:
+                            case BoxSet:
                                 createPlayMenu(rowItem.getBaseItem(), true, false, activity);
                                 return true;
-                            case "MusicAlbum":
-                            case "MusicArtist":
+                            case MusicAlbum:
+                            case MusicArtist:
                                 createPlayMenu(rowItem.getBaseItem(), true, true, activity);
                                 return true;
-                            case "Playlist":
+                            case Playlist:
                                 createPlayMenu(rowItem.getBaseItem(), true, "Audio".equals(rowItem.getBaseItem().getMediaType()), activity);
                                 return true;
-                            case "Photo":
+                            case Photo:
                                 // open photo player
                                 Utils.beep();
                                 Intent photoIntent = new Intent(activity, PhotoPlayerActivity.class);
@@ -158,7 +159,7 @@ public class KeyProcessor {
                         if (rowItem.getGridButton().getId() == TvApp.VIDEO_QUEUE_OPTION_ID) {
                             //Queue already there - just kick off playback
                             Utils.beep();
-                            String itemType = MediaManager.getCurrentVideoQueue().size() > 0 ? MediaManager.getCurrentVideoQueue().get(0).getType() : "";
+                            EBaseItemType itemType = MediaManager.getCurrentVideoQueue().size() > 0 ? MediaManager.getCurrentVideoQueue().get(0).getEBaseItemType() : null;
                             Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(itemType));
                             activity.startActivity(intent);
                         }
@@ -180,21 +181,21 @@ public class KeyProcessor {
 
                     case BaseItem:
                         BaseItemDto item = rowItem.getBaseItem();
-                        switch (item.getType()) {
-                            case "Movie":
-                            case "Episode":
-                            case "TvChannel":
-                            case "Video":
-                            case "Program":
-                            case "ChannelVideoItem":
-                            case "Series":
-                            case "Season":
-                            case "BoxSet":
-                            case "MusicAlbum":
-                            case "MusicArtist":
-                            case "Playlist":
-                            case "Audio":
-                            case "Trailer":
+                        switch (item.getEBaseItemType()) {
+                            case Movie:
+                            case Episode:
+                            case TvChannel:
+                            case Video:
+                            case Program:
+                            case ChannelVideoItem:
+                            case Series:
+                            case Season:
+                            case BoxSet:
+                            case MusicAlbum:
+                            case MusicArtist:
+                            case Playlist:
+                            case Audio:
+                            case Trailer:
                                 // generate a standard item menu
                                 createItemMenu(rowItem, item.getUserData(), activity);
                                 break;
@@ -268,9 +269,9 @@ public class KeyProcessor {
         } else {
             if (BaseItemUtils.canPlay(item)) {
                 if (item.getIsFolderItem()
-                        && !"MusicAlbum".equals(item.getType())
-                        && !"Playlist".equals(item.getType())
-                        && !"MusicArtist".equals(item.getType())
+                        && item.getEBaseItemType() != EBaseItemType.MusicAlbum
+                        && item.getEBaseItemType() != EBaseItemType.Playlist
+                        && item.getEBaseItemType() != EBaseItemType.MusicArtist
                         && userData!= null
                         && userData.getUnplayedItemCount() !=null
                         && userData.getUnplayedItemCount() > 0) {
@@ -282,17 +283,17 @@ public class KeyProcessor {
                 }
             }
 
-            isMusic = "MusicAlbum".equals(item.getType())
-                    || "MusicArtist".equals(item.getType())
-                    || "Audio".equals(item.getType())
-                    || ("Playlist".equals(item.getType()) && "Audio".equals(item.getMediaType()));
+            isMusic = item.getEBaseItemType() == EBaseItemType.MusicAlbum
+                    || item.getEBaseItemType() == EBaseItemType.MusicArtist
+                    || item.getEBaseItemType() == EBaseItemType.Audio
+                    || (item.getEBaseItemType() == EBaseItemType.Playlist && "Audio".equals(item.getMediaType()));
 
             if (isMusic || !item.getIsFolderItem()) {
                 menu.getMenu().add(0, MENU_ADD_QUEUE, order++, R.string.lbl_add_to_queue);
             }
 
             if (isMusic) {
-                if (!"Playlist".equals(item.getType())) {
+                if (item.getEBaseItemType() != EBaseItemType.Playlist) {
                     menu.getMenu().add(0, MENU_INSTANT_MIX, order++, R.string.lbl_instant_mix);
                 }
             } else {
@@ -338,7 +339,7 @@ public class KeyProcessor {
     private static void createPlayMenu(BaseItemDto item, boolean isFolder, boolean isMusic, BaseActivity activity) {
         PopupMenu menu = Utils.createPopupMenu(activity, activity.getCurrentFocus(), Gravity.RIGHT);
         int order = 0;
-        if (!isMusic && !"Playlist".equals(item.getType())) {
+        if (!isMusic && item.getEBaseItemType() != EBaseItemType.Playlist) {
             menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
         }
         menu.getMenu().add(0, MENU_PLAY, order++, R.string.lbl_play_all);

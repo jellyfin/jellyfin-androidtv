@@ -22,11 +22,11 @@ public class ReportingHelper {
             TvApp.getApplication().getPlaybackManager().reportPlaybackStopped(info, streamInfo, apiClient.getServerInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), false, apiClient, new EmptyResponse());
 
             TvApp.getApplication().setLastPlayback(Calendar.getInstance());
-            switch (item.getType()) {
-                case "Movie":
+            switch (item.getEBaseItemType()) {
+                case Movie:
                     TvApp.getApplication().setLastMoviePlayback(Calendar.getInstance());
                     break;
-                case "Episode":
+                case Episode:
                     TvApp.getApplication().setLastTvPlayback(Calendar.getInstance());
                     break;
             }

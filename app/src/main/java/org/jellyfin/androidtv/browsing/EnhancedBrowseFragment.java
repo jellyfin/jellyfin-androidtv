@@ -60,6 +60,7 @@ import java.util.TimerTask;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.EBaseItemType;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 
 public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
@@ -112,7 +113,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         super.onCreate(savedInstanceState);
         BaseItemDto item = new BaseItemDto();
         item.setId(ItemListActivity.FAV_SONGS);
-        item.setType("Playlist");
+        item.setEBaseItemType(EBaseItemType.Playlist);
         item.setIsFolder(true);
 
         favSongsRowItem = new BaseRowItem(0, item);
@@ -388,8 +389,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     }
 
     private void refreshCurrentItem() {
-        if (mCurrentItem != null && !"Photo".equals(mCurrentItem.getType()) && !"MusicArtist".equals(mCurrentItem.getType())
-                && !"MusicAlbum".equals(mCurrentItem.getType()) && !"Playlist".equals(mCurrentItem.getType())) {
+        if (mCurrentItem != null && mCurrentItem.getBaseItemType() != EBaseItemType.Photo && mCurrentItem.getBaseItemType() != EBaseItemType.MusicArtist
+                && mCurrentItem.getBaseItemType() != EBaseItemType.MusicAlbum && mCurrentItem.getBaseItemType() != EBaseItemType.Playlist) {
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override
                 public void onResponse() {

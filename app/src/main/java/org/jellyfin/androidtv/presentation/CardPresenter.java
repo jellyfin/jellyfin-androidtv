@@ -102,33 +102,33 @@ public class CardPresenter extends Presenter {
                     } else {
                         aspect = Utils.getSafeValue(ImageUtils.getImageAspectRatio(itemDto, m.getPreferParentThumb()), ImageUtils.ASPECT_RATIO_7_9);
                     }
-                    switch (itemDto.getType()) {
-                        case "Audio":
-                        case "MusicAlbum":
+                    switch (itemDto.getEBaseItemType()) {
+                        case Audio:
+                        case MusicAlbum:
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tile_audio);
                             if (aspect < 0.8) {
                                 aspect = 1.0;
                             }
                             showWatched = false;
                             break;
-                        case "Person":
+                        case Person:
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tile_port_person);
                             break;
-                        case "MusicArtist":
+                        case MusicArtist:
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tile_port_person);
                             if (aspect < .8) {
                                 aspect = 1.0;
                             }
                             showWatched = false;
                             break;
-                        case "RecordingGroup":
+                        case RecordingGroup:
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tile_port_record);
                             break;
-                        case "Season":
-                        case "Series":
+                        case Season:
+                        case Series:
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tile_port_tv);
                             break;
-                        case "Episode":
+                        case Episode:
                             //TvApp.getApplication().getLogger().Debug("**** Image width: "+ cardWidth + " Aspect: " + Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()) + " Item: "+itemDto.getName());
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tile_land_tv);
                             switch (itemDto.getLocationType()) {
@@ -147,31 +147,31 @@ public class CardPresenter extends Presenter {
                             //Always show info for episodes
                             mCardView.setCardType(BaseCardView.CARD_TYPE_INFO_UNDER);
                             break;
-                        case "CollectionFolder":
+                        case CollectionFolder:
                             // Force the aspect ratio to 16x9 because the server is returning the wrong value of 1
                             aspect = ImageUtils.ASPECT_RATIO_16_9;
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tile_port_folder);
                             break;
-                        case "Folder":
-                        case "MovieGenreFolder":
-                        case "MusicGenreFolder":
-                        case "MovieGenre":
-                        case "Genre":
-                        case "MusicGenre":
-                        case "UserView":
+                        case Folder:
+                        case MovieGenreFolder:
+                        case MusicGenreFolder:
+                        case MovieGenre:
+                        case Genre:
+                        case MusicGenre:
+                        case UserView:
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tile_port_folder);
                             break;
-                        case "Photo":
+                        case Photo:
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tile_land_photo);
                             showWatched = false;
                             break;
-                        case "PhotoAlbum":
-                        case "Playlist":
+                        case PhotoAlbum:
+                        case Playlist:
                             showWatched = false;
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tile_port_folder);
                             break;
-                        case "Movie":
-                        case "Video":
+                        case Movie:
+                        case Video:
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tile_port_video);
                             showProgress = true;
                             break;

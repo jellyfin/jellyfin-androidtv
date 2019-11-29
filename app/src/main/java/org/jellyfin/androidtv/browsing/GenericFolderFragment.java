@@ -9,6 +9,7 @@ import org.jellyfin.androidtv.querying.StdItemQuery;
 import java.util.Arrays;
 
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.model.dto.EBaseItemType;
 import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.livetv.RecordingQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
@@ -23,12 +24,12 @@ public class GenericFolderFragment extends EnhancedBrowseFragment {
 
     }
 
-    private static String[] showSpecialViewTypes = new String[] {"CollectionFolder", "Folder", "UserView", "ChannelFolderItem"};
+    private static EBaseItemType[] showSpecialViewTypes = new EBaseItemType[] {EBaseItemType.CollectionFolder, EBaseItemType.Folder, EBaseItemType.UserView, EBaseItemType.ChannelFolderItem };
 
     @Override
     protected void setupQueries(IRowLoader rowLoader) {
 
-        if (mFolder.getType().equals("RecordingGroup")){
+        if (mFolder.getEBaseItemType() == EBaseItemType.RecordingGroup){
             RecordingQuery query = new RecordingQuery();
             query.setUserId(TvApp.getApplication().getCurrentUser().getId());
             query.setGroupId(mFolder.getId());
@@ -38,14 +39,14 @@ public class GenericFolderFragment extends EnhancedBrowseFragment {
         } else {
 
             if (Utils.getSafeValue(mFolder.getChildCount(), 0) > 0 ||
-                    mFolder.getType().equals("Channel") ||
-                    mFolder.getType().equals("ChannelFolderItem") ||
-                    mFolder.getType().equals("UserView") ||
-                    mFolder.getType().equals("CollectionFolder")) {
-                boolean showSpecialViews = Arrays.asList(showSpecialViewTypes).contains(mFolder.getType()) && !"channels".equals(mFolder.getCollectionType());
+                    mFolder.getEBaseItemType() == EBaseItemType.Channel ||
+                    mFolder.getEBaseItemType() == EBaseItemType.ChannelFolderItem ||
+                    mFolder.getEBaseItemType() == EBaseItemType.UserView ||
+                    mFolder.getEBaseItemType() == EBaseItemType.CollectionFolder) {
+                boolean showSpecialViews = Arrays.asList(showSpecialViewTypes).contains(mFolder.getEBaseItemType()) && !"channels".equals(mFolder.getCollectionType());
 
                 if (showSpecialViews) {
-                    if (!mFolder.getType().equals("ChannelFolderItem")) {
+                    if (mFolder.getEBaseItemType() != EBaseItemType.ChannelFolderItem) {
                         StdItemQuery resume = new StdItemQuery();
                         resume.setParentId(mFolder.getId());
                         resume.setLimit(50);

@@ -206,8 +206,8 @@ public class RecommendationManager {
                     if (response.getCanResume()) {
                         addRecommendation(response, RecommendationType.Movie);
                     } else {
-                        switch (response.getType()) {
-                            case "Movie":
+                        switch (response.getEBaseItemType()) {
+                            case Movie:
                                 //First remove us if we were a recommendation
                                 mRecommendations.remove(RecommendationType.Movie, response.getId());
 
@@ -230,7 +230,7 @@ public class RecommendationManager {
                                     }
                                 });
                                 break;
-                            case "Episode":
+                            case Episode:
                                 //First remove us if we were a recommendation
                                 mRecommendations.remove(RecommendationType.Tv, response.getId());
 

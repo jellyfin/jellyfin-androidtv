@@ -237,22 +237,22 @@ public class MyImageCardView extends BaseCardView {
         if (mOverlayName == null) return;
 
         if (getCardType() == BaseCardView.CARD_TYPE_MAIN_ONLY && item.showCardInfoOverlay()) {
-            switch (item.getType()) {
-                case "Photo":
+            switch (item.getBaseItemType()) {
+                case Photo:
                     mOverlayName.setText(item.getBaseItem().getPremiereDate() != null ? android.text.format.DateFormat.getDateFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(item.getBaseItem().getPremiereDate())) : item.getFullName());
                     mOverlayIcon.setImageResource(R.drawable.ic_camera);
                     break;
-                case "PhotoAlbum":
+                case PhotoAlbum:
                     mOverlayName.setText(item.getFullName());
                     mOverlayIcon.setImageResource(R.drawable.ic_photos);
                     break;
-                case "Video":
+                case Video:
                     mOverlayName.setText(item.getFullName());
                     mOverlayIcon.setImageResource(R.drawable.ic_movie);
                     break;
-                case "Playlist":
-                case "MusicArtist":
-                case "Person":
+                case Playlist:
+                case MusicArtist:
+                case Person:
                     mOverlayName.setText(item.getFullName());
                     hideIcon();
                     break;

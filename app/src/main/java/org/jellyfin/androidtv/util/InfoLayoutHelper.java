@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.EBaseItemType;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.SeriesStatus;
 
@@ -47,31 +48,31 @@ public class InfoLayoutHelper {
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime, MediaStream audioStream) {
         layout.removeAllViews();
         addCriticInfo(activity, item, layout);
-        switch (item.getType()) {
-            case "Episode":
+        switch (item.getEBaseItemType()) {
+            case Episode:
                 addSeasonEpisode(activity, item, layout);
                 addDate(activity, item, layout);
                 break;
-            case "BoxSet":
+            case BoxSet:
                 addBoxSetCounts(activity, item, layout);
                 break;
-            case "Series":
+            case Series:
                 //addSeasonCount(activity, item, layout);
                 addSeriesAirs(activity, item, layout);
                 addDate(activity, item, layout);
                 includeEndTime = false;
                 break;
-            case "Program":
+            case Program:
                 addProgramInfo(activity, item, layout);
                 break;
-            case "RecordingGroup":
+            case RecordingGroup:
                 addRecordingCount(activity, item, layout);
                 break;
-            case "MusicArtist":
+            case MusicArtist:
                 Integer artistAlbums = item.getAlbumCount() != null ? item.getAlbumCount() : item.getChildCount();
                 addCount(activity, artistAlbums, layout, artistAlbums != null && artistAlbums == 1 ? activity.getResources().getString(R.string.lbl_album) : activity.getResources().getString(R.string.lbl_albums));
                 return;
-            case "MusicAlbum":
+            case MusicAlbum:
                 String artist = item.getAlbumArtist() != null ? item.getAlbumArtist() : item.getArtists() != null && item.getAlbumArtists().size() > 0 ? item.getArtists().get(0) : null;
                 if (artist != null) {
                     addText(activity, artist+" ", layout, 500);
@@ -80,7 +81,7 @@ public class InfoLayoutHelper {
                 Integer songCount = item.getSongCount() != null ? item.getSongCount() : item.getChildCount();
                 addCount(activity, songCount, layout, songCount == 1 ? activity.getResources().getString(R.string.lbl_song) : activity.getResources().getString(R.string.lbl_songs));
                 return;
-            case "Playlist":
+            case Playlist:
                 if (item.getChildCount() != null) addCount(activity, item.getChildCount(), layout, item.getChildCount() == 1 ? activity.getResources().getString(R.string.lbl_item) : activity.getResources().getString(R.string.lbl_items));
                 if (item.getCumulativeRunTimeTicks() != null) addText(activity, " ("+ TimeUtils.formatMillis(item.getCumulativeRunTimeTicks() / 10000)+")", layout, 300);
                 break;
@@ -263,8 +264,8 @@ public class InfoLayoutHelper {
     private static void addDate(Activity activity, BaseItemDto item, LinearLayout layout) {
         TextView date = new TextView(activity);
         date.setTextSize(textSize);
-        switch (item.getType()) {
-            case "Person":
+        switch (item.getEBaseItemType()) {
+            case Person:
                 StringBuilder sb = new StringBuilder();
                 if (item.getPremiereDate() != null) {
                     sb.append(TvApp.getApplication().getString(R.string.lbl_born));
@@ -287,8 +288,8 @@ public class InfoLayoutHelper {
                 layout.addView(date);
                 break;
 
-            case "Program":
-            case "TvChannel":
+            case Program:
+            case TvChannel:
                 if (item.getStartDate() != null && item.getEndDate() != null) {
                     date.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(item.getStartDate()))
                             + "-"+ android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(item.getEndDate())));
@@ -296,7 +297,7 @@ public class InfoLayoutHelper {
                     addSpacer(activity, layout, "    ");
                 }
                 break;
-            case "Series":
+            case Series:
                 if (item.getProductionYear() != null && item.getProductionYear() > 0) {
                     date.setText(item.getProductionYear().toString());
                     layout.addView(date);
@@ -343,7 +344,7 @@ public class InfoLayoutHelper {
     }
 
     private static void addSeriesStatus(Activity activity, BaseItemDto item, LinearLayout layout) {
-        if ("Series".equals(item.getType()) && item.getSeriesStatus() != null) {
+        if (item.getEBaseItemType() == EBaseItemType.Series && item.getSeriesStatus() != null) {
             boolean continuing = item.getSeriesStatus() == SeriesStatus.Continuing;
             String status = continuing ? activity.getString(R.string.lbl__continuing) : activity.getString(R.string.lbl_ended);
             addBlockText(activity, layout, status, textSize-4, Color.LTGRAY, continuing ? R.drawable.green_gradient : R.drawable.red_gradient);

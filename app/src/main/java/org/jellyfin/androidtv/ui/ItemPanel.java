@@ -13,6 +13,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.apiclient.model.dto.EBaseItemType;
 
 /**
  * Created by Eric on 7/27/2015.
@@ -49,7 +50,7 @@ public class ItemPanel extends RelativeLayout {
 
     public void setItem(BaseRowItem item) {
         if (item != null) {
-            title.setText(item.getFullName() + (item.getItemType() == BaseRowItem.ItemType.BaseItem && "Episode".equals(item.getBaseItem().getType()) ? " - " + item.getName() : ""));
+            title.setText(item.getFullName() + (item.getItemType() == BaseRowItem.ItemType.BaseItem && item.getBaseItemType() == EBaseItemType.Episode ? " - " + item.getName() : ""));
             if (TvApp.getApplication().getCurrentActivity() != null) InfoLayoutHelper.addInfoRow(TvApp.getApplication().getCurrentActivity(), item, infoRow, true, true);
             summary.setText(item.getSummary());
         }

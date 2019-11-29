@@ -13,6 +13,7 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -20,6 +21,7 @@ import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemPerson;
+import org.jellyfin.apiclient.model.dto.EBaseItemType;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.ImageType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
@@ -54,7 +56,7 @@ public class BaseRowItem {
     public BaseRowItem(int index, BaseItemDto item, boolean preferParentThumb, boolean staticHeight, SelectAction selectAction) {
         this.index = index;
         this.baseItem = item;
-        this.type = item.getType().equals("Program") ? ItemType.LiveTvProgram : item.getType().equals("Recording") ? ItemType.LiveTvRecording : ItemType.BaseItem;
+        this.type = item.getEBaseItemType() == EBaseItemType.Program ? ItemType.LiveTvProgram : item.getEBaseItemType() == EBaseItemType.Recording ? ItemType.LiveTvRecording : ItemType.BaseItem;
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = staticHeight;
         this.selectAction = selectAction;
@@ -190,10 +192,10 @@ public class BaseRowItem {
 
     public boolean showCardInfoOverlay() {
         return type == ItemType.BaseItem && baseItem != null
-                && ("Folder".equals(baseItem.getType()) || "PhotoAlbum".equals(baseItem.getType()) || "RecordingGroup".equals(baseItem.getType())
-                || "UserView".equals(baseItem.getType()) || "CollectionFolder".equals(baseItem.getType()) || "Photo".equals(baseItem.getType())
-                || "Video".equals(baseItem.getType()) || "Person".equals(baseItem.getType()) || "Playlist".equals(baseItem.getType())
-                || "MusicArtist".equals(baseItem.getType()));
+                && Arrays.asList(EBaseItemType.Folder, EBaseItemType.PhotoAlbum, EBaseItemType.RecordingGroup,
+                EBaseItemType.UserView, EBaseItemType.CollectionFolder, EBaseItemType.Photo,
+                EBaseItemType.Video, EBaseItemType.Person, EBaseItemType.Playlist,
+                EBaseItemType.MusicArtist).contains(baseItem.getEBaseItemType());
     }
 
     public boolean isValid() {
@@ -301,7 +303,7 @@ public class BaseRowItem {
     public String getCardName() {
         switch (type) {
             case BaseItem:
-                if ("Audio".equals(baseItem.getType())) {
+                if (baseItem.getEBaseItemType() == EBaseItemType.Audio) {
                     return baseItem.getAlbumArtist() != null ? baseItem.getAlbumArtist() : baseItem.getAlbum() != null ? baseItem.getAlbum() : "<Unknown>";
                 }
             default:
@@ -341,7 +343,7 @@ public class BaseRowItem {
             case BaseItem:
             case LiveTvRecording:
             case LiveTvProgram:
-                return "Audio".equals(baseItem.getType()) ? getFullName() : baseItem.getName();
+                return baseItem.getEBaseItemType() == EBaseItemType.Audio ? getFullName() : baseItem.getName();
             case Person:
                 return person.getName();
             case Server:
@@ -422,29 +424,11 @@ public class BaseRowItem {
         return "";
     }
 
-    public String getType() {
-        switch (type) {
-            case BaseItem:
-            case LiveTvRecording:
-            case LiveTvProgram:
-                return baseItem.getType();
-            case Person:
-                return person.getType();
-            case Server:
-            case User:
-            case Chapter:
-                break;
-            case SearchHint:
-                return searchHint.getType();
-            case LiveTvChannel:
-                return channelInfo.getType();
-            case GridButton:
-                return "GridButton";
-            case SeriesTimer:
-                return "SeriesTimer";
-        }
-
-        return "";
+    public EBaseItemType getBaseItemType() {
+        if (baseItem != null)
+            return baseItem.getEBaseItemType();
+        else
+            return null;
     }
 
     public String getSummary() {
@@ -491,7 +475,7 @@ public class BaseRowItem {
     public int getChildCount() {
         switch (type) {
             case BaseItem:
-                return isFolder() && !"MusicArtist".equals(baseItem.getType()) && baseItem.getChildCount() != null ? baseItem.getChildCount() : -1;
+                return isFolder() && baseItem.getEBaseItemType() != EBaseItemType.MusicArtist && baseItem.getChildCount() != null ? baseItem.getChildCount() : -1;
             case Person:
             case Server:
             case User:
@@ -508,7 +492,7 @@ public class BaseRowItem {
     }
 
     public String getChildCountStr() {
-        if (baseItem != null && "Playlist".equals(baseItem.getType()) && baseItem.getCumulativeRunTimeTicks() != null) {
+        if (baseItem != null && baseItem.getEBaseItemType() == EBaseItemType.Playlist && baseItem.getCumulativeRunTimeTicks() != null) {
             return TimeUtils.formatMillis(baseItem.getCumulativeRunTimeTicks() / 10000);
         } else {
             Integer count = getChildCount();
@@ -528,9 +512,9 @@ public class BaseRowItem {
     public Drawable getBadgeImage() {
         switch (type) {
             case BaseItem:
-                if (baseItem.getType().equals("Movie") && baseItem.getCriticRating() != null) {
+                if (baseItem.getEBaseItemType() == EBaseItemType.Movie && baseItem.getCriticRating() != null) {
                     return baseItem.getCriticRating() > 59 ? TvApp.getApplication().getDrawableCompat(R.drawable.fresh) : TvApp.getApplication().getDrawableCompat(R.drawable.rotten);
-                } else if (baseItem.getType().equals("Program") && baseItem.getTimerId() != null) {
+                } else if (baseItem.getEBaseItemType() == EBaseItemType.Program && baseItem.getTimerId() != null) {
                     return baseItem.getSeriesTimerId() != null ? TvApp.getApplication().getDrawableCompat(R.drawable.ic_record_series_red) : TvApp.getApplication().getDrawableCompat(R.drawable.ic_record_red);
                 }
                 break;
@@ -604,7 +588,8 @@ public class BaseRowItem {
         LiveTvRecording,
         GridButton,
         SeriesTimer,
-        LiveTvProgram
+        LiveTvProgram,
+
     }
 
     public enum SelectAction {

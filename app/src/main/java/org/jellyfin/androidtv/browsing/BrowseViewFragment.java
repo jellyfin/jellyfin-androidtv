@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.EBaseItemType;
 import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
@@ -258,7 +259,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                                             programInfo.setChannelName(timer.getChannelName());
                                             programInfo.setName(Utils.getSafeValue(timer.getName(), "Unknown"));
                                             TvApp.getApplication().getLogger().Warn("No program info for timer %s.  Creating one...", programInfo.getName());
-                                            programInfo.setType("Program");
+                                            programInfo.setEBaseItemType(EBaseItemType.Program);
                                             programInfo.setTimerId(timer.getId());
                                             programInfo.setSeriesTimerId(timer.getSeriesTimerId());
                                             programInfo.setStartDate(timer.getStartDate());

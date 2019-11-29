@@ -30,6 +30,7 @@ import java.util.List;
 
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.EBaseItemType;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.library.PlayAccess;
@@ -50,15 +51,15 @@ public class ItemLauncher {
             case BaseItem:
                 final BaseItemDto baseItem = rowItem.getBaseItem();
                 try {
-                    TvApp.getApplication().getLogger().Debug("Item selected: " + rowItem.getIndex() + " - " + baseItem.getName() + " (" + baseItem.getType() + ")");
+                    TvApp.getApplication().getLogger().Debug("Item selected: " + rowItem.getIndex() + " - " + baseItem.getName() + " (" + baseItem.getEBaseItemType() + ")");
                 } catch (Exception e) {
                     //swallow it
                 }
 
                 //specialized type handling
-                switch (baseItem.getType()) {
-                    case "UserView":
-                    case "CollectionFolder":
+                switch (baseItem.getEBaseItemType()) {
+                    case UserView:
+                    case CollectionFolder:
                         //We need to get display prefs...
                         TvApp.getApplication().getDisplayPrefsAsync(baseItem.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
                             @Override
@@ -104,8 +105,8 @@ public class ItemLauncher {
                             }
                         });
                         return;
-                    case "Series":
-                    case "MusicArtist":
+                    case Series:
+                    case MusicArtist:
                         //Start activity for details display
                         Intent intent = new Intent(activity, FullDetailsActivity.class);
                         intent.putExtra("ItemId", baseItem.getId());
@@ -117,8 +118,8 @@ public class ItemLauncher {
 
                         return;
 
-                    case "MusicAlbum":
-                    case "Playlist":
+                    case MusicAlbum:
+                    case Playlist:
                         //Start activity for song list display
                         Intent songListIntent = new Intent(activity, ItemListActivity.class);
                         songListIntent.putExtra("ItemId", baseItem.getId());
@@ -130,13 +131,13 @@ public class ItemLauncher {
 
                         return;
 
-                    case "Audio":
+                    case Audio:
                         //produce item menu
                         KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, rowItem, (BaseActivity) activity);
                         return;
 
-                    case "Season":
-                    case "RecordingGroup":
+                    case Season:
+                    case RecordingGroup:
                         //Start activity for enhanced browse
                         Intent seasonIntent = new Intent(activity, GenericFolderActivity.class);
                         seasonIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
@@ -148,7 +149,7 @@ public class ItemLauncher {
 
                         return;
 
-                    case "BoxSet":
+                    case BoxSet:
                         // open collection browsing
                         Intent collectionIntent = new Intent(activity, CollectionActivity.class);
                         collectionIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
@@ -159,7 +160,7 @@ public class ItemLauncher {
                         activity.startActivity(collectionIntent);
                         return;
 
-                    case "Photo":
+                    case Photo:
                         // open photo player
                         MediaManager.setCurrentMediaPosition(pos);
                         Intent photoIntent = new Intent(activity, PhotoPlayerActivity.class);
@@ -200,10 +201,10 @@ public class ItemLauncher {
                         case Play:
                             if (baseItem.getPlayAccess() == PlayAccess.Full) {
                                 //Just play it directly
-                                PlaybackHelper.getItemsToPlay(baseItem, baseItem.getType().equals("Movie"), false, new Response<List<BaseItemDto>>() {
+                                PlaybackHelper.getItemsToPlay(baseItem, baseItem.getEBaseItemType() == EBaseItemType.Movie, false, new Response<List<BaseItemDto>>() {
                                     @Override
                                     public void onResponse(List<BaseItemDto> response) {
-                                        Intent intent = new Intent(activity, application.getPlaybackActivityClass(baseItem.getType()));
+                                        Intent intent = new Intent(activity, application.getPlaybackActivityClass(baseItem.getEBaseItemType()));
                                         MediaManager.setCurrentVideoQueue(response);
                                         intent.putExtra("Position", 0);
                                         activity.startActivity(intent);
@@ -236,7 +237,7 @@ public class ItemLauncher {
                         List<BaseItemDto> items = new ArrayList<>();
                         items.add(response);
                         MediaManager.setCurrentVideoQueue(items);
-                        Intent intent = new Intent(activity, application.getPlaybackActivityClass(response.getType()));
+                        Intent intent = new Intent(activity, application.getPlaybackActivityClass(response.getEBaseItemType()));
                         Long start = chapter.getStartPositionTicks() / 10000;
                         intent.putExtra("Position", start.intValue());
                         activity.startActivity(intent);
@@ -265,14 +266,14 @@ public class ItemLauncher {
                 application.getApiClient().GetItemAsync(hint.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
-                        if ((response.getIsFolderItem() && !"Series".equals(response.getType())) || "MusicArtist".equals(response.getType())) {
+                        if ((response.getIsFolderItem() && response.getEBaseItemType() != EBaseItemType.Series) || response.getEBaseItemType() == EBaseItemType.MusicArtist) {
                             // open generic folder browsing
                             Intent intent = new Intent(activity, GenericGridActivity.class);
                             intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(response));
 
                             activity.startActivity(intent);
 
-                        } else if ("Audio".equals(response.getType())) {
+                        } else if (response.getEBaseItemType() == EBaseItemType.Audio) {
                             PlaybackHelper.retrieveAndPlay(response.getId(), false, activity);
                             //produce item menu
 //                            KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, rowItem, (BaseActivity) activity);
@@ -281,8 +282,10 @@ public class ItemLauncher {
                         } else {
                             Intent intent = new Intent(activity, FullDetailsActivity.class);
                             intent.putExtra("ItemId", response.getId());
-                            if (response.getType().equals("Program")) {
-                                intent.putExtra("ItemType", response.getType());
+                            if (response.getEBaseItemType() == EBaseItemType.Program) {
+                                // TODO: Seems like this is never used...
+                                intent.putExtra("ItemType", response.getEBaseItemType().name());
+
                                 intent.putExtra("ChannelId", response.getChannelId());
                                 intent.putExtra("ProgramInfo", TvApp.getApplication().getSerializer().SerializeToString(response));
                             }
@@ -305,7 +308,10 @@ public class ItemLauncher {
                         //Start details fragment for display and playback
                         Intent programIntent = new Intent(activity, FullDetailsActivity.class);
                         programIntent.putExtra("ItemId", program.getId());
-                        programIntent.putExtra("ItemType", program.getType());
+
+                        // TODO Seems unused
+                        programIntent.putExtra("ItemType", program.getEBaseItemType().name());
+
                         programIntent.putExtra("ChannelId", program.getChannelId());
                         programIntent.putExtra("ProgramInfo", TvApp.getApplication().getSerializer().SerializeToString(program));
 
@@ -319,7 +325,7 @@ public class ItemLauncher {
                                 public void onResponse(BaseItemDto response) {
                                     List<BaseItemDto> items = new ArrayList<>();
                                     items.add(response);
-                                    Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(response.getType()));
+                                    Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(response.getEBaseItemType()));
                                     MediaManager.setCurrentVideoQueue(items);
                                     intent.putExtra("Position", 0);
                                     activity.startActivity(intent);
@@ -341,7 +347,8 @@ public class ItemLauncher {
                         PlaybackHelper.getItemsToPlay(response, false, false, new Response<List<BaseItemDto>>() {
                             @Override
                             public void onResponse(List<BaseItemDto> response) {
-                                Intent intent = new Intent(activity, application.getPlaybackActivityClass(channel.getType()));
+                                // TODO Check whether this usage of EBaseItemType.valueOf is okay.
+                                Intent intent = new Intent(activity, application.getPlaybackActivityClass(EBaseItemType.valueOf(channel.getType())));
                                 MediaManager.setCurrentVideoQueue(response);
                                 intent.putExtra("Position", 0);
                                 activity.startActivity(intent);
@@ -368,7 +375,7 @@ public class ItemLauncher {
                             TvApp.getApplication().getApiClient().GetItemAsync(rowItem.getRecordingInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
-                                    Intent intent = new Intent(activity, application.getPlaybackActivityClass(rowItem.getType()));
+                                    Intent intent = new Intent(activity, application.getPlaybackActivityClass(rowItem.getBaseItemType()));
                                     List<BaseItemDto> items = new ArrayList<>();
                                     items.add(response);
                                     MediaManager.setCurrentVideoQueue(items);
