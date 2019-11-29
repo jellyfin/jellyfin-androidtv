@@ -15,8 +15,8 @@ import java.util.List;
 
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemPerson;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.ChapterInfoDto;
-import org.jellyfin.apiclient.model.dto.EBaseItemType;
 import org.jellyfin.apiclient.model.dto.ImageOptions;
 import org.jellyfin.apiclient.model.entities.ImageType;
 import org.jellyfin.apiclient.model.entities.LocationType;
@@ -26,21 +26,21 @@ import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 public class BaseItemUtils {
     // TODO Feature Envy!!! Wants to live in BaseItemDto.
     public static boolean isLiveTv(BaseItemDto item) {
-        return item.getEBaseItemType() == EBaseItemType.Program
-                || item.getEBaseItemType() == EBaseItemType.LiveTvChannel;
+        return item.getBaseItemType() == BaseItemType.Program
+                || item.getBaseItemType() == BaseItemType.LiveTvChannel;
     }
 
     public static boolean canPlay(BaseItemDto item) {
         return item.getPlayAccess().equals(PlayAccess.Full)
                 && ((item.getIsPlaceHolder() == null || !item.getIsPlaceHolder())
-                && (item.getEBaseItemType() != EBaseItemType.Episode || !item.getLocationType().equals(LocationType.Virtual)))
-                && (item.getEBaseItemType() != EBaseItemType.Person)
-                && (item.getEBaseItemType() != EBaseItemType.SeriesTimer)
+                && (item.getBaseItemType() != BaseItemType.Episode || !item.getLocationType().equals(LocationType.Virtual)))
+                && (item.getBaseItemType() != BaseItemType.Person)
+                && (item.getBaseItemType() != BaseItemType.SeriesTimer)
                 && (!item.getIsFolderItem() || item.getChildCount() == null || item.getChildCount() > 0);
     }
 
     public static String getFullName(BaseItemDto item) {
-        switch (item.getEBaseItemType()) {
+        switch (item.getBaseItemType()) {
             case Episode:
                 return item.getSeriesName() + (item.getParentIndexNumber() != null ? " S" + item.getParentIndexNumber() : "") + (item.getIndexNumber() != null ? " E" + item.getIndexNumber() : "") + (item.getIndexNumberEnd() != null ? "-" + item.getIndexNumberEnd() : "");
             case Audio:
@@ -53,7 +53,7 @@ public class BaseItemUtils {
     }
 
     public static String getSubName(BaseItemDto item) {
-        switch (item.getEBaseItemType()) {
+        switch (item.getBaseItemType()) {
             case Episode:
                 String addendum = item.getLocationType().equals(LocationType.Virtual) && item.getPremiereDate() != null ? " (" +  TimeUtils.getFriendlyDate(TimeUtils.convertToLocalDate(item.getPremiereDate())) + ")" : "";
                 return item.getName() + addendum;

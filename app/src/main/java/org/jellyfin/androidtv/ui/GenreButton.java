@@ -4,13 +4,13 @@ import android.content.Context;
 import android.graphics.Typeface;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import org.jellyfin.apiclient.model.dto.EBaseItemType;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 
 /**
  * Created by Eric on 2/21/2015.
  */
 public class GenreButton extends AppCompatTextView {
-    public GenreButton(Context context, Typeface font, int size, String text, EBaseItemType itemType) {
+    public GenreButton(Context context, Typeface font, int size, String text, BaseItemType itemType) {
         super(context);
         setTypeface(font);
         setTextSize(size);

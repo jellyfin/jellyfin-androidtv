@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.EBaseItemType;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.querying.ItemFields;
@@ -33,7 +33,7 @@ public class PlaybackHelper {
         ItemQuery query = new ItemQuery();
         TvApp.getApplication().setPlayingIntros(false);
 
-        switch (mainItem.getEBaseItemType()) {
+        switch (mainItem.getBaseItemType()) {
             case Episode:
                 items.add(mainItem);
                 if (TvApp.getApplication().getPrefs().getBoolean("pref_enable_tv_queuing", true)) {
@@ -101,7 +101,7 @@ public class PlaybackHelper {
                 query.setIsMissing(false);
                 query.setIsVirtualUnaired(false);
                 query.setMediaTypes(new String[]{"Audio"});
-                query.setSortBy(shuffle ? new String[] {ItemSortBy.Random} : mainItem.getEBaseItemType() == EBaseItemType.MusicArtist ? new String[] {ItemSortBy.Album} : new String[] {ItemSortBy.SortName});
+                query.setSortBy(shuffle ? new String[] {ItemSortBy.Random} : mainItem.getBaseItemType() == BaseItemType.MusicArtist ? new String[] {ItemSortBy.Album} : new String[] {ItemSortBy.SortName});
                 query.setRecursive(true);
                 query.setLimit(150); // guard against too many items
                 query.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
@@ -180,7 +180,7 @@ public class PlaybackHelper {
                 break;
 
             default:
-                if (allowIntros && !TvApp.getApplication().useExternalPlayer(mainItem.getEBaseItemType()) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_cinema_mode", true)) {
+                if (allowIntros && !TvApp.getApplication().useExternalPlayer(mainItem.getBaseItemType()) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_cinema_mode", true)) {
                     //Intros
                     TvApp.getApplication().getApiClient().GetIntrosAsync(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
                         @Override
@@ -211,10 +211,10 @@ public class PlaybackHelper {
     }
 
     public static void play(final BaseItemDto item, final int pos, final boolean shuffle, final Context activity) {
-        getItemsToPlay(item, pos == 0 && item.getEBaseItemType() == EBaseItemType.Movie, shuffle, new Response<List<BaseItemDto>>() {
+        getItemsToPlay(item, pos == 0 && item.getBaseItemType() == BaseItemType.Movie, shuffle, new Response<List<BaseItemDto>>() {
             @Override
             public void onResponse(List<BaseItemDto> response) {
-                switch (item.getEBaseItemType()) {
+                switch (item.getBaseItemType()) {
                     case MusicAlbum:
                     case MusicArtist:
                         MediaManager.playNow(response);
@@ -224,7 +224,7 @@ public class PlaybackHelper {
                             MediaManager.playNow(response);
 
                         } else {
-                            EBaseItemType itemType = response.size() > 0 ? response.get(0).getEBaseItemType() : null;
+                            BaseItemType itemType = response.size() > 0 ? response.get(0).getBaseItemType() : null;
                             Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(itemType));
                             MediaManager.setCurrentVideoQueue(response);
                             intent.putExtra("Position", pos);
@@ -240,7 +240,7 @@ public class PlaybackHelper {
                         break;
 
                     default:
-                        Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(item.getEBaseItemType()));
+                        Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(item.getBaseItemType()));
                         MediaManager.setCurrentVideoQueue(response);
                         intent.putExtra("Position", pos);
                         if (!(activity instanceof Activity))

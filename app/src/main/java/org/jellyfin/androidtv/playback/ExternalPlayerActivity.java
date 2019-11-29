@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.EBaseItemType;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.session.PlayMethod;
 
@@ -206,7 +206,7 @@ public class ExternalPlayerActivity extends Activity {
             //Get playback info for current item
             mCurrentNdx = ndx;
             final BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
-            isLiveTv = item.getEBaseItemType() == EBaseItemType.TvChannel;
+            isLiveTv = item.getBaseItemType() == BaseItemType.TvChannel;
 
             if (!isLiveTv && mApplication.getPrefs().getBoolean("pref_send_path_external", false)) {
                 // Just pass the path directly

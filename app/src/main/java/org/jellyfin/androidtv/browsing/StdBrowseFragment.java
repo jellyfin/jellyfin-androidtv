@@ -67,7 +67,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.jellyfin.apiclient.interaction.EmptyResponse;
-import org.jellyfin.apiclient.model.dto.EBaseItemType;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 
 public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     private static final String TAG = "StdBrowseFragment";
@@ -401,7 +401,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     }
 
     private void refreshCurrentItem() {
-        if (mCurrentItem != null && mCurrentItem.getBaseItemType() != EBaseItemType.UserView && mCurrentItem.getBaseItemType() != EBaseItemType.CollectionFolder) {
+        if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemType.UserView && mCurrentItem.getBaseItemType() != BaseItemType.CollectionFolder) {
             TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override

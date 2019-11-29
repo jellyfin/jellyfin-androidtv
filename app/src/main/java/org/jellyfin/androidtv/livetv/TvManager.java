@@ -32,7 +32,7 @@ import java.util.TimeZone;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.EBaseItemType;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.entities.SortOrder;
@@ -406,7 +406,7 @@ public class TvManager {
                         programInfo.setChannelName(timer.getChannelName());
                         programInfo.setName(Utils.getSafeValue(timer.getName(), "Unknown"));
                         TvApp.getApplication().getLogger().Warn("No program info for timer %s.  Creating one...", programInfo.getName());
-                        programInfo.setEBaseItemType(EBaseItemType.Program);
+                        programInfo.setBaseItemType(BaseItemType.Program);
                         programInfo.setTimerId(timer.getId());
                         programInfo.setSeriesTimerId(timer.getSeriesTimerId());
                         programInfo.setStartDate(timer.getStartDate());

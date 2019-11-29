@@ -38,7 +38,7 @@ import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemPerson;
-import org.jellyfin.apiclient.model.dto.EBaseItemType;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
@@ -1315,7 +1315,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int i = 0;
                     int prevItems = adapter.size() > 0 ? adapter.size() : 0;
                     for (BaseItemDto item : response.getItems()) {
-                        item.setEBaseItemType(EBaseItemType.RecordingGroup); // the API does not fill this in
+                        item.setBaseItemType(BaseItemType.RecordingGroup); // the API does not fill this in
                         item.setIsFolder(true); // nor this
                         adapter.add(new BaseRowItem(item));
                         i++;

@@ -73,7 +73,7 @@ import java.util.TimerTask;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.EBaseItemType;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 
 public class StdGridFragment extends HorizontalGridFragment implements IGridLoader {
@@ -451,7 +451,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         toolBar.addView(new ImageButton(getActivity(), R.drawable.ic_search, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TvApp.getApplication().showSearch(getActivity(), "music".equals(mFolder.getCollectionType()) || mFolder.getEBaseItemType() == EBaseItemType.MusicAlbum || mFolder.getEBaseItemType() == EBaseItemType.MusicArtist);
+                TvApp.getApplication().showSearch(getActivity(), "music".equals(mFolder.getCollectionType()) || mFolder.getBaseItemType() == BaseItemType.MusicAlbum || mFolder.getBaseItemType() == BaseItemType.MusicArtist);
             }
         }));
 
@@ -589,8 +589,8 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             getGridPresenter().setPosition(MediaManager.getCurrentMediaPosition());
             MediaManager.setCurrentMediaPosition(-1); // re-set so it doesn't mess with parent views
         }
-        if (mCurrentItem != null && mCurrentItem.getBaseItemType() != EBaseItemType.Photo && mCurrentItem.getBaseItemType() != EBaseItemType.PhotoAlbum
-                && mCurrentItem.getBaseItemType() != EBaseItemType.MusicArtist && mCurrentItem.getBaseItemType() != EBaseItemType.MusicAlbum) {
+        if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemType.Photo && mCurrentItem.getBaseItemType() != BaseItemType.PhotoAlbum
+                && mCurrentItem.getBaseItemType() != BaseItemType.MusicArtist && mCurrentItem.getBaseItemType() != BaseItemType.MusicAlbum) {
             TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override

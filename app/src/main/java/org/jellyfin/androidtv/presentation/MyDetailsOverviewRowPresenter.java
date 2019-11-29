@@ -131,7 +131,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
             vh.mSummary.setText(summarySpanned);
         }
 
-        switch (row.getItem().getEBaseItemType()) {
+        switch (row.getItem().getBaseItemType()) {
             case Person:
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) vh.mSummary.getLayoutParams();
                 params.topMargin = 10;
@@ -160,7 +160,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
             for (String genre : item.getGenres()) {
                 if (!first) InfoLayoutHelper.addSpacer(TvApp.getApplication().getCurrentActivity(), layout, "  /  ", 12);
                 first = false;
-                layout.addView(new GenreButton(TvApp.getApplication().getCurrentActivity(), TvApp.getApplication().getDefaultFont(), 14, genre, item.getEBaseItemType()));
+                layout.addView(new GenreButton(TvApp.getApplication().getCurrentActivity(), TvApp.getApplication().getDefaultFont(), 14, genre, item.getBaseItemType()));
             }
         }
     }

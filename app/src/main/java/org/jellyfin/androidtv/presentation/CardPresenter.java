@@ -102,7 +102,7 @@ public class CardPresenter extends Presenter {
                     } else {
                         aspect = Utils.getSafeValue(ImageUtils.getImageAspectRatio(itemDto, m.getPreferParentThumb()), ImageUtils.ASPECT_RATIO_7_9);
                     }
-                    switch (itemDto.getEBaseItemType()) {
+                    switch (itemDto.getBaseItemType()) {
                         case Audio:
                         case MusicAlbum:
                             mDefaultCardImage = TvApp.getApplication().getDrawableCompat(R.drawable.tile_audio);

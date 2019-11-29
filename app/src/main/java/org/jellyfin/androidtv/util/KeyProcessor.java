@@ -27,7 +27,7 @@ import java.util.List;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.EBaseItemType;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
@@ -65,7 +65,7 @@ public class KeyProcessor {
         switch (key) {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                if (MediaManager.isPlayingAudio() && (!rowItem.isBaseItem() || rowItem.getBaseItemType() != EBaseItemType.Photo)) {
+                if (MediaManager.isPlayingAudio() && (!rowItem.isBaseItem() || rowItem.getBaseItemType() != BaseItemType.Photo)) {
                     MediaManager.pauseAudio();
                     return true;
                 }
@@ -75,7 +75,7 @@ public class KeyProcessor {
                     case BaseItem:
                         BaseItemDto item = rowItem.getBaseItem();
                         if (!BaseItemUtils.canPlay(item)) return false;
-                        switch (item.getEBaseItemType()) {
+                        switch (item.getBaseItemType()) {
                             case Audio:
                                 if (rowItem instanceof AudioQueueItem) {
                                     createItemMenu(rowItem, item.getUserData(), activity);
@@ -159,7 +159,7 @@ public class KeyProcessor {
                         if (rowItem.getGridButton().getId() == TvApp.VIDEO_QUEUE_OPTION_ID) {
                             //Queue already there - just kick off playback
                             Utils.beep();
-                            EBaseItemType itemType = MediaManager.getCurrentVideoQueue().size() > 0 ? MediaManager.getCurrentVideoQueue().get(0).getEBaseItemType() : null;
+                            BaseItemType itemType = MediaManager.getCurrentVideoQueue().size() > 0 ? MediaManager.getCurrentVideoQueue().get(0).getBaseItemType() : null;
                             Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(itemType));
                             activity.startActivity(intent);
                         }
@@ -181,7 +181,7 @@ public class KeyProcessor {
 
                     case BaseItem:
                         BaseItemDto item = rowItem.getBaseItem();
-                        switch (item.getEBaseItemType()) {
+                        switch (item.getBaseItemType()) {
                             case Movie:
                             case Episode:
                             case TvChannel:
@@ -269,9 +269,9 @@ public class KeyProcessor {
         } else {
             if (BaseItemUtils.canPlay(item)) {
                 if (item.getIsFolderItem()
-                        && item.getEBaseItemType() != EBaseItemType.MusicAlbum
-                        && item.getEBaseItemType() != EBaseItemType.Playlist
-                        && item.getEBaseItemType() != EBaseItemType.MusicArtist
+                        && item.getBaseItemType() != BaseItemType.MusicAlbum
+                        && item.getBaseItemType() != BaseItemType.Playlist
+                        && item.getBaseItemType() != BaseItemType.MusicArtist
                         && userData!= null
                         && userData.getUnplayedItemCount() !=null
                         && userData.getUnplayedItemCount() > 0) {
@@ -283,17 +283,17 @@ public class KeyProcessor {
                 }
             }
 
-            isMusic = item.getEBaseItemType() == EBaseItemType.MusicAlbum
-                    || item.getEBaseItemType() == EBaseItemType.MusicArtist
-                    || item.getEBaseItemType() == EBaseItemType.Audio
-                    || (item.getEBaseItemType() == EBaseItemType.Playlist && "Audio".equals(item.getMediaType()));
+            isMusic = item.getBaseItemType() == BaseItemType.MusicAlbum
+                    || item.getBaseItemType() == BaseItemType.MusicArtist
+                    || item.getBaseItemType() == BaseItemType.Audio
+                    || (item.getBaseItemType() == BaseItemType.Playlist && "Audio".equals(item.getMediaType()));
 
             if (isMusic || !item.getIsFolderItem()) {
                 menu.getMenu().add(0, MENU_ADD_QUEUE, order++, R.string.lbl_add_to_queue);
             }
 
             if (isMusic) {
-                if (item.getEBaseItemType() != EBaseItemType.Playlist) {
+                if (item.getBaseItemType() != BaseItemType.Playlist) {
                     menu.getMenu().add(0, MENU_INSTANT_MIX, order++, R.string.lbl_instant_mix);
                 }
             } else {
@@ -339,7 +339,7 @@ public class KeyProcessor {
     private static void createPlayMenu(BaseItemDto item, boolean isFolder, boolean isMusic, BaseActivity activity) {
         PopupMenu menu = Utils.createPopupMenu(activity, activity.getCurrentFocus(), Gravity.RIGHT);
         int order = 0;
-        if (!isMusic && item.getEBaseItemType() != EBaseItemType.Playlist) {
+        if (!isMusic && item.getBaseItemType() != BaseItemType.Playlist) {
             menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
         }
         menu.getMenu().add(0, MENU_PLAY, order++, R.string.lbl_play_all);

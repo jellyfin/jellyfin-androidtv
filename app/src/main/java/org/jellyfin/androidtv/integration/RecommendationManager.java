@@ -206,7 +206,7 @@ public class RecommendationManager {
                     if (response.getCanResume()) {
                         addRecommendation(response, RecommendationType.Movie);
                     } else {
-                        switch (response.getEBaseItemType()) {
+                        switch (response.getBaseItemType()) {
                             case Movie:
                                 //First remove us if we were a recommendation
                                 mRecommendations.remove(RecommendationType.Movie, response.getId());

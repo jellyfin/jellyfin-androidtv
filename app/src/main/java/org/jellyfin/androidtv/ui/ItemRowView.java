@@ -95,7 +95,7 @@ public class ItemRowView extends FrameLayout {
         mBaseItem = item;
         ourIndex = ndx + 1;
         mIndexNo.setText(Integer.toString(ourIndex));
-        switch (item.getEBaseItemType()) {
+        switch (item.getBaseItemType()) {
             case Audio:
                 mItemName.setText(item.getName());
                 String artist = item.getArtists() != null && item.getArtists().size() > 0 ? item.getArtists().get(0) : !TextUtils.isEmpty(item.getAlbumArtist()) ? item.getAlbumArtist() : null;

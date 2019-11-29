@@ -21,7 +21,7 @@ import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemPerson;
-import org.jellyfin.apiclient.model.dto.EBaseItemType;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.ImageType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
@@ -56,7 +56,7 @@ public class BaseRowItem {
     public BaseRowItem(int index, BaseItemDto item, boolean preferParentThumb, boolean staticHeight, SelectAction selectAction) {
         this.index = index;
         this.baseItem = item;
-        this.type = item.getEBaseItemType() == EBaseItemType.Program ? ItemType.LiveTvProgram : item.getEBaseItemType() == EBaseItemType.Recording ? ItemType.LiveTvRecording : ItemType.BaseItem;
+        this.type = item.getBaseItemType() == BaseItemType.Program ? ItemType.LiveTvProgram : item.getBaseItemType() == BaseItemType.Recording ? ItemType.LiveTvRecording : ItemType.BaseItem;
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = staticHeight;
         this.selectAction = selectAction;
@@ -192,10 +192,10 @@ public class BaseRowItem {
 
     public boolean showCardInfoOverlay() {
         return type == ItemType.BaseItem && baseItem != null
-                && Arrays.asList(EBaseItemType.Folder, EBaseItemType.PhotoAlbum, EBaseItemType.RecordingGroup,
-                EBaseItemType.UserView, EBaseItemType.CollectionFolder, EBaseItemType.Photo,
-                EBaseItemType.Video, EBaseItemType.Person, EBaseItemType.Playlist,
-                EBaseItemType.MusicArtist).contains(baseItem.getEBaseItemType());
+                && Arrays.asList(BaseItemType.Folder, BaseItemType.PhotoAlbum, BaseItemType.RecordingGroup,
+                BaseItemType.UserView, BaseItemType.CollectionFolder, BaseItemType.Photo,
+                BaseItemType.Video, BaseItemType.Person, BaseItemType.Playlist,
+                BaseItemType.MusicArtist).contains(baseItem.getBaseItemType());
     }
 
     public boolean isValid() {
@@ -303,7 +303,7 @@ public class BaseRowItem {
     public String getCardName() {
         switch (type) {
             case BaseItem:
-                if (baseItem.getEBaseItemType() == EBaseItemType.Audio) {
+                if (baseItem.getBaseItemType() == BaseItemType.Audio) {
                     return baseItem.getAlbumArtist() != null ? baseItem.getAlbumArtist() : baseItem.getAlbum() != null ? baseItem.getAlbum() : "<Unknown>";
                 }
             default:
@@ -343,7 +343,7 @@ public class BaseRowItem {
             case BaseItem:
             case LiveTvRecording:
             case LiveTvProgram:
-                return baseItem.getEBaseItemType() == EBaseItemType.Audio ? getFullName() : baseItem.getName();
+                return baseItem.getBaseItemType() == BaseItemType.Audio ? getFullName() : baseItem.getName();
             case Person:
                 return person.getName();
             case Server:
@@ -424,9 +424,9 @@ public class BaseRowItem {
         return "";
     }
 
-    public EBaseItemType getBaseItemType() {
+    public BaseItemType getBaseItemType() {
         if (baseItem != null)
-            return baseItem.getEBaseItemType();
+            return baseItem.getBaseItemType();
         else
             return null;
     }
@@ -475,7 +475,7 @@ public class BaseRowItem {
     public int getChildCount() {
         switch (type) {
             case BaseItem:
-                return isFolder() && baseItem.getEBaseItemType() != EBaseItemType.MusicArtist && baseItem.getChildCount() != null ? baseItem.getChildCount() : -1;
+                return isFolder() && baseItem.getBaseItemType() != BaseItemType.MusicArtist && baseItem.getChildCount() != null ? baseItem.getChildCount() : -1;
             case Person:
             case Server:
             case User:
@@ -492,7 +492,7 @@ public class BaseRowItem {
     }
 
     public String getChildCountStr() {
-        if (baseItem != null && baseItem.getEBaseItemType() == EBaseItemType.Playlist && baseItem.getCumulativeRunTimeTicks() != null) {
+        if (baseItem != null && baseItem.getBaseItemType() == BaseItemType.Playlist && baseItem.getCumulativeRunTimeTicks() != null) {
             return TimeUtils.formatMillis(baseItem.getCumulativeRunTimeTicks() / 10000);
         } else {
             Integer count = getChildCount();
@@ -512,9 +512,9 @@ public class BaseRowItem {
     public Drawable getBadgeImage() {
         switch (type) {
             case BaseItem:
-                if (baseItem.getEBaseItemType() == EBaseItemType.Movie && baseItem.getCriticRating() != null) {
+                if (baseItem.getBaseItemType() == BaseItemType.Movie && baseItem.getCriticRating() != null) {
                     return baseItem.getCriticRating() > 59 ? TvApp.getApplication().getDrawableCompat(R.drawable.fresh) : TvApp.getApplication().getDrawableCompat(R.drawable.rotten);
-                } else if (baseItem.getEBaseItemType() == EBaseItemType.Program && baseItem.getTimerId() != null) {
+                } else if (baseItem.getBaseItemType() == BaseItemType.Program && baseItem.getTimerId() != null) {
                     return baseItem.getSeriesTimerId() != null ? TvApp.getApplication().getDrawableCompat(R.drawable.ic_record_series_red) : TvApp.getApplication().getDrawableCompat(R.drawable.ic_record_red);
                 }
                 break;

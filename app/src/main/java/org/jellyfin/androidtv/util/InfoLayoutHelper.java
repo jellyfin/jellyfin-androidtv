@@ -18,7 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.EBaseItemType;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.SeriesStatus;
 
@@ -48,7 +48,7 @@ public class InfoLayoutHelper {
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime, MediaStream audioStream) {
         layout.removeAllViews();
         addCriticInfo(activity, item, layout);
-        switch (item.getEBaseItemType()) {
+        switch (item.getBaseItemType()) {
             case Episode:
                 addSeasonEpisode(activity, item, layout);
                 addDate(activity, item, layout);
@@ -264,7 +264,7 @@ public class InfoLayoutHelper {
     private static void addDate(Activity activity, BaseItemDto item, LinearLayout layout) {
         TextView date = new TextView(activity);
         date.setTextSize(textSize);
-        switch (item.getEBaseItemType()) {
+        switch (item.getBaseItemType()) {
             case Person:
                 StringBuilder sb = new StringBuilder();
                 if (item.getPremiereDate() != null) {
@@ -344,7 +344,7 @@ public class InfoLayoutHelper {
     }
 
     private static void addSeriesStatus(Activity activity, BaseItemDto item, LinearLayout layout) {
-        if (item.getEBaseItemType() == EBaseItemType.Series && item.getSeriesStatus() != null) {
+        if (item.getBaseItemType() == BaseItemType.Series && item.getSeriesStatus() != null) {
             boolean continuing = item.getSeriesStatus() == SeriesStatus.Continuing;
             String status = continuing ? activity.getString(R.string.lbl__continuing) : activity.getString(R.string.lbl_ended);
             addBlockText(activity, layout, status, textSize-4, Color.LTGRAY, continuing ? R.drawable.green_gradient : R.drawable.red_gradient);
