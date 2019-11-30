@@ -126,7 +126,7 @@
     <string name="lbl_search_hint">Hledaný text (vyberte pro klávesnici)</string>
     <string name="lbl_play_first_unwatched">Přehrát první neshlédnuté</string>
     <string name="lbl_confirm_mark_watched">Toto označí veškerý obsah, jako přehraný. Jste si OPRAVDU jistí?</string>
-    <string name="lbl_mark_unplayed">Označit nepřehrané</string>
+    <string name="lbl_mark_unplayed">Označit jako nepřehrané</string>
     <string name="lbl_mark_played">Označit přehrané</string>
     <string name="lbl_remove_favorite">Odebrat z oblíbených</string>
     <string name="lbl_add_favorite">Přidat k oblíbeným</string>
@@ -134,7 +134,7 @@
     <string name="lbl_dislike">Odporné</string>
     <string name="lbl_unlike">Nemám rád</string>
     <string name="lbl_remove_dislike">Odebrat odporné</string>
-    <string name="lbl_confirm_mark_unwatched">Toto označí veškerý obsah, jako nepřehraný. Jste si opravdu jistí?</string>
+    <string name="lbl_confirm_mark_unwatched">Toto označí veškerý obsah jako nepřehraný. Jste si opravdu jistí\?</string>
     <string name="msg_no_playable_items">Žádné hratelné položky</string>
     <string name="lbl_unwatched">Neshlédnuto</string>
     <string name="lbl_load_channels">"Načíst kanály "</string>
@@ -316,7 +316,7 @@
     <string name="lbl_series_settings">Nastavení série</string>
     <string name="lbl_episode_not_record">Toto zobrazení nebude nahráváno</string>
     <string name="lbl_schedule">Naplánovat</string>
-    <string name="lbl_live">Live</string>
+    <string name="lbl_live">Živé</string>
     <string name="lbl_new">Nová</string>
     <string name="lbl_repeat">Opakovat</string>
     <string name="lbl_all_recordings">Všechny nahrávky</string>
@@ -329,4 +329,17 @@
     <string name="pref_live_tv_mode_desc">Jít přímo na naposledy přehrávaný kanál Live TV</string>
     <string name="pref_live_tv_mode">Režim Live TV</string>
     <string name="lbl_select_date">Vybrat datum</string>
+    <string name="lbl_image_size">Velikost obrázku</string>
+    <string name="lbl_image_type">Typ obrázku</string>
+    <string name="lbl_default_view">Výchozí pohled</string>
+    <string name="lbl_start_favorites">Umístit oblíbené na začátek</string>
+    <string name="lbl_hd_programs">HD programy</string>
+    <string name="lbl_repeat_episodes">Opakovat epizody</string>
+    <string name="lbl_premieres">Premiéry</string>
+    <string name="lbl_new_episodes">Nové epizody</string>
+    <string name="lbl_audio_delay">Spoždění zvuku</string>
+    <string name="lbl_new_only">Pouze nové</string>
+    <string name="lbl_news">Novinky</string>
+    <string name="lbl_colored_backgrounds">Barevná pozadí</string>
+    <string name="lbl_live_broadcasts">Živá vysílání</string>
 </resources>
