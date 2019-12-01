@@ -292,7 +292,7 @@ public class ProfileHelper {
             ));
             videoDirectPlayProfile.setContainer(Utils.join(",", containers));
             List<String> videoCodecs;
-            if (DeviceUtils.isShield() || DeviceUtils.isNexus()) {
+            if (DeviceUtils.isShield() || DeviceUtils.isNexus() || DeviceUtils.isBeyondTv()) {
                 videoCodecs = Arrays.asList(
                     CodecTypes.H264,
                     CodecTypes.HEVC,
