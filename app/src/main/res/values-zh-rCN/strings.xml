@@ -329,4 +329,17 @@
     <string name="msg_error_server_version">不支持的服务器版本，服务器版本必须为 %1$s 及以上版本。</string>
     <string name="msg_error_server_unavailable">服务器不可用</string>
     <string name="lbl_latest_tv_shows">最近电视剧</string>
+    <string name="lbl_image_size">图像尺寸</string>
+    <string name="lbl_image_type">图像格式</string>
+    <string name="lbl_default_view">默认视图</string>
+    <string name="lbl_start_favorites">将收藏夹放在开头</string>
+    <string name="lbl_colored_backgrounds">颜色背景编码</string>
+    <string name="lbl_hd_programs">高清节目</string>
+    <string name="lbl_live_broadcasts">直播</string>
+    <string name="lbl_repeat_episodes">重复事件</string>
+    <string name="lbl_premieres">第一次播放</string>
+    <string name="lbl_new_episodes">新事件</string>
+    <string name="lbl_audio_delay">音频延迟</string>
+    <string name="lbl_new_only">只有新的</string>
+    <string name="lbl_news">新闻</string>
 </resources>
