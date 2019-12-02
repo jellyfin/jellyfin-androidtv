@@ -692,14 +692,6 @@ public class PlaybackController {
     private boolean burningSubs = false;
 
     public void switchSubtitleStream(int index) {
-        Integer currentIndex = mCurrentOptions.getSubtitleStreamIndex();
-
-        if (currentIndex != null && currentIndex == index) {
-            mApplication.getLogger().Debug("Not switching subtitles because the index didn't change.");
-
-            return;
-        }
-
         mApplication.getLogger().Debug("Setting subtitle index to: " + index);
         mCurrentOptions.setSubtitleStreamIndex(index >= 0 ? index : null);
 
@@ -1109,8 +1101,14 @@ public class PlaybackController {
                 } else {
                     if (mDefaultSubIndex >= 0) {
                         //Default subs requested select them
-                        mApplication.getLogger().Info("Selecting default sub stream: " + mDefaultSubIndex);
-                        switchSubtitleStream(mDefaultSubIndex);
+                        Integer currentIndex = mCurrentOptions.getSubtitleStreamIndex();
+
+                        if (currentIndex != null && currentIndex == mDefaultSubIndex) {
+                            mApplication.getLogger().Info("Not selecting default subtitle stream because it is already selected");
+                        } else {
+                            mApplication.getLogger().Info("Selecting default sub stream: " + mDefaultSubIndex);
+                            switchSubtitleStream(mDefaultSubIndex);
+                        }
                     } else {
                         TvApp.getApplication().getLogger().Info("Turning off subs by default");
                         mVideoManager.disableSubs();
