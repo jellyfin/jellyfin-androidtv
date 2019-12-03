@@ -7,6 +7,7 @@
  - [BnMcG](https://github.com/bnmcg)
  - [Letroll](https://github.com/letroll)
  - [AndreasGB](https://github.com/andreasgb)
+ - [joern-h](https://github.com/joern-h)
 
 # Emby Contributors
 

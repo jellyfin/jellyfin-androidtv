@@ -181,7 +181,6 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 //AudioPlaylists
                 StdItemQuery playlists = new StdItemQuery(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.CumulativeRunTimeTicks});
                 playlists.setIncludeItemTypes(new String[]{"Playlist"});
-                playlists.setMediaTypes(new String[]{"Audio"});
                 playlists.setImageTypeLimit(1);
                 playlists.setRecursive(true);
                 playlists.setSortBy(new String[]{ItemSortBy.DateCreated});
