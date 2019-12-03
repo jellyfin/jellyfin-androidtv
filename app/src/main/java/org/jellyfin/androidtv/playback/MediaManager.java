@@ -271,6 +271,13 @@ public class MediaManager {
         }
     };
 
+    private static void fireQueueReplaced(){
+        for (AudioEventListener listener : mAudioEventListeners) {
+            TvApp.getApplication().getLogger().Info("Firing queue replaced listener. ");
+            listener.onQueueReplaced();
+        }
+    }
+
     private static void fireQueueStatusChange() {
         for (AudioEventListener listener : mAudioEventListeners) {
             TvApp.getApplication().getLogger().Info("Firing queue state change listener. "+ hasAudioQueueItems());
@@ -472,6 +479,7 @@ public class MediaManager {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             playNowInternal(items);
+                            fireQueueReplaced();
                         }
                     })
                     .setNeutralButton(R.string.lbl_add_to_queue, new DialogInterface.OnClickListener() {
@@ -485,7 +493,6 @@ public class MediaManager {
         } else {
             playNowInternal(items);
         }
-
     }
 
     private static void playNowInternal(List<BaseItemDto> items) {
