@@ -203,8 +203,6 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 MediaManager.shuffleAudioQueue();
-                                mRowsAdapter.remove(mQueueRow);
-                                addQueue();
                             }
                         })
                         .setNegativeButton(mActivity.getString(R.string.lbl_no), null)
@@ -381,6 +379,12 @@ public class AudioNowPlayingActivity extends BaseActivity  {
             } else {
                 finish(); // entire queue removed nothing to do here
             }
+        }
+
+        @Override
+        public void onQueueReplaced() {
+            mRowsAdapter.remove(mQueueRow);
+            addQueue();
         }
     };
 
