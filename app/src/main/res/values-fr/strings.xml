@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="error">Erreur</string>
-    <string name="ok">OK</string>
+    <string name="ok">Ok</string>
     <string name="video_error_unknown_error">Échec de chargement de la vidéo</string>
     <string name="txt_loading">Chargement…</string>
     <string name="title_activity_select_user">Sélection du compte utilisateur</string>
@@ -134,7 +134,7 @@
     <string name="lbl_dislike">Je n\'aime pas</string>
     <string name="lbl_unlike">Contrairement à</string>
     <string name="lbl_remove_dislike">Supprimer dislike</string>
-    <string name="lbl_confirm_mark_unwatched">Cette action marquera tout le contenu comme non vu. Etes-vous VRAIMENT sûr ?</string>
+    <string name="lbl_confirm_mark_unwatched">Cette action marquera tout le contenu comme non vu. Êtes-vous VRAIMENT sûr \?</string>
     <string name="msg_no_playable_items">Aucun élément à lire</string>
     <string name="lbl_unwatched">Non lu</string>
     <string name="lbl_load_channels">"Charger les chaînes "</string>
@@ -174,7 +174,7 @@
     <string name="lbl_premier_date">Première date</string>
     <string name="lbl_critic_rating">Note des critiques</string>
     <string name="lbl_rating">Critique</string>
-    <string name="lbl_starting_with">"Commencer par ceux dont le nom débute par"</string>
+    <string name="lbl_starting_with">Commençant par ceux dont le nom débute par</string>
     <string name="btn_done">Fait</string>
     <string name="lbl_display_preferences">Préférences d\'affichage</string>
     <string name="lbl_season">Saison</string>
@@ -192,7 +192,7 @@
     <string name="lbl_no_recordings">Aucun enregistrement disponible</string>
     <string name="lbl_live_tv_guide">Programme de la TV en direct</string>
     <string name="lbl_recorded_tv">TV enregistrée</string>
-    <string name="btn_ok">OK</string>
+    <string name="btn_ok">Ok</string>
     <string name="pref_live_tv_cat">TV EN DIRECT</string>
     <string name="msg_error_live_stream">Erreur du flux TV en direct. Nouvel essai en cours...</string>
     <string name="lbl_direct_stream_live">Flux TV en direct</string>
@@ -338,4 +338,7 @@
     <string name="lbl_new_episodes">Nouveaux épisodes</string>
     <string name="lbl_audio_delay">Retard Audio</string>
     <string name="lbl_news">Actualités</string>
+    <string name="lbl_colored_backgrounds">Fonds Colorés</string>
+    <string name="lbl_repeat_episodes">Répéter les Épisodes</string>
+    <string name="lbl_new_only">Nouveau Uniquement</string>
 </resources>
