@@ -141,22 +141,6 @@ public class TvApp extends Application {
         setCurrentBackgroundGradient(new int[] {ContextCompat.getColor(this, R.color.lb_default_brand_color_dark), ContextCompat.getColor(this, R.color.lb_default_brand_color)});
 
         logger.Info("Application object created");
-
-//        Thread.setDefaultUncaughtExceptionHandler((thread, ex) -> {
-//            ACRA.getErrorReporter().handleException(ex, true);
-//            logger.FatalException("Uncaught Exception", new Exception(ex));
-//            /*
-//             * If an Exception happens when an Activity is being initialized,
-//             * it seems to hit an infinite loop of trying to re-initialize the Activity.
-//             * To avoid this, we call finish on the current activity.
-//             */
-////                if (currentActivity != null) {
-////                    currentActivity.finish();
-////                }
-////                android.os.Process.killProcess(android.os.Process.myPid());
-////                System.exit(10);
-//        });
-
     }
 
     public static TvApp getApplication() {
