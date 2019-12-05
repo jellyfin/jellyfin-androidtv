@@ -25,6 +25,7 @@ import org.acra.ACRA;
 import org.acra.annotation.AcraCore;
 import org.acra.annotation.AcraDialog;
 import org.acra.annotation.AcraHttpSender;
+import org.acra.annotation.AcraLimiter;
 import org.acra.sender.HttpSender;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
@@ -64,6 +65,7 @@ import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
         resText = R.string.acra_dialog_text,
         resTheme = R.style.Theme_Jellyfin
 )
+@AcraLimiter
 public class TvApp extends Application {
     // The minimum supported server version. Trying to connect to an older server will display an error.
     public static final String MINIMUM_SERVER_VERSION = "10.3.0";
