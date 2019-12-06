@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="error">Fejl</string>
-    <string name="ok">OK</string>
+    <string name="ok">Ok</string>
     <string name="video_error_unknown_error">Kunne ikke indlæse video</string>
-    <string name="txt_loading">Indlæser...</string>
-    <string name="title_activity_select_user">SelectUserActivity</string>
+    <string name="txt_loading">Indlæser…</string>
+    <string name="title_activity_select_user">Vælg Brugeraktivitet</string>
     <string name="home_title">Hjem</string>
     <string name="btn_cancel">Annuller</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Adfærd ved opstart</string>
     <string name="pref_show_login">Vis login skærm</string>
-    <string name="pref_playback">AFSPILNING</string>
+    <string name="pref_playback">Afspilning</string>
     <string name="pref_max_bitrate_title">Maks Streaming Bitrate</string>
     <string name="pref_auto_login">Log automatisk ind som denne bruger</string>
     <string name="settings_title">Indstillinger</string>
@@ -23,9 +23,9 @@
     <string name="dpad_pw_cancel">* Hold \"ned\" knappen nede i 1 sekund og slip hvis du har et alfanumerisk kodeord eller har brug for et tastatur til at indtaste din kode.</string>
     <string name="chapters">Kapitler</string>
     <string name="pref_auto_logoff_title">Automatisk log-ud timeout</string>
-    <string name="pref_general">GENERELT</string>
+    <string name="pref_general">Generalt</string>
     <string name="lbl_settings">Indstillinger</string>
-    <string name="lbl_logout">"Log ud "</string>
+    <string name="lbl_logout">Log ud</string>
     <string name="lbl_send_logs">Send log</string>
     <string name="lbl_library">Bibliotek</string>
     <string name="lbl_continue_watching">Forsæt med at se</string>
@@ -151,4 +151,8 @@
     <string name="lbl_only_new_episodes">Kun nye episoder</string>
     <string name="lbl_repeat_options">Repeat indstillinger</string>
     <string name="msg_cancel_entire_series">Er du sikker på du ønsker at annullere hele serien?</string>
+    <string name="lbl_status">%s / %s</string>
+    <string name="pref_authentication_cat">Godkendelse</string>
+    <string name="loading">Indlæser…</string>
+    <string name="play">Afspil</string>
 </resources>
