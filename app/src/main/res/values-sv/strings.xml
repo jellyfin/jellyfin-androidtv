@@ -7,4 +7,8 @@
     <string name="home_title">Hem</string>
     <string name="btn_cancel">Avbryt</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ</string>
+    <string name="settings_title">Inställningar</string>
+    <string name="pref_auto_login">Logga in automatiskt som denna användare</string>
+    <string name="pref_show_login">Visa inloggningsskärm</string>
+    <string name="play">Spela</string>
 </resources>
