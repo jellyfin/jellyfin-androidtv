@@ -3,6 +3,10 @@ package org.jellyfin.androidtv.presentation;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import androidx.leanback.widget.RowPresenter;
+
+import android.os.Build;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,8 +116,21 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
 
         vh.mPoster.setImageDrawable(row.getImageDrawable());
         //vh.mStudioImage.setImageDrawable(row.getStudioDrawable());
-        vh.mSummary.setText(row.getSummary());
-        //vh.mSummaryTitle.setText(row.getSummaryTitle());
+
+        // Support simple HTML elements
+        String summaryRaw = row.getSummary();
+        if (summaryRaw != null) {
+            Spanned summarySpanned;
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                summarySpanned = Html.fromHtml(summaryRaw, Html.FROM_HTML_MODE_COMPACT);
+            } else {
+                summarySpanned = Html.fromHtml(summaryRaw);
+            }
+
+            vh.mSummary.setText(summarySpanned);
+        }
+
         switch (row.getItem().getType()) {
             case "Person":
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) vh.mSummary.getLayoutParams();
