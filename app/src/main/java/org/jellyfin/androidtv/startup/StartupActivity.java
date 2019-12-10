@@ -70,11 +70,6 @@ public class StartupActivity extends Activity {
             application.getSystemPrefs().edit().putString("sys_pref_config_version", "4").apply();
         }
 
-        // Disable crash reporting if not already set
-        if (!application.getPrefs().contains("acra.enable")) {
-            application.getPrefs().edit().putBoolean("acra.enable", false).apply();
-        }
-
         //Ensure we have prefs
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 

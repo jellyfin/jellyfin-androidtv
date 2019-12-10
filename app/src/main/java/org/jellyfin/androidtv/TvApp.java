@@ -62,6 +62,7 @@ import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
         httpMethod = HttpSender.Method.POST
 )
 @AcraDialog(
+        resTitle = R.string.acra_dialog_title,
         resText = R.string.acra_dialog_text,
         resTheme = R.style.Theme_Jellyfin
 )
