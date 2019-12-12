@@ -278,15 +278,7 @@ public class HomeFragment extends StdBrowseFragment {
     }
 
     private HomeFragmentRow loadRecentlyAdded() {
-        // To stay consistent with the web version this should ideally add multiple rows for each media type (music, tv, movie etc.)
-        // but currently all media types are merged into just one row
-
-        LatestItemsQuery query = new LatestItemsQuery();
-        query.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
-        query.setImageTypeLimit(1);
-        query.setLimit(50);
-
-        return new HomeFragmentBrowseRowDefRow(new BrowseRowDef(mApplication.getString(R.string.lbl_latest_additions), query, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
+        return new HomeFragmentLatestRow();
     }
 
     private HomeFragmentRow loadLibraryTiles() {
