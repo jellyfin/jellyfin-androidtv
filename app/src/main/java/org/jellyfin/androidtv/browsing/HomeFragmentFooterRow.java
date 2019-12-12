@@ -1,6 +1,6 @@
 package org.jellyfin.androidtv.browsing;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.widget.Toast;
 
@@ -24,20 +24,20 @@ public class HomeFragmentFooterRow extends HomeFragmentRow implements OnItemView
     private static final int LOGOUT = 0;
     private static final int SETTINGS = 1;
 
-    private Context context;
+    private Activity activity;
 
-    public HomeFragmentFooterRow(Context context) {
-        this.context = context;
+    public HomeFragmentFooterRow(Activity activity) {
+        this.activity = activity;
     }
 
     @Override
     public void addToRowsAdapter(CardPresenter cardPresenter, ArrayObjectAdapter rowsAdapter) {
-        HeaderItem header = new HeaderItem(rowsAdapter.size(), context.getString(R.string.lbl_settings));
+        HeaderItem header = new HeaderItem(rowsAdapter.size(), activity.getString(R.string.lbl_settings));
         GridButtonPresenter presenter = new GridButtonPresenter();
 
         ArrayObjectAdapter adapter = new ArrayObjectAdapter(presenter);
-        adapter.add(new GridButton(SETTINGS, context.getString(R.string.lbl_settings), R.drawable.tile_settings));
-        adapter.add(new GridButton(LOGOUT, context.getString(R.string.lbl_logout), R.drawable.tile_logout));
+        adapter.add(new GridButton(SETTINGS, activity.getString(R.string.lbl_settings), R.drawable.tile_settings));
+        adapter.add(new GridButton(LOGOUT, activity.getString(R.string.lbl_logout), R.drawable.tile_logout));
 
         rowsAdapter.add(new ListRow(header, adapter));
     }
@@ -54,18 +54,20 @@ public class HomeFragmentFooterRow extends HomeFragmentRow implements OnItemView
                     app.setLoginApiClient(app.getApiClient());
 
                     // Open login activity
-                    Intent intent = new Intent(context, SelectUserActivity.class);
+                    Intent intent = new Intent(activity, SelectUserActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    context.startActivity(intent);
+                    activity.startActivity(intent);
                 }
+
+                activity.finish();
 
                 break;
             case SETTINGS:
-                Intent intent = new Intent(context, SettingsActivity.class);
-                context.startActivity(intent);
+                Intent intent = new Intent(activity, SettingsActivity.class);
+                activity.startActivity(intent);
                 break;
             default:
-                Toast.makeText(context, item.toString(), Toast.LENGTH_SHORT)
+                Toast.makeText(activity, item.toString(), Toast.LENGTH_SHORT)
                         .show();
                 break;
         }
