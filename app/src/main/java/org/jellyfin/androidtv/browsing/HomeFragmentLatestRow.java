@@ -36,7 +36,7 @@ class HomeFragmentLatestRow extends HomeFragmentRow {
                 List<BaseItemDto> items = new ArrayList<>();
 
                 for (BaseItemDto item : response.getItems()) {
-                    if (!latestItemsExcludes.contains(item.getId())) {// Skip excluded items
+                    if (!latestItemsExcludes.contains(item.getId())) { // Skip excluded items
                         items.add(item);
                     }
                 }
@@ -48,12 +48,13 @@ class HomeFragmentLatestRow extends HomeFragmentRow {
     }
 
     //todo: As this function is called in a asynchronous callback the rows will always be inserted at the bottom of the home fragment
-    public void addLibraries(List<BaseItemDto> items, CardPresenter cardPresenter, ArrayObjectAdapter rowsAdapter, TvApp application) {
+    private void addLibraries(List<BaseItemDto> items, CardPresenter cardPresenter, ArrayObjectAdapter rowsAdapter, TvApp application) {
         for (BaseItemDto item : items) {
             LatestItemsQuery query = new LatestItemsQuery();
             query.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
             query.setImageTypeLimit(1);
             query.setParentId(item.getId());
+            query.setGroupItems(true);
             query.setLimit(50);
 
             HomeFragmentBrowseRowDefRow row = new HomeFragmentBrowseRowDefRow(new BrowseRowDef(String.format("%s %s", application.getString(R.string.lbl_latest), item.getName()), query, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
