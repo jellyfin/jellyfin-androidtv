@@ -174,7 +174,7 @@
     <string name="lbl_premier_date">Erstaufführung</string>
     <string name="lbl_critic_rating">Kritiken</string>
     <string name="lbl_rating">Bewertung</string>
-    <string name="lbl_starting_with">"Beginne mit jenen. dessen Namen beginnt"</string>
+    <string name="lbl_starting_with">Beginne mit jenen. dessen Namen beginnt mit</string>
     <string name="btn_done">Erledigt</string>
     <string name="lbl_display_preferences">Zeige Einstellungen</string>
     <string name="lbl_season">Staffel</string>
@@ -341,4 +341,5 @@
     <string name="lbl_news">Nachrichten</string>
     <string name="lbl_latest_tv_shows">Neueste Fernsehsendungen</string>
     <string name="title_activity_expanded_text">Erweiterte Textaktivität</string>
+    <string name="lbl_repeat_episodes">Folgen wiederholen</string>
 </resources>
