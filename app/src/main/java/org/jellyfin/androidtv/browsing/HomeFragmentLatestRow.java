@@ -4,52 +4,38 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.model.ChangeTriggerType;
 import org.jellyfin.androidtv.presentation.CardPresenter;
-import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.configuration.UserConfiguration;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import androidx.leanback.widget.ArrayObjectAdapter;
 
 class HomeFragmentLatestRow extends HomeFragmentRow {
-    @Override
-    public void addToRowsAdapter(final CardPresenter cardPresenter, final ArrayObjectAdapter rowsAdapter) {
-        final TvApp application = TvApp.getApplication();
+    private final ItemsResult views;
 
-        // Get configuration (to find excluded items)
-        UserDto user = application.getCurrentUser();
-        final UserConfiguration configuration = user.getConfiguration();
-
-        // Get user views
-        application.getApiClient().GetUserViews(user.getId(), new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult response) {
-                // Create a list of views to include
-                List<String> latestItemsExcludes = Arrays.asList(configuration.getLatestItemsExcludes());
-                List<BaseItemDto> items = new ArrayList<>();
-
-                for (BaseItemDto item : response.getItems()) {
-                    if (!latestItemsExcludes.contains(item.getId())) { // Skip excluded items
-                        items.add(item);
-                    }
-                }
-
-                // Add rows
-                addLibraries(items, cardPresenter, rowsAdapter, application);
-            }
-        });
+    public HomeFragmentLatestRow(ItemsResult views) {
+        this.views = views;
     }
 
-    //todo: As this function is called in a asynchronous callback the rows will always be inserted at the bottom of the home fragment
-    private void addLibraries(List<BaseItemDto> items, CardPresenter cardPresenter, ArrayObjectAdapter rowsAdapter, TvApp application) {
-        for (BaseItemDto item : items) {
+    @Override
+    public void addToRowsAdapter(CardPresenter cardPresenter, ArrayObjectAdapter rowsAdapter) {
+        TvApp application = TvApp.getApplication();
+
+        // Get configuration (to find excluded items)
+        UserConfiguration configuration = application.getCurrentUser().getConfiguration();
+
+        // Create a list of views to include
+        List<String> latestItemsExcludes = Arrays.asList(configuration.getLatestItemsExcludes());
+
+        for (BaseItemDto item : views.getItems()) {
+            if (latestItemsExcludes.contains(item.getId())) continue;// Skip excluded items
+
+            // Create query and add row
             LatestItemsQuery query = new LatestItemsQuery();
             query.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
             query.setImageTypeLimit(1);

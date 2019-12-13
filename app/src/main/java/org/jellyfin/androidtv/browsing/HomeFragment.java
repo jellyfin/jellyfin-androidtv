@@ -35,7 +35,7 @@ import org.jellyfin.apiclient.model.livetv.RecordingQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
-import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
+import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
 
 import java.io.IOException;
@@ -66,6 +66,7 @@ public class HomeFragment extends StdBrowseFragment {
     };
 
     private List<HomeFragmentRow> rows = new ArrayList<>();
+    private ItemsResult views;
     private HomeFragmentNowPlayingRow nowPlaying;
     private HomeFragmentFooterRow footer;
 
@@ -205,54 +206,64 @@ public class HomeFragment extends StdBrowseFragment {
 
     @Override
     protected void setupQueries(final IRowLoader rowLoader) {
-        // Use "emby" as app because jellyfin-web version uses the same
-        TvApp.getApplication().getDisplayPrefsAsync("usersettings", "emby", new Response<DisplayPreferences>() {
+        TvApp application = TvApp.getApplication();
+
+        // Update the views before creating rows
+        application.getApiClient().GetUserViews(application.getCurrentUser().getId(), new Response<ItemsResult>() {
             @Override
-            public void onResponse(DisplayPreferences response) {
-                HashMap<String, String> prefs = response.getCustomPrefs();
+            public void onResponse(ItemsResult response) {
+                views = response;
 
-                // Section key pattern
-                Pattern pattern = Pattern.compile("^homesection(\\d+)$");
+                // Use "emby" as app because jellyfin-web version uses the same
+                TvApp.getApplication().getDisplayPrefsAsync("usersettings", "emby", new Response<DisplayPreferences>() {
+                    @Override
+                    public void onResponse(DisplayPreferences response) {
+                        HashMap<String, String> prefs = response.getCustomPrefs();
 
-                // Add sections to map first to make sure they stay in the correct order
-                Map<Integer, HomeSectionType> sections = new TreeMap<>();
+                        // Section key pattern
+                        Pattern pattern = Pattern.compile("^homesection(\\d+)$");
 
-                for (String key : prefs.keySet()) {
-                    Matcher matcher = pattern.matcher(key);
-                    if (!matcher.matches()) continue;
+                        // Add sections to map first to make sure they stay in the correct order
+                        Map<Integer, HomeSectionType> sections = new TreeMap<>();
 
-                    int index = Integer.parseInt(matcher.group(1));
-                    HomeSectionType sectionType = HomeSectionType.getByName(prefs.get(key));
+                        for (String key : prefs.keySet()) {
+                            Matcher matcher = pattern.matcher(key);
+                            if (!matcher.matches()) continue;
 
-                    if (sectionType != null)
-                        sections.put(index, sectionType);
-                }
+                            int index = Integer.parseInt(matcher.group(1));
+                            HomeSectionType sectionType = HomeSectionType.getByName(prefs.get(key));
 
-                // Fallback when no customization is done by the user
-                rows.clear();
+                            if (sectionType != null)
+                                sections.put(index, sectionType);
+                        }
 
-                if (sections.size() > 0) {
-                    for (HomeSectionType section : sections.values()) {
-                        addSection(section);
+                        // Fallback when no customization is done by the user
+                        rows.clear();
+
+                        if (sections.size() > 0) {
+                            for (HomeSectionType section : sections.values()) {
+                                addSection(section);
+                            }
+                        } else {
+                            for (HomeSectionType section : DEFAULT_SECTIONS) {
+                                addSection(section);
+                            }
+                        }
+
+                        loadRows();
                     }
-                } else {
-                    for (HomeSectionType section : DEFAULT_SECTIONS) {
-                        addSection(section);
+
+                    @Override
+                    public void onError(Exception exception) {
+                        exception.printStackTrace();
+                        // Fallback to default sections
+                        for (HomeSectionType section : DEFAULT_SECTIONS) {
+                            addSection(section);
+                        }
+
+                        loadRows();
                     }
-                }
-
-                loadRows();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                exception.printStackTrace();
-                // Fallback to default sections
-                for (HomeSectionType section : DEFAULT_SECTIONS) {
-                    addSection(section);
-                }
-
-                loadRows();
+                });
             }
         });
     }
@@ -278,7 +289,7 @@ public class HomeFragment extends StdBrowseFragment {
     }
 
     private HomeFragmentRow loadRecentlyAdded() {
-        return new HomeFragmentLatestRow();
+        return new HomeFragmentLatestRow(this.views);
     }
 
     private HomeFragmentRow loadLibraryTiles() {
