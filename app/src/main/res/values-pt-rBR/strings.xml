@@ -170,7 +170,7 @@
     <string name="lbl_sorted_by">ordenado por</string>
     <string name="lbl_from">de</string>
     <string name="lbl_name">Nome</string>
-    <string name="lbl_date_added">Data da Adição</string>
+    <string name="lbl_date_added">Data de Adição</string>
     <string name="lbl_premier_date">Data de Estreia</string>
     <string name="lbl_critic_rating">Avaliação da Crítica</string>
     <string name="lbl_rating">Avaliação</string>
@@ -249,7 +249,7 @@
     <string name="lbl_current_queue">Fila Atual</string>
     <string name="desc_current_video_queue">Itens de vídeo estão enfileirados para reprodução</string>
     <string name="lbl_clear_queue">Limpar Fila</string>
-    <string name="lbl_play_next_up">Reproduzir Próximo</string>
+    <string name="lbl_play_next_up">Reproduzir A Seguir</string>
     <string name="lbl_open">Abrir</string>
     <string name="lbl_show_backdrop">Exibir Imagem de Fundo ao Navegar</string>
     <string name="lbl_use_vlc_livetv">Tentar Usar VLC para TV ao Vivo</string>
