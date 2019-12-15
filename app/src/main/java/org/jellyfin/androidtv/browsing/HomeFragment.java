@@ -18,6 +18,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.CustomMessage;
 import org.jellyfin.androidtv.base.IMessageListener;
+import org.jellyfin.androidtv.channels.ChannelManager;
 import org.jellyfin.androidtv.integration.RecommendationManager;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
@@ -55,6 +56,8 @@ public class HomeFragment extends StdBrowseFragment {
     private static final int LOGOUT = 0;
     private static final int SETTINGS = 1;
 
+    private ChannelManager channelManager;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 
@@ -71,6 +74,10 @@ public class HomeFragment extends StdBrowseFragment {
 
         //Init recommendations
         RecommendationManager.init();
+
+        // Init leanback home channels;
+        channelManager = new ChannelManager();
+        channelManager.update();
 
         //Get auto bitrate
         TvApp.getApplication().determineAutoBitrate();
@@ -127,6 +134,9 @@ public class HomeFragment extends StdBrowseFragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        // Update leanback channels
+        channelManager.update();
 
         //make sure rows have had a chance to be created
         new Handler().postDelayed(new Runnable() {
