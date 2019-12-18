@@ -77,7 +77,6 @@ public class HomeFragment extends StdBrowseFragment {
 
         // Init leanback home channels;
         channelManager = new ChannelManager();
-        channelManager.update();
 
         //Get auto bitrate
         TvApp.getApplication().determineAutoBitrate();
