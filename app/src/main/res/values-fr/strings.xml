@@ -171,7 +171,7 @@
     <string name="lbl_from">de</string>
     <string name="lbl_name">Nom</string>
     <string name="lbl_date_added">Date d\'ajout</string>
-    <string name="lbl_premier_date">Première date</string>
+    <string name="lbl_premier_date">Date de sortie</string>
     <string name="lbl_critic_rating">Note des critiques</string>
     <string name="lbl_rating">Critique</string>
     <string name="lbl_starting_with">Commençant par ceux dont le nom débute par</string>
@@ -309,7 +309,7 @@
     <string name="pref_use_direct_path_summary">Utiliser le chemin du fichier de l\'url de streaming</string>
     <string name="lbl_now_playing_album">de %s</string>
     <string name="lbl_watched">Vu</string>
-    <string name="msg_error_server_version">La version du serveur n\'est pas supporté. La version du serveur dois être %1$s ou ultérieur.</string>
+    <string name="msg_error_server_version">La version du serveur n\'est pas supportée. La version du serveur doit être %1$s ou ultérieure.</string>
     <string name="pref_external_live_tv_summary">Requiert une application capable de lire des flux en direct</string>
     <string name="pref_external_live_tv_title">Utiliser un lecteur externe pour la TV en direct</string>
     <string name="lbl_warning">Attention</string>
