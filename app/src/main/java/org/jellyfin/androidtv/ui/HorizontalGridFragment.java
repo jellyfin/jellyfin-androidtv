@@ -1,6 +1,6 @@
 package org.jellyfin.androidtv.ui;
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import androidx.leanback.widget.ObjectAdapter;
 import androidx.leanback.widget.OnItemViewClickedListener;

@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.playback;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,7 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import androidx.annotation.Nullable;
-import androidx.leanback.app.RowsFragment;
+import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
@@ -118,7 +118,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     LinearLayout mInfoRow;
     LinearLayout mButtonRow;
     FrameLayout mPopupArea;
-    RowsFragment mPopupRowsFragment;
+    RowsSupportFragment mPopupRowsFragment;
     ArrayObjectAdapter mPopupRowAdapter;
     ListRow mChapterRow;
     PositionableListRowPresenter mPopupRowPresenter;
@@ -246,13 +246,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.vlc_player_interface, container);
 
-        // inject the RowsFragment in the popup container
+        // inject the RowsSupportFragment in the popup container
         if (getChildFragmentManager().findFragmentById(R.id.rows_area) == null) {
-            mPopupRowsFragment = new RowsFragment();
+            mPopupRowsFragment = new RowsSupportFragment();
             getChildFragmentManager().beginTransaction()
                     .replace(R.id.rows_area, mPopupRowsFragment).commit();
         } else {
-            mPopupRowsFragment = (RowsFragment) getChildFragmentManager()
+            mPopupRowsFragment = (RowsSupportFragment) getChildFragmentManager()
                     .findFragmentById(R.id.rows_area);
         }
 

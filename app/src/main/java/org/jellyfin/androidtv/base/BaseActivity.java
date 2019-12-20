@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.base;
 
-import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -16,12 +15,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.util.Utils;
 
-public abstract class BaseActivity extends Activity implements ActivityCompat.OnRequestPermissionsResultCallback {
+public abstract class BaseActivity extends FragmentActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private TvApp app = TvApp.getApplication();
     private long timeoutInterval = 3600000;
     private Handler handler = new Handler();

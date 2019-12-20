@@ -9,7 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.RowsFragment;
+import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
@@ -88,7 +88,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     private TextView mCurrentPos;
     private TextView mRemainingTime;
     private int mCurrentDuration;
-    private RowsFragment mRowsFragment;
+    private RowsSupportFragment mRowsFragment;
     private ArrayObjectAdapter mRowsAdapter;
     private static PositionableListRowPresenter mAudioQueuePresenter;
 
@@ -257,8 +257,8 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
-        mRowsFragment = new RowsFragment();
-        getFragmentManager().beginTransaction().add(R.id.rowsFragment, mRowsFragment).commit();
+        mRowsFragment = new RowsSupportFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.rowsFragment, mRowsFragment).commit();
 
         //create list background gradient
         mListBackground = mApplication.getCurrentBackgroundGradient();

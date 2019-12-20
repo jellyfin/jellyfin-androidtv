@@ -12,7 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.RowsFragment;
+import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.ClassPresenterSelector;
 import androidx.leanback.widget.HeaderItem;
@@ -117,7 +117,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private Calendar mLastUpdated;
     private String mPrevItemId;
 
-    private RowsFragment mRowsFragment;
+    private RowsSupportFragment mRowsFragment;
     private ArrayObjectAdapter mRowsAdapter;
 
     private MyDetailsOverviewRowPresenter mDorPresenter;
@@ -151,8 +151,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         mMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
-        mRowsFragment = new RowsFragment();
-        getFragmentManager().beginTransaction().add(R.id.rowsFragment, mRowsFragment).commit();
+        mRowsFragment = new RowsSupportFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.rowsFragment, mRowsFragment).commit();
 
         mRowsFragment.setOnItemViewClickedListener(new ItemViewClickedListener());
         mRowsFragment.setOnItemViewSelectedListener(new ItemViewSelectedListener());
