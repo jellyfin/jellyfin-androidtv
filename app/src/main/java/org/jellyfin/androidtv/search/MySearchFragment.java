@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.SearchFragment;
+import androidx.leanback.app.SearchSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.ListRowPresenter;
@@ -28,8 +29,8 @@ import java.util.Timer;
 /**
  * Created by Eric on 1/26/2015.
  */
-public class MySearchFragment extends SearchFragment
-        implements SearchFragment.SearchResultProvider {
+public class MySearchFragment extends SearchSupportFragment
+        implements SearchSupportFragment.SearchResultProvider {
 
     private static final int SEARCH_DELAY_MS = 1500;
     private final Handler mHandler = new Handler();
