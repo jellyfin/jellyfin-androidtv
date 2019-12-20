@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -425,7 +425,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             mPopup = new PopupWindow(layout, WIDTH, HEIGHT);
             mPopup.setFocusable(true);
             mPopup.setOutsideTouchable(true);
-            mPopup.setBackgroundDrawable(new BitmapDrawable()); // necessary for popup to dismiss
+            mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
             mPopup.setAnimationStyle(R.style.PopupSlideInRight);
             mMovies = layout.findViewById(R.id.movies);
             mSeries = layout.findViewById(R.id.series);
@@ -511,7 +511,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             mPopup = new PopupWindow(layout, WIDTH, HEIGHT);
             mPopup.setFocusable(true);
             mPopup.setOutsideTouchable(true);
-            mPopup.setBackgroundDrawable(new BitmapDrawable()); // necessary for popup to dismiss
+            mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
             mPopup.setAnimationStyle(R.style.PopupSlideInRight);
             mHd = layout.findViewById(R.id.hd);
             mRepeat = layout.findViewById(R.id.repeat);

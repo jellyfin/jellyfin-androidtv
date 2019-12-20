@@ -1,8 +1,9 @@
 package org.jellyfin.androidtv.ui;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -79,7 +80,7 @@ public class RecordPopup {
         mPopup = new PopupWindow(layout, width, NORMAL_HEIGHT);
         mPopup.setFocusable(true);
         mPopup.setOutsideTouchable(true);
-        mPopup.setBackgroundDrawable(new BitmapDrawable()); // necessary for popup to dismiss
+        mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
         mDTitle = (TextView)layout.findViewById(R.id.title);
         mDTitle.setTypeface(roboto);
 

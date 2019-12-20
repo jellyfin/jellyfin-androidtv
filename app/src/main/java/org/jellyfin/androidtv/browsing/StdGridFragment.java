@@ -17,7 +17,8 @@ package org.jellyfin.androidtv.browsing;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import androidx.leanback.app.BackgroundManager;
@@ -481,7 +482,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             mPopup = new PopupWindow(layout, WIDTH, HEIGHT);
             mPopup.setFocusable(true);
             mPopup.setOutsideTouchable(true);
-            mPopup.setBackgroundDrawable(new BitmapDrawable()); // necessary for popup to dismiss
+            mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
             mPopup.setAnimationStyle(R.style.PopupSlideInTop);
 
             mJumplist = new JumpList(activity, new CharSelectedListener() {
