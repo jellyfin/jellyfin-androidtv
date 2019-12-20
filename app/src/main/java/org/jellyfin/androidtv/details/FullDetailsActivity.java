@@ -145,7 +145,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         mActivity = this;
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         backgroundManager.attach(getWindow());
-        backgroundManager.setDimLayer(getDrawable(R.drawable.left_fade));
 
         mBackgroundTarget = new MyPicassoBackgroundManagerTarget(backgroundManager);
         mMetrics = new DisplayMetrics();

@@ -252,7 +252,6 @@ public class AudioNowPlayingActivity extends BaseActivity  {
 
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         backgroundManager.attach(getWindow());
-        backgroundManager.setDimLayer(getDrawable(R.drawable.left_fade));
         mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
         mMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
