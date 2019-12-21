@@ -22,6 +22,4 @@
         <!-- Custom Styles for Elements -->
         <item name="android:datePickerStyle">@style/DatePickerCustom</item>
     </style>
-
-    <!-- Legacy Green Theme -->
 </resources>
