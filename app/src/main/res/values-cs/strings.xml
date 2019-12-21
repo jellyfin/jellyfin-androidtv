@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="error">Chyba</string>
-    <string name="ok">OK</string>
     <string name="video_error_unknown_error">Nepodařilo se načíst video</string>
     <string name="txt_loading">Načítá se…</string>
     <string name="title_activity_select_user">Aktivity při výběru uživatele</string>
@@ -26,7 +24,6 @@
     <string name="pref_general">OBECNÉ</string>
     <string name="lbl_settings">Nastavení</string>
     <string name="lbl_logout">Odhlásit</string>
-    <string name="lbl_send_logs">Odeslat žurnály</string>
     <string name="lbl_library">Knihovna</string>
     <string name="lbl_continue_watching">Pokračovat ve sledování</string>
     <string name="lbl_latest_movies">Nejnovější filmy</string>
@@ -99,10 +96,7 @@
     <string name="lbl_enter_user_name">Zadejte uživatelské jméno</string>
     <string name="lbl_enter_user_pw">Zadejte uživatelské heslo</string>
     <string name="msg_little_longer">Toto trvá trochu déle, než se očekávalo...</string>
-    <string name="msg_report_sent">Odeslat hlášení vývojáři. Děkuji.</string>
-    <string name="lbl_report_msg_question">Chcete poslat zprávu pro vývojáře?</string>
     <string name="lbl_no">Ne</string>
-    <string name="msg_report_not_sent">Report nebyl odeslán</string>
     <string name="lbl_yes">Ano</string>
     <string name="msg_error_connecting_server">Chyba připojení k serveru</string>
     <string name="msg_invalid_id_pw">Neplatné ID uživatele nebo heslo</string>
@@ -158,9 +152,6 @@
     <string name="pref_audio_compat">Kompatibilní</string>
     <string name="lbl_audio_output">Výstup audia</string>
     <string name="lbl_goto_series">Přejít na seriály</string>
-    <string name="lbl_select_color">Vyber barvu</string>
-    <string name="lbl_sideline_color">Boční barva</string>
-    <string name="desc_sideline_color">Barva kategorie postranního panelu</string>
     <string name="lbl_show_info_panel">Zobrazit informační panel</string>
     <string name="lbl_enable_debug">Povolit debugovací volby</string>
     <string name="desc_info_panel">Zobrazit panel s informací o aktuální položce na obrazovkách bez podrobnějších informací</string>
@@ -192,7 +183,6 @@
     <string name="lbl_no_recordings">Žádné nahrávky</string>
     <string name="lbl_live_tv_guide">Průvodce Live TV</string>
     <string name="lbl_recorded_tv">TV nahrávky</string>
-    <string name="btn_ok">OK</string>
     <string name="pref_live_tv_cat">LIVE TV</string>
     <string name="lbl_programs">Programy</string>
     <string name="lbl_albums">Alba</string>
@@ -203,7 +193,6 @@
     <string name="lbl_episodes">Epizody</string>
     <string name="lbl_enable_cinema_mode">Povolit režim Cinema</string>
     <string name="lbl_playlists">Seznam skladeb</string>
-    <string name="lbl_of">z</string>
     <string name="msg_added_item_to_queue">"Položka přidána do fronty na pozici "</string>
     <string name="msg_items_added">" položky přidány"</string>
     <string name="msg_total_items_in_queue">" položek celkem ve frontě"</string>

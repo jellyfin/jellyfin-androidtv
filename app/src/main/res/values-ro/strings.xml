@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="btn_ok">OK</string>
     <string name="lbl_albums">Albume</string>
     <string name="lbl_artists">Artiști</string>
     <string name="lbl_song">Cântec</string>
@@ -10,7 +9,6 @@
     <string name="lbl_enable_cinema_mode">Activează modul Cinema</string>
     <string name="sum_enable_cinema_mode">Dacă este activ pe server, activează introduceri și previzualizări la începerea redării fiecărui film</string>
     <string name="lbl_playlists">Liste de redare</string>
-    <string name="lbl_of">din</string>
     <string name="msg_added_item_to_queue">"Elementul a fost adăugat în listă la poziția "</string>
     <string name="msg_items_added">" elemente adăugate"</string>
     <string name="msg_total_items_in_queue">" total elemente in listă"</string>

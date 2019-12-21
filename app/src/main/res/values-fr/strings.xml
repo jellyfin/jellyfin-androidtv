@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="error">Erreur</string>
-    <string name="ok">Ok</string>
     <string name="video_error_unknown_error">Échec de chargement de la vidéo</string>
     <string name="txt_loading">Chargement…</string>
     <string name="title_activity_select_user">Sélection du compte utilisateur</string>
@@ -26,7 +24,6 @@
     <string name="pref_general">Général</string>
     <string name="lbl_settings">Paramètres</string>
     <string name="lbl_logout">Déconnexion</string>
-    <string name="lbl_send_logs">Envoyer les journaux d\'événements</string>
     <string name="lbl_library">Bibliothèque</string>
     <string name="lbl_continue_watching">Continuer la lecture</string>
     <string name="lbl_latest_movies">Films les plus récents</string>
@@ -99,10 +96,7 @@
     <string name="lbl_enter_user_name">Entrez le nom d\'utilisateur</string>
     <string name="lbl_enter_user_pw">Entrez le mot de passe utilisateur</string>
     <string name="msg_little_longer">Cela prend un peu plus de temps que prévu…</string>
-    <string name="msg_report_sent">Rapport envoyé au développeur. Merci.</string>
-    <string name="lbl_report_msg_question">Voulez-vous envoyer un rapport au développeur ?</string>
     <string name="lbl_no">Non</string>
-    <string name="msg_report_not_sent">Rapport NON envoyé</string>
     <string name="lbl_yes">Oui</string>
     <string name="msg_error_connecting_server">Erreur de connexion au serveur</string>
     <string name="msg_invalid_id_pw">Identifiant utilisateur ou mot de passe invalide</string>
@@ -158,9 +152,6 @@
     <string name="pref_audio_compat">Compatible</string>
     <string name="lbl_audio_output">Sortie audio</string>
     <string name="lbl_goto_series">Aller vers les séries</string>
-    <string name="lbl_select_color">Choisissez la couleur</string>
-    <string name="lbl_sideline_color">Couleur de la bordure</string>
-    <string name="desc_sideline_color">Couleur du panneau latéral de catégories</string>
     <string name="lbl_show_info_panel">Afficher le panneau d\'information</string>
     <string name="lbl_enable_debug">Activer les options de debuggage</string>
     <string name="desc_info_panel">Affiche un panneau de détails sur l\'élément courant pour les écrans qui ne montrent pas d\'information détaillée</string>
@@ -192,7 +183,6 @@
     <string name="lbl_no_recordings">Aucun enregistrement disponible</string>
     <string name="lbl_live_tv_guide">Programme de la TV en direct</string>
     <string name="lbl_recorded_tv">TV enregistrée</string>
-    <string name="btn_ok">Ok</string>
     <string name="pref_live_tv_cat">TV EN DIRECT</string>
     <string name="msg_error_live_stream">Erreur du flux TV en direct. Nouvel essai en cours…</string>
     <string name="lbl_direct_stream_live">Flux TV en direct</string>
@@ -206,7 +196,6 @@
     <string name="lbl_enable_cinema_mode">Activer le mode Cinéma</string>
     <string name="sum_enable_cinema_mode">Si la fonction est activée sur le serveur, activer les introductions et les extraits avant le visionnage</string>
     <string name="lbl_playlists">Playlists</string>
-    <string name="lbl_of">de</string>
     <string name="msg_added_item_to_queue">"Éléments ajoutés dans la file d'attente "</string>
     <string name="msg_items_added">" éléments ajoutés"</string>
     <string name="msg_total_items_in_queue">" éléments dans la liste de lecture"</string>

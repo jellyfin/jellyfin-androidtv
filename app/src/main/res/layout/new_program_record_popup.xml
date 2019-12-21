@@ -32,8 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center_horizontal"
-        android:layout_marginBottom="15sp"
-        android:id="@+id/buttons">
+        android:layout_marginBottom="15sp">
 
         <Button
             android:layout_width="wrap_content"
@@ -146,8 +145,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/textView12"
-            android:paddingTop="10dp"
-            android:id="@+id/repeatOptions">
+            android:paddingTop="10dp">
 
             <CheckBox
                 android:layout_width="wrap_content"

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">Jellyfin</string>
-    <string name="error">오류</string>
-    <string name="ok">확인</string>
     <string name="play">재생</string>
     <string name="video_error_unknown_error">영상을 불러오는데 실패함</string>
     <string name="loading">로딩 중…</string>
@@ -28,7 +26,6 @@
     <string name="pref_general">일반</string>
     <string name="lbl_settings">설정</string>
     <string name="lbl_logout">로그아웃</string>
-    <string name="lbl_send_logs">로그 전송</string>
     <string name="lbl_library">라이브러리</string>
     <string name="lbl_continue_watching">계속 시청하기</string>
     <string name="lbl_latest_movies">최신 영화</string>
@@ -88,8 +85,6 @@
     <string name="lbl_enter_user_name">사용자 이름 입력</string>
     <string name="lbl_enter_user_pw">사용자 비밀번호 입력</string>
     <string name="msg_little_longer">생각했던 것보다 더 오래걸릴 수 있습니다 ..</string>
-    <string name="msg_report_sent">보고서가 개발자에게 전송되었습니다. 감사합니다.</string>
-    <string name="lbl_report_msg_question">개발자에게 보고서를 보내시겠습니까\?</string>
     <string name="lbl_no">아니오</string>
     <string name="lbl_yes">예</string>
     <string name="msg_error_connecting_server">서버 연결 에러</string>
@@ -133,7 +128,6 @@
     <string name="pref_audio_direct">다이렉트</string>
     <string name="lbl_audio_output">오디오 출력</string>
     <string name="lbl_goto_series">시리즈로 가기</string>
-    <string name="lbl_select_color">색깔 선택</string>
     <string name="lbl_show_info_panel">정보 판넬 표시</string>
     <string name="lbl_enable_debug">디버그 옵션</string>
     <string name="desc_debug">디버깅을 위한 추가 정보 제공</string>
@@ -157,7 +151,6 @@
     <string name="lbl_no_recordings">가능한 녹화 없음</string>
     <string name="lbl_live_tv_guide">실시간 TV 가이드</string>
     <string name="lbl_recorded_tv">녹화된 TV</string>
-    <string name="btn_ok">예</string>
     <string name="pref_live_tv_cat">실시간 TV</string>
     <string name="msg_error_live_stream">실시간 TV 스트리밍에 오류가 발생했습니다. 다시 시도합니다 ..</string>
     <string name="lbl_direct_stream_live">실시간 TV 다이렉트 스트림</string>

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">Jellyfin</string>
-    <string name="error">エラー</string>
-    <string name="ok">確定</string>
     <string name="play">再生</string>
     <string name="video_error_unknown_error">動画を読み込めませんでした</string>
     <string name="loading">読み込み中...</string>
@@ -30,7 +28,6 @@
     <string name="pref_general">全般</string>
     <string name="lbl_settings">設定</string>
     <string name="lbl_logout">ログアウト</string>
-    <string name="lbl_send_logs">ログを送信</string>
     <string name="lbl_library">ライブラリー</string>
     <string name="lbl_continue_watching">続き見る</string>
     <string name="lbl_latest_movies">最新の映画</string>
@@ -107,10 +104,7 @@
     <string name="lbl_enter_user_name">ユーザー名を入力</string>
     <string name="lbl_enter_user_pw">ユーザーパスワードを入力</string>
     <string name="msg_little_longer">予想より少し時間がかかっています...</string>
-    <string name="msg_report_sent">開発者に送信しました。ご報告ありがとうございます。</string>
-    <string name="lbl_report_msg_question">開発者に報告を送信しますか？</string>
     <string name="lbl_no">いいえ</string>
-    <string name="msg_report_not_sent">報告は送信されません</string>
     <string name="lbl_yes">はい</string>
     <string name="msg_error_connecting_server">サーバーへの接続エラー</string>
     <string name="msg_invalid_id_pw">無効なユーザーIDまたはパスワード</string>
@@ -159,7 +153,6 @@
     <string name="msg_cancel_entire_series">このシリーズ全体を取り消されます、本当によろしいですか？</string>
     <string name="pref_audio_direct">直接</string>
     <string name="lbl_audio_output">音声出力</string>
-    <string name="lbl_select_color">色を選択してください</string>
     <string name="lbl_show_info_panel">情報パネルを表示</string>
     <string name="lbl_enable_debug">デバッグオプション</string>
     <string name="desc_debug">デバッグのため追加情報を表示</string>
@@ -184,7 +177,6 @@
     <string name="lbl_filters">フィルター</string>
     <string name="msg_subtitles_loading">字幕を読み込み中...</string>
     <string name="lbl_recording">録画中</string>
-    <string name="btn_ok">確定</string>
     <string name="pref_live_tv_cat">ライブテレビ</string>
     <string name="lbl_albums">アルバム</string>
     <string name="lbl_song">曲</string>
@@ -193,7 +185,6 @@
     <string name="lbl_enable_cinema_mode">映画モード</string>
     <string name="lbl_playlists">プレイリスト</string>
     <string name="lbl_warning">注意</string>
-    <string name="lbl_of">の</string>
     <string name="msg_items_added">" 項目を追加しました"</string>
     <string name="lbl_open_album">アルバムを表示</string>
     <string name="lbl_reshuffle_queue">キューを再シャッフル</string>

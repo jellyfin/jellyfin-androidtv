@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="error">Errore</string>
-    <string name="ok">Ok</string>
     <string name="video_error_unknown_error">Caricamento video fallito</string>
     <string name="txt_loading">Caricamento...</string>
     <string name="title_activity_select_user">Attività Selezione Utente</string>
@@ -24,7 +22,6 @@
     <string name="pref_general">Generale</string>
     <string name="lbl_settings">Impostazioni</string>
     <string name="lbl_logout">"Esci "</string>
-    <string name="lbl_send_logs">Invia Logs</string>
     <string name="lbl_library">Libreria</string>
     <string name="lbl_continue_watching">Continua a guardare</string>
     <string name="lbl_latest_movies">Ultimi film</string>
@@ -86,10 +83,7 @@
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_please_wait">Prego attendere</string>
     <string name="msg_little_longer">Ci sta impiegando un po più del previsto...</string>
-    <string name="msg_report_sent">Rapporto inviato allo sviluppatore, Grazie.</string>
-    <string name="lbl_report_msg_question">Vuoi inviare un rapporto allo sviluppatore?</string>
     <string name="lbl_no">No</string>
-    <string name="msg_report_not_sent">Rapporto NON inviato</string>
     <string name="lbl_yes">Si</string>
     <string name="msg_error_connecting_server">Errore nel contattare il server</string>
     <string name="msg_invalid_id_pw">Nome utente o password non validi</string>
@@ -118,7 +112,6 @@
     <string name="lbl_episodes">Episodi</string>
     <string name="lbl_enable_cinema_mode">Abilita la modalità cinema</string>
     <string name="sum_enable_cinema_mode">Se abilitato sul server, abilita \"intro\" e anteprime prima dell\'inizio della riproduzione del film</string>
-    <string name="lbl_of">di</string>
     <string name="msg_added_item_to_queue">"Elemento aggiunto in coda in posizione "</string>
     <string name="msg_items_added">" elementi aggiunti"</string>
     <string name="msg_total_items_in_queue">" totale elementi in coda"</string>
@@ -141,8 +134,6 @@
     <string name="msg_replace_or_add_queue_q">Preferisci sostituire o aggiungere alla coda?</string>
     <string name="lbl_enable_debug">Opzioni di debug</string>
     <string name="lbl_show_info_panel">Mostra pannello delle informazioni</string>
-    <string name="lbl_sideline_color">Colore della linea laterale</string>
-    <string name="lbl_select_color">Seleziona colore</string>
     <string name="lbl_goto_series">Vai alla serie</string>
     <string name="lbl_audio_output">Uscita audio</string>
     <string name="msg_cancel_entire_series">Sei sicuro di voler cancellare l\'INTERA SERIE\?</string>

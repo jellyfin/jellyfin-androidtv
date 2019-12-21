@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="error">Error</string>
-    <string name="ok">OK</string>
     <string name="video_error_unknown_error">Fallo al cargar el vídeo</string>
     <string name="txt_loading">Cargando…</string>
     <string name="title_activity_select_user">SeleccionarActividadDelUsuario</string>
@@ -24,7 +22,6 @@
     <string name="pref_general">General</string>
     <string name="lbl_settings">Ajustes</string>
     <string name="lbl_logout">Cerrar sesión</string>
-    <string name="lbl_send_logs">Enviar archivos de registro</string>
     <string name="lbl_library">Biblioteca</string>
     <string name="lbl_continue_watching">Continuar viendo</string>
     <string name="lbl_latest_movies">Películas recientes</string>
@@ -86,10 +83,7 @@
     <string name="lbl_trailer">"Avance "</string>
     <string name="lbl_please_wait">Espere Por Favor</string>
     <string name="msg_little_longer">Esto está tomando más tiempo de lo esperado...</string>
-    <string name="msg_report_sent">Reporte enviado al desarrollador. Gracias.</string>
-    <string name="lbl_report_msg_question">¿Desea enviar un reporte al desarrollador?</string>
     <string name="lbl_no">No</string>
-    <string name="msg_report_not_sent">Reporte NO enviado</string>
     <string name="lbl_yes">Si</string>
     <string name="msg_error_connecting_server">Error al Conectarse al Servidor</string>
     <string name="msg_invalid_id_pw">Id de Usuario o contraseña inválidos</string>
@@ -117,9 +111,6 @@
     <string name="desc_info_panel">Mostrar un panel con detalles sobre el elemento actual para pantallas sin información detallada</string>
     <string name="lbl_enable_debug">Opciones de depuración</string>
     <string name="lbl_show_info_panel">Mostrar panel de información</string>
-    <string name="desc_sideline_color">Color del panel lateral de la categoría</string>
-    <string name="lbl_sideline_color">Color de la línea lateral</string>
-    <string name="lbl_select_color">Seleccionar Color</string>
     <string name="lbl_goto_series">Ir a Series</string>
     <string name="lbl_audio_output">Salida de Audio</string>
     <string name="pref_audio_compat">Downmix a estéreo</string>
@@ -179,7 +170,6 @@
     <string name="msg_total_items_in_queue">" Total de elementos en cola"</string>
     <string name="msg_items_added">" Elemento añadido"</string>
     <string name="msg_added_item_to_queue">"Elemento añadido a la cola en la posición "</string>
-    <string name="lbl_of">de</string>
     <string name="lbl_warning">Aviso</string>
     <string name="lbl_playlists">Playlists</string>
     <string name="lbl_enable_cinema_mode">Modo Cine</string>
@@ -190,7 +180,6 @@
     <string name="lbl_artists">Artistas</string>
     <string name="lbl_albums">Álbumes</string>
     <string name="lbl_programs">Programas</string>
-    <string name="btn_ok">OK</string>
     <string name="lbl_date_added">Añadido el</string>
     <string name="lbl_name">Nombre</string>
     <string name="lbl_sorted_by">ordenado por</string>

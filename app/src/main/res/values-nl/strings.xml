@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="error">Fout</string>
-    <string name="ok">OK</string>
     <string name="video_error_unknown_error">Laden video is mislukt</string>
     <string name="txt_loading">Laden...</string>
     <string name="title_activity_select_user">KiesGebruikerActiviteit</string>
@@ -26,7 +24,6 @@
     <string name="pref_general">ALGEMEEN</string>
     <string name="lbl_settings">Instellingen</string>
     <string name="lbl_logout">"Uitloggen "</string>
-    <string name="lbl_send_logs">Logs Versturen</string>
     <string name="lbl_library">Bibliotheek</string>
     <string name="lbl_continue_watching">Kijken hervatten</string>
     <string name="lbl_latest_movies">Laatste Films</string>
@@ -99,10 +96,7 @@
     <string name="lbl_enter_user_name">Vul gebruikersnaam in</string>
     <string name="lbl_enter_user_pw">Vul wachtwoord in</string>
     <string name="msg_little_longer">Dit neemt wat meer tijd in beslag dan verwacht...</string>
-    <string name="msg_report_sent">Rapport gestuurd naar ontwikkelaar. Bedankt.</string>
-    <string name="lbl_report_msg_question">Wilt u de ontwikkelaar een rapport sturen?</string>
     <string name="lbl_no">Nee</string>
-    <string name="msg_report_not_sent">Rapport NIET verstuurd</string>
     <string name="lbl_yes">Ja</string>
     <string name="msg_error_connecting_server">Fout bij verbinden met Server</string>
     <string name="msg_invalid_id_pw">Ongeldige gebruikers ID of wachtwoord</string>
@@ -158,9 +152,6 @@
     <string name="pref_audio_compat">Compatible</string>
     <string name="lbl_audio_output">Geluid uitgang</string>
     <string name="lbl_goto_series">Ga naar serie</string>
-    <string name="lbl_select_color">Selecteer kleur</string>
-    <string name="lbl_sideline_color">Kleur zij-lijn</string>
-    <string name="desc_sideline_color">Kleur van het categorie paneel</string>
     <string name="lbl_show_info_panel">Toon info paneel</string>
     <string name="lbl_enable_debug">Schakel debug mogelijkheden in</string>
     <string name="desc_info_panel">Laat een paneel met detail informatie zien op schermen zonder detail informatie</string>
@@ -192,7 +183,6 @@
     <string name="lbl_no_recordings">Geen opnames beschikbaar</string>
     <string name="lbl_live_tv_guide">Live TV gids</string>
     <string name="lbl_recorded_tv">Tv-opnamen</string>
-    <string name="btn_ok">Ok</string>
     <string name="pref_live_tv_cat">Live TV</string>
     <string name="msg_error_live_stream">Fout bij het afspelen van Live TV. Het wordt opnieuw geprobeerd...</string>
     <string name="lbl_direct_stream_live">Direct stream Live TV</string>
@@ -206,7 +196,6 @@
     <string name="lbl_enable_cinema_mode">Cinema Mode inschakelen</string>
     <string name="sum_enable_cinema_mode">Als dit ingeschakeld is op de server speel dan intro\'s en previews voor de film</string>
     <string name="lbl_playlists">Afspeellijst</string>
-    <string name="lbl_of">van</string>
     <string name="msg_added_item_to_queue">"Item aan de lijst toegevoegd op positie "</string>
     <string name="msg_items_added">" Items toegevoegd"</string>
     <string name="msg_total_items_in_queue">" items in de wachtrij"</string>
