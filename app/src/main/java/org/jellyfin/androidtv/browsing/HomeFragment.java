@@ -255,7 +255,8 @@ public class HomeFragment extends StdBrowseFragment {
 
                     @Override
                     public void onError(Exception exception) {
-                        exception.printStackTrace();
+                        mApplication.getLogger().ErrorException("Unable to retrieve home sections", exception);
+
                         // Fallback to default sections
                         for (HomeSectionType section : DEFAULT_SECTIONS) {
                             addSection(section);
