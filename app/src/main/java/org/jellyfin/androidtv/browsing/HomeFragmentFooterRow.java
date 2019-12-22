@@ -49,22 +49,20 @@ public class HomeFragmentFooterRow extends HomeFragmentRow implements OnItemView
             case LOGOUT:
                 TvApp app = TvApp.getApplication();
 
-                if (app.getIsAutoLoginConfigured()) {
-                    // Present user selection
-                    app.setLoginApiClient(app.getApiClient());
+                // Present user selection
+                app.setLoginApiClient(app.getApiClient());
 
-                    // Open login activity
-                    Intent intent = new Intent(activity, SelectUserActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    activity.startActivity(intent);
-                }
+                // Open login activity
+                Intent selectUserIntent = new Intent(activity, SelectUserActivity.class);
+                selectUserIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY); // Disallow back button
+                activity.startActivity(selectUserIntent);
 
                 activity.finish();
 
                 break;
             case SETTINGS:
-                Intent intent = new Intent(activity, SettingsActivity.class);
-                activity.startActivity(intent);
+                Intent settingsIntent = new Intent(activity, SettingsActivity.class);
+                activity.startActivity(settingsIntent);
                 break;
             default:
                 Toast.makeText(activity, item.toString(), Toast.LENGTH_SHORT)
