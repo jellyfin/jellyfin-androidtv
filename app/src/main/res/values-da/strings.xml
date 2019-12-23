@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="error">Fejl</string>
-    <string name="ok">Ok</string>
     <string name="video_error_unknown_error">Kunne ikke indlæse video</string>
     <string name="txt_loading">Indlæser…</string>
     <string name="title_activity_select_user">Vælg Brugeraktivitet</string>
@@ -26,7 +24,6 @@
     <string name="pref_general">Generalt</string>
     <string name="lbl_settings">Indstillinger</string>
     <string name="lbl_logout">Log ud</string>
-    <string name="lbl_send_logs">Send log</string>
     <string name="lbl_library">Bibliotek</string>
     <string name="lbl_continue_watching">Forsæt med at se</string>
     <string name="lbl_latest_movies">Seneste film</string>
@@ -97,10 +94,7 @@
     <string name="lbl_enter_user_name">Indtast brugernavn</string>
     <string name="lbl_enter_user_pw">Indtast bruger kodeord</string>
     <string name="msg_little_longer">Dette tager lidt længere tid end forudset...</string>
-    <string name="msg_report_sent">Rapport sendt til udvikleren. Mange tak.</string>
-    <string name="lbl_report_msg_question">Vil du sende en rapport til udvikleren?</string>
     <string name="lbl_no">Nej</string>
-    <string name="msg_report_not_sent">Rapport IKKE sendt</string>
     <string name="lbl_yes">Ja</string>
     <string name="msg_error_connecting_server">Fejl ved oprettelse af forbindelse til serveren</string>
     <string name="msg_invalid_id_pw">Ugyldigt Bruger id eller kodeord</string>
@@ -159,7 +153,6 @@
     <string name="desc_debug">Angiv ekstra information til fejlfinding</string>
     <string name="lbl_enable_debug">Fejlfind Indstillinger</string>
     <string name="lbl_show_info_panel">Vis informationspanel</string>
-    <string name="lbl_select_color">Vælg Farve</string>
     <string name="lbl_goto_series">Gå til Serier</string>
     <string name="lbl_audio_output">Lydudgang</string>
     <string name="pref_audio_direct">Direkte</string>

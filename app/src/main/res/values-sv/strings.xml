@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="error">Fel</string>
-    <string name="ok">OK</string>
     <string name="video_error_unknown_error">Misslyckades att ladda video</string>
     <string name="txt_loading">Laddar...</string>
     <string name="home_title">Hem</string>

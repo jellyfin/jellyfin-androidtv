@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="error">错误</string>
-    <string name="ok">确定</string>
     <string name="video_error_unknown_error">载入视频失败</string>
     <string name="txt_loading">载入中……</string>
     <string name="title_activity_select_user">选择用户活动</string>
@@ -24,7 +22,6 @@
     <string name="pref_general">常规</string>
     <string name="lbl_settings">设置</string>
     <string name="lbl_logout">"注销"</string>
-    <string name="lbl_send_logs">发送日志</string>
     <string name="lbl_library">媒体库</string>
     <string name="lbl_continue_watching">继续观看</string>
     <string name="lbl_latest_movies">最新电影</string>
@@ -86,10 +83,7 @@
     <string name="lbl_trailer">"预告片 "</string>
     <string name="lbl_please_wait">请稍候</string>
     <string name="msg_little_longer">这将耗费较长时间...</string>
-    <string name="msg_report_sent">报告已发送给开发人员. 谢谢.</string>
-    <string name="lbl_report_msg_question">你确实要将报告发送给开发人员吗?</string>
     <string name="lbl_no">否</string>
-    <string name="msg_report_not_sent">报告未发送</string>
     <string name="lbl_yes">是</string>
     <string name="msg_error_connecting_server">连接服务器时出错</string>
     <string name="msg_invalid_id_pw">无效的用户名或密码</string>
@@ -144,8 +138,6 @@
     <string name="loading">载入中…</string>
     <string name="desc_info_panel">显示包含当前项目详细信息的面板，但不显示详细信息</string>
     <string name="lbl_all_items">所有物品</string>
-    <string name="desc_sideline_color">类似侧边面板的颜色</string>
-    <string name="lbl_sideline_color">相似的颜色</string>
     <string name="msg_cancel_entire_series">你确定要取消整个系列吗\?</string>
     <string name="lbl_resume_preroll">简介</string>
     <string name="lbl_new_premieres">新的首映</string>
@@ -254,7 +246,6 @@
     <string name="msg_items_added">" 项目已添加"</string>
     <string name="msg_added_item_to_queue">"项目添加到队列的位置 "</string>
     <string name="lbl_status">%s / %s</string>
-    <string name="lbl_of">的</string>
     <string name="lbl_warning">警告</string>
     <string name="lbl_playlists">播放列表</string>
     <string name="sum_enable_cinema_mode">在服务器播放电影之前显示简介和预览</string>
@@ -269,7 +260,6 @@
     <string name="lbl_direct_stream_live">直接电视直播流</string>
     <string name="msg_error_live_stream">无法获取电视直播流。将会重试……</string>
     <string name="pref_live_tv_cat">电视直播</string>
-    <string name="btn_ok">完成</string>
     <string name="lbl_recorded_tv">已记录电视</string>
     <string name="lbl_live_tv_guide">电视直播指南</string>
     <string name="lbl_no_recordings">没有可用的记录</string>
@@ -296,7 +286,6 @@
     <string name="desc_debug">为调试提供额外的信息</string>
     <string name="lbl_enable_debug">调试选项</string>
     <string name="lbl_show_info_panel">显示信息板</string>
-    <string name="lbl_select_color">选择颜色</string>
     <string name="lbl_goto_series">转到系列</string>
     <string name="lbl_audio_output">音频输出</string>
     <string name="pref_audio_direct">直接</string>

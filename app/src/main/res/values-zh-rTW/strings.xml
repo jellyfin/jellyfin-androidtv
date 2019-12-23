@@ -18,7 +18,6 @@
     <string name="lbl_latest_movies">最新電影</string>
     <string name="lbl_continue_watching">繼續觀看</string>
     <string name="lbl_library">資料庫</string>
-    <string name="lbl_send_logs">傳送 Logs</string>
     <string name="lbl_logout">登出</string>
     <string name="lbl_settings">設定</string>
     <string name="enter_password">輸入密碼</string>
@@ -27,8 +26,6 @@
     <string name="btn_cancel">取消</string>
     <string name="home_title">首頁</string>
     <string name="play">播放</string>
-    <string name="ok">確定</string>
-    <string name="error">錯誤</string>
     <string name="title_activity_dpad_pw">輸入密碼</string>
     <string name="pref_auto_login">自動使用此使用者登入</string>
     <string name="pref_max_bitrate_title">最大串流比特率</string>

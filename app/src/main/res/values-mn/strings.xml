@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">Jellyfin</string>
-    <string name="error">Алдаа</string>
-    <string name="ok">Ok</string>
     <string name="play">Тоглуулах</string>
     <string name="video_error_unknown_error">Бичлэг алдаатай</string>
     <string name="loading">Ачааллаж байна…</string>
@@ -30,7 +28,6 @@
     <string name="pref_general">Ерөнхий</string>
     <string name="lbl_settings">Тохиргоо</string>
     <string name="lbl_logout">Гарах</string>
-    <string name="lbl_send_logs">Мэдээлэл илгээх</string>
     <string name="lbl_library">Сан</string>
     <string name="lbl_continue_watching">Үргэлжлүүлэн үзэх</string>
     <string name="lbl_latest_movies">Хамгийн сүүлийн үеийн кинонууд</string>
@@ -101,10 +98,7 @@
     <string name="lbl_enter_user_name">Хрээглэгчийн нэр оруулна уу</string>
     <string name="lbl_enter_user_pw">Нууц үгээ оруулна уу</string>
     <string name="msg_little_longer">Энэ нь бодож байснаас удаж байна ...</string>
-    <string name="msg_report_sent">Мэдэгдэл хөгжүүлэгч рүү илгээсэн. Баярлалаа.</string>
-    <string name="lbl_report_msg_question">Хөгжүүлэгч рүү алдааны мэдэгдэл илгээх үү\?</string>
     <string name="lbl_no">Үгүй</string>
-    <string name="msg_report_not_sent">Мэдэгдэл илгээгдсэнгүй</string>
     <string name="lbl_yes">Тийм</string>
     <string name="msg_error_connecting_server">Сервертэй холбогдоход алдаа гарлаа.</string>
     <string name="msg_error_server_unavailable">Сервер тодорхойгүй</string>
@@ -153,9 +147,6 @@
     <string name="pref_audio_direct">Зам</string>
     <string name="lbl_audio_output">Дууны гаралт</string>
     <string name="lbl_goto_series">Цуврал уруу шилжих</string>
-    <string name="lbl_select_color">Өнгө сонгох</string>
-    <string name="lbl_sideline_color">Хажуугийн өнгө</string>
-    <string name="desc_sideline_color">Ангилалын хажуугийн самбарын өнгө</string>
     <string name="lbl_show_info_panel">Мэдээллийн самбарыг харуул</string>
     <string name="lbl_enable_debug">Сонголтуудын тохиргоо</string>
     <string name="desc_info_panel">Дэлгэцийн хувьд одоо байгаа зүйлийн талаар дэлгэрэнгүй мэдээлэлгүйгээр самбарыг харуул</string>
@@ -196,7 +187,6 @@
     <string name="sum_enable_cinema_mode">Сервер идэвхжүүлсэн үед киног тоглуулж эхлэхээс өмнө танилцуулга болон урьдчилан танилцуулгыг үзүүлэх</string>
     <string name="lbl_playlists">Тоглуулах жагсаалт</string>
     <string name="lbl_warning">Анхааруулга</string>
-    <string name="lbl_of">-</string>
     <string name="msg_added_item_to_queue">"Энэ зүйлийг байрлалд дараалалд нэмсэн "</string>
     <string name="msg_items_added">" зүйлийг нэмсэн"</string>
     <string name="msg_total_items_in_queue">" дараалалд байгаа нийт зүйлс"</string>

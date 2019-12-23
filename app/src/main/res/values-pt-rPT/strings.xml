@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="error">Erro</string>
-    <string name="ok">OK</string>
     <string name="play">Reproduzir</string>
     <string name="loading">A Carregar…</string>
     <string name="video_error_unknown_error">Falha ao carregar o vídeo</string>
@@ -28,7 +26,6 @@
     <string name="pref_general">Geral</string>
     <string name="lbl_settings">Definições</string>
     <string name="lbl_logout">"Sair"</string>
-    <string name="lbl_send_logs">Enviar Logs</string>
     <string name="lbl_library">Biblioteca</string>
     <string name="lbl_continue_watching">Continuar a Ver</string>
     <string name="lbl_latest_movies">Últimos Filmes</string>
@@ -101,10 +98,7 @@
     <string name="lbl_enter_user_name">Digite nome de utilizador</string>
     <string name="lbl_enter_user_pw">Digite senha de utilizador</string>
     <string name="msg_little_longer">Isto está a levar mais tempo do que o esperado...</string>
-    <string name="msg_report_sent">Relatório enviado para os programadores. Obrigado.</string>
-    <string name="lbl_report_msg_question">Deseja enviar um relatório para os programadores?</string>
     <string name="lbl_no">Não</string>
-    <string name="msg_report_not_sent">Relatório NÃO enviado</string>
     <string name="lbl_yes">Sim</string>
     <string name="msg_error_connecting_server">Erro ao Ligar ao Servidor</string>
     <string name="msg_invalid_id_pw">Nome de Utilizador ou Password Inválido</string>
@@ -161,9 +155,6 @@
     <string name="pref_audio_compat">Compatível</string>
     <string name="lbl_audio_output">Saída de Áudio</string>
     <string name="lbl_goto_series">Ir para Séries</string>
-    <string name="lbl_select_color">Selecione cor</string>
-    <string name="lbl_sideline_color">Cor Lateral</string>
-    <string name="desc_sideline_color">Cor do painel de categoria lateral</string>
     <string name="lbl_show_info_panel">Exibir Painel de Informações</string>
     <string name="lbl_enable_debug">Ativar opções de depuração</string>
     <string name="desc_info_panel">Exibir um painel com detalhes do item atual nas telas sem as informações detalhadas</string>
@@ -195,7 +186,6 @@
     <string name="lbl_no_recordings">Sem Gravações Disponíveis</string>
     <string name="lbl_live_tv_guide">Guia TV</string>
     <string name="lbl_recorded_tv">Gravações TV</string>
-    <string name="btn_ok">OK</string>
     <string name="pref_live_tv_cat">TV ao Vivo</string>
     <string name="msg_error_live_stream">Erro de reprodução da TV ao vivo. Tentará novamente...</string>
     <string name="lbl_direct_stream_live">Stream direto da TV ao vivo</string>
@@ -209,7 +199,6 @@
     <string name="lbl_enable_cinema_mode">Ativar Modo Cinema</string>
     <string name="sum_enable_cinema_mode">Se ativado no servidor, ativa introduções e pré-visualizações antes do filme</string>
     <string name="lbl_playlists">Listas de Reprodução</string>
-    <string name="lbl_of">de</string>
     <string name="msg_added_item_to_queue">"Item adicionado à fila de reprodução na posição "</string>
     <string name="msg_items_added">" itens adicionados"</string>
     <string name="msg_total_items_in_queue">" número total na fila"</string>

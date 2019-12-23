@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="error">Fehler</string>
-    <string name="ok">OK</string>
     <string name="video_error_unknown_error">Fehler beim Laden des Videos</string>
     <string name="txt_loading">Lade…</string>
     <string name="title_activity_select_user">AuswahlBenutzerAktivität</string>
@@ -26,7 +24,6 @@
     <string name="pref_general">ALLGEMEIN</string>
     <string name="lbl_settings">Einstellungen</string>
     <string name="lbl_logout">"Ausloggen "</string>
-    <string name="lbl_send_logs">Sende Berichte</string>
     <string name="lbl_library">Bibliothek</string>
     <string name="lbl_continue_watching">Weiter anschauen</string>
     <string name="lbl_latest_movies">Zuletzt hinzugefügte Filme</string>
@@ -99,10 +96,7 @@
     <string name="lbl_enter_user_name">Benutzername eingeben</string>
     <string name="lbl_enter_user_pw">Benutzer Passwort eingeben</string>
     <string name="msg_little_longer">Es dauert ein bisschen länger als erwartet...</string>
-    <string name="msg_report_sent">Bericht an Entwickler versendet. Vielen Dank.</string>
-    <string name="lbl_report_msg_question">Möchten Sie einen Bericht an den Entwickler senden?</string>
     <string name="lbl_no">Nein</string>
-    <string name="msg_report_not_sent">Bericht NICHT gesendet</string>
     <string name="lbl_yes">Ja</string>
     <string name="msg_error_connecting_server">Fehler bei Serververbindung</string>
     <string name="msg_invalid_id_pw">Fahlscher Benutzername oder Passwort</string>
@@ -158,9 +152,6 @@
     <string name="pref_audio_compat">Downmix zu Stereo</string>
     <string name="lbl_audio_output">Audio Ausgabe</string>
     <string name="lbl_goto_series">Gehe zu Serien</string>
-    <string name="lbl_select_color">Wähle Farbe</string>
-    <string name="lbl_sideline_color">Seitenfarbe</string>
-    <string name="desc_sideline_color">Farbe der Kategorie der Seitenfarbe</string>
     <string name="lbl_show_info_panel">Zeige Info Seite</string>
     <string name="lbl_enable_debug">Aktiviere Debug Optionen</string>
     <string name="desc_info_panel">Zeige eine Tafel mit Details zum aktuellen Medium auf Ansichten ohne Detailinformationen.</string>
@@ -192,7 +183,6 @@
     <string name="lbl_no_recordings">Keine Aufnahmen verfügbar</string>
     <string name="lbl_live_tv_guide">TV Programmübersicht</string>
     <string name="lbl_recorded_tv">Aufnahmen</string>
-    <string name="btn_ok">OK</string>
     <string name="pref_live_tv_cat">LIVE TV</string>
     <string name="msg_error_live_stream">Fehler bei Live-TV stream. Versuche erneut....</string>
     <string name="lbl_direct_stream_live">Direct stream live TV</string>
@@ -206,7 +196,6 @@
     <string name="lbl_enable_cinema_mode">Aktiviere Cinema Mode</string>
     <string name="sum_enable_cinema_mode">Wenn auf dem Server aktiviert, werden Intros und Previews vor dem Hauptfilm angezeigt</string>
     <string name="lbl_playlists">Wiedergabelisten</string>
-    <string name="lbl_of">von</string>
     <string name="msg_added_item_to_queue">"Element wurde eingefügt an Warteschlangenposition "</string>
     <string name="msg_items_added">" Elemente hinzugefügt"</string>
     <string name="msg_total_items_in_queue">" Gesamteinträge in Warteschlange"</string>
