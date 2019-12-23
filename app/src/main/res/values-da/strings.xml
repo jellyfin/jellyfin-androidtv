@@ -153,7 +153,6 @@
     <string name="desc_debug">Angiv ekstra information til fejlfinding</string>
     <string name="lbl_enable_debug">Fejlfind Indstillinger</string>
     <string name="lbl_show_info_panel">Vis informationspanel</string>
-    <string name="lbl_select_color">Vælg Farve</string>
     <string name="lbl_goto_series">Gå til Serier</string>
     <string name="lbl_audio_output">Lydudgang</string>
     <string name="pref_audio_direct">Direkte</string>
