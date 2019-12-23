@@ -19,6 +19,7 @@ import java.net.URLEncoder;
  */
 public class RecommendationBuilder {
     private static final String TAG = "RecommendationBuilder";
+    private static final String NOTIFICATION_CHANNEL = "Recommendations";
 
     private Context mContext;
 
@@ -94,7 +95,7 @@ public class RecommendationBuilder {
         }
 
         Notification notification = new NotificationCompat.BigPictureStyle(
-                new NotificationCompat.Builder(mContext)
+                new NotificationCompat.Builder(mContext, NOTIFICATION_CHANNEL)
                         .setContentTitle(mTitle)
                         .setContentText(mDescription)
                         .setPriority(mPriority)

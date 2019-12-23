@@ -1,9 +1,9 @@
 package org.jellyfin.androidtv.search;
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.leanback.app.RowsFragment;
+import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.ListRowPresenter;
@@ -30,7 +30,7 @@ public class MySearchFragmentNoSpeech extends Fragment {
 
     private static final int SEARCH_DELAY_MS = 1500;
 
-    private RowsFragment mRowsFragment;
+    private RowsSupportFragment mRowsFragment;
     private EditText mSearchField;
     private ArrayObjectAdapter mRowsAdapter;
     private SearchRunnable mDelayedLoad;
@@ -46,13 +46,13 @@ public class MySearchFragmentNoSpeech extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_empty_frame, container, false);
 
-        // Inject the RowsFragment in the results container
+        // Inject the RowsSupportFragment in the results container
         if (getChildFragmentManager().findFragmentById(R.id.emptyFrame) == null) {
-            mRowsFragment = new RowsFragment();
+            mRowsFragment = new RowsSupportFragment();
             getChildFragmentManager().beginTransaction()
                     .replace(R.id.emptyFrame, mRowsFragment).commit();
         } else {
-            mRowsFragment = (RowsFragment) getChildFragmentManager()
+            mRowsFragment = (RowsSupportFragment) getChildFragmentManager()
                     .findFragmentById(R.id.emptyFrame);
         }
 

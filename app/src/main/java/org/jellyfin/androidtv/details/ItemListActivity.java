@@ -194,7 +194,6 @@ public class ItemListActivity extends BaseActivity {
 
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         backgroundManager.attach(getWindow());
-        backgroundManager.setDimLayer(getDrawable(R.drawable.left_fade));
         mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
 
         mItemId = getIntent().getStringExtra("ItemId");

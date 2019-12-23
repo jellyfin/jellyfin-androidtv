@@ -18,7 +18,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.BrowseFragment;
+import androidx.leanback.app.BrowseSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
@@ -68,7 +68,7 @@ import java.util.TimerTask;
 
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 
-public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
+public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoader {
     private static final String TAG = "StdBrowseFragment";
 
     private static final int BACKGROUND_UPDATE_DELAY = 100;
