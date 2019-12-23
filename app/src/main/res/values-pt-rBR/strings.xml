@@ -299,7 +299,7 @@
     <string name="pref_authentication_cat">Autenticação</string>
     <string name="play">Reproduzir</string>
     <string name="lbl_series">Séries</string>
-    <string name="lbl_just_this_once">Apenas desta vez</string>
+    <string name="lbl_just_this_once">Só desta vez</string>
     <string name="pref_use_direct_path_title">Enviar Local Direto</string>
     <string name="lbl_resume_preroll">Continuar Lançamentos</string>
     <string name="lbl_status">%s / %s</string>
