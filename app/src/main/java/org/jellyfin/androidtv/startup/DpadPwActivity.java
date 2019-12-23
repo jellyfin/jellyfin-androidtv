@@ -14,11 +14,12 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
-
 import org.jellyfin.apiclient.model.dto.UserDto;
 
+import androidx.fragment.app.FragmentActivity;
 
-public class DpadPwActivity extends Activity {
+
+public class DpadPwActivity extends FragmentActivity {
 
     private long lastKeyDown = Long.MAX_VALUE;
     private long lastKeyUp = 0;

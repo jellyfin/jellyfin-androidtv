@@ -1,13 +1,14 @@
 package org.jellyfin.androidtv.details;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 
-public class ExpandedTextActivity extends Activity {
+import androidx.fragment.app.FragmentActivity;
+
+public class ExpandedTextActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.playback;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -9,7 +8,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.leanback.app.BackgroundManager;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -19,15 +17,17 @@ import org.jellyfin.androidtv.model.compat.VideoOptions;
 import org.jellyfin.androidtv.util.ProfileHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
-
-import java.util.List;
-
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.session.PlayMethod;
 
-public class ExternalPlayerActivity extends Activity {
+import java.util.List;
+
+import androidx.fragment.app.FragmentActivity;
+import androidx.leanback.app.BackgroundManager;
+
+public class ExternalPlayerActivity extends FragmentActivity {
 
     List<BaseItemDto> mItemsToPlay;
     TvApp mApplication = TvApp.getApplication();
