@@ -6,6 +6,7 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.model.ChangeTriggerType;
 import org.jellyfin.androidtv.querying.StdItemQuery;
 
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 
@@ -30,7 +31,7 @@ public class BrowseGridFragment extends StdGridFragment {
     protected void setupQueries(IGridLoader gridLoader) {
         StdItemQuery query = new StdItemQuery(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
         query.setParentId(mParentId);
-        if (mFolder.getType().equals("UserView") || mFolder.getType().equals("CollectionFolder")) {
+        if (mFolder.getBaseItemType() == BaseItemType.UserView || mFolder.getBaseItemType() == BaseItemType.CollectionFolder) {
             String type = mFolder.getCollectionType() != null ? mFolder.getCollectionType().toLowerCase() : "";
             switch (type) {
                 case "movies":

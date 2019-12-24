@@ -489,7 +489,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
             for (String genre : mBaseItem.getGenres()) {
                 if (!first) InfoLayoutHelper.addSpacer(this, layout, "  /  ", 14);
                 first = false;
-                layout.addView(new GenreButton(this, roboto, 16, genre, mBaseItem.getType()));
+                layout.addView(new GenreButton(this, roboto, 16, genre, mBaseItem.getBaseItemType()));
             }
         }
     }

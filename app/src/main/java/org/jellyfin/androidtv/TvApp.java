@@ -51,6 +51,7 @@ import org.jellyfin.apiclient.interaction.VolleyHttpClient;
 import org.jellyfin.apiclient.logging.AndroidLogger;
 import org.jellyfin.apiclient.model.configuration.ServerConfiguration;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.logging.ILogger;
@@ -301,23 +302,23 @@ public class TvApp extends Application {
         return getPrefs().getString("pref_login_behavior", "0").equals("1") && getConfiguredAutoCredentials().getServerInfo().getId() != null;
     }
 
-    public boolean useExternalPlayer(String itemType) {
+    public boolean useExternalPlayer(BaseItemType itemType) {
         switch (itemType) {
-            case "Movie":
-            case "Episode":
-            case "Video":
-            case "Series":
-            case "Recording":
+            case Movie:
+            case Episode:
+            case Video:
+            case Series:
+            case Recording:
                 return getPrefs().getBoolean("pref_video_use_external", false);
-            case "TvChannel":
-            case "Program":
+            case TvChannel:
+            case Program:
                 return getPrefs().getBoolean("pref_live_tv_use_external", false);
             default:
                 return false;
         }
     }
 
-    public Class getPlaybackActivityClass(String itemType) {
+    public Class getPlaybackActivityClass(BaseItemType itemType) {
         return useExternalPlayer(itemType) ? ExternalPlayerActivity.class : PlaybackOverlayActivity.class;
     }
 

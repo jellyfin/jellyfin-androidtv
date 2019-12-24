@@ -57,6 +57,7 @@ import java.util.List;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.playlists.PlaylistItemQuery;
@@ -153,7 +154,7 @@ public class ItemListActivity extends BaseActivity {
         mItemList.setRowClickedListener(new ItemRowView.RowClickedListener() {
             @Override
             public void onRowClicked(ItemRowView row) {
-                showMenu(row, !"Audio".equals(row.getItem().getType()));
+                showMenu(row, row.getItem().getBaseItemType() != BaseItemType.Audio);
             }
         });
 
@@ -330,7 +331,7 @@ public class ItemListActivity extends BaseActivity {
                 return true;
             }
         });
-        if ("Audio".equals(row.getItem().getType())) {
+        if (row.getItem().getBaseItemType() == BaseItemType.Audio) {
             MenuItem mix = menu.getMenu().add(0, 1, order++, R.string.lbl_instant_mix);
             mix.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
@@ -356,7 +357,7 @@ public class ItemListActivity extends BaseActivity {
                 item.setOverview(getString(R.string.desc_automatic_fav_songs));
                 item.setPlayAccess(PlayAccess.Full);
                 item.setMediaType("Audio");
-                item.setType("Playlist");
+                item.setBaseItemType(BaseItemType.Playlist);
                 item.setIsFolder(true);
                 setBaseItem(item);
                 break;
@@ -367,7 +368,7 @@ public class ItemListActivity extends BaseActivity {
                 queue.setOverview(getString(R.string.desc_current_video_queue));
                 queue.setPlayAccess(PlayAccess.Full);
                 queue.setMediaType("Video");
-                queue.setType("Playlist");
+                queue.setBaseItemType(BaseItemType.Playlist);
                 queue.setIsFolder(true);
                 if (MediaManager.getCurrentVideoQueue() != null) {
                     long runtime = 0;
@@ -405,7 +406,7 @@ public class ItemListActivity extends BaseActivity {
         updatePoster(mBaseItem);
 
         //get items
-        if ("Playlist".equals(mBaseItem.getType())) {
+        if (mBaseItem.getBaseItemType() == BaseItemType.Playlist) {
             // Have to use different query here
             switch (mItemId) {
                 case FAV_SONGS:
@@ -515,7 +516,7 @@ public class ItemListActivity extends BaseActivity {
             for (String genre : mBaseItem.getGenres()) {
                 if (!first) InfoLayoutHelper.addSpacer(this, layout, "  /  ", 14);
                 first = false;
-                layout.addView(new GenreButton(this, roboto, 16, genre, mBaseItem.getType()));
+                layout.addView(new GenreButton(this, roboto, 16, genre, mBaseItem.getBaseItemType()));
             }
         }
     }
@@ -540,7 +541,7 @@ public class ItemListActivity extends BaseActivity {
 
     private void play(List<BaseItemDto> items) {
         if ("Video".equals(mBaseItem.getMediaType())) {
-            Intent intent = new Intent(mActivity, mApplication.getPlaybackActivityClass(mBaseItem.getType()));
+            Intent intent = new Intent(mActivity, mApplication.getPlaybackActivityClass(mBaseItem.getBaseItemType()));
             //Resume first item if needed
             BaseItemDto first = items.size() > 0 ? items.get(0) : null;
             if (first != null && first.getUserData() != null) {
@@ -596,7 +597,7 @@ public class ItemListActivity extends BaseActivity {
             }
         }
 
-        if ("MusicAlbum".equals(mBaseItem.getType())) {
+        if (mBaseItem.getBaseItemType() == BaseItemType.MusicAlbum) {
             TextUnderButton mix = new TextUnderButton(this, R.drawable.ic_mix, buttonSize, 2, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
@@ -630,7 +631,7 @@ public class ItemListActivity extends BaseActivity {
 
             }
 
-            if ("Playlist".equals(mBaseItem.getType())) {
+            if (mBaseItem.getBaseItemType() == BaseItemType.Playlist) {
                 if (VIDEO_QUEUE.equals(mBaseItem.getId())) {
                     mButtonRow.addView(new TextUnderButton(this, R.drawable.ic_save, buttonSize, 2, getString(R.string.lbl_save_as_playlist), new View.OnClickListener() {
                         @Override

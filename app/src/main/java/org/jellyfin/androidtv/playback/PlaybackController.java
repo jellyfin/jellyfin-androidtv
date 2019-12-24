@@ -33,6 +33,7 @@ import org.jellyfin.apiclient.model.dlna.DeviceProfile;
 import org.jellyfin.apiclient.model.dlna.DirectPlayProfile;
 import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.entities.MediaStream;
@@ -331,7 +332,7 @@ public class PlaybackController {
                     return;
                 }
 
-                isLiveTv = item.getType().equals("TvChannel");
+                isLiveTv = item.getBaseItemType() == BaseItemType.TvChannel;
                 startSpinner();
 
                 //Build options for each player
@@ -920,7 +921,7 @@ public class PlaybackController {
     public void updateTvProgramInfo() {
         // Get the current program info when playing a live TV channel
         final BaseItemDto channel = getCurrentlyPlayingItem();
-        if (channel.getType().equals("TvChannel")) {
+        if (channel.getBaseItemType() == BaseItemType.TvChannel) {
             TvApp.getApplication().getApiClient().GetLiveTvChannelAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ChannelInfoDto>() {
                 @Override
                 public void onResponse(ChannelInfoDto response) {

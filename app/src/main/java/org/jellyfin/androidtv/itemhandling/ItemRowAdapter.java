@@ -38,6 +38,7 @@ import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemPerson;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
@@ -812,7 +813,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     for (BaseItemDto item : response.getItems()) {
                         //re-map the display prefs id to our actual id
                         item.setDisplayPreferencesId(item.getId());
-                        if (!ignoreTypeList.contains(item.getCollectionType()) && !ignoreTypeList.contains(item.getType())) {
+                        if (!ignoreTypeList.contains(item.getCollectionType())) {
                             adapter.add(new BaseRowItem(i++, item, preferParentThumb, staticHeight));
                         }
                     }
@@ -1314,7 +1315,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int i = 0;
                     int prevItems = adapter.size() > 0 ? adapter.size() : 0;
                     for (BaseItemDto item : response.getItems()) {
-                        item.setType("RecordingGroup"); // the API does not fill this in
+                        item.setBaseItemType(BaseItemType.RecordingGroup); // the API does not fill this in
                         item.setIsFolder(true); // nor this
                         adapter.add(new BaseRowItem(item));
                         i++;
