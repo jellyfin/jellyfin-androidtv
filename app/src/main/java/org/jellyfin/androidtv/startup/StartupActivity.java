@@ -59,7 +59,7 @@ public class StartupActivity extends FragmentActivity {
 
         //Migrate prefs
         if (Integer.parseInt(application.getConfigVersion()) < 2) {
-            application.getSystemPrefs().edit().putString("sys_pref_config_version", "2").commit();
+            application.getSystemPrefs().edit().putString("sys_pref_config_version", "2").apply();
         }
         if (Integer.parseInt(application.getConfigVersion()) < 3) {
             application.getPrefs().edit().putString("pref_max_bitrate", "0").apply();

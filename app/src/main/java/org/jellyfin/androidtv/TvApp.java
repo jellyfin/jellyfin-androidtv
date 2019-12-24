@@ -21,6 +21,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 
+import org.acra.ACRA;
+import org.acra.annotation.AcraCore;
+import org.acra.annotation.AcraDialog;
+import org.acra.annotation.AcraHttpSender;
+import org.acra.annotation.AcraLimiter;
+import org.acra.sender.HttpSender;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.model.DisplayPriorityType;
@@ -50,10 +56,22 @@ import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.logging.ILogger;
 import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 
+@AcraCore(buildConfigClass = BuildConfig.class)
+@AcraHttpSender(
+        uri = "https://collector.tracepot.com/a2eda9d9",
+        httpMethod = HttpSender.Method.POST
+)
+@AcraDialog(
+        resTitle = R.string.acra_dialog_title,
+        resText = R.string.acra_dialog_text,
+        resTheme = R.style.Theme_Jellyfin
+)
+@AcraLimiter
 public class TvApp extends Application {
     // The minimum supported server version. Trying to connect to an older server will display an error.
     public static final String MINIMUM_SERVER_VERSION = "10.3.0";
     public static final String CREDENTIALS_PATH = "org.jellyfin.androidtv.login.json";
+
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
     public static final int LIVE_TV_RECORDINGS_OPTION_ID = 2000;
     public static final int VIDEO_QUEUE_OPTION_ID = 3000;
@@ -110,6 +128,13 @@ public class TvApp extends Application {
     private LogonCredentials configuredAutoCredentials;
 
     @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+
+        ACRA.init(this);
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
         logger = new AndroidLogger(TAG);
@@ -119,24 +144,6 @@ public class TvApp extends Application {
         setCurrentBackgroundGradient(new int[] {ContextCompat.getColor(this, R.color.lb_default_brand_color_dark), ContextCompat.getColor(this, R.color.lb_default_brand_color)});
 
         logger.Info("Application object created");
-
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread thread, Throwable ex) {
-                logger.FatalException("Uncaught Exception", new Exception(ex));
-                /*
-                 * If an Exception happens when an Activity is being initialized,
-                 * it seems to hit an infinite loop of trying to re-initialize the Activity.
-                 * To avoid this, we call finish on the current activity.
-                 */
-                if (currentActivity != null) {
-                    currentActivity.finish();
-                }
-                android.os.Process.killProcess(android.os.Process.myPid());
-                System.exit(10);
-            }
-        });
-
     }
 
     public static TvApp getApplication() {
