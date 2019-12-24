@@ -74,8 +74,8 @@ dependencies {
     implementation "ch.acra:acra-dialog:$acraVersion"
     implementation "ch.acra:acra-limiter:$acraVersion"
     testImplementation 'junit:junit:4.12'
-    implementation "androidx.core:core-ktx:+"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.core:core-ktx:1.1.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 repositories {
     mavenCentral()
