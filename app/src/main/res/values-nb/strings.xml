@@ -128,7 +128,7 @@
     <string name="lbl_dislike">Misliker</string>
     <string name="lbl_unlike">Fjern liker</string>
     <string name="lbl_remove_dislike">Fjern misliker</string>
-    <string name="lbl_confirm_mark_unwatched">Dette vil merke alt innhold som sett. Er du HELT sikker\?</string>
+    <string name="lbl_confirm_mark_unwatched">Dette vil merke alt innhold som usett. Er du HELT sikker\?</string>
     <string name="msg_no_playable_items">Ingen spillbare elementer</string>
     <string name="lbl_unwatched">Usett</string>
     <string name="lbl_series">Serier</string>
@@ -304,4 +304,27 @@
     <string name="pref_authentication_cat">Autentisering</string>
     <string name="loading">Laster inn…</string>
     <string name="play">Spill av</string>
+    <string name="lbl_image_size">Bildestørrelse</string>
+    <string name="lbl_image_type">Bildetype</string>
+    <string name="lbl_default_view">Standardvisning</string>
+    <string name="lbl_start_favorites">Plasser favoritter i starten</string>
+    <string name="lbl_colored_backgrounds">Fargekodede bakgrunner</string>
+    <string name="lbl_hd_programs">HD Programmer</string>
+    <string name="lbl_live_broadcasts">Direktesendinger</string>
+    <string name="lbl_repeat_episodes">Gjenta episoder</string>
+    <string name="lbl_premieres">Premierer</string>
+    <string name="lbl_new_episodes">Nye episoder</string>
+    <string name="lbl_audio_delay">Lydforsinkelse</string>
+    <string name="lbl_new_only">Kun nye</string>
+    <string name="lbl_news">Nyheter</string>
+    <string name="lbl_latest_tv_shows">Nyeste fjernsynsprogrammer</string>
+    <string name="desc_suggestions_holiday">Prøv noen av våre ferieforslag</string>
+    <string name="title_suggestions_holiday">Gledelig høytid!</string>
+    <string name="lbl_suggestions_holiday">Høytidsforslag</string>
+    <string name="desc_suggestions_halloween">Prøv noen av våre skumle forslag</string>
+    <string name="title_suggestions_halloween">God Halloween!</string>
+    <string name="lbl_suggestions_halloween">Skumle forslag</string>
+    <string name="lbl_suggestions">Forslag</string>
+    <string name="msg_error_server_version">Serverversjonen er ikke støttet. Må være minst %1$s.</string>
+    <string name="msg_error_server_unavailable">Serveren er utilgjengelig</string>
 </resources>
