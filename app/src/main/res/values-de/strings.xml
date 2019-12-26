@@ -13,7 +13,7 @@
     <string name="pref_auto_login">Automatisch mit diesem Benutzer anmelden</string>
     <string name="settings_title">Einstellungen</string>
     <string name="pref_prompt_pw">Nach Passwort fragen</string>
-    <string name="pref_alt_pw_entry">Eigene Steuerkreuz-Passwort Technik.</string>
+    <string name="pref_alt_pw_entry">Eigene Steuerkreuz-Passwort Technik</string>
     <string name="pref_alt_pw_entry_desc">Aktiviert die numerische Passworteingabe nur mit dem Steuerkreuz Tasten ohne das Passwort jedem im Raum anzuzeigen.</string>
     <string name="title_activity_dpad_pw">Passwort eingeben</string>
     <string name="enter_password">Passwort eingeben</string>
