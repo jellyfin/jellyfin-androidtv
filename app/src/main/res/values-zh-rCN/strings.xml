@@ -12,7 +12,7 @@
     <string name="pref_max_bitrate_title">最大串流码率</string>
     <string name="pref_auto_login">自动以此用户登录</string>
     <string name="settings_title">设置</string>
-    <string name="pref_prompt_pw">密码提示</string>
+    <string name="pref_prompt_pw">忘记密码</string>
     <string name="title_activity_dpad_pw">输入密码</string>
     <string name="enter_password">输入密码</string>
     <string name="dpad_entry_desc">请使用遥控器输入数字密码. 单击按钮可输入列出的第一个数字, 双击按钮可输入列出的第二个数字. 例如, 单击 \'向上\' 键则输入 1, 双击 \'选择\' 键则输入 5. 将 \'选择\' 键按住一秒则输入完毕, 将 \'向左\' 键按住一秒则重新输入.</string>
