@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="error">Fout</string>
+    <string name="ok">Ok</string>
     <string name="video_error_unknown_error">Laden video is mislukt</string>
     <string name="txt_loading">Laden...</string>
     <string name="title_activity_select_user">KiesGebruikerActiviteit</string>
@@ -128,7 +130,7 @@
     <string name="lbl_dislike">Niet leuk</string>
     <string name="lbl_unlike">Verwijder leuk</string>
     <string name="lbl_remove_dislike">Verwijder niet leuk</string>
-    <string name="lbl_confirm_mark_unwatched">Dit markeert alles als niet gezien. Weet u dit heel zeker?</string>
+    <string name="lbl_confirm_mark_unwatched">Dit markeert alles als niet gezien. Weet u dit HEEL zeker\?</string>
     <string name="msg_no_playable_items">Geen afspeelbare items</string>
     <string name="lbl_unwatched">Ongezien</string>
     <string name="lbl_load_channels">"Laad kanalen "</string>
@@ -317,4 +319,16 @@
     <string name="lbl_episode_not_record">Deze weergave wordt niet opgenomen</string>
     <string name="lbl_schedule">Planning</string>
     <string name="no_program_data">Geen programma data beschikbaar</string>
+    <string name="title_activity_expanded_text">ExpandedTextActivity</string>
+    <string name="lbl_image_type">Afbeelding Type</string>
+    <string name="lbl_default_view">Standaard Zicht</string>
+    <string name="lbl_start_favorites">Plaats Favorieten Vooraan</string>
+    <string name="lbl_colored_backgrounds">Kleur Gecodeerde Achtergronden</string>
+    <string name="lbl_hd_programs">HD Programma\'s</string>
+    <string name="lbl_live_broadcasts">Live Uitzendingen</string>
+    <string name="lbl_premieres">Premières</string>
+    <string name="desc_suggestions_holiday">Probeer enkele van onze festieve suggesties</string>
+    <string name="pref_use_direct_path_summary">Geef het bestandssysteem pad in plaats van de streaming URL</string>
+    <string name="pref_use_direct_path_title">Geef Direct Pad</string>
+    <string name="lbl_show_indicators">Toon Indicators Voor</string>
 </resources>
