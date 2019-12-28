@@ -9,4 +9,26 @@
     <string name="enter_password">Zadaj heslo</string>
     <string name="chapters">Kapitoly</string>
     <string name="lbl_library">Knižnica</string>
+    <string name="lbl_play_all">Prehrať všetko</string>
+    <string name="lbl_other">Ostatné</string>
+    <string name="lbl_tv_series">Seriály</string>
+    <string name="lbl_movies">Filmy</string>
+    <string name="lbl_favorites">Obľubené</string>
+    <string name="lbl_by_name">Podľa mena</string>
+    <string name="lbl_latest">Najnovšie</string>
+    <string name="lbl_search">Vyhľadávať</string>
+    <string name="lbl_genres">Žánre</string>
+    <string name="lbl_next_up">Nasleduje</string>
+    <string name="lbl_latest_movies">Posledné filmy</string>
+    <string name="lbl_continue_watching">Pokračovať v pozeraní</string>
+    <string name="lbl_logout">Odhlásiť</string>
+    <string name="lbl_settings">Nastavenia</string>
+    <string name="pref_auto_logoff_title">Časovač automatického odhlásenia</string>
+    <string name="pref_authentication_cat">Overenie</string>
+    <string name="pref_auto_login">Automaticky prihlásiť ako tento použivateľ</string>
+    <string name="pref_show_login">Zobraziť obrazovku prihlásenia</string>
+    <string name="txt_loading">Načítavanie…</string>
+    <string name="loading">Načítavanie…</string>
+    <string name="video_error_unknown_error">Načítanie videa zlyhalo</string>
+    <string name="play">Prehrať</string>
 </resources>
