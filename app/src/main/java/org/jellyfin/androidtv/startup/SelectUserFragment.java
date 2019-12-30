@@ -2,6 +2,8 @@ package org.jellyfin.androidtv.startup;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
@@ -9,7 +11,6 @@ import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
-import android.widget.Toast;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -19,13 +20,12 @@ import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SelectUserFragment extends CustomBrowseFragment {
     private static final int ENTER_MANUALLY = 0;
@@ -49,13 +49,19 @@ public class SelectUserFragment extends CustomBrowseFragment {
         HeaderItem usersHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_select_user));
         ItemRowAdapter usersAdapter = new ItemRowAdapter(mServer, new CardPresenter(), rowAdapter);
         usersAdapter.Retrieve();
-        rowAdapter.add(new ListRow(usersHeader, usersAdapter));
+        if (usersAdapter.getTotalItems() == 0) {
+            GridButtonPresenter usersGridPresenter = new GridButtonPresenter();
+            ArrayObjectAdapter usersGridAdapter = new ArrayObjectAdapter(usersGridPresenter);
+            usersGridAdapter.add(new GridButton(ENTER_MANUALLY, mApplication.getString(R.string.lbl_enter_manually), R.drawable.tile_edit));
+            rowAdapter.add(new ListRow(usersHeader, usersGridAdapter));
+        } else {
+            rowAdapter.add(new ListRow(usersHeader, usersAdapter));
+        }
 
         HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_other_options));
 
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add(new GridButton(ENTER_MANUALLY, mApplication.getString(R.string.lbl_enter_manually), R.drawable.tile_edit));
         gridRowAdapter.add(new GridButton(SWITCH_SERVER, mApplication.getString(R.string.lbl_switch_server), R.drawable.tile_port_server));
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
