@@ -230,4 +230,23 @@
     <string name="lbl_switch_server">Mudar de Servidor</string>
     <string name="lbl_status">%s / %s</string>
     <string name="pref_authentication_cat">Autenticação</string>
+    <string name="lbl_image_size">Tamanho da imagem</string>
+    <string name="msg_audio_warning">Esta aplicação tem a capacidade de enviar o fluxo audio sem descodificação . Se o seu equipamento não suporta esses formatos, pode não ouvir som quando tocar certos itens. Isso pode ser resolvido ao mudar o audio para \'downmix\' nas definições.</string>
+    <string name="lbl_audio_capabilitites">Capacidades Audio</string>
+    <string name="lbl_vertical_stretch">Esticar Verticalmente</string>
+    <string name="lbl_horizontal_stretch">Esticar horizontalmente</string>
+    <string name="lbl_zoom">Aumentar</string>
+    <string name="lbl_normal">Normal</string>
+    <string name="desc_bitstream_ac3">Necessita material adequado</string>
+    <string name="lbl_bitstream_ac3">Fluxo Dolby Digital audio</string>
+    <string name="lbl_new_premieres">Novas Estreias</string>
+    <string name="lbl_forget">Esquecer</string>
+    <string name="lbl_warning">Aviso</string>
+    <string name="lbl_now_playing_album">Desde %s</string>
+    <string name="lbl_now_playing_track">%s de %s</string>
+    <string name="msg_error_signin">Houve um erro ao iniciar a sessão com os seus credenciais guardados</string>
+    <string name="msg_error_server_version">Versão do servidor não suportada. A versão tem de ser %1$s ou mais recente.</string>
+    <string name="msg_error_server_unavailable">Servidor inacessível</string>
+    <string name="lbl_watched">Visto</string>
+    <string name="lbl_favorite">Favorito</string>
 </resources>
