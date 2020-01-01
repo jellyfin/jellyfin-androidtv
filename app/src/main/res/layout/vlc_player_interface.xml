@@ -29,9 +29,11 @@
 
         </FrameLayout>
 
-        <com.devbrackets.android.exomedia.EMVideoView
-            android:id="@+id/videoView" android:layout_width="fill_parent"
-            android:layout_height="match_parent" android:layout_gravity="center" android:visibility="gone" />
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/exoPlayerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
 
             <TextView
                 android:id="@+id/offLine_subtitleText"
