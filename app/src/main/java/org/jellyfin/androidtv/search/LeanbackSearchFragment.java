@@ -1,9 +1,7 @@
 package org.jellyfin.androidtv.search;
 
 import android.os.Bundle;
-import android.speech.SpeechRecognizer;
 
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
@@ -11,7 +9,7 @@ import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import androidx.leanback.app.SearchSupportFragment;
 import androidx.leanback.widget.ListRow;
 
-public class SearchFragment extends SearchSupportFragment {
+public class LeanbackSearchFragment extends SearchSupportFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,16 +24,6 @@ public class SearchFragment extends SearchSupportFragment {
 
             ItemLauncher.launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow) row).getAdapter(), ((BaseRowItem) item).getIndex(), getActivity());
         });
-
-        // Disable speech functionality
-        boolean isSpeechEnabled = SpeechRecognizer.isRecognitionAvailable(getContext());
-        if (!isSpeechEnabled) {
-            // This function is deprecated but it still disabled the automatic speech functionality
-            // when a callback is set. We don't actually implement it.
-            setSpeechRecognitionCallback(() -> {
-                TvApp.getApplication().getLogger().Debug("setSpeechRecognitionCallback call ignored");
-            });
-        }
     }
 }
 

@@ -72,4 +72,5 @@ dependencies {
     implementation "ch.acra:acra-dialog:$acraVersion"
     implementation "ch.acra:acra-limiter:$acraVersion"
     testImplementation 'junit:junit:4.12'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 }
