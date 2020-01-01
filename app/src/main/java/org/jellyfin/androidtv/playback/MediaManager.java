@@ -7,14 +7,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.text.InputType;
 import android.widget.EditText;
 
-import com.devbrackets.android.exomedia.EMAudioPlayer;
-import com.devbrackets.android.exomedia.event.EMMediaProgressEvent;
-import com.devbrackets.android.exomedia.listener.EMProgressCallback;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -32,6 +35,12 @@ import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
+import org.jellyfin.apiclient.interaction.ApiClient;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dlna.DeviceProfile;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.playlists.PlaylistCreationRequest;
+import org.jellyfin.apiclient.model.playlists.PlaylistCreationResult;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 
@@ -41,12 +50,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.dlna.DeviceProfile;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.playlists.PlaylistCreationRequest;
-import org.jellyfin.apiclient.model.playlists.PlaylistCreationResult;
+import androidx.annotation.Nullable;
 
 public class MediaManager {
     private static ItemRowAdapter mCurrentMediaAdapter;
@@ -63,7 +67,7 @@ public class MediaManager {
     private static LibVLC mLibVLC;
     private static org.videolan.libvlc.MediaPlayer mVlcPlayer;
     private static VlcEventHandler mVlcHandler = new VlcEventHandler();
-    private static EMAudioPlayer mExoplayer;
+    private static SimpleExoPlayer mExoplayer;
     private static AudioManager mAudioManager;
     private static boolean audioInitialized;
     private static boolean nativeMode = false;
@@ -199,19 +203,19 @@ public class MediaManager {
             // Create a new media player based on platform
             if (DeviceUtils.is60()) {
                 nativeMode = true;
-                mExoplayer = new EMAudioPlayer(TvApp.getApplication());
-                mExoplayer.setProgressCallback(new EMProgressCallback() {
+                mExoplayer = ExoPlayerFactory.newSimpleInstance(TvApp.getApplication());
+                mExoplayer.addListener(new Player.EventListener() {
                     @Override
-                    public boolean onProgressUpdated(EMMediaProgressEvent progressEvent) {
+                    public void onTimelineChanged(Timeline timeline, @Nullable Object manifest, int reason) {
+                        //todo doesnt work, need to write own timer to do progress reports
                         reportProgress();
-                        return false;
                     }
-                });
 
-                mExoplayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        onComplete();
+                    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                        if (playbackState == Player.STATE_ENDED) {
+                            onComplete();
+                        }
                     }
                 });
             } else {
@@ -564,8 +568,10 @@ public class MediaManager {
                 mCurrentAudioQueuePosition = pos;
                 mCurrentAudioPosition = 0;
                 if (nativeMode) {
-                    mExoplayer.setDataSource(TvApp.getApplication(), Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken())));
-                    mExoplayer.start();
+                    DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(TvApp.getApplication(), apiClient.getCurrentUserId()); //todo user agent
+
+                    mExoplayer.setPlayWhenReady(true);
+                    mExoplayer.prepare(new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()))));
                 } else {
                     TvApp.getApplication().getLogger().Info("Playback attempt via VLC of " + response.getMediaUrl());
                     Media media = new Media(mLibVLC, Uri.parse(response.getMediaUrl()));
@@ -689,7 +695,7 @@ public class MediaManager {
     }
 
     private static void stop() {
-        if (nativeMode) mExoplayer.stopPlayback();
+        if (nativeMode) mExoplayer.stop(true);
         else mVlcPlayer.stop();
     }
 
@@ -708,7 +714,7 @@ public class MediaManager {
     }
 
     private static void pause() {
-        if (nativeMode) mExoplayer.pause();
+        if (nativeMode) mExoplayer.setPlayWhenReady(false);
         else mVlcPlayer.pause();
     }
 
@@ -730,7 +736,7 @@ public class MediaManager {
     public static void resumeAudio() {
         if (mCurrentAudioItem != null) {
             ensureAudioFocus();
-            if (nativeMode) mExoplayer.start();
+            if (nativeMode) mExoplayer.setPlayWhenReady(true);
             else mVlcPlayer.play();
             updateCurrentAudioItemPlaying(true);
             ReportingHelper.reportStart(mCurrentAudioItem, mCurrentAudioPosition * 10000);
