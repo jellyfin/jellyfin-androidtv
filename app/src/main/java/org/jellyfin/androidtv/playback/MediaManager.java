@@ -8,13 +8,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.text.InputType;
 import android.widget.EditText;
 
+import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
@@ -50,8 +51,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-
 public class MediaManager {
     private static ItemRowAdapter mCurrentMediaAdapter;
     private static int mCurrentMediaPosition = -1;
@@ -67,7 +66,7 @@ public class MediaManager {
     private static LibVLC mLibVLC;
     private static org.videolan.libvlc.MediaPlayer mVlcPlayer;
     private static VlcEventHandler mVlcHandler = new VlcEventHandler();
-    private static SimpleExoPlayer mExoplayer;
+    private static SimpleExoPlayer mExoPlayer;
     private static AudioManager mAudioManager;
     private static boolean audioInitialized;
     private static boolean nativeMode = false;
@@ -161,7 +160,7 @@ public class MediaManager {
     }
 
     private static boolean isPaused() {
-        return nativeMode ? !mExoplayer.isPlaying() : !mVlcPlayer.isPlaying();
+        return nativeMode ? !mExoPlayer.isPlaying() : !mVlcPlayer.isPlaying();
     }
 
     private static void reportProgress() {
@@ -169,7 +168,7 @@ public class MediaManager {
         if (System.currentTimeMillis() < lastProgressEvent + 750) return;
         lastProgressEvent = System.currentTimeMillis();
 
-        mCurrentAudioPosition = nativeMode ? mExoplayer.getCurrentPosition() : mVlcPlayer.getTime();
+        mCurrentAudioPosition = nativeMode ? mExoPlayer.getCurrentPosition() : mVlcPlayer.getTime();
 
         //fire external listeners if there
         for (AudioEventListener listener : mAudioEventListeners) {
@@ -203,19 +202,21 @@ public class MediaManager {
             // Create a new media player based on platform
             if (DeviceUtils.is60()) {
                 nativeMode = true;
-                mExoplayer = ExoPlayerFactory.newSimpleInstance(TvApp.getApplication());
-                mExoplayer.addListener(new Player.EventListener() {
+                mExoPlayer = ExoPlayerFactory.newSimpleInstance(TvApp.getApplication());
+                mExoPlayer.addListener(new Player.EventListener() {
                     @Override
-                    public void onTimelineChanged(Timeline timeline, @Nullable Object manifest, int reason) {
-                        //todo doesnt work, need to write own timer to do progress reports
-                        reportProgress();
+                    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                        if (playbackState == Player.STATE_READY) {
+                            startProgressLoop();
+                        } else if (playbackState == Player.STATE_ENDED) {
+                            onComplete();
+                            stopProgressLoop();
+                        }
                     }
 
                     @Override
-                    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-                        if (playbackState == Player.STATE_ENDED) {
-                            onComplete();
-                        }
+                    public void onPlayerError(ExoPlaybackException error) {
+                        stopProgressLoop();
                     }
                 });
             } else {
@@ -255,6 +256,25 @@ public class MediaManager {
         }
 
         return true;
+    }
+
+    private static Runnable progressLoop;
+    private static Handler mHandler = new Handler();
+    private static void startProgressLoop() {
+        progressLoop = new Runnable() {
+            @Override
+            public void run() {
+                reportProgress();
+                mHandler.postDelayed(this, 500);
+            }
+        };
+        mHandler.post(progressLoop);
+    }
+
+    private static void stopProgressLoop() {
+        if (progressLoop != null) {
+            mHandler.removeCallbacks(progressLoop);
+        }
     }
 
     private static AudioManager.OnAudioFocusChangeListener mAudioFocusChanged = new AudioManager.OnAudioFocusChangeListener() {
@@ -458,7 +478,7 @@ public class MediaManager {
         }
     }
 
-    public static boolean isPlayingAudio() { return audioInitialized && (nativeMode ? mExoplayer.isPlaying() : mVlcPlayer.isPlaying()); }
+    public static boolean isPlayingAudio() { return audioInitialized && (nativeMode ? mExoPlayer.isPlaying() : mVlcPlayer.isPlaying()); }
 
     private static boolean ensureInitialized() {
         if (!audioInitialized) {
@@ -568,10 +588,10 @@ public class MediaManager {
                 mCurrentAudioQueuePosition = pos;
                 mCurrentAudioPosition = 0;
                 if (nativeMode) {
-                    DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(TvApp.getApplication(), apiClient.getCurrentUserId()); //todo user agent
+                    DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(TvApp.getApplication(), "ATV/ExoPlayer");
 
-                    mExoplayer.setPlayWhenReady(true);
-                    mExoplayer.prepare(new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()))));
+                    mExoPlayer.setPlayWhenReady(true);
+                    mExoPlayer.prepare(new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()))));
                 } else {
                     TvApp.getApplication().getLogger().Info("Playback attempt via VLC of " + response.getMediaUrl());
                     Media media = new Media(mLibVLC, Uri.parse(response.getMediaUrl()));
@@ -673,7 +693,7 @@ public class MediaManager {
         if (mCurrentAudioQueue == null || (!mRepeat && mCurrentAudioQueue.size() == 0)) return -1;
         if (isPlayingAudio() && mCurrentAudioPosition > 10000) {
             //just back up to the beginning of current item
-            if (nativeMode) mExoplayer.seekTo(0);
+            if (nativeMode) mExoPlayer.seekTo(0);
             else mVlcPlayer.setTime(0);
             return mCurrentAudioQueuePosition;
         }
@@ -695,7 +715,7 @@ public class MediaManager {
     }
 
     private static void stop() {
-        if (nativeMode) mExoplayer.stop(true);
+        if (nativeMode) mExoPlayer.stop(true);
         else mVlcPlayer.stop();
     }
 
@@ -714,7 +734,7 @@ public class MediaManager {
     }
 
     private static void pause() {
-        if (nativeMode) mExoplayer.setPlayWhenReady(false);
+        if (nativeMode) mExoPlayer.setPlayWhenReady(false);
         else mVlcPlayer.pause();
     }
 
@@ -736,7 +756,7 @@ public class MediaManager {
     public static void resumeAudio() {
         if (mCurrentAudioItem != null) {
             ensureAudioFocus();
-            if (nativeMode) mExoplayer.setPlayWhenReady(true);
+            if (nativeMode) mExoPlayer.setPlayWhenReady(true);
             else mVlcPlayer.play();
             updateCurrentAudioItemPlaying(true);
             ReportingHelper.reportStart(mCurrentAudioItem, mCurrentAudioPosition * 10000);
