@@ -74,6 +74,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private boolean mSurfaceReady = false;
     public boolean isContracted = false;
     private boolean hasSubtitlesSurface = false;
+    private PlaybackListener errorListener;
+    private PlaybackListener completionListener;
+    private PlaybackListener preparedListener;
 
     public VideoManager(PlaybackOverlayActivity activity, View view) {
         mActivity = activity;
@@ -91,8 +94,27 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
         mExoPlayer = ExoPlayerFactory.newSimpleInstance(TvApp.getApplication());
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
-        mExoPlayerView.setUseController(false);
         mExoPlayerView.setPlayer(mExoPlayer);
+        mExoPlayer.addListener(new Player.EventListener() {
+            @Override
+            public void onPlayerError(ExoPlaybackException error) {
+                TvApp.getApplication().getLogger().Error("***** Got error from player");
+                if (errorListener != null) errorListener.onEvent();
+                stopProgressLoop();
+            }
+
+            @Override
+            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                // Do not call listener when paused
+                if (playbackState == Player.STATE_READY && playWhenReady) {
+                    if (preparedListener != null) preparedListener.onEvent();
+                    startProgressLoop();
+                } else if (playbackState == Player.STATE_ENDED) {
+                    if (completionListener != null) completionListener.onEvent();
+                    stopProgressLoop();
+                }
+            }
+        });
     }
 
     public void init(int buffer, boolean isInterlaced) {
@@ -112,27 +134,26 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public int getZoomMode() { return mZoomMode; }
 
     public void setZoom(int mode) {
-        //todo
         mZoomMode = mode;
-//        switch (mode) {
-//            case ZOOM_NORMAL:
-//                mVideoView.setScaleY(1);
-//                mVideoView.setScaleX(1);
-//                break;
-//            case ZOOM_VERTICAL:
-//                mVideoView.setScaleX(1);
-//                mVideoView.setScaleY(1.33f);
-//                break;
-//            case ZOOM_HORIZONTAL:
-//                mVideoView.setScaleY(1);
-//                mVideoView.setScaleX(1.33f);
-//                break;
-//            case ZOOM_FULL:
-//                mVideoView.setScaleX(1.33f);
-//                mVideoView.setScaleY(1.33f);
-//                break;
-//
-//        }
+        switch (mode) {
+            case ZOOM_NORMAL:
+                mExoPlayerView.setScaleY(1);
+                mExoPlayerView.setScaleX(1);
+                break;
+            case ZOOM_VERTICAL:
+                mExoPlayerView.setScaleX(1);
+                mExoPlayerView.setScaleY(1.33f);
+                break;
+            case ZOOM_HORIZONTAL:
+                mExoPlayerView.setScaleY(1);
+                mExoPlayerView.setScaleX(1.33f);
+                break;
+            case ZOOM_FULL:
+                mExoPlayerView.setScaleX(1.33f);
+                mExoPlayerView.setScaleY(1.33f);
+                break;
+
+        }
     }
 
     public void setMetaDuration(long duration) {
@@ -265,7 +286,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
         if (nativeMode) {
             try {
-                DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(TvApp.getApplication(), "user agent"); //todo user agent
+                DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(TvApp.getApplication(), "ATV/ExoPlayer");
 
                 mExoPlayer.prepare(new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(path)));
             } catch (IllegalStateException e) {
@@ -604,18 +625,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (hasSubtitlesSurface) mSubtitlesSurface.invalidate();
     }
 
-    PlaybackListener errorListener;
-
     public void setOnErrorListener(final PlaybackListener listener) {
-        mExoPlayer.addListener(new Player.EventListener() {
-            @Override
-            public void onPlayerError(ExoPlaybackException error) {
-                TvApp.getApplication().getLogger().Error("***** Got error from player");
-                listener.onEvent();
-                stopProgressLoop();
-            }
-        });
-
         mVlcHandler.setOnErrorListener(listener);
         errorListener = listener;
     }
@@ -625,29 +635,12 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public void setOnCompletionListener(final PlaybackListener listener) {
-        mExoPlayer.addListener(new Player.EventListener() {
-            @Override
-            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-                if (playbackState == Player.STATE_ENDED) {
-                    listener.onEvent();
-                    stopProgressLoop();
-                }
-            }
-        });
-
+        completionListener = listener;
         mVlcHandler.setOnCompletionListener(listener);
     }
 
     public void setOnPreparedListener(final PlaybackListener listener) {
-        mExoPlayer.addListener(new Player.EventListener() {
-            @Override
-            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-                if (playbackState == Player.STATE_READY) {
-                    listener.onEvent();
-                    startProgressLoop();
-                }
-            }
-        });
+        preparedListener = listener;
 
         mVlcHandler.setOnPreparedListener(listener);
     }
