@@ -227,12 +227,9 @@ public class TvApp extends Application {
     }
 
     public void showSearch(final Activity activity, boolean musicOnly) {
-            showSearchWithPermission(activity, musicOnly);
-    }
-
-    public static void showSearchWithPermission(Context activity, boolean musicOnly) {
         Intent intent = new Intent(activity, SearchActivity.class);
-        if (musicOnly) intent.putExtra("MusicOnly", true);
+        intent.putExtra("MusicOnly", musicOnly);
+
         activity.startActivity(intent);
     }
 
