@@ -9,10 +9,11 @@
         <item name="android:layout_marginRight">10dp</item>
     </style>
 
-    <style name="player_progress" parent="android:Widget.ProgressBar.Horizontal">
+    <style name="player_progress" parent="Widget.AppCompat.SeekBar">
         <item name="android:progressDrawable">@drawable/progress_bar</item>
         <item name="android:minHeight">5sp</item>
         <item name="android:maxHeight">5sp</item>
+        <item name="android:thumb">@drawable/seekbar_selector</item>
     </style>
 
     <style name="overlay_progress" parent="android:Widget.ProgressBar.Horizontal">
