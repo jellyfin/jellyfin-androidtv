@@ -21,6 +21,7 @@ import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
+
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -45,6 +46,7 @@ import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -108,6 +110,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     ImageView mStudioImage;
     ImageView mLogoImage;
     TextView mTitle;
+    TextView mProductionYear;
     TextView mEndTime;
     TextView mCurrentPos;
     TextView mRemainingTime;
@@ -122,7 +125,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     ArrayObjectAdapter mPopupRowAdapter;
     ListRow mChapterRow;
     PositionableListRowPresenter mPopupRowPresenter;
-    ProgressBar mCurrentProgress;
+    SeekBar mCurrentProgress;
     CustomPlaybackOverlayFragment mFragment;
 
     View mNextUpPanel;
@@ -311,6 +314,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mButtonRow = mActivity.findViewById(R.id.buttonRow);
         mInfoSummary = mActivity.findViewById(R.id.infoSummary);
         mTitle = mActivity.findViewById(R.id.title);
+        mProductionYear = mActivity.findViewById(R.id.productionYear);
         mNextUpTitle = mActivity.findViewById(R.id.nextUpTitle);
         mSmNextUpTitle = mActivity.findViewById(R.id.sm_upnext_title);
         mNextUpSummary = mActivity.findViewById(R.id.nextUpSummary);
@@ -324,6 +328,20 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mCurrentPos = mActivity.findViewById(R.id.currentPos);
         mRemainingTime = mActivity.findViewById(R.id.remainingTime);
         mCurrentProgress = mActivity.findViewById(R.id.playerProgress);
+        mCurrentProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (mPlaybackController.mVideoManager.isPlaying() && fromUser) {
+                    setCurrentTime(progress);
+                    mPlaybackController.seek(progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) { }
+        });
         mPopupArea = mActivity.findViewById(R.id.popupArea);
         mStartsIn = mActivity.findViewById(R.id.startsIn);
         mNextButton = mActivity.findViewById(R.id.nextButton);
@@ -1242,7 +1260,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             @Override
             public void run() {
                 mEndTime.setText(timeLeft > 0 ?
-                                mApplication.getString(R.string.lbl_ends) + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(System.currentTimeMillis() + timeLeft)
+                                mApplication.getString(R.string.lbl_ends) + " "+ android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(System.currentTimeMillis() + timeLeft)
                                 : ""
                 );
             }
@@ -1729,13 +1747,14 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             mCurrentProgress.setMax(mCurrentDuration);
             // set other information
             mTitle.setText(current.getName());
+            mProductionYear.setText(current.getProductionYear().toString());
             mInfoSummary.setText(current.getOverview());
             mGuideCurrentTitle.setText(current.getName());
             updatePoster(current, mPoster, true);
             updateLogo(current, mLogoImage);
             updateStudio(current);
             addButtons(current);
-            InfoLayoutHelper.addInfoRow(mActivity, current, mInfoRow, true, false, mPlaybackController.getCurrentMediaSource().GetDefaultAudioStream(mPlaybackController.getAudioStreamIndex()));
+            //InfoLayoutHelper.addInfoRow(mActivity, current, mInfoRow, true, false, mPlaybackController.getCurrentMediaSource().GetDefaultAudioStream(mPlaybackController.getAudioStreamIndex()));
 
             if (mApplication.getPrefs().getBoolean("pref_enable_debug", false)) {
                 StreamInfo stream = mPlaybackController.getCurrentStreamInfo();

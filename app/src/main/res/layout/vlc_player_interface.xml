@@ -58,55 +58,64 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="206dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal|bottom"
         android:id="@+id/bottomPanel"
         android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:visibility="invisible">
+        android:focusableInTouchMode="true">
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="165sp"
+            android:layout_height="185sp"
             android:id="@+id/imageView13"
             android:layout_centerHorizontal="true"
             android:layout_alignParentEnd="false"
             android:layout_alignParentBottom="true"
             android:background="@color/black"
-            android:alpha=".65" />
+            android:alpha="0.65" />
 
         <ImageView
             android:layout_width="150sp"
-            android:layout_height="300sp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
             android:id="@+id/poster"
-            android:layout_centerVertical="true"
+            android:elevation="4dp"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="30sp" />
+            android:layout_marginStart="30sp"
+            android:layout_marginBottom="30dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text=""
             android:id="@+id/title"
             android:layout_alignTop="@+id/imageView13"
             android:layout_toEndOf="@+id/poster"
-            android:layout_toRightOf="@+id/poster"
-            android:layout_marginTop="5sp"
-            android:layout_marginLeft="20sp"
+            android:layout_marginTop="6sp"
+            android:layout_marginStart="20sp"
             android:maxWidth="600sp"
             android:maxLines="1" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/endTime"
             android:layout_alignTop="@+id/title"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="5sp"
-            android:layout_marginRight="20sp"
-            android:alpha=".6" />
+            android:layout_marginEnd="24sp"
+            android:alpha="0.6" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/productionYear"
+            android:layout_alignStart="@+id/title"
+            android:layout_below="@+id/title"
+            android:alpha="0.6" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -125,66 +134,68 @@
             android:layout_height="110sp"
             android:id="@+id/infoSummary"
             android:maxLines="5"
-            android:layout_alignLeft="@+id/infoRow"
-            android:layout_alignRight="@+id/playerProgress"
+            android:layout_alignStart="@+id/infoRow"
+            android:layout_alignEnd="@+id/player_progress_info"
             android:visibility="invisible"
             android:textSize="14sp"
             android:layout_below="@+id/infoRow"
             android:ellipsize="end"/>
 
-        <ProgressBar
-            style="@style/player_progress"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/playerProgress"
-            android:minWidth="525sp"
-            android:layout_alignParentBottom="false"
-            android:maxHeight="5sp"
-            android:layout_marginLeft="325sp"
-            android:layout_below="@+id/infoRow"
-            android:layout_marginTop="20sp" />
+            android:id="@+id/player_progress_info"
+            android:layout_below="@+id/productionYear"
+            android:layout_alignStart="@+id/productionYear"
+            android:layout_marginTop="20sp" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:text="1:23:00"
-            android:id="@+id/currentPos"
-            android:layout_alignBottom="@+id/playerProgress"
-            android:layout_marginBottom="-7sp"
-            android:maxLines="1"
-            android:layout_marginLeft="15sp"
-            android:layout_alignStart="@+id/infoRow"
-            android:textSize="16sp" />
+            <SeekBar
+                style="@style/player_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/playerProgress"
+                android:layout_toEndOf="@id/currentPos"
+                android:layout_toStartOf="@id/remainingTime"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:text="-1:25:00"
-            android:id="@+id/remainingTime"
-            android:layout_alignBottom="@+id/currentPos"
-            android:layout_alignParentEnd="false"
-            android:layout_toRightOf="@+id/playerProgress"
-            android:layout_marginLeft="10sp"
-            android:textSize="16sp" />
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_centerVertical="true"
+                tools:text="1:23:00"
+                android:id="@+id/currentPos"
+                android:maxLines="1"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_centerVertical="true"
+                tools:text="-1:25:00"
+                android:id="@+id/remainingTime"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="24dp"
+                android:textSize="16sp"
+                android:gravity="end"/>
+        </RelativeLayout>
 
         <ImageView
-            android:layout_width="70sp"
-            android:layout_height="30sp"
+            android:layout_width="100sp"
+            android:layout_height="50sp"
             android:id="@+id/studioImg"
-            android:layout_alignParentBottom="false"
-            android:layout_alignEnd="@+id/remainingTime"
-            android:layout_alignTop="@+id/playerProgress"
-            android:layout_marginTop="30sp"
-            android:layout_marginRight="30sp"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentBottom="true"
+            android:layout_alignEnd="@+id/player_progress_info"
+            android:layout_marginBottom="10sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/playerProgress"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/player_progress_info"
+            android:layout_alignBottom="@id/poster"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
@@ -212,7 +223,6 @@
         </LinearLayout>
 
     </RelativeLayout>
-
     <include layout="@layout/small_upnext_panel"
         android:layout_width="match_parent"
         android:layout_height="75dp"
@@ -366,5 +376,4 @@
             android:layout_marginTop="10sp" />
 
     </RelativeLayout>
-
 </FrameLayout>

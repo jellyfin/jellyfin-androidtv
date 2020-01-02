@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/seekbar_unfocused_to_focused" >
+    <target
+        android:name="thumb_0"
+        android:animation="@anim/seekbar_unfocused_to_focused" />
+</animated-vector>
