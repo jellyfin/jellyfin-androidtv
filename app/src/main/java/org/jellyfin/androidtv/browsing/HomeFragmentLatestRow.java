@@ -16,6 +16,9 @@ import java.util.List;
 import androidx.leanback.widget.ArrayObjectAdapter;
 
 class HomeFragmentLatestRow extends HomeFragmentRow {
+    // See: https://github.com/jellyfin/jellyfin-web/blob/bbf1f8d5df66a58c29f07969caa476852d86ab4a/src/components/homesections/homesections.js#L292
+    private static final List<String> EXCLUDED_COLLECTION_TYPES = Arrays.asList("playlists", "livetv", "boxsets", "channels");
+
     private final ItemsResult views;
 
     public HomeFragmentLatestRow(ItemsResult views) {
@@ -33,7 +36,10 @@ class HomeFragmentLatestRow extends HomeFragmentRow {
         List<String> latestItemsExcludes = Arrays.asList(configuration.getLatestItemsExcludes());
 
         for (BaseItemDto item : views.getItems()) {
-            if (latestItemsExcludes.contains(item.getId())) continue;// Skip excluded items
+            // Skip excluded collection types
+            if (EXCLUDED_COLLECTION_TYPES.contains(item.getCollectionType())) continue;
+            // Skip user configured excluded items
+            if (latestItemsExcludes.contains(item.getId())) continue;
 
             // Create query and add row
             LatestItemsQuery query = new LatestItemsQuery();
