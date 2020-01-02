@@ -15,7 +15,7 @@ public class SearchActivity extends BaseActivity {
         boolean isSpeechEnabled = SpeechRecognizer.isRecognitionAvailable(this);
 
         // Determine fragment to use
-        Fragment searchFragment = isSpeechEnabled && false
+        Fragment searchFragment = isSpeechEnabled
                 ? new LeanbackSearchFragment()
                 : new TextSearchFragment();
 
