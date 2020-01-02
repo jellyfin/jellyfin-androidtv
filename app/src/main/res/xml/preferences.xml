@@ -75,6 +75,11 @@
             android:entries="@array/pref_preroll_options"
             android:entryValues="@array/pref_preroll_values"
             />
+        <ListPreference android:key="pref_video_player"
+            android:title="Preferred media player"
+            android:defaultValue="auto"
+            android:entries="@array/pref_video_player_entries"
+            android:entryValues="@array/pref_video_player_values" />
         <CheckBoxPreference android:key="pref_enable_cinema_mode"
             android:title="@string/lbl_enable_cinema_mode"
             android:defaultValue="true"
@@ -99,11 +104,6 @@
         <CheckBoxPreference android:key="pref_refresh_switching"
             android:title="@string/lbl_refresh_switching"
             android:defaultValue="true"
-            />
-        <CheckBoxPreference android:key="pref_video_use_external"
-            android:title="@string/pref_use_external_player_title"
-            android:defaultValue="false"
-            android:summary="@string/pref_use_external_player_summary"
             />
         <CheckBoxPreference android:key="pref_send_path_external"
             android:title="@string/pref_use_direct_path_title"

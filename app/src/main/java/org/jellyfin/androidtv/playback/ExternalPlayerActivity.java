@@ -134,7 +134,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         SharedPreferences prefs = mApplication.getPrefs();
-                        prefs.edit().putBoolean("pref_video_use_external", false).apply();
+                        prefs.edit().putString("pref_video_player", "auto").apply();
                         prefs.edit().putBoolean("pref_live_tv_use_external", false).apply();
                     }
                 })

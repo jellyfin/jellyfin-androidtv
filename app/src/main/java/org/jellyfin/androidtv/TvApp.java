@@ -17,10 +17,6 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.palette.graphics.Palette;
-
 import org.acra.ACRA;
 import org.acra.annotation.AcraCore;
 import org.acra.annotation.AcraDialog;
@@ -30,19 +26,15 @@ import org.acra.sender.HttpSender;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.model.DisplayPriorityType;
+import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.playback.ExternalPlayerActivity;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.PlaybackManager;
 import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
 import org.jellyfin.androidtv.search.SearchActivity;
-import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.Utils;
-
-import java.util.Calendar;
-import java.util.HashMap;
-
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.IConnectionManager;
@@ -56,6 +48,13 @@ import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.logging.ILogger;
 import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
+
+import java.util.Calendar;
+import java.util.HashMap;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.palette.graphics.Palette;
 
 @AcraCore(buildConfigClass = BuildConfig.class)
 @AcraHttpSender(
@@ -309,7 +308,7 @@ public class TvApp extends Application {
             case Video:
             case Series:
             case Recording:
-                return getPrefs().getBoolean("pref_video_use_external", false);
+                return getPrefs().getString("pref_video_player", "auto").equals("external");
             case TvChannel:
             case Program:
                 return getPrefs().getBoolean("pref_live_tv_use_external", false);

@@ -309,7 +309,7 @@
     <string name="pref_use_external_player_summary">Requires a capable app to play video types</string>
     <string name="pref_external_live_tv_title">Use External Player for Live TV</string>
     <string name="pref_external_live_tv_summary">Requires a capable app to play live streams</string>
-    <string name="pref_use_direct_path_title">Pass Direct Path</string>
+    <string name="pref_use_direct_path_title">Pass Direct Path for external player</string>
     <string name="pref_use_direct_path_summary">Pass the file system path instead of streaming URL</string>
     <string name="pref_acra_category">Crash Reporting</string>
     <string name="pref_enable_acra">Send crash reports to developers</string>
@@ -344,4 +344,8 @@
     <string name="lbl_default_view">Default View</string>
     <string name="lbl_image_type">Image Type</string>
     <string name="lbl_image_size">Image Size</string>
+    <string name="pref_video_player_auto">Automatically choose</string>
+    <string name="pref_video_player_exoplayer">ExoPlayer</string>
+    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_external">External app</string>
 </resources>
