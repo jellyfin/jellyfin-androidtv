@@ -853,7 +853,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         if (BaseItemUtils.canPlay(mBaseItem)) {
             mDetailsOverviewRow.addAction(mResumeButton);
-            mResumeButton.setVisibility((mBaseItem.getBaseItemType() == BaseItemType.Series && ! mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume() ) ? View.VISIBLE : View.GONE);
+            boolean resumeButtonVisible = (mBaseItem.getBaseItemType() == BaseItemType.Series && !mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume());
+            mResumeButton.setVisibility(resumeButtonVisible ? View.VISIBLE : View.GONE);
 
             TextUnderButton play = new TextUnderButton(this, R.drawable.ic_play, buttonSize, 2, getString(BaseItemUtils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override
@@ -862,6 +863,11 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 }
             });
             mDetailsOverviewRow.addAction(play);
+            if (resumeButtonVisible) {
+                mResumeButton.requestFocus();
+            } else {
+                play.requestFocus();
+            }
 
             if (!mBaseItem.getIsFolderItem() && !BaseItemUtils.isLiveTv(mBaseItem)) {
                 queueButton = new TextUnderButton(this, R.drawable.ic_add, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
