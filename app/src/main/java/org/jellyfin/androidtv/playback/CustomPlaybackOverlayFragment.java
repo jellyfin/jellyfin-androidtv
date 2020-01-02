@@ -342,6 +342,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) { }
         });
+        mCurrentProgress.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                setFadingEnabled(!hasFocus);
+            }
+        });
         mPopupArea = mActivity.findViewById(R.id.popupArea);
         mStartsIn = mActivity.findViewById(R.id.startsIn);
         mNextButton = mActivity.findViewById(R.id.nextButton);
