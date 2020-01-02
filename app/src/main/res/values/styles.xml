@@ -14,6 +14,7 @@
         <item name="android:minHeight">5sp</item>
         <item name="android:maxHeight">5sp</item>
         <item name="android:thumb">@drawable/seekbar_selector</item>
+        <item name="android:splitTrack">false</item>
     </style>
 
     <style name="overlay_progress" parent="android:Widget.ProgressBar.Horizontal">
