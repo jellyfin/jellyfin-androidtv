@@ -327,4 +327,5 @@
     <string name="lbl_suggestions">Forslag</string>
     <string name="msg_error_server_version">Serverversjonen er ikke støttet. Må være minst %1$s.</string>
     <string name="msg_error_server_unavailable">Serveren er utilgjengelig</string>
+    <string name="title_activity_expanded_text">" ExpandedTextActivity"</string>
 </resources>
