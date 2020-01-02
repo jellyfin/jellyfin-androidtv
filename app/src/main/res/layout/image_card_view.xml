@@ -155,7 +155,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="@dimen/lb_basic_card_info_text_margin"
                 android:layout_marginStart="@dimen/lb_basic_card_info_text_margin"
                 android:fontFamily="sans-serif-condensed"
                 android:textColor="@color/lb_basic_card_title_text_color"
