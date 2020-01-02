@@ -305,8 +305,6 @@
     <string name="lbl_next_episode">Next Episode</string>
     <string name="lbl_album_name">Album name</string>
     <string name="lbl_song_title">Song Title</string>
-    <string name="pref_use_external_player_title">Use External Player for Videos</string>
-    <string name="pref_use_external_player_summary">Requires a capable app to play video types</string>
     <string name="pref_external_live_tv_title">Use External Player for Live TV</string>
     <string name="pref_external_live_tv_summary">Requires a capable app to play live streams</string>
     <string name="pref_use_direct_path_title">Pass Direct Path for external player</string>
