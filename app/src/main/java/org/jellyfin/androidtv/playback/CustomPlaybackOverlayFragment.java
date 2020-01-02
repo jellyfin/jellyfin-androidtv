@@ -1745,6 +1745,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             updateCurrentDuration(current);
             // set progress to match duration
             mCurrentProgress.setMax(mCurrentDuration);
+            mCurrentProgress.setKeyProgressIncrement(mCurrentDuration / 30);
             // set other information
             mTitle.setText(current.getName());
             mProductionYear.setText(current.getProductionYear().toString());
