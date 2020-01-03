@@ -5,13 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
 import android.widget.Toast;
 
 import org.jellyfin.androidtv.R;
@@ -19,11 +12,11 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.CustomMessage;
 import org.jellyfin.androidtv.base.IMessageListener;
 import org.jellyfin.androidtv.channels.ChannelManager;
-import org.jellyfin.androidtv.integration.RecommendationManager;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.model.ChangeTriggerType;
 import org.jellyfin.androidtv.model.DisplayPriorityType;
+import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.playback.AudioEventListener;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.presentation.GridButtonPresenter;
@@ -32,13 +25,9 @@ import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.StdItemQuery;
 import org.jellyfin.androidtv.querying.ViewQuery;
 import org.jellyfin.androidtv.settings.SettingsActivity;
-import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.startup.SelectUserActivity;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
-
-import java.io.IOException;
-
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.entities.LocationType;
@@ -51,6 +40,16 @@ import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
+
+import java.io.IOException;
+
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
 
 public class HomeFragment extends StdBrowseFragment {
     private static final int LOGOUT = 0;
@@ -71,9 +70,6 @@ public class HomeFragment extends StdBrowseFragment {
         } catch (IOException e) {
             TvApp.getApplication().getLogger().ErrorException("Unable to save login creds", e);
         }
-
-        //Init recommendations
-        RecommendationManager.init();
 
         // Init leanback home channels;
         channelManager = new ChannelManager();

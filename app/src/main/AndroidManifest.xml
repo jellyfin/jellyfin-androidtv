@@ -84,13 +84,6 @@
             </intent-filter>
         </receiver>
 
-        <provider
-            android:authorities="${applicationId}.recommendations"
-            android:name=".integration.RecommendationContentProvider"
-            android:exported="true"
-            android:grantUriPermissions="true"
-            tools:ignore="ExportedContentProvider" />
-
         <activity
             android:name=".details.ExpandedTextActivity"
             android:label="@string/title_activity_expanded_text" />
