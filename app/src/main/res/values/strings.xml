@@ -344,4 +344,5 @@
     <string name="lbl_default_view">Default View</string>
     <string name="lbl_image_type">Image Type</string>
     <string name="lbl_image_size">Image Size</string>
+    <string name="lbl_my_media">My Media</string>
 </resources>
