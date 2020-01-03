@@ -12,9 +12,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.itemhandling.ItemLauncher;
+import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 
 import androidx.fragment.app.Fragment;
 import androidx.leanback.app.RowsSupportFragment;
+import androidx.leanback.widget.ListRow;
 
 public class TextSearchFragment extends Fragment implements TextWatcher, TextView.OnEditorActionListener {
     private SearchProvider searchProvider;
@@ -43,6 +47,13 @@ public class TextSearchFragment extends Fragment implements TextWatcher, TextVie
         // Set up result fragment
         RowsSupportFragment rowsSupportFragment = (RowsSupportFragment) getChildFragmentManager().findFragmentById(R.id.results_frame);
         rowsSupportFragment.setAdapter(searchProvider.getResultsAdapter());
+
+        // Create click listener
+        rowsSupportFragment.setOnItemViewClickedListener((itemViewHolder, item, rowViewHolder, row) -> {
+            if (!(item instanceof BaseRowItem)) return;
+
+            ItemLauncher.launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow) row).getAdapter(), ((BaseRowItem) item).getIndex(), getActivity());
+        });
     }
 
     @Override
