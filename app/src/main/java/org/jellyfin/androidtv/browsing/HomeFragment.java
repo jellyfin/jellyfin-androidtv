@@ -12,7 +12,6 @@ import org.jellyfin.androidtv.base.CustomMessage;
 import org.jellyfin.androidtv.base.IMessageListener;
 import org.jellyfin.androidtv.channels.ChannelManager;
 import org.jellyfin.androidtv.constants.HomeSectionType;
-import org.jellyfin.androidtv.integration.RecommendationManager;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.model.ChangeTriggerType;
