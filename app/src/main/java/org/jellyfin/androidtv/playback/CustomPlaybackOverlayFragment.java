@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
@@ -288,6 +289,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         super.onActivityCreated(savedInstanceState);
         if (mItemsToPlay == null || mItemsToPlay.size() == 0) return;
 
+        prepareOverlayFragment();
         mPoster = mActivity.findViewById(R.id.poster);
         mNextUpPoster = mActivity.findViewById(R.id.nextUpPoster);
         mStudioImage = mActivity.findViewById(R.id.studioImg);
@@ -440,6 +442,14 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mPlaybackController.play(startPos);
 
         mPlayPauseBtn.requestFocus();
+    }
+
+    private void prepareOverlayFragment() {
+        LeanbackOverlayFragment leanbackOverlayFragment = (LeanbackOverlayFragment) getFragmentManager().findFragmentById(R.id.leanback_fragment);
+        if (leanbackOverlayFragment != null) {
+            leanbackOverlayFragment.setData(mPlaybackController);
+            leanbackOverlayFragment.setMediaInfo();
+        }
     }
 
     private void setupPopupAnimations() {

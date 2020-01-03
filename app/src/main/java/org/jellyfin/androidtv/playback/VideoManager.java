@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.leanback.media.PlayerAdapter;
+
 import com.devbrackets.android.exomedia.EMVideoView;
 
 import org.jellyfin.androidtv.R;
@@ -29,7 +31,7 @@ import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.MediaStreamType;
 
-public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
+public class VideoManager extends PlayerAdapter implements IVLCVout.OnNewVideoLayoutListener {
 
     public final static int ZOOM_NORMAL = 0;
     public final static int ZOOM_VERTICAL = 1;
@@ -220,7 +222,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         stopProgressLoop();
     }
 
-    public long seekTo(long pos) {
+    public long seekToPosition(long pos) {
         if (nativeMode) {
             Long intPos = pos;
             TvApp.getApplication().getLogger().Info("Exo length in seek is: " + mVideoView.getDuration());
@@ -712,4 +714,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
         return ourIndex;
     }
+
+
 }

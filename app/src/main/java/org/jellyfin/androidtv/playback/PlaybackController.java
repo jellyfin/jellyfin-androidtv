@@ -871,7 +871,7 @@ public class PlaybackController {
             if (mVideoManager.isNativeMode() && !isLiveTv && ContainerTypes.TS.equals(mCurrentStreamInfo.getContainer())) {
                 //Exo does not support seeking in .ts
                 Utils.showToast(TvApp.getApplication(), "Unable to seek");
-            } else if (mVideoManager.seekTo(pos) >= 0) {
+            } else if (mVideoManager.seekToPosition(pos) >= 0) {
                 if (mFragment != null) {
                     mFragment.updateEndTime(mVideoManager.getDuration() - pos);
                 }
@@ -1011,7 +1011,7 @@ public class PlaybackController {
                     mHandler.postDelayed(this, 25);
                 } else {
                     // do the seek
-                    if (mVideoManager.seekTo(position) < 0)
+                    if (mVideoManager.seekToPosition(position) < 0)
                         Utils.showToast(TvApp.getApplication(), "Unable to seek");
 
                     mPlaybackState = PlaybackState.PLAYING;
