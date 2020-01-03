@@ -21,6 +21,16 @@ public class VideoPlayerAdapter extends PlayerAdapter {
     }
 
     @Override
+    public void rewind() {
+        playbackController.skip(-30000);
+    }
+
+    @Override
+    public void fastForward() {
+        playbackController.skip(30000);
+    }
+
+    @Override
     public void seekTo(long positionInMs) {
         playbackController.seek(positionInMs);
     }

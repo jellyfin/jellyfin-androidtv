@@ -454,8 +454,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         }
     }
 
-
-
     private void setupPopupAnimations() {
         showPopup = AnimationUtils.loadAnimation(mActivity, R.anim.abc_slide_in_bottom);
         showPopup.setAnimationListener(new Animation.AnimationListener() {
@@ -723,7 +721,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     items.add(response);
                     mPlaybackController.setItems(items);
                     mPlaybackController.play(0);
-                    leanbackOverlayFragment.updatePlayState();
                 }
 
                 @Override
@@ -1730,6 +1727,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             @Override
             public void run() {
                 mPlayPauseBtn.setState(state);
+                leanbackOverlayFragment.updatePlayState();
             }
         });
     }
