@@ -27,26 +27,12 @@ android {
             debuggable true
         }
     }
-
-    flavorDimensions "version"
-    productFlavors {
-        google {
-            dimension = "version"
-            versionName = version + "g"
-        }
-        amazon {
-            dimension = "version"
-            versionName = version + "a"
-        }
-    }
 }
 
 dependencies {
     def acraVersion = '5.4.0'
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    amazonImplementation 'com.amazon.android:exoplayer:2.10.6'
-    googleImplementation 'com.google.android.exoplayer:exoplayer:2.10.6'
 
     // This is split like this because this is a modular gradle project on jitpack
     // see https://github.com/jitpack/gradle-modular
@@ -55,6 +41,7 @@ dependencies {
     // is better than nothing.
     implementation 'com.github.jellyfin.jellyfin-apiclient-java:android:master-SNAPSHOT'
     implementation 'com.github.jellyfin.jellyfin-apiclient-java:library:master-SNAPSHOT'
+    implementation 'com.amazon.android:exoplayer:2.10.6'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.leanback:leanback:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.0.2'
