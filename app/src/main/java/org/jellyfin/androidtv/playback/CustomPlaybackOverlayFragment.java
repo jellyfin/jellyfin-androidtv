@@ -13,7 +13,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentManager;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
@@ -200,6 +199,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     boolean mSmNextUpPanelVisible = false;
 
     int mCurrentDuration;
+    private LeanbackOverlayFragment leanbackOverlayFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -306,6 +306,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             @Override
             public void onClick(View v) {
                 mPlaybackController.playPause();
+                leanbackOverlayFragment.updatePlayState();
             }
         });
         mInfoRow = mActivity.findViewById(R.id.infoRow);
@@ -440,17 +441,20 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         // start playing
         mPlaybackController.play(startPos);
+        leanbackOverlayFragment.updatePlayState();
 
         mPlayPauseBtn.requestFocus();
     }
 
     private void prepareOverlayFragment() {
-        LeanbackOverlayFragment leanbackOverlayFragment = (LeanbackOverlayFragment) getFragmentManager().findFragmentById(R.id.leanback_fragment);
+        leanbackOverlayFragment = (LeanbackOverlayFragment) getChildFragmentManager().findFragmentById(R.id.leanback_fragment);
         if (leanbackOverlayFragment != null) {
-            leanbackOverlayFragment.setData(mPlaybackController);
+            leanbackOverlayFragment.initFromView(mPlaybackController);
             leanbackOverlayFragment.setMediaInfo();
         }
     }
+
+
 
     private void setupPopupAnimations() {
         showPopup = AnimationUtils.loadAnimation(mActivity, R.anim.abc_slide_in_bottom);
@@ -719,6 +723,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     items.add(response);
                     mPlaybackController.setItems(items);
                     mPlaybackController.play(0);
+                    leanbackOverlayFragment.updatePlayState();
                 }
 
                 @Override
@@ -1691,6 +1696,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         } else if (mSmNextUpPanelVisible) {
             mSmStartsIn.setText(mCurrentDuration > 0 ? "Starts in " + TimeUtils.formatMillis(mCurrentDuration - time) : "");
         } else {
+            leanbackOverlayFragment.updateCurrentPosition();
             mCurrentProgress.setProgress(((Long)time).intValue());
             mCurrentPos.setText(TimeUtils.formatMillis(time));
             mRemainingTime.setText(mCurrentDuration > 0 ? "-" + TimeUtils.formatMillis(mCurrentDuration - time) : "");

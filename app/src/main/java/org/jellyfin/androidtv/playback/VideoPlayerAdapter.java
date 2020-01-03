@@ -21,6 +21,11 @@ public class VideoPlayerAdapter extends PlayerAdapter {
     }
 
     @Override
+    public void seekTo(long positionInMs) {
+        playbackController.seek(positionInMs);
+    }
+
+    @Override
     public long getDuration() {
         return playbackController.getCurrentlyPlayingItem().getRunTimeTicks()!= null ?
                 playbackController.getCurrentlyPlayingItem().getRunTimeTicks() / 10000 : -1;
@@ -36,5 +41,16 @@ public class VideoPlayerAdapter extends PlayerAdapter {
         return playbackController.isPlaying();
     }
 
+    @Override
+    public long getBufferedPosition() {
+        return getDuration();
+    }
 
+    void updateCurrentPosition() {
+        getCallback().onCurrentPositionChanged(this);
+    }
+
+    void updatePlayState() {
+        getCallback().onPlayStateChanged(this);
+    }
 }

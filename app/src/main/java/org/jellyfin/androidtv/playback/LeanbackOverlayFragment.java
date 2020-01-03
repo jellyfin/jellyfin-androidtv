@@ -19,6 +19,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
     PlaybackController playbackController;
     PlaybackTransportControlGlue playerGlue;
+    private VideoPlayerAdapter playerAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,17 +28,26 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         TvApp application = TvApp.getApplication();
         PlaybackController playbackController = application.getPlaybackController();
 
-        playerGlue = new CustomPlaybackTransportControlGlue(getContext(), new VideoPlayerAdapter(playbackController), playbackController);
+        playerAdapter = new VideoPlayerAdapter(playbackController);
+        playerGlue = new CustomPlaybackTransportControlGlue(getContext(), playerAdapter, playbackController);
         playerGlue.setHost(new PlaybackSupportFragmentGlueHost(this));
     }
 
-    public void setData(PlaybackController playbackController) {
+    public void initFromView(PlaybackController playbackController) {
         this.playbackController = playbackController;
+        playerGlue.setSeekProvider(new CustomSeekProvider(playerAdapter.getDuration()));
     }
 
-    public void setMediaInfo() {
+    void setMediaInfo() {
         BaseItemDto currentlyPlayingItem = playbackController.getCurrentlyPlayingItem();
-
         playerGlue.setTitle(currentlyPlayingItem.getOriginalTitle());
+    }
+
+    void updateCurrentPosition() {
+        playerAdapter.updateCurrentPosition();
+    }
+
+    void updatePlayState() {
+        playerAdapter.updatePlayState();
     }
 }
