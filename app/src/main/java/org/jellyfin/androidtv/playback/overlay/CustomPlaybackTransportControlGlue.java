@@ -10,17 +10,18 @@ import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.PlaybackControlsRow;
 
 import org.jellyfin.androidtv.playback.PlaybackController;
+import org.jellyfin.androidtv.playback.overlay.actions.ClosedCaptionsAction;
 import org.jellyfin.androidtv.playback.overlay.actions.SelectAudioAction;
 
 public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue {
 
     private PlaybackControlsRow.PlayPauseAction playPauseAction;
-    private SelectAudioAction selectAudioAction;
     private PlaybackControlsRow.RewindAction rewindAction;
     private PlaybackControlsRow.FastForwardAction fastForwardAction;
-    private PlaybackControlsRow.ClosedCaptioningAction closedCaptioningAction;
     private PlaybackControlsRow.RepeatAction repeatAction;
     private PlaybackControlsRow.ShuffleAction shuffleAction;
+    private SelectAudioAction selectAudioAction;
+    private ClosedCaptionsAction closedCaptionsAction;
 
     private final PlaybackController playbackController;
     private final CustomActionClickedHandler customActionClickedHandler;
@@ -37,12 +38,12 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     private void initActions(Context context) {
         playPauseAction = new PlaybackControlsRow.PlayPauseAction(context);
-        selectAudioAction = new SelectAudioAction(context, this);
         rewindAction = new PlaybackControlsRow.RewindAction(context);
         fastForwardAction = new PlaybackControlsRow.FastForwardAction(context);
-        closedCaptioningAction = new PlaybackControlsRow.ClosedCaptioningAction(context);
         repeatAction = new PlaybackControlsRow.RepeatAction(context);
         shuffleAction = new PlaybackControlsRow.ShuffleAction(context);
+        selectAudioAction = new SelectAudioAction(context, this);
+        closedCaptionsAction = new ClosedCaptionsAction(context, this);
     }
 
     @Override
@@ -51,7 +52,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         primaryActionsAdapter.add(playPauseAction);
         primaryActionsAdapter.add(rewindAction);
         primaryActionsAdapter.add(fastForwardAction);
-        primaryActionsAdapter.add(closedCaptioningAction);
+        primaryActionsAdapter.add(closedCaptionsAction);
         primaryActionsAdapter.add(selectAudioAction);
     }
 
@@ -80,9 +81,11 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     }
 
     public void onCustomActionClicked(Action action, View view) {
-        // Handle custom action clicks such as changing audio track
+        // Handle custom action clicks which require a popup menu
         if (action == selectAudioAction) {
             customActionClickedHandler.handleAudioSelection(view);
+        } else if (action == closedCaptionsAction) {
+            customActionClickedHandler.handleClosedCaptionsSelection(view);
         }
     }
 

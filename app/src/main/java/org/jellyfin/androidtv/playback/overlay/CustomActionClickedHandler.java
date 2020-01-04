@@ -7,7 +7,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
+import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.model.compat.SubtitleStreamInfo;
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.entities.MediaStream;
@@ -52,5 +54,37 @@ public class CustomActionClickedHandler {
             }
         });
         audioMenu.show();
+    }
+
+    void handleClosedCaptionsSelection(View view) {
+        if (mPlaybackController.getCurrentStreamInfo() == null) {
+            TvApp.getApplication().getLogger().Warn("StreamInfo null trying to obtain subtitles");
+            Utils.showToast(TvApp.getApplication(), "Unable to obtain subtitle info");
+            return;
+        }
+        List<SubtitleStreamInfo> subtitles = mPlaybackController.getSubtitleStreams();
+        PopupMenu subMenu = Utils.createPopupMenu(context, view, Gravity.END);
+        MenuItem none = subMenu.getMenu().add(0, -1, 0, context.getString(R.string.lbl_none));
+        int currentSubIndex = mPlaybackController.getSubtitleStreamIndex();
+        if (currentSubIndex < 0) none.setChecked(true);
+        for (SubtitleStreamInfo sub : subtitles) {
+            MenuItem item = subMenu.getMenu().add(0, sub.getIndex(), sub.getIndex(), sub.getDisplayTitle());
+            if (currentSubIndex == sub.getIndex()) item.setChecked(true);
+        }
+        subMenu.getMenu().setGroupCheckable(0, true, false);
+        subMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+                //setFadingEnabled(true);
+            }
+        });
+        subMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                mPlaybackController.switchSubtitleStream(item.getItemId());
+                return true;
+            }
+        });
+        subMenu.show();
     }
 }
