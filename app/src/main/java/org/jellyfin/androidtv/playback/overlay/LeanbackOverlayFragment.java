@@ -30,6 +30,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         this.playbackController = playbackController;
         playerGlue.setSeekProvider(new CustomSeekProvider(playerAdapter.getDuration()));
         playerGlue.setInitialPlaybackDrawable();
+        playerGlue.setSeekEnabled(playerAdapter.canSeek());
     }
 
     public void setMediaInfo() {

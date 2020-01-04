@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.playback.overlay.actions.AdjustAudioDelayAction;
 import org.jellyfin.androidtv.playback.overlay.actions.ClosedCaptionsAction;
 import org.jellyfin.androidtv.playback.overlay.actions.SelectAudioAction;
 import org.jellyfin.androidtv.playback.overlay.actions.ZoomAction;
+import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 
 public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue {
 
@@ -26,13 +27,15 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private AdjustAudioDelayAction adjustAudioDelayAction;
     private ZoomAction zoomAction;
 
+    private final VideoPlayerAdapter playerAdapter;
     private final CustomActionClickedHandler customActionClickedHandler;
     private ArrayObjectAdapter primaryActionsAdapter;
     private ArrayObjectAdapter secondaryActionsAdapter;
 
 
-    CustomPlaybackTransportControlGlue(Context context, PlayerAdapter playerAdapter, PlaybackController playbackController) {
+    CustomPlaybackTransportControlGlue(Context context, VideoPlayerAdapter playerAdapter, PlaybackController playbackController) {
         super(context, playerAdapter);
+        this.playerAdapter = playerAdapter;
         customActionClickedHandler = new CustomActionClickedHandler(playbackController, context);
         initActions(context);
     }
@@ -52,18 +55,29 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     protected void onCreatePrimaryActions(ArrayObjectAdapter primaryActionsAdapter) {
         this.primaryActionsAdapter = primaryActionsAdapter;
         primaryActionsAdapter.add(playPauseAction);
-        primaryActionsAdapter.add(rewindAction);
-        primaryActionsAdapter.add(fastForwardAction);
-        primaryActionsAdapter.add(closedCaptionsAction);
-        primaryActionsAdapter.add(selectAudioAction);
+        if (canSeek()) {
+            primaryActionsAdapter.add(rewindAction);
+            primaryActionsAdapter.add(fastForwardAction);
+        }
+        if (hasSubs()) {
+            primaryActionsAdapter.add(closedCaptionsAction);
+        }
+        if (hasMultiAudio()) {
+            primaryActionsAdapter.add(selectAudioAction);
+        }
     }
 
     @Override
     protected void onCreateSecondaryActions(ArrayObjectAdapter secondaryActionsAdapter) {
         this.secondaryActionsAdapter = secondaryActionsAdapter;
-        secondaryActionsAdapter.add(skipNextAction);
-        secondaryActionsAdapter.add(adjustAudioDelayAction);
-        secondaryActionsAdapter.add(zoomAction);
+        if (hasNextItem()) {
+            secondaryActionsAdapter.add(skipNextAction);
+        }
+        if (!isNativeMode()) {
+            secondaryActionsAdapter.add(adjustAudioDelayAction);
+        } else {
+            secondaryActionsAdapter.add(zoomAction);
+        }
     }
 
     @Override
@@ -113,5 +127,25 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     void setInitialPlaybackDrawable() {
         playPauseAction.setIndex(PlaybackControlsRow.PlayPauseAction.INDEX_PAUSE);
         notifyActionChanged(playPauseAction);
+    }
+
+    private boolean hasSubs() {
+        return playerAdapter.hasSubs();
+    }
+
+    private boolean hasMultiAudio() {
+        return playerAdapter.hasMultiAudio();
+    }
+
+    private boolean hasNextItem() {
+        return playerAdapter.hasNextItem();
+    }
+
+    private boolean isNativeMode() {
+        return playerAdapter.isNativeMode();
+    }
+
+    private boolean canSeek() {
+        return playerAdapter.canSeek();
     }
 }

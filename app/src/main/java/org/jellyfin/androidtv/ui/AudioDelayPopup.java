@@ -25,10 +25,6 @@ public class AudioDelayPopup {
     View mAnchor;
     NumberSpinner mDelaySpinner;
 
-    public AudioDelayPopup(Activity activity, View anchor, ValueChangedListener<Long> listener) {
-        this(activity.getApplicationContext(), anchor, listener);
-    }
-
     public AudioDelayPopup(Context context, View anchor, ValueChangedListener<Long> listener) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.audio_delay_popup, null);

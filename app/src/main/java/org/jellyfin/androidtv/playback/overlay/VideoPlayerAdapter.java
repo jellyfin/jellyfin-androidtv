@@ -3,6 +3,8 @@ package org.jellyfin.androidtv.playback.overlay;
 import androidx.leanback.media.PlayerAdapter;
 
 import org.jellyfin.androidtv.playback.PlaybackController;
+import org.jellyfin.androidtv.util.DeviceUtils;
+import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 
 public class VideoPlayerAdapter extends PlayerAdapter {
 
@@ -72,5 +74,25 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     void updatePlayState() {
         getCallback().onPlayStateChanged(this);
+    }
+
+    boolean hasSubs() {
+        return StreamHelper.getSubtitleStreams(playbackController.getCurrentMediaSource()).size() > 0;
+    }
+
+    boolean hasMultiAudio() {
+        return StreamHelper.getAudioStreams(playbackController.getCurrentMediaSource()).size() > 1;
+    }
+
+    boolean hasNextItem() {
+        return playbackController.hasNextItem();
+    }
+
+    boolean isNativeMode() {
+        return playbackController.isNativeMode();
+    }
+
+    boolean canSeek() {
+        return !DeviceUtils.isFireTv() && playbackController.canSeek();
     }
 }
