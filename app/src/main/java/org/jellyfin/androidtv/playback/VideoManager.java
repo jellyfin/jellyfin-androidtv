@@ -503,15 +503,22 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     private void releasePlayer() {
-        if (mVlcPlayer == null) return;
+        if (mVlcPlayer != null) {
+            mVlcPlayer.setEventListener(null);
+            mVlcPlayer.stop();
+            mVlcPlayer.getVLCVout().detachViews();
+            mVlcPlayer.release();
+            mLibVLC.release();
+            mLibVLC = null;
+            mVlcPlayer = null;
+        }
 
-        mVlcPlayer.setEventListener(null);
-        mVlcPlayer.stop();
-        mVlcPlayer.getVLCVout().detachViews();
-        mVlcPlayer.release();
-        mLibVLC.release();
-        mLibVLC = null;
-        mVlcPlayer = null;
+        if (mExoPlayer != null) {
+            mExoPlayerView.setPlayer(null);
+            mExoPlayer.release();
+            mExoPlayer = null;
+        }
+
         mSurfaceView.setKeepScreenOn(false);
     }
 
