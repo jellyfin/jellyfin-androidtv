@@ -61,6 +61,7 @@ import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.model.compat.StreamInfo;
 import org.jellyfin.androidtv.model.compat.SubtitleStreamInfo;
+import org.jellyfin.androidtv.playback.overlay.LeanbackOverlayFragment;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.ChannelCardPresenter;
 import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;

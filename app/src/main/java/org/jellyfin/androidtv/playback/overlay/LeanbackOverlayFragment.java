@@ -1,18 +1,15 @@
-package org.jellyfin.androidtv.playback;
+package org.jellyfin.androidtv.playback.overlay;
 
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.leanback.app.PlaybackSupportFragment;
 import androidx.leanback.app.PlaybackSupportFragmentGlueHost;
-import androidx.leanback.app.VideoSupportFragment;
-import androidx.leanback.app.VideoSupportFragmentGlueHost;
-import androidx.leanback.media.MediaPlayerAdapter;
-import androidx.leanback.media.PlaybackGlue;
-import androidx.leanback.media.PlaybackTransportControlGlue;
-import androidx.leanback.media.PlayerAdapter;
 
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.playback.PlaybackController;
+import org.jellyfin.androidtv.playback.overlay.CustomPlaybackTransportControlGlue;
+import org.jellyfin.androidtv.playback.overlay.CustomSeekProvider;
+import org.jellyfin.androidtv.playback.overlay.VideoPlayerAdapter;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 public class LeanbackOverlayFragment extends PlaybackSupportFragment {
@@ -39,16 +36,16 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         playerGlue.setInitialPlaybackDrawable();
     }
 
-    void setMediaInfo() {
+    public void setMediaInfo() {
         BaseItemDto currentlyPlayingItem = playbackController.getCurrentlyPlayingItem();
         playerGlue.setTitle(currentlyPlayingItem.getOriginalTitle());
     }
 
-    void updateCurrentPosition() {
+    public void updateCurrentPosition() {
         playerAdapter.updateCurrentPosition();
     }
 
-    void updatePlayState() {
+    public void updatePlayState() {
         playerAdapter.updatePlayState();
     }
 }

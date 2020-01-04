@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.playback;
+package org.jellyfin.androidtv.playback.overlay;
 
 import androidx.leanback.widget.PlaybackSeekDataProvider;
 

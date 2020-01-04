@@ -1,6 +1,8 @@
-package org.jellyfin.androidtv.playback;
+package org.jellyfin.androidtv.playback.overlay;
 
 import androidx.leanback.media.PlayerAdapter;
+
+import org.jellyfin.androidtv.playback.PlaybackController;
 
 public class VideoPlayerAdapter extends PlayerAdapter {
 

@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.playback;
+package org.jellyfin.androidtv.playback.overlay;
 
 import android.content.Context;
 
@@ -8,6 +8,7 @@ import androidx.leanback.widget.Action;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.PlaybackControlsRow;
 
+import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.overlay.actions.SelectAudioAction;
 
 public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue {
