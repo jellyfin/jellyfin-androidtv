@@ -11,6 +11,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.model.compat.SubtitleStreamInfo;
 import org.jellyfin.androidtv.playback.PlaybackController;
+import org.jellyfin.androidtv.playback.VideoManager;
 import org.jellyfin.androidtv.ui.AudioDelayPopup;
 import org.jellyfin.androidtv.ui.ValueChangedListener;
 import org.jellyfin.androidtv.util.Utils;
@@ -97,5 +98,31 @@ public class CustomActionClickedHandler {
                 mPlaybackController.setAudioDelay(value);
             }
         }).show(mPlaybackController.getAudioDelay());
+    }
+
+    void handleZoomSelection(View view) {
+        PopupMenu zoomMenu = Utils.createPopupMenu(context, view, Gravity.RIGHT);
+        zoomMenu.getMenu().add(0, VideoManager.ZOOM_NORMAL, VideoManager.ZOOM_NORMAL, context.getString(R.string.lbl_normal)).setChecked(mPlaybackController.getZoomMode() == VideoManager.ZOOM_NORMAL);
+        zoomMenu.getMenu().add(0, VideoManager.ZOOM_VERTICAL, VideoManager.ZOOM_VERTICAL, context.getString(R.string.lbl_vertical_stretch)).setChecked(mPlaybackController.getZoomMode() == VideoManager.ZOOM_VERTICAL);
+        zoomMenu.getMenu().add(0, VideoManager.ZOOM_HORIZONTAL, VideoManager.ZOOM_HORIZONTAL, context.getString(R.string.lbl_horizontal_stretch)).setChecked(mPlaybackController.getZoomMode() == VideoManager.ZOOM_HORIZONTAL);
+        zoomMenu.getMenu().add(0, VideoManager.ZOOM_FULL, VideoManager.ZOOM_FULL, context.getString(R.string.lbl_zoom)).setChecked(mPlaybackController.getZoomMode() == VideoManager.ZOOM_FULL);
+
+        zoomMenu.getMenu().setGroupCheckable(0, true, false);
+        zoomMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+                //setFadingEnabled(true);
+            }
+        });
+        zoomMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                mPlaybackController.setZoom(item.getItemId());
+                return true;
+            }
+        });
+
+        //setFadingEnabled(false);
+        zoomMenu.show();
     }
 }

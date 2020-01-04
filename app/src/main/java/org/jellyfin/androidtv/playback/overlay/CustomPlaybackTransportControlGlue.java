@@ -13,6 +13,7 @@ import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.overlay.actions.AdjustAudioDelayAction;
 import org.jellyfin.androidtv.playback.overlay.actions.ClosedCaptionsAction;
 import org.jellyfin.androidtv.playback.overlay.actions.SelectAudioAction;
+import org.jellyfin.androidtv.playback.overlay.actions.ZoomAction;
 
 public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue {
 
@@ -23,6 +24,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private SelectAudioAction selectAudioAction;
     private ClosedCaptionsAction closedCaptionsAction;
     private AdjustAudioDelayAction adjustAudioDelayAction;
+    private ZoomAction zoomAction;
 
     private final PlaybackController playbackController;
     private final CustomActionClickedHandler customActionClickedHandler;
@@ -45,6 +47,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         selectAudioAction = new SelectAudioAction(context, this);
         closedCaptionsAction = new ClosedCaptionsAction(context, this);
         adjustAudioDelayAction = new AdjustAudioDelayAction(context, this);
+        zoomAction = new ZoomAction(context, this);
     }
 
     @Override
@@ -61,6 +64,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     protected void onCreateSecondaryActions(ArrayObjectAdapter secondaryActionsAdapter) {
         this.secondaryActionsAdapter = secondaryActionsAdapter;
         secondaryActionsAdapter.add(skipNextAction);
+        secondaryActionsAdapter.add(adjustAudioDelayAction);
+        secondaryActionsAdapter.add(zoomAction);
     }
 
     @Override
@@ -90,6 +95,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             customActionClickedHandler.handleClosedCaptionsSelection(view);
         } else if (action == adjustAudioDelayAction) {
             customActionClickedHandler.handleAudioDelaySelection(view);
+        } else if (action == zoomAction) {
+            customActionClickedHandler.handleZoomSelection(view);
         }
     }
 
