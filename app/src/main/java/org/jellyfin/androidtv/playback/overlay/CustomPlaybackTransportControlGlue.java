@@ -107,11 +107,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         adapter = secondaryActionsAdapter;
         if (adapter.indexOf(action) >= 0) {
             adapter.notifyArrayItemRangeChanged(adapter.indexOf(action), 1);
-            return;
         }
     }
 
-    public void setInitialPlaybackDrawable() {
+    void setInitialPlaybackDrawable() {
         playPauseAction.setIndex(PlaybackControlsRow.PlayPauseAction.INDEX_PAUSE);
         notifyActionChanged(playPauseAction);
     }
