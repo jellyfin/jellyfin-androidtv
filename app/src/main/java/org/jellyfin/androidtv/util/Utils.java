@@ -206,6 +206,10 @@ public class Utils {
         return new PopupMenu(activity, view, gravity);
     }
 
+    public static PopupMenu createPopupMenu(Context context, View view, int gravity) {
+        return new PopupMenu(context, view, gravity);
+    }
+
     public static int getThemeColor(int resourceId) {
         return getThemeColor(TvApp.getApplication().getCurrentActivity(), resourceId);
     }

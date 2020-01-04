@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.playback.overlay;
 
 import android.content.Context;
+import android.view.View;
 
 import androidx.leanback.media.PlaybackTransportControlGlue;
 import androidx.leanback.media.PlayerAdapter;
@@ -22,6 +23,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private PlaybackControlsRow.ShuffleAction shuffleAction;
 
     private final PlaybackController playbackController;
+    private final CustomActionClickedHandler customActionClickedHandler;
     private ArrayObjectAdapter primaryActionsAdapter;
     private ArrayObjectAdapter secondaryActionsAdapter;
 
@@ -29,12 +31,13 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     CustomPlaybackTransportControlGlue(Context context, PlayerAdapter playerAdapter, PlaybackController playbackController) {
         super(context, playerAdapter);
         this.playbackController = playbackController;
+        customActionClickedHandler = new CustomActionClickedHandler(playbackController, context);
         initActions(context);
     }
 
     private void initActions(Context context) {
         playPauseAction = new PlaybackControlsRow.PlayPauseAction(context);
-        selectAudioAction = new SelectAudioAction(context);
+        selectAudioAction = new SelectAudioAction(context, this);
         rewindAction = new PlaybackControlsRow.RewindAction(context);
         fastForwardAction = new PlaybackControlsRow.FastForwardAction(context);
         closedCaptioningAction = new PlaybackControlsRow.ClosedCaptioningAction(context);
@@ -70,12 +73,17 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             playPauseAction.nextIndex();
         } else if (action == rewindAction) {
             getPlayerAdapter().rewind();
-            rewindAction.nextIndex();
         } else if (action == fastForwardAction) {
             getPlayerAdapter().fastForward();
-            fastForwardAction.nextIndex();
         }
         notifyActionChanged(action);
+    }
+
+    public void onCustomActionClicked(Action action, View view) {
+        // Handle custom action clicks such as changing audio track
+        if (action == selectAudioAction) {
+            customActionClickedHandler.handleAudioSelection(view);
+        }
     }
 
     private void notifyActionChanged(Action action) {

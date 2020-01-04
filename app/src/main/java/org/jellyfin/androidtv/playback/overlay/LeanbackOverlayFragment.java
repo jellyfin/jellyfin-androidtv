@@ -14,8 +14,8 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
-    PlaybackController playbackController;
-    CustomPlaybackTransportControlGlue playerGlue;
+    private PlaybackController playbackController;
+    private CustomPlaybackTransportControlGlue playerGlue;
     private VideoPlayerAdapter playerAdapter;
 
     @Override
@@ -27,7 +27,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
         playerAdapter = new VideoPlayerAdapter(playbackController);
         playerGlue = new CustomPlaybackTransportControlGlue(getContext(), playerAdapter, playbackController);
-        playerGlue.setHost(new PlaybackSupportFragmentGlueHost(this));
+        playerGlue.setHost(new CustomPlaybackFragmentGlueHost(this));
     }
 
     public void initFromView(PlaybackController playbackController) {
