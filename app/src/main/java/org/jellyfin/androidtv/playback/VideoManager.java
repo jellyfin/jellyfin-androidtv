@@ -31,7 +31,7 @@ import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.MediaStreamType;
 
-public class VideoManager extends PlayerAdapter implements IVLCVout.OnNewVideoLayoutListener {
+public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     public final static int ZOOM_NORMAL = 0;
     public final static int ZOOM_VERTICAL = 1;
@@ -222,7 +222,7 @@ public class VideoManager extends PlayerAdapter implements IVLCVout.OnNewVideoLa
         stopProgressLoop();
     }
 
-    public long seekToPosition(long pos) {
+    public long seekTo(long pos) {
         if (nativeMode) {
             Long intPos = pos;
             TvApp.getApplication().getLogger().Info("Exo length in seek is: " + mVideoView.getDuration());
