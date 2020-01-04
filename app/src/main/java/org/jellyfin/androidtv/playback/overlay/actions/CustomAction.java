@@ -11,10 +11,10 @@ import org.jellyfin.androidtv.playback.overlay.CustomPlaybackTransportControlGlu
 
 public abstract class CustomAction extends PlaybackControlsRow.MultiAction {
 
-    Context context;
+    private Context context;
     private CustomPlaybackTransportControlGlue customPlaybackTransportControlGlue;
 
-    public CustomAction(Context context, CustomPlaybackTransportControlGlue customPlaybackTransportControlGlue) {
+    CustomAction(Context context, CustomPlaybackTransportControlGlue customPlaybackTransportControlGlue) {
         this(0);
         this.context = context;
         this.customPlaybackTransportControlGlue = customPlaybackTransportControlGlue;
@@ -26,6 +26,12 @@ public abstract class CustomAction extends PlaybackControlsRow.MultiAction {
 
     public void onCustomActionClicked(View view) { // We need a custom onClicked implementation for showing the popup
         customPlaybackTransportControlGlue.onCustomActionClicked(this, view);
+    }
+
+    void initializeWithIcon(int resourceId) {
+        Drawable drawable = context.getDrawable(resourceId);
+        setIcon(drawable);
+        setDrawables(new Drawable[]{drawable});
     }
 
 }

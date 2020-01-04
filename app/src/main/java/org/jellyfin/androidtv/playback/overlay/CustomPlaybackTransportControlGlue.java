@@ -26,7 +26,6 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private AdjustAudioDelayAction adjustAudioDelayAction;
     private ZoomAction zoomAction;
 
-    private final PlaybackController playbackController;
     private final CustomActionClickedHandler customActionClickedHandler;
     private ArrayObjectAdapter primaryActionsAdapter;
     private ArrayObjectAdapter secondaryActionsAdapter;
@@ -34,7 +33,6 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     CustomPlaybackTransportControlGlue(Context context, PlayerAdapter playerAdapter, PlaybackController playbackController) {
         super(context, playerAdapter);
-        this.playbackController = playbackController;
         customActionClickedHandler = new CustomActionClickedHandler(playbackController, context);
         initActions(context);
     }

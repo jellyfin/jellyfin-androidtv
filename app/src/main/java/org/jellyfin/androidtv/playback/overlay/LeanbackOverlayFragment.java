@@ -3,13 +3,9 @@ package org.jellyfin.androidtv.playback.overlay;
 import android.os.Bundle;
 
 import androidx.leanback.app.PlaybackSupportFragment;
-import androidx.leanback.app.PlaybackSupportFragmentGlueHost;
 
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.playback.PlaybackController;
-import org.jellyfin.androidtv.playback.overlay.CustomPlaybackTransportControlGlue;
-import org.jellyfin.androidtv.playback.overlay.CustomSeekProvider;
-import org.jellyfin.androidtv.playback.overlay.VideoPlayerAdapter;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 public class LeanbackOverlayFragment extends PlaybackSupportFragment {

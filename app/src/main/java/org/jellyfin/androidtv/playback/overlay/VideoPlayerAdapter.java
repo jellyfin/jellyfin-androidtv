@@ -8,7 +8,7 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     private final PlaybackController playbackController;
 
-    public VideoPlayerAdapter(PlaybackController playbackController) {
+    VideoPlayerAdapter(PlaybackController playbackController) {
         this.playbackController = playbackController;
     }
 

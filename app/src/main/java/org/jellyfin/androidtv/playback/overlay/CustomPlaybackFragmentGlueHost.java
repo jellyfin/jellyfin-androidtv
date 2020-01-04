@@ -17,13 +17,14 @@ public class CustomPlaybackFragmentGlueHost extends PlaybackSupportFragmentGlueH
 
     private final PlaybackSupportFragment fragment;
 
-    public CustomPlaybackFragmentGlueHost(PlaybackSupportFragment fragment) {
+    CustomPlaybackFragmentGlueHost(PlaybackSupportFragment fragment) {
         super(fragment);
         this.fragment = fragment;
     }
 
     @Override
     public void setOnActionClickedListener(OnActionClickedListener listener) {
+        // Copy from superclass
         if (listener == null) {
             fragment.setOnPlaybackItemViewClickedListener(null);
         } else {
@@ -31,6 +32,7 @@ public class CustomPlaybackFragmentGlueHost extends PlaybackSupportFragmentGlueH
                 @Override
                 public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                           RowPresenter.ViewHolder rowViewHolder, Row row) {
+                    // Call our custom function and pass the view instance
                     if (item instanceof CustomAction) {
                         ((CustomAction) item).onCustomActionClicked(itemViewHolder.view);
                     }
