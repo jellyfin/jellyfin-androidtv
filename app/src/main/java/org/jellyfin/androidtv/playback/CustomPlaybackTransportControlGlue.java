@@ -44,12 +44,12 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         primaryActionsAdapter.add(playPauseAction);
         primaryActionsAdapter.add(rewindAction);
         primaryActionsAdapter.add(fastForwardAction);
+        secondaryActionsAdapter.add(closedCaptioningAction);
     }
 
     @Override
     protected void onCreateSecondaryActions(ArrayObjectAdapter secondaryActionsAdapter) {
         this.secondaryActionsAdapter = secondaryActionsAdapter;
-        secondaryActionsAdapter.add(closedCaptioningAction);
         secondaryActionsAdapter.add(repeatAction);
         secondaryActionsAdapter.add(shuffleAction);
     }
