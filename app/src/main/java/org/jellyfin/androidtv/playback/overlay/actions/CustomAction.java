@@ -19,6 +19,4 @@ abstract class CustomAction extends PlaybackControlsRow.MultiAction {
         super(id);
     }
 
-    @Override
-    public abstract Drawable getDrawable(int index);
 }

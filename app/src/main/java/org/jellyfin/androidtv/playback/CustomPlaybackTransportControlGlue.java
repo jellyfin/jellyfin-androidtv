@@ -8,12 +8,14 @@ import androidx.leanback.widget.Action;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.PlaybackControlsRow;
 
+import org.jellyfin.androidtv.playback.overlay.actions.SelectAudioAction;
+
 public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue {
 
     private PlaybackControlsRow.PlayPauseAction playPauseAction;
+    private SelectAudioAction selectAudioAction;
     private PlaybackControlsRow.RewindAction rewindAction;
     private PlaybackControlsRow.FastForwardAction fastForwardAction;
-
     private PlaybackControlsRow.ClosedCaptioningAction closedCaptioningAction;
     private PlaybackControlsRow.RepeatAction repeatAction;
     private PlaybackControlsRow.ShuffleAction shuffleAction;
@@ -31,6 +33,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     private void initActions(Context context) {
         playPauseAction = new PlaybackControlsRow.PlayPauseAction(context);
+        selectAudioAction = new SelectAudioAction(context);
         rewindAction = new PlaybackControlsRow.RewindAction(context);
         fastForwardAction = new PlaybackControlsRow.FastForwardAction(context);
         closedCaptioningAction = new PlaybackControlsRow.ClosedCaptioningAction(context);
@@ -44,7 +47,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         primaryActionsAdapter.add(playPauseAction);
         primaryActionsAdapter.add(rewindAction);
         primaryActionsAdapter.add(fastForwardAction);
-        secondaryActionsAdapter.add(closedCaptioningAction);
+        primaryActionsAdapter.add(closedCaptioningAction);
+        primaryActionsAdapter.add(selectAudioAction);
     }
 
     @Override
