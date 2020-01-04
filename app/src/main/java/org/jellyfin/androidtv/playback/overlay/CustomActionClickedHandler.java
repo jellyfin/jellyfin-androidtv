@@ -11,6 +11,8 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.model.compat.SubtitleStreamInfo;
 import org.jellyfin.androidtv.playback.PlaybackController;
+import org.jellyfin.androidtv.ui.AudioDelayPopup;
+import org.jellyfin.androidtv.ui.ValueChangedListener;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 
@@ -86,5 +88,14 @@ public class CustomActionClickedHandler {
             }
         });
         subMenu.show();
+    }
+
+    void handleAudioDelaySelection(View view) {
+        new AudioDelayPopup(context, view, new ValueChangedListener<Long>() {
+            @Override
+            public void onValueChanged(Long value) {
+                mPlaybackController.setAudioDelay(value);
+            }
+        }).show(mPlaybackController.getAudioDelay());
     }
 }

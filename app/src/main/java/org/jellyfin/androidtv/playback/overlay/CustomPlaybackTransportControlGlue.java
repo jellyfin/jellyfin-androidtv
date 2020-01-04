@@ -10,6 +10,7 @@ import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.PlaybackControlsRow;
 
 import org.jellyfin.androidtv.playback.PlaybackController;
+import org.jellyfin.androidtv.playback.overlay.actions.AdjustAudioDelayAction;
 import org.jellyfin.androidtv.playback.overlay.actions.ClosedCaptionsAction;
 import org.jellyfin.androidtv.playback.overlay.actions.SelectAudioAction;
 
@@ -18,10 +19,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private PlaybackControlsRow.PlayPauseAction playPauseAction;
     private PlaybackControlsRow.RewindAction rewindAction;
     private PlaybackControlsRow.FastForwardAction fastForwardAction;
-    private PlaybackControlsRow.RepeatAction repeatAction;
-    private PlaybackControlsRow.ShuffleAction shuffleAction;
+    private PlaybackControlsRow.SkipNextAction skipNextAction;
     private SelectAudioAction selectAudioAction;
     private ClosedCaptionsAction closedCaptionsAction;
+    private AdjustAudioDelayAction adjustAudioDelayAction;
 
     private final PlaybackController playbackController;
     private final CustomActionClickedHandler customActionClickedHandler;
@@ -40,10 +41,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         playPauseAction = new PlaybackControlsRow.PlayPauseAction(context);
         rewindAction = new PlaybackControlsRow.RewindAction(context);
         fastForwardAction = new PlaybackControlsRow.FastForwardAction(context);
-        repeatAction = new PlaybackControlsRow.RepeatAction(context);
-        shuffleAction = new PlaybackControlsRow.ShuffleAction(context);
+        skipNextAction = new PlaybackControlsRow.SkipNextAction(context);
         selectAudioAction = new SelectAudioAction(context, this);
         closedCaptionsAction = new ClosedCaptionsAction(context, this);
+        adjustAudioDelayAction = new AdjustAudioDelayAction(context, this);
     }
 
     @Override
@@ -59,8 +60,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     @Override
     protected void onCreateSecondaryActions(ArrayObjectAdapter secondaryActionsAdapter) {
         this.secondaryActionsAdapter = secondaryActionsAdapter;
-        secondaryActionsAdapter.add(repeatAction);
-        secondaryActionsAdapter.add(shuffleAction);
+        secondaryActionsAdapter.add(skipNextAction);
     }
 
     @Override
@@ -76,6 +76,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             getPlayerAdapter().rewind();
         } else if (action == fastForwardAction) {
             getPlayerAdapter().fastForward();
+        } else if (action == skipNextAction) {
+            getPlayerAdapter().next();
         }
         notifyActionChanged(action);
     }
@@ -86,6 +88,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             customActionClickedHandler.handleAudioSelection(view);
         } else if (action == closedCaptionsAction) {
             customActionClickedHandler.handleClosedCaptionsSelection(view);
+        } else if (action == adjustAudioDelayAction) {
+            customActionClickedHandler.handleAudioDelaySelection(view);
         }
     }
 
