@@ -12,6 +12,7 @@ import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.overlay.actions.AdjustAudioDelayAction;
 import org.jellyfin.androidtv.playback.overlay.actions.ChannelBarChannelAction;
 import org.jellyfin.androidtv.playback.overlay.actions.ClosedCaptionsAction;
+import org.jellyfin.androidtv.playback.overlay.actions.GuideAction;
 import org.jellyfin.androidtv.playback.overlay.actions.PreviousLiveTvChannelAction;
 import org.jellyfin.androidtv.playback.overlay.actions.SelectAudioAction;
 import org.jellyfin.androidtv.playback.overlay.actions.ZoomAction;
@@ -31,16 +32,19 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     // TV actions
     private PreviousLiveTvChannelAction previousLiveTvChannelAction;
     private ChannelBarChannelAction channelBarChannelAction;
+    private GuideAction guideAction;
 
     private final VideoPlayerAdapter playerAdapter;
+    private final LeanbackOverlayFragment leanbackOverlayFragment;
     private final CustomActionClickedHandler customActionClickedHandler;
     private ArrayObjectAdapter primaryActionsAdapter;
     private ArrayObjectAdapter secondaryActionsAdapter;
 
 
-    CustomPlaybackTransportControlGlue(Context context, VideoPlayerAdapter playerAdapter, PlaybackController playbackController) {
+    CustomPlaybackTransportControlGlue(Context context, VideoPlayerAdapter playerAdapter, PlaybackController playbackController, LeanbackOverlayFragment leanbackOverlayFragment) {
         super(context, playerAdapter);
         this.playerAdapter = playerAdapter;
+        this.leanbackOverlayFragment = leanbackOverlayFragment;
         customActionClickedHandler = new CustomActionClickedHandler(playbackController, context);
         initActions(context);
     }
@@ -56,6 +60,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         zoomAction = new ZoomAction(context, this);
         previousLiveTvChannelAction = new PreviousLiveTvChannelAction(context, this);
         channelBarChannelAction = new ChannelBarChannelAction(context, this);
+        guideAction = new GuideAction(context, this);
     }
 
     @Override
@@ -74,6 +79,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         }
         if (isLiveTv()) {
             primaryActionsAdapter.add(channelBarChannelAction);
+            primaryActionsAdapter.add(guideAction);
         }
     }
 
@@ -126,7 +132,11 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         } else if (action == previousLiveTvChannelAction) {
             customActionClickedHandler.handlePreviousLiveTvChannelSelection(playerAdapter.getMasterOverlayFragment());
         } else if (action == channelBarChannelAction) {
+            leanbackOverlayFragment.hideOverlay();
             customActionClickedHandler.handleChannelBarSelection(playerAdapter.getMasterOverlayFragment());
+        } else if (action == guideAction) {
+            leanbackOverlayFragment.hideOverlay();
+            customActionClickedHandler.handleGuideSelection(playerAdapter.getMasterOverlayFragment());
         }
     }
 

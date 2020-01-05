@@ -606,16 +606,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 mActivity.finish();
                 return true;
             }
-            if (mPlaybackController.isLiveTv() && !mPopupPanelVisible && keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-                if (!leanbackOverlayFragment.isControlsOverlayVisible()) {
-                    leanbackOverlayFragment.setShouldShowOverlay(false);
-                    leanbackOverlayFragment.hideOverlay();
-                    showQuickChannelChanger();
-                    return true;
-                } else {
-                    return false;
-                }
-            }
 
             if (mPopupPanelVisible && (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE)) {
                 // back should just hide the popup panel
@@ -694,6 +684,17 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                             Utils.beep(100);
                             mPlaybackController.skip(-11000);
                             return true;
+                        }
+                    }
+
+                    if (mPlaybackController.isLiveTv() && !mPopupPanelVisible && keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                        if (!leanbackOverlayFragment.isControlsOverlayVisible()) {
+                            leanbackOverlayFragment.setShouldShowOverlay(false);
+                            leanbackOverlayFragment.hideOverlay();
+                            showQuickChannelChanger();
+                            return true;
+                        } else {
+                            return false;
                         }
                     }
 
@@ -869,7 +870,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mInfoSummary.setVisibility(View.INVISIBLE);
     }
 
-    private void showGuide() {
+    public void showGuide() {
         hide();
         mPlaybackController.mVideoManager.contractVideo(Utils.convertDpToPixel(mActivity, 300));
         mTvGuide.setVisibility(View.VISIBLE);

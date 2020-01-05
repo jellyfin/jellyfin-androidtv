@@ -138,4 +138,8 @@ public class CustomActionClickedHandler {
     void handleChannelBarSelection(CustomPlaybackOverlayFragment customPlaybackOverlayFragment) {
         customPlaybackOverlayFragment.showQuickChannelChanger();
     }
+
+    void handleGuideSelection(CustomPlaybackOverlayFragment customPlaybackOverlayFragment) {
+        customPlaybackOverlayFragment.showGuide();
+    }
 }

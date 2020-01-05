@@ -25,7 +25,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         PlaybackController playbackController = application.getPlaybackController();
 
         playerAdapter = new VideoPlayerAdapter(playbackController);
-        playerGlue = new CustomPlaybackTransportControlGlue(getContext(), playerAdapter, playbackController);
+        playerGlue = new CustomPlaybackTransportControlGlue(getContext(), playerAdapter, playbackController, this);
         playerGlue.setHost(new CustomPlaybackFragmentGlueHost(this));
     }
 
