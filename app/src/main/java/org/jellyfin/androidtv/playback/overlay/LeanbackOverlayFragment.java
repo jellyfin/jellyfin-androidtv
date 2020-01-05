@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.leanback.app.PlaybackSupportFragment;
 
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
@@ -26,11 +27,12 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         playerGlue.setHost(new CustomPlaybackFragmentGlueHost(this));
     }
 
-    public void initFromView(PlaybackController playbackController) {
+    public void initFromView(PlaybackController playbackController, CustomPlaybackOverlayFragment customPlaybackOverlayFragment) {
         this.playbackController = playbackController;
         playerGlue.setSeekProvider(new CustomSeekProvider(playerAdapter.getDuration()));
         playerGlue.setInitialPlaybackDrawable();
         playerGlue.setSeekEnabled(playerAdapter.canSeek());
+        playerAdapter.setMasterOverlayFragment(customPlaybackOverlayFragment);
     }
 
     public void setMediaInfo() {

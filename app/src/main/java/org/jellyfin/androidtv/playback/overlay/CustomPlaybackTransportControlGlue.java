@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 
 import androidx.leanback.media.PlaybackTransportControlGlue;
-import androidx.leanback.media.PlayerAdapter;
 import androidx.leanback.widget.Action;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.PlaybackControlsRow;
@@ -12,12 +11,13 @@ import androidx.leanback.widget.PlaybackControlsRow;
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.overlay.actions.AdjustAudioDelayAction;
 import org.jellyfin.androidtv.playback.overlay.actions.ClosedCaptionsAction;
+import org.jellyfin.androidtv.playback.overlay.actions.PreviousLiveTvChannelAction;
 import org.jellyfin.androidtv.playback.overlay.actions.SelectAudioAction;
 import org.jellyfin.androidtv.playback.overlay.actions.ZoomAction;
-import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 
 public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue {
 
+    // Normal playback actions
     private PlaybackControlsRow.PlayPauseAction playPauseAction;
     private PlaybackControlsRow.RewindAction rewindAction;
     private PlaybackControlsRow.FastForwardAction fastForwardAction;
@@ -26,6 +26,9 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private ClosedCaptionsAction closedCaptionsAction;
     private AdjustAudioDelayAction adjustAudioDelayAction;
     private ZoomAction zoomAction;
+
+    // TV actions
+    private PreviousLiveTvChannelAction previousLiveTvChannelAction;
 
     private final VideoPlayerAdapter playerAdapter;
     private final CustomActionClickedHandler customActionClickedHandler;
@@ -49,6 +52,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         closedCaptionsAction = new ClosedCaptionsAction(context, this);
         adjustAudioDelayAction = new AdjustAudioDelayAction(context, this);
         zoomAction = new ZoomAction(context, this);
+        previousLiveTvChannelAction = new PreviousLiveTvChannelAction(context, this);
     }
 
     @Override
@@ -70,6 +74,9 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     @Override
     protected void onCreateSecondaryActions(ArrayObjectAdapter secondaryActionsAdapter) {
         this.secondaryActionsAdapter = secondaryActionsAdapter;
+        if (isLiveTv()) {
+            secondaryActionsAdapter.add(previousLiveTvChannelAction);
+        }
         if (hasNextItem()) {
             secondaryActionsAdapter.add(skipNextAction);
         }
@@ -109,6 +116,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             customActionClickedHandler.handleAudioDelaySelection(view);
         } else if (action == zoomAction) {
             customActionClickedHandler.handleZoomSelection(view);
+        } else if (action == previousLiveTvChannelAction) {
+            customActionClickedHandler.handlePreviousLiveTvChannelSelection(playerAdapter.getMasterOverlayFragment());
         }
     }
 
@@ -147,5 +156,9 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     private boolean canSeek() {
         return playerAdapter.canSeek();
+    }
+
+    private boolean isLiveTv() {
+        return playerAdapter.isLiveTv();
     }
 }

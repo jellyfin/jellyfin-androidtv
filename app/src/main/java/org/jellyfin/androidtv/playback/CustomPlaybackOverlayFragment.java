@@ -450,7 +450,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private void prepareOverlayFragment() {
         leanbackOverlayFragment = (LeanbackOverlayFragment) getChildFragmentManager().findFragmentById(R.id.leanback_fragment);
         if (leanbackOverlayFragment != null) {
-            leanbackOverlayFragment.initFromView(mPlaybackController);
+            leanbackOverlayFragment.initFromView(mPlaybackController, this);
             leanbackOverlayFragment.setMediaInfo();
         }
     }
@@ -706,7 +706,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     public long getCurrentLocalStartDate() { return mCurrentLocalGuideStart; }
     public long getCurrentLocalEndDate() { return mCurrentLocalGuideEnd; }
 
-    private void switchChannel(String id) {
+    public void switchChannel(String id) {
         if (id == null) return;
         if (mPlaybackController.getCurrentlyPlayingItem().getId().equals(id)) {
             // same channel, just dismiss overlay

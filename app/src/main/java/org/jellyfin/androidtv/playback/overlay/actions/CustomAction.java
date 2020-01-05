@@ -14,7 +14,7 @@ public abstract class CustomAction extends PlaybackControlsRow.MultiAction {
     private Context context;
     private CustomPlaybackTransportControlGlue customPlaybackTransportControlGlue;
 
-    CustomAction(Context context, CustomPlaybackTransportControlGlue customPlaybackTransportControlGlue) {
+    public CustomAction(Context context, CustomPlaybackTransportControlGlue customPlaybackTransportControlGlue) {
         this(0);
         this.context = context;
         this.customPlaybackTransportControlGlue = customPlaybackTransportControlGlue;

@@ -9,14 +9,19 @@ import android.widget.PopupMenu;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.model.compat.SubtitleStreamInfo;
+import org.jellyfin.androidtv.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.VideoManager;
 import org.jellyfin.androidtv.ui.AudioDelayPopup;
 import org.jellyfin.androidtv.ui.ValueChangedListener;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomActionClickedHandler {
@@ -124,5 +129,9 @@ public class CustomActionClickedHandler {
 
         //setFadingEnabled(false);
         zoomMenu.show();
+    }
+
+    void handlePreviousLiveTvChannelSelection(CustomPlaybackOverlayFragment customPlaybackOverlayFragment) {
+        customPlaybackOverlayFragment.switchChannel(TvManager.getPrevLiveTvChannel());
     }
 }

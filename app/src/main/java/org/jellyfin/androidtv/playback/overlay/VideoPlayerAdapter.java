@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.playback.overlay;
 
 import androidx.leanback.media.PlayerAdapter;
 
+import org.jellyfin.androidtv.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
@@ -9,6 +10,7 @@ import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 public class VideoPlayerAdapter extends PlayerAdapter {
 
     private final PlaybackController playbackController;
+    private CustomPlaybackOverlayFragment customPlaybackOverlayFragment;
 
     VideoPlayerAdapter(PlaybackController playbackController) {
         this.playbackController = playbackController;
@@ -94,5 +96,17 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     boolean canSeek() {
         return !DeviceUtils.isFireTv() && playbackController.canSeek();
+    }
+
+    boolean isLiveTv() {
+        return playbackController.isLiveTv();
+    }
+
+    void setMasterOverlayFragment(CustomPlaybackOverlayFragment customPlaybackOverlayFragment) {
+        this.customPlaybackOverlayFragment = customPlaybackOverlayFragment;
+    }
+
+    CustomPlaybackOverlayFragment getMasterOverlayFragment() {
+        return customPlaybackOverlayFragment;
     }
 }
