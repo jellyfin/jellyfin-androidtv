@@ -238,7 +238,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mHideTask = new Runnable() {
             @Override
             public void run() {
-                if (mIsVisible) hide();
+                if (mIsVisible) {
+                    hide();
+                    leanbackOverlayFragment.hideOverlay();
+                }
             }
         };
     }
@@ -451,7 +454,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         leanbackOverlayFragment = (LeanbackOverlayFragment) getChildFragmentManager().findFragmentById(R.id.leanback_fragment);
         if (leanbackOverlayFragment != null) {
             leanbackOverlayFragment.initFromView(mPlaybackController, this);
-            leanbackOverlayFragment.setMediaInfo();
+            leanbackOverlayFragment.mediaInfoChanged();
+            leanbackOverlayFragment.setOnKeyInterceptListener(keyListener);
         }
     }
 
@@ -597,14 +601,26 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private View.OnKeyListener keyListener = new View.OnKeyListener() {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
+            leanbackOverlayFragment.setShouldShowOverlay(true);
             if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP && mActivity != null && !mActivity.isFinishing()) {
                 mActivity.finish();
                 return true;
+            }
+            if (mPlaybackController.isLiveTv() && !mPopupPanelVisible && keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                if (!leanbackOverlayFragment.isControlsOverlayVisible()) {
+                    leanbackOverlayFragment.setShouldShowOverlay(false);
+                    leanbackOverlayFragment.hideOverlay();
+                    showQuickChannelChanger();
+                    return true;
+                } else {
+                    return false;
+                }
             }
 
             if (mPopupPanelVisible && (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE)) {
                 // back should just hide the popup panel
                 hidePopupPanel();
+                leanbackOverlayFragment.hideOverlay();
 
                 // also close this if live tv
                 if (mPlaybackController.isLiveTv()) hide();
@@ -679,11 +695,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                             mPlaybackController.skip(-11000);
                             return true;
                         }
-                    }
-
-                    if (keyCode == KeyEvent.KEYCODE_DPAD_UP && mPlaybackController.isLiveTv()) {
-                        showQuickChannelChanger();
-                        return true;
                     }
 
                     if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && mPlaybackController.canSeek()) {
@@ -1740,6 +1751,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             if (mNextUpPanelVisible) hideNextUpPanel();
             if (mSmNextUpPanelVisible) hideSmNextUpPanel();
             updateCurrentDuration(current);
+            leanbackOverlayFragment.mediaInfoChanged();
             // set progress to match duration
             mCurrentProgress.setMax(mCurrentDuration);
             // set other information

@@ -80,6 +80,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         if (hasNextItem()) {
             secondaryActionsAdapter.add(skipNextAction);
         }
+
         if (!isNativeMode()) {
             secondaryActionsAdapter.add(adjustAudioDelayAction);
         } else {
@@ -160,5 +161,12 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     private boolean isLiveTv() {
         return playerAdapter.isLiveTv();
+    }
+
+    void invalidatePlaybackControls() {
+        primaryActionsAdapter.clear();
+        secondaryActionsAdapter.clear();
+        onCreatePrimaryActions(primaryActionsAdapter);
+        onCreateSecondaryActions(secondaryActionsAdapter);
     }
 }

@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.playback.overlay;
 import android.os.Bundle;
 
 import androidx.leanback.app.PlaybackSupportFragment;
+import androidx.leanback.widget.ArrayObjectAdapter;
 
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.playback.CustomPlaybackOverlayFragment;
@@ -14,6 +15,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
     private PlaybackController playbackController;
     private CustomPlaybackTransportControlGlue playerGlue;
     private VideoPlayerAdapter playerAdapter;
+    private boolean shouldShowOverlay = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,13 +33,17 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         this.playbackController = playbackController;
         playerGlue.setSeekProvider(new CustomSeekProvider(playerAdapter.getDuration()));
         playerGlue.setInitialPlaybackDrawable();
+        hideControlsOverlay(true);
+        setControlsOverlayAutoHideEnabled(true);
         playerGlue.setSeekEnabled(playerAdapter.canSeek());
         playerAdapter.setMasterOverlayFragment(customPlaybackOverlayFragment);
     }
 
-    public void setMediaInfo() {
-        BaseItemDto currentlyPlayingItem = playbackController.getCurrentlyPlayingItem();
-        playerGlue.setTitle(currentlyPlayingItem.getOriginalTitle());
+    @Override
+    public void showControlsOverlay(boolean runAnimation) {
+        if (shouldShowOverlay) {
+            super.showControlsOverlay(runAnimation);
+        }
     }
 
     public void updateCurrentPosition() {
@@ -46,5 +52,19 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
     public void updatePlayState() {
         playerAdapter.updatePlayState();
+    }
+
+    public void setShouldShowOverlay(boolean shouldShowOverlay) {
+        this.shouldShowOverlay = shouldShowOverlay;
+    }
+
+    public void hideOverlay() {
+        hideControlsOverlay(true);
+    }
+
+    public void mediaInfoChanged() {
+        BaseItemDto currentlyPlayingItem = playbackController.getCurrentlyPlayingItem();
+        playerGlue.setTitle(currentlyPlayingItem.getName());
+        playerGlue.invalidatePlaybackControls();
     }
 }
