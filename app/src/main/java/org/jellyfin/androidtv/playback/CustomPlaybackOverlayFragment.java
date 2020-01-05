@@ -1279,7 +1279,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mCurrentDuration = andDuration.intValue();
     }
 
-    private void showQuickChannelChanger() {
+    public void showQuickChannelChanger() {
         showChapterPanel();
         mHandler.postDelayed(new Runnable() {
             @Override

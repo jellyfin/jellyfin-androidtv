@@ -134,4 +134,8 @@ public class CustomActionClickedHandler {
     void handlePreviousLiveTvChannelSelection(CustomPlaybackOverlayFragment customPlaybackOverlayFragment) {
         customPlaybackOverlayFragment.switchChannel(TvManager.getPrevLiveTvChannel());
     }
+
+    void handleChannelBarSelection(CustomPlaybackOverlayFragment customPlaybackOverlayFragment) {
+        customPlaybackOverlayFragment.showQuickChannelChanger();
+    }
 }

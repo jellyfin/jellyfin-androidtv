@@ -10,6 +10,7 @@ import androidx.leanback.widget.PlaybackControlsRow;
 
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.overlay.actions.AdjustAudioDelayAction;
+import org.jellyfin.androidtv.playback.overlay.actions.ChannelBarChannelAction;
 import org.jellyfin.androidtv.playback.overlay.actions.ClosedCaptionsAction;
 import org.jellyfin.androidtv.playback.overlay.actions.PreviousLiveTvChannelAction;
 import org.jellyfin.androidtv.playback.overlay.actions.SelectAudioAction;
@@ -29,6 +30,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     // TV actions
     private PreviousLiveTvChannelAction previousLiveTvChannelAction;
+    private ChannelBarChannelAction channelBarChannelAction;
 
     private final VideoPlayerAdapter playerAdapter;
     private final CustomActionClickedHandler customActionClickedHandler;
@@ -53,6 +55,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         adjustAudioDelayAction = new AdjustAudioDelayAction(context, this);
         zoomAction = new ZoomAction(context, this);
         previousLiveTvChannelAction = new PreviousLiveTvChannelAction(context, this);
+        channelBarChannelAction = new ChannelBarChannelAction(context, this);
     }
 
     @Override
@@ -68,6 +71,9 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         }
         if (hasMultiAudio()) {
             primaryActionsAdapter.add(selectAudioAction);
+        }
+        if (isLiveTv()) {
+            primaryActionsAdapter.add(channelBarChannelAction);
         }
     }
 
@@ -119,6 +125,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             customActionClickedHandler.handleZoomSelection(view);
         } else if (action == previousLiveTvChannelAction) {
             customActionClickedHandler.handlePreviousLiveTvChannelSelection(playerAdapter.getMasterOverlayFragment());
+        } else if (action == channelBarChannelAction) {
+            customActionClickedHandler.handleChannelBarSelection(playerAdapter.getMasterOverlayFragment());
         }
     }
 
