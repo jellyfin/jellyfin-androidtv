@@ -7,6 +7,8 @@ import androidx.leanback.media.PlaybackTransportControlGlue;
 import androidx.leanback.widget.Action;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.PlaybackControlsRow;
+import androidx.leanback.widget.PlaybackRowPresenter;
+import androidx.leanback.widget.PlaybackTransportRowPresenter;
 
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.overlay.actions.AdjustAudioDelayAction;
@@ -41,7 +43,6 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private final CustomActionClickedHandler customActionClickedHandler;
     private ArrayObjectAdapter primaryActionsAdapter;
     private ArrayObjectAdapter secondaryActionsAdapter;
-
 
     CustomPlaybackTransportControlGlue(Context context, VideoPlayerAdapter playerAdapter, PlaybackController playbackController, LeanbackOverlayFragment leanbackOverlayFragment) {
         super(context, playerAdapter);
@@ -167,6 +168,13 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         if (adapter.indexOf(action) >= 0) {
             adapter.notifyArrayItemRangeChanged(adapter.indexOf(action), 1);
         }
+    }
+
+    @Override
+    protected PlaybackRowPresenter onCreateRowPresenter() {
+        PlaybackTransportRowPresenter presenter = (PlaybackTransportRowPresenter) super.onCreateRowPresenter();
+        presenter.setDescriptionPresenter(new FullDescriptionPresenter());
+        return presenter;
     }
 
     void setInitialPlaybackDrawable() {

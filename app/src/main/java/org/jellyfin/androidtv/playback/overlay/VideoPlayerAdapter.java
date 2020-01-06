@@ -53,8 +53,8 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     @Override
     public long getDuration() {
-        return playbackController.getCurrentlyPlayingItem().getRunTimeTicks() != null ?
-                playbackController.getCurrentlyPlayingItem().getRunTimeTicks() / 10000 : -1;
+        return getCurrentlyPlayingItem().getRunTimeTicks() != null ?
+                getCurrentlyPlayingItem().getRunTimeTicks() / 10000 : -1;
     }
 
     @Override
@@ -113,23 +113,27 @@ public class VideoPlayerAdapter extends PlayerAdapter {
     }
 
     boolean canRecordLieTv() {
-        BaseItemDto currentlyPlayingItem = playbackController.getCurrentlyPlayingItem();
+        BaseItemDto currentlyPlayingItem = getCurrentlyPlayingItem();
         TvApp application = TvApp.getApplication();
         return currentlyPlayingItem.getCurrentProgram() != null
                 && application.canManageRecordings();
     }
 
     void toggleRecording() {
-        BaseItemDto currentlyPlayingItem = playbackController.getCurrentlyPlayingItem();
+        BaseItemDto currentlyPlayingItem = getCurrentlyPlayingItem();
         getMasterOverlayFragment().toggleRecording(currentlyPlayingItem);
     }
 
     boolean isRecording() {
-        BaseItemDto currentProgram = playbackController.getCurrentlyPlayingItem().getCurrentProgram();
+        BaseItemDto currentProgram = getCurrentlyPlayingItem().getCurrentProgram();
         if (currentProgram == null) {
             return false;
         } else {
             return currentProgram.getTimerId() != null;
         }
+    }
+
+    BaseItemDto getCurrentlyPlayingItem() {
+        return playbackController.getCurrentlyPlayingItem();
     }
 }
