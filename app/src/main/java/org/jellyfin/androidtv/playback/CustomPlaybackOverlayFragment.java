@@ -1563,7 +1563,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         return ndx - 1;
     }
 
-    private void toggleRecording(BaseItemDto item) {
+    public void toggleRecording(BaseItemDto item) {
         final BaseItemDto program = item.getCurrentProgram();
 
         if (program != null) {
@@ -1751,8 +1751,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         if (current != null & mActivity != null && !mActivity.isFinishing()) {
             if (mNextUpPanelVisible) hideNextUpPanel();
             if (mSmNextUpPanelVisible) hideSmNextUpPanel();
-            updateCurrentDuration(current);
             leanbackOverlayFragment.mediaInfoChanged();
+            leanbackOverlayFragment.recordingStateChanged();
+            updateCurrentDuration(current);
             // set progress to match duration
             mCurrentProgress.setMax(mCurrentDuration);
             // set other information

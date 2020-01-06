@@ -2,10 +2,12 @@ package org.jellyfin.androidtv.playback.overlay;
 
 import androidx.leanback.media.PlayerAdapter;
 
+import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 public class VideoPlayerAdapter extends PlayerAdapter {
 
@@ -51,7 +53,7 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     @Override
     public long getDuration() {
-        return playbackController.getCurrentlyPlayingItem().getRunTimeTicks()!= null ?
+        return playbackController.getCurrentlyPlayingItem().getRunTimeTicks() != null ?
                 playbackController.getCurrentlyPlayingItem().getRunTimeTicks() / 10000 : -1;
     }
 
@@ -108,5 +110,26 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     CustomPlaybackOverlayFragment getMasterOverlayFragment() {
         return customPlaybackOverlayFragment;
+    }
+
+    boolean canRecordLieTv() {
+        BaseItemDto currentlyPlayingItem = playbackController.getCurrentlyPlayingItem();
+        TvApp application = TvApp.getApplication();
+        return currentlyPlayingItem.getCurrentProgram() != null
+                && application.canManageRecordings();
+    }
+
+    void toggleRecording() {
+        BaseItemDto currentlyPlayingItem = playbackController.getCurrentlyPlayingItem();
+        getMasterOverlayFragment().toggleRecording(currentlyPlayingItem);
+    }
+
+    boolean isRecording() {
+        BaseItemDto currentProgram = playbackController.getCurrentlyPlayingItem().getCurrentProgram();
+        if (currentProgram == null) {
+            return false;
+        } else {
+            return currentProgram.getTimerId() != null;
+        }
     }
 }

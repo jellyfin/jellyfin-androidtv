@@ -66,5 +66,10 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         BaseItemDto currentlyPlayingItem = playbackController.getCurrentlyPlayingItem();
         playerGlue.setTitle(currentlyPlayingItem.getName());
         playerGlue.invalidatePlaybackControls();
+        recordingStateChanged();
+    }
+
+    public void recordingStateChanged() {
+        playerGlue.recordingStateChanged();
     }
 }

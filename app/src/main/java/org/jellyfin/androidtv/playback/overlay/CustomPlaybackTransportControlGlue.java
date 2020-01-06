@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.playback.overlay.actions.ChannelBarChannelAction;
 import org.jellyfin.androidtv.playback.overlay.actions.ClosedCaptionsAction;
 import org.jellyfin.androidtv.playback.overlay.actions.GuideAction;
 import org.jellyfin.androidtv.playback.overlay.actions.PreviousLiveTvChannelAction;
+import org.jellyfin.androidtv.playback.overlay.actions.RecordAction;
 import org.jellyfin.androidtv.playback.overlay.actions.SelectAudioAction;
 import org.jellyfin.androidtv.playback.overlay.actions.ZoomAction;
 
@@ -33,6 +34,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private PreviousLiveTvChannelAction previousLiveTvChannelAction;
     private ChannelBarChannelAction channelBarChannelAction;
     private GuideAction guideAction;
+    private RecordAction recordAction;
 
     private final VideoPlayerAdapter playerAdapter;
     private final LeanbackOverlayFragment leanbackOverlayFragment;
@@ -61,22 +63,28 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         previousLiveTvChannelAction = new PreviousLiveTvChannelAction(context, this);
         channelBarChannelAction = new ChannelBarChannelAction(context, this);
         guideAction = new GuideAction(context, this);
+        recordAction = new RecordAction(context, this);
     }
 
     @Override
     protected void onCreatePrimaryActions(ArrayObjectAdapter primaryActionsAdapter) {
         this.primaryActionsAdapter = primaryActionsAdapter;
+
         primaryActionsAdapter.add(playPauseAction);
+
         if (canSeek()) {
             primaryActionsAdapter.add(rewindAction);
             primaryActionsAdapter.add(fastForwardAction);
         }
+
         if (hasSubs()) {
             primaryActionsAdapter.add(closedCaptionsAction);
         }
+
         if (hasMultiAudio()) {
             primaryActionsAdapter.add(selectAudioAction);
         }
+
         if (isLiveTv()) {
             primaryActionsAdapter.add(channelBarChannelAction);
             primaryActionsAdapter.add(guideAction);
@@ -86,9 +94,15 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     @Override
     protected void onCreateSecondaryActions(ArrayObjectAdapter secondaryActionsAdapter) {
         this.secondaryActionsAdapter = secondaryActionsAdapter;
+
         if (isLiveTv()) {
             secondaryActionsAdapter.add(previousLiveTvChannelAction);
+            if (canRecordLiveTv()) {
+                secondaryActionsAdapter.add(recordAction);
+                recordingStateChanged();
+            }
         }
+
         if (hasNextItem()) {
             secondaryActionsAdapter.add(skipNextAction);
         }
@@ -137,6 +151,9 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         } else if (action == guideAction) {
             leanbackOverlayFragment.hideOverlay();
             customActionClickedHandler.handleGuideSelection(playerAdapter.getMasterOverlayFragment());
+        } else if (action == recordAction) {
+            playerAdapter.toggleRecording();
+            // Icon will be updated via callback recordingStateChanged
         }
     }
 
@@ -181,10 +198,23 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         return playerAdapter.isLiveTv();
     }
 
+    private boolean canRecordLiveTv() {
+        return playerAdapter.canRecordLieTv();
+    }
+
     void invalidatePlaybackControls() {
         primaryActionsAdapter.clear();
         secondaryActionsAdapter.clear();
         onCreatePrimaryActions(primaryActionsAdapter);
         onCreateSecondaryActions(secondaryActionsAdapter);
+    }
+
+    void recordingStateChanged() {
+        if (playerAdapter.isRecording()) {
+            recordAction.setIndex(RecordAction.INDEX_RECORDING);
+        } else {
+            recordAction.setIndex(RecordAction.INDEX_INACTIVE);
+        }
+        notifyActionChanged(recordAction);
     }
 }
