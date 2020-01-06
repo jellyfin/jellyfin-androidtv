@@ -1,25 +1,16 @@
 package org.jellyfin.androidtv;
 
-import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
-import android.os.Build;
 import android.preference.PreferenceManager;
-
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.palette.graphics.Palette;
 
 import org.acra.ACRA;
 import org.acra.annotation.AcraCore;
@@ -30,19 +21,15 @@ import org.acra.sender.HttpSender;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.model.DisplayPriorityType;
+import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.playback.ExternalPlayerActivity;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.PlaybackManager;
 import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
 import org.jellyfin.androidtv.search.SearchActivity;
-import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.Utils;
-
-import java.util.Calendar;
-import java.util.HashMap;
-
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.IConnectionManager;
@@ -56,6 +43,12 @@ import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.logging.ILogger;
 import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
+
+import java.util.Calendar;
+import java.util.HashMap;
+
+import androidx.core.content.ContextCompat;
+import androidx.palette.graphics.Palette;
 
 @AcraCore(buildConfigClass = BuildConfig.class)
 @AcraHttpSender(
@@ -78,7 +71,6 @@ public class TvApp extends Application {
     public static final int VIDEO_QUEUE_OPTION_ID = 3000;
     public static final int LIVE_TV_SCHEDULE_OPTION_ID = 4000;
     public static final int LIVE_TV_SERIES_OPTION_ID = 5000;
-    public static final int SEARCH_PERMISSION = 0;
 
     private static final String TAG = "Jellyfin-AndroidTV";
 
@@ -115,8 +107,6 @@ public class TvApp extends Application {
     private long lastFavoriteUpdate = System.currentTimeMillis();
     private long lastMusicPlayback = System.currentTimeMillis();
     private long lastUserInteraction = System.currentTimeMillis();
-
-    private boolean voiceSearchAllowed = Build.VERSION.SDK_INT < 23;
 
     private GradientDrawable currentBackgroundGradient;
 
@@ -237,32 +227,9 @@ public class TvApp extends Application {
     }
 
     public void showSearch(final Activity activity, boolean musicOnly) {
-        if (!voiceSearchAllowed &&
-                ContextCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            //request necessary permission
-            logger.Info("Requesting search permission...");
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.RECORD_AUDIO)) {
-                //show explanation
-                logger.Info("Show rationale for permission");
-                new AlertDialog.Builder(activity)
-                        .setTitle("Search Permission")
-                        .setMessage("Search requires permission to record audio in order to use the microphone for voice search")
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.RECORD_AUDIO}, SEARCH_PERMISSION);
-                            }
-                        }).show();
-            } else {
-                ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.RECORD_AUDIO}, SEARCH_PERMISSION);
-            }
-        } else {
-            showSearchWithPermission(activity, musicOnly);
-        }
-    }
-
-    public static void showSearchWithPermission(Context activity, boolean musicOnly) {
         Intent intent = new Intent(activity, SearchActivity.class);
-        if (musicOnly) intent.putExtra("MusicOnly", true);
+        intent.putExtra("MusicOnly", musicOnly);
+
         activity.startActivity(intent);
     }
 
@@ -551,14 +518,6 @@ public class TvApp extends Application {
 
     public void setHttpClient(VolleyHttpClient httpClient) {
         this.httpClient = httpClient;
-    }
-
-    public boolean isVoiceSearchAllowed() {
-        return voiceSearchAllowed;
-    }
-
-    public void setVoiceSearchAllowed(boolean voiceSearchAllowed) {
-        this.voiceSearchAllowed = voiceSearchAllowed;
     }
 
     public BaseItemDto getLastPlayedItem() {
