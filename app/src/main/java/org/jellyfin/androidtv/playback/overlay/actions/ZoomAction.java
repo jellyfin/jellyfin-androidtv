@@ -9,6 +9,6 @@ public class ZoomAction extends CustomAction {
 
     public ZoomAction(Context context, CustomPlaybackTransportControlGlue customPlaybackTransportControlGlue) {
         super(context, customPlaybackTransportControlGlue);
-        initializeWithIcon(R.drawable.ic_zoom);
+        initializeWithIcon(R.drawable.ic_aspect_ratio);
     }
 }

@@ -1519,7 +1519,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 }
             }));
         } else {
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_zoom, mButtonSize, new View.OnClickListener() {
+            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_aspect_ratio, mButtonSize, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     PopupMenu zoomMenu = Utils.createPopupMenu(mActivity, v, Gravity.RIGHT);
