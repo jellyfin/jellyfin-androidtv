@@ -170,13 +170,6 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         }
     }
 
-    @Override
-    protected PlaybackRowPresenter onCreateRowPresenter() {
-        PlaybackTransportRowPresenter presenter = (PlaybackTransportRowPresenter) super.onCreateRowPresenter();
-        presenter.setDescriptionPresenter(new FullDescriptionPresenter());
-        return presenter;
-    }
-
     void setInitialPlaybackDrawable() {
         playPauseAction.setIndex(PlaybackControlsRow.PlayPauseAction.INDEX_PAUSE);
         notifyActionChanged(playPauseAction);
