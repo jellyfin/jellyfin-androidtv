@@ -10,8 +10,8 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.CustomMessage;
 import org.jellyfin.androidtv.base.IMessageListener;
+import org.jellyfin.androidtv.channels.ChannelManager;
 import org.jellyfin.androidtv.constants.HomeSectionType;
-import org.jellyfin.androidtv.integration.RecommendationManager;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.model.ChangeTriggerType;
@@ -70,6 +70,8 @@ public class HomeFragment extends StdBrowseFragment {
     private HomeFragmentNowPlayingRow nowPlaying;
     private HomeFragmentFooterRow footer;
 
+    private ChannelManager channelManager;
+
     private AudioEventListener audioEventListener = new AudioEventListener() {
         @Override
         public void onQueueStatusChanged(boolean hasQueue) {
@@ -90,8 +92,8 @@ public class HomeFragment extends StdBrowseFragment {
             TvApp.getApplication().getLogger().ErrorException("Unable to save login credentials", e);
         }
 
-        // Init recommendations
-        RecommendationManager.init();
+        // Init leanback home channels;
+        channelManager = new ChannelManager();
 
         // Get auto bitrate
         TvApp.getApplication().determineAutoBitrate();
@@ -145,6 +147,9 @@ public class HomeFragment extends StdBrowseFragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        // Update leanback channels
+        channelManager.update();
 
         //make sure rows have had a chance to be created
         new Handler().postDelayed(new Runnable() {
