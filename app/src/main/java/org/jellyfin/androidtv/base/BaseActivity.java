@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.base;
 
-import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,13 +12,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
-
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.util.Utils;
+
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
 
 public abstract class BaseActivity extends FragmentActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private TvApp app = TvApp.getApplication();
@@ -190,17 +188,5 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityC
     public boolean onSearchRequested() {
         TvApp.getApplication().showSearch(this, false);
         return true;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        // Search functionality requests access to RECORD_AUDIO
-        if (requestCode == TvApp.SEARCH_PERMISSION) {
-            // If request is cancelled, the result arrays are empty.
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                TvApp.getApplication().setVoiceSearchAllowed(true);
-            }
-            TvApp.showSearchWithPermission(this, false);
-        }
     }
 }
