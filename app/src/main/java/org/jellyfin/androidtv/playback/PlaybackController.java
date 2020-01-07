@@ -90,7 +90,7 @@ public class PlaybackController {
     private boolean isLiveTv;
     private boolean directStreamLiveTv;
     private String liveTvChannelName = "";
-    private boolean useVlc = false;
+    private boolean useVlc;
 
     private boolean vlcErrorEncountered;
     private boolean exoErrorEncountered;
@@ -111,6 +111,9 @@ public class PlaybackController {
         refreshRateSwitchingEnabled = DeviceUtils.is60() && mApplication.getPrefs().getBoolean("pref_refresh_switching", false);
         if (refreshRateSwitchingEnabled) getDisplayModes();
 
+        // Set default value for useVlc field
+        // when set to auto the default will be exoplayer
+        useVlc = mApplication.getPrefs().getString("pref_video_player", "auto").equals("vlc");
     }
 
     public void init(VideoManager mgr, View spinner) {
@@ -536,7 +539,6 @@ public class PlaybackController {
                         @Override
                         public void onError(Exception exception) {
                             mApplication.getLogger().ErrorException("Unable to get internal stream info", exception);
-                            useVlc = true;
                             mCurrentOptions = vlcOptions;
                             startItem(item, position, vlcResponse);
                         }
