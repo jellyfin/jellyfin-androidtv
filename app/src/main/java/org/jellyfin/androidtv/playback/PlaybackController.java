@@ -580,7 +580,10 @@ public class PlaybackController {
 
         setPlaybackMethod(response.getPlayMethod());
 
-        if (useVlc && (!getPlaybackMethod().equals(PlayMethod.Transcode) || isLiveTv)) {
+        // Force VLC when media is not live TV and the preferred player is VLC
+        boolean forceVlc = !isLiveTv && mApplication.getPrefs().getString("pref_video_player", "auto").equals("vlc");
+
+        if (forceVlc || (useVlc && (!getPlaybackMethod().equals(PlayMethod.Transcode) || isLiveTv))) {
             TvApp.getApplication().getLogger().Info("Playing back in VLC.");
             mVideoManager.setNativeMode(false);
         } else {
