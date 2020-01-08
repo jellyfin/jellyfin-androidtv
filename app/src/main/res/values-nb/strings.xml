@@ -228,8 +228,6 @@
     <string name="pref_use_direct_path_title">Send filbanen direkte</string>
     <string name="pref_external_live_tv_summary">Krever en støttet app for å spille av direktestrømmer</string>
     <string name="pref_external_live_tv_title">Bruk eksterm spiller for direkte-TV</string>
-    <string name="pref_use_external_player_summary">Krever en støttet app for å spille av videotyper</string>
-    <string name="pref_use_external_player_title">Bruk ekstern spiller for videoer</string>
     <string name="lbl_song_title">Låtnavn</string>
     <string name="lbl_album_name">Albumnavn</string>
     <string name="lbl_next_episode">Neste episode</string>

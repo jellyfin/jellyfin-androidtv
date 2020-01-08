@@ -267,7 +267,6 @@
     <string name="title_suggestions_holiday">Fijne feestdagen!</string>
     <string name="lbl_suggestions">Suggesties</string>
     <string name="pref_external_live_tv_title">Gebruik externe speler voor Live TV</string>
-    <string name="pref_use_external_player_title">Gebruik externe speler voor video\'s</string>
     <string name="lbl_album_name">Album naam</string>
     <string name="lbl_next_episode">Volgende Aflevering</string>
     <string name="lbl_previous_episode">Vorige Aflevering</string>
@@ -301,7 +300,6 @@
     <string name="title_suggestions_halloween">Fijne Halloween!</string>
     <string name="lbl_suggestions_halloween">Griezelige suggesties</string>
     <string name="pref_external_live_tv_summary">Heeft een bruikbare app nodig om live streams af te spelen</string>
-    <string name="pref_use_external_player_summary">Heeft een bruikbare app nodig om video types af te spelen</string>
     <string name="lbl_song_title">Titel van het nummer</string>
     <string name="lbl_more_like_this">Meer als dit</string>
     <string name="lbl_resume_from">Hervat vanaf %s</string>

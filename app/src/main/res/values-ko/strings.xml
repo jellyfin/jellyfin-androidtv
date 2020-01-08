@@ -212,8 +212,6 @@
     <string name="lbl_next_episode">다음 에피소드</string>
     <string name="lbl_album_name">앨범 이름</string>
     <string name="lbl_song_title">노래 제목</string>
-    <string name="pref_use_external_player_title">비디오에 외부 재생기 사용</string>
-    <string name="pref_use_external_player_summary">비디오 타입을 재생하려면 호환되는 앱이 필요합니다</string>
     <string name="pref_external_live_tv_title">실시간 TV에 외부 재생기 사용</string>
     <string name="pref_external_live_tv_summary">실시간 스트림을 재생하려면 호환되는 앱이 필요합니다</string>
 </resources>

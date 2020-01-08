@@ -264,8 +264,6 @@
     <string name="pref_use_direct_path_title">Pasar ruta directa</string>
     <string name="pref_external_live_tv_summary">Requiere una aplicación capaz para reproducir transmisiones en vivo</string>
     <string name="pref_external_live_tv_title">Usar reproductor externo para TV en vivo</string>
-    <string name="pref_use_external_player_summary">Requiere una aplicación capaz para reproducir tipos de vídeo</string>
-    <string name="pref_use_external_player_title">Usar un reproductor externo para vídeos</string>
     <string name="lbl_song_title">Titulo de Canción</string>
     <string name="lbl_album_name">Nombre de álbum</string>
     <string name="lbl_next_episode">Siguiente Episodio</string>

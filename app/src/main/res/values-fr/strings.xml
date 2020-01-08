@@ -292,8 +292,6 @@
     <string name="lbl_next_episode">Épisode suivant</string>
     <string name="lbl_album_name">Nom de l\'album</string>
     <string name="lbl_song_title">titre de la chanson</string>
-    <string name="pref_use_external_player_title">Utiliser un lecteur externe pour les vidéos</string>
-    <string name="pref_use_external_player_summary">Nécessite une application capable de lire les vidéos</string>
     <string name="pref_use_direct_path_title">Utiliser le chemin directe</string>
     <string name="pref_use_direct_path_summary">Utiliser le chemin du fichier de l\'url de streaming</string>
     <string name="lbl_now_playing_album">de %s</string>

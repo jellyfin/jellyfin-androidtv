@@ -276,7 +276,7 @@ public class TvApp extends Application {
             case Video:
             case Series:
             case Recording:
-                return getPrefs().getBoolean("pref_video_use_external", false);
+                return getPrefs().getString("pref_video_player", "auto").equals("external");
             case TvChannel:
             case Program:
                 return getPrefs().getBoolean("pref_live_tv_use_external", false);

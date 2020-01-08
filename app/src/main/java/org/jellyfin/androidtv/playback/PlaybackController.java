@@ -24,9 +24,6 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
-
-import java.util.List;
-
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dlna.DeviceProfile;
@@ -42,6 +39,8 @@ import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
 import org.jellyfin.apiclient.model.session.PlayMethod;
+
+import java.util.List;
 
 public class PlaybackController {
     // Frequency to report playback progress
@@ -91,7 +90,7 @@ public class PlaybackController {
     private boolean isLiveTv;
     private boolean directStreamLiveTv;
     private String liveTvChannelName = "";
-    private boolean useVlc = false;
+    private boolean useVlc;
 
     private boolean vlcErrorEncountered;
     private boolean exoErrorEncountered;
@@ -112,6 +111,9 @@ public class PlaybackController {
         refreshRateSwitchingEnabled = DeviceUtils.is60() && mApplication.getPrefs().getBoolean("pref_refresh_switching", false);
         if (refreshRateSwitchingEnabled) getDisplayModes();
 
+        // Set default value for useVlc field
+        // when set to auto the default will be exoplayer
+        useVlc = mApplication.getPrefs().getString("pref_video_player", "auto").equals("vlc");
     }
 
     public void init(VideoManager mgr, View spinner) {
@@ -474,26 +476,38 @@ public class PlaybackController {
                                             vlcResponse.getMediaSource().getVideoStream().getWidth() > 1200);
                             mApplication.getLogger().Info(useDeinterlacing ? "Explicit deinterlacing will be used" : "Explicit deinterlacing will NOT be used");
 
-                            // TODO: Clean up this logic
-                            // Now look at both responses and choose the one that direct plays or bitstreams - favor VLC
-                            useVlc = !vlcErrorEncountered &&
-                                    !vlcResponse.getPlayMethod().equals(PlayMethod.Transcode) &&
-                                    (DeviceUtils.is60() ||
-                                        !mApplication.getPrefs().getBoolean("pref_bitstream_ac3", false) ||
-                                        vlcResponse.getMediaSource() == null ||
-                                        vlcResponse.getMediaSource().getDefaultAudioStream() == null ||
-                                        (!"ac3".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec()) &&
-                                                !"truehd".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec())))  &&
-                                    (Utils.downMixAudio() ||
-                                            !DeviceUtils.is60() ||
-                                            internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ||
-                                            !mApplication.getPrefs().getBoolean("pref_bitstream_dts", false) ||
-                                            internalResponse.getMediaSource() == null ||
-                                            internalResponse.getMediaSource().getDefaultAudioStream() == null ||
-                                            (!internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dca") &&
-                                                !internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dts")))  &&
-                                    (!DeviceUtils.isFireTvStick() ||
-                                            (vlcResponse.getMediaSource().getVideoStream() != null && vlcResponse.getMediaSource().getVideoStream().getWidth() < 1000));
+                            String preferredVideoPlayer = mApplication.getPrefs().getString("pref_video_player", "auto");
+
+                            mApplication.getLogger().Info("User preferred player is: " + preferredVideoPlayer);
+
+                            if (preferredVideoPlayer.equals("vlc")) {
+                                // Force VLC
+                                useVlc = true;
+                            } else if (preferredVideoPlayer.equals("exoplayer")) {
+                                // Make sure to not use VLC
+                                useVlc = false;
+                            } else if (preferredVideoPlayer.equals("auto")) {
+                                // TODO: Clean up this logic
+                                // Now look at both responses and choose the one that direct plays or bitstreams - favor VLC
+                                useVlc = !vlcErrorEncountered &&
+                                        !vlcResponse.getPlayMethod().equals(PlayMethod.Transcode) &&
+                                        (DeviceUtils.is60() ||
+                                                !mApplication.getPrefs().getBoolean("pref_bitstream_ac3", false) ||
+                                                vlcResponse.getMediaSource() == null ||
+                                                vlcResponse.getMediaSource().getDefaultAudioStream() == null ||
+                                                (!"ac3".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec()) &&
+                                                        !"truehd".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec()))) &&
+                                        (Utils.downMixAudio() ||
+                                                !DeviceUtils.is60() ||
+                                                internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ||
+                                                !mApplication.getPrefs().getBoolean("pref_bitstream_dts", false) ||
+                                                internalResponse.getMediaSource() == null ||
+                                                internalResponse.getMediaSource().getDefaultAudioStream() == null ||
+                                                (!internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dca") &&
+                                                        !internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dts"))) &&
+                                        (!DeviceUtils.isFireTvStick() ||
+                                                (vlcResponse.getMediaSource().getVideoStream() != null && vlcResponse.getMediaSource().getVideoStream().getWidth() < 1000));
+                            }
 
                             mApplication.getLogger().Info(useVlc ? "Preferring VLC" : "Will use internal player");
                             mVideoManager.init(getBufferAmount(), useDeinterlacing);
@@ -525,7 +539,6 @@ public class PlaybackController {
                         @Override
                         public void onError(Exception exception) {
                             mApplication.getLogger().ErrorException("Unable to get internal stream info", exception);
-                            useVlc = true;
                             mCurrentOptions = vlcOptions;
                             startItem(item, position, vlcResponse);
                         }
@@ -569,7 +582,10 @@ public class PlaybackController {
 
         setPlaybackMethod(response.getPlayMethod());
 
-        if (useVlc && (!getPlaybackMethod().equals(PlayMethod.Transcode) || isLiveTv)) {
+        // Force VLC when media is not live TV and the preferred player is VLC
+        boolean forceVlc = !isLiveTv && mApplication.getPrefs().getString("pref_video_player", "auto").equals("vlc");
+
+        if (forceVlc || (useVlc && (!getPlaybackMethod().equals(PlayMethod.Transcode) || isLiveTv))) {
             TvApp.getApplication().getLogger().Info("Playing back in VLC.");
             mVideoManager.setNativeMode(false);
         } else {

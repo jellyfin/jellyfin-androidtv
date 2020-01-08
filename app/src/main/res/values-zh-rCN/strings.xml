@@ -151,8 +151,6 @@
     <string name="pref_use_direct_path_title">通过直接路径</string>
     <string name="pref_external_live_tv_summary">需要一个有能力的应用程序播放直播流</string>
     <string name="pref_external_live_tv_title">使用外部播放器播放电视直播</string>
-    <string name="pref_use_external_player_summary">需要一个有能力的应用程序来播放视频类型</string>
-    <string name="pref_use_external_player_title">使用外部播放器播放视频</string>
     <string name="lbl_song_title">歌曲标题</string>
     <string name="lbl_album_name">专辑名</string>
     <string name="lbl_next_episode">下一个事件</string>
