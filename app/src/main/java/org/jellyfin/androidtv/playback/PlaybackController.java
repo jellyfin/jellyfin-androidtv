@@ -275,7 +275,6 @@ public class PlaybackController {
                 if (mFragment != null) {
                     mFragment.setFadingEnabled(true);
                     mFragment.setPlayPauseActionState(ImageButton.STATE_SECONDARY);
-                    mFragment.updateEndTime(mVideoManager.getDuration() - getCurrentPosition());
                 }
                 startReportLoop();
                 break;
@@ -872,9 +871,6 @@ public class PlaybackController {
                 //Exo does not support seeking in .ts
                 Utils.showToast(TvApp.getApplication(), "Unable to seek");
             } else if (mVideoManager.seekTo(pos) >= 0) {
-                if (mFragment != null) {
-                    mFragment.updateEndTime(mVideoManager.getDuration() - pos);
-                }
             } else {
                 Utils.showToast(TvApp.getApplication(), "Unable to seek");
             }
@@ -1016,7 +1012,6 @@ public class PlaybackController {
 
                     mPlaybackState = PlaybackState.PLAYING;
                     updateProgress = true;
-                    mFragment.updateEndTime(mVideoManager.getDuration() - position);
                 }
             }
         });
@@ -1091,7 +1086,6 @@ public class PlaybackController {
 
                 if (mPlaybackState == PlaybackState.BUFFERING) {
                     mPlaybackState = PlaybackState.PLAYING;
-                    mFragment.updateEndTime(isLiveTv && getCurrentlyPlayingItem().getEndDate() != null ? TimeUtils.convertToLocalDate(getCurrentlyPlayingItem().getEndDate()).getTime() - System.currentTimeMillis() : mVideoManager.getDuration() - mStartPosition);
                     mCurrentTranscodeStartTime = mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode ? System.currentTimeMillis() : 0;
                     startReportLoop();
                 }
