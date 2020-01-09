@@ -24,6 +24,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.startup.DpadPwActivity;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
+import org.jellyfin.apiclient.model.dto.UserDto;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -34,11 +35,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.UUID;
-
-import org.jellyfin.apiclient.model.dto.UserDto;
 
 /**
  * A collection of utility methods, all static.
@@ -232,7 +230,7 @@ public class Utils {
     }
 
     public static void processPasswordEntry(final Activity activity, final UserDto user, final String directItemId) {
-        if (TvApp.getApplication().getPrefs().getBoolean("pref_alt_pw_entry", false)) {
+        if (TvApp.getApplication().getUserPreferences().getPasswordDPadEnabled()) {
             Intent pwIntent = new Intent(activity, DpadPwActivity.class);
             pwIntent.putExtra("User", TvApp.getApplication().getSerializer().SerializeToString(user));
             pwIntent.putExtra("ItemId", directItemId);
@@ -284,7 +282,7 @@ public class Utils {
         }
 
         return (DeviceUtils.isFireTv() && !DeviceUtils.is50()) ||
-                "1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option", "0"));
+                "1".equals(TvApp.getApplication().getUserPreferences().getAudioOption());
     }
 
     /**

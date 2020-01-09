@@ -9,12 +9,6 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.details.ItemListActivity;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.util.Utils;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -27,6 +21,11 @@ import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class PlaybackHelper {
     public static void getItemsToPlay(final BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<BaseItemDto>> outerResponse) {
         final List<BaseItemDto> items = new ArrayList<>();
@@ -36,7 +35,7 @@ public class PlaybackHelper {
         switch (mainItem.getBaseItemType()) {
             case Episode:
                 items.add(mainItem);
-                if (TvApp.getApplication().getPrefs().getBoolean("pref_enable_tv_queuing", true)) {
+                if (TvApp.getApplication().getUserPreferences().getMediaQueuingEnabled()) {
                     MediaManager.setVideoQueueModified(false); // we are automatically creating new queue
                     //add subsequent episodes
                     if (mainItem.getSeasonId() != null && mainItem.getIndexNumber() != null) {
@@ -180,7 +179,7 @@ public class PlaybackHelper {
                 break;
 
             default:
-                if (allowIntros && !TvApp.getApplication().useExternalPlayer(mainItem.getBaseItemType()) && TvApp.getApplication().getPrefs().getBoolean("pref_enable_cinema_mode", true)) {
+                if (allowIntros && !TvApp.getApplication().useExternalPlayer(mainItem.getBaseItemType()) && TvApp.getApplication().getUserPreferences().getCinemaModeEnabled()) {
                     //Intros
                     TvApp.getApplication().getApiClient().GetIntrosAsync(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
                         @Override

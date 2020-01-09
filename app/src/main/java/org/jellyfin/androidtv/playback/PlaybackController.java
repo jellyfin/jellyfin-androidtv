@@ -108,12 +108,12 @@ public class PlaybackController {
         mHandler = new Handler();
         mSubHelper = new SubtitleHelper(TvApp.getApplication().getCurrentActivity());
 
-        refreshRateSwitchingEnabled = DeviceUtils.is60() && mApplication.getPrefs().getBoolean("pref_refresh_switching", false);
+        refreshRateSwitchingEnabled = DeviceUtils.is60() && mApplication.getUserPreferences().getRefreshRateSwitchingEnabled();
         if (refreshRateSwitchingEnabled) getDisplayModes();
 
         // Set default value for useVlc field
         // when set to auto the default will be exoplayer
-        useVlc = mApplication.getPrefs().getString("pref_video_player", "auto").equals("vlc");
+        useVlc = mApplication.getUserPreferences().getVideoPlayer().equals("vlc");
     }
 
     public void init(VideoManager mgr, View spinner) {
@@ -364,7 +364,7 @@ public class PlaybackController {
                 internalOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
                 internalOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
                 DeviceProfile internalProfile = ProfileHelper.getBaseProfile(isLiveTv);
-                if (DeviceUtils.is60() || mApplication.getPrefs().getBoolean("pref_bitstream_ac3", true)) {
+                if (DeviceUtils.is60() || mApplication.getUserPreferences().getAc3Enabled()) {
                     ProfileHelper.setExoOptions(internalProfile, isLiveTv, true);
                     ProfileHelper.addAc3Streaming(internalProfile, true);
                     mApplication.getLogger().Info("*** Using extended Exoplayer profile options");
@@ -476,7 +476,7 @@ public class PlaybackController {
                                             vlcResponse.getMediaSource().getVideoStream().getWidth() > 1200);
                             mApplication.getLogger().Info(useDeinterlacing ? "Explicit deinterlacing will be used" : "Explicit deinterlacing will NOT be used");
 
-                            String preferredVideoPlayer = mApplication.getPrefs().getString("pref_video_player", "auto");
+                            String preferredVideoPlayer = mApplication.getUserPreferences().getVideoPlayer();
 
                             mApplication.getLogger().Info("User preferred player is: " + preferredVideoPlayer);
 
@@ -492,7 +492,7 @@ public class PlaybackController {
                                 useVlc = !vlcErrorEncountered &&
                                         !vlcResponse.getPlayMethod().equals(PlayMethod.Transcode) &&
                                         (DeviceUtils.is60() ||
-                                                !mApplication.getPrefs().getBoolean("pref_bitstream_ac3", false) ||
+                                                !mApplication.getUserPreferences().getAc3Enabled() ||
                                                 vlcResponse.getMediaSource() == null ||
                                                 vlcResponse.getMediaSource().getDefaultAudioStream() == null ||
                                                 (!"ac3".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec()) &&
@@ -500,7 +500,7 @@ public class PlaybackController {
                                         (Utils.downMixAudio() ||
                                                 !DeviceUtils.is60() ||
                                                 internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ||
-                                                !mApplication.getPrefs().getBoolean("pref_bitstream_dts", false) ||
+                                                !mApplication.getUserPreferences().getDtsEnabled() ||
                                                 internalResponse.getMediaSource() == null ||
                                                 internalResponse.getMediaSource().getDefaultAudioStream() == null ||
                                                 (!internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dca") &&
@@ -583,7 +583,7 @@ public class PlaybackController {
         setPlaybackMethod(response.getPlayMethod());
 
         // Force VLC when media is not live TV and the preferred player is VLC
-        boolean forceVlc = !isLiveTv && mApplication.getPrefs().getString("pref_video_player", "auto").equals("vlc");
+        boolean forceVlc = !isLiveTv && mApplication.getUserPreferences().getVideoPlayer().equals("vlc");
 
         if (forceVlc || (useVlc && (!getPlaybackMethod().equals(PlayMethod.Transcode) || isLiveTv))) {
             TvApp.getApplication().getLogger().Info("Playing back in VLC.");

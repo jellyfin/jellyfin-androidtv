@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
-import android.preference.PreferenceManager;
 
 import org.acra.ACRA;
 import org.acra.annotation.AcraCore;
@@ -30,6 +28,7 @@ import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
 import org.jellyfin.androidtv.search.SearchActivity;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.SystemPreferences;
+import org.jellyfin.androidtv.util.UserPreferences;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -118,6 +117,8 @@ public class TvApp extends Application {
     private BaseActivity currentActivity;
 
     private LogonCredentials configuredAutoCredentials;
+    private UserPreferences userPreferences;
+    private SystemPreferences systemPreferences;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -254,12 +255,14 @@ public class TvApp extends Application {
         this.configuredAutoCredentials = configuredAutoCredentials;
     }
 
-    public SharedPreferences getPrefs() {
-        return PreferenceManager.getDefaultSharedPreferences(this);
+    public UserPreferences getUserPreferences() {
+        if (this.userPreferences == null) this.userPreferences = new UserPreferences(this);
+        return this.userPreferences;
     }
 
     public SystemPreferences getSystemPreferences() {
-        return new SystemPreferences(this); //todo save instance
+        if (this.systemPreferences == null) this.systemPreferences = new SystemPreferences(this);
+        return this.systemPreferences;
     }
 
     /**
@@ -271,7 +274,7 @@ public class TvApp extends Application {
     }
 
     public boolean getIsAutoLoginConfigured() {
-        return getPrefs().getString("pref_login_behavior", "0").equals("1") && getConfiguredAutoCredentials().getServerInfo().getId() != null;
+        return getUserPreferences().getLoginBehavior().equals("1") && getConfiguredAutoCredentials().getServerInfo().getId() != null;
     }
 
     public boolean useExternalPlayer(BaseItemType itemType) {
@@ -281,10 +284,10 @@ public class TvApp extends Application {
             case Video:
             case Series:
             case Recording:
-                return getPrefs().getString("pref_video_player", "auto").equals("external");
+                return getUserPreferences().getVideoPlayer().equals("external");
             case TvChannel:
             case Program:
-                return getPrefs().getBoolean("pref_live_tv_use_external", false);
+                return getUserPreferences().getLiveTvUseExternalPlayer();
             default:
                 return false;
         }
@@ -309,15 +312,25 @@ public class TvApp extends Application {
     public void setLastMusicPlayback(long time) { lastMusicPlayback = time; }
     public long getLastMusicPlayback() { return lastMusicPlayback; }
 
-    public boolean directStreamLiveTv() { return getPrefs().getBoolean("pref_live_direct", true); }
+    /**
+     * @deprecated Use `getUserPreferences().getLiveTvDirectPlayEnabled()`
+     */
+    @Deprecated
+    public boolean directStreamLiveTv() { return getUserPreferences().getLiveTvDirectPlayEnabled(); }
 
-    public void setDirectStreamLiveTv(boolean value) { getPrefs().edit().putBoolean("pref_live_direct", value).commit(); }
+    /**
+     * @deprecated Use `getUserPreferences().getLiveTvUseVlc()`
+     */
+    @Deprecated
+    public boolean useVlcForLiveTv() { return getUserPreferences().getLiveTvUseVlc(); }
 
-    public boolean useVlcForLiveTv() { return getPrefs().getBoolean("pref_enable_vlc_livetv", false); }
-
+    /**
+     * @deprecated Use `getUserPreferences().getResumePreroll()`
+     */
+    @Deprecated
     public int getResumePreroll() {
         try {
-            return Integer.parseInt(getPrefs().getString("pref_resume_preroll","0")) * 1000;
+            return Integer.parseInt(getUserPreferences().getResumePreroll()) * 1000;
         } catch (Exception e) {
             return 0;
         }

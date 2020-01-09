@@ -206,7 +206,7 @@ public class StartupActivity extends FragmentActivity {
                                 application.determineAutoBitrate();
                                 if (response.getHasPassword()
                                         && (!application.getIsAutoLoginConfigured()
-                                        || (application.getPrefs().getBoolean("pref_auto_pw_prompt", false)))) {
+                                        || (application.getUserPreferences().getPasswordPromptEnabled()))) {
                                     //Need to prompt for pw
                                     Utils.processPasswordEntry(activity, response, application.getDirectItemId());
                                 } else {
@@ -216,7 +216,7 @@ public class StartupActivity extends FragmentActivity {
                                     startActivity(detailsIntent);
                                 }
                             } else {
-                                if (response.getHasPassword() && application.getPrefs().getBoolean("pref_auto_pw_prompt", false)) {
+                                if (response.getHasPassword() && application.getUserPreferences().getPasswordPromptEnabled()) {
                                     Utils.processPasswordEntry(activity, response);
                                 } else {
                                     Intent intent = new Intent(activity, MainActivity.class);

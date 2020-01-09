@@ -12,7 +12,7 @@ import java.util.GregorianCalendar;
 public class ThemeManager {
 
     private static boolean isEnabled() {
-        return TvApp.getApplication().getPrefs().getBoolean("pref_enable_themes", true);
+        return TvApp.getApplication().getUserPreferences().getSeasonalGreetingsEnabled();
     }
 
     private static boolean isHalloween() {

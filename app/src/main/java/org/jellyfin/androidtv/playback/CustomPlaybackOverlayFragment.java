@@ -1735,7 +1735,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             addButtons(current);
             InfoLayoutHelper.addInfoRow(mActivity, current, mInfoRow, true, false, mPlaybackController.getCurrentMediaSource().GetDefaultAudioStream(mPlaybackController.getAudioStreamIndex()));
 
-            if (mApplication.getPrefs().getBoolean("pref_enable_debug", false)) {
+            if (mApplication.getUserPreferences().getDebuggingEnabled()) {
                 StreamInfo stream = mPlaybackController.getCurrentStreamInfo();
                 if (stream != null) {
                     switch (stream.getPlayMethod()) {

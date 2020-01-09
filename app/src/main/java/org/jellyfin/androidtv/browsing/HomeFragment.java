@@ -109,7 +109,7 @@ public class HomeFragment extends StdBrowseFragment {
                     .setNegativeButton(mApplication.getString(R.string.btn_set_compatible_audio), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            mApplication.getPrefs().edit().putString("pref_audio_option", "1").apply();
+                            mApplication.getUserPreferences().setAudioOption("1");
                         }
                     })
                     .setCancelable(false)
@@ -132,7 +132,7 @@ public class HomeFragment extends StdBrowseFragment {
             }
         });
 
-        if (mApplication.getPrefs().getBoolean("pref_live_tv_mode", false)) {
+        if (mApplication.getUserPreferences().getLiveTvMode()) {
             // Open guide activity and tell it to start last channel
             Intent guide = new Intent(getActivity(), LiveTvGuideActivity.class);
             guide.putExtra("loadLast", true);

@@ -1,9 +1,5 @@
 package org.jellyfin.androidtv.browsing;
 
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
@@ -14,10 +10,6 @@ import org.jellyfin.androidtv.querying.StdItemQuery;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -38,6 +30,13 @@ import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
 import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
 
 public class BrowseViewFragment extends EnhancedBrowseFragment {
     private boolean isLiveTvLibrary;
@@ -105,7 +104,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 mRows.add(new BrowseRowDef(mApplication.getResources().getString(R.string.lbl_next_up), nextUpQuery, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}));
 
                 //Premieres
-                if (mApplication.getPrefs().getBoolean("pref_enable_premieres", false)) {
+                if (mApplication.getUserPreferences().getPremieresEnabled()) {
                     StdItemQuery newQuery = new StdItemQuery(new ItemFields[]{ItemFields.DateCreated, ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
                     newQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
                     newQuery.setIncludeItemTypes(new String[]{"Episode"});
