@@ -58,24 +58,25 @@ public class StartupActivity extends FragmentActivity {
         logger = application.getLogger();
 
         //Migrate prefs
-        if (Integer.parseInt(application.getConfigVersion()) < 2) {
-            application.getSystemPrefs().edit().putString("sys_pref_config_version", "2").apply();
-        }
-        if (Integer.parseInt(application.getConfigVersion()) < 3) {
-            application.getPrefs().edit().putString("pref_max_bitrate", "0").apply();
-            application.getSystemPrefs().edit().putString("sys_pref_config_version", "3").apply();
-        }
-        if (Integer.parseInt(application.getConfigVersion()) < 4) {
-            application.getPrefs().edit().putBoolean("pref_enable_premieres", false).apply();
-            application.getPrefs().edit().putBoolean("pref_enable_info_panel", false).apply();
-            application.getSystemPrefs().edit().putString("sys_pref_config_version", "4").apply();
-        }
-        if (Integer.parseInt(application.getConfigVersion()) < 5) {
-            boolean useExternal = application.getPrefs().getBoolean("pref_video_use_external", false);
-
-            application.getPrefs().edit().putString("pref_video_player", useExternal ? "external" : "auto").apply();
-            application.getSystemPrefs().edit().putString("sys_pref_config_version", "5").apply();
-        }
+        //todo migrate migration code to new preference stores
+//        if (Integer.parseInt(application.getConfigVersion()) < 2) {
+//            application.getSystemPrefs().edit().putString("sys_pref_config_version", "2").apply();
+//        }
+//        if (Integer.parseInt(application.getConfigVersion()) < 3) {
+//            application.getPrefs().edit().putString("pref_max_bitrate", "0").apply();
+//            application.getSystemPrefs().edit().putString("sys_pref_config_version", "3").apply();
+//        }
+//        if (Integer.parseInt(application.getConfigVersion()) < 4) {
+//            application.getPrefs().edit().putBoolean("pref_enable_premieres", false).apply();
+//            application.getPrefs().edit().putBoolean("pref_enable_info_panel", false).apply();
+//            application.getSystemPrefs().edit().putString("sys_pref_config_version", "4").apply();
+//        }
+//        if (Integer.parseInt(application.getConfigVersion()) < 5) {
+//            boolean useExternal = application.getPrefs().getBoolean("pref_video_use_external", false);
+//
+//            application.getPrefs().edit().putString("pref_video_player", useExternal ? "external" : "auto").apply();
+//            application.getSystemPrefs().edit().putString("sys_pref_config_version", "5").apply();
+//        }
 
         //Ensure we have prefs
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);

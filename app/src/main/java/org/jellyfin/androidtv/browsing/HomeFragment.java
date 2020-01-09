@@ -99,8 +99,8 @@ public class HomeFragment extends StdBrowseFragment {
         TvApp.getApplication().determineAutoBitrate();
 
         //First time audio message
-        if (!mApplication.getSystemPrefs().getBoolean("syspref_audio_warned", false)) {
-            mApplication.getSystemPrefs().edit().putBoolean("syspref_audio_warned", true).apply();
+        if (!mApplication.getSystemPreferences().getAudioWarned()) {
+            mApplication.getSystemPreferences().setAudioWarned(true);
 
             new AlertDialog.Builder(mActivity)
                     .setTitle(mApplication.getString(R.string.lbl_audio_capabilitites))

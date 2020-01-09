@@ -29,6 +29,7 @@ import org.jellyfin.androidtv.playback.PlaybackManager;
 import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
 import org.jellyfin.androidtv.search.SearchActivity;
 import org.jellyfin.androidtv.util.DeviceUtils;
+import org.jellyfin.androidtv.util.SystemPreferences;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -257,12 +258,16 @@ public class TvApp extends Application {
         return PreferenceManager.getDefaultSharedPreferences(this);
     }
 
-    public SharedPreferences getSystemPrefs() {
-        return getSharedPreferences("systemprefs", MODE_PRIVATE);
+    public SystemPreferences getSystemPreferences() {
+        return new SystemPreferences(this); //todo save instance
     }
 
+    /**
+     * @deprecated Use `getSystemPreferences().getConfigVersion()`
+     */
+    @Deprecated
     public String getConfigVersion() {
-        return getSystemPrefs().getString("sys_pref_config_version", "2");
+        return getSystemPreferences().getConfigVersion();
     }
 
     public boolean getIsAutoLoginConfigured() {
