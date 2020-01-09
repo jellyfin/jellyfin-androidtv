@@ -6,9 +6,9 @@ import android.widget.Toast;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.preferences.ui.SettingsActivity;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.GridButtonPresenter;
-import org.jellyfin.androidtv.settings.SettingsActivity;
 import org.jellyfin.androidtv.startup.SelectUserActivity;
 import org.jellyfin.androidtv.ui.GridButton;
 

@@ -10,8 +10,8 @@
         android:layout_marginEnd="240sp"
         android:layout_height="match_parent"
         android:id="@+id/fragment_settings"
-        android:name="org.jellyfin.androidtv.settings.SettingsFragment"
-        tools:context="org.jellyfin.androidtv.settings.SettingsFragment" />
+        android:name="org.jellyfin.androidtv.preferences.ui.SettingsFragment"
+        tools:context="org.jellyfin.androidtv.preferences.ui.SettingsFragment" />
 
     <LinearLayout
         android:layout_width="wrap_content"
