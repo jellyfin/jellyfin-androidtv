@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.preferences
 import android.content.Context
 
 class SystemPreferences(context: Context) : SharedPreferenceStore(context.getSharedPreferences("systemprefs", Context.MODE_PRIVATE)) {
-	var configVersion by stringPreference("sys_pref_config_version", "5")
+	// Warnings
 	var audioWarned by booleanPreference("syspref_audio_warned", false)
 
 	// Live TV - Channel history
