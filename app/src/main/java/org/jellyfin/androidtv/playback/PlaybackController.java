@@ -119,7 +119,7 @@ public class PlaybackController {
     public void init(VideoManager mgr, View spinner) {
         mVideoManager = mgr;
         mSpinner = spinner;
-        directStreamLiveTv = mApplication.directStreamLiveTv();
+        directStreamLiveTv = mApplication.getUserPreferences().getLiveTvDirectPlayEnabled();
         setupCallbacks();
     }
 
@@ -424,7 +424,7 @@ public class PlaybackController {
             updateTvProgramInfo();
             TvManager.setLastLiveTvChannel(item.getId());
             //Choose appropriate player now to avoid opening two streams
-            if (!directStreamLiveTv || !mApplication.useVlcForLiveTv()) {
+            if (!directStreamLiveTv || !mApplication.getUserPreferences().getLiveTvUseVlc()) {
                 //internal/exo player
                 mApplication.getLogger().Info("Using internal player for Live TV");
                 mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {

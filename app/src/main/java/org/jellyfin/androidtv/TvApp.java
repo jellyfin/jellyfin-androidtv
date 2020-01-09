@@ -265,14 +265,6 @@ public class TvApp extends Application {
         return this.systemPreferences;
     }
 
-    /**
-     * @deprecated Use `getSystemPreferences().getConfigVersion()`
-     */
-    @Deprecated
-    public String getConfigVersion() {
-        return getSystemPreferences().getConfigVersion();
-    }
-
     public boolean getIsAutoLoginConfigured() {
         return getUserPreferences().getLoginBehavior().equals("1") && getConfiguredAutoCredentials().getServerInfo().getId() != null;
     }
@@ -311,18 +303,6 @@ public class TvApp extends Application {
 
     public void setLastMusicPlayback(long time) { lastMusicPlayback = time; }
     public long getLastMusicPlayback() { return lastMusicPlayback; }
-
-    /**
-     * @deprecated Use `getUserPreferences().getLiveTvDirectPlayEnabled()`
-     */
-    @Deprecated
-    public boolean directStreamLiveTv() { return getUserPreferences().getLiveTvDirectPlayEnabled(); }
-
-    /**
-     * @deprecated Use `getUserPreferences().getLiveTvUseVlc()`
-     */
-    @Deprecated
-    public boolean useVlcForLiveTv() { return getUserPreferences().getLiveTvUseVlc(); }
 
     /**
      * @deprecated Use `getUserPreferences().getResumePreroll()`
