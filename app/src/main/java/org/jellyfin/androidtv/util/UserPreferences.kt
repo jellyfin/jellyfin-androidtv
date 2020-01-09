@@ -43,4 +43,12 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	var acraEnabled by booleanPreference("acra.enable", false)
 	var acraNoPrompt by booleanPreference("acra.alwaysaccept", false)
 	var acraIncludeSystemLogs by booleanPreference("acra.syslog.enable", true)
+
+	init {
+		migration(toVersion = 2) {
+			// Migrate to new player preference
+			val useExternal = it.getBoolean("pref_video_use_external", false)
+			putString("pref_video_player", if (useExternal) "external" else "auto")
+		}
+	}
 }

@@ -1,12 +1,16 @@
 package org.jellyfin.androidtv.util
 
 import android.content.SharedPreferences
+import org.jellyfin.androidtv.TvApp
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 abstract class SharedPreferenceStore(
 	protected val sharedPreferences: SharedPreferences
 ) {
+	var version by intPreference("store_version", 1)
+		private set
+
 	// Basic types
 	protected fun intPreference(key: String, default: Int) = object : ReadWriteProperty<SharedPreferenceStore, Int> {
 		override fun getValue(thisRef: SharedPreferenceStore, property: KProperty<*>): Int {
@@ -41,7 +45,7 @@ abstract class SharedPreferenceStore(
 	}
 
 	// Custom types
-	protected inline fun <reified T: Enum<T>> enumPreference(key: String, default: T?) = object : ReadWriteProperty<SharedPreferenceStore, T?> {
+	protected inline fun <reified T : Enum<T>> enumPreference(key: String, default: T?) = object : ReadWriteProperty<SharedPreferenceStore, T?> {
 		override fun getValue(thisRef: SharedPreferenceStore, property: KProperty<*>): T? {
 			val stringValue = sharedPreferences.getString(key, null)
 
@@ -52,6 +56,19 @@ abstract class SharedPreferenceStore(
 		override fun setValue(thisRef: SharedPreferenceStore, property: KProperty<*>, value: T?) {
 			if (value == null) sharedPreferences.edit().remove(key).apply()
 			else sharedPreferences.edit().putString(key, value.toString()).apply()
+		}
+	}
+
+	// Migrations
+	protected fun migration(toVersion: Int, migration: SharedPreferences.Editor.(SharedPreferences) -> Unit) {
+		if (version < toVersion) {
+			TvApp.getApplication().logger.Info("Migrating a preference store from version $version to $toVersion")
+
+			val editor = sharedPreferences.edit()
+			migration(editor, sharedPreferences)
+			editor.apply()
+
+			version = toVersion
 		}
 	}
 }
