@@ -19,12 +19,12 @@ class SystemPreferences(context: Context) : SharedPreferenceStore(context.getSha
 	/**
 	 * Stores the channel that was active before leaving the app
 	 */
-	var liveTvLastChannel by stringPreference("sys_pref_last_tv_channel", null)
+	var liveTvLastChannel by stringPreferenceNullable("sys_pref_last_tv_channel", null)
 
 	/**
 	 * Also stores the channel that was active before leaving the app I think
 	 */
-	var liveTvPrevChannel by stringPreference("sys_pref_prev_tv_channel", null)
+	var liveTvPrevChannel by stringPreferenceNullable("sys_pref_prev_tv_channel", null)
 
 	// Live TV - Guide Filters
 	/**

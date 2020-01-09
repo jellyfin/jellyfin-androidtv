@@ -74,17 +74,34 @@ abstract class SharedPreferenceStore(
 	}
 
 	/**
-	 * Delegated property function for nullable strings
-	 * @todo Create a not-null version?
+	 * Delegated property function for strings
 	 *
 	 * @param key Key used to store setting as
 	 * @param default Default value
 	 *
 	 * @return Delegated property
 	 */
-	protected fun stringPreference(key: String, default: String?) = object : ReadWriteProperty<SharedPreferenceStore, String?> {
+	protected fun stringPreference(key: String, default: String) = object : ReadWriteProperty<SharedPreferenceStore, String> {
+		override fun getValue(thisRef: SharedPreferenceStore, property: KProperty<*>): String {
+			return sharedPreferences.getString(key, null) ?: default
+		}
+
+		override fun setValue(thisRef: SharedPreferenceStore, property: KProperty<*>, value: String) {
+			sharedPreferences.edit().putString(key, value).apply()
+		}
+	}
+
+	/**
+	 * Delegated property function for nullable strings
+	 *
+	 * @param key Key used to store setting as
+	 * @param default Default value
+	 *
+	 * @return Delegated property
+	 */
+	protected fun stringPreferenceNullable(key: String, default: String?) = object : ReadWriteProperty<SharedPreferenceStore, String?> {
 		override fun getValue(thisRef: SharedPreferenceStore, property: KProperty<*>): String? {
-			return sharedPreferences.getString(key, default)
+			return sharedPreferences.getString(key, null) ?: default
 		}
 
 		override fun setValue(thisRef: SharedPreferenceStore, property: KProperty<*>, value: String?) {
