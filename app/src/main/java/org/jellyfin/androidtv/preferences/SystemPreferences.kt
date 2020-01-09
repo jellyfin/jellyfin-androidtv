@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.util
+package org.jellyfin.androidtv.preferences
 
 import android.content.Context
 
