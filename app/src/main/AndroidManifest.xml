@@ -11,6 +11,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
+    <!-- Needed for ChannelManager on older devices (< API 23) -->
+    <uses-permission android:name="com.android.providers.tv.permission.WRITE_EPG_DATA" />
+
     <uses-feature
         android:name="android.hardware.touchscreen"
         android:required="false" />
@@ -80,13 +83,6 @@
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
-
-        <provider
-            android:authorities="${applicationId}.recommendations"
-            android:name=".integration.RecommendationContentProvider"
-            android:exported="true"
-            android:grantUriPermissions="true"
-            tools:ignore="ExportedContentProvider" />
 
         <activity
             android:name=".details.ExpandedTextActivity"

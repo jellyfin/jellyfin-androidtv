@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.playback;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.view.SurfaceHolder;
@@ -14,22 +13,28 @@ import android.widget.FrameLayout;
 
 import androidx.leanback.media.PlayerAdapter;
 
-import com.devbrackets.android.exomedia.EMVideoView;
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
+import org.jellyfin.apiclient.model.entities.MediaStream;
+import org.jellyfin.apiclient.model.entities.MediaStreamType;
 import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
-import org.jellyfin.apiclient.model.entities.MediaStream;
-import org.jellyfin.apiclient.model.entities.MediaStreamType;
 
 public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
@@ -45,7 +50,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private SurfaceView mSurfaceView;
     private SurfaceView mSubtitlesSurface;
     private FrameLayout mSurfaceFrame;
-    private EMVideoView mVideoView;
+    private SimpleExoPlayer mExoPlayer;
+    private PlayerView mExoPlayerView;
     private LibVLC mLibVLC;
     private org.videolan.libvlc.MediaPlayer mVlcPlayer;
     private String mCurrentVideoPath;
@@ -70,6 +76,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private boolean mSurfaceReady = false;
     public boolean isContracted = false;
     private boolean hasSubtitlesSurface = false;
+    private PlaybackListener errorListener;
+    private PlaybackListener completionListener;
+    private PlaybackListener preparedListener;
 
     public VideoManager(PlaybackOverlayActivity activity, View view) {
         mActivity = activity;
@@ -85,7 +94,29 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         } else {
             mSubtitlesSurface.setVisibility(View.GONE);
         }
-        mVideoView = view.findViewById(R.id.videoView);
+        mExoPlayer = ExoPlayerFactory.newSimpleInstance(TvApp.getApplication());
+        mExoPlayerView = view.findViewById(R.id.exoPlayerView);
+        mExoPlayerView.setPlayer(mExoPlayer);
+        mExoPlayer.addListener(new Player.EventListener() {
+            @Override
+            public void onPlayerError(ExoPlaybackException error) {
+                TvApp.getApplication().getLogger().Error("***** Got error from player");
+                if (errorListener != null) errorListener.onEvent();
+                stopProgressLoop();
+            }
+
+            @Override
+            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                // Do not call listener when paused
+                if (playbackState == Player.STATE_READY && playWhenReady) {
+                    if (preparedListener != null) preparedListener.onEvent();
+                    startProgressLoop();
+                } else if (playbackState == Player.STATE_ENDED) {
+                    if (completionListener != null) completionListener.onEvent();
+                    stopProgressLoop();
+                }
+            }
+        });
     }
 
     public void init(int buffer, boolean isInterlaced) {
@@ -95,9 +126,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public void setNativeMode(boolean value) {
         nativeMode = value;
         if (nativeMode) {
-            mVideoView.setVisibility(View.VISIBLE);
+            mExoPlayerView.setVisibility(View.VISIBLE);
         } else {
-            mVideoView.setVisibility(View.GONE);
+            mExoPlayerView.setVisibility(View.GONE);
         }
     }
 
@@ -108,20 +139,20 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mZoomMode = mode;
         switch (mode) {
             case ZOOM_NORMAL:
-                mVideoView.setScaleY(1);
-                mVideoView.setScaleX(1);
+                mExoPlayerView.setScaleY(1);
+                mExoPlayerView.setScaleX(1);
                 break;
             case ZOOM_VERTICAL:
-                mVideoView.setScaleX(1);
-                mVideoView.setScaleY(1.33f);
+                mExoPlayerView.setScaleX(1);
+                mExoPlayerView.setScaleY(1.33f);
                 break;
             case ZOOM_HORIZONTAL:
-                mVideoView.setScaleY(1);
-                mVideoView.setScaleX(1.33f);
+                mExoPlayerView.setScaleY(1);
+                mExoPlayerView.setScaleX(1.33f);
                 break;
             case ZOOM_FULL:
-                mVideoView.setScaleX(1.33f);
-                mVideoView.setScaleY(1.33f);
+                mExoPlayerView.setScaleX(1.33f);
+                mExoPlayerView.setScaleY(1.33f);
                 break;
 
         }
@@ -133,14 +164,14 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     public long getDuration() {
         if (nativeMode){
-            return mVideoView.getDuration() > 0 ? mVideoView.getDuration() : mMetaDuration;
+            return mExoPlayer.getDuration() > 0 ? mExoPlayer.getDuration() : mMetaDuration;
         } else {
             return mVlcPlayer.getLength() > 0 ? mVlcPlayer.getLength() : mMetaDuration;
         }
     }
 
     public long getCurrentPosition() {
-        if (nativeMode) return mVideoView.getCurrentPosition();
+        if (nativeMode) return mExoPlayer.getCurrentPosition();
 
         if (mVlcPlayer == null) return 0;
 
@@ -164,17 +195,17 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public boolean isPlaying() {
-        return nativeMode ? mVideoView.isPlaying() : mVlcPlayer != null && mVlcPlayer.isPlaying();
+        return nativeMode ? mExoPlayer.isPlaying() : mVlcPlayer != null && mVlcPlayer.isPlaying();
     }
 
     public boolean canSeek() { return nativeMode || mVlcPlayer.isSeekable(); }
 
     public void start() {
         if (nativeMode) {
-            mVideoView.start();
-            mVideoView.setKeepScreenOn(true);
-            normalWidth = mVideoView.getLayoutParams().width;
-            normalHeight = mVideoView.getLayoutParams().height;
+            mExoPlayer.setPlayWhenReady(true);
+            mExoPlayerView.setKeepScreenOn(true);
+            normalWidth = mExoPlayerView.getLayoutParams().width;
+            normalHeight = mExoPlayerView.getLayoutParams().height;
         } else {
             if (!mSurfaceReady) {
                 TvApp.getApplication().getLogger().Error("Attempt to play before surface ready");
@@ -190,8 +221,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     public void play() {
         if (nativeMode) {
-            mVideoView.start();
-            mVideoView.setKeepScreenOn(true);
+            mExoPlayer.setPlayWhenReady(true);
+            mExoPlayerView.setKeepScreenOn(true);
         } else {
             mVlcPlayer.play();
             mSurfaceView.setKeepScreenOn(true);
@@ -200,8 +231,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     public void pause() {
         if (nativeMode) {
-            mVideoView.pause();
-            mVideoView.setKeepScreenOn(false);
+            mExoPlayer.setPlayWhenReady(false);
+            mExoPlayerView.setKeepScreenOn(false);
         } else {
             mVlcPlayer.pause();
             mSurfaceView.setKeepScreenOn(false);
@@ -215,7 +246,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     public void stopPlayback() {
         if (nativeMode) {
-            mVideoView.stopPlayback();
+            mExoPlayer.stop();
         } else {
             mVlcPlayer.stop();
         }
@@ -225,8 +256,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public long seekTo(long pos) {
         if (nativeMode) {
             Long intPos = pos;
-            TvApp.getApplication().getLogger().Info("Exo length in seek is: " + mVideoView.getDuration());
-            mVideoView.seekTo(intPos.intValue());
+            TvApp.getApplication().getLogger().Info("Exo length in seek is: " + mExoPlayer.getDuration());
+            mExoPlayer.seekTo(intPos.intValue());
             return pos;
         } else {
             if (mVlcPlayer == null || !mVlcPlayer.isSeekable()) return -1;
@@ -257,7 +288,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
         if (nativeMode) {
             try {
-                mVideoView.setVideoPath(path);
+                DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(TvApp.getApplication(), "ATV/ExoPlayer");
+
+                mExoPlayer.prepare(new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(path)));
             } catch (IllegalStateException e) {
                 TvApp.getApplication().getLogger().ErrorException("Unable to set video path.  Probably backing out.", e);
             }
@@ -275,7 +308,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     public void hideSurface() {
         if (nativeMode) {
-            mVideoView.setVisibility(View.INVISIBLE);
+            mExoPlayerView.setVisibility(View.INVISIBLE);
         } else {
             mSurfaceView.setVisibility(View.INVISIBLE);
         }
@@ -283,7 +316,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     public void showSurface() {
         if (nativeMode) {
-            mVideoView.setVisibility(View.VISIBLE);
+            mExoPlayerView.setVisibility(View.VISIBLE);
         } else {
             mSurfaceView.setVisibility(View.VISIBLE);
         }
@@ -472,15 +505,22 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     private void releasePlayer() {
-        if (mVlcPlayer == null) return;
+        if (mVlcPlayer != null) {
+            mVlcPlayer.setEventListener(null);
+            mVlcPlayer.stop();
+            mVlcPlayer.getVLCVout().detachViews();
+            mVlcPlayer.release();
+            mLibVLC.release();
+            mLibVLC = null;
+            mVlcPlayer = null;
+        }
 
-        mVlcPlayer.setEventListener(null);
-        mVlcPlayer.stop();
-        mVlcPlayer.getVLCVout().detachViews();
-        mVlcPlayer.release();
-        mLibVLC.release();
-        mLibVLC = null;
-        mVlcPlayer = null;
+        if (mExoPlayer != null) {
+            mExoPlayerView.setPlayer(null);
+            mExoPlayer.release();
+            mExoPlayer = null;
+        }
+
         mSurfaceView.setKeepScreenOn(false);
     }
 
@@ -488,7 +528,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     int normalHeight;
 
     public void contractVideo(int height) {
-        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) (nativeMode ? mVideoView.getLayoutParams() : mSurfaceView.getLayoutParams());
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) (nativeMode ? mExoPlayerView.getLayoutParams() : mSurfaceView.getLayoutParams());
         if (isContracted) return;
 
         Activity activity = TvApp.getApplication().getCurrentActivity();
@@ -501,8 +541,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         lp.bottomMargin = ((lp.height - normalHeight) / 2) - 50;
 
         if (nativeMode) {
-            mVideoView.setLayoutParams(lp);
-            mVideoView.invalidate();
+            mExoPlayerView.setLayoutParams(lp);
+            mExoPlayerView.invalidate();
         } else mSurfaceView.setLayoutParams(lp);
 
         isContracted = true;
@@ -511,14 +551,14 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     public void setVideoFullSize() {
         if (normalHeight == 0) return;
-        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) (nativeMode ? mVideoView.getLayoutParams() : mSurfaceView.getLayoutParams());
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) (nativeMode ? mExoPlayerView.getLayoutParams() : mSurfaceView.getLayoutParams());
         lp.height = normalHeight;
         lp.width = normalWidth;
         if (nativeMode) {
             lp.rightMargin = 0;
             lp.bottomMargin = 0;
-            mVideoView.setLayoutParams(lp);
-            mVideoView.invalidate();
+            mExoPlayerView.setLayoutParams(lp);
+            mExoPlayerView.invalidate();
         } else mSurfaceView.setLayoutParams(lp);
 
         isContracted = false;
@@ -594,19 +634,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (hasSubtitlesSurface) mSubtitlesSurface.invalidate();
     }
 
-    PlaybackListener errorListener;
-
     public void setOnErrorListener(final PlaybackListener listener) {
-        mVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-            @Override
-            public boolean onError(MediaPlayer mp, int what, int extra) {
-                TvApp.getApplication().getLogger().Error("***** Got error from player");
-                listener.onEvent();
-                stopProgressLoop();
-                return true;
-            }
-        });
-
         mVlcHandler.setOnErrorListener(listener);
         errorListener = listener;
     }
@@ -616,28 +644,12 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public void setOnCompletionListener(final PlaybackListener listener) {
-        mVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                listener.onEvent();
-                stopProgressLoop();
-            }
-        });
-
+        completionListener = listener;
         mVlcHandler.setOnCompletionListener(listener);
     }
 
-    private MediaPlayer mNativeMediaPlayer;
-
     public void setOnPreparedListener(final PlaybackListener listener) {
-        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mNativeMediaPlayer = mp;
-                listener.onEvent();
-                startProgressLoop();
-            }
-        });
+        preparedListener = listener;
 
         mVlcHandler.setOnPreparedListener(listener);
     }

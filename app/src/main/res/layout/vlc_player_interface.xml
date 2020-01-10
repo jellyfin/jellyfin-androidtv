@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/black">
 
     <FrameLayout
@@ -30,12 +31,11 @@
 
         </FrameLayout>
 
-
-        <com.devbrackets.android.exomedia.EMVideoView
-            android:id="@+id/videoView"
-            android:layout_width="fill_parent"
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/exoPlayerView"
+            app:use_controller="false"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
             android:visibility="gone" />
 
         <fragment
@@ -160,8 +160,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/nextButton"
-            android:layout_alignStart="@+id/nextButton"
             android:layout_alignEnd="@+id/nextButton"
+            android:layout_alignStart="@+id/nextButton"
             android:layout_marginTop="5sp"
             android:background="@drawable/jellyfin_button"
             android:minWidth="120sp"
@@ -179,9 +179,9 @@
 
         <LinearLayout
             android:id="@+id/rows_area"
-            android:layout_marginTop="16dp"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:layout_marginTop="16dp"
             android:layout_gravity="start|bottom"
             android:orientation="horizontal" />
     </FrameLayout>

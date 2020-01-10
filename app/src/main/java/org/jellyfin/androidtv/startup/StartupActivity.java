@@ -70,6 +70,12 @@ public class StartupActivity extends FragmentActivity {
             application.getPrefs().edit().putBoolean("pref_enable_info_panel", false).apply();
             application.getSystemPrefs().edit().putString("sys_pref_config_version", "4").apply();
         }
+        if (Integer.parseInt(application.getConfigVersion()) < 5) {
+            boolean useExternal = application.getPrefs().getBoolean("pref_video_use_external", false);
+
+            application.getPrefs().edit().putString("pref_video_player", useExternal ? "external" : "auto").apply();
+            application.getSystemPrefs().edit().putString("sys_pref_config_version", "5").apply();
+        }
 
         //Ensure we have prefs
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);

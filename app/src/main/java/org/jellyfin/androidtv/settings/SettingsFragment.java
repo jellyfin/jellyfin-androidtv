@@ -113,7 +113,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                     if (!TvApp.getApplication().getConfiguredAutoCredentials().getUserDto().getId().equals(TvApp.getApplication().getCurrentUser().getId())) {
                         listPreference.setEnabled(false);
                         pwPrompt.setEnabled(false);
-                        extra = getActivity().getString(R.string.lbl_paren_login_as)+TvApp.getApplication().getConfiguredAutoCredentials().getUserDto().getName()+getActivity().getString(R.string.lbl_to_change_paren);
+                        extra = getActivity().getString(R.string.lbl_paren_login_as) + TvApp.getApplication().getConfiguredAutoCredentials().getUserDto().getName() + getActivity().getString(R.string.lbl_to_change_paren);
                     }
                     listPreference.setSummary(getActivity().getString(R.string.lbl_login_as) + TvApp.getApplication().getConfiguredAutoCredentials().getUserDto().getName() + extra);
                 } else {
@@ -121,6 +121,18 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                     pwPrompt.setEnabled(false);
                 }
             } else {
+                if (listPreference.getKey().equals("pref_video_player")) {
+                    boolean isExternal = listPreference.getValue().equals("external");
+
+                    // enable/disable other related items
+                    Preference direct = findPreference("pref_send_path_external");
+                    if (direct != null) direct.setEnabled(isExternal);
+                    for (String key : extPlayerVideoDep) {
+                        Preference pref = findPreference(key);
+                        if (pref != null) pref.setEnabled(!isExternal);
+                    }
+                }
+
                 listPreference.setSummary(listPreference.getEntry());
             }
         }
@@ -131,14 +143,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 // enable other live tv direct only options
                 Preference live = findPreference("pref_enable_vlc_livetv");
                 if (live != null) live.setEnabled(cb.isChecked());
-            } else if (cb.getKey().equals("pref_video_use_external")) {
-                // enable/disable other related items
-                Preference direct = findPreference("pref_send_path_external");
-                if (direct != null) direct.setEnabled(cb.isChecked());
-                for (String key: extPlayerVideoDep) {
-                    Preference pref = findPreference(key);
-                    if (pref != null) pref.setEnabled(!cb.isChecked());
-                }
             } else if (cb.getKey().equals("pref_live_tv_use_external")) {
                 // enable/disable other related items
                 for (String key: extPlayerLiveTvDep) {

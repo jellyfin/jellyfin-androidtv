@@ -259,8 +259,6 @@
     <string name="pref_use_direct_path_title">Direkten Pfad übergeben</string>
     <string name="pref_external_live_tv_summary">Benötigt eine Anwendung, welche Livestreams wiedergeben kann</string>
     <string name="pref_external_live_tv_title">Externen Player für Live TV verwenden</string>
-    <string name="pref_use_external_player_summary">Benötigt eine Anwendung, welche die Videodateien wiedergeben kann</string>
-    <string name="pref_use_external_player_title">Externen Player für Videos verwenden</string>
     <string name="lbl_song_title">Songtitel</string>
     <string name="lbl_album_name">Album Name</string>
     <string name="lbl_next_episode">Nächste Episode</string>

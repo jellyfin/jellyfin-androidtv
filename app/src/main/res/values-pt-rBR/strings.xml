@@ -250,7 +250,6 @@
     <string name="pref_use_direct_path_summary">Enviar o local do sistema de arquivos invés da URL de streaming</string>
     <string name="pref_external_live_tv_summary">Requer um app compatível de reproduzir streams ao vivo</string>
     <string name="pref_external_live_tv_title">Usar Reprodutor Externo para TV ao Vivo</string>
-    <string name="pref_use_external_player_summary">Requer um app compatível para reproduzir os tipos de vídeo</string>
     <string name="lbl_song_title">Título da Música</string>
     <string name="lbl_album_name">Nome do álbum</string>
     <string name="lbl_next_episode">Próximo Episódio</string>
@@ -311,7 +310,6 @@
     <string name="title_suggestions_halloween">Feliz Halloween!</string>
     <string name="lbl_suggestions_halloween">Sugestões Assustadoras</string>
     <string name="lbl_suggestions">Sugestões</string>
-    <string name="pref_use_external_player_title">Usar Player Externo para Vídeos</string>
     <string name="lbl_series_recordings">Séries Gravadas</string>
     <string name="msg_error_signin">Ocorreu um erro ao fazer login com suas credenciais salvas.</string>
     <string name="msg_error_server_version">Versão do servidor não suportada. Versão do servidor deve ser %1$s ou posterior.</string>
