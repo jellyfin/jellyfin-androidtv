@@ -202,10 +202,6 @@ public class Utils {
         return Math.min(factor == 0 ? TvApp.getApplication().getAutoBitrate() : (factor.intValue() * 100000), TvApp.getApplication().getServerBitrateLimit());
     }
 
-    public static PopupMenu createPopupMenu(Activity activity, View view, int gravity) {
-        return new PopupMenu(activity, view, gravity);
-    }
-
     public static PopupMenu createPopupMenu(Context context, View view, int gravity) {
         return new PopupMenu(context, view, gravity);
     }

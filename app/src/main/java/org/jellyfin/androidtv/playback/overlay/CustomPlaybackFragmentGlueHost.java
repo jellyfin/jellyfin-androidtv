@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.playback.overlay;
 
-import android.media.session.PlaybackState;
-
 import androidx.leanback.app.PlaybackSupportFragment;
 import androidx.leanback.app.PlaybackSupportFragmentGlueHost;
 import androidx.leanback.widget.Action;

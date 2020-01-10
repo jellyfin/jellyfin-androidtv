@@ -1,10 +1,7 @@
 package org.jellyfin.androidtv.playback.overlay;
 
-import android.view.ViewGroup;
-
 import androidx.leanback.media.PlaybackBaseControlGlue;
 import androidx.leanback.widget.AbstractDetailsDescriptionPresenter;
-import androidx.leanback.widget.Presenter;
 
 public class FullDescriptionPresenter extends AbstractDetailsDescriptionPresenter {
 

@@ -115,7 +115,7 @@ public class VideoPlayerAdapter extends PlayerAdapter {
         return customPlaybackOverlayFragment;
     }
 
-    boolean canRecordLieTv() {
+    boolean canRecordLiveTv() {
         BaseItemDto currentlyPlayingItem = getCurrentlyPlayingItem();
         TvApp application = TvApp.getApplication();
         return currentlyPlayingItem.getCurrentProgram() != null

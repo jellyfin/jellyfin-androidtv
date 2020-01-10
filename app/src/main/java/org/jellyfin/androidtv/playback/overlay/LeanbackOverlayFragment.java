@@ -1,23 +1,12 @@
 package org.jellyfin.androidtv.playback.overlay;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.leanback.app.PlaybackSupportFragment;
-import androidx.leanback.widget.PlaybackRowPresenter;
-import androidx.leanback.widget.PlaybackTransportRowPresenter;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-
-import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.playback.PlaybackController;
-import org.jellyfin.androidtv.util.ImageUtils;
-import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 public class LeanbackOverlayFragment extends PlaybackSupportFragment {

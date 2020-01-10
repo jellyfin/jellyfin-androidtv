@@ -214,7 +214,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     }
 
     private boolean canRecordLiveTv() {
-        return playerAdapter.canRecordLieTv();
+        return playerAdapter.canRecordLiveTv();
     }
 
     private boolean hasChapters() {

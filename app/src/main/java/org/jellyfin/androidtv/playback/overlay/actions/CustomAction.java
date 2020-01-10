@@ -15,13 +15,9 @@ public abstract class CustomAction extends PlaybackControlsRow.MultiAction {
     private CustomPlaybackTransportControlGlue customPlaybackTransportControlGlue;
 
     public CustomAction(Context context, CustomPlaybackTransportControlGlue customPlaybackTransportControlGlue) {
-        this(0);
+        super(0);
         this.context = context;
         this.customPlaybackTransportControlGlue = customPlaybackTransportControlGlue;
-    }
-
-    private CustomAction(int id) {
-        super(id);
     }
 
     public void onCustomActionClicked(View view) { // We need a custom onClicked implementation for showing the popup
