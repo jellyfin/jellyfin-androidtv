@@ -13,6 +13,7 @@ import androidx.leanback.widget.PlaybackTransportRowPresenter;
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.overlay.actions.AdjustAudioDelayAction;
 import org.jellyfin.androidtv.playback.overlay.actions.ChannelBarChannelAction;
+import org.jellyfin.androidtv.playback.overlay.actions.ChapterAction;
 import org.jellyfin.androidtv.playback.overlay.actions.ClosedCaptionsAction;
 import org.jellyfin.androidtv.playback.overlay.actions.GuideAction;
 import org.jellyfin.androidtv.playback.overlay.actions.PreviousLiveTvChannelAction;
@@ -31,6 +32,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private ClosedCaptionsAction closedCaptionsAction;
     private AdjustAudioDelayAction adjustAudioDelayAction;
     private ZoomAction zoomAction;
+    private ChapterAction chapterAction;
 
     // TV actions
     private PreviousLiveTvChannelAction previousLiveTvChannelAction;
@@ -61,6 +63,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         closedCaptionsAction = new ClosedCaptionsAction(context, this);
         adjustAudioDelayAction = new AdjustAudioDelayAction(context, this);
         zoomAction = new ZoomAction(context, this);
+        chapterAction = new ChapterAction(context, this);
+
         previousLiveTvChannelAction = new PreviousLiveTvChannelAction(context, this);
         channelBarChannelAction = new ChannelBarChannelAction(context, this);
         guideAction = new GuideAction(context, this);
@@ -108,6 +112,11 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             secondaryActionsAdapter.add(skipNextAction);
         }
 
+
+        if (hasChapters()) {
+            secondaryActionsAdapter.add(chapterAction);
+        }
+
         if (!isNativeMode()) {
             secondaryActionsAdapter.add(adjustAudioDelayAction);
         } else {
@@ -144,6 +153,9 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             customActionClickedHandler.handleAudioDelaySelection(view);
         } else if (action == zoomAction) {
             customActionClickedHandler.handleZoomSelection(view);
+        } else if (action == chapterAction) {
+            leanbackOverlayFragment.hideOverlay();
+            customActionClickedHandler.handleChapterSelection(playerAdapter.getMasterOverlayFragment());
         } else if (action == previousLiveTvChannelAction) {
             customActionClickedHandler.handlePreviousLiveTvChannelSelection(playerAdapter.getMasterOverlayFragment());
         } else if (action == channelBarChannelAction) {
@@ -201,6 +213,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     private boolean canRecordLiveTv() {
         return playerAdapter.canRecordLieTv();
+    }
+
+    private boolean hasChapters() {
+        return playerAdapter.hasChapters();
     }
 
     void invalidatePlaybackControls() {

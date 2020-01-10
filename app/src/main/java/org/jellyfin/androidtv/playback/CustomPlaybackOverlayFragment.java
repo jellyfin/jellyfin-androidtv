@@ -1192,6 +1192,19 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         }, 500);
     }
 
+    public void showChapterSelector() {
+        showChapterPanel();
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int ndx = getCurrentChapterIndex(mPlaybackController.getCurrentlyPlayingItem(), mPlaybackController.getCurrentPosition() * 10000);
+                if (ndx > 0) {
+                    mPopupRowPresenter.setPosition(ndx);
+                }
+            }
+        }, 500);
+    }
+
     private int getCurrentChapterIndex(BaseItemDto item, long pos) {
         int ndx = 0;
         TvApp.getApplication().getLogger().Debug("*** looking for chapter at pos: " + pos);
@@ -1395,8 +1408,27 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             // set other information
             mGuideCurrentTitle.setText(current.getName());
             updateLogo(current, mLogoImage);
-            prepareChannelAdapter();
+            if (mPlaybackController.isLiveTv()) {
+                prepareChannelAdapter();
+            } else {
+                prepareChapterAdapter();
+            }
         }
+    }
+
+    private void prepareChapterAdapter() {
+        BaseItemDto item = mPlaybackController.getCurrentlyPlayingItem();
+        List<ChapterInfoDto> chapters = item.getChapters();
+
+        if (chapters != null && !chapters.isEmpty()) {
+            // create chapter row for later use
+            ItemRowAdapter chapterAdapter = new ItemRowAdapter(BaseItemUtils.buildChapterItems(item), new CardPresenter(true, 220), new ArrayObjectAdapter());
+            chapterAdapter.Retrieve();
+            if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
+            mChapterRow = new ListRow(new HeaderItem(mActivity.getString(R.string.chapters)), chapterAdapter);
+            mPopupRowAdapter.add(mChapterRow);
+        }
+
     }
 
     private void prepareChannelAdapter() {

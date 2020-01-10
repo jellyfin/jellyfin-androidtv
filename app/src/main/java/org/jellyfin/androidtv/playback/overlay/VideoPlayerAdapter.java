@@ -8,6 +8,9 @@ import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.ChapterInfoDto;
+
+import java.util.List;
 
 public class VideoPlayerAdapter extends PlayerAdapter {
 
@@ -135,5 +138,11 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     BaseItemDto getCurrentlyPlayingItem() {
         return playbackController.getCurrentlyPlayingItem();
+    }
+
+    boolean hasChapters() {
+        BaseItemDto item = getCurrentlyPlayingItem();
+        List<ChapterInfoDto> chapters = item.getChapters();
+        return chapters != null && chapters.size() > 0;
     }
 }

@@ -45,7 +45,8 @@ public class CustomActionClickedHandler {
         PopupMenu audioMenu = Utils.createPopupMenu(context, view, Gravity.END);
         for (MediaStream audio : audioTracks) {
             MenuItem item = audioMenu.getMenu().add(0, audio.getIndex(), audio.getIndex(), audio.getDisplayTitle());
-            if (currentAudioIndex != null && currentAudioIndex == audio.getIndex()) item.setChecked(true);
+            if (currentAudioIndex != null && currentAudioIndex == audio.getIndex())
+                item.setChecked(true);
         }
         audioMenu.getMenu().setGroupCheckable(0, true, false);
         audioMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
@@ -141,5 +142,9 @@ public class CustomActionClickedHandler {
 
     void handleGuideSelection(CustomPlaybackOverlayFragment customPlaybackOverlayFragment) {
         customPlaybackOverlayFragment.showGuide();
+    }
+
+    void handleChapterSelection(CustomPlaybackOverlayFragment customPlaybackOverlayFragment) {
+        customPlaybackOverlayFragment.showChapterSelector();
     }
 }
