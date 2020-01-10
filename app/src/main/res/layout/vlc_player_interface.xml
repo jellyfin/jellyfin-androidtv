@@ -172,16 +172,17 @@
     <FrameLayout
         android:id="@+id/popupArea"
         android:layout_width="fill_parent"
-        android:layout_height="225sp"
+        android:layout_height="225dp"
         android:layout_gravity="bottom"
-        android:background="@color/black"
+        android:background="@color/black_transparent"
         android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/rows_area"
+            android:layout_marginTop="16dp"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_gravity="left|center_vertical"
+            android:layout_gravity="start|bottom"
             android:orientation="horizontal" />
     </FrameLayout>
 
