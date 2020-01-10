@@ -43,8 +43,6 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         this.playbackController = playbackController;
         playerGlue.setSeekProvider(new CustomSeekProvider(playerAdapter.getDuration()));
         playerGlue.setInitialPlaybackDrawable();
-        hideControlsOverlay(true);
-        setControlsOverlayAutoHideEnabled(true);
         playerGlue.setSeekEnabled(playerAdapter.canSeek());
         playerAdapter.setMasterOverlayFragment(customPlaybackOverlayFragment);
     }
@@ -70,6 +68,10 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
     public void hideOverlay() {
         hideControlsOverlay(true);
+    }
+
+    void setFading(boolean fadingEnabled) {
+        playerAdapter.getMasterOverlayFragment().setFadingEnabled(fadingEnabled);
     }
 
     public void mediaInfoChanged() {

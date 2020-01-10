@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.playback.overlay;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -17,20 +16,19 @@ import org.jellyfin.androidtv.playback.VideoManager;
 import org.jellyfin.androidtv.ui.AudioDelayPopup;
 import org.jellyfin.androidtv.ui.ValueChangedListener;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CustomActionClickedHandler {
 
     private final PlaybackController mPlaybackController;
+    private final LeanbackOverlayFragment leanbackOverlayFragment;
     private final Context context;
 
-    public CustomActionClickedHandler(PlaybackController playbackController, Context context) {
+    public CustomActionClickedHandler(PlaybackController playbackController, LeanbackOverlayFragment leanbackOverlayFragment, Context context) {
         this.mPlaybackController = playbackController;
+        this.leanbackOverlayFragment = leanbackOverlayFragment;
         this.context = context;
     }
 
@@ -52,7 +50,7 @@ public class CustomActionClickedHandler {
         audioMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
             public void onDismiss(PopupMenu menu) {
-                //setFadingEnabled(true);
+                leanbackOverlayFragment.setFading(true);
             }
         });
         audioMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -84,7 +82,7 @@ public class CustomActionClickedHandler {
         subMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
             public void onDismiss(PopupMenu menu) {
-                //setFadingEnabled(true);
+                leanbackOverlayFragment.setFading(true);
             }
         });
         subMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -117,7 +115,7 @@ public class CustomActionClickedHandler {
         zoomMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
             public void onDismiss(PopupMenu menu) {
-                //setFadingEnabled(true);
+                leanbackOverlayFragment.setFading(true);
             }
         });
         zoomMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -128,7 +126,6 @@ public class CustomActionClickedHandler {
             }
         });
 
-        //setFadingEnabled(false);
         zoomMenu.show();
     }
 

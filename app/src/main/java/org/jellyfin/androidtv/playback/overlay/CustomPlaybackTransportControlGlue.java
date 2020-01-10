@@ -7,8 +7,6 @@ import androidx.leanback.media.PlaybackTransportControlGlue;
 import androidx.leanback.widget.Action;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.PlaybackControlsRow;
-import androidx.leanback.widget.PlaybackRowPresenter;
-import androidx.leanback.widget.PlaybackTransportRowPresenter;
 
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.overlay.actions.AdjustAudioDelayAction;
@@ -50,7 +48,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         super(context, playerAdapter);
         this.playerAdapter = playerAdapter;
         this.leanbackOverlayFragment = leanbackOverlayFragment;
-        customActionClickedHandler = new CustomActionClickedHandler(playbackController, context);
+        customActionClickedHandler = new CustomActionClickedHandler(playbackController, leanbackOverlayFragment, context);
         initActions(context);
     }
 
@@ -146,12 +144,16 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     public void onCustomActionClicked(Action action, View view) {
         // Handle custom action clicks which require a popup menu
         if (action == selectAudioAction) {
+            leanbackOverlayFragment.setFading(false);
             customActionClickedHandler.handleAudioSelection(view);
         } else if (action == closedCaptionsAction) {
+            leanbackOverlayFragment.setFading(false);
             customActionClickedHandler.handleClosedCaptionsSelection(view);
         } else if (action == adjustAudioDelayAction) {
+            leanbackOverlayFragment.hideOverlay();
             customActionClickedHandler.handleAudioDelaySelection(view);
         } else if (action == zoomAction) {
+            leanbackOverlayFragment.setFading(false);
             customActionClickedHandler.handleZoomSelection(view);
         } else if (action == chapterAction) {
             leanbackOverlayFragment.hideOverlay();
