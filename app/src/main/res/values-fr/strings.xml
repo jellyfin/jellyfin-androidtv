@@ -24,7 +24,8 @@
     <string name="pref_general">Général</string>
     <string name="lbl_settings">Paramètres</string>
     <string name="lbl_logout">Déconnexion</string>
-    <string name="lbl_library">Bibliothèque</string>
+    <string name="lbl_send_logs">Envoyer les journaux d\'événements</string>
+    <string name="lbl_library">Médiathèque</string>
     <string name="lbl_continue_watching">Continuer la lecture</string>
     <string name="lbl_latest_movies">Films les plus récents</string>
     <string name="lbl_next_up">Prochains à voir</string>
@@ -141,7 +142,7 @@
     <string name="lbl_begin_padding">Padding de début (minutes)</string>
     <string name="lbl_program_ended">Programme terminé</string>
     <string name="lbl_end_padding">Padding de fin (minutes)</string>
-    <string name="lbl_similar_items_library">Éléments semblables dans votre bibliothèque</string>
+    <string name="lbl_similar_items_library">Éléments semblables dans votre médiathèque</string>
     <string name="lbl_record_any_channel">Enregistrer n\'importe quelle chaîne</string>
     <string name="lbl_record_any_time">Enregistrer à n\'importe quelle heure</string>
     <string name="lbl_only_new_episodes">Uniquement les nouveaux épisodes</string>
@@ -306,7 +307,7 @@
     <string name="lbl_status">%s / %s</string>
     <string name="pref_authentication_cat">Identification</string>
     <string name="lbl_suggestions">Suggestions</string>
-    <string name="msg_external_path">Cette fonction ne fonctionnera que si vous avez correctement configuré votre bibliothèque sur le serveur avec des chemins d\'accès réseau ou des substitutions de chemins et que le client que vous utilisez peut accéder directement à ces emplacements via le réseau.</string>
+    <string name="msg_external_path">Cette fonction ne fonctionnera que si vous avez correctement configuré votre médiathèque sur le serveur avec des chemins d\'accès réseau ou des substitutions de chemins et que le client que vous utilisez peut accéder directement à ces emplacements via le réseau.</string>
     <string name="lbl_latest_tv_shows">Dernières séries TV</string>
     <string name="desc_suggestions_holiday">Essayer certaines de nos suggestions pour les fêtes</string>
     <string name="title_suggestions_holiday">Joyeuses fêtes !</string>
