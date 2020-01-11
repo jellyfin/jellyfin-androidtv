@@ -20,6 +20,7 @@ import android.widget.Toast;
 import org.jellyfin.androidtv.BuildConfig;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.preferences.enums.AudioBehavior;
 import org.jellyfin.androidtv.startup.DpadPwActivity;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 import org.jellyfin.apiclient.model.dto.UserDto;
@@ -278,8 +279,7 @@ public class Utils {
             return true;
         }
 
-        return (DeviceUtils.isFireTv() && !DeviceUtils.is50()) ||
-                "1".equals(TvApp.getApplication().getUserPreferences().getAudioOption());
+        return (DeviceUtils.isFireTv() && !DeviceUtils.is50()) || TvApp.getApplication().getUserPreferences().getAudioBehaviour() == AudioBehavior.DOWNMIX_TO_STEREO;
     }
 
     /**

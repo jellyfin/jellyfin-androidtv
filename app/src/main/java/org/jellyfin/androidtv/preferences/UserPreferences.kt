@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.preferences
 
 import android.content.Context
 import android.preference.PreferenceManager
+import org.jellyfin.androidtv.preferences.enums.AudioBehavior
 
 /**
  * User preferences are configurable by the user and change behavior of the application.
@@ -105,14 +106,9 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 
 	/* Playback - Audio related */
 	/**
-	 * Downmix audio. Values:
-	 * 0: Direct
-	 * 1: Downmix to Stereo
-	 *
-	 * When set to 1 audio will be downmixed.
-	 * Disables the AC3, EAC3 and AAC_LATM audio codecs
+	 * Preferred behavior for audio streaming.
 	 */
-	var audioOption by stringPreference("pref_audio_option", "0")
+	var audioBehaviour by enumPreference("audio_behavior", AudioBehavior.DIRECT_STREAM)
 
 	/**
 	 * Enable DTS
@@ -167,6 +163,12 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 			// Migrate to new player preference
 			val useExternal = it.getBoolean("pref_video_use_external", false)
 			putString("pref_video_player", if (useExternal) "external" else "auto")
+		}
+
+		migration(toVersion = 3) {
+			// Migrate to audio behavior enum
+			val current = it.getString("pref_audio_option", "0")
+			putEnum("audio_behavior", if(current == "1") AudioBehavior.DOWNMIX_TO_STEREO else AudioBehavior.DIRECT_STREAM)
 		}
 	}
 }

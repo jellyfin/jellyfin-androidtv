@@ -150,7 +150,7 @@ abstract class SharedPreferenceStore(
 	 * @param toVersion The new version to upgrade to
 	 * @param body Actual migrationb code
 	 */
-	protected fun migration(toVersion: Int, body: SharedPreferences.Editor.(SharedPreferences) -> Unit) {
+	protected fun migration(toVersion: Int, body: MigrationEditor.(SharedPreferences) -> Unit) {
 		// Check if migration should be performed
 		if (version < toVersion) {
 			TvApp.getApplication().logger.Info("Migrating a preference store from version $version to $toVersion")

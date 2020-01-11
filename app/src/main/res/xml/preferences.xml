@@ -85,9 +85,8 @@
             android:defaultValue="true"
             android:summary="@string/sum_enable_cinema_mode"
             />
-        <ListPreference android:key="pref_audio_option"
+        <ListPreference android:key="audio_behavior"
             android:title="@string/lbl_audio_output"
-            android:defaultValue="0"
             android:entries="@array/pref_audio_options"
             android:entryValues="@array/pref_audio_values"
             />

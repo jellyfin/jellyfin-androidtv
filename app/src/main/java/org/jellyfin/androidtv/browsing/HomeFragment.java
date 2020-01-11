@@ -18,6 +18,7 @@ import org.jellyfin.androidtv.model.ChangeTriggerType;
 import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.playback.AudioEventListener;
 import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.preferences.enums.AudioBehavior;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.presentation.ThemeManager;
@@ -109,7 +110,7 @@ public class HomeFragment extends StdBrowseFragment {
                     .setNegativeButton(mApplication.getString(R.string.btn_set_compatible_audio), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            mApplication.getUserPreferences().setAudioOption("1");
+                            mApplication.getUserPreferences().setAudioBehaviour(AudioBehavior.DOWNMIX_TO_STEREO);
                         }
                     })
                     .setCancelable(false)
