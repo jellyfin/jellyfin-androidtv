@@ -114,7 +114,7 @@
     <string name="lbl_add_favorite">添加我的最爱</string>
     <string name="lbl_remove_favorite">移除我的最爱</string>
     <string name="lbl_mark_played">标记已播放</string>
-    <string name="lbl_mark_unplayed">标记未播放</string>
+    <string name="lbl_mark_unplayed">标记为未播放</string>
     <string name="lbl_confirm_mark_watched">这将把所有内容标记为已观看。你确定要执行此操作吗\?</string>
     <string name="lbl_play_first_unwatched">播放未观看中的第一部影片</string>
     <string name="lbl_search_hint">搜索文本(选择键盘)</string>
