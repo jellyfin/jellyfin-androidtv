@@ -85,9 +85,6 @@ class UserPreferencesFragment : PreferenceFragmentCompat(), OnSharedPreferenceCh
 
 		// Update preference dependencies
 		findPreference<Preference>(key)?.let(::updatePreferenceDependencies)
-
-
-		TvApp.getApplication().logger.Info("DOWNMIX STATE: " + TvApp.getApplication().userPreferences.audioBehaviour.toString())
 	}
 
 	private fun updateAllDependencies() = updateGroupDependencies(preferenceScreen)

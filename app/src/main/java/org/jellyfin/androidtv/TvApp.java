@@ -27,6 +27,7 @@ import org.jellyfin.androidtv.playback.PlaybackManager;
 import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
 import org.jellyfin.androidtv.preferences.SystemPreferences;
 import org.jellyfin.androidtv.preferences.UserPreferences;
+import org.jellyfin.androidtv.preferences.enums.LoginBehavior;
 import org.jellyfin.androidtv.search.SearchActivity;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -266,7 +267,7 @@ public class TvApp extends Application {
     }
 
     public boolean getIsAutoLoginConfigured() {
-        return getUserPreferences().getLoginBehavior().equals("1") && getConfiguredAutoCredentials().getServerInfo().getId() != null;
+        return getUserPreferences().getLoginBehavior() == LoginBehavior.AUTO_LOGIN && getConfiguredAutoCredentials().getServerInfo().getId() != null;
     }
 
     public boolean useExternalPlayer(BaseItemType itemType) {

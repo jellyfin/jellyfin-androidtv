@@ -2,9 +2,8 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="@string/pref_authentication_cat" >
-        <ListPreference android:key="pref_login_behavior"
+        <ListPreference android:key="login_behavior"
             android:title="@string/pref_login_behavior_title"
-            android:defaultValue="0"
             android:entries="@array/pref_startup_entries"
             android:entryValues="@array/pref_startup_values"
             />

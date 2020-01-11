@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.preferences
 import android.content.Context
 import android.preference.PreferenceManager
 import org.jellyfin.androidtv.preferences.enums.AudioBehavior
+import org.jellyfin.androidtv.preferences.enums.LoginBehavior
 
 /**
  * User preferences are configurable by the user and change behavior of the application.
@@ -13,13 +14,10 @@ import org.jellyfin.androidtv.preferences.enums.AudioBehavior
 class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManager.getDefaultSharedPreferences(context)) {
 	/* Authentication */
 	/**
-	 * Behavior for login when starting the app. Supports the following values:
-	 * - 0: show login screen when starting the app
-	 * - 1: login as the user who set this setting
-	 *
+	 * Behavior for login when starting the app.
 	 * **note**: Currently settable via user-preferences only due too custom logic
 	 */
-	var loginBehavior by stringPreference("pref_login_behavior", "0")
+	var loginBehavior by enumPreference("login_behavior", LoginBehavior.SHOW_LOGIN)
 		private set
 
 	/**
@@ -167,8 +165,10 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 
 		migration(toVersion = 3) {
 			// Migrate to audio behavior enum
-			val current = it.getString("pref_audio_option", "0")
-			putEnum("audio_behavior", if(current == "1") AudioBehavior.DOWNMIX_TO_STEREO else AudioBehavior.DIRECT_STREAM)
+			putEnum("audio_behavior", if(it.getString("pref_audio_option", "0") == "1") AudioBehavior.DOWNMIX_TO_STEREO else AudioBehavior.DIRECT_STREAM)
+
+			// Migrate to login behavior enum
+			putEnum("login_behavior", if(it.getString("pref_login_behavior", "0") == "1") LoginBehavior.AUTO_LOGIN else LoginBehavior.SHOW_LOGIN)
 		}
 	}
 }
