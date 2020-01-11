@@ -1,0 +1,43 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Preference list -->
+    <fragment
+        android:id="@+id/fragment_settings"
+        android:name="org.jellyfin.androidtv.preferences.ui.UserPreferencesFragment"
+        android:layout_width="500dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="240sp"
+        android:layout_marginEnd="240sp"
+        tools:context="org.jellyfin.androidtv.preferences.ui.UserPreferencesFragment" />
+
+    <!-- Title & Version -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="40dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="40dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|top"
+            android:text="@string/settings_title"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/settings_version_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            tools:text="Version" />
+
+    </LinearLayout>
+
+</FrameLayout>

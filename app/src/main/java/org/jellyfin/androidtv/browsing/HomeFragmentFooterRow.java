@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.preferences.ui.SettingsActivity;
+import org.jellyfin.androidtv.preferences.ui.PreferencesActivity;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.startup.SelectUserActivity;
@@ -61,7 +61,7 @@ public class HomeFragmentFooterRow extends HomeFragmentRow implements OnItemView
 
                 break;
             case SETTINGS:
-                Intent settingsIntent = new Intent(activity, SettingsActivity.class);
+                Intent settingsIntent = new Intent(activity, PreferencesActivity.class);
                 activity.startActivity(settingsIntent);
                 break;
             default:
