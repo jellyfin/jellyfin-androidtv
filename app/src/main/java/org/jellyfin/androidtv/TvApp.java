@@ -310,7 +310,7 @@ public class TvApp extends Application {
     @Deprecated
     public int getResumePreroll() {
         try {
-            return Integer.parseInt(getUserPreferences().getResumePreroll()) * 1000;
+            return Integer.parseInt(getUserPreferences().getResumeSubtractDuration()) * 1000;
         } catch (Exception e) {
             return 0;
         }

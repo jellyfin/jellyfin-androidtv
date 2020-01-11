@@ -38,7 +38,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        timeoutInterval = Long.parseLong(TvApp.getApplication().getUserPreferences().getAutoSignoutTimeout());
+        timeoutInterval = Long.parseLong(TvApp.getApplication().getUserPreferences().getAutoSignOutTimeout());
         startAutoLogoffLoop();
         TvApp.getApplication().setCurrentActivity(this);
 
