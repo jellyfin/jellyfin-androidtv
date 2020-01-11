@@ -4,6 +4,7 @@ import android.content.Context
 import android.preference.PreferenceManager
 import org.jellyfin.androidtv.preferences.enums.AudioBehavior
 import org.jellyfin.androidtv.preferences.enums.LoginBehavior
+import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer
 
 /**
  * User preferences are configurable by the user and change behavior of the application.
@@ -84,13 +85,9 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 
 	/* Playback - Video */
 	/**
-	 * Preferred video player. Supports the following values:
-	 * - auto (default): Automatically selects between exoplayer and vlc
-	 * - exoplayer: Force ExoPlayer
-	 * - vlc: Force libVLC
-	 * - external: Use external player
+	 * Preferred video player.
 	 */
-	var videoPlayer by stringPreference("pref_video_player", "auto")
+	var videoPlayer by enumPreference("video_player", PreferredVideoPlayer.AUTO)
 
 	/**
 	 * Enable refresh rate switching when device supports it
@@ -158,17 +155,14 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	init {
 		// Migrations
 		migration(toVersion = 2) {
-			// Migrate to new player preference
-			val useExternal = it.getBoolean("pref_video_use_external", false)
-			putString("pref_video_player", if (useExternal) "external" else "auto")
-		}
-
-		migration(toVersion = 3) {
 			// Migrate to audio behavior enum
 			putEnum("audio_behavior", if(it.getString("pref_audio_option", "0") == "1") AudioBehavior.DOWNMIX_TO_STEREO else AudioBehavior.DIRECT_STREAM)
 
 			// Migrate to login behavior enum
 			putEnum("login_behavior", if(it.getString("pref_login_behavior", "0") == "1") LoginBehavior.AUTO_LOGIN else LoginBehavior.SHOW_LOGIN)
+
+			// Migrate to video player enum
+			putEnum("video_player", if (it.getBoolean("pref_video_use_external", false)) PreferredVideoPlayer.EXTERNAL else PreferredVideoPlayer.AUTO)
 		}
 	}
 }

@@ -16,6 +16,7 @@ import org.jellyfin.androidtv.model.compat.PlaybackException;
 import org.jellyfin.androidtv.model.compat.StreamInfo;
 import org.jellyfin.androidtv.model.compat.SubtitleStreamInfo;
 import org.jellyfin.androidtv.model.compat.VideoOptions;
+import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ProfileHelper;
@@ -113,7 +114,7 @@ public class PlaybackController {
 
         // Set default value for useVlc field
         // when set to auto the default will be exoplayer
-        useVlc = mApplication.getUserPreferences().getVideoPlayer().equals("vlc");
+        useVlc = mApplication.getUserPreferences().getVideoPlayer() == PreferredVideoPlayer.VLC;
     }
 
     public void init(VideoManager mgr, View spinner) {
@@ -476,17 +477,17 @@ public class PlaybackController {
                                             vlcResponse.getMediaSource().getVideoStream().getWidth() > 1200);
                             mApplication.getLogger().Info(useDeinterlacing ? "Explicit deinterlacing will be used" : "Explicit deinterlacing will NOT be used");
 
-                            String preferredVideoPlayer = mApplication.getUserPreferences().getVideoPlayer();
+                            PreferredVideoPlayer preferredVideoPlayer = mApplication.getUserPreferences().getVideoPlayer();
 
                             mApplication.getLogger().Info("User preferred player is: " + preferredVideoPlayer);
 
-                            if (preferredVideoPlayer.equals("vlc")) {
+                            if (preferredVideoPlayer == PreferredVideoPlayer.VLC) {
                                 // Force VLC
                                 useVlc = true;
-                            } else if (preferredVideoPlayer.equals("exoplayer")) {
+                            } else if (preferredVideoPlayer == PreferredVideoPlayer.EXOPLAYER) {
                                 // Make sure to not use VLC
                                 useVlc = false;
-                            } else if (preferredVideoPlayer.equals("auto")) {
+                            } else if (preferredVideoPlayer == PreferredVideoPlayer.AUTO) {
                                 // TODO: Clean up this logic
                                 // Now look at both responses and choose the one that direct plays or bitstreams - favor VLC
                                 useVlc = !vlcErrorEncountered &&
@@ -583,7 +584,7 @@ public class PlaybackController {
         setPlaybackMethod(response.getPlayMethod());
 
         // Force VLC when media is not live TV and the preferred player is VLC
-        boolean forceVlc = !isLiveTv && mApplication.getUserPreferences().getVideoPlayer().equals("vlc");
+        boolean forceVlc = !isLiveTv && mApplication.getUserPreferences().getVideoPlayer() == PreferredVideoPlayer.VLC;
 
         if (forceVlc || (useVlc && (!getPlaybackMethod().equals(PlayMethod.Transcode) || isLiveTv))) {
             TvApp.getApplication().getLogger().Info("Playing back in VLC.");

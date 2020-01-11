@@ -109,9 +109,9 @@
         <item>@string/pref_video_player_external</item>
     </string-array>
     <string-array name="pref_video_player_values" >
-        <item>auto</item>
-        <item>exoplayer</item>
-        <item>vlc</item>
-        <item>external</item>
+        <item>AUTO</item>
+        <item>EXOPLAYER</item>
+        <item>VLC</item>
+        <item>EXTERNAL</item>
     </string-array>
 </resources>

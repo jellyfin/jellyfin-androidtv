@@ -74,9 +74,8 @@
             android:entries="@array/pref_preroll_options"
             android:entryValues="@array/pref_preroll_values"
             />
-        <ListPreference android:key="pref_video_player"
+        <ListPreference android:key="video_player"
             android:title="Preferred media player"
-            android:defaultValue="auto"
             android:entries="@array/pref_video_player_entries"
             android:entryValues="@array/pref_video_player_values" />
         <CheckBoxPreference android:key="pref_enable_cinema_mode"

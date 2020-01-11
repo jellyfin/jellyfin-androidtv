@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.model.compat.PlaybackException;
 import org.jellyfin.androidtv.model.compat.StreamInfo;
 import org.jellyfin.androidtv.model.compat.VideoOptions;
 import org.jellyfin.androidtv.preferences.UserPreferences;
+import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer;
 import org.jellyfin.androidtv.util.ProfileHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
@@ -134,7 +135,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         UserPreferences prefs = mApplication.getUserPreferences();
-                        prefs.setVideoPlayer("auto");
+                        prefs.setVideoPlayer(PreferredVideoPlayer.AUTO);
                         prefs.setLiveTvUseExternalPlayer(false);
                     }
                 })

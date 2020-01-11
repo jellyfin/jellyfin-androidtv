@@ -28,6 +28,7 @@ import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
 import org.jellyfin.androidtv.preferences.SystemPreferences;
 import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.androidtv.preferences.enums.LoginBehavior;
+import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer;
 import org.jellyfin.androidtv.search.SearchActivity;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -277,7 +278,7 @@ public class TvApp extends Application {
             case Video:
             case Series:
             case Recording:
-                return getUserPreferences().getVideoPlayer().equals("external");
+                return getUserPreferences().getVideoPlayer() == PreferredVideoPlayer.EXTERNAL;
             case TvChannel:
             case Program:
                 return getUserPreferences().getLiveTvUseExternalPlayer();
