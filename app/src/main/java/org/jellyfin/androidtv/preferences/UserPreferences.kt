@@ -154,6 +154,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 
 	init {
 		// Migrations
+		// The initial migration is to version "2" and migrates from the old way of storing preferences to the current
 		migration(toVersion = 2) {
 			// Migrate to audio behavior enum
 			putEnum("audio_behavior", if(it.getString("pref_audio_option", "0") == "1") AudioBehavior.DOWNMIX_TO_STEREO else AudioBehavior.DIRECT_STREAM)

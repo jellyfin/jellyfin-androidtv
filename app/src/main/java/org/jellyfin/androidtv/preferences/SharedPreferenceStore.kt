@@ -120,17 +120,16 @@ abstract class SharedPreferenceStore(
 	 *
 	 * @return Delegated property
 	 */
-	protected inline fun <reified T : Enum<T>> enumPreference(key: String, default: T?) = object : ReadWriteProperty<SharedPreferenceStore, T?> {
-		override fun getValue(thisRef: SharedPreferenceStore, property: KProperty<*>): T? {
+	protected inline fun <reified T : Enum<T>> enumPreference(key: String, default: T) = object : ReadWriteProperty<SharedPreferenceStore, T> {
+		override fun getValue(thisRef: SharedPreferenceStore, property: KProperty<*>): T {
 			val stringValue = sharedPreferences.getString(key, null)
 
 			return if (stringValue == null) default
-			else T::class.java.enumConstants.find { it.name == stringValue }
+			else T::class.java.enumConstants.find { it.name == stringValue } ?: default
 		}
 
-		override fun setValue(thisRef: SharedPreferenceStore, property: KProperty<*>, value: T?) {
-			if (value == null) sharedPreferences.edit().remove(key).apply()
-			else sharedPreferences.edit().putString(key, value.toString()).apply()
+		override fun setValue(thisRef: SharedPreferenceStore, property: KProperty<*>, value: T) {
+			sharedPreferences.edit().putString(key, value.toString()).apply()
 		}
 	}
 
