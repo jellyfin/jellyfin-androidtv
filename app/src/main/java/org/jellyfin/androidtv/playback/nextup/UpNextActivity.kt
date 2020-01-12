@@ -18,15 +18,18 @@ class UpNextActivity : FragmentActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
+		val id = intent.getStringExtra("id")
+		if (id == null) finish()
+
+		// Add background manager
 		BackgroundManager.getInstance(this).attach(window)
 
+		// Load item info
 		GlobalScope.launch(Dispatchers.Main) {
-//			val data = loadItemData("e4f090de63eaf5fb5d34df6a7f8e504e") ?: return@launch
-//			val data = loadItemData("aa170e9f519e71d17724f1c8a045c027") ?: return@launch
-			val data = loadItemData("fa78ba27f0460c1daa7622120dbdea0b") ?: return@launch
+			val data = loadItemData(id) ?: return@launch
 
+			// Create fragment
 			fragment = UpNextFragment(data)
-
 			supportFragmentManager
 				.beginTransaction()
 				.add(android.R.id.content, fragment)
@@ -59,9 +62,11 @@ class UpNextActivity : FragmentActivity() {
 	}
 
 	override fun onBackPressed() {
+		// First back press will stop the timer
 		if (fragment.isCountdownActive()) {
 			fragment.stopCountdown()
 		} else {
+			// Additional back presses will be handled normally
 			super.onBackPressed()
 		}
 	}

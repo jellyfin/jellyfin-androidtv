@@ -82,8 +82,6 @@ public class PlaybackController {
     private Runnable mReportLoop;
     private Handler mHandler;
 
-    private long mNextItemThreshold = Long.MAX_VALUE;
-    private boolean nextItemReported;
     private long mStartPosition = 0;
     private long mCurrentProgramEndTime;
     private long mCurrentProgramStartTime;
@@ -387,26 +385,6 @@ public class PlaybackController {
 
                 long duration = getCurrentlyPlayingItem().getRunTimeTicks()!= null ? getCurrentlyPlayingItem().getRunTimeTicks() / 10000 : -1;
                 mVideoManager.setMetaDuration(duration);
-
-                if (hasNextItem()) {
-                    // Determine the "next up" threshold
-                    if (duration > NEXT_UP_MIN_LENGTH) {
-                        //only items longer than 10min to have this feature
-                        nextItemReported = false;
-                        if (duration > NEXT_UP_LONG_LENGTH) {
-                            //longer than 1hr 15 it probably has pretty long credits
-                            mNextItemThreshold = duration - NEXT_UP_LONG_DURATION;
-                        } else {
-                            //std 30 min episode or less
-                            mNextItemThreshold = duration - NEXT_UP_DURATION;
-                        }
-                        TvApp.getApplication().getLogger().Debug("Next item threshold set to %d", mNextItemThreshold);
-                    } else {
-                        mNextItemThreshold = Long.MAX_VALUE;
-                    }
-                } else {
-                    mNextItemThreshold = Long.MAX_VALUE;
-                }
 
                 break;
         }
@@ -970,12 +948,6 @@ public class PlaybackController {
                     long currentTime = isLiveTv ? getTimeShiftedProgress() : mVideoManager.getCurrentPosition();
 
                     ReportingHelper.reportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, false);
-
-                    //Do this next up processing here because every 3 seconds is good enough
-                    if (!nextItemReported && hasNextItem() && currentTime >= mNextItemThreshold) {
-                        nextItemReported = true;
-                        mFragment.nextItemThresholdHit(getNextItem());
-                    }
                 }
                 mApplication.setLastUserInteraction(System.currentTimeMillis());
                 if (mPlaybackState != PlaybackState.UNDEFINED && mPlaybackState != PlaybackState.IDLE) {
@@ -1061,7 +1033,10 @@ public class PlaybackController {
             mCurrentIndex++;
             mApplication.getLogger().Debug("Moving to next queue item. Index: %d", mCurrentIndex);
             spinnerOff = false;
-            play(0);
+
+            String id = getNextItem().getId();
+            mFragment.showNextUp(id);
+            // play(0);
         } else {
             // exit activity
             mApplication.getLogger().Debug("Last item completed. Finishing activity.");

@@ -21,7 +21,7 @@ class UpNextFragment(private val data: UpNextItemData) : Fragment() {
 		return inflater.inflate(R.layout.fragment_upnext_row, container, false).apply {
 			image.setOnClickListener {
 				stopCountdown()
-				playItem()
+				playNext()
 			}
 
 			BackgroundManager.getInstance(activity).setBitmap(data.backdrop)
@@ -61,7 +61,7 @@ class UpNextFragment(private val data: UpNextItemData) : Fragment() {
 			}
 
 			override fun onFinish() {
-				playItem()
+				playNext()
 			}
 		}.start()
 	}
@@ -75,7 +75,7 @@ class UpNextFragment(private val data: UpNextItemData) : Fragment() {
 
 	fun isCountdownActive() = countdownTimer != null
 
-	private fun playItem() {
+	private fun playNext() {
 		stopCountdown()
 
 		val intent = Intent(activity, PlaybackOverlayActivity::class.java)
