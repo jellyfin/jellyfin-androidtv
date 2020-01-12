@@ -1034,7 +1034,7 @@ public class PlaybackController {
             mApplication.getLogger().Debug("Moving to next queue item. Index: %d", mCurrentIndex);
             spinnerOff = false;
 
-            String id = getNextItem().getId();
+            String id = getCurrentlyPlayingItem().getId();
             mFragment.showNextUp(id);
             // play(0);
         } else {

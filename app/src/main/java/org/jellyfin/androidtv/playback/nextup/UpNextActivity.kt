@@ -44,12 +44,12 @@ class UpNextActivity : FragmentActivity() {
 		val thumbnail = TvApp.getApplication().apiClient.GetImageUrl(item, ImageOptions())
 
 		//todo improve "title" logic
-		val title = if (item.parentIndexNumber != null && item.name != null)
-			"${item.parentIndexNumber}. ${item.name}"
+		val title = if (item.indexNumber != null && item.name != null)
+			"${item.indexNumber}. ${item.name}"
 		else if (item.name != null)
 			item.name
-		else if (item.parentIndexNumber != null)
-			"Episode" + item.parentIndexNumber
+//		else if (item.indexNumber != null)
+//			"Episode" + item.indexNumber
 		else ""
 
 		UpNextItemData(
