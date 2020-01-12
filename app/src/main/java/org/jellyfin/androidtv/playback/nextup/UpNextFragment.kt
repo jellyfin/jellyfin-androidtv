@@ -1,12 +1,10 @@
 package org.jellyfin.androidtv.playback.nextup
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.leanback.app.DetailsSupportFragment
 import androidx.leanback.app.DetailsSupportFragmentBackgroundController
-import androidx.leanback.widget.ArrayObjectAdapter
-import androidx.leanback.widget.ClassPresenterSelector
-import androidx.leanback.widget.DetailsOverviewRow
-import androidx.leanback.widget.FullWidthDetailsOverviewRowPresenter
+import androidx.leanback.widget.*
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -14,6 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.util.apiclient.getItem
+import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.ImageOptions
 
 class UpNextFragment : DetailsSupportFragment() {
@@ -52,8 +51,19 @@ class UpNextFragment : DetailsSupportFragment() {
 			adapter = ArrayObjectAdapter(ClassPresenterSelector().apply {
 				addClassPresenter(DetailsOverviewRow::class.java, FullWidthDetailsOverviewRowPresenter(UpNextDetailsPresenter(activity!!)))
 			}).apply {
-				add(DetailsOverviewRow(item))
+				add(DetailsOverviewRow(item).apply {
+					actionsAdapter = ArrayObjectAdapter().apply {
+						add(Action(1, "Play now"))
+						add(Action(1, "Go to details"))
+					}
+				})
 			}
 		}
+	}
+
+	fun play(item: BaseItemDto) {
+		val intent = Intent(activity, TvApp.getApplication().getPlaybackActivityClass(item.baseItemType))
+		startActivity(intent)
+		activity?.finish()
 	}
 }
