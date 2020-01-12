@@ -17,38 +17,43 @@ import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.apiclient.model.dto.ImageOptions
 
 class UpNextFragment : DetailsSupportFragment() {
-	private val background = DetailsSupportFragmentBackgroundController(this)
+	private val backgroundController = DetailsSupportFragmentBackgroundController(this)
+
+	private suspend fun loadItem(id: String) = withContext(Dispatchers.IO) {
+		val item = TvApp.getApplication().apiClient.getItem(id) ?: return@withContext null
+
+		val backdrop = TvApp.getApplication().apiClient.GetBackdropImageUrls(item, ImageOptions()).firstOrNull()
+		val thumbnail = TvApp.getApplication().apiClient.GetImageUrl(item, ImageOptions())
+
+		UpNextItemData(
+			item.id,
+			"${item.parentIndexNumber}. ${item.name}",
+			item.overview,
+			backdrop,
+			thumbnail
+		)
+	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
+		backgroundController.enableParallax()
+
 		GlobalScope.launch(Dispatchers.Main) {
-			val item = withContext(Dispatchers.IO) {
-				//todo currently hardcoded for testing
-//				TvApp.getApplication().apiClient.getItem("e4f090de63eaf5fb5d34df6a7f8e504e")
-				TvApp.getApplication().apiClient.getItem("aa170e9f519e71d17724f1c8a045c027")
-			}
+			val item = loadItem("e4f090de63eaf5fb5d34df6a7f8e504e")
+//			val item = loadItem("aa170e9f519e71d17724f1c8a045c027")
+//			val item = loadItem("fa78ba27f0460c1daa7622120dbdea0b")
 
 			if (item == null) return@launch
 
-			background.enableParallax()
-			val backdropUrls = TvApp.getApplication().apiClient.GetBackdropImageUrls(item, ImageOptions())
+			if (item.backdrop != null)
+				backgroundController.coverBitmap = withContext(Dispatchers.IO) { Picasso.with(activity).load(item.backdrop).get() }
 
-			if (backdropUrls.isNotEmpty()) {
-				val bitmap = withContext(Dispatchers.IO) { Picasso.with(activity).load(backdropUrls.first()).get() }
-				background.coverBitmap = bitmap
+			adapter = ArrayObjectAdapter(ClassPresenterSelector().apply {
+				addClassPresenter(DetailsOverviewRow::class.java, FullWidthDetailsOverviewRowPresenter(UpNextDetailsPresenter(activity!!)))
+			}).apply {
+				add(DetailsOverviewRow(item))
 			}
-
-			// Setup PresenterSelector to distinguish between the different rows.
-			val rowPresenterSelector = ClassPresenterSelector()
-			rowPresenterSelector.addClassPresenter(DetailsOverviewRow::class.java, FullWidthDetailsOverviewRowPresenter(UpNextDetailsPresenter(activity!!)))
-			val mRowsAdapter = ArrayObjectAdapter(rowPresenterSelector)
-
-			// Setup action and detail row.
-			val thumbnail = TvApp.getApplication().apiClient.GetImageUrl(item, ImageOptions())
-			mRowsAdapter.add(DetailsOverviewRow(UpNextItemData(item.id, thumbnail, item.name, item.overview)))
-
-			adapter = mRowsAdapter
 		}
 	}
 }
