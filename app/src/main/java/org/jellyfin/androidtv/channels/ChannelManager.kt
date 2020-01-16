@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.channels
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import androidx.tvprovider.media.tv.TvContractCompat.WatchNextPrograms
 import androidx.tvprovider.media.tv.WatchNextProgram
 import kotlinx.coroutines.Dispatchers
@@ -33,9 +34,10 @@ class ChannelManager {
 	private val application = TvApp.getApplication()
 
 	/**
-	 * Check if the app can use Leanback features
+	 * Check if the app can use Leanback features and is API level 26 or higher
 	 */
-	private val isSupported = application.packageManager.hasSystemFeature("android.software.leanback")
+	private val isSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+		&& application.packageManager.hasSystemFeature("android.software.leanback")
 
 	/**
 	 * Update all channels for the currently authenticated user
