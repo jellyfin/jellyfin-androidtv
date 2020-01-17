@@ -1306,10 +1306,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     @Override
     public void showNextUp(String id) {
+        // Set to "modified" so the queue won't be cleared
+        MediaManager.setVideoQueueModified(true);
+
         Intent intent = new Intent(getActivity(), UpNextActivity.class);
         intent.putExtra("id", id);
         startActivity(intent);
-//        finish();
+        finish();
     }
 
     public void updateSubtitles(long positionMs) {

@@ -49,15 +49,6 @@ public class PlaybackController {
     // Frequency to report paused state
     private static final long PROGRESS_REPORTING_PAUSE_INTERVAL = TimeUtils.secondsToMillis(15);
 
-    // Minimum duration to show next up popup
-    private static final long NEXT_UP_MIN_LENGTH = TimeUtils.minutesToMillis(10);
-    // Minimum duration to show next up popup for longer
-    private static final long NEXT_UP_LONG_LENGTH = TimeUtils.hoursToMillis(1.25);
-    // The duration to display the next up popup for longer shows
-    private static final long NEXT_UP_LONG_DURATION = TimeUtils.minutesToMillis(3);
-    // The default duration to display the next up popup
-    private static final long NEXT_UP_DURATION = TimeUtils.secondsToMillis(30);
-
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
     SubtitleHelper mSubHelper;
@@ -1028,15 +1019,14 @@ public class PlaybackController {
         ReportingHelper.reportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
         vlcErrorEncountered = false;
         exoErrorEncountered = false;
-        if (mCurrentIndex < mItems.size() - 1) {
-            // move to next in queue
-            mCurrentIndex++;
-            mApplication.getLogger().Debug("Moving to next queue item. Index: %d", mCurrentIndex);
+
+        BaseItemDto nextItem = getNextItem();
+        if (nextItem != null) {
+            mApplication.getLogger().Debug("Moving to next queue item. Index: " + (mCurrentIndex + 1));
             spinnerOff = false;
 
-            String id = getCurrentlyPlayingItem().getId();
-            mFragment.showNextUp(id);
-            // play(0);
+            // Show "Next Up" fragment
+            mFragment.showNextUp(nextItem.getId());
         } else {
             // exit activity
             mApplication.getLogger().Debug("Last item completed. Finishing activity.");

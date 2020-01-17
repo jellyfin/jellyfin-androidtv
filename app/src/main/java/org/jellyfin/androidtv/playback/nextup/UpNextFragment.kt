@@ -11,7 +11,6 @@ import androidx.leanback.app.BackgroundManager
 import kotlinx.android.synthetic.main.fragment_upnext_row.*
 import kotlinx.android.synthetic.main.fragment_upnext_row.view.*
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.playback.PlaybackOverlayActivity
 import org.jellyfin.androidtv.util.toHtmlSpanned
 
@@ -81,7 +80,6 @@ class UpNextFragment(private val data: UpNextItemData) : Fragment() {
 
 		val intent = Intent(activity, PlaybackOverlayActivity::class.java)
 		startActivity(intent)
-		TvApp.getApplication().playbackController.play(0)
 		activity?.finish()
 	}
 }
