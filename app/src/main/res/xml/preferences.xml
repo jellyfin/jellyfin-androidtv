@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="@string/pref_authentication_cat" >
         <ListPreference android:key="login_behavior"
@@ -29,6 +30,7 @@
             android:defaultValue="3600000"
             android:entries="@array/pref_timeout_entries"
             android:entryValues="@array/pref_timeout_values"
+            app:useSimpleSummaryProvider="true"
             />
         <CheckBoxPreference android:key="pref_show_backdrop"
             android:title="@string/lbl_show_backdrop"
@@ -73,11 +75,13 @@
             android:defaultValue="0"
             android:entries="@array/pref_preroll_options"
             android:entryValues="@array/pref_preroll_values"
+            app:useSimpleSummaryProvider="true"
             />
         <ListPreference android:key="video_player"
             android:title="Preferred media player"
             android:entries="@array/pref_video_player_entries"
-            android:entryValues="@array/pref_video_player_values" />
+            android:entryValues="@array/pref_video_player_values"
+            app:useSimpleSummaryProvider="true" />
         <CheckBoxPreference android:key="pref_enable_cinema_mode"
             android:title="@string/lbl_enable_cinema_mode"
             android:defaultValue="true"
@@ -87,6 +91,7 @@
             android:title="@string/lbl_audio_output"
             android:entries="@array/pref_audio_options"
             android:entryValues="@array/pref_audio_values"
+            app:useSimpleSummaryProvider="true"
             />
         <CheckBoxPreference android:key="pref_bitstream_ac3"
             android:title="@string/lbl_bitstream_ac3"
@@ -110,19 +115,22 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_live_tv_cat" android:key="pref_live_tv_category">
-        <CheckBoxPreference android:key="pref_live_direct"
-            android:title="@string/lbl_direct_stream_live"
-            android:defaultValue="true"
+        <CheckBoxPreference android:key="pref_live_tv_use_external"
+            android:title="@string/pref_external_live_tv_title"
+            android:defaultValue="false"
+            android:summary="@string/pref_external_live_tv_summary"
+            android:disableDependentsState="true"
             />
         <CheckBoxPreference android:key="pref_enable_vlc_livetv"
             android:title="@string/lbl_use_vlc_livetv"
             android:defaultValue="false"
             android:summary="@string/desc_use_vlc_livetv"
+            android:dependency="pref_live_tv_use_external"
             />
-        <CheckBoxPreference android:key="pref_live_tv_use_external"
-            android:title="@string/pref_external_live_tv_title"
-            android:defaultValue="false"
-            android:summary="@string/pref_external_live_tv_summary"
+        <CheckBoxPreference android:key="pref_live_direct"
+            android:title="@string/lbl_direct_stream_live"
+            android:defaultValue="true"
+            android:dependency="pref_live_tv_use_external"
             />
     </PreferenceCategory>
 

@@ -21,14 +21,8 @@
 
         <!-- Custom Styles for Elements -->
         <item name="android:datePickerStyle">@style/DatePickerCustom</item>
-    </style>
 
-    <!-- Temporary theme for UserPreferencesFragment until it can use the default theme -->
-    <style name="Theme.Jellyfin.AppCompat" parent="Theme.AppCompat">
-        <!-- Colors -->
-        <item name="android:colorPrimary">@color/grey</item>
-        <item name="android:colorPrimaryDark">@color/grey</item>
-        <item name="android:colorAccent">@color/jellyfin_blue</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlayLeanback</item>
     </style>
 
     <!-- Legacy Green Theme -->
