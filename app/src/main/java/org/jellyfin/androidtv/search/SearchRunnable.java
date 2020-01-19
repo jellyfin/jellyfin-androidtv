@@ -8,17 +8,11 @@ import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.model.search.SearchQuery;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Created by Eric on 4/8/2015.
