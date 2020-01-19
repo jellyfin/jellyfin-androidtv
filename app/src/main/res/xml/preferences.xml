@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:title="@string/settings_title">
 
     <PreferenceCategory android:title="@string/pref_authentication_cat">
         <ListPreference
@@ -160,6 +161,15 @@
             android:summaryOff="@string/pref_acra_syslog_disabled"
             android:summaryOn="@string/pref_acra_syslog_enabled"
             android:title="@string/pref_acra_syslog" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_about_category"
+        android:title="@string/pref_about_title">
+        <EditTextPreference
+            android:enabled="false"
+            android:key="version"
+            android:title="@string/lbl_version" />
     </PreferenceCategory>
 
 </PreferenceScreen>

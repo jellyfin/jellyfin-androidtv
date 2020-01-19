@@ -11,6 +11,7 @@ import org.jellyfin.androidtv.model.LogonCredentials
 import org.jellyfin.androidtv.preferences.enums.LoginBehavior
 import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer
 import org.jellyfin.androidtv.util.DeviceUtils
+import org.jellyfin.androidtv.util.Utils
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper
 import java.io.IOException
 
@@ -128,6 +129,10 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 				}
 
 				return@SummaryProvider preference.entry
+			}
+
+			findPreference<EditTextPreference>("version")?.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
+				Utils.getVersionString()
 			}
 		}
 	}
