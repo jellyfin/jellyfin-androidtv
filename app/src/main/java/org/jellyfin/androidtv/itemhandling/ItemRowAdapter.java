@@ -861,12 +861,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
-                    if (itemsLoaded > 0 && mParent != null) {
-                        mParent.add(mRow);
-                    }
                 }
 
                 currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
 
             @Override
@@ -874,9 +872,16 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving search results", exception);
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
         });
 
+    }
+
+    public void AddToParentIfResultsReceived() {
+        if (itemsLoaded > 0 && mParent != null) {
+            mParent.add(mRow);
+        }
     }
 
     public void GetResultSizeAsync(final Response<Integer> outerResponse) {
