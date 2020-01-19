@@ -29,7 +29,7 @@ class UserPreferencesFragment : PreferenceFragmentCompat(), OnSharedPreferenceCh
 		super.onActivityCreated(savedInstanceState)
 
 		// Temporary workaround to get dialogs working (would crash when using Leanback theme)
-		context?.setTheme(R.style.Theme_AppCompat)
+		context?.setTheme(R.style.Theme_Jellyfin_AppCompat)
 	}
 
 	override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
