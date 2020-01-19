@@ -25,6 +25,12 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlayLeanback</item>
     </style>
 
+    <style name="Theme.Jellyfin.Preferences" parent="Theme.Jellyfin">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
     <!-- Legacy Green Theme -->
     <style name="Theme.Jellyfin.Legacy" parent="Theme.Jellyfin">
         <!-- Colors -->

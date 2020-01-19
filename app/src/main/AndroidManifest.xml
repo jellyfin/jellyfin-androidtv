@@ -60,7 +60,7 @@
         <activity android:name=".browsing.CollectionActivity" />
         <activity android:name=".browsing.ByLetterActivity" />
         <activity android:name=".browsing.ByGenreActivity" />
-        <activity android:name=".preferences.ui.PreferencesActivity" />
+        <activity android:name=".preferences.ui.PreferencesActivity" android:theme="@style/Theme.Jellyfin.Preferences" />
         <activity android:name=".browsing.SuggestedMoviesActivity" />
         <activity android:name=".browsing.BrowsePersonsActivity" />
         <activity android:name=".search.SearchActivity" />
