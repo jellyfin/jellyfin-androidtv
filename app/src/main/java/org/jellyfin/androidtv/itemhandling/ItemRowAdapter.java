@@ -878,7 +878,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     }
 
-    public void AddToParentIfResultsReceived() {
+    public void addToParentIfResultsReceived() {
         if (itemsLoaded > 0 && mParent != null) {
             mParent.add(mRow);
         }

@@ -48,66 +48,66 @@ public class SearchRunnable implements Runnable {
             ItemRowAdapter movieAdapter = new ItemRowAdapter(movies, new CardPresenter(), mRowsAdapter);
             ListRow movieRow = new ListRow(new HeaderItem(context.getString(R.string.lbl_movies)), movieAdapter);
             movieAdapter.setRow(movieRow);
-            RetrieveSearchResult(movieAdapter);
+            retrieveSearchResult(movieAdapter);
 
             SearchQuery tvSeries = getSearchQuery(new String[] {"Series"});
             ItemRowAdapter tvSeriesAdapter = new ItemRowAdapter(tvSeries, new CardPresenter(), mRowsAdapter);
             ListRow tvSeriesRow = new ListRow(new HeaderItem(context.getString(R.string.lbl_series)), tvSeriesAdapter);
             tvSeriesAdapter.setRow(tvSeriesRow);
-            RetrieveSearchResult(tvSeriesAdapter);
+            retrieveSearchResult(tvSeriesAdapter);
 
             SearchQuery tv = getSearchQuery(new String[] {"Episode"});
             ItemRowAdapter tvAdapter = new ItemRowAdapter(tv, new CardPresenter(), mRowsAdapter);
             ListRow tvRow = new ListRow(new HeaderItem(context.getString(R.string.lbl_episodes)), tvAdapter);
             tvAdapter.setRow(tvRow);
-            RetrieveSearchResult(tvAdapter);
+            retrieveSearchResult(tvAdapter);
 
             SearchQuery people = getSearchQuery(new String[] {"Person","People"});
             ItemRowAdapter peopleAdapter = new ItemRowAdapter(people, new CardPresenter(), mRowsAdapter);
             ListRow peopleRow = new ListRow(new HeaderItem(context.getString(R.string.lbl_people)), peopleAdapter);
             peopleAdapter.setRow(peopleRow);
-            RetrieveSearchResult(peopleAdapter);
+            retrieveSearchResult(peopleAdapter);
 
             SearchQuery videos = getSearchQuery(new String[] {"Video"});
             ItemRowAdapter videoAdapter = new ItemRowAdapter(videos, new CardPresenter(), mRowsAdapter);
             ListRow videoRow = new ListRow(new HeaderItem(context.getString(R.string.lbl_videos)), videoAdapter);
             videoAdapter.setRow(videoRow);
-            RetrieveSearchResult(videoAdapter);
+            retrieveSearchResult(videoAdapter);
 
             SearchQuery recordings = getSearchQuery(new String[] {"Recording"});
             ItemRowAdapter recordingAdapter = new ItemRowAdapter(recordings, new CardPresenter(), mRowsAdapter);
             ListRow recordingRow = new ListRow(new HeaderItem(context.getString(R.string.lbl_recordings)), recordingAdapter);
             recordingAdapter.setRow(recordingRow);
-            RetrieveSearchResult(recordingAdapter);
+            retrieveSearchResult(recordingAdapter);
 
             SearchQuery programs = getSearchQuery(new String[] {"Program"});
             ItemRowAdapter programAdapter = new ItemRowAdapter(programs, new CardPresenter(), mRowsAdapter);
             ListRow programRow = new ListRow(new HeaderItem(context.getString(R.string.lbl_programs)), programAdapter);
             programAdapter.setRow(programRow);
-            RetrieveSearchResult(programAdapter);
+            retrieveSearchResult(programAdapter);
         }
 
         SearchQuery artists = getSearchQuery(new String[] {"MusicArtist"});
         ItemRowAdapter artistAdapter = new ItemRowAdapter(artists, new CardPresenter(), mRowsAdapter);
         ListRow artistRow = new ListRow(new HeaderItem(context.getString(R.string.lbl_artists)), artistAdapter);
         artistAdapter.setRow(artistRow);
-        RetrieveSearchResult(artistAdapter);
+        retrieveSearchResult(artistAdapter);
 
         SearchQuery albums = getSearchQuery(new String[] {"MusicAlbum"});
         ItemRowAdapter albumAdapter = new ItemRowAdapter(albums, new CardPresenter(), mRowsAdapter);
         ListRow albumRow = new ListRow(new HeaderItem(context.getString(R.string.lbl_albums)), albumAdapter);
         albumAdapter.setRow(albumRow);
-        RetrieveSearchResult(albumAdapter);
+        retrieveSearchResult(albumAdapter);
 
         SearchQuery songs = getSearchQuery(new String[] {"Audio"});
         ItemRowAdapter songAdapter = new ItemRowAdapter(songs, new CardPresenter(), mRowsAdapter);
         ListRow songRow = new ListRow(new HeaderItem(context.getString(R.string.lbl_songs)), songAdapter);
         songAdapter.setRow(songRow);
-        RetrieveSearchResult(songAdapter);
+        retrieveSearchResult(songAdapter);
 
     }
 
-    private void RetrieveSearchResult(ItemRowAdapter itemRow) {
+    private void retrieveSearchResult(ItemRowAdapter itemRow) {
         searchItemRows.add(itemRow);
         itemRow.setRetrieveFinishedListener(new EmptyResponse() {
             @Override
@@ -115,7 +115,7 @@ public class SearchRunnable implements Runnable {
                 searchesReceived++;
                 if (searchesReceived == searchItemRows.size()){
                     for (ItemRowAdapter itemRowAdapter : searchItemRows) {
-                        itemRowAdapter.AddToParentIfResultsReceived();
+                        itemRowAdapter.addToParentIfResultsReceived();
                     }
                 }
             }
