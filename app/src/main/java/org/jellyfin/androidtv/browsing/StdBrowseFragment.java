@@ -453,9 +453,11 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
             mCurrentRow = (ListRow) row;
             BaseRowItem rowItem = (BaseRowItem) item;
 
-            //mApplication.getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));
-            ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)row).getAdapter();
-            adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
+            if (((ListRow) row).getAdapter() instanceof ItemRowAdapter) {
+                //mApplication.getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));
+                ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow) row).getAdapter();
+                adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
+            }
 
             if (ShowFanart) {
                 mBackgroundUrl = rowItem.getBackdropImageUrl();

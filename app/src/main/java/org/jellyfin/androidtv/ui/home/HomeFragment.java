@@ -71,6 +71,7 @@ public class HomeFragment extends StdBrowseFragment {
     private List<HomeFragmentRow> rows = new ArrayList<>();
     private ItemsResult views;
     private HomeFragmentNowPlayingRow nowPlaying;
+    private HomeFragmentLiveTVRow liveTVRow;
     private HomeFragmentFooterRow footer;
 
     private ChannelManager channelManager;
@@ -144,6 +145,7 @@ public class HomeFragment extends StdBrowseFragment {
         }
 
         nowPlaying = new HomeFragmentNowPlayingRow(getActivity());
+        liveTVRow = new HomeFragmentLiveTVRow(getActivity());
         footer = new HomeFragmentFooterRow(getActivity());
     }
 
@@ -174,11 +176,9 @@ public class HomeFragment extends StdBrowseFragment {
     protected void setupEventListeners() {
         super.setupEventListeners();
 
-        mClickedListener.registerListener(new OnItemViewClickedListener() {
-            @Override
-            public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
-                footer.onItemClicked(itemViewHolder, item, rowViewHolder, row);
-            }
+        mClickedListener.registerListener((itemViewHolder, item, rowViewHolder, row) -> {
+            liveTVRow.onItemClicked(itemViewHolder, item, rowViewHolder, row);
+            footer.onItemClicked(itemViewHolder, item, rowViewHolder, row);
         });
     }
 
@@ -206,8 +206,10 @@ public class HomeFragment extends StdBrowseFragment {
                 rows.add(loadNextUp());
                 break;
             case LIVE_TV:
-                if (TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvAccess())
+                if (TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvAccess()) {
+                    rows.add(liveTVRow);
                     rows.add(loadOnNow());
+                }
                 break;
         }
     }
