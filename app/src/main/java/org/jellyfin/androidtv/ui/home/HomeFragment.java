@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.browsing;
+package org.jellyfin.androidtv.ui.home;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,6 +10,9 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.CustomMessage;
 import org.jellyfin.androidtv.base.IMessageListener;
+import org.jellyfin.androidtv.browsing.BrowseRowDef;
+import org.jellyfin.androidtv.browsing.IRowLoader;
+import org.jellyfin.androidtv.browsing.StdBrowseFragment;
 import org.jellyfin.androidtv.channels.ChannelManager;
 import org.jellyfin.androidtv.constants.HomeSectionType;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;

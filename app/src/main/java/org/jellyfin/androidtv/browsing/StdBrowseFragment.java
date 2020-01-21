@@ -91,7 +91,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
     private final Handler mHandler = new Handler();
     private String mBackgroundUrl;
     protected ArrayList<BrowseRowDef> mRows = new ArrayList<>();
-    CardPresenter mCardPresenter;
+    protected CardPresenter mCardPresenter;
 
     protected boolean justLoaded = true;
 

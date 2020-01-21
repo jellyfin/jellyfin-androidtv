@@ -1,5 +1,6 @@
-package org.jellyfin.androidtv.browsing;
+package org.jellyfin.androidtv.ui.home;
 
+import org.jellyfin.androidtv.browsing.BrowseRowDef;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.querying.QueryType;
