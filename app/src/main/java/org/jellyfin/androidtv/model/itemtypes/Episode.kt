@@ -4,11 +4,8 @@ import android.graphics.Bitmap
 
 data class Episode (
 	val id: String,
-	val canDelete: Boolean,
-	val canDownload: Boolean,
 	//TODO: Chapters: ArrayList<ChapterInfoDto>
-	val communityRating: Float,
+	val communityRating: Double,
 	val name: String,
-	val overview: String,
-	val primaryImage: Bitmap?
+	val description: String
 )

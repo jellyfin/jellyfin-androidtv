@@ -4,41 +4,48 @@ import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import androidx.leanback.widget.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.model.itemtypes.Episode
+import org.jellyfin.apiclient.model.dto.ImageOptions
 
 class EpisodeDetailsFragment(private val data: Episode) : BaseDetailsFragment() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		buildDetails()
+
+		GlobalScope.launch(Dispatchers.Main) {
+			buildDetails()
+		}
 	}
 
-	private fun buildDetails() {
+	private suspend fun buildDetails() {
 
 		Log.i("EpisodeDetailsFragment", data.name)
 
+		val primaryImageUrl = TvApp.getApplication().apiClient.GetImageUrl(data.id, ImageOptions())
+		val primaryImageBitmap = getImageFromURL(primaryImageUrl)
+
 		val selector = ClassPresenterSelector().apply {
 			// Attach your media item details presenter to the row presenter:
+			val detailsDescriptionPresenter = DetailsDescriptionPresenter(title = data.name, subtitle = "TODO", body = data.description)
 
-			val detailsDescriptionPresenter = DetailsDescriptionPresenter(title = data.name, subtitle = "TODO", body = data.overview)
 
-			if (data.primaryImage != null) {
-				FullWidthDetailsOverviewRowPresenter(detailsDescriptionPresenter, DetailsOverviewLogoPresenter()).also {
-					addClassPresenter(DetailsOverviewRow::class.java, it)
-				}
-			} else {
-				FullWidthDetailsOverviewRowPresenter(detailsDescriptionPresenter).also {
-					addClassPresenter(DetailsOverviewRow::class.java, it)
-				}
-			}
+			addClassPresenter(DetailsOverviewRow::class.java,
+				FullWidthDetailsOverviewRowPresenter(
+					detailsDescriptionPresenter,
+					primaryImageBitmap?.let { DetailsOverviewLogoPresenter() }))
+
 
 			addClassPresenter(ListRow::class.java, ListRowPresenter())
 		}
 		rowsAdapter = ArrayObjectAdapter(selector)
 
 		val detailsOverview = DetailsOverviewRow("Media Item Details").apply {
-			imageDrawable = BitmapDrawable(resources, data.primaryImage)
+			imageDrawable = BitmapDrawable(resources, primaryImageBitmap)
 			// Add images and action buttons to the details view
 			addAction(Action(1, "Continue from 12:10"))
 			addAction(Action(2, "Play from Beginning"))
