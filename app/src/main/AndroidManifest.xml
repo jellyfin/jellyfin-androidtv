@@ -57,11 +57,9 @@
             android:name=".playback.PlaybackOverlayActivity"
             android:label="PlaybackOverlayActivity"
             android:screenOrientation="landscape" />
-
         <activity
             android:name=".browsing.GenericFolderActivity"
             android:screenOrientation="landscape" />
-
         <activity
             android:name=".browsing.UserViewActivity"
             android:screenOrientation="landscape" />
@@ -70,7 +68,6 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".browsing.CollectionActivity"
-
             android:screenOrientation="landscape" />
         <activity
             android:name=".browsing.ByLetterActivity"
@@ -92,6 +89,9 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".details.FullDetailsActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".details.DetailsActivity"
             android:screenOrientation="landscape" />
         <activity
             android:name=".livetv.LiveTvGuideActivity"

@@ -29,6 +29,7 @@ suspend fun ApiClient.getUserViews(): ItemsResult? = suspendCoroutine { continua
 		override fun onError(exception: Exception?) = continuation.resume(null)
 	})
 }
+
 /**
  * Adds a coroutine capable version of the "GetItem" function
  * Uses the userId of the currently signed in user
