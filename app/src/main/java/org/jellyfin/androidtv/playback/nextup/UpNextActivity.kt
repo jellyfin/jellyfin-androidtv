@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.playback.nextup
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import androidx.leanback.app.BackgroundManager
 import com.squareup.picasso.Picasso
@@ -8,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.acra.ACRA.LOG_TAG
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.apiclient.model.dto.ImageOptions
@@ -19,7 +21,10 @@ class UpNextActivity : FragmentActivity() {
 		super.onCreate(savedInstanceState)
 
 		val id = intent.getStringExtra("id")
-		if (id == null) finish()
+		if (id == null) {
+			Log.e(LOG_TAG, "No id found in bundle for UpNextActivity.")
+			finish()
+		}
 
 		// Add background manager
 		BackgroundManager.getInstance(this).attach(window)
