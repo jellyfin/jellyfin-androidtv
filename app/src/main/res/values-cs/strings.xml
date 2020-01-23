@@ -185,10 +185,7 @@
     <string name="lbl_no_recordings">Žádné nahrávky</string>
     <string name="lbl_live_tv_guide">Průvodce Live TV</string>
     <string name="lbl_recorded_tv">TV nahrávky</string>
-<<<<<<< HEAD
-=======
     <string name="btn_ok">Ok</string>
->>>>>>> Translated using Weblate (Czech)
     <string name="pref_live_tv_cat">LIVE TV</string>
     <string name="lbl_programs">Programy</string>
     <string name="lbl_albums">Alba</string>
