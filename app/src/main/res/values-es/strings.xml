@@ -304,9 +304,6 @@
     <string name="lbl_from">desde</string>
     <string name="msg_error_server_version">Versión de servidor no soportada. La versión del servidor debe ser %1$s o posterior.</string>
     <string name="msg_error_server_unavailable">Servidor no disponible</string>
-<<<<<<< HEAD
-</resources>
-=======
     <string name="lbl_bitstream_dts">Audio Bitstream DTS</string>
     <string name="lbl_refresh_switching">Cambio de Frecuencia de Actualización</string>
     <string name="lbl_bitstream_ac3">Audio Bitstream Dolby Digital</string>
@@ -327,4 +324,4 @@
     <string name="pref_use_external_player_summary">Requiere un App con capacidad de reproducir video</string>
     <string name="lbl_resume_preroll">Resumir pre-introducción</string>
     <string name="title_activity_expanded_text">Actividad de Texto Expandido</string>
-</resources>>>>>>>> Translated using Weblate (Spanish)
+</resources>
