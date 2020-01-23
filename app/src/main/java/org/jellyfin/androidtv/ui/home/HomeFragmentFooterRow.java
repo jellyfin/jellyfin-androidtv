@@ -1,8 +1,7 @@
-package org.jellyfin.androidtv.browsing;
+package org.jellyfin.androidtv.ui.home;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.widget.Toast;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -63,10 +62,6 @@ public class HomeFragmentFooterRow extends HomeFragmentRow implements OnItemView
             case SETTINGS:
                 Intent settingsIntent = new Intent(activity, SettingsActivity.class);
                 activity.startActivity(settingsIntent);
-                break;
-            default:
-                Toast.makeText(activity, item.toString(), Toast.LENGTH_SHORT)
-                        .show();
                 break;
         }
 

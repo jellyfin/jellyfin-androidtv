@@ -1,7 +1,8 @@
-package org.jellyfin.androidtv.browsing;
+package org.jellyfin.androidtv.ui.home;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.browsing.BrowseRowDef;
 import org.jellyfin.androidtv.model.ChangeTriggerType;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.apiclient.model.configuration.UserConfiguration;
