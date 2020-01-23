@@ -48,13 +48,10 @@ class UpNextActivity : FragmentActivity() {
 		val backdrop = TvApp.getApplication().apiClient.GetBackdropImageUrls(item, ImageOptions()).firstOrNull()
 		val thumbnail = TvApp.getApplication().apiClient.GetImageUrl(item, ImageOptions())
 
-		//todo improve "title" logic
 		val title = if (item.indexNumber != null && item.name != null)
 			"${item.indexNumber}. ${item.name}"
 		else if (item.name != null)
 			item.name
-//		else if (item.indexNumber != null)
-//			"Episode" + item.indexNumber
 		else ""
 
 		UpNextItemData(

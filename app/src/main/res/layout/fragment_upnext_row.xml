@@ -52,6 +52,8 @@
                 style="@style/TextAppearance.Leanback.DetailsDescriptionBody"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxLines="6"
+                android:ellipsize="end"
                 tools:text="Episode description" />
         </LinearLayout>
     </LinearLayout>
