@@ -13,6 +13,7 @@ import org.jellyfin.androidtv.browsing.CollectionActivity;
 import org.jellyfin.androidtv.browsing.GenericFolderActivity;
 import org.jellyfin.androidtv.browsing.GenericGridActivity;
 import org.jellyfin.androidtv.browsing.UserViewActivity;
+import org.jellyfin.androidtv.details.DetailsActivity;
 import org.jellyfin.androidtv.constants.Extras;
 import org.jellyfin.androidtv.details.FullDetailsActivity;
 import org.jellyfin.androidtv.details.ItemListActivity;
@@ -126,7 +127,6 @@ public class ItemLauncher {
                         }
 
                         activity.startActivity(intent);
-
                         return;
 
                     case MusicAlbum:
@@ -202,13 +202,16 @@ public class ItemLauncher {
 
                         case ShowDetails:
                             //Start details fragment for display and playback
-                            Intent intent = new Intent(activity, FullDetailsActivity.class);
-                            intent.putExtra("ItemId", baseItem.getId());
+                            // TODO for now the new DetailsActivity is only launched here.
+                            Intent intent = new Intent(activity, DetailsActivity.class);
+                            intent.putExtra("id", baseItem.getId());
                             if (noHistory) {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                             }
+
                             activity.startActivity(intent);
-                            break;
+                        break;
+
                         case Play:
                             if (baseItem.getPlayAccess() == PlayAccess.Full) {
                                 //Just play it directly
