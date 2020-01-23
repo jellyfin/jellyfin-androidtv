@@ -17,6 +17,8 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.apiclient.model.dto.ImageOptions
 
+private const val LOG_TAG = "DetailsActivity"
+
 class DetailsActivity : FragmentActivity() {
 	private lateinit var fragment: BaseDetailsFragment
 
@@ -24,20 +26,18 @@ class DetailsActivity : FragmentActivity() {
 		super.onCreate(savedInstanceState)
 
 		val id = intent.getStringExtra("id")
-		if (id == null) finish()
-
-		BackgroundManager.getInstance(this).attach(window)
+		if (id == null) {
+			Log.e(LOG_TAG, "No id was passed to Details Activity, closing automatically again.")
+			finish()
+		}
 
 		GlobalScope.launch(Dispatchers.Main) {
 			val baseItem = getBaseItemDtoForID(id) ?: return@launch
 
-			when (baseItem.baseItemType!!) {
+			fragment = when (baseItem.baseItemType!!) {
 				BaseItemType.Episode -> {
-					val primaryImageUrl = TvApp.getApplication().apiClient.GetImageUrl(baseItem, ImageOptions())
-					val primaryImageBitmap = getImageFromURL(primaryImageUrl)
-					val episode = baseItem.asEpisode(primaryImageBitmap)
-
-					fragment = EpisodeDetailsFragment(episode)
+					val episode = baseItem.asEpisode()
+					EpisodeDetailsFragment(episode)
 				}
 				else -> TODO()
 			}
@@ -47,10 +47,6 @@ class DetailsActivity : FragmentActivity() {
 	}
 
 	private suspend fun getBaseItemDtoForID(id: String) = withContext(Dispatchers.IO) {
-		return@withContext TvApp.getApplication().apiClient.getItem(id)
-	}
-
-	private suspend fun getImageFromURL(url: String) = withContext(Dispatchers.IO) {
-		return@withContext Picasso.with(this@DetailsActivity).load(url).get()
+		TvApp.getApplication().apiClient.getItem(id)
 	}
 }
