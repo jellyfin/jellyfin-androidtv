@@ -1,14 +1,16 @@
 package org.jellyfin.androidtv.details
 
-import android.os.Bundle
 import androidx.leanback.app.DetailsSupportFragment
 import androidx.leanback.widget.*
+import com.squareup.picasso.Picasso
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 open class BaseDetailsFragment : DetailsSupportFragment() {
 	protected lateinit var rowsAdapter: ArrayObjectAdapter
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-	}
 
+	protected suspend fun getImageFromURL(url: String) = withContext(Dispatchers.IO) {
+		Picasso.with(activity).load(url).get()
+	}
 }
