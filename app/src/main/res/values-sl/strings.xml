@@ -155,4 +155,5 @@
     <string name="lbl_season">Sezona</string>
     <string name="msg_subtitles_loading">Podnapisi se nalagajo...</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="lbl_more_like_this">Podobno</string>
 </resources>
