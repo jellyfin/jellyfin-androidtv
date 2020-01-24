@@ -21,10 +21,11 @@ import org.jellyfin.apiclient.model.dto.BaseItemType
 private const val LOG_TAG = "ResumeAction"
 
 class ResumeAction(context: Context, val playbackPositionTicks: Long, val itemID: String) : PlaybackAction(ActionID.RESUME.id, context) {
-	val actualPlaybackPositionInMillis: Long
+	val actualPlaybackPositionInMillis: Long by lazy {
+		playbackPositionTicks / 10000 - TvApp.getApplication().resumePreroll
+	}
 
 	init {
-		this.actualPlaybackPositionInMillis = playbackPositionTicks / 10000 - TvApp.getApplication().resumePreroll
 		this.label1 = context.getString(R.string.lbl_resume_from, TimeUtils.formatMillis(actualPlaybackPositionInMillis))
 	}
 
