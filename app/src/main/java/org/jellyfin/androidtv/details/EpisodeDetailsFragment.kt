@@ -52,23 +52,19 @@ class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment
 			}
 
 			addClassPresenter(DetailsOverviewRow::class.java, overviewRowPresenter)
-
-
 			addClassPresenter(ListRow::class.java, ListRowPresenter())
 		}
 		rowsAdapter = ArrayObjectAdapter(selector)
 
-		val actionsAdapter = SparseArrayObjectAdapter()
-		actionsAdapter.apply {
-			if (episode.canResume) set(0, ResumeAction(context!!, episode.playbackPositionTicks, episode.id))
-			set(1, PlayFromBeginningAction(context!!, episode.id))
-			set(2, Action(1, "Set Watched"))
-			set(3, Action(1, "Add Favorite"))
-			set(4, Action(1, "Add to Queue"))
-			set(5, Action(1, "Go to Series"))
-			set(6, Action(1, "Delete"))
+		val actionsAdapter = ArrayObjectAdapter().apply {
+			if (episode.canResume) add(ResumeAction(context!!, episode.playbackPositionTicks, episode.id))
+			add(PlayFromBeginningAction(context!!, episode.id))
+			add(Action(1, "Set Watched"))
+			add(Action(1, "Add Favorite"))
+			add(Action(1, "Add to Queue"))
+			add(Action(1, "Go to Series"))
+			add(Action(1, "Delete"))
 		}
-
 
 		val detailsOverview = DetailsOverviewRow("Media Item Details").also {
 			it.imageDrawable = BitmapDrawable(resources, primaryImageBitmap)
