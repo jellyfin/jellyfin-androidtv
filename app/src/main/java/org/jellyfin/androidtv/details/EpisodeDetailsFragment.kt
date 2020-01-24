@@ -8,8 +8,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.details.actions.BaseAction
+import org.jellyfin.androidtv.details.actions.PlayFromBeginningAction
+import org.jellyfin.androidtv.details.actions.ResumeAction
 import org.jellyfin.androidtv.model.itemtypes.Episode
 import org.jellyfin.apiclient.model.dto.ImageOptions
+
+private const val LOG_TAG = "EpisodeDetailsFragment"
 
 class EpisodeDetailsFragment(private val data: Episode) : BaseDetailsFragment() {
 
@@ -33,23 +38,37 @@ class EpisodeDetailsFragment(private val data: Episode) : BaseDetailsFragment() 
 			// Attach your media item details presenter to the row presenter:
 			val detailsDescriptionPresenter = DetailsDescriptionPresenter(title = data.name, subtitle = "TODO", body = data.description)
 
+			val overviewRowPresenter = FullWidthDetailsOverviewRowPresenter(
+				detailsDescriptionPresenter,
+				primaryImageBitmap?.let { DetailsOverviewLogoPresenter() })
 
-			addClassPresenter(DetailsOverviewRow::class.java,
-				FullWidthDetailsOverviewRowPresenter(
-					detailsDescriptionPresenter,
-					primaryImageBitmap?.let { DetailsOverviewLogoPresenter() }))
+			overviewRowPresenter.onActionClickedListener = OnActionClickedListener {
+				val action = it as BaseAction
+				action.onClick()
+			}
+
+			addClassPresenter(DetailsOverviewRow::class.java, overviewRowPresenter)
 
 
 			addClassPresenter(ListRow::class.java, ListRowPresenter())
 		}
 		rowsAdapter = ArrayObjectAdapter(selector)
 
-		val detailsOverview = DetailsOverviewRow("Media Item Details").apply {
-			imageDrawable = BitmapDrawable(resources, primaryImageBitmap)
-			// Add images and action buttons to the details view
-			addAction(Action(1, "Continue from 12:10"))
-			addAction(Action(2, "Play from Beginning"))
+		val actionsAdapter = SparseArrayObjectAdapter()
+		if (data.canResume) actionsAdapter.set(0, ResumeAction(context!!, data.playbackPositionTicks, data.id))
+		actionsAdapter.set(1, PlayFromBeginningAction(context!!, data.id))
+		actionsAdapter.set(2, Action(1, "Set Watched"))
+		actionsAdapter.set(3, Action(1, "Add Favorite"))
+		actionsAdapter.set(4, Action(1, "Add to Queue"))
+		actionsAdapter.set(5, Action(1, "Go to Series"))
+		actionsAdapter.set(6, Action(1, "Delete"))
+
+		val detailsOverview = DetailsOverviewRow("Media Item Details").also {
+			it.imageDrawable = BitmapDrawable(resources, primaryImageBitmap)
+			it.actionsAdapter = actionsAdapter
 		}
+
+
 		rowsAdapter.add(detailsOverview)
 
 		// Add a Related items row
@@ -63,4 +82,6 @@ class EpisodeDetailsFragment(private val data: Episode) : BaseDetailsFragment() 
 
 		adapter = rowsAdapter
 	}
+
+
 }
