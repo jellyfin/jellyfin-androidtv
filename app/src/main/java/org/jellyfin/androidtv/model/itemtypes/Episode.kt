@@ -7,5 +7,7 @@ data class Episode (
 	//TODO: Chapters: ArrayList<ChapterInfoDto>
 	val communityRating: Double,
 	val name: String,
-	val description: String
+	val description: String,
+	val canResume: Boolean,
+	val playbackPositionTicks: Long
 )
