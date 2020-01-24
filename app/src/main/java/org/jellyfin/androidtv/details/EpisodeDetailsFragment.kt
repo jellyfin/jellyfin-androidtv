@@ -16,7 +16,7 @@ import org.jellyfin.apiclient.model.dto.ImageOptions
 
 private const val LOG_TAG = "EpisodeDetailsFragment"
 
-class EpisodeDetailsFragment(private val data: Episode) : BaseDetailsFragment() {
+class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -29,22 +29,26 @@ class EpisodeDetailsFragment(private val data: Episode) : BaseDetailsFragment() 
 
 	private suspend fun buildDetails() {
 
-		Log.i("EpisodeDetailsFragment", data.name)
+		Log.i("EpisodeDetailsFragment", episode.name)
 
-		val primaryImageUrl = TvApp.getApplication().apiClient.GetImageUrl(data.id, ImageOptions())
+		val primaryImageUrl = TvApp.getApplication().apiClient.GetImageUrl(episode.id, ImageOptions())
 		val primaryImageBitmap = getImageFromURL(primaryImageUrl)
 
 		val selector = ClassPresenterSelector().apply {
 			// Attach your media item details presenter to the row presenter:
-			val detailsDescriptionPresenter = DetailsDescriptionPresenter(title = data.name, subtitle = "TODO", body = data.description)
+			val detailsDescriptionPresenter = DetailsDescriptionPresenter(title = episode.name, subtitle = "TODO", body = episode.description)
 
 			val overviewRowPresenter = FullWidthDetailsOverviewRowPresenter(
 				detailsDescriptionPresenter,
 				primaryImageBitmap?.let { DetailsOverviewLogoPresenter() })
 
 			overviewRowPresenter.onActionClickedListener = OnActionClickedListener {
-				val action = it as BaseAction
-				action.onClick()
+				if (it is BaseAction) {
+					val action = it as BaseAction
+					action.onClick()
+				} else {
+					Log.e(LOG_TAG, "The clicked Action did not derive from BaseAction, this is unsupported!")
+				}
 			}
 
 			addClassPresenter(DetailsOverviewRow::class.java, overviewRowPresenter)
@@ -55,13 +59,16 @@ class EpisodeDetailsFragment(private val data: Episode) : BaseDetailsFragment() 
 		rowsAdapter = ArrayObjectAdapter(selector)
 
 		val actionsAdapter = SparseArrayObjectAdapter()
-		if (data.canResume) actionsAdapter.set(0, ResumeAction(context!!, data.playbackPositionTicks, data.id))
-		actionsAdapter.set(1, PlayFromBeginningAction(context!!, data.id))
-		actionsAdapter.set(2, Action(1, "Set Watched"))
-		actionsAdapter.set(3, Action(1, "Add Favorite"))
-		actionsAdapter.set(4, Action(1, "Add to Queue"))
-		actionsAdapter.set(5, Action(1, "Go to Series"))
-		actionsAdapter.set(6, Action(1, "Delete"))
+		actionsAdapter.apply {
+			if (episode.canResume) set(0, ResumeAction(context!!, episode.playbackPositionTicks, episode.id))
+			set(1, PlayFromBeginningAction(context!!, episode.id))
+			set(2, Action(1, "Set Watched"))
+			set(3, Action(1, "Add Favorite"))
+			set(4, Action(1, "Add to Queue"))
+			set(5, Action(1, "Go to Series"))
+			set(6, Action(1, "Delete"))
+		}
+
 
 		val detailsOverview = DetailsOverviewRow("Media Item Details").also {
 			it.imageDrawable = BitmapDrawable(resources, primaryImageBitmap)
