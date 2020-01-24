@@ -224,7 +224,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                     if (mResumeButton != null) {
                                         mResumeButton.setVisibility((mBaseItem.getBaseItemType() == BaseItemType.Series && ! mBaseItem.getUserData().getPlayed()) || response.getCanResume() ? View.VISIBLE : View.GONE);
                                         if (response.getCanResume()){
-                                            mResumeButton.setText(String.format(getString(R.string.lbl_resume_from), TimeUtils.formatMillis((response.getUserData().getPlaybackPositionTicks()/10000) - mApplication.getResumePreroll())));
+                                            mResumeButton.setText(getString(R.string.lbl_resume_from, TimeUtils.formatMillis((response.getUserData().getPlaybackPositionTicks()/10000) - mApplication.getResumePreroll())));
                                         }
                                         showMoreButtonIfNeeded();
                                     }
@@ -816,7 +816,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             if (mBaseItem.getCanResume()) {
                 startPos = (mBaseItem.getUserData().getPlaybackPositionTicks()/10000) - mApplication.getResumePreroll();
             }
-            buttonLabel = String.format(getString(R.string.lbl_resume_from), TimeUtils.formatMillis(startPos));
+            buttonLabel = getString(R.string.lbl_resume_from, TimeUtils.formatMillis(startPos));
         }
         mResumeButton = new TextUnderButton(this, R.drawable.ic_resume, buttonSize, 2, buttonLabel, new View.OnClickListener() {
             @Override
