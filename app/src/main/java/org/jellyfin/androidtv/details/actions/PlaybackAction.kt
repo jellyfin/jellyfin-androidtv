@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.playback.MediaManager
-import org.jellyfin.androidtv.util.apiclient.PlaybackHelper
+import org.jellyfin.androidtv.util.apiclient.PlaybackHelperKt
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.apiclient.interaction.Response
 import org.jellyfin.apiclient.model.dto.BaseItemDto
@@ -27,19 +27,18 @@ abstract class PlaybackAction(id: Long, context: Context) : BaseAction(id, conte
 		play(baseItem, pos, shuffle)
 	}
 
-	private fun play(item: BaseItemDto, pos: Long, shuffle: Boolean) {
-		PlaybackHelper.getItemsToPlay(item, pos == 0L && item.baseItemType == BaseItemType.Movie, shuffle, object : Response<List<BaseItemDto>>() {
-			override fun onResponse(response: List<BaseItemDto>) {
-				if (item.baseItemType == BaseItemType.MusicArtist) {
-					MediaManager.playNow(response)
-				} else {
-					val intent = Intent(context, TvApp.getApplication().getPlaybackActivityClass(item.baseItemType))
-					MediaManager.setCurrentVideoQueue(response)
-					intent.putExtra("Position", pos.toInt())
-					ContextCompat.startActivity(context, intent, null)
-				}
-			}
-		})
+	private suspend fun play(item: BaseItemDto, pos: Long, shuffle: Boolean) {
+		val toPlay = PlaybackHelperKt.getItemsToPlayCoroutine(item, pos == 0L && item.baseItemType == BaseItemType.Movie, shuffle)
 
+		if (toPlay != null) {
+			if (item.baseItemType == BaseItemType.MusicArtist) {
+				MediaManager.playNow(toPlay)
+			} else {
+				val intent = Intent(context, TvApp.getApplication().getPlaybackActivityClass(item.baseItemType))
+				MediaManager.setCurrentVideoQueue(toPlay)
+				intent.putExtra("Position", pos.toInt())
+				ContextCompat.startActivity(context, intent, null)
+			}
+		}
 	}
 }
