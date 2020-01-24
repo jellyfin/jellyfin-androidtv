@@ -8,5 +8,7 @@ fun BaseItemDto.asEpisode() : Episode {
 	return Episode(id = id,
 		communityRating = communityRating.toDouble(),
 		name = name,
-		description = overview)
+		description = overview,
+		canResume = canResume,
+		playbackPositionTicks = userData.playbackPositionTicks)
 }
