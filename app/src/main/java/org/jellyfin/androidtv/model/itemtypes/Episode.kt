@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.BaseItemType
 
-class Episode(original: BaseItemDto) : BaseItem(original) {
+class Episode(original: BaseItemDto) : PlayableItem(original) {
 	//TODO: Chapters: ArrayList<ChapterInfoDto>
 	val communityRating: Double
 
