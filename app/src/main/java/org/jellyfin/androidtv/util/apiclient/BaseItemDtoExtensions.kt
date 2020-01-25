@@ -1,14 +1,13 @@
 package org.jellyfin.androidtv.util.apiclient
 
-import android.graphics.Bitmap
+import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.model.itemtypes.Episode
 import org.jellyfin.apiclient.model.dto.BaseItemDto
+import org.jellyfin.apiclient.model.dto.BaseItemType
 
-fun BaseItemDto.asEpisode() : Episode {
-	return Episode(id = id,
-		communityRating = communityRating.toDouble(),
-		name = name,
-		description = overview,
-		canResume = canResume,
-		playbackPositionTicks = userData.playbackPositionTicks)
+fun BaseItemDto.liftToNewFormat() : BaseItem {
+	return when(baseItemType) {
+		BaseItemType.Episode -> Episode(this)
+		else -> TODO()
+	}
 }

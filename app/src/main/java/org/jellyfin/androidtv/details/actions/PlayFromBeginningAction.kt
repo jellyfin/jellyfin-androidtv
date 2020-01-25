@@ -6,10 +6,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.model.itemtypes.BaseItem
 
 private const val LOG_TAG = "PlayFromBeginningAction"
 
-class PlayFromBeginningAction(context: Context, val itemID: String) : PlaybackAction(ActionID.PLAY_FROM_BEGINNING.id, context) {
+class PlayFromBeginningAction(context: Context, val item: BaseItem) : PlaybackAction(ActionID.PLAY_FROM_BEGINNING.id, context) {
 	init {
 	    label1 = context.getString(R.string.lbl_play)
 	}
@@ -17,7 +18,7 @@ class PlayFromBeginningAction(context: Context, val itemID: String) : PlaybackAc
 	override fun onClick() {
 		Log.i(LOG_TAG, "Play from Beginning clicked!")
 		GlobalScope.launch(Dispatchers.Main) {
-			playItemWithID(itemID, 0, false)
+			playItem(item, 0, false)
 		}
 	}
 }

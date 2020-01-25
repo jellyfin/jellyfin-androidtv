@@ -1,13 +1,22 @@
 package org.jellyfin.androidtv.model.itemtypes
 
 import android.graphics.Bitmap
+import org.jellyfin.apiclient.model.dto.BaseItemDto
+import org.jellyfin.apiclient.model.dto.BaseItemType
 
-data class Episode (
-	val id: String,
+class Episode(original: BaseItemDto) : BaseItem(original) {
 	//TODO: Chapters: ArrayList<ChapterInfoDto>
-	val communityRating: Double,
-	val name: String,
-	val description: String,
-	val canResume: Boolean,
-	val playbackPositionTicks: Long
-)
+	val communityRating: Double
+
+	override fun acceptVisitor(visitor: IBaseItemVisitor) {
+		visitor.visit(this)
+	}
+
+	init {
+		if (original.baseItemType != BaseItemType.Episode) {
+			throw IllegalArgumentException("Tried to create an Episode from a non-Episode BaseItemDto")
+		}
+
+	    communityRating = original.communityRating.toDouble()
+	}
+}
