@@ -1,24 +1,14 @@
 package org.jellyfin.androidtv.details.actions
 
 import android.content.Context
-import android.content.Intent
-import android.drm.DrmStore
 import android.util.Log
-import androidx.core.content.ContextCompat.startActivity
-import kotlinx.android.synthetic.main.text_under_button.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
-import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.model.itemtypes.PlayableItem
-import org.jellyfin.androidtv.playback.MediaManager
 import org.jellyfin.androidtv.util.TimeUtils
-import org.jellyfin.androidtv.util.apiclient.PlaybackHelper
-import org.jellyfin.apiclient.interaction.Response
-import org.jellyfin.apiclient.model.dto.BaseItemDto
-import org.jellyfin.apiclient.model.dto.BaseItemType
 
 private const val LOG_TAG = "ResumeAction"
 
