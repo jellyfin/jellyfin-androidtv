@@ -57,8 +57,8 @@ class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment
 		rowsAdapter = ArrayObjectAdapter(selector)
 
 		val actionsAdapter = ArrayObjectAdapter().apply {
-			if (episode.canResume) add(ResumeAction(context!!, episode.playbackPositionTicks, episode.id))
-			add(PlayFromBeginningAction(context!!, episode.id))
+			if (episode.canResume) add(ResumeAction(context!!, episode))
+			add(PlayFromBeginningAction(context!!, episode))
 			add(Action(1, "Set Watched"))
 			add(Action(1, "Add Favorite"))
 			add(Action(1, "Add to Queue"))
