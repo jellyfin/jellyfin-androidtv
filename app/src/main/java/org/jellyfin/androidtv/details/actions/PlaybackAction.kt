@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.playback.MediaManager
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelperKt
 import org.jellyfin.androidtv.util.apiclient.getItem
@@ -18,8 +19,8 @@ private const val LOG_TAG = "PlaybackAction"
 
 abstract class PlaybackAction(id: Long, context: Context) : BaseAction(id, context) {
 	// TODO: This is super fucked, but at least it works for now until we clean up more messes.
-	protected suspend fun playItemWithID(id: String, pos: Long, shuffle: Boolean) = withContext(Dispatchers.IO) {
-		val baseItem = TvApp.getApplication().apiClient.getItem(id)
+	protected suspend fun playItem(item: BaseItem, pos: Long, shuffle: Boolean) = withContext(Dispatchers.IO) {
+		val baseItem = TvApp.getApplication().apiClient.getItem(item.id)
 		if (baseItem == null) {
 			Log.e(LOG_TAG, "Failed to get a base item for the given ID")
 			return@withContext
