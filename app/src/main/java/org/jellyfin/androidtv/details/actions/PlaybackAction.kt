@@ -11,7 +11,6 @@ import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.playback.MediaManager
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelperKt
 import org.jellyfin.androidtv.util.apiclient.getItem
-import org.jellyfin.apiclient.interaction.Response
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.BaseItemType
 
