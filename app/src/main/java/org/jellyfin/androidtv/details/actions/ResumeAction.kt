@@ -11,6 +11,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.playback.MediaManager
 import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper
@@ -20,9 +21,9 @@ import org.jellyfin.apiclient.model.dto.BaseItemType
 
 private const val LOG_TAG = "ResumeAction"
 
-class ResumeAction(context: Context, val playbackPositionTicks: Long, val itemID: String) : PlaybackAction(ActionID.RESUME.id, context) {
+class ResumeAction(context: Context, val item: BaseItem) : PlaybackAction(ActionID.RESUME.id, context) {
 	val actualPlaybackPositionInMillis: Long by lazy {
-		playbackPositionTicks / 10000 - TvApp.getApplication().resumePreroll
+		item.playbackPositionTicks / 10000 - TvApp.getApplication().resumePreroll
 	}
 
 	init {
@@ -32,7 +33,7 @@ class ResumeAction(context: Context, val playbackPositionTicks: Long, val itemID
 	override fun onClick() {
 		Log.i(LOG_TAG, "Resume Clicked!")
 		GlobalScope.launch(Dispatchers.Main) {
-			playItemWithID(itemID, actualPlaybackPositionInMillis, false)
+			playItem(item, actualPlaybackPositionInMillis, false)
 		}
 	}
 
