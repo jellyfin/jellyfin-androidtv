@@ -7,10 +7,11 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
+import org.jellyfin.androidtv.model.itemtypes.PlayableItem
 
 private const val LOG_TAG = "PlayFromBeginningAction"
 
-class PlayFromBeginningAction(context: Context, val item: BaseItem) : PlaybackAction(ActionID.PLAY_FROM_BEGINNING.id, context) {
+class PlayFromBeginningAction(context: Context, val item: PlayableItem) : PlaybackAction(ActionID.PLAY_FROM_BEGINNING.id, context) {
 	init {
 	    label1 = context.getString(R.string.lbl_play)
 	}
