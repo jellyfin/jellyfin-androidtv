@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.details
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
+import androidx.leanback.app.DetailsSupportFragmentBackgroundController
 import androidx.leanback.widget.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -11,32 +12,39 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.details.actions.BaseAction
 import org.jellyfin.androidtv.details.actions.PlayFromBeginningAction
 import org.jellyfin.androidtv.details.actions.ResumeAction
-import org.jellyfin.androidtv.model.itemtypes.Episode
+import org.jellyfin.androidtv.model.itemtypes.Movie
 
-private const val LOG_TAG = "EpisodeDetailsFragment"
+private const val LOG_TAG = "MovieDetailsFragment"
 
-class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment() {
+class MovieDetailsFragment(private val movie: Movie) : BaseDetailsFragment() {
+	private val backgroundController = DetailsSupportFragmentBackgroundController(this)
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
+		addBackground()
+		addRows()
+	}
 
-		GlobalScope.launch(Dispatchers.Main) {
-			buildDetails()
+	private fun addBackground() = GlobalScope.launch(Dispatchers.Main) {
+		val image = movie.images.backdrops.firstOrNull() ?: return@launch
+
+		backgroundController.apply {
+			enableParallax()
+			coverBitmap = image.getBitmap(context!!)
 		}
 	}
 
-	private suspend fun buildDetails() {
-
-		Log.i("EpisodeDetailsFragment", episode.name)
+	private fun addRows() = GlobalScope.launch(Dispatchers.Main) {
+		Log.i(LOG_TAG, movie.name)
 
 		val primaryImageBitmap = withContext(Dispatchers.IO) {
-			episode.images.primary?.getBitmap(context!!)
+			movie.images.primary?.getBitmap(context!!)
 		}
 
 		val selector = ClassPresenterSelector().apply {
 			// Attach your media item details presenter to the row presenter:
-			val detailsDescriptionPresenter = DetailsDescriptionPresenter(title = episode.name, subtitle = "TODO", body = episode.description)
+			val detailsDescriptionPresenter = DetailsDescriptionPresenter(title = movie.name, subtitle = "TODO", body = movie.description)
 
 			val overviewRowPresenter = FullWidthDetailsOverviewRowPresenter(
 				detailsDescriptionPresenter,
@@ -57,8 +65,8 @@ class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment
 		rowsAdapter = ArrayObjectAdapter(selector)
 
 		val actionsAdapter = ArrayObjectAdapter().apply {
-			if (episode.canResume) add(ResumeAction(context!!, episode))
-			add(PlayFromBeginningAction(context!!, episode))
+			if (movie.canResume) add(ResumeAction(context!!, movie))
+			add(PlayFromBeginningAction(context!!, movie))
 			add(Action(1, "Set Watched"))
 			add(Action(1, "Add Favorite"))
 			add(Action(1, "Add to Queue"))
@@ -67,7 +75,9 @@ class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment
 		}
 
 		val detailsOverview = DetailsOverviewRow("Media Item Details").also {
-			it.imageDrawable = BitmapDrawable(resources, primaryImageBitmap)
+			if (primaryImageBitmap != null)
+				it.imageDrawable = BitmapDrawable(resources, primaryImageBitmap)
+
 			it.actionsAdapter = actionsAdapter
 		}
 
@@ -85,6 +95,5 @@ class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment
 
 		adapter = rowsAdapter
 	}
-
-
 }
+

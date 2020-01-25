@@ -7,6 +7,7 @@ sealed class BaseItem(original: BaseItemDto) {
 	val id: String = original.id
 	val name: String = original.name
 	val description: String = original.overview
+	val images: ImageCollection = ImageCollection(original)
 }
 
 sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
@@ -24,3 +25,5 @@ class Episode(original: BaseItemDto) : PlayableItem(original) {
 		}
 	}
 }
+
+class Movie(original: BaseItemDto) : PlayableItem(original)
