@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.model.itemtypes.Episode
+import org.jellyfin.androidtv.model.itemtypes.Movie
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.androidtv.util.apiclient.liftToNewFormat
 
@@ -28,10 +29,11 @@ class DetailsActivity : FragmentActivity() {
 
 		GlobalScope.launch(Dispatchers.Main) {
 			val baseItem = getBaseItemDtoForID(id) ?: return@launch
-			val lifted = baseItem.liftToNewFormat()
+			val item = baseItem.liftToNewFormat()
 
-			fragment = when(lifted) {
-				is Episode -> EpisodeDetailsFragment(lifted)
+			fragment = when(item) {
+				is Movie -> MovieDetailsFragment(item)
+				is Episode -> EpisodeDetailsFragment(item)
 			}
 
 			supportFragmentManager.beginTransaction().add(android.R.id.content, fragment).commit()
