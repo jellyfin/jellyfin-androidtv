@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.details
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
-import androidx.leanback.app.DetailsSupportFragmentBackgroundController
 import androidx.leanback.widget.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -16,23 +15,11 @@ import org.jellyfin.androidtv.model.itemtypes.Movie
 
 private const val LOG_TAG = "MovieDetailsFragment"
 
-class MovieDetailsFragment(private val movie: Movie) : BaseDetailsFragment() {
-	private val backgroundController = DetailsSupportFragmentBackgroundController(this)
-
+class MovieDetailsFragment(private val movie: Movie) : BaseDetailsFragment(movie) {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		addBackground()
 		addRows()
-	}
-
-	private fun addBackground() = GlobalScope.launch(Dispatchers.Main) {
-		val image = movie.images.backdrops.firstOrNull() ?: return@launch
-
-		backgroundController.apply {
-			enableParallax()
-			coverBitmap = image.getBitmap(context!!)
-		}
 	}
 
 	private fun addRows() = GlobalScope.launch(Dispatchers.Main) {
