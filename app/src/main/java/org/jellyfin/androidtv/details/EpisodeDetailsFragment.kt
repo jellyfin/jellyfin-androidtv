@@ -15,7 +15,7 @@ import org.jellyfin.androidtv.model.itemtypes.Episode
 
 private const val LOG_TAG = "EpisodeDetailsFragment"
 
-class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment() {
+class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment(episode) {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
