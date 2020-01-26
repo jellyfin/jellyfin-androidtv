@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.details
 
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import androidx.leanback.app.DetailsSupportFragment
 import androidx.leanback.app.DetailsSupportFragmentBackgroundController
@@ -16,7 +17,15 @@ open class BaseDetailsFragment(private val item: BaseItem) : DetailsSupportFragm
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
+		addLogo()
 		addBackground()
+	}
+
+	private fun addLogo() = GlobalScope.launch(Dispatchers.Main) {
+		// Logo
+		item.images.logo?.getBitmap(context!!)?.let {
+			badgeDrawable = BitmapDrawable(resources, it)
+		}
 	}
 
 	private fun addBackground() = GlobalScope.launch(Dispatchers.Main) {
