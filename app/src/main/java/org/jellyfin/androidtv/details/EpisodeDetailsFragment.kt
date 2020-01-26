@@ -36,7 +36,7 @@ class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment
 
 		val selector = ClassPresenterSelector().apply {
 			// Attach your media item details presenter to the row presenter:
-			val detailsDescriptionPresenter = DetailsDescriptionPresenter(title = episode.name, subtitle = "TODO", body = episode.description)
+			val detailsDescriptionPresenter = DetailsDescriptionPresenter()
 
 			val overviewRowPresenter = FullWidthDetailsOverviewRowPresenter(
 				detailsDescriptionPresenter,
@@ -66,7 +66,7 @@ class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment
 			add(Action(1, "Delete"))
 		}
 
-		val detailsOverview = DetailsOverviewRow("Media Item Details").also {
+		val detailsOverview = DetailsOverviewRow(episode).also {
 			it.imageDrawable = BitmapDrawable(resources, primaryImageBitmap)
 			it.actionsAdapter = actionsAdapter
 		}
