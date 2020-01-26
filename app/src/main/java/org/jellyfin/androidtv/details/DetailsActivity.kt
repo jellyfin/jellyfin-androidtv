@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.model.itemtypes.Episode
 import org.jellyfin.androidtv.model.itemtypes.Movie
@@ -20,6 +21,8 @@ class DetailsActivity : FragmentActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+
+		setTheme(R.style.Theme_Leanback_Details)
 
 		val id = intent.getStringExtra("id")
 		if (id == null) {
