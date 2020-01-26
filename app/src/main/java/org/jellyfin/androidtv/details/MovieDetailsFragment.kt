@@ -13,6 +13,7 @@ import org.jellyfin.androidtv.details.actions.BaseAction
 import org.jellyfin.androidtv.details.actions.PlayFromBeginningAction
 import org.jellyfin.androidtv.details.actions.ResumeAction
 import org.jellyfin.androidtv.model.itemtypes.Movie
+import org.jellyfin.androidtv.presentation.InfoCardPresenter
 
 private const val LOG_TAG = "MovieDetailsFragment"
 
@@ -73,6 +74,13 @@ class MovieDetailsFragment(private val movie: Movie) : BaseDetailsFragment(movie
 					add("Media Item 1")
 					add("Media Item 2")
 					add("Media Item 3")
+				}
+			))
+
+			add(ListRow(
+				HeaderItem("Media info"),
+				ArrayObjectAdapter(InfoCardPresenter()).apply {
+					movie.mediaInfo.streams.forEach(::add)
 				}
 			))
 		}

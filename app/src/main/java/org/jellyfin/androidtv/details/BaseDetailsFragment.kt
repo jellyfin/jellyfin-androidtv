@@ -9,9 +9,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
+import org.jellyfin.androidtv.util.randomOrNull
 
 open class BaseDetailsFragment(private val item: BaseItem) : DetailsSupportFragment() {
-	private val backgroundController = DetailsSupportFragmentBackgroundController(this)
+	private val backgroundController by lazy { DetailsSupportFragmentBackgroundController(this) }
 	protected lateinit var rowsAdapter: ArrayObjectAdapter
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +30,7 @@ open class BaseDetailsFragment(private val item: BaseItem) : DetailsSupportFragm
 	}
 
 	private fun addBackground() = GlobalScope.launch(Dispatchers.Main) {
-		val image = item.images.backdrops.firstOrNull() ?: return@launch
+		val image = item.images.backdrops.randomOrNull() ?: return@launch
 
 		backgroundController.apply {
 			enableParallax()
