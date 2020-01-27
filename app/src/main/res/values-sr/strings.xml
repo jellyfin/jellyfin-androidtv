@@ -58,7 +58,6 @@
     <string name="lbl_latest_movies">Најновији филмови</string>
     <string name="lbl_continue_watching">Настави гледање</string>
     <string name="lbl_library">Библиотека</string>
-    <string name="lbl_send_logs">Пошаљи записнике</string>
     <string name="lbl_logout">Одјављивање</string>
     <string name="lbl_settings">Поставке</string>
     <string name="pref_general">Опште</string>
@@ -80,6 +79,4 @@
     <string name="loading">Учитавам…</string>
     <string name="video_error_unknown_error">Не могу да учитам видео</string>
     <string name="play">Пусти</string>
-    <string name="ok">У реду</string>
-    <string name="error">Грешка</string>
 </resources>

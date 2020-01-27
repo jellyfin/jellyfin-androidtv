@@ -23,10 +23,7 @@
     <string name="msg_error_server_unavailable">Strežnik ni na voljo</string>
     <string name="msg_error_connecting_server">Napaka pri vzpostavljanju povezave s strežnikom</string>
     <string name="lbl_yes">Da</string>
-    <string name="msg_report_not_sent">Poročilo NI bilo poslano</string>
     <string name="lbl_no">Ne</string>
-    <string name="lbl_report_msg_question">Ali bi rad poslal poročilo razvijalcu\?</string>
-    <string name="msg_report_sent">Poročilo poslano razvijalcu. Hvala.</string>
     <string name="msg_little_longer">To potrebuje več časa kot pričakovano...</string>
     <string name="lbl_enter_user_pw">Vnesi geslo</string>
     <string name="lbl_enter_user_name">Vnesi uporabniško ime</string>
@@ -99,7 +96,6 @@
     <string name="lbl_latest_movies">Najnovejši filmi</string>
     <string name="lbl_continue_watching">Nadaljuj z gledanjem</string>
     <string name="lbl_library">Knjižnica</string>
-    <string name="lbl_send_logs">Pošlji dnevnik</string>
     <string name="lbl_logout">Odjava</string>
     <string name="lbl_settings">Nastavitve</string>
     <string name="pref_general">Splošno</string>
@@ -119,8 +115,6 @@
     <string name="loading">Nalagam…</string>
     <string name="video_error_unknown_error">Napaka pri nalaganju videa</string>
     <string name="play">Predvajaj</string>
-    <string name="ok">Ok</string>
-    <string name="error">Napaka</string>
     <string name="lbl_play_from_here">Predvajaj od tukaj</string>
     <string name="lbl_now_playing">Trenutno se predvaja</string>
     <string name="lbl_shuffle">Premešaj</string>
@@ -139,7 +133,6 @@
     <string name="lbl_direct_stream_live">Neposredno pretakaj TV v živo</string>
     <string name="msg_error_live_stream">Napaka pri pretakanju TV v živo. Poskušamo znova...</string>
     <string name="pref_live_tv_cat">TV v živo</string>
-    <string name="btn_ok">V redu</string>
     <string name="lbl_recorded_tv">Posneta TV</string>
     <string name="lbl_live_tv_guide">Vodič TV v živo</string>
     <string name="lbl_no_recordings">Noben posnetek ni na voljo</string>

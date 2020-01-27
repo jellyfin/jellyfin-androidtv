@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="btn_ok">Ok</string>
     <string name="lbl_albums">Albume</string>
     <string name="lbl_artists">Artiști</string>
     <string name="lbl_song">Cântec</string>
@@ -107,7 +106,6 @@
     <string name="lbl_latest_movies">Ultimele filme</string>
     <string name="lbl_continue_watching">Continuă vizionarea</string>
     <string name="lbl_library">Librărie</string>
-    <string name="lbl_send_logs">Trimite logurile</string>
     <string name="lbl_logout">Deconectare</string>
     <string name="lbl_settings">Setări</string>
     <string name="pref_general">General</string>
@@ -133,8 +131,6 @@
     <string name="loading">Se încarcă…</string>
     <string name="video_error_unknown_error">Încărcare video eșuată</string>
     <string name="play">Rulează</string>
-    <string name="ok">Ok</string>
-    <string name="error">Eroare</string>
     <string name="lbl_rating">Evaluare</string>
     <string name="pref_audio_direct">Direcție</string>
     <string name="lbl_like">Îmi place</string>
@@ -163,8 +159,6 @@
     <string name="pref_use_direct_path_title">Treceți calea directă</string>
     <string name="pref_external_live_tv_summary">Necesită o aplicație capabilă să redea fluxuri live</string>
     <string name="pref_external_live_tv_title">Utilizați soft extern pentru TV live</string>
-    <string name="pref_use_external_player_summary">Necesită o aplicație capabilă să redea tipuri de videoclipuri</string>
-    <string name="pref_use_external_player_title">Utilizați soft extern pentru videoclipuri</string>
     <string name="lbl_song_title">Titlul Melodiei</string>
     <string name="lbl_album_name">Numele albumului</string>
     <string name="lbl_next_episode">Episodul Următor</string>
@@ -268,9 +262,6 @@
     <string name="desc_info_panel">Afișați un panou cu detalii despre articolul curent pentru ecrane fără informații detaliate</string>
     <string name="lbl_enable_debug">Opțiuni de depanare</string>
     <string name="lbl_show_info_panel">Afișați panoul de informații</string>
-    <string name="desc_sideline_color">Culoarea panoului lateral al categoriei</string>
-    <string name="lbl_sideline_color">Culoare Laterală</string>
-    <string name="lbl_select_color">Selectați Culoarea</string>
     <string name="lbl_goto_series">Mergi la Serial</string>
     <string name="lbl_audio_output">Ieșire Audio</string>
     <string name="pref_audio_compat">Downmix la Stereo</string>
@@ -329,10 +320,7 @@
     <string name="msg_error_server_unavailable">Server indisponibil</string>
     <string name="msg_error_connecting_server">Eroare de conectare la server</string>
     <string name="lbl_yes">Da</string>
-    <string name="msg_report_not_sent">Raportul NU a fost trimis</string>
     <string name="lbl_no">Nu</string>
-    <string name="lbl_report_msg_question">Doriți să trimiteți un raport dezvoltatorului\?</string>
-    <string name="msg_report_sent">Raport trimis dezvoltatorului. Mulțumesc.</string>
     <string name="msg_little_longer">Acest lucru durează puțin mai mult decât se aștepta ...</string>
     <string name="lbl_enter_user_pw">Introduceți parola utilizatorului</string>
     <string name="lbl_enter_user_name">Introduceti numele de utilizator</string>

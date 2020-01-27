@@ -9,6 +9,4 @@
     <string name="loading">Cargando…</string>
     <string name="video_error_unknown_error">No se pudo cargar el video</string>
     <string name="play">Reproducir</string>
-    <string name="ok">Ok</string>
-    <string name="error">Error</string>
 </resources>

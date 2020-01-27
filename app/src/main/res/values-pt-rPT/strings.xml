@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="error">Erro</string>
-    <string name="ok">Ok</string>
     <string name="play">Reproduzir</string>
     <string name="loading">A Carregar…</string>
     <string name="video_error_unknown_error">Falha ao carregar o vídeo</string>

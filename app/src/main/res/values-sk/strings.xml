@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">Jellyfin</string>
-    <string name="error">Chyba</string>
-    <string name="ok">Ok</string>
     <string name="home_title">Domov</string>
     <string name="btn_cancel">Zrušiť</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
@@ -57,9 +55,6 @@
     <string name="lbl_showing">Zobrazenie</string>
     <string name="lbl_enable_debug">Debugovacie nastavenia</string>
     <string name="lbl_show_info_panel">Zobraziť informačný panel</string>
-    <string name="desc_sideline_color">Farba kategórie postranného panelu</string>
-    <string name="lbl_sideline_color">Postranná farba</string>
-    <string name="lbl_select_color">Vyberte farbu</string>
     <string name="lbl_goto_series">Prejsť na seriály</string>
     <string name="lbl_audio_output">Zvukový výstup</string>
     <string name="pref_audio_compat">Downmix na Stereo</string>
@@ -104,10 +99,7 @@
     <string name="msg_error_server_unavailable">Server nedostupný</string>
     <string name="msg_error_connecting_server">Chyba pripojenia k serveru</string>
     <string name="lbl_yes">Áno</string>
-    <string name="msg_report_not_sent">Hlásenie NEBOLO odoslané</string>
     <string name="lbl_no">Nie</string>
-    <string name="lbl_report_msg_question">Chceli by ste odoslať hlásenie vývojárovi\?</string>
-    <string name="msg_report_sent">Hlásenie odoslané vývojárovi. Ďakujeme.</string>
     <string name="msg_little_longer">Toto trvá trochu dlhšie, než sme čakali...</string>
     <string name="lbl_enter_user_pw">Zadajte používateľské heslo</string>
     <string name="lbl_enter_user_name">Zadajte používateľské meno</string>
@@ -169,7 +161,6 @@
     <string name="lbl_views">Zobrazenie</string>
     <string name="lbl_on_now">Práve teraz</string>
     <string name="lbl_next_up_tv">Nasleduje v TV</string>
-    <string name="lbl_send_logs">Odoslať logy</string>
     <string name="pref_general">Všeobecné</string>
     <string name="pref_alt_pw_entry_desc">Číselné heslo s použitím len kláves D-Padu</string>
     <string name="pref_alt_pw_entry">Vlastné D-Pad zadanie hesla</string>
@@ -206,8 +197,6 @@
     <string name="pref_use_direct_path_title">Prepustiť priamu cestu</string>
     <string name="pref_external_live_tv_summary">Vyžaduje aplikáciu schopnú prehrať živé streamy</string>
     <string name="pref_external_live_tv_title">Použiť externý prehrávač pre živú TV</string>
-    <string name="pref_use_external_player_summary">Vyžaduje aplikáciu schopnú prehrať tieto video typy</string>
-    <string name="pref_use_external_player_title">Použiť externý prehrávač pre videá</string>
     <string name="lbl_song_title">Názov piesne</string>
     <string name="lbl_album_name">Názov albumu</string>
     <string name="lbl_next_episode">Nasledujúca epizóda</string>
@@ -301,7 +290,6 @@
     <string name="msg_total_items_in_queue">" položiek celkovo vo fronte"</string>
     <string name="msg_items_added">" položky pridané"</string>
     <string name="msg_added_item_to_queue">"Položka pridaná do fronty na pozíciu "</string>
-    <string name="lbl_of">z</string>
     <string name="lbl_warning">Varovanie</string>
     <string name="lbl_playlists">Playlist</string>
     <string name="sum_enable_cinema_mode">Zobraziť intrá a ukážky pred prehratím filmu, pokiaľ je to povolené na serveri</string>
@@ -316,7 +304,6 @@
     <string name="lbl_direct_stream_live">Priamy stream živej TV</string>
     <string name="msg_error_live_stream">Chyba počas streamovania živej TV. Opakovanie pokusu...</string>
     <string name="pref_live_tv_cat">Živá TV</string>
-    <string name="btn_ok">Ok</string>
     <string name="lbl_recorded_tv">TV nahrávky</string>
     <string name="lbl_live_tv_guide">Sprievodca živou TV</string>
     <string name="lbl_no_recordings">Žiadne dostupné nahrávky</string>

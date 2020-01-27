@@ -24,7 +24,6 @@
     <string name="pref_general">Général</string>
     <string name="lbl_settings">Paramètres</string>
     <string name="lbl_logout">Déconnexion</string>
-    <string name="lbl_send_logs">Envoyer les journaux d\'événements</string>
     <string name="lbl_library">Médiathèque</string>
     <string name="lbl_continue_watching">Continuer la lecture</string>
     <string name="lbl_latest_movies">Films les plus récents</string>
@@ -197,7 +196,6 @@
     <string name="lbl_enable_cinema_mode">Activer le mode Cinéma</string>
     <string name="sum_enable_cinema_mode">Si la fonction est activée sur le serveur, activer les introductions et les extraits avant le visionnage</string>
     <string name="lbl_playlists">Listes de lecture</string>
-    <string name="lbl_of">de</string>
     <string name="msg_added_item_to_queue">"Éléments ajoutés dans la file d'attente "</string>
     <string name="msg_items_added">" éléments ajoutés"</string>
     <string name="msg_total_items_in_queue">" éléments dans la liste de lecture"</string>
