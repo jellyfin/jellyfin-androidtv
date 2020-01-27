@@ -292,7 +292,7 @@
     <string name="lbl_next_episode">Épisode suivant</string>
     <string name="lbl_album_name">Nom de l\'album</string>
     <string name="lbl_song_title">titre de la chanson</string>
-    <string name="pref_use_direct_path_title">Utiliser le chemin directe</string>
+    <string name="pref_use_direct_path_title">Utiliser le chemin direct pour le lecteur externe</string>
     <string name="pref_use_direct_path_summary">Utiliser le chemin du fichier de l\'url de streaming</string>
     <string name="lbl_now_playing_album">de %s</string>
     <string name="lbl_watched">Vu</string>
@@ -329,4 +329,5 @@
     <string name="lbl_repeat_episodes">Répéter les épisodes</string>
     <string name="lbl_new_only">Nouveau uniquement</string>
     <string name="title_activity_expanded_text">Activité de texte développé</string>
+    <string name="pref_enable_acra">Envoyer les rapports d\'erreur aux développeurs</string>
 </resources>
