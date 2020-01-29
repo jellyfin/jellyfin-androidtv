@@ -11,6 +11,7 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.details.actions.BaseAction
 import org.jellyfin.androidtv.details.actions.PlayFromBeginningAction
 import org.jellyfin.androidtv.details.actions.ResumeAction
+import org.jellyfin.androidtv.details.actions.ToggleWatchedAction
 import org.jellyfin.androidtv.model.itemtypes.Episode
 
 private const val LOG_TAG = "EpisodeDetailsFragment"
@@ -56,14 +57,17 @@ class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment
 		}
 		rowsAdapter = ArrayObjectAdapter(selector)
 
-		val actionsAdapter = ArrayObjectAdapter().apply {
-			if (episode.canResume) add(ResumeAction(context!!, episode))
-			add(PlayFromBeginningAction(context!!, episode))
-			add(Action(1, "Set Watched"))
-			add(Action(1, "Add Favorite"))
-			add(Action(1, "Add to Queue"))
-			add(Action(1, "Go to Series"))
-			add(Action(1, "Delete"))
+		val actionsAdapter = SparseArrayObjectAdapter().apply {
+			if (episode.canResume) set(0, ResumeAction(context!!, episode))
+			set(1, PlayFromBeginningAction(context!!, episode))
+			set(2, ToggleWatchedAction(context!!, episode) {
+				if (episode.canResume) set(0, ResumeAction(context!!, episode)) else clear(0)
+				notifyArrayItemRangeChanged(0,6)
+			})
+			set(3, Action(1, "Add Favorite"))
+			set(4, Action(1, "Add to Queue"))
+			set(5, Action(1, "Go to Series"))
+			set(6, Action(1, "Delete"))
 		}
 
 		val detailsOverview = DetailsOverviewRow(episode).also {

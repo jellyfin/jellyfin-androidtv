@@ -14,14 +14,15 @@ sealed class BaseItem(original: BaseItemDto) {
 }
 
 sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
-	val canResume: Boolean = original.canResume
-	val playbackPositionTicks: Long = original.userData.playbackPositionTicks
 	val mediaInfo = MediaInfo(original.mediaSources, original.mediaStreams)
 	val chapters: List<ChapterInfoDto> = original.chapters
+	val canResume: Boolean
+		get() = playbackPositionTicks > 0
+	var playbackPositionTicks: Long = original.userData.playbackPositionTicks
+	var played: Boolean = original.userData.played
 }
 
 class Episode(original: BaseItemDto) : PlayableItem(original) {
-	//TODO: Chapters: ArrayList<ChapterInfoDto>
 	val communityRating: Double = original.communityRating.toDouble()
 
 	init {
