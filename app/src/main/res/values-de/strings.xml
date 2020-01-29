@@ -349,4 +349,5 @@
     <string name="pref_acra_alwaysaccept">Absturzberichte ohne Abfrage senden</string>
     <string name="pref_acra_enabled">Du wirst gefragt Absturzberichte zu melden</string>
     <string name="pref_enable_acra">Sende Absturzberichte zu den Entwicklern</string>
+    <string name="lbl_my_media">Meine Medien</string>
 </resources>
