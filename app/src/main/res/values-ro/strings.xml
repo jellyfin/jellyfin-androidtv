@@ -156,7 +156,7 @@
     <string name="lbl_suggestions_halloween">Recomandări Înfricoșătoare</string>
     <string name="lbl_suggestions">Recomandări</string>
     <string name="pref_use_direct_path_summary">Treceți calea sistemului de fișiere în loc să transmiteți adresa URL</string>
-    <string name="pref_use_direct_path_title">Treceți calea directă</string>
+    <string name="pref_use_direct_path_title">Treceți calea directă către player-ul extern</string>
     <string name="pref_external_live_tv_summary">Necesită o aplicație capabilă să redea fluxuri live</string>
     <string name="pref_external_live_tv_title">Utilizați soft extern pentru TV live</string>
     <string name="lbl_song_title">Titlul Melodiei</string>
@@ -329,4 +329,25 @@
     <string name="lbl_status">%s / %s</string>
     <string name="dpad_pw_cancel">* Țineți apăsat butonul „jos” timp de 1 secundă și eliberați dacă aveți o parolă alfa sau aveți nevoie de o tastatură pentru intrare</string>
     <string name="dpad_entry_desc">Utilizați D-Pad-ul de pe telecomandă pentru a introduce o parolă numerică. Faceți un singur clic pe un buton pentru primul număr listat sau faceți dublu clic pentru al doilea. de exemplu. Faceți un singur clic pe „sus” pentru 1 sau faceți dublu clic pe „selectați” pentru 5. Apăsați apăsat timp de 1 secundă și eliberați butonul „select” când ați terminat sau butonul stânga pentru a începe.</string>
+    <string name="pref_video_player_external">Aplicație externă</string>
+    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_exoplayer">ExoPlayer</string>
+    <string name="pref_video_player_auto">Alege automat</string>
+    <string name="lbl_my_media">Fișierele mele Media</string>
+    <string name="acra_dialog_text">Doriți să trimiteți un raport de incident dezvoltatorilor\?
+\n
+\nAceste informații vor fi transmise unui terț (tracepot.com).
+\n
+\nAceastă solicitare poate fi dezactivată în secțiunea Raportare incident, din Setările aplicației Jellyfin.</string>
+    <string name="acra_dialog_title">Oh nu! Ceva n-a mers bine.</string>
+    <string name="pref_acra_syslog_disabled">Jurnalele de sistem nu vor fi incluse în rapoartele de incident</string>
+    <string name="pref_acra_syslog_enabled">Jurnalele de sistem vor fi incluse în rapoartele de incident</string>
+    <string name="pref_acra_syslog">Includeți jurnalele de sistem în rapoartele de avarie. Aceasta poate include date private din alte aplicații dacă au fost înregistrate la momentul incidentului.</string>
+    <string name="pref_acra_alwaysaccept_disabled">Va fi afișat un dialog înainte de a trimite orice raport de incident</string>
+    <string name="pref_acra_alwaysaccept_enabled">Rapoartele de incident vor fi transmise fără solicitare</string>
+    <string name="pref_acra_alwaysaccept">Trimiteți rapoarte de incident fără a solicita</string>
+    <string name="pref_acra_disabled">Rapoartele de incident nu vor fi transmise</string>
+    <string name="pref_acra_enabled">Vi se va solicita să trimiteți rapoarte de incident</string>
+    <string name="pref_enable_acra">Trimite raportul incidentului către developeri</string>
+    <string name="pref_acra_category">Raportare incident</string>
 </resources>
