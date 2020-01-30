@@ -7,16 +7,15 @@ import androidx.leanback.widget.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.jellyfin.androidtv.TvApp
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.details.actions.BaseAction
 import org.jellyfin.androidtv.details.actions.PlayFromBeginningAction
 import org.jellyfin.androidtv.details.actions.ResumeAction
 import org.jellyfin.androidtv.model.itemtypes.Episode
-import org.jellyfin.apiclient.model.dto.ImageOptions
 
 private const val LOG_TAG = "EpisodeDetailsFragment"
 
-class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment() {
+class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment(episode) {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -31,12 +30,13 @@ class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment
 
 		Log.i("EpisodeDetailsFragment", episode.name)
 
-		val primaryImageUrl = TvApp.getApplication().apiClient.GetImageUrl(episode.id, ImageOptions())
-		val primaryImageBitmap = getImageFromURL(primaryImageUrl)
+		val primaryImageBitmap = withContext(Dispatchers.IO) {
+			episode.images.primary?.getBitmap(context!!)
+		}
 
 		val selector = ClassPresenterSelector().apply {
 			// Attach your media item details presenter to the row presenter:
-			val detailsDescriptionPresenter = DetailsDescriptionPresenter(title = episode.name, subtitle = "TODO", body = episode.description)
+			val detailsDescriptionPresenter = DetailsDescriptionPresenter()
 
 			val overviewRowPresenter = FullWidthDetailsOverviewRowPresenter(
 				detailsDescriptionPresenter,
@@ -66,7 +66,7 @@ class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment
 			add(Action(1, "Delete"))
 		}
 
-		val detailsOverview = DetailsOverviewRow("Media Item Details").also {
+		val detailsOverview = DetailsOverviewRow(episode).also {
 			it.imageDrawable = BitmapDrawable(resources, primaryImageBitmap)
 			it.actionsAdapter = actionsAdapter
 		}

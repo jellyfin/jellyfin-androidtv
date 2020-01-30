@@ -7,8 +7,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.model.itemtypes.Episode
+import org.jellyfin.androidtv.model.itemtypes.Movie
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.androidtv.util.apiclient.liftToNewFormat
 
@@ -20,6 +22,8 @@ class DetailsActivity : FragmentActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
+		setTheme(R.style.Theme_Leanback_Details)
+
 		val id = intent.getStringExtra("id")
 		if (id == null) {
 			Log.e(LOG_TAG, "No id was passed to Details Activity, closing automatically again.")
@@ -28,10 +32,11 @@ class DetailsActivity : FragmentActivity() {
 
 		GlobalScope.launch(Dispatchers.Main) {
 			val baseItem = getBaseItemDtoForID(id) ?: return@launch
-			val lifted = baseItem.liftToNewFormat()
+			val item = baseItem.liftToNewFormat()
 
-			fragment = when(lifted) {
-				is Episode -> EpisodeDetailsFragment(lifted)
+			fragment = when(item) {
+				is Movie -> MovieDetailsFragment(item)
+				is Episode -> EpisodeDetailsFragment(item)
 			}
 
 			supportFragmentManager.beginTransaction().add(android.R.id.content, fragment).commit()
