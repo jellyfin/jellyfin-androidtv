@@ -194,7 +194,7 @@
     <string name="lbl_suggestions_halloween">Strašidelné odporúčania</string>
     <string name="lbl_suggestions">Odporúčania</string>
     <string name="pref_use_direct_path_summary">Prepúšťať cestu súborového systému namiesto streamovacej URL</string>
-    <string name="pref_use_direct_path_title">Prepustiť priamu cestu</string>
+    <string name="pref_use_direct_path_title">Priama cesta pre externý prehrávač</string>
     <string name="pref_external_live_tv_summary">Vyžaduje aplikáciu schopnú prehrať živé streamy</string>
     <string name="pref_external_live_tv_title">Použiť externý prehrávač pre živú TV</string>
     <string name="lbl_song_title">Názov piesne</string>
@@ -330,4 +330,12 @@
     <string name="lbl_last_played">"Naposledy videné: "</string>
     <string name="lbl_watched">Videné</string>
     <string name="dpad_pw_cancel">* Podržte na 1 sekundu tlačidlo \'Dole\' a uvolnite ho pokiaľ máte alpha heslo alebo bude potrebná klávesnica pre vstup</string>
+</resources>
+    <string name="pref_acra_alwaysaccept_disabled">Pred odoslaním chybového hlásenia sa zobrazí dialóg</string>
+    <string name="pref_acra_alwaysaccept_enabled">Hlásenie chýb bude odoslané bez výzvy</string>
+    <string name="pref_acra_alwaysaccept">Odoslať hlásenie chýb bez výzvy</string>
+    <string name="pref_acra_disabled">Hlásenie chýb nebude odoslané</string>
+    <string name="pref_acra_enabled">Budete vyzvaný k odoslaniu hlásenia chýb</string>
+    <string name="pref_enable_acra">Odoslať hlásenie chýb vývojárom</string>
+    <string name="pref_acra_category">Hlásenie chýb</string>
 </resources>
