@@ -250,7 +250,6 @@
     <string name="msg_error_server_unavailable">サーバー利用不可</string>
     <string name="pref_use_direct_path_summary">ストリーミングURLの代わりにシステムパスを使用</string>
     <string name="pref_external_live_tv_title">ライブTVに外部のプレイヤーを使用</string>
-    <string name="pref_use_external_player_title">動画に外部のプレイヤーを使用</string>
     <string name="lbl_resume_from">%s から再開</string>
     <string name="lbl_guide_option_number">チャンネル番号</string>
     <string name="lbl_premiere">プレミア</string>
@@ -293,8 +292,6 @@
     <string name="lbl_recorded_tv">録画されたTV</string>
     <string name="lbl_live_tv_guide">ライブTVガイド</string>
     <string name="msg_unable_load_subs">字幕のロードが出来ません</string>
-    <string name="desc_sideline_color">カテゴリサイドラインの色</string>
-    <string name="lbl_sideline_color">サイドライン色</string>
     <string name="lbl_goto_series">シリーズに移動</string>
     <string name="pref_audio_compat">ステレオにダウンミックス</string>
     <string name="lbl_repeat_options">リピート設定</string>

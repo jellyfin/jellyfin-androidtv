@@ -153,9 +153,6 @@
     <string name="pref_audio_compat">Miks ned til stereo</string>
     <string name="lbl_audio_output">Lydutgang</string>
     <string name="lbl_goto_series">Gå til serie</string>
-    <string name="lbl_select_color">Velg farge</string>
-    <string name="lbl_sideline_color">Sidelinjefarge</string>
-    <string name="desc_sideline_color">Fargen på kategorisidelinjepanelet</string>
     <string name="lbl_show_info_panel">Vis informasjonspanel</string>
     <string name="lbl_enable_debug">Feilsøkingsvalg</string>
     <string name="desc_info_panel">Vis et panel med detaljer om gjeldende element på skjermer uten detaljert informasjon</string>
@@ -231,8 +228,6 @@
     <string name="pref_use_direct_path_title">Send nettverksbane til ekstern avspiller</string>
     <string name="pref_external_live_tv_summary">Krever en støttet app for å spille av direktestrømmer</string>
     <string name="pref_external_live_tv_title">Bruk ekstern spiller for direkte-TV</string>
-    <string name="pref_use_external_player_summary">Krever en støttet app for å spille av videotyper</string>
-    <string name="pref_use_external_player_title">Bruk ekstern spiller for videoer</string>
     <string name="lbl_song_title">Låtnavn</string>
     <string name="lbl_album_name">Albumnavn</string>
     <string name="lbl_next_episode">Neste episode</string>

@@ -16,6 +16,4 @@
     <string name="loading">Betöltés…</string>
     <string name="video_error_unknown_error">Nem sikerült betölteni a videót</string>
     <string name="play">Lejátszás</string>
-    <string name="ok">Rendben</string>
-    <string name="error">Hiba</string>
 </resources>

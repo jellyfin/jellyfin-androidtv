@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="error">Fout</string>
-    <string name="ok">Ok</string>
     <string name="video_error_unknown_error">Laden video is mislukt</string>
     <string name="txt_loading">Laden…</string>
     <string name="title_activity_select_user">KiesGebruikerActiviteit</string>

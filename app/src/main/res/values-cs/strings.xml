@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="error">Chyba</string>
-    <string name="ok">Ok</string>
     <string name="video_error_unknown_error">Nepodařilo se načíst video</string>
     <string name="txt_loading">Načítá se…</string>
     <string name="title_activity_select_user">Vybrat aktivitu uživatele</string>
@@ -185,7 +183,6 @@
     <string name="lbl_no_recordings">Žádné nahrávky</string>
     <string name="lbl_live_tv_guide">Průvodce Live TV</string>
     <string name="lbl_recorded_tv">TV nahrávky</string>
-    <string name="btn_ok">Ok</string>
     <string name="pref_live_tv_cat">LIVE TV</string>
     <string name="lbl_programs">Programy</string>
     <string name="lbl_albums">Alba</string>

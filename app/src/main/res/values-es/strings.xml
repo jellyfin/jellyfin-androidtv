@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="error">Error</string>
-    <string name="ok">Ok</string>
     <string name="video_error_unknown_error">Fallo al cargar el vídeo</string>
     <string name="txt_loading">Cargando…</string>
     <string name="title_activity_select_user">SeleccionarActividadDelUsuario</string>
@@ -321,7 +319,6 @@
     <string name="desc_suggestions_halloween">Intenta algunas de nuestras sugerenecias espeluznantes</string>
     <string name="title_suggestions_halloween">¡Feliz Halloween!</string>
     <string name="lbl_suggestions_halloween">Sugerencias Espeluznante</string>
-    <string name="pref_use_external_player_summary">Requiere un App con capacidad de reproducir video</string>
     <string name="lbl_resume_preroll">Resumir pre-introducción</string>
     <string name="title_activity_expanded_text">Actividad de Texto Expandido</string>
 </resources>
