@@ -1,6 +1,9 @@
 package org.jellyfin.androidtv.details
 
 import androidx.leanback.widget.*
+import org.jellyfin.androidtv.details.actions.PlayFromBeginningAction
+import org.jellyfin.androidtv.details.actions.ResumeAction
+import org.jellyfin.androidtv.details.actions.ToggleWatchedAction
 import org.jellyfin.androidtv.model.itemtypes.Movie
 import org.jellyfin.androidtv.presentation.InfoCardPresenter
 
@@ -32,6 +35,14 @@ class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
 
 		// Update detail row
 		detailsRow.item = item
+		detailsRow.actionsAdapter = ArrayObjectAdapter().apply {
+			if (item.canResume) add(ResumeAction(context!!, item))
+			add(PlayFromBeginningAction(context!!, item))
+			add(ToggleWatchedAction(context!!, item))
+
+			add(Action(0, "More"))
+		}
+
 		detailsRow.setImageBitmap(context!!, item.images.primary?.getBitmap(context!!))
 
 		// Update media info data
