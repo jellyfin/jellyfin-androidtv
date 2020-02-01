@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.details
 
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -17,7 +18,7 @@ import org.jellyfin.androidtv.util.apiclient.liftToNewFormat
 private const val LOG_TAG = "DetailsActivity"
 
 class DetailsActivity : FragmentActivity() {
-	private lateinit var fragment: BaseDetailsFragment
+	private lateinit var fragment: Fragment
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
