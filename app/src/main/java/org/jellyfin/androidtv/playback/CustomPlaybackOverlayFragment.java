@@ -587,6 +587,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 if (mPlaybackController.isLiveTv()) hide();
                 return true;
             }
+
+            if (mPopupPanelVisible && keyCode == KeyEvent.KEYCODE_DPAD_LEFT && mPopupRowPresenter.getPosition() == 0) {
+                mPopupRowsFragment.getView().requestFocus();
+                mPopupRowPresenter.setPosition(0);
+                return true;
+            }
             if (mGuideVisible) {
                 if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE) {
                     // go back to normal
