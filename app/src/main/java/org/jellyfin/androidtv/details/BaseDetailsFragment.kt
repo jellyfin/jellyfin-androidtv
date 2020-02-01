@@ -9,6 +9,7 @@ import androidx.leanback.widget.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.jellyfin.androidtv.details.actions.BaseAction
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.util.randomOrNull
 
@@ -36,7 +37,14 @@ abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : D
 
 	@CallSuper
 	protected open fun onCreateAdapter(adapter: ArrayObjectAdapter, selector: ClassPresenterSelector) {
-		selector.addClassPresenter(DetailsOverviewRow::class.java, FullWidthDetailsOverviewRowPresenter(DetailsDescriptionPresenter(), DetailsOverviewLogoPresenter()))
+		selector.addClassPresenter(DetailsOverviewRow::class.java, FullWidthDetailsOverviewRowPresenter(
+			DetailsDescriptionPresenter(),
+			DetailsOverviewLogoPresenter()
+		).apply {
+			setOnActionClickedListener { action ->
+				if (action is BaseAction) action.onClick()
+			}
+		})
 	}
 
 	@CallSuper
