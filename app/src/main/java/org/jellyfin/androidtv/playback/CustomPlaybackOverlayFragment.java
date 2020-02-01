@@ -1420,6 +1420,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             if (mNextUpPanelVisible) hideNextUpPanel();
             if (mSmNextUpPanelVisible) hideSmNextUpPanel();
             leanbackOverlayFragment.mediaInfoChanged();
+            leanbackOverlayFragment.onFullyInitialized();
             leanbackOverlayFragment.recordingStateChanged();
             // set progress to match duration
             // set other information

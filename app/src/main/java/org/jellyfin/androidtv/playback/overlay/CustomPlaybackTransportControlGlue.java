@@ -8,6 +8,7 @@ import androidx.leanback.widget.Action;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.PlaybackControlsRow;
 
+import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.overlay.actions.AdjustAudioDelayAction;
 import org.jellyfin.androidtv.playback.overlay.actions.ChannelBarChannelAction;
@@ -39,16 +40,16 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private RecordAction recordAction;
 
     private final VideoPlayerAdapter playerAdapter;
+    private final PlaybackController playbackController;
     private final LeanbackOverlayFragment leanbackOverlayFragment;
-    private final CustomActionClickedHandler customActionClickedHandler;
     private ArrayObjectAdapter primaryActionsAdapter;
     private ArrayObjectAdapter secondaryActionsAdapter;
 
     CustomPlaybackTransportControlGlue(Context context, VideoPlayerAdapter playerAdapter, PlaybackController playbackController, LeanbackOverlayFragment leanbackOverlayFragment) {
         super(context, playerAdapter);
         this.playerAdapter = playerAdapter;
+        this.playbackController = playbackController;
         this.leanbackOverlayFragment = leanbackOverlayFragment;
-        customActionClickedHandler = new CustomActionClickedHandler(playbackController, leanbackOverlayFragment, context);
         initActions(context);
     }
 
@@ -72,7 +73,18 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     @Override
     protected void onCreatePrimaryActions(ArrayObjectAdapter primaryActionsAdapter) {
         this.primaryActionsAdapter = primaryActionsAdapter;
+    }
 
+    @Override
+    protected void onCreateSecondaryActions(ArrayObjectAdapter secondaryActionsAdapter) {
+        this.secondaryActionsAdapter = secondaryActionsAdapter;
+    }
+
+    void addMediaActions() {
+        primaryActionsAdapter.clear();
+        secondaryActionsAdapter.clear();
+
+        // Primary Items
         primaryActionsAdapter.add(playPauseAction);
 
         if (canSeek()) {
@@ -92,12 +104,9 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             primaryActionsAdapter.add(channelBarChannelAction);
             primaryActionsAdapter.add(guideAction);
         }
-    }
 
-    @Override
-    protected void onCreateSecondaryActions(ArrayObjectAdapter secondaryActionsAdapter) {
-        this.secondaryActionsAdapter = secondaryActionsAdapter;
 
+        // Secondary Items
         if (isLiveTv()) {
             secondaryActionsAdapter.add(previousLiveTvChannelAction);
             if (canRecordLiveTv()) {
@@ -145,27 +154,27 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         // Handle custom action clicks which require a popup menu
         if (action == selectAudioAction) {
             leanbackOverlayFragment.setFading(false);
-            customActionClickedHandler.handleAudioSelection(view);
+            selectAudioAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), view);
         } else if (action == closedCaptionsAction) {
             leanbackOverlayFragment.setFading(false);
-            customActionClickedHandler.handleClosedCaptionsSelection(view);
+            closedCaptionsAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), view);
         } else if (action == adjustAudioDelayAction) {
             leanbackOverlayFragment.hideOverlay();
-            customActionClickedHandler.handleAudioDelaySelection(view);
+            adjustAudioDelayAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), view);
         } else if (action == zoomAction) {
             leanbackOverlayFragment.setFading(false);
-            customActionClickedHandler.handleZoomSelection(view);
+            zoomAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), view);
         } else if (action == chapterAction) {
             leanbackOverlayFragment.hideOverlay();
-            customActionClickedHandler.handleChapterSelection(playerAdapter.getMasterOverlayFragment());
+            playerAdapter.getMasterOverlayFragment().showChapterSelector();
         } else if (action == previousLiveTvChannelAction) {
-            customActionClickedHandler.handlePreviousLiveTvChannelSelection(playerAdapter.getMasterOverlayFragment());
+            playerAdapter.getMasterOverlayFragment().switchChannel(TvManager.getPrevLiveTvChannel());
         } else if (action == channelBarChannelAction) {
             leanbackOverlayFragment.hideOverlay();
-            customActionClickedHandler.handleChannelBarSelection(playerAdapter.getMasterOverlayFragment());
+            playerAdapter.getMasterOverlayFragment().showQuickChannelChanger();
         } else if (action == guideAction) {
             leanbackOverlayFragment.hideOverlay();
-            customActionClickedHandler.handleGuideSelection(playerAdapter.getMasterOverlayFragment());
+            playerAdapter.getMasterOverlayFragment().showGuide();
         } else if (action == recordAction) {
             playerAdapter.toggleRecording();
             // Icon will be updated via callback recordingStateChanged
@@ -224,8 +233,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     void invalidatePlaybackControls() {
         primaryActionsAdapter.clear();
         secondaryActionsAdapter.clear();
-        onCreatePrimaryActions(primaryActionsAdapter);
-        onCreateSecondaryActions(secondaryActionsAdapter);
+        addMediaActions();
     }
 
     void recordingStateChanged() {

@@ -59,7 +59,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         hideControlsOverlay(true);
     }
 
-    void setFading(boolean fadingEnabled) {
+    public void setFading(boolean fadingEnabled) {
         playerAdapter.getMasterOverlayFragment().setFadingEnabled(fadingEnabled);
     }
 
@@ -78,5 +78,9 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
     public void onPause() {
         super.onPause();
         playerAdapter.getMasterOverlayFragment().onPause();
+    }
+
+    public void onFullyInitialized() {
+        playerGlue.addMediaActions();
     }
 }

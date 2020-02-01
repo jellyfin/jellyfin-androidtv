@@ -7,7 +7,9 @@ import android.view.View;
 
 import androidx.leanback.widget.PlaybackControlsRow;
 
+import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.overlay.CustomPlaybackTransportControlGlue;
+import org.jellyfin.androidtv.playback.overlay.LeanbackOverlayFragment;
 
 public abstract class CustomAction extends PlaybackControlsRow.MultiAction {
 
@@ -30,4 +32,7 @@ public abstract class CustomAction extends PlaybackControlsRow.MultiAction {
         setDrawables(new Drawable[]{drawable});
     }
 
+    public void handleClickAction(PlaybackController playbackController, LeanbackOverlayFragment leanbackOverlayFragment, Context context, View view) {
+
+    }
 }
