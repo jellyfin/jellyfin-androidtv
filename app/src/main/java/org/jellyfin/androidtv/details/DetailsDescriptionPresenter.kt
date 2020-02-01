@@ -4,8 +4,8 @@ import androidx.leanback.widget.AbstractDetailsDescriptionPresenter
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 
 class DetailsDescriptionPresenter : AbstractDetailsDescriptionPresenter() {
-	override fun onBindDescription(viewHolder: ViewHolder, itemData: Any) {
-		val item = itemData as BaseItem
+	override fun onBindDescription(viewHolder: ViewHolder, item: Any) {
+		if (item !is BaseItem) return
 
 		viewHolder.also {
 			it.title.text = item.name

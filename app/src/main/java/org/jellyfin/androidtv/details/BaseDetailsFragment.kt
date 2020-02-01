@@ -2,39 +2,56 @@ package org.jellyfin.androidtv.details
 
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import androidx.annotation.CallSuper
 import androidx.leanback.app.DetailsSupportFragment
 import androidx.leanback.app.DetailsSupportFragmentBackgroundController
-import androidx.leanback.widget.ArrayObjectAdapter
+import androidx.leanback.widget.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.util.randomOrNull
 
-open class BaseDetailsFragment(private val item: BaseItem) : DetailsSupportFragment() {
-	private val backgroundController by lazy { DetailsSupportFragmentBackgroundController(this) }
-	protected lateinit var rowsAdapter: ArrayObjectAdapter
+abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : DetailsSupportFragment() {
+	private val backgroundController by lazy {
+		DetailsSupportFragmentBackgroundController(this).apply {
+			enableParallax()
+		}
+	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		addLogo()
-		addBackground()
+		// Create adapter
+		val selector = ClassPresenterSelector()
+		val adapter = ArrayObjectAdapter(selector)
+		onCreateAdapter(adapter, selector)
+
+		// Set item values (todo make everything suspended?)
+		GlobalScope.launch(Dispatchers.Main) { setItem(initialItem) }
+
+		// Set adapter
+		this.adapter = adapter
 	}
 
-	private fun addLogo() = GlobalScope.launch(Dispatchers.Main) {
+	@CallSuper
+	protected open fun onCreateAdapter(adapter: ArrayObjectAdapter, selector: ClassPresenterSelector) {
+		selector.addClassPresenter(DetailsOverviewRow::class.java, FullWidthDetailsOverviewRowPresenter(DetailsDescriptionPresenter(), DetailsOverviewLogoPresenter()))
+	}
+
+	@CallSuper
+	open suspend fun setItem(item: T) {
+		// set background 'n stuff
+
 		// Logo
-		item.images.logo?.getBitmap(context!!)?.let {
-			badgeDrawable = BitmapDrawable(resources, it)
-		}
-	}
+		badgeDrawable = item.images.logo?.getBitmap(context!!)?.let { BitmapDrawable(resources, it) }
 
-	private fun addBackground() = GlobalScope.launch(Dispatchers.Main) {
-		val image = item.images.backdrops.randomOrNull() ?: return@launch
+		// Background
+		//todo: Use all backgrounds with transition (fade/slide)
+		val backgroundImage = item.images.backdrops.randomOrNull()
 
 		backgroundController.apply {
-			enableParallax()
-			coverBitmap = image.getBitmap(context!!)
+			coverBitmap = backgroundImage?.getBitmap(context!!)
 		}
 	}
 }
