@@ -14,10 +14,11 @@ sealed class BaseItem(original: BaseItemDto) {
 }
 
 sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
-	val canResume: Boolean = original.canResume
 	val playbackPositionTicks: Long = original.userData.playbackPositionTicks
+	val canResume: Boolean = original.canResume && playbackPositionTicks > 0
 	val mediaInfo = MediaInfo(original.mediaSources, original.mediaStreams)
 	val chapters: List<ChapterInfoDto> = original.chapters
+	var played: Boolean = original.userData.played
 }
 
 class Episode(original: BaseItemDto) : PlayableItem(original) {
