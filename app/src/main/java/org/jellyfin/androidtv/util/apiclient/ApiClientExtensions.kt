@@ -4,8 +4,10 @@ import org.jellyfin.androidtv.TvApp
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.Response
 import org.jellyfin.apiclient.model.dto.BaseItemDto
+import org.jellyfin.apiclient.model.dto.UserItemDataDto
 import org.jellyfin.apiclient.model.querying.ItemsResult
 import org.jellyfin.apiclient.model.querying.NextUpQuery
+import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -38,5 +40,19 @@ suspend fun ApiClient.getItem(id: String): BaseItemDto? = suspendCoroutine { con
 	GetItemAsync(id, TvApp.getApplication().currentUser.id, object : Response<BaseItemDto>() {
 		override fun onResponse(response: BaseItemDto?) = continuation.resume(response!!)
 		override fun onError(exception: Exception?) = continuation.resume(null)
+	})
+}
+
+suspend fun ApiClient.markPlayed(itemId: String, userId: String, datePlayed: Date?) : UserItemDataDto? = suspendCoroutine { continuation ->
+	MarkPlayedAsync(itemId, userId, datePlayed, object : Response<UserItemDataDto>() {
+		override fun onResponse(response: UserItemDataDto?) { continuation.resume(response!!) }
+		override fun onError(exception: Exception?) { continuation.resume(null) }
+	})
+}
+
+suspend fun ApiClient.markUnplayed(itemId: String, userId: String) : UserItemDataDto? = suspendCoroutine { continuation ->
+	MarkUnplayedAsync(itemId, userId, object : Response<UserItemDataDto>() {
+		override fun onResponse(response: UserItemDataDto?) { continuation.resume(response!!) }
+		override fun onError(exception: Exception?) { continuation.resume(null) }
 	})
 }
