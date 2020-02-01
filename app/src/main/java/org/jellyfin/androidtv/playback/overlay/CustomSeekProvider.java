@@ -5,6 +5,7 @@ import androidx.leanback.widget.PlaybackSeekDataProvider;
 public class CustomSeekProvider extends PlaybackSeekDataProvider {
 
     private final long duration;
+    private final long SEEK_LENGTH = 30_000;
 
     CustomSeekProvider(long duration) {
         this.duration = duration;
@@ -12,16 +13,23 @@ public class CustomSeekProvider extends PlaybackSeekDataProvider {
 
     @Override
     public long[] getSeekPositions() {
-        return splitIntoThirtyParts(duration);
+        return splitIntoThirtySecondsParts(duration);
     }
 
-    private long[] splitIntoThirtyParts(long whole) {
-        long[] arr = new long[30];
-        long split = whole / 30;
-        for (int i = 0; i < arr.length; i++) {
-            long position = split * (i + 1);
-            arr[i] = position;
+    private long[] splitIntoThirtySecondsParts(long whole) {
+        int partsSize = getPositionsArraySize(whole);
+
+        long[] positionsArray = new long[partsSize];
+
+        for (int i = 0; i < partsSize; i++) {
+            positionsArray[i] = i * SEEK_LENGTH;
         }
-        return arr;
+        positionsArray[partsSize - 1] = whole; // Add end position
+
+        return positionsArray;
+    }
+
+    private int getPositionsArraySize(long whole) {
+        return ((int) Math.ceil((double) whole / (double) SEEK_LENGTH)) + 1;
     }
 }
