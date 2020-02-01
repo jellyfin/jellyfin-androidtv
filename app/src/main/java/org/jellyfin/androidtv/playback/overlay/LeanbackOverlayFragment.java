@@ -30,9 +30,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
     public void initFromView(PlaybackController playbackController, CustomPlaybackOverlayFragment customPlaybackOverlayFragment) {
         this.playbackController = playbackController;
-        playerGlue.setSeekProvider(new CustomSeekProvider(playerAdapter.getDuration()));
         playerGlue.setInitialPlaybackDrawable();
-        playerGlue.setSeekEnabled(playerAdapter.canSeek());
         playerAdapter.setMasterOverlayFragment(customPlaybackOverlayFragment);
     }
 
@@ -67,6 +65,8 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         BaseItemDto currentlyPlayingItem = playbackController.getCurrentlyPlayingItem();
         playerGlue.setTitle(currentlyPlayingItem.getName());
         playerGlue.invalidatePlaybackControls();
+        playerGlue.setSeekEnabled(playerAdapter.canSeek());
+        playerGlue.setSeekProvider(playerAdapter.canSeek() ? new CustomSeekProvider(playerAdapter) : null);
         recordingStateChanged();
     }
 
