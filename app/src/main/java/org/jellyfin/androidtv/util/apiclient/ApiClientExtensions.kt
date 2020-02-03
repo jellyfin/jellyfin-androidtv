@@ -21,7 +21,6 @@ suspend fun ApiClient.getNextUpEpisodes(query: NextUpQuery): ItemsResult? = susp
 	})
 }
 
-
 /**
  * Adds a coroutine capable version of the "getNextUpEpisodes" function
  */
@@ -41,6 +40,14 @@ suspend fun ApiClient.markPlayed(itemId: String, userId: String, datePlayed: Dat
 
 suspend fun ApiClient.markUnplayed(itemId: String, userId: String) : UserItemDataDto? = suspendCoroutine { continuation ->
 	MarkUnplayedAsync(itemId, userId, object : Response<UserItemDataDto>() {
+		override fun onResponse(response: UserItemDataDto?) { continuation.resume(response!!) }
+		override fun onError(exception: Exception?) { continuation.resume(null) }
+	})
+}
+
+
+suspend fun ApiClient.updateFavoriteStatus(itemId: String, userId: String, isFavorite: Boolean) : UserItemDataDto? = suspendCoroutine { continuation ->
+	UpdateFavoriteStatusAsync(itemId, userId, isFavorite, object : Response<UserItemDataDto>() {
 		override fun onResponse(response: UserItemDataDto?) { continuation.resume(response!!) }
 		override fun onError(exception: Exception?) { continuation.resume(null) }
 	})

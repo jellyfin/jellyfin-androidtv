@@ -2,9 +2,7 @@ package org.jellyfin.androidtv.details
 
 import androidx.leanback.widget.*
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.details.actions.PlayFromBeginningAction
-import org.jellyfin.androidtv.details.actions.ResumeAction
-import org.jellyfin.androidtv.details.actions.ToggleWatchedAction
+import org.jellyfin.androidtv.details.actions.*
 import org.jellyfin.androidtv.model.itemtypes.Movie
 import org.jellyfin.androidtv.presentation.InfoCardPresenter
 
@@ -45,7 +43,7 @@ class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
 
 			add(PlayFromBeginningAction(context!!, item).apply { icon = context!!.getDrawable(R.drawable.ic_play) })
 			add(ToggleWatchedAction(context!!, item).apply { icon = context!!.getDrawable(R.drawable.ic_watch) })
-			add(Action(0, "Favorite").apply { icon = context!!.getDrawable(R.drawable.ic_heart) }) // Favorite item (toggle)
+			add(ToggleFavoriteAction(context!!, item).apply { icon = context!!.getDrawable(R.drawable.ic_heart) })
 			add(Action(0, "More").apply { icon = context!!.getDrawable(R.drawable.lb_ic_more) }) // Show menu with more options
 
 			commit()

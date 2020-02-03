@@ -12,6 +12,7 @@ sealed class BaseItem(original: BaseItemDto) : ObservableParent() {
 	val description: String? = original.overview
 	val images: ImageCollection = ImageCollection(original)
 	val added: Date = original.dateCreated
+	var favorite: Boolean by Delegates.observable(original.userData.isFavorite, ::observer)
 }
 
 sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
@@ -19,7 +20,7 @@ sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
 	val canResume: Boolean = original.canResume && playbackPositionTicks > 0
 	val mediaInfo = MediaInfo(original.mediaSources, original.mediaStreams)
 	val chapters: List<ChapterInfoDto> = original.chapters
-	var played by Delegates.observable(original.userData.played, ::observer)
+	var played: Boolean by Delegates.observable(original.userData.played, ::observer)
 }
 
 class Episode(original: BaseItemDto) : PlayableItem(original) {
