@@ -56,3 +56,10 @@ suspend fun ApiClient.markUnplayed(itemId: String, userId: String) : UserItemDat
 		override fun onError(exception: Exception?) { continuation.resume(null) }
 	})
 }
+
+suspend fun ApiClient.updateFavoriteStatus(itemId: String, userId: String, isFavorite: Boolean) : UserItemDataDto? = suspendCoroutine { continuation ->
+	UpdateFavoriteStatusAsync(itemId, userId, isFavorite, object : Response<UserItemDataDto>() {
+		override fun onResponse(response: UserItemDataDto?) { continuation.resume(response!!) }
+		override fun onError(exception: Exception?) { continuation.resume(null) }
+	})
+}
