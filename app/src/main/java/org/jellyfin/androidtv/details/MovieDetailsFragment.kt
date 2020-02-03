@@ -10,7 +10,7 @@ import org.jellyfin.androidtv.presentation.InfoCardPresenter
 
 class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
 	private val detailsRow by lazy { DetailsOverviewRow(Unit).apply { actionsAdapter = ActionAdapter() } }
-	//	private val chaptersRow by lazy { Row() }
+//	private val chaptersRow by lazy { Row() }
 //	private val staffRow by lazy { Row() }
 //	private val charactersRow by lazy { Row() }
 //	private val relatedRow by lazy { Row() }
@@ -37,8 +37,7 @@ class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
 		// Update detail row
 		detailsRow.item = item
 
-		//todo when updating the selected action will be reset to the first
-
+		// Update actions
 		(detailsRow.actionsAdapter as ActionAdapter).apply {
 			reset()
 
