@@ -20,10 +20,13 @@ class ToggleWatchedAction(context: Context, val item: PlayableItem) : ToggleActi
 		GlobalScope.launch(Dispatchers.Main) {
 			val apiClient = TvApp.getApplication().apiClient
 
-			if (item.played) apiClient.markUnplayed(item.id, TvApp.getApplication().currentUser.id)
+			val response = if (item.played) apiClient.markUnplayed(item.id, TvApp.getApplication().currentUser.id)
 			else apiClient.markPlayed(item.id, TvApp.getApplication().currentUser.id, null)
 
-			item.played = !item.played
+			response?.let {
+				item.playbackPositionTicks = it.playbackPositionTicks
+				item.played = it.played
+			}
 		}
 	}
 }
