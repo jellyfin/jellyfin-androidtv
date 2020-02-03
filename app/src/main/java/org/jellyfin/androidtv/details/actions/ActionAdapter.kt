@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.details
+package org.jellyfin.androidtv.details.actions
 
 import androidx.leanback.widget.Action
 import androidx.leanback.widget.ObjectAdapter
