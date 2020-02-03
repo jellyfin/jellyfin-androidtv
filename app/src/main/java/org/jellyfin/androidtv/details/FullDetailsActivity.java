@@ -648,7 +648,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
                     List<BaseItemPerson> guests = new ArrayList<>();
                     for (BaseItemPerson person : mBaseItem.getPeople()) {
-                        if (PersonType.GuestStar.equals(person.getType())) guests.add(person);
+                        if (person.getPersonType() == PersonType.GuestStar) guests.add(person);
                     }
                     if (guests.size() > 0) {
                         ItemRowAdapter castAdapter = new ItemRowAdapter(guests.toArray(new BaseItemPerson[guests.size()]), new CardPresenter(true, 260), adapter);
