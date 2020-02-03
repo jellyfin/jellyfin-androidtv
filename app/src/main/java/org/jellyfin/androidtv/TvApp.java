@@ -1,42 +1,35 @@
 package org.jellyfin.androidtv;
 
-import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
-import android.os.Build;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.palette.graphics.Palette;
 
+import org.acra.ACRA;
+import org.acra.annotation.AcraCore;
+import org.acra.annotation.AcraDialog;
+import org.acra.annotation.AcraHttpSender;
+import org.acra.annotation.AcraLimiter;
+import org.acra.sender.HttpSender;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.model.DisplayPriorityType;
+import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.playback.ExternalPlayerActivity;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.PlaybackManager;
 import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
 import org.jellyfin.androidtv.search.SearchActivity;
-import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.Utils;
-
-import java.util.Calendar;
-import java.util.HashMap;
-
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.IConnectionManager;
@@ -45,15 +38,34 @@ import org.jellyfin.apiclient.interaction.VolleyHttpClient;
 import org.jellyfin.apiclient.logging.AndroidLogger;
 import org.jellyfin.apiclient.model.configuration.ServerConfiguration;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.logging.ILogger;
 import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 
-public class TvApp extends Application implements ActivityCompat.OnRequestPermissionsResultCallback {
+import java.util.Calendar;
+import java.util.HashMap;
+
+import androidx.core.content.ContextCompat;
+import androidx.palette.graphics.Palette;
+
+@AcraCore(buildConfigClass = BuildConfig.class)
+@AcraHttpSender(
+        uri = "https://collector.tracepot.com/a2eda9d9",
+        httpMethod = HttpSender.Method.POST
+)
+@AcraDialog(
+        resTitle = R.string.acra_dialog_title,
+        resText = R.string.acra_dialog_text,
+        resTheme = R.style.Theme_Jellyfin
+)
+@AcraLimiter
+public class TvApp extends Application {
     // The minimum supported server version. Trying to connect to an older server will display an error.
     public static final String MINIMUM_SERVER_VERSION = "10.3.0";
     public static final String CREDENTIALS_PATH = "org.jellyfin.androidtv.login.json";
+
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
     public static final int LIVE_TV_RECORDINGS_OPTION_ID = 2000;
     public static final int VIDEO_QUEUE_OPTION_ID = 3000;
@@ -61,7 +73,6 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     public static final int LIVE_TV_SERIES_OPTION_ID = 5000;
 
     private static final String TAG = "Jellyfin-AndroidTV";
-    private static final int SEARCH_PERMISSION = 0;
 
     private ILogger logger;
     private IConnectionManager connectionManager;
@@ -97,8 +108,6 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     private long lastMusicPlayback = System.currentTimeMillis();
     private long lastUserInteraction = System.currentTimeMillis();
 
-    private boolean searchAllowed = Build.VERSION.SDK_INT < 23;
-
     private GradientDrawable currentBackgroundGradient;
 
     private boolean audioMuted;
@@ -110,6 +119,13 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     private LogonCredentials configuredAutoCredentials;
 
     @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+
+        ACRA.init(this);
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
         logger = new AndroidLogger(TAG);
@@ -119,24 +135,6 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
         setCurrentBackgroundGradient(new int[] {ContextCompat.getColor(this, R.color.lb_default_brand_color_dark), ContextCompat.getColor(this, R.color.lb_default_brand_color)});
 
         logger.Info("Application object created");
-
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread thread, Throwable ex) {
-                logger.FatalException("Uncaught Exception", new Exception(ex));
-                /*
-                 * If an Exception happens when an Activity is being initialized,
-                 * it seems to hit an infinite loop of trying to re-initialize the Activity.
-                 * To avoid this, we call finish on the current activity.
-                 */
-                if (currentActivity != null) {
-                    currentActivity.finish();
-                }
-                android.os.Process.killProcess(android.os.Process.myPid());
-                System.exit(10);
-            }
-        });
-
     }
 
     public static TvApp getApplication() {
@@ -229,59 +227,10 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
     }
 
     public void showSearch(final Activity activity, boolean musicOnly) {
-        if (!searchAllowed && ContextCompat.checkSelfPermission(activity,
-                Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED) {
-            //request necessary permission
-            logger.Info("Requesting search permission...");
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.RECORD_AUDIO)) {
-                //show explanation
-                logger.Info("Show rationale for permission");
-                new AlertDialog.Builder(activity)
-                        .setTitle("Search Permission")
-                        .setMessage("Search requires permission to record audio in order to use the microphone for voice search")
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.RECORD_AUDIO}, SEARCH_PERMISSION);
-                            }
-                        }).show();
-            } else {
-                ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.RECORD_AUDIO}, SEARCH_PERMISSION);
-            }
-        } else {
-            showSearchInternal(activity, musicOnly);
-        }
-    }
-
-    private void showSearchInternal(Context activity, boolean musicOnly) {
         Intent intent = new Intent(activity, SearchActivity.class);
-        if (musicOnly) intent.putExtra("MusicOnly", true);
+        intent.putExtra("MusicOnly", musicOnly);
+
         activity.startActivity(intent);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case SEARCH_PERMISSION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay!
-                    searchAllowed = true;
-                    showSearchInternal(getCurrentActivity(), false);
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    Utils.showToast(this, "Search not allowed");
-                }
-                return;
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
     }
 
     public void showMessage(String title, String msg) {
@@ -320,23 +269,23 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
         return getPrefs().getString("pref_login_behavior", "0").equals("1") && getConfiguredAutoCredentials().getServerInfo().getId() != null;
     }
 
-    public boolean useExternalPlayer(String itemType) {
+    public boolean useExternalPlayer(BaseItemType itemType) {
         switch (itemType) {
-            case "Movie":
-            case "Episode":
-            case "Video":
-            case "Series":
-            case "Recording":
-                return getPrefs().getBoolean("pref_video_use_external", false);
-            case "TvChannel":
-            case "Program":
+            case Movie:
+            case Episode:
+            case Video:
+            case Series:
+            case Recording:
+                return getPrefs().getString("pref_video_player", "auto").equals("external");
+            case TvChannel:
+            case Program:
                 return getPrefs().getBoolean("pref_live_tv_use_external", false);
             default:
                 return false;
         }
     }
 
-    public Class getPlaybackActivityClass(String itemType) {
+    public Class getPlaybackActivityClass(BaseItemType itemType) {
         return useExternalPlayer(itemType) ? ExternalPlayerActivity.class : PlaybackOverlayActivity.class;
     }
 
@@ -569,14 +518,6 @@ public class TvApp extends Application implements ActivityCompat.OnRequestPermis
 
     public void setHttpClient(VolleyHttpClient httpClient) {
         this.httpClient = httpClient;
-    }
-
-    public boolean isSearchAllowed() {
-        return searchAllowed;
-    }
-
-    public void setSearchAllowed(boolean searchAllowed) {
-        this.searchAllowed = searchAllowed;
     }
 
     public BaseItemDto getLastPlayedItem() {

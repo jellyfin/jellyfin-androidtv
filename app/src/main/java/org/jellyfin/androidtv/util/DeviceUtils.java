@@ -7,6 +7,7 @@ public class DeviceUtils {
     private static final String FIRE_STICK_MODEL = "AFTM";
     private static final String NEXUS_MODEL = "Nexus Player";
     private static final String SHIELD_MODEL = "SHIELD Android TV";
+    private static final String BEYONDTV_MODEL = "BeyondTV";
 
     public static boolean isFireTv() {
         return Build.MODEL.startsWith(FIRE_TV_PREFIX);
@@ -22,6 +23,10 @@ public class DeviceUtils {
 
     public static boolean isNexus() {
         return Build.MODEL.equals(NEXUS_MODEL);
+    }
+
+    public static boolean isBeyondTv() {
+        return Build.MODEL.equals(BEYONDTV_MODEL);
     }
 
     public static boolean is50() {

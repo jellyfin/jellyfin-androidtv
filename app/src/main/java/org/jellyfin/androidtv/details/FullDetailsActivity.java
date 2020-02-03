@@ -12,7 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.RowsFragment;
+import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.ClassPresenterSelector;
 import androidx.leanback.widget.HeaderItem;
@@ -77,6 +77,7 @@ import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemPerson;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.ImageOptions;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
@@ -117,7 +118,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private Calendar mLastUpdated;
     private String mPrevItemId;
 
-    private RowsFragment mRowsFragment;
+    private RowsSupportFragment mRowsFragment;
     private ArrayObjectAdapter mRowsAdapter;
 
     private MyDetailsOverviewRowPresenter mDorPresenter;
@@ -145,14 +146,13 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         mActivity = this;
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         backgroundManager.attach(getWindow());
-        backgroundManager.setDimLayer(getDrawable(R.drawable.left_fade));
 
         mBackgroundTarget = new MyPicassoBackgroundManagerTarget(backgroundManager);
         mMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
-        mRowsFragment = new RowsFragment();
-        getFragmentManager().beginTransaction().add(R.id.rowsFragment, mRowsFragment).commit();
+        mRowsFragment = new RowsSupportFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.rowsFragment, mRowsFragment).commit();
 
         mRowsFragment.setOnItemViewClickedListener(new ItemViewClickedListener());
         mRowsFragment.setOnItemViewSelectedListener(new ItemViewSelectedListener());
@@ -169,7 +169,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         registerMessageListener(new IMessageListener() {
             @Override
             public void onMessageReceived(CustomMessage message) {
-                if (message == CustomMessage.ActionComplete && mSeriesTimerInfo != null && "SeriesTimer".equals(mBaseItem.getType())) {
+                if (message == CustomMessage.ActionComplete && mSeriesTimerInfo != null && mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer) {
                     //update info
                     mApplication.getApiClient().GetLiveTvSeriesTimerAsync(mSeriesTimerInfo.getId(), new Response<SeriesTimerInfoDto>() {
                         @Override
@@ -206,11 +206,11 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         rotateBackdrops();
 
         //Update information that may have changed - delay slightly to allow changes to take on the server
-        if (mApplication.getLastPlayback().after(mLastUpdated) && !"MusicArtist".equals(mBaseItem.getType())) {
+        if (mApplication.getLastPlayback().after(mLastUpdated) && mBaseItem.getBaseItemType() != BaseItemType.MusicArtist) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if ("Episode".equals(mBaseItem.getType()) && mApplication.getLastPlayback().after(mLastUpdated) && mApplication.getLastPlayedItem() != null && !mBaseItem.getId().equals(mApplication.getLastPlayedItem().getId()) && "Episode".equals(mApplication.getLastPlayedItem().getType())) {
+                    if (mBaseItem.getBaseItemType() == BaseItemType.Episode && mApplication.getLastPlayback().after(mLastUpdated) && mApplication.getLastPlayedItem() != null && !mBaseItem.getId().equals(mApplication.getLastPlayedItem().getId()) && mApplication.getLastPlayedItem().getBaseItemType() == BaseItemType.Episode) {
                         mApplication.getLogger().Info("Re-loading after new episode playback");
                         loadItem(mApplication.getLastPlayedItem().getId());
                         mApplication.setLastPlayedItem(null); //blank this out so a detail screen we back up to doesn't also do this
@@ -222,7 +222,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                 if (!isFinishing()) {
                                     mBaseItem = response;
                                     if (mResumeButton != null) {
-                                        mResumeButton.setVisibility(("Series".equals(mBaseItem.getType()) && ! mBaseItem.getUserData().getPlayed()) || response.getCanResume() ? View.VISIBLE : View.GONE);
+                                        mResumeButton.setVisibility((mBaseItem.getBaseItemType() == BaseItemType.Series && ! mBaseItem.getUserData().getPlayed()) || response.getCanResume() ? View.VISIBLE : View.GONE);
                                         if (response.getCanResume()){
                                             mResumeButton.setText(String.format(getString(R.string.lbl_resume_from), TimeUtils.formatMillis((response.getUserData().getPlaybackPositionTicks()/10000) - mApplication.getResumePreroll())));
                                         }
@@ -293,8 +293,25 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         }
     }
 
-    private static String[] buttonTypes = new String[] {"Episode","Movie","Series","Season","Folder","Video","Recording","Program","ChannelVideoItem","Trailer","MusicArtist","Person","MusicVideo","SeriesTimer"};
-    private static List<String> buttonTypeList = Arrays.asList(buttonTypes);
+    private static BaseItemType[] buttonTypes = new BaseItemType[] {
+        BaseItemType.Episode,
+        BaseItemType.Movie,
+        BaseItemType.Series,
+        BaseItemType.Season,
+        BaseItemType.Folder,
+        BaseItemType.Video,
+        BaseItemType.Recording,
+        BaseItemType.Program,
+        BaseItemType.ChannelVideoItem,
+        BaseItemType.Trailer,
+        BaseItemType.MusicArtist,
+        BaseItemType.Person,
+        BaseItemType.MusicVideo,
+        BaseItemType.SeriesTimer
+    };
+
+
+    private static List<BaseItemType> buttonTypeList = Arrays.asList(buttonTypes);
     private static String[] directPlayableTypes = new String[] {"Episode","Movie","Video","Recording","Program"};
     private static List<String> directPlayableTypeList = Arrays.asList(directPlayableTypes);
 
@@ -332,7 +349,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             BaseItemDto item = new BaseItemDto();
             item.setId(mSeriesTimerInfo.getId());
             item.setSeriesTimerId(mSeriesTimerInfo.getId());
-            item.setType("SeriesTimer");
+            item.setBaseItemType(BaseItemType.SeriesTimer);
             item.setName(mSeriesTimerInfo.getName());
             item.setOverview(BaseItemUtils.getSeriesOverview(mSeriesTimerInfo));
 
@@ -369,7 +386,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
             // Figure image size
             Double aspect = ImageUtils.getImageAspectRatio(item, false);
-            posterHeight = aspect > 1 ? Utils.convertDpToPixel(mActivity, 160) : Utils.convertDpToPixel(mActivity, "Person".equals(item.getType()) || "MusicArtist".equals(item.getType()) ? 300 : 200);
+            posterHeight = aspect > 1 ? Utils.convertDpToPixel(mActivity, 160) : Utils.convertDpToPixel(mActivity, item.getBaseItemType() == BaseItemType.Person || item.getBaseItemType() == BaseItemType.MusicArtist ? 300 : 200);
             posterWidth = (int)((aspect) * posterHeight);
             if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
@@ -378,9 +395,9 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             mDetailsOverviewRow = new MyDetailsOverviewRow(item);
 
             mDetailsOverviewRow.setSummary(item.getOverview());
-            switch (item.getType()) {
-                case "Person":
-                case "MusicArtist":
+            switch (item.getBaseItemType()) {
+                case Person:
+                case MusicArtist:
                     mDetailsOverviewRow.setSummarySubTitle("");
                     break;
                 default:
@@ -388,7 +405,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     BaseItemPerson director = BaseItemUtils.getFirstPerson(item, PersonType.Director);
 
                     InfoItem firstRow;
-                    if ("Series".equals(item.getType())) {
+                    if (item.getBaseItemType() == BaseItemType.Series) {
                         firstRow = new InfoItem(
                                 getString(R.string.lbl_seasons),
                                 Utils.getSafeValue(item.getChildCount(), 0).toString());
@@ -488,9 +505,9 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     protected void addAdditionalRows(ArrayObjectAdapter adapter) {
-        TvApp.getApplication().getLogger().Debug("Item type: "+mBaseItem.getType());
-        switch (mBaseItem.getType()) {
-            case "Movie":
+        TvApp.getApplication().getLogger().Debug("Item type: " + mBaseItem.getBaseItemType());
+        switch (mBaseItem.getBaseItemType()) {
+            case Movie:
 
                 //Cast/Crew
                 if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
@@ -527,7 +544,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                 addInfoRows(adapter);
                 break;
-            case "Trailer":
+            case Trailer:
 
                 //Cast/Crew
                 if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
@@ -546,7 +563,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 addItemRow(adapter, similarTrailerAdapter, 4, getString(R.string.lbl_more_like_this));
                 addInfoRows(adapter);
                 break;
-            case "Person":
+            case Person:
 
                 ItemQuery personMovies = new ItemQuery();
                 personMovies.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
@@ -567,7 +584,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 addItemRow(adapter, personSeriesAdapter, 1, mApplication.getString(R.string.lbl_tv_series));
 
                 break;
-            case "MusicArtist":
+            case MusicArtist:
 
                 ItemQuery artistAlbums = new ItemQuery();
                 artistAlbums.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio});
@@ -579,7 +596,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 addItemRow(adapter, artistAlbumsAdapter, 0, mApplication.getString(R.string.lbl_albums));
 
                 break;
-            case "Series":
+            case Series:
                 NextUpQuery nextUpQuery = new NextUpQuery();
                 nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 nextUpQuery.setSeriesId(mBaseItem.getId());
@@ -616,7 +633,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 addItemRow(adapter, similarAdapter, 4, getString(R.string.lbl_more_like_this));
                 break;
 
-            case "Episode":
+            case Episode:
                 if (mBaseItem.getSeasonId() != null && mBaseItem.getIndexNumber() != null) {
                     StdItemQuery nextEpisodes = new StdItemQuery();
                     nextEpisodes.setParentId(mBaseItem.getSeasonId());
@@ -649,7 +666,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 addInfoRows(adapter);
                 break;
 
-            case "SeriesTimer":
+            case SeriesTimer:
                 TimerQuery scheduled = new TimerQuery();
                 scheduled.setSeriesTimerId(mSeriesTimerInfo.getId());
                 TvManager.getScheduleRowsAsync(scheduled, new CardPresenter(true), adapter, new Response<Integer>());
@@ -677,7 +694,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     private void updateInfo(BaseItemDto item) {
-        if (buttonTypeList.contains(item.getType())) addButtons(BUTTON_SIZE);
+        if (buttonTypeList.contains(item.getBaseItemType())) addButtons(BUTTON_SIZE);
 //        updatePlayedDate();
 //
         updateBackground(ImageUtils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
@@ -706,10 +723,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     private String getEndTime() {
-        if (mBaseItem != null && !"MusicArtist".equals(mBaseItem.getType()) && !"Person".equals(mBaseItem.getType())) {
+        if (mBaseItem != null && mBaseItem.getBaseItemType() != BaseItemType.MusicArtist && mBaseItem.getBaseItemType() != BaseItemType.Person) {
             Long runtime = Utils.getSafeValue(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
             if (runtime != null && runtime > 0) {
-                long endTimeTicks = "Program".equals(mBaseItem.getType()) && mBaseItem.getEndDate() != null ? TimeUtils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
+                long endTimeTicks = mBaseItem.getBaseItemType() == BaseItemType.Program && mBaseItem.getEndDate() != null ? TimeUtils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
                 if (mBaseItem.getCanResume()) {
                     endTimeTicks = System.currentTimeMillis() + ((runtime - mBaseItem.getUserData().getPlaybackPositionTicks()) / 10000);
                     return android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks));
@@ -723,7 +740,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     private void addItemToQueue() {
-        if ("Audio".equals(mBaseItem.getType())) {
+        if (mBaseItem.getBaseItemType() == BaseItemType.Audio) {
             MediaManager.addToAudioQueue(Arrays.asList(mBaseItem));
 
         } else {
@@ -792,7 +809,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     private void addButtons(int buttonSize) {
         String buttonLabel;
-        if ("Series".equals(mBaseItem.getType()) || "SeriesTimer".equals(mBaseItem.getType())) {
+        if (mBaseItem.getBaseItemType() == BaseItemType.Series || mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer) {
             buttonLabel = getString(R.string.lbl_play_next_up);
         } else {
             long startPos = 0;
@@ -804,7 +821,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         mResumeButton = new TextUnderButton(this, R.drawable.ic_resume, buttonSize, 2, buttonLabel, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ("Series".equals(mBaseItem.getType())) {
+                if (mBaseItem.getBaseItemType() == BaseItemType.Series) {
                     //play next up
                     NextUpQuery nextUpQuery = new NextUpQuery();
                     nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
@@ -836,7 +853,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         if (BaseItemUtils.canPlay(mBaseItem)) {
             mDetailsOverviewRow.addAction(mResumeButton);
-            mResumeButton.setVisibility(("Series".equals(mBaseItem.getType()) && ! mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume() ) ? View.VISIBLE : View.GONE);
+            boolean resumeButtonVisible = (mBaseItem.getBaseItemType() == BaseItemType.Series && !mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume());
+            mResumeButton.setVisibility(resumeButtonVisible ? View.VISIBLE : View.GONE);
 
             TextUnderButton play = new TextUnderButton(this, R.drawable.ic_play, buttonSize, 2, getString(BaseItemUtils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override
@@ -845,6 +863,11 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 }
             });
             mDetailsOverviewRow.addAction(play);
+            if (resumeButtonVisible) {
+                mResumeButton.requestFocus();
+            } else {
+                play.requestFocus();
+            }
 
             if (!mBaseItem.getIsFolderItem() && !BaseItemUtils.isLiveTv(mBaseItem)) {
                 queueButton = new TextUnderButton(this, R.drawable.ic_add, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
@@ -866,7 +889,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 mDetailsOverviewRow.addAction(shuffle);
             }
 
-            if ("MusicArtist".equals(mBaseItem.getType())) {
+            if (mBaseItem.getBaseItemType() == BaseItemType.MusicArtist) {
                 TextUnderButton imix = new TextUnderButton(this, R.drawable.ic_mix, buttonSize, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1050,7 +1073,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         UserItemDataDto userData = mBaseItem.getUserData();
         if (userData != null && mProgramInfo == null) {
-            if (!"MusicArtist".equals(mBaseItem.getType()) && !"Person".equals(mBaseItem.getType())) {
+            if (mBaseItem.getBaseItemType() != BaseItemType.MusicArtist && mBaseItem.getBaseItemType() != BaseItemType.Person) {
                 mWatchedToggleButton = new TextUnderButton(this, userData.getPlayed() ? R.drawable.ic_watch_red : R.drawable.ic_watch, buttonSize, getString(R.string.lbl_watched), markWatchedListener);
                 mDetailsOverviewRow.addAction(mWatchedToggleButton);
             }
@@ -1065,7 +1088,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             mDetailsOverviewRow.addAction(favButton);
         }
 
-        if ("Episode".equals(mBaseItem.getType()) && mBaseItem.getSeriesId() != null) {
+        if (mBaseItem.getBaseItemType() == BaseItemType.Episode && mBaseItem.getSeriesId() != null) {
             //add the prev button first so it will be there in proper position - we'll show it later if needed
             mPrevButton = new TextUnderButton(this, R.drawable.ic_previous_episode, buttonSize, 3, getString(R.string.lbl_previous_episode), new View.OnClickListener() {
                 @Override
@@ -1110,8 +1133,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             mDetailsOverviewRow.addAction(goToSeriesButton);
         }
 
-        if (("Recording".equals(mBaseItem.getType()) && TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvManagement() && mBaseItem.getCanDelete()) ||
-                (("Movie".equals(mBaseItem.getType()) || "Episode".equals(mBaseItem.getType()) || "Video".equals(mBaseItem.getType())) && TvApp.getApplication().getCurrentUser().getPolicy().getEnableContentDeletion())) {
+        if ((mBaseItem.getBaseItemType() == BaseItemType.Recording && TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvManagement() && mBaseItem.getCanDelete()) ||
+                ((mBaseItem.getBaseItemType() == BaseItemType.Movie || mBaseItem.getBaseItemType() == BaseItemType.Episode || mBaseItem.getBaseItemType() == BaseItemType.Video) && TvApp.getApplication().getCurrentUser().getPolicy().getEnableContentDeletion())) {
             deleteButton = new TextUnderButton(this, R.drawable.ic_trash, buttonSize, getString(R.string.lbl_delete), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1121,7 +1144,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             mDetailsOverviewRow.addAction(deleteButton);
         }
 
-        if (mSeriesTimerInfo != null && "SeriesTimer".equals(mBaseItem.getType())) {
+        if (mSeriesTimerInfo != null && mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer) {
             //Settings
             mDetailsOverviewRow.addAction(new TextUnderButton(this, R.drawable.ic_settings, buttonSize, getString(R.string.lbl_series_settings), new View.OnClickListener() {
                 @Override
@@ -1207,7 +1230,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         moreButton.setVisibility(View.GONE);
         mDetailsOverviewRow.addAction(moreButton);
-        if (!"Episode".equals(mBaseItem.getType())) showMoreButtonIfNeeded();  //Episodes check for previous and then call this above
+        if (mBaseItem.getBaseItemType() != BaseItemType.Episode) showMoreButtonIfNeeded();  //Episodes check for previous and then call this above
 
     }
 
@@ -1401,13 +1424,13 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
         final Activity activity = this;
-        PlaybackHelper.getItemsToPlay(item, pos == 0 && item.getType().equals("Movie"), shuffle, new Response<List<BaseItemDto>>() {
+        PlaybackHelper.getItemsToPlay(item, pos == 0 && item.getBaseItemType() == BaseItemType.Movie, shuffle, new Response<List<BaseItemDto>>() {
             @Override
             public void onResponse(List<BaseItemDto> response) {
-                if ("MusicArtist".equals(item.getType())) {
+                if (item.getBaseItemType() == BaseItemType.MusicArtist) {
                     MediaManager.playNow(response);
                 } else {
-                    Intent intent = new Intent(activity, mApplication.getPlaybackActivityClass(item.getType()));
+                    Intent intent = new Intent(activity, mApplication.getPlaybackActivityClass(item.getBaseItemType()));
                     MediaManager.setCurrentVideoQueue(response);
                     intent.putExtra("Position", pos);
                     startActivity(intent);
@@ -1419,7 +1442,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     protected void play(final BaseItemDto[] items, final int pos, final boolean shuffle) {
         List<BaseItemDto> itemsToPlay = Arrays.asList(items);
-        Intent intent = new Intent(this, mApplication.getPlaybackActivityClass(items[0].getType()));
+        Intent intent = new Intent(this, mApplication.getPlaybackActivityClass(items[0].getBaseItemType()));
         if (shuffle) Collections.shuffle(itemsToPlay);
         MediaManager.setCurrentVideoQueue(itemsToPlay);
         intent.putExtra("Position", pos);

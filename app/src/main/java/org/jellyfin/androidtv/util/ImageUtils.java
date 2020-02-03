@@ -11,6 +11,7 @@ import java.util.List;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemPerson;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.ImageOptions;
 import org.jellyfin.apiclient.model.dto.StudioDto;
 import org.jellyfin.apiclient.model.dto.UserDto;
@@ -26,8 +27,8 @@ public class ImageUtils {
 
     private static final int MAX_PRIMARY_IMAGE_HEIGHT = 370;
 
-    private static final List<String> THUMB_FALLBACK_TYPES = Collections.singletonList("Episode");
-    private static final List<String> PROGRESS_INDICATOR_TYPES = Arrays.asList("Episode", "Movie", "MusicVideo", "Video");
+    private static final List<BaseItemType> THUMB_FALLBACK_TYPES = Collections.singletonList(BaseItemType.Episode);
+    private static final List<BaseItemType> PROGRESS_INDICATOR_TYPES = Arrays.asList(BaseItemType.Episode, BaseItemType.Movie, BaseItemType.MusicVideo, BaseItemType.Video);
 
     public static Double getImageAspectRatio(BaseItemDto item, boolean preferParentThumb) {
         if (preferParentThumb &&
@@ -35,7 +36,7 @@ public class ImageUtils {
             return ASPECT_RATIO_16_9;
         }
 
-        if (THUMB_FALLBACK_TYPES.contains(item.getType())) {
+        if (THUMB_FALLBACK_TYPES.contains(item.getBaseItemType())) {
             if (item.getPrimaryImageAspectRatio() != null) {
                 return item.getPrimaryImageAspectRatio();
             }
@@ -134,8 +135,8 @@ public class ImageUtils {
         options.setImageType(ImageType.Banner);
 
         UserItemDataDto userData = item.getUserData();
-        if (userData != null && !"MusicArtist".equals(item.getType()) && !"MusicAlbum".equals(item.getType())) {
-            if (PROGRESS_INDICATOR_TYPES.contains(item.getType()) &&
+        if (userData != null && item.getBaseItemType() != BaseItemType.MusicArtist && item.getBaseItemType() != BaseItemType.MusicAlbum) {
+            if (PROGRESS_INDICATOR_TYPES.contains(item.getBaseItemType()) &&
                     userData.getPlayedPercentage() != null &&
                     userData.getPlayedPercentage() > 0 &&
                     userData.getPlayedPercentage() < 99) {
@@ -163,7 +164,7 @@ public class ImageUtils {
     }
 
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, boolean showProgress, boolean preferParentThumb, boolean preferSeriesPoster, int maxHeight) {
-        if (item.getType().equals("SeriesTimer")) {
+        if (item.getBaseItemType() == BaseItemType.SeriesTimer) {
             return getResourceUrl(R.drawable.tile_land_series_timer);
         }
 
@@ -172,7 +173,7 @@ public class ImageUtils {
         String imageTag = item.getImageTags() != null ? item.getImageTags().get(ImageType.Primary) : null;
         ImageType imageType = ImageType.Primary;
 
-        if (preferSeriesPoster && item.getType().equals("Episode")) {
+        if (preferSeriesPoster && item.getBaseItemType() == BaseItemType.Episode) {
             if (item.getSeasonId() != null) {
                 imageTag = null;
                 itemId = item.getSeasonId();
@@ -180,7 +181,7 @@ public class ImageUtils {
                 imageTag = item.getSeriesPrimaryImageTag();
                 itemId = item.getSeriesId();
             }
-        } else if (preferParentThumb || (item.getType().equals("Episode") && imageTag == null)) {
+        } else if (preferParentThumb || (item.getBaseItemType() == BaseItemType.Episode && imageTag == null)) {
             //try for thumb of season or series
             if (item.getParentThumbImageTag() != null) {
                 imageTag = item.getParentThumbImageTag();
@@ -192,16 +193,16 @@ public class ImageUtils {
                 imageType = ImageType.Thumb;
             }
         } else {
-            if (item.getType().equals("Season") && imageTag == null) {
+            if (item.getBaseItemType() == BaseItemType.Season && imageTag == null) {
                 imageTag = item.getSeriesPrimaryImageTag();
                 itemId = item.getSeriesId();
-            } else if (item.getType().equals("Program") && item.getHasThumb()) {
+            } else if (item.getBaseItemType() == BaseItemType.Program && item.getHasThumb()) {
                 imageTag = item.getImageTags().get(ImageType.Thumb);
                 imageType = ImageType.Thumb;
             }
         }
 
-        if ("Audio".equals(item.getType()) && !item.getHasPrimaryImage()) {
+        if (item.getBaseItemType() == BaseItemType.Audio && !item.getHasPrimaryImage()) {
             //Try the album or artist
             if (item.getAlbumId() != null && item.getAlbumPrimaryImageTag() != null) {
                 imageTag = item.getAlbumPrimaryImageTag();
@@ -218,7 +219,7 @@ public class ImageUtils {
 
         UserItemDataDto userData = item.getUserData();
         if (userData != null) {
-            if (showProgress && PROGRESS_INDICATOR_TYPES.contains(item.getType()) &&
+            if (showProgress && PROGRESS_INDICATOR_TYPES.contains(item.getBaseItemType()) &&
                     userData.getPlayedPercentage() != null &&
                     userData.getPlayedPercentage() > 0 &&
                     userData.getPlayedPercentage() < 99) {

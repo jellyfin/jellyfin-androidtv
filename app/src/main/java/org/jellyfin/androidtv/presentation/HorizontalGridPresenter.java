@@ -9,11 +9,13 @@ import androidx.leanback.widget.FocusHighlightHelper;
 import androidx.leanback.widget.HorizontalGridView;
 import androidx.leanback.widget.ItemBridgeAdapter;
 import androidx.leanback.widget.ObjectAdapter;
-import androidx.leanback.widget.OnChildSelectedListener;
+import androidx.leanback.widget.OnChildViewHolderSelectedListener;
 import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.ShadowOverlayContainer;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -187,7 +189,7 @@ public class HorizontalGridPresenter extends Presenter {
         vh.getGridView().setNumRows(mNumRows);
         vh.getGridView().setFadingRightEdge(true);
         vh.getGridView().setFadingRightEdgeLength(100);
-        vh.getGridView().setItemMargin(10);
+        vh.getGridView().setItemSpacing(10);
         vh.mInitialized = true;
 
         vh.mItemBridgeAdapter.setWrapper(mWrapper);
@@ -200,10 +202,10 @@ public class HorizontalGridPresenter extends Presenter {
                 mZoomFactor, true);
 
         final ViewHolder gridViewHolder = vh;
-        vh.getGridView().setOnChildSelectedListener(new OnChildSelectedListener() {
+        vh.getGridView().setOnChildViewHolderSelectedListener(new OnChildViewHolderSelectedListener() {
             @Override
-            public void onChildSelected(ViewGroup parent, View view, int position, long id) {
-                selectChildView(gridViewHolder, view);
+            public void onChildViewHolderSelected(RecyclerView parent, RecyclerView.ViewHolder child, int position, int subposition) {
+                selectChildView(gridViewHolder, child.itemView);
             }
         });
 

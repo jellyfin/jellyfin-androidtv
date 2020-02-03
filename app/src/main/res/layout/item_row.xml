@@ -32,7 +32,6 @@
         android:layout_toEndOf="@+id/indexNo"
         android:layout_toStartOf="@+id/runTime"
         android:orientation="vertical"
-        android:id="@+id/songArtist"
         android:layout_marginStart="20dp">
 
         <TextView

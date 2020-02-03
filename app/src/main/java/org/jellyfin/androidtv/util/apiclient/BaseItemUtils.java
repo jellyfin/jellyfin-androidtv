@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemPerson;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.ChapterInfoDto;
 import org.jellyfin.apiclient.model.dto.ImageOptions;
 import org.jellyfin.apiclient.model.entities.ImageType;
@@ -23,25 +24,27 @@ import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 
 public class BaseItemUtils {
+    // TODO Feature Envy!!! Wants to live in BaseItemDto.
     public static boolean isLiveTv(BaseItemDto item) {
-        return "Program".equals(item.getType()) || "LiveTvChannel".equals(item.getType());
+        return item.getBaseItemType() == BaseItemType.Program
+                || item.getBaseItemType() == BaseItemType.LiveTvChannel;
     }
 
     public static boolean canPlay(BaseItemDto item) {
         return item.getPlayAccess().equals(PlayAccess.Full)
                 && ((item.getIsPlaceHolder() == null || !item.getIsPlaceHolder())
-                && (!item.getType().equals("Episode") || !item.getLocationType().equals(LocationType.Virtual)))
-                && (!item.getType().equals("Person"))
-                && (!item.getType().equals("SeriesTimer"))
+                && (item.getBaseItemType() != BaseItemType.Episode || !item.getLocationType().equals(LocationType.Virtual)))
+                && (item.getBaseItemType() != BaseItemType.Person)
+                && (item.getBaseItemType() != BaseItemType.SeriesTimer)
                 && (!item.getIsFolderItem() || item.getChildCount() == null || item.getChildCount() > 0);
     }
 
     public static String getFullName(BaseItemDto item) {
-        switch (item.getType()) {
-            case "Episode":
+        switch (item.getBaseItemType()) {
+            case Episode:
                 return item.getSeriesName() + (item.getParentIndexNumber() != null ? " S" + item.getParentIndexNumber() : "") + (item.getIndexNumber() != null ? " E" + item.getIndexNumber() : "") + (item.getIndexNumberEnd() != null ? "-" + item.getIndexNumberEnd() : "");
-            case "Audio":
-            case "MusicAlbum":
+            case Audio:
+            case MusicAlbum:
                 // we actually want the artist name if available
                 return (item.getAlbumArtist() != null ? item.getAlbumArtist() + " - " : "") + item.getName();
             default:
@@ -50,15 +53,15 @@ public class BaseItemUtils {
     }
 
     public static String getSubName(BaseItemDto item) {
-        switch (item.getType()) {
-            case "Episode":
+        switch (item.getBaseItemType()) {
+            case Episode:
                 String addendum = item.getLocationType().equals(LocationType.Virtual) && item.getPremiereDate() != null ? " (" +  TimeUtils.getFriendlyDate(TimeUtils.convertToLocalDate(item.getPremiereDate())) + ")" : "";
                 return item.getName() + addendum;
-            case "Season":
+            case Season:
                 return item.getChildCount() != null && item.getChildCount() > 0 ? item.getChildCount() + " " + TvApp.getApplication().getString(R.string.lbl_episodes) : "";
-            case "MusicAlbum":
+            case MusicAlbum:
                 return item.getChildCount() != null && item.getChildCount() > 0 ? item.getChildCount() + " " + TvApp.getApplication().getString(item.getChildCount() > 1 ? R.string.lbl_songs : R.string.lbl_song) : "";
-            case "Audio":
+            case Audio:
                 return item.getName();
             default:
                 return item.getOfficialRating();

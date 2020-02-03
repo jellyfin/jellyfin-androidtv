@@ -75,6 +75,11 @@
             android:entries="@array/pref_preroll_options"
             android:entryValues="@array/pref_preroll_values"
             />
+        <ListPreference android:key="pref_video_player"
+            android:title="Preferred media player"
+            android:defaultValue="auto"
+            android:entries="@array/pref_video_player_entries"
+            android:entryValues="@array/pref_video_player_values" />
         <CheckBoxPreference android:key="pref_enable_cinema_mode"
             android:title="@string/lbl_enable_cinema_mode"
             android:defaultValue="true"
@@ -100,11 +105,6 @@
             android:title="@string/lbl_refresh_switching"
             android:defaultValue="true"
             />
-        <CheckBoxPreference android:key="pref_video_use_external"
-            android:title="@string/pref_use_external_player_title"
-            android:defaultValue="false"
-            android:summary="@string/pref_use_external_player_summary"
-            />
         <CheckBoxPreference android:key="pref_send_path_external"
             android:title="@string/pref_use_direct_path_title"
             android:defaultValue="false"
@@ -127,6 +127,24 @@
             android:defaultValue="false"
             android:summary="@string/pref_external_live_tv_summary"
             />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_acra_category" android:key="pref_reporting_category">
+        <CheckBoxPreference android:key="acra.enable"
+            android:title="@string/pref_enable_acra"
+            android:summaryOn="@string/pref_acra_enabled"
+            android:summaryOff="@string/pref_acra_disabled"
+            android:defaultValue="false"/>
+        <CheckBoxPreference android:key="acra.alwaysaccept"
+            android:title="@string/pref_acra_alwaysaccept"
+            android:summaryOn="@string/pref_acra_alwaysaccept_enabled"
+            android:summaryOff="@string/pref_acra_alwaysaccept_disabled"
+            android:defaultValue="false"/>
+        <CheckBoxPreference android:key="acra.syslog.enable"
+            android:title="@string/pref_acra_syslog"
+            android:summaryOn="@string/pref_acra_syslog_enabled"
+            android:summaryOff="@string/pref_acra_syslog_disabled"
+            android:defaultValue="true"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

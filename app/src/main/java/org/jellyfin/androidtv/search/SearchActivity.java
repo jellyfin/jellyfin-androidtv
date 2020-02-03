@@ -3,26 +3,34 @@ package org.jellyfin.androidtv.search;
 import android.os.Bundle;
 import android.speech.SpeechRecognizer;
 
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
 
-public class SearchActivity extends BaseActivity {
+import androidx.fragment.app.Fragment;
 
+public class SearchActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (SpeechRecognizer.isRecognitionAvailable(TvApp.getApplication())) {
-            setContentView(R.layout.activity_search);
-        } else {
-            setContentView(R.layout.activity_search_no_speech);
-        }
+
+        boolean isSpeechEnabled = SpeechRecognizer.isRecognitionAvailable(this);
+
+        // Determine fragment to use
+        Fragment searchFragment = isSpeechEnabled
+                ? new LeanbackSearchFragment()
+                : new TextSearchFragment();
+
+        // Add fragment
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(android.R.id.content, searchFragment)
+                .commit();
     }
 
     @Override
     public boolean onSearchRequested() {
-        //re-start us
-        this.recreate();
+        // Reset layout
+        recreate();
+
         return true;
     }
 }

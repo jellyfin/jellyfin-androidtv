@@ -155,14 +155,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_toStartOf="@+id/extra_badge"
-                android:layout_marginTop="@dimen/lb_basic_card_info_text_margin"
                 android:layout_marginStart="@dimen/lb_basic_card_info_text_margin"
-                android:maxLines="1"
                 android:fontFamily="sans-serif-condensed"
                 android:textColor="@color/lb_basic_card_title_text_color"
                 android:textSize="@dimen/lb_basic_card_title_text_size"
-                android:ellipsize="end" />
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true" />
 
             <TextView
                 android:id="@+id/content_text"
@@ -173,11 +172,12 @@
                 android:layout_toStartOf="@+id/extra_badge"
                 android:layout_marginStart="@dimen/lb_basic_card_info_text_margin"
                 android:layout_marginBottom="@dimen/lb_basic_card_info_text_margin"
-                android:maxLines="1"
                 android:fontFamily="sans-serif-condensed"
                 android:textColor="@color/lb_basic_card_content_text_color"
                 android:textSize="@dimen/lb_basic_card_content_text_size"
-                android:ellipsize="end" />
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true" />
 
             <ImageView
                 android:id="@+id/extra_badge"
@@ -186,6 +186,7 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="10dp"
+                android:layout_below="@id/title_text"
                 android:scaleType="fitCenter"
                 android:visibility="gone"
                 android:contentDescription="@null" />

@@ -32,7 +32,7 @@
     <!-- Live TV Colors -->
     <color name="channel_scroller_bg">#201b1c</color>
     <color name="program_scroller_bg">#0b0e14</color>
-    <color name="timeline_bg">#007d8d</color>
+    <color name="timeline_bg">#201b1c</color>
     <!-- ProgramGridCell Background Colors -->
     <color name="guide_movie_bg">#328E24AA</color>
     <color name="guide_sports_bg">#323949AB</color>

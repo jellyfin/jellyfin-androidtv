@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="error">Ошибка</string>
-    <string name="ok">ОК</string>
     <string name="play">Воспроизвести</string>
     <string name="loading">Загружается…</string>
     <string name="video_error_unknown_error">Не удалось загрузить видео</string>
@@ -28,7 +26,6 @@
     <string name="pref_general">ОБЩИЕ</string>
     <string name="lbl_settings">Параметры</string>
     <string name="lbl_logout">Выход</string>
-    <string name="lbl_send_logs">Отправить журналы</string>
     <string name="lbl_library">Медиатека</string>
     <string name="lbl_continue_watching">Возобновимое</string>
     <string name="lbl_latest_movies">Последние фильмы</string>
@@ -101,10 +98,7 @@
     <string name="lbl_enter_user_name">Ввести имя пользователя</string>
     <string name="lbl_enter_user_pw">Ввести пароль пользователя</string>
     <string name="msg_little_longer">Это займёт несколько больше времени, чем ожидалось...</string>
-    <string name="msg_report_sent">Отчёт отправлен разработчику. Спасибо.</string>
-    <string name="lbl_report_msg_question">Хотите ли отправить отчёт разработчику?</string>
     <string name="lbl_no">Нет</string>
-    <string name="msg_report_not_sent">Отчёт НЕ отправлен</string>
     <string name="lbl_yes">Да</string>
     <string name="msg_error_connecting_server">Ошибка соединения с сервером</string>
     <string name="msg_invalid_id_pw">Неверные ID или пароль пользователя</string>
@@ -160,9 +154,6 @@
     <string name="pref_audio_compat">Микширование с понижением до стерео</string>
     <string name="lbl_audio_output">Выход звука</string>
     <string name="lbl_goto_series">Перейти к сериям</string>
-    <string name="lbl_select_color">Выбрать цвет</string>
-    <string name="lbl_sideline_color">Цвет боковой линии</string>
-    <string name="desc_sideline_color">Цвет категории боковой панели</string>
     <string name="lbl_show_info_panel">Показывать инфо-панель</string>
     <string name="lbl_enable_debug">Включить отладочные опции</string>
     <string name="desc_info_panel">Показывается панель с подробностями текущего элемента на экранах без подробных сведений</string>
@@ -194,7 +185,6 @@
     <string name="lbl_no_recordings">Не имеется записей</string>
     <string name="lbl_live_tv_guide">Эфирный телегид</string>
     <string name="lbl_recorded_tv">Записанное ТВ</string>
-    <string name="btn_ok">ОК</string>
     <string name="pref_live_tv_cat">ТВ-ЭФИР</string>
     <string name="msg_error_live_stream">Ошибка трансляции ТВ-эфира. Повтор попытки...</string>
     <string name="lbl_direct_stream_live">Прямая трансляция ТВ-эфира</string>
@@ -208,7 +198,6 @@
     <string name="lbl_enable_cinema_mode">Включить режим кинотеатра</string>
     <string name="sum_enable_cinema_mode">Если включено на сервере, то включаются заставки и анонсы до воспроизведения фильма</string>
     <string name="lbl_playlists">Плей-листы</string>
-    <string name="lbl_of">из</string>
     <string name="msg_added_item_to_queue">"Элемент добавлен в очередь на позиции "</string>
     <string name="msg_items_added">" элементов добавлено"</string>
     <string name="msg_total_items_in_queue">" элементов всего в очереди"</string>
@@ -262,7 +251,6 @@
     <string name="lbl_bitstream_dts">Транслировать DTS аудио</string>
     <string name="lbl_favorite">Избранное</string>
     <string name="pref_external_live_tv_title">Использовать для эфира внешний проигрыватель</string>
-    <string name="pref_use_external_player_title">Использовать для видео внешний проигрыватель</string>
     <string name="lbl_song_title">Название композиции</string>
     <string name="lbl_album_name">Название альбома</string>
     <string name="lbl_next_episode">Следующий эпизод</string>
@@ -301,7 +289,6 @@
     <string name="pref_use_direct_path_summary">Выводить путь в файловой системе вместо URL потока</string>
     <string name="pref_use_direct_path_title">Прямой вывод</string>
     <string name="pref_external_live_tv_summary">Требуется совместимое приложение для воспроизведения эфирных трансляций</string>
-    <string name="pref_use_external_player_summary">Требуется совместимое приложение для воспроизведения видеотипов</string>
     <string name="lbl_more_like_this">Ещё подобное этому</string>
     <string name="lbl_resume_preroll">Откат для возобновления</string>
     <string name="lbl_guide_option_played">Последнее воспроизведение</string>
@@ -321,4 +308,25 @@
     <string name="msg_error_signin">При входе с сохранёнными учётными данными произошла ошибка.</string>
     <string name="msg_error_server_version">Неподдерживаемая версия сервера. Она должна быть %1$s или более.</string>
     <string name="msg_error_server_unavailable">Сервер недоступен</string>
+    <string name="title_suggestions_holiday">Счастливых праздников!</string>
+    <string name="lbl_suggestions_holiday">Праздничные предложения</string>
+    <string name="title_suggestions_halloween">Счастливого Хэллоуина!</string>
+    <string name="lbl_suggestions">Предложения</string>
+    <string name="desc_suggestions_halloween">Попробуйте наши страшные предложения</string>
+    <string name="lbl_suggestions_halloween">Страшные предложения</string>
+    <string name="desc_suggestions_holiday">Попробуйте некоторые наши предложения к празднику</string>
+    <string name="lbl_image_size">Размер рисунка</string>
+    <string name="lbl_image_type">Тип рисунка</string>
+    <string name="lbl_default_view">Представление по умолчанию</string>
+    <string name="lbl_start_favorites">Разместить избранные в начале</string>
+    <string name="lbl_colored_backgrounds">Обозначеннные цветом фоны</string>
+    <string name="lbl_hd_programs">HD-передачи</string>
+    <string name="lbl_repeat_episodes">Повтор эпизодов</string>
+    <string name="lbl_premieres">Премьеры</string>
+    <string name="lbl_new_episodes">Новые эпизоды</string>
+    <string name="lbl_audio_delay">Задержка аудио</string>
+    <string name="lbl_new_only">Только новые</string>
+    <string name="lbl_news">Новости</string>
+    <string name="lbl_latest_tv_shows">Новейшие ТВ-передачи</string>
+    <string name="lbl_live_broadcasts">Прямые трансляции</string>
 </resources>

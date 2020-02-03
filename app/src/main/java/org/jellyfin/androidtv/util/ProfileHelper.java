@@ -69,8 +69,8 @@ public class ProfileHelper {
         profile.setSubtitleProfiles(new SubtitleProfile[] {
                 getSubtitleProfile("srt", SubtitleDeliveryMethod.External),
                 getSubtitleProfile("subrip", SubtitleDeliveryMethod.External),
-                getSubtitleProfile("ass", SubtitleDeliveryMethod.External),
-                getSubtitleProfile("ssa", SubtitleDeliveryMethod.External),
+                getSubtitleProfile("ass", SubtitleDeliveryMethod.Encode),
+                getSubtitleProfile("ssa", SubtitleDeliveryMethod.Encode),
                 getSubtitleProfile("pgs", SubtitleDeliveryMethod.Encode),
                 getSubtitleProfile("pgssub", SubtitleDeliveryMethod.Encode),
                 getSubtitleProfile("dvdsub", SubtitleDeliveryMethod.External),
@@ -139,8 +139,8 @@ public class ProfileHelper {
         profile.setSubtitleProfiles(new SubtitleProfile[] {
             getSubtitleProfile("srt", SubtitleDeliveryMethod.Embed),
             getSubtitleProfile("subrip", SubtitleDeliveryMethod.Embed),
-            getSubtitleProfile("ass", SubtitleDeliveryMethod.Embed),
-            getSubtitleProfile("ssa", SubtitleDeliveryMethod.Embed),
+            getSubtitleProfile("ass", SubtitleDeliveryMethod.Encode),
+            getSubtitleProfile("ssa", SubtitleDeliveryMethod.Encode),
             getSubtitleProfile("pgs", SubtitleDeliveryMethod.Embed),
             getSubtitleProfile("pgssub", SubtitleDeliveryMethod.Embed),
             getSubtitleProfile("dvdsub", SubtitleDeliveryMethod.Embed),
@@ -292,7 +292,7 @@ public class ProfileHelper {
             ));
             videoDirectPlayProfile.setContainer(Utils.join(",", containers));
             List<String> videoCodecs;
-            if (DeviceUtils.isShield() || DeviceUtils.isNexus()) {
+            if (DeviceUtils.isShield() || DeviceUtils.isNexus() || DeviceUtils.isBeyondTv()) {
                 videoCodecs = Arrays.asList(
                     CodecTypes.H264,
                     CodecTypes.HEVC,
@@ -400,8 +400,8 @@ public class ProfileHelper {
                 getSubtitleProfile("srt", SubtitleDeliveryMethod.External),
                 getSubtitleProfile("srt", SubtitleDeliveryMethod.Embed),
                 getSubtitleProfile("subrip", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("ass", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("ssa", SubtitleDeliveryMethod.Embed),
+                getSubtitleProfile("ass", SubtitleDeliveryMethod.Encode),
+                getSubtitleProfile("ssa", SubtitleDeliveryMethod.Encode),
                 getSubtitleProfile("pgs", SubtitleDeliveryMethod.Encode),
                 getSubtitleProfile("pgssub", SubtitleDeliveryMethod.Encode),
                 getSubtitleProfile("dvdsub", SubtitleDeliveryMethod.Embed),

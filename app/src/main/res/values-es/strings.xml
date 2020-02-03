@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="error">Error</string>
-    <string name="ok">OK</string>
     <string name="video_error_unknown_error">Fallo al cargar el vídeo</string>
     <string name="txt_loading">Cargando…</string>
     <string name="title_activity_select_user">SeleccionarActividadDelUsuario</string>
@@ -24,7 +22,6 @@
     <string name="pref_general">General</string>
     <string name="lbl_settings">Ajustes</string>
     <string name="lbl_logout">Cerrar sesión</string>
-    <string name="lbl_send_logs">Enviar archivos de registro</string>
     <string name="lbl_library">Biblioteca</string>
     <string name="lbl_continue_watching">Continuar viendo</string>
     <string name="lbl_latest_movies">Películas recientes</string>
@@ -86,13 +83,10 @@
     <string name="lbl_trailer">"Avance "</string>
     <string name="lbl_please_wait">Espere Por Favor</string>
     <string name="msg_little_longer">Esto está tomando más tiempo de lo esperado...</string>
-    <string name="msg_report_sent">Reporte enviado al desarrollador. Gracias.</string>
-    <string name="lbl_report_msg_question">¿Desea enviar un reporte al desarrollador?</string>
     <string name="lbl_no">No</string>
-    <string name="msg_report_not_sent">Reporte NO enviado</string>
     <string name="lbl_yes">Si</string>
     <string name="msg_error_connecting_server">Error al Conectarse al Servidor</string>
-    <string name="msg_invalid_id_pw">Id de Usuario o contraseña inválidos</string>
+    <string name="msg_invalid_id_pw">ID de Usuario o contraseña invalido</string>
     <string name="lbl_version">"Versión: "</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 ó https://myserver.com</string>
     <string name="lbl_enter_server_address">Introduzca la Dirección del Servidor</string>
@@ -117,9 +111,6 @@
     <string name="desc_info_panel">Mostrar un panel con detalles sobre el elemento actual para pantallas sin información detallada</string>
     <string name="lbl_enable_debug">Opciones de depuración</string>
     <string name="lbl_show_info_panel">Mostrar panel de información</string>
-    <string name="desc_sideline_color">Color del panel lateral de la categoría</string>
-    <string name="lbl_sideline_color">Color de la línea lateral</string>
-    <string name="lbl_select_color">Seleccionar Color</string>
     <string name="lbl_goto_series">Ir a Series</string>
     <string name="lbl_audio_output">Salida de Audio</string>
     <string name="pref_audio_compat">Downmix a estéreo</string>
@@ -143,7 +134,7 @@
     <string name="lbl_load_channels">"Cargar Canales "</string>
     <string name="lbl_unwatched">No visto</string>
     <string name="msg_no_playable_items">No hay elementos reproducibles</string>
-    <string name="lbl_confirm_mark_unwatched">Esto marcará todo el conteido como no visto. Esta realmente seguro\?</string>
+    <string name="lbl_confirm_mark_unwatched">Esto marcará todo el contenido como no reproducido. ¿Estás REALMENTE seguro\?</string>
     <string name="lbl_remove_dislike">Eliminar No me Gusta</string>
     <string name="lbl_unlike">Diferente a</string>
     <string name="lbl_dislike">No me gusta</string>
@@ -152,7 +143,7 @@
     <string name="lbl_add_favorite">Agregar Favorito</string>
     <string name="lbl_remove_favorite">Eliminar Favorito</string>
     <string name="lbl_mark_played">Marcar como visto</string>
-    <string name="lbl_mark_unplayed">Marcar como no visto</string>
+    <string name="lbl_mark_unplayed">Marcar No Reproducido</string>
     <string name="lbl_confirm_mark_watched">Esto marcará todo el contenido como visto. Estás seguro \?</string>
     <string name="lbl_play_first_unwatched">Reproducir Primero Lo No Visto</string>
     <string name="lbl_search_hint">Buscar texto (seleccionar por teclado)</string>
@@ -179,7 +170,6 @@
     <string name="msg_total_items_in_queue">" Total de elementos en cola"</string>
     <string name="msg_items_added">" Elemento añadido"</string>
     <string name="msg_added_item_to_queue">"Elemento añadido a la cola en la posición "</string>
-    <string name="lbl_of">de</string>
     <string name="lbl_warning">Aviso</string>
     <string name="lbl_playlists">Playlists</string>
     <string name="lbl_enable_cinema_mode">Modo Cine</string>
@@ -190,7 +180,6 @@
     <string name="lbl_artists">Artistas</string>
     <string name="lbl_albums">Álbumes</string>
     <string name="lbl_programs">Programas</string>
-    <string name="btn_ok">OK</string>
     <string name="lbl_date_added">Añadido el</string>
     <string name="lbl_name">Nombre</string>
     <string name="lbl_sorted_by">ordenado por</string>
@@ -200,7 +189,6 @@
     <string name="pref_use_direct_path_title">Pasar ruta directa</string>
     <string name="pref_external_live_tv_summary">Requiere una aplicación capaz para reproducir transmisiones en vivo</string>
     <string name="pref_external_live_tv_title">Usar reproductor externo para la televisión en vivo</string>
-    <string name="pref_use_external_player_title">Usar un reproductor externo para vídeos</string>
     <string name="lbl_song_title">Título de la canción</string>
     <string name="lbl_album_name">Nombre del álbum</string>
     <string name="lbl_next_episode">Próximo episodio</string>
@@ -306,4 +294,31 @@
     <string name="lbl_rating">Clasificación</string>
     <string name="lbl_critic_rating">Valoración crítica</string>
     <string name="lbl_premier_date">Fecha de estreno</string>
+    <string name="msg_error_signin">Ha habido un error iniciando sesión con tus credenciales guardadas.</string>
+    <string name="lbl_series_recordings">Grabaciones de Series</string>
+    <string name="lbl_audio_capabilitites">Capacidades de Audio</string>
+    <string name="lbl_ended">FINALIZADO</string>
+    <string name="lbl__continuing">CONTINUANDO</string>
+    <string name="lbl_from">desde</string>
+    <string name="msg_error_server_version">Versión de servidor no soportada. La versión del servidor debe ser %1$s o posterior.</string>
+    <string name="msg_error_server_unavailable">Servidor no disponible</string>
+    <string name="lbl_bitstream_dts">Audio Bitstream DTS</string>
+    <string name="lbl_refresh_switching">Cambio de Frecuencia de Actualización</string>
+    <string name="lbl_bitstream_ac3">Audio Bitstream Dolby Digital</string>
+    <string name="pref_alt_pw_entry">Entrada de Contraseña de D-Pad Personalizada</string>
+    <string name="lbl_new_episodes">Nuevos Episodios</string>
+    <string name="lbl_news">Noticias</string>
+    <string name="lbl_suggestions">Sugerencias</string>
+    <string name="lbl_premieres">Estrenos</string>
+    <string name="lbl_audio_delay">Restraso de Audio</string>
+    <string name="lbl_new_only">Solo Nuevo</string>
+    <string name="lbl_latest_tv_shows">Lo Mas Reciente de TV</string>
+    <string name="desc_suggestions_holiday">Intenta alguna de nuestras sugerencias festivas</string>
+    <string name="title_suggestions_holiday">¡Felices Fiestas!</string>
+    <string name="lbl_suggestions_holiday">Sugerencias Festivas</string>
+    <string name="desc_suggestions_halloween">Intenta algunas de nuestras sugerenecias espeluznantes</string>
+    <string name="title_suggestions_halloween">¡Feliz Halloween!</string>
+    <string name="lbl_suggestions_halloween">Sugerencias Espeluznante</string>
+    <string name="lbl_resume_preroll">Resumir pre-introducción</string>
+    <string name="title_activity_expanded_text">Actividad de Texto Expandido</string>
 </resources>

@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.details;
 import android.animation.Animator;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.leanback.app.RowsFragment;
+import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
@@ -56,7 +56,7 @@ public class PhotoPlayerActivity extends BaseActivity {
     boolean isPlaying;
 
     FrameLayout mPopupArea;
-    RowsFragment mPopupRowsFragment;
+    RowsSupportFragment mPopupRowsFragment;
     ArrayObjectAdapter mPopupRowAdapter;
     ListRow mThumbRow;
     PositionableListRowPresenter mPopupRowPresenter;
@@ -95,13 +95,13 @@ public class PhotoPlayerActivity extends BaseActivity {
         loadNext();
         loadPrev();
 
-        // Inject the RowsFragment in the popup container
+        // Inject the RowsSupportFragment in the popup container
         if (getFragmentManager().findFragmentById(R.id.rows_area) == null) {
-            mPopupRowsFragment = new RowsFragment();
-            getFragmentManager().beginTransaction()
+            mPopupRowsFragment = new RowsSupportFragment();
+            getSupportFragmentManager().beginTransaction()
                     .replace(R.id.rows_area, mPopupRowsFragment).commit();
         } else {
-            mPopupRowsFragment = (RowsFragment) getFragmentManager()
+            mPopupRowsFragment = (RowsSupportFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.rows_area);
         }
 

@@ -8,9 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import org.jellyfin.androidtv.BuildConfig;
 import org.jellyfin.androidtv.R;
@@ -24,15 +21,12 @@ import org.jellyfin.androidtv.playback.PlaybackManager;
 import org.jellyfin.androidtv.util.ProfileHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
-
-import java.util.ArrayList;
-
+import org.jellyfin.apiclient.interaction.AndroidConnectionManager;
+import org.jellyfin.apiclient.interaction.AndroidDevice;
 import org.jellyfin.apiclient.interaction.ApiEventListener;
 import org.jellyfin.apiclient.interaction.ConnectionResult;
 import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.interaction.AndroidConnectionManager;
-import org.jellyfin.apiclient.interaction.AndroidDevice;
 import org.jellyfin.apiclient.interaction.VolleyHttpClient;
 import org.jellyfin.apiclient.model.apiclient.ConnectionState;
 import org.jellyfin.apiclient.model.dto.UserDto;
@@ -41,7 +35,14 @@ import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 import org.jellyfin.apiclient.model.session.ClientCapabilities;
 import org.jellyfin.apiclient.model.session.GeneralCommandType;
 
-public class StartupActivity extends Activity {
+import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+
+public class StartupActivity extends FragmentActivity {
 
     private static final int NETWORK_PERMISSION = 1;
     private TvApp application;
@@ -58,7 +59,7 @@ public class StartupActivity extends Activity {
 
         //Migrate prefs
         if (Integer.parseInt(application.getConfigVersion()) < 2) {
-            application.getSystemPrefs().edit().putString("sys_pref_config_version", "2").commit();
+            application.getSystemPrefs().edit().putString("sys_pref_config_version", "2").apply();
         }
         if (Integer.parseInt(application.getConfigVersion()) < 3) {
             application.getPrefs().edit().putString("pref_max_bitrate", "0").apply();
@@ -68,6 +69,12 @@ public class StartupActivity extends Activity {
             application.getPrefs().edit().putBoolean("pref_enable_premieres", false).apply();
             application.getPrefs().edit().putBoolean("pref_enable_info_panel", false).apply();
             application.getSystemPrefs().edit().putString("sys_pref_config_version", "4").apply();
+        }
+        if (Integer.parseInt(application.getConfigVersion()) < 5) {
+            boolean useExternal = application.getPrefs().getBoolean("pref_video_use_external", false);
+
+            application.getPrefs().edit().putString("pref_video_player", useExternal ? "external" : "auto").apply();
+            application.getSystemPrefs().edit().putString("sys_pref_config_version", "5").apply();
         }
 
         //Ensure we have prefs

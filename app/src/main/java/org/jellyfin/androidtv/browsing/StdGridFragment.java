@@ -17,7 +17,8 @@ package org.jellyfin.androidtv.browsing;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import androidx.leanback.app.BackgroundManager;
@@ -73,6 +74,7 @@ import java.util.TimerTask;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 
 public class StdGridFragment extends HorizontalGridFragment implements IGridLoader {
@@ -450,7 +452,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         toolBar.addView(new ImageButton(getActivity(), R.drawable.ic_search, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TvApp.getApplication().showSearch(getActivity(), "music".equals(mFolder.getCollectionType()) || "MusicAlbum".equals(mFolder.getType()) || "MusicArtist".equals(mFolder.getType()));
+                TvApp.getApplication().showSearch(getActivity(), "music".equals(mFolder.getCollectionType()) || mFolder.getBaseItemType() == BaseItemType.MusicAlbum || mFolder.getBaseItemType() == BaseItemType.MusicArtist);
             }
         }));
 
@@ -481,7 +483,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             mPopup = new PopupWindow(layout, WIDTH, HEIGHT);
             mPopup.setFocusable(true);
             mPopup.setOutsideTouchable(true);
-            mPopup.setBackgroundDrawable(new BitmapDrawable()); // necessary for popup to dismiss
+            mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
             mPopup.setAnimationStyle(R.style.PopupSlideInTop);
 
             mJumplist = new JumpList(activity, new CharSelectedListener() {
@@ -588,8 +590,8 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             getGridPresenter().setPosition(MediaManager.getCurrentMediaPosition());
             MediaManager.setCurrentMediaPosition(-1); // re-set so it doesn't mess with parent views
         }
-        if (mCurrentItem != null && !"Photo".equals(mCurrentItem.getType()) && !"PhotoAlbum".equals(mCurrentItem.getType())
-                && !"MusicArtist".equals(mCurrentItem.getType()) && !"MusicAlbum".equals(mCurrentItem.getType())) {
+        if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemType.Photo && mCurrentItem.getBaseItemType() != BaseItemType.PhotoAlbum
+                && mCurrentItem.getBaseItemType() != BaseItemType.MusicArtist && mCurrentItem.getBaseItemType() != BaseItemType.MusicAlbum) {
             TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override

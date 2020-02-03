@@ -1,6 +1,6 @@
 package org.jellyfin.androidtv.browsing;
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import androidx.annotation.Nullable;
 import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.RowsFragment;
+import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.ClassPresenterSelector;
 import androidx.leanback.widget.HeaderItem;
@@ -60,6 +60,7 @@ import java.util.TimerTask;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 
 public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
@@ -95,7 +96,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     private SimpleTarget<Bitmap> mBackgroundTarget;
     private DisplayMetrics mMetrics;
 
-    RowsFragment mRowsFragment;
+    RowsSupportFragment mRowsFragment;
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ArrayObjectAdapter mRowsAdapter;
@@ -112,7 +113,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         super.onCreate(savedInstanceState);
         BaseItemDto item = new BaseItemDto();
         item.setId(ItemListActivity.FAV_SONGS);
-        item.setType("Playlist");
+        item.setBaseItemType(BaseItemType.Playlist);
         item.setIsFolder(true);
 
         favSongsRowItem = new BaseRowItem(0, item);
@@ -135,13 +136,13 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         mSummary.setTypeface(roboto);
         mSummary.setShadowLayer(5, 5, 5, Color.BLACK);
 
-        // Inject the RowsFragment in the results container
+        // Inject the RowsSupportFragment in the results container
         if (getChildFragmentManager().findFragmentById(R.id.rowsFragment) == null) {
-            mRowsFragment = new RowsFragment();
+            mRowsFragment = new RowsSupportFragment();
             getChildFragmentManager().beginTransaction()
                     .replace(R.id.rowsFragment, mRowsFragment).commit();
         } else {
-            mRowsFragment = (RowsFragment) getChildFragmentManager()
+            mRowsFragment = (RowsSupportFragment) getChildFragmentManager()
                     .findFragmentById(R.id.rowsFragment);
         }
 
@@ -388,8 +389,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     }
 
     private void refreshCurrentItem() {
-        if (mCurrentItem != null && !"Photo".equals(mCurrentItem.getType()) && !"MusicArtist".equals(mCurrentItem.getType())
-                && !"MusicAlbum".equals(mCurrentItem.getType()) && !"Playlist".equals(mCurrentItem.getType())) {
+        if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemType.Photo && mCurrentItem.getBaseItemType() != BaseItemType.MusicArtist
+                && mCurrentItem.getBaseItemType() != BaseItemType.MusicAlbum && mCurrentItem.getBaseItemType() != BaseItemType.Playlist) {
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override
                 public void onResponse() {

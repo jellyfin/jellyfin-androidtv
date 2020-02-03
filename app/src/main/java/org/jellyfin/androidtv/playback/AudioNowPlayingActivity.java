@@ -9,7 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.RowsFragment;
+import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
@@ -88,7 +88,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     private TextView mCurrentPos;
     private TextView mRemainingTime;
     private int mCurrentDuration;
-    private RowsFragment mRowsFragment;
+    private RowsSupportFragment mRowsFragment;
     private ArrayObjectAdapter mRowsAdapter;
     private static PositionableListRowPresenter mAudioQueuePresenter;
 
@@ -203,8 +203,6 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 MediaManager.shuffleAudioQueue();
-                                mRowsAdapter.remove(mQueueRow);
-                                addQueue();
                             }
                         })
                         .setNegativeButton(mActivity.getString(R.string.lbl_no), null)
@@ -254,13 +252,12 @@ public class AudioNowPlayingActivity extends BaseActivity  {
 
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         backgroundManager.attach(getWindow());
-        backgroundManager.setDimLayer(getDrawable(R.drawable.left_fade));
         mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
         mMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
-        mRowsFragment = new RowsFragment();
-        getFragmentManager().beginTransaction().add(R.id.rowsFragment, mRowsFragment).commit();
+        mRowsFragment = new RowsSupportFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.rowsFragment, mRowsFragment).commit();
 
         //create list background gradient
         mListBackground = mApplication.getCurrentBackgroundGradient();
@@ -382,6 +379,12 @@ public class AudioNowPlayingActivity extends BaseActivity  {
                 finish(); // entire queue removed nothing to do here
             }
         }
+
+        @Override
+        public void onQueueReplaced() {
+            mRowsAdapter.remove(mQueueRow);
+            addQueue();
+        }
     };
 
     private GotFocusEvent mainAreaFocusListener = new GotFocusEvent() {
@@ -486,7 +489,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
             for (String genre : mBaseItem.getGenres()) {
                 if (!first) InfoLayoutHelper.addSpacer(this, layout, "  /  ", 14);
                 first = false;
-                layout.addView(new GenreButton(this, roboto, 16, genre, mBaseItem.getType()));
+                layout.addView(new GenreButton(this, roboto, 16, genre, mBaseItem.getBaseItemType()));
             }
         }
     }

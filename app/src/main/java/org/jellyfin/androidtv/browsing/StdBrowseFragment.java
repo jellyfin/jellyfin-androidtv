@@ -18,7 +18,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.BrowseFragment;
+import androidx.leanback.app.BrowseSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
@@ -67,8 +67,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 
-public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
+public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoader {
     private static final String TAG = "StdBrowseFragment";
 
     private static final int BACKGROUND_UPDATE_DELAY = 100;
@@ -90,7 +91,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     private final Handler mHandler = new Handler();
     private String mBackgroundUrl;
     protected ArrayList<BrowseRowDef> mRows = new ArrayList<>();
-    CardPresenter mCardPresenter;
+    protected CardPresenter mCardPresenter;
 
     protected boolean justLoaded = true;
 
@@ -400,7 +401,7 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
     }
 
     private void refreshCurrentItem() {
-        if (mCurrentItem != null && !mCurrentItem.getType().equals("UserView") && !mCurrentItem.getType().equals("CollectionFolder")) {
+        if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemType.UserView && mCurrentItem.getBaseItemType() != BaseItemType.CollectionFolder) {
             TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override
@@ -452,9 +453,11 @@ public class StdBrowseFragment extends BrowseFragment implements IRowLoader {
             mCurrentRow = (ListRow) row;
             BaseRowItem rowItem = (BaseRowItem) item;
 
-            //mApplication.getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));
-            ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)row).getAdapter();
-            adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
+            if (((ListRow) row).getAdapter() instanceof ItemRowAdapter) {
+                //mApplication.getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));
+                ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow) row).getAdapter();
+                adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
+            }
 
             if (ShowFanart) {
                 mBackgroundUrl = rowItem.getBackdropImageUrl();

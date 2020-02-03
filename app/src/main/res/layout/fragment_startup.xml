@@ -5,7 +5,6 @@
     tools:context="org.jellyfin.androidtv.startup.StartupActivity.StartupFragment">
 
     <ImageView
-        android:id="@+id/imageView2"
         android:layout_width="300sp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -23,7 +22,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ProgressBar
-        android:id="@+id/progressBar2"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

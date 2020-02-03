@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="160sp"
@@ -19,7 +21,7 @@
             android:layout_height="wrap_content"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:id="@+id/channels"/>
+            android:id="@+id/channels" />
     </ScrollView>
 
     <org.jellyfin.androidtv.ui.ObservableScrollView
@@ -67,16 +69,23 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="30sp"
-        android:text="Medium Text"
+        tools:text="Today"
         android:id="@+id/displayDate"
         android:layout_above="@+id/programVScroller"
         android:layout_toStartOf="@+id/timelineHScroller"
         android:layout_alignParentStart="true"
         android:background="@color/timeline_bg"
         android:gravity="center"
-        android:textSize="14sp"
-        android:enabled="false"
-        android:textColor="#fafcfd" />
+        android:textSize="14sp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/backdrop"
+        android:layout_above="@+id/timelineHScroller"
+        android:layout_alignParentTop="true"
+        android:tint="@color/black_opaque"
+        android:scaleType="centerCrop" />
 
     <org.jellyfin.androidtv.ui.ClockUserView
         android:layout_width="wrap_content"
@@ -85,16 +94,7 @@
         android:layout_alignTop="@+id/title"
         android:layout_marginRight="40sp"
         android:layout_alignParentEnd="true"
-        android:alpha=".9" />
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/backdrop"
-        android:layout_above="@+id/timelineHScroller"
-        android:layout_alignParentTop="true"
-        android:alpha=".2"
-        android:scaleType="centerCrop" />
+        android:alpha=".8" />
 
     <ImageView
         android:layout_width="150sp"
@@ -242,7 +242,6 @@
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/progressBar3"
             android:layout_gravity="center"
             android:layout_below="@+id/textView9"
             android:layout_centerHorizontal="true"

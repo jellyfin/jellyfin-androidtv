@@ -1,11 +1,11 @@
 package org.jellyfin.androidtv.browsing;
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.RowsFragment;
+import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
@@ -40,7 +40,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class CustomBrowseFragment extends Fragment implements IRowLoader {
-    private RowsFragment mRowsFragment;
+    private RowsSupportFragment mRowsFragment;
     private static final int BACKGROUND_UPDATE_DELAY = 100;
 
     protected String MainTitle;
@@ -65,13 +65,13 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
 
         View root = inflater.inflate(R.layout.fragment_custom_browse, container, false);
 
-        // Inject the RowsFragment in the results container
+        // Inject the RowsSupportFragment in the results container
         if (getChildFragmentManager().findFragmentById(R.id.rows_area) == null) {
-            mRowsFragment = new RowsFragment();
+            mRowsFragment = new RowsSupportFragment();
             getChildFragmentManager().beginTransaction()
                     .replace(R.id.rows_area, mRowsFragment).commit();
         } else {
-            mRowsFragment = (RowsFragment) getChildFragmentManager()
+            mRowsFragment = (RowsSupportFragment) getChildFragmentManager()
                     .findFragmentById(R.id.rows_area);
         }
 

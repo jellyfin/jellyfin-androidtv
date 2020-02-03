@@ -2,7 +2,8 @@ package org.jellyfin.androidtv.ui;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,7 @@ public class AudioDelayPopup {
         mPopup = new PopupWindow(layout, WIDTH, HEIGHT);
         mPopup.setFocusable(true);
         mPopup.setOutsideTouchable(true);
-        mPopup.setBackgroundDrawable(new BitmapDrawable()); // necessary for popup to dismiss
+        mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
 
         mAnchor = anchor;
 
