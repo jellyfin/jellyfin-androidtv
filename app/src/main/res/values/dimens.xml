@@ -5,4 +5,7 @@
 
     <!-- StartupActivity vertical margins -->
     <dimen name="startup_vertical_margin">96dp</dimen>
+
+    <!-- Custom button style needs to set height for the parent view -->
+    <dimen name="lb_details_v2_actions_height">100dp</dimen>
 </resources>
