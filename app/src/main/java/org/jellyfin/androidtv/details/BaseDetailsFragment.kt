@@ -23,16 +23,30 @@ abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : D
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		// Create adapter
-		val selector = ClassPresenterSelector()
-		val adapter = ArrayObjectAdapter(selector)
-		onCreateAdapter(adapter, selector)
+		GlobalScope.launch(Dispatchers.Main) {
+			// Create adapter
+			val selector = ClassPresenterSelector()
+			val adapter = ArrayObjectAdapter(selector)
+			onCreateAdapter(adapter, selector)
 
-		// Set item values (todo make everything suspended?)
-		GlobalScope.launch(Dispatchers.Main) { setItem(initialItem) }
+			// Set item values (todo make everything suspended?)
+			setItem(initialItem)
+			initialItem.addChangeListener(::changeListener)
 
-		// Set adapter
-		this.adapter = adapter
+			// Set adapter
+			this@BaseDetailsFragment.adapter = adapter
+		}
+	}
+
+	override fun onDestroy() {
+		super.onDestroy()
+		initialItem.removeChangeListener(::changeListener)
+	}
+
+	private fun changeListener() {
+		GlobalScope.launch(Dispatchers.Main) {
+			setItem(initialItem)
+		}
 	}
 
 	@CallSuper
@@ -49,8 +63,6 @@ abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : D
 
 	@CallSuper
 	open suspend fun setItem(item: T) {
-		// set background 'n stuff
-
 		// Logo
 		badgeDrawable = item.images.logo?.getBitmap(context!!)?.let { BitmapDrawable(resources, it) }
 
