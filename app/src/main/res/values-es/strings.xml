@@ -186,7 +186,7 @@
     <string name="lbl_now_playing_track">%s de %s</string>
     <string name="lbl_status">%s / %s</string>
     <string name="pref_use_direct_path_summary">Pase la ruta del sistema de archivos en lugar de transmitir URL</string>
-    <string name="pref_use_direct_path_title">Pasar ruta directa</string>
+    <string name="pref_use_direct_path_title">Pasar ruta directa para reproductor externo</string>
     <string name="pref_external_live_tv_summary">Requiere una aplicación capaz para reproducir transmisiones en vivo</string>
     <string name="pref_external_live_tv_title">Usar reproductor externo para la televisión en vivo</string>
     <string name="lbl_song_title">Título de la canción</string>
@@ -321,4 +321,33 @@
     <string name="lbl_suggestions_halloween">Sugerencias Espeluznante</string>
     <string name="lbl_resume_preroll">Resumir pre-introducción</string>
     <string name="title_activity_expanded_text">Actividad de Texto Expandido</string>
+    <string name="lbl_image_type">Tipo de Imagen</string>
+    <string name="lbl_default_view">Vista por Defecto</string>
+    <string name="lbl_hd_programs">Programas HD</string>
+    <string name="lbl_repeat_episodes">Repetir Episodios</string>
+    <string name="pref_video_player_external">App Externa</string>
+    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_exoplayer">ExoPlayer</string>
+    <string name="pref_video_player_auto">Seleccionar automáticamente</string>
+    <string name="lbl_my_media">Mis Medios</string>
+    <string name="lbl_image_size">Tamaño de Imagen</string>
+    <string name="lbl_start_favorites">Poner Favoritos al Inicio</string>
+    <string name="lbl_colored_backgrounds">Fondos codificados con colores</string>
+    <string name="lbl_live_broadcasts">Emisiones en directo</string>
+    <string name="acra_dialog_text">¿Te gustaría enviar un informe de fallos a los desarrolladores\?
+\n
+\nEsta información será enviada a un tercero (tracepot.com).
+\n
+\nEsta sugerencia se puede deshabilitar en la sección Informes de Fallos en los Ajustes de la app Jellyfin.</string>
+    <string name="acra_dialog_title">¡Oh, no! Algo fue mal.</string>
+    <string name="pref_acra_syslog_disabled">No se incluirán logs del sistema en los informes de fallos</string>
+    <string name="pref_acra_syslog_enabled">Se incluirán logs del sistema en los informes de fallos</string>
+    <string name="pref_acra_syslog">Incluir logs del sistema en los informes de fallos. Esto puede incluir información privada de otras aplicaciones si fue registrada en el momento del fallo.</string>
+    <string name="pref_acra_alwaysaccept_disabled">Se mostrará un diálogo antes de enviar cualquier informe de fallos</string>
+    <string name="pref_acra_alwaysaccept_enabled">Los informes de fallos serán enviados sin pedir confirmación</string>
+    <string name="pref_acra_alwaysaccept">Enviar informes de fallos sin pedir confirmación</string>
+    <string name="pref_acra_disabled">Los informes de fallos no serán enviados</string>
+    <string name="pref_acra_enabled">Se le pedirá enviar el informe de fallos</string>
+    <string name="pref_enable_acra">Enviar informe de fallos a los desarrolladores</string>
+    <string name="pref_acra_category">Informe de fallos</string>
 </resources>
