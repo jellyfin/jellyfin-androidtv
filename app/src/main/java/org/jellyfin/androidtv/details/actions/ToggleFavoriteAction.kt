@@ -19,9 +19,13 @@ class ToggleFavoriteAction(context: Context, val item: BaseItem) : ToggleAction(
 		GlobalScope.launch(Dispatchers.Main) {
 			val apiClient = TvApp.getApplication().apiClient
 
-			apiClient.updateFavoriteStatus(item.id, TvApp.getApplication().currentUser.id, !item.favorite)
-
-			item.favorite = !item.favorite
+			apiClient.updateFavoriteStatus(
+				item.id,
+				TvApp.getApplication().currentUser.id,
+				!item.favorite
+			)?.let {
+				item.favorite = it.isFavorite
+			}
 		}
 	}
 }
