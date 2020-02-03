@@ -21,6 +21,8 @@ class ToggleWatchedAction(context: Context, val item: PlayableItem) : BaseAction
 
 			if (item.played) apiClient.markUnplayed(item.id, TvApp.getApplication().currentUser.id)
 			else apiClient.markPlayed(item.id, TvApp.getApplication().currentUser.id, null)
+
+			item.played = !item.played
 		}
 	}
 }
