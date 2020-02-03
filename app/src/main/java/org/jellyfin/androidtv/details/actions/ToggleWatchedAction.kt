@@ -10,9 +10,10 @@ import org.jellyfin.androidtv.model.itemtypes.PlayableItem
 import org.jellyfin.androidtv.util.apiclient.markPlayed
 import org.jellyfin.androidtv.util.apiclient.markUnplayed
 
-class ToggleWatchedAction(context: Context, val item: PlayableItem) : BaseAction(ActionID.TOGGLE_WATCHED.id, context) {
+class ToggleWatchedAction(context: Context, val item: PlayableItem) : ToggleAction(ActionID.TOGGLE_WATCHED.id, context) {
 	init {
-		label1 = context.getString(if (item.played) R.string.lbl_mark_unplayed else R.string.lbl_mark_played)
+		active = item.played
+		label1 = context.getString(R.string.lbl_watched)
 	}
 
 	override fun onClick() {
