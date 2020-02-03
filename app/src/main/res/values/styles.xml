@@ -49,4 +49,9 @@
     <style name="Widget.Jellyfin.BrowseHeaders" parent="Widget.Leanback.Headers.VerticalGridView">
         <item name="android:background">@drawable/noise</item>
     </style>
+
+    <style name="ActionButton" parent="Widget.Leanback.DetailsActionButtonStyle">
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
 </resources>
