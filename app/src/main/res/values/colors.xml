@@ -38,4 +38,6 @@
     <color name="guide_sports_bg">#323949AB</color>
     <color name="guide_news_bg">#3243A047</color>
     <color name="guide_kids_bg">#32039BE5</color>
+
+    <color name="action_active">#FFCC3333</color>
 </resources>
