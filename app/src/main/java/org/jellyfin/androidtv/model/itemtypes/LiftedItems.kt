@@ -16,11 +16,13 @@ sealed class BaseItem(original: BaseItemDto) : ObservableParent() {
 }
 
 sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
-	val playbackPositionTicks: Long = original.userData.playbackPositionTicks
-	val canResume: Boolean = original.canResume && playbackPositionTicks > 0
+	var playbackPositionTicks: Long by Delegates.observable(original.userData.playbackPositionTicks, ::observer)
 	val mediaInfo = MediaInfo(original.mediaSources, original.mediaStreams)
 	val chapters: List<ChapterInfoDto> = original.chapters
 	var played: Boolean by Delegates.observable(original.userData.played, ::observer)
+
+	val canResume: Boolean
+		get() = playbackPositionTicks > 0L
 }
 
 class Episode(original: BaseItemDto) : PlayableItem(original) {
