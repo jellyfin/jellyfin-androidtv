@@ -338,4 +338,18 @@
     <string name="pref_acra_enabled">Budete vyzvaný k odoslaniu hlásenia chýb</string>
     <string name="pref_enable_acra">Odoslať hlásenie chýb vývojárom</string>
     <string name="pref_acra_category">Hlásenie chýb</string>
+    <string name="pref_video_player_external">Externá appka</string>
+    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_exoplayer">ExoPlayer</string>
+    <string name="pref_video_player_auto">Vybrať automaticky</string>
+    <string name="lbl_my_media">Moje médiá</string>
+    <string name="acra_dialog_text">Chceli by ste zasielať chybové hlásenia vývojárom\?
+\n
+\nTáto informácia bude poskytnutá tretej strane (tracepot.com).
+\n
+\nTáto výzva sa dá zakázať v sekcií Chybové hlásenia v nastavení Jellyfin aplikácie.</string>
+    <string name="acra_dialog_title">Ale nie! Niečo sa pokazilo.</string>
+    <string name="pref_acra_syslog_disabled">Systémové logy nebudú zahrnuté v chybovom hlásení</string>
+    <string name="pref_acra_syslog_enabled">Systémové logy budú zahrnuté v chybovom hlásení</string>
+    <string name="pref_acra_syslog">Zahrnúť systémové logy v chybovom hlásení. Toto môže zahŕňať súkromné dáta z ostatných aplikácií, pokiaľ bola zalogovaná v dobe zlyhania.</string>
 </resources>
