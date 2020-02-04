@@ -20,6 +20,7 @@ import org.jellyfin.apiclient.model.dto.ChapterInfoDto;
 import org.jellyfin.apiclient.model.dto.ImageOptions;
 import org.jellyfin.apiclient.model.entities.ImageType;
 import org.jellyfin.apiclient.model.entities.LocationType;
+import org.jellyfin.apiclient.model.entities.PersonType;
 import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 
@@ -98,10 +99,10 @@ public class BaseItemUtils {
         return builder.toString();
     }
 
-    public static BaseItemPerson getFirstPerson(BaseItemDto item, String type) {
+    public static BaseItemPerson getFirstPerson(BaseItemDto item, PersonType searchedType) {
         if (item.getPeople() != null && item.getPeople().length > 0) {
             for (BaseItemPerson person : item.getPeople()) {
-                if (type.equals(person.getType())) {
+                if (person.getPersonType() == searchedType) {
                     return person;
                 }
             }
