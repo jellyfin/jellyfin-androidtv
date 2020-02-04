@@ -41,8 +41,8 @@ dependencies {
     // The split allows dependency substitution to work in the settings.gradle file,
     // at least for the 'library' part. 'android' part is still broken somehow, but this
     // is better than nothing.
-    implementation 'com.github.jellyfin.jellyfin-apiclient-java:android:master-SNAPSHOT'
-    implementation 'com.github.jellyfin.jellyfin-apiclient-java:library:master-SNAPSHOT'
+    implementation 'com.github.jellyfin.jellyfin-apiclient-java:android:0.5.0'
+    implementation 'com.github.jellyfin.jellyfin-apiclient-java:library:0.5.0'
     implementation 'com.amazon.android:exoplayer:2.10.6'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.leanback:leanback:1.0.0'
