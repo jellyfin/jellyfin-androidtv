@@ -95,4 +95,27 @@
     <string name="loading">Ładowanie…</string>
     <string name="video_error_unknown_error">Nie udało się załadować video</string>
     <string name="play">Odtwórz</string>
+    <string name="lbl_tv_queuing">Dodaj do kolejki wszystkie dalsze odcinki</string>
+    <string name="lbl_empty">Pusty</string>
+    <string name="lbl_no_items">Brak elementów</string>
+    <string name="msg_cannot_play">Dany obiekt nie może zostać odtworzony</string>
+    <string name="msg_cannot_play_time">Nie można odtworzyć tego elementu</string>
+    <string name="lbl_never">Nigdy</string>
+    <string name="msg_playback_incompatible">Nie można odtworzyć tego formatu pliku video</string>
+    <string name="msg_playback_restricted">Administrator ograniczył odtwarzanie danego elementu</string>
+    <string name="msg_playback_not_allowed">Odtwarzanie nie dozwolone</string>
+    <string name="lbl_born">"Urodzony/a "</string>
+    <string name="msg_error_signin">Wystąpił błąd podczas logowania przy użyciu zapisanych danych uwierzytelniających.</string>
+    <string name="msg_access_restricted">Dostęp ograniczony</string>
+    <string name="lbl_min">" min"</string>
+    <string name="lbl_sd">SD</string>
+    <string name="msg_not_implemented">" niezaimplementowane"</string>
+    <string name="lbl_coming_up">Nadchodzące</string>
+    <string name="pref_playback">Odtwarzanie</string>
+    <string name="title_activity_select_user">Wybierz aktywność użytkownika</string>
+    <string name="dpad_pw_cancel">Jeżeli posiadasz hasło alpha lub potrzebujesz użyć klawiatury * naciśnij i przytrzymaj przycisk \'down\' przez 1 sekundę a następnie puść</string>
+    <string name="pref_alt_pw_entry_desc">Hasło numeryczne przy użyciu tylko kierunków D-Pad</string>
+    <string name="pref_alt_pw_entry">Własne hasło D-Pad</string>
+    <string name="pref_max_bitrate_title">Maksymalna przepływność transmisji</string>
+    <string name="pref_login_behavior_title">Czynności przy uruchomieniu</string>
 </resources>
