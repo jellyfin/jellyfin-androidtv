@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_activity_dpad_pw">Írja be jelszavát</string>
+    <string name="pref_prompt_pw">Jelszóablak</string>
+    <string name="pref_authentication_cat">Azonosítás</string>
+    <string name="settings_title">Beállítások</string>
+    <string name="pref_auto_login">Automatikus bejelentkezés ezen felhasználóval</string>
+    <string name="pref_max_bitrate_title">Maximális bitráta</string>
+    <string name="pref_playback">Lejátszás</string>
+    <string name="pref_show_login">Bejelentkezési képernyő megjelenítése</string>
+    <string name="pref_login_behavior_title">Indításkor történjen</string>
+    <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="btn_cancel">Mégsem</string>
+    <string name="home_title">Kezdőlap</string>
+    <string name="txt_loading">Betöltés…</string>
+    <string name="loading">Betöltés…</string>
+    <string name="video_error_unknown_error">Nem sikerült betölteni a videót</string>
+    <string name="play">Lejátszás</string>
+</resources>

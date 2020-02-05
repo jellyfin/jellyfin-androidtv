@@ -17,8 +17,8 @@
     <string name="pref_alt_pw_entry_desc">Entrada de senha numérica usando apenas os direcionais</string>
     <string name="title_activity_dpad_pw">Digitar Senha</string>
     <string name="enter_password">Digitar Senha</string>
-    <string name="dpad_entry_desc">Use os botões direcionais no seu controle remoto para digitar uma senha numérica. Clique em um botão para o primeiro número listado ou clique duas vezes para o segundo. Por exemplo, clique na tecla \'para cima\' para 1 ou clique duas vezes \'selecionar\' para 5. Pressione por 1 segundo e solte o botão \'selecionar\' quando terminar ou o botão esquerdo para reiniciar.</string>
-    <string name="dpad_pw_cancel">* Pressione o botão \'para baixo\' por 1 segundo e solte se possuir uma senha alfanumérica ou necessitar um teclado</string>
+    <string name="dpad_entry_desc">Use os botões direcionais no seu controle remoto para digitar uma senha numérica. Clique uma vez em um botão para o primeiro número listado ou clique duas vezes para o segundo. Por exemplo, clique na tecla \'para cima\' para 1 ou clique duas vezes em \'selecionar\' para 5. Pressione por 1 segundo e solte o botão \'selecionar\' quando terminar ou o botão esquerdo para recomeçar.</string>
+    <string name="dpad_pw_cancel">* Pressione o botão \'para baixo\' por 1 segundo e solte se possuir uma senha alfanumérica ou necessitar de um teclado</string>
     <string name="chapters">Capítulos</string>
     <string name="pref_auto_logoff_title">Tempo Esgotado para Sair Automaticamente</string>
     <string name="pref_general">Geral</string>
@@ -68,7 +68,7 @@
     <string name="lbl_items">Itens</string>
     <string name="lbl_item">Item</string>
     <string name="lbl_seasons">Temporadas</string>
-    <string name="lbl_upcoming">Em Breve</string>
+    <string name="lbl_upcoming">A Seguir</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">Duração</string>
     <string name="lbl_min">" min"</string>
@@ -140,7 +140,7 @@
     <string name="msg_will_record">Irá Gravar</string>
     <string name="lbl_begin_padding">Padding de Início</string>
     <string name="lbl_program_ended">Programa Encerrado</string>
-    <string name="lbl_end_padding">Padding de Término (mins)</string>
+    <string name="lbl_end_padding">Padding de Término</string>
     <string name="lbl_similar_items_library">Itens Similares em sua Biblioteca</string>
     <string name="lbl_record_any_channel">Gravar em qualquer canal</string>
     <string name="lbl_record_any_time">Gravar a qualquer hora</string>
@@ -299,7 +299,7 @@
     <string name="pref_authentication_cat">Autenticação</string>
     <string name="play">Reproduzir</string>
     <string name="lbl_series">Séries</string>
-    <string name="lbl_just_this_once">Apenas desta vez</string>
+    <string name="lbl_just_this_once">Só desta vez</string>
     <string name="pref_use_direct_path_title">Enviar Local Direto</string>
     <string name="lbl_resume_preroll">Continuar Lançamentos</string>
     <string name="lbl_status">%s / %s</string>

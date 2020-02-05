@@ -12,7 +12,7 @@
     <string name="pref_max_bitrate_title">最大串流码率</string>
     <string name="pref_auto_login">自动以此用户登录</string>
     <string name="settings_title">设置</string>
-    <string name="pref_prompt_pw">密码提示</string>
+    <string name="pref_prompt_pw">忘记密码</string>
     <string name="title_activity_dpad_pw">输入密码</string>
     <string name="enter_password">输入密码</string>
     <string name="dpad_entry_desc">请使用遥控器输入数字密码. 单击按钮可输入列出的第一个数字, 双击按钮可输入列出的第二个数字. 例如, 单击 \'向上\' 键则输入 1, 双击 \'选择\' 键则输入 5. 将 \'选择\' 键按住一秒则输入完毕, 将 \'向左\' 键按住一秒则重新输入.</string>
@@ -114,7 +114,7 @@
     <string name="lbl_add_favorite">添加我的最爱</string>
     <string name="lbl_remove_favorite">移除我的最爱</string>
     <string name="lbl_mark_played">标记已播放</string>
-    <string name="lbl_mark_unplayed">标记未播放</string>
+    <string name="lbl_mark_unplayed">标记为未播放</string>
     <string name="lbl_confirm_mark_watched">这将把所有内容标记为已观看。你确定要执行此操作吗\?</string>
     <string name="lbl_play_first_unwatched">播放未观看中的第一部影片</string>
     <string name="lbl_search_hint">搜索文本(选择键盘)</string>
@@ -148,7 +148,7 @@
     <string name="pref_audio_compat">混合立体声</string>
     <string name="lbl_on">上</string>
     <string name="pref_use_direct_path_summary">传递文件系统路径而不是流的URL</string>
-    <string name="pref_use_direct_path_title">通过直接路径</string>
+    <string name="pref_use_direct_path_title">通过外部播放器的直接路径</string>
     <string name="pref_external_live_tv_summary">需要一个有能力的应用程序播放直播流</string>
     <string name="pref_external_live_tv_title">使用外部播放器播放电视直播</string>
     <string name="lbl_song_title">歌曲标题</string>
@@ -329,4 +329,23 @@
     <string name="lbl_audio_delay">音频延迟</string>
     <string name="lbl_new_only">只有新的</string>
     <string name="lbl_news">新闻</string>
+    <string name="pref_video_player_external">外部应用</string>
+    <string name="pref_video_player_auto">自动选择</string>
+    <string name="lbl_my_media">我的媒体</string>
+    <string name="acra_dialog_text">您要向开发人员发送崩溃报告吗？
+\n
+\n该信息将被提交给第三方（tracepot.com）。
+\n
+\n可以在Jellyfin应用程序的“设置”的“崩溃报告”部分中禁用此提示。</string>
+    <string name="acra_dialog_title">不好了！ 有些不对劲。</string>
+    <string name="pref_acra_syslog_disabled">系统日志将不包含在崩溃报告中</string>
+    <string name="pref_acra_syslog_enabled">系统日志将包含在崩溃报告中</string>
+    <string name="pref_acra_syslog">在崩溃报告中包括系统日志。 如果它是在崩溃时记录的，则这可能包括来自其他应用程序的私人数据。</string>
+    <string name="pref_acra_alwaysaccept_disabled">提交任何崩溃报告之前将显示一个对话框</string>
+    <string name="pref_acra_alwaysaccept_enabled">崩溃报告将在不提示的情况下提交</string>
+    <string name="pref_acra_alwaysaccept">提交崩溃报告而不提示</string>
+    <string name="pref_acra_disabled">崩溃报告将不会提交</string>
+    <string name="pref_acra_enabled">系统将提示您提交崩溃报告</string>
+    <string name="pref_enable_acra">发送崩溃报告给开发人员</string>
+    <string name="pref_acra_category">崩溃报告</string>
 </resources>

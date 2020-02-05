@@ -137,15 +137,15 @@
         android:layout_alignRight="@+id/guideInfoRow" />
 
     <TextView
+        android:id="@+id/channelsStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/channelsStatus"
-        android:layout_alignStart="@+id/programImage"
+        android:layout_alignStart="@id/guideCurrentTitle"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="2sp"
         android:layout_marginLeft="2sp"
-        android:textSize="12sp"
-        android:textColor="@color/gray_gradient_end" />
+        android:layout_marginBottom="2sp"
+        android:textColor="@color/gray_gradient_end"
+        android:textSize="12sp" />
 
     <TextView
         android:layout_width="wrap_content"

@@ -2,14 +2,14 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="video_error_unknown_error">Kunne ikke laste video</string>
     <string name="txt_loading">Laster inn…</string>
-    <string name="title_activity_select_user">VelgBrukerAktiviteter</string>
+    <string name="title_activity_select_user">SelectUserActivity</string>
     <string name="home_title">Hjem</string>
     <string name="btn_cancel">Avbryt</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ</string>
     <string name="pref_login_behavior_title">Oppførsel ved oppstart</string>
     <string name="pref_show_login">Vis innloggingskjerm</string>
     <string name="pref_playback">Avspilling</string>
-    <string name="pref_max_bitrate_title">Maks strømmingsbitrate</string>
+    <string name="pref_max_bitrate_title">Maks bithastighet på strømming</string>
     <string name="pref_auto_login">Logg inn som denne brukeren automatisk</string>
     <string name="settings_title">Innstillinger</string>
     <string name="pref_prompt_pw">Spør om passord</string>
@@ -20,7 +20,7 @@
     <string name="dpad_entry_desc">Bruk D-padden på fjernkontrollen for å taste inn et numerisk passord. Enkelt-trykk på en knapp for det første listede nummeret eller dobbelt-trykk for det andre. F.eks. enkelt-trykk \"opp\" for 1 eller dobbel-klikk \"select\" for 5. Hold nede og slipp \"select\"-knappen etter ett sekund når du er klar, eller venstre-knappen for å starte på nytt.</string>
     <string name="dpad_pw_cancel">* Hold nede \"ned\"-knappen i ett sekund og slipp hvis du har et alfanumerisk passord eller trenger et tastatur til å skrive</string>
     <string name="chapters">Kapitler</string>
-    <string name="pref_auto_logoff_title">Logg med ut automatisk tidsavbrudd</string>
+    <string name="pref_auto_logoff_title">Tidsavbrudd for automatisk avlogging</string>
     <string name="pref_general">Generelt</string>
     <string name="lbl_settings">Innstillinger</string>
     <string name="lbl_logout">Logg ut</string>
@@ -28,7 +28,7 @@
     <string name="lbl_continue_watching">Fortsett å se</string>
     <string name="lbl_latest_movies">Siste filmer</string>
     <string name="lbl_next_up">Neste</string>
-    <string name="lbl_next_up_tv">Neste serie</string>
+    <string name="lbl_next_up_tv">Neste på TV</string>
     <string name="lbl_on_now">Vises nå</string>
     <string name="lbl_views">Visninger</string>
     <string name="lbl_by_letter">Etter bokstav</string>
@@ -40,7 +40,7 @@
     <string name="lbl_latest">Siste</string>
     <string name="lbl_by_name">Etter navn</string>
     <string name="lbl_favorites">Favoritter</string>
-    <string name="lbl_coming_up">Neste</string>
+    <string name="lbl_coming_up">Nestkommende</string>
     <string name="lbl_favorite_channels">Favorittkanaler</string>
     <string name="lbl_other_channels">Andre kanaler</string>
     <string name="lbl_collections">Samlinger</string>
@@ -57,11 +57,11 @@
     <string name="lbl_cancel_series">Avbryt serie</string>
     <string name="lbl_record_series">Ta opp serien</string>
     <string name="lbl_record">Ta opp</string>
-    <string name="msg_set_to_record">Programopptak satt</string>
+    <string name="msg_set_to_record">Opptak av program aktivert</string>
     <string name="msg_unable_to_create_recording">Kunne ikke opprette opptak</string>
     <string name="msg_recording_cancelled">Opptak avbrutt</string>
     <string name="msg_unable_to_cancel">Kunne ikke avbryte opptak</string>
-    <string name="lbl_cast_crew">Skuespillere/Crew</string>
+    <string name="lbl_cast_crew">Skuespillere/Mannskap</string>
     <string name="lbl_chapters">Kapitler</string>
     <string name="lbl_specials">Spesial</string>
     <string name="lbl_trailers">Trailere</string>
@@ -89,7 +89,7 @@
     <string name="lbl_none">Ingen</string>
     <string name="msg_video_playback_error">"Feil under videoavspilling - "</string>
     <string name="lbl_bracket_unknown"><![CDATA[<Ukjent>]]></string>
-    <string name="msg_access_restricted">Tilgang begrenset på dette tidspunktet</string>
+    <string name="msg_access_restricted">Tilgang er begrenset på dette tidspunktet</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_play_trailers">Spill av trailer(e)</string>
     <string name="lbl_please_wait">Vennligst vent</string>
@@ -107,7 +107,7 @@
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Født "</string>
     <string name="lbl_loading_elipses">Laster inn...</string>
-    <string name="msg_playback_not_allowed">Avspilling er for øyebilikket ikke tillatt</string>
+    <string name="msg_playback_not_allowed">Avspilling er for øyeblikket ikke tillatt</string>
     <string name="msg_playback_restricted">Administratoren har begrenset avspilling av dette elementet for tiden</string>
     <string name="msg_playback_incompatible">Kan ikke spille av dette videoformatet</string>
     <string name="lbl_never">Aldri</string>
@@ -128,7 +128,7 @@
     <string name="lbl_dislike">Misliker</string>
     <string name="lbl_unlike">Fjern liker</string>
     <string name="lbl_remove_dislike">Fjern misliker</string>
-    <string name="lbl_confirm_mark_unwatched">Dette vil merke alt innhold som sett. Er du HELT sikker\?</string>
+    <string name="lbl_confirm_mark_unwatched">Dette vil merke alt innhold som usett. Er du HELT sikker\?</string>
     <string name="msg_no_playable_items">Ingen spillbare elementer</string>
     <string name="lbl_unwatched">Usett</string>
     <string name="lbl_series">Serier</string>
@@ -153,7 +153,7 @@
     <string name="pref_audio_compat">Miks ned til stereo</string>
     <string name="lbl_audio_output">Lydutgang</string>
     <string name="lbl_goto_series">Gå til serie</string>
-    <string name="lbl_show_info_panel">Vis infofrasjonspanel</string>
+    <string name="lbl_show_info_panel">Vis informasjonspanel</string>
     <string name="lbl_enable_debug">Feilsøkingsvalg</string>
     <string name="desc_info_panel">Vis et panel med detaljer om gjeldende element på skjermer uten detaljert informasjon</string>
     <string name="desc_debug">Bidra med ekstra informasjon for feilsøking</string>
@@ -224,10 +224,10 @@
     <string name="desc_seasonal_themes">Vis spesielle farger og forslag til visse tider av året</string>
     <string name="desc_automatic_fav_songs">Automatisk spilleliste av favoritt- og likte sanger</string>
     <string name="lbl_switch_server">Bytt server</string>
-    <string name="pref_use_direct_path_summary">Send over plasseringen på filsystemet i stedet for streaming-URLen</string>
-    <string name="pref_use_direct_path_title">Send filbanen direkte</string>
+    <string name="pref_use_direct_path_summary">Send over plasseringen på filsystemet i stedet for strømme-URLen</string>
+    <string name="pref_use_direct_path_title">Send nettverksbane til ekstern avspiller</string>
     <string name="pref_external_live_tv_summary">Krever en støttet app for å spille av direktestrømmer</string>
-    <string name="pref_external_live_tv_title">Bruk eksterm spiller for direkte-TV</string>
+    <string name="pref_external_live_tv_title">Bruk ekstern spiller for direkte-TV</string>
     <string name="lbl_song_title">Låtnavn</string>
     <string name="lbl_album_name">Albumnavn</string>
     <string name="lbl_next_episode">Neste episode</string>
@@ -273,7 +273,7 @@
     <string name="lbl_bitstream_dts">Bitstream DTS-lyd</string>
     <string name="desc_premieres">Vis en rad med nye pilotepisoder for alle serier du ser på</string>
     <string name="lbl_show_premieres">Vis sesongpremierer på hovedskjermen</string>
-    <string name="lbl_refresh_switching">Bytte av bildefrekvens</string>
+    <string name="lbl_refresh_switching">Bytte av oppdateringfrekvens</string>
     <string name="desc_use_vlc_livetv">Bruk VLC for strømming av direkte-TV når mulig</string>
     <string name="lbl_use_vlc_livetv">Prøv å bruke VLC for direkte-TV</string>
     <string name="lbl_show_backdrop">Vis bakgrunnsgrafikk mens jeg blar</string>
@@ -304,4 +304,50 @@
     <string name="pref_authentication_cat">Autentisering</string>
     <string name="loading">Laster inn…</string>
     <string name="play">Spill av</string>
+    <string name="lbl_image_size">Bildestørrelse</string>
+    <string name="lbl_image_type">Bildetype</string>
+    <string name="lbl_default_view">Standardvisning</string>
+    <string name="lbl_start_favorites">Plasser favoritter i starten</string>
+    <string name="lbl_colored_backgrounds">Fargekodede bakgrunner</string>
+    <string name="lbl_hd_programs">HD Programmer</string>
+    <string name="lbl_live_broadcasts">Direktesendinger</string>
+    <string name="lbl_repeat_episodes">Gjenta episoder</string>
+    <string name="lbl_premieres">Premierer</string>
+    <string name="lbl_new_episodes">Nye episoder</string>
+    <string name="lbl_audio_delay">Lydforsinkelse</string>
+    <string name="lbl_new_only">Kun nye</string>
+    <string name="lbl_news">Nyheter</string>
+    <string name="lbl_latest_tv_shows">Nyeste fjernsynsprogrammer</string>
+    <string name="desc_suggestions_holiday">Prøv noen av våre ferieforslag</string>
+    <string name="title_suggestions_holiday">Gledelig høytid!</string>
+    <string name="lbl_suggestions_holiday">Høytidsforslag</string>
+    <string name="desc_suggestions_halloween">Prøv noen av våre skumle forslag</string>
+    <string name="title_suggestions_halloween">God Halloween!</string>
+    <string name="lbl_suggestions_halloween">Skumle forslag</string>
+    <string name="lbl_suggestions">Forslag</string>
+    <string name="msg_error_server_version">Serverversjonen er ikke støttet. Må være minst %1$s.</string>
+    <string name="msg_error_server_unavailable">Serveren er utilgjengelig</string>
+    <string name="title_activity_expanded_text">ExpandedTextActivity</string>
+    <string name="msg_error_signin">Det oppstod en feil ved innlogging med dine lagrede opplysninger.</string>
+    <string name="pref_video_player_external">Ekstern app</string>
+    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_exoplayer">ExoPlayer</string>
+    <string name="pref_video_player_auto">Velg automatisk</string>
+    <string name="lbl_my_media">Min media</string>
+    <string name="acra_dialog_text">Ønsker du å sende en feilrapport til utviklerne\?
+\n
+\nDenne informasjonen vil bli sendt til en tredjepart (tracepot.com).
+\n
+\nDette spørsmålet kan deaktiveres i Feilrapportering-delen i Jellyfin-appens innstillinger.</string>
+    <string name="acra_dialog_title">Å nei! Noe gikk galt.</string>
+    <string name="pref_acra_syslog_disabled">Systemlogger vil ikke bli inkludert i feilrapporter</string>
+    <string name="pref_acra_syslog_enabled">Systemlogger vil bli inkludert i feilrapporter</string>
+    <string name="pref_acra_syslog">Inkluder systemlogger i feilrapporter. Dette kan omfatte private data fra andre applikasjoner hvis de ble logget på samme tidspunkt som feilen.</string>
+    <string name="pref_acra_alwaysaccept_disabled">En dialog vil vises før innsending av noen feilrapport</string>
+    <string name="pref_acra_alwaysaccept_enabled">Feilrapporter vil bli sendt inn uten at du blir spurt</string>
+    <string name="pref_acra_alwaysaccept">Send inn feilrapporter uten å spørre</string>
+    <string name="pref_acra_disabled">Feilrapporter vil ikke bli sendt inn</string>
+    <string name="pref_acra_enabled">Du vil bli spurt om å sende inn feilrapporter</string>
+    <string name="pref_enable_acra">Send feilrapporter til utviklerne</string>
+    <string name="pref_acra_category">Feilrapportering</string>
 </resources>

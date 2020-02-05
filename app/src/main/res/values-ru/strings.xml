@@ -287,7 +287,7 @@
     <string name="lbl_status">%s / %s</string>
     <string name="title_activity_expanded_text">ExpandedTextActivity</string>
     <string name="pref_use_direct_path_summary">Выводить путь в файловой системе вместо URL потока</string>
-    <string name="pref_use_direct_path_title">Прямой вывод</string>
+    <string name="pref_use_direct_path_title">Прямой вывод на внешний проигрыватель</string>
     <string name="pref_external_live_tv_summary">Требуется совместимое приложение для воспроизведения эфирных трансляций</string>
     <string name="lbl_more_like_this">Ещё подобное этому</string>
     <string name="lbl_resume_preroll">Откат для возобновления</string>
@@ -329,4 +329,25 @@
     <string name="lbl_news">Новости</string>
     <string name="lbl_latest_tv_shows">Новейшие ТВ-передачи</string>
     <string name="lbl_live_broadcasts">Прямые трансляции</string>
+    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_acra_syslog">Включать системные журналы в отчёты о сбоях. Они могут включать персональные данные из других приложений, если они были записаны во время сбоя.</string>
+    <string name="pref_video_player_external">Внешнее приложение</string>
+    <string name="pref_video_player_exoplayer">ExoPlayer</string>
+    <string name="pref_video_player_auto">Автоматический выбор</string>
+    <string name="lbl_my_media">Мои медиаданные</string>
+    <string name="acra_dialog_title">О нет! Что-то не так.</string>
+    <string name="acra_dialog_text">Вы желаете отправлять разработчикам отчёт о сбое\?
+\n
+\nЭта информация будет отправлена третьей стороне (tracepot.com).
+\n
+\nЭто предложение может быть отключено в разделе Отчё о сбое в Параметрах Jellyfin-приложения.</string>
+    <string name="pref_acra_syslog_disabled">Системные журналы не будут включены в отчёты о сбоях</string>
+    <string name="pref_acra_syslog_enabled">Системные журналы будут включены в отчёты о сбоях</string>
+    <string name="pref_acra_alwaysaccept_disabled">Будет показано диалоговое окно перед отправкой любого отчёта о сбое</string>
+    <string name="pref_acra_alwaysaccept_enabled">Отчёты о сбоях будут отправляться без предупреждения</string>
+    <string name="pref_acra_alwaysaccept">Отправлять отчёты о сбоях без предупреждения</string>
+    <string name="pref_acra_disabled">Отчёты о сбоях не будут отправляться</string>
+    <string name="pref_acra_enabled">Вам будет предложено отправлять отчёты о сбоях</string>
+    <string name="pref_enable_acra">Отправка разработчикам отчёта о сбое</string>
+    <string name="pref_acra_category">Отчёт о сбое</string>
 </resources>
