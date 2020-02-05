@@ -71,6 +71,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private long mForcedTime = -1;
     private long mLastTime = -1;
     private long mMetaDuration = -1;
+    private long lastExoPlayerPosition = -1;
 
     private boolean nativeMode = false;
     private boolean mSurfaceReady = false;
@@ -171,8 +172,15 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public long getCurrentPosition() {
-        if (mExoPlayer == null) return 0;
-        if (nativeMode) return mExoPlayer.getCurrentPosition();
+        if (nativeMode) {
+            if (mExoPlayer == null) {
+                return lastExoPlayerPosition;
+            } else {
+                long mExoPlayerCurrentPosition = mExoPlayer.getCurrentPosition();
+                lastExoPlayerPosition = mExoPlayerCurrentPosition;
+                return mExoPlayerCurrentPosition;
+            }
+        }
 
         if (mVlcPlayer == null) return 0;
 
