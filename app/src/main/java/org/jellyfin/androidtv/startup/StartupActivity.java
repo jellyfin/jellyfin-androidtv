@@ -77,6 +77,11 @@ public class StartupActivity extends FragmentActivity {
             application.getSystemPrefs().edit().putString("sys_pref_config_version", "5").apply();
         }
 
+        if (Integer.parseInt(application.getConfigVersion()) < 6) {
+                application.getPrefs().edit().putBoolean("acra.enable", true).apply();
+                application.getSystemPrefs().edit().putString("sys_pref_config_version", "6").apply();
+        }
+
         //Ensure we have prefs
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
