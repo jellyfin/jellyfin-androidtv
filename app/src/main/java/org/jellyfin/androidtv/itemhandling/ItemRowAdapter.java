@@ -861,12 +861,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);
-                    if (itemsLoaded > 0 && mParent != null) {
-                        mParent.add(mRow);
-                    }
                 }
 
                 currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
 
             @Override
@@ -874,9 +872,16 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 TvApp.getApplication().getLogger().ErrorException("Error retrieving search results", exception);
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
         });
 
+    }
+
+    public void addToParentIfResultsReceived() {
+        if (itemsLoaded > 0 && mParent != null) {
+            mParent.add(mRow);
+        }
     }
 
     public void GetResultSizeAsync(final Response<Integer> outerResponse) {
@@ -1268,11 +1273,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 if (response.getItems() != null && response.getItems().length > 0) {
                     int i = 0;
                     int prevItems = adapter.size() > 0 ? adapter.size() : 0;
-                    if (query.getIsAiring()) {
-                        // show guide option as first item
-                        adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_GUIDE_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_live_tv_guide), R.drawable.tile_port_guide)));
-                        i++;
-                    }
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(item, staticHeight));
                         i++;

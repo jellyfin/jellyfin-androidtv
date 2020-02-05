@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.browsing;
+package org.jellyfin.androidtv.ui.home;
 
 import android.content.Context;
 

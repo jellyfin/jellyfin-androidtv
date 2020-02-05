@@ -24,7 +24,7 @@
     <string name="pref_general">Général</string>
     <string name="lbl_settings">Paramètres</string>
     <string name="lbl_logout">Déconnexion</string>
-    <string name="lbl_library">Bibliothèque</string>
+    <string name="lbl_library">Médiathèque</string>
     <string name="lbl_continue_watching">Continuer la lecture</string>
     <string name="lbl_latest_movies">Films les plus récents</string>
     <string name="lbl_next_up">Prochains à voir</string>
@@ -124,10 +124,10 @@
     <string name="lbl_mark_played">Marqué comme vu</string>
     <string name="lbl_remove_favorite">Supprimer des favoris</string>
     <string name="lbl_add_favorite">Ajouter aux favoris</string>
-    <string name="lbl_like">Aime</string>
+    <string name="lbl_like">J\'aime</string>
     <string name="lbl_dislike">Je n\'aime pas</string>
-    <string name="lbl_unlike">Contrairement à</string>
-    <string name="lbl_remove_dislike">Supprimer dislike</string>
+    <string name="lbl_unlike">Supprimer J\'aime</string>
+    <string name="lbl_remove_dislike">Supprimer Je n\'aime pas</string>
     <string name="lbl_confirm_mark_unwatched">Cette action marquera tout le contenu comme non vu. Êtes-vous VRAIMENT sûr \?</string>
     <string name="msg_no_playable_items">Aucun élément à lire</string>
     <string name="lbl_unwatched">Non lu</string>
@@ -141,7 +141,7 @@
     <string name="lbl_begin_padding">Padding de début (minutes)</string>
     <string name="lbl_program_ended">Programme terminé</string>
     <string name="lbl_end_padding">Padding de fin (minutes)</string>
-    <string name="lbl_similar_items_library">Éléments semblables dans votre bibliothèque</string>
+    <string name="lbl_similar_items_library">Éléments semblables dans votre médiathèque</string>
     <string name="lbl_record_any_channel">Enregistrer n\'importe quelle chaîne</string>
     <string name="lbl_record_any_time">Enregistrer à n\'importe quelle heure</string>
     <string name="lbl_only_new_episodes">Uniquement les nouveaux épisodes</string>
@@ -195,7 +195,7 @@
     <string name="lbl_episodes">Épisodes</string>
     <string name="lbl_enable_cinema_mode">Activer le mode Cinéma</string>
     <string name="sum_enable_cinema_mode">Si la fonction est activée sur le serveur, activer les introductions et les extraits avant le visionnage</string>
-    <string name="lbl_playlists">Playlists</string>
+    <string name="lbl_playlists">Listes de lecture</string>
     <string name="msg_added_item_to_queue">"Éléments ajoutés dans la file d'attente "</string>
     <string name="msg_items_added">" éléments ajoutés"</string>
     <string name="msg_total_items_in_queue">" éléments dans la liste de lecture"</string>
@@ -228,7 +228,7 @@
     <string name="btn_set_compatible_audio">Définir mixage maintenant</string>
     <string name="desc_bitstream_ac3">Nécessite un matériel compatible</string>
     <string name="desc_current_video_queue">éléments vidéo actuellement en file d\'attente pour la lecture</string>
-    <string name="desc_premieres">Afficher une rangée pour les nouveaux 1ers épisodes pour les séries que vous regardez</string>
+    <string name="desc_premieres">Afficher une rangée pour les nouveaux 1ers épisodes des séries que vous regardez</string>
     <string name="desc_use_vlc_livetv">Utilisez VLC pour la télévision en direct en streaming direct si disponible</string>
     <string name="lbl_all_episodes">Tous les épisodes</string>
     <string name="lbl_all_recordings">Tous les enregistrements</string>
@@ -247,7 +247,7 @@
     <string name="lbl_refresh_switching">Fréquence de rafraîchissement automatique</string>
     <string name="lbl_series">Séries</string>
     <string name="lbl_show_backdrop">Afficher les fonds pendant la navigation</string>
-    <string name="lbl_show_premieres">Afficher le premier épisode des nouvelles saisons sur l\'écran d\'accueil</string>
+    <string name="lbl_show_premieres">Afficher le premier épisode des nouv. saisons sur l\'accueil</string>
     <string name="lbl_use_vlc_livetv">Utiliser VLC pour la télévision en direct</string>
     <string name="lbl_vertical_stretch">Étirement vertical</string>
     <string name="lbl_zoom">Zoom</string>
@@ -292,7 +292,7 @@
     <string name="lbl_next_episode">Épisode suivant</string>
     <string name="lbl_album_name">Nom de l\'album</string>
     <string name="lbl_song_title">titre de la chanson</string>
-    <string name="pref_use_direct_path_title">Utiliser le chemin directe</string>
+    <string name="pref_use_direct_path_title">Utiliser le chemin direct pour le lecteur externe</string>
     <string name="pref_use_direct_path_summary">Utiliser le chemin du fichier de l\'url de streaming</string>
     <string name="lbl_now_playing_album">de %s</string>
     <string name="lbl_watched">Vu</string>
@@ -306,7 +306,7 @@
     <string name="lbl_status">%s / %s</string>
     <string name="pref_authentication_cat">Identification</string>
     <string name="lbl_suggestions">Suggestions</string>
-    <string name="msg_external_path">Cette fonction ne fonctionnera que si vous avez correctement configuré votre bibliothèque sur le serveur avec des chemins d\'accès réseau ou des substitutions de chemins et que le client que vous utilisez peut accéder directement à ces emplacements via le réseau.</string>
+    <string name="msg_external_path">Cette fonction ne fonctionnera que si vous avez correctement configuré votre médiathèque sur le serveur avec des chemins d\'accès réseau ou des substitutions de chemins et que le client que vous utilisez peut accéder directement à ces emplacements via le réseau.</string>
     <string name="lbl_latest_tv_shows">Dernières séries TV</string>
     <string name="desc_suggestions_holiday">Essayer certaines de nos suggestions pour les fêtes</string>
     <string name="title_suggestions_holiday">Joyeuses fêtes !</string>
@@ -314,7 +314,7 @@
     <string name="desc_suggestions_halloween">Essayer quelques-unes de nos effrayantes suggestions</string>
     <string name="title_suggestions_halloween">Joyeux Halloween !</string>
     <string name="lbl_suggestions_halloween">Suggestions effrayantes</string>
-    <string name="lbl_favorite">Favoris</string>
+    <string name="lbl_favorite">Favori</string>
     <string name="lbl_image_size">Taille d\'image</string>
     <string name="lbl_image_type">Type d\'image</string>
     <string name="lbl_default_view">Vue par défaut</string>
@@ -328,4 +328,6 @@
     <string name="lbl_colored_backgrounds">Arrière-plans de couleurs</string>
     <string name="lbl_repeat_episodes">Répéter les épisodes</string>
     <string name="lbl_new_only">Nouveau uniquement</string>
+    <string name="title_activity_expanded_text">Activité de texte développé</string>
+    <string name="pref_enable_acra">Envoyer les rapports d\'erreur aux développeurs</string>
 </resources>

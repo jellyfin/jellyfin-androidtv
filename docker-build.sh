@@ -26,4 +26,4 @@ bash gradlew ${RFLAG}
 
 # Move the artifacts out
 mkdir -p ${ARTIFACT_DIR}/apk
-mmv "${SOURCE_DIR}/app/build/outputs/apk/*/*/app-*.apk" "${ARTIFACT_DIR}/apk/jellyfin-androidtv_#3.apk"
+mmv "${SOURCE_DIR}/app/build/outputs/apk/*/app-*.apk" "${ARTIFACT_DIR}/apk/jellyfin-androidtv_#2.apk"

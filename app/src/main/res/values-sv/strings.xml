@@ -9,4 +9,7 @@
     <string name="pref_auto_login">Logga in automatiskt som denna användare</string>
     <string name="pref_show_login">Visa inloggningsskärm</string>
     <string name="play">Spela</string>
+    <string name="pref_prompt_pw">Be om lösenord</string>
+    <string name="pref_authentication_cat">Autentisering</string>
+    <string name="loading">Laddar...</string>
 </resources>
