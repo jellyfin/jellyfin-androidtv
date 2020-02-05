@@ -330,7 +330,6 @@
     <string name="lbl_last_played">"Naposledy videné: "</string>
     <string name="lbl_watched">Videné</string>
     <string name="dpad_pw_cancel">* Podržte na 1 sekundu tlačidlo \'Dole\' a uvolnite ho pokiaľ máte alpha heslo alebo bude potrebná klávesnica pre vstup</string>
-</resources>
     <string name="pref_acra_alwaysaccept_disabled">Pred odoslaním chybového hlásenia sa zobrazí dialóg</string>
     <string name="pref_acra_alwaysaccept_enabled">Hlásenie chýb bude odoslané bez výzvy</string>
     <string name="pref_acra_alwaysaccept">Odoslať hlásenie chýb bez výzvy</string>
