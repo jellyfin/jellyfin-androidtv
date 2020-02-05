@@ -327,6 +327,19 @@
     <string name="lbl_premieres">Premières</string>
     <string name="desc_suggestions_holiday">Probeer enkele van onze festieve suggesties</string>
     <string name="pref_use_direct_path_summary">Geef het bestandssysteem pad in plaats van de streaming URL</string>
-    <string name="pref_use_direct_path_title">Geef Direct Pad</string>
+    <string name="pref_use_direct_path_title">Gebruik direct pad voor externe speler</string>
     <string name="lbl_show_indicators">Toon Indicators Voor</string>
+    <string name="pref_video_player_external">Externe applicatie</string>
+    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_exoplayer">ExoPlayer</string>
+    <string name="pref_video_player_auto">Automatisch selecteren</string>
+    <string name="lbl_my_media">Mijn Media</string>
+    <string name="acra_dialog_title">Oeps! Er ging iets verkeerd.</string>
+    <string name="pref_acra_alwaysaccept_disabled">Een melding wordt getoond voordat crashrapportages verzonden worden</string>
+    <string name="pref_acra_alwaysaccept_enabled">Crash rapportages worden verzonden zonder het eerst te vragen</string>
+    <string name="pref_acra_alwaysaccept">Verzend rapportages zonder het eerst te vragen</string>
+    <string name="pref_acra_disabled">Crash rapportages worden niet verzonden</string>
+    <string name="pref_acra_enabled">Er wordt een verzendmelding getoond voor crashrapportages</string>
+    <string name="pref_enable_acra">Verzend crash rapporten naar ontwikkelaars</string>
+    <string name="pref_acra_category">Crash Rapportering</string>
 </resources>
