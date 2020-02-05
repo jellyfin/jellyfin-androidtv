@@ -43,10 +43,12 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
     public void updateCurrentPosition() {
         playerAdapter.updateCurrentPosition();
+        updatePlayState();
     }
 
     public void updatePlayState() {
         playerAdapter.updatePlayState();
+        playerGlue.updatePlayState();
     }
 
     public void setShouldShowOverlay(boolean shouldShowOverlay) {
@@ -81,6 +83,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
     }
 
     public void onFullyInitialized() {
+        updatePlayState();
         playerGlue.addMediaActions();
     }
 }

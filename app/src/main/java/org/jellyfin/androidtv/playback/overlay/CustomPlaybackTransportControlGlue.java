@@ -136,10 +136,11 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         if (action == playPauseAction) {
             if (playPauseAction.getIndex() == PlaybackControlsRow.PlayPauseAction.INDEX_PAUSE) {
                 getPlayerAdapter().pause();
+                playPauseAction.setIndex(PlaybackControlsRow.PlayPauseAction.INDEX_PLAY);
             } else if (playPauseAction.getIndex() == PlaybackControlsRow.PlayPauseAction.INDEX_PLAY) {
                 getPlayerAdapter().play();
+                playPauseAction.setIndex(PlaybackControlsRow.PlayPauseAction.INDEX_PAUSE);
             }
-            playPauseAction.nextIndex();
         } else if (action == rewindAction) {
             getPlayerAdapter().rewind();
         } else if (action == fastForwardAction) {
@@ -243,5 +244,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             recordAction.setIndex(RecordAction.INDEX_INACTIVE);
         }
         notifyActionChanged(recordAction);
+    }
+
+    void updatePlayState() {
+        playPauseAction.setIndex(isPlaying() ? PlaybackControlsRow.PlayPauseAction.INDEX_PAUSE : PlaybackControlsRow.PlayPauseAction.INDEX_PLAY);
+        notifyActionChanged(playPauseAction);
     }
 }
