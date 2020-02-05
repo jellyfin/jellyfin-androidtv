@@ -1,8 +1,11 @@
 package org.jellyfin.androidtv.model.itemtypes
 
 import org.jellyfin.apiclient.model.dto.BaseItemDto
+import org.jellyfin.apiclient.model.dto.BaseItemPerson
 import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.apiclient.model.dto.ChapterInfoDto
+import org.jellyfin.apiclient.model.entities.ImageType
+import org.jellyfin.apiclient.model.entities.PersonType
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -36,4 +39,14 @@ class Episode(original: BaseItemDto) : PlayableItem(original) {
 	}
 }
 
-class Movie(original: BaseItemDto) : PlayableItem(original)
+class Person(original: BaseItemPerson) {
+	val id: String = original.id
+	val name: String = original.name
+	val role: String = original.role
+	val type: PersonType = original.personType
+	val primaryImage: ImageCollection.Image? = original.primaryImageTag?.let { ImageCollection.Image(original.id, ImageType.Primary, it) }
+}
+
+class Movie(original: BaseItemDto) : PlayableItem(original) {
+	val cast: List<Person> = original.people.asList().map { person -> Person(person) }
+}
