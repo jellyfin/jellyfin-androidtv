@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Button.Outline"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minHeight="0dp"
+    android:minWidth="0dp"
+    tools:text="Fantasy"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:textSize="12sp"/>

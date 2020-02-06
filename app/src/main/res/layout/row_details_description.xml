@@ -29,16 +29,38 @@
         android:id="@+id/details_description_metadata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/details_description_body"
+        app:layout_constraintBottom_toTopOf="@id/details_description_genres"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/details_description_subtitle">
 
+        <TextView
+            android:id="@+id/details_description_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="2006-2008" />
+
         <org.jellyfin.androidtv.ui.widget.Rating
+            android:id="@+id/details_description_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="9.8" />
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/details_description_genres"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/details_description_body"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/details_description_metadata"
+        tools:itemCount="5"
+        tools:listitem="@layout/row_details_description_genre_button" />
 
     <TextView
         android:id="@+id/details_description_body"
@@ -47,7 +69,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/details_description_metadata"
+        app:layout_constraintTop_toBottomOf="@+id/details_description_genres"
         tools:text="Item description or overview.. whatever you might call it " />
 
 
