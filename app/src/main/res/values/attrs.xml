@@ -10,4 +10,7 @@
         <!-- Popup Window Attributes -->
         <attr name="popupWindowBackground" format="reference|color" />
     </declare-styleable>
+    <declare-styleable name="Rating">
+        <attr name="text" format="string" />
+    </declare-styleable>
 </resources>
