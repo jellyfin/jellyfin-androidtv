@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <androidx.leanback.widget.ResizingTextView
+        android:id="@+id/details_description_title"
+        style="?attr/detailsDescriptionTitleStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/details_description_subtitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Title" />
+
+    <androidx.leanback.widget.ResizingTextView
+        android:id="@+id/details_description_subtitle"
+        style="?attr/detailsDescriptionSubtitleStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/details_description_metadata"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/details_description_title"
+        tools:text="Alternative title or native title" />
+
+    <LinearLayout
+        android:id="@+id/details_description_metadata"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/details_description_body"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/details_description_subtitle">
+
+        <org.jellyfin.androidtv.ui.widget.Rating
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="9.8" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/details_description_body"
+        style="?attr/detailsDescriptionBodyStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/details_description_metadata"
+        tools:text="Item description or overview.. whatever you might call it " />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
