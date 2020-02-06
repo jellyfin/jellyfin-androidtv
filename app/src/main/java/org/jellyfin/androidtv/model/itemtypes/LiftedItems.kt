@@ -4,6 +4,7 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.apiclient.model.querying.ItemFields
 import java.util.*
+import kotlin.math.roundToInt
 import kotlin.properties.Delegates
 
 val FIELDS_REQUIRED_FOR_LIFT = arrayOf(ItemFields.DateCreated, ItemFields.MediaSources, ItemFields.MediaStreams, ItemFields.People)
@@ -24,6 +25,7 @@ sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
 		idx, chapterInfoDto -> ChapterInfo(chapterInfoDto, this, idx)
 	}
 	var played: Boolean by Delegates.observable(original.userData.played, ::observer)
+	var genres: List<String> = original.genres //todo use "GenreItems" to get the ids....
 
 	val canResume: Boolean
 		get() = playbackPositionTicks > 0L
@@ -31,6 +33,7 @@ sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
 
 class Episode(original: BaseItemDto) : PlayableItem(original) {
 	//TODO: Chapters: ArrayList<ChapterInfoDto>
+	var productionYear: Int = original.productionYear
 	val communityRating: Double = original.communityRating.toDouble()
 
 	init {
@@ -41,6 +44,8 @@ class Episode(original: BaseItemDto) : PlayableItem(original) {
 }
 
 class Movie(original: BaseItemDto) : PlayableItem(original) {
+	var productionYear: Int = original.productionYear
+	val communityRating: Double = (original.communityRating * 10.0).roundToInt() / 10.0
 	val cast: List<BriefPersonData> = original.people.asList().map { person -> BriefPersonData(person) }
 }
 
