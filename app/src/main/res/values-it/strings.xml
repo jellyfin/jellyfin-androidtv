@@ -214,7 +214,7 @@
     <string name="msg_remote_already_playing">Richiesta di esecuzione remota ignorata. Per favore, prima ferma il video corrente.</string>
     <string name="lbl_repeat_options">Ripeti Opzioni</string>
     <string name="lbl_record_any_time">Registra in qualunque momento</string>
-    <string name="lbl_end_padding">FInisci RIempimento</string>
+    <string name="lbl_end_padding">FInisci Riempimento</string>
     <string name="lbl_begin_padding">Inizia Riempimento</string>
     <string name="msg_will_record">Registrerà</string>
     <string name="lbl_tune_to_channel">Collega al Canale</string>
@@ -223,7 +223,7 @@
     <string name="lbl_dislike">Non piaciuto</string>
     <string name="lbl_like">Piaciuto</string>
     <string name="lbl_now_playing_album">da %s</string>
-    <string name="lbl_play_first_unwatched">Esegui il Primo Non Guardato</string>
+    <string name="lbl_play_first_unwatched">Guarda il primo non guardato</string>
     <string name="lbl_search_hint">Cerca testo (scegli per tastiera)</string>
     <string name="msg_error_signin">Si è verificato un errore loggando con le proprie credenziali salvate.</string>
     <string name="msg_error_server_version">Versione del server non supportata. La versione del server deve essere %1$s o superiore.</string>
