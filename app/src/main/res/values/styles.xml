@@ -76,4 +76,8 @@
         <item name="android:singleLine">true</item>
     </style>
 
+    <style name="Button.Outline" parent="android:Widget.Button">
+        <item name="android:background">@drawable/button_outline</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>
