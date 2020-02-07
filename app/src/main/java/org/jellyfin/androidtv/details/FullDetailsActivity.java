@@ -505,7 +505,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     protected void addAdditionalRows(ArrayObjectAdapter adapter) {
-        TvApp.getApplication().getLogger().Debug("Item type: " + mBaseItem.getBaseItemType());
+        TvApp.getApplication().getLogger().Debug("Item type: %s", mBaseItem.getBaseItemType().toString());
         switch (mBaseItem.getBaseItemType()) {
             case Movie:
 

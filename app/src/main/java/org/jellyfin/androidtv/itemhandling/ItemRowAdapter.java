@@ -512,7 +512,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         }
 
         if (pos >= itemsLoaded - 20) {
-            TvApp.getApplication().getLogger().Debug("Loading more items starting at " + itemsLoaded);
+            TvApp.getApplication().getLogger().Debug("Loading more items starting at %d", itemsLoaded);
             RetrieveNext();
         }
 
@@ -606,7 +606,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         }
 
         if (retrieve) {
-            TvApp.getApplication().getLogger().Info("Re-retrieving row of type " + queryType);
+            TvApp.getApplication().getLogger().Info("Re-retrieving row of type %s", queryType.toString());
             Retrieve();
         }
 
@@ -1124,12 +1124,12 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                                             }
                                         }
                                         if (existing == null) {
-                                            TvApp.getApplication().getLogger().Debug("Adding new episode 1 to premieres " + item.getSeriesName());
+                                            TvApp.getApplication().getLogger().Debug("Adding new episode 1 to premieres %s", item.getSeriesName());
                                             adapter.add(new BaseRowItem(i++, item, preferParentThumb, true));
 
                                         } else if (existing.getBaseItem().getParentIndexNumber() > item.getParentIndexNumber()) {
                                             //Replace the newer item with the earlier season
-                                            TvApp.getApplication().getLogger().Debug("Replacing newer episode 1 with an older season for " + item.getSeriesName());
+                                            TvApp.getApplication().getLogger().Debug("Replacing newer episode 1 with an older season for %s", item.getSeriesName());
                                             adapter.replace(existingPos, new BaseRowItem(i++, item, preferParentThumb, false));
                                         } // otherwise, just ignore this newer season premiere since we have the older one already
 

@@ -49,7 +49,7 @@ public class SubtitleHelper {
 
         String url = (stream.getIsExternalUrl() != null && !stream.getIsExternalUrl()) ? apiClient.GetApiUrl(stream.getDeliveryUrl()) : stream.getDeliveryUrl();
 
-        TvApp.getApplication().getLogger().Info("Subtitle url: "+url);
+        TvApp.getApplication().getLogger().Info("Subtitle url: %s", url);
 
         apiClient.getResponseStream(url, new Response<ResponseStreamInfo>(response){
 

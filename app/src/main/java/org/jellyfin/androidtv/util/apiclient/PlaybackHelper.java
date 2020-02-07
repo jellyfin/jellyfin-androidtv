@@ -187,7 +187,7 @@ public class PlaybackHelper {
                         public void onResponse(ItemsResult response) {
                             if (response.getTotalRecordCount() > 0){
                                 Collections.addAll(items, response.getItems());
-                                TvApp.getApplication().getLogger().Info(response.getTotalRecordCount() + " intro items added for playback.");
+                                TvApp.getApplication().getLogger().Info("%d intro items added for playback.", response.getTotalRecordCount());
                                 TvApp.getApplication().setPlayingIntros(true);
                             } else {
                                 TvApp.getApplication().setPlayingIntros(false);

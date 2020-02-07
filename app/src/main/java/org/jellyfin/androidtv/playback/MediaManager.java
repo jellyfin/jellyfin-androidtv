@@ -140,11 +140,11 @@ public class MediaManager {
 
     public static void addAudioEventListener(AudioEventListener listener) {
         mAudioEventListeners.add(listener);
-        TvApp.getApplication().getLogger().Debug("Added event listener.  Total listeners: "+mAudioEventListeners.size());
+        TvApp.getApplication().getLogger().Debug("Added event listener.  Total listeners: %d", mAudioEventListeners.size());
     }
     public static void removeAudioEventListener(AudioEventListener listener) {
         mAudioEventListeners.remove(listener);
-        TvApp.getApplication().getLogger().Debug("Removed event listener.  Total listeners: " + mAudioEventListeners.size());
+        TvApp.getApplication().getLogger().Debug("Removed event listener.  Total listeners: %d", mAudioEventListeners.size());
     }
 
     public static boolean initAudio() {
@@ -190,7 +190,7 @@ public class MediaManager {
 
         //fire external listener if there
         for (AudioEventListener listener : mAudioEventListeners) {
-            TvApp.getApplication().getLogger().Info("Firing playback state change listener for item completion. "+ mCurrentAudioItem.getName());
+            TvApp.getApplication().getLogger().Info("Firing playback state change listener for item completion. %s", mCurrentAudioItem.getName());
             listener.onPlaybackStateChange(PlaybackController.PlaybackState.IDLE, mCurrentAudioItem);
         }
 
@@ -304,7 +304,7 @@ public class MediaManager {
 
     private static void fireQueueStatusChange() {
         for (AudioEventListener listener : mAudioEventListeners) {
-            TvApp.getApplication().getLogger().Info("Firing queue state change listener. "+ hasAudioQueueItems());
+            TvApp.getApplication().getLogger().Info("Firing queue state change listener. %b", hasAudioQueueItems());
             listener.onQueueStatusChanged(hasAudioQueueItems());
         }
 
@@ -354,7 +354,7 @@ public class MediaManager {
 
                             @Override
                             public void onError(Exception exception) {
-                                TvApp.getApplication().getLogger().Debug(exception.toString());
+                                TvApp.getApplication().getLogger().ErrorException("Exception creating playlist", exception);
                             }
                         });
                     }
@@ -593,7 +593,7 @@ public class MediaManager {
                     mExoPlayer.setPlayWhenReady(true);
                     mExoPlayer.prepare(new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()))));
                 } else {
-                    TvApp.getApplication().getLogger().Info("Playback attempt via VLC of " + response.getMediaUrl());
+                    TvApp.getApplication().getLogger().Info("Playback attempt via VLC of %s", response.getMediaUrl());
                     Media media = new Media(mLibVLC, Uri.parse(response.getMediaUrl()));
                     media.parse();
                     mVlcPlayer.setMedia(media);
@@ -612,7 +612,7 @@ public class MediaManager {
 
                 ReportingHelper.reportStart(item, mCurrentAudioPosition * 10000);
                 for (AudioEventListener listener : mAudioEventListeners) {
-                    TvApp.getApplication().getLogger().Info("Firing playback state change listener for item start. " + mCurrentAudioItem.getName());
+                    TvApp.getApplication().getLogger().Info("Firing playback state change listener for item start. %s", mCurrentAudioItem.getName());
                     listener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, mCurrentAudioItem);
                 }
             }
