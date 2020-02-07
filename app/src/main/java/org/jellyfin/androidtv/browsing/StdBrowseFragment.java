@@ -402,7 +402,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
 
     private void refreshCurrentItem() {
         if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemType.UserView && mCurrentItem.getBaseItemType() != BaseItemType.CollectionFolder) {
-            TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
+            TvApp.getApplication().getLogger().Debug("Refresh item \"%s\"", mCurrentItem.getFullName());
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override
                 public void onResponse() {
