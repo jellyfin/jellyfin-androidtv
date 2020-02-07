@@ -46,4 +46,26 @@
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">8dp</item>
     </style>
+
+    <style name="MarqueeImageCardView" parent="Widget.Leanback.ImageCardViewStyle">
+        <item name="lbImageCardViewType">Title|Content</item>
+    </style>
+
+    <style name="MarqueeImageCardViewTheme" parent="Theme.Leanback">
+        <item name="imageCardViewTitleStyle">@style/MarqueeImageCardViewTitleStyle</item>
+        <item name="imageCardViewContentStyle">@style/MarqueeImageCardViewContentStyle</item>
+    </style>
+
+    <style name="MarqueeImageCardViewTitleStyle" parent="Widget.Leanback.ImageCardView.TitleStyle">
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="MarqueeImageCardViewContentStyle" parent="Widget.Leanback.ImageCardView.ContentStyle">
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
 </resources>
