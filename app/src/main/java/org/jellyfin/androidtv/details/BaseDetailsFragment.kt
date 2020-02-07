@@ -9,7 +9,7 @@ import androidx.leanback.widget.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.jellyfin.androidtv.base.ClickablePresenter
+import org.jellyfin.androidtv.base.IItemClickListener
 import org.jellyfin.androidtv.details.actions.BaseAction
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.util.randomOrNull
@@ -84,7 +84,7 @@ abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : D
 	override fun onItemClicked(itemViewHolder: Presenter.ViewHolder?, item: Any?, rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {
 		if (row is ListRow) {
 			val presenter = row.adapter.getPresenter(item)
-			if (presenter is ClickablePresenter) {
+			if (presenter is IItemClickListener) {
 				presenter.onItemClicked(item)
 			}
 		}
