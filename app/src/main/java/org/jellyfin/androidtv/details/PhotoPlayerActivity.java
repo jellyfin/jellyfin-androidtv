@@ -350,7 +350,7 @@ public class PhotoPlayerActivity extends BaseActivity {
                         public void onSuccess() {
                             if (target == nextImage) isLoadingNext = false;
                             if (target == prevImage) isLoadingPrev = false;
-                            TvApp.getApplication().getLogger().Debug("Loaded item "+photo.getName());
+                            TvApp.getApplication().getLogger().Debug("Loaded item %s", photo.getName());
                             if (play){
                                 currentImageView().resume();
                                 handler.postDelayed(new Runnable() {
@@ -366,7 +366,7 @@ public class PhotoPlayerActivity extends BaseActivity {
                         public void onError() {
                             if (target == nextImage) isLoadingNext = false;
                             if (target == prevImage) isLoadingPrev = false;
-                            TvApp.getApplication().getLogger().Debug("Error loading item "+photo.getName());
+                            TvApp.getApplication().getLogger().Debug("Error loading item %s", photo.getName());
                         }
                     });
         }

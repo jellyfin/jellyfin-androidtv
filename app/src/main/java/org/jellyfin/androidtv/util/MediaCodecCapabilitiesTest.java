@@ -33,8 +33,7 @@ public class MediaCodecCapabilitiesTest  {
 
     private boolean checkDecoder(String mime, int profile, int level) {
         if (!hasDecoder(mime, profile, level)) {
-            TvApp.getApplication().getLogger().Info("no " + mime + " decoder for profile "
-                    + profile + " and level " + level);
+            TvApp.getApplication().getLogger().Info("no %s decoder for profile %d and level %d", mime, profile, level);
             return false;
         }
         return true;

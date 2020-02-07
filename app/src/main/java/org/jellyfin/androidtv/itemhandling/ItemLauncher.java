@@ -51,7 +51,7 @@ public class ItemLauncher {
             case BaseItem:
                 final BaseItemDto baseItem = rowItem.getBaseItem();
                 try {
-                    TvApp.getApplication().getLogger().Debug("Item selected: " + rowItem.getIndex() + " - " + baseItem.getName() + " (" + baseItem.getBaseItemType() + ")");
+                    TvApp.getApplication().getLogger().Debug("Item selected: %d - %s (%s)", rowItem.getIndex(), baseItem.getName(), baseItem.getBaseItemType().toString());
                 } catch (Exception e) {
                     //swallow it
                 }
@@ -67,12 +67,12 @@ public class ItemLauncher {
                                 if (baseItem.getCollectionType() == null) {
                                     baseItem.setCollectionType("unknown");
                                 }
-                                TvApp.getApplication().getLogger().Debug("**** Collection type: " + baseItem.getCollectionType());
+                                TvApp.getApplication().getLogger().Debug("**** Collection type: %s", baseItem.getCollectionType());
                                 switch (baseItem.getCollectionType()) {
                                     case "movies":
                                     case "tvshows":
                                     case "music":
-                                        TvApp.getApplication().getLogger().Debug("**** View Type Pref: " + response.getCustomPrefs().get("DefaultView"));
+                                        TvApp.getApplication().getLogger().Debug("**** View Type Pref: %s", response.getCustomPrefs().get("DefaultView"));
                                         if (ViewType.GRID.equals(response.getCustomPrefs().get("DefaultView"))) {
                                             // open grid browsing
                                             Intent folderIntent = new Intent(activity, GenericGridActivity.class);
