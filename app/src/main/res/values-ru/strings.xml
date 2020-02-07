@@ -31,7 +31,7 @@
     <string name="lbl_latest_movies">Последние фильмы</string>
     <string name="lbl_next_up">Очередное</string>
     <string name="lbl_next_up_tv">Очередное</string>
-    <string name="lbl_on_now">Эфир</string>
+    <string name="lbl_on_now">В эфире</string>
     <string name="lbl_views">Вид</string>
     <string name="lbl_by_letter">По буквам</string>
     <string name="lbl_suggested">Предлагаемое</string>
@@ -39,7 +39,7 @@
     <string name="lbl_performers">Исполнители</string>
     <string name="lbl_search">Поиск</string>
     <string name="msg_not_implemented">" не внедрено"</string>
-    <string name="lbl_latest">Последнее</string>
+    <string name="lbl_latest">Новейшее</string>
     <string name="lbl_by_name">По названиям</string>
     <string name="lbl_favorites">Избранное</string>
     <string name="lbl_coming_up">Ожидаемое</string>
@@ -183,9 +183,9 @@
     <string name="msg_burn_sub_warning">Прошивка субтитров может занять несколько минут. Потерпите немного...</string>
     <string name="lbl_recording">Запись</string>
     <string name="lbl_no_recordings">Не имеется записей</string>
-    <string name="lbl_live_tv_guide">Эфирный телегид</string>
+    <string name="lbl_live_tv_guide">Телегид</string>
     <string name="lbl_recorded_tv">Записанное ТВ</string>
-    <string name="pref_live_tv_cat">ТВ-ЭФИР</string>
+    <string name="pref_live_tv_cat">Эфир</string>
     <string name="msg_error_live_stream">Ошибка трансляции ТВ-эфира. Повтор попытки...</string>
     <string name="lbl_direct_stream_live">Прямая трансляция ТВ-эфира</string>
     <string name="lbl_programs">Передачи</string>
@@ -244,7 +244,7 @@
     <string name="lbl_open">Открыть</string>
     <string name="lbl_show_backdrop">Показывать задник при навигации</string>
     <string name="lbl_use_vlc_livetv">Пытаться использовать VLC для эфирного ТВ</string>
-    <string name="desc_use_vlc_livetv">Использовать VLC, при возможностьи, для прямой трансляции эфирного ТВ</string>
+    <string name="desc_use_vlc_livetv">Использовать VLC, при возможности, для прямой трансляции эфирного ТВ</string>
     <string name="lbl_refresh_switching">Включить переключение частоты обновления</string>
     <string name="lbl_show_premieres">Показывать премьеры сезона на главном экране</string>
     <string name="desc_premieres">Показывать строку нового эпизода первой для просматриваемых сериалов</string>
