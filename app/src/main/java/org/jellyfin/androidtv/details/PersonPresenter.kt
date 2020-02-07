@@ -6,17 +6,18 @@ import android.graphics.drawable.BitmapDrawable
 import android.view.ViewGroup
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.leanback.widget.ImageCardView
+import androidx.leanback.widget.Presenter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
-import org.jellyfin.androidtv.base.ClickablePresenter
+import org.jellyfin.androidtv.base.IItemClickListener
 import org.jellyfin.androidtv.model.itemtypes.BriefPersonData
 
 private const val LOG_TAG = "PersonPresenter"
 
-class PersonPresenter(private val context: Context) : ClickablePresenter() {
+class PersonPresenter(private val context: Context) : Presenter(), IItemClickListener {
 
 	override fun onItemClicked(item: Any?) {
 		requireNotNull(item)
@@ -31,10 +32,7 @@ class PersonPresenter(private val context: Context) : ClickablePresenter() {
 		return ViewHolder(ImageCardView(ContextThemeWrapper(parent!!.context, R.style.MarqueeImageCardViewTheme)))
 	}
 
-	override fun onBindViewHolder(viewHolder: ViewHolder?, item: Any?) {
-		requireNotNull(item)
-		requireNotNull(viewHolder)
-
+	override fun onBindViewHolder(viewHolder: ViewHolder, item: Any) {
 		val person = item as BriefPersonData
 		val cardView = viewHolder.view as ImageCardView
 
