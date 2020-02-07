@@ -51,7 +51,9 @@ public class AuthenticationHelper {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String addressValue = address.getText().toString();
                 TvApp.getApplication().getLogger().Debug("Entered address: " + addressValue);
-                signInToServer(TvApp.getApplication().getConnectionManager(), addressValue, activity);
+                if (!addressValue.isEmpty()) {
+                    signInToServer(TvApp.getApplication().getConnectionManager(), addressValue, activity);
+                }
             }
         }).show();
     }
