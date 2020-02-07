@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-def version = "0.11.0"
+def version = "0.11.1"
 
 android {
     compileSdkVersion 28
@@ -15,7 +15,7 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 905
+        versionCode 906
         versionName version
     }
 

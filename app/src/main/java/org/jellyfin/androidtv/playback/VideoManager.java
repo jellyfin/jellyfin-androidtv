@@ -1,21 +1,27 @@
 package org.jellyfin.androidtv.playback;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.Renderer;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.text.TextOutput;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
@@ -69,6 +75,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private long mForcedTime = -1;
     private long mLastTime = -1;
     private long mMetaDuration = -1;
+    private long lastExoPlayerPosition = -1;
 
     private boolean nativeMode = false;
     private boolean mSurfaceReady = false;
@@ -92,7 +99,19 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         } else {
             mSubtitlesSurface.setVisibility(View.GONE);
         }
-        mExoPlayer = ExoPlayerFactory.newSimpleInstance(TvApp.getApplication());
+
+        mExoPlayer = ExoPlayerFactory.newSimpleInstance(
+                TvApp.getApplication(),
+                new DefaultRenderersFactory(TvApp.getApplication()) {
+                    @Override
+                    protected void buildTextRenderers(Context context,
+                                                      TextOutput output,
+                                                      Looper outputLooper, int extensionRendererMode,
+                                                      ArrayList<Renderer> out) {
+                        // Do not add text renderers since we handle subtitles
+                    }
+                },
+                new DefaultTrackSelector());
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
         mExoPlayerView.setPlayer(mExoPlayer);
         mExoPlayer.addListener(new Player.EventListener() {
@@ -169,7 +188,15 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public long getCurrentPosition() {
-        if (nativeMode) return mExoPlayer.getCurrentPosition();
+        if (nativeMode) {
+            if (mExoPlayer == null) {
+                return lastExoPlayerPosition;
+            } else {
+                long mExoPlayerCurrentPosition = mExoPlayer.getCurrentPosition();
+                lastExoPlayerPosition = mExoPlayerCurrentPosition;
+                return mExoPlayerCurrentPosition;
+            }
+        }
 
         if (mVlcPlayer == null) return 0;
 
