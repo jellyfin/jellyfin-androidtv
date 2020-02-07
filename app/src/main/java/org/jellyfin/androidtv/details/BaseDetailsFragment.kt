@@ -9,11 +9,12 @@ import androidx.leanback.widget.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.jellyfin.androidtv.base.ClickablePresenter
 import org.jellyfin.androidtv.details.actions.BaseAction
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.util.randomOrNull
 
-abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : DetailsSupportFragment() {
+abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : DetailsSupportFragment(), OnItemViewClickedListener {
 	private val backgroundController by lazy {
 		DetailsSupportFragmentBackgroundController(this).apply {
 			enableParallax()
@@ -22,6 +23,7 @@ abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : D
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+
 
 		GlobalScope.launch(Dispatchers.Main) {
 			// Create adapter
@@ -35,6 +37,9 @@ abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : D
 
 			// Set adapter
 			this@BaseDetailsFragment.adapter = adapter
+
+			// Setup self as item click listener
+			this@BaseDetailsFragment.onItemViewClickedListener = this@BaseDetailsFragment
 		}
 	}
 
@@ -72,6 +77,16 @@ abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : D
 
 		backgroundController.apply {
 			coverBitmap = backgroundImage?.getBitmap(context!!)
+		}
+	}
+
+	@CallSuper
+	override fun onItemClicked(itemViewHolder: Presenter.ViewHolder?, item: Any?, rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {
+		if (row is ListRow) {
+			val presenter = row.adapter.getPresenter(item)
+			if (presenter is ClickablePresenter) {
+				presenter.onItemClicked(item)
+			}
 		}
 	}
 }
