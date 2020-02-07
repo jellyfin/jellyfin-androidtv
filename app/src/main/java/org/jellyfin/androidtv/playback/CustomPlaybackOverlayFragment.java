@@ -1,9 +1,6 @@
 package org.jellyfin.androidtv.playback;
 
 import android.app.AlertDialog;
-
-import androidx.fragment.app.Fragment;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,17 +11,6 @@ import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-
-import androidx.annotation.Nullable;
-import androidx.leanback.app.RowsSupportFragment;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
-
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -45,6 +31,17 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.leanback.app.RowsSupportFragment;
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
 
 import com.squareup.picasso.Picasso;
 
@@ -77,15 +74,7 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
-import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
-import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -95,23 +84,10 @@ import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackEvent;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.leanback.app.RowsSupportFragment;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
 
 public class CustomPlaybackOverlayFragment extends Fragment implements IPlaybackOverlayFragment, ILiveTvGuide {
     ImageView mLogoImage;
@@ -588,6 +564,15 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 return true;
             }
 
+            if (mPlaybackController.isLiveTv() && !mPopupPanelVisible && keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                if (!leanbackOverlayFragment.isControlsOverlayVisible()) {
+                    leanbackOverlayFragment.setShouldShowOverlay(false);
+                    leanbackOverlayFragment.hideOverlay();
+                    showQuickChannelChanger();
+                    return true;
+                }
+            }
+
             if (mPopupPanelVisible && keyCode == KeyEvent.KEYCODE_DPAD_LEFT && mPopupRowPresenter.getPosition() == 0) {
                 mPopupRowsFragment.getView().requestFocus();
                 mPopupRowPresenter.setPosition(0);
@@ -661,17 +646,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                             Utils.beep(100);
                             mPlaybackController.skip(-11000);
                             return true;
-                        }
-                    }
-
-                    if (mPlaybackController.isLiveTv() && !mPopupPanelVisible && keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-                        if (!leanbackOverlayFragment.isControlsOverlayVisible()) {
-                            leanbackOverlayFragment.setShouldShowOverlay(false);
-                            leanbackOverlayFragment.hideOverlay();
-                            showQuickChannelChanger();
-                            return true;
-                        } else {
-                            return false;
                         }
                     }
 
@@ -793,7 +767,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         setFadingEnabled(false);
 
         mPopupArea.startAnimation(showPopup);
-        mPopupPanelVisible = true;
     }
 
     private void hidePopupPanel() {
@@ -1211,6 +1184,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 if (ndx > 0) {
                     mPopupRowPresenter.setPosition(ndx);
                 }
+                mPopupPanelVisible = true;
             }
         }, 500);
     }
@@ -1224,6 +1198,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 if (ndx > 0) {
                     mPopupRowPresenter.setPosition(ndx);
                 }
+                mPopupPanelVisible = true;
             }
         }, 500);
     }
