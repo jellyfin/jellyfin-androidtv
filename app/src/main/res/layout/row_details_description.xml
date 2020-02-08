@@ -67,10 +67,21 @@
         style="?attr/detailsDescriptionBodyStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/details_description_tags"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/details_description_genres"
         tools:text="Item description or overview.. whatever you might call it " />
 
+    <TextView
+        android:id="@+id/details_description_tags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/details_description_body"
+        tools:text="Tags: Tag1, Tag2, Tag3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

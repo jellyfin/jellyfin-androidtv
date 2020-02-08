@@ -1,9 +1,11 @@
 package org.jellyfin.androidtv.details
 
+import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.text.bold
 import androidx.leanback.widget.Presenter
 import kotlinx.android.synthetic.main.row_details_description.view.*
 import org.jellyfin.androidtv.R
@@ -23,6 +25,7 @@ class DetailsDescriptionPresenter : Presenter() {
 			adapter = GenreAdapter()
 			addItemDecoration(RecyclerViewSpacingDecoration(8))
 		}
+		val tags = view.details_description_tags
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
@@ -38,8 +41,15 @@ class DetailsDescriptionPresenter : Presenter() {
 		item as BaseItem
 
 		// title
-		viewHolder.title.text = item.name
-		viewHolder.subtitle.text = item.name
+		viewHolder.title.text = item.title
+
+		// Original title
+		if (item.titleOriginal != null && item.titleOriginal != item.title) {
+			viewHolder.subtitle.text = item.titleOriginal
+			viewHolder.subtitle.visibility = View.VISIBLE
+		} else {
+			viewHolder.subtitle.visibility = View.GONE
+		}
 
 		// rating
 		if (item is Movie) { //todo move those properties to baseitem or something
@@ -49,6 +59,15 @@ class DetailsDescriptionPresenter : Presenter() {
 
 		if (item is PlayableItem)
 			(viewHolder.genres.adapter as GenreAdapter).setItems(item.genres)
+
+		if (item is PlayableItem && item.tags.isNotEmpty()) {
+			viewHolder.tags.text = SpannableStringBuilder()
+				.bold { append("Tags: ") }
+				.append(item.tags.joinToString(", "))
+			viewHolder.tags.visibility = View.VISIBLE
+		} else {
+			viewHolder.tags.visibility = View.GONE
+		}
 
 		// description
 		viewHolder.body.text = item.description
