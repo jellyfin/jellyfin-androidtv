@@ -21,7 +21,7 @@ class ImageCollection(original: BaseItemDto) {
 			TvApp.getApplication().apiClient.GetImageUrl(itemId, ImageOptions().also {
 				it.imageType = type
 				it.tag = tag
-				if (index != null) it.imageIndex = index
+				it.imageIndex = index
 			})
 		}
 
