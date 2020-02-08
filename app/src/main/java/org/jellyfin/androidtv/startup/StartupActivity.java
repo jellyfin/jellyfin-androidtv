@@ -140,9 +140,6 @@ public class StartupActivity extends FragmentActivity {
         playableTypes.add("Audio");
         ArrayList<String> supportedCommands = new ArrayList<>();
         supportedCommands.add(GeneralCommandType.DisplayContent.toString());
-        supportedCommands.add(GeneralCommandType.Mute.toString());
-        supportedCommands.add(GeneralCommandType.Unmute.toString());
-        supportedCommands.add(GeneralCommandType.ToggleMute.toString());
 
         capabilities.setPlayableMediaTypes(playableTypes);
         capabilities.setSupportsContentUploading(false);

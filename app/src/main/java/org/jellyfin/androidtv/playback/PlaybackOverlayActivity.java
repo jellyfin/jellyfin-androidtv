@@ -51,13 +51,6 @@ public class PlaybackOverlayActivity extends BaseActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        // be sure to unmute audio in case it was muted
-        TvApp.getApplication().setAudioMuted(false);
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         if (mVideoManager != null) {

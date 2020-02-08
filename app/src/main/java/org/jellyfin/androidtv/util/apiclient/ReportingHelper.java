@@ -2,15 +2,14 @@ package org.jellyfin.androidtv.util.apiclient;
 
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.model.compat.StreamInfo;
-
-import java.util.Calendar;
-
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.session.PlaybackProgressInfo;
 import org.jellyfin.apiclient.model.session.PlaybackStartInfo;
 import org.jellyfin.apiclient.model.session.PlaybackStopInfo;
+
+import java.util.Calendar;
 
 public class ReportingHelper {
     public static void reportStopped(BaseItemDto item, StreamInfo streamInfo, long pos) {
@@ -49,7 +48,6 @@ public class ReportingHelper {
             info.setPositionTicks(position);
             info.setIsPaused(isPaused);
             info.setCanSeek(currentStreamInfo.getRunTimeTicks() != null && currentStreamInfo.getRunTimeTicks() > 0);
-            info.setIsMuted(TvApp.getApplication().isAudioMuted());
             info.setPlayMethod(currentStreamInfo.getPlayMethod());
             if (TvApp.getApplication().getPlaybackController() != null && TvApp.getApplication().getPlaybackController().isPlaying()) {
                 info.setAudioStreamIndex(TvApp.getApplication().getPlaybackController().getAudioStreamIndex());

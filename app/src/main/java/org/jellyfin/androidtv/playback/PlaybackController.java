@@ -839,10 +839,6 @@ public class PlaybackController {
                 // update the actual items resume point
                 getCurrentlyPlayingItem().getUserData().setPlaybackPositionTicks(mbPos);
             }
-
-            // be sure to unmute audio in case it was muted
-            TvApp.getApplication().setAudioMuted(false);
-
         }
     }
 
