@@ -13,7 +13,8 @@ val FIELDS_REQUIRED_FOR_LIFT = arrayOf(ItemFields.DateCreated, ItemFields.MediaS
 
 sealed class BaseItem(original: BaseItemDto) : ObservableParent() {
 	val id: String = original.id
-	val name: String = original.name
+	val title: String = original.name
+	val titleOriginal: String? = original.originalTitle
 	val description: String? = original.overview
 	val images: ImageCollection = ImageCollection(original)
 	val added: Date = original.dateCreated
@@ -28,6 +29,7 @@ sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
 	}
 	var played: Boolean by Delegates.observable(original.userData.played, ::observer)
 	var genres: List<GenreDto> = original.genreItems.toList()
+	var tags: List<String> = original.tags
 
 	val canResume: Boolean
 		get() = playbackPositionTicks > 0L
