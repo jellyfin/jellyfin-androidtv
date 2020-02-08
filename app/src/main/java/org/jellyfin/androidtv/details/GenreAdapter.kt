@@ -35,6 +35,8 @@ class GenreAdapter : RecyclerView.Adapter<GenreAdapter.ViewHolder>() {
 		val genre = items[position]
 
 		holder.button.text = genre.name
+
+		//todo open browse for library of item filtered by genre
 		holder.button.setOnClickListener { Toast.makeText(holder.button.context, "Test: ${genre.name} / ${genre.id}", Toast.LENGTH_LONG).show() }
 	}
 }
