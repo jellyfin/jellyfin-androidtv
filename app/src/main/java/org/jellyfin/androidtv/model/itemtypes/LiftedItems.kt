@@ -36,4 +36,6 @@ class Episode(original: BaseItemDto) : PlayableItem(original) {
 	}
 }
 
-class Movie(original: BaseItemDto) : PlayableItem(original)
+class Movie(original: BaseItemDto) : PlayableItem(original) {
+	val cast: List<BriefPersonData> = original.people.asList().map { person -> BriefPersonData(person) }
+}

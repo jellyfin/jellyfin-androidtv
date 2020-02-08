@@ -6,11 +6,14 @@ import org.jellyfin.androidtv.details.actions.*
 import org.jellyfin.androidtv.model.itemtypes.Movie
 import org.jellyfin.androidtv.presentation.InfoCardPresenter
 
+private const val LOG_TAG = "MovieDetailsFragment"
+
 class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
+
 	private val detailsRow by lazy { DetailsOverviewRow(Unit).apply { actionsAdapter = ActionAdapter() } }
 //	private val chaptersRow by lazy { Row() }
 //	private val staffRow by lazy { Row() }
-//	private val charactersRow by lazy { Row() }
+	private val charactersRow by lazy { ListRow(HeaderItem("Cast/Crew"), ArrayObjectAdapter(PersonPresenter(this.context!!))) }
 //	private val relatedRow by lazy { Row() }
 	private val mediaInfoRow by lazy { ListRow(HeaderItem("Media info"), ArrayObjectAdapter(InfoCardPresenter())) }
 
@@ -24,7 +27,7 @@ class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
 		adapter.add(detailsRow)
 //		adapter.add(chaptersRow)
 //		adapter.add(staffRow)
-//		adapter.add(charactersRow)
+		adapter.add(charactersRow)
 //		adapter.add(relatedRow)
 		adapter.add(mediaInfoRow)
 	}
@@ -51,10 +54,17 @@ class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
 
 		detailsRow.setImageBitmap(context!!, item.images.primary?.getBitmap(context!!))
 
+
+		charactersRow.adapter.also {
+			it as ArrayObjectAdapter
+			it.clear()
+			item.cast.forEach(it::add)
+		}
+
+
 		// Update media info data
 		mediaInfoRow.adapter.also {
 			it as ArrayObjectAdapter
-
 			it.clear()
 			item.mediaInfo.streams.forEach(it::add)
 		}
