@@ -40,7 +40,7 @@ class PersonPresenter(private val context: Context) : Presenter(), IItemClickLis
 		cardView.contentText = person.role
 		cardView.isFocusable = true
 		cardView.isFocusableInTouchMode = true
-		cardView.setMainImageDimensions(240, 300)
+		cardView.setMainImageDimensions(200, 300)
 		cardView.mainImage = TvApp.getApplication().getDrawableCompat(R.drawable.tile_port_person)
 
 		if (person.primaryImage != null) {
