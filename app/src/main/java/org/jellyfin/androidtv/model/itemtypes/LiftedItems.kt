@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.model.itemtypes
 
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.BaseItemType
-import org.jellyfin.apiclient.model.dto.ChapterInfoDto
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -18,7 +17,9 @@ sealed class BaseItem(original: BaseItemDto) : ObservableParent() {
 sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
 	var playbackPositionTicks: Long by Delegates.observable(original.userData.playbackPositionTicks, ::observer)
 	val mediaInfo = MediaInfo(original.mediaSources, original.mediaStreams)
-	val chapters: List<ChapterInfoDto> = original.chapters
+	val chapters: List<ChapterInfo> = original.chapters.orEmpty().mapIndexed {
+		idx, chapterInfoDto -> ChapterInfo(chapterInfoDto, this, idx)
+	}
 	var played: Boolean by Delegates.observable(original.userData.played, ::observer)
 
 	val canResume: Boolean

@@ -85,7 +85,10 @@ abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : D
 		if (row is ListRow) {
 			val presenter = row.adapter.getPresenter(item)
 			if (presenter is IItemClickListener) {
-				presenter.onItemClicked(item)
+
+				GlobalScope.launch(Dispatchers.Main) {
+					presenter.onItemClicked(item)
+				}
 			}
 		}
 	}
