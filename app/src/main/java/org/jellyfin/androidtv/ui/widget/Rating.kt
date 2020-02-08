@@ -10,7 +10,7 @@ import android.widget.TextView
 import org.jellyfin.androidtv.R
 
 class Rating(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
-	private val a = context.theme.obtainStyledAttributes(attrs, R.styleable.Rating, 0, 0)
+	private val attributes = context.theme.obtainStyledAttributes(attrs, R.styleable.Rating, 0, 0)
 
 	private val imageView = ImageView(context).apply {
 		id = View.generateViewId()
@@ -23,7 +23,7 @@ class Rating(context: Context, attrs: AttributeSet?) : RelativeLayout(context, a
 	}
 
 	private val textView = TextView(context).apply {
-		text = a.getText(R.styleable.Rating_text)
+		text = attributes.getText(R.styleable.Rating_text)
 
 		layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).apply {
 			addRule(ALIGN_TOP, imageView.id)
