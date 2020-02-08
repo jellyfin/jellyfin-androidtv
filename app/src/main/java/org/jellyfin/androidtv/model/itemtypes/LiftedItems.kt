@@ -2,6 +2,8 @@ package org.jellyfin.androidtv.model.itemtypes
 
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.BaseItemType
+import org.jellyfin.apiclient.model.dto.ChapterInfoDto
+import org.jellyfin.apiclient.model.dto.GenreDto
 import org.jellyfin.apiclient.model.querying.ItemFields
 import java.util.*
 import kotlin.math.roundToInt
@@ -25,7 +27,7 @@ sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
 		idx, chapterInfoDto -> ChapterInfo(chapterInfoDto, this, idx)
 	}
 	var played: Boolean by Delegates.observable(original.userData.played, ::observer)
-	var genres: List<String> = original.genres //todo use "GenreItems" to get the ids....
+	var genres: List<GenreDto> = original.genreItems.toList()
 
 	val canResume: Boolean
 		get() = playbackPositionTicks > 0L
