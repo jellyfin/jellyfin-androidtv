@@ -20,7 +20,8 @@ class DetailsDescriptionPresenter : Presenter() {
 		val subtitle = view.findViewById<TextView>(R.id.details_description_subtitle)
 		val body = view.details_description_body as TextView
 		val year = view.details_description_year
-		val rating = view.details_description_rating
+		val communityRating = view.details_description_community_rating
+		val officialRating = view.details_description_official_rating
 		val genres = view.details_description_genres.apply {
 			adapter = GenreAdapter()
 			addItemDecoration(RecyclerViewSpacingDecoration(8))
@@ -51,10 +52,14 @@ class DetailsDescriptionPresenter : Presenter() {
 			viewHolder.subtitle.visibility = View.GONE
 		}
 
+		if (item is PlayableItem) {
+			viewHolder.officialRating.text = item.officialRating
+		}
+
 		// rating
 		if (item is Movie) { //todo move those properties to baseitem or something
 			viewHolder.year.text = item.productionYear.toString()
-			viewHolder.rating.text = item.communityRating.toString()
+			viewHolder.communityRating.text = item.communityRating.toString()
 		}
 
 		if (item is PlayableItem)
