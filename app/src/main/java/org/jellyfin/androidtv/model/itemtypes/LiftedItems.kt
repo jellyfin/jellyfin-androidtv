@@ -28,8 +28,9 @@ sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
 		idx, chapterInfoDto -> ChapterInfo(chapterInfoDto, this, idx)
 	}
 	var played: Boolean by Delegates.observable(original.userData.played, ::observer)
-	var genres: List<GenreDto> = original.genreItems.toList()
-	var tags: List<String> = original.tags
+	val genres: List<GenreDto> = original.genreItems.toList()
+	val tags: List<String> = original.tags
+	val officialRating: String = original.officialRating
 
 	val canResume: Boolean
 		get() = playbackPositionTicks > 0L
@@ -37,7 +38,7 @@ sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
 
 class Episode(original: BaseItemDto) : PlayableItem(original) {
 	//TODO: Chapters: ArrayList<ChapterInfoDto>
-	var productionYear: Int = original.productionYear
+	val productionYear: Int = original.productionYear
 	val communityRating: Double = original.communityRating.toDouble()
 
 	init {

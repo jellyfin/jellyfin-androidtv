@@ -30,6 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/details_description_genres"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,8 +42,33 @@
             android:layout_height="wrap_content"
             tools:text="2006-2008" />
 
+        <android.widget.Space
+            android:layout_width="8dp"
+            android:layout_height="0dp" />
+
+        <android.widget.Space
+            android:layout_width="8dp"
+            android:layout_height="0dp" />
+
+        <TextView
+            android:id="@+id/details_description_official_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#dbe6ff"
+            android:paddingStart="8dp"
+            android:paddingTop="2dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="2dp"
+            android:textColor="#0e0f2d"
+            android:textSize="12sp"
+            tools:text="PG-13" />
+
+        <android.widget.Space
+            android:layout_width="8dp"
+            android:layout_height="0dp" />
+
         <org.jellyfin.androidtv.ui.widget.Rating
-            android:id="@+id/details_description_rating"
+            android:id="@+id/details_description_community_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="9.8" />
