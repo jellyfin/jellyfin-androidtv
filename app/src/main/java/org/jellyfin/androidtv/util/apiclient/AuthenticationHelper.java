@@ -50,7 +50,7 @@ public class AuthenticationHelper {
                 }).setPositiveButton(activity.getString(R.string.lbl_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String addressValue = address.getText().toString();
-                TvApp.getApplication().getLogger().Debug("Entered address: " + addressValue);
+                TvApp.getApplication().getLogger().Debug("Entered address: %s", addressValue);
                 if (!addressValue.isEmpty()) {
                     signInToServer(TvApp.getApplication().getConnectionManager(), addressValue, activity);
                 }
@@ -71,7 +71,7 @@ public class AuthenticationHelper {
                 }).setPositiveButton(activity.getString(R.string.lbl_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String userValue = userName.getText().toString();
-                TvApp.getApplication().getLogger().Debug("Entered user: " + userValue);
+                TvApp.getApplication().getLogger().Debug("Entered user: %s", userValue);
                 final EditText userPw = new EditText(activity);
                 userPw.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 new AlertDialog.Builder(activity)
@@ -120,7 +120,7 @@ public class AuthenticationHelper {
                         activity.startActivity(userIntent);
                         break;
                     default:
-                        TvApp.getApplication().getLogger().Error("Unexpected response " + serverResult.getState() + " trying to sign in to specific server " + address);
+                        TvApp.getApplication().getLogger().Error("Unexpected response %s trying to sign in to specific server %s", serverResult.getState().toString(), address);
                         Utils.showToast(activity, activity.getString(R.string.msg_error_connecting_server));
                 }
             }
@@ -154,7 +154,7 @@ public class AuthenticationHelper {
             @Override
             public void onResponse(AuthenticationResult authenticationResult) {
                 TvApp application = TvApp.getApplication();
-                application.getLogger().Debug("Signed in as " + authenticationResult.getUser().getName());
+                application.getLogger().Debug("Signed in as %s", authenticationResult.getUser().getName());
                 application.setCurrentUser(authenticationResult.getUser());
                 if (directEntryItemId == null) {
                     Intent intent = new Intent(activity, MainActivity.class);
@@ -215,7 +215,7 @@ public class AuthenticationHelper {
                 Utils.showToast(activity, R.string.msg_error_server_unavailable);
                 break;
             case ServerSignIn:
-                logger.Debug("Sign in with server " + response.getServers().get(0).getName() + " total: " + response.getServers().size());
+                logger.Debug("Sign in with server %s total: %d", response.getServers().get(0).getName(), response.getServers().size());
                 signInToServer(connectionManager, response.getServers().get(0).getAddress(), activity);
                 break;
             case SignedIn:

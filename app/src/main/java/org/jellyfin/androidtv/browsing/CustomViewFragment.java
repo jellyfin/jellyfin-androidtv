@@ -13,7 +13,7 @@ public class CustomViewFragment extends BrowseFolderFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         includeType = getActivity().getIntent().getStringExtra("IncludeType");
-        TvApp.getApplication().getLogger().Debug("Item type: "+includeType);
+        TvApp.getApplication().getLogger().Debug("Item type: %s", includeType);
         showViews = false;
 
         super.onActivityCreated(savedInstanceState);

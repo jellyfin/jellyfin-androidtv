@@ -20,7 +20,7 @@ public class RemoteControlReceiver extends BroadcastReceiver {
             //Respond to media button presses
             if (Intent.ACTION_MEDIA_BUTTON.equals(intent.getAction())) {
                 KeyEvent event = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
-                TvApp.getApplication().getLogger().Debug("****** In remote receiver.  Keycode: " + event.getKeyCode());
+                TvApp.getApplication().getLogger().Debug("****** In remote receiver.  Keycode: %d", event.getKeyCode());
                 switch (event.getKeyCode()) {
                     case KeyEvent.KEYCODE_MEDIA_PAUSE:
                     case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
