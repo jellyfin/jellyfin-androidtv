@@ -7,26 +7,28 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.text.bold
 import androidx.leanback.widget.Presenter
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.row_details_description.view.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.model.itemtypes.Movie
 import org.jellyfin.androidtv.model.itemtypes.PlayableItem
 import org.jellyfin.androidtv.ui.RecyclerViewSpacingDecoration
+import org.jellyfin.androidtv.ui.widget.Rating
 
 class DetailsDescriptionPresenter : Presenter() {
 	class ViewHolder(view: View) : Presenter.ViewHolder(view) {
-		val title = view.findViewById<TextView>(R.id.details_description_title)
-		val subtitle = view.findViewById<TextView>(R.id.details_description_subtitle)
-		val body = view.details_description_body as TextView
-		val year = view.details_description_year
-		val communityRating = view.details_description_community_rating
-		val officialRating = view.details_description_official_rating
-		val genres = view.details_description_genres.apply {
+		val title: TextView = view.findViewById(R.id.details_description_title)
+		val subtitle: TextView = view.findViewById(R.id.details_description_subtitle)
+		val body: TextView = view.details_description_body
+		val year: TextView = view.details_description_year
+		val communityRating: Rating = view.details_description_community_rating
+		val officialRating: TextView = view.details_description_official_rating
+		val genres: RecyclerView = view.details_description_genres.apply {
 			adapter = GenreAdapter()
 			addItemDecoration(RecyclerViewSpacingDecoration(8))
 		}
-		val tags = view.details_description_tags
+		val tags: TextView = view.details_description_tags
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
