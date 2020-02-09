@@ -73,4 +73,5 @@ dependencies {
 
 	// Testing
 	testImplementation("junit:junit:4.12")
+	testImplementation("org.mockito:mockito-core:3.2.4")
 }
