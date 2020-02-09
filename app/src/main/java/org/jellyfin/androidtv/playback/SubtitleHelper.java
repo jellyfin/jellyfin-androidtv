@@ -2,22 +2,19 @@ package org.jellyfin.androidtv.playback;
 
 import android.os.Environment;
 
-import com.google.common.io.Files;
-
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.interaction.ApiClient;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.interaction.ResponseStreamInfo;
+import org.jellyfin.apiclient.model.entities.MediaStream;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.interaction.ResponseStreamInfo;
-import org.jellyfin.apiclient.model.entities.MediaStream;
 
 /**
  * Created by Eric on 7/19/2015.
@@ -58,7 +55,8 @@ public class SubtitleHelper {
                 InputStream initialStream = info.Stream;
 
                 try {
-                    Files.createParentDirs(file);
+                    // Create parent directories
+                    file.getParentFile().mkdirs();
                     OutputStream outStream = new FileOutputStream(file);
 
                     try {
