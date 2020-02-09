@@ -74,7 +74,4 @@ dependencies {
 
 	// Testing
 	testImplementation("junit:junit:4.12")
-
-	// Google core library
-	implementation("com.google.guava:guava:18.0")
 }
