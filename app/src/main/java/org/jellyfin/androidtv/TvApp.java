@@ -28,7 +28,6 @@ import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.PlaybackManager;
 import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
 import org.jellyfin.androidtv.search.SearchActivity;
-import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -110,7 +109,6 @@ public class TvApp extends Application {
 
     private GradientDrawable currentBackgroundGradient;
 
-    private boolean audioMuted;
     private boolean playingIntros;
     private DisplayPriorityType displayPriority = DisplayPriorityType.Movies;
 
@@ -204,19 +202,6 @@ public class TvApp extends Application {
     public void setLoginApiClient(ApiClient loginApiClient) {
         this.loginApiClient = loginApiClient;
     }
-
-    public void setAudioMuted(boolean value) {
-        audioMuted = value;
-        getLogger().Info("Setting mute state to: %b", audioMuted);
-        if (DeviceUtils.is60()) {
-            audioManager.adjustVolume(audioMuted ? AudioManager.ADJUST_MUTE : AudioManager.ADJUST_UNMUTE, 0);
-
-        } else {
-            audioManager.setStreamMute(AudioManager.STREAM_MUSIC, audioMuted);
-        }
-    }
-
-    public boolean isAudioMuted() { return audioMuted; }
 
     public PlaybackController getPlaybackController() {
         return playbackController;
