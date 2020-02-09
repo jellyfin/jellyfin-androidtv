@@ -22,13 +22,11 @@ public class AudioDelayPopup {
     final int HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 130);
 
     PopupWindow mPopup;
-    Activity mActivity;
     View mAnchor;
     NumberSpinner mDelaySpinner;
 
-    public AudioDelayPopup(Activity activity, View anchor, ValueChangedListener<Long> listener) {
-        mActivity = activity;
-        LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public AudioDelayPopup(Context context, View anchor, ValueChangedListener<Long> listener) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.audio_delay_popup, null);
         mPopup = new PopupWindow(layout, WIDTH, HEIGHT);
         mPopup.setFocusable(true);
@@ -39,8 +37,9 @@ public class AudioDelayPopup {
 
         mDelaySpinner = (NumberSpinner) layout.findViewById(R.id.numberSpinner);
         mDelaySpinner.setOnChangeListener(listener);
-
     }
+    
+    
 
     public boolean isShowing() {
         return (mPopup != null && mPopup.isShowing());

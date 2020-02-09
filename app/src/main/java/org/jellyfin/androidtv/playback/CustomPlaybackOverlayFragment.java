@@ -14,13 +14,10 @@ import android.os.Handler;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,11 +28,20 @@ import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.leanback.app.RowsSupportFragment;
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
 
 import com.squareup.picasso.Picasso;
 
@@ -48,8 +54,7 @@ import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.livetv.ILiveTvGuide;
 import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
-import org.jellyfin.androidtv.model.compat.StreamInfo;
-import org.jellyfin.androidtv.model.compat.SubtitleStreamInfo;
+import org.jellyfin.androidtv.playback.overlay.LeanbackOverlayFragment;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.ChannelCardPresenter;
 import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
@@ -63,7 +68,6 @@ import org.jellyfin.androidtv.ui.ObservableHorizontalScrollView;
 import org.jellyfin.androidtv.ui.ObservableScrollView;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.ScrollViewListener;
-import org.jellyfin.androidtv.ui.ValueChangedListener;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
@@ -71,57 +75,28 @@ import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
-import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.ChapterInfoDto;
-import org.jellyfin.apiclient.model.dto.ImageOptions;
-import org.jellyfin.apiclient.model.entities.ImageType;
-import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackEvent;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.leanback.app.RowsSupportFragment;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
-
 public class CustomPlaybackOverlayFragment extends Fragment implements IPlaybackOverlayFragment, ILiveTvGuide {
-    ImageView mPoster;
-    ImageView mStudioImage;
     ImageView mLogoImage;
-    TextView mTitle;
-    TextView mEndTime;
-    TextView mCurrentPos;
-    TextView mRemainingTime;
-    TextView mInfoSummary;
     View mTopPanel;
-    View mBottomPanel;
-    ImageButton mPlayPauseBtn;
-    LinearLayout mInfoRow;
-    LinearLayout mButtonRow;
     FrameLayout mPopupArea;
     RowsSupportFragment mPopupRowsFragment;
-    ArrayObjectAdapter mPopupRowAdapter;
     ListRow mChapterRow;
+    ArrayObjectAdapter mPopupRowAdapter;
     PositionableListRowPresenter mPopupRowPresenter;
-    ProgressBar mCurrentProgress;
     CustomPlaybackOverlayFragment mFragment;
 
     View mNextUpPanel;
@@ -140,7 +115,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     TextView mSubtitleText;
 
     //Live guide items
-    public static final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(TvApp.getApplication(),7);
+    public static final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(TvApp.getApplication(), 7);
     public static final int PAGE_SIZE = 75;
     RelativeLayout mTvGuide;
     private TextView mDisplayDate;
@@ -198,6 +173,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     boolean mSmNextUpPanelVisible = false;
 
     int mCurrentDuration;
+    private LeanbackOverlayFragment leanbackOverlayFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -235,7 +211,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mHideTask = new Runnable() {
             @Override
             public void run() {
-                if (mIsVisible) hide();
+                if (mIsVisible) {
+                    hide();
+                    leanbackOverlayFragment.hideOverlay();
+                }
             }
         };
     }
@@ -287,42 +266,21 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         super.onActivityCreated(savedInstanceState);
         if (mItemsToPlay == null || mItemsToPlay.size() == 0) return;
 
-        mPoster = mActivity.findViewById(R.id.poster);
-        mNextUpPoster = mActivity.findViewById(R.id.nextUpPoster);
-        mStudioImage = mActivity.findViewById(R.id.studioImg);
+        prepareOverlayFragment();
         mLogoImage = mActivity.findViewById(R.id.logoImage);
+        mNextUpPoster = mActivity.findViewById(R.id.nextUpPoster);
         mTopPanel = mActivity.findViewById(R.id.topPanel);
-        mBottomPanel = mActivity.findViewById(R.id.bottomPanel);
         mNextUpPanel = mActivity.findViewById(R.id.nextUpPanel);
         mSmNextUpPanel = mActivity.findViewById(R.id.smNextUpPanel);
 
-        mPlayPauseBtn = mActivity.findViewById(R.id.playPauseBtn);
-        mPlayPauseBtn.setSecondaryImage(R.drawable.ic_pause);
-        mPlayPauseBtn.setPrimaryImage(R.drawable.ic_play);
-        mPlayPauseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPlaybackController.playPause();
-            }
-        });
-        mInfoRow = mActivity.findViewById(R.id.infoRow);
         mNextUpInfoRow = mActivity.findViewById(R.id.nextUpInfoRow);
-        mButtonRow = mActivity.findViewById(R.id.buttonRow);
-        mInfoSummary = mActivity.findViewById(R.id.infoSummary);
-        mTitle = mActivity.findViewById(R.id.title);
         mNextUpTitle = mActivity.findViewById(R.id.nextUpTitle);
         mSmNextUpTitle = mActivity.findViewById(R.id.sm_upnext_title);
         mNextUpSummary = mActivity.findViewById(R.id.nextUpSummary);
         Typeface font = Typeface.createFromAsset(mActivity.getAssets(), "fonts/Roboto-Light.ttf");
-        mTitle.setTypeface(font);
         mNextUpTitle.setTypeface(font);
         mSmNextUpTitle.setTypeface(font);
         mNextUpSummary.setTypeface(font);
-        mInfoSummary.setTypeface(font);
-        mEndTime = mActivity.findViewById(R.id.endTime);
-        mCurrentPos = mActivity.findViewById(R.id.currentPos);
-        mRemainingTime = mActivity.findViewById(R.id.remainingTime);
-        mCurrentProgress = mActivity.findViewById(R.id.playerProgress);
         mPopupArea = mActivity.findViewById(R.id.popupArea);
         mStartsIn = mActivity.findViewById(R.id.startsIn);
         mNextButton = mActivity.findViewById(R.id.nextButton);
@@ -358,7 +316,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         //manual subtitles
         mSubtitleText = mActivity.findViewById(R.id.offLine_subtitleText);
         mSubtitleText.setTextSize(32);
-        mSubtitleText.setShadowLayer(1.6f,1.5f,1.3f, Color.BLACK);
+        mSubtitleText.setShadowLayer(1.6f, 1.5f, 1.3f, Color.BLACK);
         updateManualSubtitlePosition();
 
         //pre-load animations
@@ -366,7 +324,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         fadeOut.setAnimationListener(hideAnimationListener);
         slideDown = AnimationUtils.loadAnimation(mActivity, R.anim.abc_slide_in_top);
         slideUp = AnimationUtils.loadAnimation(mActivity, R.anim.abc_slide_in_bottom);
-        slideUp.setAnimationListener(showAnimationListener);
+        slideDown.setAnimationListener(showAnimationListener);
         setupPopupAnimations();
         setupNextUpAnimations();
 
@@ -431,14 +389,22 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         });
 
 
-
         Intent intent = mActivity.getIntent();
         int startPos = intent.getIntExtra("Position", 0);
 
         // start playing
         mPlaybackController.play(startPos);
+        leanbackOverlayFragment.updatePlayState();
 
-        mPlayPauseBtn.requestFocus();
+    }
+
+    private void prepareOverlayFragment() {
+        leanbackOverlayFragment = (LeanbackOverlayFragment) getChildFragmentManager().findFragmentById(R.id.leanback_fragment);
+        if (leanbackOverlayFragment != null) {
+            leanbackOverlayFragment.initFromView(mPlaybackController, this);
+            leanbackOverlayFragment.mediaInfoChanged();
+            leanbackOverlayFragment.setOnKeyInterceptListener(keyListener);
+        }
     }
 
     private void setupPopupAnimations() {
@@ -467,7 +433,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             @Override
             public void onAnimationEnd(Animation animation) {
                 mPopupArea.setVisibility(View.GONE);
-                mButtonRow.requestFocus();
             }
 
             @Override
@@ -564,7 +529,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
             if (item instanceof BaseRowItem) {
-                BaseRowItem rowItem = (BaseRowItem)item;
+                BaseRowItem rowItem = (BaseRowItem) item;
                 switch (rowItem.getItemType()) {
                     case Chapter:
                         Long start = rowItem.getChapterInfo().getStartPositionTicks() / 10000;
@@ -575,7 +540,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             } else if (item instanceof ChannelInfoDto) {
                 Utils.beep(100);
                 hidePopupPanel();
-                switchChannel(((ChannelInfoDto)item).getId());
+                switchChannel(((ChannelInfoDto) item).getId());
             }
         }
     };
@@ -583,6 +548,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private View.OnKeyListener keyListener = new View.OnKeyListener() {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
+            leanbackOverlayFragment.setShouldShowOverlay(true);
             if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP && mActivity != null && !mActivity.isFinishing()) {
                 mActivity.finish();
                 return true;
@@ -591,9 +557,25 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             if (mPopupPanelVisible && (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE)) {
                 // back should just hide the popup panel
                 hidePopupPanel();
+                leanbackOverlayFragment.hideOverlay();
 
                 // also close this if live tv
                 if (mPlaybackController.isLiveTv()) hide();
+                return true;
+            }
+
+            if (mPlaybackController.isLiveTv() && !mPopupPanelVisible && keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                if (!leanbackOverlayFragment.isControlsOverlayVisible()) {
+                    leanbackOverlayFragment.setShouldShowOverlay(false);
+                    leanbackOverlayFragment.hideOverlay();
+                    showQuickChannelChanger();
+                    return true;
+                }
+            }
+
+            if (mPopupPanelVisible && keyCode == KeyEvent.KEYCODE_DPAD_LEFT && mPopupRowPresenter.getPosition() == 0) {
+                mPopupRowsFragment.getView().requestFocus();
+                mPopupRowPresenter.setPosition(0);
                 return true;
             }
             if (mGuideVisible) {
@@ -667,11 +649,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         }
                     }
 
-                    if (keyCode == KeyEvent.KEYCODE_DPAD_UP && mPlaybackController.isLiveTv()) {
-                        showQuickChannelChanger();
-                        return true;
-                    }
-
                     if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && mPlaybackController.canSeek()) {
                         mPlaybackController.pause();
                         return true;
@@ -689,17 +666,21 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         }
     };
 
-    public long getCurrentLocalStartDate() { return mCurrentLocalGuideStart; }
-    public long getCurrentLocalEndDate() { return mCurrentLocalGuideEnd; }
+    public long getCurrentLocalStartDate() {
+        return mCurrentLocalGuideStart;
+    }
 
-    private void switchChannel(String id) {
+    public long getCurrentLocalEndDate() {
+        return mCurrentLocalGuideEnd;
+    }
+
+    public void switchChannel(String id) {
         if (id == null) return;
         if (mPlaybackController.getCurrentlyPlayingItem().getId().equals(id)) {
             // same channel, just dismiss overlay
             hideGuide();
         } else {
             mPlaybackController.stop();
-            mCurrentProgress.setVisibility(View.VISIBLE);
             hideGuide();
             mApplication.getApiClient().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
                 @Override
@@ -773,15 +754,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     public void show() {
         hideInfo();
-        mBottomPanel.startAnimation(slideUp);
         mTopPanel.startAnimation(slideDown);
         mIsVisible = true;
-        mPlayPauseBtn.requestFocus();
     }
 
     public void hide() {
         mIsVisible = false;
-        mBottomPanel.startAnimation(fadeOut);
         mTopPanel.startAnimation(fadeOut);
     }
 
@@ -789,10 +767,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         setFadingEnabled(false);
 
         mPopupArea.startAnimation(showPopup);
-        mPopupPanelVisible = true;
     }
 
-    private void hidePopupPanel(){
+    private void hidePopupPanel() {
         setFadingEnabled(true);
         mPopupArea.startAnimation(hidePopup);
         mPopupPanelVisible = false;
@@ -806,7 +783,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mNextUpPanel.startAnimation(showNextUp);
     }
 
-    private void hideNextUpPanel(){
+    private void hideNextUpPanel() {
         mNextUpPanel.startAnimation(hideNextUp);
         mNextUpPanelVisible = false;
     }
@@ -819,31 +796,19 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mSmNextUpPanel.startAnimation(showSmNextUp);
     }
 
-    private void hideSmNextUpPanel(){
+    private void hideSmNextUpPanel() {
         mSmNextUpPanel.startAnimation(hideSmNextUp);
         mSmNextUpPanelVisible = false;
     }
 
     private void showInfo() {
-        mButtonRow.setVisibility(View.INVISIBLE);
-        mCurrentProgress.setVisibility(View.INVISIBLE);
-        mRemainingTime.setVisibility(View.INVISIBLE);
-        mCurrentPos.setVisibility(View.INVISIBLE);
-        mPlayPauseBtn.setVisibility(View.INVISIBLE);
-        mInfoSummary.setVisibility(View.VISIBLE);
         setFadingEnabled(false);
     }
 
     private void hideInfo() {
-        mButtonRow.setVisibility(View.VISIBLE);
-        mCurrentProgress.setVisibility(View.VISIBLE);
-        mRemainingTime.setVisibility(View.VISIBLE);
-        mCurrentPos.setVisibility(View.VISIBLE);
-        mPlayPauseBtn.setVisibility(View.VISIBLE);
-        mInfoSummary.setVisibility(View.INVISIBLE);
     }
 
-    private void showGuide() {
+    public void showGuide() {
         hide();
         mPlaybackController.mVideoManager.contractVideo(Utils.convertDpToPixel(mActivity, 300));
         mTvGuide.setVisibility(View.VISIBLE);
@@ -917,6 +882,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     DisplayProgramsTask mDisplayProgramsTask;
+
     class DisplayProgramsTask extends AsyncTask<Integer, Integer, Void> {
         View firstRow;
         int displayedChannels = 0;
@@ -938,7 +904,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 mChannels.addView(placeHolder);
                 displayedChannels = 0;
 
-                mProgramRows.addView(new GuidePagingButton(mActivity, mFragment, pageUpStart, getString(R.string.lbl_load_channels)+mAllChannels.get(pageUpStart).getNumber() + " - "+mAllChannels.get(mCurrentDisplayChannelStartNdx-1).getNumber()));
+                mProgramRows.addView(new GuidePagingButton(mActivity, mFragment, pageUpStart, getString(R.string.lbl_load_channels) + mAllChannels.get(pageUpStart).getNumber() + " - " + mAllChannels.get(mCurrentDisplayChannelStartNdx - 1).getNumber()));
             }
         }
 
@@ -993,20 +959,20 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         @Override
         protected void onPostExecute(Void aVoid) {
             TvApp.getApplication().getLogger().Debug("*** Display programs post execute");
-            if (mCurrentDisplayChannelEndNdx < mAllChannels.size()-1) {
+            if (mCurrentDisplayChannelEndNdx < mAllChannels.size() - 1) {
                 // Show a paging row for channels below
                 int pageDnEnd = mCurrentDisplayChannelEndNdx + PAGE_SIZE;
-                if (pageDnEnd >= mAllChannels.size()) pageDnEnd = mAllChannels.size()-1;
+                if (pageDnEnd >= mAllChannels.size()) pageDnEnd = mAllChannels.size() - 1;
 
                 TextView placeHolder = new TextView(mActivity);
                 placeHolder.setHeight(LiveTvGuideActivity.PAGEBUTTON_HEIGHT);
                 mChannels.addView(placeHolder);
 
-                mProgramRows.addView(new GuidePagingButton(mActivity, mFragment, mCurrentDisplayChannelEndNdx + 1, getString(R.string.lbl_load_channels)+mAllChannels.get(mCurrentDisplayChannelEndNdx+1).getNumber() + " - "+mAllChannels.get(pageDnEnd).getNumber()));
+                mProgramRows.addView(new GuidePagingButton(mActivity, mFragment, mCurrentDisplayChannelEndNdx + 1, getString(R.string.lbl_load_channels) + mAllChannels.get(mCurrentDisplayChannelEndNdx + 1).getNumber() + " - " + mAllChannels.get(pageDnEnd).getNumber()));
             }
 
-            mChannelStatus.setText(displayedChannels+" of "+mAllChannels.size()+" channels");
-            mFilterStatus.setText(" for next "+ mGuideHours+" hours");
+            mChannelStatus.setText(displayedChannels + " of " + mAllChannels.size() + " channels");
+            mFilterStatus.setText(" for next " + mGuideHours + " hours");
             mFilterStatus.setTextColor(Color.GRAY);
 
             mGuideSpinner.setVisibility(View.GONE);
@@ -1144,16 +1110,18 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     private LiveProgramDetailPopup mDetailPopup;
+
     public void showProgramOptions() {
         if (mSelectedProgram == null) return;
-        if (mDetailPopup == null) mDetailPopup = new LiveProgramDetailPopup(mActivity, Utils.convertDpToPixel(mActivity, 600), new EmptyResponse() {
-            @Override
-            public void onResponse() {
-                switchChannel(mSelectedProgram.getChannelId());
-            }
-        });
+        if (mDetailPopup == null)
+            mDetailPopup = new LiveProgramDetailPopup(mActivity, Utils.convertDpToPixel(mActivity, 600), new EmptyResponse() {
+                @Override
+                public void onResponse() {
+                    switchChannel(mSelectedProgram.getChannelId());
+                }
+            });
         mDetailPopup.setContent(mSelectedProgram, mSelectedProgramView);
-        mDetailPopup.show(mGuideTitle, mTitle.getLeft(), mGuideTitle.getTop() - 10);
+        mDetailPopup.show(mGuideTitle, 0, mGuideTitle.getTop() - 10);
 
     }
 
@@ -1165,7 +1133,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         @Override
         public void onAnimationEnd(Animation animation) {
             mTopPanel.setVisibility(View.GONE);
-            mBottomPanel.setVisibility(View.GONE);
         }
 
         @Override
@@ -1181,7 +1148,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         @Override
         public void onAnimationEnd(Animation animation) {
             mTopPanel.setVisibility(View.VISIBLE);
-            mBottomPanel.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -1194,7 +1160,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             int height = Utils.convertDpToPixel(getActivity(), 300);
             int width = Utils.convertDpToPixel(getActivity(), 150);
             String posterImageUrl = ImageUtils.getPrimaryImageUrl(item, mApplication.getApiClient(), false, false, preferSeries, height);
-            if (posterImageUrl != null) Picasso.with(getActivity()).load(posterImageUrl).skipMemoryCache().resize(width, height).centerInside().into(target);
+            if (posterImageUrl != null)
+                Picasso.with(getActivity()).load(posterImageUrl).skipMemoryCache().resize(width, height).centerInside().into(target);
         }
     }
 
@@ -1203,57 +1170,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             int height = Utils.convertDpToPixel(getActivity(), 60);
             int width = Utils.convertDpToPixel(getActivity(), 180);
             String imageUrl = ImageUtils.getLogoImageUrl(item, mApplication.getApiClient());
-            if (imageUrl != null) Picasso.with(getActivity()).load(imageUrl).skipMemoryCache().resize(width, height).centerInside().into(target);
+            if (imageUrl != null)
+                Picasso.with(getActivity()).load(imageUrl).skipMemoryCache().resize(width, height).centerInside().into(target);
         }
     }
 
-    private void updateStudio(BaseItemDto item) {
-        if (getActivity() != null && !getActivity().isFinishing()) {
-            int height = Utils.convertDpToPixel(mActivity, 30);
-            int width = Utils.convertDpToPixel(mActivity, 70);
-            if (item.getStudios() != null && item.getStudios().length > 0 && item.getStudios()[0].getHasPrimaryImage()) {
-                String studioImageUrl = ImageUtils.getPrimaryImageUrl(item.getStudios()[0], mApplication.getApiClient(), height);
-                if (studioImageUrl != null)
-                    Picasso.with(mActivity).load(studioImageUrl).resize(width, height).centerInside().into(mStudioImage);
-            } else {
-                if (item.getSeriesStudio() != null) {
-                    String studioImageUrl = null;
-                    try {
-                        ImageOptions options = new ImageOptions();
-                        options.setMaxHeight(height);
-                        options.setImageType(ImageType.Primary);
-                        studioImageUrl = mApplication.getApiClient().GetStudioImageUrl(URLEncoder.encode(item.getSeriesStudio(), "utf-8"), options);
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                    if (studioImageUrl != null)
-                        Picasso.with(mActivity).load(studioImageUrl).resize(width, height).centerInside().into(mStudioImage);
-                } else {
-                    mStudioImage.setImageResource(R.drawable.blank30x30);
-                }
-            }
-        }
-    }
-
-    public void updateEndTime(final long timeLeft) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mEndTime.setText(timeLeft > 0 ?
-                                mApplication.getString(R.string.lbl_ends) + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(System.currentTimeMillis() + timeLeft)
-                                : ""
-                );
-            }
-        });
-    }
-
-    private void updateCurrentDuration(BaseItemDto item) {
-        Long mbRuntime = item.getRunTimeTicks();
-        Long andDuration = mbRuntime != null ? mbRuntime / 10000: 0;
-        mCurrentDuration = andDuration.intValue();
-    }
-
-    private void showQuickChannelChanger() {
+    public void showQuickChannelChanger() {
         showChapterPanel();
         mHandler.postDelayed(new Runnable() {
             @Override
@@ -1262,265 +1184,23 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 if (ndx > 0) {
                     mPopupRowPresenter.setPosition(ndx);
                 }
+                mPopupPanelVisible = true;
             }
-        },500);
+        }, 500);
     }
 
-    private void addButtons(BaseItemDto item) {
-        mButtonRow.removeAllViews();
-
-        if (!DeviceUtils.isFireTv() && mPlaybackController.canSeek()) {
-            // on-screen jump buttons for Nexus
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_loop, mButtonSize, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mPlaybackController.skip(-11000);
-                    startFadeTimer();
+    public void showChapterSelector() {
+        showChapterPanel();
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int ndx = getCurrentChapterIndex(mPlaybackController.getCurrentlyPlayingItem(), mPlaybackController.getCurrentPosition() * 10000);
+                if (ndx > 0) {
+                    mPopupRowPresenter.setPosition(ndx);
                 }
-            }));
-
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_fastforward, mButtonSize, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mPlaybackController.skip(30000);
-                    startFadeTimer();
-                }
-            }));
-        }
-
-        if (mPlaybackController.isLiveTv()) {
-            // previous channel button
-            if (TvManager.getPrevLiveTvChannel() != null) {
-                mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_previous_episode, mButtonSize, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        switchChannel(TvManager.getPrevLiveTvChannel());
-                    }
-                }));
+                mPopupPanelVisible = true;
             }
-
-            // create quick channel change row
-            TvManager.loadAllChannels(new Response<Integer>() {
-                @Override
-                public void onResponse(Integer response) {
-                    ArrayObjectAdapter channelAdapter = new ArrayObjectAdapter(new ChannelCardPresenter());
-                    channelAdapter.addAll(0, TvManager.getAllChannels());
-                    if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
-                    mChapterRow = new ListRow(new HeaderItem("Channels"), channelAdapter);
-                    mPopupRowAdapter.add(mChapterRow);
-                }
-            });
-
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_channel_bar, mButtonSize, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showQuickChannelChanger();
-                }
-            }));
-
-            // guide button
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_guide, mButtonSize, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showGuide();
-                }
-            }));
-
-            // record button
-            if (item.getCurrentProgram() != null && mApplication.canManageRecordings()) {
-                mButtonRow.addView(new ImageButton(mActivity, item.getCurrentProgram().getTimerId() != null ? R.drawable.ic_record_red : R.drawable.ic_record, mButtonSize, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        toggleRecording(mPlaybackController.getCurrentlyPlayingItem());
-                    }
-                }));
-            }
-
-            // adjust popup for channels
-            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mPopupArea.getLayoutParams();
-            params.height = Utils.convertDpToPixel(mActivity, 170);
-            mPopupArea.setLayoutParams(params);
-        }
-
-        if (!TextUtils.isEmpty(item.getOverview())) {
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_info, mButtonSize, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showInfo();
-                }
-            }));
-        }
-
-        boolean hasSubs = StreamHelper.getSubtitleStreams(mPlaybackController.getCurrentMediaSource()).size() > 0;
-        boolean hasMultiAudio = StreamHelper.getAudioStreams(mPlaybackController.getCurrentMediaSource()).size() > 1;
-
-        if (hasMultiAudio) {
-            mApplication.getLogger().Debug("Multiple Audio tracks found: %d", StreamHelper.getAudioStreams(mPlaybackController.getCurrentMediaSource()).size());
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_select_audio, mButtonSize, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mPlaybackController.getCurrentStreamInfo() == null) {
-                        TvApp.getApplication().getLogger().Warn("StreamInfo null trying to obtain audio tracks");
-                        Utils.showToast(TvApp.getApplication(), "Unable to obtain audio track info");
-                        return;
-                    }
-                    setFadingEnabled(false);
-
-                    List<MediaStream> audioTracks = TvApp.getApplication().getPlaybackManager().getInPlaybackSelectableAudioStreams(mPlaybackController.getCurrentStreamInfo());
-                    Integer currentAudioIndex = mPlaybackController.getAudioStreamIndex();
-                    if (!mPlaybackController.isNativeMode() && currentAudioIndex > audioTracks.size()) {
-                        //VLC has translated this to an ID - we need to translate back to our index positionally
-                        currentAudioIndex = mPlaybackController.translateVlcAudioId(currentAudioIndex);
-                    }
-
-                    PopupMenu audioMenu = Utils.createPopupMenu(getActivity(), v, Gravity.END);
-                    for (MediaStream audio : audioTracks) {
-                        MenuItem item = audioMenu.getMenu().add(0, audio.getIndex(), audio.getIndex(), audio.getDisplayTitle());
-                        if (currentAudioIndex != null && currentAudioIndex == audio.getIndex()) item.setChecked(true);
-                    }
-                    audioMenu.getMenu().setGroupCheckable(0, true, false);
-                    audioMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
-                        @Override
-                        public void onDismiss(PopupMenu menu) {
-                            setFadingEnabled(true);
-                        }
-                    });
-                    audioMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            mApplication.getLogger().Debug("Selected stream %s", item.getTitle().toString());
-                            mPlaybackController.switchAudioStream(item.getItemId());
-                            return true;
-                        }
-                    });
-                    audioMenu.show();
-                }
-            }));
-        } else {
-            mApplication.getLogger().Debug("Only one audio track.");
-        }
-
-        if (hasSubs) {
-            mApplication.getLogger().Debug("Subtitle tracks found: %d", mPlaybackController.getSubtitleStreams().size());
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_select_subtitle, mButtonSize, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mPlaybackController.getCurrentStreamInfo() == null) {
-                        TvApp.getApplication().getLogger().Warn("StreamInfo null trying to obtain subtitles");
-                        Utils.showToast(TvApp.getApplication(), "Unable to obtain subtitle info");
-                        return;
-                    }
-                    setFadingEnabled(false);
-                    List<SubtitleStreamInfo> subtitles = mPlaybackController.getSubtitleStreams();
-                    PopupMenu subMenu = Utils.createPopupMenu(getActivity(), v, Gravity.END);
-                    MenuItem none = subMenu.getMenu().add(0, -1, 0, mApplication.getString(R.string.lbl_none));
-                    int currentSubIndex = mPlaybackController.getSubtitleStreamIndex();
-                    if (currentSubIndex < 0) none.setChecked(true);
-                    for (SubtitleStreamInfo sub : subtitles) {
-                        MenuItem item = subMenu.getMenu().add(0, sub.getIndex(), sub.getIndex(), sub.getDisplayTitle());
-                        if (currentSubIndex == sub.getIndex()) item.setChecked(true);
-                    }
-                    subMenu.getMenu().setGroupCheckable(0, true, false);
-                    subMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
-                        @Override
-                        public void onDismiss(PopupMenu menu) {
-                            setFadingEnabled(true);
-                        }
-                    });
-                    subMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            mApplication.getLogger().Debug("Selected subtitle %s", item.getTitle().toString());
-                            mPlaybackController.switchSubtitleStream(item.getItemId());
-                            return true;
-                        }
-                    });
-                    subMenu.show();
-                }
-            }));
-        } else {
-            mApplication.getLogger().Debug("No sub tracks found.");
-        }
-
-        List<ChapterInfoDto> chapters = item.getChapters();
-        if (chapters != null && chapters.size() > 0) {
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_select_chapter, mButtonSize, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showChapterPanel();
-                    mHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            int ndx = getCurrentChapterIndex(mPlaybackController.getCurrentlyPlayingItem(), mPlaybackController.getCurrentPosition() * 10000);
-                            if (ndx > 0) {
-                                mPopupRowPresenter.setPosition(ndx);
-                            }
-                        }
-                    },500);
-                }
-            }));
-
-            // create chapter row for later use
-            ItemRowAdapter chapterAdapter = new ItemRowAdapter(BaseItemUtils.buildChapterItems(item), new CardPresenter(true, 220), new ArrayObjectAdapter());
-            chapterAdapter.Retrieve();
-            if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
-            mChapterRow = new ListRow(new HeaderItem(mActivity.getString(R.string.chapters)), chapterAdapter);
-            mPopupRowAdapter.add(mChapterRow);
-
-        }
-
-        if (mPlaybackController.hasNextItem()) {
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.lb_ic_skip_next, mButtonSize, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mPlaybackController.next();
-                }
-            }));
-        }
-
-        if (!mPlaybackController.isNativeMode()) {
-            if (mAudioPopup == null ) mAudioPopup = new AudioDelayPopup(mActivity, mBottomPanel, new ValueChangedListener<Long>() {
-                @Override
-                public void onValueChanged(Long value) {
-                    mPlaybackController.setAudioDelay(value);
-                }
-            });
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_adjust, mButtonSize, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mAudioPopup.show(mPlaybackController.getAudioDelay());
-                }
-            }));
-        } else {
-            mButtonRow.addView(new ImageButton(mActivity, R.drawable.ic_zoom, mButtonSize, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PopupMenu zoomMenu = Utils.createPopupMenu(mActivity, v, Gravity.RIGHT);
-                    zoomMenu.getMenu().add(0, VideoManager.ZOOM_NORMAL, VideoManager.ZOOM_NORMAL, mApplication.getString(R.string.lbl_normal)).setChecked(mPlaybackController.getZoomMode() == VideoManager.ZOOM_NORMAL);
-                    zoomMenu.getMenu().add(0, VideoManager.ZOOM_VERTICAL, VideoManager.ZOOM_VERTICAL, mApplication.getString(R.string.lbl_vertical_stretch)).setChecked(mPlaybackController.getZoomMode() == VideoManager.ZOOM_VERTICAL);
-                    zoomMenu.getMenu().add(0, VideoManager.ZOOM_HORIZONTAL, VideoManager.ZOOM_HORIZONTAL, mApplication.getString(R.string.lbl_horizontal_stretch)).setChecked(mPlaybackController.getZoomMode() == VideoManager.ZOOM_HORIZONTAL);
-                    zoomMenu.getMenu().add(0, VideoManager.ZOOM_FULL, VideoManager.ZOOM_FULL, mApplication.getString(R.string.lbl_zoom)).setChecked(mPlaybackController.getZoomMode() == VideoManager.ZOOM_FULL);
-
-                    zoomMenu.getMenu().setGroupCheckable(0, true, false);
-                    zoomMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
-                        @Override
-                        public void onDismiss(PopupMenu menu) {
-                            setFadingEnabled(true);
-                        }
-                    });
-                    zoomMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            mPlaybackController.setZoom(item.getItemId());
-                            return true;
-                        }
-                    });
-
-                    setFadingEnabled(false);
-                    zoomMenu.show();
-                }
-            }));
-        }
+        }, 500);
     }
 
     private int getCurrentChapterIndex(BaseItemDto item, long pos) {
@@ -1536,7 +1216,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         return ndx - 1;
     }
 
-    private void toggleRecording(BaseItemDto item) {
+    public void toggleRecording(BaseItemDto item) {
         final BaseItemDto program = item.getCurrentProgram();
 
         if (program != null) {
@@ -1679,15 +1359,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         } else if (mSmNextUpPanelVisible) {
             mSmStartsIn.setText(mCurrentDuration > 0 ? "Starts in " + TimeUtils.formatMillis(mCurrentDuration - time) : "");
         } else {
-            mCurrentProgress.setProgress(((Long)time).intValue());
-            mCurrentPos.setText(TimeUtils.formatMillis(time));
-            mRemainingTime.setText(mCurrentDuration > 0 ? "-" + TimeUtils.formatMillis(mCurrentDuration - time) : "");
+            leanbackOverlayFragment.updateCurrentPosition();
         }
     }
 
     @Override
     public void setSecondaryTime(long time) {
-        mCurrentProgress.setSecondaryProgress(((Long)time).intValue());
     }
 
     @Override
@@ -1708,12 +1385,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     @Override
     public void setPlayPauseActionState(final int state) {
-        if (getActivity() != null && !getActivity().isFinishing()) getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mPlayPauseBtn.setState(state);
-            }
-        });
+        leanbackOverlayFragment.updatePlayState();
     }
 
     @Override
@@ -1722,36 +1394,48 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         if (current != null & mActivity != null && !mActivity.isFinishing()) {
             if (mNextUpPanelVisible) hideNextUpPanel();
             if (mSmNextUpPanelVisible) hideSmNextUpPanel();
-            updateCurrentDuration(current);
+            leanbackOverlayFragment.mediaInfoChanged();
+            leanbackOverlayFragment.onFullyInitialized();
+            leanbackOverlayFragment.recordingStateChanged();
             // set progress to match duration
-            mCurrentProgress.setMax(mCurrentDuration);
             // set other information
-            mTitle.setText(current.getName());
-            mInfoSummary.setText(current.getOverview());
             mGuideCurrentTitle.setText(current.getName());
-            updatePoster(current, mPoster, true);
             updateLogo(current, mLogoImage);
-            updateStudio(current);
-            addButtons(current);
-            InfoLayoutHelper.addInfoRow(mActivity, current, mInfoRow, true, false, mPlaybackController.getCurrentMediaSource().GetDefaultAudioStream(mPlaybackController.getAudioStreamIndex()));
-
-            if (mApplication.getPrefs().getBoolean("pref_enable_debug", false)) {
-                StreamInfo stream = mPlaybackController.getCurrentStreamInfo();
-                if (stream != null) {
-                    switch (stream.getPlayMethod()) {
-                        case Transcode:
-                            InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Trans" + (mPlaybackController.mVideoManager.isNativeMode() ? "/I" : "/V"));
-                            break;
-                        case DirectStream:
-                        case DirectPlay:
-                            InfoLayoutHelper.addBlockText(mActivity, mInfoRow, "Direct" + (mPlaybackController.mVideoManager.isNativeMode() ? "/I" : "/V"));
-                            break;
-                    }
-                }
+            if (mPlaybackController.isLiveTv()) {
+                prepareChannelAdapter();
+            } else {
+                prepareChapterAdapter();
             }
-
-            if (mIsVisible) mPlayPauseBtn.requestFocus();
         }
+    }
+
+    private void prepareChapterAdapter() {
+        BaseItemDto item = mPlaybackController.getCurrentlyPlayingItem();
+        List<ChapterInfoDto> chapters = item.getChapters();
+
+        if (chapters != null && !chapters.isEmpty()) {
+            // create chapter row for later use
+            ItemRowAdapter chapterAdapter = new ItemRowAdapter(BaseItemUtils.buildChapterItems(item), new CardPresenter(true, 220), new ArrayObjectAdapter());
+            chapterAdapter.Retrieve();
+            if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
+            mChapterRow = new ListRow(new HeaderItem(mActivity.getString(R.string.chapters)), chapterAdapter);
+            mPopupRowAdapter.add(mChapterRow);
+        }
+
+    }
+
+    private void prepareChannelAdapter() {
+        // create quick channel change row
+        TvManager.loadAllChannels(new Response<Integer>() {
+            @Override
+            public void onResponse(Integer response) {
+                ArrayObjectAdapter channelAdapter = new ArrayObjectAdapter(new ChannelCardPresenter());
+                channelAdapter.addAll(0, TvManager.getAllChannels());
+                if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
+                mChapterRow = new ListRow(new HeaderItem("Channels"), channelAdapter);
+                mPopupRowAdapter.add(mChapterRow);
+            }
+        });
     }
 
     @Override
@@ -1818,7 +1502,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     public void updateSubtitles(long positionMs) {
-        if (lastReportedPosMs > 0){
+        if (lastReportedPosMs > 0) {
             if (Math.abs(lastReportedPosMs - positionMs) < 500) {
                 return;
             }
