@@ -51,7 +51,6 @@ dependencies {
 	// Android(x)
 	implementation("androidx.core:core-ktx:1.2.0")
 	implementation("androidx.leanback:leanback:1.0.0")
-	implementation("androidx.appcompat:appcompat:1.1.0")
 	implementation("androidx.tvprovider:tvprovider:1.0.0")
 	implementation("androidx.palette:palette:1.0.0")
 	implementation("androidx.constraintlayout:constraintlayout:1.1.3")
