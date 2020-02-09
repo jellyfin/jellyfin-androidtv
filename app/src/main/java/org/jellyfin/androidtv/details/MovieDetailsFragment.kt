@@ -68,8 +68,7 @@ class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
 			item.cast.forEach(it::add)
 		}
 
-		val similarItems = TvApp.getApplication().apiClient.getSimilarItems(item)
-		val similarMovies = similarItems?.filter { it is Movie }
+		val similarMovies = TvApp.getApplication().apiClient.getSimilarItems(item)?.filterIsInstance<Movie>()
 		similarsRow.adapter.also {
 			it as ArrayObjectAdapter
 			it.clear()
