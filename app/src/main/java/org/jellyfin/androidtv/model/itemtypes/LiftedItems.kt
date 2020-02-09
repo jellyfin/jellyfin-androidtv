@@ -2,8 +2,11 @@ package org.jellyfin.androidtv.model.itemtypes
 
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.BaseItemType
+import org.jellyfin.apiclient.model.querying.ItemFields
 import java.util.*
 import kotlin.properties.Delegates
+
+val FieldsRequiredForLift = arrayOf(ItemFields.DateCreated, ItemFields.MediaSources, ItemFields.MediaStreams, ItemFields.People)
 
 sealed class BaseItem(original: BaseItemDto) : ObservableParent() {
 	val id: String = original.id
