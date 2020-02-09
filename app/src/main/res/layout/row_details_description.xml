@@ -2,15 +2,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <androidx.leanback.widget.ResizingTextView
         android:id="@+id/details_description_title"
         style="?attr/detailsDescriptionTitleStyle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toTopOf="@+id/details_description_subtitle"
+        app:layout_constraintEnd_toStartOf="@id/details_description_streams"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Title" />
@@ -18,21 +21,27 @@
     <androidx.leanback.widget.ResizingTextView
         android:id="@+id/details_description_subtitle"
         style="?attr/detailsDescriptionSubtitleStyle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toTopOf="@+id/details_description_metadata"
+        app:layout_constraintEnd_toStartOf="@id/details_description_streams"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/details_description_title"
         tools:text="Alternative title or native title" />
 
     <LinearLayout
         android:id="@+id/details_description_metadata"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/details_description_genres"
+        app:layout_constraintEnd_toStartOf="@id/details_description_streams"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/details_description_subtitle">
 
@@ -42,11 +51,7 @@
             android:layout_height="wrap_content"
             tools:text="2006-2008" />
 
-        <android.widget.Space
-            android:layout_width="8dp"
-            android:layout_height="0dp" />
-
-        <android.widget.Space
+        <Space
             android:layout_width="8dp"
             android:layout_height="0dp" />
 
@@ -63,7 +68,7 @@
             android:textSize="12sp"
             tools:text="PG-13" />
 
-        <android.widget.Space
+        <Space
             android:layout_width="8dp"
             android:layout_height="0dp" />
 
@@ -71,18 +76,34 @@
             android:id="@+id/details_description_community_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="9.8" />
+            app:type="community"
+            tools:value="9.8" />
+
+        <Space
+            android:layout_width="8dp"
+            android:layout_height="0dp" />
+
+        <org.jellyfin.androidtv.ui.widget.Rating
+            android:id="@+id/details_description_critics_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:type="critics"
+            tools:value="15" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/details_description_genres"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:nextFocusRight="@id/details_description_streams"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/details_description_body"
+        app:layout_constraintEnd_toStartOf="@id/details_description_streams"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/details_description_metadata"
         tools:itemCount="5"
@@ -91,9 +112,12 @@
     <TextView
         android:id="@+id/details_description_body"
         style="?attr/detailsDescriptionBodyStyle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toTopOf="@id/details_description_tags"
+        app:layout_constraintEnd_toStartOf="@id/details_description_streams"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/details_description_genres"
         tools:text="Item description or overview.. whatever you might call it " />
@@ -103,11 +127,70 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/details_description_streams"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/details_description_body"
         tools:text="Tags: Tag1, Tag2, Tag3" />
 
+    <LinearLayout
+        android:id="@+id/details_description_streams"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:nextFocusLeft="@id/details_description_genres"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/details_description_streams_video_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Video"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/details_description_streams_video_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1080P MSMPEG4V2" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="8dp" />
+
+        <TextView
+            android:id="@+id/details_description_streams_audio_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Audio"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/details_description_streams_audio_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dolby Digital 5.1 Default" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="8dp" />
+
+        <TextView
+            android:id="@+id/details_description_streams_subtitles_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Subtitles"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/details_description_streams_subtitles_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Undefined - Default" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
