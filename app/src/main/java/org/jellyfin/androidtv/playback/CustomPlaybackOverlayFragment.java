@@ -748,7 +748,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         // give back audio focus
         mAudioManager.abandonAudioFocus(mAudioFocusChanged);
-        mApplication.getLogger().Debug("Fragment pausing. IsFinishing: " + mActivity.isFinishing());
+        mApplication.getLogger().Debug("Fragment pausing. IsFinishing: %b", mActivity.isFinishing());
         if (!mActivity.isFinishing()) mActivity.finish(); // user hit "home" we want to back out
     }
 
@@ -1205,10 +1205,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     private int getCurrentChapterIndex(BaseItemDto item, long pos) {
         int ndx = 0;
-        TvApp.getApplication().getLogger().Debug("*** looking for chapter at pos: " + pos);
+        TvApp.getApplication().getLogger().Debug("*** looking for chapter at pos: %d", pos);
         if (item.getChapters() != null) {
             for (ChapterInfoDto chapter : item.getChapters()) {
-                TvApp.getApplication().getLogger().Debug("*** chapter " + ndx + " has pos: " + chapter.getStartPositionTicks());
+                TvApp.getApplication().getLogger().Debug("*** chapter %d has pos: %d", ndx, chapter.getStartPositionTicks());
                 if (chapter.getStartPositionTicks() > pos) return ndx - 1;
                 ndx++;
             }
@@ -1440,7 +1440,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     @Override
     public void nextItemThresholdHit(BaseItemDto nextItem) {
-        mApplication.getLogger().Debug("Next Item is " + nextItem.getName());
+        mApplication.getLogger().Debug("Next Item is %s", nextItem.getName());
         // need to retrieve full item for all info
         mApplication.getApiClient().GetItemAsync(nextItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
             @Override

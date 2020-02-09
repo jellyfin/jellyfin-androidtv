@@ -265,7 +265,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                         mCardHeight = autoHeight;
                         setNumberOfRows();
                         createGrid();
-                        TvApp.getApplication().getLogger().Debug("Auto card height is "+mCardHeight);
+                        TvApp.getApplication().getLogger().Debug("Auto card height is %d", mCardHeight);
                         buildAdapter(rowDef);
                     }
                     mGridAdapter.setSortBy(getSortOption(mDisplayPrefs.getSortBy()));
@@ -294,7 +294,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     }
 
     protected int getAutoCardHeight(Integer size) {
-        TvApp.getApplication().getLogger().Debug("Result size for auto card height is " + size);
+        TvApp.getApplication().getLogger().Debug("Result size for auto card height is %d", size);
         if (size > 35)
             return getCardHeight(PosterSize.SMALL);
         else if (size > 10)
@@ -592,7 +592,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         }
         if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemType.Photo && mCurrentItem.getBaseItemType() != BaseItemType.PhotoAlbum
                 && mCurrentItem.getBaseItemType() != BaseItemType.MusicArtist && mCurrentItem.getBaseItemType() != BaseItemType.MusicAlbum) {
-            TvApp.getApplication().getLogger().Debug("Refresh item "+mCurrentItem.getFullName());
+            TvApp.getApplication().getLogger().Debug("Refresh item \"%s\"", mCurrentItem.getFullName());
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override
                 public void onResponse() {

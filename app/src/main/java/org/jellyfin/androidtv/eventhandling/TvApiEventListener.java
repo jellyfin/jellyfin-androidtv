@@ -11,10 +11,6 @@ import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.querying.StdItemQuery;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
-
-import java.util.Arrays;
-import java.util.Calendar;
-
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.ApiEventListener;
 import org.jellyfin.apiclient.interaction.Response;
@@ -23,10 +19,12 @@ import org.jellyfin.apiclient.model.entities.LibraryUpdateInfo;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.session.BrowseRequest;
-import org.jellyfin.apiclient.model.session.GeneralCommand;
 import org.jellyfin.apiclient.model.session.PlayRequest;
 import org.jellyfin.apiclient.model.session.PlaystateRequest;
 import org.jellyfin.apiclient.model.session.SessionInfoDto;
+
+import java.util.Arrays;
+import java.util.Calendar;
 
 /**
  * Created by Eric on 2/14/2015.
@@ -56,22 +54,6 @@ public class TvApiEventListener extends ApiEventListener {
     public void onLibraryChanged(ApiClient client, LibraryUpdateInfo info) {
         TvApp.getApplication().getLogger().Debug("Library Changed. Added %o items. Removed %o items. Changed %o items.", info.getItemsAdded().size(), info.getItemsRemoved().size(), info.getItemsUpdated().size());
         if (info.getItemsAdded().size() > 0 || info.getItemsRemoved().size() > 0) TvApp.getApplication().setLastLibraryChange(Calendar.getInstance());
-    }
-
-    @Override
-    public void onGeneralCommand(ApiClient client, GeneralCommand command) {
-        TvApp.getApplication().getLogger().Info("General command is: "+command.getName());
-        switch (command.getName().toLowerCase()) {
-            case "mute":
-                TvApp.getApplication().setAudioMuted(true);
-                break;
-            case "unmute":
-                TvApp.getApplication().setAudioMuted(false);
-                break;
-            case "togglemute":
-                TvApp.getApplication().setAudioMuted(!TvApp.getApplication().isAudioMuted());
-                break;
-        }
     }
 
     @Override

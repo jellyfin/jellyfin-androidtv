@@ -66,10 +66,10 @@ public class ExternalPlayerActivity extends FragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         long playerFinishedTime = System.currentTimeMillis();
-        mApplication.getLogger().Debug("Returned from player... "+ resultCode);
+        mApplication.getLogger().Debug("Returned from player... %d", resultCode);
         //MX Player will return position
         int pos = data != null ? data.getIntExtra("position", 0) : 0;
-        if (pos > 0) mApplication.getLogger().Info("Player returned position: "+pos);
+        if (pos > 0) mApplication.getLogger().Info("Player returned position: %d", pos);
         Long reportPos = (long) pos * 10000;
 
         stopReportLoop();

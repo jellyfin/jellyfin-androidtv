@@ -43,7 +43,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 public class StartupActivity extends FragmentActivity {
-
     private static final int NETWORK_PERMISSION = 1;
     private TvApp application;
     private ILogger logger;
@@ -52,7 +51,6 @@ public class StartupActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_startup);
-
 
         application = (TvApp) getApplicationContext();
         logger = application.getLogger();
@@ -96,41 +94,33 @@ public class StartupActivity extends FragmentActivity {
             // go straight into last connection
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            finish();
         } else {
             //clear audio queue in case left over from last run
             MediaManager.clearAudioQueue();
             MediaManager.clearVideoQueue();
-            establishConnection(this);
+            establishConnection();
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case NETWORK_PERMISSION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay!
-                    start();
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    Utils.showToast(this, "Application cannot continue without network");
-                    finish();
-                }
-                return;
+        if (requestCode == NETWORK_PERMISSION) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted
+                start();
+            } else {
+                // permission denied! Disable the app.
+                Utils.showToast(this, "Application cannot continue without network");
+                finish();
             }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
-
     }
 
-    private void establishConnection(final Activity activity){
+    private void establishConnection() {
+        // workaround...
+        Activity self = this;
+
         // The underlying http stack. Developers can inject their own if desired
         VolleyHttpClient volleyHttpClient = new VolleyHttpClient(logger, application);
         TvApp.getApplication().setHttpClient(volleyHttpClient);
@@ -140,9 +130,6 @@ public class StartupActivity extends FragmentActivity {
         playableTypes.add("Audio");
         ArrayList<String> supportedCommands = new ArrayList<>();
         supportedCommands.add(GeneralCommandType.DisplayContent.toString());
-        supportedCommands.add(GeneralCommandType.Mute.toString());
-        supportedCommands.add(GeneralCommandType.Unmute.toString());
-        supportedCommands.add(GeneralCommandType.ToggleMute.toString());
 
         capabilities.setPlayableMediaTypes(playableTypes);
         capabilities.setSupportsContentUploading(false);
@@ -182,16 +169,16 @@ public class StartupActivity extends FragmentActivity {
                 public void onResponse(ConnectionResult response) {
                     // Saved server login is unavailable
                     if (response.getState() == ConnectionState.Unavailable) {
-                        Utils.showToast(activity, R.string.msg_error_server_unavailable + ": " + application.getConfiguredAutoCredentials().getServerInfo().getName());
-                        AuthenticationHelper.automaticSignIn(connectionManager, activity);
+                        Utils.showToast(self, R.string.msg_error_server_unavailable + ": " + application.getConfiguredAutoCredentials().getServerInfo().getName());
+                        AuthenticationHelper.automaticSignIn(connectionManager, self);
                         return;
                     }
 
                     // Check the server version
                     if (!response.getServers().isEmpty() &&
                             !AuthenticationHelper.isSupportedServerVersion(response.getServers().get(0))) {
-                        Utils.showToast(activity, activity.getString(R.string.msg_error_server_version, TvApp.MINIMUM_SERVER_VERSION));
-                        AuthenticationHelper.automaticSignIn(connectionManager, activity);
+                        Utils.showToast(self, getString(R.string.msg_error_server_version, TvApp.MINIMUM_SERVER_VERSION));
+                        AuthenticationHelper.automaticSignIn(connectionManager, self);
                         return;
                     }
 
@@ -207,19 +194,21 @@ public class StartupActivity extends FragmentActivity {
                                         && (!application.getIsAutoLoginConfigured()
                                         || (application.getPrefs().getBoolean("pref_auto_pw_prompt", false)))) {
                                     //Need to prompt for pw
-                                    Utils.processPasswordEntry(activity, response, application.getDirectItemId());
+                                    Utils.processPasswordEntry(self, response, application.getDirectItemId());
                                 } else {
                                     //Can just go right into details
-                                    Intent detailsIntent = new Intent(activity, FullDetailsActivity.class);
+                                    Intent detailsIntent = new Intent(self, FullDetailsActivity.class);
                                     detailsIntent.putExtra("ItemId", application.getDirectItemId());
                                     startActivity(detailsIntent);
+                                    finish();
                                 }
                             } else {
                                 if (response.getHasPassword() && application.getPrefs().getBoolean("pref_auto_pw_prompt", false)) {
-                                    Utils.processPasswordEntry(activity, response);
+                                    Utils.processPasswordEntry(self, response);
                                 } else {
-                                    Intent intent = new Intent(activity, MainActivity.class);
-                                    activity.startActivity(intent);
+                                    Intent intent = new Intent(self, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
                                 }
                             }
                         }
@@ -227,11 +216,11 @@ public class StartupActivity extends FragmentActivity {
                         @Override
                         public void onError(Exception exception) {
                             application.getLogger().ErrorException("Error Signing in", exception);
-                            Utils.showToast(activity, R.string.msg_error_signin);
+                            Utils.showToast(self, R.string.msg_error_signin);
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    AuthenticationHelper.automaticSignIn(connectionManager, activity);
+                                    AuthenticationHelper.automaticSignIn(connectionManager, self);
                                 }
                             }, 5000);
                         }
@@ -240,12 +229,12 @@ public class StartupActivity extends FragmentActivity {
 
                 @Override
                 public void onError(Exception exception) {
-                    Utils.showToast( activity, R.string.msg_error_connecting_server + ": " + application.getConfiguredAutoCredentials().getServerInfo().getName());
-                    AuthenticationHelper.automaticSignIn(connectionManager, activity);
+                    Utils.showToast(self, R.string.msg_error_connecting_server + ": " + application.getConfiguredAutoCredentials().getServerInfo().getName());
+                    AuthenticationHelper.automaticSignIn(connectionManager, self);
                 }
             });
         } else {
-            AuthenticationHelper.automaticSignIn(connectionManager, activity);
+            AuthenticationHelper.automaticSignIn(connectionManager, self);
         }
     }
 }
