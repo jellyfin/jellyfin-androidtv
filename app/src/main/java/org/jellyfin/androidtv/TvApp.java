@@ -158,6 +158,9 @@ public class TvApp extends Application {
     }
 
     public UserDto getCurrentUser() {
+        if (currentUser == null)
+            logger.Error("Called getCurrentUser() but value was null.");
+
         return currentUser;
     }
 
