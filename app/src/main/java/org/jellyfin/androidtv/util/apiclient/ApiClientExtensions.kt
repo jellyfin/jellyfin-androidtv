@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.util.apiclient
 
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
-import org.jellyfin.androidtv.model.itemtypes.FieldsRequiredForLift
+import org.jellyfin.androidtv.model.itemtypes.FIELDS_REQUIRED_FOR_LIFT
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.Response
 import org.jellyfin.apiclient.model.dto.BaseItemDto
@@ -67,12 +67,14 @@ suspend fun ApiClient.updateFavoriteStatus(itemId: String, userId: String, isFav
 	})
 }
 
-suspend fun ApiClient.getSimilarItems(item: BaseItem): List<BaseItem>? = suspendCoroutine {continuation ->
-	val query = SimilarItemsQuery()
-	query.setUserId(TvApp.getApplication().currentUser.id)
-	query.setId(item.id)
-	query.setLimit(10)
-	query.fields = FieldsRequiredForLift
+suspend fun ApiClient.getSimilarItems(item: BaseItem, limit: Int = 25): List<BaseItem>? = suspendCoroutine { continuation ->
+	val query = SimilarItemsQuery().apply {
+		id = item.id
+		userId = TvApp.getApplication().currentUser.id
+		this.limit = limit
+		fields = FIELDS_REQUIRED_FOR_LIFT
+	}
+
 	GetSimilarItems(query, object : Response<ItemsResult>() {
 		override fun onResponse(response: ItemsResult?) {
 			continuation.resume(response?.items.orEmpty().map { baseItemDto -> baseItemDto.liftToNewFormat() })
@@ -81,5 +83,5 @@ suspend fun ApiClient.getSimilarItems(item: BaseItem): List<BaseItem>? = suspend
 		override fun onError(exception: java.lang.Exception?) {
 			continuation.resume(null)
 		}
-	});
+	})
 }
