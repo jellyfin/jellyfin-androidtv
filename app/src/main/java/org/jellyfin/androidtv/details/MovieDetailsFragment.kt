@@ -2,9 +2,11 @@ package org.jellyfin.androidtv.details
 
 import androidx.leanback.widget.*
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.details.actions.*
 import org.jellyfin.androidtv.model.itemtypes.Movie
 import org.jellyfin.androidtv.presentation.InfoCardPresenter
+import org.jellyfin.androidtv.util.apiclient.getSimilarItems
 
 private const val LOG_TAG = "MovieDetailsFragment"
 
@@ -14,7 +16,7 @@ class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
 	private val chaptersRow by lazy { ListRow(HeaderItem("Chapters"), ArrayObjectAdapter(ChapterInfoPresenter(this.context!!))) }
 //	private val staffRow by lazy { Row() }
 	private val charactersRow by lazy { ListRow(HeaderItem("Cast/Crew"), ArrayObjectAdapter(PersonPresenter(this.context!!))) }
-//	private val relatedRow by lazy { Row() }
+	private val similarsRow by lazy { ListRow(HeaderItem("Similar"), ArrayObjectAdapter(ItemPosterPresenter(this.context!!))) }
 	private val mediaInfoRow by lazy { ListRow(HeaderItem("Media info"), ArrayObjectAdapter(InfoCardPresenter())) }
 
 	override fun onCreateAdapter(adapter: ArrayObjectAdapter, selector: ClassPresenterSelector) {
@@ -28,7 +30,7 @@ class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
 		adapter.add(chaptersRow)
 //		adapter.add(staffRow)
 		adapter.add(charactersRow)
-//		adapter.add(relatedRow)
+		adapter.add(similarsRow)
 		adapter.add(mediaInfoRow)
 	}
 
@@ -64,6 +66,14 @@ class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
 			it as ArrayObjectAdapter
 			it.clear()
 			item.cast.forEach(it::add)
+		}
+
+		val similarItems = TvApp.getApplication().apiClient.getSimilarItems(item)
+		val similarMovies = similarItems?.filter { it is Movie }
+		similarsRow.adapter.also {
+			it as ArrayObjectAdapter
+			it.clear()
+			similarMovies?.forEach(it::add)
 		}
 
 		// Update media info data
