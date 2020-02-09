@@ -11,6 +11,10 @@
         <attr name="popupWindowBackground" format="reference|color" />
     </declare-styleable>
     <declare-styleable name="Rating">
-        <attr name="text" format="string" />
+        <attr name="value" format="float" />
+        <attr name="type" format="enum">
+            <enum name="community" value="0" />
+            <enum name="critics" value="1" />
+        </attr>
     </declare-styleable>
 </resources>
