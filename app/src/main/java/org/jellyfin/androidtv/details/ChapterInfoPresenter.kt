@@ -36,7 +36,7 @@ class ChapterInfoPresenter(private val context: Context) : Presenter(), IItemCli
 		cardView.isFocusable = true
 		cardView.isFocusableInTouchMode = true
 		cardView.setMainImageDimensions(500, 281)
-		cardView.mainImage = TvApp.getApplication().getDrawableCompat(R.drawable.tile_port_person)
+		cardView.mainImage = TvApp.getApplication().getDrawableCompat(R.drawable.tile_chapter)
 
 		if (chapterInfo.image != null) {
 			GlobalScope.launch(Dispatchers.Main) {
