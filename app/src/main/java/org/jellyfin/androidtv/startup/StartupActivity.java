@@ -184,7 +184,7 @@ public class StartupActivity extends FragmentActivity {
                                 }
                             } else {
                                 if (response.getHasPassword() && application.getUserPreferences().getPasswordPromptEnabled()) {
-                                    Utils.processPasswordEntry(activity, response);
+                                    Utils.processPasswordEntry(self, response);
                                 } else {
                                     Intent intent = new Intent(self, MainActivity.class);
                                     startActivity(intent);

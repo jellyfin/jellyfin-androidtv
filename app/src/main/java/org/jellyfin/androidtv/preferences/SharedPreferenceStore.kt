@@ -125,7 +125,7 @@ abstract class SharedPreferenceStore(
 			val stringValue = sharedPreferences.getString(key, null)
 
 			return if (stringValue == null) default
-			else T::class.java.enumConstants.find { it.name == stringValue } ?: default
+			else T::class.java.enumConstants?.find { it.name == stringValue } ?: default
 		}
 
 		override fun setValue(thisRef: SharedPreferenceStore, property: KProperty<*>, value: T) {
