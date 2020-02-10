@@ -1,12 +1,15 @@
 package org.jellyfin.androidtv.util.apiclient
 
 import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.model.itemtypes.BaseItem
+import org.jellyfin.androidtv.model.itemtypes.FIELDS_REQUIRED_FOR_LIFT
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.Response
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.UserItemDataDto
 import org.jellyfin.apiclient.model.querying.ItemsResult
 import org.jellyfin.apiclient.model.querying.NextUpQuery
+import org.jellyfin.apiclient.model.querying.SimilarItemsQuery
 import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -45,10 +48,28 @@ suspend fun ApiClient.markUnplayed(itemId: String, userId: String) : UserItemDat
 	})
 }
 
-
 suspend fun ApiClient.updateFavoriteStatus(itemId: String, userId: String, isFavorite: Boolean) : UserItemDataDto? = suspendCoroutine { continuation ->
 	UpdateFavoriteStatusAsync(itemId, userId, isFavorite, object : Response<UserItemDataDto>() {
 		override fun onResponse(response: UserItemDataDto?) { continuation.resume(response!!) }
 		override fun onError(exception: Exception?) { continuation.resume(null) }
+	})
+}
+
+suspend fun ApiClient.getSimilarItems(item: BaseItem, limit: Int = 25): List<BaseItem>? = suspendCoroutine { continuation ->
+	val query = SimilarItemsQuery().apply {
+		id = item.id
+		userId = TvApp.getApplication().currentUser.id
+		this.limit = limit
+		fields = FIELDS_REQUIRED_FOR_LIFT
+	}
+
+	GetSimilarItems(query, object : Response<ItemsResult>() {
+		override fun onResponse(response: ItemsResult?) {
+			continuation.resume(response?.items.orEmpty().map { baseItemDto -> baseItemDto.liftToNewFormat() })
+		}
+
+		override fun onError(exception: java.lang.Exception?) {
+			continuation.resume(null)
+		}
 	})
 }
