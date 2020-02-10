@@ -2,14 +2,15 @@ package org.jellyfin.androidtv.ui;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.widget.TextView;
 
 import org.jellyfin.apiclient.model.dto.BaseItemType;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 /**
  * Created by Eric on 2/21/2015.
  */
-public class GenreButton extends TextView {
+public class GenreButton extends AppCompatTextView {
     public GenreButton(Context context, Typeface font, int size, String text, BaseItemType itemType) {
         super(context);
         setTypeface(font);
