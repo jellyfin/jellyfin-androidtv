@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="org.jellyfin.androidtv" >
+    package="org.jellyfin.androidtv">
 
     <uses-feature
         android:name="android.software.leanback"
@@ -23,12 +23,12 @@
 
     <application
         android:name=".TvApp"
+        android:allowBackup="false"
         android:banner="@drawable/app_logo"
         android:icon="@drawable/app_icon_large"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:theme="@style/Theme.Jellyfin"
-        android:allowBackup="false"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
@@ -40,7 +40,8 @@
             android:name=".startup.StartupActivity"
             android:label="@string/app_name"
             android:logo="@drawable/app_logo"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,33 +51,74 @@
         </activity>
         <activity
             android:name=".startup.SelectUserActivity"
-            android:label="@string/title_activity_select_user" />
+            android:label="@string/title_activity_select_user"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".playback.PlaybackOverlayActivity"
-            android:label="PlaybackOverlayActivity" />
-        <activity android:name=".browsing.GenericFolderActivity" />
-        <activity android:name=".browsing.UserViewActivity" />
-        <activity android:name=".startup.SelectServerActivity" />
-        <activity android:name=".browsing.CollectionActivity" />
-        <activity android:name=".browsing.ByLetterActivity" />
-        <activity android:name=".browsing.ByGenreActivity" />
-        <activity android:name=".settings.SettingsActivity" />
-        <activity android:name=".browsing.SuggestedMoviesActivity" />
-        <activity android:name=".browsing.BrowsePersonsActivity" />
-        <activity android:name=".search.SearchActivity" />
-        <activity android:name=".details.FullDetailsActivity" />
-        <activity android:name=".livetv.LiveTvGuideActivity" />
-        <activity android:name=".browsing.GenericGridActivity" />
-        <activity android:name=".browsing.BrowseRecordingsActivity" />
-        <activity android:name=".browsing.BrowseScheduleActivity" />
-        <activity android:name=".details.PhotoPlayerActivity" />
-        <activity android:name=".details.ItemListActivity" />
-        <activity android:name=".playback.AudioNowPlayingActivity" />
+            android:label="PlaybackOverlayActivity"
+            android:screenOrientation="landscape" />
+
+        <activity
+            android:name=".browsing.GenericFolderActivity"
+            android:screenOrientation="landscape" />
+
+        <activity
+            android:name=".browsing.UserViewActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".startup.SelectServerActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".browsing.CollectionActivity"
+
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".browsing.ByLetterActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".browsing.ByGenreActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".browsing.SuggestedMoviesActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".browsing.BrowsePersonsActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".search.SearchActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".details.FullDetailsActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".livetv.LiveTvGuideActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".browsing.GenericGridActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".browsing.BrowseRecordingsActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".browsing.BrowseScheduleActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".details.PhotoPlayerActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".details.ItemListActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".playback.AudioNowPlayingActivity"
+            android:screenOrientation="landscape" />
         <activity android:name=".playback.ExternalPlayerActivity" />
         <activity
             android:name=".startup.DpadPwActivity"
-            android:label="@string/title_activity_dpad_pw" >
-        </activity>
+            android:label="@string/title_activity_dpad_pw"
+            android:screenOrientation="landscape" />
 
         <receiver android:name=".util.RemoteControlReceiver">
             <intent-filter>
@@ -86,7 +128,8 @@
 
         <activity
             android:name=".details.ExpandedTextActivity"
-            android:label="@string/title_activity_expanded_text" />
+            android:label="@string/title_activity_expanded_text"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>
