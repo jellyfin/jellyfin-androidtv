@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.ArrayMap;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -46,17 +47,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
 
 public class HomeFragment extends StdBrowseFragment {
     // Copied from jellyfin-web (homesections.js#getDefaultSection)
@@ -66,7 +61,8 @@ public class HomeFragment extends StdBrowseFragment {
             HomeSectionType.RESUME_AUDIO,
             HomeSectionType.LIVE_TV,
             HomeSectionType.NEXT_UP,
-            HomeSectionType.LATEST_MEDIA
+            HomeSectionType.LATEST_MEDIA,
+            HomeSectionType.NONE
     };
 
     private List<HomeFragmentRow> rows = new ArrayList<>();
@@ -235,8 +231,14 @@ public class HomeFragment extends StdBrowseFragment {
                         Pattern pattern = Pattern.compile("^homesection(\\d+)$");
 
                         // Add sections to map first to make sure they stay in the correct order
-                        Map<Integer, HomeSectionType> sections = new TreeMap<>();
+                        ArrayMap<Integer, HomeSectionType> sections = new ArrayMap<>();
 
+                        // Set defaults
+                        for (int i = 0; i < DEFAULT_SECTIONS.length; i++) {
+                            sections.put(i, DEFAULT_SECTIONS[i]);
+                        }
+
+                        // Overwrite with user-preferred
                         for (String key : prefs.keySet()) {
                             Matcher matcher = pattern.matcher(key);
                             if (!matcher.matches()) continue;
@@ -251,14 +253,10 @@ public class HomeFragment extends StdBrowseFragment {
                         // Fallback when no customization is done by the user
                         rows.clear();
 
-                        if (sections.size() > 0) {
-                            for (HomeSectionType section : sections.values()) {
+                        // Actually add the sections
+                        for (HomeSectionType section : sections.values()) {
+                            if (section != HomeSectionType.NONE)
                                 addSection(section);
-                            }
-                        } else {
-                            for (HomeSectionType section : DEFAULT_SECTIONS) {
-                                addSection(section);
-                            }
                         }
 
                         loadRows();

@@ -144,7 +144,7 @@
         android:key="pref_reporting_category"
         android:title="@string/pref_acra_category">
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="acra.enable"
             android:summaryOff="@string/pref_acra_disabled"
             android:summaryOn="@string/pref_acra_enabled"

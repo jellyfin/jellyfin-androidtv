@@ -30,7 +30,6 @@ import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.androidtv.preferences.enums.LoginBehavior;
 import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer;
 import org.jellyfin.androidtv.search.SearchActivity;
-import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -112,7 +111,6 @@ public class TvApp extends Application {
 
     private GradientDrawable currentBackgroundGradient;
 
-    private boolean audioMuted;
     private boolean playingIntros;
     private DisplayPriorityType displayPriority = DisplayPriorityType.Movies;
 
@@ -164,6 +162,9 @@ public class TvApp extends Application {
     }
 
     public UserDto getCurrentUser() {
+        if (currentUser == null)
+            logger.Error("Called getCurrentUser() but value was null.");
+
         return currentUser;
     }
 
@@ -208,19 +209,6 @@ public class TvApp extends Application {
     public void setLoginApiClient(ApiClient loginApiClient) {
         this.loginApiClient = loginApiClient;
     }
-
-    public void setAudioMuted(boolean value) {
-        audioMuted = value;
-        getLogger().Info("Setting mute state to: "+audioMuted);
-        if (DeviceUtils.is60()) {
-            audioManager.adjustVolume(audioMuted ? AudioManager.ADJUST_MUTE : AudioManager.ADJUST_UNMUTE, 0);
-
-        } else {
-            audioManager.setStreamMute(AudioManager.STREAM_MUSIC, audioMuted);
-        }
-    }
-
-    public boolean isAudioMuted() { return audioMuted; }
 
     public PlaybackController getPlaybackController() {
         return playbackController;
@@ -443,7 +431,7 @@ public class TvApp extends Application {
     public void updateDisplayPrefs(String app, DisplayPreferences preferences) {
         displayPrefsCache.put(preferences.getId(), preferences);
         getApiClient().UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), app, new EmptyResponse());
-        logger.Debug("Display prefs updated for "+preferences.getId()+" isFavorite: "+preferences.getCustomPrefs().get("FavoriteOnly"));
+        logger.Debug("Display prefs updated for %s isFavorite: %s", preferences.getId(), preferences.getCustomPrefs().get("FavoriteOnly"));
     }
 
     public void getDisplayPrefsAsync(String key, Response<DisplayPreferences> response) {
@@ -452,7 +440,7 @@ public class TvApp extends Application {
 
     public void getDisplayPrefsAsync(final String key, String app, final Response<DisplayPreferences> outerResponse) {
         if (displayPrefsCache.containsKey(key)) {
-            logger.Debug("Display prefs loaded from cache "+key);
+            logger.Debug("Display prefs loaded from cache %s", key);
             outerResponse.onResponse(displayPrefsCache.get(key));
         } else {
             getApiClient().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), app, new Response<DisplayPreferences>(){
@@ -461,7 +449,7 @@ public class TvApp extends Application {
                     if (response.getSortBy() == null) response.setSortBy("SortName");
                     if (response.getCustomPrefs() == null) response.setCustomPrefs(new HashMap<String, String>());
                     displayPrefsCache.put(key, response);
-                    logger.Debug("Display prefs loaded and saved in cache " + key);
+                    logger.Debug("Display prefs loaded and saved in cache %s", key);
                     outerResponse.onResponse(response);
                 }
 
@@ -490,7 +478,7 @@ public class TvApp extends Application {
             @Override
             public void onResponse(Long response) {
                 autoBitrate = response.intValue();
-                logger.Info("Auto bitrate set to: "+autoBitrate);
+                logger.Info("Auto bitrate set to: %d", autoBitrate);
             }
         });
     }

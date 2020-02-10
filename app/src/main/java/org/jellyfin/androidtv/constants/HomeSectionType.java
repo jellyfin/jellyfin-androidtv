@@ -10,7 +10,9 @@ public enum HomeSectionType {
     RESUME_AUDIO("resumeaudio"),
     ACTIVE_RECORDINGS("activerecordings"),
     NEXT_UP("nextup"),
-    LIVE_TV("livetv");
+    LIVE_TV("livetv"),
+
+    NONE("none");
 
     public static HomeSectionType getByName(String name) {
         for (HomeSectionType type : HomeSectionType.values()) {

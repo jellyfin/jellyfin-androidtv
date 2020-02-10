@@ -174,7 +174,7 @@ public class KeyProcessor {
                 break;
             case KeyEvent.KEYCODE_MENU:
             case KeyEvent.KEYCODE_BUTTON_Y:
-                TvApp.getApplication().getLogger().Debug("Menu for: "+rowItem.getFullName());
+                TvApp.getApplication().getLogger().Debug("Menu for: %s", rowItem.getFullName());
 
                 //Create a contextual menu based on item
                 switch (rowItem.getItemType()) {

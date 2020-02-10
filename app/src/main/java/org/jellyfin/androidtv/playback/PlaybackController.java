@@ -211,7 +211,7 @@ public class PlaybackController {
         mDisplayModes = display.getSupportedModes();
         mApplication.getLogger().Info("** Available display refresh rates:");
         for (Display.Mode mDisplayMode : mDisplayModes) {
-            mApplication.getLogger().Info(Float.toString(mDisplayMode.getRefreshRate()));
+            mApplication.getLogger().Info("%f", mDisplayMode.getRefreshRate());
         }
 
     }
@@ -260,7 +260,7 @@ public class PlaybackController {
     }
 
     private void play(long position, int transcodedSubtitle) {
-        mApplication.getLogger().Debug("Play called with pos: " + position + " and sub index: "+transcodedSubtitle);
+        mApplication.getLogger().Debug("Play called with pos: %d and sub index: %d", position, transcodedSubtitle);
 
         if (position < 0) {
             mApplication.getLogger().Info("Negative start requested - adjusting to zero");
@@ -278,7 +278,6 @@ public class PlaybackController {
                 if (mFragment != null) {
                     mFragment.setFadingEnabled(true);
                     mFragment.setPlayPauseActionState(ImageButton.STATE_SECONDARY);
-                    mFragment.updateEndTime(mVideoManager.getDuration() - getCurrentPosition());
                 }
                 startReportLoop();
                 break;
@@ -376,7 +375,7 @@ public class PlaybackController {
                 internalOptions.setProfile(internalProfile);
 
                 mDefaultSubIndex = transcodedSubtitle;
-                TvApp.getApplication().getLogger().Debug("Max bitrate is: " + Utils.getMaxBitrate());
+                TvApp.getApplication().getLogger().Debug("Max bitrate is: %d", Utils.getMaxBitrate());
 
                 playInternal(getCurrentlyPlayingItem(), position, vlcOptions, internalOptions);
                 mPlaybackState = PlaybackState.BUFFERING;
@@ -401,7 +400,7 @@ public class PlaybackController {
                             //std 30 min episode or less
                             mNextItemThreshold = duration - NEXT_UP_DURATION;
                         }
-                        TvApp.getApplication().getLogger().Debug("Next item threshold set to " + mNextItemThreshold);
+                        TvApp.getApplication().getLogger().Debug("Next item threshold set to %d", mNextItemThreshold);
                     } else {
                         mNextItemThreshold = Long.MAX_VALUE;
                     }
@@ -466,11 +465,11 @@ public class PlaybackController {
             mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), vlcOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
                 @Override
                 public void onResponse(final StreamInfo vlcResponse) {
-                    mApplication.getLogger().Info("VLC would " + (vlcResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream"));
+                    mApplication.getLogger().Info("VLC would %s", vlcResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream");
                     mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
                         @Override
                         public void onResponse(StreamInfo internalResponse) {
-                            mApplication.getLogger().Info("Internal player would " + (internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream"));
+                            mApplication.getLogger().Info("Internal player would %s", internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream");
                             boolean useDeinterlacing = vlcResponse.getMediaSource().getVideoStream() != null &&
                                     vlcResponse.getMediaSource().getVideoStream().getIsInterlaced() &&
                                     (vlcResponse.getMediaSource().getVideoStream().getWidth() == null ||
@@ -479,7 +478,7 @@ public class PlaybackController {
 
                             PreferredVideoPlayer preferredVideoPlayer = mApplication.getUserPreferences().getVideoPlayer();
 
-                            mApplication.getLogger().Info("User preferred player is: " + preferredVideoPlayer);
+                            mApplication.getLogger().Info("User preferred player is: %s", preferredVideoPlayer);
 
                             if (preferredVideoPlayer == PreferredVideoPlayer.VLC) {
                                 // Force VLC
@@ -696,7 +695,7 @@ public class PlaybackController {
         mCurrentOptions.setAudioStreamIndex(index);
         if (mVideoManager.isNativeMode()) {
             startSpinner();
-            mApplication.getLogger().Debug("Setting audio index to: " + index);
+            mApplication.getLogger().Debug("Setting audio index to: %d", index);
             mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
             stop();
             playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mCurrentOptions, mCurrentOptions);
@@ -710,7 +709,7 @@ public class PlaybackController {
     private boolean burningSubs = false;
 
     public void switchSubtitleStream(int index) {
-        mApplication.getLogger().Debug("Setting subtitle index to: " + index);
+        mApplication.getLogger().Debug("Setting subtitle index to: %d", index);
         mCurrentOptions.setSubtitleStreamIndex(index >= 0 ? index : null);
 
         if (index < 0) {
@@ -840,10 +839,6 @@ public class PlaybackController {
                 // update the actual items resume point
                 getCurrentlyPlayingItem().getUserData().setPlaybackPositionTicks(mbPos);
             }
-
-            // be sure to unmute audio in case it was muted
-            TvApp.getApplication().setAudioMuted(false);
-
         }
     }
 
@@ -854,7 +849,7 @@ public class PlaybackController {
         if (mCurrentIndex < mItems.size() - 1) {
             stop();
             mCurrentIndex++;
-            mApplication.getLogger().Debug("Moving to index: " + mCurrentIndex + " out of " + mItems.size() + " total items.");
+            mApplication.getLogger().Debug("Moving to index: %d out of %d total items.", mCurrentIndex, mItems.size());
             spinnerOff = false;
             play(0);
         }
@@ -865,8 +860,8 @@ public class PlaybackController {
     }
 
     public void seek(final long pos) {
-        mApplication.getLogger().Debug("Seeking to " + pos);
-        mApplication.getLogger().Debug("Container: "+mCurrentStreamInfo.getContainer());
+        mApplication.getLogger().Debug("Seeking to %d", pos);
+        mApplication.getLogger().Debug("Container: %s", mCurrentStreamInfo.getContainer());
         if (mPlaybackMethod == PlayMethod.Transcode && ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer())) {
             //mkv transcodes require re-start of stream for seek
             mVideoManager.stopPlayback();
@@ -889,9 +884,6 @@ public class PlaybackController {
                 //Exo does not support seeking in .ts
                 Utils.showToast(TvApp.getApplication(), "Unable to seek");
             } else if (mVideoManager.seekTo(pos) >= 0) {
-                if (mFragment != null) {
-                    mFragment.updateEndTime(mVideoManager.getDuration() - pos);
-                }
             } else {
                 Utils.showToast(TvApp.getApplication(), "Unable to seek");
             }
@@ -1033,7 +1025,6 @@ public class PlaybackController {
 
                     mPlaybackState = PlaybackState.PLAYING;
                     updateProgress = true;
-                    mFragment.updateEndTime(mVideoManager.getDuration() - position);
                 }
             }
         });
@@ -1068,7 +1059,7 @@ public class PlaybackController {
         if (mCurrentIndex < mItems.size() - 1) {
             // move to next in queue
             mCurrentIndex++;
-            mApplication.getLogger().Debug("Moving to next queue item. Index: "+mCurrentIndex);
+            mApplication.getLogger().Debug("Moving to next queue item. Index: %d", mCurrentIndex);
             spinnerOff = false;
             play(0);
         } else {
@@ -1094,7 +1085,7 @@ public class PlaybackController {
                     mFragment.finish();
                 } else {
                     String msg = mApplication.getString(R.string.video_error_unknown_error);
-                    mApplication.getLogger().Error("Playback error - " + msg);
+                    mApplication.getLogger().Error("Playback error - %s", msg);
                     playerErrorEncountered();
                 }
 
@@ -1108,7 +1099,6 @@ public class PlaybackController {
 
                 if (mPlaybackState == PlaybackState.BUFFERING) {
                     mPlaybackState = PlaybackState.PLAYING;
-                    mFragment.updateEndTime(isLiveTv && getCurrentlyPlayingItem().getEndDate() != null ? TimeUtils.convertToLocalDate(getCurrentlyPlayingItem().getEndDate()).getTime() - System.currentTimeMillis() : mVideoManager.getDuration() - mStartPosition);
                     mCurrentTranscodeStartTime = mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode ? System.currentTimeMillis() : 0;
                     startReportLoop();
                 }
@@ -1124,7 +1114,7 @@ public class PlaybackController {
                         if (currentIndex != null && currentIndex == mDefaultSubIndex) {
                             mApplication.getLogger().Info("Not selecting default subtitle stream because it is already selected");
                         } else {
-                            mApplication.getLogger().Info("Selecting default sub stream: " + mDefaultSubIndex);
+                            mApplication.getLogger().Info("Selecting default sub stream: %d", mDefaultSubIndex);
                             switchSubtitleStream(mDefaultSubIndex);
                         }
                     } else {
@@ -1133,7 +1123,7 @@ public class PlaybackController {
                     }
 
                     if (!mVideoManager.isNativeMode() && mDefaultAudioIndex >= 0) {
-                        TvApp.getApplication().getLogger().Info("Selecting default audio stream: " + mDefaultAudioIndex);
+                        TvApp.getApplication().getLogger().Info("Selecting default audio stream: %d", mDefaultAudioIndex);
                         switchAudioStream(mDefaultAudioIndex);
                     }
                 }

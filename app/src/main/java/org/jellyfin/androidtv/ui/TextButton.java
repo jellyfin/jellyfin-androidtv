@@ -1,9 +1,9 @@
 package org.jellyfin.androidtv.ui;
 
 import android.content.Context;
-import androidx.appcompat.widget.AppCompatButton;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.util.Utils;
@@ -11,7 +11,7 @@ import org.jellyfin.androidtv.util.Utils;
 /**
  * Created by Eric on 4/30/2015.
  */
-public class TextButton extends AppCompatButton {
+public class TextButton extends Button {
     public TextButton(Context context) {
         super(context);
         setOnFocusChangeListener(focusChangeListener);
