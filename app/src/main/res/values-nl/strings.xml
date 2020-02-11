@@ -342,4 +342,6 @@
     <string name="pref_acra_enabled">Er wordt een verzendmelding getoond voor crashrapportages</string>
     <string name="pref_enable_acra">Verzend crash rapporten naar ontwikkelaars</string>
     <string name="pref_acra_category">Crash Rapportering</string>
+    <string name="pref_acra_syslog_disabled">Systeemlogboeken worden niet toegevoegd aan crash rapporten</string>
+    <string name="pref_acra_syslog_enabled">Systeemlogboeken worden toegevoegd aan crash rapporten</string>
 </resources>
