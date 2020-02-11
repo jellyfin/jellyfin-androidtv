@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import androidx.core.graphics.drawable.toBitmap
 import androidx.tvprovider.media.tv.*
 import androidx.tvprovider.media.tv.TvContractCompat.WatchNextPrograms
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +17,7 @@ import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.startup.StartupActivity
 import org.jellyfin.androidtv.util.apiclient.getNextUpEpisodes
 import org.jellyfin.androidtv.util.apiclient.getUserViews
+import org.jellyfin.androidtv.util.dp
 import org.jellyfin.androidtv.util.uriFromResourceId
 import org.jellyfin.apiclient.model.drawing.ImageFormat
 import org.jellyfin.apiclient.model.dto.BaseItemDto
@@ -83,7 +85,7 @@ class ChannelManager {
 		}
 
 		// Update logo
-		ChannelLogoUtils.storeChannelLogo(application, ContentUris.parseId(uri), uriFromResourceId(R.drawable.ic_jellyfin))
+		ChannelLogoUtils.storeChannelLogo(application, ContentUris.parseId(uri), application.resources.getDrawable(R.drawable.ic_jellyfin, null).toBitmap(80.dp, 80.dp))
 
 		return uri
 	}
@@ -102,7 +104,6 @@ class ChannelManager {
 		val response = application.apiClient.getUserViews() ?: return
 
 		// Delete current items
-		//todo Specify only this row...
 		application.contentResolver.delete(TvContractCompat.PreviewPrograms.CONTENT_URI, null, null)
 
 		// Add new items
