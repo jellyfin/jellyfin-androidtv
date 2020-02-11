@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 
 import org.jellyfin.androidtv.BuildConfig;
 import org.jellyfin.androidtv.R;
@@ -41,6 +40,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.preference.PreferenceManager;
 
 public class StartupActivity extends FragmentActivity {
     private static final int NETWORK_PERMISSION = 1;

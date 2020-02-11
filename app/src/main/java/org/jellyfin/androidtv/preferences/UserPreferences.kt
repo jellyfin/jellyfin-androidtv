@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.preferences
 
 import android.content.Context
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import org.jellyfin.androidtv.preferences.enums.AudioBehavior
 import org.jellyfin.androidtv.preferences.enums.LoginBehavior
 import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer
