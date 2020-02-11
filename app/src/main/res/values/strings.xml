@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name" translatable="false">Jellyfin</string>
+    <string name="app_name_release" translatable="false">Jellyfin</string>
+    <string name="app_name_debug" translatable="false">Jellyfin Debug</string>
     <string name="play">Play</string>
     <string name="video_error_unknown_error">Failed to load video</string>
     <string name="loading">Loading…</string>
@@ -348,4 +349,5 @@
     <string name="pref_video_player_vlc">libVLC</string>
     <string name="pref_video_player_external">External app</string>
     <string name="pref_about_title">About</string>
+</resources>
 </resources>

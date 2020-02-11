@@ -27,11 +27,13 @@ android {
 		getByName("release") {
 			isMinifyEnabled = false
 			proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+			resValue("string", "app_name", "@string/app_name_release")
 		}
 
 		getByName("debug") {
 			// Use different application id to run release and debug at the same time
 			applicationIdSuffix = ".debug"
+			resValue("string", "app_name", "@string/app_name_debug")
 		}
 	}
 }
