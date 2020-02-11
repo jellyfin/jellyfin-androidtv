@@ -154,16 +154,21 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 
 	init {
 		// Migrations
-		// The initial migration is to version "2" and migrates from the old way of storing preferences to the current
+		// v0.10.x to v0.11.x: Old migrations
 		migration(toVersion = 2) {
+			// Migrate to video player enum
+			// Note: This is the only time we need to check if the value is not set yet because the version numbers were reset
+			if (!it.contains("video_player"))
+				putEnum("video_player", if (it.getBoolean("pref_video_use_external", false)) PreferredVideoPlayer.EXTERNAL else PreferredVideoPlayer.AUTO)
+		}
+
+		// v0.11.x to v0.12.x: Migrates from the old way of storing preferences to the current
+		migration(toVersion = 3) {
 			// Migrate to audio behavior enum
-			putEnum("audio_behavior", if(it.getString("pref_audio_option", "0") == "1") AudioBehavior.DOWNMIX_TO_STEREO else AudioBehavior.DIRECT_STREAM)
+			putEnum("audio_behavior", if (it.getString("pref_audio_option", "0") == "1") AudioBehavior.DOWNMIX_TO_STEREO else AudioBehavior.DIRECT_STREAM)
 
 			// Migrate to login behavior enum
-			putEnum("login_behavior", if(it.getString("pref_login_behavior", "0") == "1") LoginBehavior.AUTO_LOGIN else LoginBehavior.SHOW_LOGIN)
-
-			// Migrate to video player enum
-			putEnum("video_player", if (it.getBoolean("pref_video_use_external", false)) PreferredVideoPlayer.EXTERNAL else PreferredVideoPlayer.AUTO)
+			putEnum("login_behavior", if (it.getString("pref_login_behavior", "0") == "1") LoginBehavior.AUTO_LOGIN else LoginBehavior.SHOW_LOGIN)
 		}
 	}
 }
