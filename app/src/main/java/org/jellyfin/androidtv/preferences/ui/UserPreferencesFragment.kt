@@ -92,7 +92,7 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 
 		private fun addCustomBehavior() {
 			// Custom save actions
-			findPreference<ListPreference>("login_behavior")?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { preference, value ->
+			findPreference<ListPreference>("login_behavior")?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, value ->
 				if (value == LoginBehavior.AUTO_LOGIN.toString()) {
 					try {
 						val credentials = LogonCredentials(TvApp.getApplication().apiClient.serverInfo, TvApp.getApplication().currentUser)
@@ -105,7 +105,7 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 				return@OnPreferenceChangeListener true
 			}
 
-			findPreference<CheckBoxPreference>("pref_send_path_external")?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { preference, value ->
+			findPreference<CheckBoxPreference>("pref_send_path_external")?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, value ->
 				if (value == true) {
 					AlertDialog.Builder(activity)
 						.setTitle(getString(R.string.lbl_warning))
@@ -131,7 +131,7 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 				return@SummaryProvider preference.entry
 			}
 
-			findPreference<EditTextPreference>("version")?.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
+			findPreference<EditTextPreference>("version")?.summaryProvider = Preference.SummaryProvider<EditTextPreference> {
 				Utils.getVersionString()
 			}
 		}
