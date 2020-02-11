@@ -40,7 +40,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	/**
 	 * Enable background images while browsing
 	 */
-	var backdropEnabled by booleanPreference("pref_show_backdrop", false)
+	var backdropEnabled by booleanPreference("pref_show_backdrop", true)
 
 	/**
 	 * Show additional information for selected item while browsing
@@ -55,7 +55,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	/**
 	 * Show a little notification to celebrate a set of holidays
 	 */
-	var seasonalGreetingsEnabled by booleanPreference("pref_enable_themes", false)
+	var seasonalGreetingsEnabled by booleanPreference("pref_enable_themes", true)
 
 	/**
 	 * Show additional debug information
@@ -71,7 +71,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	/**
 	 * Auto-play next item
 	 */
-	var mediaQueuingEnabled by booleanPreference("pref_enable_tv_queuing", false)
+	var mediaQueuingEnabled by booleanPreference("pref_enable_tv_queuing", true)
 
 	/**
 	 * Duration in seconds to subtract from resume time
@@ -81,7 +81,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	/**
 	 * Enable cinema mode
 	 */
-	var cinemaModeEnabled by booleanPreference("pref_enable_cinema_mode", false)
+	var cinemaModeEnabled by booleanPreference("pref_enable_cinema_mode", true)
 
 	/* Playback - Video */
 	/**
@@ -113,7 +113,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	/**
 	 * Enable AC3
 	 */
-	var ac3Enabled by booleanPreference("pref_bitstream_ac3", false)
+	var ac3Enabled by booleanPreference("pref_bitstream_ac3", true)
 
 	/* Live TV */
 	/**
@@ -124,7 +124,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	/**
 	 * Use direct play
 	 */
-	var liveTvDirectPlayEnabled by booleanPreference("pref_live_direct", false)
+	var liveTvDirectPlayEnabled by booleanPreference("pref_live_direct", true)
 
 	/**
 	 * Use VLC for live TV playback
@@ -140,7 +140,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	/**
 	 * Enable ACRA crash reporting
 	 */
-	var acraEnabled by booleanPreference("acra.enable", false)
+	var acraEnabled by booleanPreference("acra.enable", true)
 
 	/**
 	 * Never prompt to report crash logs
