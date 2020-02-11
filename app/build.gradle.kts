@@ -1,7 +1,42 @@
+import java.io.ByteArrayOutputStream
+
 plugins {
 	id("com.android.application")
 	id("kotlin-android")
 	id("kotlin-android-extensions")
+}
+
+fun getGitHash(): String {
+	val stdout = ByteArrayOutputStream()
+	val action = Action<ExecSpec> {
+		commandLine("git", "rev-parse", "--short", "HEAD")
+		standardOutput = stdout
+	}
+
+	exec(action)
+	return stdout.toString().trim()
+}
+
+fun getBranchName(): String {
+	val stdout = ByteArrayOutputStream()
+	val action = Action<ExecSpec> {
+		commandLine("git", "rev-parse", "--abbrev-ref", "HEAD")
+		standardOutput = stdout
+	}
+
+	exec(action)
+	return stdout.toString().trim()
+}
+
+fun isTreeClean(): Boolean {
+	val stdout = ByteArrayOutputStream()
+	val action = Action<ExecSpec> {
+		commandLine("git", "status", "--porcelain")
+		standardOutput = stdout
+	}
+
+	exec(action)
+	return stdout.toString().trim() == ""
 }
 
 android {
@@ -34,6 +69,7 @@ android {
 			// Use different application id to run release and debug at the same time
 			applicationIdSuffix = ".debug"
 			resValue("string", "app_name", "@string/app_name_debug")
+			versionNameSuffix =  "-debug-" + getBranchName() + "-" + getGitHash() + (if (isTreeClean()) "-treeClean" else "-treeDirty")
 		}
 	}
 }
