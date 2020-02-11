@@ -25,7 +25,7 @@
         android:name=".TvApp"
         android:allowBackup="false"
         android:banner="@drawable/app_logo"
-        android:icon="@drawable/app_icon_large"
+        android:icon="@drawable/ic_jellyfin"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:theme="@style/Theme.Jellyfin"
