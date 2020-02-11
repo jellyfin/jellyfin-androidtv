@@ -13,6 +13,7 @@ import org.jellyfin.androidtv.BuildConfig;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.browsing.MainActivity;
+import org.jellyfin.androidtv.browsing.UserViewActivity;
 import org.jellyfin.androidtv.details.FullDetailsActivity;
 import org.jellyfin.androidtv.eventhandling.TvApiEventListener;
 import org.jellyfin.androidtv.model.compat.AndroidProfile;
@@ -29,6 +30,7 @@ import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.interaction.VolleyHttpClient;
 import org.jellyfin.apiclient.model.apiclient.ConnectionState;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.logging.ILogger;
 import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
@@ -91,16 +93,42 @@ public class StartupActivity extends FragmentActivity {
 
     private void start() {
         if (application.getCurrentUser() != null && application.getApiClient() != null && MediaManager.isPlayingAudio()) {
-            // go straight into last connection
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            openNextActivity();
         } else {
             //clear audio queue in case left over from last run
             MediaManager.clearAudioQueue();
             MediaManager.clearVideoQueue();
             establishConnection();
         }
+    }
+
+    private void openNextActivity() {
+        String itemId = getIntent().getStringExtra("ItemId");
+        boolean itemIsUserView = getIntent().getBooleanExtra("ItemIsUserView", false);
+
+        if (itemId != null) {
+            if (itemIsUserView) {
+                BaseItemDto baseItem = new BaseItemDto();
+                baseItem.setId(itemId);
+
+                // open user view browsing
+                Intent intent = new Intent(this, UserViewActivity.class);
+                intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+
+                startActivity(intent);
+            } else {
+                //Can just go right into details
+                Intent detailsIntent = new Intent(this, FullDetailsActivity.class);
+                detailsIntent.putExtra("ItemId", application.getDirectItemId());
+                startActivity(detailsIntent);
+            }
+        } else {
+            // go straight into last connection
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+
+        finish();
     }
 
     @Override
@@ -196,19 +224,13 @@ public class StartupActivity extends FragmentActivity {
                                     //Need to prompt for pw
                                     Utils.processPasswordEntry(self, response, application.getDirectItemId());
                                 } else {
-                                    //Can just go right into details
-                                    Intent detailsIntent = new Intent(self, FullDetailsActivity.class);
-                                    detailsIntent.putExtra("ItemId", application.getDirectItemId());
-                                    startActivity(detailsIntent);
-                                    finish();
+                                    openNextActivity();
                                 }
                             } else {
                                 if (response.getHasPassword() && application.getPrefs().getBoolean("pref_auto_pw_prompt", false)) {
                                     Utils.processPasswordEntry(self, response);
                                 } else {
-                                    Intent intent = new Intent(self, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                    openNextActivity();
                                 }
                             }
                         }

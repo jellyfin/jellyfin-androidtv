@@ -117,6 +117,10 @@ class ChannelManager {
 				.setTitle(item.name)
 				.setPosterArtUri(imageUri)
 				.setPosterArtAspectRatio(TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9)
+				.setIntent(Intent(application, StartupActivity::class.java).apply {
+					putExtra("ItemId", item.id)
+					putExtra("ItemIsUserView", true)
+				})
 				.build().toContentValues()
 		}.toTypedArray())
 	}
