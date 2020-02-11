@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.leanback.widget.BaseCardView
 import kotlinx.android.synthetic.main.multi_badge_image_card_view.view.*
 import org.jellyfin.androidtv.R
@@ -15,7 +16,7 @@ class MultiBadgeImageCardView(context: Context, attrs: AttributeSet?, defStyleAt
 	private var mAttachedToWindow: Boolean = false
 
 	var mainImageDrawable: Drawable?
-		get() = mainImage.drawable
+		get() = main_image.drawable
 		set(value) { setMainImage(value, true) }
 
 	var titleText: CharSequence
@@ -25,6 +26,8 @@ class MultiBadgeImageCardView(context: Context, attrs: AttributeSet?, defStyleAt
 	var contentText: CharSequence?
 		get() = content_text.text
 		set(value) { content_text.text = value }
+
+	val badgeContainers: Map<BadgeLocation, ViewGroup>
 
 	constructor(context: Context) : this(context, null)
 	constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, R.attr.imageCardViewStyle)
@@ -40,8 +43,8 @@ class MultiBadgeImageCardView(context: Context, attrs: AttributeSet?, defStyleAt
 		// TODO ViewCompat.saveAttributeDataForStyleable call that is here in the original
 
 
-		mFadeInAnimator = ObjectAnimator.ofFloat(mainImage, View.ALPHA, 1f).apply {
-			duration = mainImage.resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
+		mFadeInAnimator = ObjectAnimator.ofFloat(main_image, View.ALPHA, 1f).apply {
+			duration = main_image.resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
 		}
 
 		val backgroundDrawable: Drawable? = cardAttrs.getDrawable(R.styleable.lbImageCardView_infoAreaBackground)
@@ -49,17 +52,40 @@ class MultiBadgeImageCardView(context: Context, attrs: AttributeSet?, defStyleAt
 			background = backgroundDrawable
 		}
 
+		badgeContainers = mapOf<BadgeLocation, ViewGroup>(
+			BadgeLocation.TOP_LEFT to badge_top_left,
+			BadgeLocation.TOP_RIGHT to badge_top_right,
+			BadgeLocation.BOTTOM_LEFT to badge_bottom_left,
+			BadgeLocation.BOTTOM_RIGHT to badge_bottom_right,
+			BadgeLocation.CONTENT_LEFT to content_badge_left,
+			BadgeLocation.CONTENT_RIGHT to content_badge_right
+		)
+
 		cardAttrs.recycle()
 	}
 
+	fun setBadge(badge: View?, badgeLocation: BadgeLocation) {
+		val badgeContainer = badgeContainers.getValue(badgeLocation)
+		badgeContainer.removeAllViews()
 
+		if (badge != null) {
+			badgeContainer.apply {
+				visibility = ViewGroup.VISIBLE
+				addView(badge)
+			}
+		} else {
+			badgeContainer.apply {
+				visibility = ViewGroup.GONE
+			}
+		}
+	}
 
 	fun setMainImage(drawable: Drawable?, fade: Boolean) {
-		mainImage.setImageDrawable(drawable)
+		main_image.setImageDrawable(drawable)
 
 		if (drawable == null) {
 			mFadeInAnimator.cancel()
-			mainImage.apply {
+			main_image.apply {
 				alpha = 1f
 				visibility = View.INVISIBLE
 			}
@@ -68,21 +94,21 @@ class MultiBadgeImageCardView(context: Context, attrs: AttributeSet?, defStyleAt
 				fadeIn()
 			} else {
 				mFadeInAnimator.cancel()
-				mainImage.alpha = 1f
+				main_image.alpha = 1f
 			}
 		}
 	}
 
 	fun setMainImageDimensions(width: Int, height: Int) {
-		val params = mainImage.layoutParams.apply {
+		val params = main_image.layoutParams.apply {
 			this.width = width
 			this.height = height
 		}
-		mainImage.layoutParams = params
+		main_image.layoutParams = params
 	}
 
 	private fun fadeIn() {
-		mainImage.alpha = 0f
+		main_image.alpha = 0f
 		if (mAttachedToWindow) {
 			mFadeInAnimator.start()
 		}
@@ -91,14 +117,18 @@ class MultiBadgeImageCardView(context: Context, attrs: AttributeSet?, defStyleAt
 	override fun onAttachedToWindow() {
 		super.onAttachedToWindow()
 		mAttachedToWindow = true
-		if (mainImage.alpha == 0f)
+		if (main_image.alpha == 0f)
 			fadeIn()
 	}
 
 	override fun onDetachedFromWindow() {
 		mAttachedToWindow = false
 		mFadeInAnimator.cancel()
-		mainImage.alpha = 1f
+		main_image.alpha = 1f
 		super.onDetachedFromWindow()
+	}
+
+	enum class BadgeLocation {
+		TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, CONTENT_LEFT, CONTENT_RIGHT
 	}
 }

@@ -6,48 +6,110 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/mainImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:src="@drawable/tile_port_video"
-        tools:layout_height="300dp"
-        tools:layout_width="200dp"
+        android:id="@+id/main_image"
+        style="?attr/imageCardViewImageStyle"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        tools:layout_height="150dp"
+        tools:layout_width="100dp"
+        tools:src="@drawable/tile_port_video" />
+
+    <FrameLayout
+        android:id="@+id/badge_top_left"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="@id/main_image"
+        app:layout_constraintTop_toTopOf="@id/main_image"
+        tools:visibility="visible"/>
+
+    <FrameLayout
+        android:id="@+id/badge_top_right"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="4dp"
+        android:visibility="gone"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible"/>
+
+    <FrameLayout
+        android:id="@+id/badge_bottom_left"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginBottom="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/main_image"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:visibility="visible"/>
+
+    <FrameLayout
+        android:id="@+id/badge_bottom_right"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/main_image"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:visibility="visible"/>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/info_field"
+        android:id="@+id/infoField"
+        style="?attr/imageCardViewInfoAreaStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        style="?attr/imageCardViewInfoAreaStyle"
-        app:layout_constraintLeft_toLeftOf="@id/mainImage"
-        app:layout_constraintRight_toRightOf="@id/mainImage"
-        app:layout_constraintTop_toBottomOf="@id/mainImage">
+        app:layout_constraintLeft_toLeftOf="@id/main_image"
+        app:layout_constraintRight_toRightOf="@id/main_image"
+        app:layout_constraintTop_toBottomOf="@id/main_image">
+
+        <FrameLayout
+            android:id="@+id/content_badge_left"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/content_text"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/content_text"
+            app:layout_constraintTop_toTopOf="@id/content_text"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/title_text"
+            style="?attr/imageCardViewTitleStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="?attr/imageCardViewTitleStyle"
-            tools:text="Great Movie"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Great Movie" />
 
         <TextView
             android:id="@+id/content_text"
+            style="?attr/imageCardViewContentStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="?attr/imageCardViewContentStyle"
-            tools:text="Some Description"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="1dp"
+            app:layout_constraintLeft_toRightOf="@id/content_badge_left"
+            app:layout_constraintRight_toLeftOf="@id/content_badge_right"
+            app:layout_constraintTop_toBottomOf="@id/title_text"
+            tools:text="Some Description" />
+
+        <FrameLayout
+            android:id="@+id/content_badge_right"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/content_text"
+            app:layout_constraintLeft_toRightOf="@id/content_text"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_text"/>
+            app:layout_constraintTop_toTopOf="@id/content_text"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
