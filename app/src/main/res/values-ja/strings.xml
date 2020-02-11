@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name" translatable="false">Jellyfin</string>
     <string name="play">再生</string>
     <string name="video_error_unknown_error">動画を読み込めませんでした</string>
     <string name="loading">読み込み中…</string>
