@@ -21,12 +21,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.OnItemViewSelectedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -66,16 +60,22 @@ import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.JumpList;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
-
-import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
+
+import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import androidx.leanback.app.BackgroundManager;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.OnItemViewSelectedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
 
 public class StdGridFragment extends HorizontalGridFragment implements IGridLoader {
     private static final String TAG = "StdGridFragment";
@@ -167,7 +167,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     public void onResume() {
         super.onResume();
 
-        ShowFanart = mApplication.getPrefs().getBoolean("pref_show_backdrop", true);
+        ShowFanart = mApplication.getUserPreferences().getBackdropEnabled();
 
         if (!justLoaded) {
             //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing

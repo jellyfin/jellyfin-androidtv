@@ -22,6 +22,7 @@ import org.jellyfin.androidtv.model.ChangeTriggerType;
 import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.playback.AudioEventListener;
 import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.preferences.enums.AudioBehavior;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.presentation.ThemeManager;
@@ -99,8 +100,8 @@ public class HomeFragment extends StdBrowseFragment {
         TvApp.getApplication().determineAutoBitrate();
 
         //First time audio message
-        if (!mApplication.getSystemPrefs().getBoolean("syspref_audio_warned", false)) {
-            mApplication.getSystemPrefs().edit().putBoolean("syspref_audio_warned", true).apply();
+        if (!mApplication.getSystemPreferences().getAudioWarned()) {
+            mApplication.getSystemPreferences().setAudioWarned(true);
 
             new AlertDialog.Builder(mActivity)
                     .setTitle(mApplication.getString(R.string.lbl_audio_capabilitites))
@@ -109,7 +110,7 @@ public class HomeFragment extends StdBrowseFragment {
                     .setNegativeButton(mApplication.getString(R.string.btn_set_compatible_audio), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            mApplication.getPrefs().edit().putString("pref_audio_option", "1").apply();
+                            mApplication.getUserPreferences().setAudioBehaviour(AudioBehavior.DOWNMIX_TO_STEREO);
                         }
                     })
                     .setCancelable(false)
@@ -132,7 +133,7 @@ public class HomeFragment extends StdBrowseFragment {
             }
         });
 
-        if (mApplication.getPrefs().getBoolean("pref_live_tv_mode", false)) {
+        if (mApplication.getUserPreferences().getLiveTvMode()) {
             // Open guide activity and tell it to start last channel
             Intent guide = new Intent(getActivity(), LiveTvGuideActivity.class);
             guide.putExtra("loadLast", true);

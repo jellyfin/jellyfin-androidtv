@@ -2,10 +2,6 @@ package org.jellyfin.androidtv.livetv;
 
 import android.app.Activity;
 import android.graphics.Typeface;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.Presenter;
 import android.text.format.DateUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,21 +10,10 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.model.LiveTvPrefs;
+import org.jellyfin.androidtv.preferences.SystemPreferences;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.TimeZone;
-
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -44,6 +29,22 @@ import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.results.ChannelInfoDtoResult;
 import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TimeZone;
+
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.Presenter;
 
 /**
  * Created by Eric on 9/4/2015.
@@ -62,18 +63,19 @@ public class TvManager {
     private static LiveTvPrefs prefs = new LiveTvPrefs();
 
     public static String getLastLiveTvChannel() {
-        return TvApp.getApplication().getSystemPrefs().getString("sys_pref_last_tv_channel", null);
+        return TvApp.getApplication().getSystemPreferences().getLiveTvLastChannel();
     }
 
     public static void setLastLiveTvChannel(String id) {
-        TvApp.getApplication().getSystemPrefs().edit().putString("sys_pref_prev_tv_channel", TvApp.getApplication().getSystemPrefs().getString("sys_pref_last_tv_channel", null)).apply();
-        TvApp.getApplication().getSystemPrefs().edit().putString("sys_pref_last_tv_channel", id).apply();
+        SystemPreferences systemPreferences = TvApp.getApplication().getSystemPreferences();
+        systemPreferences.setLiveTvPrevChannel(systemPreferences.getLiveTvLastChannel());
+        systemPreferences.setLiveTvLastChannel(id);
         updateLastPlayedDate(id);
         sortChannels();
     }
 
     public static String getPrevLiveTvChannel() {
-        return TvApp.getApplication().getSystemPrefs().getString("sys_pref_prev_tv_channel", null);
+        return TvApp.getApplication().getSystemPreferences().getLiveTvPrevChannel();
     }
 
     public static List<ChannelInfoDto> getAllChannels() {

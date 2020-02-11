@@ -8,8 +8,8 @@
         <item>@string/pref_auto_login</item>
     </string-array>
     <string-array name="pref_startup_values" >
-        <item>0</item>
-        <item>1</item>
+        <item>SHOW_LOGIN</item>
+        <item>AUTO_LOGIN</item>
     </string-array>
     <string-array name="pref_bitrate_entries" >
         <item>Auto</item>
@@ -97,9 +97,10 @@
         <item>@string/pref_audio_direct</item>
         <item>@string/pref_audio_compat</item>
     </string-array>
-    <string-array name="pref_audio_values" >
-        <item>0</item>
-        <item>1</item>
+    <!-- Should be consistent with [org.jellyfin.androidtv.preferences.enums.AudioBehavior] -->
+    <string-array name="pref_audio_values">
+        <item>DIRECT_STREAM</item>
+        <item>DOWNMIX_TO_STEREO</item>
     </string-array>
     <string-array name="pref_video_player_entries" >
         <item>@string/pref_video_player_auto</item>
@@ -108,9 +109,9 @@
         <item>@string/pref_video_player_external</item>
     </string-array>
     <string-array name="pref_video_player_values" >
-        <item>auto</item>
-        <item>exoplayer</item>
-        <item>vlc</item>
-        <item>external</item>
+        <item>AUTO</item>
+        <item>EXOPLAYER</item>
+        <item>VLC</item>
+        <item>EXTERNAL</item>
     </string-array>
 </resources>

@@ -1,17 +1,15 @@
 package org.jellyfin.androidtv.livetv;
 
-import android.content.SharedPreferences;
-
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.preferences.SystemPreferences;
 import org.jellyfin.androidtv.util.Utils;
-
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 /**
  * Created by Eric on 5/13/2015.
  */
 public class GuideFilters {
-    private SharedPreferences prefs;
+    private SystemPreferences prefs;
     private boolean movies;
     private boolean news;
     private boolean series;
@@ -24,14 +22,14 @@ public class GuideFilters {
     }
 
     public void load() {
-        prefs = TvApp.getApplication().getSystemPrefs();
+        prefs = TvApp.getApplication().getSystemPreferences();
 
-        movies = prefs.getBoolean("guide_filter_movies",false);
-        news = prefs.getBoolean("guide_filter_news",false);
-        series = prefs.getBoolean("guide_filter_series",false);
-        kids = prefs.getBoolean("guide_filter_kids",false);
-        sports = prefs.getBoolean("guide_filter_sports", false);
-        premiere = prefs.getBoolean("guide_filter_premiere", false);
+        movies = prefs.getLiveTvGuideFilterMovies();
+        news = prefs.getLiveTvGuideFilterNews();
+        series = prefs.getLiveTvGuideFilterSeries();
+        kids = prefs.getLiveTvGuideFilterKids();
+        sports = prefs.getLiveTvGuideFilterSports();
+        premiere = prefs.getLiveTvGuideFilterPremiere();
     }
 
     public boolean any() { return movies || news || series || kids || sports || premiere; }
@@ -84,7 +82,7 @@ public class GuideFilters {
 
     public void setMovies(boolean movies) {
         this.movies = movies;
-        prefs.edit().putBoolean("guide_filter_movies", movies).apply();
+        prefs.setLiveTvGuideFilterMovies(movies);
     }
 
     public boolean isNews() {
@@ -93,7 +91,7 @@ public class GuideFilters {
 
     public void setNews(boolean news) {
         this.news = news;
-        prefs.edit().putBoolean("guide_filter_news", news).apply();
+        prefs.setLiveTvGuideFilterNews(news);
     }
 
     public boolean isSeries() {
@@ -102,7 +100,7 @@ public class GuideFilters {
 
     public void setSeries(boolean series) {
         this.series = series;
-        prefs.edit().putBoolean("guide_filter_series", series).apply();
+        prefs.setLiveTvGuideFilterSeries(series);
     }
 
     public boolean isKids() {
@@ -111,7 +109,7 @@ public class GuideFilters {
 
     public void setKids(boolean kids) {
         this.kids = kids;
-        prefs.edit().putBoolean("guide_filter_kids", kids).apply();
+        prefs.setLiveTvGuideFilterKids(kids);
     }
 
     public boolean isSports() {
@@ -120,7 +118,7 @@ public class GuideFilters {
 
     public void setSports(boolean sports) {
         this.sports = sports;
-        prefs.edit().putBoolean("guide_filter_sports", sports).apply();
+        prefs.setLiveTvGuideFilterSports(sports);
     }
 
     public boolean isPremiere() {
@@ -129,7 +127,7 @@ public class GuideFilters {
 
     public void setPremiere(boolean premiere) {
         this.premiere = premiere;
-        prefs.edit().putBoolean("guide_filter_premiere", premiere).apply();
+        prefs.setLiveTvGuideFilterPremiere(premiere);
     }
 
 }

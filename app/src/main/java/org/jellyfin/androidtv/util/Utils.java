@@ -5,14 +5,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
-import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
@@ -22,8 +20,10 @@ import android.widget.Toast;
 import org.jellyfin.androidtv.BuildConfig;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.preferences.enums.AudioBehavior;
 import org.jellyfin.androidtv.startup.DpadPwActivity;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
+import org.jellyfin.apiclient.model.dto.UserDto;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -34,11 +34,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.UUID;
-
-import org.jellyfin.apiclient.model.dto.UserDto;
 
 /**
  * A collection of utility methods, all static.
@@ -196,8 +193,7 @@ public class Utils {
     }
 
     public static int getMaxBitrate() {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(TvApp.getApplication());
-        String maxRate = sharedPref.getString("pref_max_bitrate", "0");
+        String maxRate = TvApp.getApplication().getUserPreferences().getMaxBitrate();
         Float factor = Float.parseFloat(maxRate) * 10;
         return Math.min(factor == 0 ? TvApp.getApplication().getAutoBitrate() : (factor.intValue() * 100000), TvApp.getApplication().getServerBitrateLimit());
     }
@@ -232,7 +228,7 @@ public class Utils {
     }
 
     public static void processPasswordEntry(final Activity activity, final UserDto user, final String directItemId) {
-        if (TvApp.getApplication().getPrefs().getBoolean("pref_alt_pw_entry", false)) {
+        if (TvApp.getApplication().getUserPreferences().getPasswordDPadEnabled()) {
             Intent pwIntent = new Intent(activity, DpadPwActivity.class);
             pwIntent.putExtra("User", TvApp.getApplication().getSerializer().SerializeToString(user));
             pwIntent.putExtra("ItemId", directItemId);
@@ -283,8 +279,7 @@ public class Utils {
             return true;
         }
 
-        return (DeviceUtils.isFireTv() && !DeviceUtils.is50()) ||
-                "1".equals(TvApp.getApplication().getPrefs().getString("pref_audio_option", "0"));
+        return (DeviceUtils.isFireTv() && !DeviceUtils.is50()) || TvApp.getApplication().getUserPreferences().getAudioBehaviour() == AudioBehavior.DOWNMIX_TO_STEREO;
     }
 
     /**

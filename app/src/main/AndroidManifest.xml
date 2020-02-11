@@ -79,7 +79,8 @@
             android:name=".browsing.ByGenreActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".settings.SettingsActivity"
+            android:name=".preferences.ui.PreferencesActivity"
+            android:theme="@style/Theme.Jellyfin.Preferences"
             android:screenOrientation="landscape" />
         <activity
             android:name=".browsing.SuggestedMoviesActivity"

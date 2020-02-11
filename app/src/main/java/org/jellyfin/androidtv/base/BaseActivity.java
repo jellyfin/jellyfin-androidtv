@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.base;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -39,7 +38,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        timeoutInterval = Long.parseLong(PreferenceManager.getDefaultSharedPreferences(app).getString("pref_auto_logoff_timeout", "3600000"));
+        timeoutInterval = Long.parseLong(TvApp.getApplication().getUserPreferences().getAutoSignOutTimeout());
         startAutoLogoffLoop();
         TvApp.getApplication().setCurrentActivity(this);
 

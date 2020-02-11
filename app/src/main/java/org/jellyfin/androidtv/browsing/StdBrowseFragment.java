@@ -17,16 +17,6 @@ package org.jellyfin.androidtv.browsing;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.BrowseSupportFragment;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.OnItemViewSelectedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -60,14 +50,24 @@ import org.jellyfin.androidtv.ui.ClockUserView;
 import org.jellyfin.androidtv.ui.ItemPanel;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.jellyfin.apiclient.interaction.EmptyResponse;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
+import androidx.leanback.app.BackgroundManager;
+import androidx.leanback.app.BrowseSupportFragment;
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.OnItemViewSelectedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
 
 public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoader {
     private static final String TAG = "StdBrowseFragment";
@@ -138,8 +138,8 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
         super.onResume();
 
         // set info panel option
-        ShowInfoPanel = mApplication.getPrefs().getBoolean("pref_enable_info_panel", true);
-        ShowFanart = mApplication.getPrefs().getBoolean("pref_show_backdrop", true);
+        ShowInfoPanel = mApplication.getUserPreferences().getInfoPanelEnabled();
+        ShowFanart = mApplication.getUserPreferences().getBackdropEnabled();
 
         //React to deletion
         if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(TvApp.getApplication().getLastDeletedItemId())) {

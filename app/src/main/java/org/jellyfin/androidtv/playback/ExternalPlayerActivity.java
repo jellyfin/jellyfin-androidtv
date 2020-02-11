@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +13,8 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.model.compat.PlaybackException;
 import org.jellyfin.androidtv.model.compat.StreamInfo;
 import org.jellyfin.androidtv.model.compat.VideoOptions;
+import org.jellyfin.androidtv.preferences.UserPreferences;
+import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer;
 import org.jellyfin.androidtv.util.ProfileHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
@@ -135,9 +136,9 @@ public class ExternalPlayerActivity extends FragmentActivity {
                 .setNegativeButton("Turn this option off", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        SharedPreferences prefs = mApplication.getPrefs();
-                        prefs.edit().putString("pref_video_player", "auto").apply();
-                        prefs.edit().putBoolean("pref_live_tv_use_external", false).apply();
+                        UserPreferences prefs = mApplication.getUserPreferences();
+                        prefs.setVideoPlayer(PreferredVideoPlayer.AUTO);
+                        prefs.setLiveTvUseExternalPlayer(false);
                     }
                 })
                 .setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -210,7 +211,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
             final BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
             isLiveTv = item.getBaseItemType() == BaseItemType.TvChannel;
 
-            if (!isLiveTv && mApplication.getPrefs().getBoolean("pref_send_path_external", false)) {
+            if (!isLiveTv && mApplication.getUserPreferences().getExternalVideoPlayerSendPath()) {
                 // Just pass the path directly
                 mCurrentStreamInfo = new StreamInfo();
                 mCurrentStreamInfo.setPlayMethod(PlayMethod.DirectPlay);

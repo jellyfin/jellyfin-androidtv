@@ -5,4 +5,6 @@
 
     <!-- StartupActivity vertical margins -->
     <dimen name="startup_vertical_margin">96dp</dimen>
+
+    <dimen name="lb_settings_pane_width">500dp</dimen>
 </resources>

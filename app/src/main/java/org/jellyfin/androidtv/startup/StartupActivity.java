@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 
 import org.jellyfin.androidtv.BuildConfig;
 import org.jellyfin.androidtv.R;
@@ -41,6 +40,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.preference.PreferenceManager;
 
 public class StartupActivity extends FragmentActivity {
     private static final int NETWORK_PERMISSION = 1;
@@ -54,26 +54,6 @@ public class StartupActivity extends FragmentActivity {
 
         application = (TvApp) getApplicationContext();
         logger = application.getLogger();
-
-        //Migrate prefs
-        if (Integer.parseInt(application.getConfigVersion()) < 2) {
-            application.getSystemPrefs().edit().putString("sys_pref_config_version", "2").apply();
-        }
-        if (Integer.parseInt(application.getConfigVersion()) < 3) {
-            application.getPrefs().edit().putString("pref_max_bitrate", "0").apply();
-            application.getSystemPrefs().edit().putString("sys_pref_config_version", "3").apply();
-        }
-        if (Integer.parseInt(application.getConfigVersion()) < 4) {
-            application.getPrefs().edit().putBoolean("pref_enable_premieres", false).apply();
-            application.getPrefs().edit().putBoolean("pref_enable_info_panel", false).apply();
-            application.getSystemPrefs().edit().putString("sys_pref_config_version", "4").apply();
-        }
-        if (Integer.parseInt(application.getConfigVersion()) < 5) {
-            boolean useExternal = application.getPrefs().getBoolean("pref_video_use_external", false);
-
-            application.getPrefs().edit().putString("pref_video_player", useExternal ? "external" : "auto").apply();
-            application.getSystemPrefs().edit().putString("sys_pref_config_version", "5").apply();
-        }
 
         //Ensure we have prefs
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
@@ -192,7 +172,7 @@ public class StartupActivity extends FragmentActivity {
                                 application.determineAutoBitrate();
                                 if (response.getHasPassword()
                                         && (!application.getIsAutoLoginConfigured()
-                                        || (application.getPrefs().getBoolean("pref_auto_pw_prompt", false)))) {
+                                        || (application.getUserPreferences().getPasswordPromptEnabled()))) {
                                     //Need to prompt for pw
                                     Utils.processPasswordEntry(self, response, application.getDirectItemId());
                                 } else {
@@ -203,7 +183,7 @@ public class StartupActivity extends FragmentActivity {
                                     finish();
                                 }
                             } else {
-                                if (response.getHasPassword() && application.getPrefs().getBoolean("pref_auto_pw_prompt", false)) {
+                                if (response.getHasPassword() && application.getUserPreferences().getPasswordPromptEnabled()) {
                                     Utils.processPasswordEntry(self, response);
                                 } else {
                                     Intent intent = new Intent(self, MainActivity.class);
