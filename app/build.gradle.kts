@@ -69,7 +69,7 @@ android {
 			// Use different application id to run release and debug at the same time
 			applicationIdSuffix = ".debug"
 			resValue("string", "app_name", "@string/app_name_debug")
-			versionNameSuffix =  "-debug-" + getBranchName() + "-" + getGitHash() + (if (isTreeClean()) "-treeClean" else "-treeDirty")
+			versionNameSuffix =  "-debug-" + getBranchName() + "-" + getGitHash() + (if (isTreeClean()) "" else "-dirty")
 		}
 	}
 }
