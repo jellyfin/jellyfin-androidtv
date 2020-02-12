@@ -1,13 +1,10 @@
 package org.jellyfin.androidtv.util;
 
-import org.jellyfin.androidtv.BuildConfig;
+import android.content.ContentResolver;
+import android.content.res.Resources;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemPerson;
@@ -19,6 +16,12 @@ import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.ImageType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import androidx.annotation.AnyRes;
 
 public class ImageUtils {
     public static final double ASPECT_RATIO_2_3 = .66667;
@@ -283,7 +286,9 @@ public class ImageUtils {
      * @param resourceId The id of the image resource
      * @return The URL of the image resource
      */
-    public static String getResourceUrl(int resourceId) {
-        return "android.resource://" + BuildConfig.APPLICATION_ID + "/" + resourceId;
+    public static String getResourceUrl(@AnyRes int resourceId) {
+        Resources resources = TvApp.getApplication().getApplicationContext().getResources();
+
+        return String.format("%s://%s/%s/%s", ContentResolver.SCHEME_ANDROID_RESOURCE, resources.getResourcePackageName(resourceId), resources.getResourceTypeName(resourceId), resources.getResourceEntryName(resourceId));
     }
 }

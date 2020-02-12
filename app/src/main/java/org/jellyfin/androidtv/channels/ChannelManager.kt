@@ -15,10 +15,10 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.startup.StartupActivity
+import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.apiclient.getNextUpEpisodes
 import org.jellyfin.androidtv.util.apiclient.getUserViews
 import org.jellyfin.androidtv.util.dp
-import org.jellyfin.androidtv.util.uriFromResourceId
 import org.jellyfin.apiclient.model.drawing.ImageFormat
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.ImageOptions
@@ -109,7 +109,7 @@ class ChannelManager {
 		// Add new items
 		application.contentResolver.bulkInsert(TvContractCompat.PreviewPrograms.CONTENT_URI, response.items.map { item ->
 			val imageUri = if (item.hasPrimaryImage) Uri.parse(application.apiClient.GetImageUrl(item, ImageOptions()))
-			else uriFromResourceId(R.drawable.tile_land_tv)
+			else Uri.parse(ImageUtils.getResourceUrl(R.drawable.tile_land_tv))
 
 			PreviewProgram.Builder()
 				.setChannelId(ContentUris.parseId(channelUri))
