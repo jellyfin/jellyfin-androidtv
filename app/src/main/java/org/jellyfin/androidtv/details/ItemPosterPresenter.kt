@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.view.ViewGroup
 import androidx.appcompat.view.ContextThemeWrapper
-import androidx.leanback.widget.ImageCardView
 import androidx.leanback.widget.Presenter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -15,6 +14,7 @@ import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.base.IItemClickListener
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.presentation.MultiBadgeImageCardView
+import org.jellyfin.androidtv.util.dp
 
 private const val LOG_TAG = "ItemPosterPresenter"
 
@@ -40,7 +40,7 @@ class ItemPosterPresenter(private val context: Context) : Presenter(), IItemClic
 			contentText = baseItem.description
 			isFocusable = true
 			isFocusableInTouchMode = true
-			setMainImageDimensions(200, 300)
+			setMainImageDimensions(100.dp, 150.dp)
 			mainImageDrawable = TvApp.getApplication().getDrawableCompat(R.drawable.tile_port_video)
 		}
 
@@ -54,7 +54,7 @@ class ItemPosterPresenter(private val context: Context) : Presenter(), IItemClic
 	}
 
 	override fun onUnbindViewHolder(viewHolder: ViewHolder?) {
-		val cardView = viewHolder!!.view as ImageCardView
+		val cardView = viewHolder!!.view as MultiBadgeImageCardView
 
 		// TODO: Somehow release BitmapDrawable?
 	}
