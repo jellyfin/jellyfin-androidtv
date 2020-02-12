@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.base.IItemClickListener
 import org.jellyfin.androidtv.model.itemtypes.BriefPersonData
+import org.jellyfin.androidtv.util.dp
 
 private const val LOG_TAG = "PersonPresenter"
 
@@ -40,7 +41,7 @@ class PersonPresenter(private val context: Context) : Presenter(), IItemClickLis
 		cardView.contentText = person.role
 		cardView.isFocusable = true
 		cardView.isFocusableInTouchMode = true
-		cardView.setMainImageDimensions(200, 300)
+		cardView.setMainImageDimensions(100.dp, 150.dp)
 		cardView.mainImage = TvApp.getApplication().getDrawableCompat(R.drawable.tile_port_person)
 
 		if (person.primaryImage != null) {
