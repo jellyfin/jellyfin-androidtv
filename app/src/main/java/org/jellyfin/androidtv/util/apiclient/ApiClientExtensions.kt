@@ -8,10 +8,21 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 /**
- * Adds a coroutine capable version of the "getNextUpEpisodes" function
+ * Coroutine capable version of the "getNextUpEpisodes" function
  */
 suspend fun ApiClient.getNextUpEpisodes(query: NextUpQuery): ItemsResult? = suspendCoroutine { continuation ->
 	GetNextUpEpisodesAsync(query, object : Response<ItemsResult>() {
+		override fun onResponse(response: ItemsResult?) = continuation.resume(response!!)
+		override fun onError(exception: Exception?) = continuation.resume(null)
+	})
+}
+
+/**
+ * Coroutine capable version of the "getUserViews" function
+ * Uses the userId of the currently signed in user.
+ */
+suspend fun ApiClient.getUserViews(): ItemsResult? = suspendCoroutine { continuation ->
+	GetUserViews(currentUserId, object : Response<ItemsResult>() {
 		override fun onResponse(response: ItemsResult?) = continuation.resume(response!!)
 		override fun onError(exception: Exception?) = continuation.resume(null)
 	})

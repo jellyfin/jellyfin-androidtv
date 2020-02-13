@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.browsing.MainActivity;
 import org.jellyfin.androidtv.details.FullDetailsActivity;
 import org.jellyfin.androidtv.eventhandling.TvApiEventListener;
+import org.jellyfin.androidtv.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.model.compat.AndroidProfile;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.playback.PlaybackManager;
@@ -28,6 +29,7 @@ import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.interaction.VolleyHttpClient;
 import org.jellyfin.apiclient.model.apiclient.ConnectionState;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.logging.ILogger;
 import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
@@ -71,15 +73,52 @@ public class StartupActivity extends FragmentActivity {
 
     private void start() {
         if (application.getCurrentUser() != null && application.getApiClient() != null && MediaManager.isPlayingAudio()) {
-            // go straight into last connection
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            openNextActivity();
         } else {
             //clear audio queue in case left over from last run
             MediaManager.clearAudioQueue();
             MediaManager.clearVideoQueue();
             establishConnection();
+        }
+    }
+
+    private void openNextActivity() {
+        // workaround...
+        Activity self = this;
+        String itemId = getIntent().getStringExtra("ItemId");
+        boolean itemIsUserView = getIntent().getBooleanExtra("ItemIsUserView", false);
+
+        if (itemId != null) {
+            if (itemIsUserView) {
+                application.getApiClient().GetItemAsync(itemId, application.getApiClient().getCurrentUserId(), new Response<BaseItemDto>() {
+                    @Override
+                    public void onResponse(BaseItemDto item) {
+                        ItemLauncher.launchUserView(item, self, true);
+                    }
+
+                    @Override
+                    public void onError(Exception exception) {
+                        // go straight into last connection
+                        Intent intent = new Intent(application, MainActivity.class);
+                        startActivity(intent);
+
+                        finish();
+                    }
+                });
+            } else {
+                //Can just go right into details
+                Intent detailsIntent = new Intent(this, FullDetailsActivity.class);
+                detailsIntent.putExtra("ItemId", application.getDirectItemId());
+                startActivity(detailsIntent);
+
+                finish();
+            }
+        } else {
+            // go straight into last connection
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+
+            finish();
         }
     }
 
@@ -176,19 +215,13 @@ public class StartupActivity extends FragmentActivity {
                                     //Need to prompt for pw
                                     Utils.processPasswordEntry(self, response, application.getDirectItemId());
                                 } else {
-                                    //Can just go right into details
-                                    Intent detailsIntent = new Intent(self, FullDetailsActivity.class);
-                                    detailsIntent.putExtra("ItemId", application.getDirectItemId());
-                                    startActivity(detailsIntent);
-                                    finish();
+                                    openNextActivity();
                                 }
                             } else {
                                 if (response.getHasPassword() && application.getUserPreferences().getPasswordPromptEnabled()) {
                                     Utils.processPasswordEntry(self, response);
                                 } else {
-                                    Intent intent = new Intent(self, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                    openNextActivity();
                                 }
                             }
                         }

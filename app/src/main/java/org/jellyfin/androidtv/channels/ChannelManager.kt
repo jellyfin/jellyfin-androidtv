@@ -1,17 +1,24 @@
 package org.jellyfin.androidtv.channels
 
+import android.content.ContentUris
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import androidx.core.graphics.drawable.toBitmap
+import androidx.tvprovider.media.tv.*
 import androidx.tvprovider.media.tv.TvContractCompat.WatchNextPrograms
-import androidx.tvprovider.media.tv.WatchNextProgram
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.startup.StartupActivity
+import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.apiclient.getNextUpEpisodes
+import org.jellyfin.androidtv.util.apiclient.getUserViews
+import org.jellyfin.androidtv.util.dp
 import org.jellyfin.apiclient.model.drawing.ImageFormat
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.ImageOptions
@@ -48,8 +55,74 @@ class ChannelManager {
 
 		// Launch in separate coroutine scope
 		GlobalScope.launch {
+			updateMyMedia()
 			updateWatchNext()
 		}
+	}
+
+	/**
+	 * Get the uri for a channel or create it if it doesn't exist.
+	 * Uses the [settings] parameter to update or create the channel.
+	 * The [name] parameter is used to store the id and should be unique.
+	 */
+	private fun getChannelUri(name: String, settings: Channel): Uri {
+		val store = application.getSharedPreferences("leanback_channels", Context.MODE_PRIVATE)
+
+		val uri = if (store.contains(name)) {
+			// Retrieve uri and update content resolver
+			Uri.parse(store.getString(name, null)).also { uri ->
+				application.contentResolver.update(uri, settings.toContentValues(), null, null)
+			}
+		} else {
+			// Create new channel and save uri
+			application.contentResolver.insert(TvContractCompat.Channels.CONTENT_URI, settings.toContentValues())!!.also { uri ->
+				store.edit().putString(name, uri.toString()).apply()
+			}
+
+			// Set as default row to display (we can request one row to automatically be added to the home screen)
+			// Should be enabled when we add a row that we want to display by default
+			// TvContractCompat.requestChannelBrowsable(application, ContentUris.parseId(uri))
+		}
+
+		// Update logo
+		ChannelLogoUtils.storeChannelLogo(application, ContentUris.parseId(uri), application.resources.getDrawable(R.drawable.ic_jellyfin, null).toBitmap(80.dp, 80.dp))
+
+		return uri
+	}
+
+	/**
+	 * Updates the "my media" row with current media libraries
+	 */
+	private suspend fun updateMyMedia() {
+		// Get channel
+		val channelUri = getChannelUri("my_media", Channel.Builder()
+			.setType(TvContractCompat.Channels.TYPE_PREVIEW)
+			.setDisplayName(application.getString(R.string.lbl_my_media))
+			.setAppLinkIntent(Intent(application, StartupActivity::class.java))
+			.build())
+
+		val response = application.apiClient.getUserViews() ?: return
+
+		// Delete current items
+		application.contentResolver.delete(TvContractCompat.PreviewPrograms.CONTENT_URI, null, null)
+
+		// Add new items
+		application.contentResolver.bulkInsert(TvContractCompat.PreviewPrograms.CONTENT_URI, response.items.map { item ->
+			val imageUri = if (item.hasPrimaryImage) Uri.parse(application.apiClient.GetImageUrl(item, ImageOptions()))
+			else Uri.parse(ImageUtils.getResourceUrl(R.drawable.tile_land_tv))
+
+			PreviewProgram.Builder()
+				.setChannelId(ContentUris.parseId(channelUri))
+				.setType(TvContractCompat.PreviewPrograms.TYPE_CHANNEL)
+				.setTitle(item.name)
+				.setPosterArtUri(imageUri)
+				.setPosterArtAspectRatio(TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9)
+				.setIntent(Intent(application, StartupActivity::class.java).apply {
+					putExtra("ItemId", item.id)
+					putExtra("ItemIsUserView", true)
+				})
+				.build().toContentValues()
+		}.toTypedArray())
 	}
 
 	/**
@@ -72,10 +145,10 @@ class ChannelManager {
 		})
 
 		// Add new items
-		response?.items?.forEach { item ->
-			application.contentResolver.insert(
+		response?.items?.let { items ->
+			application.contentResolver.bulkInsert(
 				WatchNextPrograms.CONTENT_URI,
-				getBaseItemAsWatchNextProgram(item).toContentValues()
+				items.map { item -> getBaseItemAsWatchNextProgram(item).toContentValues() }.toTypedArray()
 			)
 		}
 	}
