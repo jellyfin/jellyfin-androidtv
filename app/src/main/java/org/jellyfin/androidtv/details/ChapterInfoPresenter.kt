@@ -18,6 +18,7 @@ import org.jellyfin.androidtv.model.itemtypes.ChapterInfo
 import org.jellyfin.androidtv.util.PlaybackUtil
 import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.androidtv.util.apiclient.getItem
+import org.jellyfin.androidtv.util.dp
 
 private const val LOG_TAG = "ChapterInfoPresenter"
 
@@ -35,7 +36,7 @@ class ChapterInfoPresenter(private val context: Context) : Presenter(), IItemCli
 		cardView.contentText = TimeUtils.formatMillis(chapterInfo.startPositionTicks)
 		cardView.isFocusable = true
 		cardView.isFocusableInTouchMode = true
-		cardView.setMainImageDimensions(500, 281)
+		cardView.setMainImageDimensions(250.dp, 140.dp)
 		cardView.mainImage = TvApp.getApplication().getDrawableCompat(R.drawable.tile_chapter)
 
 		if (chapterInfo.image != null) {
