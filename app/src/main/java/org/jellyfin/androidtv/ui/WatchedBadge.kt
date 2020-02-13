@@ -32,7 +32,7 @@ class WatchedBadge(context: Context, val item: PlayableItem? = null) : FrameLayo
 		badge_background.visibility = View.VISIBLE
 		badge_watched_tick.visibility = View.GONE
 		badge_counter.visibility = View.VISIBLE
-		badge_counter.text = count.toString()
+		badge_counter.text = if (count < 100) count.toString() else "99+"
 	}
 
 	fun clear() {
