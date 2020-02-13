@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:textAlignment="center"
+    tools:layout_height="32dp"
+    tools:layout_width="32dp">
+
+    <ImageView
+        android:id="@+id/badge_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/circle_accent"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/badge_counter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:includeFontPadding="false"
+        tools:text="21"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/badge_watched_tick"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_watch"
+        android:visibility="gone"/>
+
+</FrameLayout>
