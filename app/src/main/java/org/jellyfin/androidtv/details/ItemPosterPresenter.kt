@@ -13,7 +13,9 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.base.IItemClickListener
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
+import org.jellyfin.androidtv.model.itemtypes.PlayableItem
 import org.jellyfin.androidtv.ui.MultiBadgeImageCardView
+import org.jellyfin.androidtv.ui.WatchedBadge
 import org.jellyfin.androidtv.util.dp
 
 private const val LOG_TAG = "ItemPosterPresenter"
@@ -42,6 +44,9 @@ class ItemPosterPresenter(private val context: Context) : Presenter(), IItemClic
 			isFocusableInTouchMode = true
 			setMainImageDimensions(100.dp, 150.dp)
 			mainImageDrawable = TvApp.getApplication().getDrawableCompat(R.drawable.tile_port_video)
+
+			if (baseItem is PlayableItem)
+				setBadge(WatchedBadge(context, baseItem), MultiBadgeImageCardView.BadgeLocation.TOP_RIGHT)
 		}
 
 
