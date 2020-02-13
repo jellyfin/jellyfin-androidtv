@@ -13,7 +13,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.base.IItemClickListener
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
-import org.jellyfin.androidtv.presentation.MultiBadgeImageCardView
+import org.jellyfin.androidtv.ui.MultiBadgeImageCardView
 import org.jellyfin.androidtv.util.dp
 
 private const val LOG_TAG = "ItemPosterPresenter"
