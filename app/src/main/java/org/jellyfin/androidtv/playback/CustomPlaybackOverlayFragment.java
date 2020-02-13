@@ -31,17 +31,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.leanback.app.RowsSupportFragment;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
-
 import com.squareup.picasso.Picasso;
 
 import org.jellyfin.androidtv.R;
@@ -53,6 +42,7 @@ import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.livetv.ILiveTvGuide;
 import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
+import org.jellyfin.androidtv.playback.nextup.UpNextActivity;
 import org.jellyfin.androidtv.playback.overlay.LeanbackOverlayFragment;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.ChannelCardPresenter;
@@ -87,6 +77,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.leanback.app.RowsSupportFragment;
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
 
 public class CustomPlaybackOverlayFragment extends Fragment implements IPlaybackOverlayFragment, ILiveTvGuide {
     ImageView mLogoImage;
