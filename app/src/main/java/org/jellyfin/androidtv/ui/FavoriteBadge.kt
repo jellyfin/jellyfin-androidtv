@@ -2,11 +2,11 @@ package org.jellyfin.androidtv.ui
 
 import android.content.Context
 import android.view.View
-import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatImageView
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 
-class FavoriteBadge(context: Context, val item: BaseItem? = null) : ImageView(context) {
+class FavoriteBadge(context: Context, val item: BaseItem? = null) : AppCompatImageView(context) {
 	private val changeListener: () -> Unit = {
 		item?.let(::setItemData)
 	}
