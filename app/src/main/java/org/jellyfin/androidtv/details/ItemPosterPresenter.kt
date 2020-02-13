@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.base.IItemClickListener
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.model.itemtypes.PlayableItem
+import org.jellyfin.androidtv.ui.FavoriteBadge
 import org.jellyfin.androidtv.ui.MultiBadgeImageCardView
 import org.jellyfin.androidtv.ui.WatchedBadge
 import org.jellyfin.androidtv.util.dp
@@ -47,6 +48,8 @@ class ItemPosterPresenter(private val context: Context) : Presenter(), IItemClic
 
 			if (baseItem is PlayableItem)
 				setBadge(MultiBadgeImageCardView.BadgeLocation.TOP_RIGHT, WatchedBadge(context, baseItem))
+
+			setBadge(MultiBadgeImageCardView.BadgeLocation.BOTTOM_RIGHT, FavoriteBadge(context, baseItem))
 		}
 
 
