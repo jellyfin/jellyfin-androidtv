@@ -8,24 +8,19 @@ import kotlinx.android.synthetic.main.badge_watched.view.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.model.itemtypes.PlayableItem
 
-class WatchedBadge(context: Context) : FrameLayout(context) {
-	private var item: PlayableItem? = null
 
+class WatchedBadge(context: Context, val item: PlayableItem? = null) : FrameLayout(context) {
 	private val changeListener: () -> Unit = {
-		if (item != null) {
-			setItemData(item!!)
-		}
+		item?.let(::setItemData)
 	}
 
 	init {
 		val inflater = LayoutInflater.from(context)
 		inflater.inflate(R.layout.badge_watched, this)
+		item?.let(::setItemData)
 	}
 
-	constructor(context: Context, item: PlayableItem) : this(context) {
-		this.item = item
-		setItemData(item)
-	}
+	constructor(context: Context) : this(context, null)
 
 	fun setWatched() {
 		badge_background.visibility = View.VISIBLE
