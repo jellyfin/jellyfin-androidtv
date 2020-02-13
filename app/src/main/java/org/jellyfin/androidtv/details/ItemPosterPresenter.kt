@@ -46,7 +46,7 @@ class ItemPosterPresenter(private val context: Context) : Presenter(), IItemClic
 			mainImageDrawable = TvApp.getApplication().getDrawableCompat(R.drawable.tile_port_video)
 
 			if (baseItem is PlayableItem)
-				setBadge(WatchedBadge(context, baseItem), MultiBadgeImageCardView.BadgeLocation.TOP_RIGHT)
+				setBadge(MultiBadgeImageCardView.BadgeLocation.TOP_RIGHT, WatchedBadge(context, baseItem))
 		}
 
 
