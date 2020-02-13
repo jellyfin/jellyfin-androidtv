@@ -16,4 +16,7 @@
     <string name="loading">Betöltés…</string>
     <string name="video_error_unknown_error">Nem sikerült betölteni a videót</string>
     <string name="play">Lejátszás</string>
+    <string name="btn_filter">Szűrő</string>
+    <string name="lbl_more_like_this">Több ehhez hasonló</string>
+    <string name="title_activity_select_user">SelectUserActivity</string>
 </resources>
