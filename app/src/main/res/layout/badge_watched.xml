@@ -30,6 +30,7 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:visibility="gone"
+        android:includeFontPadding="false"
         app:layout_constraintBottom_toBottomOf="@+id/badge_background"
         app:layout_constraintLeft_toLeftOf="@id/badge_background"
         app:layout_constraintRight_toRightOf="@id/badge_background"
