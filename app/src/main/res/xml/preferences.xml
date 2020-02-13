@@ -73,6 +73,16 @@
             android:key="pref_enable_tv_queuing"
             android:summary="@string/sum_tv_queuing"
             android:title="@string/lbl_tv_queuing" />
+        <org.jellyfin.androidtv.preferences.ui.DurationSeekBarPreference
+            android:defaultValue="7000"
+            android:dependency="pref_enable_tv_queuing"
+            android:key="next_up_timeout"
+            android:max="30000"
+            android:summary="@string/pref_next_up_timeout_summary"
+            android:title="@string/pref_next_up_timeout_title"
+            app:min="3000"
+            app:seekBarIncrement="1000"
+            app:showSeekBarValue="true" />
         <ListPreference
             android:defaultValue="0"
             android:entries="@array/pref_preroll_options"

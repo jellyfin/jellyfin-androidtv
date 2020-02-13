@@ -11,6 +11,7 @@ import androidx.leanback.app.BackgroundManager
 import kotlinx.android.synthetic.main.fragment_upnext_row.*
 import kotlinx.android.synthetic.main.fragment_upnext_row.view.*
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.playback.PlaybackOverlayActivity
 import org.jellyfin.androidtv.util.toHtmlSpanned
 
@@ -45,7 +46,7 @@ class UpNextFragment(private val data: UpNextItemData) : Fragment() {
 	}
 
 	private fun startCountdown() {
-		val duration = 5 * 1000L // 5 seconds
+		val duration = TvApp.getApplication().userPreferences.nextUpTimeout.toLong()
 
 		// Cancel current timer if one is already set
 		countdownTimer?.cancel()

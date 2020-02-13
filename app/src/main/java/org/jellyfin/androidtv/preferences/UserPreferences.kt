@@ -74,6 +74,12 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	var mediaQueuingEnabled by booleanPreference("pref_enable_tv_queuing", true)
 
 	/**
+	 * Next up timeout before playing next item
+	 * Stored in milliseconds
+	 */
+	var nextUpTimeout by intPreference("next_up_timeout", 1000 * 7)
+
+	/**
 	 * Duration in seconds to subtract from resume time
 	 */
 	var resumeSubtractDuration by stringPreference("pref_resume_preroll", "0")
