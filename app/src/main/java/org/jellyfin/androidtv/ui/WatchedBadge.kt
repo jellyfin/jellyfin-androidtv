@@ -3,16 +3,18 @@ package org.jellyfin.androidtv.ui
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.badge_watched.view.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.model.itemtypes.PlayableItem
 
-class WatchedBadge(context: Context) : ConstraintLayout(context) {
+class WatchedBadge(context: Context) : FrameLayout(context) {
 	private var item: PlayableItem? = null
 
 	private val changeListener: () -> Unit = {
-		setItemData(item)
+		if (item != null) {
+			setItemData(item!!)
+		}
 	}
 
 	init {
@@ -44,10 +46,8 @@ class WatchedBadge(context: Context) : ConstraintLayout(context) {
 		badge_counter.visibility = View.GONE
 	}
 
-	private fun setItemData(item: PlayableItem?) {
-		if (item != null) {
-			if (item.played) setWatched() else clear()
-		}
+	private fun setItemData(item: PlayableItem) {
+		if (item.played) setWatched() else clear()
 	}
 
 	override fun onAttachedToWindow() {
