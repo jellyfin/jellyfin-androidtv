@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:textAlignment="center"
+    tools:layout_height="32dp"
+    tools:layout_width="32dp">
+
+    <ImageView
+        android:id="@+id/badge_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/circle_accent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/badge_counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/badge_background"
+        app:layout_constraintLeft_toLeftOf="@id/badge_background"
+        app:layout_constraintRight_toRightOf="@id/badge_background"
+        app:layout_constraintTop_toTopOf="@id/badge_background"
+        tools:text="21"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/badge_watched_tick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_watch"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/badge_background"
+        app:layout_constraintLeft_toLeftOf="@id/badge_background"
+        app:layout_constraintRight_toRightOf="@id/badge_background"
+        app:layout_constraintTop_toTopOf="@id/badge_background"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
