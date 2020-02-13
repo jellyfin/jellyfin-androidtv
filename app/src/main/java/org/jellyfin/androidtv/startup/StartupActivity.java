@@ -13,9 +13,9 @@ import org.jellyfin.androidtv.BuildConfig;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.browsing.MainActivity;
-import org.jellyfin.androidtv.browsing.UserViewActivity;
 import org.jellyfin.androidtv.details.FullDetailsActivity;
 import org.jellyfin.androidtv.eventhandling.TvApiEventListener;
+import org.jellyfin.androidtv.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.model.compat.AndroidProfile;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.playback.PlaybackManager;
@@ -103,32 +103,43 @@ public class StartupActivity extends FragmentActivity {
     }
 
     private void openNextActivity() {
+        // workaround...
+        Activity self = this;
         String itemId = getIntent().getStringExtra("ItemId");
         boolean itemIsUserView = getIntent().getBooleanExtra("ItemIsUserView", false);
 
         if (itemId != null) {
             if (itemIsUserView) {
-                BaseItemDto baseItem = new BaseItemDto();
-                baseItem.setId(itemId);
+                application.getApiClient().GetItemAsync(itemId, application.getApiClient().getCurrentUserId(), new Response<BaseItemDto>() {
+                    @Override
+                    public void onResponse(BaseItemDto item) {
+                        ItemLauncher.launchUserView(item, self, true);
+                    }
 
-                // open user view browsing
-                Intent intent = new Intent(this, UserViewActivity.class);
-                intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+                    @Override
+                    public void onError(Exception exception) {
+                        // go straight into last connection
+                        Intent intent = new Intent(application, MainActivity.class);
+                        startActivity(intent);
 
-                startActivity(intent);
+                        finish();
+                    }
+                });
             } else {
                 //Can just go right into details
                 Intent detailsIntent = new Intent(this, FullDetailsActivity.class);
                 detailsIntent.putExtra("ItemId", application.getDirectItemId());
                 startActivity(detailsIntent);
+
+                finish();
             }
         } else {
             // go straight into last connection
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-        }
 
-        finish();
+            finish();
+        }
     }
 
     @Override

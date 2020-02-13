@@ -24,10 +24,6 @@ import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -37,9 +33,61 @@ import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.search.SearchHint;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ItemLauncher {
     public static void launch(BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity) {
         launch(rowItem, adapter, pos, activity, false);
+    }
+
+    public static void launchUserView(final BaseItemDto baseItem, final Activity context, final boolean finishParent) {
+        //We need to get display prefs...
+        TvApp.getApplication().getDisplayPrefsAsync(baseItem.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
+            @Override
+            public void onResponse(DisplayPreferences response) {
+                if (baseItem.getCollectionType() == null) {
+                    baseItem.setCollectionType("unknown");
+                }
+                TvApp.getApplication().getLogger().Debug("**** Collection type: %s", baseItem.getCollectionType());
+                switch (baseItem.getCollectionType()) {
+                    case "movies":
+                    case "tvshows":
+                    case "music":
+                        TvApp.getApplication().getLogger().Debug("**** View Type Pref: %s", response.getCustomPrefs().get("DefaultView"));
+                        if (ViewType.GRID.equals(response.getCustomPrefs().get("DefaultView"))) {
+                            // open grid browsing
+                            Intent folderIntent = new Intent(context, GenericGridActivity.class);
+                            folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+                            context.startActivity(folderIntent);
+                            if (finishParent) context.finish();
+
+                        } else {
+                            // open user view browsing
+                            Intent intent = new Intent(context, UserViewActivity.class);
+                            intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+
+                            context.startActivity(intent);
+                            if (finishParent) context.finish();
+                        }
+                        break;
+                    case "livetv":
+                        // open user view browsing
+                        Intent intent = new Intent(context, UserViewActivity.class);
+                        intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+
+                        context.startActivity(intent);
+                        if (finishParent) context.finish();
+                        break;
+                    default:
+                        // open generic folder browsing
+                        Intent folderIntent = new Intent(context, GenericGridActivity.class);
+                        folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
+                        context.startActivity(folderIntent);
+                        if (finishParent) context.finish();
+                }
+            }
+        });
     }
 
     public static void launch(final BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity, final boolean noHistory) {
@@ -60,50 +108,7 @@ public class ItemLauncher {
                 switch (baseItem.getBaseItemType()) {
                     case UserView:
                     case CollectionFolder:
-                        //We need to get display prefs...
-                        TvApp.getApplication().getDisplayPrefsAsync(baseItem.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
-                            @Override
-                            public void onResponse(DisplayPreferences response) {
-                                if (baseItem.getCollectionType() == null) {
-                                    baseItem.setCollectionType("unknown");
-                                }
-                                TvApp.getApplication().getLogger().Debug("**** Collection type: %s", baseItem.getCollectionType());
-                                switch (baseItem.getCollectionType()) {
-                                    case "movies":
-                                    case "tvshows":
-                                    case "music":
-                                        TvApp.getApplication().getLogger().Debug("**** View Type Pref: %s", response.getCustomPrefs().get("DefaultView"));
-                                        if (ViewType.GRID.equals(response.getCustomPrefs().get("DefaultView"))) {
-                                            // open grid browsing
-                                            Intent folderIntent = new Intent(activity, GenericGridActivity.class);
-                                            folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
-                                            activity.startActivity(folderIntent);
-
-                                        } else {
-                                            // open user view browsing
-                                            Intent intent = new Intent(activity, UserViewActivity.class);
-                                            intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
-
-                                            activity.startActivity(intent);
-
-                                        }
-                                        break;
-                                    case "livetv":
-                                        // open user view browsing
-                                        Intent intent = new Intent(activity, UserViewActivity.class);
-                                        intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
-
-                                        activity.startActivity(intent);
-                                        break;
-                                    default:
-                                        // open generic folder browsing
-                                        Intent folderIntent = new Intent(activity, GenericGridActivity.class);
-                                        folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(baseItem));
-                                        activity.startActivity(folderIntent);
-                                }
-
-                            }
-                        });
+                        launchUserView(baseItem, activity, false);
                         return;
                     case Series:
                     case MusicArtist:
