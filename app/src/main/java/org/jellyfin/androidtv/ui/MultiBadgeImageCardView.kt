@@ -64,7 +64,7 @@ class MultiBadgeImageCardView(context: Context, attrs: AttributeSet?, defStyleAt
 		cardAttrs.recycle()
 	}
 
-	fun setBadge(badge: View?, badgeLocation: BadgeLocation) {
+	fun setBadge(badgeLocation: BadgeLocation, badge: View?) {
 		val badgeContainer = badgeContainers.getValue(badgeLocation)
 		badgeContainer.removeAllViews()
 
