@@ -347,4 +347,7 @@
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_vlc">libVLC</string>
     <string name="pref_video_player_external">External app</string>
+    <string name="stream_title_video">Video</string>
+    <string name="stream_title_audio">Audio</string>
+    <string name="stream_title_text">Subtitles</string>
 </resources>

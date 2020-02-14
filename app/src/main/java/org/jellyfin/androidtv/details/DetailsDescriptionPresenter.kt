@@ -4,6 +4,7 @@ import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.text.bold
 import androidx.leanback.widget.Presenter
@@ -15,6 +16,7 @@ import org.jellyfin.androidtv.model.itemtypes.Movie
 import org.jellyfin.androidtv.model.itemtypes.PlayableItem
 import org.jellyfin.androidtv.ui.RecyclerViewSpacingDecoration
 import org.jellyfin.androidtv.ui.widget.Rating
+import org.jellyfin.apiclient.model.entities.MediaStreamType
 
 class DetailsDescriptionPresenter : Presenter() {
 	class ViewHolder(view: View) : Presenter.ViewHolder(view) {
@@ -30,6 +32,13 @@ class DetailsDescriptionPresenter : Presenter() {
 			addItemDecoration(RecyclerViewSpacingDecoration(8))
 		}
 		val tags: TextView = view.details_description_tags
+		val streams: LinearLayout = view.details_description_streams
+		val videoStreamLabel: TextView = view.details_description_streams_video_label
+		val videoStreamValue: TextView = view.details_description_streams_video_value
+		val audioStreamLabel: TextView = view.details_description_streams_audio_label
+		val audioStreamValue: TextView = view.details_description_streams_audio_value
+		val textStreamLabel: TextView = view.details_description_streams_text_label
+		val textStreamValue: TextView = view.details_description_streams_text_value
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
@@ -76,8 +85,43 @@ class DetailsDescriptionPresenter : Presenter() {
 			}
 		}
 
-		if (item is PlayableItem)
+		if (item is PlayableItem) {
 			(viewHolder.genres.adapter as GenreAdapter).setItems(item.genres)
+
+			val videoStream = item.mediaInfo.streams.find { it.type == MediaStreamType.Video }
+			if (videoStream != null) {
+				viewHolder.videoStreamValue.text = videoStream.displayTitle
+				viewHolder.videoStreamLabel.visibility = View.VISIBLE
+				viewHolder.videoStreamValue.visibility = View.VISIBLE
+			} else {
+				viewHolder.videoStreamLabel.visibility = View.GONE
+				viewHolder.videoStreamValue.visibility = View.GONE
+			}
+
+			val audioStream = item.mediaInfo.streams.find { it.type == MediaStreamType.Audio }
+			if (audioStream != null) {
+				viewHolder.audioStreamValue.text = audioStream.displayTitle
+				viewHolder.audioStreamLabel.visibility = View.VISIBLE
+				viewHolder.audioStreamValue.visibility = View.VISIBLE
+			} else {
+				viewHolder.audioStreamLabel.visibility = View.GONE
+				viewHolder.audioStreamValue.visibility = View.GONE
+			}
+
+			val textStream = item.mediaInfo.streams.find { it.type == MediaStreamType.Subtitle }
+			if (textStream != null) {
+				viewHolder.textStreamValue.text = textStream.displayTitle
+				viewHolder.textStreamLabel.visibility = View.VISIBLE
+				viewHolder.textStreamValue.visibility = View.VISIBLE
+			} else {
+				viewHolder.textStreamLabel.visibility = View.GONE
+				viewHolder.textStreamValue.visibility = View.GONE
+			}
+
+			viewHolder.streams.visibility = View.VISIBLE
+		} else {
+			viewHolder.streams.visibility = View.GONE
+		}
 
 		if (item is PlayableItem && item.tags.isNotEmpty()) {
 			viewHolder.tags.text = SpannableStringBuilder()

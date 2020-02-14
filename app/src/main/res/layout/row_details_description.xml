@@ -150,14 +150,14 @@
             android:id="@+id/details_description_streams_video_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Video"
+            android:text="@string/stream_title_video"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/details_description_streams_video_spinner"
+            android:id="@+id/details_description_streams_video_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1080P MSMPEG4V2" />
+            tools:text="1080P MSMPEG4V2" />
 
         <Space
             android:layout_width="0dp"
@@ -167,30 +167,30 @@
             android:id="@+id/details_description_streams_audio_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Audio"
+            android:text="@string/stream_title_audio"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/details_description_streams_audio_spinner"
+            android:id="@+id/details_description_streams_audio_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dolby Digital 5.1 Default" />
+            tools:text="Dolby Digital 5.1 Default" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="8dp" />
 
         <TextView
-            android:id="@+id/details_description_streams_subtitles_label"
+            android:id="@+id/details_description_streams_text_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Subtitles"
+            android:text="@string/stream_title_text"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/details_description_streams_subtitles_spinner"
+            android:id="@+id/details_description_streams_text_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Undefined - Default" />
+            tools:text="Undefined - Default" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
