@@ -28,6 +28,7 @@ sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
 	var played: Boolean by Delegates.observable(original.userData.played, ::observer)
 	val genres: List<GenreDto> = original.genreItems.toList()
 	val tags: List<String> = original.tags
+	val durationTicks: Long = original.runTimeTicks
 
 	val canResume: Boolean
 		get() = playbackPositionTicks > 0L
