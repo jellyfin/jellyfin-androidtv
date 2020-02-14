@@ -365,4 +365,5 @@
     <string name="stream_title_video">Video</string>
     <string name="stream_title_audio">Audio</string>
     <string name="stream_title_text">Subtitles</string>
+    <string name="duration">Duration</string>
 </resources>
