@@ -70,6 +70,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         playerGlue.setSeekEnabled(playerAdapter.canSeek());
         playerGlue.setSeekProvider(playerAdapter.canSeek() ? new CustomSeekProvider(playerAdapter) : null);
         recordingStateChanged();
+        playerAdapter.updateDuration();
     }
 
     public void recordingStateChanged() {
