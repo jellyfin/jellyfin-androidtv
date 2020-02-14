@@ -269,7 +269,7 @@ public class TvApp extends Application {
                 return getUserPreferences().getVideoPlayer() == PreferredVideoPlayer.EXTERNAL;
             case TvChannel:
             case Program:
-                return getUserPreferences().getLiveTvUseExternalPlayer();
+                return getUserPreferences().getLiveTvVideoPlayer() == PreferredVideoPlayer.EXTERNAL;
             default:
                 return false;
         }

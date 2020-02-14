@@ -127,14 +127,9 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	var liveTvDirectPlayEnabled by booleanPreference("pref_live_direct", true)
 
 	/**
-	 * Use VLC for live TV playback
+	 * Preferred video player for live TV
 	 */
-	var liveTvUseVlc by booleanPreference("pref_enable_vlc_livetv", false)
-
-	/**
-	 * Use external player for live TV playback
-	 */
-	var liveTvUseExternalPlayer by booleanPreference("pref_live_tv_use_external", false)
+	var liveTvVideoPlayer by enumPreference("live_tv_video_player", PreferredVideoPlayer.AUTO)
 
 	/* ACRA */
 	/**
@@ -169,6 +164,15 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 
 			// Migrate to login behavior enum
 			putEnum("login_behavior", if (it.getString("pref_login_behavior", "0") == "1") LoginBehavior.AUTO_LOGIN else LoginBehavior.SHOW_LOGIN)
+		}
+
+		migration(toVersion = 4) {
+			putEnum("live_tv_video_player",
+				when {
+					it.getBoolean("pref_live_tv_use_external", false) -> PreferredVideoPlayer.EXTERNAL
+					it.getBoolean("pref_enable_vlc_livetv", false) -> PreferredVideoPlayer.VLC
+					else -> PreferredVideoPlayer.AUTO
+				})
 		}
 	}
 }
