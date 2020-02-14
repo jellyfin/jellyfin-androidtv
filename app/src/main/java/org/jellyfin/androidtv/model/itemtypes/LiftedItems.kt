@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.model.itemtypes
 
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.BaseItemType
-import org.jellyfin.apiclient.model.dto.ChapterInfoDto
 import org.jellyfin.apiclient.model.dto.GenreDto
 import org.jellyfin.apiclient.model.querying.ItemFields
 import java.util.*
@@ -23,8 +22,8 @@ sealed class BaseItem(original: BaseItemDto) : ObservableParent() {
 sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
 	var playbackPositionTicks: Long by Delegates.observable(original.userData.playbackPositionTicks, ::observer)
 	val mediaInfo = MediaInfo(original.mediaSources, original.mediaStreams)
-	val chapters: List<ChapterInfo> = original.chapters.orEmpty().mapIndexed {
-		idx, chapterInfoDto -> ChapterInfo(chapterInfoDto, this, idx)
+	val chapters: List<ChapterInfo> = original.chapters.orEmpty().mapIndexed { index, chapterInfoDto ->
+		ChapterInfo(chapterInfoDto, this, index)
 	}
 	var played: Boolean by Delegates.observable(original.userData.played, ::observer)
 	val genres: List<GenreDto> = original.genreItems.toList()
@@ -48,7 +47,7 @@ class Episode(original: BaseItemDto) : PlayableItem(original) {
 
 class Movie(original: BaseItemDto) : PlayableItem(original) {
 	var productionYear: Int = original.productionYear
-	val cast: List<BriefPersonData> = original.people.asList().map { person -> BriefPersonData(person) }
+	val cast: List<BriefPersonData> = original.people.map(::BriefPersonData)
 	val officialRating: String? = original.officialRating
 	val communityRating: Float = original.communityRating
 	val criticsRating: Float? = original.criticRating
