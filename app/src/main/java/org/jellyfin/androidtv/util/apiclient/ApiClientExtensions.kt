@@ -85,3 +85,15 @@ suspend fun ApiClient.getSimilarItems(item: BaseItem, limit: Int = 25): List<Bas
 		}
 	})
 }
+
+suspend fun ApiClient.getSpecialFeatures(item: BaseItem): List<BaseItem>? = suspendCoroutine { continuation ->
+	GetSpecialFeaturesAsync(TvApp.getApplication().currentUser.id, item.id, object: Response<Array<BaseItemDto>>() {
+		override fun onResponse(response: Array<BaseItemDto>?) {
+			continuation.resume(response!!.map { baseItemDto -> baseItemDto.liftToNewFormat() })
+		}
+
+		override fun onError(exception: java.lang.Exception?) {
+			continuation.resume(null)
+		}
+	})
+}
