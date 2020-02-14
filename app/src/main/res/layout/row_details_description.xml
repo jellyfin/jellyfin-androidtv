@@ -95,7 +95,7 @@
         android:id="@+id/details_description_genres"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:nextFocusRight="@id/details_description_streams"
@@ -138,13 +138,53 @@
         tools:text="Tags: Tag1, Tag2, Tag3" />
 
     <LinearLayout
+        android:id="@+id/details_description_duration_info"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/details_description_streams"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/duration"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/details_description_duration_info_duration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="120 minutes" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_ends"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/details_description_duration_info_end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="13:37" />
+    </LinearLayout>
+
+
+    <LinearLayout
         android:id="@+id/details_description_streams"
         android:layout_width="150dp"
         android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
         android:nextFocusLeft="@id/details_description_genres"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/details_description_duration_info">
 
         <TextView
             android:id="@+id/details_description_streams_video_label"
