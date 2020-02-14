@@ -164,9 +164,8 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 
 			// Migrate to login behavior enum
 			putEnum("login_behavior", if (it.getString("pref_login_behavior", "0") == "1") LoginBehavior.AUTO_LOGIN else LoginBehavior.SHOW_LOGIN)
-		}
 
-		migration(toVersion = 4) {
+			// Migrate live tv player to use enum
 			putEnum("live_tv_video_player",
 				when {
 					it.getBoolean("pref_live_tv_use_external", false) -> PreferredVideoPlayer.EXTERNAL
