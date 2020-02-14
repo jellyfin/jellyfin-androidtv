@@ -41,7 +41,7 @@ class ItemPresenter(private val context: Context,
 	override fun onBindViewHolder(viewHolder: ViewHolder, item: Any) {
 		val baseItem = item as BaseItem
 		val cardView = (viewHolder.view as MultiBadgeImageCardView).apply {
-			titleText = baseItem.name
+			titleText = baseItem.title
 			contentText = if (showDescription) baseItem.description else null
 			isFocusable = true
 			isFocusableInTouchMode = true
