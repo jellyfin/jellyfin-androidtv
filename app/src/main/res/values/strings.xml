@@ -356,4 +356,7 @@
     <string name="pref_next_up_enabled_summary">Previews the next queued item before playing</string>
     <string name="pref_next_up_enabled_title">Enable Next Up screen</string>
     <string name="pref_libvlc_audio_delay_title">Default Audio Delay for libVLC</string>
+    <string name="stream_title_video">Video</string>
+    <string name="stream_title_audio">Audio</string>
+    <string name="stream_title_text">Subtitles</string>
 </resources>
