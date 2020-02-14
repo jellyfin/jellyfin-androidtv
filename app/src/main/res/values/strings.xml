@@ -362,4 +362,7 @@
     <string name="grid_direction">Grid direction</string>
     <string name="grid_direction_horizontal">Horizontal</string>
     <string name="grid_direction_vertical">Vertical (experimental)</string>
+    <string name="stream_title_video">Video</string>
+    <string name="stream_title_audio">Audio</string>
+    <string name="stream_title_text">Subtitles</string>
 </resources>
