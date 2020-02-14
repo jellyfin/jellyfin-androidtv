@@ -12,6 +12,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.model.itemtypes.Episode
 import org.jellyfin.androidtv.model.itemtypes.Movie
+import org.jellyfin.androidtv.model.itemtypes.Video
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.androidtv.util.apiclient.liftToNewFormat
 
@@ -38,6 +39,7 @@ class DetailsActivity : FragmentActivity() {
 			fragment = when(item) {
 				is Movie -> MovieDetailsFragment(item)
 				is Episode -> EpisodeDetailsFragment(item)
+				is Video -> TODO("Video details are not yet implemented")
 			}
 
 			supportFragmentManager.beginTransaction().add(android.R.id.content, fragment).commit()
