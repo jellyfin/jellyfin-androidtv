@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.details
 
 import android.text.SpannableStringBuilder
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,22 +17,32 @@ import org.jellyfin.androidtv.model.itemtypes.Movie
 import org.jellyfin.androidtv.model.itemtypes.PlayableItem
 import org.jellyfin.androidtv.ui.RecyclerViewSpacingDecoration
 import org.jellyfin.androidtv.ui.widget.Rating
+import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.apiclient.model.entities.MediaStreamType
 
 class DetailsDescriptionPresenter : Presenter() {
 	class ViewHolder(view: View) : Presenter.ViewHolder(view) {
 		val title: TextView = view.findViewById(R.id.details_description_title)
 		val subtitle: TextView = view.findViewById(R.id.details_description_subtitle)
-		val body: TextView = view.details_description_body
+
 		val year: TextView = view.details_description_year
 		val officialRating: TextView = view.details_description_official_rating
 		val communityRating: Rating = view.details_description_community_rating
 		val criticsRating: Rating = view.details_description_critics_rating
+
 		val genres: RecyclerView = view.details_description_genres.apply {
 			adapter = GenreAdapter()
 			addItemDecoration(RecyclerViewSpacingDecoration(8))
 		}
+
+		val body: TextView = view.details_description_body
+
 		val tags: TextView = view.details_description_tags
+
+		val durationInfo: LinearLayout = view.details_description_duration_info
+		val duration: TextView = view.details_description_duration_info_duration
+		val endsAt: TextView = view.details_description_duration_info_end
+
 		val streams: LinearLayout = view.details_description_streams
 		val videoStreamLabel: TextView = view.details_description_streams_video_label
 		val videoStreamValue: TextView = view.details_description_streams_video_value
@@ -119,8 +130,13 @@ class DetailsDescriptionPresenter : Presenter() {
 			}
 
 			viewHolder.streams.visibility = View.VISIBLE
+
+			viewHolder.duration.text = TimeUtils.formatMillis(item.durationTicks / 10000)
+			viewHolder.endsAt.text = DateFormat.getTimeFormat(viewHolder.view.context).format(System.currentTimeMillis() + (item.durationTicks - item.playbackPositionTicks) / 1000)
+			viewHolder.durationInfo.visibility = View.VISIBLE
 		} else {
 			viewHolder.streams.visibility = View.GONE
+			viewHolder.durationInfo.visibility = View.GONE
 		}
 
 		if (item is PlayableItem && item.tags.isNotEmpty()) {
