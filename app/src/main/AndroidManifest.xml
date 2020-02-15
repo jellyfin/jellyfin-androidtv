@@ -80,8 +80,7 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".preferences.ui.PreferencesActivity"
-            android:theme="@style/Theme.Jellyfin.Preferences"
-            android:screenOrientation="landscape" />
+            android:theme="@style/Theme.Jellyfin.Preferences" />
         <activity
             android:name=".browsing.SuggestedMoviesActivity"
             android:screenOrientation="landscape" />
