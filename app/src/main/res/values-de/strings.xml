@@ -256,7 +256,7 @@
     <string name="lbl_suggestions_halloween">Gruselige Empfehlungen</string>
     <string name="lbl_suggestions">Empfehlungen</string>
     <string name="pref_use_direct_path_summary">Übergibt den Dateisystempfad statt der Streaming-URL</string>
-    <string name="pref_use_direct_path_title">Direkten Pfad für externes Wiedergabegerät übergeben</string>
+    <string name="pref_use_direct_path_title">Direkten Pfad an externen Player übergeben</string>
     <string name="pref_external_live_tv_summary">Benötigt eine Anwendung, welche Livestreams wiedergeben kann</string>
     <string name="pref_external_live_tv_title">Externen Player für Live TV verwenden</string>
     <string name="lbl_song_title">Songtitel</string>
@@ -320,7 +320,7 @@
     <string name="lbl_default_view">Standardansicht</string>
     <string name="lbl_start_favorites">Setze Favoriten zum Anfang</string>
     <string name="lbl_colored_backgrounds">Farbkodierte Hintergründe</string>
-    <string name="lbl_hd_programs">HD-Programme</string>
+    <string name="lbl_hd_programs">HD-Sendungen</string>
     <string name="lbl_live_broadcasts">Live-Übertragungen</string>
     <string name="lbl_new_episodes">Neue Episoden</string>
     <string name="lbl_audio_delay">Audioverzögerung</string>
@@ -347,7 +347,8 @@
     <string name="pref_acra_alwaysaccept_disabled">Ein Abfragedialog wird vor dem Senden jeglicher Absturzberichte angezeigt</string>
     <string name="pref_acra_alwaysaccept_enabled">Absturzberichte werden ohne Abfrage gesendet</string>
     <string name="pref_acra_alwaysaccept">Absturzberichte ohne Abfrage senden</string>
-    <string name="pref_acra_enabled">Du wirst gefragt Absturzberichte zu melden</string>
-    <string name="pref_enable_acra">Sende Absturzberichte zu den Entwicklern</string>
+    <string name="pref_acra_enabled">Du wirst bei einem Absturz gefragt, ob du ihn melden möchtest</string>
+    <string name="pref_enable_acra">Absturzmeldungen an die Entwickler</string>
     <string name="lbl_my_media">Meine Medien</string>
+    <string name="pref_about_title">Über diese App</string>
 </resources>
