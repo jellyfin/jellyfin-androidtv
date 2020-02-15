@@ -424,7 +424,7 @@ public class PlaybackController {
             updateTvProgramInfo();
             TvManager.setLastLiveTvChannel(item.getId());
             //Choose appropriate player now to avoid opening two streams
-            if (!directStreamLiveTv || !mApplication.getUserPreferences().getLiveTvUseVlc()) {
+            if (!directStreamLiveTv || mApplication.getUserPreferences().getLiveTvVideoPlayer() != PreferredVideoPlayer.VLC) {
                 //internal/exo player
                 mApplication.getLogger().Info("Using internal player for Live TV");
                 mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {

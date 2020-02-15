@@ -84,7 +84,7 @@
             android:entries="@array/pref_video_player_entries"
             android:entryValues="@array/pref_video_player_values"
             android:key="video_player"
-            android:title="Preferred media player"
+            android:title="@string/pref_media_player"
             app:useSimpleSummaryProvider="true" />
         <CheckBoxPreference
             android:defaultValue="true"
@@ -121,21 +121,14 @@
     <PreferenceCategory
         android:key="pref_live_tv_category"
         android:title="@string/pref_live_tv_cat">
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:disableDependentsState="true"
-            android:key="pref_live_tv_use_external"
-            android:summary="@string/pref_external_live_tv_summary"
-            android:title="@string/pref_external_live_tv_title" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:dependency="pref_live_tv_use_external"
-            android:key="pref_enable_vlc_livetv"
-            android:summary="@string/desc_use_vlc_livetv"
-            android:title="@string/lbl_use_vlc_livetv" />
+        <ListPreference
+            android:entries="@array/pref_video_player_entries"
+            android:entryValues="@array/pref_video_player_values"
+            android:key="live_tv_video_player"
+            android:title="@string/pref_media_player"
+            app:useSimpleSummaryProvider="true" />
         <CheckBoxPreference
             android:defaultValue="true"
-            android:dependency="pref_live_tv_use_external"
             android:key="pref_live_direct"
             android:title="@string/lbl_direct_stream_live" />
     </PreferenceCategory>

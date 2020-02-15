@@ -138,7 +138,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         UserPreferences prefs = mApplication.getUserPreferences();
                         prefs.setVideoPlayer(PreferredVideoPlayer.AUTO);
-                        prefs.setLiveTvUseExternalPlayer(false);
+                        prefs.setLiveTvVideoPlayer(PreferredVideoPlayer.AUTO);
                     }
                 })
                 .setOnDismissListener(new DialogInterface.OnDismissListener() {
