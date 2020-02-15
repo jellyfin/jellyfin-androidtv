@@ -132,7 +132,7 @@ class DetailsDescriptionPresenter : Presenter() {
 			viewHolder.streams.visibility = View.VISIBLE
 
 			viewHolder.duration.text = TimeUtils.formatMillis(item.durationTicks / 10000)
-			viewHolder.endsAt.text = DateFormat.getTimeFormat(viewHolder.view.context).format(System.currentTimeMillis() + (item.durationTicks - item.playbackPositionTicks) / 1000)
+			viewHolder.endsAt.text = DateFormat.getTimeFormat(viewHolder.view.context).format(System.currentTimeMillis() + (item.durationTicks - item.playbackPositionTicks) / 10000)
 			viewHolder.durationInfo.visibility = View.VISIBLE
 		} else {
 			viewHolder.streams.visibility = View.GONE
