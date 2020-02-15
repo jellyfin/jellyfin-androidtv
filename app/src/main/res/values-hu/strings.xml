@@ -19,4 +19,5 @@
     <string name="btn_filter">Szűrő</string>
     <string name="lbl_more_like_this">Több ehhez hasonló</string>
     <string name="title_activity_select_user">SelectUserActivity</string>
+    <string name="lbl_new">Új</string>
 </resources>
