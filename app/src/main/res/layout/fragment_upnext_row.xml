@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:background="@drawable/moviebg">
 
-    <LinearLayout
+    <!-- Overlay -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,53 +19,61 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:focusable="true"
             android:id="@+id/image"
             style="@style/Widget.Leanback"
             android:layout_width="wrap_content"
             android:layout_height="175dp"
             android:adjustViewBounds="true"
             android:maxWidth="400dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginEnd="0dp"
             tools:src="@drawable/app_logo" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/nextup"
+            style="@style/TextAppearance.Leanback.DetailsDescriptionTitle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="vertical">
+            android:text="@string/lbl_next_up"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                style="@style/TextAppearance.Leanback.DetailsDescriptionTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lbl_next_up" />
+        <TextView
+            android:id="@+id/title"
+            style="@style/TextAppearance.Leanback.DetailsDescriptionSubtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image"
+            app:layout_constraintTop_toBottomOf="@id/nextup"
+            tools:text="Episode title" />
 
-            <TextView
-                android:id="@+id/title"
-                style="@style/TextAppearance.Leanback.DetailsDescriptionSubtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Episode title" />
-
-            <TextView
-                android:id="@+id/description"
-                style="@style/TextAppearance.Leanback.DetailsDescriptionBody"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxLines="6"
-                android:ellipsize="end"
-                tools:text="Episode description" />
-        </LinearLayout>
-    </LinearLayout>
+        <TextView
+            android:id="@+id/description"
+            style="@style/TextAppearance.Leanback.DetailsDescriptionBody"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:ellipsize="end"
+            android:maxLines="6"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            tools:text="Episode description" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
         android:id="@+id/upnext_countdown"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="4dp"
         android:progressDrawable="@drawable/progress_bar_upnext"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/content"
+        app:layout_constraintStart_toStartOf="@id/content"
         app:layout_constraintTop_toTopOf="@id/content" />
 </androidx.constraintlayout.widget.ConstraintLayout>
