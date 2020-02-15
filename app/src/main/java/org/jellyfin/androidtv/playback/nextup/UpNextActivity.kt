@@ -62,14 +62,4 @@ class UpNextActivity : FragmentActivity() {
 			thumbnail?.let { Picasso.with(this@UpNextActivity).load(it).get() }
 		)
 	}
-
-	override fun onBackPressed() {
-		// First back press will stop the timer
-		if (fragment.isCountdownActive()) {
-			fragment.stopCountdown()
-		} else {
-			// Additional back presses will be handled normally
-			super.onBackPressed()
-		}
-	}
 }

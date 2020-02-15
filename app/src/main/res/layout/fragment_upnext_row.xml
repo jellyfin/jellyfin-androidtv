@@ -67,13 +67,10 @@
             tools:text="Episode description" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ProgressBar
-        android:id="@+id/upnext_countdown"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="0dp"
-        android:layout_height="4dp"
-        android:progressDrawable="@drawable/progress_bar_upnext"
-        app:layout_constraintEnd_toEndOf="@id/content"
-        app:layout_constraintStart_toStartOf="@id/content"
-        app:layout_constraintTop_toTopOf="@id/content" />
+    <org.jellyfin.androidtv.playback.nextup.UpNextButtons
+        android:id="@+id/fragment_upnext_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
