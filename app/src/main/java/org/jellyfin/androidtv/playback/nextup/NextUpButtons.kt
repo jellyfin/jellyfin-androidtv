@@ -35,9 +35,8 @@ class NextUpButtons(context: Context, attrs: AttributeSet? = null, defStyleAttr:
 		// Create timer
 		countdownTimer = object : CountDownTimer(duration, 1) {
 			override fun onTick(millisUntilFinished: Long) {
-				// todo animate background
-				fragment_next_up_buttons_progressbar.max = duration.toInt()
-				fragment_next_up_buttons_progressbar.progress = millisUntilFinished.toInt()
+				fragment_next_up_buttons_play_next.progressMax = duration.toInt()
+				fragment_next_up_buttons_play_next.progressValue = millisUntilFinished.toInt()
 			}
 
 			override fun onFinish() {

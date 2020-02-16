@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="16dp">
 
-    <Button
+    <org.jellyfin.androidtv.ui.Button
         android:id="@+id/fragment_next_up_buttons_cancel"
         style="@style/Button.Default"
         android:layout_width="wrap_content"
@@ -17,18 +18,13 @@
         android:layout_width="8dp"
         android:layout_height="0dp" />
 
-    <Button
+    <org.jellyfin.androidtv.ui.Button
         android:id="@+id/fragment_next_up_buttons_play_next"
-        style="@style/Button.Default"
+        style="@style/Button.Progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="0dp"
-        android:text="@string/watch_now" />
-
-    <ProgressBar
-        android:id="@+id/fragment_next_up_buttons_progressbar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="100dp"
-        android:layout_height="4dp"
-        android:progressDrawable="@drawable/progress_bar_next_up" />
+        android:text="@string/watch_now"
+        tools:progressMax="100"
+        tools:progressValue="50" />
 </LinearLayout>
