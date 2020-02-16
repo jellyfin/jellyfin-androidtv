@@ -52,8 +52,9 @@ class Movie(original: BaseItemDto) : PlayableItem(original) {
 	val officialRating: String? = original.officialRating
 	val communityRating: Float = original.communityRating
 	val criticsRating: Float? = original.criticRating
+	val localTrailerCount: Int = original.localTrailerCount
 }
 
-class Video(original: BaseItemDto) : PlayableItem(original) {
+class Trailer(original: BaseItemDto) : PlayableItem(original)
 
-}
+class Video(original: BaseItemDto) : PlayableItem(original)
