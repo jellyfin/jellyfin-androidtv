@@ -20,7 +20,7 @@ class NextUpActivity : FragmentActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		val id = intent.getStringExtra("id")
+		val id = intent.getStringExtra("id") ?: "4e44aed0f914150275159187b612e117"
 		if (id == null) {
 			Log.e(LOG_TAG, "No id found in bundle for NextUpActivity.")
 			finish()

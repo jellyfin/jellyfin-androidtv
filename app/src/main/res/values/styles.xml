@@ -41,6 +41,4 @@
         <item name="android:paddingEnd">16dp</item>
         <item name="android:minHeight">0dp</item>
     </style>
-
-    <style name="Button.Progress" parent="Button.Default" />
 </resources>

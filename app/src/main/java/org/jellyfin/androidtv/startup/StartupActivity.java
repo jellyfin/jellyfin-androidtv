@@ -18,6 +18,7 @@ import org.jellyfin.androidtv.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.model.compat.AndroidProfile;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.playback.PlaybackManager;
+import org.jellyfin.androidtv.playback.nextup.NextUpActivity;
 import org.jellyfin.androidtv.util.ProfileHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
@@ -115,7 +116,7 @@ public class StartupActivity extends FragmentActivity {
             }
         } else {
             // go straight into last connection
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, NextUpActivity.class);
             startActivity(intent);
 
             finish();
