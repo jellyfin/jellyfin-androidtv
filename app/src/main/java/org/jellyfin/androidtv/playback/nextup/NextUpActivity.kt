@@ -9,10 +9,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.acra.ACRA.LOG_TAG
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.apiclient.model.dto.ImageOptions
+
+private const val LOG_TAG = "NextUpActivity"
 
 class NextUpActivity : FragmentActivity() {
 	private lateinit var fragment: NextUpFragment
@@ -22,8 +23,9 @@ class NextUpActivity : FragmentActivity() {
 
 		val id = intent.getStringExtra("id")
 		if (id == null) {
-			Log.e(LOG_TAG, "No id found in bundle for NextUpActivity.")
+			Log.e(LOG_TAG, "No id found in bundle at onCreate().")
 			finish()
+			return
 		}
 
 		// Add background manager
@@ -31,7 +33,13 @@ class NextUpActivity : FragmentActivity() {
 
 		// Load item info
 		GlobalScope.launch(Dispatchers.Main) {
-			val data = loadItemData(id) ?: return@launch
+			val data = loadItemData(id)
+
+			if (data == null) {
+				Log.e(LOG_TAG, "Unable to load data at onCreate().")
+				finish()
+				return@launch
+			}
 
 			// Create fragment
 			fragment = NextUpFragment(data)

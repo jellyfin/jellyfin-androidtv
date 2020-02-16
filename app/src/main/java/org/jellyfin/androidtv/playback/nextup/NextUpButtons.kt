@@ -48,6 +48,10 @@ class NextUpButtons(context: Context, attrs: AttributeSet? = null, defStyleAttr:
 
 	fun stopTimer() {
 		countdownTimer?.cancel()
+
+		// Hide progress bar
+		fragment_next_up_buttons_play_next_progress.max = 0
+		fragment_next_up_buttons_play_next_progress.progress = 0
 	}
 
 	fun setPlayNextListener(listener: (() -> Unit)?) {

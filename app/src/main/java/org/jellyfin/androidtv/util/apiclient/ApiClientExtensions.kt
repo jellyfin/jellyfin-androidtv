@@ -21,7 +21,7 @@ suspend fun ApiClient.getNextUpEpisodes(query: NextUpQuery): ItemsResult? = susp
 
 /**
  * Coroutine capable version of the "getUserViews" function
- * Uses the userId of the currently signed in user.
+ * Uses the userId of the currently signed in user
  */
 suspend fun ApiClient.getUserViews(): ItemsResult? = suspendCoroutine { continuation ->
 	GetUserViews(currentUserId, object : Response<ItemsResult>() {
@@ -30,7 +30,8 @@ suspend fun ApiClient.getUserViews(): ItemsResult? = suspendCoroutine { continua
 	})
 }
 /**
- * Adds a coroutine capable version of the "getNextUpEpisodes" function
+ * Adds a coroutine capable version of the "GetItem" function
+ * Uses the userId of the currently signed in user
  */
 suspend fun ApiClient.getItem(id: String): BaseItemDto? = suspendCoroutine { continuation ->
 	GetItemAsync(id, TvApp.getApplication().currentUser.id, object : Response<BaseItemDto>() {
