@@ -5,19 +5,19 @@ import android.os.CountDownTimer
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
-import kotlinx.android.synthetic.main.fragment_upnext_buttons.view.*
+import kotlinx.android.synthetic.main.fragment_next_up_buttons.view.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 
-class UpNextButtons(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyle: Int = 0) : FrameLayout(context, attrs, defStyleAttr, defStyle) {
+class NextUpButtons(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyle: Int = 0) : FrameLayout(context, attrs, defStyleAttr, defStyle) {
 	constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0, 0)
 
 	private var countdownTimer: CountDownTimer? = null
-	private val view = View.inflate(context, R.layout.fragment_upnext_buttons, null)
+	private val view = View.inflate(context, R.layout.fragment_next_up_buttons, null)
 
 	init {
 		addView(view)
-		view.fragment_upnext_buttons_play_next.apply {
+		view.fragment_next_up_buttons_play_next.apply {
 			// Stop timer when unfocused
 			setOnFocusChangeListener { _, focused -> if (!focused) stopTimer() }
 
@@ -36,13 +36,13 @@ class UpNextButtons(context: Context, attrs: AttributeSet? = null, defStyleAttr:
 		countdownTimer = object : CountDownTimer(duration, 1) {
 			override fun onTick(millisUntilFinished: Long) {
 				// todo animate background
-				fragment_upnext_buttons_progressbar.max = duration.toInt()
-				fragment_upnext_buttons_progressbar.progress = millisUntilFinished.toInt()
+				fragment_next_up_buttons_progressbar.max = duration.toInt()
+				fragment_next_up_buttons_progressbar.progress = millisUntilFinished.toInt()
 			}
 
 			override fun onFinish() {
 				// Perform a click so the event handler will activate
-				view.fragment_upnext_buttons_play_next.performClick()
+				view.fragment_next_up_buttons_play_next.performClick()
 			}
 		}.start()
 	}
@@ -52,14 +52,14 @@ class UpNextButtons(context: Context, attrs: AttributeSet? = null, defStyleAttr:
 	}
 
 	fun setPlayNextListener(listener: (() -> Unit)?) {
-		val button = view.fragment_upnext_buttons_play_next
+		val button = view.fragment_next_up_buttons_play_next
 
 		if (listener == null) button.setOnClickListener(null)
 		else button.setOnClickListener { listener() }
 	}
 
 	fun setCancelListener(listener: () -> Unit) {
-		val button = view.fragment_upnext_buttons_cancel
+		val button = view.fragment_next_up_buttons_cancel
 
 		if (listener == null) button.setOnClickListener(null)
 		else button.setOnClickListener { listener() }

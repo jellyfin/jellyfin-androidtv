@@ -130,7 +130,7 @@
             android:name=".details.ExpandedTextActivity"
             android:label="@string/title_activity_expanded_text"
             android:screenOrientation="landscape" />
-        <activity android:name=".playback.nextup.UpNextActivity"
+        <activity android:name=".playback.nextup.NextUpActivity"
             android:noHistory="true"
             android:screenOrientation="landscape" />
     </application>

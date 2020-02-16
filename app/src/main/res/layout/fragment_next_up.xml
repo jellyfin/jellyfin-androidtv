@@ -67,8 +67,8 @@
             tools:text="Episode description" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <org.jellyfin.androidtv.playback.nextup.UpNextButtons
-        android:id="@+id/fragment_upnext_buttons"
+    <org.jellyfin.androidtv.playback.nextup.NextUpButtons
+        android:id="@+id/fragment_next_up_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

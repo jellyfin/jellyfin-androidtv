@@ -6,7 +6,7 @@
     android:padding="16dp">
 
     <Button
-        android:id="@+id/fragment_upnext_buttons_cancel"
+        android:id="@+id/fragment_next_up_buttons_cancel"
         style="@style/Button.Default"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         android:layout_height="0dp" />
 
     <Button
-        android:id="@+id/fragment_upnext_buttons_play_next"
+        android:id="@+id/fragment_next_up_buttons_play_next"
         style="@style/Button.Default"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,9 +26,9 @@
         android:text="@string/watch_now" />
 
     <ProgressBar
-        android:id="@+id/fragment_upnext_buttons_progressbar"
+        android:id="@+id/fragment_next_up_buttons_progressbar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="100dp"
         android:layout_height="4dp"
-        android:progressDrawable="@drawable/progress_bar_upnext" />
+        android:progressDrawable="@drawable/progress_bar_next_up" />
 </LinearLayout>

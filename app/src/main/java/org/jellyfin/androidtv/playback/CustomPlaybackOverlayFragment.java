@@ -42,7 +42,7 @@ import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.livetv.ILiveTvGuide;
 import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
-import org.jellyfin.androidtv.playback.nextup.UpNextActivity;
+import org.jellyfin.androidtv.playback.nextup.NextUpActivity;
 import org.jellyfin.androidtv.playback.overlay.LeanbackOverlayFragment;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.ChannelCardPresenter;
@@ -1310,7 +1310,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         // Set to "modified" so the queue won't be cleared
         MediaManager.setVideoQueueModified(true);
 
-        Intent intent = new Intent(getActivity(), UpNextActivity.class);
+        Intent intent = new Intent(getActivity(), NextUpActivity.class);
         intent.putExtra("id", id);
         startActivity(intent);
         finish();

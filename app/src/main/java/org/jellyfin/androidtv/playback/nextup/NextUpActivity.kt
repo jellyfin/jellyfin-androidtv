@@ -14,15 +14,15 @@ import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.apiclient.model.dto.ImageOptions
 
-class UpNextActivity : FragmentActivity() {
-	private lateinit var fragment: UpNextFragment
+class NextUpActivity : FragmentActivity() {
+	private lateinit var fragment: NextUpFragment
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
 		val id = intent.getStringExtra("id")
 		if (id == null) {
-			Log.e(LOG_TAG, "No id found in bundle for UpNextActivity.")
+			Log.e(LOG_TAG, "No id found in bundle for NextUpActivity.")
 			finish()
 		}
 
@@ -34,7 +34,7 @@ class UpNextActivity : FragmentActivity() {
 			val data = loadItemData(id) ?: return@launch
 
 			// Create fragment
-			fragment = UpNextFragment(data)
+			fragment = NextUpFragment(data)
 			supportFragmentManager
 				.beginTransaction()
 				.add(android.R.id.content, fragment)
@@ -54,12 +54,12 @@ class UpNextActivity : FragmentActivity() {
 			item.name
 		else ""
 
-		UpNextItemData(
+		NextUpItemData(
 			item.id,
 			title,
 			item.overview,
-			backdrop?.let { Picasso.with(this@UpNextActivity).load(it).get() },
-			thumbnail?.let { Picasso.with(this@UpNextActivity).load(it).get() }
+			backdrop?.let { Picasso.with(this@NextUpActivity).load(it).get() },
+			thumbnail?.let { Picasso.with(this@NextUpActivity).load(it).get() }
 		)
 	}
 }

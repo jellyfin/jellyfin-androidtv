@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.playback.nextup
 
 import android.graphics.Bitmap
 
-data class UpNextItemData(
+data class NextUpItemData(
 	val id: String,
 	val title: String,
 	val description: String?,
