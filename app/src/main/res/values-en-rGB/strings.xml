@@ -329,4 +329,7 @@
     <string name="play">Play</string>
     <string name="lbl_latest_tv_shows">Latest TV Shows</string>
     <string name="lbl_just_this_once">Just this once</string>
+    <string name="pref_acra_enabled">You will be prompted to submit crash reports</string>
+    <string name="pref_enable_acra">Send crash reports to developers</string>
+    <string name="pref_acra_category">Crash Reporting</string>
 </resources>
