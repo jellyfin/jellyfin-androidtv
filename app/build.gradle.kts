@@ -23,6 +23,10 @@ android {
 		targetCompatibility = JavaVersion.VERSION_1_8
 	}
 
+	kotlinOptions {
+		jvmTarget = compileOptions.targetCompatibility.toString()
+	}
+
 	buildTypes {
 		getByName("release") {
 			isMinifyEnabled = false
