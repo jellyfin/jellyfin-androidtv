@@ -350,4 +350,6 @@
     <string name="pref_acra_enabled">Du vil bli spurt om å sende inn feilrapporter</string>
     <string name="pref_enable_acra">Send feilrapporter til utviklerne</string>
     <string name="pref_acra_category">Feilrapportering</string>
+    <string name="pref_media_player">Foretrukket media-spiller</string>
+    <string name="pref_about_title">Om</string>
 </resources>
