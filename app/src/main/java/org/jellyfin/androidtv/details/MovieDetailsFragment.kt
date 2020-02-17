@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.details
 
 import androidx.leanback.widget.*
-import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.details.actions.*
 import org.jellyfin.androidtv.model.itemtypes.Movie
@@ -49,15 +48,17 @@ class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
 		(detailsRow.actionsAdapter as ActionAdapter).apply {
 			reset()
 
-			if (item.canResume) add(ResumeAction(context!!, item).apply { icon = context!!.getDrawable(R.drawable.ic_resume) })
+			if (item.canResume) add(ResumeAction(context!!, item))
+			add(PlayFromBeginningAction(context!!, item))
+			// TODO: Bring this back once we have a more understandable queue implementation for users
+			//add(ToggleWatchedAction(context!!, item))
+			add(ToggleFavoriteAction(context!!, item))
+			add(AddToQueueAction(context!!, item))
 
-			add(PlayFromBeginningAction(context!!, item).apply { icon = context!!.getDrawable(R.drawable.ic_play) })
-			add(ToggleWatchedAction(context!!, item).apply { icon = context!!.getDrawable(R.drawable.ic_watch) })
-			add(ToggleFavoriteAction(context!!, item).apply { icon = context!!.getDrawable(R.drawable.ic_heart) })
+			// Menu with more actions
 			add(SecondariesPopupAction(context!!).apply {
-				icon = context!!.getDrawable(R.drawable.ic_more)
-				add(DeleteAction(context!!, item) { activity?.finish() }.apply { icon = context!!.getDrawable(R.drawable.ic_trash) })
-			}) // Show menu with more options
+				add(DeleteAction(context!!, item) { activity?.finish() })
+			})
 
 			commit()
 		}

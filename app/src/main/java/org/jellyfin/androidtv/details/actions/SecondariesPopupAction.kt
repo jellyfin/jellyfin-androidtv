@@ -11,6 +11,7 @@ class SecondariesPopupAction(context: Context) : BaseAction(ActionID.SECONDARIES
 
 	init {
 		label1 = context.getString(R.string.lbl_more_actions)
+		icon = context.getDrawable(R.drawable.ic_more)
 	}
 
 	fun add(toAdd: BaseAction) {
@@ -23,7 +24,7 @@ class SecondariesPopupAction(context: Context) : BaseAction(ActionID.SECONDARIES
 
 	override fun onClick() {
 		val menu = PopupMenu(context, anchor)
-		containedActions.forEach {action ->
+		containedActions.forEach { action ->
 			val item = menu.menu.add(action.label1)
 			item.setOnMenuItemClickListener {
 				action.onClick()
