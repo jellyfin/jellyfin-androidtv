@@ -19,6 +19,7 @@ class ResumeAction(context: Context, val item: PlayableItem) : PlaybackAction(Ac
 
 	init {
 		this.label1 = context.getString(R.string.lbl_resume_from, TimeUtils.formatMillis(actualPlaybackPositionInMillis))
+		icon = context!!.getDrawable(R.drawable.ic_resume)
 	}
 
 	override fun onClick() {
