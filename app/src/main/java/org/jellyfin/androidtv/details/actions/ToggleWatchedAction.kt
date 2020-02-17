@@ -14,6 +14,7 @@ class ToggleWatchedAction(context: Context, val item: PlayableItem) : ToggleActi
 	init {
 		active = item.played
 		label1 = context.getString(R.string.lbl_watched)
+		icon = context.getDrawable(R.drawable.ic_watch)
 	}
 
 	override fun onClick() {
