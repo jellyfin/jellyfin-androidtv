@@ -3,11 +3,11 @@ package org.jellyfin.androidtv.details.actions
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface.BUTTON_NEGATIVE
+import android.widget.Toast
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.util.DelayedMessage
-import org.jellyfin.androidtv.util.Utils
 import org.jellyfin.apiclient.interaction.EmptyResponse
 
 class DeleteAction(context: Context, private val item: BaseItem, private val onItemDeleted: () -> Unit) : BaseAction(ActionID.DELETE.id, context) {
@@ -27,7 +27,7 @@ class DeleteAction(context: Context, private val item: BaseItem, private val onI
 				TvApp.getApplication().apiClient.DeleteItem(item.id, object : EmptyResponse() {
 					override fun onResponse() {
 						msg.Cancel()
-						Utils.showToast(context, context.getString(R.string.lbl_item_deleted, item.title))
+						Toast.makeText(context, context.getString(R.string.lbl_item_deleted, item.title), Toast.LENGTH_LONG).show()
 						TvApp.getApplication().lastDeletedItemId = item.id
 						onItemDeleted()
 					}
@@ -35,11 +35,11 @@ class DeleteAction(context: Context, private val item: BaseItem, private val onI
 					override fun onError(ex: Exception) {
 						msg.Cancel()
 						TvApp.getApplication().logger.ErrorException("Failed to delete item %s", ex, item.title)
-						Utils.showToast(context, ex.localizedMessage)
+						Toast.makeText(context, ex.localizedMessage, Toast.LENGTH_LONG).show()
 					}
 				})
 			}
-			setNegativeButton(context.getText(R.string.lbl_cancel)) { dialog, which -> Utils.showToast(context, R.string.lbl_item_not_deleted) }
+			setNegativeButton(context.getText(R.string.lbl_cancel)) { _, _ -> Toast.makeText(context, R.string.lbl_item_not_deleted, Toast.LENGTH_LONG).show() }
 			show().getButton(BUTTON_NEGATIVE).requestFocus()
 		}
 	}
