@@ -41,6 +41,10 @@ class ActionAdapter : ObjectAdapter(ActionPresenter()) {
 			viewHolder.button.setCompoundDrawablesWithIntrinsicBounds(null, action.icon, null, null)
 			viewHolder.button.text = action.label1
 
+			if (action is SecondariesPopupAction) {
+				action.anchor = viewHolder.button
+			}
+
 			if (action is ToggleAction) {
 				val color = if (action.active) R.color.action_active else R.color.white
 
@@ -55,10 +59,12 @@ class ActionAdapter : ObjectAdapter(ActionPresenter()) {
 			viewHolder as ActionViewHolder
 
 			viewHolder.button.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+			viewHolder.secondariesPopupAction = null
 		}
 
 		private class ActionViewHolder(view: View) : Presenter.ViewHolder(view) {
 			var button: Button = view.findViewById(R.id.action_button)
+			var secondariesPopupAction: SecondariesPopupAction? = null
 		}
 	}
 }

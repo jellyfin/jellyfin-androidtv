@@ -362,4 +362,9 @@
     <string name="stream_title_audio">Audio</string>
     <string name="stream_title_text">Subtitles</string>
     <string name="duration">Duration</string>
+    <string name="lbl_more_actions">More</string>
+    <string name="lbl_item_deletion_warning">This will PERMANENTLY DELETE %1$s from your library!</string>
+    <string name="lbl_item_deleted">%1$s Deleted</string>
+    <string name="lbl_item_not_deleted">Item NOT deleted</string>
+    <string name="lbl_really_delete_item_title">Really delete?</string>
 </resources>
