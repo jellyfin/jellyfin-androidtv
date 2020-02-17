@@ -13,6 +13,7 @@ class ToggleFavoriteAction(context: Context, val item: BaseItem) : ToggleAction(
 	init {
 		active = item.favorite
 		label1 = context.getString(R.string.lbl_favorite)
+		icon = context.getDrawable(R.drawable.ic_heart)
 	}
 
 	override fun onClick() {
