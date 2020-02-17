@@ -54,7 +54,10 @@ class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
 			add(PlayFromBeginningAction(context!!, item).apply { icon = context!!.getDrawable(R.drawable.ic_play) })
 			add(ToggleWatchedAction(context!!, item).apply { icon = context!!.getDrawable(R.drawable.ic_watch) })
 			add(ToggleFavoriteAction(context!!, item).apply { icon = context!!.getDrawable(R.drawable.ic_heart) })
-			add(Action(0, "More").apply { icon = context!!.getDrawable(R.drawable.ic_more) }) // Show menu with more options
+			add(SecondariesPopupAction(context!!).apply {
+				icon = context!!.getDrawable(R.drawable.ic_more)
+				add(DeleteAction(context!!, item) { activity?.finish() }.apply { icon = context!!.getDrawable(R.drawable.ic_trash) })
+			}) // Show menu with more options
 
 			commit()
 		}
