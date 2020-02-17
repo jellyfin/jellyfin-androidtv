@@ -13,7 +13,8 @@ import org.jellyfin.apiclient.interaction.EmptyResponse
 class DeleteAction(context: Context, private val item: BaseItem, private val onItemDeleted: () -> Unit) : BaseAction(ActionID.DELETE.id, context) {
 
 	init {
-	    label1 = context.getString(R.string.lbl_delete)
+		label1 = context.getString(R.string.lbl_delete)
+		icon = context.getDrawable(R.drawable.ic_trash)
 	}
 
 	override fun onClick() {
