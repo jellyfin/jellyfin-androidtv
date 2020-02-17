@@ -50,15 +50,17 @@ class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
 
 			if (item.canResume) add(ResumeAction(context!!, item))
 			add(PlayFromBeginningAction(context!!, item))
-			// TODO: Bring this back once we have a more understandable queue implementation for users
-			//add(ToggleWatchedAction(context!!, item))
+			add(ToggleWatchedAction(context!!, item))
 			add(ToggleFavoriteAction(context!!, item))
-			add(AddToQueueAction(context!!, item))
+			// TODO: Bring this back once we have a more understandable queue implementation for users
+			//add(AddToQueueAction(context!!, item))
 
 			// Menu with more actions
-			add(SecondariesPopupAction(context!!).apply {
-				add(DeleteAction(context!!, item) { activity?.finish() })
-			})
+			if (TvApp.getApplication().currentUser.policy.enableContentDeletion) {
+				add(SecondariesPopupAction(context!!).apply {
+					add(DeleteAction(context!!, item) { activity?.finish() })
+				})
+			}
 
 			commit()
 		}
