@@ -2,6 +2,8 @@ package org.jellyfin.androidtv.eventhandling;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.widget.Toast;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -19,6 +21,7 @@ import org.jellyfin.apiclient.model.entities.LibraryUpdateInfo;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.session.BrowseRequest;
+import org.jellyfin.apiclient.model.session.MessageCommand;
 import org.jellyfin.apiclient.model.session.PlayRequest;
 import org.jellyfin.apiclient.model.session.PlaystateRequest;
 import org.jellyfin.apiclient.model.session.SessionInfoDto;
@@ -53,7 +56,8 @@ public class TvApiEventListener extends ApiEventListener {
     @Override
     public void onLibraryChanged(ApiClient client, LibraryUpdateInfo info) {
         TvApp.getApplication().getLogger().Debug("Library Changed. Added %o items. Removed %o items. Changed %o items.", info.getItemsAdded().size(), info.getItemsRemoved().size(), info.getItemsUpdated().size());
-        if (info.getItemsAdded().size() > 0 || info.getItemsRemoved().size() > 0) TvApp.getApplication().setLastLibraryChange(Calendar.getInstance());
+        if (info.getItemsAdded().size() > 0 || info.getItemsRemoved().size() > 0)
+            TvApp.getApplication().setLastLibraryChange(Calendar.getInstance());
     }
 
     @Override
@@ -126,7 +130,7 @@ public class TvApiEventListener extends ApiEventListener {
                 TvApp.getApplication().getLogger().Error("No current activity.  Cannot play");
                 return;
             }
-            StdItemQuery query = new StdItemQuery(new ItemFields[] {ItemFields.MediaSources});
+            StdItemQuery query = new StdItemQuery(new ItemFields[]{ItemFields.MediaSources});
             query.setIds(command.getItemIds());
             TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
                 @Override
@@ -155,5 +159,10 @@ public class TvApiEventListener extends ApiEventListener {
                 PlaybackHelper.retrieveAndPlay(command.getItemIds()[0], false, command.getStartPositionTicks() != null ? command.getStartPositionTicks() : 0, context);
             }
         }
+    }
+
+    @Override
+    public void onMessageCommand(ApiClient client, MessageCommand command) {
+        new Handler(TvApp.getApplication().getMainLooper()).post(() -> Toast.makeText(TvApp.getApplication(), command.getText(), Toast.LENGTH_LONG).show());
     }
 }
