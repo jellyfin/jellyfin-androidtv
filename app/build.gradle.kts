@@ -38,9 +38,7 @@ android {
 
 dependencies {
 	// Jellyfin
-	val jellyfinApiclientVersion= "v0.6.0"
-	implementation("com.github.jellyfin.jellyfin-apiclient-java:android:$jellyfinApiclientVersion")
-	implementation("com.github.jellyfin.jellyfin-apiclient-java:library:$jellyfinApiclientVersion")
+	implementation("com.github.jellyfin.jellyfin-apiclient-java:android:master-SNAPSHOT")
 
 	// Kotlin
 	implementation(kotlin("stdlib-jdk8"))
