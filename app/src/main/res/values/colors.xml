@@ -38,4 +38,10 @@
     <color name="guide_sports_bg">#323949AB</color>
     <color name="guide_news_bg">#3243A047</color>
     <color name="guide_kids_bg">#32039BE5</color>
+
+    <!-- button_default -->
+    <color name="button_default_normal_background">#B3747474</color>
+    <color name="button_default_highlight_background">#E6CCCCCC</color>
+    <color name="button_default_normal_text">#FFCCCCCC</color>
+    <color name="button_default_highlight_text">#444444</color>
 </resources>

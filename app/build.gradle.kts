@@ -40,7 +40,7 @@ android {
 
 dependencies {
 	// Jellyfin
-	val jellyfinApiclientVersion= "master-SNAPSHOT"
+	val jellyfinApiclientVersion = "master-SNAPSHOT"
 	implementation("com.github.jellyfin.jellyfin-apiclient-java:android:$jellyfinApiclientVersion")
 	implementation("com.github.jellyfin.jellyfin-apiclient-java:library:$jellyfinApiclientVersion")
 
