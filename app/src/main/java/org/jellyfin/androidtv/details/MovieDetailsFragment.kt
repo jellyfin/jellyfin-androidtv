@@ -16,10 +16,10 @@ class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
 
 	private val detailsRow by lazy { DetailsOverviewRow(Unit).apply { actionsAdapter = ActionAdapter() } }
 	private val chaptersRow by lazy { ListRow(HeaderItem("Chapters"), ArrayObjectAdapter(ChapterInfoPresenter(this.context!!))) }
-	private val specialsRow by lazy { ListRow(HeaderItem("Specials"), ArrayObjectAdapter(ItemPresenter(this.context!!, 250.dp, 140.dp,false))) }
+	private val specialsRow by lazy { ListRow(HeaderItem("Specials"), ArrayObjectAdapter(ItemPresenter(this.context!!, 250.dp, 140.dp, false))) }
 	private val charactersRow by lazy { ListRow(HeaderItem("Cast/Crew"), ArrayObjectAdapter(PersonPresenter(this.context!!))) }
 	private val similarsRow by lazy { ListRow(HeaderItem("Similar"), ArrayObjectAdapter(ItemPresenter(this.context!!, 100.dp, 150.dp, false))) }
-	private val localTrailersRow by lazy { ListRow(HeaderItem("Trailers"), ArrayObjectAdapter(ItemPresenter(this.context!!, 250.dp, 140.dp, false)))}
+	private val localTrailersRow by lazy { ListRow(HeaderItem("Trailers"), ArrayObjectAdapter(ItemPresenter(this.context!!, 250.dp, 140.dp, false))) }
 	private val mediaInfoRow by lazy { ListRow(HeaderItem("Media info"), ArrayObjectAdapter(InfoCardPresenter())) }
 
 	override fun onCreateAdapter(adapter: ArrayObjectAdapter, selector: ClassPresenterSelector) {
@@ -56,11 +56,11 @@ class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
 			//add(AddToQueueAction(context!!, item))
 
 			// Menu with more actions
-			if (TvApp.getApplication().currentUser.policy.enableContentDeletion) {
-				add(SecondariesPopupAction(context!!).apply {
-					add(DeleteAction(context!!, item) { activity?.finish() })
-				})
-			}
+			add(SecondariesPopupAction(context!!).apply {
+				add(DeleteAction(context!!, item) { activity?.finish() }).apply {
+					isVisible = TvApp.getApplication().currentUser.policy.enableContentDeletion
+				}
+			})
 
 			commit()
 		}

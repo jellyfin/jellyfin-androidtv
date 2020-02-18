@@ -11,17 +11,25 @@ import org.jellyfin.androidtv.R
 
 class ActionAdapter : ObjectAdapter(ActionPresenter()) {
 	private val actions = arrayListOf<Action>()
+	private var visibleActions: List<Action> = arrayListOf<Action>()
 
 	fun reset() = actions.clear()
 
 	fun add(action: Action) {
 		actions += action
+
+		if (action is BaseAction) {
+			action.onVisibilityChanged = ::commit
+		}
 	}
 
-	fun commit() = notifyChanged()
+	fun commit() {
+		visibleActions = actions.filter { action -> action !is BaseAction || action.isVisible }
+		notifyChanged()
+	}
 
-	override fun size() = actions.size
-	override fun get(position: Int) = actions.getOrNull(position)
+	override fun size() = visibleActions.size
+	override fun get(position: Int) = visibleActions.getOrNull(position)
 
 	private class ActionPresenter : Presenter() {
 		override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
@@ -68,3 +76,4 @@ class ActionAdapter : ObjectAdapter(ActionPresenter()) {
 		}
 	}
 }
+
