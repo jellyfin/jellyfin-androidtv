@@ -32,14 +32,12 @@ class SecondariesPopupAction(context: Context) : BaseAction(ActionID.SECONDARIES
 
 	override fun onClick() {
 		val menu = PopupMenu(context, anchor)
-		containedActions.forEach { action ->
-			if (action.isVisible) {
-				val item = menu.menu.add(action.label1)
-				item.icon = action.icon
-				item.setOnMenuItemClickListener {
-					action.onClick()
-					true
-				}
+		containedActions.filter { it.isVisible }.forEach { action ->
+			val item = menu.menu.add(action.label1)
+			item.icon = action.icon
+			item.setOnMenuItemClickListener {
+				action.onClick()
+				true
 			}
 		}
 
