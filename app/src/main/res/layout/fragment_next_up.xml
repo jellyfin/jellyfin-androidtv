@@ -13,7 +13,10 @@
         android:layout_height="wrap_content"
         android:background="@drawable/noise"
         android:orientation="horizontal"
-        android:padding="16dp"
+        android:paddingStart="48dp"
+        android:paddingEnd="48dp"
+        android:paddingTop="27dp"
+        android:paddingBottom="27dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
