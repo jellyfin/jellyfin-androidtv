@@ -275,7 +275,7 @@ public class TvApp extends Application {
         }
     }
 
-    public Class getPlaybackActivityClass(BaseItemType itemType) {
+    public Class<? extends Activity> getPlaybackActivityClass(BaseItemType itemType) {
         return useExternalPlayer(itemType) ? ExternalPlayerActivity.class : PlaybackOverlayActivity.class;
     }
 
