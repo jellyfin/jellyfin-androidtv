@@ -11,17 +11,25 @@ import org.jellyfin.androidtv.R
 
 class ActionAdapter : ObjectAdapter(ActionPresenter()) {
 	private val actions = arrayListOf<Action>()
+	private var visibleActions: List<Action> = arrayListOf<Action>()
 
 	fun reset() = actions.clear()
 
 	fun add(action: Action) {
 		actions += action
+
+		if (action is BaseAction) {
+			action.onVisibilityChanged = ::commit
+		}
 	}
 
-	fun commit() = notifyChanged()
+	fun commit() {
+		visibleActions = actions.filter { action -> action !is BaseAction || action.isVisible }
+		notifyChanged()
+	}
 
-	override fun size() = actions.size
-	override fun get(position: Int) = actions.getOrNull(position)
+	override fun size() = visibleActions.size
+	override fun get(position: Int) = visibleActions.getOrNull(position)
 
 	private class ActionPresenter : Presenter() {
 		override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
@@ -41,6 +49,10 @@ class ActionAdapter : ObjectAdapter(ActionPresenter()) {
 			viewHolder.button.setCompoundDrawablesWithIntrinsicBounds(null, action.icon, null, null)
 			viewHolder.button.text = action.label1
 
+			if (action is SecondariesPopupAction) {
+				action.anchor = viewHolder.button
+			}
+
 			if (action is ToggleAction) {
 				val color = if (action.active) R.color.action_active else R.color.white
 
@@ -55,10 +67,13 @@ class ActionAdapter : ObjectAdapter(ActionPresenter()) {
 			viewHolder as ActionViewHolder
 
 			viewHolder.button.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+			viewHolder.secondariesPopupAction = null
 		}
 
 		private class ActionViewHolder(view: View) : Presenter.ViewHolder(view) {
 			var button: Button = view.findViewById(R.id.action_button)
+			var secondariesPopupAction: SecondariesPopupAction? = null
 		}
 	}
 }
+

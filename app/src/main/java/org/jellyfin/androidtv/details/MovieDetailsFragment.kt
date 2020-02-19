@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.details
 
 import androidx.leanback.widget.*
-import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.details.actions.*
 import org.jellyfin.androidtv.model.itemtypes.Movie
@@ -17,10 +16,10 @@ class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
 
 	private val detailsRow by lazy { DetailsOverviewRow(Unit).apply { actionsAdapter = ActionAdapter() } }
 	private val chaptersRow by lazy { ListRow(HeaderItem("Chapters"), ArrayObjectAdapter(ChapterInfoPresenter(this.context!!))) }
-	private val specialsRow by lazy { ListRow(HeaderItem("Specials"), ArrayObjectAdapter(ItemPresenter(this.context!!, 250.dp, 140.dp,false))) }
+	private val specialsRow by lazy { ListRow(HeaderItem("Specials"), ArrayObjectAdapter(ItemPresenter(this.context!!, 250.dp, 140.dp, false))) }
 	private val charactersRow by lazy { ListRow(HeaderItem("Cast/Crew"), ArrayObjectAdapter(PersonPresenter(this.context!!))) }
 	private val similarsRow by lazy { ListRow(HeaderItem("Similar"), ArrayObjectAdapter(ItemPresenter(this.context!!, 100.dp, 150.dp, false))) }
-	private val localTrailersRow by lazy { ListRow(HeaderItem("Trailers"), ArrayObjectAdapter(ItemPresenter(this.context!!, 250.dp, 140.dp, false)))}
+	private val localTrailersRow by lazy { ListRow(HeaderItem("Trailers"), ArrayObjectAdapter(ItemPresenter(this.context!!, 250.dp, 140.dp, false))) }
 	private val mediaInfoRow by lazy { ListRow(HeaderItem("Media info"), ArrayObjectAdapter(InfoCardPresenter())) }
 
 	override fun onCreateAdapter(adapter: ArrayObjectAdapter, selector: ClassPresenterSelector) {
@@ -49,12 +48,19 @@ class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
 		(detailsRow.actionsAdapter as ActionAdapter).apply {
 			reset()
 
-			if (item.canResume) add(ResumeAction(context!!, item).apply { icon = context!!.getDrawable(R.drawable.ic_resume) })
+			if (item.canResume) add(ResumeAction(context!!, item))
+			add(PlayFromBeginningAction(context!!, item))
+			add(ToggleWatchedAction(context!!, item))
+			add(ToggleFavoriteAction(context!!, item))
+			// TODO: Bring this back once we have a more understandable queue implementation for users
+			//add(AddToQueueAction(context!!, item))
 
-			add(PlayFromBeginningAction(context!!, item).apply { icon = context!!.getDrawable(R.drawable.ic_play) })
-			add(ToggleWatchedAction(context!!, item).apply { icon = context!!.getDrawable(R.drawable.ic_watch) })
-			add(ToggleFavoriteAction(context!!, item).apply { icon = context!!.getDrawable(R.drawable.ic_heart) })
-			add(Action(0, "More").apply { icon = context!!.getDrawable(R.drawable.ic_more) }) // Show menu with more options
+			// Menu with more actions
+			add(SecondariesPopupAction(context!!).apply {
+				add(DeleteAction(context!!, item) { activity?.finish() }).apply {
+					isVisible = TvApp.getApplication().currentUser.policy.enableContentDeletion
+				}
+			})
 
 			commit()
 		}
