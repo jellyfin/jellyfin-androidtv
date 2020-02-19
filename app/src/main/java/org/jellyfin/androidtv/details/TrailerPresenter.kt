@@ -25,6 +25,7 @@ import org.jellyfin.androidtv.ui.FavoriteBadge
 import org.jellyfin.androidtv.ui.MultiBadgeImageCardView
 import org.jellyfin.androidtv.ui.WatchedBadge
 import org.jellyfin.androidtv.util.ImageUtils
+import org.jellyfin.androidtv.util.dp
 import org.jellyfin.apiclient.model.entities.MediaUrl
 
 class TrailerPresenter(private val context: Context, private val imageHeight: Int) : Presenter(), IItemClickListener {
@@ -98,7 +99,10 @@ class TrailerPresenter(private val context: Context, private val imageHeight: In
 			getProviderIcon(uri)?.let {
 				val providerBadge = ImageView(context).apply {
 					setImageDrawable(it)
-					layoutParams = ViewGroup.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
+					val params = ViewGroup.MarginLayoutParams(WRAP_CONTENT, WRAP_CONTENT)
+					params.setMargins(0, 0, 4.dp, 4.dp)
+					layoutParams = params
+
 				}
 
 				setBadge(MultiBadgeImageCardView.BadgeLocation.BOTTOM_RIGHT, providerBadge)
