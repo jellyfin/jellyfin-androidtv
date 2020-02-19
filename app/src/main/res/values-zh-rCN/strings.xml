@@ -148,7 +148,7 @@
     <string name="pref_audio_compat">混合立体声</string>
     <string name="lbl_on">上</string>
     <string name="pref_use_direct_path_summary">传递文件系统路径而不是流的URL</string>
-    <string name="pref_use_direct_path_title">通过外部播放器的直接路径</string>
+    <string name="pref_use_direct_path_title">向外部播放器传递直连路径</string>
     <string name="pref_external_live_tv_summary">需要一个有能力的应用程序播放直播流</string>
     <string name="pref_external_live_tv_title">使用外部播放器播放电视直播</string>
     <string name="lbl_song_title">歌曲标题</string>
@@ -348,4 +348,11 @@
     <string name="pref_acra_enabled">系统将提示您提交崩溃报告</string>
     <string name="pref_enable_acra">发送崩溃报告给开发人员</string>
     <string name="pref_acra_category">崩溃报告</string>
+    <string name="watch_now">立即播放</string>
+    <string name="pref_next_up_timeout_title">自动播放倒计时</string>
+    <string name="pref_next_up_timeout_summary">播放下一项目之前的等待时间</string>
+    <string name="pref_media_player">首选播放器</string>
+    <string name="pref_about_title">关于</string>
+    <string name="pref_video_player_vlc">libVLC （VLC解码器）</string>
+    <string name="pref_video_player_exoplayer">ExoPlayer （系统播放器）</string>
 </resources>
