@@ -578,7 +578,10 @@ public class ItemListActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         if (mItems.size() > 0) {
-                            if (mBaseItem.getId().equals(VIDEO_QUEUE) || mBaseItem.getId().equals(FAV_SONGS) || "Playlist".equals(mBaseItem.getType())) {
+                            if (mBaseItem.getId().equals(VIDEO_QUEUE)
+                                    || mBaseItem.getId().equals(FAV_SONGS)
+                                    || mBaseItem.getBaseItemType() == BaseItemType.Playlist
+                                    || mBaseItem.getBaseItemType() == BaseItemType.MusicAlbum) {
                                 List<BaseItemDto> shuffled = new ArrayList<>(mItems);
                                 Collections.shuffle(shuffled);
                                 play(shuffled);
