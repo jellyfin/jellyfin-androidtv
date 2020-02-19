@@ -57,7 +57,7 @@ class ItemPresenter(private val context: Context,
 
 		if (baseItem.images.primary != null) {
 			GlobalScope.launch(Dispatchers.Main) {
-				cardView.mainImageDrawable = BitmapDrawable(baseItem.images.primary.getBitmap(TvApp.getApplication()))
+				cardView.mainImageDrawable = BitmapDrawable(baseItem.images.primary.getBitmap(TvApp.getApplication(), imageWidth, imageHeight))
 			}
 		}
 

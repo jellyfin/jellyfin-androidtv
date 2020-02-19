@@ -111,13 +111,14 @@ class TrailerPresenter(private val context: Context, private val imageHeight: In
 			}
 		}
 
+
 		if (!SAFE_BRANDING_COMPLIANCE) {
 			getThumbnailURL(uri)?.let { thumbnailURL ->
 				Picasso.with(context).load(thumbnailURL).into(cardView.main_image)
 			}
 		}
 		else if (isYoutubeUrl(uri)){
-			cardView.mainImageDrawable = TvApp.getApplication().getDrawableCompat(R.drawable.banner_youtube)
+			Picasso.with(context).load(R.drawable.banner_youtube).into(cardView.main_image)
 			cardView.main_image.setBackgroundColor(context.resources.getColor(R.color.youtube_background))
 		}
 	}

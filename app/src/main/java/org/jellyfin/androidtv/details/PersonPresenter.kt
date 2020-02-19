@@ -45,8 +45,12 @@ class PersonPresenter(private val context: Context) : Presenter(), IItemClickLis
 		cardView.mainImage = TvApp.getApplication().getDrawableCompat(R.drawable.tile_port_person)
 
 		if (person.primaryImage != null) {
-			GlobalScope.launch(Dispatchers.Main) {
-				cardView.mainImage = BitmapDrawable(person.primaryImage.getBitmap(TvApp.getApplication()))
+			GlobalScope.launch(Dispatchers.IO) {
+				val drawable =  BitmapDrawable(person.primaryImage.getBitmap(TvApp.getApplication(), 100.dp, 150.dp))
+				drawable.bitmap.prepareToDraw()
+				GlobalScope.launch(Dispatchers.Main) {
+					cardView.mainImage = drawable
+				}
 			}
 		}
 

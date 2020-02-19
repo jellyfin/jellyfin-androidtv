@@ -29,5 +29,10 @@ class ImageCollection(original: BaseItemDto) {
 			Log.i("Image URL", url)
 			Picasso.with(context).load(url).get()
 		}
+
+		suspend fun getBitmap(context: Context, width: Int, height: Int) = withContext(Dispatchers.IO) {
+			Log.i("Image URL", url)
+			Picasso.with(context).load(url).resize(width, height).get()
+		}
 	}
 }

@@ -41,7 +41,7 @@ class ChapterInfoPresenter(private val context: Context) : Presenter(), IItemCli
 
 		if (chapterInfo.image != null) {
 			GlobalScope.launch(Dispatchers.Main) {
-				cardView.mainImage = BitmapDrawable(chapterInfo.image.getBitmap(TvApp.getApplication()))
+				cardView.mainImage = BitmapDrawable(chapterInfo.image.getBitmap(TvApp.getApplication(), 250.dp, 140.dp))
 			}
 		}
 
