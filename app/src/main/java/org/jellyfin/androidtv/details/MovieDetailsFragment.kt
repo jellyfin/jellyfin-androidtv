@@ -19,7 +19,7 @@ class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
 	private val specialsRow by lazy { ListRow(HeaderItem("Specials"), ArrayObjectAdapter(ItemPresenter(this.context!!, 250.dp, 140.dp, false))) }
 	private val charactersRow by lazy { ListRow(HeaderItem("Cast/Crew"), ArrayObjectAdapter(PersonPresenter(this.context!!))) }
 	private val similarsRow by lazy { ListRow(HeaderItem("Similar"), ArrayObjectAdapter(ItemPresenter(this.context!!, 100.dp, 150.dp, false))) }
-	private val localTrailersRow by lazy { ListRow(HeaderItem("Trailers"), ArrayObjectAdapter(ItemPresenter(this.context!!, 250.dp, 140.dp, false))) }
+	private val localTrailersRow by lazy { ListRow(HeaderItem("Trailers"), ArrayObjectAdapter(TrailerPresenter(this.context!!, 140.dp))) }
 	private val mediaInfoRow by lazy { ListRow(HeaderItem("Media info"), ArrayObjectAdapter(InfoCardPresenter())) }
 
 	override fun onCreateAdapter(adapter: ArrayObjectAdapter, selector: ClassPresenterSelector) {
@@ -97,6 +97,7 @@ class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
 		localTrailersRow.adapter.also {
 			it as ArrayObjectAdapter
 			it.clear()
+			item.remoteTrailers.forEach(it::add)
 			localTrailers?.forEach(it::add)
 		}
 

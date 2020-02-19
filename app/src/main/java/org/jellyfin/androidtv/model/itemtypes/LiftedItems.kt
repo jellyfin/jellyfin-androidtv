@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.model.itemtypes
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.apiclient.model.dto.GenreDto
+import org.jellyfin.apiclient.model.entities.MediaUrl
 import org.jellyfin.apiclient.model.querying.ItemFields
 import java.util.*
 import kotlin.properties.Delegates
@@ -53,6 +54,7 @@ class Movie(original: BaseItemDto) : PlayableItem(original) {
 	val communityRating: Float = original.communityRating
 	val criticsRating: Float? = original.criticRating
 	val localTrailerCount: Int = original.localTrailerCount
+	val remoteTrailers: List<MediaUrl> = original.remoteTrailers
 }
 
 class Trailer(original: BaseItemDto) : PlayableItem(original)
