@@ -2,9 +2,11 @@ package org.jellyfin.androidtv.ui
 
 import android.content.Context
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
+import org.jellyfin.androidtv.util.dp
 
 class FavoriteBadge(context: Context, val item: BaseItem? = null) : AppCompatImageView(context) {
 	private val changeListener: () -> Unit = {
@@ -13,6 +15,7 @@ class FavoriteBadge(context: Context, val item: BaseItem? = null) : AppCompatIma
 
 	init {
 		setImageDrawable(context.getDrawable(R.drawable.ic_heart_red))
+		layoutParams = ViewGroup.LayoutParams(32.dp, 32.dp)
 		item?.let(::setItemData)
 	}
 

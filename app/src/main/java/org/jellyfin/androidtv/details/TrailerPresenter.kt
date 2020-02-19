@@ -6,7 +6,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.view.ContextThemeWrapper
@@ -98,7 +98,7 @@ class TrailerPresenter(private val context: Context, private val imageHeight: In
 			getProviderIcon(uri)?.let {
 				val providerBadge = ImageView(context).apply {
 					setImageDrawable(it)
-					layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+					layoutParams = ViewGroup.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
 				}
 
 				setBadge(MultiBadgeImageCardView.BadgeLocation.BOTTOM_RIGHT, providerBadge)

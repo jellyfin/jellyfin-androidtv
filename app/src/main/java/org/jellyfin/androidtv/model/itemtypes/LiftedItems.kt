@@ -8,7 +8,14 @@ import org.jellyfin.apiclient.model.querying.ItemFields
 import java.util.*
 import kotlin.properties.Delegates
 
-val FIELDS_REQUIRED_FOR_LIFT = arrayOf(ItemFields.DateCreated, ItemFields.MediaSources, ItemFields.MediaStreams, ItemFields.People)
+val FIELDS_REQUIRED_FOR_LIFT = arrayOf(
+	ItemFields.DateCreated,
+	ItemFields.MediaSources,
+	ItemFields.MediaStreams,
+	ItemFields.People,
+	ItemFields.Genres,
+	ItemFields.Tags,
+	ItemFields.RemoteTrailers)
 
 sealed class BaseItem(original: BaseItemDto) : ObservableParent() {
 	val id: String = original.id
@@ -53,7 +60,6 @@ class Movie(original: BaseItemDto) : PlayableItem(original) {
 	val officialRating: String? = original.officialRating
 	val communityRating: Float = original.communityRating
 	val criticsRating: Float? = original.criticRating
-	val localTrailerCount: Int = original.localTrailerCount
 	val remoteTrailers: List<MediaUrl> = original.remoteTrailers
 }
 
