@@ -28,6 +28,8 @@ import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.dp
 import org.jellyfin.apiclient.model.entities.MediaUrl
 
+private const val SAFE_BRANDING_COMPLIANCE: Boolean = true
+
 class TrailerPresenter(private val context: Context, private val imageHeight: Int) : Presenter(), IItemClickListener {
 
 	val tldRegex = Regex("""^(.*\.|)(.+\...+)$""")
@@ -76,7 +78,7 @@ class TrailerPresenter(private val context: Context, private val imageHeight: In
 	private fun getDomain(uri: Uri): String? = uri.host?.let { host -> tldRegex.find(host)?.groups?.get(2)?.value }
 
 	private fun getProviderIcon(uri: Uri): Drawable? {
-		return if (isYoutubeUrl(uri))
+		return if (isYoutubeUrl(uri) && !SAFE_BRANDING_COMPLIANCE)
 			context.getDrawable(R.drawable.ic_youtube)
 		else
 			null
@@ -109,8 +111,14 @@ class TrailerPresenter(private val context: Context, private val imageHeight: In
 			}
 		}
 
-		getThumbnailURL(uri)?.let {thumbnailURL ->
-			Picasso.with(context).load(thumbnailURL).into(cardView.main_image)
+		if (!SAFE_BRANDING_COMPLIANCE) {
+			getThumbnailURL(uri)?.let { thumbnailURL ->
+				Picasso.with(context).load(thumbnailURL).into(cardView.main_image)
+			}
+		}
+		else if (isYoutubeUrl(uri)){
+			cardView.mainImageDrawable = TvApp.getApplication().getDrawableCompat(R.drawable.banner_youtube)
+			cardView.main_image.setBackgroundColor(context.resources.getColor(R.color.youtube_background))
 		}
 	}
 

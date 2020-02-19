@@ -40,4 +40,6 @@
     <color name="guide_kids_bg">#32039BE5</color>
 
     <color name="action_active">#FFCC3333</color>
+
+    <color name="youtube_background">#282828</color>
 </resources>
