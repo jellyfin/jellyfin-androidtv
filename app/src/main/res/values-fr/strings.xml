@@ -334,4 +334,6 @@
     <string name="pref_acra_disabled">Vos signalements de plantage ne seront pas transmis</string>
     <string name="pref_acra_enabled">Vous serez invité à envoyer vos signalements de plantage</string>
     <string name="pref_acra_category">Signalement d\'un plantage</string>
+    <string name="pref_acra_alwaysaccept_disabled">L\'information sur le porblème sera demandé avant d\'être soumise</string>
+    <string name="pref_acra_alwaysaccept_enabled">Rapport de problèmes sera soumis sans demander</string>
 </resources>

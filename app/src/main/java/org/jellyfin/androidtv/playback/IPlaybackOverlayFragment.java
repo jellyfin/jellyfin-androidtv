@@ -9,9 +9,9 @@ public interface IPlaybackOverlayFragment {
     void setFadingEnabled(boolean value);
     void setPlayPauseActionState(int state);
     void updateDisplay();
-    void nextItemThresholdHit(BaseItemDto nextItem);
     void finish();
     void addManualSubtitles(SubtitleTrackInfo info);
     void updateSubtitles(long posMs);
     void showSubLoadingMsg(boolean show);
+    void showNextUp(String id);
 }

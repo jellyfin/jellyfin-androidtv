@@ -49,15 +49,6 @@ public class PlaybackController {
     // Frequency to report paused state
     private static final long PROGRESS_REPORTING_PAUSE_INTERVAL = TimeUtils.secondsToMillis(15);
 
-    // Minimum duration to show next up popup
-    private static final long NEXT_UP_MIN_LENGTH = TimeUtils.minutesToMillis(10);
-    // Minimum duration to show next up popup for longer
-    private static final long NEXT_UP_LONG_LENGTH = TimeUtils.hoursToMillis(1.25);
-    // The duration to display the next up popup for longer shows
-    private static final long NEXT_UP_LONG_DURATION = TimeUtils.minutesToMillis(3);
-    // The default duration to display the next up popup
-    private static final long NEXT_UP_DURATION = TimeUtils.secondsToMillis(30);
-
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
     SubtitleHelper mSubHelper;
@@ -82,8 +73,6 @@ public class PlaybackController {
     private Runnable mReportLoop;
     private Handler mHandler;
 
-    private long mNextItemThreshold = Long.MAX_VALUE;
-    private boolean nextItemReported;
     private long mStartPosition = 0;
     private long mCurrentProgramEndTime;
     private long mCurrentProgramStartTime;
@@ -387,26 +376,6 @@ public class PlaybackController {
 
                 long duration = getCurrentlyPlayingItem().getRunTimeTicks()!= null ? getCurrentlyPlayingItem().getRunTimeTicks() / 10000 : -1;
                 mVideoManager.setMetaDuration(duration);
-
-                if (hasNextItem()) {
-                    // Determine the "next up" threshold
-                    if (duration > NEXT_UP_MIN_LENGTH) {
-                        //only items longer than 10min to have this feature
-                        nextItemReported = false;
-                        if (duration > NEXT_UP_LONG_LENGTH) {
-                            //longer than 1hr 15 it probably has pretty long credits
-                            mNextItemThreshold = duration - NEXT_UP_LONG_DURATION;
-                        } else {
-                            //std 30 min episode or less
-                            mNextItemThreshold = duration - NEXT_UP_DURATION;
-                        }
-                        TvApp.getApplication().getLogger().Debug("Next item threshold set to %d", mNextItemThreshold);
-                    } else {
-                        mNextItemThreshold = Long.MAX_VALUE;
-                    }
-                } else {
-                    mNextItemThreshold = Long.MAX_VALUE;
-                }
 
                 break;
         }
@@ -970,12 +939,6 @@ public class PlaybackController {
                     long currentTime = isLiveTv ? getTimeShiftedProgress() : mVideoManager.getCurrentPosition();
 
                     ReportingHelper.reportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, false);
-
-                    //Do this next up processing here because every 3 seconds is good enough
-                    if (!nextItemReported && hasNextItem() && currentTime >= mNextItemThreshold) {
-                        nextItemReported = true;
-                        mFragment.nextItemThresholdHit(getNextItem());
-                    }
                 }
                 mApplication.setLastUserInteraction(System.currentTimeMillis());
                 if (mPlaybackState != PlaybackState.UNDEFINED && mPlaybackState != PlaybackState.IDLE) {
@@ -1056,12 +1019,14 @@ public class PlaybackController {
         ReportingHelper.reportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
         vlcErrorEncountered = false;
         exoErrorEncountered = false;
-        if (mCurrentIndex < mItems.size() - 1) {
-            // move to next in queue
-            mCurrentIndex++;
-            mApplication.getLogger().Debug("Moving to next queue item. Index: %d", mCurrentIndex);
+
+        BaseItemDto nextItem = getNextItem();
+        if (nextItem != null) {
+            mApplication.getLogger().Debug("Moving to next queue item. Index: " + (mCurrentIndex + 1));
             spinnerOff = false;
-            play(0);
+
+            // Show "Next Up" fragment
+            mFragment.showNextUp(nextItem.getId());
         } else {
             // exit activity
             mApplication.getLogger().Debug("Last item completed. Finishing activity.");
