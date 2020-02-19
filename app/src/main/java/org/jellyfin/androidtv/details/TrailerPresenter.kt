@@ -118,7 +118,7 @@ class TrailerPresenter(private val context: Context, private val imageHeight: In
 			}
 		}
 		else if (isYoutubeUrl(uri)){
-			Picasso.with(context).load(R.drawable.banner_youtube).into(cardView.main_image)
+			cardView.main_image.setImageResource(R.drawable.banner_youtube)
 			cardView.main_image.setBackgroundColor(context.resources.getColor(R.color.youtube_background))
 		}
 	}
