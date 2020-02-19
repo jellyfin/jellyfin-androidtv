@@ -105,7 +105,7 @@
     <string name="lbl_please_wait">Čakajte prosím</string>
     <string name="lbl_play_trailers">Prehrať trailer/y</string>
     <string name="lbl_trailer">"Trailer "</string>
-    <string name="msg_access_restricted">Obmedziť prístup v tento dobe</string>
+    <string name="msg_access_restricted">Obmedzený prístup v tento dobe</string>
     <string name="lbl_bracket_unknown">&lt;Neznáme&gt;</string>
     <string name="msg_video_playback_error">"Chyba pri prehrávaní videa - "</string>
     <string name="lbl_none">Žiadne</string>
@@ -161,16 +161,16 @@
     <string name="lbl_on_now">Práve teraz</string>
     <string name="lbl_next_up_tv">Nasleduje v TV</string>
     <string name="pref_general">Všeobecné</string>
-    <string name="pref_alt_pw_entry_desc">Číselné heslo s použitím len kláves D-Padu</string>
-    <string name="pref_alt_pw_entry">Vlastný D-Pad pre zadanie hesla</string>
+    <string name="pref_alt_pw_entry_desc">Číselné heslo s použitím len kláves D-padu</string>
+    <string name="pref_alt_pw_entry">Vlastný D-pad pre zadanie hesla</string>
     <string name="pref_prompt_pw">Výzva k zadaniu hesla</string>
     <string name="pref_max_bitrate_title">Maximálny dátový tok</string>
     <string name="pref_playback">Prehrávanie</string>
     <string name="pref_login_behavior_title">Správanie pri spustení</string>
     <string name="title_activity_select_user">Vybrať aktivitu používateľa</string>
     <string name="msg_external_path">Táto funkcia bude fungovať len v prípade správneho nastavenia vašej knižnice na server so sieťovými cestami alebo nadradenými cestami a vami používaný klient má priamy prístup k týmto sieťovým lokalitám.</string>
-    <string name="lbl_resume_preroll">Obnoviť prehrávanie Pre-Rollu</string>
-    <string name="dpad_entry_desc">Pomocou D-Padu na vašom diaľkovom ovládači zadajte číselné heslo. Kliknite na tlačidlo pre prvú položku alebo dvoj-kliknite pre druhú položku, tj. jeden klik ‘hore‘ pre 1 alebo dvojklik ‘Select‘ pre 5. Podržte tlačidlo 1 sekundu a po skončení pustite tlačidlo ‘Select‘ alebo použite ľavé tlačidlo pre spustenie od začiatku.</string>
+    <string name="lbl_resume_preroll">Pre-Roll pri obnovení prehrávanai</string>
+    <string name="dpad_entry_desc">Pomocou D-padu na vašom diaľkovom ovládači zadajte číselné heslo. Kliknite na tlačidlo pre prvú položku alebo dvoj-kliknite pre druhú položku, tj. jeden klik ‘hore‘ pre 1 alebo dvojklik ‘Vybrať‘ pre 5. Podržte tlačidlo 1 sekundu a po skončení pustite tlačidlo ‘Vybrať‘ alebo použite ľavé tlačidlo pre spustenie od začiatku.</string>
     <string name="lbl_image_size">Veľkosť obrázku</string>
     <string name="lbl_image_type">Typ obrázku</string>
     <string name="lbl_default_view">Predvolený pohľad</string>
@@ -189,7 +189,7 @@
     <string name="title_suggestions_holiday">Veselé Vianoce!</string>
     <string name="lbl_suggestions_holiday">Vianočné odporúčania</string>
     <string name="desc_suggestions_halloween">Vyskúšajte niektoré z našich strašidelných odporúčaní</string>
-    <string name="title_suggestions_halloween">Šťastný Halloween!</string>
+    <string name="title_suggestions_halloween">Veselý Halloween!</string>
     <string name="lbl_suggestions_halloween">Strašidelné odporúčania</string>
     <string name="lbl_suggestions">Odporúčania</string>
     <string name="pref_use_direct_path_summary">Prepúšťať cestu súborového systému namiesto streamovacej URL</string>
@@ -328,7 +328,7 @@
     <string name="msg_playback_incompatible">Tento formát sa nedá prehrať</string>
     <string name="lbl_last_played">"Naposledy pozreté "</string>
     <string name="lbl_watched">Pozreté</string>
-    <string name="dpad_pw_cancel">* Podržte na 1 sekundu tlačidlo \'Dole\' a uvolnite ho pokiaľ máte alpha heslo alebo bude potrebná klávesnica pre vstup</string>
+    <string name="dpad_pw_cancel">* Podržte na 1 sekundu tlačidlo \'Dole\' a uvolnite ho pokiaľ máte alpha heslo alebo bude pre vstup potrebná klávesnica</string>
     <string name="pref_acra_alwaysaccept_disabled">Pred odoslaním chybového hlásenia sa zobrazí dialóg</string>
     <string name="pref_acra_alwaysaccept_enabled">Hlásenie chýb bude odoslané bez výzvy</string>
     <string name="pref_acra_alwaysaccept">Odoslať hlásenie chýb bez výzvy</string>
@@ -352,4 +352,7 @@
     <string name="pref_acra_syslog">Zahrnúť systémové logy v chybovom hlásení. Toto môže zahŕňať súkromné dáta z ostatných aplikácií, pokiaľ bola zalogovaná v dobe zlyhania.</string>
     <string name="pref_media_player">Preferovaný mediálny prehrávač</string>
     <string name="pref_about_title">Obsah</string>
+    <string name="pref_next_up_timeout_title">Časový limit pre nasledujúcu položku</string>
+    <string name="watch_now">Teraz pozerať</string>
+    <string name="pref_next_up_timeout_summary">Dĺžka čakania pred prehratím ďalšej položky</string>
 </resources>
