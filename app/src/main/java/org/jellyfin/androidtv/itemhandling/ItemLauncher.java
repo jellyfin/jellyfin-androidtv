@@ -266,7 +266,7 @@ public class ItemLauncher {
                 application.getApiClient().GetItemAsync(hint.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
-                        if ((response.getIsFolderItem() && response.getBaseItemType() != BaseItemType.Series) || response.getBaseItemType() == BaseItemType.MusicArtist) {
+                        if (response.getIsFolderItem() && response.getBaseItemType() != BaseItemType.Series) {
                             // open generic folder browsing
                             Intent intent = new Intent(activity, GenericGridActivity.class);
                             intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(response));
