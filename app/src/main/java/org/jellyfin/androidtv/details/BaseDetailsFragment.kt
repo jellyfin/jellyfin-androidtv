@@ -69,15 +69,11 @@ abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : D
 	@CallSuper
 	open suspend fun setItem(item: T) {
 		// Logo
-		badgeDrawable = item.images.logo?.getBitmap(context!!)?.let { BitmapDrawable(resources, it) }
+		item.images.logo?.load(context!!) { badgeDrawable = BitmapDrawable(resources, it) }
 
 		// Background
 		//todo: Use all backgrounds with transition (fade/slide)
-		val backgroundImage = item.images.backdrops.randomOrNull()
-
-		backgroundController.apply {
-			coverBitmap = backgroundImage?.getBitmap(context!!)
-		}
+		item.images.backdrops.randomOrNull()?.load(context!!) { backgroundController.coverBitmap = it }
 	}
 
 	@CallSuper
