@@ -1023,10 +1023,15 @@ public class PlaybackController {
         BaseItemDto nextItem = getNextItem();
         if (nextItem != null) {
             mApplication.getLogger().Debug("Moving to next queue item. Index: " + (mCurrentIndex + 1));
-            spinnerOff = false;
 
-            // Show "Next Up" fragment
-            mFragment.showNextUp(nextItem.getId());
+            if (mApplication.getUserPreferences().getNextUpEnabled()) {
+                // Show "Next Up" fragment
+                spinnerOff = false;
+                mFragment.showNextUp(nextItem.getId());
+            } else {
+                mCurrentIndex++;
+                play(0);
+            }
         } else {
             // exit activity
             mApplication.getLogger().Debug("Last item completed. Finishing activity.");

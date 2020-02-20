@@ -74,6 +74,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	var mediaQueuingEnabled by booleanPreference("pref_enable_tv_queuing", true)
 
 	/**
+	 * Enable the next up screen or not
+	 */
+	var nextUpEnabled by booleanPreference("next_up_enabled", true)
+
+	/**
 	 * Next up timeout before playing next item
 	 * Stored in milliseconds
 	 */

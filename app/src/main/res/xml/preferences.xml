@@ -73,6 +73,11 @@
             android:key="pref_enable_tv_queuing"
             android:summary="@string/sum_tv_queuing"
             android:title="@string/lbl_tv_queuing" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="next_up_enabled"
+            android:summary="@string/pref_next_up_enabled_summary"
+            android:title="@string/pref_next_up_enabled_title" />
         <org.jellyfin.androidtv.preferences.ui.DurationSeekBarPreference
             android:defaultValue="7000"
             android:dependency="pref_enable_tv_queuing"
@@ -80,6 +85,7 @@
             android:max="30000"
             android:summary="@string/pref_next_up_timeout_summary"
             android:title="@string/pref_next_up_timeout_title"
+            app:dependency="next_up_enabled"
             app:min="3000"
             app:seekBarIncrement="1000"
             app:showSeekBarValue="true" />

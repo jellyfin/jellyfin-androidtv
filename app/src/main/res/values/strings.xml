@@ -351,6 +351,8 @@
     <string name="pref_about_title">About</string>
     <string name="pref_media_player">Preferred media player</string>
     <string name="pref_next_up_timeout_summary">How long to wait before playing the next item</string>
-    <string name="pref_next_up_timeout_title">Next up timer duration</string>
+    <string name="pref_next_up_timeout_title">Next Up timer duration</string>
     <string name="watch_now">Watch now</string>
+    <string name="pref_next_up_enabled_summary">Previews the next queued item before playing</string>
+    <string name="pref_next_up_enabled_title">Enable Next Up screen</string>
 </resources>
