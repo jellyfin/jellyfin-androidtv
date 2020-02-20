@@ -18,6 +18,7 @@ class NextUpFragment(private val data: NextUpItemData) : Fragment() {
 		return inflater.inflate(R.layout.fragment_next_up, container, false).apply {
 			BackgroundManager.getInstance(activity).setBitmap(data.backdrop)
 
+			logo.setImageBitmap(data.logo)
 			image.setImageBitmap(data.thumbnail)
 			title.text = data.title
 			description.text = data.description?.toHtmlSpanned()
