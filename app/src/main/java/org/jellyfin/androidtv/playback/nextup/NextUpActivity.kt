@@ -55,6 +55,7 @@ class NextUpActivity : FragmentActivity() {
 
 		val backdrop = TvApp.getApplication().apiClient.GetBackdropImageUrls(item, ImageOptions()).firstOrNull()
 		val thumbnail = TvApp.getApplication().apiClient.GetImageUrl(item, ImageOptions())
+		val logo = TvApp.getApplication().apiClient.GetLogoImageUrl(item, ImageOptions())
 
 		val title = if (item.indexNumber != null && item.name != null)
 			"${item.indexNumber}. ${item.name}"
@@ -67,7 +68,8 @@ class NextUpActivity : FragmentActivity() {
 			title,
 			item.overview,
 			backdrop?.let { Picasso.with(this@NextUpActivity).load(it).get() },
-			thumbnail?.let { Picasso.with(this@NextUpActivity).load(it).get() }
+			thumbnail?.let { Picasso.with(this@NextUpActivity).load(it).get() },
+			logo?.let { Picasso.with(this@NextUpActivity).load(it).get() }
 		)
 	}
 }

@@ -7,5 +7,6 @@ data class NextUpItemData(
 	val title: String,
 	val description: String?,
 	val backdrop: Bitmap?,
-	val thumbnail: Bitmap?
+	val thumbnail: Bitmap?,
+	val logo: Bitmap?
 )
