@@ -27,12 +27,22 @@ class ImageCollection(original: BaseItemDto) {
 
 		suspend fun getBitmap(context: Context) = withContext(Dispatchers.IO) {
 			Log.i("Image URL", url)
-			Picasso.with(context).load(url).get()
+			try {
+				Picasso.with(context).load(url).get()
+			} catch (ex: Exception) {
+				TvApp.getApplication().logger.ErrorException("Error trying to load image %s", ex, url)
+				null
+			}
 		}
 
 		suspend fun getBitmap(context: Context, width: Int, height: Int) = withContext(Dispatchers.IO) {
 			Log.i("Image URL", url)
-			Picasso.with(context).load(url).resize(width, height).get()
+			try {
+				Picasso.with(context).load(url).resize(width, height).get()
+			} catch (ex: Exception) {
+				TvApp.getApplication().logger.ErrorException("Error trying to load image %s", ex, url)
+				null
+			}
 		}
 	}
 }

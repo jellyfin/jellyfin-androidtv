@@ -15,7 +15,8 @@ val FIELDS_REQUIRED_FOR_LIFT = arrayOf(
 	ItemFields.People,
 	ItemFields.Genres,
 	ItemFields.Tags,
-	ItemFields.RemoteTrailers)
+	ItemFields.RemoteTrailers
+)
 
 sealed class BaseItem(original: BaseItemDto) : ObservableParent() {
 	val id: String = original.id

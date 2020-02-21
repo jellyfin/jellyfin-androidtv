@@ -361,4 +361,5 @@
     <string name="lbl_really_delete_item_title">Really delete?</string>
     <string name="toast_no_trailer_handler">No playback app found for trailer.</string>
     <string name="lbl_local_trailer">Local</string>
+    <string name="youtube" translatable="false">YouTube</string>
 </resources>

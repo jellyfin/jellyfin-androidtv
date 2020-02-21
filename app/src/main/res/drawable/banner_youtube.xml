@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@color/youtube_background" />
+    <item android:drawable="@color/youtube_background"
+        android:width="462dp"
+        android:height="260dp"/>
 
-    <item android:top="48dp"
-        android:bottom="48dp"
-        android:right="48dp"
-        android:left="48dp"
+    <item
         android:gravity="center"
         android:drawable="@drawable/logo_youtube" />
 

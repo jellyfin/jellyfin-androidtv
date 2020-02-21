@@ -8,7 +8,7 @@
     <ImageView
         android:id="@+id/main_image"
         style="?attr/imageCardViewImageStyle"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_height="150dp"
