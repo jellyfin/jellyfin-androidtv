@@ -134,6 +134,12 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 			findPreference<EditTextPreference>("version")?.summaryProvider = Preference.SummaryProvider<EditTextPreference> {
 				Utils.getVersionString()
 			}
+
+			val audioDelayPreference = findPreference<EditLongPreference>("libvlc_audio_delay")
+			audioDelayPreference?.text = TvApp.getApplication().userPreferences.libVLCAudioDelay.toString()
+			audioDelayPreference?.summaryProvider = Preference.SummaryProvider<EditLongPreference> {
+				"${it.text} ms"
+			}
 		}
 	}
 }

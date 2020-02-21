@@ -441,7 +441,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
     }
 
-    public long getAudioDelay() { return mVlcPlayer != null ? mVlcPlayer.getAudioDelay() / 1000 : 0;}
+    public long getAudioDelay() {
+        return mVlcPlayer != null ? mVlcPlayer.getAudioDelay() / 1000 : 0;
+    }
 
     public void setCompatibleAudio() {
          if (!nativeMode) {
@@ -503,6 +505,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             }
 //            options.add("--subsdec-encoding");
 //            options.add("Universal (UTF-8)");
+            options.add("--audio-desync");
+            options.add(String.valueOf(TvApp.getApplication().getUserPreferences().getLibVLCAudioDelay()));
             options.add("-v");
 
             mLibVLC = new LibVLC(TvApp.getApplication(), options);
@@ -511,7 +515,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             mVlcPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
             mVlcPlayer.setAudioOutput(Utils.downMixAudio() ? "opensles_android" : "android_audiotrack");
             mVlcPlayer.setAudioOutputDevice("hdmi");
-
 
             mSurfaceHolder.addCallback(mSurfaceCallback);
             mVlcPlayer.setEventListener(mVlcHandler);
