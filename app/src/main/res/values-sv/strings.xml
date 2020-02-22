@@ -348,7 +348,7 @@
     <string name="title_activity_dpad_pw">Ange Lösenord</string>
     <string name="pref_alt_pw_entry_desc">Numeriskt lösenord med endast D-Pad tangenter</string>
     <string name="pref_alt_pw_entry">Egen D-Pad Lösenord Inträde</string>
-    <string name="pref_max_bitrate_title">Max Streaming Bitrate</string>
+    <string name="pref_max_bitrate_title">Maximal strömningsbithastighet</string>
     <string name="pref_playback">Uppspelning</string>
     <string name="pref_login_behavior_title">Startbeteende</string>
     <string name="title_activity_select_user">VäljAnvändarAktivitet</string>
