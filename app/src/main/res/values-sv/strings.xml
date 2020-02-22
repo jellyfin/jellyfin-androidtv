@@ -170,7 +170,7 @@
     <string name="lbl_song">Låt</string>
     <string name="lbl_artists">Artister</string>
     <string name="lbl_albums">Album</string>
-    <string name="lbl_live_tv_guide">Live TV Guide</string>
+    <string name="lbl_live_tv_guide">Live-tv Guide</string>
     <string name="lbl_no_recordings">Inga inspelningar tillgängliga</string>
     <string name="lbl_recording">Spelar in</string>
     <string name="msg_burn_sub_warning">Inbrända undertexter kan ta ett par minuter. Vänligen vänta...</string>
@@ -272,7 +272,7 @@
     <string name="msg_video_playback_error">"Video Uppspelnings fel - "</string>
     <string name="lbl_none">Inga</string>
     <string name="lbl_recordings">Inspelningar</string>
-    <string name="lbl_videos">Videos</string>
+    <string name="lbl_videos">Filmer</string>
     <string name="lbl_people">Människor</string>
     <string name="lbl_tv">TV</string>
     <string name="lbl_login_as">"Logga in som "</string>
@@ -282,11 +282,11 @@
     <string name="lbl_enter_manually">Ange Manuellt</string>
     <string name="lbl_other_options">Andra Alternativ</string>
     <string name="lbl_select_server">Välj Server</string>
-    <string name="lbl_last_played">"Senast Spelad "</string>
+    <string name="lbl_last_played">Senast sedd</string>
     <string name="lbl_directed_by">Regisserat av</string>
     <string name="lbl_ends">Slutar</string>
     <string name="lbl_min">" min"</string>
-    <string name="lbl_runs">Spelningar</string>
+    <string name="lbl_runs">Går</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">Kollade</string>
     <string name="lbl_favorite">Favorit</string>
@@ -304,7 +304,7 @@
     <string name="msg_unable_to_create_recording">Kan inte skapa inspelning</string>
     <string name="msg_set_to_record">Program inställt för inspelning</string>
     <string name="lbl_record">Spela in</string>
-    <string name="lbl_record_series">Spela in Serier</string>
+    <string name="lbl_record_series">Spela in serier</string>
     <string name="lbl_cancel_series">Avbryt Serier</string>
     <string name="lbl_cancel_recording">Avbryt Inspelning</string>
     <string name="lbl_cancel">Avbryt</string>
@@ -312,7 +312,7 @@
     <string name="lbl_shuffle_all">Slumpa Alla</string>
     <string name="lbl_play_all">Spela Alla</string>
     <string name="lbl_because_you_watched">"Eftersom du tittade "</string>
-    <string name="lbl_latest_additions">Senaste Tillägg</string>
+    <string name="lbl_latest_additions">Senast Tillagt</string>
     <string name="lbl_other">Annat</string>
     <string name="lbl_tv_series">TV Serier</string>
     <string name="lbl_movies">Filmer</string>
@@ -329,7 +329,7 @@
     <string name="lbl_genres">Genrer</string>
     <string name="lbl_status">%s / %s</string>
     <string name="lbl_suggested">Föreslagna</string>
-    <string name="lbl_by_letter">Via Bokstav</string>
+    <string name="lbl_by_letter">Efter bokstäver</string>
     <string name="lbl_views">Visningar</string>
     <string name="lbl_on_now">Sänds nu</string>
     <string name="lbl_next_up_tv">Nästa på tur TV</string>
@@ -339,20 +339,22 @@
     <string name="lbl_library">Bibliotek</string>
     <string name="lbl_logout">Logga ut</string>
     <string name="lbl_settings">Inställningar</string>
-    <string name="pref_general">Generellt</string>
+    <string name="pref_general">Generell</string>
     <string name="pref_auto_logoff_title">Automatisk utloggnings tid</string>
     <string name="chapters">Kapitel</string>
     <string name="dpad_pw_cancel">* Håll in \'ner\' knappen i 1 sekund och släpp om du har ett alfa lösenord eller behöver ett tangentbord för inskrivning.</string>
     <string name="dpad_entry_desc">Använd D-Pad på din fjärrkontroll för att ange ett numeriskt lösenord. Enkeltryck på en knapp för första listade numret eller dubbel klicka för det andra. Exempel: Enkeltryck \'upp\' för 1 eller dubbel tryck \'välj\' för 5. Håll ner för 1 sekund och släpp \'välj\' knappen när det är klart eller vänster knappen för att börja om.</string>
     <string name="enter_password">Ange Lösenord</string>
-    <string name="title_activity_dpad_pw">Ange Lösenord</string>
+    <string name="title_activity_dpad_pw">Ange lösenord</string>
     <string name="pref_alt_pw_entry_desc">Numeriskt lösenord med endast D-Pad tangenter</string>
     <string name="pref_alt_pw_entry">Egen D-Pad Lösenord Inträde</string>
     <string name="pref_max_bitrate_title">Maximal strömningsbithastighet</string>
     <string name="pref_playback">Uppspelning</string>
     <string name="pref_login_behavior_title">Startbeteende</string>
-    <string name="title_activity_select_user">VäljAnvändarAktivitet</string>
+    <string name="title_activity_select_user">Välj användare aktivitet</string>
     <string name="lbl_programs">Program</string>
     <string name="pref_live_tv_cat">Live-TV</string>
     <string name="lbl_recorded_tv">Inspelad TV</string>
+    <string name="pref_next_up_enabled_title">Aktivera Nästa skärm</string>
+    <string name="pref_next_up_enabled_summary">Förhandsvisar nästa köade innan spelar</string>
 </resources>
