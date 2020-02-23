@@ -24,7 +24,6 @@ abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : D
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-
 		GlobalScope.launch(Dispatchers.Main) {
 			// Create adapter
 			val selector = ClassPresenterSelector()
@@ -60,10 +59,17 @@ abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : D
 			DetailsDescriptionPresenter(),
 			DetailsOverviewLogoPresenter()
 		).apply {
+			initialState = FullWidthDetailsOverviewRowPresenter.STATE_HALF
+
 			setOnActionClickedListener { action ->
 				if (action is BaseAction) action.onClick()
 			}
 		})
+	}
+
+	override fun onSetDetailsOverviewRowStatus(presenter: FullWidthDetailsOverviewRowPresenter, viewHolder: FullWidthDetailsOverviewRowPresenter.ViewHolder, adapterPosition: Int, selectedPosition: Int, selectedSubPosition: Int) {
+		// Force the "initialState" as current state
+		presenter.setState(viewHolder, presenter.initialState)
 	}
 
 	@CallSuper
