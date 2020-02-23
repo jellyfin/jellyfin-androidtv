@@ -28,7 +28,7 @@ sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
 	var played: Boolean by Delegates.observable(original.userData.played, ::observer)
 	val genres: List<GenreDto> = original.genreItems.toList()
 	val tags: List<String> = original.tags
-	val durationTicks: Long = original.runTimeTicks
+	val durationTicks: Long? = original.runTimeTicks
 
 	val canResume: Boolean
 		get() = playbackPositionTicks > 0L
@@ -47,10 +47,10 @@ class Episode(original: BaseItemDto) : PlayableItem(original) {
 }
 
 class Movie(original: BaseItemDto) : PlayableItem(original) {
-	var productionYear: Int = original.productionYear
+	var productionYear: Int? = original.productionYear
 	val cast: List<BriefPersonData> = original.people.map(::BriefPersonData)
 	val officialRating: String? = original.officialRating
-	val communityRating: Float = original.communityRating
+	val communityRating: Float? = original.communityRating
 	val criticsRating: Float? = original.criticRating
 	val localTrailerCount: Int = original.localTrailerCount
 }
