@@ -86,7 +86,12 @@ class DetailsDescriptionPresenter : Presenter() {
 				viewHolder.officialRating.visibility = View.GONE
 			}
 
-			viewHolder.communityRating.value = item.communityRating
+			if (item.communityRating != null) {
+				viewHolder.communityRating.value = item.communityRating
+				viewHolder.communityRating.visibility = View.VISIBLE
+			} else {
+				viewHolder.communityRating.visibility = View.GONE
+			}
 
 			if (item.criticsRating != null) {
 				viewHolder.criticsRating.value = item.criticsRating
@@ -131,9 +136,13 @@ class DetailsDescriptionPresenter : Presenter() {
 
 			viewHolder.streams.visibility = View.VISIBLE
 
-			viewHolder.duration.text = TimeUtils.formatMillis(item.durationTicks / 10000)
-			viewHolder.endsAt.text = DateFormat.getTimeFormat(viewHolder.view.context).format(System.currentTimeMillis() + (item.durationTicks - item.playbackPositionTicks) / 10000)
-			viewHolder.durationInfo.visibility = View.VISIBLE
+			if (item.durationTicks != null) {
+				viewHolder.duration.text = TimeUtils.formatMillis(item.durationTicks / 10000)
+				viewHolder.endsAt.text = DateFormat.getTimeFormat(viewHolder.view.context).format(System.currentTimeMillis() + (item.durationTicks - item.playbackPositionTicks) / 10000)
+				viewHolder.durationInfo.visibility = View.VISIBLE
+			} else {
+				viewHolder.durationInfo.visibility = View.GONE
+			}
 		} else {
 			viewHolder.streams.visibility = View.GONE
 			viewHolder.durationInfo.visibility = View.GONE
