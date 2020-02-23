@@ -127,6 +127,10 @@
             android:defaultValue="true"
             android:key="pref_refresh_switching"
             android:title="@string/lbl_refresh_switching" />
+        <org.jellyfin.androidtv.preferences.ui.EditLongPreference
+            android:inputType="number|numberSigned"
+            android:key="libvlc_audio_delay"
+            android:title="@string/pref_libvlc_audio_delay_title" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_send_path_external"

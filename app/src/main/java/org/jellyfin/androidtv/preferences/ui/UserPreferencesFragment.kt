@@ -134,6 +134,13 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 			findPreference<EditTextPreference>("version")?.summaryProvider = Preference.SummaryProvider<EditTextPreference> {
 				Utils.getVersionString()
 			}
+
+			findPreference<EditLongPreference>("libvlc_audio_delay")?.apply {
+				text = TvApp.getApplication().userPreferences.libVLCAudioDelay.toString()
+				summaryProvider = Preference.SummaryProvider<EditLongPreference> {
+					"${it.text} ms"
+				}
+			}
 		}
 	}
 }

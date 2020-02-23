@@ -54,6 +54,24 @@ abstract class SharedPreferenceStore(
 			sharedPreferences.edit().putInt(key, value).apply()
 		}
 	}
+	
+	/**
+	 * Delegated property function for longs
+	 *
+	 * @param key Key used to store setting as
+	 * @param default Default value
+	 *
+	 * @return Delegated property
+	 */
+	protected fun longPreference(key: String, default: Long) = object : ReadWriteProperty<SharedPreferenceStore, Long> {
+		override fun getValue(thisRef: SharedPreferenceStore, property: KProperty<*>): Long {
+			return sharedPreferences.getLong(key, default)
+		}
+
+		override fun setValue(thisRef: SharedPreferenceStore, property: KProperty<*>, value: Long) {
+			sharedPreferences.edit().putLong(key, value).apply()
+		}
+	}
 
 	/**
 	 * Delegated property function for booleans
