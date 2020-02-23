@@ -77,7 +77,12 @@ class DetailsDescriptionPresenter : Presenter() {
 
 		// rating
 		if (item is Movie) { //todo move those properties to baseitem or something
-			viewHolder.year.text = item.productionYear.toString()
+			if (item.productionYear != null) {
+				viewHolder.year.text = item.productionYear.toString()
+				viewHolder.year.visibility = View.VISIBLE
+			} else {
+				viewHolder.year.visibility = View.GONE
+			}
 
 			if (item.officialRating != null) {
 				viewHolder.officialRating.text = item.officialRating
