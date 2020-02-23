@@ -127,7 +127,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	var ac3Enabled by booleanPreference("pref_bitstream_ac3", true)
 
 	/**
-	 * Default audio delay for libVLC
+	 * Default audio delay in milliseconds for libVLC
 	 */
 	var libVLCAudioDelay by longPreference("libvlc_audio_delay", -300)
 
