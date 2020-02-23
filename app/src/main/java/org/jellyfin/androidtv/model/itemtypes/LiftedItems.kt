@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.model.itemtypes
 
 import org.jellyfin.apiclient.model.dto.BaseItemDto
-import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.apiclient.model.dto.GenreDto
 import org.jellyfin.apiclient.model.querying.ItemFields
 import java.util.*
@@ -34,17 +33,7 @@ sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
 		get() = playbackPositionTicks > 0L
 }
 
-class Episode(original: BaseItemDto) : PlayableItem(original) {
-	//TODO: Chapters: ArrayList<ChapterInfoDto>
-	val productionYear: Int = original.productionYear
-	val communityRating: Double = original.communityRating.toDouble()
-
-	init {
-		if (original.baseItemType != BaseItemType.Episode) {
-			throw IllegalArgumentException("Tried to create an Episode from a non-Episode BaseItemDto")
-		}
-	}
-}
+class Episode(original: BaseItemDto) : PlayableItem(original)
 
 class Movie(original: BaseItemDto) : PlayableItem(original) {
 	var productionYear: Int? = original.productionYear
