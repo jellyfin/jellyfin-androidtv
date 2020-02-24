@@ -44,7 +44,11 @@ class HomeFragmentLatestRow extends HomeFragmentRow {
 
             // Create query and add row
             LatestItemsQuery query = new LatestItemsQuery();
-            query.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
+            query.setFields(new ItemFields[]{
+                    ItemFields.PrimaryImageAspectRatio,
+                    ItemFields.Overview,
+                    ItemFields.ChildCount
+            });
             query.setImageTypeLimit(1);
             query.setParentId(item.getId());
             query.setGroupItems(true);

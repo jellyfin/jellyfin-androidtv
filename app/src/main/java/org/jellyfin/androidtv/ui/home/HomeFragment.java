@@ -339,7 +339,11 @@ public class HomeFragment extends StdBrowseFragment {
 
     private HomeFragmentRow loadLatestLiveTvRecordings() {
         RecordingQuery query = new RecordingQuery();
-        query.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+        query.setFields(new ItemFields[]{
+                ItemFields.Overview,
+                ItemFields.PrimaryImageAspectRatio,
+                ItemFields.ChildCount
+        });
         query.setUserId(TvApp.getApplication().getCurrentUser().getId());
         query.setEnableImages(true);
         query.setLimit(40);
@@ -352,7 +356,11 @@ public class HomeFragment extends StdBrowseFragment {
         query.setUserId(TvApp.getApplication().getCurrentUser().getId());
         query.setImageTypeLimit(1);
         query.setLimit(50);
-        query.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
+        query.setFields(new ItemFields[]{
+                ItemFields.PrimaryImageAspectRatio,
+                ItemFields.Overview,
+                ItemFields.ChildCount
+        });
 
         return new HomeFragmentBrowseRowDefRow(new BrowseRowDef(mApplication.getString(R.string.lbl_next_up), query, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}));
     }
@@ -360,7 +368,12 @@ public class HomeFragment extends StdBrowseFragment {
     private HomeFragmentRow loadOnNow() {
         RecommendedProgramQuery query = new RecommendedProgramQuery();
         query.setIsAiring(true);
-        query.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio, ItemFields.ChannelInfo});
+        query.setFields(new ItemFields[]{
+                ItemFields.Overview,
+                ItemFields.PrimaryImageAspectRatio,
+                ItemFields.ChannelInfo,
+                ItemFields.ChildCount
+        });
         query.setUserId(TvApp.getApplication().getCurrentUser().getId());
         query.setImageTypeLimit(1);
         query.setEnableTotalRecordCount(false);

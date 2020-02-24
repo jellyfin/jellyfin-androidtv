@@ -15,11 +15,7 @@ import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 
-/**
- * Created by Eric on 12/4/2014.
- */
 public class SuggestedMoviesFragment extends EnhancedBrowseFragment {
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         showViews = false;
@@ -28,7 +24,6 @@ public class SuggestedMoviesFragment extends EnhancedBrowseFragment {
 
     @Override
     protected void setupQueries(final IRowLoader rowLoader) {
-
         StdItemQuery lastPlayed = new StdItemQuery();
         lastPlayed.setParentId(mFolder.getId());
         lastPlayed.setIncludeItemTypes(new String[]{"Movie"});
@@ -44,7 +39,11 @@ public class SuggestedMoviesFragment extends EnhancedBrowseFragment {
                 for (BaseItemDto item : response.getItems()) {
                     SimilarItemsQuery similar = new SimilarItemsQuery();
                     similar.setId(item.getId());
-                    similar.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Overview});
+                    similar.setFields(new ItemFields[] {
+                            ItemFields.PrimaryImageAspectRatio,
+                            ItemFields.Overview,
+                            ItemFields.ChildCount
+                    });
                     similar.setLimit(7);
                     mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_because_you_watched)+item.getName(), similar, QueryType.SimilarMovies));
                 }
@@ -52,8 +51,5 @@ public class SuggestedMoviesFragment extends EnhancedBrowseFragment {
                 rowLoader.loadRows(mRows);
             }
         });
-
     }
-
-
 }

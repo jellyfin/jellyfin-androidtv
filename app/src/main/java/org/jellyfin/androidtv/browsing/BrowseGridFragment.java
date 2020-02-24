@@ -10,12 +10,7 @@ import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 
-/**
- * Created by Eric on 8/16/2015.
- */
 public class BrowseGridFragment extends StdGridFragment {
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,12 +19,14 @@ public class BrowseGridFragment extends StdGridFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
     }
 
     @Override
     protected void setupQueries(IGridLoader gridLoader) {
-        StdItemQuery query = new StdItemQuery(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
+        StdItemQuery query = new StdItemQuery(new ItemFields[] {
+                ItemFields.PrimaryImageAspectRatio,
+                ItemFields.ChildCount
+        });
         query.setParentId(mParentId);
         if (mFolder.getBaseItemType() == BaseItemType.UserView || mFolder.getBaseItemType() == BaseItemType.CollectionFolder) {
             String type = mFolder.getCollectionType() != null ? mFolder.getCollectionType().toLowerCase() : "";
@@ -54,7 +51,11 @@ public class BrowseGridFragment extends StdGridFragment {
                     if ("AlbumArtist".equals(includeType)) {
                         ArtistsQuery albumArtists = new ArtistsQuery();
                         albumArtists.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                        albumArtists.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.ItemCounts});
+                        albumArtists.setFields(new ItemFields[]{
+                                ItemFields.PrimaryImageAspectRatio,
+                                ItemFields.ItemCounts,
+                                ItemFields.ChildCount
+                        });
                         albumArtists.setParentId(mParentId);
                         mRowDef = new BrowseRowDef("", albumArtists, 150, new ChangeTriggerType[] {});
                         gridLoader.loadGrid(mRowDef);
@@ -70,5 +71,4 @@ public class BrowseGridFragment extends StdGridFragment {
 
         gridLoader.loadGrid(mRowDef);
     }
-
 }
