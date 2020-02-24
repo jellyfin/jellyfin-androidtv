@@ -33,7 +33,10 @@ public class GenericFolderFragment extends EnhancedBrowseFragment {
             RecordingQuery query = new RecordingQuery();
             query.setUserId(TvApp.getApplication().getCurrentUser().getId());
             query.setGroupId(mFolder.getId());
-            query.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio});
+            query.setFields(new ItemFields[] {
+                    ItemFields.PrimaryImageAspectRatio,
+                    ItemFields.ChildCount
+            });
             mRows.add(new BrowseRowDef(mApplication.getResources().getString(R.string.lbl_all_items), query));
             rowLoader.loadRows(mRows);
         } else {

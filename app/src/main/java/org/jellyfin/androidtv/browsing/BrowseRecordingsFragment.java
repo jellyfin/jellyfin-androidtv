@@ -28,25 +28,23 @@ import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
 
-/**
- * Created by Eric on 9/3/2015.
- */
 public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
-
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     @Override
     protected void setupQueries(final IRowLoader rowLoader) {
-
         showViews = true;
         mTitle.setText(TvApp.getApplication().getResources().getString(R.string.lbl_loading_elipses));
         //Latest Recordings
         RecordingQuery recordings = new RecordingQuery();
-        recordings.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+        recordings.setFields(new ItemFields[]{
+                ItemFields.Overview,
+                ItemFields.PrimaryImageAspectRatio,
+                ItemFields.ChildCount
+        });
         recordings.setUserId(TvApp.getApplication().getCurrentUser().getId());
         recordings.setEnableImages(true);
         recordings.setLimit(40);
@@ -54,7 +52,11 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
 
         //Movies
         RecordingQuery movies = new RecordingQuery();
-        movies.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+        movies.setFields(new ItemFields[]{
+                ItemFields.Overview,
+                ItemFields.PrimaryImageAspectRatio,
+                ItemFields.ChildCount
+        });
         movies.setUserId(TvApp.getApplication().getCurrentUser().getId());
         movies.setEnableImages(true);
         movies.setIsMovie(true);
@@ -62,7 +64,11 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
 
         //Shows
         RecordingQuery shows = new RecordingQuery();
-        shows.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+        shows.setFields(new ItemFields[]{
+                ItemFields.Overview,
+                ItemFields.PrimaryImageAspectRatio,
+                ItemFields.ChildCount
+        });
         shows.setUserId(TvApp.getApplication().getCurrentUser().getId());
         shows.setEnableImages(true);
         shows.setIsSeries(true);
@@ -79,7 +85,11 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
 
         //Sports
         RecordingQuery sports = new RecordingQuery();
-        sports.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+        sports.setFields(new ItemFields[]{
+                ItemFields.Overview,
+                ItemFields.PrimaryImageAspectRatio,
+                ItemFields.ChildCount
+        });
         sports.setUserId(TvApp.getApplication().getCurrentUser().getId());
         sports.setEnableImages(true);
         sports.setIsSports(true);
@@ -87,7 +97,11 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
 
         //Kids
         RecordingQuery kids = new RecordingQuery();
-        kids.setFields(new ItemFields[]{ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+        kids.setFields(new ItemFields[]{
+                ItemFields.Overview,
+                ItemFields.PrimaryImageAspectRatio,
+                ItemFields.ChildCount
+        });
         kids.setUserId(TvApp.getApplication().getCurrentUser().getId());
         kids.setEnableImages(true);
         kids.setIsKids(true);
@@ -150,7 +164,6 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                     }
 
         });
-
     }
 
     @Override
@@ -162,6 +175,5 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
         gridRowAdapter.add(new GridButton(SCHEDULE, TvApp.getApplication().getString(R.string.lbl_schedule), R.drawable.tile_port_time));
         gridRowAdapter.add(new GridButton(SERIES, mActivity.getString(R.string.lbl_series_recordings), R.drawable.tile_port_series_timer));
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
-
     }
 }

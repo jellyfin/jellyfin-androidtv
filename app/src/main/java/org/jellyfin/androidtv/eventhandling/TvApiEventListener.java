@@ -29,11 +29,7 @@ import org.jellyfin.apiclient.model.session.SessionInfoDto;
 import java.util.Arrays;
 import java.util.Calendar;
 
-/**
- * Created by Eric on 2/14/2015.
- */
 public class TvApiEventListener extends ApiEventListener {
-
     @Override
     public void onPlaybackStopped(ApiClient client, SessionInfoDto info) {
         TvApp app = TvApp.getApplication();
@@ -130,7 +126,10 @@ public class TvApiEventListener extends ApiEventListener {
                 TvApp.getApplication().getLogger().Error("No current activity.  Cannot play");
                 return;
             }
-            StdItemQuery query = new StdItemQuery(new ItemFields[]{ItemFields.MediaSources});
+            StdItemQuery query = new StdItemQuery(new ItemFields[]{
+                    ItemFields.MediaSources,
+                    ItemFields.ChildCount
+            });
             query.setIds(command.getItemIds());
             TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
                 @Override

@@ -44,7 +44,15 @@ public class PlaybackHelper {
                         query.setMinIndexNumber(mainItem.getIndexNumber() + 1);
                         query.setSortBy(new String[] {ItemSortBy.SortName});
                         query.setIncludeItemTypes(new String[]{"Episode"});
-                        query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.MediaStreams, ItemFields.Path, ItemFields.Chapters, ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+                        query.setFields(new ItemFields[] {
+                                ItemFields.MediaSources,
+                                ItemFields.MediaStreams,
+                                ItemFields.Path,
+                                ItemFields.Chapters,
+                                ItemFields.Overview,
+                                ItemFields.PrimaryImageAspectRatio,
+                                ItemFields.ChildCount
+                        });
                         query.setUserId(TvApp.getApplication().getCurrentUser().getId());
                         TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
                             @Override
@@ -84,7 +92,15 @@ public class PlaybackHelper {
                 query.setSortBy(new String[]{shuffle ? ItemSortBy.Random : ItemSortBy.SortName});
                 query.setRecursive(true);
                 query.setLimit(50); // guard against too many items
-                query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.MediaStreams, ItemFields.Chapters, ItemFields.Path, ItemFields.Overview, ItemFields.PrimaryImageAspectRatio});
+                query.setFields(new ItemFields[] {
+                        ItemFields.MediaSources,
+                        ItemFields.MediaStreams,
+                        ItemFields.Chapters,
+                        ItemFields.Path,
+                        ItemFields.Overview,
+                        ItemFields.PrimaryImageAspectRatio,
+                        ItemFields.ChildCount
+                });
                 query.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
@@ -103,7 +119,11 @@ public class PlaybackHelper {
                 query.setSortBy(shuffle ? new String[] {ItemSortBy.Random} : mainItem.getBaseItemType() == BaseItemType.MusicArtist ? new String[] {ItemSortBy.Album} : new String[] {ItemSortBy.SortName});
                 query.setRecursive(true);
                 query.setLimit(150); // guard against too many items
-                query.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
+                query.setFields(new ItemFields[] {
+                        ItemFields.PrimaryImageAspectRatio,
+                        ItemFields.Genres,
+                        ItemFields.ChildCount
+                });
                 query.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 query.setArtistIds(new String[]{mainItem.getId()});
                 TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
@@ -124,7 +144,14 @@ public class PlaybackHelper {
                 if (shuffle) query.setSortBy(new String[] {ItemSortBy.Random});
                 query.setRecursive(true);
                 query.setLimit(150); // guard against too many items
-                query.setFields(new ItemFields[] {ItemFields.MediaSources, ItemFields.MediaStreams, ItemFields.Chapters, ItemFields.Path, ItemFields.PrimaryImageAspectRatio});
+                query.setFields(new ItemFields[] {
+                        ItemFields.MediaSources,
+                        ItemFields.MediaStreams,
+                        ItemFields.Chapters,
+                        ItemFields.Path,
+                        ItemFields.PrimaryImageAspectRatio,
+                        ItemFields.ChildCount
+                });
                 query.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
@@ -287,7 +314,11 @@ public class PlaybackHelper {
         SimilarItemsQuery query = new SimilarItemsQuery();
         query.setId(seedId);
         query.setUserId(TvApp.getApplication().getCurrentUser().getId());
-        query.setFields(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
+        query.setFields(new ItemFields[] {
+                ItemFields.PrimaryImageAspectRatio,
+                ItemFields.Genres,
+                ItemFields.ChildCount
+        });
         TvApp.getApplication().getApiClient().GetInstantMixFromItem(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {

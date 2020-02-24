@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -20,9 +19,6 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 
-/**
- * Created by Eric on 11/21/2015.
- */
 public class ItemListView extends FrameLayout {
     Context mContext;
     LinearLayout mList;
@@ -83,7 +79,10 @@ public class ItemListView extends FrameLayout {
     public void refresh() {
         //update watched state for all items
         //get them in batch for better performance
-        StdItemQuery query = new StdItemQuery(new ItemFields[] {ItemFields.MediaSources});
+        StdItemQuery query = new StdItemQuery(new ItemFields[] {
+                ItemFields.MediaSources,
+                ItemFields.ChildCount
+        });
         query.setUserId(TvApp.getApplication().getCurrentUser().getId());
         String[] ids = new String[mItemIds.size()];
         query.setIds(mItemIds.toArray(ids));

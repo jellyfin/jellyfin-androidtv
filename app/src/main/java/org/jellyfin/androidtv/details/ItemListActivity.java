@@ -344,7 +344,6 @@ public class ItemListActivity extends BaseActivity {
         }
 
         menu.show();
-
     }
 
     private void loadItem(String id) {
@@ -411,7 +410,11 @@ public class ItemListActivity extends BaseActivity {
             switch (mItemId) {
                 case FAV_SONGS:
                     //Get favorited and liked songs from this area
-                    StdItemQuery favSongs = new StdItemQuery(new ItemFields[] {ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
+                    StdItemQuery favSongs = new StdItemQuery(new ItemFields[] {
+                            ItemFields.PrimaryImageAspectRatio,
+                            ItemFields.Genres,
+                            ItemFields.ChildCount
+                    });
                     favSongs.setParentId(getIntent().getStringExtra("ParentId"));
                     favSongs.setIncludeItemTypes(new String[] {"Audio"});
                     favSongs.setRecursive(true);
@@ -431,7 +434,12 @@ public class ItemListActivity extends BaseActivity {
                     PlaylistItemQuery playlistSongs = new PlaylistItemQuery();
                     playlistSongs.setId(mBaseItem.getId());
                     playlistSongs.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                    playlistSongs.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Genres, ItemFields.Chapters});
+                    playlistSongs.setFields(new ItemFields[]{
+                            ItemFields.PrimaryImageAspectRatio,
+                            ItemFields.Genres,
+                            ItemFields.Chapters,
+                            ItemFields.ChildCount
+                    });
                     playlistSongs.setLimit(150);
                     TvApp.getApplication().getApiClient().GetPlaylistItems(playlistSongs, itemResponse);
                     break;
@@ -440,14 +448,16 @@ public class ItemListActivity extends BaseActivity {
             StdItemQuery songs = new StdItemQuery();
             songs.setParentId(mBaseItem.getId());
             songs.setRecursive(true);
-            songs.setFields(new ItemFields[]{ItemFields.PrimaryImageAspectRatio, ItemFields.Genres});
+            songs.setFields(new ItemFields[]{
+                    ItemFields.PrimaryImageAspectRatio,
+                    ItemFields.Genres,
+                    ItemFields.ChildCount
+            });
             songs.setIncludeItemTypes(new String[]{"Audio"});
             songs.setSortBy(new String[] {ItemSortBy.SortName});
             songs.setLimit(200);
             mApplication.getApiClient().GetItemsAsync(songs, itemResponse);
         }
-
-
     }
 
     private Response<ItemsResult> itemResponse = new Response<ItemsResult>() {
@@ -766,5 +776,4 @@ public class ItemListActivity extends BaseActivity {
                     .into(mBackgroundTarget);
         }
     }
-
 }
