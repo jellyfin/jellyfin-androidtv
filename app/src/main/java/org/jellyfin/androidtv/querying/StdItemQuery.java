@@ -7,13 +7,15 @@ import org.jellyfin.apiclient.model.querying.ItemQuery;
 
 public class StdItemQuery extends ItemQuery {
     public StdItemQuery(ItemFields[] fields) {
-        if (fields == null) fields = new ItemFields[] {
-                ItemFields.PrimaryImageAspectRatio,
-                ItemFields.Overview,
-                ItemFields.ItemCounts,
-                ItemFields.DisplayPreferencesId,
-                ItemFields.ChildCount
-        };
+        if (fields == null) {
+            fields = new ItemFields[]{
+                    ItemFields.PrimaryImageAspectRatio,
+                    ItemFields.Overview,
+                    ItemFields.ItemCounts,
+                    ItemFields.DisplayPreferencesId,
+                    ItemFields.ChildCount
+            };
+        }
         setUserId(TvApp.getApplication().getCurrentUser().getId());
         setFields(fields);
     }
