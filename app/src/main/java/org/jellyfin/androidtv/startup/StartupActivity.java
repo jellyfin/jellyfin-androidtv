@@ -165,7 +165,7 @@ public class StartupActivity extends FragmentActivity {
                 jsonSerializer,
                 logger,
                 volleyHttpClient,
-                "AndroidTV",
+                "Android TV",
                 BuildConfig.VERSION_NAME,
                 new AndroidDevice(application),
                 capabilities,
