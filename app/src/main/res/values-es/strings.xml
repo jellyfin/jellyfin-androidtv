@@ -228,7 +228,7 @@
     <string name="pref_live_tv_mode_desc">Ir directamente al último canal de televisión en vivo reproducido</string>
     <string name="pref_live_tv_mode">Modo televisión en vivo</string>
     <string name="lbl_select_date">Seleccionar fecha</string>
-    <string name="lbl_in_x_days">En %s días</string>
+    <string name="lbl_in_x_days">En %d días</string>
     <string name="desc_premieres">Muestre una fila de nuevos episodios piloto para cualquier serie que vea</string>
     <string name="lbl_show_premieres">Mostrar estrenos de temporada en la pantalla de inicio</string>
     <string name="desc_use_vlc_livetv">Usa VLC para la transmisión directa de televisión en vivo cuando esté disponible</string>

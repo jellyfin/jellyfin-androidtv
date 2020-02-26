@@ -237,7 +237,7 @@
     <string name="pref_live_tv_mode_desc">Ísť priamo na posledný prehraný živý TV kanál</string>
     <string name="pref_live_tv_mode">Režim živej TV</string>
     <string name="lbl_select_date">Vyberte dátum</string>
-    <string name="lbl_in_x_days">Za %s dní</string>
+    <string name="lbl_in_x_days">Za %d dní</string>
     <string name="lbl_bitstream_dts">Bitstream DTS zvuk</string>
     <string name="desc_premieres">Zobraziť riadok nových pilotných epizód pre každý seriál, ktorý pozeráte</string>
     <string name="lbl_show_premieres">Zobraziť premiéry sérií seriálov na domovskej obrazovke</string>

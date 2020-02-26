@@ -201,7 +201,7 @@
     <string name="pref_live_tv_mode_desc">Accesați direct ultimul canal de televiziune redat</string>
     <string name="pref_live_tv_mode">Mod Live TV</string>
     <string name="lbl_select_date">Selectați data</string>
-    <string name="lbl_in_x_days">În %s zile</string>
+    <string name="lbl_in_x_days">În %d zile</string>
     <string name="lbl_bitstream_dts">Flux Audio DTS</string>
     <string name="desc_premieres">Afișează un rând de episoade pilot noi pentru orice serie vizionată</string>
     <string name="lbl_show_premieres">Arată premierele de sezon pe ecranul de start</string>
