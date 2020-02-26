@@ -192,7 +192,7 @@
     <string name="pref_live_tv_mode_desc">直接到最后一个直播的电视频道</string>
     <string name="pref_live_tv_mode">电视直播模式</string>
     <string name="lbl_select_date">选择日期</string>
-    <string name="lbl_in_x_days">在 %s 天里</string>
+    <string name="lbl_in_x_days">在 %d 天里</string>
     <string name="lbl_bitstream_dts">比特流DTS音频</string>
     <string name="desc_premieres">为你所观看的任何系列节目展示一排新的试播集</string>
     <string name="lbl_show_premieres">该剧季将在主屏幕上首播</string>

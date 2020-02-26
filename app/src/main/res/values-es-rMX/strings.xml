@@ -298,7 +298,7 @@
     <string name="lbl_kids">Niños</string>
     <string name="no_program_data">&lt;No hay datos del programa disponibles&gt;</string>
     <string name="msg_record_entire_series">¿Grabar series completas\?</string>
-    <string name="lbl_in_x_days">En %s días</string>
+    <string name="lbl_in_x_days">En %d días</string>
     <string name="lbl_warning">Advertencia</string>
     <string name="lbl_now_playing_album">de %s</string>
     <string name="lbl_now_playing_track">%s de %s</string>

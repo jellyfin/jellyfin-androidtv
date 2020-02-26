@@ -289,7 +289,7 @@
     <string name="pref_live_tv_mode_desc">Vá diretamente para o último canal de TV ao vivo reproduzido</string>
     <string name="pref_live_tv_mode">Modo TV ao Vivo</string>
     <string name="lbl_select_date">Selecionar data</string>
-    <string name="lbl_in_x_days">Em %s dias</string>
+    <string name="lbl_in_x_days">Em %d dias</string>
     <string name="msg_external_path">Esse recurso só funcionará se você tiver configurado corretamente sua biblioteca no servidor com locais de rede ou locais alternativos e o cliente que você está usando possui permissão de acesso a esses locais pela rede.</string>
     <string name="lbl_warning">Aviso</string>
     <string name="lbl_now_playing_album">de %s</string>

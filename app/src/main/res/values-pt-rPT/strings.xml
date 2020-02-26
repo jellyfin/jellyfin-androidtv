@@ -314,7 +314,7 @@
     <string name="pref_live_tv_mode_desc">Ir directamente para o último canal visto na televisão em directo</string>
     <string name="pref_live_tv_mode">Modo televisão em directo</string>
     <string name="lbl_select_date">Selecionar data</string>
-    <string name="lbl_in_x_days">Em %s dias</string>
+    <string name="lbl_in_x_days">Em %d dias</string>
     <string name="lbl_show_premieres">Mostrar Temporadas \'Premieres\' no Menu Incial</string>
     <string name="desc_use_vlc_livetv">Usar VLC para a reprodução de Televisão em Directo quando disponível</string>
     <string name="lbl_use_vlc_livetv">Pedir para usar o VLC para Televisão em Directo</string>

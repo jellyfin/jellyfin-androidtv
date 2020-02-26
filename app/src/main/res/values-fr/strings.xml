@@ -261,7 +261,7 @@
     <string name="lbl_guide_option_played">Dernier élément joué</string>
     <string name="lbl_hour">Heure</string>
     <string name="lbl_hours">Heures</string>
-    <string name="lbl_in_x_days">Dans %s jours</string>
+    <string name="lbl_in_x_days">Dans %d jours</string>
     <string name="lbl_just_this_once">Juste une fois</string>
     <string name="lbl_live">Direct</string>
     <string name="lbl_minute">Minute</string>

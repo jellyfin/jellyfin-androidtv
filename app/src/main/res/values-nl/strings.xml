@@ -235,7 +235,7 @@
     <string name="lbl_series">Series</string>
     <string name="pref_authentication_cat">Authenticatie</string>
     <string name="loading">Laden…</string>
-    <string name="lbl_in_x_days">Over %s dagen</string>
+    <string name="lbl_in_x_days">Over %d dagen</string>
     <string name="lbl_bitstream_dts">DTS Audio bitstream</string>
     <string name="desc_premieres">Toon een rij van nieuwe afleveringspiloten voor een serie die je bekijkt</string>
     <string name="lbl_show_premieres">Seizoenpremières op het startscherm weergeven</string>

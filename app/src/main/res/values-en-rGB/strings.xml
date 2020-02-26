@@ -139,7 +139,7 @@
     <string name="lbl_seconds">Seconds</string>
     <string name="lbl_at_any_time">At Any Time</string>
     <string name="lbl_select_date">Select Date</string>
-    <string name="lbl_in_x_days">In %s days</string>
+    <string name="lbl_in_x_days">In %d days</string>
     <string name="lbl_bitstream_dts">Bitstream DTS Audio</string>
     <string name="desc_premieres">Show a row of new episode pilots for any series you watch</string>
     <string name="lbl_show_premieres">Show Season Premieres on Home Screen</string>

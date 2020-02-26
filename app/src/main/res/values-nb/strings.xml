@@ -269,7 +269,7 @@
     <string name="pref_live_tv_mode_desc">Gå rett til siste spilte direkte-TV-kanal</string>
     <string name="pref_live_tv_mode">Direkte-TV-modus</string>
     <string name="lbl_select_date">Velg dato</string>
-    <string name="lbl_in_x_days">Om %s dager</string>
+    <string name="lbl_in_x_days">Om %d dager</string>
     <string name="lbl_bitstream_dts">Bitstream DTS-lyd</string>
     <string name="desc_premieres">Vis en rad med nye pilotepisoder for alle serier du ser på</string>
     <string name="lbl_show_premieres">Vis sesongpremierer på hovedskjermen</string>

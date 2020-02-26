@@ -170,7 +170,7 @@ public class TimeUtils {
                 return cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
             }
             if (relative) {
-                return String.format(TvApp.getApplication().getString(R.string.lbl_in_x_days), cal.get(Calendar.DAY_OF_YEAR) - now.get(Calendar.DAY_OF_YEAR));
+                return TvApp.getApplication().getString(R.string.lbl_in_x_days, cal.get(Calendar.DAY_OF_YEAR) - now.get(Calendar.DAY_OF_YEAR));
             }
         }
 

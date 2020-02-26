@@ -213,7 +213,7 @@
     <string name="desc_seasonal_themes">Povolit speciální barvy a návrhy dle období roku</string>
     <string name="lbl_switch_server">Přepnout server</string>
     <string name="lbl_instant_mix">Okamžitý mix</string>
-    <string name="lbl_in_x_days">Za %s dní</string>
+    <string name="lbl_in_x_days">Za %d dní</string>
     <string name="lbl_bitstream_dts">Bitstream DTS zvuk</string>
     <string name="desc_premieres">Zobrazit řadu nových úvodních epizod pro každý seriál, který sledujete</string>
     <string name="lbl_show_premieres">Na úvodní stránce zobrazovat premiéry nových sérií</string>
