@@ -345,7 +345,7 @@
     <string name="pref_acra_syslog_disabled">Les logs système ne seront pas inclus dans les rapports de plantage</string>
     <string name="pref_acra_syslog_enabled">Les logs système seront inclus dans les rapports de plantage</string>
     <string name="pref_acra_syslog">Inclure les logs système dans le rapport de plantage. Cela risque d\'inclure des données privées d\'autres applications si elles étaient connectées au moment du plantage.</string>
-    <string name="pref_next_up_timeout_title">Durée de la minuterie suivante</string>
+    <string name="pref_next_up_timeout_title">Durée d\'attente avant la lecture du suivant</string>
     <string name="pref_about_title">A propos</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Choix automatique</string>
@@ -355,4 +355,7 @@
     <string name="pref_media_player">Lecteur multimédia préféré</string>
     <string name="pref_video_player_external">Application externe</string>
     <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_libvlc_audio_delay_title">Délais audio par défaut de la bibliothèque libVLC</string>
+    <string name="pref_next_up_enabled_title">Activer l\'écran prochaine lecture</string>
+    <string name="pref_next_up_enabled_summary">Prévisualiser l\'élément suivant dans la liste de lecture avant de le jouer</string>
 </resources>
