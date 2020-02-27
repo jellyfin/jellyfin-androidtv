@@ -21,7 +21,6 @@ import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
-
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 /**
@@ -135,7 +134,7 @@ public class NowPlayingBug extends FrameLayout {
     }
 
     private void setStatus(long pos) {
-        npStatus.setText(String.format(getResources().getString(R.string.lbl_status), TimeUtils.formatMillis(pos), currentDuration));
+        npStatus.setText(getResources().getString(R.string.lbl_status, TimeUtils.formatMillis(pos), currentDuration));
     }
 
     public boolean manageVisibility() {
