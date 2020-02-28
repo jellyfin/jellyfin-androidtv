@@ -27,18 +27,18 @@ abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : D
 		GlobalScope.launch(Dispatchers.Main) {
 			// Create adapter
 			val selector = ClassPresenterSelector()
-			val adapter = ArrayObjectAdapter(selector)
+			val adapter = StateObjectAdapter<Row>(selector)
 			onCreateAdapter(adapter, selector)
-
-			// Set item values (todo make everything suspended?)
-			setItem(initialItem)
-			initialItem.addChangeListener(::changeListener)
 
 			// Set adapter
 			this@BaseDetailsFragment.adapter = adapter
 
 			// Setup self as item click listener
 			this@BaseDetailsFragment.onItemViewClickedListener = this@BaseDetailsFragment
+
+			// Set item values (todo make everything suspended?)
+			setItem(initialItem)
+			initialItem.addChangeListener(::changeListener)
 		}
 	}
 
@@ -54,7 +54,7 @@ abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : D
 	}
 
 	@CallSuper
-	protected open fun onCreateAdapter(adapter: ArrayObjectAdapter, selector: ClassPresenterSelector) {
+	protected open fun onCreateAdapter(adapter: StateObjectAdapter<Row>, selector: ClassPresenterSelector) {
 		selector.addClassPresenter(DetailsOverviewRow::class.java, FullWidthDetailsOverviewRowPresenter(
 			DetailsDescriptionPresenter(),
 			DetailsOverviewLogoPresenter()
