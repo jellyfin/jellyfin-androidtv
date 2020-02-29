@@ -106,9 +106,8 @@ public class PlaybackController {
         useVlc = mApplication.getUserPreferences().getVideoPlayer() == PreferredVideoPlayer.VLC;
     }
 
-    public void init(VideoManager mgr, View spinner) {
+    public void init(VideoManager mgr) {
         mVideoManager = mgr;
-        mSpinner = spinner;
         directStreamLiveTv = mApplication.getUserPreferences().getLiveTvDirectPlayEnabled();
         setupCallbacks();
     }

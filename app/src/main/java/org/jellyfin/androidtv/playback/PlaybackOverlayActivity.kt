@@ -21,7 +21,7 @@ class PlaybackOverlayActivity : BaseActivity() {
 
 		if (TvApp.getApplication().playbackController != null) {
 			videoManager = VideoManager(this, findViewById(android.R.id.content))
-			TvApp.getApplication().playbackController.init(videoManager, findViewById(R.id.bufferingProgress))
+			TvApp.getApplication().playbackController.init(videoManager)
 		}
 	}
 
