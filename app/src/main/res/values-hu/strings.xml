@@ -20,4 +20,7 @@
     <string name="lbl_more_like_this">Több ehhez hasonló</string>
     <string name="title_activity_select_user">SelectUserActivity</string>
     <string name="lbl_new">Új</string>
+    <string name="enter_password">Jelszó megadása</string>
+    <string name="pref_alt_pw_entry_desc">Numerikus jelszó bevitele, csak a D-Pad gombokkal</string>
+    <string name="pref_alt_pw_entry">Egyéni D-Pad jelszó bevitel</string>
 </resources>
