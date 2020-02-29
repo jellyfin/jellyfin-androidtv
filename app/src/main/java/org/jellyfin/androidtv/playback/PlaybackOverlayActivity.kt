@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.playback
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -17,9 +16,6 @@ class PlaybackOverlayActivity : BaseActivity() {
 
 	public override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-
-		// Workaround for Sony Bravia devices that show a "grey" background on HDR videos
-		window.decorView.setBackgroundColor(Color.TRANSPARENT)
 
 		setContentView(R.layout.activity_playback_overlay)
 
