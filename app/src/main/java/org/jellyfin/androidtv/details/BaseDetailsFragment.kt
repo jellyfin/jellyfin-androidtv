@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.base.IItemClickListener
+import org.jellyfin.androidtv.details.actions.ActionAdapter
 import org.jellyfin.androidtv.details.actions.BaseAction
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.util.randomOrNull
@@ -21,41 +22,34 @@ abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : D
 		}
 	}
 
+	protected val rowSelector by lazy { ClassPresenterSelector() }
+	protected val rowAdapter by lazy { ArrayObjectAdapter(rowSelector) }
+	protected val actionAdapter by lazy { ActionAdapter() }
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
 		GlobalScope.launch(Dispatchers.Main) {
-			// Create adapter
-			val selector = ClassPresenterSelector()
-			val adapter = StateObjectAdapter<Row>(selector)
-			onCreateAdapter(adapter, selector)
+			// Add rows and actions
+			onCreateAdapters(rowSelector, rowAdapter, actionAdapter)
 
-			// Set adapter
-			this@BaseDetailsFragment.adapter = adapter
+			// Set the Leanback adapter to our own adapter
+			adapter = rowAdapter
 
-			// Setup self as item click listener
-			this@BaseDetailsFragment.onItemViewClickedListener = this@BaseDetailsFragment
+			// Use our own click listener
+			onItemViewClickedListener = this@BaseDetailsFragment
 
-			// Set item values (todo make everything suspended?)
-			setItem(initialItem)
-			initialItem.addChangeListener(::changeListener)
-		}
-	}
-
-	override fun onDestroy() {
-		super.onDestroy()
-		initialItem.removeChangeListener(::changeListener)
-	}
-
-	private fun changeListener() {
-		GlobalScope.launch(Dispatchers.Main) {
-			setItem(initialItem)
+			initialItem.images.logo?.load(context!!) { badgeDrawable = BitmapDrawable(resources, it) }
+			//todo: Use all backgrounds with transition (fade/slide)
+			initialItem.images.backdrops.randomOrNull()?.load(context!!) { backgroundController.coverBitmap = it }
 		}
 	}
 
 	@CallSuper
-	protected open fun onCreateAdapter(adapter: StateObjectAdapter<Row>, selector: ClassPresenterSelector) {
-		selector.addClassPresenter(DetailsOverviewRow::class.java, FullWidthDetailsOverviewRowPresenter(
+	open suspend fun onCreateAdapters(rowSelector: ClassPresenterSelector, rowAdapter: ArrayObjectAdapter, actionAdapter: ActionAdapter) {
+		// Add the most used presenters to prevent duplicate code
+
+		rowSelector.addClassPresenter(DetailsOverviewRow::class.java, FullWidthDetailsOverviewRowPresenter(
 			DetailsDescriptionPresenter(),
 			DetailsOverviewLogoPresenter()
 		).apply {
@@ -65,6 +59,8 @@ abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : D
 				if (action is BaseAction) action.onClick()
 			}
 		})
+
+		rowSelector.addClassPresenter(ListRow::class.java, ListRowPresenter())
 	}
 
 	override fun onSetDetailsOverviewRowStatus(presenter: FullWidthDetailsOverviewRowPresenter, viewHolder: FullWidthDetailsOverviewRowPresenter.ViewHolder, adapterPosition: Int, selectedPosition: Int, selectedSubPosition: Int) {
@@ -73,25 +69,22 @@ abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : D
 	}
 
 	@CallSuper
-	open suspend fun setItem(item: T) {
-		// Logo
-		item.images.logo?.load(context!!) { badgeDrawable = BitmapDrawable(resources, it) }
-
-		// Background
-		//todo: Use all backgrounds with transition (fade/slide)
-		item.images.backdrops.randomOrNull()?.load(context!!) { backgroundController.coverBitmap = it }
-	}
-
-	@CallSuper
 	override fun onItemClicked(itemViewHolder: Presenter.ViewHolder?, item: Any?, rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {
 		if (row is ListRow) {
 			val presenter = row.adapter.getPresenter(item)
 			if (presenter is IItemClickListener) {
-
 				GlobalScope.launch(Dispatchers.Main) {
 					presenter.onItemClicked(item)
 				}
 			}
 		}
 	}
+
+	// Utility functions
+	protected fun createListRow(name: String, items: Iterable<Any>, presenter: Presenter) = ListRow(
+		HeaderItem(name),
+		ArrayObjectAdapter(presenter).apply {
+			items.forEach(::add)
+		}
+	)
 }
