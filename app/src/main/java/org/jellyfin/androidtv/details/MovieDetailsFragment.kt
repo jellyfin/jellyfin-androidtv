@@ -1,118 +1,97 @@
 package org.jellyfin.androidtv.details
 
-import androidx.leanback.widget.*
+import androidx.leanback.widget.ArrayObjectAdapter
+import androidx.leanback.widget.ClassPresenterSelector
+import androidx.leanback.widget.DetailsOverviewRow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.details.actions.*
 import org.jellyfin.androidtv.model.itemtypes.Movie
 import org.jellyfin.androidtv.presentation.InfoCardPresenter
+import org.jellyfin.androidtv.util.addIfNotEmpty
 import org.jellyfin.androidtv.util.apiclient.getLocalTrailers
 import org.jellyfin.androidtv.util.apiclient.getSimilarItems
 import org.jellyfin.androidtv.util.apiclient.getSpecialFeatures
 import org.jellyfin.androidtv.util.dp
 
-private const val LOG_TAG = "MovieDetailsFragment"
+// Use "empty" constructor (needed when resuming activity)
+// When the item is (un)favorited the button should update
+// When the item is marked (un)watched the button should update
+// When the item is marked watched the "resume" button should hide
+class MovieDetailsFragment(private val movie: Movie) : BaseDetailsFragment<Movie>(movie) {
+	// Action definitions
+	private val resumeAction by lazy { ResumeAction(context!!, movie) }
+	private val playAction by lazy { PlayFromBeginningAction(context!!, movie) }
+	private val toggleWatchedAction by lazy { ToggleWatchedAction(context!!, movie) }
+	private val toggleFavoriteAction by lazy { ToggleFavoriteAction(context!!, movie) }
+	private val deleteAction by lazy { DeleteAction(context!!, movie) { activity?.finish() } }
 
-class MovieDetailsFragment(item: Movie) : BaseDetailsFragment<Movie>(item) {
+	// Row definitions
+	private val detailRow by lazy { DetailsOverviewRow(movie).also { it.actionsAdapter = actionAdapter } }
+	private val chaptersRow by lazy { createListRow("Chapters", movie.chapters, ChapterInfoPresenter(context!!)) }
+	private val specialsRow by lazy { createListRow("Specials", emptyList(), ItemPresenter(context!!, 250.dp, 140.dp, false)) }
+	private val castRow by lazy { createListRow("Cast/Crew", movie.cast, PersonPresenter(context!!)) }
+	private val relatedItemsRow by lazy { createListRow("Similar", emptyList(), ItemPresenter(context!!, 100.dp, 150.dp, false)) }
+	private val trailersRow by lazy { createListRow("Trailers", emptyList(), ItemPresenter(context!!, 250.dp, 140.dp, false)) }
+	private val streamInfoRow by lazy { createListRow("Media info", movie.mediaInfo.streams, InfoCardPresenter()) }
 
-	private val detailsRow by lazy { DetailsOverviewRow(Unit).apply { actionsAdapter = ActionAdapter() } }
-	private val chaptersRow by lazy { ListRow(HeaderItem("Chapters"), ArrayObjectAdapter(ChapterInfoPresenter(this.context!!))) }
-	private val specialsRow by lazy { ListRow(HeaderItem("Specials"), ArrayObjectAdapter(ItemPresenter(this.context!!, 250.dp, 140.dp, false))) }
-	private val charactersRow by lazy { ListRow(HeaderItem("Cast/Crew"), ArrayObjectAdapter(PersonPresenter(this.context!!))) }
-	private val similarsRow by lazy { ListRow(HeaderItem("Similar"), ArrayObjectAdapter(ItemPresenter(this.context!!, 100.dp, 150.dp, false))) }
-	private val localTrailersRow by lazy { ListRow(HeaderItem("Trailers"), ArrayObjectAdapter(ItemPresenter(this.context!!, 250.dp, 140.dp, false))) }
-	private val mediaInfoRow by lazy { ListRow(HeaderItem("Media info"), ArrayObjectAdapter(InfoCardPresenter())) }
+	override suspend fun onCreateAdapters(rowSelector: ClassPresenterSelector, rowAdapter: ArrayObjectAdapter, actionAdapter: ActionAdapter) {
+		super.onCreateAdapters(rowSelector, rowAdapter, actionAdapter)
 
-	override fun onCreateAdapter(adapter: StateObjectAdapter<Row>, selector: ClassPresenterSelector) {
-		super.onCreateAdapter(adapter, selector)
-
-		// Add presenters
-		selector.addClassPresenter(ListRow::class.java, ListRowPresenter())
+		// Retrieve additional info
+		loadAdditionalInformation()
 
 		// Add rows
-		adapter.add(detailsRow)
-		adapter.add(chaptersRow)
-		adapter.add(specialsRow)
-		adapter.add(charactersRow)
-		adapter.add(similarsRow)
-		adapter.add(localTrailersRow)
-		adapter.add(mediaInfoRow)
-	}
+		rowAdapter.apply {
+			add(detailRow)
+			addIfNotEmpty(chaptersRow)
+			addIfNotEmpty(specialsRow)
+			addIfNotEmpty(castRow)
+			addIfNotEmpty(relatedItemsRow)
+			addIfNotEmpty(trailersRow)
+			addIfNotEmpty(streamInfoRow)
+		}
 
-	override suspend fun setItem(item: Movie) {
-		super.setItem(item)
+		// Add actions
+		actionAdapter.apply {
+			add(resumeAction)
+			add(playAction)
+			add(toggleWatchedAction)
+			add(toggleFavoriteAction)
 
-		// Update detail row
-		detailsRow.item = item
-
-		// Update actions
-		(detailsRow.actionsAdapter as ActionAdapter).apply {
-			reset()
-
-			if (item.canResume) add(ResumeAction(context!!, item))
-			add(PlayFromBeginningAction(context!!, item))
-			add(ToggleWatchedAction(context!!, item))
-			add(ToggleFavoriteAction(context!!, item))
-			// TODO: Bring this back once we have a more understandable queue implementation for users
-			//add(AddToQueueAction(context!!, item))
-
-			// Menu with more actions
+			// "More" button
 			add(SecondariesPopupAction(context!!).apply {
-				add(DeleteAction(context!!, item) { activity?.finish() }).apply {
-					isVisible = TvApp.getApplication().currentUser.policy.enableContentDeletion
-				}
+				add(deleteAction)
 			})
 
 			commit()
 		}
 
-		detailsRow.setImageBitmap(context!!, item.images.primary?.getBitmap(context!!))
-
-		//todo hacky way to get the adapter..
-		val adapter = adapter as StateObjectAdapter<Row>
-		val specials = TvApp.getApplication().apiClient.getSpecialFeatures(item).orEmpty()
-		adapter.setVisibility(specialsRow, specials.isNotEmpty())
-		specialsRow.adapter.also {
-			it as ArrayObjectAdapter
-			it.clear()
-			specials.forEach(it::add)
+		// Set details row image
+		movie.images.primary?.load(context!!) {
+			detailRow.setImageBitmap(context!!, it)
 		}
+	}
 
-		adapter.setVisibility(chaptersRow, item.chapters.isNotEmpty())
-		chaptersRow.adapter.also {
-			it as ArrayObjectAdapter
-			it.clear()
-			item.chapters.forEach(it::add)
-		}
-
-		adapter.setVisibility(charactersRow, item.cast.isNotEmpty())
-		charactersRow.adapter.also {
-			it as ArrayObjectAdapter
-			it.clear()
-			item.cast.forEach(it::add)
-		}
-
-		val similarMovies = TvApp.getApplication().apiClient.getSimilarItems(item).orEmpty().filterIsInstance<Movie>()
-		adapter.setVisibility(similarsRow, similarMovies.isNotEmpty())
-		similarsRow.adapter.also {
-			it as ArrayObjectAdapter
-			it.clear()
-			similarMovies.forEach(it::add)
-		}
-
-		val localTrailers = TvApp.getApplication().apiClient.getLocalTrailers(item).orEmpty()
-		adapter.setVisibility(localTrailersRow, localTrailers.isNotEmpty())
-		localTrailersRow.adapter.also {
-			it as ArrayObjectAdapter
-			it.clear()
-			localTrailers.forEach(it::add)
-		}
-
-		// Update media info data
-		adapter.setVisibility(mediaInfoRow, TvApp.getApplication().userPreferences.debuggingEnabled)
-		mediaInfoRow.adapter.also {
-			it as ArrayObjectAdapter
-			it.clear()
-			item.mediaInfo.streams.forEach(it::add)
-		}
+	private suspend fun loadAdditionalInformation() = withContext(Dispatchers.IO) {
+		// Get additional information asynchronously
+		awaitAll(
+			async {
+				val specials = TvApp.getApplication().apiClient.getSpecialFeatures(movie).orEmpty()
+				(specialsRow.adapter as ArrayObjectAdapter).apply { specials.forEach(::add) }
+			},
+			async {
+				//todo filter on server side?
+				val relatedItems = TvApp.getApplication().apiClient.getSimilarItems(movie).orEmpty().filterIsInstance<Movie>()
+				(relatedItemsRow.adapter as ArrayObjectAdapter).apply { relatedItems.forEach(::add) }
+			},
+			async {
+				val trailers = TvApp.getApplication().apiClient.getLocalTrailers(movie).orEmpty()
+				(trailersRow.adapter as ArrayObjectAdapter).apply { trailers.forEach(::add) }
+			}
+		)
 	}
 }
