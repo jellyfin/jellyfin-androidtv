@@ -32,6 +32,12 @@ class ActionAdapter : ObjectAdapter(ActionPresenter()) {
 	override fun size() = visibleActions.size
 	override fun get(position: Int) = visibleActions.getOrNull(position)
 
+	fun setVisibility(action: BaseAction, visible: Boolean) {
+		action.isVisible = visible
+
+		commit()
+	}
+
 	private class ActionPresenter : Presenter() {
 		override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
 			val view = LayoutInflater
