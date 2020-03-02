@@ -17,10 +17,6 @@ import org.jellyfin.androidtv.util.apiclient.getSimilarItems
 import org.jellyfin.androidtv.util.apiclient.getSpecialFeatures
 import org.jellyfin.androidtv.util.dp
 
-// Use "empty" constructor (needed when resuming activity)
-// When the item is (un)favorited the button should update
-// When the item is marked (un)watched the button should update
-// When the item is marked watched the "resume" button should hide
 class MovieDetailsFragment(private val movie: Movie) : BaseDetailsFragment<Movie>(movie) {
 	// Action definitions
 	private val resumeAction by lazy { ResumeAction(context!!, movie) }
@@ -93,5 +89,27 @@ class MovieDetailsFragment(private val movie: Movie) : BaseDetailsFragment<Movie
 				(trailersRow.adapter as ArrayObjectAdapter).apply { trailers.forEach(::add) }
 			}
 		)
+	}
+
+	// Temporary manual action updating
+	private fun onItemChange() {
+		resumeAction.isVisible = movie.canResume
+		toggleWatchedAction.active = movie.played
+		toggleFavoriteAction.active = movie.favorite
+		deleteAction.isVisible = TvApp.getApplication().currentUser.policy.enableContentDeletion
+
+		actionAdapter.commit()
+	}
+
+	override fun onResume() {
+		super.onResume()
+
+		movie.addChangeListener(::onItemChange)
+	}
+
+	override fun onPause() {
+		super.onPause()
+
+		movie.removeChangeListener(::onItemChange)
 	}
 }

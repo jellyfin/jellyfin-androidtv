@@ -14,8 +14,6 @@ class DeleteAction(context: Context, private val item: BaseItem, private val onI
 	init {
 		label1 = context.getString(R.string.lbl_delete)
 		icon = context.getDrawable(R.drawable.ic_trash)
-
-		isVisible = TvApp.getApplication().currentUser.policy.enableContentDeletion
 	}
 
 	override fun onClick() {
