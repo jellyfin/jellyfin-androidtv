@@ -12,7 +12,6 @@ import org.jellyfin.androidtv.util.apiclient.markUnplayed
 
 class ToggleWatchedAction(context: Context, val item: PlayableItem) : ToggleAction(ActionID.TOGGLE_WATCHED.id, context) {
 	init {
-		active = item.played
 		label1 = context.getString(R.string.lbl_watched)
 		icon = context.getDrawable(R.drawable.ic_watch)
 	}

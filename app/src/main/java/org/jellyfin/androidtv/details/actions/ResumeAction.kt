@@ -13,14 +13,13 @@ import org.jellyfin.androidtv.util.TimeUtils
 private const val LOG_TAG = "ResumeAction"
 
 class ResumeAction(context: Context, val item: PlayableItem) : PlaybackAction(ActionID.RESUME.id, context) {
-	val actualPlaybackPositionInMillis: Long by lazy {
+	private val actualPlaybackPositionInMillis: Long by lazy {
 		item.playbackPositionTicks / 10000 - TvApp.getApplication().resumePreroll
 	}
 
 	init {
 		this.label1 = context.getString(R.string.lbl_resume_from, TimeUtils.formatMillis(actualPlaybackPositionInMillis))
-		icon = context!!.getDrawable(R.drawable.ic_resume)
-		isVisible = item.canResume
+		icon = context.getDrawable(R.drawable.ic_resume)
 	}
 
 	override fun onClick() {
@@ -29,5 +28,4 @@ class ResumeAction(context: Context, val item: PlayableItem) : PlaybackAction(Ac
 			playItem(item, actualPlaybackPositionInMillis, false)
 		}
 	}
-
 }
