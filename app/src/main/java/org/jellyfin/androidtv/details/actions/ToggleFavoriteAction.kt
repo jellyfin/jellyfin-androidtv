@@ -11,7 +11,6 @@ import org.jellyfin.androidtv.util.apiclient.updateFavoriteStatus
 
 class ToggleFavoriteAction(context: Context, val item: BaseItem) : ToggleAction(ActionID.TOGGLE_FAVORITE.id, context) {
 	init {
-		active = item.favorite
 		label1 = context.getString(R.string.lbl_favorite)
 		icon = context.getDrawable(R.drawable.ic_heart)
 	}
