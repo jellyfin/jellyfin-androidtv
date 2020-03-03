@@ -11,10 +11,10 @@ import org.jellyfin.androidtv.util.apiclient.markPlayed
 import org.jellyfin.androidtv.util.apiclient.markUnplayed
 
 class ToggleWatchedAction(context: Context, val item: PlayableItem) : ToggleAction(ActionID.TOGGLE_WATCHED.id, context) {
-	init {
-		label1 = context.getString(R.string.lbl_watched)
-		icon = context.getDrawable(R.drawable.ic_watch)
-	}
+	override val visible = true
+	override val text = context.getString(R.string.lbl_watched)
+	override val icon = context.getDrawable(R.drawable.ic_watch)!!
+	override var active = true
 
 	override fun onClick() {
 		GlobalScope.launch(Dispatchers.Main) {
@@ -26,6 +26,9 @@ class ToggleWatchedAction(context: Context, val item: PlayableItem) : ToggleActi
 			response?.let {
 				item.playbackPositionTicks = it.playbackPositionTicks
 				item.played = it.played
+
+				//todo update self
+				notifyDataChanged()
 			}
 		}
 	}
