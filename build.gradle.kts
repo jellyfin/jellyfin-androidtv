@@ -7,7 +7,7 @@ buildscript {
 
 	dependencies {
 		classpath("com.android.tools.build:gradle:3.6.0")
-		classpath(kotlin("gradle-plugin", "1.3.61"))
+		classpath(kotlin("gradle-plugin", "1.3.70"))
 	}
 }
 
