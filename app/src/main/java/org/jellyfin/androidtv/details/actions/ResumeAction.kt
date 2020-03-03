@@ -17,10 +17,11 @@ class ResumeAction(context: Context, val item: PlayableItem) : PlaybackAction(Ac
 		item.playbackPositionTicks / 10000 - TvApp.getApplication().resumePreroll
 	}
 
-	init {
-		this.label1 = context.getString(R.string.lbl_resume_from, TimeUtils.formatMillis(actualPlaybackPositionInMillis))
-		icon = context.getDrawable(R.drawable.ic_resume)
-	}
+	override val visible = item.canResume
+	override val text = context.getString(R.string.lbl_resume)
+//	override val description = context.getString(R.string.lbl_resume_from, TimeUtils.formatMillis(actualPlaybackPositionInMillis))
+	override val icon = context.getDrawable(R.drawable.ic_resume)!!
+
 
 	override fun onClick() {
 		Log.i(LOG_TAG, "Resume Clicked!")
