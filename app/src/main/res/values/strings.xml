@@ -299,6 +299,7 @@
     <string name="lbl_guide_option_played">Last Played</string>
     <string name="lbl_guide_option_number">Channel Number</string>
     <string name="lbl_resume_preroll">Resume Pre-Roll</string>
+    <string name="lbl_resume">Resume</string>
     <string name="lbl_resume_from">Resume from %1$s</string>
     <string name="lbl_more_like_this">More Like This</string>
     <string name="lbl_previous_episode">Previous Episode</string>

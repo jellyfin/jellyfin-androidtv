@@ -4,83 +4,62 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.leanback.widget.Action
-import androidx.leanback.widget.ObjectAdapter
-import androidx.leanback.widget.Presenter
+import androidx.recyclerview.widget.RecyclerView
 import org.jellyfin.androidtv.R
 
-class ActionAdapter : ObjectAdapter(ActionPresenter()) {
+class ActionAdapter : RecyclerView.Adapter<ActionAdapter.ActionViewHolder>() {
 	private val actions = arrayListOf<Action>()
-	private var visibleActions = emptyList<Action>()
 
 	fun add(action: Action) {
 		// Add action
 		actions += action
 
 		// Bind listener
-		if (action is BaseAction) action.onVisibilityChanged = ::commit
+		action.setChangeListener(::notifyDataSetChanged)
+
+		notifyDataSetChanged()
 	}
 
-	fun commit() {
-		// Update visible actions
-		visibleActions = actions.filter { action -> action !is BaseAction || action.isVisible }
+	override fun getItemCount() = actions.size
 
-		// Notify the actions have changed
-		notifyChanged()
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActionViewHolder {
+		val view = LayoutInflater
+			.from(parent.context)
+			.inflate(R.layout.action, parent, false)
+
+		return ActionViewHolder(view)
 	}
 
-	override fun size() = visibleActions.size
-	override fun get(position: Int) = visibleActions.getOrNull(position)
+	override fun onBindViewHolder(viewHolder: ActionViewHolder, position: Int) {
+		// Find action
+		val action = actions[position]
 
-	fun setVisibility(action: BaseAction, visible: Boolean) {
-		action.isVisible = visible
-
-		commit()
-	}
-
-	private class ActionPresenter : Presenter() {
-		override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
-			val view = LayoutInflater
-				.from(parent.context)
-				.inflate(R.layout.action, parent, false)
-
-			return ActionViewHolder(view)
+		// Set data
+		viewHolder.view.apply {
+			visibility = if (action.visible) View.VISIBLE else View.GONE
 		}
 
-		override fun onBindViewHolder(viewHolder: ViewHolder, action: Any) {
-			// Cast types
-			action as Action
-			viewHolder as ActionViewHolder
+		viewHolder.button.apply {
+			setCompoundDrawablesWithIntrinsicBounds(null, action.icon, null, null)
+			text = action.text
 
-			// Set data
-			viewHolder.button.setCompoundDrawablesWithIntrinsicBounds(null, action.icon, null, null)
-			viewHolder.button.text = action.label1
+			setOnClickListener { action.onClick() }
+		}
 
-			if (action is SecondariesPopupAction) {
-				action.anchor = viewHolder.button
-			}
+		if (action is SecondariesPopupAction) action.anchor = viewHolder.button
 
-			if (action is ToggleAction) {
-				val color = if (action.active) R.color.action_active else R.color.white
+		if (action is ToggleAction) {
+			val color = if (action.active) R.color.action_active else R.color.white
 
-				viewHolder.button.apply {
-					action.icon.setTint(resources.getColor(color))
-					setTextColor(resources.getColor(color))
-				}
+			viewHolder.button.apply {
+				action.icon.setTint(resources.getColor(color))
+				setTextColor(resources.getColor(color))
 			}
 		}
+	}
 
-		override fun onUnbindViewHolder(viewHolder: ViewHolder) {
-			viewHolder as ActionViewHolder
-
-			viewHolder.button.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
-			viewHolder.secondariesPopupAction = null
-		}
-
-		private class ActionViewHolder(view: View) : Presenter.ViewHolder(view) {
-			var button: Button = view.findViewById(R.id.action_button)
-			var secondariesPopupAction: SecondariesPopupAction? = null
-		}
+	class ActionViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+		var button: Button = view.findViewById(R.id.action_button)
 	}
 }
 

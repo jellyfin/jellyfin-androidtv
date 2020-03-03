@@ -10,11 +10,10 @@ import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.util.DelayedMessage
 import org.jellyfin.apiclient.interaction.EmptyResponse
 
-class DeleteAction(context: Context, private val item: BaseItem, private val onItemDeleted: () -> Unit) : BaseAction(ActionID.DELETE.id, context) {
-	init {
-		label1 = context.getString(R.string.lbl_delete)
-		icon = context.getDrawable(R.drawable.ic_trash)
-	}
+class DeleteAction(context: Context, private val item: BaseItem, private val onItemDeleted: () -> Unit) : Action(ActionID.DELETE.id, context) {
+	override val visible = true
+	override val text = context.getString(R.string.lbl_delete)
+	override val icon = context.getDrawable(R.drawable.ic_trash)!!
 
 	override fun onClick() {
 		AlertDialog.Builder(context).apply {

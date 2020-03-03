@@ -7,7 +7,4 @@
     <dimen name="startup_vertical_margin">96dp</dimen>
 
     <dimen name="lb_settings_pane_width">500dp</dimen>
-
-    <!-- Custom button style needs to set height for the parent view -->
-    <dimen name="lb_details_v2_actions_height">100dp</dimen>
 </resources>

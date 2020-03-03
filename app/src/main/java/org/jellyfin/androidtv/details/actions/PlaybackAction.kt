@@ -11,7 +11,7 @@ import org.jellyfin.androidtv.util.apiclient.getItem
 
 private const val LOG_TAG = "PlaybackAction"
 
-abstract class PlaybackAction(id: Long, context: Context) : BaseAction(id, context) {
+abstract class PlaybackAction(id: Long, context: Context) : Action(id, context) {
 	// TODO: This is super fucked, but at least it works for now until we clean up more messes.
 	protected suspend fun playItem(item: BaseItem, pos: Long, shuffle: Boolean) = withContext(Dispatchers.IO) {
 		val baseItem = TvApp.getApplication().apiClient.getItem(item.id)
