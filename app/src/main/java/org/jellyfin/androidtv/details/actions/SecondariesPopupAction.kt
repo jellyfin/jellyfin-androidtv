@@ -5,42 +5,40 @@ import android.view.View
 import android.widget.PopupMenu
 import org.jellyfin.androidtv.R
 
-class SecondariesPopupAction(context: Context) : BaseAction(ActionID.SECONDARIES_ACTION_POPUP.id, context) {
-	private val containedActions = mutableListOf<BaseAction>()
+class SecondariesPopupAction(context: Context) : Action(ActionID.SECONDARIES_ACTION_POPUP.id, context) {
+	override val visible = true
+	override val text = context.getString(R.string.lbl_more_actions)
+	override val icon = context.getDrawable(R.drawable.ic_more)!!
+
+	private val children = mutableListOf<Action>()
 	var anchor: View? = null
 
-	private fun recomputeVisibility() {
-		isVisible = containedActions.any { action -> action.isVisible }
+	fun add(child: Action) {
+		child.setChangeListener { notifyDataChanged() }
+		children.add(child)
+
+		notifyDataChanged()
 	}
 
-	init {
-		label1 = context.getString(R.string.lbl_more_actions)
-		icon = context.getDrawable(R.drawable.ic_more)
-	}
+	fun remove(child: Action) {
+		child.setChangeListener(null)
+		children.remove(child)
 
-	fun add(toAdd: BaseAction) {
-		toAdd.onVisibilityChanged = ::recomputeVisibility
-		containedActions.add(toAdd)
-		recomputeVisibility()
-	}
-
-	fun remove(toRemove: BaseAction) {
-		if (toRemove.onVisibilityChanged == ::recomputeVisibility) toRemove.onVisibilityChanged = null
-		containedActions.remove(toRemove)
-		recomputeVisibility()
+		notifyDataChanged()
 	}
 
 	override fun onClick() {
-		val menu = PopupMenu(context, anchor)
-		containedActions.filter { it.isVisible }.forEach { action ->
-			val item = menu.menu.add(action.label1)
-			item.icon = action.icon
-			item.setOnMenuItemClickListener {
-				action.onClick()
-				true
-			}
-		}
+		PopupMenu(context, anchor).apply {
+			children.filter { it.visible }.forEach { action ->
+				menu.add(action.text).apply {
+					icon = action.icon
+					setOnMenuItemClickListener {
+						action.onClick()
 
-		menu.show()
+						return@setOnMenuItemClickListener true
+					}
+				}
+			}
+		}.show()
 	}
 }
