@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.details
 
 import androidx.leanback.widget.ArrayObjectAdapter
 import androidx.leanback.widget.ClassPresenterSelector
-import androidx.leanback.widget.DetailsOverviewRow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -26,7 +25,7 @@ class MovieDetailsFragment(private val movie: Movie) : BaseDetailsFragment<Movie
 	private val deleteAction by lazy { DeleteAction(context!!, movie) { activity?.finish() } }
 
 	// Row definitions
-	private val detailRow by lazy { DetailsOverviewRow(movie).also { it.actionsAdapter = actionAdapter } }
+	private val detailRow by lazy { DetailsOverviewRow(movie, actionAdapter) }
 	private val chaptersRow by lazy { createListRow("Chapters", movie.chapters, ChapterInfoPresenter(context!!)) }
 	private val specialsRow by lazy { createListRow("Specials", emptyList(), ItemPresenter(context!!, 250.dp, 140.dp, false)) }
 	private val castRow by lazy { createListRow("Cast/Crew", movie.cast, PersonPresenter(context!!)) }
@@ -40,17 +39,6 @@ class MovieDetailsFragment(private val movie: Movie) : BaseDetailsFragment<Movie
 		// Retrieve additional info
 		loadAdditionalInformation()
 
-		// Add rows
-		rowAdapter.apply {
-			add(detailRow)
-			addIfNotEmpty(chaptersRow)
-			addIfNotEmpty(specialsRow)
-			addIfNotEmpty(castRow)
-			addIfNotEmpty(relatedItemsRow)
-			addIfNotEmpty(trailersRow)
-			addIfNotEmpty(streamInfoRow)
-		}
-
 		// Add actions
 		actionAdapter.apply {
 			add(resumeAction)
@@ -62,13 +50,17 @@ class MovieDetailsFragment(private val movie: Movie) : BaseDetailsFragment<Movie
 			add(SecondariesPopupAction(context!!).apply {
 				add(deleteAction)
 			})
-
-			commit()
 		}
 
-		// Set details row image
-		movie.images.primary?.load(context!!) {
-			detailRow.setImageBitmap(context!!, it)
+		// Add rows
+		rowAdapter.apply {
+			add(detailRow)
+			addIfNotEmpty(chaptersRow)
+			addIfNotEmpty(specialsRow)
+			addIfNotEmpty(castRow)
+			addIfNotEmpty(relatedItemsRow)
+			addIfNotEmpty(trailersRow)
+			addIfNotEmpty(streamInfoRow)
 		}
 	}
 
@@ -92,24 +84,22 @@ class MovieDetailsFragment(private val movie: Movie) : BaseDetailsFragment<Movie
 	}
 
 	// Temporary manual action updating
-	private fun onItemChange() {
-		resumeAction.isVisible = movie.canResume
-		toggleWatchedAction.active = movie.played
-		toggleFavoriteAction.active = movie.favorite
-		deleteAction.isVisible = TvApp.getApplication().currentUser.policy.enableContentDeletion
+//	private fun onItemChange() {
+//		resumeAction.isVisible = movie.canResume
+//		toggleWatchedAction.active = movie.played
+//		toggleFavoriteAction.active = movie.favorite
+//		deleteAction.isVisible = TvApp.getApplication().currentUser.policy.enableContentDeletion
+//	}
 
-		actionAdapter.commit()
-	}
-
-	override fun onResume() {
-		super.onResume()
-
-		movie.addChangeListener(::onItemChange)
-	}
-
-	override fun onPause() {
-		super.onPause()
-
-		movie.removeChangeListener(::onItemChange)
-	}
+//	override fun onResume() {
+//		super.onResume()
+//
+//		movie.addChangeListener(::onItemChange)
+//	}
+//
+//	override fun onPause() {
+//		super.onPause()
+//
+//		movie.removeChangeListener(::onItemChange)
+//	}
 }

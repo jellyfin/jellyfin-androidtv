@@ -10,10 +10,10 @@ import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.util.apiclient.updateFavoriteStatus
 
 class ToggleFavoriteAction(context: Context, val item: BaseItem) : ToggleAction(ActionID.TOGGLE_FAVORITE.id, context) {
-	init {
-		label1 = context.getString(R.string.lbl_favorite)
-		icon = context.getDrawable(R.drawable.ic_heart)
-	}
+	override val visible = true
+	override val text = context.getString(R.string.lbl_favorite)
+	override val icon = context.getDrawable(R.drawable.ic_heart)!!
+	override var active = item.favorite
 
 	override fun onClick() {
 		GlobalScope.launch(Dispatchers.Main) {
@@ -25,6 +25,9 @@ class ToggleFavoriteAction(context: Context, val item: BaseItem) : ToggleAction(
 				!item.favorite
 			)?.let {
 				item.favorite = it.isFavorite
+
+				//todo update self
+				notifyDataChanged()
 			}
 		}
 	}

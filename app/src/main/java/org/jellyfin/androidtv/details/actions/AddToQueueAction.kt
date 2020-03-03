@@ -13,11 +13,10 @@ import org.jellyfin.androidtv.util.apiclient.getItem
 
 private const val LOG_TAG = "AddToQueueAction"
 
-class AddToQueueAction(context: Context, private val item: BaseItem) : BaseAction(ActionID.ADD_TO_QUEUE.id, context) {
-	init {
-		label1 = context.getString(R.string.lbl_add_to_queue)
-		icon = context.getDrawable(R.drawable.ic_add)
-	}
+class AddToQueueAction(context: Context, private val item: BaseItem) : Action(ActionID.ADD_TO_QUEUE.id, context) {
+	override val visible = true
+	override val text = context.getString(R.string.lbl_add_to_queue)
+	override val icon = context.getDrawable(R.drawable.ic_add)!!
 
 	override fun onClick() {
 		// TODO if audio is implemented, check here wheter we got an audio file and add it to audio queue
