@@ -12,12 +12,16 @@ import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
 import android.preference.PreferenceManager;
 
+import androidx.core.content.ContextCompat;
+import androidx.palette.graphics.Palette;
+
 import org.acra.ACRA;
 import org.acra.annotation.AcraCore;
 import org.acra.annotation.AcraDialog;
 import org.acra.annotation.AcraHttpSender;
 import org.acra.annotation.AcraLimiter;
 import org.acra.sender.HttpSender;
+import org.jellyfin.androidtv.base.AuthenticatedUserCallbacks;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.model.DisplayPriorityType;
@@ -46,9 +50,6 @@ import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 
 import java.util.Calendar;
 import java.util.HashMap;
-
-import androidx.core.content.ContextCompat;
-import androidx.palette.graphics.Palette;
 
 @AcraCore(buildConfigClass = BuildConfig.class)
 @AcraHttpSender(
@@ -133,6 +134,8 @@ public class TvApp extends Application {
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
         setCurrentBackgroundGradient(new int[] {ContextCompat.getColor(this, R.color.lb_default_brand_color_dark), ContextCompat.getColor(this, R.color.lb_default_brand_color)});
+
+        registerActivityLifecycleCallbacks(new AuthenticatedUserCallbacks());
 
         logger.Info("Application object created");
     }
