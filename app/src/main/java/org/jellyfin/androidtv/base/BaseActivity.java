@@ -11,18 +11,16 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.util.Utils;
 
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
-
 public abstract class BaseActivity extends FragmentActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private TvApp app = TvApp.getApplication();
-    private long timeoutInterval = 3600000;
     private Handler handler = new Handler();
-    private Runnable loop;
     private IKeyListener keyListener;
     private IMessageListener messageListener;
 
@@ -38,8 +36,6 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        timeoutInterval = Long.parseLong(TvApp.getApplication().getUserPreferences().getAutoSignOutTimeout());
-        startAutoLogoffLoop();
         TvApp.getApplication().setCurrentActivity(this);
 
         //Add message UI - delay to ensure on top of other views
@@ -126,42 +122,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityC
 
     @Override
     protected void onDestroy() {
-        if (handler != null && loop != null) {
-            handler.removeCallbacks(loop);
-        }
         super.onDestroy();
-    }
-
-    @Override
-    public void onUserInteraction() {
-        super.onUserInteraction();
-        app.setLastUserInteraction(System.currentTimeMillis());
-    }
-
-    private void startAutoLogoffLoop() {
-        if (loop != null) {
-            return;
-        }
-
-        loop = new Runnable() {
-            @Override
-            public void run() {
-                if (app != null && System.currentTimeMillis() > app.getLastUserInteraction() + timeoutInterval) {
-                    app.getLogger().Info("Logging off due to inactivity %d", app.getLastUserInteraction());
-                    Utils.showToast(app, "Jellyfin Logging off due to inactivity...");
-                    if (app.getPlaybackController() != null && app.getPlaybackController().isPaused()) {
-                        app.getLogger().Info("Playback was paused, stopping gracefully...");
-                        app.getPlaybackController().stop();
-                    }
-                    handler.removeCallbacks(this);
-                    finish();
-                } else {
-                    handler.postDelayed(this, 60000);
-                }
-            }
-        };
-
-        handler.postDelayed(loop, 60000);
     }
 
     public void registerKeyListener(IKeyListener listener) {

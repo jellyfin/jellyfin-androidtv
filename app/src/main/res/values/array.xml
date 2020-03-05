@@ -85,14 +85,6 @@
         <item>6 Hours</item>
         <item>24 Hours</item>
     </string-array>
-    <string-array name="pref_timeout_values" >
-        <item>1800000</item>
-        <item>3600000</item>
-        <item>7200000</item>
-        <item>10800000</item>
-        <item>21600000</item>
-        <item>86400000</item>
-    </string-array>
     <string-array name="pref_audio_options" >
         <item>@string/pref_audio_direct</item>
         <item>@string/pref_audio_compat</item>

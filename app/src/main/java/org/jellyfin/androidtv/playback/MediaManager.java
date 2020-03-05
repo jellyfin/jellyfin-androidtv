@@ -179,7 +179,6 @@ public class MediaManager {
         if (System.currentTimeMillis() > lastProgressReport + 5000) {
             ReportingHelper.reportProgress(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000, isPaused());
             lastProgressReport = System.currentTimeMillis();
-            TvApp.getApplication().setLastUserInteraction(lastProgressReport);
         }
 
     }

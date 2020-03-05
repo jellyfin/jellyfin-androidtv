@@ -108,7 +108,6 @@ public class TvApp extends Application {
     private long lastVideoQueueChange = System.currentTimeMillis();
     private long lastFavoriteUpdate = System.currentTimeMillis();
     private long lastMusicPlayback = System.currentTimeMillis();
-    private long lastUserInteraction = System.currentTimeMillis();
 
     private GradientDrawable currentBackgroundGradient;
 
@@ -332,14 +331,6 @@ public class TvApp extends Application {
 
     public void setLastPlayback(Calendar lastPlayback) {
         this.lastPlayback = lastPlayback;
-    }
-
-    public long getLastUserInteraction() {
-        return lastUserInteraction;
-    }
-
-    public void setLastUserInteraction(long lastUserInteraction) {
-        this.lastUserInteraction = lastUserInteraction;
     }
 
     public boolean canManageRecordings() {
