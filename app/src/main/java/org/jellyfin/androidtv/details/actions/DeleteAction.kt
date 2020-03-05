@@ -11,7 +11,6 @@ import org.jellyfin.androidtv.util.DelayedMessage
 import org.jellyfin.apiclient.interaction.EmptyResponse
 
 class DeleteAction(context: Context, private val item: BaseItem, private val onItemDeleted: () -> Unit) : BaseAction(ActionID.DELETE.id, context) {
-
 	init {
 		label1 = context.getString(R.string.lbl_delete)
 		icon = context.getDrawable(R.drawable.ic_trash)

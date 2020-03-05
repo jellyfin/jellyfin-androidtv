@@ -38,9 +38,9 @@ class DetailsActivity : FragmentActivity() {
 			val baseItem = getBaseItemDtoForID(id) ?: return@launch
 			val item = baseItem.liftToNewFormat()
 
-			fragment = when(item) {
+			fragment = when (item) {
 				is Movie -> MovieDetailsFragment(item)
-				is Episode -> EpisodeDetailsFragment(item)
+				is Episode -> TODO("Episode details are not yet implemented")
 				is Video -> TODO("Video details are not yet implemented")
 				is Trailer -> TODO("Trailer details are not yet implemented")
 			}
