@@ -89,7 +89,6 @@
     <string name="lbl_logout">Αποσύνδεση</string>
     <string name="lbl_settings">Ρυθμίσεις</string>
     <string name="pref_general">Γενικές</string>
-    <string name="pref_auto_logoff_title">"Χρόνος Αυτόματης  Αποσύνδεσης"</string>
     <string name="chapters">Κεφάλαια</string>
     <string name="enter_password">Εισάγετε κωδικό πρόσβασης</string>
     <string name="title_activity_dpad_pw">Εισάγετε κωδικό πρόσβασης</string>

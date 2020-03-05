@@ -20,7 +20,6 @@
     <string name="dpad_entry_desc">Emplee el D-Pad en su control remoto para introducir una contraseña numérica. Haga clic en un botón para el primer número listado o doble clic para el segundo. p. Ej. haga click en \'Arriba\' para 1 o doble click \'seleccionar\' para 5. Mantenga presionado por un segundo y después libere el boton \'seleccionar\' cuando haya terminado o el botón de \'izquierda\' para comenzar nuevamente.</string>
     <string name="dpad_pw_cancel">* Mantenga presionado el botón \'abajo\' por un segundo y después libérelo si tiene una contraseña alphanumérica o requiere de un teclado para introducirla</string>
     <string name="chapters">Capítulos</string>
-    <string name="pref_auto_logoff_title">Tiempo de expiración de Cierre de Sesión Automático</string>
     <string name="pref_general">GENERAL</string>
     <string name="lbl_settings">Configuraciones</string>
     <string name="lbl_logout">Cerrar Sesión</string>

@@ -18,7 +18,6 @@
     <string name="dpad_entry_desc">请使用遥控器输入数字密码. 单击按钮可输入列出的第一个数字, 双击按钮可输入列出的第二个数字. 例如, 单击 \'向上\' 键则输入 1, 双击 \'选择\' 键则输入 5. 将 \'选择\' 键按住一秒则输入完毕, 将 \'向左\' 键按住一秒则重新输入.</string>
     <string name="dpad_pw_cancel">* 如果你要输入字母密码则将 \'向下\' 键按住一秒</string>
     <string name="chapters">章节</string>
-    <string name="pref_auto_logoff_title">超时则自动注销</string>
     <string name="pref_general">常规</string>
     <string name="lbl_settings">设置</string>
     <string name="lbl_logout">"注销"</string>

@@ -340,7 +340,6 @@
     <string name="lbl_logout">Logga ut</string>
     <string name="lbl_settings">Inställningar</string>
     <string name="pref_general">Generell</string>
-    <string name="pref_auto_logoff_title">Automatisk utloggnings tid</string>
     <string name="chapters">Kapitel</string>
     <string name="dpad_pw_cancel">* Håll in \'ner\' knappen i 1 sekund och släpp om du har ett alfa lösenord eller behöver ett tangentbord för inskrivning</string>
     <string name="dpad_entry_desc">Använd D-Pad på din fjärrkontroll för att ange ett numeriskt lösenord. Enkeltryck på en knapp för första listade numret eller dubbel klicka för det andra. Exempel: Enkeltryck \'upp\' för 1 eller dubbel tryck \'välj\' för 5. Håll ner för 1 sekund och släpp \'välj\' knappen när det är klart eller vänster knappen för att börja om.</string>

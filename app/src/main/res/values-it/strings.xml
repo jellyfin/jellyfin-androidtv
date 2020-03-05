@@ -18,7 +18,6 @@
     <string name="dpad_entry_desc">Usa il D-Pad sul tuo telecomando per inserira una password numerica. Un click singolo per il primo numero in lista o doppio per il secondo. Es. : Click singolo con \"su\" per l\'1 o doppio click con \"seleziona\" per il 5. Tieni premuto per un secondo il tasto \"seleziona\" e poi rilascialo per concludere o il tasto \"sinistra\" per ricominciare.</string>
     <string name="dpad_pw_cancel">* Tieni premuto il tasto \"giù\" per un secondo e poi rilascialo se hai una password alpha o se hai bisogno una tastiera per l\'immissione</string>
     <string name="chapters">Capitoli</string>
-    <string name="pref_auto_logoff_title">Tempo prima dell\'uscita automatica</string>
     <string name="pref_general">Generale</string>
     <string name="lbl_settings">Impostazioni</string>
     <string name="lbl_logout">"Esci "</string>

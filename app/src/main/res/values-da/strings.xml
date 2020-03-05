@@ -20,7 +20,6 @@
     <string name="dpad_entry_desc">Brug D-Padden på din fjernbetjening til at indtaste et numerisk kodeord. Enkelt klik på en knap for det første tal eller dobbelt klik for det anden tal. Foreksempel: enkelt klik \"up\" for 1 eller dobbelt klik \"select\" for 5. Hold \"select\" knappen nede i 1 sekund og slip når du er færdig eller tryk på den venstre knap for at begynde forfra.</string>
     <string name="dpad_pw_cancel">* Hold \"ned\" knappen nede i 1 sekund og slip hvis du har et alfanumerisk kodeord eller har brug for et tastatur til at indtaste din kode.</string>
     <string name="chapters">Kapitler</string>
-    <string name="pref_auto_logoff_title">Automatisk log-ud timeout</string>
     <string name="pref_general">Generalt</string>
     <string name="lbl_settings">Indstillinger</string>
     <string name="lbl_logout">Log ud</string>

@@ -20,7 +20,6 @@
     <string name="dpad_entry_desc">Verwenden Sie das Steuerkreuz auf Ihrer Fernbedienung um ein numerisches Passwort einzugeben. Drücken Sie Einmal für die erste gelistete Zahl oder klicken Sie doppelt für die Zweite. Beispiel: Einmal \"Hoch\" klicken für 1 oder Doppelklick \"Auswahl\" für 5. Halten Sie die \"Auswahltaste\" für eine Sekunde gedrückt und lassen Sie diese dann los um zu beenden oder betätigen Sie den Links-Knopf zum neu beginnen.</string>
     <string name="dpad_pw_cancel">* Halten Sie die \"runter\" Taste für eine Sekunde gedrückt und lassen Sie los wenn Sie ein Buchstabenkennwort oder eine Tastatur für Ihre Eingabe verwenden</string>
     <string name="chapters">Kapitel</string>
-    <string name="pref_auto_logoff_title">Zeitlimit bis zum automatischen Ausloggen</string>
     <string name="pref_general">Allgemein</string>
     <string name="lbl_settings">Einstellungen</string>
     <string name="lbl_logout">Ausloggen</string>

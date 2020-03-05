@@ -20,7 +20,6 @@
     <string name="dpad_entry_desc">Sandyq paróldi engizý úshin basqarý taqtańyzdaǵy \"qıylys baǵyttaýyshty\" paıdalanyńyz. Túımeshikti bir ret basý - tizimdegi birinshi san úshin, nemese eki ret basý - ekinshisi úshin. Mysaldar: 1 úshin \"joǵaryǵa\" biri ret basyńyz, nemese 5 úshin \"tańdaý\" eki ret basyńyz. Aıaqtalǵansha deıin \"tandaý\" túımeshigin, nemese qaıta bastaý úshin sol jaqtaǵy túımeshigin 1 sekýnd basyp ustańyz da bosatyńyz.</string>
     <string name="dpad_pw_cancel">"* Eger áriptik parólińiz bolsa, nemese engizý úshin pernetaqta kerek bolsa, \"tómenge\"  túımeshigin 1 sekýndqa basyp ustańyz da bosatyńyz"</string>
     <string name="chapters">Sahnalar</string>
-    <string name="pref_auto_logoff_title">Júıeden avtomatty shyǵýdyń qútý ýaqyty</string>
     <string name="pref_general">Jalpy</string>
     <string name="lbl_settings">Parametrler</string>
     <string name="lbl_logout">Shyǵý</string>

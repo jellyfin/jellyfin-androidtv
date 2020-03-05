@@ -51,7 +51,6 @@
     <string name="lbl_logout">Одјавување</string>
     <string name="lbl_settings">Опции</string>
     <string name="pref_general">Општо</string>
-    <string name="pref_auto_logoff_title">Автоматско време за Одјавување</string>
     <string name="chapters">Делови</string>
     <string name="dpad_pw_cancel">* Држи го копчето \'надолу\' за 1 секунда и пушти ако имате буква во лозинката или ако ти треба нумеричка тастатура за внес</string>
     <string name="dpad_entry_desc">Користи D-Pad на твоето далечинско за да внесиш лозинка. Еден клик на копче за внесување на првиот број или двоен клик за врое. пр. Еден клик \"Горе\" за 1 или двоен клик \"Селектирај\" за 5. Држи 1 сек. и ослободи го копчето \"Селект\" за крај или лево за започнување од почеток.</string>

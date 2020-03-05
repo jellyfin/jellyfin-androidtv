@@ -21,7 +21,6 @@
     <string name="title_activity_dpad_pw">비밀번호 입력</string>
     <string name="enter_password">비밀번호 입력</string>
     <string name="chapters">챕터</string>
-    <string name="pref_auto_logoff_title">자동 로그아웃 시간초과</string>
     <string name="pref_general">일반</string>
     <string name="lbl_settings">설정</string>
     <string name="lbl_logout">로그아웃</string>
