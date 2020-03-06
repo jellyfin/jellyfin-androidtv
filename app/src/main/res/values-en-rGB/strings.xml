@@ -351,4 +351,10 @@
     <string name="pref_acra_alwaysaccept_enabled">Crash reports will be submitted without prompting</string>
     <string name="pref_acra_alwaysaccept">Submit crash reports without prompting</string>
     <string name="pref_acra_disabled">Crash reports will not be submitted</string>
+    <string name="pref_libvlc_audio_delay_title">Default Audio Delay for libVLC</string>
+    <string name="pref_next_up_enabled_title">Enable Next Up screen</string>
+    <string name="pref_next_up_enabled_summary">Previews the next queued item before playing</string>
+    <string name="watch_now">Watch now</string>
+    <string name="pref_next_up_timeout_title">Next Up timer duration</string>
+    <string name="pref_next_up_timeout_summary">How long to wait before playing the next item</string>
 </resources>
