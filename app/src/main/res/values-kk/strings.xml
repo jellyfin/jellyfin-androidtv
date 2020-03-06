@@ -259,7 +259,7 @@
     <string name="lbl_minute">mın</string>
     <string name="lbl_hour">saǵ</string>
     <string name="lbl_minutes">mın</string>
-    <string name="lbl_seconds">{0} s</string>
+    <string name="lbl_seconds">s</string>
     <string name="lbl_all_episodes">Barlyq bólimder</string>
     <string name="lbl_series_recordings">Telehıkaıa jazbalary</string>
     <string name="lbl_save">Saqtaý</string>
@@ -308,7 +308,7 @@
     <string name="title_suggestions_halloween">Sátti Halloween!</string>
     <string name="lbl_suggestions_halloween">Sumdyq usynystar</string>
     <string name="lbl_suggestions">Usynystar</string>
-    <string name="pref_use_direct_path_title">Tikeleı shyǵarý</string>
+    <string name="pref_use_direct_path_title">Syrtqy oınatqysh úshin tikeleı shyǵarý</string>
     <string name="pref_external_live_tv_title">Efır úshin syrtqy oınatqyshty paıdalaný</string>
     <string name="lbl_song_title">Áýen ataýy</string>
     <string name="lbl_next_episode">Kelesi bólimge</string>
