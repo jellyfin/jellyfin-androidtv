@@ -57,7 +57,7 @@ dependencies {
 	implementation("androidx.recyclerview:recyclerview:1.1.0")
 
 	// Media players
-	implementation("com.amazon.android:exoplayer:2.10.6")
+	implementation("com.amazon.android:exoplayer:2.11.3")
 	implementation("org.videolan.android:libvlc-all:3.1.12")
 
 	// Image utility

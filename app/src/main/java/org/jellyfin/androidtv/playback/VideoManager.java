@@ -15,13 +15,11 @@ import android.widget.FrameLayout;
 
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.Renderer;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.text.TextOutput;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
@@ -100,18 +98,13 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             mSubtitlesSurface.setVisibility(View.GONE);
         }
 
-        mExoPlayer = ExoPlayerFactory.newSimpleInstance(
-                TvApp.getApplication(),
-                new DefaultRenderersFactory(TvApp.getApplication()) {
-                    @Override
-                    protected void buildTextRenderers(Context context,
-                                                      TextOutput output,
-                                                      Looper outputLooper, int extensionRendererMode,
-                                                      ArrayList<Renderer> out) {
-                        // Do not add text renderers since we handle subtitles
-                    }
-                },
-                new DefaultTrackSelector());
+        mExoPlayer = new SimpleExoPlayer.Builder(TvApp.getApplication(), new DefaultRenderersFactory(TvApp.getApplication()) {
+            @Override
+            protected void buildTextRenderers(Context context, TextOutput output, Looper outputLooper, int extensionRendererMode, ArrayList<Renderer> out) {
+                // Do not add text renderers since we handle subtitles
+            }
+        }).build();
+
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
         mExoPlayerView.setPlayer(mExoPlayer);
         mExoPlayer.addListener(new Player.EventListener() {
