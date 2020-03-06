@@ -120,11 +120,6 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityC
         TvApp.getApplication().setCurrentActivity(null);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
     public void registerKeyListener(IKeyListener listener) {
         keyListener = listener;
     }

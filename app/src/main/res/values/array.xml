@@ -77,14 +77,6 @@
         <item>120</item>
         <item>300</item>
     </string-array>
-    <string-array name="pref_timeout_entries" >
-        <item>30 Minutes</item>
-        <item>1 Hour</item>
-        <item>2 Hours</item>
-        <item>3 Hours</item>
-        <item>6 Hours</item>
-        <item>24 Hours</item>
-    </string-array>
     <string-array name="pref_audio_options" >
         <item>@string/pref_audio_direct</item>
         <item>@string/pref_audio_compat</item>
