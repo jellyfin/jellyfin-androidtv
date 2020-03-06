@@ -26,13 +26,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_general">
-        <ListPreference
-            android:defaultValue="3600000"
-            android:entries="@array/pref_timeout_entries"
-            android:entryValues="@array/pref_timeout_values"
-            android:key="pref_auto_logoff_timeout"
-            android:title="@string/pref_auto_logoff_title"
-            app:useSimpleSummaryProvider="true" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="pref_show_backdrop"

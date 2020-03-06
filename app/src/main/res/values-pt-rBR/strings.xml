@@ -20,7 +20,6 @@
     <string name="dpad_entry_desc">Use os botões direcionais no seu controle remoto para digitar uma senha numérica. Clique uma vez em um botão para o primeiro número listado ou clique duas vezes para o segundo. Por exemplo, clique na tecla \'para cima\' para 1 ou clique duas vezes em \'selecionar\' para 5. Pressione por 1 segundo e solte o botão \'selecionar\' quando terminar ou o botão esquerdo para recomeçar.</string>
     <string name="dpad_pw_cancel">* Pressione o botão \'para baixo\' por 1 segundo e solte se possuir uma senha alfanumérica ou necessitar de um teclado</string>
     <string name="chapters">Capítulos</string>
-    <string name="pref_auto_logoff_title">Tempo Esgotado para Sair Automaticamente</string>
     <string name="pref_general">Geral</string>
     <string name="lbl_settings">Configurações</string>
     <string name="lbl_logout">"Sair"</string>

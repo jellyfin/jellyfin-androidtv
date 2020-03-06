@@ -8,6 +8,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 
+import androidx.fragment.app.FragmentActivity;
+import androidx.leanback.app.BackgroundManager;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.model.compat.PlaybackException;
@@ -25,9 +28,6 @@ import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.session.PlayMethod;
 
 import java.util.List;
-
-import androidx.fragment.app.FragmentActivity;
-import androidx.leanback.app.BackgroundManager;
 
 public class ExternalPlayerActivity extends FragmentActivity {
 
@@ -156,9 +156,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
         mReportLoop = new Runnable() {
             @Override
             public void run() {
-                    ReportingHelper.reportProgress(mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, mPosition, false);
-
-                mApplication.setLastUserInteraction(System.currentTimeMillis());
+                ReportingHelper.reportProgress(mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, mPosition, false);
                 mHandler.postDelayed(this, 15000);
             }
         };

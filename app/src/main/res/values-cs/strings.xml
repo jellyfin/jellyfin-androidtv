@@ -20,7 +20,6 @@
     <string name="dpad_entry_desc">Pomocí D-pad na dálkovém ovládání zadejte číselné heslo. Kliknout na tlačítko pro první položku uvedenou na seznamu, nebo dvojklik pro druhou položku. např. jedno kliknutí na tlačítko \"up\" na 1 nebo dvojité kliknutí a uvolnění \"vybere\" 5. Podržte na 1 sekundu a uvolněte, nebo použijte levé tlačítko pro spuštění od začátku.</string>
     <string name="dpad_pw_cancel">* Podržte na 1 vteřinu tlačítko \"dolů\", a uvolněte pokud máte alfa heslo, nebo bude potřeba klávesnice pro vstup</string>
     <string name="chapters">Kapitoly</string>
-    <string name="pref_auto_logoff_title">Časový limit pro automatické odhlášení</string>
     <string name="pref_general">OBECNÉ</string>
     <string name="lbl_settings">Nastavení</string>
     <string name="lbl_logout">Odhlásit</string>

@@ -20,7 +20,6 @@
     <string name="dpad_entry_desc">Gebruik de D-Pad op uw afstandsbediening om een ​​numeriek wachtwoord in te voeren. Klik eenmaal op een knop voor het eerste weergegeven nummer of dubbelklik voor het tweede. Bijv. klik eenmaal \'boven\' voor 1 of dubbelklik op \'selecteren\' voor 5. Houd 1 seconde vast en laat de knop \'select\' los wanneer u klaar bent of druk op de linker knop om opnieuw te beginnen.</string>
     <string name="dpad_pw_cancel">* Houd de \'omlaag\'-knop ingedrukt gedurende 1 seconde en laat los als u een alpha wachtwoord hebt of behoefte aan een toetsenbord voor invoer</string>
     <string name="chapters">Hoofdstukken</string>
-    <string name="pref_auto_logoff_title">Automatisch afmelden na</string>
     <string name="pref_general">ALGEMEEN</string>
     <string name="lbl_settings">Instellingen</string>
     <string name="lbl_logout">Uitloggen</string>

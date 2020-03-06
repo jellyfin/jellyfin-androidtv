@@ -20,7 +20,6 @@
     <string name="dpad_entry_desc">Utilisez le bouton multidirectionnel de votre télécommande pour entrer un mot de passe numérique. Un simple clic sur un bouton sélectionne le premier chiffre ; un double-clic sélectionne le second. Exemples : un simple clic sur le bouton vers le haut sélectionne \'1\', un double-clic sélectionne \'5\'. Maintenez appuyé pendant 1 seconde puis relâchez le bouton \'select\' quand vous avez terminé, ou le bouton de gauche pour recommencer.</string>
     <string name="dpad_pw_cancel">* Maintenez appuyé pendant 1 seconde sur le bouton \'bas\' puis relâchez si vous avez un mot de passe alphanumérique ou si vous avez besoin d\'un clavier</string>
     <string name="chapters">Chapitres</string>
-    <string name="pref_auto_logoff_title">Timeout de déconnexion automatique</string>
     <string name="pref_general">Général</string>
     <string name="lbl_settings">Paramètres</string>
     <string name="lbl_logout">Déconnexion</string>

@@ -25,7 +25,6 @@
     <string name="dpad_entry_desc">Use the D-Pad on your remote to enter a numeric password.  Single-click a button for the first listed number or double-click for the second. e.g. Single-click \'up\' for 1 or double-click \'select\' for 5.  Hold down for 1 second and release the \'select\' button when finished or the left button to start over.</string>
     <string name="dpad_pw_cancel">* Hold the \'down\' button down for 1 second and release if you have an alpha password or need a keyboard for entry</string>
     <string name="chapters">Chapters</string>
-    <string name="pref_auto_logoff_title">Auto Logoff Timeout</string>
     <string name="pref_general">General</string>
     <string name="lbl_settings">Settings</string>
     <string name="lbl_logout">Logout</string>

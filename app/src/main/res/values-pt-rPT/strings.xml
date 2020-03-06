@@ -22,7 +22,6 @@
     <string name="dpad_entry_desc">Use o D-Pad no seu controle remoto para digitar uma senha numérica. Clique uma vez um botão para o primeiro número listado ou clique duas vezes pelo segundo. Por exemplo, Clique uma vez a tecla \'up\' por 1 ou clique duas vezes \'select\' para 5. Pressione por 1 segundo e solte o botão \'select\' quando terminar ou o botão esquerda para reiniciar.</string>
     <string name="dpad_pw_cancel">* Pressione o botão \'down\' durante 1 segundo e solte se possuir uma palavra-passe alfanumérica ou necessitar um teclado</string>
     <string name="chapters">Capítulos</string>
-    <string name="pref_auto_logoff_title">Tempo para expiração de sessão</string>
     <string name="pref_general">Geral</string>
     <string name="lbl_settings">Definições</string>
     <string name="lbl_logout">"Sair"</string>

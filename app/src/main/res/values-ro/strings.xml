@@ -109,7 +109,6 @@
     <string name="lbl_logout">Deconectare</string>
     <string name="lbl_settings">Setări</string>
     <string name="pref_general">General</string>
-    <string name="pref_auto_logoff_title">Perioadă auto delogare</string>
     <string name="chapters">Capitole</string>
     <string name="enter_password">Introduceți parola</string>
     <string name="title_activity_dpad_pw">Introduceți parola</string>

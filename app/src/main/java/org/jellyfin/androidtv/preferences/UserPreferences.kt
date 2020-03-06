@@ -31,11 +31,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	 */
 	var passwordDPadEnabled by booleanPreference("pref_alt_pw_entry", false)
 
-	/**
-	 * Sign out automatically after x milliseconds
-	 */
-	var autoSignOutTimeout by stringPreference("pref_auto_logoff_timeout", "3600000")
-
 	/* Display */
 	/**
 	 * Enable background images while browsing
