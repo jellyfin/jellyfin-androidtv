@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -132,7 +131,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private Runnable mBackdropLoop;
     private Runnable mClockLoop;
     public static int BACKDROP_ROTATION_INTERVAL = 8000;
-    private Typeface roboto;
 
     private BaseItemDto mBaseItem;
 

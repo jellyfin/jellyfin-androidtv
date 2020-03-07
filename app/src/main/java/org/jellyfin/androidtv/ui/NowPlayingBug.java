@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +22,6 @@ import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
-/**
- * Created by Eric on 7/22/2015.
- */
 public class NowPlayingBug extends FrameLayout {
     ImageView npIcon;
     TextView npDesc;
@@ -49,12 +45,9 @@ public class NowPlayingBug extends FrameLayout {
         View v = inflater.inflate(R.layout.now_playing_bug, null, false);
         this.addView(v);
         if (!isInEditMode()) {
-            Typeface font = TvApp.getApplication().getDefaultFont();
             npIcon = (ImageView)v.findViewById(R.id.npIcon);
             npDesc = ((TextView) v.findViewById(R.id.npDesc));
-            npDesc.setTypeface(font);
             npStatus = ((TextView) v.findViewById(R.id.npStatus));
-            npStatus.setTypeface(font);
             this.setFocusable(true);
             this.setOnClickListener(new OnClickListener() {
                 @Override

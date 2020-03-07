@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.browsing;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -65,7 +64,6 @@ import androidx.leanback.widget.RowPresenter;
 
 public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     private static final int BACKGROUND_UPDATE_DELAY = 100;
-    Typeface roboto;
     BaseActivity mActivity;
     TvApp mApplication;
 
@@ -126,14 +124,11 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         View root = inflater.inflate(R.layout.enhanced_detail_browse, container, false);
 
         mActivity = (BaseActivity) getActivity();
-        roboto = TvApp.getApplication().getDefaultFont();
 
         mTitle = (TextView) root.findViewById(R.id.title);
-        mTitle.setTypeface(roboto);
         mTitle.setShadowLayer(5, 5, 5, Color.BLACK);
         mInfoRow = (LinearLayout) root.findViewById(R.id.infoRow);
         mSummary = (TextView) root.findViewById(R.id.summary);
-        mSummary.setTypeface(roboto);
         mSummary.setShadowLayer(5, 5, 5, Color.BLACK);
 
         // Inject the RowsSupportFragment in the results container

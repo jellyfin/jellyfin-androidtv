@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -49,17 +48,16 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
+import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import org.jellyfin.apiclient.interaction.EmptyResponse;
-import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 
 public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     public static final int ROW_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(),55);
@@ -108,26 +106,19 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
     private Handler mHandler = new Handler();
 
-    private Typeface roboto;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mActivity = this;
-        roboto = TvApp.getApplication().getDefaultFont();
 
         setContentView(R.layout.live_tv_guide);
 
         mDisplayDate = findViewById(R.id.displayDate);
         mTitle = findViewById(R.id.title);
-        mTitle.setTypeface(roboto);
         mSummary = findViewById(R.id.summary);
-        mSummary.setTypeface(roboto);
         mChannelStatus = findViewById(R.id.channelsStatus);
         mFilterStatus = findViewById(R.id.filterStatus);
-        mChannelStatus.setTypeface(roboto);
-        mFilterStatus.setTypeface(roboto);
         mChannelStatus.setTextColor(Color.GRAY);
         mFilterStatus.setTextColor(Color.GRAY);
         mInfoRow = findViewById(R.id.infoRow);

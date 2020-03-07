@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,13 +20,12 @@ import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
-
-import java.util.Date;
-
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
+
+import java.util.Date;
 
 public class LiveProgramDetailPopup {
     final int MOVIE_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 540);
@@ -58,16 +56,13 @@ public class LiveProgramDetailPopup {
         mTuneAction = tuneAction;
         LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.program_detail_popup, null);
-        Typeface roboto = TvApp.getApplication().getDefaultFont();
         mPopup = new PopupWindow(layout, width, NORMAL_HEIGHT);
         mPopup.setFocusable(true);
         mPopup.setOutsideTouchable(true);
         mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
         mPopup.setAnimationStyle(R.style.PopupSlideInTop);
         mDTitle = layout.findViewById(R.id.title);
-        mDTitle.setTypeface(roboto);
         mDSummary = layout.findViewById(R.id.summary);
-        mDSummary.setTypeface(roboto);
         mDRecordInfo = layout.findViewById(R.id.recordLine);
         mDTimeline = layout.findViewById(R.id.timeline);
         mDButtonRow = layout.findViewById(R.id.buttonRow);

@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -97,7 +96,6 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     private Handler mLoopHandler = new Handler();
     private Runnable mBackdropLoop;
     public static int BACKDROP_ROTATION_INTERVAL = 10000;
-    private Typeface roboto;
 
     private BaseItemDto mBaseItem;
     private ListRow mQueueRow;
@@ -116,33 +114,23 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         BUTTON_SIZE = Utils.convertDpToPixel(this, 35);
         mApplication = TvApp.getApplication();
         mActivity = this;
-        roboto = mApplication.getDefaultFont();
 
         mClock = findViewById(R.id.clock);
         mPoster = findViewById(R.id.poster);
         mArtistName = findViewById(R.id.artistTitle);
-        mArtistName.setTypeface(roboto);
         mGenreRow = findViewById(R.id.genreRow);
         mSongTitle = findViewById(R.id.song);
-        mSongTitle.setTypeface(roboto);
         mAlbumTitle = findViewById(R.id.album);
-        mAlbumTitle.setTypeface(roboto);
         mCurrentNdx = findViewById(R.id.track);
-        mCurrentNdx.setTypeface(roboto);
         mScrollView = findViewById(R.id.mainScroller);
         mCounter = findViewById(R.id.counter);
-        mCounter.setTypeface(roboto);
         mLogoImage = findViewById(R.id.artistLogo);
 
         mSSArea = findViewById(R.id.ssInfoArea);
         mSSTime = findViewById(R.id.ssTime);
-        mSSTime.setTypeface(roboto);
         mSSAlbumSong = findViewById(R.id.ssAlbumSong);
-        mSSAlbumSong.setTypeface(roboto);
         mSSQueueStatus = findViewById(R.id.ssQueueStatus);
-        mSSQueueStatus.setTypeface(roboto);
         mSSUpNext = findViewById(R.id.ssUpNext);
-        mSSUpNext.setTypeface(roboto);
 
         mPlayPauseButton = findViewById(R.id.playPauseBtn);
         mPlayPauseButton.setSecondaryImage(R.drawable.ic_pause);
@@ -487,7 +475,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
             for (String genre : mBaseItem.getGenres()) {
                 if (!first) InfoLayoutHelper.addSpacer(this, layout, "  /  ", 14);
                 first = false;
-                layout.addView(new GenreButton(this, roboto, 16, genre, mBaseItem.getBaseItemType()));
+                layout.addView(new GenreButton(this, 16, genre, mBaseItem.getBaseItemType()));
             }
         }
     }
