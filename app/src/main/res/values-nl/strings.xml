@@ -343,4 +343,9 @@
     <string name="pref_acra_category">Crash Rapportering</string>
     <string name="pref_acra_syslog_disabled">Systeemlogboeken worden niet toegevoegd aan crash rapporten</string>
     <string name="pref_acra_syslog_enabled">Systeemlogboeken worden toegevoegd aan crash rapporten</string>
+    <string name="pref_next_up_enabled_summary">Laat de volgende in de wachtrij zien voor het afspelen</string>
+    <string name="watch_now">Bekijk nu</string>
+    <string name="pref_next_up_timeout_summary">Hoelang wachten voordat het volgende item wordt afgespeeld</string>
+    <string name="pref_media_player">Geprefereerde media speler</string>
+    <string name="pref_about_title">Over</string>
 </resources>
