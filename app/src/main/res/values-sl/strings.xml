@@ -18,7 +18,7 @@
     <string name="lbl_ip_hint">192.168.1.100:8096 ali https://mojstreznik.com</string>
     <string name="lbl_version">"Verzija "</string>
     <string name="msg_invalid_id_pw">Nepravilno uporabniško ime ali geslo</string>
-    <string name="msg_error_signin">Prišlo je do napake pri prijavljanju z shranjenimi podatki o uporabniku.</string>
+    <string name="msg_error_signin">Prišlo je do napake pri prijavljanju s shranjenimi podatki o uporabniku.</string>
     <string name="msg_error_server_version">"Nepodprta različica strežnika.  Različica  mora biti %1$s ali poznejša."</string>
     <string name="msg_error_server_unavailable">Strežnik ni na voljo</string>
     <string name="msg_error_connecting_server">Napaka pri vzpostavljanju povezave s strežnikom</string>
@@ -149,4 +149,5 @@
     <string name="msg_subtitles_loading">Podnapisi se nalagajo...</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="lbl_more_like_this">Podobno</string>
+    <string name="lbl_just_this_once">Samo tokrat</string>
 </resources>
