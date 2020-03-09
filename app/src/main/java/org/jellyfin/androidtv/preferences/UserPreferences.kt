@@ -124,7 +124,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	/**
 	 * Default audio delay in milliseconds for libVLC
 	 */
-	var libVLCAudioDelay by longPreference("libvlc_audio_delay", -300)
+	var libVLCAudioDelay by longPreference("libvlc_audio_delay", 0)
 
 	/* Live TV */
 	/**
