@@ -17,6 +17,7 @@
         android:layout_marginRight="10sp"
         android:maxLines="1"
         android:ellipsize="end"
+        android:fontFamily="sans-serif-light"
          />
 
     <LinearLayout
@@ -38,7 +39,8 @@
         android:ellipsize="end"
         android:textSize="16sp"
         android:layout_marginTop="12sp"
-        android:maxLines="7" />
+        android:maxLines="7"
+        android:fontFamily="sans-serif-light" />
 
     <FrameLayout
         android:layout_width="fill_parent"

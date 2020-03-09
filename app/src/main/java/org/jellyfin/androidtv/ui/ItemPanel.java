@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.ui;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +14,6 @@ import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 
-/**
- * Created by Eric on 7/27/2015.
- */
 public class ItemPanel extends RelativeLayout {
 
     private TextView title;
@@ -42,9 +38,6 @@ public class ItemPanel extends RelativeLayout {
             title = (TextView) v.findViewById(R.id.title);
             infoRow = (LinearLayout) v.findViewById(R.id.infoRow);
             summary = (TextView) v.findViewById(R.id.summary);
-            Typeface roboto = TvApp.getApplication().getDefaultFont();
-            title.setTypeface(roboto);
-            summary.setTypeface(roboto);
         }
     }
 

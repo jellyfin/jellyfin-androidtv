@@ -1,13 +1,6 @@
 package org.jellyfin.androidtv.ui;
 
-import androidx.fragment.app.Fragment;
 import android.os.Bundle;
-import androidx.leanback.widget.ObjectAdapter;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.OnItemViewSelectedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,15 +18,19 @@ import org.jellyfin.androidtv.model.FilterOptions;
 import org.jellyfin.androidtv.presentation.HorizontalGridPresenter;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.model.entities.SortOrder;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jellyfin.apiclient.model.entities.SortOrder;
+import androidx.fragment.app.Fragment;
+import androidx.leanback.widget.ObjectAdapter;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.OnItemViewSelectedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
 
-/**
- * Created by Eric on 8/17/2015.
- */
 public class HorizontalGridFragment extends Fragment {
     private static final String TAG = "HorizontalGridFragment";
     private static boolean DEBUG = false;
@@ -252,13 +249,10 @@ public class HorizontalGridFragment extends Fragment {
                 container, false);
 
         mTitleView = (TextView) root.findViewById(R.id.title);
-        mTitleView.setTypeface(TvApp.getApplication().getDefaultFont());
         mStatusText = (TextView) root.findViewById(R.id.statusText);
-        mStatusText.setTypeface(TvApp.getApplication().getDefaultFont());
         mInfoRow = (LinearLayout) root.findViewById(R.id.infoRow);
         mToolBar = (LinearLayout) root.findViewById(R.id.toolBar);
         mCounter = (TextView) root.findViewById(R.id.counter);
-        mCounter.setTypeface(TvApp.getApplication().getDefaultFont());
         mSpinner = (FrameLayout) root.findViewById(R.id.spinner);
         mGridDock = (ViewGroup) root.findViewById(R.id.rowsFragment);
 

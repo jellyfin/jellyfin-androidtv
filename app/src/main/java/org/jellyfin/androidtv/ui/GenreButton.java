@@ -7,13 +7,10 @@ import org.jellyfin.apiclient.model.dto.BaseItemType;
 
 import androidx.appcompat.widget.AppCompatTextView;
 
-/**
- * Created by Eric on 2/21/2015.
- */
 public class GenreButton extends AppCompatTextView {
-    public GenreButton(Context context, Typeface font, int size, String text, BaseItemType itemType) {
+    public GenreButton(Context context, int size, String text, BaseItemType itemType) {
         super(context);
-        setTypeface(font);
+        setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
         setTextSize(size);
         setText(text);
         //setFocusable(true);

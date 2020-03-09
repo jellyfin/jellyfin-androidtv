@@ -9,17 +9,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.util.Utils;
-
-import java.text.NumberFormat;
-
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.MediaStreamType;
 
-/**
- * Created by spam on 6/28/2016.
- */
+import java.text.NumberFormat;
+
 public class MyInfoCardView extends FrameLayout {
     private LinearLayout mInfoLayout;
     private TextView mTitle;
@@ -74,11 +69,11 @@ public class MyInfoCardView extends FrameLayout {
         LinearLayout row = new LinearLayout(mContext);
         TextView labelView = new TextView(mContext);
         labelView.setText(label);
-        labelView.setTypeface(TvApp.getApplication().getDefaultFont(), Typeface.BOLD);
+        labelView.setTypeface(Typeface.create("sans-serif-light", Typeface.BOLD));
         labelView.setTextSize(12);
         row.addView(labelView);
         TextView valueView = new TextView(mContext);
-        valueView.setTypeface(TvApp.getApplication().getDefaultFont());
+        valueView.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
         valueView.setText(value);
         valueView.setTextSize(12);
         row.addView(valueView);

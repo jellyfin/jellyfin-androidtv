@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -267,18 +266,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         setupPopupAnimations();
 
         //live guide
-        Typeface roboto = TvApp.getApplication().getDefaultFont();
         mDisplayDate = mActivity.findViewById(R.id.displayDate);
         mGuideTitle = mActivity.findViewById(R.id.guideTitle);
-        mGuideTitle.setTypeface(roboto);
         mGuideCurrentTitle = mActivity.findViewById(R.id.guideCurrentTitle);
-        mGuideCurrentTitle.setTypeface(roboto);
         mSummary = mActivity.findViewById(R.id.summary);
-        mSummary.setTypeface(roboto);
         mChannelStatus = mActivity.findViewById(R.id.channelsStatus);
         mFilterStatus = mActivity.findViewById(R.id.filterStatus);
-        mChannelStatus.setTypeface(roboto);
-        mFilterStatus.setTypeface(roboto);
         mChannelStatus.setTextColor(Color.GRAY);
         mFilterStatus.setTextColor(Color.GRAY);
         mGuideInfoRow = mActivity.findViewById(R.id.guideInfoRow);

@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -19,8 +18,6 @@ import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
-import androidx.leanback.app.BackgroundManager;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -66,6 +63,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import androidx.leanback.app.BackgroundManager;
+
 public class ItemListActivity extends BaseActivity {
 
     private int BUTTON_SIZE;
@@ -100,8 +99,6 @@ public class ItemListActivity extends BaseActivity {
     private boolean firstTime = true;
     private Calendar lastUpdated = Calendar.getInstance();
 
-    private Typeface roboto;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,18 +106,15 @@ public class ItemListActivity extends BaseActivity {
 
         mApplication = TvApp.getApplication();
         mActivity = this;
-        roboto = mApplication.getDefaultFont();
         BUTTON_SIZE = Utils.convertDpToPixel(this, 35);
 
         mTitle = (TextView) findViewById(R.id.fdTitle);
-        mTitle.setTypeface(roboto);
         mTitle.setShadowLayer(5, 5, 5, Color.BLACK);
         mTitle.setText(getString(R.string.loading));
         mGenreRow = (LinearLayout) findViewById(R.id.fdGenreRow);
         mPoster = (ImageView) findViewById(R.id.mainImage);
         mButtonRow = (LinearLayout) findViewById(R.id.fdButtonRow);
         mSummary = (TextView) findViewById(R.id.fdSummaryText);
-        mSummary.setTypeface(roboto);
         mItemList = (ItemListView) findViewById(R.id.songs);
         mScrollView = (ScrollView) findViewById(R.id.scrollView);
 
@@ -526,7 +520,7 @@ public class ItemListActivity extends BaseActivity {
             for (String genre : mBaseItem.getGenres()) {
                 if (!first) InfoLayoutHelper.addSpacer(this, layout, "  /  ", 14);
                 first = false;
-                layout.addView(new GenreButton(this, roboto, 16, genre, mBaseItem.getBaseItemType()));
+                layout.addView(new GenreButton(this, 16, genre, mBaseItem.getBaseItemType()));
             }
         }
     }

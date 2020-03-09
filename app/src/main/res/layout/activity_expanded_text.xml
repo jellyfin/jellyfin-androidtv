@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/textView"
             android:transitionName="summary"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-light" />
     </ScrollView>
 </RelativeLayout>

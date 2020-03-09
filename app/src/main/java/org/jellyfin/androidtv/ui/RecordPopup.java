@@ -23,20 +23,16 @@ import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.base.CustomMessage;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerInfoDto;
 
-/**
- * Created by Eric on 6/3/2015.
- */
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+
 public class RecordPopup {
     final int SERIES_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 420);
     final int NORMAL_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 330);
@@ -76,13 +72,11 @@ public class RecordPopup {
         mPosTop = top;
         LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.new_program_record_popup, null);
-        Typeface roboto = Typeface.createFromAsset(mActivity.getAssets(), "fonts/Roboto-Light.ttf");
         mPopup = new PopupWindow(layout, width, NORMAL_HEIGHT);
         mPopup.setFocusable(true);
         mPopup.setOutsideTouchable(true);
         mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
         mDTitle = (TextView)layout.findViewById(R.id.title);
-        mDTitle.setTypeface(roboto);
 
         mPrePadding = (Spinner) layout.findViewById(R.id.prePadding);
         mPrePadding.setAdapter(new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, mPaddingDisplayOptions));

@@ -5,13 +5,9 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
-
-import androidx.core.content.ContextCompat;
-import androidx.palette.graphics.Palette;
 
 import org.acra.ACRA;
 import org.acra.annotation.AcraCore;
@@ -52,6 +48,9 @@ import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import androidx.core.content.ContextCompat;
+import androidx.palette.graphics.Palette;
+
 @AcraCore(buildConfigClass = BuildConfig.class)
 @AcraHttpSender(
         uri = "https://collector.tracepot.com/a2eda9d9",
@@ -91,7 +90,6 @@ public class TvApp extends Application {
 
     private int autoBitrate;
     private String directItemId;
-    private Typeface roboto;
 
     private HashMap<String, DisplayPreferences> displayPrefsCache = new HashMap<>();
 
@@ -133,7 +131,6 @@ public class TvApp extends Application {
         logger = new AndroidLogger(TAG);
         app = (TvApp) getApplicationContext();
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
         setCurrentBackgroundGradient(new int[] {ContextCompat.getColor(this, R.color.lb_default_brand_color_dark), ContextCompat.getColor(this, R.color.lb_default_brand_color)});
 
         registerActivityLifecycleCallbacks(new AuthenticatedUserCallbacks());
@@ -152,8 +149,6 @@ public class TvApp extends Application {
     public void setLogger(ILogger value) {
         logger = value;
     }
-
-    public Typeface getDefaultFont() { return roboto; }
 
     public IConnectionManager getConnectionManager() {
         return connectionManager;
