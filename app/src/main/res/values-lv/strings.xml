@@ -284,7 +284,7 @@
     <string name="lbl_on_now">Tagad</string>
     <string name="lbl_colored_backgrounds">Krāsu Kodēti Foni</string>
     <string name="pref_external_live_tv_summary">Ir vajadzīga atbalstoša lietotne, lai atskaņotu straumes</string>
-    <string name="lbl_resume_preroll"></string>
+    <string name="lbl_resume_preroll">Atsākt priekšrullīti</string>
     <string name="desc_premieres">Rādīt episožu pilotus katrai jaunai sērijai, ko jūs skatāties</string>
     <string name="lbl_refresh_switching">Atsvaidzināšanas Ātruma Pārslēdze</string>
     <string name="lbl_show_backdrop">Rādīt Fonu Pārlūkošanas Laikā</string>
@@ -330,4 +330,28 @@
     <string name="lbl_play">Atskaņot</string>
     <string name="lbl_latest_additions">Jaunākie Pievienojumi</string>
     <string name="lbl_other_channels">Citi Kanāli</string>
+    <string name="pref_acra_syslog">Ievietot sistēmas logus kļūdu ziņojumos. Tas var saturēt privātus datus no citām lietotnēm, ja tā tika logota izveides brīdī.</string>
+    <string name="lbl_bitstream_dts">Bitstream DTS Audio</string>
+    <string name="lbl_instant_mix">Tiešā Jaukšana</string>
+    <string name="lbl_upcoming">Gaidāmā</string>
+    <string name="lbl_cast_crew">Lomas/Apkalpe</string>
+    <string name="pref_acra_syslog_enabled">Sistēmas logi tiks ievietoti kļūdas ziņojumos</string>
+    <string name="pref_use_direct_path_title">Padot Tiešo Ceļu ārējam atskaņotājam</string>
+    <string name="title_activity_expanded_text">PaplašinātāTekstaAktivitāte</string>
+    <string name="btn_set_compatible_audio">Uzstādīt lejup-miksēšanu tagad</string>
+    <string name="lbl_goto_now_playing">Pāriet uz Pašlaik Atskaņoto</string>
+    <string name="lbl_reshuffle_queue">Atkārtoti Jaukt Rindu</string>
+    <string name="lbl_showing">Rāda</string>
+    <string name="desc_debug">Padot papildus informāciju priekš atkļūdošanas</string>
+    <string name="desc_info_panel">Parāda paneli ar detaļām par pašreizējo vienumu priekš ekrāniem bez detalizētas informācijas</string>
+    <string name="pref_audio_compat">Samiksēt uz Stereo</string>
+    <string name="pref_audio_direct">Tieši</string>
+    <string name="msg_remote_already_playing">Attālinātais atskaņošanas pieprasījums ignorēts. Lūdzu vispirms apturi pašreizējo vienumu.</string>
+    <string name="msg_cancel_entire_series">Vai tu tiešām gribi atcelt šo VISU SĒRIJU\?</string>
+    <string name="lbl_repeat_options">Atkārtot Opcijas</string>
+    <string name="lbl_directed_by">Režisēja</string>
+    <string name="dpad_pw_cancel">* Turi nospiestu \'lejup\' pogu uz 1 sekundi, ja tavā parolē ir burti un tev to ievadei ir vajadzīga klaviatūra</string>
+    <string name="dpad_entry_desc">Izmanto savas pults D-Pad lai ievadītu skaitlisku paroli. Viens pogas spiediens ir pirmais izvēlētais skaitlis, dubultklikšķis ir otrais. Piem. Vienu reizi nospied \'augšu\' priekš 1 vai dubultklikšķini \'select\' priekš 5. Paturi 1 sekundi un atlaid \'select\' pogu, kad esi pabeidzis vai kreiso pogu lai sāktu no jauna.</string>
+    <string name="pref_alt_pw_entry_desc">Skaitliska paroles ievade izmantojot tikai D-Pad pogas</string>
+    <string name="pref_alt_pw_entry">Pielāgota D-Pad Paroles Ievade</string>
 </resources>
