@@ -58,7 +58,7 @@ dependencies {
 
 	// Media players
 	implementation("com.amazon.android:exoplayer:2.11.3")
-	implementation("org.videolan.android:libvlc-all:3.1.12")
+	implementation("org.videolan.android:libvlc-all:3.2.5")
 
 	// Image utility
 	implementation("com.squareup.picasso:picasso:2.3.2")
