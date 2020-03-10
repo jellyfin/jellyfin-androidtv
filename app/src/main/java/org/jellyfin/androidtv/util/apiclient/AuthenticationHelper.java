@@ -94,7 +94,7 @@ public class AuthenticationHelper {
                         credentialCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                             @Override
                             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                isLoginSaved[0] = true;
+                                isLoginSaved[0] = isChecked;
                             }
                         });
                         new AlertDialog.Builder(activity)
