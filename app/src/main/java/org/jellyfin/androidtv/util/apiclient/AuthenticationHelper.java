@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.InputType;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import org.jellyfin.androidtv.R;
@@ -13,6 +15,9 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.browsing.MainActivity;
 import org.jellyfin.androidtv.details.FullDetailsActivity;
 import org.jellyfin.androidtv.model.LogonCredentials;
+import org.jellyfin.androidtv.preferences.UserPreferences;
+import org.jellyfin.androidtv.preferences.enums.LoginBehavior;
+import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer;
 import org.jellyfin.androidtv.startup.SelectServerActivity;
 import org.jellyfin.androidtv.startup.SelectUserActivity;
 import org.jellyfin.androidtv.util.DelayedMessage;
@@ -59,6 +64,7 @@ public class AuthenticationHelper {
     }
 
     public static void enterManualUser(final Activity activity) {
+        final boolean[] isLoginSaved = {false};
         final EditText userName = new EditText(activity);
         userName.setInputType(InputType.TYPE_CLASS_TEXT);
         new AlertDialog.Builder(activity)
@@ -83,7 +89,26 @@ public class AuthenticationHelper {
                             }
                         }).setPositiveButton(activity.getString(R.string.lbl_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        loginUser(userName.getText().toString(), userPw.getText().toString(), TvApp.getApplication().getLoginApiClient(), activity);
+                        final CheckBox credentialCheckBox = new CheckBox(activity);
+                        credentialCheckBox.setText("Remember me");
+                        credentialCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                isLoginSaved[0] = true;
+                            }
+                        });
+                        new AlertDialog.Builder(activity)
+                                .setTitle("Auto Login with user?")
+                                .setView(credentialCheckBox)
+                                .setNegativeButton(activity.getString(R.string.lbl_cancel), new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        // Do nothing.
+                                    }
+                                }).setPositiveButton(activity.getString(R.string.lbl_ok), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                loginUser(userName.getText().toString(), userPw.getText().toString(), TvApp.getApplication().getLoginApiClient(), activity, isLoginSaved[0]);
+                            }
+                        }).show();
                     }
                 }).show();
             }
@@ -147,6 +172,38 @@ public class AuthenticationHelper {
 
     public static void loginUser(String userName, String pw, ApiClient apiClient, final Activity activity) {
         loginUser(userName, pw, apiClient, activity, null);
+    }
+
+    public static void loginUser(String userName, String pw, ApiClient apiClient, final Activity activity, boolean isLoginSaved) {
+        apiClient.AuthenticateUserAsync(userName, pw, new Response<AuthenticationResult>() {
+            @Override
+            public void onResponse(AuthenticationResult authenticationResult) {
+                TvApp application = TvApp.getApplication();
+                application.getLogger().Debug("Signed in as %s", authenticationResult.getUser().getName());
+                application.setCurrentUser(authenticationResult.getUser());
+
+                if (isLoginSaved) {
+                    try {
+                        saveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), TvApp.CREDENTIALS_PATH);
+                    } catch (IOException e) {
+                        TvApp.getApplication().getLogger().ErrorException("Unable to save login credentials", e);
+                    }
+
+                    UserPreferences prefs = TvApp.getApplication().getUserPreferences();
+                    prefs.setLoginBehavior(LoginBehavior.AUTO_LOGIN);
+                }
+
+                Intent intent = new Intent(activity, MainActivity.class);
+                activity.startActivity(intent);
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                super.onError(exception);
+                TvApp.getApplication().getLogger().ErrorException("Error logging in", exception);
+                Utils.showToast(activity, activity.getString(R.string.msg_invalid_id_pw));
+            }
+        });
     }
 
     public static void loginUser(String userName, String pw, ApiClient apiClient, final Activity activity, final String directEntryItemId) {

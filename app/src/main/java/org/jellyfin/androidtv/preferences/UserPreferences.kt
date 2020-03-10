@@ -19,7 +19,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	 * **note**: Currently settable via user-preferences only due too custom logic
 	 */
 	var loginBehavior by enumPreference("login_behavior", LoginBehavior.SHOW_LOGIN)
-		private set
 
 	/**
 	 * Ask for password when starting the app
