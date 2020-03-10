@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="video_error_unknown_error">Misslyckades att ladda video</string>
+    <string name="video_error_unknown_error">Kunde inte ladda video</string>
     <string name="txt_loading">Laddar…</string>
     <string name="home_title">Hem</string>
     <string name="btn_cancel">Avbryt</string>
@@ -8,7 +8,7 @@
     <string name="settings_title">Inställningar</string>
     <string name="pref_auto_login">Logga in som denna användare automatiskt</string>
     <string name="pref_show_login">Visa inloggningsskärm</string>
-    <string name="play">Spela upp</string>
+    <string name="play">Spela</string>
     <string name="pref_prompt_pw">Be om lösenord</string>
     <string name="pref_authentication_cat">Autentisering</string>
     <string name="loading">Laddar…</string>
@@ -350,7 +350,7 @@
     <string name="pref_max_bitrate_title">Maximal strömningsbithastighet</string>
     <string name="pref_playback">Uppspelning</string>
     <string name="pref_login_behavior_title">Uppstartsbeteende</string>
-    <string name="title_activity_select_user">Välj användare aktivitet</string>
+    <string name="title_activity_select_user">SelectUserActivity</string>
     <string name="lbl_programs">Program</string>
     <string name="pref_live_tv_cat">Live-TV</string>
     <string name="lbl_recorded_tv">Inspelad TV</string>
