@@ -38,7 +38,7 @@ public class ReportingHelper {
         startInfo.setItemId(item.getId());
         startInfo.setPositionTicks(pos);
         TvApp.getApplication().getPlaybackManager().reportPlaybackStart(startInfo, false, TvApp.getApplication().getApiClient(), new EmptyResponse());
-        TvApp.getApplication().getLogger().Info("Playback of " + item.getName() + " started.");
+        TvApp.getApplication().getLogger().Info("Playback of %s started.", item.getName());
     }
 
     public static void reportProgress(BaseItemDto item, StreamInfo currentStreamInfo, Long position, boolean isPaused) {

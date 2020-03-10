@@ -205,7 +205,9 @@ public class HorizontalGridPresenter extends Presenter {
         vh.getGridView().setOnChildViewHolderSelectedListener(new OnChildViewHolderSelectedListener() {
             @Override
             public void onChildViewHolderSelected(RecyclerView parent, RecyclerView.ViewHolder child, int position, int subposition) {
-                selectChildView(gridViewHolder, child.itemView);
+                if (child != null) {
+                    selectChildView(gridViewHolder, child.itemView);
+                }
             }
         });
 

@@ -389,7 +389,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
     private void pageGuideTo(long startTime) {
         if (startTime < System.currentTimeMillis()) startTime = System.currentTimeMillis(); // don't allow the past
-        TvApp.getApplication().getLogger().Info("page to "+new Date(startTime));
+        TvApp.getApplication().getLogger().Info("page to %s", (new Date(startTime)).toString());
         TvManager.forceReload(); // don't allow cache
         if (mSelectedProgram != null) {
             mFirstFocusChannelId = mSelectedProgram.getChannelId();

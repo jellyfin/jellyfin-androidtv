@@ -2,9 +2,10 @@ package org.jellyfin.androidtv.ui;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import androidx.appcompat.widget.AppCompatTextView;
 
 import org.jellyfin.apiclient.model.dto.BaseItemType;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 /**
  * Created by Eric on 2/21/2015.

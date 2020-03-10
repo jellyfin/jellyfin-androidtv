@@ -260,7 +260,7 @@ public class ItemListActivity extends BaseActivity {
     private AudioEventListener mAudioEventListener = new AudioEventListener() {
         @Override
         public void onPlaybackStateChange(PlaybackController.PlaybackState newState, BaseItemDto currentItem) {
-            TvApp.getApplication().getLogger().Info("Got playback state change event "+newState+" for item "+(currentItem != null ? currentItem.getName() : "<unknown>"));
+            TvApp.getApplication().getLogger().Info("Got playback state change event %s for item %s", newState.toString(), currentItem != null ? currentItem.getName() : "<unknown>");
 
             if (newState != PlaybackController.PlaybackState.PLAYING || currentItem == null) {
                 if (mCurrentlyPlayingRow != null) mCurrentlyPlayingRow.updateCurrentTime(-1);
@@ -578,7 +578,10 @@ public class ItemListActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         if (mItems.size() > 0) {
-                            if (mBaseItem.getId().equals(VIDEO_QUEUE) || mBaseItem.getId().equals(FAV_SONGS) || "Playlist".equals(mBaseItem.getType())) {
+                            if (mBaseItem.getId().equals(VIDEO_QUEUE)
+                                    || mBaseItem.getId().equals(FAV_SONGS)
+                                    || mBaseItem.getBaseItemType() == BaseItemType.Playlist
+                                    || mBaseItem.getBaseItemType() == BaseItemType.MusicAlbum) {
                                 List<BaseItemDto> shuffled = new ArrayList<>(mItems);
                                 Collections.shuffle(shuffled);
                                 play(shuffled);

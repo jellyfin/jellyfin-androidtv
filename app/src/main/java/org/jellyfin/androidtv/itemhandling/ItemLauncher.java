@@ -51,7 +51,7 @@ public class ItemLauncher {
             case BaseItem:
                 final BaseItemDto baseItem = rowItem.getBaseItem();
                 try {
-                    TvApp.getApplication().getLogger().Debug("Item selected: " + rowItem.getIndex() + " - " + baseItem.getName() + " (" + baseItem.getBaseItemType() + ")");
+                    TvApp.getApplication().getLogger().Debug("Item selected: %d - %s (%s)", rowItem.getIndex(), baseItem.getName(), baseItem.getBaseItemType().toString());
                 } catch (Exception e) {
                     //swallow it
                 }
@@ -67,12 +67,12 @@ public class ItemLauncher {
                                 if (baseItem.getCollectionType() == null) {
                                     baseItem.setCollectionType("unknown");
                                 }
-                                TvApp.getApplication().getLogger().Debug("**** Collection type: " + baseItem.getCollectionType());
+                                TvApp.getApplication().getLogger().Debug("**** Collection type: %s", baseItem.getCollectionType());
                                 switch (baseItem.getCollectionType()) {
                                     case "movies":
                                     case "tvshows":
                                     case "music":
-                                        TvApp.getApplication().getLogger().Debug("**** View Type Pref: " + response.getCustomPrefs().get("DefaultView"));
+                                        TvApp.getApplication().getLogger().Debug("**** View Type Pref: %s", response.getCustomPrefs().get("DefaultView"));
                                         if (ViewType.GRID.equals(response.getCustomPrefs().get("DefaultView"))) {
                                             // open grid browsing
                                             Intent folderIntent = new Intent(activity, GenericGridActivity.class);
@@ -266,7 +266,7 @@ public class ItemLauncher {
                 application.getApiClient().GetItemAsync(hint.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
-                        if ((response.getIsFolderItem() && response.getBaseItemType() != BaseItemType.Series) || response.getBaseItemType() == BaseItemType.MusicArtist) {
+                        if (response.getIsFolderItem() && response.getBaseItemType() != BaseItemType.Series) {
                             // open generic folder browsing
                             Intent intent = new Intent(activity, GenericGridActivity.class);
                             intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(response));

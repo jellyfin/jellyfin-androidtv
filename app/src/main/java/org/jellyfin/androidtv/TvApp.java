@@ -12,12 +12,16 @@ import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
 import android.preference.PreferenceManager;
 
+import androidx.core.content.ContextCompat;
+import androidx.palette.graphics.Palette;
+
 import org.acra.ACRA;
 import org.acra.annotation.AcraCore;
 import org.acra.annotation.AcraDialog;
 import org.acra.annotation.AcraHttpSender;
 import org.acra.annotation.AcraLimiter;
 import org.acra.sender.HttpSender;
+import org.jellyfin.androidtv.base.AuthenticatedUserCallbacks;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.model.DisplayPriorityType;
@@ -46,9 +50,6 @@ import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 
 import java.util.Calendar;
 import java.util.HashMap;
-
-import androidx.core.content.ContextCompat;
-import androidx.palette.graphics.Palette;
 
 @AcraCore(buildConfigClass = BuildConfig.class)
 @AcraHttpSender(
@@ -134,6 +135,8 @@ public class TvApp extends Application {
         roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
         setCurrentBackgroundGradient(new int[] {ContextCompat.getColor(this, R.color.lb_default_brand_color_dark), ContextCompat.getColor(this, R.color.lb_default_brand_color)});
 
+        registerActivityLifecycleCallbacks(new AuthenticatedUserCallbacks());
+
         logger.Info("Application object created");
     }
 
@@ -207,7 +210,7 @@ public class TvApp extends Application {
 
     public void setAudioMuted(boolean value) {
         audioMuted = value;
-        getLogger().Info("Setting mute state to: "+audioMuted);
+        getLogger().Info("Setting mute state to: %b", audioMuted);
         if (DeviceUtils.is60()) {
             audioManager.adjustVolume(audioMuted ? AudioManager.ADJUST_MUTE : AudioManager.ADJUST_UNMUTE, 0);
 
@@ -443,7 +446,7 @@ public class TvApp extends Application {
     public void updateDisplayPrefs(String app, DisplayPreferences preferences) {
         displayPrefsCache.put(preferences.getId(), preferences);
         getApiClient().UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), app, new EmptyResponse());
-        logger.Debug("Display prefs updated for "+preferences.getId()+" isFavorite: "+preferences.getCustomPrefs().get("FavoriteOnly"));
+        logger.Debug("Display prefs updated for %s isFavorite: %s", preferences.getId(), preferences.getCustomPrefs().get("FavoriteOnly"));
     }
 
     public void getDisplayPrefsAsync(String key, Response<DisplayPreferences> response) {
@@ -452,7 +455,7 @@ public class TvApp extends Application {
 
     public void getDisplayPrefsAsync(final String key, String app, final Response<DisplayPreferences> outerResponse) {
         if (displayPrefsCache.containsKey(key)) {
-            logger.Debug("Display prefs loaded from cache "+key);
+            logger.Debug("Display prefs loaded from cache %s", key);
             outerResponse.onResponse(displayPrefsCache.get(key));
         } else {
             getApiClient().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), app, new Response<DisplayPreferences>(){
@@ -461,7 +464,7 @@ public class TvApp extends Application {
                     if (response.getSortBy() == null) response.setSortBy("SortName");
                     if (response.getCustomPrefs() == null) response.setCustomPrefs(new HashMap<String, String>());
                     displayPrefsCache.put(key, response);
-                    logger.Debug("Display prefs loaded and saved in cache " + key);
+                    logger.Debug("Display prefs loaded and saved in cache %s", key);
                     outerResponse.onResponse(response);
                 }
 
@@ -490,7 +493,7 @@ public class TvApp extends Application {
             @Override
             public void onResponse(Long response) {
                 autoBitrate = response.intValue();
-                logger.Info("Auto bitrate set to: "+autoBitrate);
+                logger.Info("Auto bitrate set to: %d", autoBitrate);
             }
         });
     }

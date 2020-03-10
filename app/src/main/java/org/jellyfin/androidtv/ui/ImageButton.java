@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.ui;
 
 import android.content.Context;
-import androidx.appcompat.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,6 +8,8 @@ import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.model.GotFocusEvent;
+
+import androidx.appcompat.widget.AppCompatImageView;
 
 /**
  * Created by Eric on 2/20/2015.
