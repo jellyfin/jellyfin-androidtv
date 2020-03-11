@@ -303,4 +303,17 @@
     <string name="msg_record_entire_series">Vil du optage hele serien\?</string>
     <string name="lbl_just_this_once">Kun én gang</string>
     <string name="pref_acra_category">Rapportering om fejl og nedbrud</string>
+    <string name="lbl_premieres">Premierer</string>
+    <string name="lbl_new_episodes">Nye Episoder</string>
+    <string name="lbl_new_only">Kun Nyheder</string>
+    <string name="lbl_news">Nyheder</string>
+    <string name="lbl_latest_tv_shows">Seneste TV shows</string>
+    <string name="desc_suggestions_holiday">Prøv nogle af vores ferie-anbefalinger</string>
+    <string name="title_suggestions_holiday">Rigtig god Ferie!</string>
+    <string name="lbl_suggestions_holiday">Ferie-anbefalinger</string>
+    <string name="desc_suggestions_halloween">Prøv nogle af vores uhyggelige forslag</string>
+    <string name="title_suggestions_halloween">Glædelig Halloween!</string>
+    <string name="lbl_suggestions_halloween">Uhyggelige forslag</string>
+    <string name="lbl_suggestions">Forslag</string>
+    <string name="acra_dialog_title">Åh nej! Noget gik galt.</string>
 </resources>
