@@ -18,7 +18,7 @@
     <string name="title_activity_dpad_pw">Indtast kodeord</string>
     <string name="enter_password">Indtast kodeord</string>
     <string name="dpad_entry_desc">Brug D-Padden på din fjernbetjening til at indtaste et numerisk kodeord. Enkelt klik på en knap for det første tal eller dobbelt klik for det anden tal. Foreksempel: enkelt klik \"up\" for 1 eller dobbelt klik \"select\" for 5. Hold \"select\" knappen nede i 1 sekund og slip når du er færdig eller tryk på den venstre knap for at begynde forfra.</string>
-    <string name="dpad_pw_cancel">* Hold \"ned\" knappen nede i 1 sekund og slip hvis du har et alfanumerisk kodeord eller har brug for et tastatur til at indtaste din kode.</string>
+    <string name="dpad_pw_cancel">* Hold knappen \"ned\" nede i 1 sekund og slip hvis du har et alfanumerisk kodeord eller har brug for et tastatur til at indtaste din kode</string>
     <string name="chapters">Kapitler</string>
     <string name="pref_general">Generalt</string>
     <string name="lbl_settings">Indstillinger</string>
@@ -231,4 +231,38 @@
     <string name="pref_audio_compat">Downmix til Stereo</string>
     <string name="msg_remote_already_playing">Fjernafspilning ignoreret. Stop venligst din aktuelle afspilning først.</string>
     <string name="msg_error_signin">Der skete en fejl da du loggede ind, med dine gemte legitimationsoplysninger.</string>
+    <string name="lbl_vertical_stretch">Lodret Stræk</string>
+    <string name="btn_got_it">Forstået</string>
+    <string name="lbl_horizontal_stretch">Vandret Stræk</string>
+    <string name="lbl_zoom">Zoom</string>
+    <string name="lbl_normal">Normal</string>
+    <string name="desc_bitstream_ac3">Kræver understøttende hardware</string>
+    <string name="lbl_new_premieres">Nye Premierer</string>
+    <string name="lbl_forget">Glem</string>
+    <string name="lbl_switch_server">Skift Server</string>
+    <string name="lbl_enable_seasonal_themes">Sæsontemaer</string>
+    <string name="pref_live_tv_mode_desc">Gå direkte til den sidste afspillede Live-TV kanal</string>
+    <string name="pref_live_tv_mode">Live TV Mode</string>
+    <string name="lbl_select_date">Vælg Dato</string>
+    <string name="lbl_in_x_days">Om %d dage</string>
+    <string name="lbl_bitstream_dts">DTS Audio Bitstream</string>
+    <string name="desc_premieres">Vis en kolonne med nye episoder for alle serier du ser</string>
+    <string name="lbl_show_premieres">Vis sæsonpremiere på hjemmeskærm</string>
+    <string name="lbl_refresh_switching">Aktiver justering af billedehastigheds frekvens</string>
+    <string name="desc_use_vlc_livetv">Brug VLC til direkte afspilning af Live TV, når det er tilgængeligt</string>
+    <string name="lbl_use_vlc_livetv">Forsøg afspilning med VLC til Live TV</string>
+    <string name="lbl_show_backdrop">Vis Backdrop mens du browser</string>
+    <string name="lbl_open">Åbn</string>
+    <string name="lbl_play_next_up">Afspil Næste</string>
+    <string name="lbl_clear_queue">Ryd afspilnings kø</string>
+    <string name="desc_current_video_queue">Videofiler i afpilnings kø</string>
+    <string name="msg_external_path">Denne funktion virker kun hvis du har opsat dit biblotek på serveren, med en netværks sti eller en erstatnings sti, og at din klient kan afspille direkte fra disse lokationer over dit netværk.</string>
+    <string name="msg_audio_warning">Denne applikation har mulighederne for at direkte afspille forskellige lyd formater, hvis dit hardware understøtter det.
+\nDu kan komme ud for at der ingen lyd er på forskellige elementer, dette kan fikses ved at ændre dine lydindstillinger til \'downmix\' inde i indstillinger.</string>
+    <string name="lbl_current_queue">Nuværende Kø</string>
+    <string name="btn_set_compatible_audio">Aktiver Downmix nu</string>
+    <string name="lbl_audio_capabilitites">Lydfærdigheder</string>
+    <string name="lbl_bitstream_ac3">Dolby Digital Audio bitstream</string>
+    <string name="desc_automatic_fav_songs">Automatisk spilleliste med foretrukne og favorit sange</string>
+    <string name="desc_seasonal_themes">Vis særlige farver, og foreslag på bestemte tider af året</string>
 </resources>
