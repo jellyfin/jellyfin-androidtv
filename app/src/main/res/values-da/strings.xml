@@ -183,7 +183,7 @@
     <string name="lbl_reshuffle_queue">Re-Shuffle kø</string>
     <string name="lbl_open_album">Åbn Album</string>
     <string name="lbl_open_artist">Åbn kunstner</string>
-    <string name="lbl_add_to_queue">tilføj til kø</string>
+    <string name="lbl_add_to_queue">Føj til kø</string>
     <string name="msg_total_items_in_queue">" samlede genstande i kø"</string>
     <string name="msg_items_added">" genstande tilføjet"</string>
     <string name="msg_added_item_to_queue">"Elementet blev sat i kø position "</string>
@@ -316,4 +316,19 @@
     <string name="lbl_suggestions_halloween">Uhyggelige forslag</string>
     <string name="lbl_suggestions">Forslag</string>
     <string name="acra_dialog_title">Åh nej! Noget gik galt.</string>
+    <string name="pref_media_player">Fortrukket medieafspiller</string>
+    <string name="pref_about_title">Omkring</string>
+    <string name="pref_video_player_external">Ekstern app</string>
+    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_exoplayer">ExoPlayer</string>
+    <string name="pref_video_player_auto">Automatisk vælg</string>
+    <string name="lbl_my_media">Mine Medier</string>
+    <string name="lbl_image_size">Billede Størrelse</string>
+    <string name="lbl_image_type">Billedetype</string>
+    <string name="lbl_default_view">Standardvisning</string>
+    <string name="lbl_start_favorites">Placer Favoritter i begyndelsen</string>
+    <string name="lbl_colored_backgrounds">Farve kodet baggrunde</string>
+    <string name="lbl_hd_programs">HD Programmer</string>
+    <string name="lbl_live_broadcasts">Live Udsendelser</string>
+    <string name="lbl_repeat_episodes">Gentag Episoder</string>
 </resources>
