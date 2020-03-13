@@ -10,8 +10,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.model.itemtypes.Episode
+import org.jellyfin.androidtv.model.itemtypes.LocalTrailer
 import org.jellyfin.androidtv.model.itemtypes.Movie
-import org.jellyfin.androidtv.model.itemtypes.Trailer
 import org.jellyfin.androidtv.model.itemtypes.Video
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.androidtv.util.apiclient.liftToNewFormat
@@ -43,7 +43,7 @@ class DetailsActivity : FragmentActivity() {
 				is Movie -> MovieDetailsFragment(item)
 				is Episode -> TODO("Episode details are not yet implemented")
 				is Video -> TODO("Video details are not yet implemented")
-				is Trailer -> TODO("Trailer details are not yet implemented")
+				is LocalTrailer -> TODO("Trailer details are not yet implemented")
 			}
 
 			supportFragmentManager.beginTransaction().add(android.R.id.content, fragment).commit()
