@@ -12,7 +12,7 @@ import org.jellyfin.androidtv.util.apiclient.getItem
 
 private const val LOG_TAG = "AddToQueueAction"
 
-class AddToQueueAction(context: Context, private val item: BaseItem) : Action() {
+class AddToQueueAction(context: Context, private val item: BaseItem) : Action {
 	override val visible = MutableLiveData(true)
 	override val text = MutableLiveData(context.getString(R.string.lbl_add_to_queue))
 	override val icon = MutableLiveData(context.getDrawable(R.drawable.ic_add)!!)

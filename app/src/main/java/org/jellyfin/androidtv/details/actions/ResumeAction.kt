@@ -12,7 +12,7 @@ import org.jellyfin.androidtv.model.itemtypes.PlayableItem
 
 private const val LOG_TAG = "ResumeAction"
 
-class ResumeAction(private val context: Context, val item: LiveData<PlayableItem>) : PlaybackAction() {
+class ResumeAction(private val context: Context, val item: LiveData<out PlayableItem>) : PlaybackAction() {
 	override val visible = MediatorLiveData<Boolean>().apply {
 		addSource(item) { value = it.canResume}
 	}

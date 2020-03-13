@@ -43,7 +43,7 @@ class ActionAdapter() {
 		})
 
 		// Active state
-		if (action is ToggleAction) {
+		if (action is ToggleableAction) {
 			action.active.observe(viewHolder, Observer { active ->
 				val color = viewHolder.button.resources.getColor(if (active) R.color.action_active else R.color.white)
 				viewHolder.button.setTextColor(color)
