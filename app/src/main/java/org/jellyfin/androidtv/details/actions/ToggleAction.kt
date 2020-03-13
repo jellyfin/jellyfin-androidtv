@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.details.actions
 
-import android.content.Context
+import androidx.lifecycle.LiveData
 
-abstract class ToggleAction(id: Long, context: Context) : Action(id, context) {
-	abstract var active: Boolean
+abstract class ToggleAction: Action() {
+	abstract val active: LiveData<Boolean>
 }

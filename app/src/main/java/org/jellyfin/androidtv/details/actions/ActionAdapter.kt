@@ -1,28 +1,23 @@
 package org.jellyfin.androidtv.details.actions
 
+import android.content.res.ColorStateList
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 
-class ActionAdapter : RecyclerView.Adapter<ActionAdapter.ActionViewHolder>() {
-	private val actions = arrayListOf<Action>()
-
-	fun add(action: Action) {
-		// Add action
-		actions += action
-
-		// Bind listener
-		action.setChangeListener(::notifyDataSetChanged)
-
-		notifyDataSetChanged()
-	}
-
-	override fun getItemCount() = actions.size
-
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActionViewHolder {
+class ActionAdapter() {
+	fun createViewHolder(parent: ViewGroup): ActionViewHolder {
 		val view = LayoutInflater
 			.from(parent.context)
 			.inflate(R.layout.action, parent, false)
@@ -30,36 +25,50 @@ class ActionAdapter : RecyclerView.Adapter<ActionAdapter.ActionViewHolder>() {
 		return ActionViewHolder(view)
 	}
 
-	override fun onBindViewHolder(viewHolder: ActionViewHolder, position: Int) {
-		// Find action
-		val action = actions[position]
+	fun bindViewHolder(viewHolder: ActionViewHolder, action: Action) {
+		// Visibility
+		action.visible.observe(viewHolder, Observer { visible ->
+			viewHolder.view.visibility = if (visible) View.VISIBLE else View.GONE
+			viewHolder.button.visibility = if (visible) View.VISIBLE else View.GONE
+		})
 
-		// Set data
-		viewHolder.view.apply {
-			visibility = if (action.visible) View.VISIBLE else View.GONE
-		}
+		// Icon
+		action.icon.observe(viewHolder, Observer { icon ->
+			viewHolder.button.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null)
+		})
 
-		viewHolder.button.apply {
-			setCompoundDrawablesWithIntrinsicBounds(null, action.icon, null, null)
-			text = action.text
+		// Text
+		action.text.observe(viewHolder, Observer { text ->
+			viewHolder.button.text = text
+		})
 
-			setOnClickListener { action.onClick() }
-		}
-
-		if (action is SecondariesPopupAction) action.anchor = viewHolder.button
-
+		// Active state
 		if (action is ToggleAction) {
-			val color = if (action.active) R.color.action_active else R.color.white
+			action.active.observe(viewHolder, Observer { active ->
+				val color = viewHolder.button.resources.getColor(if (active) R.color.action_active else R.color.white)
+				viewHolder.button.setTextColor(color)
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+					viewHolder.button.compoundDrawableTintList = ColorStateList.valueOf(color)
+			})
+		}
 
-			viewHolder.button.apply {
-				action.icon.setTint(resources.getColor(color))
-				setTextColor(resources.getColor(color))
+		// Click listener
+		viewHolder.button.setOnClickListener { view ->
+			GlobalScope.launch(Dispatchers.Main) {
+				action.onClick(view)
 			}
 		}
+
+		// Set state so the observers initialize
+		viewHolder.lifecycle.currentState = Lifecycle.State.STARTED
 	}
 
-	class ActionViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-		var button: Button = view.findViewById(R.id.action_button)
+	class ActionViewHolder(val view: View) : RecyclerView.ViewHolder(view), LifecycleOwner {
+		val button: Button = view.findViewById(R.id.action_button)
+
+		// Lifecycle
+		private val lifecycleRegistry = LifecycleRegistry(this)
+		override fun getLifecycle() = lifecycleRegistry
 	}
 }
 

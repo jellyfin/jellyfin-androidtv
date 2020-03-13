@@ -3,42 +3,41 @@ package org.jellyfin.androidtv.details.actions
 import android.content.Context
 import android.view.View
 import android.widget.PopupMenu
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 
-class SecondariesPopupAction(context: Context) : Action(ActionID.SECONDARIES_ACTION_POPUP.id, context) {
-	override val visible = true
-	override val text = context.getString(R.string.lbl_more_actions)
-	override val icon = context.getDrawable(R.drawable.ic_more)!!
-
-	private val children = mutableListOf<Action>()
-	var anchor: View? = null
-
-	fun add(child: Action) {
-		child.setChangeListener { notifyDataChanged() }
-		children.add(child)
-
-		notifyDataChanged()
+class SecondariesPopupAction(private val context: Context, private val children: List<Action>) : Action() {
+	override val visible = MediatorLiveData<Boolean>().apply {
+		children.forEach {
+			addSource(it.visible) {
+				value = children.any { child -> child.visible.value == true }
+			}
+		}
 	}
+	override val text = MutableLiveData(context.getString(R.string.lbl_more_actions))
+	override val icon = MutableLiveData(context.getDrawable(R.drawable.ic_more)!!)
 
-	fun remove(child: Action) {
-		child.setChangeListener(null)
-		children.remove(child)
+	override suspend fun onClick(view: View) {
+		PopupMenu(context, view).apply {
+			children
+				.filter { it.visible.value == true }
+				.forEach { action ->
+					menu.add(action.text.value!!).apply {
+						icon = action.icon.value!!
 
-		notifyDataChanged()
-	}
+						setOnMenuItemClickListener {
+							GlobalScope.launch(Dispatchers.Main) {
+								action.onClick(it.actionView)
+							}
 
-	override fun onClick() {
-		PopupMenu(context, anchor).apply {
-			children.filter { it.visible }.forEach { action ->
-				menu.add(action.text).apply {
-					icon = action.icon
-					setOnMenuItemClickListener {
-						action.onClick()
-
-						return@setOnMenuItemClickListener true
+							return@setOnMenuItemClickListener true
+						}
 					}
 				}
-			}
 		}.show()
 	}
 }
