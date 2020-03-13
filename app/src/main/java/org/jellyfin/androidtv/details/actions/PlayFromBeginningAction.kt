@@ -10,7 +10,7 @@ import org.jellyfin.androidtv.model.itemtypes.PlayableItem
 
 private const val LOG_TAG = "PlayFromBeginningAction"
 
-class PlayFromBeginningAction(private val context: Context, val item: LiveData<PlayableItem>) : PlaybackAction() {
+class PlayFromBeginningAction(private val context: Context, val item: LiveData<out PlayableItem>) : PlaybackAction() {
 	override val visible = MutableLiveData(true)
 	override val text = MutableLiveData(context.getString(R.string.lbl_play))
 	override val icon = MutableLiveData(context.getDrawable(R.drawable.ic_play)!!)

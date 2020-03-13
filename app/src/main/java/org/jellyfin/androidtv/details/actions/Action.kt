@@ -4,10 +4,10 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.lifecycle.LiveData
 
-abstract class Action {
-	abstract val visible: LiveData<Boolean>
-	abstract val text: LiveData<String>
-	abstract val icon: LiveData<Drawable>
+interface Action {
+	val visible: LiveData<Boolean>
+	val text: LiveData<String>
+	val icon: LiveData<Drawable>
 
-	abstract suspend fun onClick(view: View)
+	suspend fun onClick(view: View)
 }
