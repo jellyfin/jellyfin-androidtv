@@ -8,20 +8,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.base.IItemClickListener
-import org.jellyfin.androidtv.details.actions.ActionAdapter
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 
 abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : RowsSupportFragment(), OnItemViewClickedListener {
 	protected val rowSelector by lazy { ClassPresenterSelector() }
 	protected val rowAdapter by lazy { ArrayObjectAdapter(rowSelector) }
-	protected val actionAdapter by lazy { ActionAdapter() }
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
 		GlobalScope.launch(Dispatchers.Main) {
 			// Add rows and actions
-			onCreateAdapters(rowSelector, rowAdapter, actionAdapter)
+			onCreateAdapters(rowSelector, rowAdapter)
 
 			// Set the Leanback adapter to our own adapter
 			adapter = rowAdapter
@@ -32,7 +30,7 @@ abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : R
 	}
 
 	@CallSuper
-	open suspend fun onCreateAdapters(rowSelector: ClassPresenterSelector, rowAdapter: ArrayObjectAdapter, actionAdapter: ActionAdapter) {
+	open suspend fun onCreateAdapters(rowSelector: ClassPresenterSelector, rowAdapter: ArrayObjectAdapter) {
 		// Add the most used presenters to prevent duplicate code
 		rowSelector.addClassPresenter(DetailsOverviewRow::class.java, DetailsOverviewPresenter())
 		rowSelector.addClassPresenter(ListRow::class.java, ListRowPresenter())

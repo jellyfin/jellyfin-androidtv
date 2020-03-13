@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.row_details_description.view.*
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.details.actions.Action
 import org.jellyfin.androidtv.details.actions.ActionAdapter
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.model.itemtypes.Movie
@@ -25,9 +26,11 @@ import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.androidtv.util.dp
 import org.jellyfin.apiclient.model.entities.MediaStreamType
 
-class DetailsOverviewRow(val item: BaseItem, val actionAdapter: ActionAdapter) : Row()
+class DetailsOverviewRow(val item: BaseItem, val actions: List<Action>) : Row()
 
 class DetailsOverviewPresenter : RowPresenter() {
+	val actionAdapter = ActionAdapter()
+
 	init {
 		headerPresenter = null
 		selectEffectEnabled = false
@@ -38,9 +41,7 @@ class DetailsOverviewPresenter : RowPresenter() {
 		val logo: ImageView = view.details_description_logo
 		val poster: ImageView = view.details_description_poster
 
-		val actions: RecyclerView = view.details_description_actions.apply {
-			addItemDecoration(RecyclerViewSpacingDecoration(8.dp))
-		}
+		val actions: LinearLayout = view.details_description_actions
 
 		val title: TextView = view.findViewById(R.id.details_description_title)
 		val subtitle: TextView = view.findViewById(R.id.details_description_subtitle)
@@ -98,7 +99,12 @@ class DetailsOverviewPresenter : RowPresenter() {
 		item.images.logo?.load(viewHolder.view.context) { viewHolder.logo.setImageBitmap(it) }
 
 		// Action adapter
-		viewHolder.actions.adapter = row.actionAdapter
+		row.actions.forEach { action ->
+			val holder = actionAdapter.createViewHolder(viewHolder.actions)
+			viewHolder.actions.addView(holder.view)
+
+			actionAdapter.bindViewHolder(holder, action)
+		}
 
 		// poster
 		item.images.primary?.load(viewHolder.view.context) { viewHolder.poster.setImageBitmap(it) }
