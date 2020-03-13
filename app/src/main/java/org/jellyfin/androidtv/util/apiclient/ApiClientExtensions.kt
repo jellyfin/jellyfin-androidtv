@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.util.apiclient
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.model.itemtypes.FIELDS_REQUIRED_FOR_LIFT
-import org.jellyfin.androidtv.model.itemtypes.Trailer
+import org.jellyfin.androidtv.model.itemtypes.LocalTrailer
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.Response
 import org.jellyfin.apiclient.model.dto.BaseItemDto
@@ -99,10 +99,10 @@ suspend fun ApiClient.getSpecialFeatures(item: BaseItem): List<BaseItem>? = susp
 	})
 }
 
-suspend fun ApiClient.getLocalTrailers(item: BaseItem): List<Trailer>? = suspendCoroutine { continuation ->
+suspend fun ApiClient.getLocalTrailers(item: BaseItem): List<LocalTrailer>? = suspendCoroutine { continuation ->
 	GetLocalTrailersAsync(TvApp.getApplication().currentUser.id, item.id, object: Response<Array<BaseItemDto>>() {
 		override fun onResponse(response: Array<BaseItemDto>?) {
-			continuation.resume(response!!.map { baseItemDto -> baseItemDto.liftToNewFormat() as Trailer })
+			continuation.resume(response!!.map { baseItemDto -> baseItemDto.liftToNewFormat() as LocalTrailer })
 		}
 
 		override fun onError(exception: java.lang.Exception?) {

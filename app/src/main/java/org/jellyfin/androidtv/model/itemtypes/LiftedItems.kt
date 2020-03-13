@@ -1,12 +1,22 @@
 package org.jellyfin.androidtv.model.itemtypes
 
+import org.jellyfin.androidtv.model.trailers.external.ExternalTrailer
+import org.jellyfin.androidtv.model.trailers.lifter.ExternalTrailerLifter
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.GenreDto
 import org.jellyfin.apiclient.model.querying.ItemFields
 import java.util.*
 import kotlin.properties.Delegates
 
-val FIELDS_REQUIRED_FOR_LIFT = arrayOf(ItemFields.DateCreated, ItemFields.MediaSources, ItemFields.MediaStreams, ItemFields.People)
+val FIELDS_REQUIRED_FOR_LIFT = arrayOf(
+	ItemFields.DateCreated,
+	ItemFields.MediaSources,
+	ItemFields.MediaStreams,
+	ItemFields.People,
+	ItemFields.Genres,
+	ItemFields.Tags,
+	ItemFields.RemoteTrailers
+)
 
 sealed class BaseItem(original: BaseItemDto) : ObservableParent() {
 	val id: String = original.id
@@ -36,15 +46,16 @@ sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
 
 class Episode(original: BaseItemDto) : PlayableItem(original)
 
-class Movie(original: BaseItemDto) : PlayableItem(original) {
+class Movie(original: BaseItemDto, externalTrailerLifter: ExternalTrailerLifter) : PlayableItem(original) {
 	var productionYear: Int? = original.productionYear
 	val cast: List<BriefPersonData> = original.people.map(::BriefPersonData)
 	val officialRating: String? = original.officialRating
 	val communityRating: Float? = original.communityRating
 	val criticsRating: Float? = original.criticRating
 	val localTrailerCount: Int = original.localTrailerCount
+	val externalTrailers: List<ExternalTrailer> = original.remoteTrailers.mapNotNull { externalTrailerLifter.lift(it) }
 }
 
-class Trailer(original: BaseItemDto) : PlayableItem(original)
+class LocalTrailer(original: BaseItemDto) : PlayableItem(original)
 
 class Video(original: BaseItemDto) : PlayableItem(original)
