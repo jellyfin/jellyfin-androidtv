@@ -46,4 +46,6 @@
     <color name="button_default_highlight_text">#444444</color>
 
     <color name="action_active">#FFCC3333</color>
+
+    <color name="youtube_background">#282828</color>
 </resources>
