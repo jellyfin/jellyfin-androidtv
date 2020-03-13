@@ -16,6 +16,7 @@ sealed class BaseItem(original: BaseItemDto) : ObservableParent() {
 	val images: ImageCollection = ImageCollection(original)
 	val added: Date = original.dateCreated
 	var favorite: Boolean by Delegates.observable(original.userData.isFavorite, ::observer)
+	val deletable: Boolean = original.canDelete
 }
 
 sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {

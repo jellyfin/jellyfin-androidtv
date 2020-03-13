@@ -1,34 +1,36 @@
 package org.jellyfin.androidtv.details.actions
 
 import android.content.Context
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import android.graphics.drawable.Drawable
+import android.view.View
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.util.apiclient.updateFavoriteStatus
 
-class ToggleFavoriteAction(context: Context, val item: BaseItem) : ToggleAction(ActionID.TOGGLE_FAVORITE.id, context) {
-	override val visible = true
-	override val text = context.getString(R.string.lbl_favorite)
-	override val icon = context.getDrawable(R.drawable.ic_heart)!!
-	override var active = item.favorite
+class ToggleFavoriteAction(val context: Context, val item: MutableLiveData<BaseItem>) : ToggleAction() {
+	override val visible: LiveData<Boolean> = MutableLiveData(true)
+	override val text: LiveData<String> = MutableLiveData(context.getString(R.string.lbl_favorite))
+	override val icon: LiveData<Drawable> = MutableLiveData(context.getDrawable(R.drawable.ic_heart)!!)
+	override val active = MediatorLiveData<Boolean>().apply {
+		addSource(item) { value = it.favorite }
+	}
 
-	override fun onClick() {
-		GlobalScope.launch(Dispatchers.Main) {
-			val apiClient = TvApp.getApplication().apiClient
+	override suspend fun onClick(view: View) {
+		val itemValue = item.value ?: return
+		val application = TvApp.getApplication()
 
-			apiClient.updateFavoriteStatus(
-				item.id,
-				TvApp.getApplication().currentUser.id,
-				!item.favorite
-			)?.let {
-				item.favorite = it.isFavorite
-
-				//todo update self
-				notifyDataChanged()
-			}
+		//todo catch exceptions (show toast?)
+		application.apiClient.updateFavoriteStatus(
+			itemValue.id,
+			application.currentUser.id,
+			!itemValue.favorite
+		)?.let {
+			itemValue.favorite = it.isFavorite
+			item.value = itemValue
 		}
 	}
 }

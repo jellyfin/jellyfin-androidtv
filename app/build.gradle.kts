@@ -75,6 +75,7 @@ dependencies {
 	implementation("androidx.palette:palette:1.0.0")
 	implementation("androidx.constraintlayout:constraintlayout:1.1.3")
 	implementation("androidx.recyclerview:recyclerview:1.1.0")
+	implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
 	implementation("com.google.android:flexbox:2.0.1")
 
 	// Media players

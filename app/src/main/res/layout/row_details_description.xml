@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/app_logo" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <LinearLayout
         android:id="@+id/details_description_actions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,7 +39,6 @@
         android:paddingTop="8dp"
         android:paddingEnd="48dp"
         android:paddingBottom="8dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/details_description_poster"
         app:layout_constraintStart_toStartOf="parent"
