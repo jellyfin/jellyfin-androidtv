@@ -14,7 +14,7 @@ import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.util.DelayedMessage
 import org.jellyfin.apiclient.interaction.EmptyResponse
 
-class DeleteAction(private val context: Context, private val item: LiveData<BaseItem>, private val onItemDeleted: () -> Unit) : Action() {
+class DeleteAction(private val context: Context, private val item: LiveData<out BaseItem>, private val onItemDeleted: () -> Unit) : Action {
 	override val visible = MediatorLiveData<Boolean>().apply {
 		addSource(item) { value = it.deletable }
 	}

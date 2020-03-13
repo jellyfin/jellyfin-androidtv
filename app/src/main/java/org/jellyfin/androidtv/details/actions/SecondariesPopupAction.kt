@@ -10,7 +10,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 
-class SecondariesPopupAction(private val context: Context, private val children: List<Action>) : Action() {
+class SecondariesPopupAction(private val context: Context, private val children: List<Action>) : Action {
 	override val visible = MediatorLiveData<Boolean>().apply {
 		children.forEach {
 			addSource(it.visible) {
