@@ -9,15 +9,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.text.bold
-import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowPresenter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.row_details_description.view.*
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.details.actions.Action
 import org.jellyfin.androidtv.details.actions.ActionAdapter
-import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.model.itemtypes.Movie
 import org.jellyfin.androidtv.model.itemtypes.PlayableItem
 import org.jellyfin.androidtv.ui.RecyclerViewSpacingDecoration
@@ -26,10 +23,8 @@ import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.androidtv.util.dp
 import org.jellyfin.apiclient.model.entities.MediaStreamType
 
-class DetailsOverviewRow(val item: BaseItem, val actions: List<Action>) : Row()
-
 class DetailsOverviewPresenter : RowPresenter() {
-	val actionAdapter = ActionAdapter()
+	private val actionAdapter = ActionAdapter()
 
 	init {
 		headerPresenter = null
@@ -91,7 +86,7 @@ class DetailsOverviewPresenter : RowPresenter() {
 		item.images.backdrops.firstOrNull()?.let {
 			// Android doesn't crop automatically but Glide does
 			// Picasso can also do this but doesn't read the XML attributes of the target view for it
-			// so the way Glide does it is better
+			// so the way Glide does it is preferred to avoid duplicate settings
 			Glide.with(viewHolder.view.context).load(it.url).into(viewHolder.banner)
 		}
 

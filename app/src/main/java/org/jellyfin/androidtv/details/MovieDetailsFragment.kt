@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.details
 
 import androidx.leanback.widget.ArrayObjectAdapter
 import androidx.leanback.widget.ClassPresenterSelector
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -10,9 +9,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.details.actions.*
-import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.model.itemtypes.Movie
-import org.jellyfin.androidtv.model.itemtypes.PlayableItem
 import org.jellyfin.androidtv.presentation.InfoCardPresenter
 import org.jellyfin.androidtv.util.addIfNotEmpty
 import org.jellyfin.androidtv.util.apiclient.getLocalTrailers
@@ -27,15 +24,15 @@ class MovieDetailsFragment(private val movie: Movie) : BaseDetailsFragment<Movie
 		val item = MutableLiveData(movie)
 
 		listOf(
-			ResumeAction(context!!, item as LiveData<PlayableItem>), //todo ugly casting
-			PlayFromBeginningAction(context!!, item as MutableLiveData<PlayableItem>), //todo ugly casting
-			ToggleWatchedAction(context!!, item as MutableLiveData<PlayableItem>), //todo ugly casting
-			ToggleFavoriteAction(context!!, item as MutableLiveData<BaseItem>), //todo ugly casting
+			ResumeAction(context!!, item),
+			PlayFromBeginningAction(context!!, item),
+			ToggleWatchedAction(context!!, item),
+			ToggleFavoriteAction(context!!, item),
 
 			// "More" button
 			SecondariesPopupAction(context!!, listOf(
-				DeleteAction(context!!, item) { activity?.finish() })
-			)
+				DeleteAction(context!!, item) { activity?.finish() }
+			))
 		)
 	}
 
@@ -84,24 +81,4 @@ class MovieDetailsFragment(private val movie: Movie) : BaseDetailsFragment<Movie
 			}
 		)
 	}
-
-	// Temporary manual action updating
-//	private fun onItemChange() {
-//		resumeAction.isVisible = movie.canResume
-//		toggleWatchedAction.active = movie.played
-//		toggleFavoriteAction.active = movie.favorite
-//		deleteAction.isVisible = TvApp.getApplication().currentUser.policy.enableContentDeletion
-//	}
-
-//	override fun onResume() {
-//		super.onResume()
-//
-//		movie.addChangeListener(::onItemChange)
-//	}
-//
-//	override fun onPause() {
-//		super.onPause()
-//
-//		movie.removeChangeListener(::onItemChange)
-//	}
 }
