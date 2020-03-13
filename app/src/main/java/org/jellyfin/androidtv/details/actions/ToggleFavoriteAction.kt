@@ -11,7 +11,7 @@ import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.util.apiclient.updateFavoriteStatus
 
-class ToggleFavoriteAction(val context: Context, val item: MutableLiveData<BaseItem>) : ToggleAction() {
+class ToggleFavoriteAction(val context: Context, val item: MutableLiveData<out BaseItem>) : ToggleableAction {
 	override val visible: LiveData<Boolean> = MutableLiveData(true)
 	override val text: LiveData<String> = MutableLiveData(context.getString(R.string.lbl_favorite))
 	override val icon: LiveData<Drawable> = MutableLiveData(context.getDrawable(R.drawable.ic_heart)!!)

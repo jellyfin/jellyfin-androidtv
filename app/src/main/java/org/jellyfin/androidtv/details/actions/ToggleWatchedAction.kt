@@ -10,7 +10,7 @@ import org.jellyfin.androidtv.model.itemtypes.PlayableItem
 import org.jellyfin.androidtv.util.apiclient.markPlayed
 import org.jellyfin.androidtv.util.apiclient.markUnplayed
 
-class ToggleWatchedAction(context: Context, val item: MutableLiveData<PlayableItem>) : ToggleAction() {
+class ToggleWatchedAction(context: Context, val item: MutableLiveData<out PlayableItem>) : ToggleableAction {
 	override val visible = MutableLiveData(true)
 	override val text = MutableLiveData(context.getString(R.string.lbl_watched))
 	override val icon = MutableLiveData(context.getDrawable(R.drawable.ic_watch)!!)
