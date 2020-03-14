@@ -310,7 +310,7 @@
     <string name="desc_suggestions_holiday">Essayer certaines de nos suggestions pour les fêtes</string>
     <string name="title_suggestions_holiday">Joyeuses fêtes !</string>
     <string name="lbl_suggestions_holiday">Suggestions pour les vacances</string>
-    <string name="desc_suggestions_halloween">Essayer quelques-unes de nos effrayantes suggestions</string>
+    <string name="desc_suggestions_halloween">Essayez quelques-unes de nos suggestions effrayantes</string>
     <string name="title_suggestions_halloween">Joyeux Halloween !</string>
     <string name="lbl_suggestions_halloween">Suggestions effrayantes</string>
     <string name="lbl_favorite">Favori</string>
@@ -333,8 +333,8 @@
     <string name="pref_acra_disabled">Vos signalements de plantage ne seront pas transmis</string>
     <string name="pref_acra_enabled">Vous serez invité à envoyer vos signalements de plantage</string>
     <string name="pref_acra_category">Signalement d\'un plantage</string>
-    <string name="pref_acra_alwaysaccept_disabled">L\'information sur le porblème sera demandé avant d\'être soumise</string>
-    <string name="pref_acra_alwaysaccept_enabled">Rapport de problèmes sera soumis sans demander</string>
+    <string name="pref_acra_alwaysaccept_disabled">Une fenêtre de dialogue s\'affichera avant d\'envoyer un rapport de plantage</string>
+    <string name="pref_acra_alwaysaccept_enabled">Les rapports de plantage seront envoyés sans confirmation</string>
     <string name="acra_dialog_text">Voudriez-vous envoyer un rapport de plantage aux développeurs\?
 \n
 \nCette information sera transmise à une tierce partie (tracepot.com).
