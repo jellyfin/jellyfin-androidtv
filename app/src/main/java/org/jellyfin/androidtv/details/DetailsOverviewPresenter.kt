@@ -205,4 +205,11 @@ class DetailsOverviewPresenter : RowPresenter() {
 		// description
 		viewHolder.body.text = item.description
 	}
+
+	override fun onUnbindRowViewHolder(viewHolder: RowPresenter.ViewHolder) {
+		viewHolder as ViewHolder
+
+		// Remove all action views
+		viewHolder.actions.removeAllViews()
+	}
 }
