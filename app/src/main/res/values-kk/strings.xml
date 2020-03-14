@@ -328,4 +328,23 @@
     <string name="lbl_warning">Eskertý</string>
     <string name="msg_error_server_unavailable">Server qoljetimdi emes</string>
     <string name="pref_authentication_cat">Túpnusqalyq rastama</string>
+    <string name="pref_libvlc_audio_delay_title">libVLC úshin dybystyń ádepki kidirisi</string>
+    <string name="pref_next_up_enabled_title">Qazir kórý ekranyn qosý</string>
+    <string name="watch_now">Qazir kórý</string>
+    <string name="pref_next_up_timeout_title">Kezekti taımeriniń uzaqtyǵy</string>
+    <string name="pref_media_player">Tasyǵyshderekterdiń tańdaýly oınatqyshy</string>
+    <string name="pref_about_title">Qoldanba týraly</string>
+    <string name="pref_video_player_external">Syrtqy qoldanba</string>
+    <string name="pref_video_player_vlc">libVLC kitaphanasy</string>
+    <string name="pref_video_player_exoplayer">ExoPlayer oınatqyshy</string>
+    <string name="pref_video_player_auto">Avtomatty tańdaý</string>
+    <string name="lbl_my_media">Meniń tasyǵyshderekterim</string>
+    <string name="acra_dialog_title">Oý, joq! Birdeńe durys bolmady.</string>
+    <string name="pref_acra_alwaysaccept_disabled">Aqaý týraly habarlaý jiberý aldynda tilqatysý beınelenedi</string>
+    <string name="pref_acra_alwaysaccept_enabled">Aqaý týraly habarlaý ysynylylmaı jiberiledi</string>
+    <string name="pref_acra_alwaysaccept">Aqaý týraly habarlaý usynylmaı jiberiledi</string>
+    <string name="pref_acra_disabled">Aqaý týraly habarlaý jiberilmeıdi</string>
+    <string name="pref_acra_enabled">Aqaý týraly habarlaý jiberý ysynylady</string>
+    <string name="pref_enable_acra">Aqaý týraly ázirleýshilerge habarlaý</string>
+    <string name="pref_acra_category">Aqaý týraly habarlaý</string>
 </resources>
