@@ -69,10 +69,10 @@
     <string name="lbl_seasons">Sæsoner</string>
     <string name="lbl_upcoming">Kommende</string>
     <string name="lbl_sd">SD</string>
-    <string name="lbl_runs">"Spilletid: "</string>
-    <string name="lbl_min">" min "</string>
-    <string name="lbl_ends">"Slutter: "</string>
-    <string name="lbl_directed_by">"Instrueret af: "</string>
+    <string name="lbl_runs">Spilletid</string>
+    <string name="lbl_min">" min"</string>
+    <string name="lbl_ends">Slutter</string>
+    <string name="lbl_directed_by">Instrueret af</string>
     <string name="lbl_last_played">"Sidst afspillet "</string>
     <string name="lbl_select_server">Vælg en server</string>
     <string name="lbl_other_options">Andre indstillinger</string>
@@ -124,7 +124,7 @@
     <string name="lbl_like">Like</string>
     <string name="lbl_dislike">Dislike</string>
     <string name="lbl_unlike">Unlike</string>
-    <string name="lbl_remove_dislike">Remove Dislike</string>
+    <string name="lbl_remove_dislike">Fjern Dislike</string>
     <string name="lbl_confirm_mark_unwatched">Dette vil markere alt indhold som uafspillet. Er du helt sikker?</string>
     <string name="msg_no_playable_items">Intet indhold kan afspilles</string>
     <string name="lbl_unwatched">Ikke set</string>
@@ -156,7 +156,7 @@
     <string name="lbl_audio_output">Lydudgang</string>
     <string name="pref_audio_direct">Direkte</string>
     <string name="lbl_now_playing_album">fra %s</string>
-    <string name="lbl_now_playing_track">" %s af %s"</string>
+    <string name="lbl_now_playing_track">%s af %s</string>
     <string name="msg_error_server_version">Serverversionen er ikke understøttet. Serverversionen skal være %1$s eller nyere.</string>
     <string name="msg_error_server_unavailable">Serveren er ikke tilgængelig</string>
     <string name="lbl_recordings">Optagelser</string>
