@@ -354,4 +354,7 @@
     <string name="dpad_entry_desc">Izmanto savas pults D-Pad lai ievadītu skaitlisku paroli. Viens pogas spiediens ir pirmais izvēlētais skaitlis, dubultklikšķis ir otrais. Piem. Vienu reizi nospied \'augšu\' priekš 1 vai dubultklikšķini \'select\' priekš 5. Paturi 1 sekundi un atlaid \'select\' pogu, kad esi pabeidzis vai kreiso pogu lai sāktu no jauna.</string>
     <string name="pref_alt_pw_entry_desc">Skaitliska paroles ievade izmantojot tikai D-Pad pogas</string>
     <string name="pref_alt_pw_entry">Pielāgota D-Pad Paroles Ievade</string>
+    <string name="lbl_end_padding">Starpinājuma Beigas</string>
+    <string name="lbl_begin_padding">Strpinājuma Sākums</string>
+    <string name="lbl_on">Ieslēgts</string>
 </resources>
