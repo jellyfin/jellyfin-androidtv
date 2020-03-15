@@ -15,6 +15,16 @@ public class HolidayManager {
         return TvApp.getApplication().getUserPreferences().getSeasonalGreetingsEnabled();
     }
 
+    public static boolean isAprilFools() {
+        if (!isEnabled()) {
+            return false;
+        }
+
+        Calendar today = new GregorianCalendar();
+        return today.get(Calendar.MONTH) == Calendar.APRIL &&
+                today.get(Calendar.DAY_OF_MONTH) == 1;
+    }
+
     private static boolean isHalloween() {
         if (!isEnabled()) {
             return false;

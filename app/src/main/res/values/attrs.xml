@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="JellyfinTheme">
+        <!-- Header Text Color -->
+        <attr name="headerTextColor" format="reference|color" />
         <!-- Progress Bar Attributes -->
         <attr name="progressBackground" format="reference|color" />
         <attr name="progressPrimary" format="reference|color" />

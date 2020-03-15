@@ -13,9 +13,14 @@ class ThemeManager {
 				return R.style.Theme_Jellyfin_Preferences
 			}
 
+			if (HolidayManager.isAprilFools()) {
+				return R.style.Theme_Jellyfin_HotDogStand;
+			}
+
 			return when (appTheme) {
 				AppTheme.DARK -> R.style.Theme_Jellyfin
 				AppTheme.EMERALD -> R.style.Theme_Jellyfin_Legacy
+				AppTheme.HOTDOG -> R.style.Theme_Jellyfin_HotDogStand
 				else -> R.style.Theme_Jellyfin
 			}
 		}
