@@ -5,6 +5,11 @@
 
     <PreferenceCategory android:title="@string/pref_authentication_cat">
         <ListPreference
+            android:entries="@array/app_theme_entries"
+            android:entryValues="@array/app_theme_values"
+            android:key="app_theme"
+            android:title="App Theme" />
+        <ListPreference
             android:entries="@array/pref_startup_entries"
             android:entryValues="@array/pref_startup_values"
             android:key="login_behavior"

@@ -9,7 +9,7 @@ import org.jellyfin.androidtv.base.BaseActivity;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class ThemeManager {
+public class HolidayManager {
 
     private static boolean isEnabled() {
         return TvApp.getApplication().getUserPreferences().getSeasonalGreetingsEnabled();

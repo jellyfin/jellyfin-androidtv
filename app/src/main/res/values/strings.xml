@@ -343,6 +343,8 @@
     <string name="lbl_image_type">Image Type</string>
     <string name="lbl_image_size">Image Size</string>
     <string name="lbl_my_media">My Media</string>
+    <string name="pref_theme_dark">Dark (Default)</string>
+    <string name="pref_theme_emerald">Classic Emerald</string>
     <string name="pref_video_player_auto">Automatically choose</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_vlc">libVLC</string>
