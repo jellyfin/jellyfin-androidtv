@@ -348,7 +348,7 @@
     <string name="pref_enable_acra">发送崩溃报告给开发人员</string>
     <string name="pref_acra_category">崩溃报告</string>
     <string name="watch_now">立即播放</string>
-    <string name="pref_next_up_timeout_title">自动播放倒计时</string>
+    <string name="pref_next_up_timeout_title">自动播放倒计时时长</string>
     <string name="pref_next_up_timeout_summary">播放下一项目之前的等待时间</string>
     <string name="pref_media_player">首选播放器</string>
     <string name="pref_about_title">关于</string>
@@ -356,4 +356,5 @@
     <string name="pref_video_player_exoplayer">ExoPlayer （系统播放器）</string>
     <string name="pref_libvlc_audio_delay_title">libVLC的默认音频延迟</string>
     <string name="pref_next_up_enabled_summary">播放前预览下一个队列项目</string>
+    <string name="pref_next_up_enabled_title">允许播放下一个画面</string>
 </resources>
