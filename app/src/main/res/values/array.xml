@@ -8,8 +8,8 @@
         <item>@string/pref_theme_emerald</item>
     </string-array>
     <string-array name="app_theme_values">
-        <item>DARK</item>
-        <item>EMERALD</item>
+        <item>Theme_Jellyfin</item>
+        <item>Theme_Jellyfin_Emerald</item>
     </string-array>
     <string-array name="pref_startup_entries" >
         <item>@string/pref_show_login</item>

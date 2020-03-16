@@ -27,6 +27,7 @@
 
     <PreferenceCategory android:title="@string/pref_general">
         <ListPreference
+            android:defaultValue="Theme_Jellyfin"
             android:entries="@array/app_theme_entries"
             android:entryValues="@array/app_theme_values"
             android:key="app_theme"
