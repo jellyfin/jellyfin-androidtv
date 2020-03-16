@@ -35,7 +35,7 @@
     </style>
 
     <!-- Legacy Emerald Theme -->
-    <style name="Theme.Jellyfin.Legacy" parent="Theme.Jellyfin">
+    <style name="Theme.Jellyfin.Emerald" parent="Theme.Jellyfin">
         <item name="android:colorPrimary">#051802</item>
         <item name="android:colorPrimaryDark">#051802</item>
         <item name="android:colorAccent">#52B54B</item>

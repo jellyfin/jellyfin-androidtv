@@ -4,15 +4,15 @@ enum class AppTheme {
 	/**
 	 * The default dark theme
 	 */
-	DARK,
+	Theme_Jellyfin,
 
 	/**
 	 * The "classic" emerald theme
 	 */
-	EMERALD,
+	Theme_Jellyfin_Emerald,
 
 	/**
 	 * Theme inspired by Win 3.1's "hot dog stand"
 	 */
-	HOTDOG
+	Theme_Jellyfin_HotDogStand
 }

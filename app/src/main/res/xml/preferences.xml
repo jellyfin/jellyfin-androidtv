@@ -30,7 +30,7 @@
             android:entries="@array/app_theme_entries"
             android:entryValues="@array/app_theme_values"
             android:key="app_theme"
-            android:title="App Theme" />
+            android:title="@string/pref_app_theme" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="pref_show_backdrop"
