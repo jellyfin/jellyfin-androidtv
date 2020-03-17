@@ -3,6 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
 
+    <string-array name="app_theme_entries">
+        <item>@string/pref_theme_dark</item>
+        <item>@string/pref_theme_emerald</item>
+    </string-array>
+    <string-array name="app_theme_values">
+        <item>Theme_Jellyfin</item>
+        <item>Theme_Jellyfin_Emerald</item>
+    </string-array>
     <string-array name="pref_startup_entries" >
         <item>@string/pref_show_login</item>
         <item>@string/pref_auto_login</item>

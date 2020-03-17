@@ -6,6 +6,7 @@
     <color name="not_quite_black">#101010</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="red">#FF0000</color>
 
     <!-- Semi-Transparent Blacks -->
     <color name="black_opaque">#AA000000</color>

@@ -15,6 +15,7 @@ import org.acra.annotation.AcraDialog;
 import org.acra.annotation.AcraHttpSender;
 import org.acra.annotation.AcraLimiter;
 import org.acra.sender.HttpSender;
+import org.jellyfin.androidtv.base.AppThemeCallbacks;
 import org.jellyfin.androidtv.base.AuthenticatedUserCallbacks;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
@@ -134,6 +135,7 @@ public class TvApp extends Application {
         setCurrentBackgroundGradient(new int[] {ContextCompat.getColor(this, R.color.lb_default_brand_color_dark), ContextCompat.getColor(this, R.color.lb_default_brand_color)});
 
         registerActivityLifecycleCallbacks(new AuthenticatedUserCallbacks());
+        registerActivityLifecycleCallbacks(new AppThemeCallbacks());
 
         logger.Info("Application object created");
     }

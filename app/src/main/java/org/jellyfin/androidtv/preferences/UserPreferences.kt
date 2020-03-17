@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.preferences
 
 import android.content.Context
 import androidx.preference.PreferenceManager
+import org.jellyfin.androidtv.preferences.enums.AppTheme
 import org.jellyfin.androidtv.preferences.enums.AudioBehavior
 import org.jellyfin.androidtv.preferences.enums.LoginBehavior
 import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer
@@ -32,6 +33,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	var passwordDPadEnabled by booleanPreference("pref_alt_pw_entry", false)
 
 	/* Display */
+	/**
+	 * Select the app theme
+	 */
+	var appTheme by enumPreference("app_theme", AppTheme.Theme_Jellyfin)
+
 	/**
 	 * Enable background images while browsing
 	 */
