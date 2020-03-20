@@ -357,4 +357,7 @@
     <string name="watch_now">Vizionează acum</string>
     <string name="pref_next_up_timeout_title">Durata mesajului: Urmează</string>
     <string name="pref_next_up_timeout_summary">Cât timp să aștepți înainte de a reda următorul articol</string>
+    <string name="pref_app_theme">Tema Aplicației</string>
+    <string name="pref_theme_emerald">Smarald Clasic</string>
+    <string name="pref_theme_dark">Întunecat (Implicit)</string>
 </resources>
