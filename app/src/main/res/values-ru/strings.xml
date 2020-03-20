@@ -357,4 +357,7 @@
     <string name="watch_now">Смотреть сейчас</string>
     <string name="pref_media_player">Предпочитаемый проигрыватель</string>
     <string name="pref_about_title">О программе</string>
+    <string name="pref_app_theme">Тема Приложении</string>
+    <string name="pref_theme_emerald">Класик Емералд</string>
+    <string name="pref_theme_dark">Тёмная (дефолт)</string>
 </resources>
