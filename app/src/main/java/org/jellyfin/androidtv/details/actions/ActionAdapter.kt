@@ -16,7 +16,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 
-class ActionAdapter() {
+class ActionAdapter {
 	fun createViewHolder(parent: ViewGroup): ActionViewHolder {
 		val view = LayoutInflater
 			.from(parent.context)
@@ -61,6 +61,10 @@ class ActionAdapter() {
 
 		// Set state so the observers initialize
 		viewHolder.lifecycle.currentState = Lifecycle.State.STARTED
+	}
+
+	fun unbindViewHolder(viewHolder: ActionViewHolder) {
+		viewHolder.lifecycle.currentState = Lifecycle.State.DESTROYED
 	}
 
 	class ActionViewHolder(val view: View) : RecyclerView.ViewHolder(view), LifecycleOwner {
