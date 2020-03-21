@@ -37,6 +37,7 @@ class DetailsOverviewPresenter : RowPresenter() {
 		val poster: ImageView = view.details_description_poster
 
 		val actions: LinearLayout = view.details_description_actions
+		val actionViewHolders = mutableListOf<ActionAdapter.ActionViewHolder>()
 
 		val title: TextView = view.findViewById(R.id.details_description_title)
 		val subtitle: TextView = view.findViewById(R.id.details_description_subtitle)
@@ -96,6 +97,7 @@ class DetailsOverviewPresenter : RowPresenter() {
 		// Action adapter
 		row.actions.forEach { action ->
 			val holder = actionAdapter.createViewHolder(viewHolder.actions)
+			viewHolder.actionViewHolders.add(holder)
 			viewHolder.actions.addView(holder.view)
 
 			actionAdapter.bindViewHolder(holder, action)
@@ -209,7 +211,16 @@ class DetailsOverviewPresenter : RowPresenter() {
 	override fun onUnbindRowViewHolder(viewHolder: RowPresenter.ViewHolder) {
 		viewHolder as ViewHolder
 
-		// Remove all action views
-		viewHolder.actions.removeAllViews()
+		// Unbind all actions
+		viewHolder.actionViewHolders.removeAll {
+			// Unbind action
+			actionAdapter.unbindViewHolder(it)
+
+			// Remove the view
+			viewHolder.actions.removeView(it.view)
+
+			// Return "true" to remove it from the list
+			true
+		}
 	}
 }
