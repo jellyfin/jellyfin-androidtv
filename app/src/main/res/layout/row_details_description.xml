@@ -58,6 +58,19 @@
         app:layout_constraintTop_toTopOf="@id/details_description_banner"
         tools:src="@drawable/app_icon_medium" />
 
+    <ProgressBar
+        android:id="@+id/details_description_poster_progress"
+        style="@style/poster_progress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/details_description_poster"
+        app:layout_constraintEnd_toEndOf="@id/details_description_poster"
+        app:layout_constraintStart_toStartOf="@id/details_description_poster"
+        tools:max="100"
+        tools:progress="60"
+        tools:visibility="visible" />
+
     <androidx.leanback.widget.ResizingTextView
         android:id="@+id/details_description_title"
         style="?attr/detailsDescriptionTitleStyle"
