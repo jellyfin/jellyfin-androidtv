@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="video_error_unknown_error">Falla al cargar el video</string>
+    <string name="video_error_unknown_error">Fallo al cargar el video</string>
     <string name="txt_loading">Cargando…</string>
-    <string name="title_activity_select_user">ActicidadSeleccionarUsuario</string>
+    <string name="title_activity_select_user">SelecionarActividadUsuario</string>
     <string name="home_title">Inicio</string>
     <string name="btn_cancel">Cancelar</string>
-    <string name="byletter_letters">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
-    <string name="pref_login_behavior_title">Comportamiento de Arranque</string>
+    <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="pref_login_behavior_title">Comportamiento de Inicio</string>
     <string name="pref_show_login">Mostrar Pantalla de Inicio de Sesión</string>
-    <string name="pref_playback">REPRODUCIR</string>
+    <string name="pref_playback">Reproducción</string>
     <string name="pref_max_bitrate_title">Tasa de Bits de Transmisión Máxima</string>
     <string name="pref_auto_login">Iniciar sesión con este usuario automáticamente</string>
     <string name="settings_title">Configuraciones</string>
     <string name="pref_prompt_pw">Solicitar una Contraseña</string>
-    <string name="pref_alt_pw_entry">Emplear la técnica de ingreso de contraseña personalizada d-pad</string>
-    <string name="pref_alt_pw_entry_desc">Habilita el ingreso de una contraseña numérica con tan solo teclas d-pad sin exponer la contraseña a otras personas en la habitación</string>
-    <string name="title_activity_dpad_pw">Intoducir Contraseña</string>
+    <string name="pref_alt_pw_entry">Emplear la técnica de ingreso de contraseña personalizada D-Pad</string>
+    <string name="pref_alt_pw_entry_desc">Ingresar contraseña utilizando solamente las teclas D-Pad</string>
+    <string name="title_activity_dpad_pw">Introducir Contraseña</string>
     <string name="enter_password">Introducir Contraseña</string>
-    <string name="dpad_entry_desc">Emplee el D-Pad en su control remoto para introducir una contraseña numérica. Haga clic en un botón para el primer número listado o doble clic para el segundo. p. Ej. haga click en \'Arriba\' para 1 o doble click \'seleccionar\' para 5. Mantenga presionado por un segundo y después libere el boton \'seleccionar\' cuando haya terminado o el botón de \'izquierda\' para comenzar nuevamente.</string>
+    <string name="dpad_entry_desc">"Utilise el D-Pad en su control remoto para introducir una contraseña numérica. Haga clic en un botón para el primer número listado o doble clic para el segundo.  Ej. haga click en \'Arriba\' para 1 o doble click \'seleccionar\' para 5. Mantenga presionado por un segundo y después libere el boton \'seleccionar\' cuando haya terminado o el botón de \'izquierda\' para comenzar nuevamente."</string>
     <string name="dpad_pw_cancel">* Mantenga presionado el botón \'abajo\' por un segundo y después libérelo si tiene una contraseña alphanumérica o requiere de un teclado para introducirla</string>
     <string name="chapters">Capítulos</string>
     <string name="pref_general">GENERAL</string>
