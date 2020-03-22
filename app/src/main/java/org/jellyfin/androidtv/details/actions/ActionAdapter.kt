@@ -1,86 +1,78 @@
 package org.jellyfin.androidtv.details.actions
 
+import android.content.res.ColorStateList
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.leanback.widget.Action
-import androidx.leanback.widget.ObjectAdapter
-import androidx.leanback.widget.Presenter
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 
-class ActionAdapter : ObjectAdapter(ActionPresenter()) {
-	private val actions = arrayListOf<Action>()
-	private var visibleActions = emptyList<Action>()
+class ActionAdapter {
+	fun createViewHolder(parent: ViewGroup): ActionViewHolder {
+		val view = LayoutInflater
+			.from(parent.context)
+			.inflate(R.layout.action, parent, false)
 
-	fun add(action: Action) {
-		// Add action
-		actions += action
-
-		// Bind listener
-		if (action is BaseAction) action.onVisibilityChanged = ::commit
+		return ActionViewHolder(view)
 	}
 
-	fun commit() {
-		// Update visible actions
-		visibleActions = actions.filter { action -> action !is BaseAction || action.isVisible }
+	fun bindViewHolder(viewHolder: ActionViewHolder, action: Action) {
+		// Visibility
+		action.visible.observe(viewHolder, Observer { visible ->
+			viewHolder.view.visibility = if (visible) View.VISIBLE else View.GONE
+			viewHolder.button.visibility = if (visible) View.VISIBLE else View.GONE
+		})
 
-		// Notify the actions have changed
-		notifyChanged()
-	}
+		// Icon
+		action.icon.observe(viewHolder, Observer { icon ->
+			viewHolder.button.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null)
+		})
 
-	override fun size() = visibleActions.size
-	override fun get(position: Int) = visibleActions.getOrNull(position)
+		// Text
+		action.text.observe(viewHolder, Observer { text ->
+			viewHolder.button.text = text
+		})
 
-	fun setVisibility(action: BaseAction, visible: Boolean) {
-		action.isVisible = visible
-
-		commit()
-	}
-
-	private class ActionPresenter : Presenter() {
-		override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
-			val view = LayoutInflater
-				.from(parent.context)
-				.inflate(R.layout.action, parent, false)
-
-			return ActionViewHolder(view)
+		// Active state
+		if (action is ToggleableAction) {
+			action.active.observe(viewHolder, Observer { active ->
+				val color = viewHolder.button.resources.getColor(if (active) R.color.action_active else R.color.white)
+				viewHolder.button.setTextColor(color)
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+					viewHolder.button.compoundDrawableTintList = ColorStateList.valueOf(color)
+			})
 		}
 
-		override fun onBindViewHolder(viewHolder: ViewHolder, action: Any) {
-			// Cast types
-			action as Action
-			viewHolder as ActionViewHolder
-
-			// Set data
-			viewHolder.button.setCompoundDrawablesWithIntrinsicBounds(null, action.icon, null, null)
-			viewHolder.button.text = action.label1
-
-			if (action is SecondariesPopupAction) {
-				action.anchor = viewHolder.button
-			}
-
-			if (action is ToggleAction) {
-				val color = if (action.active) R.color.action_active else R.color.white
-
-				viewHolder.button.apply {
-					action.icon.setTint(resources.getColor(color))
-					setTextColor(resources.getColor(color))
-				}
+		// Click listener
+		viewHolder.button.setOnClickListener { view ->
+			GlobalScope.launch(Dispatchers.Main) {
+				action.onClick(view)
 			}
 		}
 
-		override fun onUnbindViewHolder(viewHolder: ViewHolder) {
-			viewHolder as ActionViewHolder
+		// Set state so the observers initialize
+		viewHolder.lifecycle.currentState = Lifecycle.State.STARTED
+	}
 
-			viewHolder.button.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
-			viewHolder.secondariesPopupAction = null
-		}
+	fun unbindViewHolder(viewHolder: ActionViewHolder) {
+		viewHolder.lifecycle.currentState = Lifecycle.State.DESTROYED
+	}
 
-		private class ActionViewHolder(view: View) : Presenter.ViewHolder(view) {
-			var button: Button = view.findViewById(R.id.action_button)
-			var secondariesPopupAction: SecondariesPopupAction? = null
-		}
+	class ActionViewHolder(val view: View) : RecyclerView.ViewHolder(view), LifecycleOwner {
+		val button: Button = view.findViewById(R.id.action_button)
+
+		// Lifecycle
+		private val lifecycleRegistry = LifecycleRegistry(this)
+		override fun getLifecycle() = lifecycleRegistry
 	}
 }
 

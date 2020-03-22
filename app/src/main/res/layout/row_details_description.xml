@@ -3,19 +3,74 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#37474F"
+    android:paddingBottom="16dp">
+
+    <ImageView
+        android:id="@+id/details_description_banner"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:maxHeight="274dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/banner_tv" />
+
+    <ImageView
+        android:id="@+id/details_description_logo"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="48dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/app_logo" />
+
+    <LinearLayout
+        android:id="@+id/details_description_actions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#33000000"
+        android:orientation="horizontal"
+        android:paddingStart="224dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="48dp"
+        android:paddingBottom="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/details_description_poster"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/details_description_banner"
+        tools:itemCount="3"
+        tools:listitem="@layout/action" />
+
+    <ImageView
+        android:id="@+id/details_description_poster"
+        android:layout_width="160dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="210dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/details_description_banner"
+        tools:src="@drawable/app_icon_medium" />
 
     <androidx.leanback.widget.ResizingTextView
         android:id="@+id/details_description_title"
         style="?attr/detailsDescriptionTitleStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toTopOf="@+id/details_description_subtitle"
         app:layout_constraintEnd_toStartOf="@id/details_description_streams"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/details_description_poster"
+        app:layout_constraintTop_toBottomOf="@id/details_description_actions"
         tools:text="Title" />
 
     <androidx.leanback.widget.ResizingTextView
@@ -23,11 +78,12 @@
         style="?attr/detailsDescriptionSubtitleStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toTopOf="@+id/details_description_metadata"
         app:layout_constraintEnd_toStartOf="@id/details_description_streams"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/details_description_poster"
         app:layout_constraintTop_toBottomOf="@+id/details_description_title"
         tools:text="Alternative title or native title" />
 
@@ -35,14 +91,15 @@
         android:id="@+id/details_description_metadata"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/details_description_genres"
         app:layout_constraintEnd_toStartOf="@id/details_description_streams"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/details_description_poster"
         app:layout_constraintTop_toBottomOf="@id/details_description_subtitle">
 
         <TextView
@@ -95,8 +152,9 @@
         android:id="@+id/details_description_genres"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:nextFocusRight="@id/details_description_streams"
         android:orientation="horizontal"
@@ -104,7 +162,7 @@
         app:layout_constraintBottom_toTopOf="@id/details_description_body"
         app:layout_constraintEnd_toStartOf="@id/details_description_streams"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/details_description_poster"
         app:layout_constraintTop_toBottomOf="@id/details_description_metadata"
         tools:itemCount="5"
         tools:listitem="@layout/row_details_description_genre_button" />
@@ -114,11 +172,12 @@
         style="?attr/detailsDescriptionBodyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toTopOf="@id/details_description_tags"
         app:layout_constraintEnd_toStartOf="@id/details_description_streams"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/details_description_poster"
         app:layout_constraintTop_toBottomOf="@+id/details_description_genres"
         tools:text="Item description or overview.. whatever you might call it " />
 
@@ -126,24 +185,26 @@
         android:id="@+id/details_description_tags"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toStartOf="@id/details_description_streams"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/details_description_poster"
         app:layout_constraintTop_toBottomOf="@id/details_description_body"
         tools:text="Tags: Tag1, Tag2, Tag3" />
 
     <LinearLayout
         android:id="@+id/details_description_duration_info"
         android:layout_width="150dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="48dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/details_description_streams"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/details_description_actions">
 
         <TextView
             android:layout_width="match_parent"
@@ -174,12 +235,12 @@
             tools:text="13:37" />
     </LinearLayout>
 
-
     <LinearLayout
         android:id="@+id/details_description_streams"
         android:layout_width="150dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="48dp"
         android:nextFocusLeft="@id/details_description_genres"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"

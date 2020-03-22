@@ -2,24 +2,23 @@ package org.jellyfin.androidtv.details.actions
 
 import android.content.Context
 import android.util.Log
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import android.view.View
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.model.itemtypes.PlayableItem
 
 private const val LOG_TAG = "PlayFromBeginningAction"
 
-class PlayFromBeginningAction(context: Context, val item: PlayableItem) : PlaybackAction(ActionID.PLAY_FROM_BEGINNING.id, context) {
-	init {
-		label1 = context.getString(R.string.lbl_play)
-		icon = context.getDrawable(R.drawable.ic_play)
-	}
+class PlayFromBeginningAction(private val context: Context, val item: LiveData<out PlayableItem>) : PlaybackAction() {
+	override val visible = MutableLiveData(true)
+	override val text = MutableLiveData(context.getString(R.string.lbl_play))
+	override val icon = MutableLiveData(context.getDrawable(R.drawable.ic_play)!!)
 
-	override fun onClick() {
+	override suspend fun onClick(view: View) {
 		Log.i(LOG_TAG, "Play from Beginning clicked!")
-		GlobalScope.launch(Dispatchers.Main) {
-			playItem(item, 0, false)
-		}
+
+		val value = item.value ?: return
+		playItem(context, value, 0, false)
 	}
 }
