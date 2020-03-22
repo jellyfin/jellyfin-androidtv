@@ -26,6 +26,12 @@
         <item name="android:maxHeight">5sp</item>
     </style>
 
+    <!-- Revised version of overlay_progress -->
+    <style name="poster_progress" parent="overlay_progress">
+        <item name="android:progressDrawable">@drawable/progress_bar_poster</item>
+        <item name="android:layout_margin">6dp</item>
+    </style>
+
     <style name="PopupSlideInTop">
         <item name="android:windowEnterAnimation">@anim/abc_slide_in_top</item>
         <item name="android:windowExitAnimation">@anim/abc_slide_out_top</item>

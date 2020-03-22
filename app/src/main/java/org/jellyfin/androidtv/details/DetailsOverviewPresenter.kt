@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.text.bold
 import androidx.leanback.widget.RowPresenter
@@ -35,6 +36,7 @@ class DetailsOverviewPresenter : RowPresenter() {
 		val banner: ImageView = view.details_description_banner
 		val logo: ImageView = view.details_description_logo
 		val poster: ImageView = view.details_description_poster
+		val posterProgress: ProgressBar = view.details_description_poster_progress
 
 		val actions: LinearLayout = view.details_description_actions
 		val actionViewHolders = mutableListOf<ActionAdapter.ActionViewHolder>()
@@ -149,6 +151,17 @@ class DetailsOverviewPresenter : RowPresenter() {
 		}
 
 		if (item is PlayableItem) {
+			// Calculate progress in percentage (0 - 100)
+			val progress = item.durationTicks?.let { item.playbackPositionTicks * 100.0 / it }
+
+			if (progress != null && progress > 0) {
+				viewHolder.posterProgress.visibility = View.VISIBLE
+				viewHolder.posterProgress.max = 100
+				viewHolder.posterProgress.progress = progress.toInt()
+			} else {
+				viewHolder.posterProgress.visibility = View.GONE
+			}
+
 			(viewHolder.genres.adapter as GenreAdapter).setItems(item.genres)
 
 			val videoStream = item.mediaInfo.streams.find { it.type == MediaStreamType.Video }
