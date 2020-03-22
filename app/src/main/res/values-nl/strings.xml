@@ -348,4 +348,16 @@
     <string name="pref_next_up_timeout_summary">Hoelang wachten voordat het volgende item wordt afgespeeld</string>
     <string name="pref_media_player">Geprefereerde media speler</string>
     <string name="pref_about_title">Over</string>
+    <string name="pref_app_theme">App Thema</string>
+    <string name="pref_libvlc_audio_delay_title">Standaard geluidsvertraging voor libVLC</string>
+    <string name="pref_next_up_enabled_title">Volgend scherm inschakelen</string>
+    <string name="pref_next_up_timeout_title">Volgende Tijdsduur</string>
+    <string name="pref_theme_emerald">Klassiek smaragd</string>
+    <string name="pref_theme_dark">Donker (Standaard)</string>
+    <string name="acra_dialog_text">Wilt u een crashmelding sturen naar de ontwikkelaars\?
+\n
+\nDeze informatie wordt verzonden naar een derde partij (tracepot.com).
+\n
+\nDeze Prompt kan worden uitgeschakeld in het Crash Reporting deel in de Jellyfin app\'s Instellingen.</string>
+    <string name="pref_acra_syslog">Neem systeemlogs op in crashrapporten. Dit kan privégegevens van andere applicaties bevatten als deze werden gelogd op het moment van de crash.</string>
 </resources>
