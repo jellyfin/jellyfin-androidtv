@@ -34,6 +34,16 @@ android {
 			applicationIdSuffix = ".debug"
 		}
 	}
+
+	applicationVariants.all {
+		val variant = this
+		variant.outputs.all {
+			val output = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
+			output.outputFileName = output.outputFileName
+				.replace("app-", "jellyfin-androidtv_")
+				.replace(".apk", "_${variant.versionName}.apk")
+		}
+	}
 }
 
 dependencies {
