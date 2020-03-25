@@ -17,11 +17,21 @@ pool:
 
 steps:
 - task: Gradle@2
+  displayName: 'Run Tests'
+  inputs:
+    gradleWrapperFile: 'gradlew'
+    tasks: 'test'
+    publishJUnitResults: true
+    testResultsFiles: '**/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    sonarQubeRunAnalysis: false
+
+- task: Gradle@2
   displayName: 'Build Debug'
   inputs:
     gradleWrapperFile: 'gradlew'
     tasks: 'assembleDebug'
-    publishJUnitResults: true
+    publishJUnitResults: false
     testResultsFiles: '**/TEST-*.xml'
     javaHomeOption: 'JDKVersion'
     sonarQubeRunAnalysis: false
@@ -31,7 +41,7 @@ steps:
   inputs:
     gradleWrapperFile: 'gradlew'
     tasks: 'assembleRelease'
-    publishJUnitResults: true
+    publishJUnitResults: false
     testResultsFiles: '**/TEST-*.xml'
     javaHomeOption: 'JDKVersion'
     sonarQubeRunAnalysis: false
