@@ -17,10 +17,36 @@ pool:
 
 steps:
 - task: Gradle@2
+  displayName: 'Build Debug'
   inputs:
     gradleWrapperFile: 'gradlew'
-    tasks: 'build'
+    tasks: 'assembleDebug'
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
     javaHomeOption: 'JDKVersion'
     sonarQubeRunAnalysis: false
+
+- task: Gradle@2
+  displayName: 'Build Release'
+  inputs:
+    gradleWrapperFile: 'gradlew'
+    tasks: 'assembleRelease'
+    publishJUnitResults: true
+    testResultsFiles: '**/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    sonarQubeRunAnalysis: false
+
+- task: CopyFiles@2
+  displayName: 'Copy APKs'
+  inputs:
+    SourceFolder: 'app/build/outputs/apk/'
+    Contents: '**/*.apk'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    flattenFolders: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish APKs'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'jellyfin-androidtv'
+    publishLocation: 'Container'
