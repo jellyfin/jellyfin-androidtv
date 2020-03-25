@@ -100,4 +100,8 @@
     <string name="lbl_enter_user_name">輸入帳號</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="title_activity_select_user">選擇用戶活動</string>
+    <string name="pref_alt_pw_entry_desc">僅使用十字鍵輸入數字密碼</string>
+    <string name="pref_alt_pw_entry">自定十字鍵密碼輸入</string>
+    <string name="pref_prompt_pw">密碼提示</string>
+    <string name="pref_login_behavior_title">啟動行為</string>
 </resources>
