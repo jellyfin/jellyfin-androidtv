@@ -70,6 +70,7 @@ public class ItemListActivity extends BaseActivity {
     private int BUTTON_SIZE;
     public static final String FAV_SONGS = "FAV_SONGS";
     public static final String VIDEO_QUEUE = "VIDEO_QUEUE";
+    public static int BACKDROP_ROTATION_INTERVAL = 8000;
 
     private TextView mTitle;
     private FlexboxLayout mGenreRow;
@@ -712,8 +713,9 @@ public class ItemListActivity extends BaseActivity {
             TextUnderButton artist = new TextUnderButton(this, R.drawable.ic_user, buttonSize, 4, getString(R.string.lbl_open_artist), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent artist = new Intent(mActivity, FullDetailsActivity.class);
-                    artist.putExtra("ItemId", mBaseItem.getAlbumArtists().get(0).getId());
+                    // Open AlbumArtist in DetailView
+                    Intent artist = new Intent(mActivity, DetailsActivity.class);
+                    artist.putExtra(DetailsActivity.EXTRA_ITEM_ID, mBaseItem.getAlbumArtists().get(0).getId());
                     mActivity.startActivity(artist);
 
                 }
@@ -735,11 +737,11 @@ public class ItemListActivity extends BaseActivity {
             @Override
             public void run() {
                 updateBackdrop();
-                mLoopHandler.postDelayed(this, FullDetailsActivity.BACKDROP_ROTATION_INTERVAL);
+                mLoopHandler.postDelayed(this, BACKDROP_ROTATION_INTERVAL);
             }
         };
 
-        mLoopHandler.postDelayed(mBackdropLoop, FullDetailsActivity.BACKDROP_ROTATION_INTERVAL);
+        mLoopHandler.postDelayed(mBackdropLoop, BACKDROP_ROTATION_INTERVAL);
     }
 
     private void updateBackdrop() {

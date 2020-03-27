@@ -23,7 +23,7 @@ import com.squareup.picasso.Target;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
-import org.jellyfin.androidtv.details.FullDetailsActivity;
+import org.jellyfin.androidtv.details.DetailsActivity;
 import org.jellyfin.androidtv.details.ItemListActivity;
 import org.jellyfin.androidtv.imagehandling.PicassoBackgroundManagerTarget;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
@@ -217,8 +217,9 @@ public class AudioNowPlayingActivity extends BaseActivity  {
             @Override
             public void onClick(View v) {
                 if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {
-                    Intent artist = new Intent(mActivity, FullDetailsActivity.class);
-                    artist.putExtra("ItemId", mBaseItem.getAlbumArtists().get(0).getId());
+                    // Open AlbumArtist in Details Activity
+                    Intent artist = new Intent(mActivity, DetailsActivity.class);
+                    artist.putExtra(DetailsActivity.EXTRA_ITEM_ID, mBaseItem.getAlbumArtists().get(0).getId());
                     mActivity.startActivity(artist);
 
                 }
