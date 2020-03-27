@@ -11,19 +11,12 @@ import android.widget.EditText;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.browsing.MainActivity;
-import org.jellyfin.androidtv.details.FullDetailsActivity;
+import org.jellyfin.androidtv.details.DetailsActivity;
 import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.startup.SelectServerActivity;
 import org.jellyfin.androidtv.startup.SelectUserActivity;
 import org.jellyfin.androidtv.util.DelayedMessage;
 import org.jellyfin.androidtv.util.Utils;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.ConnectionResult;
 import org.jellyfin.apiclient.interaction.IConnectionManager;
@@ -33,6 +26,12 @@ import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.logging.ILogger;
 import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 import org.jellyfin.apiclient.model.users.AuthenticationResult;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AuthenticationHelper {
     public static void enterManualServerAddress(final Activity activity) {
@@ -160,8 +159,9 @@ public class AuthenticationHelper {
                     Intent intent = new Intent(activity, MainActivity.class);
                     activity.startActivity(intent);
                 } else {
-                    Intent intent = new Intent(activity, FullDetailsActivity.class);
-                    intent.putExtra("ItemId", directEntryItemId);
+                    // Open item in Details Activity
+                    Intent intent = new Intent(activity, DetailsActivity.class);
+                    intent.putExtra(DetailsActivity.EXTRA_ITEM_ID, directEntryItemId);
                     activity.startActivity(intent);
                 }
             }
