@@ -11,7 +11,7 @@ import android.widget.EditText;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.browsing.MainActivity;
-import org.jellyfin.androidtv.details.FullDetailsActivity;
+import org.jellyfin.androidtv.details.DetailsActivity;
 import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.model.repository.ConnectionManagerRepository;
 import org.jellyfin.androidtv.model.repository.SerializerRepository;
@@ -162,8 +162,9 @@ public class AuthenticationHelper {
                     Intent intent = new Intent(activity, MainActivity.class);
                     activity.startActivity(intent);
                 } else {
-                    Intent intent = new Intent(activity, FullDetailsActivity.class);
-                    intent.putExtra("ItemId", directEntryItemId);
+                    // Open item in Details Activity
+                    Intent intent = new Intent(activity, DetailsActivity.class);
+                    intent.putExtra(DetailsActivity.EXTRA_ITEM_ID, directEntryItemId);
                     activity.startActivity(intent);
                 }
             }
