@@ -12,7 +12,7 @@ import org.jellyfin.androidtv.BuildConfig;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.browsing.MainActivity;
-import org.jellyfin.androidtv.details.FullDetailsActivity;
+import org.jellyfin.androidtv.details.DetailsActivity;
 import org.jellyfin.androidtv.eventhandling.TvApiEventListener;
 import org.jellyfin.androidtv.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.model.compat.AndroidProfile;
@@ -107,8 +107,8 @@ public class StartupActivity extends FragmentActivity {
                 });
             } else {
                 //Can just go right into details
-                Intent detailsIntent = new Intent(this, FullDetailsActivity.class);
-                detailsIntent.putExtra("ItemId", application.getDirectItemId());
+                Intent detailsIntent = new Intent(this, DetailsActivity.class);
+                detailsIntent.putExtra(DetailsActivity.EXTRA_ITEM_ID, application.getDirectItemId());
                 startActivity(detailsIntent);
 
                 finish();
