@@ -138,8 +138,8 @@ public class ProfileHelper {
         profile.setSubtitleProfiles(new SubtitleProfile[] {
             getSubtitleProfile("srt", SubtitleDeliveryMethod.Embed),
             getSubtitleProfile("subrip", SubtitleDeliveryMethod.Embed),
-            getSubtitleProfile("ass", SubtitleDeliveryMethod.Encode),
-            getSubtitleProfile("ssa", SubtitleDeliveryMethod.Encode),
+            getSubtitleProfile("ass", SubtitleDeliveryMethod.Embed),
+            getSubtitleProfile("ssa", SubtitleDeliveryMethod.Embed),
             getSubtitleProfile("pgs", SubtitleDeliveryMethod.Embed),
             getSubtitleProfile("pgssub", SubtitleDeliveryMethod.Embed),
             getSubtitleProfile("dvdsub", SubtitleDeliveryMethod.Embed),

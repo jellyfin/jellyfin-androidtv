@@ -14,6 +14,7 @@ import android.widget.Toast;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.browsing.CustomBrowseFragment;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.GridButtonPresenter;
@@ -49,13 +50,13 @@ public class SelectUserFragment extends CustomBrowseFragment {
         HeaderItem usersHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_select_user));
         ItemRowAdapter usersAdapter = new ItemRowAdapter(mServer, new CardPresenter(), rowAdapter);
         usersAdapter.Retrieve();
+        usersAdapter.add(new BaseRowItem(new GridButton(ENTER_MANUALLY, mApplication.getString(R.string.lbl_enter_manually), R.drawable.tile_edit)));
         rowAdapter.add(new ListRow(usersHeader, usersAdapter));
 
         HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_other_options));
 
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add(new GridButton(ENTER_MANUALLY, mApplication.getString(R.string.lbl_enter_manually), R.drawable.tile_edit));
         gridRowAdapter.add(new GridButton(SWITCH_SERVER, mApplication.getString(R.string.lbl_switch_server), R.drawable.tile_port_server));
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
@@ -86,7 +87,7 @@ public class SelectUserFragment extends CustomBrowseFragment {
                                     }
                                     serverIntent.putExtra("Servers", payload.toArray(new String[] {}));
                                     serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                    getActivity().startActivity(serverIntent);
+                                    requireActivity().startActivity(serverIntent);
                             }
                         });
                         break;
@@ -97,6 +98,15 @@ public class SelectUserFragment extends CustomBrowseFragment {
                     default:
                         Toast.makeText(getActivity(), item.toString(), Toast.LENGTH_SHORT)
                                 .show();
+                        break;
+                }
+            }
+
+            if (item instanceof BaseRowItem) {
+                switch (((BaseRowItem) item).getGridButton().getId()) {
+                    case ENTER_MANUALLY:
+                        // Manual login
+                        AuthenticationHelper.enterManualUser(getActivity());
                         break;
                 }
             }

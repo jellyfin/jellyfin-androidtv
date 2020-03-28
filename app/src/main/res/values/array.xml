@@ -3,6 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
 
+    <string-array name="app_theme_entries">
+        <item>@string/pref_theme_dark</item>
+        <item>@string/pref_theme_emerald</item>
+    </string-array>
+    <string-array name="app_theme_values">
+        <item>Theme_Jellyfin</item>
+        <item>Theme_Jellyfin_Emerald</item>
+    </string-array>
     <string-array name="pref_startup_entries" >
         <item>@string/pref_show_login</item>
         <item>@string/pref_auto_login</item>
@@ -76,22 +84,6 @@
         <item>60</item>
         <item>120</item>
         <item>300</item>
-    </string-array>
-    <string-array name="pref_timeout_entries" >
-        <item>30 Minutes</item>
-        <item>1 Hour</item>
-        <item>2 Hours</item>
-        <item>3 Hours</item>
-        <item>6 Hours</item>
-        <item>24 Hours</item>
-    </string-array>
-    <string-array name="pref_timeout_values" >
-        <item>1800000</item>
-        <item>3600000</item>
-        <item>7200000</item>
-        <item>10800000</item>
-        <item>21600000</item>
-        <item>86400000</item>
     </string-array>
     <string-array name="pref_audio_options" >
         <item>@string/pref_audio_direct</item>

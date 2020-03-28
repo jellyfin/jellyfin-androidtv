@@ -1,9 +1,6 @@
 package org.jellyfin.androidtv.presentation;
 
 import android.graphics.Color;
-import android.graphics.Typeface;
-import androidx.leanback.widget.RowPresenter;
-
 import android.os.Build;
 import android.text.Html;
 import android.text.Spanned;
@@ -23,12 +20,10 @@ import org.jellyfin.androidtv.ui.GenreButton;
 import org.jellyfin.androidtv.ui.TextUnderButton;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.Utils;
-
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
-/**
- * Created by Eric on 5/22/2015.
- */
+import androidx.leanback.widget.RowPresenter;
+
 public class MyDetailsOverviewRowPresenter extends RowPresenter {
 
     private ViewHolder viewHolder;
@@ -51,8 +46,6 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
 
         private RelativeLayout mLeftFrame;
 
-        private Typeface roboto;
-
         /**
          * Constructor for ViewHolder.
          *
@@ -60,10 +53,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
          */
         public ViewHolder(View rootView) {
             super(rootView);
-            roboto = TvApp.getApplication().getDefaultFont();
-
             mTitle = (TextView) rootView.findViewById(R.id.fdTitle);
-            mTitle.setTypeface(roboto);
             mTitle.setShadowLayer(5, 5, 5, Color.BLACK);
             mInfoTitle1 = (TextView) rootView.findViewById(R.id.infoTitle1);
             mInfoTitle2 = (TextView) rootView.findViewById(R.id.infoTitle2);
@@ -80,7 +70,6 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
             //mStudioImage = (ImageView) rootView.findViewById(R.id.studioImage);
             mButtonRow = (LinearLayout) rootView.findViewById(R.id.fdButtonRow);
             mSummary = (TextView) rootView.findViewById(R.id.fdSummaryText);
-            mSummary.setTypeface(roboto);
 
         }
 
@@ -160,7 +149,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
             for (String genre : item.getGenres()) {
                 if (!first) InfoLayoutHelper.addSpacer(TvApp.getApplication().getCurrentActivity(), layout, "  /  ", 12);
                 first = false;
-                layout.addView(new GenreButton(TvApp.getApplication().getCurrentActivity(), TvApp.getApplication().getDefaultFont(), 14, genre, item.getBaseItemType()));
+                layout.addView(new GenreButton(TvApp.getApplication().getCurrentActivity(), 14, genre, item.getBaseItemType()));
             }
         }
     }

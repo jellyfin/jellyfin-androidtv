@@ -20,7 +20,6 @@
     <string name="dpad_entry_desc">Utilisez le bouton multidirectionnel de votre télécommande pour entrer un mot de passe numérique. Un simple clic sur un bouton sélectionne le premier chiffre ; un double-clic sélectionne le second. Exemples : un simple clic sur le bouton vers le haut sélectionne \'1\', un double-clic sélectionne \'5\'. Maintenez appuyé pendant 1 seconde puis relâchez le bouton \'select\' quand vous avez terminé, ou le bouton de gauche pour recommencer.</string>
     <string name="dpad_pw_cancel">* Maintenez appuyé pendant 1 seconde sur le bouton \'bas\' puis relâchez si vous avez un mot de passe alphanumérique ou si vous avez besoin d\'un clavier</string>
     <string name="chapters">Chapitres</string>
-    <string name="pref_auto_logoff_title">Timeout de déconnexion automatique</string>
     <string name="pref_general">Général</string>
     <string name="lbl_settings">Paramètres</string>
     <string name="lbl_logout">Déconnexion</string>
@@ -311,7 +310,7 @@
     <string name="desc_suggestions_holiday">Essayer certaines de nos suggestions pour les fêtes</string>
     <string name="title_suggestions_holiday">Joyeuses fêtes !</string>
     <string name="lbl_suggestions_holiday">Suggestions pour les vacances</string>
-    <string name="desc_suggestions_halloween">Essayer quelques-unes de nos effrayantes suggestions</string>
+    <string name="desc_suggestions_halloween">Essayez quelques-unes de nos suggestions effrayantes</string>
     <string name="title_suggestions_halloween">Joyeux Halloween !</string>
     <string name="lbl_suggestions_halloween">Suggestions effrayantes</string>
     <string name="lbl_favorite">Favori</string>
@@ -334,8 +333,8 @@
     <string name="pref_acra_disabled">Vos signalements de plantage ne seront pas transmis</string>
     <string name="pref_acra_enabled">Vous serez invité à envoyer vos signalements de plantage</string>
     <string name="pref_acra_category">Signalement d\'un plantage</string>
-    <string name="pref_acra_alwaysaccept_disabled">L\'information sur le porblème sera demandé avant d\'être soumise</string>
-    <string name="pref_acra_alwaysaccept_enabled">Rapport de problèmes sera soumis sans demander</string>
+    <string name="pref_acra_alwaysaccept_disabled">Une fenêtre de dialogue s\'affichera avant d\'envoyer un rapport de plantage</string>
+    <string name="pref_acra_alwaysaccept_enabled">Les rapports de plantage seront envoyés sans confirmation</string>
     <string name="acra_dialog_text">Voudriez-vous envoyer un rapport de plantage aux développeurs\?
 \n
 \nCette information sera transmise à une tierce partie (tracepot.com).
@@ -358,4 +357,7 @@
     <string name="pref_libvlc_audio_delay_title">Délais audio par défaut de la bibliothèque libVLC</string>
     <string name="pref_next_up_enabled_title">Activer l\'écran prochaine lecture</string>
     <string name="pref_next_up_enabled_summary">Prévisualiser l\'élément suivant dans la liste de lecture avant de le jouer</string>
+    <string name="pref_app_theme">Thème de l\'application</string>
+    <string name="pref_theme_dark">Sombre (Défaut)</string>
+    <string name="pref_theme_emerald">Émeraude Classique</string>
 </resources>

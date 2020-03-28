@@ -13,7 +13,6 @@ import android.text.InputType;
 import android.widget.EditText;
 
 import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
@@ -179,7 +178,6 @@ public class MediaManager {
         if (System.currentTimeMillis() > lastProgressReport + 5000) {
             ReportingHelper.reportProgress(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000, isPaused());
             lastProgressReport = System.currentTimeMillis();
-            TvApp.getApplication().setLastUserInteraction(lastProgressReport);
         }
 
     }
@@ -202,7 +200,7 @@ public class MediaManager {
             // Create a new media player based on platform
             if (DeviceUtils.is60()) {
                 nativeMode = true;
-                mExoPlayer = ExoPlayerFactory.newSimpleInstance(TvApp.getApplication());
+                mExoPlayer = new SimpleExoPlayer.Builder(TvApp.getApplication()).build();
                 mExoPlayer.addListener(new Player.EventListener() {
                     @Override
                     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {

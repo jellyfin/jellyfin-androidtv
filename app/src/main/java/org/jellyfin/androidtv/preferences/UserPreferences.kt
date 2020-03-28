@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.preferences
 
 import android.content.Context
 import androidx.preference.PreferenceManager
+import org.jellyfin.androidtv.preferences.enums.AppTheme
 import org.jellyfin.androidtv.preferences.enums.AudioBehavior
 import org.jellyfin.androidtv.preferences.enums.LoginBehavior
 import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer
@@ -31,12 +32,12 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	 */
 	var passwordDPadEnabled by booleanPreference("pref_alt_pw_entry", false)
 
-	/**
-	 * Sign out automatically after x milliseconds
-	 */
-	var autoSignOutTimeout by stringPreference("pref_auto_logoff_timeout", "3600000")
-
 	/* Display */
+	/**
+	 * Select the app theme
+	 */
+	var appTheme by enumPreference("app_theme", AppTheme.Theme_Jellyfin)
+
 	/**
 	 * Enable background images while browsing
 	 */
@@ -129,7 +130,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	/**
 	 * Default audio delay in milliseconds for libVLC
 	 */
-	var libVLCAudioDelay by longPreference("libvlc_audio_delay", -300)
+	var libVLCAudioDelay by longPreference("libvlc_audio_delay", 0)
 
 	/* Live TV */
 	/**

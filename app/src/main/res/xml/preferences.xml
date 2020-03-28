@@ -27,11 +27,11 @@
 
     <PreferenceCategory android:title="@string/pref_general">
         <ListPreference
-            android:defaultValue="3600000"
-            android:entries="@array/pref_timeout_entries"
-            android:entryValues="@array/pref_timeout_values"
-            android:key="pref_auto_logoff_timeout"
-            android:title="@string/pref_auto_logoff_title"
+            android:defaultValue="Theme_Jellyfin"
+            android:entries="@array/app_theme_entries"
+            android:entryValues="@array/app_theme_values"
+            android:key="app_theme"
+            android:title="@string/pref_app_theme"
             app:useSimpleSummaryProvider="true" />
         <CheckBoxPreference
             android:defaultValue="true"
@@ -67,7 +67,8 @@
             android:entries="@array/pref_bitrate_entries"
             android:entryValues="@array/pref_bitrate_values"
             android:key="pref_max_bitrate"
-            android:title="@string/pref_max_bitrate_title" />
+            android:title="@string/pref_max_bitrate_title"
+            app:useSimpleSummaryProvider="true" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="pref_enable_tv_queuing"

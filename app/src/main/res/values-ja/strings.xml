@@ -23,7 +23,6 @@
     <string name="dpad_entry_desc">リモート上の十字キーで数値パスワードを入力してください。</string>
     <string name="dpad_pw_cancel">※ アルファベット入力の場合は「下」ボタンを1秒くらい長押ししてください</string>
     <string name="chapters">章</string>
-    <string name="pref_auto_logoff_title">自動ログアウト期限</string>
     <string name="pref_general">全般</string>
     <string name="lbl_settings">設定</string>
     <string name="lbl_logout">ログアウト</string>
@@ -280,7 +279,7 @@
     <string name="lbl_instant_mix">インスタントミックス</string>
     <string name="lbl_goto_now_playing">現在再生中に移動</string>
     <string name="lbl_remove_from_queue">キューから削除</string>
-    <string name="msg_reshuffle_audio_queue">現在のオーディオキューを再シャッフル</string>
+    <string name="msg_reshuffle_audio_queue">現在のオーディオキューを再シャッフル？</string>
     <string name="lbl_open_artist">アーティストを開く</string>
     <string name="lbl_add_to_queue">キューに追加</string>
     <string name="lbl_episodes">エピソード</string>
@@ -296,4 +295,5 @@
     <string name="lbl_repeat_options">リピート設定</string>
     <string name="lbl_similar_items_library">ライブラリの類似アイテム</string>
     <string name="lbl_program_ended">プログラム終了</string>
+    <string name="lbl_no_recordings">録画はありません</string>
 </resources>

@@ -21,7 +21,6 @@
     <string name="title_activity_dpad_pw">비밀번호 입력</string>
     <string name="enter_password">비밀번호 입력</string>
     <string name="chapters">챕터</string>
-    <string name="pref_auto_logoff_title">자동 로그아웃 시간초과</string>
     <string name="pref_general">일반</string>
     <string name="lbl_settings">설정</string>
     <string name="lbl_logout">로그아웃</string>
@@ -213,4 +212,20 @@
     <string name="lbl_song_title">노래 제목</string>
     <string name="pref_external_live_tv_title">실시간 TV에 외부 재생기 사용</string>
     <string name="pref_external_live_tv_summary">실시간 스트림을 재생하려면 호환되는 앱이 필요합니다</string>
+    <string name="lbl_to_change_paren">" 바꾸기위한"</string>
+    <string name="lbl_paren_login_as">" 로그인 "</string>
+    <string name="lbl_directed_by">감독의</string>
+    <string name="lbl_ends">완료</string>
+    <string name="lbl_runs">개봉중</string>
+    <string name="lbl_upcoming">개봉예정</string>
+    <string name="msg_set_to_record">녹화로 설정된 프로그램</string>
+    <string name="lbl_other">다른</string>
+    <string name="lbl_other_channels">다른채널들</string>
+    <string name="lbl_by_name">이름</string>
+    <string name="lbl_latest">최신</string>
+    <string name="msg_not_implemented">" 미구현됨"</string>
+    <string name="lbl_performers">연주자</string>
+    <string name="lbl_suggested">추천됨</string>
+    <string name="dpad_pw_cancel">* \'다운\' 버튼을 1초간 누르고 알파 암호가 있거나 키보드가 필요할 경우 해제하십시오</string>
+    <string name="dpad_entry_desc">리모컨의 D-패드를 사용하여 숫자 암호를 입력하십시오. 첫 번째 나열된 번호의 단추를 클릭하거나 두 번째 단추를 두 번 클릭한다. 예: 1에 대해 \'업\'을 클릭하거나 5에 대해 \'선택\'을 두 번 클릭한다. 1초간 누르고 완료되면 \'선택\' 버튼을 놓거나 왼쪽 버튼을 눌러 다시 시작하십시오.</string>
 </resources>

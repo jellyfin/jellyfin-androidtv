@@ -20,7 +20,6 @@
     <string name="dpad_entry_desc">Sandyq paróldi engizý úshin basqarý taqtańyzdaǵy \"qıylys baǵyttaýyshty\" paıdalanyńyz. Túımeshikti bir ret basý - tizimdegi birinshi san úshin, nemese eki ret basý - ekinshisi úshin. Mysaldar: 1 úshin \"joǵaryǵa\" biri ret basyńyz, nemese 5 úshin \"tańdaý\" eki ret basyńyz. Aıaqtalǵansha deıin \"tandaý\" túımeshigin, nemese qaıta bastaý úshin sol jaqtaǵy túımeshigin 1 sekýnd basyp ustańyz da bosatyńyz.</string>
     <string name="dpad_pw_cancel">"* Eger áriptik parólińiz bolsa, nemese engizý úshin pernetaqta kerek bolsa, \"tómenge\"  túımeshigin 1 sekýndqa basyp ustańyz da bosatyńyz"</string>
     <string name="chapters">Sahnalar</string>
-    <string name="pref_auto_logoff_title">Júıeden avtomatty shyǵýdyń qútý ýaqyty</string>
     <string name="pref_general">Jalpy</string>
     <string name="lbl_settings">Parametrler</string>
     <string name="lbl_logout">Shyǵý</string>
@@ -260,7 +259,7 @@
     <string name="lbl_minute">mın</string>
     <string name="lbl_hour">saǵ</string>
     <string name="lbl_minutes">mın</string>
-    <string name="lbl_seconds">{0} s</string>
+    <string name="lbl_seconds">s</string>
     <string name="lbl_all_episodes">Barlyq bólimder</string>
     <string name="lbl_series_recordings">Telehıkaıa jazbalary</string>
     <string name="lbl_save">Saqtaý</string>
@@ -309,7 +308,7 @@
     <string name="title_suggestions_halloween">Sátti Halloween!</string>
     <string name="lbl_suggestions_halloween">Sumdyq usynystar</string>
     <string name="lbl_suggestions">Usynystar</string>
-    <string name="pref_use_direct_path_title">Tikeleı shyǵarý</string>
+    <string name="pref_use_direct_path_title">Syrtqy oınatqysh úshin tikeleı shyǵarý</string>
     <string name="pref_external_live_tv_title">Efır úshin syrtqy oınatqyshty paıdalaný</string>
     <string name="lbl_song_title">Áýen ataýy</string>
     <string name="lbl_next_episode">Kelesi bólimge</string>
@@ -329,4 +328,23 @@
     <string name="lbl_warning">Eskertý</string>
     <string name="msg_error_server_unavailable">Server qoljetimdi emes</string>
     <string name="pref_authentication_cat">Túpnusqalyq rastama</string>
+    <string name="pref_libvlc_audio_delay_title">libVLC úshin dybystyń ádepki kidirisi</string>
+    <string name="pref_next_up_enabled_title">Qazir kórý ekranyn qosý</string>
+    <string name="watch_now">Qazir kórý</string>
+    <string name="pref_next_up_timeout_title">Kezekti taımeriniń uzaqtyǵy</string>
+    <string name="pref_media_player">Tasyǵyshderekterdiń tańdaýly oınatqyshy</string>
+    <string name="pref_about_title">Qoldanba týraly</string>
+    <string name="pref_video_player_external">Syrtqy qoldanba</string>
+    <string name="pref_video_player_vlc">libVLC kitaphanasy</string>
+    <string name="pref_video_player_exoplayer">ExoPlayer oınatqyshy</string>
+    <string name="pref_video_player_auto">Avtomatty tańdaý</string>
+    <string name="lbl_my_media">Meniń tasyǵyshderekterim</string>
+    <string name="acra_dialog_title">Oý, joq! Birdeńe durys bolmady.</string>
+    <string name="pref_acra_alwaysaccept_disabled">Aqaý týraly habarlaý jiberý aldynda tilqatysý beınelenedi</string>
+    <string name="pref_acra_alwaysaccept_enabled">Aqaý týraly habarlaý ysynylylmaı jiberiledi</string>
+    <string name="pref_acra_alwaysaccept">Aqaý týraly habarlaý usynylmaı jiberiledi</string>
+    <string name="pref_acra_disabled">Aqaý týraly habarlaý jiberilmeıdi</string>
+    <string name="pref_acra_enabled">Aqaý týraly habarlaý jiberý ysynylady</string>
+    <string name="pref_enable_acra">Aqaý týraly ázirleýshilerge habarlaý</string>
+    <string name="pref_acra_category">Aqaý týraly habarlaý</string>
 </resources>

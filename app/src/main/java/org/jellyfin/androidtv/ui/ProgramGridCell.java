@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,10 +20,9 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import java.util.Date;
-
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 public class ProgramGridCell extends RelativeLayout implements IRecordingIndicatorView {
 
@@ -49,7 +49,6 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
         this.addView(v);
 
         mProgramName = findViewById(R.id.programName);
-        mProgramName.setTypeface(TvApp.getApplication().getDefaultFont());
         mInfoRow = findViewById(R.id.infoRow);
         mProgramName.setText(program.getName());
         mProgram = program;
@@ -64,7 +63,7 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
             if (localStart.getTime() + 60000 < activity.getCurrentLocalStartDate()) {
                 mProgramName.setText("<< "+mProgramName.getText());
                 TextView time = new TextView(context);
-                time.setTypeface(TvApp.getApplication().getDefaultFont());
+                time.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
                 time.setTextSize(12);
                 time.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(program.getStartDate())));
                 mInfoRow.addView(time);

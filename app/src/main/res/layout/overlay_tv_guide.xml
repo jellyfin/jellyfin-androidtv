@@ -98,7 +98,8 @@
         android:maxLines="1"
         android:layout_alignParentEnd="false"
         android:gravity="center_vertical"
-        android:layout_toLeftOf="@+id/textClock2" />
+        android:layout_toLeftOf="@+id/textClock2"
+        android:fontFamily="sans-serif-light" />
 
     <TextClock
         android:layout_width="wrap_content"
@@ -134,7 +135,8 @@
         android:ellipsize="end"
         android:maxLines="5"
         android:layout_alignLeft="@+id/guideInfoRow"
-        android:layout_alignRight="@+id/guideInfoRow" />
+        android:layout_alignRight="@+id/guideInfoRow"
+        android:fontFamily="sans-serif-light" />
 
     <TextView
         android:id="@+id/channelsStatus"
@@ -145,7 +147,8 @@
         android:layout_marginLeft="2sp"
         android:layout_marginBottom="2sp"
         android:textColor="@color/gray_gradient_end"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:fontFamily="sans-serif-light" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -159,7 +162,8 @@
         android:layout_marginRight="10sp"
         android:textStyle="bold"
         android:textSize="12sp"
-        android:textColor="@color/gray_gradient_end" />
+        android:textColor="@color/gray_gradient_end"
+        android:fontFamily="sans-serif-light" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -199,6 +203,7 @@
         android:gravity="center_vertical"
         android:background="@color/black_transparent"
         android:textStyle="bold"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:fontFamily="sans-serif-light" />
 
 </RelativeLayout>

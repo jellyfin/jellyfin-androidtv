@@ -20,7 +20,6 @@
     <string name="dpad_entry_desc">Pomocí D-pad na dálkovém ovládání zadejte číselné heslo. Kliknout na tlačítko pro první položku uvedenou na seznamu, nebo dvojklik pro druhou položku. např. jedno kliknutí na tlačítko \"up\" na 1 nebo dvojité kliknutí a uvolnění \"vybere\" 5. Podržte na 1 sekundu a uvolněte, nebo použijte levé tlačítko pro spuštění od začátku.</string>
     <string name="dpad_pw_cancel">* Podržte na 1 vteřinu tlačítko \"dolů\", a uvolněte pokud máte alfa heslo, nebo bude potřeba klávesnice pro vstup</string>
     <string name="chapters">Kapitoly</string>
-    <string name="pref_auto_logoff_title">Časový limit pro automatické odhlášení</string>
     <string name="pref_general">OBECNÉ</string>
     <string name="lbl_settings">Nastavení</string>
     <string name="lbl_logout">Odhlásit</string>
@@ -350,4 +349,12 @@
     <string name="pref_acra_enabled">Budete vyzváni k odeslání hlášení o chybách</string>
     <string name="pref_enable_acra">Odeslat chybové hlášení vývojářům</string>
     <string name="pref_acra_category">Hlášení chyb</string>
+    <string name="pref_about_title">Obsah</string>
+    <string name="pref_libvlc_audio_delay_title">Výchozí zvuková prodleva pro libVLC</string>
+    <string name="pref_next_up_enabled_title">Povolit obrazovku \"Následuje\"</string>
+    <string name="pref_next_up_enabled_summary">Před přehráním zobrazí náhled příští položky ve frontě</string>
+    <string name="watch_now">Sledovat nyní</string>
+    <string name="pref_next_up_timeout_title">Časový limit pro následující položku</string>
+    <string name="pref_next_up_timeout_summary">Jak dlouho počkat před přehráním další položky</string>
+    <string name="pref_media_player">Preferovaný přehrávač médií</string>
 </resources>

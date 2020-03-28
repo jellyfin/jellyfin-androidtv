@@ -61,7 +61,6 @@
     <string name="lbl_logout">Одјављивање</string>
     <string name="lbl_settings">Поставке</string>
     <string name="pref_general">Опште</string>
-    <string name="pref_auto_logoff_title">Рок за аутоматску одјаву</string>
     <string name="chapters">Поглавља</string>
     <string name="enter_password">Унесите лозинку</string>
     <string name="title_activity_dpad_pw">Унесите лозинку</string>

@@ -18,7 +18,6 @@
     <string name="dpad_entry_desc">请使用遥控器输入数字密码. 单击按钮可输入列出的第一个数字, 双击按钮可输入列出的第二个数字. 例如, 单击 \'向上\' 键则输入 1, 双击 \'选择\' 键则输入 5. 将 \'选择\' 键按住一秒则输入完毕, 将 \'向左\' 键按住一秒则重新输入.</string>
     <string name="dpad_pw_cancel">* 如果你要输入字母密码则将 \'向下\' 键按住一秒</string>
     <string name="chapters">章节</string>
-    <string name="pref_auto_logoff_title">超时则自动注销</string>
     <string name="pref_general">常规</string>
     <string name="lbl_settings">设置</string>
     <string name="lbl_logout">"注销"</string>
@@ -349,10 +348,16 @@
     <string name="pref_enable_acra">发送崩溃报告给开发人员</string>
     <string name="pref_acra_category">崩溃报告</string>
     <string name="watch_now">立即播放</string>
-    <string name="pref_next_up_timeout_title">自动播放倒计时</string>
+    <string name="pref_next_up_timeout_title">自动播放倒计时时长</string>
     <string name="pref_next_up_timeout_summary">播放下一项目之前的等待时间</string>
     <string name="pref_media_player">首选播放器</string>
     <string name="pref_about_title">关于</string>
     <string name="pref_video_player_vlc">libVLC （VLC解码器）</string>
     <string name="pref_video_player_exoplayer">ExoPlayer （系统播放器）</string>
+    <string name="pref_libvlc_audio_delay_title">libVLC的默认音频延迟</string>
+    <string name="pref_next_up_enabled_summary">播放前预览下一个队列项目</string>
+    <string name="pref_next_up_enabled_title">允许播放下一个画面</string>
+    <string name="pref_app_theme">应用程序主题</string>
+    <string name="pref_theme_emerald">经典翡翠色</string>
+    <string name="pref_theme_dark">暗黑</string>
 </resources>

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,8 +13,8 @@ import android.os.Handler;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
-import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -30,6 +29,18 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.leanback.app.RowsSupportFragment;
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
 
 import com.squareup.picasso.Picasso;
 
@@ -77,17 +88,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.leanback.app.RowsSupportFragment;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
 
 public class CustomPlaybackOverlayFragment extends Fragment implements IPlaybackOverlayFragment, ILiveTvGuide {
     ImageView mLogoImage;
@@ -254,9 +254,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         //manual subtitles
         mSubtitleText = mActivity.findViewById(R.id.offLine_subtitleText);
-        mSubtitleText.setTextSize(32);
-        mSubtitleText.setShadowLayer(1.6f, 1.5f, 1.3f, Color.BLACK);
-        updateManualSubtitlePosition();
 
         //pre-load animations
         fadeOut = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_out);
@@ -267,18 +264,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         setupPopupAnimations();
 
         //live guide
-        Typeface roboto = TvApp.getApplication().getDefaultFont();
         mDisplayDate = mActivity.findViewById(R.id.displayDate);
         mGuideTitle = mActivity.findViewById(R.id.guideTitle);
-        mGuideTitle.setTypeface(roboto);
         mGuideCurrentTitle = mActivity.findViewById(R.id.guideCurrentTitle);
-        mGuideCurrentTitle.setTypeface(roboto);
         mSummary = mActivity.findViewById(R.id.summary);
-        mSummary.setTypeface(roboto);
         mChannelStatus = mActivity.findViewById(R.id.channelsStatus);
         mFilterStatus = mActivity.findViewById(R.id.filterStatus);
-        mChannelStatus.setTypeface(roboto);
-        mFilterStatus.setTypeface(roboto);
         mChannelStatus.setTextColor(Color.GRAY);
         mFilterStatus.setTextColor(Color.GRAY);
         mGuideInfoRow = mActivity.findViewById(R.id.guideInfoRow);
@@ -1267,16 +1258,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private SubtitleTrackInfo mManualSubs;
     private long lastReportedPosMs;
 
-    private void updateManualSubtitlePosition() {
-        // adjust subtitles margin based on screen dimension
-        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mSubtitleText.getLayoutParams();
-        DisplayMetrics dm = new DisplayMetrics();
-        mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-        params.topMargin = (dm.heightPixels / 2) - 140;
-        params.rightMargin = params.leftMargin = dm.widthPixels / 4;
-        mSubtitleText.setLayoutParams(params);
-    }
-
     public void addManualSubtitles(SubtitleTrackInfo info) {
         mManualSubs = info;
         lastReportedPosMs = 0;
@@ -1353,8 +1334,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     return;
                 }
 
+                // Encode whitespace as html entities
+                text = text.replaceAll("\\r\\n", "<br>");
+                text = text.replaceAll("\\\\h", "&ensp;");
+
                 SpannableString span = new SpannableString(Html.fromHtml(text));
                 span.setSpan(new ForegroundColorSpan(Color.WHITE), 0, span.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                span.setSpan(new BackgroundColorSpan(ContextCompat.getColor(mActivity, R.color.black_opaque)), 0, span.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 mSubtitleText.setText(span);
                 mSubtitleText.setVisibility(View.VISIBLE);
             }

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="play">Putar</string>
+    <string name="loading">Memuat…</string>
+    <string name="video_error_unknown_error">Gagal Membuka Video</string>
 </resources>

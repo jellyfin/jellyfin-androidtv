@@ -22,7 +22,6 @@
     <string name="lbl_continue_watching">Pokračovať v pozeraní</string>
     <string name="lbl_logout">Odhlásiť</string>
     <string name="lbl_settings">Nastavenia</string>
-    <string name="pref_auto_logoff_title">Časový limit automatického odhlásenia</string>
     <string name="pref_authentication_cat">Overenie</string>
     <string name="pref_auto_login">Automaticky prihlásiť ako tento používateľ</string>
     <string name="pref_show_login">Zobraziť obrazovku prihlásenia</string>
@@ -358,4 +357,7 @@
     <string name="pref_libvlc_audio_delay_title">Predvolené zvukové oneskorenie pre libVLC</string>
     <string name="pref_next_up_enabled_title">Povoliť obrazovku \"Nasleduje\"</string>
     <string name="pref_next_up_enabled_summary">Náhľad nasledujúcej položky z fronty pred prehrávaním</string>
+    <string name="pref_app_theme">Téma aplikácie</string>
+    <string name="pref_theme_emerald">Klasická emeraldová</string>
+    <string name="pref_theme_dark">Tmavá (východzia)</string>
 </resources>

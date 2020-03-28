@@ -20,7 +20,6 @@
     <string name="dpad_entry_desc">Verwenden Sie das Steuerkreuz auf Ihrer Fernbedienung um ein numerisches Passwort einzugeben. Drücken Sie Einmal für die erste gelistete Zahl oder klicken Sie doppelt für die Zweite. Beispiel: Einmal \"Hoch\" klicken für 1 oder Doppelklick \"Auswahl\" für 5. Halten Sie die \"Auswahltaste\" für eine Sekunde gedrückt und lassen Sie diese dann los um zu beenden oder betätigen Sie den Links-Knopf zum neu beginnen.</string>
     <string name="dpad_pw_cancel">* Halten Sie die \"runter\" Taste für eine Sekunde gedrückt und lassen Sie los wenn Sie ein Buchstabenkennwort oder eine Tastatur für Ihre Eingabe verwenden</string>
     <string name="chapters">Kapitel</string>
-    <string name="pref_auto_logoff_title">Zeitlimit bis zum automatischen Ausloggen</string>
     <string name="pref_general">Allgemein</string>
     <string name="lbl_settings">Einstellungen</string>
     <string name="lbl_logout">Ausloggen</string>
@@ -294,7 +293,7 @@
     <string name="lbl_sports">Sport</string>
     <string name="no_program_data">&lt;Keine Programmdaten verfügbar&gt;</string>
     <string name="msg_record_entire_series">Vollständige Serie aufnehmen\?</string>
-    <string name="lbl_just_this_once">Nur dieses eine Mal</string>
+    <string name="lbl_just_this_once">Nur einmal</string>
     <string name="pref_live_tv_mode_desc">Direkt zum zuletzt abgespielten Live-TV-Kanal springen</string>
     <string name="pref_live_tv_mode">Live TV Modus</string>
     <string name="lbl_select_date">Datum auswählen</string>
@@ -353,4 +352,12 @@
     <string name="pref_about_title">Über diese App</string>
     <string name="pref_media_player">Bevorzugter Mediaplayer</string>
     <string name="watch_now">Jetzt anschauen</string>
+    <string name="pref_libvlc_audio_delay_title">Standard Audio-Verzögerung für libVLC</string>
+    <string name="pref_next_up_enabled_title">Aktiviere Vorschau des nächsten Titels</string>
+    <string name="pref_next_up_enabled_summary">Vorschau des nächsten Titels vor dem Abspielen</string>
+    <string name="pref_next_up_timeout_title">Dauer des Timers für automatische Wiedergabe</string>
+    <string name="pref_next_up_timeout_summary">Wartezeit vor dem Abspielen des nächsten Titels</string>
+    <string name="pref_app_theme">Thema</string>
+    <string name="pref_theme_emerald">Klassischer Smaragd</string>
+    <string name="pref_theme_dark">Dunkel (Standard)</string>
 </resources>

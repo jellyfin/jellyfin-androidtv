@@ -939,7 +939,6 @@ public class PlaybackController {
 
                     ReportingHelper.reportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, false);
                 }
-                mApplication.setLastUserInteraction(System.currentTimeMillis());
                 if (mPlaybackState != PlaybackState.UNDEFINED && mPlaybackState != PlaybackState.IDLE) {
                     mHandler.postDelayed(this, PROGRESS_REPORTING_INTERVAL);
                 }
@@ -1128,7 +1127,6 @@ public class PlaybackController {
                         }
                     }
                     if (continueUpdate) {
-                        mApplication.setLastUserInteraction(System.currentTimeMillis()); // don't want to auto logoff during playback
                         if (isLiveTv && mCurrentProgramEndTime > 0 && System.currentTimeMillis() >= mCurrentProgramEndTime) {
                             // crossed fire off an async routine to update the program info
                             updateTvProgramInfo();

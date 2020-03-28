@@ -41,6 +41,16 @@ android {
 			resValue("string", "app_name", "@string/app_name_debug")
 		}
 	}
+
+	applicationVariants.all {
+		val variant = this
+		variant.outputs.all {
+			val output = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
+			output.outputFileName = output.outputFileName
+				.replace("app-", "jellyfin-androidtv_")
+				.replace(".apk", "_${variant.versionName}.apk")
+		}
+	}
 }
 
 dependencies {
@@ -66,8 +76,8 @@ dependencies {
 	implementation("androidx.recyclerview:recyclerview:1.1.0")
 
 	// Media players
-	implementation("com.amazon.android:exoplayer:2.10.6")
-	implementation("org.videolan.android:libvlc-all:3.1.12")
+	implementation("com.amazon.android:exoplayer:2.11.3")
+	implementation("org.videolan.android:libvlc-all:3.2.5")
 
 	// Image utility
 	implementation("com.squareup.picasso:picasso:2.3.2")

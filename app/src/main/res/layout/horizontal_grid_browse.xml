@@ -36,6 +36,7 @@
         android:layout_marginRight="10sp"
         android:maxLines="1"
         android:ellipsize="end"
+        android:fontFamily="sans-serif-light"
          />
 
     <LinearLayout
@@ -72,7 +73,8 @@
         android:textAlignment="viewEnd"
         android:textSize="18sp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="15sp" />
+        android:layout_marginBottom="15sp"
+        android:fontFamily="sans-serif-light" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -81,7 +83,8 @@
         android:textSize="12dp"
         android:alpha=".6"
         android:layout_alignLeft="@+id/title"
-        android:layout_alignBottom="@+id/counter" />
+        android:layout_alignBottom="@+id/counter"
+        android:fontFamily="sans-serif-light" />
 
     <org.jellyfin.androidtv.ui.ClockUserView
         android:layout_width="wrap_content"

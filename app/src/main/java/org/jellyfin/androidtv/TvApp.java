@@ -5,7 +5,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
@@ -16,6 +15,8 @@ import org.acra.annotation.AcraDialog;
 import org.acra.annotation.AcraHttpSender;
 import org.acra.annotation.AcraLimiter;
 import org.acra.sender.HttpSender;
+import org.jellyfin.androidtv.base.AppThemeCallbacks;
+import org.jellyfin.androidtv.base.AuthenticatedUserCallbacks;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.model.DisplayPriorityType;
@@ -90,7 +91,6 @@ public class TvApp extends Application {
 
     private int autoBitrate;
     private String directItemId;
-    private Typeface roboto;
 
     private HashMap<String, DisplayPreferences> displayPrefsCache = new HashMap<>();
 
@@ -107,7 +107,6 @@ public class TvApp extends Application {
     private long lastVideoQueueChange = System.currentTimeMillis();
     private long lastFavoriteUpdate = System.currentTimeMillis();
     private long lastMusicPlayback = System.currentTimeMillis();
-    private long lastUserInteraction = System.currentTimeMillis();
 
     private GradientDrawable currentBackgroundGradient;
 
@@ -133,8 +132,10 @@ public class TvApp extends Application {
         logger = new AndroidLogger(TAG);
         app = (TvApp) getApplicationContext();
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
         setCurrentBackgroundGradient(new int[] {ContextCompat.getColor(this, R.color.lb_default_brand_color_dark), ContextCompat.getColor(this, R.color.lb_default_brand_color)});
+
+        registerActivityLifecycleCallbacks(new AuthenticatedUserCallbacks());
+        registerActivityLifecycleCallbacks(new AppThemeCallbacks());
 
         logger.Info("Application object created");
     }
@@ -150,8 +151,6 @@ public class TvApp extends Application {
     public void setLogger(ILogger value) {
         logger = value;
     }
-
-    public Typeface getDefaultFont() { return roboto; }
 
     public IConnectionManager getConnectionManager() {
         return connectionManager;
@@ -329,14 +328,6 @@ public class TvApp extends Application {
 
     public void setLastPlayback(Calendar lastPlayback) {
         this.lastPlayback = lastPlayback;
-    }
-
-    public long getLastUserInteraction() {
-        return lastUserInteraction;
-    }
-
-    public void setLastUserInteraction(long lastUserInteraction) {
-        this.lastUserInteraction = lastUserInteraction;
     }
 
     public boolean canManageRecordings() {

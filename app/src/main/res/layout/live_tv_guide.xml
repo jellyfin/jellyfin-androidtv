@@ -113,7 +113,8 @@
         android:layout_toLeftOf="@+id/clock"
         android:layout_marginRight="20sp"
         android:ellipsize="end"
-        android:maxLines="1" />
+        android:maxLines="1"
+        android:fontFamily="sans-serif-light" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -138,7 +139,8 @@
         android:layout_marginBottom="10sp"
         android:layout_marginTop="5sp"
         android:ellipsize="end"
-        android:maxLines="5" />
+        android:maxLines="5"
+        android:fontFamily="sans-serif-light" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -149,7 +151,8 @@
         android:layout_marginBottom="2sp"
         android:layout_marginLeft="2sp"
         android:textSize="12sp"
-        android:textColor="@color/gray_gradient_end" />
+        android:textColor="@color/gray_gradient_end"
+        android:fontFamily="sans-serif-light" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -163,7 +166,8 @@
         android:layout_marginRight="10sp"
         android:textStyle="bold"
         android:textSize="12sp"
-        android:textColor="@color/gray_gradient_end" />
+        android:textColor="@color/gray_gradient_end"
+        android:fontFamily="sans-serif-light" />
 
     <ImageButton
         android:layout_width="25dp"

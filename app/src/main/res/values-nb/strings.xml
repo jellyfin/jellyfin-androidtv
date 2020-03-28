@@ -20,7 +20,6 @@
     <string name="dpad_entry_desc">Bruk D-padden på fjernkontrollen for å taste inn et numerisk passord. Enkelt-trykk på en knapp for det første listede nummeret eller dobbelt-trykk for det andre. F.eks. enkelt-trykk \"opp\" for 1 eller dobbel-klikk \"select\" for 5. Hold nede og slipp \"select\"-knappen etter ett sekund når du er klar, eller venstre-knappen for å starte på nytt.</string>
     <string name="dpad_pw_cancel">* Hold nede \"ned\"-knappen i ett sekund og slipp hvis du har et alfanumerisk passord eller trenger et tastatur til å skrive</string>
     <string name="chapters">Kapitler</string>
-    <string name="pref_auto_logoff_title">Tidsavbrudd for automatisk avlogging</string>
     <string name="pref_general">Generelt</string>
     <string name="lbl_settings">Innstillinger</string>
     <string name="lbl_logout">Logg ut</string>
@@ -352,9 +351,13 @@
     <string name="pref_acra_category">Feilrapportering</string>
     <string name="pref_media_player">Foretrukket media-spiller</string>
     <string name="pref_about_title">Om</string>
-    <string name="pref_next_up_timeout_title">Varighet for \"Neste\"-timer</string>
+    <string name="pref_next_up_timeout_title">Varighet for Neste-timer</string>
     <string name="watch_now">Se nå</string>
     <string name="pref_next_up_timeout_summary">Hvor lang tid det skal gå før neste element spilles av</string>
     <string name="pref_libvlc_audio_delay_title">Standard lydforsinkelse for libVLC</string>
     <string name="pref_next_up_enabled_summary">Forhåndsviser neste element i køen før avspilling</string>
+    <string name="pref_next_up_enabled_title">Aktiver Neste-skjermen</string>
+    <string name="pref_theme_emerald">Klassisk Smaragd</string>
+    <string name="pref_app_theme">App-tema</string>
+    <string name="pref_theme_dark">Mørk (Standard)</string>
 </resources>

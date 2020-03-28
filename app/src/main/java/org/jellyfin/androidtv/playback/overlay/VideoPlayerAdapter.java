@@ -83,6 +83,10 @@ public class VideoPlayerAdapter extends PlayerAdapter {
         getCallback().onPlayStateChanged(this);
     }
 
+    void updateDuration() {
+        getCallback().onDurationChanged(this);
+    }
+
     boolean hasSubs() {
         return StreamHelper.getSubtitleStreams(playbackController.getCurrentMediaSource()).size() > 0;
     }

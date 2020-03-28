@@ -10,7 +10,8 @@
         android:layout_centerHorizontal="true"
         android:format12Hour="h:mm"
         android:format24Hour="k:mm"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        android:fontFamily="sans-serif-light" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -32,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="User Name"
-            android:id="@+id/userName" />
+            android:id="@+id/userName"
+            android:fontFamily="sans-serif-light" />
     </LinearLayout>
 </RelativeLayout>

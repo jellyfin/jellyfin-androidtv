@@ -8,7 +8,6 @@ package org.jellyfin.androidtv.presentation;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import androidx.leanback.widget.BaseCardView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -24,6 +23,8 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+
+import androidx.leanback.widget.BaseCardView;
 
 /**
  * A card view with an {@link ImageView} as its main region.
@@ -76,9 +77,7 @@ public class MyImageCardView extends BaseCardView {
         mContentView = (TextView) v.findViewById(R.id.content_text);
         mBadgeImage = (ImageView) v.findViewById(R.id.extra_badge);
         mOverlayName = (TextView) v.findViewById(R.id.overlay_text);
-        mOverlayName.setTypeface(TvApp.getApplication().getDefaultFont());
         mOverlayCount = (TextView) v.findViewById(R.id.overlay_count);
-        mOverlayCount.setTypeface(TvApp.getApplication().getDefaultFont());
         mOverlayIcon = (ImageView) v.findViewById(R.id.icon);
         mInfoOverlay = (ViewGroup) v.findViewById(R.id.name_overlay);
         mInfoOverlay.setVisibility(GONE);

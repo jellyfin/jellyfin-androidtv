@@ -20,7 +20,6 @@
     <string name="dpad_entry_desc">Use os botões direcionais no seu controle remoto para digitar uma senha numérica. Clique uma vez em um botão para o primeiro número listado ou clique duas vezes para o segundo. Por exemplo, clique na tecla \'para cima\' para 1 ou clique duas vezes em \'selecionar\' para 5. Pressione por 1 segundo e solte o botão \'selecionar\' quando terminar ou o botão esquerdo para recomeçar.</string>
     <string name="dpad_pw_cancel">* Pressione o botão \'para baixo\' por 1 segundo e solte se possuir uma senha alfanumérica ou necessitar de um teclado</string>
     <string name="chapters">Capítulos</string>
-    <string name="pref_auto_logoff_title">Tempo Esgotado para Sair Automaticamente</string>
     <string name="pref_general">Geral</string>
     <string name="lbl_settings">Configurações</string>
     <string name="lbl_logout">"Sair"</string>
@@ -329,4 +328,33 @@
     <string name="lbl_news">Notícias</string>
     <string name="lbl_latest_tv_shows">Séries Recentes</string>
     <string name="lbl_colored_backgrounds">Cores de Fundo por Código</string>
+    <string name="pref_libvlc_audio_delay_title">Atraso de áudio padrão para libVLC</string>
+    <string name="pref_next_up_enabled_title">Habilitar tela \'A seguir\'</string>
+    <string name="pref_next_up_enabled_summary">Visualizar o próximo item da fila antes de reproduzir</string>
+    <string name="watch_now">Assista agora</string>
+    <string name="pref_next_up_timeout_title">duração do timer do A seguir</string>
+    <string name="pref_next_up_timeout_summary">Quanto tempo esperar antes de iniciar o próximo item</string>
+    <string name="pref_media_player">Player de mídia preferido</string>
+    <string name="pref_about_title">Sobre</string>
+    <string name="pref_video_player_external">Aplicação externa</string>
+    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_exoplayer">ExoPlayer</string>
+    <string name="pref_video_player_auto">Escolher automaticamente</string>
+    <string name="lbl_my_media">Minha mídia</string>
+    <string name="acra_dialog_text">Você gostaria de enviar um relatório de falhas para os desenvolvedores\?
+\n
+\nEssa informação será enviada a terceiros (tracepot.com).
+\n
+\nEsse aviso pode ser desativado na seção de Relatórios de Falhas nas configurações de aplicativo do Jellyfin.</string>
+    <string name="acra_dialog_title">Oh não! Algo deu errado.</string>
+    <string name="pref_acra_syslog_disabled">Logs do sistema não serão incluídos nos relatórios de falhas</string>
+    <string name="pref_acra_syslog_enabled">Logs do sistema serão incluídos nos relatórios de falhas</string>
+    <string name="pref_acra_syslog">Incluir logs do sistema nos relatórios de falhas. Isso pode incluir dados privados de outras aplicações caso tenha sido registrado no momento da falha.</string>
+    <string name="pref_acra_alwaysaccept_disabled">Um aviso será exibido antes de enviar qualquer relatório de falha</string>
+    <string name="pref_acra_alwaysaccept_enabled">Relatórios de falhas serão enviados sem solicitação</string>
+    <string name="pref_acra_alwaysaccept">Enviar relatórios de falhas sem ser solicitado</string>
+    <string name="pref_acra_disabled">Relatórios de falhas não vão ser enviados</string>
+    <string name="pref_acra_enabled">Você será solicitado a enviar relatórios de falhas</string>
+    <string name="pref_enable_acra">Enviar relatórios de falhas para os desenvolvedores</string>
+    <string name="pref_acra_category">Relatório de falhas</string>
 </resources>

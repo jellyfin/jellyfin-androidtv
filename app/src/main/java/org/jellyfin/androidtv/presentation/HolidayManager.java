@@ -9,10 +9,20 @@ import org.jellyfin.androidtv.base.BaseActivity;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class ThemeManager {
+public class HolidayManager {
 
     private static boolean isEnabled() {
         return TvApp.getApplication().getUserPreferences().getSeasonalGreetingsEnabled();
+    }
+
+    public static boolean isAprilFools() {
+        if (!isEnabled()) {
+            return false;
+        }
+
+        Calendar today = new GregorianCalendar();
+        return today.get(Calendar.MONTH) == Calendar.APRIL &&
+                today.get(Calendar.DAY_OF_MONTH) == 1;
     }
 
     private static boolean isHalloween() {

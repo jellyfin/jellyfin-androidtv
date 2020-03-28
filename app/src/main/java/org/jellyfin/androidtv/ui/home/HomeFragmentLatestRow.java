@@ -18,7 +18,8 @@ import androidx.leanback.widget.ArrayObjectAdapter;
 
 class HomeFragmentLatestRow extends HomeFragmentRow {
     // See: https://github.com/jellyfin/jellyfin-web/blob/bbf1f8d5df66a58c29f07969caa476852d86ab4a/src/components/homesections/homesections.js#L292
-    private static final List<String> EXCLUDED_COLLECTION_TYPES = Arrays.asList("playlists", "livetv", "boxsets", "channels");
+    // Added books since they are currently broken and no plans on adding support
+    private static final List<String> EXCLUDED_COLLECTION_TYPES = Arrays.asList("playlists", "livetv", "boxsets", "channels", "books");
 
     private final ItemsResult views;
 
