@@ -1,17 +1,27 @@
 package org.jellyfin.androidtv.model.trailers.lifter
 
-import android.net.Uri
 import org.jellyfin.androidtv.model.trailers.external.YouTubeTrailer
 import org.jellyfin.apiclient.model.entities.MediaUrl
+import java.net.MalformedURLException
+import java.net.URL
 
 class YouTubeExternalTrailerLifter : ExternalTrailerLifter() {
 	private val youtubeDomains = arrayListOf("youtube.com", "youtu.be")
 
-	private fun isYoutubeUrl(uri: Uri) = youtubeDomains.contains(getDomain(uri))
-	private fun isYoutubeUrl(url: MediaUrl) = isYoutubeUrl(Uri.parse(url.url))
+	private fun isYoutubeUrl(url: URL) = youtubeDomains.contains(getDomain(url))
 
 	override fun canLift(url: MediaUrl): Boolean {
-		return isYoutubeUrl(url)
+		val parsedURL = try {
+			URL(url.url)
+		} catch (ex: MalformedURLException) {
+			try {
+				URL("https://" + url.url)
+			} catch (ex: Exception) {
+				return false
+			}
+		}
+
+		return isYoutubeUrl(parsedURL)
 	}
 
 	override fun lift(url: MediaUrl): YouTubeTrailer {
