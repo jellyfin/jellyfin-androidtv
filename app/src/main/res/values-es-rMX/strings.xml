@@ -98,7 +98,7 @@
     <string name="lbl_no">No</string>
     <string name="lbl_yes">Si</string>
     <string name="msg_error_connecting_server">Error al Conectarse al Servidor</string>
-    <string name="msg_invalid_id_pw">Id de Usuario o contraseña inválidos</string>
+    <string name="msg_invalid_id_pw">ID de usuario o contraseña no válidos</string>
     <string name="lbl_version">"Versión: "</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 ó https://myserver.com</string>
     <string name="lbl_enter_server_address">Introduzca la Dirección del Servidor</string>
@@ -119,7 +119,7 @@
     <string name="lbl_search_hint">Buscar texto (seleccionar para teclado)</string>
     <string name="lbl_play_first_unwatched">Reproducir Primero Mo Visto</string>
     <string name="lbl_confirm_mark_watched">Esto marcará a todo el contenido como reproducido. ¿Está usted MUY seguro?</string>
-    <string name="lbl_mark_unplayed">Marcar como No-Reproducido</string>
+    <string name="lbl_mark_unplayed">Marcar como no Reproducido</string>
     <string name="lbl_mark_played">Marcar como Reproducido</string>
     <string name="lbl_remove_favorite">Remover de Favoritos</string>
     <string name="lbl_add_favorite">Agregar a Favoritos</string>
@@ -127,7 +127,7 @@
     <string name="lbl_dislike">Me disgusta</string>
     <string name="lbl_unlike">Diferente</string>
     <string name="lbl_remove_dislike">Remover Me disgusta</string>
-    <string name="lbl_confirm_mark_unwatched">Esto marcará a todo el contenido como no reproducido. ¿Está usted MUY seguro?</string>
+    <string name="lbl_confirm_mark_unwatched">"Esto marcará todo el contenido como no reproducido.  ¿Estás MUY seguro\?"</string>
     <string name="msg_no_playable_items">No hay ítems reproducibles</string>
     <string name="lbl_unwatched">No Visto</string>
     <string name="lbl_load_channels">"Cargar Canales "</string>
@@ -260,7 +260,7 @@
     <string name="lbl_suggestions_halloween">Sugerencias escalofriantes</string>
     <string name="lbl_suggestions">Sugerencias</string>
     <string name="pref_use_direct_path_summary">Pase la ruta del sistema de archivos en lugar de transmitir URL</string>
-    <string name="pref_use_direct_path_title">Pasar ruta directa</string>
+    <string name="pref_use_direct_path_title">Pasar de ruta directa para jugador externo</string>
     <string name="pref_external_live_tv_summary">Requiere una aplicación capaz para reproducir transmisiones en vivo</string>
     <string name="pref_external_live_tv_title">Usar reproductor externo para TV en vivo</string>
     <string name="lbl_song_title">Titulo de Canción</string>
@@ -314,4 +314,7 @@
     <string name="pref_authentication_cat">Autenticación</string>
     <string name="loading">Cargando…</string>
     <string name="play">Reproducir</string>
+    <string name="pref_acra_enabled">Se le pedirá que envíe informes de fallas</string>
+    <string name="pref_enable_acra">Enviar informes de fallos a los desarrolladores</string>
+    <string name="pref_acra_category">Informe de bloqueo</string>
 </resources>
