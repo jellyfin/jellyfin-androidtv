@@ -357,4 +357,6 @@
     <string name="pref_next_up_timeout_title">Časový limit pro následující položku</string>
     <string name="pref_next_up_timeout_summary">Jak dlouho počkat před přehráním další položky</string>
     <string name="pref_media_player">Preferovaný přehrávač médií</string>
+    <string name="pref_app_theme">Motiv aplikace</string>
+    <string name="pref_theme_dark">Tmavý (Výchozí)</string>
 </resources>
