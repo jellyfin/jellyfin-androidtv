@@ -23,8 +23,8 @@ class PersonPresenter(private val context: Context) : Presenter(), IItemClickLis
 	override suspend fun onItemClicked(item: Any?) {
 		requireNotNull(item)
 		val person = item as BriefPersonData
-		val intent = Intent(context, FullDetailsActivity::class.java)
-		intent.putExtra("ItemId", person.id)
+		val intent = Intent(context, DetailsActivity::class.java)
+		intent.putExtra(DetailsActivity.EXTRA_ITEM_ID, person.id)
 
 		context.startActivity(intent)
 	}

@@ -29,7 +29,7 @@ class ItemPresenter(private val context: Context,
 		requireNotNull(item)
 		val baseItem = item as BaseItem
 		val intent = Intent(context, DetailsActivity::class.java)
-		intent.putExtra("id", baseItem.id)
+		intent.putExtra(DetailsActivity.EXTRA_ITEM_ID, baseItem.id)
 
 		context.startActivity(intent)
 	}

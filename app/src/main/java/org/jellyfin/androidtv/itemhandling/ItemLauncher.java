@@ -14,7 +14,6 @@ import org.jellyfin.androidtv.browsing.GenericFolderActivity;
 import org.jellyfin.androidtv.browsing.GenericGridActivity;
 import org.jellyfin.androidtv.browsing.UserViewActivity;
 import org.jellyfin.androidtv.details.DetailsActivity;
-import org.jellyfin.androidtv.details.FullDetailsActivity;
 import org.jellyfin.androidtv.details.ItemListActivity;
 import org.jellyfin.androidtv.details.PhotoPlayerActivity;
 import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
@@ -113,9 +112,9 @@ public class ItemLauncher {
                         return;
                     case Series:
                     case MusicArtist:
-                        //Start activity for details display
-                        Intent intent = new Intent(activity, FullDetailsActivity.class);
-                        intent.putExtra("ItemId", baseItem.getId());
+                        // Open Series or MusicArtist in details activity
+                        Intent intent = new Intent(activity, DetailsActivity.class);
+                        intent.putExtra(DetailsActivity.EXTRA_ITEM_ID, baseItem.getId());
                         if (noHistory) {
                             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         }
@@ -196,9 +195,8 @@ public class ItemLauncher {
 
                         case ShowDetails:
                             //Start details fragment for display and playback
-                            // TODO for now the new DetailsActivity is only launched here.
                             Intent intent = new Intent(activity, DetailsActivity.class);
-                            intent.putExtra("id", baseItem.getId());
+                            intent.putExtra(DetailsActivity.EXTRA_ITEM_ID, baseItem.getId());
                             if (noHistory) {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                             }
@@ -226,9 +224,9 @@ public class ItemLauncher {
                 }
                 break;
             case Person:
-                //Start details fragment
-                Intent intent = new Intent(activity, FullDetailsActivity.class);
-                intent.putExtra("ItemId", rowItem.getPerson().getId());
+                // Open Person in Details Activity
+                Intent intent = new Intent(activity, DetailsActivity.class);
+                intent.putExtra(DetailsActivity.EXTRA_ITEM_ID, rowItem.getPerson().getId());
                 if (noHistory) {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 }
@@ -288,15 +286,9 @@ public class ItemLauncher {
                             return;
 
                         } else {
-                            Intent intent = new Intent(activity, FullDetailsActivity.class);
-                            intent.putExtra("ItemId", response.getId());
-                            if (response.getBaseItemType() == BaseItemType.Program) {
-                                // TODO: Seems like this is never used...
-                                intent.putExtra("ItemType", response.getBaseItemType().name());
-
-                                intent.putExtra("ChannelId", response.getChannelId());
-                                intent.putExtra("ProgramInfo", TvApp.getApplication().getSerializer().SerializeToString(response));
-                            }
+                            // Open All items in details activity
+                            Intent intent = new Intent(activity, DetailsActivity.class);
+                            intent.putExtra(DetailsActivity.EXTRA_ITEM_ID, response.getId());
                             activity.startActivity(intent);
                         }
                     }
@@ -313,16 +305,9 @@ public class ItemLauncher {
                 switch (rowItem.getSelectAction()) {
 
                     case ShowDetails:
-                        //Start details fragment for display and playback
-                        Intent programIntent = new Intent(activity, FullDetailsActivity.class);
-                        programIntent.putExtra("ItemId", program.getId());
-
-                        // TODO Seems unused
-                        programIntent.putExtra("ItemType", program.getBaseItemType().name());
-
-                        programIntent.putExtra("ChannelId", program.getChannelId());
-                        programIntent.putExtra("ProgramInfo", TvApp.getApplication().getSerializer().SerializeToString(program));
-
+                        // Open LiveTvProgram in Details Activity
+                        Intent programIntent = new Intent(activity, DetailsActivity.class);
+                        programIntent.putExtra(DetailsActivity.EXTRA_ITEM_ID, program.getId());
                         activity.startActivity(programIntent);
                         break;
                     case Play:
@@ -372,8 +357,8 @@ public class ItemLauncher {
 
                     case ShowDetails:
                         //Start details fragment for display and playback
-                        Intent recIntent = new Intent(activity, FullDetailsActivity.class);
-                        recIntent.putExtra("ItemId", rowItem.getRecordingInfo().getId());
+                        Intent recIntent = new Intent(activity, DetailsActivity.class);
+                        recIntent.putExtra(DetailsActivity.EXTRA_ITEM_ID, rowItem.getRecordingInfo().getId());
 
                         activity.startActivity(recIntent);
                         break;
@@ -399,11 +384,9 @@ public class ItemLauncher {
                 break;
 
             case SeriesTimer:
-                //Start details fragment for display and playback
-                Intent timerIntent = new Intent(activity, FullDetailsActivity.class);
-                timerIntent.putExtra("ItemId", rowItem.getItemId());
-                timerIntent.putExtra("ItemType", "SeriesTimer");
-                timerIntent.putExtra("SeriesTimer", TvApp.getApplication().getSerializer().SerializeToString(rowItem.getSeriesTimerInfo()));
+                // Open SeriesTimer in details activity
+                Intent timerIntent = new Intent(activity, DetailsActivity.class);
+                timerIntent.putExtra(DetailsActivity.EXTRA_ITEM_ID, rowItem.getItemId());
 
                 activity.startActivity(timerIntent);
                 break;

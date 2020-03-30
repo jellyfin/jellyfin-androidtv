@@ -20,8 +20,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import androidx.leanback.app.BackgroundManager;
-
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -66,11 +64,14 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import androidx.leanback.app.BackgroundManager;
+
 public class ItemListActivity extends BaseActivity {
 
     private int BUTTON_SIZE;
     public static final String FAV_SONGS = "FAV_SONGS";
     public static final String VIDEO_QUEUE = "VIDEO_QUEUE";
+    public static int BACKDROP_ROTATION_INTERVAL = 8000;
 
     private TextView mTitle;
     private LinearLayout mGenreRow;
@@ -718,8 +719,9 @@ public class ItemListActivity extends BaseActivity {
             TextUnderButton artist = new TextUnderButton(this, R.drawable.ic_user, buttonSize, 4, getString(R.string.lbl_open_artist), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent artist = new Intent(mActivity, FullDetailsActivity.class);
-                    artist.putExtra("ItemId", mBaseItem.getAlbumArtists().get(0).getId());
+                    // Open AlbumArtist in DetailView
+                    Intent artist = new Intent(mActivity, DetailsActivity.class);
+                    artist.putExtra(DetailsActivity.EXTRA_ITEM_ID, mBaseItem.getAlbumArtists().get(0).getId());
                     mActivity.startActivity(artist);
 
                 }
@@ -741,11 +743,11 @@ public class ItemListActivity extends BaseActivity {
             @Override
             public void run() {
                 updateBackdrop();
-                mLoopHandler.postDelayed(this, FullDetailsActivity.BACKDROP_ROTATION_INTERVAL);
+                mLoopHandler.postDelayed(this, BACKDROP_ROTATION_INTERVAL);
             }
         };
 
-        mLoopHandler.postDelayed(mBackdropLoop, FullDetailsActivity.BACKDROP_ROTATION_INTERVAL);
+        mLoopHandler.postDelayed(mBackdropLoop, BACKDROP_ROTATION_INTERVAL);
     }
 
     private void updateBackdrop() {

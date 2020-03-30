@@ -24,15 +24,19 @@ class DetailsActivity : FragmentActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		val id = intent.getStringExtra("id")
+		val id = intent.getStringExtra(EXTRA_ITEM_ID)
 		if (id == null) {
 			Log.e(LOG_TAG, "No id was passed to Details Activity, closing automatically again.")
 			finish()
 			return
 		}
 
+		Log.i(LOG_TAG, "Opening item with id $id")
+
 		GlobalScope.launch(Dispatchers.Main) {
 			val baseItem = getBaseItemDtoForID(id) ?: return@launch
+			Log.i(LOG_TAG, "Item ($id) type is ${baseItem.baseItemType}")
+
 			val item = baseItem.liftToNewFormat()
 
 			fragment = when (item) {
@@ -48,5 +52,9 @@ class DetailsActivity : FragmentActivity() {
 
 	private suspend fun getBaseItemDtoForID(id: String) = withContext(Dispatchers.IO) {
 		TvApp.getApplication().apiClient.getItem(id)
+	}
+
+	companion object {
+		const val EXTRA_ITEM_ID = "id"
 	}
 }
