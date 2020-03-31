@@ -19,7 +19,7 @@ class FirstMatchMultiExternalTrailerLifter : ExternalTrailerLifter() {
 		return lifters.any { it.canLift(url) }
 	}
 
-	override fun lift(url: MediaUrl) : ExternalTrailer {
+	override fun lift(url: MediaUrl) : ExternalTrailer? {
 		for (lifter in lifters) {
 			if (lifter.canLift(url)) {
 				return lifter.lift(url)
