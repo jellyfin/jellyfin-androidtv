@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="video_error_unknown_error">Fallo al cargar el vídeo</string>
     <string name="txt_loading">Cargando…</string>
-    <string name="title_activity_select_user">SeleccionarActividadDelUsuario</string>
+    <string name="title_activity_select_user">Seleccionar Actividad del Usuario</string>
     <string name="home_title">Inicio</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
@@ -309,11 +309,11 @@
     <string name="lbl_news">Noticias</string>
     <string name="lbl_suggestions">Sugerencias</string>
     <string name="lbl_premieres">Estrenos</string>
-    <string name="lbl_audio_delay">Restraso de Audio</string>
+    <string name="lbl_audio_delay">Retraso del audio</string>
     <string name="lbl_new_only">Solo Nuevo</string>
-    <string name="lbl_latest_tv_shows">Lo Mas Reciente de TV</string>
+    <string name="lbl_latest_tv_shows">Últimas Series de TV</string>
     <string name="desc_suggestions_holiday">Intenta alguna de nuestras sugerencias festivas</string>
-    <string name="title_suggestions_holiday">¡Felices fiestas!</string>
+    <string name="title_suggestions_holiday">Felices Fiestas!</string>
     <string name="lbl_suggestions_holiday">Sugerencias Festivas</string>
     <string name="desc_suggestions_halloween">Intenta algunas de nuestras sugerenecias espeluznantes</string>
     <string name="title_suggestions_halloween">¡Feliz Halloween!</string>
@@ -329,8 +329,8 @@
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Seleccionar automáticamente</string>
     <string name="lbl_my_media">Mis Medios</string>
-    <string name="lbl_image_size">Tamaño de Imagen</string>
-    <string name="lbl_start_favorites">Poner Favoritos al Inicio</string>
+    <string name="lbl_image_size">Tamaño de la imagen</string>
+    <string name="lbl_start_favorites">Colocar Favoritos al Inicio</string>
     <string name="lbl_colored_backgrounds">Fondos codificados con colores</string>
     <string name="lbl_live_broadcasts">Emisiones en directo</string>
     <string name="acra_dialog_text">¿Te gustaría enviar un informe de fallos a los desarrolladores\?
@@ -356,7 +356,7 @@
     <string name="pref_next_up_timeout_summary">Cuánto tiempo esperar antes de reproducir el siguiente elemento</string>
     <string name="pref_media_player">Reproductor multimedia preferido</string>
     <string name="pref_about_title">Quienes somos</string>
-    <string name="pref_next_up_enabled_title">Permitir anuncio siguiente elemento</string>
+    <string name="pref_next_up_enabled_title">Habilitar capítulo siguiente</string>
     <string name="pref_app_theme">App de Temas</string>
     <string name="pref_theme_emerald">Esmeralda Clasico</string>
     <string name="pref_theme_dark">Oscuro (Por Defecto)</string>
