@@ -24,5 +24,5 @@ abstract class ExternalTrailerLifter {
 
 
 	abstract fun canLift(url: MediaUrl): Boolean
-	abstract fun lift(url: MediaUrl): ExternalTrailer
+	abstract fun lift(url: MediaUrl): ExternalTrailer?
 }
