@@ -1,10 +1,13 @@
 package org.jellyfin.androidtv.model.trailers.lifter
 
+import android.util.Log
 import org.jellyfin.androidtv.model.trailers.external.YouTubeTrailer
 import org.jellyfin.apiclient.model.entities.MediaUrl
 import java.net.URL
 
 class YouTubeExternalTrailerLifter : ExternalTrailerLifter() {
+	private val LOG_TAG = "YouTubeLifter"
+
 	private val youtubeDomains = arrayListOf("youtube.com", "youtu.be")
 
 	private fun isYoutubeUrl(url: URL) = youtubeDomains.contains(getDomain(url))
@@ -16,9 +19,11 @@ class YouTubeExternalTrailerLifter : ExternalTrailerLifter() {
 		return converted != null && isYoutubeUrl(converted)
 	}
 
-	override fun lift(url: MediaUrl): YouTubeTrailer {
-		if (!canLift(url))
-			throw IllegalArgumentException("URL ${url.url} is not supported")
+	override fun lift(url: MediaUrl): YouTubeTrailer? {
+		if (!canLift(url)) {
+			 Log.e(LOG_TAG, "URL ${url.url} is not supported")
+			return null
+		}
 
 		val convertedURL = mediaUrlToUrl(url)!!
 
@@ -26,7 +31,8 @@ class YouTubeExternalTrailerLifter : ExternalTrailerLifter() {
 			"youtube.com" -> {
 				val matchGroups = videoParameterRegex.find(convertedURL.query)?.groups
 				if (matchGroups == null || matchGroups.size != 2) {
-					throw IllegalArgumentException("URL $convertedURL is not supported")
+					Log.e(LOG_TAG, "URL $convertedURL is not supported")
+					return null
 				} else {
 					matchGroups[1]!!.value
 				}
@@ -37,7 +43,8 @@ class YouTubeExternalTrailerLifter : ExternalTrailerLifter() {
 			}
 
 			else -> {
-				throw IllegalArgumentException("URL $convertedURL is not supported")
+				Log.e(LOG_TAG, "URL $convertedURL is not supported")
+				return null
 			}
 		}
 
