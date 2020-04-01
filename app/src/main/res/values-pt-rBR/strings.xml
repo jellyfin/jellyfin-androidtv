@@ -357,4 +357,7 @@
     <string name="pref_acra_enabled">Você será solicitado a enviar relatórios de falhas</string>
     <string name="pref_enable_acra">Enviar relatórios de falhas para os desenvolvedores</string>
     <string name="pref_acra_category">Relatório de falhas</string>
+    <string name="pref_app_theme">Tema do aplicativo</string>
+    <string name="pref_theme_emerald">Esmeralda clássica</string>
+    <string name="pref_theme_dark">Escuro (Padrão)</string>
 </resources>
