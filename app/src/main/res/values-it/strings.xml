@@ -214,7 +214,7 @@
     <string name="lbl_repeat_options">Ripeti Opzioni</string>
     <string name="lbl_record_any_time">Registra in qualunque momento</string>
     <string name="lbl_end_padding">FInisci Riempimento</string>
-    <string name="lbl_begin_padding">Inizia Riempimento</string>
+    <string name="lbl_begin_padding">Padding iniziale</string>
     <string name="msg_will_record">Registrerà</string>
     <string name="lbl_tune_to_channel">Collega al Canale</string>
     <string name="lbl_on">Attivo</string>
@@ -273,4 +273,19 @@
     <string name="lbl_in_x_days">Tra %d giorni</string>
     <string name="lbl_bitstream_dts">Bitstream DTS Audio</string>
     <string name="desc_premieres">Mostra una fila di nuovi episodi per ogni serie che stai guardando</string>
+    <string name="lbl_on_schedule">In programmazione</string>
+    <string name="lbl_hours">Ore</string>
+    <string name="lbl_minute">Minuto</string>
+    <string name="lbl_hour">Ora</string>
+    <string name="lbl_minutes">Minuti</string>
+    <string name="lbl_seconds">Secondi</string>
+    <string name="lbl_at_any_time">In qualsiasi momento</string>
+    <string name="lbl_all_episodes">Tutti gli episodi</string>
+    <string name="lbl_any_channel">Qualsiasi Canale</string>
+    <string name="lbl_series_recordings">Registrazioni di Serie TV</string>
+    <string name="lbl_save">Salva</string>
+    <string name="msg_settings_updated">Impostazioni aggiornate</string>
+    <string name="lbl_series_settings">Impostazioni Serie TV</string>
+    <string name="lbl_schedule">Programmazione</string>
+    <string name="lbl_enable_seasonal_themes">Sigle stagionali</string>
 </resources>
