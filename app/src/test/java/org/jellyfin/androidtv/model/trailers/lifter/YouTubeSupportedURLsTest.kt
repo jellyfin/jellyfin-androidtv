@@ -26,7 +26,8 @@ class YouTubeLifterSupportedURLsTest(private val testURL: String) {
 	@Test
 	fun liftsCorrectly() {
 		val lifted = lifter.lift(getMediaURL())
-		Assert.assertEquals(expectedName, lifted.name)
+		Assert.assertNotNull(lifted)
+		Assert.assertEquals(expectedName, lifted!!.name)
 		Assert.assertEquals(expectedPlaybackUrl, lifted.playbackURL)
 		Assert.assertEquals(expectedThumbnailUrl, lifted.thumbnailURL)
 	}
