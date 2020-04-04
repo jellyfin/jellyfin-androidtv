@@ -6,12 +6,6 @@ import java.net.MalformedURLException
 import java.net.URL
 
 abstract class ExternalTrailerLifter {
-	private val domainRegex = Regex("""^(.*\.|)(.+\...+)$""")
-
-	protected fun getDomain(url: URL): String? {
-		return url.host?.let { host -> domainRegex.find(host)?.groups?.get(2)?.value }
-	}
-
 	protected fun mediaUrlToUrl(mediaUrl: MediaUrl) = try {
 		URL(mediaUrl.url)
 	} catch (ex: MalformedURLException) {
@@ -21,7 +15,6 @@ abstract class ExternalTrailerLifter {
 			null
 		}
 	}
-
 
 	abstract fun canLift(url: MediaUrl): Boolean
 	abstract fun lift(url: MediaUrl): ExternalTrailer?
