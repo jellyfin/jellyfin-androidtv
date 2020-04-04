@@ -5,10 +5,10 @@ import org.jellyfin.apiclient.model.entities.MediaUrl
 
 class GenericExternalTrailerLifter : ExternalTrailerLifter() {
 	override fun canLift(url: MediaUrl): Boolean {
-		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+		return true
 	}
 
 	override fun lift(url: MediaUrl): GenericTrailer {
-		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+		return GenericTrailer(url.name, url.url)
 	}
 }
