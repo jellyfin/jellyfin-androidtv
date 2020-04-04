@@ -11,14 +11,13 @@ import org.junit.runners.Parameterized
 class YouTubeLifterUnsupportedURLsTest(private val testURL: String) {
 	private val lifter = YouTubeExternalTrailerLifter()
 
+	private fun getMediaURL() = MediaUrl().apply {
+		url = testURL
+	}
+
 	@Test
 	fun shouldIgnore() {
-		Assert.assertEquals(
-			lifter.canLift(
-				MediaUrl().apply {
-					url = testURL
-				}
-			), false)
+		Assert.assertEquals(lifter.canLift(getMediaURL()), false)
 	}
 
 
