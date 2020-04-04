@@ -14,13 +14,19 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import kotlinx.android.synthetic.main.multi_badge_image_card_view.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.base.IItemClickListener
 import org.jellyfin.androidtv.model.trailers.external.YouTubeTrailer
 import org.jellyfin.androidtv.ui.MultiBadgeImageCardView
 import org.jellyfin.androidtv.util.ImageUtils
 
-class YouTubeTrailerPresenter(private val context: Context, private val imageHeight: Int, private val safeBrandingCompliance: Boolean) : Presenter(), IItemClickListener {
+class YouTubeTrailerPresenter(private val context: Context,
+							  private val imageHeight: Int,
+							  private val safeBrandingCompliance: Boolean
+) : Presenter(), IItemClickListener {
 	private val LOG_TAG = "YouTubeTrailerPresenter"
 
 	override fun onCreateViewHolder(parent: ViewGroup?): ViewHolder {
@@ -40,6 +46,10 @@ class YouTubeTrailerPresenter(private val context: Context, private val imageHei
 		}
 
 		if (!safeBrandingCompliance) {
+			GlobalScope.launch(Dispatchers.IO) {
+				Glide.with(context).load(trailer.thumbnailURL)
+			}
+
 			Glide.with(context).load(trailer.thumbnailURL).listener(object : RequestListener<String, GlideDrawable> {
 				override fun onException(e: Exception, model: String?, target: Target<GlideDrawable>?, isFirstResource: Boolean): Boolean {
 					Log.e(LOG_TAG, "Failed to load thumbnail: $e")
