@@ -26,6 +26,6 @@ class FirstMatchMultiExternalTrailerLifter : ExternalTrailerLifter() {
 			}
 		}
 
-		throw TrailerLiftingException("No lifter available that could handle %s".format(url.url))
+		return null
 	}
 }

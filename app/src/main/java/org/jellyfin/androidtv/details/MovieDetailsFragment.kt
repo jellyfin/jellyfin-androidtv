@@ -8,15 +8,15 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.details.actions.*
-import org.jellyfin.androidtv.details.trailers.GenericTrailerPresenter
+import org.jellyfin.androidtv.details.trailers.ExternalTrailerPresenter
 import org.jellyfin.androidtv.details.trailers.YouTubeTrailerPresenter
 import org.jellyfin.androidtv.model.itemtypes.LocalTrailer
 import org.jellyfin.androidtv.model.itemtypes.Movie
 import org.jellyfin.androidtv.model.trailers.external.ExternalTrailer
 import org.jellyfin.androidtv.model.trailers.external.YouTubeTrailer
 import org.jellyfin.androidtv.presentation.InfoCardPresenter
-import org.jellyfin.androidtv.util.addIfNotEmpty
 import org.jellyfin.androidtv.util.ImageUtils
+import org.jellyfin.androidtv.util.addIfNotEmpty
 import org.jellyfin.androidtv.util.apiclient.getLocalTrailers
 import org.jellyfin.androidtv.util.apiclient.getSimilarItems
 import org.jellyfin.androidtv.util.apiclient.getSpecialFeatures
@@ -53,7 +53,7 @@ class MovieDetailsFragment(private val movie: Movie) : BaseDetailsFragment<Movie
 				addClassPresenter(LocalTrailer::class.java, ItemPresenter(context!!, (ImageUtils.ASPECT_RATIO_16_9 * 140.dp).toInt(), 140.dp, false))
 				addClassPresenterSelector(ExternalTrailer::class.java, ClassPresenterSelector().apply {
 					addClassPresenter(YouTubeTrailer::class.java, YouTubeTrailerPresenter(context!!, 140.dp, false))
-					addClassPresenter(ExternalTrailer::class.java, GenericTrailerPresenter(context!!, 140.dp))
+					addClassPresenter(ExternalTrailer::class.java, ExternalTrailerPresenter(context!!, 140.dp))
 				})
 			})
 	) }
