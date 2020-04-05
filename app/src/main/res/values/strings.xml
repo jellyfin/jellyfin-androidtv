@@ -367,6 +367,6 @@
     <string name="lbl_item_not_deleted">Item NOT deleted</string>
     <string name="lbl_really_delete_item_title">Really delete?</string>
     <string name="toast_no_trailer_handler">No playback app found for trailer.</string>
-    <string name="brand_youtube" translatable="false">YouTube</string>
     <string name="lbl_local">Local</string>
+    <string name="domain_youtube">youtube.com</string>
 </resources>
