@@ -8,7 +8,7 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class YouTubeLifterSupportedURLsTest(private val testURL: String) {
-	private val lifter = YouTubeExternalTrailerLifter()
+	private val lifter = YouTubeTrailerLifter()
 	private val expectedName = "Teppich fliegen, das ist logisch"
 	private val expectedThumbnailUrl = "https://i1.ytimg.com/vi/toVK97H4j24/hqdefault.jpg"
 	private val expectedPlaybackUrl = "https://www.youtube.com/watch?v=toVK97H4j24"

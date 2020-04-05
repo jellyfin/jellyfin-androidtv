@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.model.itemtypes
 
 import org.jellyfin.androidtv.model.trailers.external.ExternalTrailer
-import org.jellyfin.androidtv.model.trailers.lifter.ExternalTrailerLifter
+import org.jellyfin.androidtv.model.trailers.lifter.BaseTrailerLifter
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.GenreDto
 import org.jellyfin.apiclient.model.querying.ItemFields
@@ -46,7 +46,7 @@ sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
 
 class Episode(original: BaseItemDto) : PlayableItem(original)
 
-class Movie(original: BaseItemDto, externalTrailerLifter: ExternalTrailerLifter) : PlayableItem(original) {
+class Movie(original: BaseItemDto, externalTrailerLifter: BaseTrailerLifter) : PlayableItem(original) {
 	var productionYear: Int? = original.productionYear
 	val cast: List<BriefPersonData> = original.people.map(::BriefPersonData)
 	val officialRating: String? = original.officialRating

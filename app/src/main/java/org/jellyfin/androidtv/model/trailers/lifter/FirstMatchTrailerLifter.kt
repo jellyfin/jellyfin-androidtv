@@ -4,14 +4,14 @@ import org.jellyfin.androidtv.model.trailers.external.ExternalTrailer
 import org.jellyfin.apiclient.model.entities.MediaUrl
 import java.util.*
 
-class FirstMatchMultiExternalTrailerLifter : ExternalTrailerLifter() {
-	private var lifters = ArrayDeque<ExternalTrailerLifter>()
+class FirstMatchTrailerLifter : BaseTrailerLifter() {
+	private var lifters = ArrayDeque<BaseTrailerLifter>()
 
-	fun addFirst(lifter: ExternalTrailerLifter) {
+	fun addFirst(lifter: BaseTrailerLifter) {
 		lifters.addFirst(lifter)
 	}
 
-	fun addLast(lifter: ExternalTrailerLifter) {
+	fun addLast(lifter: BaseTrailerLifter) {
 		lifters.addLast(lifter)
 	}
 
