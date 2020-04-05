@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.flexbox.FlexboxLayout;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
@@ -398,6 +400,13 @@ public class InfoLayoutHelper {
         mSpacer.setText(sp);
         layout.addView(mSpacer);
 
+    }
+
+    public static void addSpacer(Activity activity, FlexboxLayout layout, String sp, int size) {
+        TextView mSpacer = new TextView(activity);
+        mSpacer.setTextSize(size);
+        mSpacer.setText(sp);
+        layout.addView(mSpacer);
     }
 
     public static void addResourceImage(Activity activity, LinearLayout layout, int imgResource, int width, int height) {
