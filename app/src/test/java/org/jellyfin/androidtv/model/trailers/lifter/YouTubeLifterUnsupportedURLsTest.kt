@@ -9,7 +9,7 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class YouTubeLifterUnsupportedURLsTest(private val testURL: String) {
-	private val lifter = YouTubeExternalTrailerLifter()
+	private val lifter = YouTubeTrailerLifter()
 
 	private fun getMediaURL() = MediaUrl().apply {
 		url = testURL
@@ -19,7 +19,6 @@ class YouTubeLifterUnsupportedURLsTest(private val testURL: String) {
 	fun shouldIgnore() {
 		Assert.assertEquals(lifter.canLift(getMediaURL()), false)
 	}
-
 
 	companion object {
 		@JvmStatic

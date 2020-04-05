@@ -1,16 +1,16 @@
 package org.jellyfin.androidtv.util.apiclient
 
 import org.jellyfin.androidtv.model.itemtypes.*
-import org.jellyfin.androidtv.model.trailers.lifter.FirstMatchMultiExternalTrailerLifter
-import org.jellyfin.androidtv.model.trailers.lifter.GenericExternalTrailerLifter
-import org.jellyfin.androidtv.model.trailers.lifter.YouTubeExternalTrailerLifter
+import org.jellyfin.androidtv.model.trailers.lifter.FirstMatchTrailerLifter
+import org.jellyfin.androidtv.model.trailers.lifter.GenericTrailerLifter
+import org.jellyfin.androidtv.model.trailers.lifter.YouTubeTrailerLifter
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.BaseItemType
 
 //TODO: When DI and Repositories are implemented, move the trailer lifting
-val multiTrailerLifter = FirstMatchMultiExternalTrailerLifter().apply {
-	addFirst(YouTubeExternalTrailerLifter())
-	addLast(GenericExternalTrailerLifter())
+val multiTrailerLifter = FirstMatchTrailerLifter().apply {
+	addFirst(YouTubeTrailerLifter())
+	addLast(GenericTrailerLifter())
 }
 
 fun BaseItemDto.liftToNewFormat() : BaseItem {
