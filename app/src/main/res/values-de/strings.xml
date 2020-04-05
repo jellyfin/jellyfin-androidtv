@@ -358,6 +358,6 @@
     <string name="pref_next_up_timeout_title">Dauer des Timers für automatische Wiedergabe</string>
     <string name="pref_next_up_timeout_summary">Wartezeit vor dem Abspielen des nächsten Titels</string>
     <string name="pref_app_theme">Thema</string>
-    <string name="pref_theme_emerald">Klassischer Smaragd</string>
+    <string name="pref_theme_emerald">Smaragd klassisch</string>
     <string name="pref_theme_dark">Dunkel (Standard)</string>
 </resources>
