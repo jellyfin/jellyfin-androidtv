@@ -52,7 +52,7 @@ class MovieDetailsFragment(private val movie: Movie) : BaseDetailsFragment<Movie
 			ClassPresenterSelector().apply{
 				addClassPresenter(LocalTrailer::class.java, ItemPresenter(context!!, (ImageUtils.ASPECT_RATIO_16_9 * 140.dp).toInt(), 140.dp, false))
 				addClassPresenterSelector(ExternalTrailer::class.java, ClassPresenterSelector().apply {
-					addClassPresenter(YouTubeTrailer::class.java, YouTubeTrailerPresenter(context!!, 140.dp, false))
+					addClassPresenter(YouTubeTrailer::class.java, YouTubeTrailerPresenter(context!!, 140.dp))
 					addClassPresenter(ExternalTrailer::class.java, ExternalTrailerPresenter(context!!, 140.dp))
 				})
 			})
