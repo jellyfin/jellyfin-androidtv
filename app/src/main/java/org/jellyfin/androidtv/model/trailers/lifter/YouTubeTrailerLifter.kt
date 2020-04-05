@@ -5,7 +5,7 @@ import org.jellyfin.androidtv.model.trailers.external.YouTubeTrailer
 import org.jellyfin.apiclient.model.entities.MediaUrl
 import java.net.URL
 
-class YouTubeExternalTrailerLifter : ExternalTrailerLifter() {
+class YouTubeTrailerLifter : BaseTrailerLifter() {
 	private val LOG_TAG = "YouTubeLifter"
 
 	private val youtubeDomains = arrayListOf("youtube.com", "youtu.be")

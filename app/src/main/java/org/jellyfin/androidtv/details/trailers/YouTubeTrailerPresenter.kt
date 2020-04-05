@@ -28,10 +28,4 @@ class YouTubeTrailerPresenter(private val context: Context,
 
 		Glide.with(context).load(trailer.thumbnailURL).into(cardView.main_image)
 	}
-
-	override fun onUnbindViewHolder(viewHolder: ViewHolder) {
-		(viewHolder.view as MultiBadgeImageCardView).apply {
-			setBadge(MultiBadgeImageCardView.BadgeLocation.BOTTOM_RIGHT, null)
-		}
-	}
 }
