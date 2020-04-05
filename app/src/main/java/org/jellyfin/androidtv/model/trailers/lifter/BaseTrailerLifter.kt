@@ -5,7 +5,7 @@ import org.jellyfin.apiclient.model.entities.MediaUrl
 import java.net.MalformedURLException
 import java.net.URL
 
-abstract class ExternalTrailerLifter {
+abstract class BaseTrailerLifter {
 	protected fun mediaUrlToUrl(mediaUrl: MediaUrl) = try {
 		URL(mediaUrl.url)
 	} catch (ex: MalformedURLException) {
