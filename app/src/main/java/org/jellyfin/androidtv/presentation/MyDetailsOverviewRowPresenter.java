@@ -24,12 +24,14 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import androidx.leanback.widget.RowPresenter;
 
+import com.google.android.flexbox.FlexboxLayout;
+
 public class MyDetailsOverviewRowPresenter extends RowPresenter {
 
     private ViewHolder viewHolder;
 
     public final class ViewHolder extends RowPresenter.ViewHolder {
-        private LinearLayout mGenreRow;
+        private FlexboxLayout mGenreRow;
         private LinearLayout mInfoRow;
         private TextView mTitle;
         private ImageView mPoster;
@@ -64,7 +66,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
 
             mLeftFrame = (RelativeLayout) rootView.findViewById(R.id.leftFrame);
 
-            mGenreRow = (LinearLayout) rootView.findViewById(R.id.fdGenreRow);
+            mGenreRow = (FlexboxLayout) rootView.findViewById(R.id.fdGenreRow);
             mInfoRow =  (LinearLayout)rootView.findViewById(R.id.fdMainInfoRow);
             mPoster = (ImageView) rootView.findViewById(R.id.mainImage);
             //mStudioImage = (ImageView) rootView.findViewById(R.id.studioImage);
@@ -142,7 +144,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
 
     }
 
-    private void addGenres(LinearLayout layout, BaseItemDto item) {
+    private void addGenres(FlexboxLayout layout, BaseItemDto item) {
         layout.removeAllViews();
         if (item.getGenres() != null && item.getGenres().size() > 0) {
             boolean first = true;
@@ -197,7 +199,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
 
     public LinearLayout getButtonRow() { return viewHolder.mButtonRow; }
     public ImageView getPosterView() { return viewHolder.mPoster; }
-    public LinearLayout getGenreRow() { return viewHolder.mGenreRow; }
+    public FlexboxLayout getGenreRow() { return viewHolder.mGenreRow; }
     public TextView getSummaryView() { return viewHolder.mSummary; }
     public LinearLayout getInfoRow() { return viewHolder.mInfoRow; }
 

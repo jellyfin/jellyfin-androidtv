@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.android.flexbox.FlexboxLayout;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -72,7 +73,7 @@ public class ItemListActivity extends BaseActivity {
     public static final String VIDEO_QUEUE = "VIDEO_QUEUE";
 
     private TextView mTitle;
-    private LinearLayout mGenreRow;
+    private FlexboxLayout mGenreRow;
     private ImageView mPoster;
     private TextView mSummary;
     private LinearLayout mButtonRow;
@@ -111,7 +112,7 @@ public class ItemListActivity extends BaseActivity {
         mTitle = (TextView) findViewById(R.id.fdTitle);
         mTitle.setShadowLayer(5, 5, 5, Color.BLACK);
         mTitle.setText(getString(R.string.loading));
-        mGenreRow = (LinearLayout) findViewById(R.id.fdGenreRow);
+        mGenreRow = (FlexboxLayout) findViewById(R.id.fdGenreRow);
         mPoster = (ImageView) findViewById(R.id.mainImage);
         mButtonRow = (LinearLayout) findViewById(R.id.fdButtonRow);
         mSummary = (TextView) findViewById(R.id.fdSummaryText);
@@ -514,7 +515,7 @@ public class ItemListActivity extends BaseActivity {
         }
     }
 
-    private void addGenres(LinearLayout layout) {
+    private void addGenres(FlexboxLayout layout) {
         if (mBaseItem.getGenres() != null && mBaseItem.getGenres().size() > 0) {
             boolean first = true;
             for (String genre : mBaseItem.getGenres()) {
