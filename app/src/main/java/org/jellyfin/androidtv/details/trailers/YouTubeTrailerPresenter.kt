@@ -9,12 +9,12 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.model.trailers.external.YouTubeTrailer
 import org.jellyfin.androidtv.ui.MultiBadgeImageCardView
 
-class YouTubeTrailerPresenter(private val context: Context,
-							  imageHeight: Int
+class YouTubeTrailerPresenter(
+	private val context: Context,
+	imageHeight: Int
 ) : ExternalTrailerPresenter(context, imageHeight) {
 
-	override val description
-		get() = context.getString(R.string.domain_youtube)
+	override val description = context.getString(R.string.domain_youtube)
 
 	override fun onCreateViewHolder(parent: ViewGroup?): ViewHolder {
 		return ViewHolder(MultiBadgeImageCardView(ContextThemeWrapper(parent!!.context, R.style.MarqueeImageCardViewTheme)))
