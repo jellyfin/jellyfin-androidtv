@@ -14,11 +14,8 @@ import org.jellyfin.androidtv.ui.MultiBadgeImageCardView
 import org.jellyfin.androidtv.util.ImageUtils
 
 open class ExternalTrailerPresenter(private val context: Context, private val imageHeight: Int) : Presenter(), IItemClickListener {
-	protected open val thumbnail
-		get() = context.getDrawable(R.drawable.tile_chapter)
-
-	protected open val description: String?
-		get() = null
+	protected open val thumbnail = context.getDrawable(R.drawable.tile_chapter)
+	protected open val description: String? = null
 
 	override fun onCreateViewHolder(parent: ViewGroup?): ViewHolder {
 		return ViewHolder(MultiBadgeImageCardView(ContextThemeWrapper(parent!!.context, R.style.MarqueeImageCardViewTheme)))
