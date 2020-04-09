@@ -15,7 +15,7 @@ class PlayFromBeginningAction(private val context: Context, val item: LiveData<o
 	override val text = MutableLiveData(context.getString(R.string.lbl_play))
 	override val icon = MutableLiveData(context.getDrawable(R.drawable.ic_play)!!)
 
-	override suspend fun onClick(view: View) {
+	override suspend fun onClick(view: View?) {
 		Log.i(LOG_TAG, "Play from Beginning clicked!")
 
 		val value = item.value ?: return

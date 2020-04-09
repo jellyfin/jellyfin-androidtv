@@ -9,5 +9,5 @@ interface Action {
 	val text: LiveData<String>
 	val icon: LiveData<Drawable>
 
-	suspend fun onClick(view: View)
+	suspend fun onClick(view: View?)
 }

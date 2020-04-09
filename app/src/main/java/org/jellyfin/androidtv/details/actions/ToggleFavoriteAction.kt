@@ -19,7 +19,7 @@ class ToggleFavoriteAction(val context: Context, val item: MutableLiveData<out B
 		addSource(item) { value = it.favorite }
 	}
 
-	override suspend fun onClick(view: View) {
+	override suspend fun onClick(view: View?) {
 		val itemValue = item.value ?: return
 		val application = TvApp.getApplication()
 
