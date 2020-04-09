@@ -35,7 +35,7 @@
     <string name="lbl_genres">Gêneros</string>
     <string name="lbl_performers">Artistas</string>
     <string name="lbl_search">Busca</string>
-    <string name="msg_not_implemented">"não implementado"</string>
+    <string name="msg_not_implemented">" não implementado"</string>
     <string name="lbl_latest">Recentes</string>
     <string name="lbl_by_name">Por Nome</string>
     <string name="lbl_favorites">Favoritos</string>
@@ -47,7 +47,7 @@
     <string name="lbl_tv_series">Séries de TV</string>
     <string name="lbl_other">Outro</string>
     <string name="lbl_latest_additions">Adições Recentes</string>
-    <string name="lbl_because_you_watched">"Porque você assistiu"</string>
+    <string name="lbl_because_you_watched">"Porque você assistiu "</string>
     <string name="lbl_play_all">Reproduzir Todos</string>
     <string name="lbl_shuffle_all">Todos em Aleatório</string>
     <string name="lbl_play">Reproduzir</string>
@@ -164,7 +164,7 @@
     <string name="lbl_premier_date">Data de Estreia</string>
     <string name="lbl_critic_rating">Avaliação da Crítica</string>
     <string name="lbl_rating">Avaliação</string>
-    <string name="lbl_starting_with">"começando com aqueles que o nome inicia com"</string>
+    <string name="lbl_starting_with">começando com aqueles cujo o nome inicia com</string>
     <string name="btn_done">Pronto</string>
     <string name="lbl_display_preferences">Preferências de Exibição</string>
     <string name="lbl_season">Temporada</string>
@@ -193,7 +193,7 @@
     <string name="lbl_album">Álbum</string>
     <string name="lbl_episodes">Episódios</string>
     <string name="lbl_enable_cinema_mode">Modo Cinema</string>
-    <string name="sum_enable_cinema_mode">Exibe intros e pré-visualizações antes da reprodução do filme quando ativado no servidor</string>
+    <string name="sum_enable_cinema_mode">Exibir intros e pré-visualizações antes da reprodução do filme quando ativado no servidor</string>
     <string name="lbl_playlists">Listas de Reprodução</string>
     <string name="msg_added_item_to_queue">"Item adicionado à fila na posição "</string>
     <string name="msg_items_added">" itens adicionados"</string>
@@ -299,12 +299,12 @@
     <string name="play">Reproduzir</string>
     <string name="lbl_series">Séries</string>
     <string name="lbl_just_this_once">Só desta vez</string>
-    <string name="pref_use_direct_path_title">Enviar Local Direto</string>
+    <string name="pref_use_direct_path_title">Enviar Local Direto para o player externo</string>
     <string name="lbl_resume_preroll">Continuar Lançamentos</string>
     <string name="lbl_status">%s / %s</string>
     <string name="desc_suggestions_holiday">Tente algumas de nossas sugestões para as férias</string>
     <string name="title_suggestions_holiday">Boas Férias!</string>
-    <string name="lbl_suggestions_holiday">Sugestões para as Férias</string>
+    <string name="lbl_suggestions_holiday">Sugestões de Feriado</string>
     <string name="desc_suggestions_halloween">Tente algumas de nossas sugestões assustadoras</string>
     <string name="title_suggestions_halloween">Feliz Halloween!</string>
     <string name="lbl_suggestions_halloween">Sugestões Assustadoras</string>
