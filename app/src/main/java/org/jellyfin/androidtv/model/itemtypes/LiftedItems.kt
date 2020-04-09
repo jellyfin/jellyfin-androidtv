@@ -44,7 +44,17 @@ sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
 		get() = playbackPositionTicks > 0L
 }
 
-class Episode(original: BaseItemDto) : PlayableItem(original)
+class Episode(original: BaseItemDto) : PlayableItem(original) {
+	val seasonId: String? = original.seasonId
+	val seriesId: String? = original.seriesId
+	val seriesPrimaryImage: ImageCollection.Image? = original.seriesPrimaryImageTag?.let {
+		 ImageCollection.Image(original.seriesId, org.jellyfin.apiclient.model.entities.ImageType.Primary, it)
+	}
+	val seasonPrimaryImage: ImageCollection.Image? = original.seasonId?.let {
+		ImageCollection.Image(it, org.jellyfin.apiclient.model.entities.ImageType.Primary, "")
+	}
+	val studio = original.seriesStudio
+}
 
 class Movie(original: BaseItemDto, externalTrailerLifter: BaseTrailerLifter) : PlayableItem(original) {
 	var productionYear: Int? = original.productionYear
