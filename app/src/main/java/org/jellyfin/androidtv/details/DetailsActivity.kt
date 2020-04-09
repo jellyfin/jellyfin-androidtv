@@ -56,10 +56,12 @@ class DetailsActivity : FragmentActivity() {
 	companion object {
 		const val EXTRA_ITEM_ID = "id"
 
-		fun start(context: Context, target: BaseItem) {
+		fun start(context: Context, targetId: String) {
 			val intent = Intent(context, DetailsActivity::class.java)
-			intent.putExtra(EXTRA_ITEM_ID, target.id)
+			intent.putExtra(EXTRA_ITEM_ID, targetId)
 			context.startActivity(intent)
 		}
+
+		fun start(context: Context, target: BaseItem) = start(context, target.id)
 	}
 }
