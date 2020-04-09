@@ -41,7 +41,7 @@ class DetailsActivity : FragmentActivity() {
 
 			fragment = when (item) {
 				is Movie -> MovieDetailsFragment(item)
-				is Episode -> TODO("Episode details are not yet implemented")
+				is Episode -> EpisodeDetailsFragment(item)
 				is Video -> TODO("Video details are not yet implemented")
 				is LocalTrailer -> TODO("Trailer details are not yet implemented")
 			}
