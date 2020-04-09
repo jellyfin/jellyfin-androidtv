@@ -29,7 +29,7 @@ class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment
 	}
 
 	// Row definitions
-	private val detailRow by lazy { DetailsOverviewRow(episode, actions) }
+	private val detailRow by lazy { DetailsOverviewRow(episode, actions, episode.images.logo, episode.images.backdrops) }
 	// TODO: More from this season row
 	private val chaptersRow by lazy { createListRow("Chapters", episode.chapters, ChapterInfoPresenter(context!!)) }
 	private val streamInfoRow by lazy { createListRow("Media info", episode.mediaInfo.streams, InfoCardPresenter()) }
