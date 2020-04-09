@@ -22,7 +22,7 @@ class ResumeAction(private val context: Context, val item: LiveData<out Playable
 	//	override val description = context.getString(R.string.lbl_resume_from, TimeUtils.formatMillis(actualPlaybackPositionInMillis))
 
 
-	override suspend fun onClick(view: View) {
+	override suspend fun onClick(view: View?) {
 		Log.i(LOG_TAG, "Resume Clicked!")
 
 		val itemValue = item.value ?: return

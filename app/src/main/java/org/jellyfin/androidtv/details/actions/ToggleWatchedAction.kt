@@ -18,7 +18,7 @@ class ToggleWatchedAction(context: Context, val item: MutableLiveData<out Playab
 		addSource(item) { value = it.played }
 	}
 
-	override suspend fun onClick(view: View) {
+	override suspend fun onClick(view: View?) {
 		val itemValue = item.value ?: return
 		val application = TvApp.getApplication()
 
