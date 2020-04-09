@@ -86,7 +86,7 @@ class DetailsOverviewPresenter : RowPresenter() {
 
 		// banner
 		//todo hide banner view when none found, support multiple banners
-		item.images.backdrops.firstOrNull()?.let {
+		row.backdrops.firstOrNull()?.let {
 			// Android doesn't crop automatically but Glide does
 			// Picasso can also do this but doesn't read the XML attributes of the target view for it
 			// so the way Glide does it is preferred to avoid duplicate settings
@@ -106,7 +106,7 @@ class DetailsOverviewPresenter : RowPresenter() {
 		}
 
 		// poster
-		item.images.primary?.load(viewHolder.view.context) { viewHolder.poster.setImageBitmap(it) }
+		row.primaryImage?.let { it.load(viewHolder.view.context) { viewHolder.poster.setImageBitmap(it) } }
 
 		// title
 		viewHolder.title.text = item.title
