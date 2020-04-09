@@ -1,7 +1,10 @@
 package org.jellyfin.androidtv.details
 
+import androidx.leanback.widget.ArrayObjectAdapter
+import androidx.leanback.widget.ClassPresenterSelector
+import androidx.leanback.widget.HeaderItem
+import androidx.leanback.widget.ListRow
 import androidx.lifecycle.MutableLiveData
-import androidx.leanback.widget.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -42,7 +45,7 @@ class MovieDetailsFragment(private val movie: Movie) : BaseDetailsFragment<Movie
 	}
 
 	// Row definitions
-	private val detailRow by lazy { DetailsOverviewRow(movie, actions) }
+	private val detailRow by lazy { DetailsOverviewRow(movie, actions, movie.images.primary, movie.images.backdrops) }
 	private val chaptersRow by lazy { createListRow("Chapters", movie.chapters, ChapterInfoPresenter(context!!)) }
 	private val specialsRow by lazy { createListRow("Specials", emptyList(), ItemPresenter(context!!, 250.dp, 140.dp, false)) }
 	private val castRow by lazy { createListRow("Cast/Crew", movie.cast, PersonPresenter(context!!)) }
