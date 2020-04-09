@@ -17,11 +17,13 @@ class ImageCollection(original: BaseItemDto) {
 	val primary = original.imageTags[ImageType.Primary]?.let { Image(original.id, ImageType.Primary, it) }
 	val logo = original.imageTags[ImageType.Logo]?.let { Image(original.id, ImageType.Logo, it) }
 	val backdrops = original.backdropImageTags.map { Image(original.id, ImageType.Backdrop, it) }.toList()
+	val parentPrimary = original.parentPrimaryImageItemId?.let { Image(original.parentId, ImageType.Primary, it) }
+	val parentBackdrops = original.parentBackdropImageTags?.let{ it.map {Image(original.parentBackdropItemId, ImageType.Backdrop, it)}.toList() }
 
 	class Image(
 		private val itemId: String,
 		private val type: ImageType,
-		private val tag: String,
+		private val tag: String?,
 		private val index: Int? = null
 	) {
 		val url: String by lazy {
