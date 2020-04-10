@@ -15,7 +15,9 @@ val FIELDS_REQUIRED_FOR_LIFT = arrayOf(
 	ItemFields.People,
 	ItemFields.Genres,
 	ItemFields.Tags,
-	ItemFields.RemoteTrailers
+	ItemFields.RemoteTrailers,
+	ItemFields.CanDelete,
+	ItemFields.People
 )
 
 sealed class BaseItem(original: BaseItemDto) : ObservableParent() {
@@ -53,7 +55,7 @@ class Episode(original: BaseItemDto) : PlayableItem(original) {
 	val seasonPrimaryImage: ImageCollection.Image? = original.seasonId?.let {
 		ImageCollection.Image(it, org.jellyfin.apiclient.model.entities.ImageType.Primary, "")
 	}
-	val studio = original.seriesStudio
+	val cast: List<BriefPersonData> = original.people.map(::BriefPersonData)
 }
 
 class Movie(original: BaseItemDto, externalTrailerLifter: BaseTrailerLifter) : PlayableItem(original) {
