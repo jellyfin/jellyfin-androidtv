@@ -7,7 +7,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.details.DetailsActivity
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 
-class GoToItemAction(private val context: Context, label: String,private val targetId: String) : Action {
+class GoToItemAction(private val context: Context, label: String, private val targetId: String) : Action {
 	constructor(context: Context, label: String, target: BaseItem) : this(context, label, target.id)
 
 	override val visible = MutableLiveData(true)
