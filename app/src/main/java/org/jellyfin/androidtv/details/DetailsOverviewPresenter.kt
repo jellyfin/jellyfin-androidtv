@@ -123,16 +123,16 @@ class DetailsOverviewPresenter(private val context: Context) : RowPresenter() {
 		}
 
 		if (item is Movie) {
-			if (item.productionYear != null) {
-				viewHolder.premiereDate.text = item.productionYear.toString()
+			item.productionYear.let {
+				viewHolder.premiereDate.text = it.toString()
 				viewHolder.premiereDate.visibility = View.VISIBLE
 			}
 		}
 
 		if (item is Episode) {
-			if (item.premiereDate != null) {
+			item.premiereDate?.let {
 				val format = DateFormat.getDateFormat(context)
-				viewHolder.premiereDate.text = format.format(item.premiereDate)
+				viewHolder.premiereDate.text = format.format(it)
 				viewHolder.premiereDate.visibility = View.VISIBLE
 			}
 		}
