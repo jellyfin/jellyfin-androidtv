@@ -372,4 +372,6 @@
     <string name="lbl_local">Local</string>
     <string name="domain_youtube">youtube.com</string>
     <string name="lbl_goto_season">Go to Season</string>
+    <string name="lbl_more_from_this_season">More from this Season</string>
+    <string name="lbl_media_info">Media Info</string>
 </resources>

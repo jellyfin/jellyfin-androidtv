@@ -9,6 +9,7 @@ import org.jellyfin.androidtv.querying.StdItemQuery
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.Response
 import org.jellyfin.apiclient.model.dto.BaseItemDto
+import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.apiclient.model.dto.UserItemDataDto
 import org.jellyfin.apiclient.model.querying.ItemsResult
 import org.jellyfin.apiclient.model.querying.NextUpQuery
@@ -83,7 +84,7 @@ suspend fun ApiClient.getSimilarItems(item: BaseItem, limit: Int = 25): List<Bas
 			continuation.resume(response?.items.orEmpty().map { baseItemDto -> baseItemDto.liftToNewFormat() })
 		}
 
-		override fun onError(exception: java.lang.Exception?) {
+		override fun onError(exception: Exception?) {
 			continuation.resume(null)
 		}
 	})
@@ -95,7 +96,7 @@ suspend fun ApiClient.getSpecialFeatures(item: BaseItem): List<BaseItem>? = susp
 			continuation.resume(response!!.map { baseItemDto -> baseItemDto.liftToNewFormat() })
 		}
 
-		override fun onError(exception: java.lang.Exception?) {
+		override fun onError(exception: Exception?) {
 			continuation.resume(null)
 		}
 	})
@@ -107,7 +108,7 @@ suspend fun ApiClient.getLocalTrailers(item: BaseItem): List<LocalTrailer>? = su
 			continuation.resume(response!!.map { baseItemDto -> baseItemDto.liftToNewFormat() as LocalTrailer })
 		}
 
-		override fun onError(exception: java.lang.Exception?) {
+		override fun onError(exception: Exception?) {
 			continuation.resume(null)
 		}
 	})
@@ -119,17 +120,17 @@ private suspend fun ApiClient.getEpisodesOfSeason(seasonId: String): List<Episod
 	continuation ->
 	val query = StdItemQuery()
 	query.parentId = seasonId
-	query.includeItemTypes = arrayOf("Episode")
+	query.includeItemTypes = arrayOf(BaseItemType.Episode.name)
 	query.startIndex = 0
 	query.fields = FIELDS_REQUIRED_FOR_LIFT
 	query.userId = this.currentUserId
 
-	this.GetItemsAsync(query, object : Response<ItemsResult>() {
+	GetItemsAsync(query, object : Response<ItemsResult>() {
 		override fun onResponse(response: ItemsResult?) {
 			continuation.resume(response?.items?.map {it.liftToNewFormat() as Episode }?.toList())
 		}
 
-		override fun onError(exception: java.lang.Exception?) {
+		override fun onError(exception: Exception?) {
 			continuation.resume(null)
 		}
 	})

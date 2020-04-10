@@ -47,7 +47,7 @@ class DetailsOverviewPresenter(private val context: Context) : RowPresenter() {
 		val title: TextView = view.findViewById(R.id.details_description_title)
 		val subtitle: TextView = view.findViewById(R.id.details_description_subtitle)
 
-		val year: TextView = view.details_description_year
+		val premiereDate: TextView = view.details_description_premiere_date
 		val officialRating: TextView = view.details_description_official_rating
 		val communityRating: Rating = view.details_description_community_rating
 		val criticsRating: Rating = view.details_description_critics_rating
@@ -124,33 +124,33 @@ class DetailsOverviewPresenter(private val context: Context) : RowPresenter() {
 
 		if (item is Movie) {
 			if (item.productionYear != null) {
-				viewHolder.year.text = item.productionYear.toString()
-				viewHolder.year.visibility = View.VISIBLE
+				viewHolder.premiereDate.text = item.productionYear.toString()
+				viewHolder.premiereDate.visibility = View.VISIBLE
 			}
 		}
 
 		if (item is Episode) {
 			if (item.premiereDate != null) {
 				val format = DateFormat.getDateFormat(context)
-				viewHolder.year.text = format.format(item.premiereDate)
-				viewHolder.year.visibility = View.VISIBLE
+				viewHolder.premiereDate.text = format.format(item.premiereDate)
+				viewHolder.premiereDate.visibility = View.VISIBLE
 			}
 		}
 
 		// rating
 		if (item is Ratable) {
-			if (item.officialRating != null) {
-				viewHolder.officialRating.text = item.officialRating
+			item.officialRating?.let {
+				viewHolder.officialRating.text = it
 				viewHolder.officialRating.visibility = View.VISIBLE
 			}
 
-			if (item.communityRating != null) {
-				viewHolder.communityRating.value = item.communityRating!!
+			item.communityRating?.let {
+				viewHolder.communityRating.value = it
 				viewHolder.communityRating.visibility = View.VISIBLE
 			}
 
-			if (item.criticsRating != null) {
-				viewHolder.criticsRating.value = item.criticsRating!!
+			item.criticsRating?.let {
+				viewHolder.criticsRating.value = it
 				viewHolder.criticsRating.visibility = View.VISIBLE
 			}
 		}
