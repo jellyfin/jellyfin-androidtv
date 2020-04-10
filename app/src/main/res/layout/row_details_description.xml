@@ -119,7 +119,9 @@
             android:id="@+id/details_description_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="2006-2008" />
+            android:visibility="gone"
+            tools:text="2006-2008"
+            tools:visibility="visible" />
 
         <Space
             android:layout_width="8dp"
@@ -136,7 +138,9 @@
             android:paddingBottom="2dp"
             android:textColor="#0e0f2d"
             android:textSize="12sp"
-            tools:text="PG-13" />
+            android:visibility="gone"
+            tools:text="PG-13"
+            tools:visibility="visible" />
 
         <Space
             android:layout_width="8dp"
@@ -146,8 +150,10 @@
             android:id="@+id/details_description_community_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:type="community"
-            tools:value="9.8" />
+            tools:value="9.8"
+            tools:visibility="visible" />
 
         <Space
             android:layout_width="8dp"
@@ -157,8 +163,10 @@
             android:id="@+id/details_description_critics_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:type="critics"
-            tools:value="15" />
+            tools:value="15"
+            tools:visibility="visible" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

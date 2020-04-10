@@ -20,6 +20,12 @@ val FIELDS_REQUIRED_FOR_LIFT = arrayOf(
 	ItemFields.People
 )
 
+interface Ratable {
+	val officialRating: String?
+	val communityRating: Float?
+	val criticsRating: Float?
+}
+
 sealed class BaseItem(original: BaseItemDto) : ObservableParent() {
 	val id: String = original.id
 	val title: String = original.name
@@ -46,25 +52,33 @@ sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
 		get() = playbackPositionTicks > 0L
 }
 
-class Episode(original: BaseItemDto) : PlayableItem(original) {
+class Episode(original: BaseItemDto) : PlayableItem(original), Ratable {
 	val seasonId: String? = original.seasonId
 	val seriesId: String? = original.seriesId
 	val seriesPrimaryImage: ImageCollection.Image? = original.seriesPrimaryImageTag?.let {
-		 ImageCollection.Image(original.seriesId, org.jellyfin.apiclient.model.entities.ImageType.Primary, it)
+		ImageCollection.Image(original.seriesId, org.jellyfin.apiclient.model.entities.ImageType.Primary, it)
 	}
 	val seasonPrimaryImage: ImageCollection.Image? = original.seasonId?.let {
 		ImageCollection.Image(it, org.jellyfin.apiclient.model.entities.ImageType.Primary, "")
 	}
+
+	override val officialRating: String? = original.officialRating
+	override val communityRating: Float? = original.communityRating
+	override val criticsRating: Float? = original.criticRating
+
 	val cast: List<BriefPersonData> = original.people.map(::BriefPersonData)
+	val premiereDate: Date? = original.premiereDate
 }
 
-class Movie(original: BaseItemDto, externalTrailerLifter: BaseTrailerLifter) : PlayableItem(original) {
+class Movie(original: BaseItemDto, externalTrailerLifter: BaseTrailerLifter) : PlayableItem(original), Ratable {
 	var productionYear: Int? = original.productionYear
 	val cast: List<BriefPersonData> = original.people.map(::BriefPersonData)
-	val officialRating: String? = original.officialRating
-	val communityRating: Float? = original.communityRating
-	val criticsRating: Float? = original.criticRating
 	val localTrailerCount: Int = original.localTrailerCount
+
+	override val officialRating: String? = original.officialRating
+	override val communityRating: Float? = original.communityRating
+	override val criticsRating: Float? = original.criticRating
+
 	val externalTrailers: List<ExternalTrailer> = original.remoteTrailers.mapNotNull { externalTrailerLifter.lift(it) }
 }
 
