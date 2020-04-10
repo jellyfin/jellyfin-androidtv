@@ -31,8 +31,12 @@ class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment
 
 			// "More" button
 			SecondariesPopupAction(context!!, listOfNotNull(
-				episode.seasonId?.let {GoToItemAction(context!!, context!!.getString(R.string.lbl_goto_season), it) },
-				episode.seriesId?.let {GoToItemAction(context!!, context!!.getString(R.string.lbl_goto_series), it) },
+				episode.seasonId?.let {
+					GoToItemAction(context!!, context!!.getString(R.string.lbl_goto_season), it)
+				},
+				episode.seriesId?.let {
+					GoToItemAction(context!!, context!!.getString(R.string.lbl_goto_series), it)
+				},
 				DeleteAction(context!!, item) { activity?.finish() }
 			))
 		)
@@ -40,14 +44,49 @@ class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment
 
 	// Row definitions
 	private val detailRow by lazy {
-		val primary = episode.images.parentPrimary ?: episode.seasonPrimaryImage ?: episode.seriesPrimaryImage ?: episode.images.primary
+		val primary = episode.images.parentPrimary ?: episode.seasonPrimaryImage
+		?: episode.seriesPrimaryImage ?: episode.images.primary
 		val backdrops = episode.images.parentBackdrops ?: episode.images.backdrops
 		DetailsOverviewRow(episode, actions, primary, backdrops)
 	}
-	private val moreFromThisSeason by lazy { createListRow("More from this Season", emptyList(), ItemPresenter(context!!, (ImageUtils.ASPECT_RATIO_16_9 * 140.dp).toInt(), 140.dp, true)) }
-	private val guestStars by lazy { createListRow("Guest Stars", episode.cast.filter { it.type == PersonType.GuestStar }, PersonPresenter(context!!)) }
-	private val chaptersRow by lazy { createListRow("Chapters", episode.chapters, ChapterInfoPresenter(context!!)) }
-	private val streamInfoRow by lazy { createListRow("Media info", episode.mediaInfo.streams, InfoCardPresenter()) }
+	private val moreFromThisSeason by lazy {
+		createListRow(
+			context!!.getString(R.string.lbl_more_from_this_season),
+			emptyList(),
+			ItemPresenter(context!!, (ImageUtils.ASPECT_RATIO_16_9 * 140.dp).toInt(), 140.dp, true)
+		)
+	}
+	private val chaptersRow by lazy {
+		createListRow(
+			context!!.getString(R.string.chapters),
+			episode.chapters,
+			ChapterInfoPresenter(context!!)
+		)
+	}
+
+	private val guestStars by lazy {
+		createListRow(
+			context!!.getString(R.string.lbl_guest_stars),
+			episode.cast.filter { it.type == PersonType.GuestStar },
+			PersonPresenter(context!!)
+		)
+	}
+
+	private val remainingCast by lazy {
+		createListRow(
+			context!!.getString(R.string.lbl_cast_crew),
+			episode.cast.filter { it.type != PersonType.GuestStar },
+			PersonPresenter(context!!)
+		)
+	}
+
+	private val streamInfoRow by lazy {
+		createListRow(
+			context!!.getString(R.string.lbl_media_info),
+			episode.mediaInfo.streams,
+			InfoCardPresenter()
+		)
+	}
 
 	override suspend fun onCreateAdapters(rowSelector: ClassPresenterSelector, rowAdapter: ArrayObjectAdapter) {
 		super.onCreateAdapters(rowSelector, rowAdapter)
@@ -58,8 +97,9 @@ class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment
 		rowAdapter.apply {
 			add(detailRow)
 			addIfNotEmpty(moreFromThisSeason)
-			addIfNotEmpty(guestStars)
 			addIfNotEmpty(chaptersRow)
+			addIfNotEmpty(guestStars)
+			addIfNotEmpty(remainingCast)
 			addIfNotEmpty(streamInfoRow)
 		}
 	}
