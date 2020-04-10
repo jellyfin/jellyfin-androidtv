@@ -16,7 +16,6 @@ import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.addIfNotEmpty
 import org.jellyfin.androidtv.util.apiclient.getEpisodesOfSeason
 import org.jellyfin.androidtv.util.dp
-import org.jellyfin.apiclient.model.entities.PersonType
 
 class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment<Episode>(episode) {
 	// Action definitions
@@ -64,18 +63,10 @@ class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment
 		)
 	}
 
-	private val guestStars by lazy {
-		createListRow(
-			context!!.getString(R.string.lbl_guest_stars),
-			episode.cast.filter { it.type == PersonType.GuestStar },
-			PersonPresenter(context!!)
-		)
-	}
-
-	private val remainingCast by lazy {
+	private val cast by lazy {
 		createListRow(
 			context!!.getString(R.string.lbl_cast_crew),
-			episode.cast.filter { it.type != PersonType.GuestStar },
+			episode.cast,
 			PersonPresenter(context!!)
 		)
 	}
@@ -98,8 +89,7 @@ class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment
 			add(detailRow)
 			addIfNotEmpty(moreFromThisSeason)
 			addIfNotEmpty(chaptersRow)
-			addIfNotEmpty(guestStars)
-			addIfNotEmpty(remainingCast)
+			addIfNotEmpty(cast)
 			addIfNotEmpty(streamInfoRow)
 		}
 	}
