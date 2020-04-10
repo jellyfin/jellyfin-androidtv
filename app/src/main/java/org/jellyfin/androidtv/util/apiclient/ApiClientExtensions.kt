@@ -2,8 +2,10 @@ package org.jellyfin.androidtv.util.apiclient
 
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
+import org.jellyfin.androidtv.model.itemtypes.Episode
 import org.jellyfin.androidtv.model.itemtypes.FIELDS_REQUIRED_FOR_LIFT
 import org.jellyfin.androidtv.model.itemtypes.LocalTrailer
+import org.jellyfin.androidtv.querying.StdItemQuery
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.Response
 import org.jellyfin.apiclient.model.dto.BaseItemDto
@@ -110,3 +112,26 @@ suspend fun ApiClient.getLocalTrailers(item: BaseItem): List<LocalTrailer>? = su
 		}
 	})
 }
+
+suspend fun ApiClient.getEpisodesOfSeason(episode: Episode): List<Episode>? = if (episode.seasonId != null) getEpisodesOfSeason(episode.seasonId) else null
+
+private suspend fun ApiClient.getEpisodesOfSeason(seasonId: String): List<Episode>? = suspendCoroutine {
+	continuation ->
+	val query = StdItemQuery()
+	query.parentId = seasonId
+	query.includeItemTypes = arrayOf("Episode")
+	query.startIndex = 0
+	query.fields = FIELDS_REQUIRED_FOR_LIFT
+	query.userId = this.currentUserId
+
+	this.GetItemsAsync(query, object : Response<ItemsResult>() {
+		override fun onResponse(response: ItemsResult?) {
+			continuation.resume(response?.items?.map {it.liftToNewFormat() as Episode }?.toList())
+		}
+
+		override fun onError(exception: java.lang.Exception?) {
+			continuation.resume(null)
+		}
+	})
+}
+
