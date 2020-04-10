@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.details
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,10 +11,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.TvApp
-import org.jellyfin.androidtv.model.itemtypes.Episode
-import org.jellyfin.androidtv.model.itemtypes.LocalTrailer
-import org.jellyfin.androidtv.model.itemtypes.Movie
-import org.jellyfin.androidtv.model.itemtypes.Video
+import org.jellyfin.androidtv.model.itemtypes.*
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.androidtv.util.apiclient.liftToNewFormat
 
@@ -41,7 +40,7 @@ class DetailsActivity : FragmentActivity() {
 
 			fragment = when (item) {
 				is Movie -> MovieDetailsFragment(item)
-				is Episode -> TODO("Episode details are not yet implemented")
+				is Episode -> EpisodeDetailsFragment(item)
 				is Video -> TODO("Video details are not yet implemented")
 				is LocalTrailer -> TODO("Trailer details are not yet implemented")
 			}
@@ -56,5 +55,13 @@ class DetailsActivity : FragmentActivity() {
 
 	companion object {
 		const val EXTRA_ITEM_ID = "id"
+
+		fun start(context: Context, targetId: String) {
+			val intent = Intent(context, DetailsActivity::class.java)
+			intent.putExtra(EXTRA_ITEM_ID, targetId)
+			context.startActivity(intent)
+		}
+
+		fun start(context: Context, target: BaseItem) = start(context, target.id)
 	}
 }

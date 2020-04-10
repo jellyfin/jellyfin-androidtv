@@ -21,7 +21,7 @@ class DeleteAction(private val context: Context, private val item: LiveData<out 
 	override val text = MutableLiveData(context.getString(R.string.lbl_delete))
 	override val icon = MutableLiveData(context.getDrawable(R.drawable.ic_trash)!!)
 
-	override suspend fun onClick(view: View) {
+	override suspend fun onClick(view: View?) {
 		val itemValue = item.value ?: return
 
 		AlertDialog.Builder(context).apply {

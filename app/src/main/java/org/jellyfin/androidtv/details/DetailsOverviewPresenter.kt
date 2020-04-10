@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.details
 
+import android.content.Context
 import android.text.SpannableStringBuilder
 import android.text.format.DateFormat
 import android.view.LayoutInflater
@@ -16,15 +17,17 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.row_details_description.view.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.details.actions.ActionAdapter
+import org.jellyfin.androidtv.model.itemtypes.Episode
 import org.jellyfin.androidtv.model.itemtypes.Movie
 import org.jellyfin.androidtv.model.itemtypes.PlayableItem
+import org.jellyfin.androidtv.model.itemtypes.Ratable
 import org.jellyfin.androidtv.ui.RecyclerViewSpacingDecoration
 import org.jellyfin.androidtv.ui.widget.Rating
 import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.androidtv.util.dp
 import org.jellyfin.apiclient.model.entities.MediaStreamType
 
-class DetailsOverviewPresenter : RowPresenter() {
+class DetailsOverviewPresenter(private val context: Context) : RowPresenter() {
 	private val actionAdapter = ActionAdapter()
 
 	init {
@@ -44,7 +47,7 @@ class DetailsOverviewPresenter : RowPresenter() {
 		val title: TextView = view.findViewById(R.id.details_description_title)
 		val subtitle: TextView = view.findViewById(R.id.details_description_subtitle)
 
-		val year: TextView = view.details_description_year
+		val premiereDate: TextView = view.details_description_premiere_date
 		val officialRating: TextView = view.details_description_official_rating
 		val communityRating: Rating = view.details_description_community_rating
 		val criticsRating: Rating = view.details_description_critics_rating
@@ -86,7 +89,7 @@ class DetailsOverviewPresenter : RowPresenter() {
 
 		// banner
 		//todo hide banner view when none found, support multiple banners
-		item.images.backdrops.firstOrNull()?.let {
+		row.backdrops.firstOrNull()?.let {
 			// Android doesn't crop automatically but Glide does
 			// Picasso can also do this but doesn't read the XML attributes of the target view for it
 			// so the way Glide does it is preferred to avoid duplicate settings
@@ -106,7 +109,7 @@ class DetailsOverviewPresenter : RowPresenter() {
 		}
 
 		// poster
-		item.images.primary?.load(viewHolder.view.context) { viewHolder.poster.setImageBitmap(it) }
+		row.primaryImage?.let { it.load(viewHolder.view.context) { viewHolder.poster.setImageBitmap(it) } }
 
 		// title
 		viewHolder.title.text = item.title
@@ -119,34 +122,36 @@ class DetailsOverviewPresenter : RowPresenter() {
 			viewHolder.subtitle.visibility = View.GONE
 		}
 
+		if (item is Movie) {
+			item.productionYear.let {
+				viewHolder.premiereDate.text = it.toString()
+				viewHolder.premiereDate.visibility = View.VISIBLE
+			}
+		}
+
+		if (item is Episode) {
+			item.premiereDate?.let {
+				val format = DateFormat.getDateFormat(context)
+				viewHolder.premiereDate.text = format.format(it)
+				viewHolder.premiereDate.visibility = View.VISIBLE
+			}
+		}
+
 		// rating
-		if (item is Movie) { //todo move those properties to baseitem or something
-			if (item.productionYear != null) {
-				viewHolder.year.text = item.productionYear.toString()
-				viewHolder.year.visibility = View.VISIBLE
-			} else {
-				viewHolder.year.visibility = View.GONE
-			}
-
-			if (item.officialRating != null) {
-				viewHolder.officialRating.text = item.officialRating
+		if (item is Ratable) {
+			item.officialRating?.let {
+				viewHolder.officialRating.text = it
 				viewHolder.officialRating.visibility = View.VISIBLE
-			} else {
-				viewHolder.officialRating.visibility = View.GONE
 			}
 
-			if (item.communityRating != null) {
-				viewHolder.communityRating.value = item.communityRating
+			item.communityRating?.let {
+				viewHolder.communityRating.value = it
 				viewHolder.communityRating.visibility = View.VISIBLE
-			} else {
-				viewHolder.communityRating.visibility = View.GONE
 			}
 
-			if (item.criticsRating != null) {
-				viewHolder.criticsRating.value = item.criticsRating
+			item.criticsRating?.let {
+				viewHolder.criticsRating.value = it
 				viewHolder.criticsRating.visibility = View.VISIBLE
-			} else {
-				viewHolder.criticsRating.visibility = View.GONE
 			}
 		}
 

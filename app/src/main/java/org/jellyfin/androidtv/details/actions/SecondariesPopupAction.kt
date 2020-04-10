@@ -21,7 +21,7 @@ class SecondariesPopupAction(private val context: Context, private val children:
 	override val text = MutableLiveData(context.getString(R.string.lbl_more_actions))
 	override val icon = MutableLiveData(context.getDrawable(R.drawable.ic_more)!!)
 
-	override suspend fun onClick(view: View) {
+	override suspend fun onClick(view: View?) {
 		PopupMenu(context, view).apply {
 			children
 				.filter { it.visible.value == true }
