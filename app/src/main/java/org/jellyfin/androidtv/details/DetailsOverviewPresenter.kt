@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.details
 
+import android.content.Context
 import android.text.SpannableStringBuilder
 import android.text.format.DateFormat
 import android.view.LayoutInflater
@@ -16,15 +17,17 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.row_details_description.view.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.details.actions.ActionAdapter
+import org.jellyfin.androidtv.model.itemtypes.Episode
 import org.jellyfin.androidtv.model.itemtypes.Movie
 import org.jellyfin.androidtv.model.itemtypes.PlayableItem
+import org.jellyfin.androidtv.model.itemtypes.Ratable
 import org.jellyfin.androidtv.ui.RecyclerViewSpacingDecoration
 import org.jellyfin.androidtv.ui.widget.Rating
 import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.androidtv.util.dp
 import org.jellyfin.apiclient.model.entities.MediaStreamType
 
-class DetailsOverviewPresenter : RowPresenter() {
+class DetailsOverviewPresenter(private val context: Context) : RowPresenter() {
 	private val actionAdapter = ActionAdapter()
 
 	init {
@@ -119,34 +122,36 @@ class DetailsOverviewPresenter : RowPresenter() {
 			viewHolder.subtitle.visibility = View.GONE
 		}
 
-		// rating
-		if (item is Movie) { //todo move those properties to baseitem or something
+		if (item is Movie) {
 			if (item.productionYear != null) {
 				viewHolder.year.text = item.productionYear.toString()
 				viewHolder.year.visibility = View.VISIBLE
-			} else {
-				viewHolder.year.visibility = View.GONE
 			}
+		}
 
+		if (item is Episode) {
+			if (item.premiereDate != null) {
+				val format = DateFormat.getDateFormat(context)
+				viewHolder.year.text = format.format(item.premiereDate)
+				viewHolder.year.visibility = View.VISIBLE
+			}
+		}
+
+		// rating
+		if (item is Ratable) {
 			if (item.officialRating != null) {
 				viewHolder.officialRating.text = item.officialRating
 				viewHolder.officialRating.visibility = View.VISIBLE
-			} else {
-				viewHolder.officialRating.visibility = View.GONE
 			}
 
 			if (item.communityRating != null) {
-				viewHolder.communityRating.value = item.communityRating
+				viewHolder.communityRating.value = item.communityRating!!
 				viewHolder.communityRating.visibility = View.VISIBLE
-			} else {
-				viewHolder.communityRating.visibility = View.GONE
 			}
 
 			if (item.criticsRating != null) {
-				viewHolder.criticsRating.value = item.criticsRating
+				viewHolder.criticsRating.value = item.criticsRating!!
 				viewHolder.criticsRating.visibility = View.VISIBLE
-			} else {
-				viewHolder.criticsRating.visibility = View.GONE
 			}
 		}
 
