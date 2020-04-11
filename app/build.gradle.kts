@@ -66,6 +66,11 @@ dependencies {
 	implementation("com.github.bumptech.glide:glide:3.7.0")
 	implementation("com.flaviofaria:kenburnsview:1.0.6")
 
+	// HTTP utility
+	val okhttpVersion = "2.7.0"
+	implementation("com.squareup.okhttp:okhttp:$okhttpVersion")
+	implementation("com.squareup.okhttp:okhttp-urlconnection:$okhttpVersion")
+
 	// Crash Reporting
 	val acraVersion = "5.4.0"
 	implementation("ch.acra:acra-http:$acraVersion")
