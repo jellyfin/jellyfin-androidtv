@@ -67,6 +67,7 @@ dependencies {
 	implementation("com.flaviofaria:kenburnsview:1.0.6")
 
 	// HTTP utility
+	// NOTE: This is used by Picasso through reflection and can cause weird caching issues if removed!
 	val okhttpVersion = "2.7.0"
 	implementation("com.squareup.okhttp:okhttp:$okhttpVersion")
 	implementation("com.squareup.okhttp:okhttp-urlconnection:$okhttpVersion")
