@@ -308,4 +308,9 @@
     <string name="lbl_premiere">Premiere</string>
     <string name="lbl_guest_stars">Guest Stars</string>
     <string name="title_activity_expanded_text">ExpandedTextActivity</string>
+    <string name="pref_acra_alwaysaccept_disabled">Una conferma sarà mostrata prima dell\'invio dei crash report</string>
+    <string name="pref_acra_alwaysaccept_enabled">I crash report saranno inviati senza richiederlo</string>
+    <string name="pref_acra_alwaysaccept">Invia i crash report senza richiederlo</string>
+    <string name="pref_acra_disabled">I Crash report non saranno inviati</string>
+    <string name="pref_acra_enabled">Verrà richiesto l\'invio dei crash report</string>
 </resources>
