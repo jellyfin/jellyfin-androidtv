@@ -71,7 +71,7 @@
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">Duração</string>
     <string name="lbl_min">" min"</string>
-    <string name="lbl_ends">Final</string>
+    <string name="lbl_ends">Finaliza às</string>
     <string name="lbl_directed_by">Dirigido Por</string>
     <string name="lbl_last_played">"Reproduzidos Recentemente "</string>
     <string name="lbl_select_server">Selecionar Servidor</string>
