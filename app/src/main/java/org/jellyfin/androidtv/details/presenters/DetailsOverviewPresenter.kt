@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.details
+package org.jellyfin.androidtv.details.presenters
 
 import android.content.Context
 import android.text.SpannableStringBuilder
@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.row_details_description.view.*
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.details.DetailsOverviewRow
+import org.jellyfin.androidtv.details.GenreAdapter
 import org.jellyfin.androidtv.details.actions.ActionAdapter
 import org.jellyfin.androidtv.model.itemtypes.Episode
 import org.jellyfin.androidtv.model.itemtypes.Movie
