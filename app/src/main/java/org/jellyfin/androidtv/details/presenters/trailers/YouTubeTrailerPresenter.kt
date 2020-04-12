@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.details.trailers
+package org.jellyfin.androidtv.details.presenters.trailers
 
 import android.content.Context
 import android.view.ViewGroup

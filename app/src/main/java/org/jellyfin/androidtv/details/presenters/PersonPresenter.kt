@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.details
+package org.jellyfin.androidtv.details.presenters
 
 import android.content.Context
 import android.content.Intent
@@ -13,10 +13,10 @@ import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.base.IItemClickListener
+import org.jellyfin.androidtv.details.DetailsActivity
 import org.jellyfin.androidtv.model.itemtypes.BriefPersonData
 import org.jellyfin.androidtv.util.dp
 
-private const val LOG_TAG = "PersonPresenter"
 
 class PersonPresenter(private val context: Context) : Presenter(), IItemClickListener {
 

@@ -11,6 +11,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.details.fragments.EpisodeDetailsFragment
+import org.jellyfin.androidtv.details.fragments.MovieDetailsFragment
 import org.jellyfin.androidtv.model.itemtypes.*
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.androidtv.util.apiclient.liftToNewFormat

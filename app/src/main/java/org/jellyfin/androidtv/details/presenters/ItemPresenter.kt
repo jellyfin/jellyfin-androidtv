@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.details
+package org.jellyfin.androidtv.details.presenters
 
 import android.content.Context
 import android.content.Intent
@@ -12,13 +12,13 @@ import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.base.IItemClickListener
+import org.jellyfin.androidtv.details.DetailsActivity
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.model.itemtypes.PlayableItem
 import org.jellyfin.androidtv.ui.FavoriteBadge
 import org.jellyfin.androidtv.ui.MultiBadgeImageCardView
 import org.jellyfin.androidtv.ui.WatchedBadge
 
-private const val LOG_TAG = "ItemPosterPresenter"
 
 class ItemPresenter(private val context: Context,
 					private val imageWidth: Int,
@@ -67,5 +67,9 @@ class ItemPresenter(private val context: Context,
 		val cardView = viewHolder!!.view as MultiBadgeImageCardView
 
 		// TODO: Somehow release BitmapDrawable?
+	}
+
+	companion object {
+		private const val LOG_TAG = "ItemPresenter"
 	}
 }

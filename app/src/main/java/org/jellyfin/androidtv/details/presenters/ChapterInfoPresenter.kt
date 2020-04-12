@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.details
+package org.jellyfin.androidtv.details.presenters
 
 import android.content.Context
 import android.graphics.drawable.BitmapDrawable
@@ -19,8 +19,6 @@ import org.jellyfin.androidtv.util.PlaybackUtil
 import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.androidtv.util.dp
-
-private const val LOG_TAG = "ChapterInfoPresenter"
 
 class ChapterInfoPresenter(private val context: Context) : Presenter(), IItemClickListener {
 
@@ -63,5 +61,9 @@ class ChapterInfoPresenter(private val context: Context) : Presenter(), IItemCli
 		val cardView = viewHolder!!.view as ImageCardView
 
 		// TODO: Somehow release BitmapDrawable?
+	}
+
+	companion object {
+		private const val LOG_TAG = "ChapterInfoPresenter"
 	}
 }
