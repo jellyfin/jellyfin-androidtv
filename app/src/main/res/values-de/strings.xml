@@ -36,7 +36,7 @@
     <string name="lbl_performers">Darsteller</string>
     <string name="lbl_search">Suche</string>
     <string name="msg_not_implemented">" Nicht verfügbar"</string>
-    <string name="lbl_latest">Zuletzt</string>
+    <string name="lbl_latest">Neueste</string>
     <string name="lbl_by_name">Nach Name</string>
     <string name="lbl_favorites">Favoriten</string>
     <string name="lbl_coming_up">Als nächstes</string>
