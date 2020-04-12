@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.details
+package org.jellyfin.androidtv.details.fragments
 
 import androidx.leanback.widget.ArrayObjectAdapter
 import androidx.leanback.widget.ClassPresenterSelector
@@ -10,9 +10,13 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.details.DetailsOverviewRow
 import org.jellyfin.androidtv.details.actions.*
-import org.jellyfin.androidtv.details.trailers.ExternalTrailerPresenter
-import org.jellyfin.androidtv.details.trailers.YouTubeTrailerPresenter
+import org.jellyfin.androidtv.details.presenters.ChapterInfoPresenter
+import org.jellyfin.androidtv.details.presenters.ItemPresenter
+import org.jellyfin.androidtv.details.presenters.PersonPresenter
+import org.jellyfin.androidtv.details.presenters.trailers.ExternalTrailerPresenter
+import org.jellyfin.androidtv.details.presenters.trailers.YouTubeTrailerPresenter
 import org.jellyfin.androidtv.model.itemtypes.LocalTrailer
 import org.jellyfin.androidtv.model.itemtypes.Movie
 import org.jellyfin.androidtv.model.trailers.external.ExternalTrailer
