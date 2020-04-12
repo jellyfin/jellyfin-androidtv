@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.details
+package org.jellyfin.androidtv.details.fragments
 
 import android.os.Bundle
 import androidx.annotation.CallSuper
@@ -8,6 +8,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.base.IItemClickListener
+import org.jellyfin.androidtv.details.DetailsOverviewRow
+import org.jellyfin.androidtv.details.presenters.DetailsOverviewPresenter
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 
 abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : RowsSupportFragment(), OnItemViewClickedListener {
