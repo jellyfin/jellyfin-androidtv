@@ -24,6 +24,7 @@
         <!-- Custom Styles for Elements -->
         <item name="android:datePickerStyle">@style/DatePickerCustom</item>
         <item name="rowHeaderStyle">@style/Widget.Jellyfin.Row.Header</item>
+        <item name="headersVerticalGridStyle">@style/Widget.Jellyfin.BrowseHeaders</item>
 
         <item name="preferenceTheme">@style/PreferenceThemeOverlayLeanback</item>
     </style>
