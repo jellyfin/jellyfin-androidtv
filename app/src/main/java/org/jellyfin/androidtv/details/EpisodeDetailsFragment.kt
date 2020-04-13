@@ -23,20 +23,20 @@ class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment
 		val item = MutableLiveData(episode)
 
 		listOf(
-			ResumeAction(context!!, item),
-			PlayFromBeginningAction(context!!, item),
-			ToggleWatchedAction(context!!, item),
-			ToggleFavoriteAction(context!!, item),
+			ResumeAction(requireContext(), item),
+			PlayFromBeginningAction(requireContext(), item),
+			ToggleWatchedAction(requireContext(), item),
+			ToggleFavoriteAction(requireContext(), item),
 
 			// "More" button
-			SecondariesPopupAction(context!!, listOfNotNull(
+			SecondariesPopupAction(requireContext(), listOfNotNull(
 				episode.seasonId?.let {
-					GoToItemAction(context!!, context!!.getString(R.string.lbl_goto_season), it)
+					GoToItemAction(requireContext(), requireContext().getString(R.string.lbl_goto_season), it)
 				},
 				episode.seriesId?.let {
-					GoToItemAction(context!!, context!!.getString(R.string.lbl_goto_series), it)
+					GoToItemAction(requireContext(), requireContext().getString(R.string.lbl_goto_series), it)
 				},
-				DeleteAction(context!!, item) { activity?.finish() }
+				DeleteAction(requireContext(), item) { activity?.finish() }
 			))
 		)
 	}
@@ -50,30 +50,30 @@ class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment
 	}
 	private val moreFromThisSeason by lazy {
 		createListRow(
-			context!!.getString(R.string.lbl_more_from_this_season),
+			requireContext().getString(R.string.lbl_more_from_this_season),
 			emptyList(),
-			ItemPresenter(context!!, (ImageUtils.ASPECT_RATIO_16_9 * 140.dp).toInt(), 140.dp, true)
+			ItemPresenter(requireContext(), (ImageUtils.ASPECT_RATIO_16_9 * 140.dp).toInt(), 140.dp, true)
 		)
 	}
 	private val chaptersRow by lazy {
 		createListRow(
-			context!!.getString(R.string.chapters),
+			requireContext().getString(R.string.chapters),
 			episode.chapters,
-			ChapterInfoPresenter(context!!)
+			ChapterInfoPresenter(requireContext())
 		)
 	}
 
 	private val cast by lazy {
 		createListRow(
-			context!!.getString(R.string.lbl_cast_crew),
+			requireContext().getString(R.string.lbl_cast_crew),
 			episode.cast,
-			PersonPresenter(context!!)
+			PersonPresenter(requireContext())
 		)
 	}
 
 	private val streamInfoRow by lazy {
 		createListRow(
-			context!!.getString(R.string.lbl_media_info),
+			requireContext().getString(R.string.lbl_media_info),
 			episode.mediaInfo.streams,
 			InfoCardPresenter()
 		)

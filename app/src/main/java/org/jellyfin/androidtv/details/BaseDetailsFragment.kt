@@ -32,7 +32,7 @@ abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : R
 	@CallSuper
 	open suspend fun onCreateAdapters(rowSelector: ClassPresenterSelector, rowAdapter: ArrayObjectAdapter) {
 		// Add the most used presenters to prevent duplicate code
-		rowSelector.addClassPresenter(DetailsOverviewRow::class.java, DetailsOverviewPresenter(context!!))
+		rowSelector.addClassPresenter(DetailsOverviewRow::class.java, DetailsOverviewPresenter(requireContext()))
 		rowSelector.addClassPresenter(ListRow::class.java, ListRowPresenter())
 	}
 
