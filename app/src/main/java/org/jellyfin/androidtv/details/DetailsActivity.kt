@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.model.itemtypes.*
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.androidtv.util.apiclient.liftToNewFormat
+import kotlin.IllegalStateException
 
 private const val LOG_TAG = "DetailsActivity"
 
@@ -43,6 +44,8 @@ class DetailsActivity : FragmentActivity() {
 				is Episode -> EpisodeDetailsFragment(item)
 				is Video -> TODO("Video details are not yet implemented")
 				is LocalTrailer -> TODO("Trailer details are not yet implemented")
+				is Series -> SeriesDetailsFragment(item)
+				is Season -> throw IllegalStateException("Should not appear here")
 			}
 
 			supportFragmentManager.beginTransaction().add(android.R.id.content, fragment).commit()

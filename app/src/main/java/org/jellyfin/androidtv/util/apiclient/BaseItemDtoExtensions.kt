@@ -26,6 +26,10 @@ fun BaseItemDto.liftToNewFormat() : BaseItem {
 
 		BaseItemType.Trailer -> LocalTrailer(this)
 
+		BaseItemType.Series -> Series(this)
+
+		BaseItemType.Season -> Season(this)
+
 		else -> TODO()
 	}
 }

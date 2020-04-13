@@ -85,3 +85,7 @@ class Movie(original: BaseItemDto, externalTrailerLifter: BaseTrailerLifter) : P
 class LocalTrailer(original: BaseItemDto) : PlayableItem(original)
 
 class Video(original: BaseItemDto) : PlayableItem(original)
+
+class Series(original: BaseItemDto) : BaseItem(original)
+
+class Season(original: BaseItemDto) : BaseItem(original)

@@ -1,10 +1,8 @@
 package org.jellyfin.androidtv.util.apiclient
 
+import android.util.Log
 import org.jellyfin.androidtv.TvApp
-import org.jellyfin.androidtv.model.itemtypes.BaseItem
-import org.jellyfin.androidtv.model.itemtypes.Episode
-import org.jellyfin.androidtv.model.itemtypes.FIELDS_REQUIRED_FOR_LIFT
-import org.jellyfin.androidtv.model.itemtypes.LocalTrailer
+import org.jellyfin.androidtv.model.itemtypes.*
 import org.jellyfin.androidtv.querying.StdItemQuery
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.Response
@@ -13,10 +11,13 @@ import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.apiclient.model.dto.UserItemDataDto
 import org.jellyfin.apiclient.model.querying.ItemsResult
 import org.jellyfin.apiclient.model.querying.NextUpQuery
+import org.jellyfin.apiclient.model.querying.SeasonQuery
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery
 import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+
+private const val TAG = "ApiClientExtensions"
 
 /**
  * Coroutine capable version of the "getNextUpEpisodes" function
@@ -114,9 +115,27 @@ suspend fun ApiClient.getLocalTrailers(item: BaseItem): List<LocalTrailer>? = su
 	})
 }
 
+suspend fun ApiClient.getSeasonsOfSeries(seriesId: String): List<Season>? = suspendCoroutine { continuation ->
+	val query = SeasonQuery()
+	query.seriesId = seriesId
+	query.fields = FIELDS_REQUIRED_FOR_LIFT
+	query.userId = currentUserId
+
+	GetSeasonsAsync(query, object : Response<ItemsResult>() {
+		override fun onResponse(response: ItemsResult?) {
+			continuation.resume(response?.items?.map { it.liftToNewFormat() as Season }?.toList())
+		}
+
+		override fun onError(exception: Exception?) {
+			Log.e(TAG, "Failed to request seasons for $seriesId", exception)
+			continuation.resume(null)
+		}
+	})
+}
+
 suspend fun ApiClient.getEpisodesOfSeason(episode: Episode): List<Episode>? = if (episode.seasonId != null) getEpisodesOfSeason(episode.seasonId) else null
 
-private suspend fun ApiClient.getEpisodesOfSeason(seasonId: String): List<Episode>? = suspendCoroutine {
+suspend fun ApiClient.getEpisodesOfSeason(seasonId: String): List<Episode>? = suspendCoroutine {
 	continuation ->
 	val query = StdItemQuery()
 	query.parentId = seasonId
@@ -135,4 +154,3 @@ private suspend fun ApiClient.getEpisodesOfSeason(seasonId: String): List<Episod
 		}
 	})
 }
-

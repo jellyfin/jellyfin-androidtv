@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#37474F"
-    android:paddingBottom="16dp">
+    android:paddingBottom="16dp"
+    tools:viewBindingIgnore="true">
 
     <ImageView
         android:id="@+id/details_description_banner"
