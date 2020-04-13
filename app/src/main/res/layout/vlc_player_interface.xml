@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/black">
+    android:layout_height="match_parent">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -88,9 +87,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_gravity="right|top"
+            android:layout_gravity="end|top"
             android:layout_marginTop="20sp"
-            android:layout_marginRight="40sp" />
+            android:layout_marginEnd="40sp" />
 
         <ImageView
             android:id="@+id/logoImage"
@@ -98,9 +97,9 @@
             android:layout_height="60sp"
             android:layout_alignTop="@+id/textClock"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="10sp" />
+            android:layout_marginStart="40sp"
+            android:layout_marginTop="10sp"
+            android:contentDescription="@string/app_name" />
 
     </RelativeLayout>
-
 </FrameLayout>
