@@ -46,10 +46,12 @@ android {
 		val variant = this
 		variant.outputs.all {
 			val output = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
-			output.outputFileName = output.outputFileName
-				.replace("app-", "jellyfin-androidtv_")
-				.replace(".apk", "_${variant.versionName}.apk")
+			output.outputFileName = output.outputFileName.replace("app-", "jellyfin-androidtv_").replace(".apk", "_${variant.versionName}.apk")
 		}
+	}
+
+	viewBinding {
+		isEnabled = true
 	}
 }
 
@@ -75,6 +77,8 @@ dependencies {
 	implementation("androidx.constraintlayout:constraintlayout:1.1.3")
 	implementation("androidx.recyclerview:recyclerview:1.1.0")
 	implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
+	val fragmentVersion = "1.2.4"
+	implementation("androidx.fragment:fragment-ktx:$fragmentVersion")
 	implementation("com.google.android:flexbox:2.0.1")
 
 	// Media players
