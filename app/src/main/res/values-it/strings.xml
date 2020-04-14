@@ -299,7 +299,7 @@
     <string name="lbl_next_episode">Prossimo episodio</string>
     <string name="lbl_previous_episode">Episodio precedente</string>
     <string name="lbl_more_like_this">Simili a questo</string>
-    <string name="lbl_resume_from">Riprendi da %s</string>
+    <string name="lbl_resume_from">Riprendi dal %s</string>
     <string name="lbl_resume_preroll">Riprendi il Pre-Roll</string>
     <string name="lbl_guide_option_number">Numero del canale</string>
     <string name="lbl_guide_option_played">Ultimo riprodotto</string>
