@@ -123,4 +123,24 @@
     <string name="lbl_logout">Kijelentkezés</string>
     <string name="lbl_settings">Beállítások</string>
     <string name="pref_general">Általános</string>
+    <string name="lbl_unlike">Nem tetszik</string>
+    <string name="lbl_dislike">Nem tetszik</string>
+    <string name="lbl_like">Tetszik</string>
+    <string name="lbl_now_playing_track">%s / %s</string>
+    <string name="lbl_add_favorite">Hozzáadás a kedvencekhez</string>
+    <string name="lbl_remove_favorite">Eltávolítás a kedvencek közül</string>
+    <string name="lbl_confirm_mark_watched">Az akció az összes médiaelemet megjelöli lejátszottnak. Biztosan folytatni szeretnéd a műveletet\?</string>
+    <string name="lbl_mark_played">Lejátszottnak megjelölés</string>
+    <string name="lbl_mark_unplayed">Nem lejátszottnak megjelölés</string>
+    <string name="lbl_play_first_unwatched">Az első még nem látott elem lejátszása</string>
+    <string name="lbl_search_hint">Keresés</string>
+    <string name="sum_tv_queuing">Adja hozzá az évad hátralévő epizódjait a lejátszási listához</string>
+    <string name="lbl_tv_queuing">Ütemezze be a soron következő epizódokat</string>
+    <string name="lbl_no_items">Nincs találat</string>
+    <string name="msg_cannot_play">A kiválasztott elem nem játszható le</string>
+    <string name="msg_cannot_play_time">A kiválasztott médiaelem nem olvasható</string>
+    <string name="msg_playback_restricted">Jelenleg adminisztrátori korlátozás van a kiválasztott médiaelem lejátszására</string>
+    <string name="lbl_to_change_paren">" , változhat)"</string>
+    <string name="lbl_runs">Időtartam:</string>
+    <string name="msg_set_to_record">Felvételre megjelölt műsor</string>
 </resources>
