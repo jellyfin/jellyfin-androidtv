@@ -124,7 +124,7 @@
     <string name="lbl_settings">Beállítások</string>
     <string name="pref_general">Általános</string>
     <string name="lbl_unlike">Nem tetszik</string>
-    <string name="lbl_dislike">Nem tetszik</string>
+    <string name="lbl_dislike"></string>
     <string name="lbl_like">Tetszik</string>
     <string name="lbl_now_playing_track">%s / %s</string>
     <string name="lbl_add_favorite">Hozzáadás a kedvencekhez</string>
@@ -143,4 +143,25 @@
     <string name="lbl_to_change_paren">" , változhat)"</string>
     <string name="lbl_runs">Időtartam:</string>
     <string name="msg_set_to_record">Felvételre megjelölt műsor</string>
+    <string name="lbl_audio_output">Hangkimenet</string>
+    <string name="pref_audio_compat">Sztereóra keverés</string>
+    <string name="pref_audio_direct">Direkt</string>
+    <string name="msg_cancel_entire_series">Biztos vagy benne, hogy az EGÉSZ SOROZATOT törölni szeretnéd\?</string>
+    <string name="lbl_repeat_options">Ismétlési beállítások</string>
+    <string name="lbl_only_new_episodes">Csak az új epizódok</string>
+    <string name="lbl_record_any_time">Felvétel véletlenszerű időben</string>
+    <string name="lbl_record_any_channel">Véletlenszerű csatorna felvétele</string>
+    <string name="lbl_similar_items_library">Hasonló elemek a könyvtárban</string>
+    <string name="lbl_end_padding">Padding a végén</string>
+    <string name="lbl_program_ended">A műsor véget ért</string>
+    <string name="lbl_begin_padding">Padding az elején</string>
+    <string name="msg_will_record">Fel lesz véve</string>
+    <string name="msg_recording_now">Felvétel</string>
+    <string name="lbl_tune_to_channel">Csatornaváltás</string>
+    <string name="lbl_tomorrow">Holnap</string>
+    <string name="lbl_today">Ma</string>
+    <string name="lbl_load_channels">"Műsorok betöltése "</string>
+    <string name="lbl_unwatched">Nem lejátszott</string>
+    <string name="msg_no_playable_items">Nince lejátszható elem</string>
+    <string name="lbl_now_playing_album">- %s</string>
 </resources>
