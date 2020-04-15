@@ -65,10 +65,11 @@ dependencies {
 
 	// Android(x)
 	implementation("androidx.core:core-ktx:1.2.0")
+	implementation("androidx.fragment:fragment-ktx:1.2.4")
 	val androidxLeanbackVersion = "1.1.0-alpha03"
 	implementation("androidx.leanback:leanback:$androidxLeanbackVersion")
 	implementation("androidx.leanback:leanback-preference:$androidxLeanbackVersion")
-	implementation("androidx.preference:preference:1.1.0")
+	implementation("androidx.preference:preference:1.1.1")
 	implementation("androidx.appcompat:appcompat:1.1.0")
 	implementation("androidx.tvprovider:tvprovider:1.0.0")
 	implementation("androidx.palette:palette:1.0.0")
