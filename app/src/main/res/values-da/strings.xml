@@ -337,4 +337,9 @@
     <string name="lbl_show_indicators">Vis Indikatorer For</string>
     <string name="title_activity_expanded_text">Udvidet tekstaktivitet</string>
     <string name="lbl_on_schedule">Til Tiden</string>
+    <string name="pref_acra_alwaysaccept_enabled">Nedbruds rapporter vil blive indsendt uden forespørgelse</string>
+    <string name="pref_acra_disabled">Nedbruds rapporter vil ikke blive indsendt</string>
+    <string name="pref_use_direct_path_summary">Giv filsystemets sti i stedet for streamnig URL</string>
+    <string name="pref_use_direct_path_title">Giv direkte sti til ekstern afspiller</string>
+    <string name="lbl_resume_preroll">Genoptag Forfilm</string>
 </resources>
