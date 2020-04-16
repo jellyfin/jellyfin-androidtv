@@ -36,31 +36,31 @@ class MovieDetailsFragment(private val movie: Movie) : BaseDetailsFragment<Movie
 		val item = MutableLiveData(movie)
 
 		listOf(
-			ResumeAction(context!!, item),
-			PlayFromBeginningAction(context!!, item),
-			ToggleWatchedAction(context!!, item),
-			ToggleFavoriteAction(context!!, item),
+			ResumeAction(requireContext(), item),
+			PlayFromBeginningAction(requireContext(), item),
+			ToggleWatchedAction(requireContext(), item),
+			ToggleFavoriteAction(requireContext(), item),
 
 			// "More" button
-			SecondariesPopupAction(context!!, listOf(
-				DeleteAction(context!!, item) { activity?.finish() }
+			SecondariesPopupAction(requireContext(), listOf(
+				DeleteAction(requireContext(), item) { activity?.finish() }
 			))
 		)
 	}
 
 	// Row definitions
 	private val detailRow by lazy { DetailsOverviewRow(movie, actions, movie.images.primary, movie.images.backdrops) }
-	private val chaptersRow by lazy { createListRow("Chapters", movie.chapters, ChapterInfoPresenter(context!!)) }
-	private val specialsRow by lazy { createListRow("Specials", emptyList(), ItemPresenter(context!!, 250.dp, 140.dp, false)) }
-	private val castRow by lazy { createListRow("Cast/Crew", movie.cast, PersonPresenter(context!!)) }
-	private val relatedItemsRow by lazy { createListRow("Similar", emptyList(), ItemPresenter(context!!, 100.dp, 150.dp, false)) }
+	private val chaptersRow by lazy { createListRow("Chapters", movie.chapters, ChapterInfoPresenter(requireContext())) }
+	private val specialsRow by lazy { createListRow("Specials", emptyList(), ItemPresenter(requireContext(), 250.dp, 140.dp, false)) }
+	private val castRow by lazy { createListRow("Cast/Crew", movie.cast, PersonPresenter(requireContext())) }
+	private val relatedItemsRow by lazy { createListRow("Similar", emptyList(), ItemPresenter(requireContext(), 100.dp, 150.dp, false)) }
 	private val trailersRow by lazy { ListRow(HeaderItem("Trailers"),
 		ArrayObjectAdapter(
 			ClassPresenterSelector().apply{
-				addClassPresenter(LocalTrailer::class.java, ItemPresenter(context!!, (ImageUtils.ASPECT_RATIO_16_9 * 140.dp).toInt(), 140.dp, false))
+				addClassPresenter(LocalTrailer::class.java, ItemPresenter(requireContext(), (ImageUtils.ASPECT_RATIO_16_9 * 140.dp).toInt(), 140.dp, false))
 				addClassPresenterSelector(ExternalTrailer::class.java, ClassPresenterSelector().apply {
-					addClassPresenter(YouTubeTrailer::class.java, YouTubeTrailerPresenter(context!!, 140.dp))
-					addClassPresenter(ExternalTrailer::class.java, ExternalTrailerPresenter(context!!, 140.dp))
+					addClassPresenter(YouTubeTrailer::class.java, YouTubeTrailerPresenter(requireContext(), 140.dp))
+					addClassPresenter(ExternalTrailer::class.java, ExternalTrailerPresenter(requireContext(), 140.dp))
 				})
 			})
 	) }
