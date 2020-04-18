@@ -259,7 +259,7 @@
     <string name="lbl_use_vlc_livetv">Attempt to Use VLC for Live TV</string>
     <string name="desc_use_vlc_livetv">Use VLC for direct streaming live TV when available</string>
     <string name="lbl_refresh_switching">Refresh Rate Switching</string>
-    <string name="lbl_show_premieres">Show Season Premieres on Home Screen</string>
+    <string name="lbl_show_premieres">Show season premieres while browsing</string>
     <string name="desc_premieres">Show a row of new episode pilots for any series you watch</string>
     <string name="lbl_bitstream_dts">Bitstream DTS Audio</string>
     <string name="lbl_in_x_days">In %d days</string>
