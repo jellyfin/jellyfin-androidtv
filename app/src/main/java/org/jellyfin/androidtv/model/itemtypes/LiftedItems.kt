@@ -85,3 +85,9 @@ class Movie(original: BaseItemDto, externalTrailerLifter: BaseTrailerLifter) : P
 class LocalTrailer(original: BaseItemDto) : PlayableItem(original)
 
 class Video(original: BaseItemDto) : PlayableItem(original)
+
+class Artist(original: BaseItemDto) : BaseItem(original), Ratable {
+	override val officialRating: String? = original.officialRating
+	override val communityRating: Float? = original.communityRating
+	override val criticsRating: Float? = original.criticRating
+}
