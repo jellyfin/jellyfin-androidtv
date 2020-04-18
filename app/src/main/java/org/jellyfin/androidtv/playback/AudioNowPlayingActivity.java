@@ -202,8 +202,8 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mAlbumButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent album = new Intent(mActivity, ItemListActivity.class);
-                album.putExtra("ItemId", mBaseItem.getAlbumId());
+                Intent album = new Intent(mActivity, DetailsActivity.class);
+                album.putExtra(DetailsActivity.EXTRA_ITEM_ID, mBaseItem.getAlbumId());
                 mActivity.startActivity(album);
             }
         });
@@ -576,7 +576,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
         if (url == null) {
             backgroundManager.setDrawable(null);
         } else {
-
             BackgroundManagerExtensionsKt.drawable(
                     backgroundManager,
                     this,
