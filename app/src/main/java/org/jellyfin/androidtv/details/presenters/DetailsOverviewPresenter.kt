@@ -27,6 +27,7 @@ import org.jellyfin.androidtv.ui.RecyclerViewSpacingDecoration
 import org.jellyfin.androidtv.ui.widget.Rating
 import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.androidtv.util.dp
+import org.jellyfin.androidtv.util.toHtmlSpanned
 import org.jellyfin.apiclient.model.entities.MediaStreamType
 
 class DetailsOverviewPresenter(private val context: Context) : RowPresenter() {
@@ -225,7 +226,7 @@ class DetailsOverviewPresenter(private val context: Context) : RowPresenter() {
 		}
 
 		// description
-		viewHolder.body.text = item.description
+		viewHolder.body.text = item.description?.toHtmlSpanned()
 	}
 
 	override fun onUnbindRowViewHolder(viewHolder: RowPresenter.ViewHolder) {
