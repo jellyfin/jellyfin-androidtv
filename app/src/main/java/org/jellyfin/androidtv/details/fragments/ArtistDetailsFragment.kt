@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.details.actions.ToggleFavoriteAction
 import org.jellyfin.androidtv.details.presenters.ItemPresenter
 import org.jellyfin.androidtv.model.itemtypes.Artist
 import org.jellyfin.androidtv.util.addIfNotEmpty
+import org.jellyfin.androidtv.util.apiclient.getAlbumsForArtist
 import org.jellyfin.androidtv.util.apiclient.getSimilarItems
 import org.jellyfin.androidtv.util.dp
 
@@ -36,6 +37,7 @@ class ArtistDetailsFragment(private val artist: Artist) : BaseDetailsFragment<Ar
 
 	// Row definitions
 	private val detailRow by lazy { DetailsOverviewRow(artist, actions, artist.images.primary, artist.images.backdrops) }
+	private val albumsRow by lazy { createListRow(getString(R.string.lbl_albums), emptyList(), ItemPresenter(requireContext(), 150.dp, 150.dp, false)) }
 	private val relatedItemsRow by lazy { createListRow(getString(R.string.lbl_similar_items_library), emptyList(), ItemPresenter(requireContext(), 150.dp, 150.dp, false)) }
 
 	override suspend fun onCreateAdapters(rowSelector: ClassPresenterSelector, rowAdapter: ArrayObjectAdapter) {
@@ -47,7 +49,7 @@ class ArtistDetailsFragment(private val artist: Artist) : BaseDetailsFragment<Ar
 		// Add rows
 		rowAdapter.apply {
 			add(detailRow)
-			// discography (albums/songs)
+			addIfNotEmpty(albumsRow)
 			addIfNotEmpty(relatedItemsRow)
 		}
 	}
@@ -55,6 +57,10 @@ class ArtistDetailsFragment(private val artist: Artist) : BaseDetailsFragment<Ar
 	private suspend fun loadAdditionalInformation() = withContext(Dispatchers.IO) {
 		// Get additional information asynchronously
 		awaitAll(
+			async {
+				val albums = TvApp.getApplication().apiClient.getAlbumsForArtist(artist).orEmpty()
+				(albumsRow.adapter as ArrayObjectAdapter).apply { albums.forEach(::add) }
+			},
 			async {
 				val relatedItems = TvApp.getApplication().apiClient.getSimilarItems(artist).orEmpty()
 				(relatedItemsRow.adapter as ArrayObjectAdapter).apply { relatedItems.forEach(::add) }

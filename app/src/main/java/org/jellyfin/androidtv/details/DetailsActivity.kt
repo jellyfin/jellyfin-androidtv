@@ -50,6 +50,7 @@ class DetailsActivity : FragmentActivity() {
 
 				// Music
 				is Artist -> ArtistDetailsFragment(item)
+				is Album -> TODO("Album details are not yet implemented")
 			}
 
 			supportFragmentManager.beginTransaction().add(android.R.id.content, fragment).commit()
