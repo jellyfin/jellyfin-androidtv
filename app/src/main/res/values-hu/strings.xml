@@ -271,7 +271,7 @@
     <string name="lbl_select_date">Dátum kiválasztása</string>
     <string name="lbl_in_x_days">%d nap múlva</string>
     <string name="lbl_bitstream_dts">DTS Audio bitfolyam</string>
-    <string name="lbl_show_premieres">A szezonpremierek mutatása a kezdőképernyőn</string>
+    <string name="lbl_show_premieres">Jelenítse meg a szezon premierjeit böngészés közben</string>
     <string name="lbl_refresh_switching">Frissítési ráta módosítása</string>
     <string name="desc_use_vlc_livetv">Használjon VLC-t az élő TV-k közvetítéséhez, ha elérhető</string>
     <string name="lbl_use_vlc_livetv">Élő TV-adásokhoz próbálja meg a VLC-t használni</string>
