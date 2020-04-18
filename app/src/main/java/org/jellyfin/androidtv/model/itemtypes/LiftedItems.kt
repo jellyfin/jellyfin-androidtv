@@ -35,6 +35,8 @@ sealed class BaseItem(original: BaseItemDto) : ObservableParent() {
 	val added: Date = original.dateCreated
 	var favorite: Boolean by Delegates.observable(original.userData.isFavorite, ::observer)
 	val deletable: Boolean = original.canDelete
+	val genres: List<GenreDto> = original.genreItems.toList()
+	val tags: List<String> = original.tags
 }
 
 sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
@@ -44,8 +46,6 @@ sealed class PlayableItem(original: BaseItemDto) : BaseItem(original) {
 		ChapterInfo(chapterInfoDto, this, index)
 	}
 	var played: Boolean by Delegates.observable(original.userData.played, ::observer)
-	val genres: List<GenreDto> = original.genreItems.toList()
-	val tags: List<String> = original.tags
 	val durationTicks: Long? = original.runTimeTicks
 
 	val canResume: Boolean
