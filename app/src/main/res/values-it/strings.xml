@@ -231,7 +231,7 @@
     <string name="pref_authentication_cat">Autenticazione</string>
     <string name="lbl_up_next_colon">"Prossima: "</string>
     <string name="msg_reshuffle_audio_queue">Metti in casuale l\'attuale coda audio\?</string>
-    <string name="lbl_show_premieres">Mostra le premiere di stagione sulla Home</string>
+    <string name="lbl_show_premieres">Mostra le anteprime di stagione mentre navighi</string>
     <string name="lbl_refresh_switching">Cambio della frequenza di aggiornamento</string>
     <string name="desc_use_vlc_livetv">Usa VLC per lo streaming diretto della TV in diretta, quando disponibile</string>
     <string name="lbl_use_vlc_livetv">Tenta di utilizzare VLC per la TV in diretta</string>
@@ -313,4 +313,8 @@
     <string name="pref_acra_alwaysaccept">Invia i crash report senza richiederlo</string>
     <string name="pref_acra_disabled">I Crash report non saranno inviati</string>
     <string name="pref_acra_enabled">Verrà richiesto l\'invio dei crash report</string>
+    <string name="acra_dialog_title">Oh no! Qualcosa è andato storto.</string>
+    <string name="pref_acra_syslog_disabled">Il log di sistenon ma sarà incluso nel report del crash</string>
+    <string name="pref_acra_syslog_enabled">Il log di sistema sarà incluso nel report del crash</string>
+    <string name="pref_acra_syslog">Includi il log di sistema nei crash report. Ciò potrebbe includere dati privati da altre applicazioni se era loggato al momento del crash.</string>
 </resources>
