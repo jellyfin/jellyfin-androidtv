@@ -116,6 +116,7 @@ public class ItemLauncher {
                         return;
                     case Series:
                     case MusicArtist:
+                    case MusicAlbum:
                         // Open Series or MusicArtist in details activity
                         Intent intent = new Intent(activity, DetailsActivity.class);
                         intent.putExtra(DetailsActivity.EXTRA_ITEM_ID, baseItem.getId());
@@ -126,7 +127,6 @@ public class ItemLauncher {
                         activity.startActivity(intent);
                         return;
 
-                    case MusicAlbum:
                     case Playlist:
                         //Start activity for song list display
                         Intent songListIntent = new Intent(activity, ItemListActivity.class);

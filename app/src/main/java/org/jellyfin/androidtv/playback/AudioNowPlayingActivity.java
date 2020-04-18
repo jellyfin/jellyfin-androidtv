@@ -24,7 +24,6 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.details.DetailsActivity;
-import org.jellyfin.androidtv.details.ItemListActivity;
 import org.jellyfin.androidtv.imagehandling.PicassoBackgroundManagerTarget;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.model.GotFocusEvent;
@@ -204,8 +203,8 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mAlbumButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent album = new Intent(mActivity, ItemListActivity.class);
-                album.putExtra("ItemId", mBaseItem.getAlbumId());
+                Intent album = new Intent(mActivity, DetailsActivity.class);
+                album.putExtra(DetailsActivity.EXTRA_ITEM_ID, mBaseItem.getAlbumId());
                 mActivity.startActivity(album);
             }
         });
