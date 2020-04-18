@@ -194,7 +194,7 @@
     <string name="lbl_in_x_days">在 %d 天里</string>
     <string name="lbl_bitstream_dts">比特流DTS音频</string>
     <string name="desc_premieres">为你所观看的任何系列节目展示一排新的试播集</string>
-    <string name="lbl_show_premieres">该剧季将在主屏幕上首播</string>
+    <string name="lbl_show_premieres">浏览时显示该剧集首播</string>
     <string name="lbl_refresh_switching">帧率切换</string>
     <string name="desc_use_vlc_livetv">在可用时使用VLC进行电视直播</string>
     <string name="lbl_use_vlc_livetv">尝试使用VLC进行电视直播</string>
