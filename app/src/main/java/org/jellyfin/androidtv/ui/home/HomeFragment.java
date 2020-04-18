@@ -25,7 +25,6 @@ import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.preferences.enums.AudioBehavior;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
-import org.jellyfin.androidtv.presentation.HolidayManager;
 import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.StdItemQuery;
 import org.jellyfin.androidtv.querying.ViewQuery;
@@ -117,7 +116,6 @@ public class HomeFragment extends StdBrowseFragment {
                     .show();
         }
 
-        HolidayManager.showWelcomeMessage();
         //Subscribe to Audio messages
         MediaManager.addAudioEventListener(audioEventListener);
 
