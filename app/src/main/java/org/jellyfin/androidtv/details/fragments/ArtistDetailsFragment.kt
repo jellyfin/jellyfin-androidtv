@@ -10,6 +10,9 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.details.DetailsOverviewRow
+import org.jellyfin.androidtv.details.actions.InstantMixAction
+import org.jellyfin.androidtv.details.actions.PlayFromBeginningAction
+import org.jellyfin.androidtv.details.actions.ShuffleAction
 import org.jellyfin.androidtv.details.actions.ToggleFavoriteAction
 import org.jellyfin.androidtv.details.presenters.ItemPresenter
 import org.jellyfin.androidtv.model.itemtypes.Artist
@@ -24,14 +27,10 @@ class ArtistDetailsFragment(private val artist: Artist) : BaseDetailsFragment<Ar
 		val item = MutableLiveData(artist)
 
 		listOf(
-//			PlayAction(requireContext(), item),
-//			InstantMixAction(requireContext()),
-//			ShuffleAction(requireContext()),
+			PlayFromBeginningAction(requireContext(), item),
+			InstantMixAction(requireContext(), item),
+			ShuffleAction(requireContext(), item),
 			ToggleFavoriteAction(requireContext(), item)
-//			SecondariesPopupAction(requireContext(), listOf(
-//				AddToCollectionAction(),
-//				AddToPlaylistAction()
-//			))
 		)
 	}
 
