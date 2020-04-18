@@ -239,7 +239,7 @@
     <string name="lbl_in_x_days">Za %d dní</string>
     <string name="lbl_bitstream_dts">Bitstream DTS zvuk</string>
     <string name="desc_premieres">Zobraziť riadok nových pilotných epizód pre každý seriál, ktorý pozeráte</string>
-    <string name="lbl_show_premieres">Zobraziť premiéry sérií seriálov na domovskej obrazovke</string>
+    <string name="lbl_show_premieres">Zobraziť premiéry sérií seriálov počas prechádzania</string>
     <string name="lbl_refresh_switching">Prepínanie obnovovacej frekvencie</string>
     <string name="desc_use_vlc_livetv">Pokiaľ sa dá, použiť VLC pre priame streamovanie živej TV</string>
     <string name="lbl_use_vlc_livetv">Pokúsiť sa použiť VLC pre živú TV</string>
