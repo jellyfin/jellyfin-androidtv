@@ -1,16 +1,14 @@
 package org.jellyfin.androidtv.util.apiclient
 
 import org.jellyfin.androidtv.TvApp
-import org.jellyfin.androidtv.model.itemtypes.BaseItem
-import org.jellyfin.androidtv.model.itemtypes.Episode
-import org.jellyfin.androidtv.model.itemtypes.FIELDS_REQUIRED_FOR_LIFT
-import org.jellyfin.androidtv.model.itemtypes.LocalTrailer
+import org.jellyfin.androidtv.model.itemtypes.*
 import org.jellyfin.androidtv.querying.StdItemQuery
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.Response
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.apiclient.model.dto.UserItemDataDto
+import org.jellyfin.apiclient.model.querying.ItemQuery
 import org.jellyfin.apiclient.model.querying.ItemsResult
 import org.jellyfin.apiclient.model.querying.NextUpQuery
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery
@@ -136,3 +134,22 @@ private suspend fun ApiClient.getEpisodesOfSeason(seasonId: String): List<Episod
 	})
 }
 
+suspend fun ApiClient.getAlbumsForArtist(artist: Artist): List<Album>? = suspendCoroutine { continuation ->
+	val query = ItemQuery().apply {
+		fields = FIELDS_REQUIRED_FOR_LIFT
+		userId = currentUserId
+		artistIds = arrayOf(artist.id)
+		recursive = true
+		includeItemTypes = arrayOf(BaseItemType.MusicAlbum.name)
+	}
+
+	GetItemsAsync(query, object : Response<ItemsResult>() {
+		override fun onResponse(response: ItemsResult?) {
+			continuation.resume(response?.items?.map { it.liftToNewFormat() as Album }?.toList())
+		}
+
+		override fun onError(exception: Exception?) {
+			continuation.resume(null)
+		}
+	})
+}

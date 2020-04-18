@@ -27,6 +27,7 @@ fun BaseItemDto.liftToNewFormat(): BaseItem {
 		BaseItemType.Trailer -> LocalTrailer(this)
 
 		// Music
+		BaseItemType.MusicAlbum -> Album(this)
 		BaseItemType.MusicArtist -> Artist(this)
 
 		else -> TODO()
