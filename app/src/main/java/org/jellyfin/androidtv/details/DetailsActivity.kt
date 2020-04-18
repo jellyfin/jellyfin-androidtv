@@ -11,6 +11,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.details.fragments.AlbumDetailsFragment
 import org.jellyfin.androidtv.details.fragments.ArtistDetailsFragment
 import org.jellyfin.androidtv.details.fragments.EpisodeDetailsFragment
 import org.jellyfin.androidtv.details.fragments.MovieDetailsFragment
@@ -50,7 +51,7 @@ class DetailsActivity : FragmentActivity() {
 
 				// Music
 				is Artist -> ArtistDetailsFragment(item)
-				is Album -> TODO("Album details are not yet implemented")
+				is Album -> AlbumDetailsFragment(item)
 			}
 
 			supportFragmentManager.beginTransaction().add(android.R.id.content, fragment).commit()

@@ -4,6 +4,7 @@ import org.jellyfin.androidtv.model.trailers.external.ExternalTrailer
 import org.jellyfin.androidtv.model.trailers.lifter.BaseTrailerLifter
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.GenreDto
+import org.jellyfin.apiclient.model.dto.NameIdPair
 import org.jellyfin.apiclient.model.querying.ItemFields
 import java.util.*
 import kotlin.properties.Delegates
@@ -86,7 +87,13 @@ class LocalTrailer(original: BaseItemDto) : PlayableItem(original)
 
 class Video(original: BaseItemDto) : PlayableItem(original)
 
-class Album(original: BaseItemDto) : BaseItem(original)
+class Album(original: BaseItemDto) : BaseItem(original), Ratable {
+	val artist: List<NameIdPair> = original.artistItems.toList()
+
+	override val officialRating: String? = original.officialRating
+	override val communityRating: Float? = original.communityRating
+	override val criticsRating: Float? = original.criticRating
+}
 
 class Artist(original: BaseItemDto) : BaseItem(original), Ratable {
 	override val officialRating: String? = original.officialRating
