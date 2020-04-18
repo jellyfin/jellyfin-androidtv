@@ -37,6 +37,7 @@ import org.jellyfin.androidtv.querying.ViewQuery;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
+import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -578,9 +579,12 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         public void run() {
             if (mCurrentItem == null) return;
             mTitle.setText(mCurrentItem.getName());
-            mSummary.setText(mCurrentItem.getSummary());
-            InfoLayoutHelper.addInfoRow(mActivity, mCurrentItem, mInfoRow, true, true);
 
+            String summary = mCurrentItem.getSummary();
+            if (summary != null) mSummary.setText(TextUtilsKt.toHtmlSpanned(summary));
+            else mSummary.setText(null);
+
+            InfoLayoutHelper.addInfoRow(mActivity, mCurrentItem, mInfoRow, true, true);
         }
     };
 
