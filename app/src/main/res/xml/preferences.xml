@@ -39,11 +39,6 @@
             android:title="@string/lbl_show_backdrop" />
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="pref_enable_info_panel"
-            android:summary="@string/desc_info_panel"
-            android:title="@string/lbl_show_info_panel" />
-        <CheckBoxPreference
-            android:defaultValue="false"
             android:key="pref_enable_premieres"
             android:summary="@string/desc_premieres"
             android:title="@string/lbl_show_premieres" />
