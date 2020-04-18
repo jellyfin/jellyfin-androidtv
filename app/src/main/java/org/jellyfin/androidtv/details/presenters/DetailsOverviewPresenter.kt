@@ -158,6 +158,8 @@ class DetailsOverviewPresenter(private val context: Context) : RowPresenter() {
 			}
 		}
 
+		(viewHolder.genres.adapter as GenreAdapter).setItems(item.genres)
+
 		if (item is PlayableItem) {
 			// Calculate progress in percentage (0 - 100)
 			val progress = item.durationTicks?.let { item.playbackPositionTicks * 100.0 / it }
@@ -169,8 +171,6 @@ class DetailsOverviewPresenter(private val context: Context) : RowPresenter() {
 			} else {
 				viewHolder.posterProgress.visibility = View.GONE
 			}
-
-			(viewHolder.genres.adapter as GenreAdapter).setItems(item.genres)
 
 			val videoStream = item.mediaInfo.streams.find { it.type == MediaStreamType.Video }
 			if (videoStream != null) {
@@ -216,7 +216,7 @@ class DetailsOverviewPresenter(private val context: Context) : RowPresenter() {
 			viewHolder.durationInfo.visibility = View.GONE
 		}
 
-		if (item is PlayableItem && item.tags.isNotEmpty()) {
+		if (item.tags.isNotEmpty()) {
 			viewHolder.tags.text = SpannableStringBuilder()
 				.bold { append("Tags: ") }
 				.append(item.tags.joinToString(", "))
