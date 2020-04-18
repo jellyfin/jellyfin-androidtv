@@ -494,6 +494,7 @@ public class MediaManager {
         if (!ensureInitialized()) return;
 
         if (hasAudioQueueItems()) {
+            //todo Will not show in activities that don't extend BaseActivity
             new AlertDialog.Builder(TvApp.getApplication().getCurrentActivity())
                     .setTitle(R.string.lbl_items_in_queue)
                     .setMessage(R.string.msg_replace_or_add_queue_q)

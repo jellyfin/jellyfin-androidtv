@@ -189,6 +189,10 @@ public class TvApp extends Application {
         return currentPlayingItem;
     }
 
+    /**
+     * @deprecated This function is causing a **lot** of issues and should be removed ASAP
+     */
+    @Deprecated()
     public BaseActivity getCurrentActivity() {
         return currentActivity;
     }
