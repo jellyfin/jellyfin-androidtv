@@ -13,8 +13,8 @@ val multiTrailerLifter = FirstMatchTrailerLifter().apply {
 	addLast(GenericTrailerLifter())
 }
 
-fun BaseItemDto.liftToNewFormat() : BaseItem {
-	return when(baseItemType) {
+fun BaseItemDto.liftToNewFormat(): BaseItem {
+	return when (baseItemType) {
 		// Movies
 		BaseItemType.Movie -> Movie(this, multiTrailerLifter)
 
@@ -25,6 +25,9 @@ fun BaseItemDto.liftToNewFormat() : BaseItem {
 		BaseItemType.Video -> Video(this)
 
 		BaseItemType.Trailer -> LocalTrailer(this)
+
+		// Music
+		BaseItemType.MusicArtist -> Artist(this)
 
 		else -> TODO()
 	}
