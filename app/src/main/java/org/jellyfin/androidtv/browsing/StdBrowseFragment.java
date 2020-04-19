@@ -22,8 +22,6 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,7 +36,6 @@ import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.base.CustomMessage;
 import org.jellyfin.androidtv.base.IKeyListener;
 import org.jellyfin.androidtv.base.IMessageListener;
-import org.jellyfin.androidtv.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
@@ -47,7 +44,6 @@ import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.ViewQuery;
 import org.jellyfin.androidtv.ui.ClockUserView;
-import org.jellyfin.androidtv.ui.ItemPanel;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -70,13 +66,10 @@ import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
 public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoader {
-    private static final String TAG = "StdBrowseFragment";
-
     private static final int BACKGROUND_UPDATE_DELAY = 100;
 
     protected String MainTitle;
     protected boolean ShowBadge = true;
-    protected boolean ShowInfoPanel = true;
     protected boolean ShowFanart = false;
     protected TvApp mApplication;
     protected BaseActivity mActivity;
@@ -94,10 +87,6 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
     protected CardPresenter mCardPresenter;
 
     protected boolean justLoaded = true;
-
-    private ItemPanel mItemPanel;
-    private Animation fadeInPanel;
-    private Animation fadeOutPanel;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -137,8 +126,6 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
     public void onResume() {
         super.onResume();
 
-        // set info panel option
-        ShowInfoPanel = mApplication.getUserPreferences().getInfoPanelEnabled();
         ShowFanart = mApplication.getUserPreferences().getBackdropEnabled();
 
         //React to deletion
@@ -286,15 +273,6 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
 
         ViewGroup root = (ViewGroup) getActivity().findViewById(android.R.id.content);
 
-        // add item panel
-        mItemPanel = new ItemPanel(getActivity());
-        FrameLayout.LayoutParams panelLayout = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.convertDpToPixel(TvApp.getApplication(), 145));
-        panelLayout.gravity = Gravity.BOTTOM;
-        panelLayout.bottomMargin = -10;
-        mItemPanel.setLayoutParams(panelLayout);
-        root.addView(mItemPanel);
-        mItemPanel.setVisibility(View.INVISIBLE);
-
         // and add the clock element
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         ClockUserView clock = new ClockUserView(getActivity());
@@ -303,65 +281,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
         layoutParams.topMargin = Utils.convertDpToPixel(getActivity(), 20);
         clock.setLayoutParams(layoutParams);
         root.addView(clock);
-
-        // load item panel animation
-        fadeInPanel = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_in);
-        fadeInPanel.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                mItemPanel.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-        fadeOutPanel = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_out);
-        fadeOutPanel.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                mItemPanel.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
     }
-
-    private Runnable showItemPanel = new Runnable() {
-        @Override
-        public void run() {
-            if (mCurrentItem != null && !mCurrentItem.isFolder() && (mCurrentItem.getRuntimeTicks() > 0 ||  (mCurrentItem.getSummary() != null && mCurrentItem.getSummary().length() > 0))) {
-                mItemPanel.setItem(mCurrentItem);
-                mItemPanel.startAnimation(fadeInPanel);
-                mHandler.removeCallbacks(hideItemPanel);
-                mHandler.postDelayed(hideItemPanel, 20000);
-            } else {
-                mItemPanel.setVisibility(View.INVISIBLE);
-            }
-        }
-    };
-
-    private Runnable hideItemPanel = new Runnable() {
-        @Override
-        public void run() {
-            mItemPanel.startAnimation(fadeOutPanel);
-        }
-    };
 
     protected void setupEventListeners() {
         setOnSearchClickedListener(new View.OnClickListener() {
@@ -429,25 +349,14 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
 
-            if (ShowInfoPanel) {
-                // cancel any delayed showing and hide item panel
-                mHandler.removeCallbacks(showItemPanel);
-                mItemPanel.setVisibility(View.INVISIBLE);
-            }
-
             if (!(item instanceof BaseRowItem)) {
                 mCurrentItem = null;
-                mHandler.removeCallbacks(hideItemPanel);
                 //fill in default background
                 mBackgroundUrl = null;
                 startBackgroundTimer();
                 return;
             } else {
                 mCurrentItem = (BaseRowItem)item;
-                if (!isShowingHeaders() && ShowInfoPanel && !(item instanceof AudioQueueItem)) {
-                    // delay show the item panel
-                    mHandler.postDelayed(showItemPanel, 1000);
-                }
             }
 
             mCurrentRow = (ListRow) row;

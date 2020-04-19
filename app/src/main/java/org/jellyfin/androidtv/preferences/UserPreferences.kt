@@ -44,11 +44,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	var backdropEnabled by booleanPreference("pref_show_backdrop", true)
 
 	/**
-	 * Show additional information for selected item while browsing
-	 */
-	var infoPanelEnabled by booleanPreference("pref_enable_info_panel", false)
-
-	/**
 	 * Show premieres on home screen
 	 */
 	var premieresEnabled by booleanPreference("pref_enable_premieres", false)
