@@ -121,11 +121,11 @@ public class HorizontalGridFragment extends Fragment {
     protected Map<Integer, SortOption> sortOptions = new HashMap<>();
     {
         sortOptions.put(0, new SortOption(TvApp.getApplication().getString(R.string.lbl_name), "SortName", SortOrder.Ascending));
-        sortOptions.put(1, new SortOption(TvApp.getApplication().getString(R.string.lbl_date_added), "DateLastContentAdded", SortOrder.Descending));
-        sortOptions.put(2, new SortOption(TvApp.getApplication().getString(R.string.lbl_premier_date), "PremiereDate", SortOrder.Descending));
-        sortOptions.put(3,new SortOption(TvApp.getApplication().getString(R.string.lbl_rating), "OfficialRating", SortOrder.Ascending));
-        sortOptions.put(4,new SortOption(TvApp.getApplication().getString(R.string.lbl_critic_rating), "CriticRating", SortOrder.Descending));
-        sortOptions.put(5,new SortOption(TvApp.getApplication().getString(R.string.lbl_last_played), "DatePlayed", SortOrder.Descending));
+        sortOptions.put(1, new SortOption(TvApp.getApplication().getString(R.string.lbl_date_added), "DateCreated,SortName", SortOrder.Descending));
+        sortOptions.put(2, new SortOption(TvApp.getApplication().getString(R.string.lbl_premier_date), "PremiereDate,SortName", SortOrder.Descending));
+        sortOptions.put(3,new SortOption(TvApp.getApplication().getString(R.string.lbl_rating), "OfficialRating,SortName", SortOrder.Ascending));
+        sortOptions.put(4,new SortOption(TvApp.getApplication().getString(R.string.lbl_critic_rating), "CriticRating,SortName", SortOrder.Descending));
+        sortOptions.put(5,new SortOption(TvApp.getApplication().getString(R.string.lbl_last_played), "DatePlayed,SortName", SortOrder.Descending));
     }
 
     protected String getSortFriendlyName(String value) {

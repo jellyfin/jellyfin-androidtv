@@ -1,9 +1,6 @@
 package org.jellyfin.androidtv.presentation;
 
 import android.graphics.Color;
-import android.os.Build;
-import android.text.Html;
-import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.flexbox.FlexboxLayout;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.details.MyDetailsOverviewRow;
@@ -19,12 +18,11 @@ import org.jellyfin.androidtv.model.InfoItem;
 import org.jellyfin.androidtv.ui.GenreButton;
 import org.jellyfin.androidtv.ui.TextUnderButton;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import androidx.leanback.widget.RowPresenter;
-
-import com.google.android.flexbox.FlexboxLayout;
 
 public class MyDetailsOverviewRowPresenter extends RowPresenter {
 
@@ -110,17 +108,8 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
 
         // Support simple HTML elements
         String summaryRaw = row.getSummary();
-        if (summaryRaw != null) {
-            Spanned summarySpanned;
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                summarySpanned = Html.fromHtml(summaryRaw, Html.FROM_HTML_MODE_COMPACT);
-            } else {
-                summarySpanned = Html.fromHtml(summaryRaw);
-            }
-
-            vh.mSummary.setText(summarySpanned);
-        }
+        if (summaryRaw != null)
+            vh.mSummary.setText(TextUtilsKt.toHtmlSpanned(summaryRaw));
 
         switch (row.getItem().getBaseItemType()) {
             case Person:
