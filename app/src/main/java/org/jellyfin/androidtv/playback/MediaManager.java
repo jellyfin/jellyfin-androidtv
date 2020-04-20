@@ -493,28 +493,12 @@ public class MediaManager {
     public static void playNow(final List<BaseItemDto> items) {
         if (!ensureInitialized()) return;
 
-        if (hasAudioQueueItems()) {
-            new AlertDialog.Builder(TvApp.getApplication().getCurrentActivity())
-                    .setTitle(R.string.lbl_items_in_queue)
-                    .setMessage(R.string.msg_replace_or_add_queue_q)
-                    .setPositiveButton(R.string.btn_replace_queue, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            playNowInternal(items);
-                            fireQueueReplaced();
-                        }
-                    })
-                    .setNeutralButton(R.string.lbl_add_to_queue, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            addToAudioQueue(items);
-                        }
-                    })
-                    .setNegativeButton(R.string.lbl_cancel, null)
-                    .show();
-        } else {
-            playNowInternal(items);
-        }
+        boolean fireQueueReplaceEvent = hasAudioQueueItems();
+
+        playNowInternal(items);
+
+        if (fireQueueReplaceEvent)
+            fireQueueReplaced();
     }
 
     private static void playNowInternal(List<BaseItemDto> items) {

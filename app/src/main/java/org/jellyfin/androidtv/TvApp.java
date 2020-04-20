@@ -189,6 +189,10 @@ public class TvApp extends Application {
         return currentPlayingItem;
     }
 
+    /**
+     * @deprecated This function is causing a **lot** of issues because not all activities will set their self as "currentactivity". Try to receive a Context instance instead.
+     */
+    @Deprecated()
     public BaseActivity getCurrentActivity() {
         return currentActivity;
     }
