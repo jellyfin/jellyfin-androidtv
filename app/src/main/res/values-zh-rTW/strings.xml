@@ -104,4 +104,24 @@
     <string name="pref_alt_pw_entry">自定十字鍵密碼輸入</string>
     <string name="pref_prompt_pw">密碼提示</string>
     <string name="pref_login_behavior_title">啟動行為</string>
+    <string name="msg_error_server_unavailable">伺服器無法使用</string>
+    <string name="msg_little_longer">將會花費比預期久的時間...</string>
+    <string name="lbl_play_trailers">播放預告片</string>
+    <string name="lbl_trailer">"預告片 "</string>
+    <string name="msg_access_restricted">目前存取遭到限制</string>
+    <string name="msg_video_playback_error">"影片撥放錯誤 "</string>
+    <string name="lbl_people">人員</string>
+    <string name="lbl_other_options">其他選項</string>
+    <string name="lbl_favorite">最愛</string>
+    <string name="lbl_upcoming">即將到來</string>
+    <string name="lbl_seasons">季</string>
+    <string name="lbl_chapters">章節</string>
+    <string name="lbl_shuffle_all">隨機撥放全部</string>
+    <string name="lbl_because_you_watched">"因為你看過 "</string>
+    <string name="lbl_latest_additions">最後新增</string>
+    <string name="lbl_tv_series">電視影集</string>
+    <string name="lbl_collections">合集</string>
+    <string name="lbl_coming_up">即將到來</string>
+    <string name="msg_not_implemented">" 尚未開發"</string>
+    <string name="chapters">章節</string>
 </resources>
