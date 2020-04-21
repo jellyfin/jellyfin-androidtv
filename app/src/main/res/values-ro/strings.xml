@@ -203,7 +203,7 @@
     <string name="lbl_in_x_days">În %d zile</string>
     <string name="lbl_bitstream_dts">Flux Audio DTS</string>
     <string name="desc_premieres">Afișează un rând de episoade pilot noi pentru orice serie vizionată</string>
-    <string name="lbl_show_premieres">Arată premierele de sezon pe ecranul de start</string>
+    <string name="lbl_show_premieres">Arată premierele de sezon în timpul răsfoirii</string>
     <string name="lbl_refresh_switching">Comutarea vitezei de actualizare</string>
     <string name="desc_use_vlc_livetv">Utilizați VLC pentru transmisia în direct a TV, atunci când este disponibil</string>
     <string name="lbl_use_vlc_livetv">Încercați să utilizați VLC pentru TV live</string>
