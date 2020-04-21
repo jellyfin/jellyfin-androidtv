@@ -124,4 +124,16 @@
     <string name="lbl_coming_up">即將到來</string>
     <string name="msg_not_implemented">" 尚未開發"</string>
     <string name="chapters">章節</string>
+    <string name="lbl_date_added">加入日期</string>
+    <string name="lbl_season">季</string>
+    <string name="lbl_live">實況</string>
+    <string name="lbl_confirm_mark_unwatched">這會將所有內容標記為尚未播放，您確定\?</string>
+    <string name="lbl_confirm_mark_watched">這會將所有內容標記為播放完畢，您確定\?</string>
+    <string name="msg_cannot_play">該內容無法撥放</string>
+    <string name="msg_cannot_play_time">該內容目前無法撥放</string>
+    <string name="msg_playback_restricted">該內容目前遭管理員限制撥放</string>
+    <string name="msg_playback_not_allowed">目前無法撥放</string>
+    <string name="lbl_born">"出生 "</string>
+    <string name="msg_invalid_id_pw">帳號或密碼錯誤</string>
+    <string name="msg_error_server_version">不支援的伺服器版本，伺服器版本必須為 %1$s 或更高版本。</string>
 </resources>
