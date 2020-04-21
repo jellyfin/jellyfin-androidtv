@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Jellyfin documentation
+    url:  https://jellyfin.org/docs/getting-help.html
+    about: Our documentation contains lots of help for common issues
