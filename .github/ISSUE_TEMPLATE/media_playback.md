@@ -2,7 +2,7 @@
 name: Media playback issue
 about: Create a media playback issue report
 title: ''
-labels: mediaplayback
+labels: playback
 assignees: ''
 
 ---
