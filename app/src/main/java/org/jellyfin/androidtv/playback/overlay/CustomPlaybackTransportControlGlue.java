@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.playback.overlay;
 
 import android.content.Context;
+import android.view.KeyEvent;
 import android.view.View;
 
 import androidx.leanback.media.PlaybackTransportControlGlue;
@@ -249,5 +250,13 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     void updatePlayState() {
         playPauseAction.setIndex(isPlaying() ? PlaybackControlsRow.PlayPauseAction.INDEX_PAUSE : PlaybackControlsRow.PlayPauseAction.INDEX_PLAY);
         notifyActionChanged(playPauseAction);
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (hasSubs() && keyCode == KeyEvent.KEYCODE_CAPTIONS && event.getAction() == KeyEvent.ACTION_UP) {
+            closedCaptionsAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), v);
+        }
+        return super.onKey(v, keyCode, event);
     }
 }
