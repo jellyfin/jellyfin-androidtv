@@ -222,11 +222,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                     if (mResumeButton != null) {
                                         boolean resumeVisible = (mBaseItem.getBaseItemType() == BaseItemType.Series && !mBaseItem.getUserData().getPlayed()) || response.getCanResume();
                                         mResumeButton.setVisibility(resumeVisible ? View.VISIBLE : View.GONE);
-                                        if (response.getCanResume()){
+                                        if (response.getCanResume()) {
                                             mResumeButton.setText(getString(R.string.lbl_resume_from, TimeUtils.formatMillis((response.getUserData().getPlaybackPositionTicks()/10000) - mApplication.getResumePreroll())));
                                         }
-                                        if (resumeVisible)
-                                        {
+                                        if (resumeVisible) {
                                             mResumeButton.requestFocus();
                                         }
                                         showMoreButtonIfNeeded();
