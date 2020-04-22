@@ -20,6 +20,8 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setBackgroundType(BG_LIGHT);
+
         TvApp application = TvApp.getApplication();
         PlaybackController playbackController = application.getPlaybackController();
 
