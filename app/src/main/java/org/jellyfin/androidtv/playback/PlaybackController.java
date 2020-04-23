@@ -959,6 +959,11 @@ public class PlaybackController {
                     return;
                 }
 
+                if (mPlaybackState != PlaybackState.PLAYING) {
+                    // Playback was stopped, don't report progress anymore
+                    return;
+                }
+
                 long currentTime = isLiveTv ? getTimeShiftedProgress() : mVideoManager.getCurrentPosition();
                 if (isLiveTv && !directStreamLiveTv) {
                     mFragment.setSecondaryTime(getRealTimeProgress());
