@@ -1,66 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/wholeRow"
+    android:id="@+id/list_item_song"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="100dp"
     android:layout_marginEnd="100dp"
+    android:background="@drawable/list_item_background"
+    android:clickable="true"
+    android:focusable="true"
     android:padding="10dp">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/watchedMark"
-        android:textSize="18sp" />
-
-    <TextView
+        android:id="@+id/list_item_song_index"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        tools:text="Track"
-        android:id="@+id/indexNo"
-        android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
         android:layout_marginStart="10dp"
         android:gravity="center"
         android:minWidth="20dp"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        tools:text="0" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/indexNo"
-        android:layout_toStartOf="@+id/runTime"
-        android:orientation="vertical"
-        android:layout_marginStart="20dp">
+        android:layout_marginStart="20dp"
+        android:layout_toStartOf="@+id/list_item_song_duration"
+        android:layout_toEndOf="@+id/list_item_song_index"
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/list_item_song_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Title"
-            android:id="@+id/songName"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:text="Title" />
 
         <TextView
+            android:id="@+id/list_item_song_artist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Artist"
-            android:id="@+id/artistName"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:text="Artist" />
 
     </LinearLayout>
 
     <TextView
+        android:id="@+id/list_item_song_duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Time"
-        android:id="@+id/runTime"
-        android:textSize="16sp"
         android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        android:textSize="16sp"
+        tools:text="1:30" />
 
 </RelativeLayout>

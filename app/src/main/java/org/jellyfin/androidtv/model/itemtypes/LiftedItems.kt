@@ -100,3 +100,8 @@ class Artist(original: BaseItemDto) : BaseItem(original), Ratable {
 	override val communityRating: Float? = original.communityRating
 	override val criticsRating: Float? = original.criticRating
 }
+
+class Audio(original: BaseItemDto) : PlayableItem(original) {
+	val index: Int = original.indexNumber
+	val artists: List<String> = original.artists.toList()
+}
