@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.details
+package org.jellyfin.androidtv.details.rows
 
 import androidx.leanback.widget.Row
 import org.jellyfin.androidtv.details.actions.Action

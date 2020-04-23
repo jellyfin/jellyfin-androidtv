@@ -9,12 +9,12 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
-import org.jellyfin.androidtv.details.DetailsOverviewRow
 import org.jellyfin.androidtv.details.actions.InstantMixAction
 import org.jellyfin.androidtv.details.actions.PlayFromBeginningAction
 import org.jellyfin.androidtv.details.actions.ShuffleAction
 import org.jellyfin.androidtv.details.actions.ToggleFavoriteAction
 import org.jellyfin.androidtv.details.presenters.ItemPresenter
+import org.jellyfin.androidtv.details.rows.DetailsOverviewRow
 import org.jellyfin.androidtv.model.itemtypes.Artist
 import org.jellyfin.androidtv.util.addIfNotEmpty
 import org.jellyfin.androidtv.util.apiclient.getAlbumsForArtist

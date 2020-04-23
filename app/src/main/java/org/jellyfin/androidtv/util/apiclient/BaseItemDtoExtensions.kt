@@ -29,6 +29,7 @@ fun BaseItemDto.liftToNewFormat(): BaseItem {
 		// Music
 		BaseItemType.MusicAlbum -> Album(this)
 		BaseItemType.MusicArtist -> Artist(this)
+		BaseItemType.Audio -> Audio(this)
 
 		else -> TODO()
 	}

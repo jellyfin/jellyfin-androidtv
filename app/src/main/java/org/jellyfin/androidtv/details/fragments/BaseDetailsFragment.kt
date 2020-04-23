@@ -8,8 +8,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.base.IItemClickListener
-import org.jellyfin.androidtv.details.DetailsOverviewRow
 import org.jellyfin.androidtv.details.presenters.DetailsOverviewPresenter
+import org.jellyfin.androidtv.details.presenters.VerticalListRowPresenter
+import org.jellyfin.androidtv.details.rows.DetailsOverviewRow
+import org.jellyfin.androidtv.details.rows.VerticalListRow
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 
 abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : RowsSupportFragment(), OnItemViewClickedListener {
@@ -36,6 +38,7 @@ abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : R
 		// Add the most used presenters to prevent duplicate code
 		rowSelector.addClassPresenter(DetailsOverviewRow::class.java, DetailsOverviewPresenter(requireContext()))
 		rowSelector.addClassPresenter(ListRow::class.java, ListRowPresenter())
+		rowSelector.addClassPresenter(VerticalListRow::class.java, VerticalListRowPresenter())
 	}
 
 	@CallSuper
@@ -57,5 +60,10 @@ abstract class BaseDetailsFragment<T : BaseItem>(private val initialItem: T) : R
 		ArrayObjectAdapter(presenter).apply {
 			items.forEach(::add)
 		}
+	)
+
+	protected fun createVerticalListRow(name: String, presenter: Presenter) = VerticalListRow(
+		HeaderItem(name),
+		ArrayObjectAdapter(presenter)
 	)
 }

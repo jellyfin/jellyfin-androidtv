@@ -8,10 +8,7 @@ import org.jellyfin.apiclient.interaction.Response
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.apiclient.model.dto.UserItemDataDto
-import org.jellyfin.apiclient.model.querying.ItemQuery
-import org.jellyfin.apiclient.model.querying.ItemsResult
-import org.jellyfin.apiclient.model.querying.NextUpQuery
-import org.jellyfin.apiclient.model.querying.SimilarItemsQuery
+import org.jellyfin.apiclient.model.querying.*
 import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -162,6 +159,26 @@ suspend fun ApiClient.getAlbumsForArtists(artists: Array<String>): List<Album>? 
 	GetItemsAsync(query, object : Response<ItemsResult>() {
 		override fun onResponse(response: ItemsResult?) {
 			continuation.resume(response?.items?.map { it.liftToNewFormat() as Album }?.toList())
+		}
+
+		override fun onError(exception: Exception?) {
+			continuation.resume(null)
+		}
+	})
+}
+suspend fun ApiClient.getSongsForAlbum(albumId: String): List<Audio>? = suspendCoroutine { continuation ->
+	val query = ItemQuery().apply {
+		fields = FIELDS_REQUIRED_FOR_LIFT
+		userId = currentUserId
+		parentId = albumId
+		recursive = true
+		includeItemTypes = arrayOf(BaseItemType.Audio.name)
+		sortBy = arrayOf(ItemFields.SortName.name)
+	}
+
+	GetItemsAsync(query, object : Response<ItemsResult>() {
+		override fun onResponse(response: ItemsResult?) {
+			continuation.resume(response?.items?.map { it.liftToNewFormat() as Audio }?.toList())
 		}
 
 		override fun onError(exception: Exception?) {

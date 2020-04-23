@@ -499,6 +499,8 @@ public class MediaManager {
         createAudioQueue(items);
         mCurrentAudioQueuePosition = -1;
         nextAudioItem();
+        // for new detail pages
+        if (TvApp.getApplication().getCurrentActivity() == null) return;
         if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
             Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
             TvApp.getApplication().getCurrentActivity().startActivity(nowPlaying);
