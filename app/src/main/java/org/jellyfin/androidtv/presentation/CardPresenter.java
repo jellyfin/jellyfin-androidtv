@@ -1,13 +1,7 @@
 package org.jellyfin.androidtv.presentation;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-
-import androidx.leanback.widget.BaseCardView;
-import androidx.leanback.widget.Presenter;
-import androidx.palette.graphics.Palette;
-
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -22,13 +16,16 @@ import org.jellyfin.androidtv.model.ImageType;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
-
-import java.util.Date;
-
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+
+import java.util.Date;
+
+import androidx.leanback.widget.BaseCardView;
+import androidx.leanback.widget.Presenter;
+import androidx.palette.graphics.Palette;
 
 public class CardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";
@@ -38,7 +35,6 @@ public class CardPresenter extends Presenter {
     private String mImageType = ImageType.DEFAULT;
 
     private boolean mShowInfo = true;
-    private static ViewGroup mViewParent;
 
     public CardPresenter() {
         super();
@@ -57,10 +53,6 @@ public class CardPresenter extends Presenter {
     public CardPresenter(boolean showInfo, int staticHeight) {
         this(showInfo);
         mStaticHeight = staticHeight;
-    }
-
-    private static Context getContext() {
-        return TvApp.getApplication().getCurrentActivity() != null ? TvApp.getApplication().getCurrentActivity() : mViewParent.getContext();
     }
 
     static class ViewHolder extends Presenter.ViewHolder {
@@ -324,24 +316,16 @@ public class CardPresenter extends Presenter {
             return mCardView;
         }
 
-        protected boolean validContext() {
-            return getContext() != TvApp.getApplication().getCurrentActivity() || (TvApp.getApplication().getCurrentActivity() != null && !TvApp.getApplication().getCurrentActivity().isDestroyed() && !TvApp.getApplication().getCurrentActivity().isFinishing());
-        }
-
         protected void updateCardViewImage(String url) {
-            if (!validContext()) {
-                return;
-            }
-
             try {
                 if (url == null) {
-                    Glide.with(getContext())
+                    Glide.with(mCardView.getContext())
                             .load("nothing")
                             .fitCenter()
                             .error(mDefaultCardImage)
                             .into(mCardView.getMainImageView());
                 } else {
-                    Glide.with(getContext())
+                    Glide.with(mCardView.getContext())
                             .load(url)
                             .asBitmap()
                             .override(cardWidth, cardHeight)
@@ -363,11 +347,9 @@ public class CardPresenter extends Presenter {
             mCardView.clearBanner();
             mCardView.setUnwatchedCount(-1);
             mCardView.setProgress(0);
-            if (!validContext()) {
-                return;
-            }
+
             try {
-                Glide.with(getContext())
+                Glide.with(mCardView.getContext())
                         .load(TvApp.getApplication().getDrawable(R.drawable.loading))
                         .fitCenter()
                         .error(mDefaultCardImage)
@@ -380,9 +362,7 @@ public class CardPresenter extends Presenter {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
-        mViewParent = parent;
-
-        MyImageCardView cardView = new MyImageCardView(getContext(), mShowInfo);
+        MyImageCardView cardView = new MyImageCardView(parent.getContext(), mShowInfo);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
         cardView.setBackgroundColor(TvApp.getApplication().getResources().getColor(R.color.lb_basic_card_info_bg_color));
