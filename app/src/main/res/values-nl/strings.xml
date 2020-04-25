@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="video_error_unknown_error">Laden video is mislukt</string>
     <string name="txt_loading">Laden…</string>
-    <string name="title_activity_select_user">KiesGebruikerActiviteit</string>
+    <string name="title_activity_select_user">KiesGebruikersActiviteit</string>
     <string name="home_title">Hoofdpagina</string>
     <string name="btn_cancel">Annuleren</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
@@ -237,7 +237,7 @@
     <string name="lbl_in_x_days">Over %d dagen</string>
     <string name="lbl_bitstream_dts">DTS Audio bitstream</string>
     <string name="desc_premieres">Toon een rij van nieuwe afleveringspiloten voor een serie die je bekijkt</string>
-    <string name="lbl_show_premieres">Seizoenpremières op het startscherm weergeven</string>
+    <string name="lbl_show_premieres">Toon seizoens-premières tijdens het bladeren</string>
     <string name="lbl_refresh_switching">"Verversingsfrequentie  schakelen"</string>
     <string name="desc_use_vlc_livetv">Indien beschikbaar, VLC gebruiken voor rechtstreekse streaming van live TV</string>
     <string name="lbl_use_vlc_livetv">Probeer VLC te gebruiken voor Live TV</string>
@@ -294,7 +294,7 @@
     <string name="lbl_new_episodes">Nieuwe afleveringen</string>
     <string name="lbl_new_only">Alleen nieuwe resultaten</string>
     <string name="lbl_latest_tv_shows">Nieuwste TV Shows</string>
-    <string name="lbl_suggestions_holiday">Feestdagen suggesties</string>
+    <string name="lbl_suggestions_holiday">Feestdagen Suggesties</string>
     <string name="desc_suggestions_halloween">Probeer een van onze griezelige suggesties</string>
     <string name="title_suggestions_halloween">Fijne Halloween!</string>
     <string name="lbl_suggestions_halloween">Griezelige suggesties</string>
@@ -316,7 +316,7 @@
     <string name="lbl_episode_not_record">Deze weergave wordt niet opgenomen</string>
     <string name="lbl_schedule">Planning</string>
     <string name="no_program_data">Geen programma data beschikbaar</string>
-    <string name="title_activity_expanded_text">ExpandedTextActivity</string>
+    <string name="title_activity_expanded_text">UitgeklapteTekstActiviteit</string>
     <string name="lbl_image_type">Afbeelding Type</string>
     <string name="lbl_default_view">Standaard Zicht</string>
     <string name="lbl_start_favorites">Plaats Favorieten Vooraan</string>
