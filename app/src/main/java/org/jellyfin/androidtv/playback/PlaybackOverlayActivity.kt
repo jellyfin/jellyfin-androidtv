@@ -5,7 +5,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
-import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.base.BaseActivity
 
@@ -23,7 +22,10 @@ class PlaybackOverlayActivity : BaseActivity() {
 		// Note: Should NOT be applied to the decorView as this introduces artifacts
 		window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-		setContentView(R.layout.activity_playback_overlay)
+		supportFragmentManager
+			.beginTransaction()
+			.replace(android.R.id.content, CustomPlaybackOverlayFragment())
+			.commit()
 
 		if (TvApp.getApplication().playbackController != null) {
 			videoManager = VideoManager(this, findViewById(android.R.id.content))
