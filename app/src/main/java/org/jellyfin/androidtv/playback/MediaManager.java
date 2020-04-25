@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.text.InputType;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.Player;
@@ -33,7 +34,6 @@ import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ProfileHelper;
 import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
@@ -346,7 +346,7 @@ public class MediaManager {
                         TvApp.getApplication().getApiClient().CreatePlaylist(request, new Response<PlaylistCreationResult>() {
                             @Override
                             public void onResponse(PlaylistCreationResult response) {
-                                TvApp.getApplication().showMessage("Playlist Saved", "Queue saved as new playlist: "+text);
+                                Toast.makeText(activity, "Queue saved as new playlist: "+text, Toast.LENGTH_LONG).show();
                                 TvApp.getApplication().setLastLibraryChange(Calendar.getInstance());
                             }
 
@@ -384,13 +384,6 @@ public class MediaManager {
         }
 
         return result;
-    }
-
-    public static int queueAudioItem(int pos, BaseItemDto item) {
-        if (mCurrentAudioQueue == null) createAudioQueue(new ArrayList<BaseItemDto>());
-        mCurrentAudioQueue.add(new BaseRowItem(pos, item));
-        TvApp.getApplication().showMessage(TvApp.getApplication().getString(R.string.msg_added_item_to_queue) + (pos + 1), BaseItemUtils.getFullName(item), 4000, R.drawable.ic_album);
-        return pos;
     }
 
     public static int queueAudioItem(BaseItemDto item) {
@@ -440,7 +433,8 @@ public class MediaManager {
             }
             fireQueueStatusChange();
         }
-        TvApp.getApplication().showMessage(items.size() + (items.size() > 1 ? TvApp.getApplication().getString(R.string.msg_items_added) : TvApp.getApplication().getString(R.string.msg_item_added)), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.ic_album);
+
+        Toast.makeText(TvApp.getApplication(), items.size() + (items.size() > 1 ? TvApp.getApplication().getString(R.string.msg_items_added) : TvApp.getApplication().getString(R.string.msg_item_added)), Toast.LENGTH_LONG).show();
     }
 
     public static void removeFromAudioQueue(int ndx) {
@@ -509,7 +503,7 @@ public class MediaManager {
             Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
             TvApp.getApplication().getCurrentActivity().startActivity(nowPlaying);
         } else {
-            TvApp.getApplication().showMessage(items.size() + (items.size() > 1 ? TvApp.getApplication().getString(R.string.msg_items_added) : TvApp.getApplication().getString(R.string.msg_item_added)), mCurrentAudioQueue.size() + TvApp.getApplication().getString(R.string.msg_total_items_in_queue), 5000, R.drawable.ic_album);
+            Toast.makeText(TvApp.getApplication(),items.size() + (items.size() > 1 ? TvApp.getApplication().getString(R.string.msg_items_added) : TvApp.getApplication().getString(R.string.msg_item_added)), Toast.LENGTH_LONG).show();
         }
 
     }
