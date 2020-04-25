@@ -6,10 +6,9 @@ import android.view.View;
 
 import org.jellyfin.androidtv.TvApp;
 
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
-public abstract class BaseActivity extends FragmentActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+public abstract class BaseActivity extends FragmentActivity {
     private IKeyListener keyListener;
     private IMessageListener messageListener;
 
