@@ -202,10 +202,6 @@ public class Utils {
         return new PopupMenu(context, view, gravity);
     }
 
-    public static int getThemeColor(int resourceId) {
-        return getThemeColor(TvApp.getApplication().getCurrentActivity(), resourceId);
-    }
-
     public static int getThemeColor(Context context, int resourceId) {
         TypedArray styledAttributes = context.getTheme()
                 .obtainStyledAttributes(new int[]{resourceId});
@@ -213,14 +209,6 @@ public class Utils {
         styledAttributes.recycle();
 
         return themeColor;
-    }
-
-    public static int getBrandColor() {
-        return getThemeColor(android.R.attr.colorPrimary);
-    }
-
-    public static int getBrandColor(Context context) {
-        return getThemeColor(context, android.R.attr.colorPrimary);
     }
 
     public static void processPasswordEntry(Activity activity, UserDto user) {

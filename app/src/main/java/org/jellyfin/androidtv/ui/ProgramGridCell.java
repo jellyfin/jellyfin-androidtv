@@ -131,7 +131,7 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
 
         if (gainFocus) {
-            setBackgroundColor(Utils.getThemeColor(android.R.attr.colorAccent));
+            setBackgroundColor(Utils.getThemeColor(getContext(), android.R.attr.colorAccent));
 
             mActivity.setSelectedProgram(this);
         } else {
