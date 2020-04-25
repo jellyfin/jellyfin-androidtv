@@ -42,6 +42,6 @@ public class ChannelCardPresenter extends Presenter {
 
     @Override
     public void onUnbindViewHolder(Presenter.ViewHolder viewHolder) {
-
+        // Unused
     }
 }
