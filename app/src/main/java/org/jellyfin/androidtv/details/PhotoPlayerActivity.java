@@ -3,15 +3,6 @@ package org.jellyfin.androidtv.details;
 import android.animation.Animator;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.leanback.app.RowsSupportFragment;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.OnItemViewSelectedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -27,15 +18,23 @@ import com.squareup.picasso.Picasso;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
-import org.jellyfin.androidtv.base.IKeyListener;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.presentation.MyRandomeKBGenerator;
 import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.Utils;
-
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+
+import androidx.leanback.app.RowsSupportFragment;
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.OnItemViewSelectedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
 
 /**
  * Created by Eric on 10/22/2015.
@@ -113,72 +112,70 @@ public class PhotoPlayerActivity extends BaseActivity {
         mPopupRowsFragment.setOnItemViewClickedListener(itemViewClickedListener);
         mPopupRowsFragment.setOnItemViewSelectedListener(itemViewSelectedListener);
         setupPopupAnimations();
+    }
 
-        registerKeyListener(new IKeyListener() {
-            @Override
-            public boolean onKeyUp(int key, KeyEvent event) {
-                switch (key) {
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        switch (keyCode) {
 
-                    case KeyEvent.KEYCODE_BACK:
-                    case KeyEvent.KEYCODE_B:
-                        if (mPopupPanelVisible) {
-                            hideThumbPanel();
-                            return true;
-                        }
-                        break;
-
-                    case KeyEvent.KEYCODE_DPAD_RIGHT:
-                        if (!mPopupPanelVisible && MediaManager.hasNextMediaItem()) {
-                            if (isLoadingNext || isTransitioning)
-                                return true; //swallow too fast requests
-                            if (isPlaying) {
-                                stop();
-                                play();
-                            } else {
-                                next(750);
-                            }
-                            return true;
-                        }
-                        break;
-
-                    case KeyEvent.KEYCODE_DPAD_LEFT:
-                        if (!mPopupPanelVisible && MediaManager.hasPrevMediaItem()) {
-                            if (isLoadingPrev || isTransitioning)
-                                return true; //swallow too fast requests
-                            if (isPlaying) stop();
-                            currentPhoto = MediaManager.prevMedia().getBaseItem();
-                            nextImage.setImageDrawable(currentImageView().getDrawable());
-                            nextImageView().setImageDrawable(prevImage.getDrawable());
-                            transition(750);
-                            loadPrev();
-                            return true;
-                        }
-                        break;
-
-                    case KeyEvent.KEYCODE_DPAD_UP:
-                    case KeyEvent.KEYCODE_DPAD_DOWN:
-                        if (mPopupPanelVisible) hideThumbPanel(); else showThumbPanel();
-                        return true;
-
-                    case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                        return handlePlayKey();
-
-                    case KeyEvent.KEYCODE_MEDIA_PLAY:
-                        return handlePlayKey();
-
-                    case KeyEvent.KEYCODE_MEDIA_PAUSE:
-                    case KeyEvent.KEYCODE_MEDIA_STOP:
-                        stop();
-                        return true;
-
-                    default:
-                        return false;
+            case KeyEvent.KEYCODE_BACK:
+            case KeyEvent.KEYCODE_B:
+                if (mPopupPanelVisible) {
+                    hideThumbPanel();
+                    return true;
                 }
+                break;
 
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
+                if (!mPopupPanelVisible && MediaManager.hasNextMediaItem()) {
+                    if (isLoadingNext || isTransitioning)
+                        return true; //swallow too fast requests
+                    if (isPlaying) {
+                        stop();
+                        play();
+                    } else {
+                        next(750);
+                    }
+                    return true;
+                }
+                break;
+
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+                if (!mPopupPanelVisible && MediaManager.hasPrevMediaItem()) {
+                    if (isLoadingPrev || isTransitioning)
+                        return true; //swallow too fast requests
+                    if (isPlaying) stop();
+                    currentPhoto = MediaManager.prevMedia().getBaseItem();
+                    nextImage.setImageDrawable(currentImageView().getDrawable());
+                    nextImageView().setImageDrawable(prevImage.getDrawable());
+                    transition(750);
+                    loadPrev();
+                    return true;
+                }
+                break;
+
+            case KeyEvent.KEYCODE_DPAD_UP:
+            case KeyEvent.KEYCODE_DPAD_DOWN:
+                if (mPopupPanelVisible) hideThumbPanel();
+                else showThumbPanel();
+                return true;
+
+            case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                return handlePlayKey();
+
+            case KeyEvent.KEYCODE_MEDIA_PLAY:
+                return handlePlayKey();
+
+            case KeyEvent.KEYCODE_MEDIA_PAUSE:
+            case KeyEvent.KEYCODE_MEDIA_STOP:
+                stop();
+                return true;
+
+            default:
                 return false;
+        }
 
-            }
-        });
+        return false;
     }
 
     protected boolean handlePlayKey() {

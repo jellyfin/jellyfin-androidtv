@@ -26,7 +26,6 @@ import com.squareup.picasso.Target;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
-import org.jellyfin.androidtv.base.IKeyListener;
 import org.jellyfin.androidtv.imagehandling.PicassoBackgroundManagerTarget;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.itemhandling.ItemLauncher;
@@ -153,41 +152,6 @@ public class ItemListActivity extends BaseActivity {
             }
         });
 
-        //Key listener
-        registerKeyListener(new IKeyListener() {
-            @Override
-            public boolean onKeyUp(int key, KeyEvent event) {
-                if (MediaManager.isPlayingAudio()) {
-                    switch (key) {
-                        case KeyEvent.KEYCODE_MEDIA_PAUSE:
-                        case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                            if (MediaManager.isPlayingAudio()) MediaManager.pauseAudio(); else MediaManager.resumeAudio();
-                            return true;
-                        case KeyEvent.KEYCODE_MEDIA_NEXT:
-                        case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
-                            MediaManager.nextAudioItem();
-                            return true;
-                        case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
-                        case KeyEvent.KEYCODE_MEDIA_REWIND:
-                            MediaManager.prevAudioItem();
-                            return true;
-                        case KeyEvent.KEYCODE_MENU:
-                            showMenu(mCurrentRow, false);
-                            return true;
-                        }
-                } else if (mCurrentRow != null){
-                    switch (key) {
-                        case KeyEvent.KEYCODE_MEDIA_PLAY:
-                        case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                        case KeyEvent.KEYCODE_MENU:
-                            showMenu(mCurrentRow, false);
-                            return true;
-                    }
-                }
-                return false;
-            }
-        });
-
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         backgroundManager.attach(getWindow());
         mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
@@ -195,6 +159,41 @@ public class ItemListActivity extends BaseActivity {
         mItemId = getIntent().getStringExtra("ItemId");
         loadItem(mItemId);
 
+    }
+
+
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (MediaManager.isPlayingAudio()) {
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_MEDIA_PAUSE:
+                case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                    if (MediaManager.isPlayingAudio()) MediaManager.pauseAudio();
+                    else MediaManager.resumeAudio();
+                    return true;
+                case KeyEvent.KEYCODE_MEDIA_NEXT:
+                case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
+                    MediaManager.nextAudioItem();
+                    return true;
+                case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
+                case KeyEvent.KEYCODE_MEDIA_REWIND:
+                    MediaManager.prevAudioItem();
+                    return true;
+                case KeyEvent.KEYCODE_MENU:
+                    showMenu(mCurrentRow, false);
+                    return true;
+            }
+        } else if (mCurrentRow != null) {
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_MEDIA_PLAY:
+                case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                case KeyEvent.KEYCODE_MENU:
+                    showMenu(mCurrentRow, false);
+                    return true;
+            }
+        }
+        return false;
     }
 
     @Override
