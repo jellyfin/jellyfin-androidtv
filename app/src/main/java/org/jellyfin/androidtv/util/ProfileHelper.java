@@ -32,7 +32,7 @@ public class ProfileHelper {
 
         profile.setName("Android");
         profile.setMaxStreamingBitrate(20000000);
-        profile.setMaxStaticBitrate(30000000);
+        profile.setMaxStaticBitrate(100000000);
 
         List<TranscodingProfile> transcodingProfiles = new ArrayList<>();
 
