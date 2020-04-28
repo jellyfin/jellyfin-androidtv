@@ -140,7 +140,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
             for (String genre : item.getGenres()) {
                 if (!first) InfoLayoutHelper.addSpacer(TvApp.getApplication().getCurrentActivity(), layout, "  /  ", 12);
                 first = false;
-                layout.addView(new GenreButton(TvApp.getApplication().getCurrentActivity(), 14, genre, item.getBaseItemType()));
+                layout.addView(new GenreButton(layout.getContext(), 14, genre, item.getBaseItemType()));
             }
         }
     }

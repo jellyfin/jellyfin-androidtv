@@ -1,8 +1,6 @@
 package org.jellyfin.androidtv.presentation;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
-import androidx.leanback.widget.Presenter;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,12 +10,13 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.ui.GridButton;
 
+import androidx.leanback.widget.Presenter;
+
 public class GridButtonPresenter extends Presenter {
 
     private boolean mShowInfo = true;
     private int mCardWidth = 220;
     private int mCardHeight = 220;
-    private static ViewGroup mViewParent;
 
     public GridButtonPresenter() {
         super();
@@ -28,10 +27,6 @@ public class GridButtonPresenter extends Presenter {
         mShowInfo = showinfo;
         mCardWidth = width;
         mCardHeight = height;
-    }
-
-    private static Context getContext() {
-        return TvApp.getApplication().getCurrentActivity() != null ? TvApp.getApplication().getCurrentActivity() : mViewParent.getContext();
     }
 
     static class ViewHolder extends Presenter.ViewHolder {
@@ -59,12 +54,8 @@ public class GridButtonPresenter extends Presenter {
             return mItem;
         }
 
-        public MyImageCardView getCardView() {
-            return mCardView;
-        }
-
         protected void updateCardViewImage(int image) {
-            Glide.with(getContext())
+            Glide.with(mCardView.getContext())
                     .load(image)
                     .override(cardWidth, cardHeight)
                     .centerCrop()
@@ -75,9 +66,7 @@ public class GridButtonPresenter extends Presenter {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
-        mViewParent = parent;
-
-        MyImageCardView cardView = new MyImageCardView(getContext(), mShowInfo);
+        MyImageCardView cardView = new MyImageCardView(parent.getContext(), mShowInfo);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
         cardView.setBackgroundColor(TvApp.getApplication().getResources().getColor(R.color.lb_basic_card_info_bg_color));

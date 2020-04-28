@@ -228,18 +228,6 @@ public class TvApp extends Application {
         activity.startActivity(intent);
     }
 
-    public void showMessage(String title, String msg) {
-        if (currentActivity != null) {
-            currentActivity.showMessage(title, msg);
-        }
-    }
-
-    public void showMessage(String title, String msg, int timeout, int iconResource) {
-        if (currentActivity != null) {
-            currentActivity.showMessage(title, msg, timeout, iconResource, null);
-        }
-    }
-
     public LogonCredentials getConfiguredAutoCredentials() {
         return configuredAutoCredentials;
     }
