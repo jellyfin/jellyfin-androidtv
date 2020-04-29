@@ -243,7 +243,7 @@
     <string name="lbl_use_vlc_livetv">Efırlik TD úshin VLC paıdalanýǵa áreket</string>
     <string name="desc_use_vlc_livetv">Qol jetimdi bolsa, tikeleı taratylǵan efırlik TD úshin VLC paıdalaný</string>
     <string name="lbl_refresh_switching">Jańartý jıiligin aýystyrýdy qosý</string>
-    <string name="lbl_show_premieres">Maýsym tusaýkeserlerin basqy ekranda kórsetý</string>
+    <string name="lbl_show_premieres">Maýsym tusaýkeserlerin sharlaý kezinde kórsetý</string>
     <string name="desc_premieres">Qaralýdaǵy telehıkaıalar úshin bólimder jolynda tek jańasyn kórsetý</string>
     <string name="lbl_bitstream_dts">DTS dybysty tasymaldaý</string>
     <string name="lbl_album_name">Álbom aty</string>
@@ -315,7 +315,7 @@
     <string name="lbl_previous_episode">Aldyńǵy bólimge</string>
     <string name="lbl_resume_preroll">Jalǵastyrý úshin oralý</string>
     <string name="lbl_guide_option_played">Sońǵy oınatylǵan</string>
-    <string name="title_activity_expanded_text">KeńeıtilgenMátinÁreketi</string>
+    <string name="title_activity_expanded_text">KeńeıtilgenMátindikÁreket</string>
     <string name="lbl_at_any_time">Qaısybir ýaqytta</string>
     <string name="lbl_any_channel">Qaısybir arnadan</string>
     <string name="lbl_episode_not_record">Bul kórsetim JAZYLMAIDY</string>
@@ -323,7 +323,7 @@
     <string name="lbl_recent_recordings">Eń keıińgi jazbalar</string>
     <string name="no_program_data">&lt;Berilim týraly aqparat joq&gt;</string>
     <string name="msg_record_entire_series">Búkil telehıkaıany jazamyz ba\?</string>
-    <string name="lbl_just_this_once">Tek bir ret</string>
+    <string name="lbl_just_this_once">Tekn osy ret</string>
     <string name="lbl_select_date">Kún tańdaý</string>
     <string name="lbl_warning">Eskertý</string>
     <string name="msg_error_server_unavailable">Server qoljetimdi emes</string>
@@ -347,4 +347,7 @@
     <string name="pref_acra_enabled">Aqaý týraly habarlaý jiberý ysynylady</string>
     <string name="pref_enable_acra">Aqaý týraly ázirleýshilerge habarlaý</string>
     <string name="pref_acra_category">Aqaý týraly habarlaý</string>
+    <string name="pref_app_theme">Qoldanba taqyryby</string>
+    <string name="pref_theme_emerald">Klasıkalyq kók-jasyl</string>
+    <string name="pref_theme_dark">Kúngirt (ádepki)</string>
 </resources>
