@@ -77,6 +77,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -154,6 +155,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     int mCurrentDuration;
     private LeanbackOverlayFragment leanbackOverlayFragment;
+    private VideoManager videoManager = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -202,7 +204,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.vlc_player_interface, container);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.vlc_player_interface, container, false);
 
         // inject the RowsSupportFragment in the popup container
         if (getChildFragmentManager().findFragmentById(R.id.rows_area) == null) {
@@ -239,6 +241,24 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         });
 
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if (TvApp.getApplication().getPlaybackController() != null) {
+            videoManager = new VideoManager(mActivity, view);
+            TvApp.getApplication().getPlaybackController().init(videoManager);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (videoManager != null)
+            videoManager.destroy();
     }
 
     @Override

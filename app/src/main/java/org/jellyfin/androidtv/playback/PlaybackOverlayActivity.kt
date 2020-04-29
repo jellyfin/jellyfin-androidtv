@@ -12,7 +12,6 @@ import org.jellyfin.androidtv.base.BaseActivity
  * PlaybackOverlayActivity for video playback that loads PlaybackOverlayFragment
  */
 class PlaybackOverlayActivity : BaseActivity() {
-	private var videoManager: VideoManager? = null
 	var keyListener: View.OnKeyListener? = null
 
 	public override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,17 +25,6 @@ class PlaybackOverlayActivity : BaseActivity() {
 			.beginTransaction()
 			.replace(android.R.id.content, CustomPlaybackOverlayFragment())
 			.commit()
-
-		if (TvApp.getApplication().playbackController != null) {
-			videoManager = VideoManager(this, findViewById(android.R.id.content))
-			TvApp.getApplication().playbackController.init(videoManager)
-		}
-	}
-
-	public override fun onDestroy() {
-		super.onDestroy()
-
-		videoManager?.destroy()
 	}
 
 	override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
