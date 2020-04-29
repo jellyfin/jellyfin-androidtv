@@ -1,16 +1,15 @@
-package org.jellyfin.androidtv.browsing
+package org.jellyfin.androidtv.startup
 
 import android.os.Bundle
 import org.jellyfin.androidtv.base.BaseActivity
-import org.jellyfin.androidtv.ui.home.HomeFragment
 
-class MainActivity : BaseActivity() {
+class SelectServerActivity : BaseActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
 		supportFragmentManager
 			.beginTransaction()
-			.replace(android.R.id.content, HomeFragment())
+			.replace(android.R.id.content, SelectServerFragment())
 			.commit()
 	}
 }
