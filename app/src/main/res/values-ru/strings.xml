@@ -245,7 +245,7 @@
     <string name="lbl_use_vlc_livetv">Пытаться использовать VLC для эфирного ТВ</string>
     <string name="desc_use_vlc_livetv">Использовать VLC, при возможности, для прямой трансляции эфирного ТВ</string>
     <string name="lbl_refresh_switching">Включить переключение частоты обновления</string>
-    <string name="lbl_show_premieres">Показывать премьеры сезона на главном экране</string>
+    <string name="lbl_show_premieres">Показывать премьеры сезона при навигации</string>
     <string name="desc_premieres">Показывать строку нового эпизода первой для просматриваемых сериалов</string>
     <string name="lbl_bitstream_dts">Транслировать DTS аудио</string>
     <string name="lbl_favorite">Избранное</string>
@@ -358,6 +358,6 @@
     <string name="pref_media_player">Предпочитаемый проигрыватель</string>
     <string name="pref_about_title">О программе</string>
     <string name="pref_app_theme">Тема Приложении</string>
-    <string name="pref_theme_emerald">Класик Емералд</string>
-    <string name="pref_theme_dark">Тёмная (дефолт)</string>
+    <string name="pref_theme_emerald">Классическая изумрудная</string>
+    <string name="pref_theme_dark">Тёмная (по умолчанию)</string>
 </resources>
