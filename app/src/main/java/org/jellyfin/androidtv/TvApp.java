@@ -36,6 +36,7 @@ import org.jellyfin.androidtv.preferences.enums.LoginBehavior;
 import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer;
 import org.jellyfin.androidtv.search.SearchActivity;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.interaction.AndroidDevice;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.IConnectionManager;
@@ -128,6 +129,7 @@ public class TvApp extends Application {
         logger = new AndroidLogger(TAG);
         app = (TvApp) getApplicationContext();
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        playbackManager = new PlaybackManager(new AndroidDevice(this), new AndroidLogger("PlaybackManager"));
         setCurrentBackgroundGradient(new int[] {ContextCompat.getColor(this, R.color.lb_default_brand_color_dark), ContextCompat.getColor(this, R.color.lb_default_brand_color)});
 
         registerActivityLifecycleCallbacks(new AuthenticatedUserCallbacks());

@@ -21,18 +21,14 @@ import org.jellyfin.androidtv.details.FullDetailsActivity;
 import org.jellyfin.androidtv.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.model.repository.ConnectionManagerRepository;
 import org.jellyfin.androidtv.playback.MediaManager;
-import org.jellyfin.androidtv.playback.PlaybackManager;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
-import org.jellyfin.apiclient.interaction.AndroidDevice;
 import org.jellyfin.apiclient.interaction.ConnectionResult;
 import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.logging.AndroidLogger;
 import org.jellyfin.apiclient.model.apiclient.ConnectionState;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserDto;
-import org.jellyfin.apiclient.model.logging.ILogger;
 
 public class StartupActivity extends FragmentActivity {
     private static final int NETWORK_PERMISSION = 1;
@@ -127,8 +123,6 @@ public class StartupActivity extends FragmentActivity {
     private void establishConnection() {
         // workaround...
         Activity self = this;
-
-        application.setPlaybackManager(new PlaybackManager(new AndroidDevice(application), new AndroidLogger("PlaybackManager")));
 
         //See if we are coming in via direct entry
         application.setDirectItemId(getIntent().getStringExtra("ItemId"));
