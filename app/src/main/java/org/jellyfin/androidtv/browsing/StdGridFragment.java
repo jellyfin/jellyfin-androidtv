@@ -42,6 +42,7 @@ import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.base.CustomMessage;
 import org.jellyfin.androidtv.base.IKeyListener;
 import org.jellyfin.androidtv.base.IMessageListener;
+import org.jellyfin.androidtv.constants.Extras;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
@@ -116,7 +117,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mFolder = SerializerRepository.INSTANCE.getSerializer().DeserializeFromString(getActivity().getIntent().getStringExtra("Folder"), BaseItemDto.class);
+        mFolder = SerializerRepository.INSTANCE.getSerializer().DeserializeFromString(getActivity().getIntent().getStringExtra(Extras.Folder), BaseItemDto.class);
         mParentId = mFolder.getId();
         MainTitle = mFolder.getName();
         mDisplayPrefs = TvApp.getApplication().getCachedDisplayPrefs(mFolder.getDisplayPreferencesId()); //These should have already been loaded

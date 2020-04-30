@@ -13,6 +13,7 @@ import org.jellyfin.androidtv.browsing.CollectionActivity;
 import org.jellyfin.androidtv.browsing.GenericFolderActivity;
 import org.jellyfin.androidtv.browsing.GenericGridActivity;
 import org.jellyfin.androidtv.browsing.UserViewActivity;
+import org.jellyfin.androidtv.constants.Extras;
 import org.jellyfin.androidtv.details.FullDetailsActivity;
 import org.jellyfin.androidtv.details.ItemListActivity;
 import org.jellyfin.androidtv.details.PhotoPlayerActivity;
@@ -61,14 +62,14 @@ public class ItemLauncher {
                         if (ViewType.GRID.equals(response.getCustomPrefs().get("DefaultView"))) {
                             // open grid browsing
                             Intent folderIntent = new Intent(context, GenericGridActivity.class);
-                            folderIntent.putExtra("Folder", SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
+                            folderIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
                             context.startActivity(folderIntent);
                             if (finishParent) context.finish();
 
                         } else {
                             // open user view browsing
                             Intent intent = new Intent(context, UserViewActivity.class);
-                            intent.putExtra("Folder", SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
+                            intent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
 
                             context.startActivity(intent);
                             if (finishParent) context.finish();
@@ -77,7 +78,7 @@ public class ItemLauncher {
                     case "livetv":
                         // open user view browsing
                         Intent intent = new Intent(context, UserViewActivity.class);
-                        intent.putExtra("Folder", SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
+                        intent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
 
                         context.startActivity(intent);
                         if (finishParent) context.finish();
@@ -85,7 +86,7 @@ public class ItemLauncher {
                     default:
                         // open generic folder browsing
                         Intent folderIntent = new Intent(context, GenericGridActivity.class);
-                        folderIntent.putExtra("Folder", SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
+                        folderIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
                         context.startActivity(folderIntent);
                         if (finishParent) context.finish();
                 }
@@ -148,7 +149,7 @@ public class ItemLauncher {
                     case RecordingGroup:
                         //Start activity for enhanced browse
                         Intent seasonIntent = new Intent(activity, GenericFolderActivity.class);
-                        seasonIntent.putExtra("Folder", SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
+                        seasonIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
                         if (noHistory) {
                             seasonIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         }
@@ -160,7 +161,7 @@ public class ItemLauncher {
                     case BoxSet:
                         // open collection browsing
                         Intent collectionIntent = new Intent(activity, CollectionActivity.class);
-                        collectionIntent.putExtra("Folder", SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
+                        collectionIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
                         if (noHistory) {
                             collectionIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         }
@@ -185,7 +186,7 @@ public class ItemLauncher {
                         @Override
                         public void onResponse(DisplayPreferences response) {
                             Intent intent = new Intent(activity, GenericGridActivity.class);
-                            intent.putExtra("Folder", SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
+                            intent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
                             if (noHistory) {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                             }
@@ -278,7 +279,7 @@ public class ItemLauncher {
                         if (response.getIsFolderItem() && response.getBaseItemType() != BaseItemType.Series) {
                             // open generic folder browsing
                             Intent intent = new Intent(activity, GenericGridActivity.class);
-                            intent.putExtra("Folder", SerializerRepository.INSTANCE.getSerializer().SerializeToString(response));
+                            intent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(response));
 
                             activity.startActivity(intent);
 
@@ -422,7 +423,7 @@ public class ItemLauncher {
                         BaseItemDto folder = new BaseItemDto();
                         folder.setId("");
                         folder.setName(TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv));
-                        recordings.putExtra("Folder", SerializerRepository.INSTANCE.getSerializer().SerializeToString(folder));
+                        recordings.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(folder));
                         activity.startActivity(recordings);
                         break;
 
@@ -449,7 +450,7 @@ public class ItemLauncher {
                         seriesTimers.setId("SERIESTIMERS");
                         seriesTimers.setCollectionType("SeriesTimers");
                         seriesTimers.setName(activity.getString(R.string.lbl_series_recordings));
-                        seriesIntent.putExtra("Folder", SerializerRepository.INSTANCE.getSerializer().SerializeToString(seriesTimers));
+                        seriesIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(seriesTimers));
 
                         activity.startActivity(seriesIntent);
                         break;
