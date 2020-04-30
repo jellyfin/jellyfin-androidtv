@@ -110,7 +110,7 @@
     <string name="lbl_in_x_days">Om %d dagar</string>
     <string name="lbl_bitstream_dts">Bitstream DTS Ljud</string>
     <string name="desc_premieres">Visa en rad av nya avsnitt för serier du tittar på</string>
-    <string name="lbl_show_premieres">Visa säsongpremiärer på Hemskärm</string>
+    <string name="lbl_show_premieres">Visa säsongspremiärer vid bläddring</string>
     <string name="lbl_refresh_switching">Uppdatera hastighet växling</string>
     <string name="desc_use_vlc_livetv">Använd VLC för direkt strömmande live tv när det finns tillgängligt</string>
     <string name="lbl_use_vlc_livetv">Försök att använda VLC för live tv</string>
