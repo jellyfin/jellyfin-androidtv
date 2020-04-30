@@ -10,11 +10,10 @@ import org.jellyfin.apiclient.interaction.AndroidDevice
 import org.jellyfin.apiclient.interaction.VolleyHttpClient
 import org.jellyfin.apiclient.interaction.connectionmanager.ConnectionManager
 import org.jellyfin.apiclient.logging.AndroidLogger
-import org.jellyfin.apiclient.model.logging.ILogger
 import org.jellyfin.apiclient.model.session.ClientCapabilities
 import org.jellyfin.apiclient.model.session.GeneralCommandType
 
-class ConnectionManagerRepository private constructor(val connectionManager: ConnectionManager, val logger: ILogger) {
+class ConnectionManagerRepository private constructor(val connectionManager: ConnectionManager) {
 	companion object {
 		@Volatile
 		private var INSTANCE: ConnectionManagerRepository? = null
@@ -24,34 +23,28 @@ class ConnectionManagerRepository private constructor(val connectionManager: Con
 				INSTANCE ?: buildConnectionManager(context).also { INSTANCE = it }
 			}
 
-		private fun buildConnectionManager(context: Context): ConnectionManagerRepository {
-			val logger: ILogger = AndroidLogger("Jellyfin-AndroidLogger")
-			val capabilities = ClientCapabilities().apply {
-				this.deviceProfile = AndroidProfile(ProfileHelper.getProfileOptions())
-				this.playableMediaTypes = arrayListOf("Video", "Audio")
-				this.supportsContentUploading = false
-				this.supportsSync = false
-				this.supportsMediaControl = true
-				this.supportedCommands = arrayListOf(
-					GeneralCommandType.DisplayContent.toString(),
-					GeneralCommandType.DisplayMessage.toString()
-				)
-			}
-
-			return ConnectionManagerRepository(
-				AndroidConnectionManager(
-					context.applicationContext,
-					SerializerRepository.serializer,
-					logger,
-					VolleyHttpClient(logger, context.applicationContext),
-					"Android TV",
-					BuildConfig.VERSION_NAME,
-					AndroidDevice(context.applicationContext),
-					capabilities,
-					TvApiEventListener()
-				),
-				logger
+		private fun buildConnectionManager(context: Context) = ConnectionManagerRepository(
+			AndroidConnectionManager(
+				context.applicationContext,
+				SerializerRepository.serializer,
+				AndroidLogger("ConnectionManager"),
+				VolleyHttpClient(AndroidLogger("VolleyHttpClient"), context.applicationContext),
+				"Android TV",
+				BuildConfig.VERSION_NAME,
+				AndroidDevice(context.applicationContext),
+				ClientCapabilities().apply {
+					this.deviceProfile = AndroidProfile(ProfileHelper.getProfileOptions())
+					this.playableMediaTypes = arrayListOf("Video", "Audio")
+					this.supportsContentUploading = false
+					this.supportsSync = false
+					this.supportsMediaControl = true
+					this.supportedCommands = arrayListOf(
+						GeneralCommandType.DisplayContent.toString(),
+						GeneralCommandType.DisplayMessage.toString()
+					)
+				},
+				TvApiEventListener()
 			)
-		}
+		)
 	}
 }

@@ -28,6 +28,7 @@ import org.jellyfin.apiclient.interaction.AndroidDevice;
 import org.jellyfin.apiclient.interaction.ConnectionResult;
 import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.logging.AndroidLogger;
 import org.jellyfin.apiclient.model.apiclient.ConnectionState;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserDto;
@@ -36,7 +37,6 @@ import org.jellyfin.apiclient.model.logging.ILogger;
 public class StartupActivity extends FragmentActivity {
     private static final int NETWORK_PERMISSION = 1;
     private TvApp application;
-    private ILogger logger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,6 @@ public class StartupActivity extends FragmentActivity {
         setContentView(R.layout.fragment_startup);
 
         application = (TvApp) getApplicationContext();
-        logger = application.getLogger();
 
         //Ensure we have prefs
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
@@ -52,10 +51,10 @@ public class StartupActivity extends FragmentActivity {
         //Ensure basic permissions
         if (Build.VERSION.SDK_INT >= 23 && (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED)) {
-            logger.Info("Requesting network permissions");
+            application.getLogger().Info("Requesting network permissions");
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.INTERNET}, NETWORK_PERMISSION);
         } else {
-            logger.Info("Basic network permissions are granted");
+            application.getLogger().Info("Basic network permissions are granted");
             start();
         }
     }
@@ -129,7 +128,7 @@ public class StartupActivity extends FragmentActivity {
         // workaround...
         Activity self = this;
 
-        application.setPlaybackManager(new PlaybackManager(new AndroidDevice(application), logger));
+        application.setPlaybackManager(new PlaybackManager(new AndroidDevice(application), new AndroidLogger("PlaybackManager")));
 
         //See if we are coming in via direct entry
         application.setDirectItemId(getIntent().getStringExtra("ItemId"));
