@@ -47,7 +47,6 @@ import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.logging.ILogger;
-import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -78,7 +77,6 @@ public class TvApp extends Application {
 
     private ILogger logger;
     private PlaybackManager playbackManager;
-    private GsonJsonSerializer serializer;
     private static TvApp app;
     private UserDto currentUser;
     private BaseItemDto currentPlayingItem;
@@ -161,14 +159,6 @@ public class TvApp extends Application {
         this.currentUser = currentUser;
         TvManager.clearCache();
         this.displayPrefsCache = new HashMap<>();
-    }
-
-    public GsonJsonSerializer getSerializer() {
-        return serializer;
-    }
-
-    public void setSerializer(GsonJsonSerializer serializer) {
-        this.serializer = serializer;
     }
 
     public ApiClient getApiClient() {

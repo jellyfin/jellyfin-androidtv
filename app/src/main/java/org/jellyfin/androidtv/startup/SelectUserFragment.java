@@ -13,11 +13,11 @@ import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.browsing.CustomBrowseFragment;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.model.repository.ConnectionManagerRepository;
+import org.jellyfin.androidtv.model.repository.SerializerRepository;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.GridButton;
@@ -25,7 +25,6 @@ import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.apiclient.ServerInfo;
-import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +36,7 @@ public class SelectUserFragment extends CustomBrowseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-
-        GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
-        mServer = serializer.DeserializeFromString(getActivity().getIntent().getStringExtra("Server"), ServerInfo.class);
+        mServer = SerializerRepository.INSTANCE.getSerializer().DeserializeFromString(getActivity().getIntent().getStringExtra("Server"), ServerInfo.class);
 
         super.onActivityCreated(savedInstanceState);
     }
@@ -82,10 +79,9 @@ public class SelectUserFragment extends CustomBrowseFragment {
                             @Override
                             public void onResponse(ArrayList<ServerInfo> serverResponse) {
                                 Intent serverIntent = new Intent(getActivity(), SelectServerActivity.class);
-                                GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
                                 List<String> payload = new ArrayList<>();
                                 for (ServerInfo server : serverResponse) {
-                                    payload.add(serializer.SerializeToString(server));
+                                    payload.add(SerializerRepository.INSTANCE.getSerializer().SerializeToString(server));
                                 }
                                 serverIntent.putExtra("Servers", payload.toArray(new String[]{}));
                                 serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

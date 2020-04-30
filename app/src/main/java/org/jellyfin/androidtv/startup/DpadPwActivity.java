@@ -12,12 +12,12 @@ import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.model.repository.SerializerRepository;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 import org.jellyfin.apiclient.model.dto.UserDto;
 
 import androidx.fragment.app.FragmentActivity;
-
 
 public class DpadPwActivity extends FragmentActivity {
 
@@ -43,7 +43,7 @@ public class DpadPwActivity extends FragmentActivity {
         title = (TextView)findViewById(R.id.dpad_pw_text);
         pwField = (TextView)findViewById(R.id.dpad_pw_display);
 
-        user = TvApp.getApplication().getSerializer().DeserializeFromString(getIntent().getStringExtra("User"), UserDto.class);
+        user = SerializerRepository.INSTANCE.getSerializer().DeserializeFromString(getIntent().getStringExtra("User"), UserDto.class);
         directItemId = getIntent().getStringExtra("ItemId");
 
         title.setText(title.getText() + " for "+ user.getName());

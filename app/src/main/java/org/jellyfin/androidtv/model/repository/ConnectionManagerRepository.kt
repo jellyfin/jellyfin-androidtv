@@ -11,12 +11,10 @@ import org.jellyfin.apiclient.interaction.VolleyHttpClient
 import org.jellyfin.apiclient.interaction.connectionmanager.ConnectionManager
 import org.jellyfin.apiclient.logging.AndroidLogger
 import org.jellyfin.apiclient.model.logging.ILogger
-import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer
-import org.jellyfin.apiclient.model.serialization.IJsonSerializer
 import org.jellyfin.apiclient.model.session.ClientCapabilities
 import org.jellyfin.apiclient.model.session.GeneralCommandType
 
-class ConnectionManagerRepository private constructor(val connectionManager: ConnectionManager, val logger: ILogger, val serializer: IJsonSerializer) {
+class ConnectionManagerRepository private constructor(val connectionManager: ConnectionManager, val logger: ILogger) {
 	companion object {
 		@Volatile
 		private var INSTANCE: ConnectionManagerRepository? = null
@@ -27,7 +25,6 @@ class ConnectionManagerRepository private constructor(val connectionManager: Con
 			}
 
 		private fun buildConnectionManager(context: Context): ConnectionManagerRepository {
-			val serializer: IJsonSerializer = GsonJsonSerializer()
 			val logger: ILogger = AndroidLogger("Jellyfin-AndroidLogger")
 			val capabilities = ClientCapabilities().apply {
 				this.deviceProfile = AndroidProfile(ProfileHelper.getProfileOptions())
@@ -44,7 +41,7 @@ class ConnectionManagerRepository private constructor(val connectionManager: Con
 			return ConnectionManagerRepository(
 				AndroidConnectionManager(
 					context.applicationContext,
-					serializer,
+					SerializerRepository.serializer,
 					logger,
 					VolleyHttpClient(logger, context.applicationContext),
 					"Android TV",
@@ -53,8 +50,7 @@ class ConnectionManagerRepository private constructor(val connectionManager: Con
 					capabilities,
 					TvApiEventListener()
 				),
-				logger,
-				serializer
+				logger
 			)
 		}
 	}

@@ -17,6 +17,7 @@ import org.jellyfin.androidtv.browsing.BrowseRecordingsActivity
 import org.jellyfin.androidtv.browsing.BrowseScheduleActivity
 import org.jellyfin.androidtv.browsing.UserViewActivity
 import org.jellyfin.androidtv.livetv.LiveTvGuideActivity
+import org.jellyfin.androidtv.model.repository.SerializerRepository
 import org.jellyfin.androidtv.presentation.CardPresenter
 import org.jellyfin.androidtv.presentation.GridButtonPresenter
 import org.jellyfin.androidtv.ui.GridButton
@@ -55,7 +56,7 @@ class HomeFragmentLiveTVRow(val activity: Activity) : HomeFragmentRow(), OnItemV
 					Intent(activity, BrowseRecordingsActivity::class.java).apply {
 						putExtra(
 							"Folder",
-							TvApp.getApplication().serializer.SerializeToString(
+							SerializerRepository.serializer.SerializeToString(
 								BaseItemDto().apply {
 									id = ""
 									name = activity.getString(R.string.lbl_recorded_tv)
@@ -74,7 +75,7 @@ class HomeFragmentLiveTVRow(val activity: Activity) : HomeFragmentRow(), OnItemV
 					Intent(activity, UserViewActivity::class.java).apply {
 						putExtra(
 							"Folder",
-							TvApp.getApplication().serializer.SerializeToString(
+							SerializerRepository.serializer.SerializeToString(
 								BaseItemDto().apply {
 									id = "SERIESTIMERS"
 									collectionType = "SeriesTimers"

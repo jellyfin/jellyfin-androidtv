@@ -32,7 +32,6 @@ import org.jellyfin.apiclient.model.apiclient.ConnectionState;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.logging.ILogger;
-import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 
 public class StartupActivity extends FragmentActivity {
     private static final int NETWORK_PERMISSION = 1;
@@ -130,8 +129,6 @@ public class StartupActivity extends FragmentActivity {
         // workaround...
         Activity self = this;
 
-        GsonJsonSerializer jsonSerializer = new GsonJsonSerializer();
-        application.setSerializer(jsonSerializer);
         application.setPlaybackManager(new PlaybackManager(new AndroidDevice(application), logger));
 
         //See if we are coming in via direct entry
