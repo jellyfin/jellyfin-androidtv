@@ -9,6 +9,9 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
 
+import androidx.core.content.ContextCompat;
+import androidx.palette.graphics.Palette;
+
 import org.acra.ACRA;
 import org.acra.annotation.AcraCore;
 import org.acra.annotation.AcraDialog;
@@ -37,7 +40,6 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.interaction.VolleyHttpClient;
 import org.jellyfin.apiclient.logging.AndroidLogger;
 import org.jellyfin.apiclient.model.configuration.ServerConfiguration;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -49,9 +51,6 @@ import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 
 import java.util.Calendar;
 import java.util.HashMap;
-
-import androidx.core.content.ContextCompat;
-import androidx.palette.graphics.Palette;
 
 @AcraCore(buildConfigClass = BuildConfig.class)
 @AcraHttpSender(
@@ -87,7 +86,6 @@ public class TvApp extends Application {
     private PlaybackController playbackController;
     private ApiClient loginApiClient;
     private AudioManager audioManager;
-    private VolleyHttpClient httpClient;
 
     private int autoBitrate;
     private String directItemId;
@@ -474,14 +472,6 @@ public class TvApp extends Application {
 
     public void setLastDeletedItemId(String lastDeletedItemId) {
         this.lastDeletedItemId = lastDeletedItemId;
-    }
-
-    public VolleyHttpClient getHttpClient() {
-        return httpClient;
-    }
-
-    public void setHttpClient(VolleyHttpClient httpClient) {
-        this.httpClient = httpClient;
     }
 
     public BaseItemDto getLastPlayedItem() {

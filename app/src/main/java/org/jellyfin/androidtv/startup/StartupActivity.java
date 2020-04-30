@@ -28,7 +28,6 @@ import org.jellyfin.apiclient.interaction.AndroidDevice;
 import org.jellyfin.apiclient.interaction.ConnectionResult;
 import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.interaction.VolleyHttpClient;
 import org.jellyfin.apiclient.model.apiclient.ConnectionState;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserDto;
@@ -130,10 +129,6 @@ public class StartupActivity extends FragmentActivity {
     private void establishConnection() {
         // workaround...
         Activity self = this;
-
-        // The underlying http stack. Developers can inject their own if desired
-        VolleyHttpClient volleyHttpClient = new VolleyHttpClient(logger, application);
-        application.setHttpClient(volleyHttpClient);
 
         GsonJsonSerializer jsonSerializer = new GsonJsonSerializer();
         application.setSerializer(jsonSerializer);
