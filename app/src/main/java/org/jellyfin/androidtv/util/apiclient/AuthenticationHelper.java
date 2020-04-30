@@ -13,6 +13,7 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.browsing.MainActivity;
 import org.jellyfin.androidtv.details.FullDetailsActivity;
 import org.jellyfin.androidtv.model.LogonCredentials;
+import org.jellyfin.androidtv.model.repository.ConnectionManagerRepository;
 import org.jellyfin.androidtv.startup.SelectServerActivity;
 import org.jellyfin.androidtv.startup.SelectUserActivity;
 import org.jellyfin.androidtv.util.DelayedMessage;
@@ -52,7 +53,8 @@ public class AuthenticationHelper {
                 String addressValue = address.getText().toString();
                 TvApp.getApplication().getLogger().Debug("Entered address: %s", addressValue);
                 if (!addressValue.isEmpty()) {
-                    signInToServer(TvApp.getApplication().getConnectionManager(), addressValue, activity);
+                    final IConnectionManager connectionManager = ConnectionManagerRepository.Companion.getInstance(activity).getConnectionManager();
+                    signInToServer(connectionManager, addressValue, activity);
                 }
             }
         }).show();

@@ -21,6 +21,7 @@ import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.model.DisplayPriorityType;
 import org.jellyfin.androidtv.model.LogonCredentials;
+import org.jellyfin.androidtv.model.repository.ConnectionManagerRepository;
 import org.jellyfin.androidtv.playback.ExternalPlayerActivity;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.playback.PlaybackController;
@@ -77,7 +78,6 @@ public class TvApp extends Application {
     private static final String TAG = "Jellyfin-AndroidTV";
 
     private ILogger logger;
-    private IConnectionManager connectionManager;
     private PlaybackManager playbackManager;
     private GsonJsonSerializer serializer;
     private static TvApp app;
@@ -152,14 +152,6 @@ public class TvApp extends Application {
         logger = value;
     }
 
-    public IConnectionManager getConnectionManager() {
-        return connectionManager;
-    }
-
-    public void setConnectionManager(IConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
-    }
-
     public UserDto getCurrentUser() {
         if (currentUser == null)
             logger.Error("Called getCurrentUser() but value was null.");
@@ -182,6 +174,7 @@ public class TvApp extends Application {
     }
 
     public ApiClient getApiClient() {
+        IConnectionManager connectionManager = ConnectionManagerRepository.Companion.getInstance(this).getConnectionManager();
         return currentUser != null ? connectionManager.GetApiClient(currentUser) : null;
     }
 
