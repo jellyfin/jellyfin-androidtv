@@ -40,6 +40,8 @@ import org.jellyfin.apiclient.model.search.SearchHint;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 public class ItemLauncher {
     public static void launch(BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity) {
         launch(rowItem, adapter, pos, activity, false);
@@ -53,12 +55,12 @@ public class ItemLauncher {
                 if (baseItem.getCollectionType() == null) {
                     baseItem.setCollectionType("unknown");
                 }
-                TvApp.getApplication().getLogger().Debug("**** Collection type: %s", baseItem.getCollectionType());
+                Timber.d("**** Collection type: %s", baseItem.getCollectionType());
                 switch (baseItem.getCollectionType()) {
                     case "movies":
                     case "tvshows":
                     case "music":
-                        TvApp.getApplication().getLogger().Debug("**** View Type Pref: %s", response.getCustomPrefs().get("DefaultView"));
+                        Timber.d("**** View Type Pref: %s", response.getCustomPrefs().get("DefaultView"));
                         if (ViewType.GRID.equals(response.getCustomPrefs().get("DefaultView"))) {
                             // open grid browsing
                             Intent folderIntent = new Intent(context, GenericGridActivity.class);
@@ -103,7 +105,7 @@ public class ItemLauncher {
             case BaseItem:
                 final BaseItemDto baseItem = rowItem.getBaseItem();
                 try {
-                    TvApp.getApplication().getLogger().Debug("Item selected: %d - %s (%s)", rowItem.getIndex(), baseItem.getName(), baseItem.getBaseItemType().toString());
+                    Timber.d("Item selected: %d - %s (%s)", rowItem.getIndex(), baseItem.getName(), baseItem.getBaseItemType().toString());
                 } catch (Exception e) {
                     //swallow it
                 }
@@ -305,7 +307,7 @@ public class ItemLauncher {
 
                     @Override
                     public void onError(Exception exception) {
-                        application.getLogger().ErrorException("Error retrieving full object", exception);
+                        Timber.e(exception, "Error retrieving full object");
                         exception.printStackTrace();
                     }
                 });

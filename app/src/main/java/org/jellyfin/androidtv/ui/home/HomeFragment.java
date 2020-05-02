@@ -52,6 +52,8 @@ import java.util.regex.Pattern;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.ListRow;
 
+import timber.log.Timber;
+
 public class HomeFragment extends StdBrowseFragment {
     // Copied from jellyfin-web (homesections.js#getDefaultSection)
     private static final HomeSectionType[] DEFAULT_SECTIONS = new HomeSectionType[]{
@@ -89,7 +91,7 @@ public class HomeFragment extends StdBrowseFragment {
         try {
             AuthenticationHelper.saveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), TvApp.CREDENTIALS_PATH);
         } catch (IOException e) {
-            TvApp.getApplication().getLogger().ErrorException("Unable to save login credentials", e);
+            Timber.e(e, "Unable to save login credentials");
         }
 
         // Init leanback home channels;
@@ -262,7 +264,7 @@ public class HomeFragment extends StdBrowseFragment {
 
                     @Override
                     public void onError(Exception exception) {
-                        mApplication.getLogger().ErrorException("Unable to retrieve home sections", exception);
+                        Timber.e(exception, "Unable to retrieve home sections");
 
                         // Fallback to default sections
                         for (HomeSectionType section : DEFAULT_SECTIONS) {

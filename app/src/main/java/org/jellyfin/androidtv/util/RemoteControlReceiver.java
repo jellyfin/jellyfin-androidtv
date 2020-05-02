@@ -9,6 +9,8 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.playback.AudioNowPlayingActivity;
 import org.jellyfin.androidtv.playback.MediaManager;
 
+import timber.log.Timber;
+
 /**
  * Created by Eric on 4/17/2015.
  */
@@ -20,7 +22,7 @@ public class RemoteControlReceiver extends BroadcastReceiver {
             //Respond to media button presses
             if (Intent.ACTION_MEDIA_BUTTON.equals(intent.getAction())) {
                 KeyEvent event = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
-                TvApp.getApplication().getLogger().Debug("****** In remote receiver.  Keycode: %d", event.getKeyCode());
+                Timber.d("****** In remote receiver.  Keycode: %d", event.getKeyCode());
                 switch (event.getKeyCode()) {
                     case KeyEvent.KEYCODE_MEDIA_PAUSE:
                     case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:

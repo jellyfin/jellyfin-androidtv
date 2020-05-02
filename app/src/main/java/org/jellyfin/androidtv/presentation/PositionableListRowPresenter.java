@@ -1,14 +1,12 @@
 package org.jellyfin.androidtv.presentation;
 
 import android.graphics.drawable.Drawable;
+
 import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.RowPresenter;
 
-import org.jellyfin.androidtv.TvApp;
+import timber.log.Timber;
 
-/**
- * Created by Eric on 10/12/2015.
- */
 public class PositionableListRowPresenter extends CustomListRowPresenter implements IPositionablePresenter {
 
     private ListRowPresenter.ViewHolder viewHolder;
@@ -27,12 +25,11 @@ public class PositionableListRowPresenter extends CustomListRowPresenter impleme
     }
 
     public void setPosition(int ndx) {
-        TvApp.getApplication().getLogger().Debug("Setting position to: %d", ndx);
+        Timber.d("Setting position to: %d", ndx);
         if (viewHolder != null && viewHolder.getGridView() != null) viewHolder.getGridView().setSelectedPosition(ndx);
     }
 
     public int getPosition() {
         return viewHolder != null && viewHolder.getGridView() != null ? viewHolder.getGridView().getSelectedPosition() : -1;
     }
-
 }

@@ -38,6 +38,8 @@ import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
 
+import timber.log.Timber;
+
 public class BrowseViewFragment extends EnhancedBrowseFragment {
     private boolean isLiveTvLibrary;
 
@@ -299,7 +301,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                                             programInfo.setId(timer.getId());
                                             programInfo.setChannelName(timer.getChannelName());
                                             programInfo.setName(Utils.getSafeValue(timer.getName(), "Unknown"));
-                                            TvApp.getApplication().getLogger().Warn("No program info for timer %s.  Creating one...", programInfo.getName());
+                                            Timber.w("No program info for timer %s.  Creating one...", programInfo.getName());
                                             programInfo.setBaseItemType(BaseItemType.Program);
                                             programInfo.setTimerId(timer.getId());
                                             programInfo.setSeriesTimerId(timer.getSeriesTimerId());

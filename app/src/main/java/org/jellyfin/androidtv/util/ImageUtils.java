@@ -23,6 +23,8 @@ import java.util.List;
 
 import androidx.annotation.AnyRes;
 
+import timber.log.Timber;
+
 public class ImageUtils {
     public static final double ASPECT_RATIO_2_3 = .66667;
     public static final double ASPECT_RATIO_16_9 = 1.779;
@@ -71,7 +73,7 @@ public class ImageUtils {
         if (timer.getProgramId() == null) {
             return null;
         }
-        TvApp.getApplication().getLogger().Debug("***** Program ID: %s", timer.getProgramId());
+        Timber.d("***** Program ID: %s", timer.getProgramId());
         ImageOptions options = new ImageOptions();
         options.setMaxHeight(maxHeight);
         options.setImageType(ImageType.Primary);

@@ -5,6 +5,8 @@ import android.media.MediaCodecList;
 
 import org.jellyfin.androidtv.TvApp;
 
+import timber.log.Timber;
+
 import static android.media.MediaFormat.MIMETYPE_VIDEO_HEVC;
 import static android.media.MediaFormat.MIMETYPE_VIDEO_H263;
 import static android.media.MediaCodecInfo.CodecProfileLevel.*;
@@ -33,7 +35,7 @@ public class MediaCodecCapabilitiesTest  {
 
     private boolean checkDecoder(String mime, int profile, int level) {
         if (!hasDecoder(mime, profile, level)) {
-            TvApp.getApplication().getLogger().Info("no %s decoder for profile %d and level %d", mime, profile, level);
+            Timber.i("no %s decoder for profile %d and level %d", mime, profile, level);
             return false;
         }
         return true;

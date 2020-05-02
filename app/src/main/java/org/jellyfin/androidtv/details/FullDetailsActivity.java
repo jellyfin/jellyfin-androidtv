@@ -96,6 +96,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import timber.log.Timber;
+
 public class FullDetailsActivity extends BaseActivity implements IRecordingIndicatorView {
 
     private int BUTTON_SIZE;
@@ -214,11 +216,11 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 @Override
                 public void run() {
                     if (mBaseItem.getBaseItemType() == BaseItemType.Episode && mApplication.getLastPlayback().after(mLastUpdated) && mApplication.getLastPlayedItem() != null && !mBaseItem.getId().equals(mApplication.getLastPlayedItem().getId()) && mApplication.getLastPlayedItem().getBaseItemType() == BaseItemType.Episode) {
-                        mApplication.getLogger().Info("Re-loading after new episode playback");
+                        Timber.i("Re-loading after new episode playback");
                         loadItem(mApplication.getLastPlayedItem().getId());
                         mApplication.setLastPlayedItem(null); //blank this out so a detail screen we back up to doesn't also do this
                     } else {
-                        mApplication.getLogger().Debug("Updating info after playback");
+                        Timber.d("Updating info after playback");
                         mApplication.getApiClient().GetItemAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
                             @Override
                             public void onResponse(BaseItemDto response) {
@@ -461,10 +463,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                     }
                 }
-
             } catch (IOException e) {
-                TvApp.getApplication().getLogger().ErrorException("Error loading image", e);
-
+                Timber.e(e, "Error loading image");
             }
 
             return mDetailsOverviewRow;
@@ -512,7 +512,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     protected void addAdditionalRows(ArrayObjectAdapter adapter) {
-        TvApp.getApplication().getLogger().Debug("Item type: %s", mBaseItem.getBaseItemType().toString());
+        Timber.d("Item type: %s", mBaseItem.getBaseItemType().toString());
         switch (mBaseItem.getBaseItemType()) {
             case Movie:
 
@@ -875,7 +875,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                         @Override
                         public void onError(Exception exception) {
-                            TvApp.getApplication().getLogger().ErrorException("Error playing next up episode", exception);
+                            Timber.e(exception, "Error playing next up episode");
                             Utils.showToast(TvApp.getApplication(), getString(R.string.msg_video_playback_error));
                         }
                     });
@@ -951,7 +951,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                         @Override
                         public void onError(Exception exception) {
-                            TvApp.getApplication().getLogger().ErrorException("Error retrieving trailers for playback", exception);
+                            Timber.e(exception, "Error retrieving trailers for playback");
                             Utils.showToast(mActivity, R.string.msg_video_playback_error);
                         }
                     });
@@ -991,7 +991,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                                         @Override
                                         public void onError(Exception ex) {
-                                            mApplication.getLogger().ErrorException("Error creating recording", ex);
+                                            Timber.e(ex, "Error creating recording");
                                             Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
                                         }
                                     });
@@ -999,7 +999,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                                 @Override
                                 public void onError(Exception exception) {
-                                    mApplication.getLogger().ErrorException("Error creating recording", exception);
+                                    Timber.e(exception, "Error creating recording");
                                     Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
                                 }
                             });
@@ -1051,7 +1051,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                                         @Override
                                         public void onError(Exception ex) {
-                                            mApplication.getLogger().ErrorException("Error creating recording", ex);
+                                            Timber.e(ex, "Error creating recording");
                                             Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
                                         }
                                     });
@@ -1059,7 +1059,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                                 @Override
                                 public void onError(Exception exception) {
-                                    mApplication.getLogger().ErrorException("Error creating recording", exception);
+                                    Timber.e(exception, "Error creating recording");
                                     Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
                                 }
                             });

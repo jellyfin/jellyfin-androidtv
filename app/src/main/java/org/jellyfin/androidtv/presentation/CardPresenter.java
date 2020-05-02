@@ -27,6 +27,8 @@ import androidx.leanback.widget.BaseCardView;
 import androidx.leanback.widget.Presenter;
 import androidx.palette.graphics.Palette;
 
+import timber.log.Timber;
+
 public class CardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";
     private static final double ASPECT_RATIO_BANNER = 5.414;
@@ -339,7 +341,7 @@ public class CardPresenter extends Presenter {
                             });
                 }
             } catch (IllegalArgumentException e) {
-                TvApp.getApplication().getLogger().Info("Image load aborted due to activity closing");
+                Timber.i("Image load aborted due to activity closing");
             }
         }
 
@@ -355,7 +357,7 @@ public class CardPresenter extends Presenter {
                         .error(mDefaultCardImage)
                         .into(mCardView.getMainImageView());
             } catch (IllegalArgumentException e) {
-                TvApp.getApplication().getLogger().Info("Image reset aborted due to activity closing");
+                Timber.i("Image reset aborted due to activity closing");
             }
         }
     }

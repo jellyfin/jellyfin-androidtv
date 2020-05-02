@@ -16,6 +16,8 @@ import org.jellyfin.androidtv.util.Utils;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 public class ClosedCaptionsAction extends CustomAction {
 
     public ClosedCaptionsAction(Context context, CustomPlaybackTransportControlGlue customPlaybackTransportControlGlue) {
@@ -26,7 +28,7 @@ public class ClosedCaptionsAction extends CustomAction {
     @Override
     public void handleClickAction(PlaybackController playbackController, LeanbackOverlayFragment leanbackOverlayFragment, Context context, View view) {
         if (playbackController.getCurrentStreamInfo() == null) {
-            TvApp.getApplication().getLogger().Warn("StreamInfo null trying to obtain subtitles");
+            Timber.w("StreamInfo null trying to obtain subtitles");
             Utils.showToast(TvApp.getApplication(), "Unable to obtain subtitle info");
             return;
         }

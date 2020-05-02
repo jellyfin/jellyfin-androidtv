@@ -26,6 +26,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import timber.log.Timber;
+
 public class PlaybackHelper {
     public static void getItemsToPlay(final BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<BaseItemDto>> outerResponse) {
         final List<BaseItemDto> items = new ArrayList<>();
@@ -73,7 +75,7 @@ public class PlaybackHelper {
                             }
                         });
                     } else {
-                        TvApp.getApplication().getLogger().Info("Unable to add subsequent episodes due to lack of season or episode data.");
+                        Timber.i("Unable to add subsequent episodes due to lack of season or episode data.");
                         outerResponse.onResponse(items);
                     }
                 } else {
@@ -213,7 +215,7 @@ public class PlaybackHelper {
                         public void onResponse(ItemsResult response) {
                             if (response.getTotalRecordCount() > 0){
                                 Collections.addAll(items, response.getItems());
-                                TvApp.getApplication().getLogger().Info("%d intro items added for playback.", response.getTotalRecordCount());
+                                Timber.i("%d intro items added for playback.", response.getTotalRecordCount());
                                 TvApp.getApplication().setPlayingIntros(true);
                             } else {
                                 TvApp.getApplication().setPlayingIntros(false);
@@ -224,7 +226,7 @@ public class PlaybackHelper {
 
                         @Override
                         public void onError(Exception exception) {
-                            TvApp.getApplication().getLogger().ErrorException("Error retrieving intros", exception);
+                            Timber.e(exception, "Error retrieving intros");
                             addMainItem(mainItem, items, outerResponse);
                         }
                     });
@@ -291,7 +293,7 @@ public class PlaybackHelper {
 
             @Override
             public void onError(Exception exception) {
-                TvApp.getApplication().getLogger().ErrorException("Error retrieving item for playback", exception);
+                Timber.e(exception, "Error retrieving item for playback");
                 Utils.showToast(activity, R.string.msg_video_playback_error);
             }
         });

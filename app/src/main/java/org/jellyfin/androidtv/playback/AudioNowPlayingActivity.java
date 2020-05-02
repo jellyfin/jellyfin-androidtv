@@ -50,6 +50,8 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
+import timber.log.Timber;
+
 public class AudioNowPlayingActivity extends BaseActivity  {
 
     private int BUTTON_SIZE;
@@ -340,7 +342,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     private AudioEventListener audioEventListener = new AudioEventListener() {
         @Override
         public void onPlaybackStateChange(PlaybackController.PlaybackState newState, BaseItemDto currentItem) {
-            mApplication.getLogger().Debug("**** Got playstate change: %s" + newState.toString());
+            Timber.d("**** Got playstate change: %s", newState.toString());
             if (newState == PlaybackController.PlaybackState.PLAYING && currentItem != mBaseItem) {
                 // new item started
                 loadItem();
@@ -394,7 +396,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
         String primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, mApplication.getApiClient(), false, posterHeight);
-        mApplication.getLogger().Debug("Audio Poster url: %s", primaryImageUrl);
+        Timber.d("Audio Poster url: %s", primaryImageUrl);
         Picasso.with(mActivity)
                 .load(primaryImageUrl)
                 .skipMemoryCache()
