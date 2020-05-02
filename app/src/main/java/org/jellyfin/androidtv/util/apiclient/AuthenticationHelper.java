@@ -13,17 +13,12 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.browsing.MainActivity;
 import org.jellyfin.androidtv.details.FullDetailsActivity;
 import org.jellyfin.androidtv.model.LogonCredentials;
+import org.jellyfin.androidtv.model.repository.ConnectionManagerRepository;
+import org.jellyfin.androidtv.model.repository.SerializerRepository;
 import org.jellyfin.androidtv.startup.SelectServerActivity;
 import org.jellyfin.androidtv.startup.SelectUserActivity;
 import org.jellyfin.androidtv.util.DelayedMessage;
 import org.jellyfin.androidtv.util.Utils;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.ConnectionResult;
 import org.jellyfin.apiclient.interaction.IConnectionManager;
@@ -31,8 +26,13 @@ import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.logging.ILogger;
-import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 import org.jellyfin.apiclient.model.users.AuthenticationResult;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AuthenticationHelper {
     public static void enterManualServerAddress(final Activity activity) {
@@ -52,7 +52,8 @@ public class AuthenticationHelper {
                 String addressValue = address.getText().toString();
                 TvApp.getApplication().getLogger().Debug("Entered address: %s", addressValue);
                 if (!addressValue.isEmpty()) {
-                    signInToServer(TvApp.getApplication().getConnectionManager(), addressValue, activity);
+                    final IConnectionManager connectionManager = ConnectionManagerRepository.Companion.getInstance(activity).getConnectionManager();
+                    signInToServer(connectionManager, addressValue, activity);
                 }
             }
         }).show();
@@ -178,7 +179,7 @@ public class AuthenticationHelper {
     public static void saveLoginCredentials(LogonCredentials creds, String fileName) throws IOException {
         TvApp app = TvApp.getApplication();
         OutputStream credsFile = app.openFileOutput(fileName, Context.MODE_PRIVATE);
-        credsFile.write(app.getSerializer().SerializeToString(creds).getBytes());
+        credsFile.write(SerializerRepository.INSTANCE.getSerializer().SerializeToString(creds).getBytes());
         credsFile.close();
         app.setConfiguredAutoCredentials(creds);
     }
@@ -190,7 +191,7 @@ public class AuthenticationHelper {
             String json = Utils.readStringFromStream(credsFile);
             credsFile.close();
             TvApp.getApplication().getLogger().Debug("Saved credential JSON: %s", json);
-            return app.getSerializer().DeserializeFromString(json, LogonCredentials.class);
+            return SerializerRepository.INSTANCE.getSerializer().DeserializeFromString(json, LogonCredentials.class);
         } catch (IOException e) {
             // none saved
             return new LogonCredentials(new ServerInfo(), new UserDto());
@@ -229,10 +230,9 @@ public class AuthenticationHelper {
                         } else {
                             //More than one server so show selection
                             Intent serverIntent = new Intent(activity, SelectServerActivity.class);
-                            GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
                             List<String> payload = new ArrayList<>();
                             for (ServerInfo server : serverResponse) {
-                                payload.add(serializer.SerializeToString(server));
+                                payload.add(SerializerRepository.INSTANCE.getSerializer().SerializeToString(server));
                             }
                             serverIntent.putExtra("Servers", payload.toArray(new String[]{}));
                             serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -248,10 +248,9 @@ public class AuthenticationHelper {
                     @Override
                     public void onResponse(ArrayList<ServerInfo> serverResponse) {
                         Intent serverIntent = new Intent(activity, SelectServerActivity.class);
-                        GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
                         List<String> payload = new ArrayList<>();
                         for (ServerInfo server : serverResponse) {
-                            payload.add(serializer.SerializeToString(server));
+                            payload.add(SerializerRepository.INSTANCE.getSerializer().SerializeToString(server));
                         }
                         serverIntent.putExtra("Servers", payload.toArray(new String[]{}));
                         serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

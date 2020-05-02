@@ -20,6 +20,7 @@ import android.widget.Toast;
 import org.jellyfin.androidtv.BuildConfig;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.model.repository.SerializerRepository;
 import org.jellyfin.androidtv.preferences.enums.AudioBehavior;
 import org.jellyfin.androidtv.startup.DpadPwActivity;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
@@ -218,7 +219,7 @@ public class Utils {
     public static void processPasswordEntry(final Activity activity, final UserDto user, final String directItemId) {
         if (TvApp.getApplication().getUserPreferences().getPasswordDPadEnabled()) {
             Intent pwIntent = new Intent(activity, DpadPwActivity.class);
-            pwIntent.putExtra("User", TvApp.getApplication().getSerializer().SerializeToString(user));
+            pwIntent.putExtra("User", SerializerRepository.INSTANCE.getSerializer().SerializeToString(user));
             pwIntent.putExtra("ItemId", directItemId);
             pwIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             activity.startActivity(pwIntent);

@@ -14,6 +14,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.leanback.app.BackgroundManager;
+import androidx.leanback.app.RowsSupportFragment;
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.ClassPresenterSelector;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.OnItemViewSelectedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -24,10 +38,12 @@ import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.base.CustomMessage;
 import org.jellyfin.androidtv.base.IKeyListener;
 import org.jellyfin.androidtv.base.IMessageListener;
+import org.jellyfin.androidtv.constants.Extras;
 import org.jellyfin.androidtv.details.ItemListActivity;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.model.repository.SerializerRepository;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.GridButtonPresenter;
@@ -48,20 +64,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.RowsSupportFragment;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.ClassPresenterSelector;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.OnItemViewSelectedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
 
 public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     private static final int BACKGROUND_UPDATE_DELAY = 100;
@@ -171,7 +173,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     }
 
     protected void setupViews() {
-        mFolder = TvApp.getApplication().getSerializer().DeserializeFromString(getActivity().getIntent().getStringExtra("Folder"),BaseItemDto.class);
+        mFolder = SerializerRepository.INSTANCE.getSerializer().DeserializeFromString(getActivity().getIntent().getStringExtra(Extras.Folder), BaseItemDto.class);
         if (mFolder == null) return;
 
         if (mFolder.getCollectionType() != null) {
@@ -411,7 +413,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                             @Override
                             public void onResponse(DisplayPreferences response) {
                                 Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
-                                folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
+                                folderIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(mFolder));
                                 getActivity().startActivity(folderIntent);
                             }
                         });
@@ -423,8 +425,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                             @Override
                             public void onResponse(DisplayPreferences response) {
                                 Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
-                                folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
-                                folderIntent.putExtra("IncludeType", "MusicAlbum");
+                                folderIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(mFolder));
+                                folderIntent.putExtra(Extras.IncludeType, "MusicAlbum");
                                 getActivity().startActivity(folderIntent);
                             }
                         });
@@ -436,8 +438,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                             @Override
                             public void onResponse(DisplayPreferences response) {
                                 Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
-                                folderIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
-                                folderIntent.putExtra("IncludeType", "AlbumArtist");
+                                folderIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(mFolder));
+                                folderIntent.putExtra(Extras.IncludeType, "AlbumArtist");
                                 getActivity().startActivity(folderIntent);
                             }
                         });
@@ -445,32 +447,32 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
                     case BY_LETTER:
                         Intent intent = new Intent(getActivity(), ByLetterActivity.class);
-                        intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
-                        intent.putExtra("IncludeType", itemTypeString);
+                        intent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(mFolder));
+                        intent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(intent);
                         break;
 
                     case GENRES:
                         Intent genreIntent = new Intent(getActivity(), ByGenreActivity.class);
-                        genreIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
-                        genreIntent.putExtra("IncludeType", itemTypeString);
+                        genreIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(mFolder));
+                        genreIntent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(genreIntent);
                         break;
 
                     case SUGGESTED:
                         Intent suggIntent = new Intent(getActivity(), SuggestedMoviesActivity.class);
-                        suggIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
-                        suggIntent.putExtra("IncludeType", itemTypeString);
+                        suggIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(mFolder));
+                        suggIntent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(suggIntent);
                         break;
 
                     case PERSONS:
                         Intent personIntent = new Intent(getActivity(), BrowsePersonsActivity.class);
-                        personIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
-                        personIntent.putExtra("IncludeType", itemTypeString);
+                        personIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(mFolder));
+                        personIntent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(personIntent);
                         break;
@@ -494,7 +496,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         seriesTimers.setId("SERIESTIMERS");
                         seriesTimers.setCollectionType("SeriesTimers");
                         seriesTimers.setName(mActivity.getString(R.string.lbl_series_recordings));
-                        seriesIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(seriesTimers));
+                        seriesIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(seriesTimers));
 
                         getActivity().startActivity(seriesIntent);
                         break;
@@ -510,7 +512,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         BaseItemDto folder = new BaseItemDto();
                         folder.setId("");
                         folder.setName(TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv));
-                        recordings.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(folder));
+                        recordings.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(folder));
                         mActivity.startActivity(recordings);
                         break;
 

@@ -9,6 +9,9 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
 
+import androidx.core.content.ContextCompat;
+import androidx.palette.graphics.Palette;
+
 import org.acra.ACRA;
 import org.acra.annotation.AcraCore;
 import org.acra.annotation.AcraDialog;
@@ -21,6 +24,7 @@ import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.model.DisplayPriorityType;
 import org.jellyfin.androidtv.model.LogonCredentials;
+import org.jellyfin.androidtv.model.repository.ConnectionManagerRepository;
 import org.jellyfin.androidtv.playback.ExternalPlayerActivity;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.playback.PlaybackController;
@@ -32,11 +36,11 @@ import org.jellyfin.androidtv.preferences.enums.LoginBehavior;
 import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer;
 import org.jellyfin.androidtv.search.SearchActivity;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.interaction.AndroidDevice;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.interaction.VolleyHttpClient;
 import org.jellyfin.apiclient.logging.AndroidLogger;
 import org.jellyfin.apiclient.model.configuration.ServerConfiguration;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -44,13 +48,9 @@ import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.logging.ILogger;
-import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 
 import java.util.Calendar;
 import java.util.HashMap;
-
-import androidx.core.content.ContextCompat;
-import androidx.palette.graphics.Palette;
 
 @AcraCore(buildConfigClass = BuildConfig.class)
 @AcraHttpSender(
@@ -77,9 +77,7 @@ public class TvApp extends Application {
     private static final String TAG = "Jellyfin-AndroidTV";
 
     private ILogger logger;
-    private IConnectionManager connectionManager;
     private PlaybackManager playbackManager;
-    private GsonJsonSerializer serializer;
     private static TvApp app;
     private UserDto currentUser;
     private BaseItemDto currentPlayingItem;
@@ -87,7 +85,6 @@ public class TvApp extends Application {
     private PlaybackController playbackController;
     private ApiClient loginApiClient;
     private AudioManager audioManager;
-    private VolleyHttpClient httpClient;
 
     private int autoBitrate;
     private String directItemId;
@@ -132,6 +129,7 @@ public class TvApp extends Application {
         logger = new AndroidLogger(TAG);
         app = (TvApp) getApplicationContext();
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        playbackManager = new PlaybackManager(new AndroidDevice(this), new AndroidLogger("PlaybackManager"));
         setCurrentBackgroundGradient(new int[] {ContextCompat.getColor(this, R.color.lb_default_brand_color_dark), ContextCompat.getColor(this, R.color.lb_default_brand_color)});
 
         registerActivityLifecycleCallbacks(new AuthenticatedUserCallbacks());
@@ -152,14 +150,6 @@ public class TvApp extends Application {
         logger = value;
     }
 
-    public IConnectionManager getConnectionManager() {
-        return connectionManager;
-    }
-
-    public void setConnectionManager(IConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
-    }
-
     public UserDto getCurrentUser() {
         if (currentUser == null)
             logger.Error("Called getCurrentUser() but value was null.");
@@ -173,15 +163,8 @@ public class TvApp extends Application {
         this.displayPrefsCache = new HashMap<>();
     }
 
-    public GsonJsonSerializer getSerializer() {
-        return serializer;
-    }
-
-    public void setSerializer(GsonJsonSerializer serializer) {
-        this.serializer = serializer;
-    }
-
     public ApiClient getApiClient() {
+        IConnectionManager connectionManager = ConnectionManagerRepository.Companion.getInstance(this).getConnectionManager();
         return currentUser != null ? connectionManager.GetApiClient(currentUser) : null;
     }
 
@@ -481,14 +464,6 @@ public class TvApp extends Application {
 
     public void setLastDeletedItemId(String lastDeletedItemId) {
         this.lastDeletedItemId = lastDeletedItemId;
-    }
-
-    public VolleyHttpClient getHttpClient() {
-        return httpClient;
-    }
-
-    public void setHttpClient(VolleyHttpClient httpClient) {
-        this.httpClient = httpClient;
     }
 
     public BaseItemDto getLastPlayedItem() {

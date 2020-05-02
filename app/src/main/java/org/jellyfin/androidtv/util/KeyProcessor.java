@@ -16,6 +16,7 @@ import org.jellyfin.androidtv.details.ItemListActivity;
 import org.jellyfin.androidtv.details.PhotoPlayerActivity;
 import org.jellyfin.androidtv.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.model.repository.ConnectionManagerRepository;
 import org.jellyfin.androidtv.playback.AudioNowPlayingActivity;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.querying.StdItemQuery;
@@ -25,6 +26,7 @@ import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import java.util.List;
 
 import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -232,18 +234,17 @@ public class KeyProcessor {
         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case MENU_FORGET:
-                        TvApp.getApplication().getConnectionManager().DeleteServer(rowItem.getItemId(), new EmptyResponse() {
-                            @Override
-                            public void onResponse() {
-                                activity.sendMessage(CustomMessage.RemoveCurrentItem);
-                            }
-                        });
-                        return true;
-                    default:
-                        return false;
+                if (item.getItemId() == MENU_FORGET) {
+                    final IConnectionManager connectionManager = ConnectionManagerRepository.Companion.getInstance(activity).getConnectionManager();
+                    connectionManager.DeleteServer(rowItem.getItemId(), new EmptyResponse() {
+                        @Override
+                        public void onResponse() {
+                            activity.sendMessage(CustomMessage.RemoveCurrentItem);
+                        }
+                    });
+                    return true;
                 }
+                return false;
             }
         });
 

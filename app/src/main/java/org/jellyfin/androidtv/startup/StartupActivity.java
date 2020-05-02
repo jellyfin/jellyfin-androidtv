@@ -8,46 +8,31 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
-import org.jellyfin.androidtv.BuildConfig;
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.browsing.MainActivity;
-import org.jellyfin.androidtv.details.FullDetailsActivity;
-import org.jellyfin.androidtv.eventhandling.TvApiEventListener;
-import org.jellyfin.androidtv.itemhandling.ItemLauncher;
-import org.jellyfin.androidtv.model.compat.AndroidProfile;
-import org.jellyfin.androidtv.playback.MediaManager;
-import org.jellyfin.androidtv.playback.PlaybackManager;
-import org.jellyfin.androidtv.util.ProfileHelper;
-import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
-import org.jellyfin.apiclient.interaction.AndroidConnectionManager;
-import org.jellyfin.apiclient.interaction.AndroidDevice;
-import org.jellyfin.apiclient.interaction.ApiEventListener;
-import org.jellyfin.apiclient.interaction.ConnectionResult;
-import org.jellyfin.apiclient.interaction.IConnectionManager;
-import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.interaction.VolleyHttpClient;
-import org.jellyfin.apiclient.model.apiclient.ConnectionState;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.UserDto;
-import org.jellyfin.apiclient.model.logging.ILogger;
-import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
-import org.jellyfin.apiclient.model.session.ClientCapabilities;
-import org.jellyfin.apiclient.model.session.GeneralCommandType;
-
-import java.util.ArrayList;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.preference.PreferenceManager;
 
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.browsing.MainActivity;
+import org.jellyfin.androidtv.details.FullDetailsActivity;
+import org.jellyfin.androidtv.itemhandling.ItemLauncher;
+import org.jellyfin.androidtv.model.repository.ConnectionManagerRepository;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
+import org.jellyfin.apiclient.interaction.ConnectionResult;
+import org.jellyfin.apiclient.interaction.IConnectionManager;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.apiclient.ConnectionState;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.UserDto;
+
 public class StartupActivity extends FragmentActivity {
     private static final int NETWORK_PERMISSION = 1;
     private TvApp application;
-    private ILogger logger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +40,6 @@ public class StartupActivity extends FragmentActivity {
         setContentView(R.layout.fragment_startup);
 
         application = (TvApp) getApplicationContext();
-        logger = application.getLogger();
 
         //Ensure we have prefs
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
@@ -63,10 +47,10 @@ public class StartupActivity extends FragmentActivity {
         //Ensure basic permissions
         if (Build.VERSION.SDK_INT >= 23 && (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED)) {
-            logger.Info("Requesting network permissions");
+            application.getLogger().Info("Requesting network permissions");
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.INTERNET}, NETWORK_PERMISSION);
         } else {
-            logger.Info("Basic network permissions are granted");
+            application.getLogger().Info("Basic network permissions are granted");
             start();
         }
     }
@@ -140,46 +124,13 @@ public class StartupActivity extends FragmentActivity {
         // workaround...
         Activity self = this;
 
-        // The underlying http stack. Developers can inject their own if desired
-        VolleyHttpClient volleyHttpClient = new VolleyHttpClient(logger, application);
-        TvApp.getApplication().setHttpClient(volleyHttpClient);
-        ClientCapabilities capabilities = new ClientCapabilities();
-        ArrayList<String> playableTypes = new ArrayList<>();
-        playableTypes.add("Video");
-        playableTypes.add("Audio");
-        ArrayList<String> supportedCommands = new ArrayList<>();
-        supportedCommands.add(GeneralCommandType.DisplayContent.toString());
-        supportedCommands.add(GeneralCommandType.DisplayMessage.toString());
-
-        capabilities.setPlayableMediaTypes(playableTypes);
-        capabilities.setSupportsContentUploading(false);
-        capabilities.setSupportsSync(false);
-        capabilities.setDeviceProfile(new AndroidProfile(ProfileHelper.getProfileOptions()));
-        capabilities.setSupportsMediaControl(true);
-        capabilities.setSupportedCommands(supportedCommands);
-
-        GsonJsonSerializer jsonSerializer = new GsonJsonSerializer();
-        ApiEventListener apiEventListener = new TvApiEventListener();
-
-        final IConnectionManager connectionManager = new AndroidConnectionManager(application,
-                jsonSerializer,
-                logger,
-                volleyHttpClient,
-                "Android TV",
-                BuildConfig.VERSION_NAME,
-                new AndroidDevice(application),
-                capabilities,
-                apiEventListener);
-
-        application.setConnectionManager(connectionManager);
-        application.setSerializer(jsonSerializer);
-        application.setPlaybackManager(new PlaybackManager(new AndroidDevice(application), logger));
-
         //See if we are coming in via direct entry
         application.setDirectItemId(getIntent().getStringExtra("ItemId"));
 
         //Load any saved login creds
         application.setConfiguredAutoCredentials(AuthenticationHelper.getSavedLoginCredentials(TvApp.CREDENTIALS_PATH));
+
+        final IConnectionManager connectionManager = ConnectionManagerRepository.Companion.getInstance(this).getConnectionManager();
 
         //And use those credentials if option is set
         if (application.getIsAutoLoginConfigured() || application.getDirectItemId() != null) {

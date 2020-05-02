@@ -2,6 +2,8 @@ package org.jellyfin.androidtv.browsing;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
@@ -9,18 +11,14 @@ import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
-import android.widget.Toast;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.constants.Extras;
+import org.jellyfin.androidtv.model.repository.SerializerRepository;
 import org.jellyfin.androidtv.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.GridButton;
-
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
-/**
- * Created by Eric on 12/4/2014.
- */
 public class BrowseFolderFragment extends StdBrowseFragment {
 
     protected static final int BY_LETTER = 0;
@@ -34,7 +32,7 @@ public class BrowseFolderFragment extends StdBrowseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        mFolder = TvApp.getApplication().getSerializer().DeserializeFromString(getActivity().getIntent().getStringExtra("Folder"),BaseItemDto.class);
+        mFolder = SerializerRepository.INSTANCE.getSerializer().DeserializeFromString(getActivity().getIntent().getStringExtra(Extras.Folder), BaseItemDto.class);
         if (MainTitle == null) MainTitle = mFolder.getName();
         ShowBadge = false;
         if (mFolder.getCollectionType() != null) {
@@ -89,29 +87,29 @@ public class BrowseFolderFragment extends StdBrowseFragment {
                 switch (((GridButton) item).getId()) {
                     case BY_LETTER:
                         Intent intent = new Intent(getActivity(), ByLetterActivity.class);
-                        intent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
-                        intent.putExtra("IncludeType", itemTypeString);
+                        intent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(mFolder));
+                        intent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(intent);
                         break;
                     case GENRES:
                         Intent genreIntent = new Intent(getActivity(), ByGenreActivity.class);
-                        genreIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
-                        genreIntent.putExtra("IncludeType", itemTypeString);
+                        genreIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(mFolder));
+                        genreIntent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(genreIntent);
                         break;
                     case SUGGESTED:
                         Intent suggIntent = new Intent(getActivity(), SuggestedMoviesActivity.class);
-                        suggIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
-                        suggIntent.putExtra("IncludeType", itemTypeString);
+                        suggIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(mFolder));
+                        suggIntent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(suggIntent);
                         break;
                     case PERSONS:
                         Intent personIntent = new Intent(getActivity(), BrowsePersonsActivity.class);
-                        personIntent.putExtra("Folder", TvApp.getApplication().getSerializer().SerializeToString(mFolder));
-                        personIntent.putExtra("IncludeType", itemTypeString);
+                        personIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(mFolder));
+                        personIntent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(personIntent);
                         break;

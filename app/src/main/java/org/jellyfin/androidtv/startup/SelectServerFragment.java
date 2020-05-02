@@ -1,6 +1,8 @@
 package org.jellyfin.androidtv.startup;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.widget.Toast;
 
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
@@ -10,28 +12,23 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
-import android.view.KeyEvent;
-import android.widget.Toast;
-
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.base.CustomMessage;
 import org.jellyfin.androidtv.base.IKeyListener;
 import org.jellyfin.androidtv.base.IMessageListener;
 import org.jellyfin.androidtv.browsing.CustomBrowseFragment;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.model.repository.SerializerRepository;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
+import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.jellyfin.apiclient.model.apiclient.ServerInfo;
-import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer;
 
 public class SelectServerFragment extends CustomBrowseFragment {
     private static final int ENTER_MANUALLY = 0;
@@ -39,11 +36,10 @@ public class SelectServerFragment extends CustomBrowseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        GsonJsonSerializer serializer = TvApp.getApplication().getSerializer();
         String[] passedItems = getActivity().getIntent().getStringArrayExtra("Servers");
         if (passedItems != null) {
             for (String json : passedItems) {
-                mServers.add(serializer.DeserializeFromString(json, ServerInfo.class));
+                mServers.add(SerializerRepository.INSTANCE.getSerializer().DeserializeFromString(json, ServerInfo.class));
             }
         }
 

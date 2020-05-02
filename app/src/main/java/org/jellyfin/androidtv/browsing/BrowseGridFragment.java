@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.browsing;
 import android.os.Bundle;
 
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.constants.Extras;
 import org.jellyfin.androidtv.model.ChangeTriggerType;
 import org.jellyfin.androidtv.querying.StdItemQuery;
 
@@ -47,7 +48,7 @@ public class BrowseGridFragment extends StdGridFragment {
                 case "music":
                     mAllowViewSelection = false;
                     //Special queries needed for album artists
-                    String includeType = getActivity().getIntent().getStringExtra("IncludeType");
+                    String includeType = getActivity().getIntent().getStringExtra(Extras.IncludeType);
                     if ("AlbumArtist".equals(includeType)) {
                         ArtistsQuery albumArtists = new ArtistsQuery();
                         albumArtists.setUserId(TvApp.getApplication().getCurrentUser().getId());
