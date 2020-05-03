@@ -108,7 +108,7 @@
     <string name="lbl_ends">Loppuu</string>
     <string name="lbl_min">" min"</string>
     <string name="lbl_sd">SD</string>
-    <string name="lbl_favorite">Suosikko</string>
+    <string name="lbl_favorite">Suosikki</string>
     <string name="lbl_upcoming">Tulossa</string>
     <string name="lbl_seasons">Kaudet</string>
     <string name="lbl_series">Sarjat</string>
@@ -196,5 +196,27 @@
     <string name="title_activity_dpad_pw">Kirjoita salasana</string>
     <string name="settings_title">Asetukset</string>
     <string name="pref_playback">Toistaminen</string>
-    <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ</string>
+    <string name="lbl_directed_by">Ohjaaja</string>
+    <string name="lbl_watched">Katsottu</string>
+    <string name="lbl_cast_crew">Näyttelijät/Henkilökunta</string>
+    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_suggested">Ehdotetut</string>
+    <string name="lbl_by_letter">Nimen mukaan</string>
+    <string name="lbl_views">Näyttökerrat</string>
+    <string name="lbl_on_now">Tulossa nyt</string>
+    <string name="lbl_next_up_tv">Seuraavaksi TV:ssä</string>
+    <string name="dpad_entry_desc">Käytä kaukosäätimesi ristiohjainta syöttääksesi numeerisen salasanan. Paina näppäintä kerran syöttääksesi ensimmäisenä näkyvän numeron, tai kahdesti syöttääksesi toisena näkyvän numeron. Esim. yksi painallus \"ylös\"-painiketta syöttää \"1\", ja kaksoispainallus \"select\"-painiketta syöttää \"5\". Paina lopuksi \"select\"-painiketta sekunnin ajan kun olet valmis, tai \"vasen\"-painiketta aloittaaksesi alusta.</string>
+    <string name="dpad_pw_cancel">* Paina \"alas\"-painiketta pohjassa sekunnin ajan jos salasanasi sisältää kirjaimia, tai jos tarvitset näppäimistö salasanan syöttöön</string>
+    <string name="pref_alt_pw_entry_desc">Numeerisen salasanan syöttö pelkällä ristiohjaimella</string>
+    <string name="pref_alt_pw_entry">Vaihtoehtoinen salasanan syöttö ristiohjaimella</string>
+    <string name="pref_prompt_pw">Kysy salasanaa</string>
+    <string name="pref_authentication_cat">Autentikointi</string>
+    <string name="pref_auto_login">Kirjaudu automaattisesti tällä käyttäjällä</string>
+    <string name="pref_max_bitrate_title">Korkein suoratoiston bittinopeus</string>
+    <string name="pref_show_login">Näytä kirjautumisruutu</string>
+    <string name="pref_login_behavior_title">Käynnistys käyttäytyminen</string>
+    <string name="home_title">Koti</string>
+    <string name="title_activity_select_user">ValitseKäyttäjänToiminta</string>
+    <string name="video_error_unknown_error">Videon lataus epäonnistui</string>
 </resources>
