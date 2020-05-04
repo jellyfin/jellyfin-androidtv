@@ -947,7 +947,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int prevItems = i == 0 && size() > 0 ? size() : 0;
                     for (BaseItemDto item : response.getItems()) {
                         add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
-                        //Timber.d("Item Type: "+item.getType());
 
                     }
                     setItemsLoaded(i);
@@ -1027,7 +1026,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int prevItems = i == 0 && size() > 0 ? size() : 0;
                     for (BaseItemDto item : response.getItems()) {
                         add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
-                        //Timber.d("Item Type: "+item.getType());
                     }
                     setItemsLoaded(i);
                     if (i == 0) {
@@ -1060,7 +1058,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int prevItems = i == 0 && size() > 0 ? size() : 0;
                     for (BaseItemDto item : response) {
                         add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
-                        //Timber.d("Item Type: "+item.getType());
                     }
                     setItemsLoaded(i);
                     if (i == 0) {
