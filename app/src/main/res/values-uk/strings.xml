@@ -1,2 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="enter_password">Введіть пароль</string>
+    <string name="title_activity_dpad_pw">Введіть пароль</string>
+    <string name="pref_prompt_pw">Підказка для паролю</string>
+    <string name="pref_authentication_cat">Аутентифікація</string>
+    <string name="settings_title">Налаштування</string>
+    <string name="pref_auto_login">Автоматичний вхід поточного користувача</string>
+    <string name="pref_max_bitrate_title">Максимальний бітрейт трансляції</string>
+    <string name="pref_playback">Відтворення</string>
+    <string name="pref_show_login">Відображення форми входу</string>
+    <string name="pref_login_behavior_title">Правила при запуску</string>
+    <string name="btn_cancel">Скасувати</string>
+    <string name="home_title">Головне меню</string>
+    <string name="txt_loading">Завантаження…</string>
+    <string name="loading">Завантаження…</string>
+    <string name="video_error_unknown_error">Не вдалось завантажити відео</string>
+    <string name="play">Відтворити</string>
+</resources>
