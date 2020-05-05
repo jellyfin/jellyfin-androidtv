@@ -11,6 +11,8 @@ import org.jellyfin.apiclient.model.session.PlaybackStopInfo;
 
 import java.util.Calendar;
 
+import timber.log.Timber;
+
 public class ReportingHelper {
     public static void reportStopped(BaseItemDto item, StreamInfo streamInfo, long pos) {
         if (item != null && streamInfo != null) {
@@ -37,7 +39,7 @@ public class ReportingHelper {
         startInfo.setItemId(item.getId());
         startInfo.setPositionTicks(pos);
         TvApp.getApplication().getPlaybackManager().reportPlaybackStart(startInfo, false, TvApp.getApplication().getApiClient(), new EmptyResponse());
-        TvApp.getApplication().getLogger().Info("Playback of %s started.", item.getName());
+        Timber.i("Playback of %s started.", item.getName());
     }
 
     public static void reportProgress(BaseItemDto item, StreamInfo currentStreamInfo, Long position, boolean isPaused) {

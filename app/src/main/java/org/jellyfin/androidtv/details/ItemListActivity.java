@@ -65,6 +65,8 @@ import java.util.List;
 
 import androidx.leanback.app.BackgroundManager;
 
+import timber.log.Timber;
+
 public class ItemListActivity extends BaseActivity {
 
     private int BUTTON_SIZE;
@@ -254,7 +256,7 @@ public class ItemListActivity extends BaseActivity {
     private AudioEventListener mAudioEventListener = new AudioEventListener() {
         @Override
         public void onPlaybackStateChange(PlaybackController.PlaybackState newState, BaseItemDto currentItem) {
-            TvApp.getApplication().getLogger().Info("Got playback state change event %s for item %s", newState.toString(), currentItem != null ? currentItem.getName() : "<unknown>");
+            Timber.i("Got playback state change event %s for item %s", newState.toString(), currentItem != null ? currentItem.getName() : "<unknown>");
 
             if (newState != PlaybackController.PlaybackState.PLAYING || currentItem == null) {
                 if (mCurrentlyPlayingRow != null) mCurrentlyPlayingRow.updateCurrentTime(-1);
@@ -482,7 +484,7 @@ public class ItemListActivity extends BaseActivity {
 
         @Override
         public void onError(Exception exception) {
-            mApplication.getLogger().ErrorException("Error loading", exception);
+            Timber.e(exception, "Error loading");
             Utils.showToast(mActivity, exception.getLocalizedMessage());
         }
     };

@@ -98,6 +98,9 @@ dependencies {
 	implementation("ch.acra:acra-dialog:$acraVersion")
 	implementation("ch.acra:acra-limiter:$acraVersion")
 
+	// Logging
+	implementation("com.jakewharton.timber:timber:4.7.1")
+
 	// Testing
 	testImplementation("junit:junit:4.12")
 	testImplementation("org.mockito:mockito-core:3.2.4")

@@ -35,6 +35,8 @@ import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 
+import timber.log.Timber;
+
 public class KeyProcessor {
 
     public static final int MENU_MARK_FAVORITE = 0;
@@ -176,7 +178,7 @@ public class KeyProcessor {
                 break;
             case KeyEvent.KEYCODE_MENU:
             case KeyEvent.KEYCODE_BUTTON_Y:
-                TvApp.getApplication().getLogger().Debug("Menu for: %s", rowItem.getFullName());
+                Timber.d("Menu for: %s", rowItem.getFullName());
 
                 //Create a contextual menu based on item
                 switch (rowItem.getItemType()) {
@@ -430,7 +432,7 @@ public class KeyProcessor {
 
                         @Override
                         public void onError(Exception exception) {
-                            TvApp.getApplication().getLogger().ErrorException("Error trying to play first unwatched", exception);
+                            Timber.e(exception, "Error trying to play first unwatched");
                             Utils.showToast(mCurrentActivity, R.string.msg_video_playback_error);
                         }
                     });
@@ -523,7 +525,7 @@ public class KeyProcessor {
 
             @Override
             public void onError(Exception exception) {
-                TvApp.getApplication().getLogger().ErrorException("Error setting played status", exception);
+                Timber.e(exception, "Error setting played status");
                 Utils.showToast(mCurrentActivity, "Error setting played status");
             }
         });
@@ -539,7 +541,7 @@ public class KeyProcessor {
 
             @Override
             public void onError(Exception exception) {
-                TvApp.getApplication().getLogger().ErrorException("Error setting played status", exception);
+                Timber.e(exception, "Error setting played status");
                 Utils.showToast(mCurrentActivity, "Error setting played status");
             }
         });
@@ -556,7 +558,7 @@ public class KeyProcessor {
 
             @Override
             public void onError(Exception exception) {
-                TvApp.getApplication().getLogger().ErrorException("Error setting favorite status", exception);
+                Timber.e(exception, "Error setting favorite status");
                 Utils.showToast(mCurrentActivity, "Error setting favorite status");
             }
         });
@@ -573,7 +575,7 @@ public class KeyProcessor {
 
                 @Override
                 public void onError(Exception exception) {
-                    TvApp.getApplication().getLogger().ErrorException("Error clearing like status", exception);
+                    Timber.e(exception, "Error clearing like status");
                     Utils.showToast(mCurrentActivity, "Error clearing like status");
                 }
             });
@@ -587,7 +589,7 @@ public class KeyProcessor {
 
                 @Override
                 public void onError(Exception exception) {
-                    TvApp.getApplication().getLogger().ErrorException("Error setting like status", exception);
+                    Timber.e(exception, "Error setting like status");
                     Utils.showToast(mCurrentActivity, "Error setting like status");
                 }
             });

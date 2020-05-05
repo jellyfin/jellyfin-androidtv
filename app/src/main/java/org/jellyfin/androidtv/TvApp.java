@@ -47,10 +47,11 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
-import org.jellyfin.apiclient.model.logging.ILogger;
 
 import java.util.Calendar;
 import java.util.HashMap;
+
+import timber.log.Timber;
 
 @AcraCore(buildConfigClass = BuildConfig.class)
 @AcraHttpSender(
@@ -74,9 +75,6 @@ public class TvApp extends Application {
     public static final int LIVE_TV_SCHEDULE_OPTION_ID = 4000;
     public static final int LIVE_TV_SERIES_OPTION_ID = 5000;
 
-    private static final String TAG = "Jellyfin-AndroidTV";
-
-    private ILogger logger;
     private PlaybackManager playbackManager;
     private static TvApp app;
     private UserDto currentUser;
@@ -126,7 +124,6 @@ public class TvApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        logger = new AndroidLogger(TAG);
         app = (TvApp) getApplicationContext();
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         playbackManager = new PlaybackManager(new AndroidDevice(this), new AndroidLogger("PlaybackManager"));
@@ -135,25 +132,19 @@ public class TvApp extends Application {
         registerActivityLifecycleCallbacks(new AuthenticatedUserCallbacks());
         registerActivityLifecycleCallbacks(new AppThemeCallbacks());
 
-        logger.Info("Application object created");
+        // Initialize the logging library
+        Timber.plant(new Timber.DebugTree());
+        Timber.i("Application object created");
     }
 
     public static TvApp getApplication() {
         return app;
     }
 
-    public ILogger getLogger() {
-        return logger;
-    }
-
-    public void setLogger(ILogger value) {
-        logger = value;
-    }
-
     public UserDto getCurrentUser() {
-        if (currentUser == null)
-            logger.Error("Called getCurrentUser() but value was null.");
-
+        if (currentUser == null) {
+            Timber.e("Called getCurrentUser() but value was null.");
+        }
         return currentUser;
     }
 
@@ -397,7 +388,7 @@ public class TvApp extends Application {
     public void updateDisplayPrefs(String app, DisplayPreferences preferences) {
         displayPrefsCache.put(preferences.getId(), preferences);
         getApiClient().UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), app, new EmptyResponse());
-        logger.Debug("Display prefs updated for %s isFavorite: %s", preferences.getId(), preferences.getCustomPrefs().get("FavoriteOnly"));
+        Timber.d("Display prefs updated for %s isFavorite: %s", preferences.getId(), preferences.getCustomPrefs().get("FavoriteOnly"));
     }
 
     public void getDisplayPrefsAsync(String key, Response<DisplayPreferences> response) {
@@ -406,7 +397,7 @@ public class TvApp extends Application {
 
     public void getDisplayPrefsAsync(final String key, String app, final Response<DisplayPreferences> outerResponse) {
         if (displayPrefsCache.containsKey(key)) {
-            logger.Debug("Display prefs loaded from cache %s", key);
+            Timber.d("Display prefs loaded from cache %s", key);
             outerResponse.onResponse(displayPrefsCache.get(key));
         } else {
             getApiClient().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), app, new Response<DisplayPreferences>(){
@@ -415,14 +406,14 @@ public class TvApp extends Application {
                     if (response.getSortBy() == null) response.setSortBy("SortName");
                     if (response.getCustomPrefs() == null) response.setCustomPrefs(new HashMap<String, String>());
                     displayPrefsCache.put(key, response);
-                    logger.Debug("Display prefs loaded and saved in cache %s", key);
+                    Timber.d("Display prefs loaded and saved in cache %s", key);
                     outerResponse.onResponse(response);
                 }
 
                 @Override
                 public void onError(Exception exception) {
                     //Continue with defaults
-                    logger.ErrorException("Unable to load display prefs ", exception);
+                    Timber.e(exception, "Unable to load display prefs ");
                     DisplayPreferences prefs = new DisplayPreferences();
                     prefs.setId(key);
                     prefs.setSortBy("SortName");
@@ -444,7 +435,7 @@ public class TvApp extends Application {
             @Override
             public void onResponse(Long response) {
                 autoBitrate = response.intValue();
-                logger.Info("Auto bitrate set to: %d", autoBitrate);
+                Timber.i("Auto bitrate set to: %d", autoBitrate);
             }
         });
     }

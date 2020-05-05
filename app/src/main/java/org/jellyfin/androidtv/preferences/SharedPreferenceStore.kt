@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.preferences
 
 import android.content.SharedPreferences
-import org.jellyfin.androidtv.TvApp
+import timber.log.Timber
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -170,7 +170,7 @@ abstract class SharedPreferenceStore(
 	protected fun migration(toVersion: Int, body: MigrationEditor.(SharedPreferences) -> Unit) {
 		// Check if migration should be performed
 		if (version < toVersion) {
-			TvApp.getApplication().logger.Info("Migrating a preference store from version $version to $toVersion")
+			Timber.i("Migrating a preference store from version $version to $toVersion")
 
 			// Create a new editor and execute the migration
 			val editor = sharedPreferences.edit()

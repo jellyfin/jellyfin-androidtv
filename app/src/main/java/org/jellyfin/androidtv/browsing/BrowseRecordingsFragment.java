@@ -28,6 +28,8 @@ import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
 
+import timber.log.Timber;
+
 public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
     @Override
     public void onResume() {
@@ -133,7 +135,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                             programInfo.setId(timer.getId());
                             programInfo.setChannelName(timer.getChannelName());
                             programInfo.setName(Utils.getSafeValue(timer.getName(), "Unknown"));
-                            TvApp.getApplication().getLogger().Warn("No program info for timer %s.  Creating one...", programInfo.getName());
+                            Timber.w("No program info for timer %s.  Creating one...", programInfo.getName());
                             programInfo.setBaseItemType(BaseItemType.Program);
                             programInfo.setTimerId(timer.getId());
                             programInfo.setSeriesTimerId(timer.getSeriesTimerId());

@@ -59,6 +59,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import timber.log.Timber;
+
 public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     public static final int ROW_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(),55);
     public static final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(TvApp.getApplication(),7);
@@ -380,7 +382,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
     private void pageGuideTo(long startTime) {
         if (startTime < System.currentTimeMillis()) startTime = System.currentTimeMillis(); // don't allow the past
-        TvApp.getApplication().getLogger().Info("page to %s", (new Date(startTime)).toString());
+        Timber.i("page to %s", (new Date(startTime)).toString());
         TvManager.forceReload(); // don't allow cache
         if (mSelectedProgram != null) {
             mFirstFocusChannelId = mSelectedProgram.getChannelId();
@@ -632,7 +634,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             mCurrentDisplayChannelStartNdx = start;
             mCurrentDisplayChannelEndNdx = end - 1;
         }
-        TvApp.getApplication().getLogger().Debug("*** Display channels pre-execute");
+        Timber.d("*** Display channels pre-execute");
         mSpinner.setVisibility(View.VISIBLE);
 
         loadProgramData();
@@ -646,7 +648,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         TvManager.getProgramsAsync(mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideStart, mCurrentGuideEnd, new EmptyResponse() {
             @Override
             public void onResponse() {
-                TvApp.getApplication().getLogger().Debug("*** Programs response");
+                Timber.d("*** Programs response");
                 if (mDisplayProgramsTask != null) mDisplayProgramsTask.cancel(true);
                 mDisplayProgramsTask = new DisplayProgramsTask();
                 mDisplayProgramsTask.execute(mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx);
@@ -662,7 +664,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
         @Override
         protected void onPreExecute() {
-            TvApp.getApplication().getLogger().Debug("*** Display programs pre-execute");
+            Timber.d("*** Display programs pre-execute");
             mChannels.removeAllViews();
             mProgramRows.removeAllViews();
 
@@ -688,7 +690,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             int end = params[1];
             boolean first = true;
 
-            TvApp.getApplication().getLogger().Debug("*** About to iterate programs");
+            Timber.d("*** About to iterate programs");
             LinearLayout prevRow = null;
             for (int i = start; i <= end; i++) {
                 if (isCancelled()) return null;
@@ -734,7 +736,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            TvApp.getApplication().getLogger().Debug("*** Display programs post execute");
+            Timber.d("*** Display programs post execute");
             if (mCurrentDisplayChannelEndNdx < mAllChannels.size()-1 && !mFilters.any()) {
                 // Show a paging row for channels below
                 int pageDnEnd = mCurrentDisplayChannelEndNdx + PAGE_SIZE;
@@ -892,7 +894,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
                     @Override
                     public void onError(Exception exception) {
-                        TvApp.getApplication().getLogger().ErrorException("Unable to get program details", exception);
+                        Timber.e(exception, "Unable to get program details");
                         detailUpdateInternal();
                     }
                 });

@@ -79,6 +79,8 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
+import timber.log.Timber;
+
 public class StdGridFragment extends HorizontalGridFragment implements IGridLoader {
     private static final String TAG = "StdGridFragment";
 
@@ -267,7 +269,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                         mCardHeight = autoHeight;
                         setNumberOfRows();
                         createGrid();
-                        TvApp.getApplication().getLogger().Debug("Auto card height is %d", mCardHeight);
+                        Timber.d("Auto card height is %d", mCardHeight);
                         buildAdapter(rowDef);
                     }
                     mGridAdapter.setSortBy(getSortOption(mDisplayPrefs.getSortBy()));
@@ -296,7 +298,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     }
 
     protected int getAutoCardHeight(Integer size) {
-        TvApp.getApplication().getLogger().Debug("Result size for auto card height is %d", size);
+        Timber.d("Result size for auto card height is %d", size);
         if (size > 35)
             return getCardHeight(PosterSize.SMALL);
         else if (size > 10)
@@ -594,7 +596,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         }
         if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemType.Photo && mCurrentItem.getBaseItemType() != BaseItemType.PhotoAlbum
                 && mCurrentItem.getBaseItemType() != BaseItemType.MusicArtist && mCurrentItem.getBaseItemType() != BaseItemType.MusicAlbum) {
-            TvApp.getApplication().getLogger().Debug("Refresh item \"%s\"", mCurrentItem.getFullName());
+            Timber.d("Refresh item \"%s\"", mCurrentItem.getFullName());
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override
                 public void onResponse() {

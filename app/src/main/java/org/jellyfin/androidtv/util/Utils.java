@@ -38,6 +38,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.UUID;
 
+import timber.log.Timber;
+
 /**
  * A collection of utility methods, all static.
  */
@@ -224,7 +226,7 @@ public class Utils {
             pwIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             activity.startActivity(pwIntent);
         } else {
-            TvApp.getApplication().getLogger().Debug("Requesting dialog...");
+            Timber.d("Requesting dialog...");
             final EditText password = new EditText(activity);
             password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             new AlertDialog.Builder(activity)
@@ -264,7 +266,7 @@ public class Utils {
     public static boolean downMixAudio() {
         AudioManager am = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
         if (am.isBluetoothA2dpOn()) {
-            TvApp.getApplication().getLogger().Info("Downmixing audio due to wired headset");
+            Timber.i("Downmixing audio due to wired headset");
             return true;
         }
 

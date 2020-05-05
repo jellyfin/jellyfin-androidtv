@@ -4,7 +4,13 @@ import android.app.AlertDialog
 import android.os.Bundle
 import androidx.leanback.preference.LeanbackPreferenceFragmentCompat
 import androidx.leanback.preference.LeanbackSettingsFragmentCompat
-import androidx.preference.*
+import androidx.preference.CheckBoxPreference
+import androidx.preference.EditTextPreference
+import androidx.preference.ListPreference
+import androidx.preference.Preference
+import androidx.preference.PreferenceDialogFragmentCompat
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceScreen
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.model.LogonCredentials
@@ -13,6 +19,7 @@ import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer
 import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.androidtv.util.Utils
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper
+import timber.log.Timber
 import java.io.IOException
 
 class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
@@ -98,7 +105,7 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 						val credentials = LogonCredentials(TvApp.getApplication().apiClient.serverInfo, TvApp.getApplication().currentUser)
 						AuthenticationHelper.saveLoginCredentials(credentials, TvApp.CREDENTIALS_PATH)
 					} catch (e: IOException) {
-						TvApp.getApplication().logger.ErrorException("Unable to save logon credentials", e)
+						Timber.e(e, "Unable to save logon credentials")
 					}
 				}
 

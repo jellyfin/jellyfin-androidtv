@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import timber.log.Timber;
+
 public class ProfileHelper {
     private static MediaCodecCapabilitiesTest MediaTest = new MediaCodecCapabilitiesTest();
 
@@ -312,7 +314,7 @@ public class ProfileHelper {
             videoDirectPlayProfile.setVideoCodec(Utils.join(",", videoCodecs));
             if (Utils.downMixAudio()) {
                 //compatible audio mode - will need to transcode dts and ac3
-                TvApp.getApplication().getLogger().Info("*** Excluding DTS and AC3 audio from direct play due to compatible audio setting");
+                Timber.i("*** Excluding DTS and AC3 audio from direct play due to compatible audio setting");
                 videoDirectPlayProfile.setAudioCodec(Utils.join(",", CodecTypes.AAC, CodecTypes.MP3, CodecTypes.MP2));
             } else {
                 List<String> audioCodecs = new ArrayList<>(Arrays.asList(
@@ -416,14 +418,14 @@ public class ProfileHelper {
         hevcProfile.setCodec(CodecTypes.HEVC);
         if (!MediaTest.supportsHevc()) {
             //The following condition is a method to exclude all HEVC
-            TvApp.getApplication().getLogger().Info("*** Does NOT support HEVC");
+            Timber.i("*** Does NOT support HEVC");
             hevcProfile.setConditions(new ProfileCondition[]
                     {
                             new ProfileCondition(ProfileConditionType.Equals, ProfileConditionValue.VideoProfile, "none"),
                     });
 
         } else if (!MediaTest.supportsHevcMain10()) {
-            TvApp.getApplication().getLogger().Info("*** Does NOT support HEVC 10 bit");
+            Timber.i("*** Does NOT support HEVC 10 bit");
             hevcProfile.setConditions(new ProfileCondition[]
                     {
                             new ProfileCondition(ProfileConditionType.NotEquals, ProfileConditionValue.VideoProfile, "Main 10"),
@@ -431,7 +433,7 @@ public class ProfileHelper {
 
         } else {
             // supports all HEVC
-            TvApp.getApplication().getLogger().Info("*** Supports HEVC 10 bit");
+            Timber.i("*** Supports HEVC 10 bit");
             hevcProfile.setConditions(new ProfileCondition[]
                     {
                             new ProfileCondition(ProfileConditionType.NotEquals, ProfileConditionValue.VideoProfile, "none"),
@@ -446,7 +448,7 @@ public class ProfileHelper {
         TranscodingProfile mkvProfile = getTranscodingProfile(profile, ContainerTypes.MKV);
         if (mkvProfile != null && !Utils.downMixAudio())
         {
-            TvApp.getApplication().getLogger().Info("*** Adding AC3 as supported transcoded audio");
+            Timber.i("*** Adding AC3 as supported transcoded audio");
             mkvProfile.setAudioCodec(primary ? CodecTypes.AC3 + ",".concat(mkvProfile.getAudioCodec()) : mkvProfile.getAudioCodec().concat("," + CodecTypes.AC3));
         }
     }

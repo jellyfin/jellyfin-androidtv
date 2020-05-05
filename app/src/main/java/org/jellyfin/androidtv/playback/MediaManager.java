@@ -50,6 +50,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import timber.log.Timber;
+
 public class MediaManager {
     private static ItemRowAdapter mCurrentMediaAdapter;
     private static int mCurrentMediaPosition = -1;
@@ -139,18 +141,18 @@ public class MediaManager {
 
     public static void addAudioEventListener(AudioEventListener listener) {
         mAudioEventListeners.add(listener);
-        TvApp.getApplication().getLogger().Debug("Added event listener.  Total listeners: %d", mAudioEventListeners.size());
+        Timber.d("Added event listener.  Total listeners: %d", mAudioEventListeners.size());
     }
     public static void removeAudioEventListener(AudioEventListener listener) {
         mAudioEventListeners.remove(listener);
-        TvApp.getApplication().getLogger().Debug("Removed event listener.  Total listeners: %d", mAudioEventListeners.size());
+        Timber.d("Removed event listener.  Total listeners: %d", mAudioEventListeners.size());
     }
 
     public static boolean initAudio() {
         if (mAudioManager == null) mAudioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
 
         if (mAudioManager == null) {
-            TvApp.getApplication().getLogger().Error("Unable to get audio manager");
+            Timber.e("Unable to get audio manager");
             Utils.showToast(TvApp.getApplication(), R.string.msg_cannot_play_time);
             return false;
         }
@@ -188,7 +190,7 @@ public class MediaManager {
 
         //fire external listener if there
         for (AudioEventListener listener : mAudioEventListeners) {
-            TvApp.getApplication().getLogger().Info("Firing playback state change listener for item completion. %s", mCurrentAudioItem.getName());
+            Timber.i("Firing playback state change listener for item completion. %s", mCurrentAudioItem.getName());
             listener.onPlaybackStateChange(PlaybackController.PlaybackState.IDLE, mCurrentAudioItem);
         }
 
@@ -248,7 +250,7 @@ public class MediaManager {
             }
 
         } catch (Exception e) {
-            TvApp.getApplication().getLogger().ErrorException("Error creating VLC player", e);
+            Timber.e(e, "Error creating VLC player");
             Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_video_playback_error));
             return false;
         }
@@ -295,14 +297,14 @@ public class MediaManager {
 
     private static void fireQueueReplaced(){
         for (AudioEventListener listener : mAudioEventListeners) {
-            TvApp.getApplication().getLogger().Info("Firing queue replaced listener. ");
+            Timber.i("Firing queue replaced listener. ");
             listener.onQueueReplaced();
         }
     }
 
     private static void fireQueueStatusChange() {
         for (AudioEventListener listener : mAudioEventListeners) {
-            TvApp.getApplication().getLogger().Info("Firing queue state change listener. %b", hasAudioQueueItems());
+            Timber.i("Firing queue state change listener. %b", hasAudioQueueItems());
             listener.onQueueStatusChanged(hasAudioQueueItems());
         }
 
@@ -352,7 +354,7 @@ public class MediaManager {
 
                             @Override
                             public void onError(Exception exception) {
-                                TvApp.getApplication().getLogger().ErrorException("Exception creating playlist", exception);
+                                Timber.e(exception, "Exception creating playlist");
                             }
                         });
                     }
@@ -529,7 +531,7 @@ public class MediaManager {
 
     private static boolean ensureAudioFocus() {
         if (mAudioManager.requestAudioFocus(mAudioFocusChanged, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN) != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            TvApp.getApplication().getLogger().Error("Unable to get audio focus");
+            Timber.e("Unable to get audio focus");
             Utils.showToast(TvApp.getApplication(), R.string.msg_cannot_play_time);
             return false;
         }
@@ -569,7 +571,7 @@ public class MediaManager {
                     mExoPlayer.setPlayWhenReady(true);
                     mExoPlayer.prepare(new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()))));
                 } else {
-                    TvApp.getApplication().getLogger().Info("Playback attempt via VLC of %s", response.getMediaUrl());
+                    Timber.i("Playback attempt via VLC of %s", response.getMediaUrl());
                     Media media = new Media(mLibVLC, Uri.parse(response.getMediaUrl()));
                     media.parse();
                     mVlcPlayer.setMedia(media);
@@ -588,7 +590,7 @@ public class MediaManager {
 
                 ReportingHelper.reportStart(item, mCurrentAudioPosition * 10000);
                 for (AudioEventListener listener : mAudioEventListeners) {
-                    TvApp.getApplication().getLogger().Info("Firing playback state change listener for item start. %s", mCurrentAudioItem.getName());
+                    Timber.i("Firing playback state change listener for item start. %s", mCurrentAudioItem.getName());
                     listener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, mCurrentAudioItem);
                 }
             }

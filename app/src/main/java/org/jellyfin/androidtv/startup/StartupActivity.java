@@ -30,6 +30,8 @@ import org.jellyfin.apiclient.model.apiclient.ConnectionState;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserDto;
 
+import timber.log.Timber;
+
 public class StartupActivity extends FragmentActivity {
     private static final int NETWORK_PERMISSION = 1;
     private TvApp application;
@@ -47,10 +49,10 @@ public class StartupActivity extends FragmentActivity {
         //Ensure basic permissions
         if (Build.VERSION.SDK_INT >= 23 && (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED)) {
-            application.getLogger().Info("Requesting network permissions");
+            Timber.i("Requesting network permissions");
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.INTERNET}, NETWORK_PERMISSION);
         } else {
-            application.getLogger().Info("Basic network permissions are granted");
+            Timber.i("Basic network permissions are granted");
             start();
         }
     }
@@ -180,7 +182,7 @@ public class StartupActivity extends FragmentActivity {
 
                         @Override
                         public void onError(Exception exception) {
-                            application.getLogger().ErrorException("Error Signing in", exception);
+                            Timber.e(exception, "Error Signing in");
                             Utils.showToast(self, R.string.msg_error_signin);
                             new Handler().postDelayed(new Runnable() {
                                 @Override

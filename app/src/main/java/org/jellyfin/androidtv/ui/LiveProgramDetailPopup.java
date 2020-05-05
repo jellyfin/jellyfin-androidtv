@@ -27,6 +27,8 @@ import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 
 import java.util.Date;
 
+import timber.log.Timber;
+
 public class LiveProgramDetailPopup {
     final int MOVIE_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 540);
     final int NORMAL_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 400);
@@ -173,7 +175,7 @@ public class LiveProgramDetailPopup {
 
                                         @Override
                                         public void onError(Exception ex) {
-                                            TvApp.getApplication().getLogger().ErrorException("Error creating recording", ex);
+                                            Timber.e(ex, "Error creating recording");
                                             Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
                                         }
                                     });
@@ -181,7 +183,7 @@ public class LiveProgramDetailPopup {
 
                                 @Override
                                 public void onError(Exception exception) {
-                                    TvApp.getApplication().getLogger().ErrorException("Error creating recording", exception);
+                                    Timber.e(exception, "Error creating recording");
                                     Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
                                 }
                             });
@@ -260,7 +262,7 @@ public class LiveProgramDetailPopup {
 
                                             @Override
                                             public void onError(Exception ex) {
-                                                TvApp.getApplication().getLogger().ErrorException("Error creating recording", ex);
+                                                Timber.e(ex, "Error creating recording");
                                                 Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
                                             }
                                         });
@@ -268,7 +270,7 @@ public class LiveProgramDetailPopup {
 
                                     @Override
                                     public void onError(Exception exception) {
-                                        TvApp.getApplication().getLogger().ErrorException("Error creating recording", exception);
+                                        Timber.e(exception, "Error creating recording");
                                         Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
                                     }
                                 });

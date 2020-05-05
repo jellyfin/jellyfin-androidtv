@@ -29,6 +29,8 @@ import org.jellyfin.apiclient.model.session.PlayMethod;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 public class ExternalPlayerActivity extends FragmentActivity {
 
     List<BaseItemDto> mItemsToPlay;
@@ -69,10 +71,10 @@ public class ExternalPlayerActivity extends FragmentActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         long playerFinishedTime = System.currentTimeMillis();
-        mApplication.getLogger().Debug("Returned from player... %d", resultCode);
+        Timber.d("Returned from player... %d", resultCode);
         //MX Player will return position
         int pos = data != null ? data.getIntExtra("position", 0) : 0;
-        if (pos > 0) mApplication.getLogger().Info("Player returned position: %d", pos);
+        if (pos > 0) Timber.i("Player returned position: %d", pos);
         Long reportPos = (long) pos * 10000;
 
         stopReportLoop();
@@ -81,7 +83,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
         //Check against a total failure (no apps installed)
         if (playerFinishedTime - mLastPlayerStart < 1000) {
             // less than a second - probably no player explain the option
-            mApplication.getLogger().Info("Playback took less than a second - assuming it failed");
+            Timber.i("Playback took less than a second - assuming it failed");
             if (!noPlayerError) handlePlayerError();
             return;
         }
@@ -202,7 +204,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
     protected void launchExternalPlayer(int ndx) {
         if (ndx >= mItemsToPlay.size()) {
-            mApplication.getLogger().Error("Attempt to play index beyond items: %s",ndx);
+            Timber.e("Attempt to play index beyond items: %s",ndx);
         } else {
             //Get playback info for current item
             mCurrentNdx = ndx;
@@ -239,7 +241,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
                     @Override
                     public void onError(Exception exception) {
-                        mApplication.getLogger().ErrorException("Error getting playback stream info", exception);
+                        Timber.e(exception, "Error getting playback stream info");
                         if (exception instanceof PlaybackException) {
                             PlaybackException ex = (PlaybackException) exception;
                             switch (ex.getErrorCode()) {
@@ -287,7 +289,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
         }
         //End MX Player
 
-        mApplication.getLogger().Info("Starting external playback of path: %s and mime: video/%s",path,container);
+        Timber.i("Starting external playback of path: %s and mime: video/%s",path,container);
 
         try {
             mLastPlayerStart = System.currentTimeMillis();
@@ -297,7 +299,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
         } catch (ActivityNotFoundException e) {
             noPlayerError = true;
-            mApplication.getLogger().ErrorException("Error launching external player", e);
+            Timber.e(e, "Error launching external player");
             handlePlayerError();
         }
 

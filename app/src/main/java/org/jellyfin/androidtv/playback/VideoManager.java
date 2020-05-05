@@ -38,6 +38,8 @@ import org.videolan.libvlc.Media;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     public final static int ZOOM_NORMAL = 0;
@@ -110,7 +112,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mExoPlayer.addListener(new Player.EventListener() {
             @Override
             public void onPlayerError(ExoPlaybackException error) {
-                TvApp.getApplication().getLogger().Error("***** Got error from player");
+                Timber.e("***** Got error from player");
                 if (errorListener != null) errorListener.onEvent();
                 stopProgressLoop();
             }
@@ -226,7 +228,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             normalHeight = mExoPlayerView.getLayoutParams().height;
         } else {
             if (!mSurfaceReady) {
-                TvApp.getApplication().getLogger().Error("Attempt to play before surface ready");
+                Timber.e("Attempt to play before surface ready");
                 return;
             }
 
@@ -274,21 +276,21 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public long seekTo(long pos) {
         if (nativeMode) {
             Long intPos = pos;
-            TvApp.getApplication().getLogger().Info("Exo length in seek is: %d", mExoPlayer.getDuration());
+            Timber.i("Exo length in seek is: %d", mExoPlayer.getDuration());
             mExoPlayer.seekTo(intPos.intValue());
             return pos;
         } else {
             if (mVlcPlayer == null || !mVlcPlayer.isSeekable()) return -1;
             mForcedTime = pos;
             mLastTime = mVlcPlayer.getTime();
-            TvApp.getApplication().getLogger().Info("VLC length in seek is: %d", mVlcPlayer.getLength());
+            Timber.i("VLC length in seek is: %d", mVlcPlayer.getLength());
             try {
                 if (getDuration() > 0) mVlcPlayer.setPosition((float)pos / getDuration()); else mVlcPlayer.setTime(pos);
 
                 return pos;
 
             } catch (Exception e) {
-                TvApp.getApplication().getLogger().ErrorException("Error seeking in VLC", e);
+                Timber.e(e, "Error seeking in VLC");
                 Utils.showToast(mActivity, "Unable to seek");
                 return -1;
             }
@@ -298,10 +300,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public void setVideoPath(String path) {
         mCurrentVideoPath = path;
         try {
-            TvApp.getApplication().getLogger().Info("Video path set to: %s", path);
+            Timber.i("Video path set to: %s", path);
 
         } catch(Exception e){
-            TvApp.getApplication().getLogger().ErrorException("Error writing path to log",e);
+            Timber.e(e, "Error writing path to log");
         }
 
         if (nativeMode) {
@@ -310,7 +312,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
                 mExoPlayer.prepare(new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(path)));
             } catch (IllegalStateException e) {
-                TvApp.getApplication().getLogger().ErrorException("Unable to set video path.  Probably backing out.", e);
+                Timber.e(e, "Unable to set video path.  Probably backing out.");
             }
         } else {
             mSurfaceHolder.setKeepScreenOn(true);
@@ -362,14 +364,14 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 vlcSub = getSubtitleTracks()[vlcIndex];
 
             } catch (IndexOutOfBoundsException e) {
-                TvApp.getApplication().getLogger().Error("Could not locate subtitle with index %s in vlc track info", index);
+                Timber.e("Could not locate subtitle with index %s in vlc track info", index);
                 return false;
             } catch (NullPointerException e){
-                TvApp.getApplication().getLogger().Error("No subtitle tracks found in player trying to set subtitle with index %s in vlc track info", index);
+                Timber.e("No subtitle tracks found in player trying to set subtitle with index %s in vlc track info", index);
                 return false;
             }
 
-            TvApp.getApplication().getLogger().Info("Setting Vlc sub to %s", vlcSub.name);
+            Timber.i("Setting Vlc sub to %s", vlcSub.name);
             return mVlcPlayer.setSpuTrack(vlcSub.id);
 
         }
@@ -399,37 +401,37 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 vlcTrack = mVlcPlayer.getAudioTracks()[vlcIndex];
 
             } catch (IndexOutOfBoundsException e) {
-                TvApp.getApplication().getLogger().Error("Could not locate audio with index %s in vlc track info", ndx);
+                Timber.e("Could not locate audio with index %s in vlc track info", ndx);
                 mVlcPlayer.setAudioTrack(ndx);
                 return;
             } catch (NullPointerException e){
-                TvApp.getApplication().getLogger().Error("No subtitle tracks found in player trying to set subtitle with index %s in vlc track info", ndx);
+                Timber.e("No subtitle tracks found in player trying to set subtitle with index %s in vlc track info", ndx);
                 mVlcPlayer.setAudioTrack(vlcIndex);
                 return;
             }
             //debug
-            TvApp.getApplication().getLogger().Debug("Setting VLC audio track index to: %d / %d", vlcIndex, vlcTrack.id);
+            Timber.d("Setting VLC audio track index to: %d / %d", vlcIndex, vlcTrack.id);
             for (org.videolan.libvlc.MediaPlayer.TrackDescription track : mVlcPlayer.getAudioTracks()) {
-                TvApp.getApplication().getLogger().Debug("VLC Audio Track: %s / %d", track.name, track.id);
+                Timber.d("VLC Audio Track: %s / %d", track.name, track.id);
             }
             //
             if (mVlcPlayer.setAudioTrack(vlcTrack.id)) {
-                TvApp.getApplication().getLogger().Info("Setting by ID was successful");
+                Timber.i("Setting by ID was successful");
             } else {
-                TvApp.getApplication().getLogger().Info("Setting by ID not succesful, trying index");
+                Timber.i("Setting by ID not succesful, trying index");
                 mVlcPlayer.setAudioTrack(vlcIndex);
             }
         } else {
-            TvApp.getApplication().getLogger().Error("Cannot set audio track in native mode");
+            Timber.e("Cannot set audio track in native mode");
         }
     }
 
     public void setAudioDelay(long value) {
         if (!nativeMode && mVlcPlayer != null) {
             if (!mVlcPlayer.setAudioDelay(value * 1000)) {
-                TvApp.getApplication().getLogger().Error("Error setting audio delay");
+                Timber.e("Error setting audio delay");
             } else {
-                TvApp.getApplication().getLogger().Info("Audio delay set to %d", value);
+                Timber.i("Audio delay set to %d", value);
             }
         }
     }
@@ -456,7 +458,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (!nativeMode && mediaSource != null && mediaSource.getMediaStreams() != null) {
             for (MediaStream stream : mediaSource.getMediaStreams()) {
                 if (stream.getType() == MediaStreamType.Video && stream.getIndex() >= 0) {
-                    TvApp.getApplication().getLogger().Debug("Setting video index to: %d", stream.getIndex());
+                    Timber.d("Setting video index to: %d", stream.getIndex());
                     mVlcPlayer.setVideoTrack(stream.getIndex());
                     return;
                 }
@@ -503,7 +505,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             options.add("-v");
 
             mLibVLC = new LibVLC(TvApp.getApplication(), options);
-            TvApp.getApplication().getLogger().Info("Network buffer set to %d", buffer);
+            Timber.i("Network buffer set to %d", buffer);
 
             mVlcPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
             mVlcPlayer.setAudioOutput(Utils.downMixAudio() ? "opensles_android" : "android_audiotrack");
@@ -517,10 +519,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             mVlcPlayer.getVLCVout().setVideoView(mSurfaceView);
             if (hasSubtitlesSurface) mVlcPlayer.getVLCVout().setSubtitlesView(mSubtitlesSurface);
             mVlcPlayer.getVLCVout().attachViews(this);
-            TvApp.getApplication().getLogger().Debug("Surface attached");
+            Timber.d("Surface attached");
             mSurfaceReady = true;
         } catch (Exception e) {
-            TvApp.getApplication().getLogger().ErrorException("Error creating VLC player", e);
+            Timber.e(e, "Error creating VLC player");
             Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_video_playback_error));
         }
     }
@@ -608,7 +610,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
         // sanity check
         if (dw * dh == 0 || videoWidth * videoHeight == 0) {
-            TvApp.getApplication().getLogger().Error("Invalid surface size");
+            Timber.e("Invalid surface size");
             return;
         }
 
@@ -650,7 +652,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
         }
 
-        TvApp.getApplication().getLogger().Debug("Surface sized %d x %d ", lp.width, lp.height);
+        Timber.d("Surface sized %d x %d ", lp.width, lp.height);
         mSurfaceView.invalidate();
         if (hasSubtitlesSurface) mSubtitlesSurface.invalidate();
     }

@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import timber.log.Timber;
+
 /**
  * Created by Eric on 7/19/2015.
  */
@@ -34,7 +36,7 @@ public class SubtitleHelper {
         final File file = new File(getSubtitleDownloadPath(stream));
 
         if (file.exists()){
-            TvApp.getApplication().getLogger().Info("Re-using downloaded subtitle file");
+            Timber.i("Re-using downloaded subtitle file");
             response.onResponse(file);
             return;
         }
@@ -46,7 +48,7 @@ public class SubtitleHelper {
 
         String url = (stream.getIsExternalUrl() != null && !stream.getIsExternalUrl()) ? apiClient.GetApiUrl(stream.getDeliveryUrl()) : stream.getDeliveryUrl();
 
-        TvApp.getApplication().getLogger().Info("Subtitle url: %s", url);
+        Timber.i("Subtitle url: %s", url);
 
         apiClient.getResponseStream(url, new Response<ResponseStreamInfo>(response){
 

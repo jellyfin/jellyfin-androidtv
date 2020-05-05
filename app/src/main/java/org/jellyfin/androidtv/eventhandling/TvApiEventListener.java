@@ -29,11 +29,13 @@ import org.jellyfin.apiclient.model.session.SessionInfoDto;
 import java.util.Arrays;
 import java.util.Calendar;
 
+import timber.log.Timber;
+
 public class TvApiEventListener extends ApiEventListener {
     @Override
     public void onPlaybackStopped(ApiClient client, SessionInfoDto info) {
         TvApp app = TvApp.getApplication();
-        app.getLogger().Debug("Got Playback stopped message from server");
+        Timber.d("Got Playback stopped message from server");
         if (info.getUserId().equals(app.getCurrentUser().getId())) {
             app.setLastPlayback(Calendar.getInstance());
             if (info.getNowPlayingItem() == null) return;
@@ -51,7 +53,7 @@ public class TvApiEventListener extends ApiEventListener {
 
     @Override
     public void onLibraryChanged(ApiClient client, LibraryUpdateInfo info) {
-        TvApp.getApplication().getLogger().Debug("Library Changed. Added %o items. Removed %o items. Changed %o items.", info.getItemsAdded().size(), info.getItemsRemoved().size(), info.getItemsUpdated().size());
+        Timber.d("Library Changed. Added %o items. Removed %o items. Changed %o items.", info.getItemsAdded().size(), info.getItemsRemoved().size(), info.getItemsUpdated().size());
         if (info.getItemsAdded().size() > 0 || info.getItemsRemoved().size() > 0)
             TvApp.getApplication().setLastLibraryChange(Calendar.getInstance());
     }
@@ -90,9 +92,9 @@ public class TvApiEventListener extends ApiEventListener {
 
     @Override
     public void onBrowseCommand(ApiClient client, BrowseRequest command) {
-        TvApp.getApplication().getLogger().Debug("Browse command received");
+        Timber.d("Browse command received");
         if (TvApp.getApplication().getCurrentActivity() == null || videoPlaying()) {
-            TvApp.getApplication().getLogger().Info("Command ignored due to no activity or playback in progress");
+            Timber.i("Command ignored due to no activity or playback in progress");
             return;
         }
         client.GetItemAsync(command.getItemId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
@@ -121,9 +123,9 @@ public class TvApiEventListener extends ApiEventListener {
         }
 
         if (command.getItemIds().length > 1) {
-            TvApp.getApplication().getLogger().Info("Playing multiple items by remote request");
+            Timber.i("Playing multiple items by remote request");
             if (TvApp.getApplication().getCurrentActivity() == null) {
-                TvApp.getApplication().getLogger().Error("No current activity.  Cannot play");
+                Timber.e("No current activity.  Cannot play");
                 return;
             }
             StdItemQuery query = new StdItemQuery(new ItemFields[]{
@@ -153,7 +155,7 @@ public class TvApiEventListener extends ApiEventListener {
 
         } else {
             if (command.getItemIds().length > 0) {
-                TvApp.getApplication().getLogger().Info("Playing single item by remote request");
+                Timber.i("Playing single item by remote request");
                 Context context = TvApp.getApplication().getCurrentActivity() != null ? TvApp.getApplication().getCurrentActivity() : TvApp.getApplication();
                 PlaybackHelper.retrieveAndPlay(command.getItemIds()[0], false, command.getStartPositionTicks() != null ? command.getStartPositionTicks() : 0, context);
             }

@@ -36,6 +36,8 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
+import timber.log.Timber;
+
 /**
  * Created by Eric on 10/22/2015.
  */
@@ -347,7 +349,7 @@ public class PhotoPlayerActivity extends BaseActivity {
                         public void onSuccess() {
                             if (target == nextImage) isLoadingNext = false;
                             if (target == prevImage) isLoadingPrev = false;
-                            TvApp.getApplication().getLogger().Debug("Loaded item %s", photo.getName());
+                            Timber.d("Loaded item %s", photo.getName());
                             if (play){
                                 currentImageView().resume();
                                 handler.postDelayed(new Runnable() {
@@ -363,7 +365,7 @@ public class PhotoPlayerActivity extends BaseActivity {
                         public void onError() {
                             if (target == nextImage) isLoadingNext = false;
                             if (target == prevImage) isLoadingPrev = false;
-                            TvApp.getApplication().getLogger().Debug("Error loading item %s", photo.getName());
+                            Timber.d("Error loading item %s", photo.getName());
                         }
                     });
         }

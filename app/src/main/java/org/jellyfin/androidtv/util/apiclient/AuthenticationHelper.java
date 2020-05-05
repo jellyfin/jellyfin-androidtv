@@ -25,7 +25,6 @@ import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 import org.jellyfin.apiclient.model.dto.UserDto;
-import org.jellyfin.apiclient.model.logging.ILogger;
 import org.jellyfin.apiclient.model.users.AuthenticationResult;
 
 import java.io.IOException;
@@ -33,6 +32,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class AuthenticationHelper {
     public static void enterManualServerAddress(final Activity activity) {
@@ -50,7 +51,7 @@ public class AuthenticationHelper {
                 }).setPositiveButton(activity.getString(R.string.lbl_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String addressValue = address.getText().toString();
-                TvApp.getApplication().getLogger().Debug("Entered address: %s", addressValue);
+                Timber.d("Entered address: %s", addressValue);
                 if (!addressValue.isEmpty()) {
                     final IConnectionManager connectionManager = ConnectionManagerRepository.Companion.getInstance(activity).getConnectionManager();
                     signInToServer(connectionManager, addressValue, activity);
@@ -72,7 +73,7 @@ public class AuthenticationHelper {
                 }).setPositiveButton(activity.getString(R.string.lbl_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String userValue = userName.getText().toString();
-                TvApp.getApplication().getLogger().Debug("Entered user: %s", userValue);
+                Timber.d("Entered user: %s", userValue);
                 final EditText userPw = new EditText(activity);
                 userPw.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 new AlertDialog.Builder(activity)
@@ -121,7 +122,7 @@ public class AuthenticationHelper {
                         activity.startActivity(userIntent);
                         break;
                     default:
-                        TvApp.getApplication().getLogger().Error("Unexpected response %s trying to sign in to specific server %s", serverResult.getState().toString(), address);
+                        Timber.e("Unexpected response %s trying to sign in to specific server %s", serverResult.getState().toString(), address);
                         Utils.showToast(activity, activity.getString(R.string.msg_error_connecting_server));
                 }
             }
@@ -129,7 +130,7 @@ public class AuthenticationHelper {
             @Override
             public void onError(Exception exception) {
                 message.Cancel();
-                TvApp.getApplication().getLogger().ErrorException("Error trying to sign in to specific server " + address, exception);
+                Timber.e(exception, "Error trying to sign in to specific server %s", address);
                 Utils.showToast(activity, activity.getString(R.string.msg_error_connecting_server));
             }
         };
@@ -155,7 +156,7 @@ public class AuthenticationHelper {
             @Override
             public void onResponse(AuthenticationResult authenticationResult) {
                 TvApp application = TvApp.getApplication();
-                application.getLogger().Debug("Signed in as %s", authenticationResult.getUser().getName());
+                Timber.d("Signed in as %s", authenticationResult.getUser().getName());
                 application.setCurrentUser(authenticationResult.getUser());
                 if (directEntryItemId == null) {
                     Intent intent = new Intent(activity, MainActivity.class);
@@ -170,7 +171,7 @@ public class AuthenticationHelper {
             @Override
             public void onError(Exception exception) {
                 super.onError(exception);
-                TvApp.getApplication().getLogger().ErrorException("Error logging in", exception);
+                Timber.e(exception, "Error logging in");
                 Utils.showToast(activity, activity.getString(R.string.msg_invalid_id_pw));
             }
         });
@@ -190,13 +191,13 @@ public class AuthenticationHelper {
             InputStream credsFile = app.openFileInput(fileName);
             String json = Utils.readStringFromStream(credsFile);
             credsFile.close();
-            TvApp.getApplication().getLogger().Debug("Saved credential JSON: %s", json);
+            Timber.d("Saved credential JSON: %s", json);
             return SerializerRepository.INSTANCE.getSerializer().DeserializeFromString(json, LogonCredentials.class);
         } catch (IOException e) {
             // none saved
             return new LogonCredentials(new ServerInfo(), new UserDto());
         } catch (Exception e) {
-            app.getLogger().ErrorException("Error interpreting saved login", e);
+            Timber.e(e, "Error interpreting saved login");
             return new LogonCredentials(new ServerInfo(), new UserDto());
         }
     }
@@ -209,18 +210,17 @@ public class AuthenticationHelper {
      * @param response          Response of the Connect API call
      */
     public static void handleConnectionResponse(final IConnectionManager connectionManager, final Activity activity, ConnectionResult response) {
-        ILogger logger = TvApp.getApplication().getLogger();
         switch (response.getState()) {
             case Unavailable:
-                logger.Debug("No server available...");
+                Timber.d("No server available...");
                 Utils.showToast(activity, R.string.msg_error_server_unavailable);
                 break;
             case ServerSignIn:
-                logger.Debug("Sign in with server %s total: %d", response.getServers().get(0).getName(), response.getServers().size());
+                Timber.d("Sign in with server %s total: %d", response.getServers().get(0).getName(), response.getServers().size());
                 signInToServer(connectionManager, response.getServers().get(0).getAddress(), activity);
                 break;
             case SignedIn:
-                logger.Debug("Ignoring saved connection manager sign in");
+                Timber.d("Ignoring saved connection manager sign in");
                 connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>() {
                     @Override
                     public void onResponse(ArrayList<ServerInfo> serverResponse) {
@@ -243,7 +243,7 @@ public class AuthenticationHelper {
                 break;
             case ConnectSignIn:
             case ServerSelection:
-                logger.Debug("Select A server");
+                Timber.d("Select A server");
                 connectionManager.GetAvailableServers(new Response<ArrayList<ServerInfo>>() {
                     @Override
                     public void onResponse(ArrayList<ServerInfo> serverResponse) {
@@ -276,7 +276,7 @@ public class AuthenticationHelper {
 
             @Override
             public void onError(Exception exception) {
-                TvApp.getApplication().getLogger().ErrorException("Error trying to automatically sign in", exception);
+                Timber.e(exception, "Error trying to automatically sign in");
                 Utils.showToast(activity, activity.getString(R.string.msg_error_connecting_server));
             }
         });

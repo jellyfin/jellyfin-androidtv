@@ -65,6 +65,8 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
+import timber.log.Timber;
+
 public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoader {
     private static final int BACKGROUND_UPDATE_DELAY = 100;
 
@@ -322,7 +324,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
 
     private void refreshCurrentItem() {
         if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemType.UserView && mCurrentItem.getBaseItemType() != BaseItemType.CollectionFolder) {
-            TvApp.getApplication().getLogger().Debug("Refresh item \"%s\"", mCurrentItem.getFullName());
+            Timber.d("Refresh item \"%s\"", mCurrentItem.getFullName());
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override
                 public void onResponse() {
