@@ -243,7 +243,7 @@
     <string name="lbl_use_vlc_livetv">Versuche VLC für Live TV zu nutzen</string>
     <string name="desc_use_vlc_livetv">Nutze VLC für direkt gestreamtes Live TV, wenn verfügbar</string>
     <string name="lbl_refresh_switching">Aktiviere Anpassung der Bildaktualisierungsrate</string>
-    <string name="lbl_show_premieres">Zeige Staffel-Premieren auf dem Startbildschirm</string>
+    <string name="lbl_show_premieres">Zeige Staffel-Premieren während dem Browsen</string>
     <string name="desc_premieres">Zeige eine Reihe von neuen Episoden 1s für die Serie, die du dir ansiehst</string>
     <string name="lbl_bitstream_dts">DTS Audio bitstreamen</string>
     <string name="lbl_premiere">Premiere</string>
