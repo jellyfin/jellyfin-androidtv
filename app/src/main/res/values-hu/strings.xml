@@ -171,7 +171,7 @@
     <string name="desc_premieres">Minden egyes nézett sorozathoz a sorozatbemutatók megjelenítése</string>
     <string name="lbl_show_backdrop">Háttér mutatása böngészéskor</string>
     <string name="desc_current_video_queue">Jelenleg várakozásban levő videók</string>
-    <string name="msg_external_path">Ez a jelensg csak akkor működik, ha a kiszolgálón a médiakönyvtár rendesen be van állítva hálózati elérési utakkal vagy úthelyettesítésekkel, valamint a jelenleg használt kliens képes ezeknek a hálózati helyeknek a megnyitására.</string>
+    <string name="msg_external_path">Ez a funkció csak akkor működik, ha a kiszolgálón a médiakönyvtár rendesen be van állítva hálózati elérési utakkal vagy úthelyettesítésekkel, valamint a jelenleg használt kliens képes ezeknek a hálózati helyeknek a megnyitására.</string>
     <string name="msg_audio_warning">Ez az app képes bizonos többcsatornás hangformátumok élő vételére. Ha a hardvered nem támogatja ezeket a formátumokat, akkor bizonyos lejátszási elemeknél nem lesz hang. Ez a jelenség javítható, ha a beállításokban a hangmód \"lekeverésre\" van állítva.</string>
     <string name="msg_replace_or_add_queue_q">Szeretnéd lecsererélni a jelenlegi lejátszási listát vagy inkább hozzáadod\?</string>
     <string name="pref_app_theme">Alkalmazástéma</string>
