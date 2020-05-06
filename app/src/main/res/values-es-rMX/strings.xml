@@ -243,7 +243,7 @@
     <string name="lbl_use_vlc_livetv">Intentar usar VLC para TV en vivo</string>
     <string name="desc_use_vlc_livetv">Usar VLC para transmisión directa de TV en vivo si esta disponible</string>
     <string name="lbl_refresh_switching">Habilitar Cambio de Tasa de Refresqueo</string>
-    <string name="lbl_show_premieres">Mostrar los Estrenos de Temporada en la Pagina Principal</string>
+    <string name="lbl_show_premieres">Mostrar estrenos de temporada mientras exploro</string>
     <string name="desc_premieres">Mostrar una fila de nuevos episodios para series que esta viendo</string>
     <string name="lbl_bitstream_dts">Transmision directa de audio DTS</string>
     <string name="lbl_save">Guardar</string>
@@ -254,7 +254,7 @@
     <string name="lbl_status">%s / %s</string>
     <string name="desc_suggestions_holiday">Pruebe algunas de nuestras sugerencias de vacaciones</string>
     <string name="title_suggestions_holiday">¡Felices vacaciones!</string>
-    <string name="lbl_suggestions_holiday">Sugerencias de navidad</string>
+    <string name="lbl_suggestions_holiday">Sugerencias por festividades</string>
     <string name="desc_suggestions_halloween">Pruebe algunas de nuestras sugerencias escalofriantes</string>
     <string name="title_suggestions_halloween">¡Feliz Halloween!</string>
     <string name="lbl_suggestions_halloween">Sugerencias escalofriantes</string>
