@@ -5,7 +5,7 @@
     <string name="title_activity_select_user">SelecionarActividadUsuario</string>
     <string name="home_title">Inicio</string>
     <string name="btn_cancel">Cancelar</string>
-    <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="byletter_letters">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Comportamiento de Inicio</string>
     <string name="pref_show_login">Mostrar Pantalla de Inicio de Sesión</string>
     <string name="pref_playback">Reproducción</string>
