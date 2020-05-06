@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="video_error_unknown_error">Fallo al cargar el vídeo</string>
+    <string name="video_error_unknown_error">Falló la carga del vídeo</string>
     <string name="txt_loading">Cargando…</string>
-    <string name="title_activity_select_user">Seleccionar Actividad del Usuario</string>
+    <string name="title_activity_select_user">Seleccionar actividad del usuario</string>
     <string name="home_title">Inicio</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
