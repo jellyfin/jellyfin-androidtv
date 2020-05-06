@@ -247,7 +247,7 @@
     <string name="lbl_in_x_days">Om %d dage</string>
     <string name="lbl_bitstream_dts">DTS Audio Bitstream</string>
     <string name="desc_premieres">Vis en kolonne med nye episoder for alle serier du ser</string>
-    <string name="lbl_show_premieres">Vis sæsonpremiere på hjemmeskærm</string>
+    <string name="lbl_show_premieres">Vis sæsonpremiere mens du udforsker</string>
     <string name="lbl_refresh_switching">Aktiver justering af billedehastigheds frekvens</string>
     <string name="desc_use_vlc_livetv">Brug VLC til direkte afspilning af Live TV, når det er tilgængeligt</string>
     <string name="lbl_use_vlc_livetv">Forsøg afspilning med VLC til Live TV</string>
@@ -331,15 +331,24 @@
     <string name="lbl_hd_programs">HD Programmer</string>
     <string name="lbl_live_broadcasts">Live Udsendelser</string>
     <string name="lbl_repeat_episodes">Gentag Episoder</string>
-    <string name="pref_acra_alwaysaccept">Send crashrapport uden at blive spurgt</string>
-    <string name="pref_acra_enabled">Du vil blive spurgt om du vil sende crashrappoter</string>
+    <string name="pref_acra_alwaysaccept">Send fejlrapport uden at blive spurgt</string>
+    <string name="pref_acra_enabled">Du vil blive spurgt om du vil sende fejlrappoter</string>
     <string name="pref_enable_acra">Send crashrapporter til udviklere</string>
     <string name="lbl_show_indicators">Vis Indikatorer For</string>
     <string name="title_activity_expanded_text">Udvidet tekstaktivitet</string>
     <string name="lbl_on_schedule">Til Tiden</string>
     <string name="pref_acra_alwaysaccept_enabled">Nedbruds rapporter vil blive indsendt uden forespørgelse</string>
-    <string name="pref_acra_disabled">Nedbruds rapporter vil ikke blive indsendt</string>
+    <string name="pref_acra_disabled">Fejlrapporter vil ikke blive indsendt</string>
     <string name="pref_use_direct_path_summary">Giv filsystemets sti i stedet for streamnig URL</string>
     <string name="pref_use_direct_path_title">Giv direkte sti til ekstern afspiller</string>
     <string name="lbl_resume_preroll">Genoptag Forfilm</string>
+    <string name="acra_dialog_text">Vil du sende en fejlrapport til udviklerne\?
+\n
+\nDenne information vil blive sendt til en tredjepart (tracepot.com).
+\n
+\nDenne prompt kan blive deaktiveret i fejlrapporterings sektionen i Jellyfin app indstillinger.</string>
+    <string name="pref_acra_syslog_enabled">System logfiler vil blive inkluderet i fejlrapporter</string>
+    <string name="pref_acra_syslog">Inkluder system logfiler i fejlrapporter. Dette kan inkludere private data fra andre applikationer hvis det blev skrevet til loggen på nedbrudstidspunktet.</string>
+    <string name="pref_acra_syslog_disabled">System logfiler vil ikke blive inkluderet i fejlrapporter</string>
+    <string name="pref_acra_alwaysaccept_disabled">En dialog vil blive vist før du sender nogle fejlrapporter</string>
 </resources>
