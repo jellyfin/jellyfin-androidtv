@@ -243,7 +243,7 @@
     <string name="lbl_use_vlc_livetv">Tentar Usar VLC para TV ao Vivo</string>
     <string name="desc_use_vlc_livetv">Usa o VLC para streaming direto da TV ao vivo quando disponível</string>
     <string name="lbl_refresh_switching">Alteração da Taxa de Atualização</string>
-    <string name="lbl_show_premieres">Exibir Estreias das Temporadas na Tela Inicial</string>
+    <string name="lbl_show_premieres">Exibir estreias de temporadas durante a navegação</string>
     <string name="desc_premieres">Exibir uma fila de novos episódios pilotos para as séries que você está assistindo</string>
     <string name="lbl_bitstream_dts">Bitstream do Áudio DTS</string>
     <string name="pref_use_direct_path_summary">Enviar o local do sistema de arquivos invés da URL de streaming</string>
