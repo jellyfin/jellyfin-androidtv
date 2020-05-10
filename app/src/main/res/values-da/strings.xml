@@ -351,4 +351,14 @@
     <string name="pref_acra_syslog">Inkluder system logfiler i fejlrapporter. Dette kan inkludere private data fra andre applikationer hvis det blev skrevet til loggen på nedbrudstidspunktet.</string>
     <string name="pref_acra_syslog_disabled">System logfiler vil ikke blive inkluderet i fejlrapporter</string>
     <string name="pref_acra_alwaysaccept_disabled">En dialog vil blive vist før du sender nogle fejlrapporter</string>
+    <string name="pref_next_up_enabled_title">Aktivér næste episode skærm</string>
+    <string name="pref_next_up_timeout_title">Næste episode timer varighed</string>
+    <string name="pref_next_up_timeout_summary">Tid indtil afspilning af næste episode</string>
+    <string name="pref_libvlc_audio_delay_title">Standard lydforsinkelse for libVLC</string>
+    <string name="pref_next_up_enabled_summary">Forhåndsvis næste inden afspilning</string>
+    <string name="pref_app_theme">App tema</string>
+    <string name="watch_now">Se nu</string>
+    <string name="pref_theme_dark">Mørkt (Standard)</string>
+    <string name="pref_theme_emerald">Klassisk smaragd</string>
+    <string name="lbl_audio_delay">Lydforsinkelse</string>
 </resources>
