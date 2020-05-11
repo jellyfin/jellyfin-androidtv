@@ -320,7 +320,7 @@
     <string name="lbl_start_favorites">Posiziona i preferiti all\'inizio</string>
     <string name="lbl_live_broadcasts">Trasmissioni Live</string>
     <string name="lbl_premieres">Anteprime</string>
-    <string name="lbl_new_only">Nuovi</string>
+    <string name="lbl_new_only">Solo Nuovi</string>
     <string name="lbl_news">Novità</string>
     <string name="pref_app_theme">Tema</string>
     <string name="pref_next_up_enabled_summary">Anteprima dell\'elemento successivo</string>
