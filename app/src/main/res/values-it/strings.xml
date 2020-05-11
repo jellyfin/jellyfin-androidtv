@@ -317,4 +317,42 @@
     <string name="pref_acra_syslog_disabled">Il log di sistenon ma sarà incluso nel report del crash</string>
     <string name="pref_acra_syslog_enabled">Il log di sistema sarà incluso nel report del crash</string>
     <string name="pref_acra_syslog">Includi il log di sistema nei crash report. Ciò potrebbe includere dati privati da altre applicazioni se era loggato al momento del crash.</string>
+    <string name="lbl_start_favorites">Posiziona i preferiti all\'inizio</string>
+    <string name="lbl_live_broadcasts">Trasmissioni Live</string>
+    <string name="lbl_premieres">Anteprime</string>
+    <string name="lbl_new_only">Nuovi</string>
+    <string name="lbl_news">Novità</string>
+    <string name="pref_app_theme">Tema</string>
+    <string name="pref_next_up_enabled_summary">Anteprima dell\'elemento successivo</string>
+    <string name="watch_now">Guarda ora</string>
+    <string name="pref_next_up_timeout_summary">Tempo da aspettare prima di riprodurre il contenuto successivo</string>
+    <string name="pref_media_player">Media Player preferito</string>
+    <string name="pref_video_player_external">App esterna</string>
+    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_exoplayer">ExoPlayer</string>
+    <string name="pref_video_player_auto">Selezione automatica</string>
+    <string name="pref_theme_emerald">Smeraldo</string>
+    <string name="pref_theme_dark">Scuro (default)</string>
+    <string name="lbl_my_media">I miei media</string>
+    <string name="lbl_image_size">Dimensione dell\'immagine</string>
+    <string name="lbl_image_type">Tipo di immagine</string>
+    <string name="lbl_default_view">Vista di default</string>
+    <string name="lbl_hd_programs">Programmi in HD</string>
+    <string name="lbl_repeat_episodes">Ripeti episodi</string>
+    <string name="lbl_new_episodes">Nuovi episodi</string>
+    <string name="lbl_audio_delay">Ritardo audio</string>
+    <string name="lbl_latest_tv_shows">Show TV recenti</string>
+    <string name="desc_suggestions_holiday">Prova qualche nostro suggerimento per le vacanze</string>
+    <string name="title_suggestions_holiday">Buone vacanze!</string>
+    <string name="lbl_suggestions_holiday">Suggerimenti per le vacanze</string>
+    <string name="desc_suggestions_halloween">Prova qualche nostro suggerimento inquietante</string>
+    <string name="title_suggestions_halloween">Buon Halloween!</string>
+    <string name="lbl_suggestions_halloween">Suggerimenti inquietanti</string>
+    <string name="lbl_suggestions">Suggerimenti</string>
+    <string name="acra_dialog_text">Vuoi inviare una segnalazione del malfunzionamento agli sviluppatori\?
+\n
+\nLa segnalazione avverrà tramite un servizio di terze parti (tracepot.com).
+\n
+\nQuesto popup può essere disabilitato nella sezione \"Segnalazione bug\" delle impostazioni dell\'app di Jellyfin</string>
+    <string name="lbl_episode_not_record">La proiezione NON sarà registrata</string>
 </resources>
