@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="video_error_unknown_error">Caricamento video fallito</string>
     <string name="txt_loading">Caricamento…</string>
-    <string name="title_activity_select_user">Attività Selezione Utente</string>
+    <string name="title_activity_select_user">Schermata di selezione dell\'utente</string>
     <string name="home_title">Home</string>
     <string name="btn_cancel">Annulla</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
@@ -343,8 +343,8 @@
     <string name="lbl_audio_delay">Ritardo audio</string>
     <string name="lbl_latest_tv_shows">Show TV recenti</string>
     <string name="desc_suggestions_holiday">Prova qualche nostro suggerimento per le vacanze</string>
-    <string name="title_suggestions_holiday">Buone vacanze!</string>
-    <string name="lbl_suggestions_holiday">Suggerimenti per le vacanze</string>
+    <string name="title_suggestions_holiday">Buon Natale!</string>
+    <string name="lbl_suggestions_holiday">Suggerimenti Natalizi</string>
     <string name="desc_suggestions_halloween">Prova qualche nostro suggerimento inquietante</string>
     <string name="title_suggestions_halloween">Buon Halloween!</string>
     <string name="lbl_suggestions_halloween">Suggerimenti inquietanti</string>
@@ -353,8 +353,11 @@
 \n
 \nLa segnalazione avverrà tramite un servizio di terze parti (tracepot.com).
 \n
-\nQuesto popup può essere disabilitato nella sezione \"Segnalazione bug\" delle impostazioni dell\'app di Jellyfin</string>
+\nQuesto popup può essere disabilitato nella sezione \"Segnalazione bug\" delle impostazioni dell\'app di Jellyfin.</string>
     <string name="lbl_episode_not_record">La proiezione NON sarà registrata</string>
     <string name="lbl_colored_backgrounds">Sfondi codificati per colore</string>
     <string name="pref_about_title">Informazioni</string>
+    <string name="pref_libvlc_audio_delay_title">Ritardo audio di default di libVLC</string>
+    <string name="pref_next_up_enabled_title">Abilita ritardo prima del video successivo</string>
+    <string name="pref_next_up_timeout_title">Ritardo video successivo</string>
 </resources>
