@@ -355,4 +355,5 @@
 \n
 \nQuesto popup può essere disabilitato nella sezione \"Segnalazione bug\" delle impostazioni dell\'app di Jellyfin</string>
     <string name="lbl_episode_not_record">La proiezione NON sarà registrata</string>
+    <string name="lbl_colored_backgrounds">Sfondi codificati per colore</string>
 </resources>
