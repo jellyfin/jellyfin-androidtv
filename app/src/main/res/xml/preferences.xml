@@ -37,6 +37,13 @@
             android:defaultValue="true"
             android:key="pref_show_backdrop"
             android:title="@string/lbl_show_backdrop" />
+        <ListPreference
+            android:defaultValue="VERTICAL"
+            android:entries="@array/pref_grid_direction_entries"
+            android:entryValues="@array/pref_grid_direction_values"
+            android:key="grid_direction"
+            android:title="@string/grid_direction"
+            app:useSimpleSummaryProvider="true" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_enable_premieres"

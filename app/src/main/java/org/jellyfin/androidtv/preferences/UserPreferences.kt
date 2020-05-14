@@ -2,10 +2,7 @@ package org.jellyfin.androidtv.preferences
 
 import android.content.Context
 import androidx.preference.PreferenceManager
-import org.jellyfin.androidtv.preferences.enums.AppTheme
-import org.jellyfin.androidtv.preferences.enums.AudioBehavior
-import org.jellyfin.androidtv.preferences.enums.LoginBehavior
-import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer
+import org.jellyfin.androidtv.preferences.enums.*
 
 /**
  * User preferences are configurable by the user and change behavior of the application.
@@ -42,6 +39,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	 * Enable background images while browsing
 	 */
 	var backdropEnabled by booleanPreference("pref_show_backdrop", true)
+
+	/**
+	 * Enable background images while browsing
+	 */
+	var gridDirection by enumPreference("grid_direction", GridDirection.VERTICAL)
 
 	/**
 	 * Show premieres on home screen

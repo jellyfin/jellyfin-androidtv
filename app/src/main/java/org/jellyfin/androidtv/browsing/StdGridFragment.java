@@ -52,6 +52,7 @@ import org.jellyfin.androidtv.model.ImageType;
 import org.jellyfin.androidtv.model.PosterSize;
 import org.jellyfin.androidtv.model.repository.SerializerRepository;
 import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.preferences.enums.GridDirection;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.HorizontalGridPresenter;
 import org.jellyfin.androidtv.querying.QueryType;
@@ -59,7 +60,7 @@ import org.jellyfin.androidtv.querying.ViewQuery;
 import org.jellyfin.androidtv.search.SearchActivity;
 import org.jellyfin.androidtv.ui.CharSelectedListener;
 import org.jellyfin.androidtv.ui.DisplayPrefsPopup;
-import org.jellyfin.androidtv.ui.HorizontalGridFragment;
+import org.jellyfin.androidtv.ui.GridFragment;
 import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.JumpList;
 import org.jellyfin.androidtv.util.KeyProcessor;
@@ -80,9 +81,10 @@ import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
+import androidx.leanback.widget.VerticalGridPresenter;
 import timber.log.Timber;
 
-public class StdGridFragment extends HorizontalGridFragment implements IGridLoader {
+public class StdGridFragment extends GridFragment implements IGridLoader {
     private static final String TAG = "StdGridFragment";
 
     private static final int BACKGROUND_UPDATE_DELAY = 100;
@@ -120,6 +122,7 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mApplication = TvApp.getApplication();
         mFolder = SerializerRepository.INSTANCE.getSerializer().DeserializeFromString(getActivity().getIntent().getStringExtra(Extras.Folder), BaseItemDto.class);
         mParentId = mFolder.getId();
         MainTitle = mFolder.getName();
@@ -139,7 +142,6 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mApplication = TvApp.getApplication();
         if (getActivity() instanceof BaseActivity) mActivity = (BaseActivity)getActivity();
 
         prepareBackgroundManager();
@@ -268,7 +270,11 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                     int autoHeight = getAutoCardHeight(response);
                     if (autoHeight != mCardHeight) {
                         mCardHeight = autoHeight;
-                        setNumberOfRows();
+
+                        Presenter gridPresenter = getGridPresenter();
+                        if (gridPresenter instanceof HorizontalGridPresenter)
+                            ((HorizontalGridPresenter)gridPresenter).setNumberOfRows(getGridHeight() / getCardHeight());
+
                         createGrid();
                         Timber.d("Auto card height is %d", mCardHeight);
                         buildAdapter(rowDef);
@@ -325,18 +331,17 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     }
 
     protected void setupUIElements() {
-
-        HorizontalGridPresenter gridPresenter = new HorizontalGridPresenter();
-        setGridPresenter(gridPresenter);
-        setNumberOfRows();
+        if (mApplication.getUserPreferences().getGridDirection() == GridDirection.HORIZONTAL) {
+            HorizontalGridPresenter gridPresenter = new HorizontalGridPresenter();
+            gridPresenter.setNumberOfRows(getGridHeight() / getCardHeight());
+            setGridPresenter(gridPresenter);
+        }else {
+            VerticalGridPresenter gridPresenter = new VerticalGridPresenter();
+            gridPresenter.setNumberOfColumns(6);// TODO Calculate this
+            setGridPresenter(gridPresenter);
+        }
 
         mJumplistPopup = new JumplistPopup(getActivity());
-    }
-
-    protected void setNumberOfRows() {
-        // calculate number of rows based on card height
-        getGridPresenter().setNumberOfRows(getGridHeight() / getCardHeight());
-
     }
 
     protected ImageButton mUnwatchedButton;
@@ -368,7 +373,11 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
                     mImageType = mDisplayPrefs.getCustomPrefs().get("ImageType");
                     mPosterSizeSetting = mDisplayPrefs.getCustomPrefs().get("PosterSize");
                     mCardHeight = getCardHeight(mPosterSizeSetting);
-                    setNumberOfRows();
+
+                    Presenter gridPresenter = getGridPresenter();
+                    if (gridPresenter instanceof HorizontalGridPresenter)
+                        ((HorizontalGridPresenter)gridPresenter).setNumberOfRows(getGridHeight() / getCardHeight());
+
                     createGrid();
                     loadGrid(mRowDef);
                 }
@@ -594,7 +603,12 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
     private void refreshCurrentItem() {
         if (MediaManager.getCurrentMediaPosition() >= 0) {
             mCurrentItem = MediaManager.getCurrentMediaItem();
-            getGridPresenter().setPosition(MediaManager.getCurrentMediaPosition());
+
+            Presenter presenter = getGridPresenter();
+            if (presenter instanceof HorizontalGridPresenter)
+                ((HorizontalGridPresenter) presenter).setPosition(MediaManager.getCurrentMediaPosition());
+            //tood vertical?
+
             MediaManager.setCurrentMediaPosition(-1); // re-set so it doesn't mess with parent views
         }
         if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemType.Photo && mCurrentItem.getBaseItemType() != BaseItemType.PhotoAlbum

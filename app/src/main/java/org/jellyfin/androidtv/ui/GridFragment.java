@@ -24,14 +24,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import androidx.fragment.app.Fragment;
+import androidx.leanback.widget.BaseGridView;
 import androidx.leanback.widget.ObjectAdapter;
 import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
+import androidx.leanback.widget.VerticalGridPresenter;
 
-public class HorizontalGridFragment extends Fragment {
+public class GridFragment extends Fragment {
     private static final String TAG = "HorizontalGridFragment";
     private static boolean DEBUG = false;
 
@@ -43,8 +45,9 @@ public class HorizontalGridFragment extends Fragment {
     protected LinearLayout mInfoRow;
     protected LinearLayout mToolBar;
     private ItemRowAdapter mAdapter;
-    private HorizontalGridPresenter mGridPresenter;
-    private HorizontalGridPresenter.ViewHolder mGridViewHolder;
+    private Presenter mGridPresenter;
+    private Presenter.ViewHolder mGridViewHolder;
+    private BaseGridView mGridView;
     private OnItemViewSelectedListener mOnItemViewSelectedListener;
     private OnItemViewClickedListener mOnItemViewClickedListener;
     private int mSelectedPosition = -1;
@@ -63,17 +66,31 @@ public class HorizontalGridFragment extends Fragment {
         if (gridPresenter == null) {
             throw new IllegalArgumentException("Grid presenter may not be null");
         }
-        mGridPresenter = gridPresenter;
-        mGridPresenter.setOnItemViewSelectedListener(mRowSelectedListener);
+        gridPresenter.setOnItemViewSelectedListener(mRowSelectedListener);
         if (mOnItemViewClickedListener != null) {
-            mGridPresenter.setOnItemViewClickedListener(mOnItemViewClickedListener);
+            gridPresenter.setOnItemViewClickedListener(mOnItemViewClickedListener);
         }
+        mGridPresenter = gridPresenter;
+    }
+
+    /**
+     * Sets the grid presenter.
+     */
+    public void setGridPresenter(VerticalGridPresenter gridPresenter) {
+        if (gridPresenter == null) {
+            throw new IllegalArgumentException("Grid presenter may not be null");
+        }
+        gridPresenter.setOnItemViewSelectedListener(mRowSelectedListener);
+        if (mOnItemViewClickedListener != null) {
+            gridPresenter.setOnItemViewClickedListener(mOnItemViewClickedListener);
+        }
+        mGridPresenter = gridPresenter;
     }
 
     /**
      * Returns the grid presenter.
      */
-    public HorizontalGridPresenter getGridPresenter() {
+    public Presenter getGridPresenter() {
         return mGridPresenter;
     }
 
@@ -171,7 +188,7 @@ public class HorizontalGridFragment extends Fragment {
                 @Override
                 public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                            RowPresenter.ViewHolder rowViewHolder, Row row) {
-                    int position = mGridViewHolder.getGridView().getSelectedPosition();
+                    int position = mGridView.getSelectedPosition();
                     if (DEBUG) Log.v(TAG, "row selected position " + position);
                     onRowSelected(position);
                     if (mOnItemViewSelectedListener != null && position >= 0) {
@@ -209,7 +226,10 @@ public class HorizontalGridFragment extends Fragment {
     public void setOnItemViewClickedListener(OnItemViewClickedListener listener) {
         mOnItemViewClickedListener = listener;
         if (mGridPresenter != null) {
-            mGridPresenter.setOnItemViewClickedListener(mOnItemViewClickedListener);
+            if (mGridPresenter instanceof HorizontalGridPresenter)
+                ((HorizontalGridPresenter)mGridPresenter).setOnItemViewClickedListener(mOnItemViewClickedListener);
+            else if (mGridPresenter instanceof VerticalGridPresenter)
+                ((VerticalGridPresenter)mGridPresenter).setOnItemViewClickedListener(mOnItemViewClickedListener);
         }
     }
 
@@ -269,9 +289,14 @@ public class HorizontalGridFragment extends Fragment {
 
     protected void createGrid() {
         mGridViewHolder = mGridPresenter.onCreateViewHolder(mGridDock);
-        mGridViewHolder.getGridView().setFocusable(true);
+        if (mGridViewHolder instanceof HorizontalGridPresenter.ViewHolder)
+            mGridView = ((HorizontalGridPresenter.ViewHolder)mGridViewHolder).getGridView();
+        else if (mGridViewHolder instanceof VerticalGridPresenter.ViewHolder)
+            mGridView = ((VerticalGridPresenter.ViewHolder)mGridViewHolder).getGridView();
+
+        mGridView.setFocusable(true);
         mGridDock.removeAllViews();
-        mGridViewHolder.getGridView().setGravity(Gravity.CENTER_VERTICAL);
+        mGridView.setGravity(Gravity.CENTER_VERTICAL);
         mGridDock.addView(mGridViewHolder.view);
 
         updateAdapter();
@@ -284,13 +309,13 @@ public class HorizontalGridFragment extends Fragment {
     }
 
     public void focusGrid() {
-        if (mGridViewHolder != null && mGridViewHolder.getGridView() != null) mGridViewHolder.getGridView().requestFocus();
+        if (mGridView != null) mGridView.requestFocus();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mGridViewHolder = null;
+        mGridView = null;
     }
 
     /**
@@ -298,16 +323,16 @@ public class HorizontalGridFragment extends Fragment {
      */
     public void setSelectedPosition(int position) {
         mSelectedPosition = position;
-        if(mGridViewHolder != null && mGridViewHolder.getGridView().getAdapter() != null) {
-            mGridViewHolder.getGridView().setSelectedPositionSmooth(position);
+        if(mGridView != null && mGridView.getAdapter() != null) {
+            mGridView.setSelectedPositionSmooth(position);
         }
     }
 
     private void updateAdapter() {
-        if (mGridViewHolder != null) {
+        if (mGridView != null) {
             mGridPresenter.onBindViewHolder(mGridViewHolder, mAdapter);
             if (mSelectedPosition != -1) {
-                mGridViewHolder.getGridView().setSelectedPosition(mSelectedPosition);
+                mGridView.setSelectedPosition(mSelectedPosition);
             }
         }
     }
