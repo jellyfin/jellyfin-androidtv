@@ -59,4 +59,5 @@
     <string name="dpad_pw_cancel">* Утримуйте кнопку \'Down\' натиснутою протягом 1 секунди та відпустіть її, якщо ви маєте альфа пароль або потребуєте клавіатури для вводу паролю</string>
     <string name="pref_alt_pw_entry">Власний ввід паролю за допомогою хрестовини</string>
     <string name="title_activity_select_user">SelectUserActivity</string>
+    <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 </resources>
