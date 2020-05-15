@@ -64,7 +64,6 @@ import java.util.Date;
 import java.util.List;
 
 import androidx.leanback.app.BackgroundManager;
-
 import timber.log.Timber;
 
 public class ItemListActivity extends BaseActivity {
@@ -475,8 +474,6 @@ public class ItemListActivity extends BaseActivity {
                     //update our status
                     mAudioEventListener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, MediaManager.getCurrentAudioItem());
                 }
-                //create list background gradient
-                mItemList.setBackground(mApplication.getCurrentBackgroundGradient());
 
                 updateBackdrop();
             }

@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,20 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
-import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.RowsSupportFragment;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.ClassPresenterSelector;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.OnItemViewSelectedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
-
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -48,7 +34,6 @@ import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.CustomListRowPresenter;
 import org.jellyfin.androidtv.presentation.InfoCardPresenter;
 import org.jellyfin.androidtv.presentation.MyDetailsOverviewRowPresenter;
-import org.jellyfin.androidtv.presentation.MyPicassoBackgroundManagerTarget;
 import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.SpecialsQuery;
 import org.jellyfin.androidtv.querying.StdItemQuery;
@@ -96,6 +81,17 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import androidx.leanback.app.BackgroundManager;
+import androidx.leanback.app.RowsSupportFragment;
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.ClassPresenterSelector;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.OnItemViewSelectedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
 import timber.log.Timber;
 
 public class FullDetailsActivity extends BaseActivity implements IRecordingIndicatorView {
@@ -109,7 +105,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private TextUnderButton mSeriesSettingsButton;
     private TextUnderButton mWatchedToggleButton;
 
-    private Target mBackgroundTarget;
     private DisplayMetrics mMetrics;
 
     protected BaseItemDto mProgramInfo;
@@ -126,12 +121,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private MyDetailsOverviewRowPresenter mDorPresenter;
     private MyDetailsOverviewRow mDetailsOverviewRow;
     private CustomListRowPresenter mListRowPresenter;
-    private Drawable mRowBackground = TvApp.getApplication().getCurrentBackgroundGradient();
 
     private TvApp mApplication;
     private FullDetailsActivity mActivity;
     private Handler mLoopHandler = new Handler();
-    private Runnable mBackdropLoop;
     private Runnable mClockLoop;
     public static int BACKDROP_ROTATION_INTERVAL = 8000;
 
@@ -148,7 +141,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         backgroundManager.attach(getWindow());
 
-        mBackgroundTarget = new MyPicassoBackgroundManagerTarget(backgroundManager);
         mMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
@@ -208,7 +200,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         super.onResume();
 
         startClock();
-        rotateBackdrops();
 
         //Update information that may have changed - delay slightly to allow changes to take on the server
         if (mApplication.getLastPlayback().after(mLastUpdated) && mBaseItem.getBaseItemType() != BaseItemType.MusicArtist) {
@@ -257,16 +248,13 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     protected void onPause() {
         super.onPause();
         stopClock();
-        stopRotate();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         stopClock();
-        stopRotate();
     }
-
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
@@ -478,7 +466,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
             ClassPresenterSelector ps = new ClassPresenterSelector();
             ps.addClassPresenter(MyDetailsOverviewRow.class, mDorPresenter);
-            mListRowPresenter = new CustomListRowPresenter(mRowBackground, Utils.convertDpToPixel(mActivity, 10));
+            mListRowPresenter = new CustomListRowPresenter(getDrawable(R.color.black_transparent_light), Utils.convertDpToPixel(mActivity, 10));
             ps.addClassPresenter(ListRow.class, mListRowPresenter);
             mRowsAdapter = new ArrayObjectAdapter(ps);
             mRowsFragment.setAdapter(mRowsAdapter);
@@ -733,11 +721,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private void updateInfo(BaseItemDto item) {
         if (buttonTypeList.contains(item.getBaseItemType())) addButtons(BUTTON_SIZE);
 //        updatePlayedDate();
-//
-        updateBackground(ImageUtils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
 
         mLastUpdated = Calendar.getInstance();
-
     }
 
     public void setTitle(String title) {
@@ -1486,36 +1471,4 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         startActivity(intent);
 
     }
-
-    private void rotateBackdrops() {
-        mBackdropLoop = new Runnable() {
-            @Override
-            public void run() {
-                updateBackground(ImageUtils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true));
-                mLoopHandler.postDelayed(this, BACKDROP_ROTATION_INTERVAL);
-            }
-        };
-
-        mLoopHandler.postDelayed(mBackdropLoop, BACKDROP_ROTATION_INTERVAL);
-    }
-
-    private void stopRotate() {
-        if (mLoopHandler != null && mBackdropLoop != null) {
-            mLoopHandler.removeCallbacks(mBackdropLoop);
-        }
-    }
-
-    protected void updateBackground(String url) {
-        if (url == null) {
-            BackgroundManager.getInstance(this).setDrawable(null);
-        } else {
-            Picasso.with(this)
-                    .load(url)
-                    .skipMemoryCache()
-                    .resize(mMetrics.widthPixels, mMetrics.heightPixels)
-                    .centerCrop()
-                    .into(mBackgroundTarget);
-        }
-    }
-
 }

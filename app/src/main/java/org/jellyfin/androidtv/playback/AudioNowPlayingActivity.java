@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -49,7 +48,6 @@ import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
-
 import timber.log.Timber;
 
 public class AudioNowPlayingActivity extends BaseActivity  {
@@ -101,7 +99,6 @@ public class AudioNowPlayingActivity extends BaseActivity  {
 
     private BaseItemDto mBaseItem;
     private ListRow mQueueRow;
-    private Drawable mListBackground;
 
     private long lastUserInteraction;
     private boolean ssActive;
@@ -249,12 +246,9 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         mRowsFragment = new RowsSupportFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.rowsFragment, mRowsFragment).commit();
 
-        //create list background gradient
-        mListBackground = mApplication.getCurrentBackgroundGradient();
-
         mRowsFragment.setOnItemViewClickedListener(new ItemViewClickedListener());
         mRowsFragment.setOnItemViewSelectedListener(new ItemViewSelectedListener());
-        mAudioQueuePresenter = new PositionableListRowPresenter(mListBackground, 10);
+        mAudioQueuePresenter = new PositionableListRowPresenter(getDrawable(R.color.black_transparent_light), 10);
         mRowsAdapter = new ArrayObjectAdapter(mAudioQueuePresenter);
         mRowsFragment.setAdapter(mRowsAdapter);
         addQueue();

@@ -78,7 +78,6 @@ import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
-
 import timber.log.Timber;
 
 public class StdGridFragment extends HorizontalGridFragment implements IGridLoader {
@@ -319,7 +318,6 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                 backgroundManager.setBitmap(resource);
-                mApplication.setCurrentBackground(resource);
             }
         };
     }

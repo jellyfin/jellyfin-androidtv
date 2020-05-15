@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 
 import org.acra.ACRA;
 import org.acra.annotation.AcraCore;
@@ -30,7 +28,6 @@ import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.androidtv.preferences.enums.LoginBehavior;
 import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer;
 import org.jellyfin.androidtv.search.SearchActivity;
-import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.AndroidDevice;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -45,8 +42,6 @@ import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import java.util.Calendar;
 import java.util.HashMap;
 
-import androidx.core.content.ContextCompat;
-import androidx.palette.graphics.Palette;
 import timber.log.Timber;
 
 @AcraCore(buildConfigClass = BuildConfig.class)
@@ -93,8 +88,6 @@ public class TvApp extends Application {
     private long lastFavoriteUpdate = System.currentTimeMillis();
     private long lastMusicPlayback = System.currentTimeMillis();
 
-    private GradientDrawable currentBackgroundGradient;
-
     private boolean playingIntros;
 
     private BaseActivity currentActivity;
@@ -115,7 +108,6 @@ public class TvApp extends Application {
         super.onCreate();
         app = (TvApp) getApplicationContext();
         playbackManager = new PlaybackManager(new AndroidDevice(this), new AndroidLogger("PlaybackManager"));
-        setCurrentBackgroundGradient(new int[] {ContextCompat.getColor(this, R.color.lb_default_brand_color_dark), ContextCompat.getColor(this, R.color.lb_default_brand_color)});
 
         registerActivityLifecycleCallbacks(new AuthenticatedUserCallbacks());
         registerActivityLifecycleCallbacks(new AppThemeCallbacks());
@@ -459,23 +451,5 @@ public class TvApp extends Application {
 
     public void setPlayingIntros(boolean playingIntros) {
         this.playingIntros = playingIntros;
-    }
-
-    public GradientDrawable getCurrentBackgroundGradient() {
-        return currentBackgroundGradient;
-    }
-
-    public void setCurrentBackground(Bitmap currentBackground) {
-        int[] colors = new int[2];
-        colors[0] = Utils.darker(Palette.from(currentBackground).generate().getMutedColor(ContextCompat.getColor(this, R.color.black_transparent)), .6f);
-        colors[1] = Utils.darker(colors[0], .1f);
-        setCurrentBackgroundGradient(colors);
-    }
-
-    private void setCurrentBackgroundGradient(int[] colors) {
-        currentBackgroundGradient = new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors);
-        currentBackgroundGradient.setCornerRadius(0f);
-        currentBackgroundGradient.setGradientCenter(.6f, .5f);
-        currentBackgroundGradient.setAlpha(200);
     }
 }
