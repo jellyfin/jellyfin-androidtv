@@ -14,6 +14,7 @@
 
 package org.jellyfin.androidtv.browsing;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -43,6 +44,7 @@ import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.ViewQuery;
+import org.jellyfin.androidtv.search.SearchActivity;
 import org.jellyfin.androidtv.ui.ClockUserView;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
@@ -288,7 +290,10 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
 
             @Override
             public void onClick(View view) {
-                TvApp.getApplication().showSearch(getActivity(), false);
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                intent.putExtra("MusicOnly", false);
+
+                startActivity(intent);
             }
         });
 

@@ -36,6 +36,7 @@ import org.jellyfin.androidtv.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.ViewQuery;
+import org.jellyfin.androidtv.search.SearchActivity;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
@@ -478,7 +479,10 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         break;
 
                     case SEARCH:
-                        TvApp.getApplication().showSearch(getActivity(), "MusicAlbum".equals(itemTypeString));
+                        Intent searchIntent = new Intent(getActivity(), SearchActivity.class);
+                        searchIntent.putExtra("MusicOnly", "MusicAlbum".equals(itemTypeString));
+
+                        startActivity(searchIntent);
                         break;
 
                     case FAVSONGS:

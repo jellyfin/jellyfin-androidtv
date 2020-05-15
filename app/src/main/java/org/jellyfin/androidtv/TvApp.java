@@ -3,7 +3,6 @@ package org.jellyfin.androidtv;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 
 import org.acra.ACRA;
@@ -27,7 +26,6 @@ import org.jellyfin.androidtv.preferences.SystemPreferences;
 import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.androidtv.preferences.enums.LoginBehavior;
 import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer;
-import org.jellyfin.androidtv.search.SearchActivity;
 import org.jellyfin.apiclient.interaction.AndroidDevice;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -165,13 +163,6 @@ public class TvApp extends Application {
         this.playbackController = playbackController;
     }
 
-    public void showSearch(final Activity activity, boolean musicOnly) {
-        Intent intent = new Intent(activity, SearchActivity.class);
-        intent.putExtra("MusicOnly", musicOnly);
-
-        activity.startActivity(intent);
-    }
-
     public LogonCredentials getConfiguredAutoCredentials() {
         return configuredAutoCredentials;
     }
@@ -272,10 +263,6 @@ public class TvApp extends Application {
 
     public PlaybackManager getPlaybackManager() {
         return playbackManager;
-    }
-
-    public void setPlaybackManager(PlaybackManager playbackManager) {
-        this.playbackManager = playbackManager;
     }
 
     public Drawable getDrawableCompat(int id) {
@@ -409,7 +396,6 @@ public class TvApp extends Application {
             }
         });
     }
-
 
     public String getDirectItemId() {
         return directItemId;
