@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.media.AudioManager;
 
 import org.acra.ACRA;
 import org.acra.annotation.AcraCore;
@@ -38,7 +37,6 @@ import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.logging.AndroidLogger;
-import org.jellyfin.apiclient.model.configuration.ServerConfiguration;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserDto;
@@ -76,11 +74,9 @@ public class TvApp extends Application {
     private PlaybackManager playbackManager;
     private static TvApp app;
     private UserDto currentUser;
-    private BaseItemDto currentPlayingItem;
     private BaseItemDto lastPlayedItem;
     private PlaybackController playbackController;
     private ApiClient loginApiClient;
-    private AudioManager audioManager;
 
     private int autoBitrate;
     private String directItemId;
@@ -88,10 +84,6 @@ public class TvApp extends Application {
     private HashMap<String, DisplayPreferences> displayPrefsCache = new HashMap<>();
 
     private String lastDeletedItemId = "";
-
-    private ServerConfiguration serverConfiguration;
-
-    private int maxRemoteBitrate = -1;
 
     private Calendar lastPlayback = Calendar.getInstance();
     private Calendar lastMoviePlayback = Calendar.getInstance();
@@ -122,7 +114,6 @@ public class TvApp extends Application {
     public void onCreate() {
         super.onCreate();
         app = (TvApp) getApplicationContext();
-        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         playbackManager = new PlaybackManager(new AndroidDevice(this), new AndroidLogger("PlaybackManager"));
         setCurrentBackgroundGradient(new int[] {ContextCompat.getColor(this, R.color.lb_default_brand_color_dark), ContextCompat.getColor(this, R.color.lb_default_brand_color)});
 
@@ -156,10 +147,6 @@ public class TvApp extends Application {
         return currentUser != null ? connectionManager.GetApiClient(currentUser) : null;
     }
 
-    public BaseItemDto getCurrentPlayingItem() {
-        return currentPlayingItem;
-    }
-
     /**
      * @deprecated This function is causing a **lot** of issues because not all activities will set their self as "currentactivity". Try to receive a Context instance instead.
      */
@@ -170,10 +157,6 @@ public class TvApp extends Application {
 
     public void setCurrentActivity(BaseActivity activity) {
         currentActivity = activity;
-    }
-
-    public void setCurrentPlayingItem(BaseItemDto currentPlayingItem) {
-        this.currentPlayingItem = currentPlayingItem;
     }
 
     public ApiClient getLoginApiClient() {
@@ -477,12 +460,6 @@ public class TvApp extends Application {
     public void setPlayingIntros(boolean playingIntros) {
         this.playingIntros = playingIntros;
     }
-
-    public ServerConfiguration getServerConfiguration() {
-        return serverConfiguration;
-    }
-
-    public int getServerBitrateLimit() { return maxRemoteBitrate > 0 ? maxRemoteBitrate : 100000000; }
 
     public GradientDrawable getCurrentBackgroundGradient() {
         return currentBackgroundGradient;
