@@ -9,9 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
 
-import androidx.core.content.ContextCompat;
-import androidx.palette.graphics.Palette;
-
 import org.acra.ACRA;
 import org.acra.annotation.AcraCore;
 import org.acra.annotation.AcraDialog;
@@ -22,7 +19,6 @@ import org.jellyfin.androidtv.base.AppThemeCallbacks;
 import org.jellyfin.androidtv.base.AuthenticatedUserCallbacks;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
-import org.jellyfin.androidtv.model.DisplayPriorityType;
 import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.model.repository.ConnectionManagerRepository;
 import org.jellyfin.androidtv.playback.ExternalPlayerActivity;
@@ -51,6 +47,8 @@ import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import androidx.core.content.ContextCompat;
+import androidx.palette.graphics.Palette;
 import timber.log.Timber;
 
 @AcraCore(buildConfigClass = BuildConfig.class)
@@ -106,7 +104,6 @@ public class TvApp extends Application {
     private GradientDrawable currentBackgroundGradient;
 
     private boolean playingIntros;
-    private DisplayPriorityType displayPriority = DisplayPriorityType.Movies;
 
     private BaseActivity currentActivity;
 
@@ -486,14 +483,6 @@ public class TvApp extends Application {
     }
 
     public int getServerBitrateLimit() { return maxRemoteBitrate > 0 ? maxRemoteBitrate : 100000000; }
-
-    public DisplayPriorityType getDisplayPriority() {
-        return displayPriority;
-    }
-
-    public void setDisplayPriority(DisplayPriorityType displayPriority) {
-        this.displayPriority = displayPriority;
-    }
 
     public GradientDrawable getCurrentBackgroundGradient() {
         return currentBackgroundGradient;
