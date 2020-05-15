@@ -134,8 +134,21 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
         mCardHeight = getCardHeight(mPosterSizeSetting);
 
-        setupUIElements();
+        if (mApplication.getUserPreferences().getGridDirection() == GridDirection.HORIZONTAL) {
+            HorizontalGridPresenter gridPresenter = new HorizontalGridPresenter();
+            gridPresenter.setNumberOfRows(getGridHeight() / getCardHeight());
+            setGridPresenter(gridPresenter);
+        }else {
+            VerticalGridPresenter gridPresenter = new VerticalGridPresenter();
+            // Why is this hardcoded you ask? Well did you ever look at getGridHeight()? Yup that one is hardcoded too
+            // This whole fragment is only optimized for 16:9 screens anyway
+            // is this bad? Yup it definitely is, we'll fix it when this screen is rewritten
+            // - Niels, 2020
+            gridPresenter.setNumberOfColumns(5);
+            setGridPresenter(gridPresenter);
+        }
 
+        mJumplistPopup = new JumplistPopup(getActivity());
     }
 
     @Override
@@ -328,20 +341,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                 backgroundManager.setBitmap(resource);
             }
         };
-    }
-
-    protected void setupUIElements() {
-        if (mApplication.getUserPreferences().getGridDirection() == GridDirection.HORIZONTAL) {
-            HorizontalGridPresenter gridPresenter = new HorizontalGridPresenter();
-            gridPresenter.setNumberOfRows(getGridHeight() / getCardHeight());
-            setGridPresenter(gridPresenter);
-        }else {
-            VerticalGridPresenter gridPresenter = new VerticalGridPresenter();
-            gridPresenter.setNumberOfColumns(6);// TODO Calculate this
-            setGridPresenter(gridPresenter);
-        }
-
-        mJumplistPopup = new JumplistPopup(getActivity());
     }
 
     protected ImageButton mUnwatchedButton;
