@@ -89,7 +89,6 @@ import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
-
 import timber.log.Timber;
 
 public class CustomPlaybackOverlayFragment extends Fragment implements IPlaybackOverlayFragment, ILiveTvGuide {
@@ -586,16 +585,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mAudioManager.registerMediaButtonEventReceiver(new ComponentName(TvApp.getApplication().getPackageName(), RemoteControlReceiver.class.getName()));
         //TODO implement conditional logic for api 21+
 
-        if (TvApp.getApplication().isPlayingIntros()) {
-            // don't show overlay
-            TvApp.getApplication().setPlayingIntros(false);
-        } else {
-            if (!mIsVisible) {
-                show(); // in case we were paused during video playback
-                setFadingEnabled(true);
-            }
+        if (!mIsVisible) {
+            show(); // in case we were paused during video playback
+            setFadingEnabled(true);
         }
-
     }
 
     @Override

@@ -88,8 +88,6 @@ public class TvApp extends Application {
     private long lastFavoriteUpdate = System.currentTimeMillis();
     private long lastMusicPlayback = System.currentTimeMillis();
 
-    private boolean playingIntros;
-
     private BaseActivity currentActivity;
 
     private LogonCredentials configuredAutoCredentials;
@@ -443,13 +441,5 @@ public class TvApp extends Application {
 
     public void setLastVideoQueueChange(long lastVideoQueueChange) {
         this.lastVideoQueueChange = lastVideoQueueChange;
-    }
-
-    public boolean isPlayingIntros() {
-        return playingIntros;
-    }
-
-    public void setPlayingIntros(boolean playingIntros) {
-        this.playingIntros = playingIntros;
     }
 }
