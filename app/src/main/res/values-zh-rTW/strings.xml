@@ -192,4 +192,8 @@
     <string name="lbl_hour">小時</string>
     <string name="watch_now">馬上看</string>
     <string name="pref_app_theme">應用程式主題</string>
+    <string name="msg_burn_sub_warning">燒錄字幕需要花費幾分鐘。請耐心等待…</string>
+    <string name="msg_unable_load_subs">無法讀取字幕</string>
+    <string name="msg_subtitles_loading">字幕讀取中…</string>
+    <string name="lbl_filters">篩選器</string>
 </resources>
