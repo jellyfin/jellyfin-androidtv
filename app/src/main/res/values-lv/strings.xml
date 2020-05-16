@@ -84,7 +84,7 @@
     <string name="pref_live_tv_mode_desc">Pāriet tieši uz pēdējo atskaņoto Tiešsaistes TV kanālu</string>
     <string name="pref_live_tv_mode">Tiešsaistes TV Režīms</string>
     <string name="lbl_select_date">Izvēlies Datumu</string>
-    <string name="lbl_show_premieres">Rādīt sezonas pirmizrādes Mājas Ekrānā</string>
+    <string name="lbl_show_premieres">Rādīt sezonas pirmizrādes pārlūkošanas laikā</string>
     <string name="desc_use_vlc_livetv">Izmantot VLC priekš tiešas Tiešsaistes TV straumēšanas, kad iespējams</string>
     <string name="lbl_use_vlc_livetv">Mēģināt izmantot VLC priekš Tiešsaistes TV</string>
     <string name="lbl_open">Atvēŗt</string>
@@ -96,7 +96,7 @@
     <string name="lbl_zoom">Pietuvināts</string>
     <string name="lbl_normal">Normāls</string>
     <string name="desc_bitstream_ac3">Vajadzīga atbalstoša aparatūra</string>
-    <string name="lbl_bitstream_ac3">Bitstream Dolby Digital audio</string>
+    <string name="lbl_bitstream_ac3">Bit-straumēt Dolby Digital audio</string>
     <string name="lbl_forget">Aizmirst</string>
     <string name="lbl_switch_server">Nomainīt Serveri</string>
     <string name="desc_seasonal_themes">Rādīt speciālas krāsas un ieteikumus noteiktos gada laikos</string>
@@ -331,7 +331,7 @@
     <string name="lbl_latest_additions">Jaunākie Pievienojumi</string>
     <string name="lbl_other_channels">Citi Kanāli</string>
     <string name="pref_acra_syslog">Ievietot sistēmas logus kļūdu ziņojumos. Tas var saturēt privātus datus no citām lietotnēm, ja tā tika logota izveides brīdī.</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS Audio</string>
+    <string name="lbl_bitstream_dts">Bit-straumēt DTS Audio</string>
     <string name="lbl_instant_mix">Tiešā Jaukšana</string>
     <string name="lbl_upcoming">Gaidāmā</string>
     <string name="lbl_cast_crew">Lomas/Apkalpe</string>
@@ -355,7 +355,7 @@
     <string name="pref_alt_pw_entry_desc">Skaitliska paroles ievade izmantojot tikai D-Pad pogas</string>
     <string name="pref_alt_pw_entry">Pielāgota D-Pad Paroles Ievade</string>
     <string name="lbl_end_padding">Starpinājuma Beigas</string>
-    <string name="lbl_begin_padding">Strpinājuma Sākums</string>
+    <string name="lbl_begin_padding">Starpinājuma Sākums</string>
     <string name="lbl_on">Ieslēgts</string>
     <string name="pref_theme_dark">Tumšais (Noklusējums)</string>
     <string name="pref_theme_emerald">Klasiskais Smaragds</string>
