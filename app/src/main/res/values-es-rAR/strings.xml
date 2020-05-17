@@ -73,4 +73,10 @@
     <string name="loading">Cargando…</string>
     <string name="video_error_unknown_error">Error al cargar el video</string>
     <string name="play">Reproducir</string>
+    <string name="pref_prompt_pw">Solicitar contraseña</string>
+    <string name="pref_auto_login">Iniciar sesión automáticamente como este usuario</string>
+    <string name="pref_max_bitrate_title">Velocidad de bits de transmisión máxima</string>
+    <string name="pref_playback">Reproducción</string>
+    <string name="pref_show_login">Mostrar pantalla de inicio de sesión</string>
+    <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 </resources>
