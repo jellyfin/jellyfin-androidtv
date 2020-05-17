@@ -32,7 +32,6 @@ public class PlaybackHelper {
     public static void getItemsToPlay(final BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<BaseItemDto>> outerResponse) {
         final List<BaseItemDto> items = new ArrayList<>();
         ItemQuery query = new ItemQuery();
-        TvApp.getApplication().setPlayingIntros(false);
 
         switch (mainItem.getBaseItemType()) {
             case Episode:
@@ -216,9 +215,6 @@ public class PlaybackHelper {
                             if (response.getTotalRecordCount() > 0){
                                 Collections.addAll(items, response.getItems());
                                 Timber.i("%d intro items added for playback.", response.getTotalRecordCount());
-                                TvApp.getApplication().setPlayingIntros(true);
-                            } else {
-                                TvApp.getApplication().setPlayingIntros(false);
                             }
                             //Finally, the main item including subsequent parts
                             addMainItem(mainItem, items, outerResponse);

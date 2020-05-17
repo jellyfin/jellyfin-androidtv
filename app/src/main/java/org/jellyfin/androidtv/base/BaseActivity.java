@@ -1,10 +1,12 @@
 package org.jellyfin.androidtv.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.search.SearchActivity;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -65,7 +67,11 @@ public abstract class BaseActivity extends FragmentActivity {
 
     @Override
     public boolean onSearchRequested() {
-        TvApp.getApplication().showSearch(this, false);
+        Intent intent = new Intent(this, SearchActivity.class);
+        intent.putExtra("MusicOnly", false);
+
+        startActivity(intent);
+
         return true;
     }
 }

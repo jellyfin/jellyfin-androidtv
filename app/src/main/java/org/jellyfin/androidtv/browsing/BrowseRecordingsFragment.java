@@ -1,22 +1,14 @@
 package org.jellyfin.androidtv.browsing;
 
 import android.os.Handler;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
-import org.jellyfin.androidtv.model.DisplayPriorityType;
 import org.jellyfin.androidtv.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -28,6 +20,12 @@ import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
 import timber.log.Timber;
 
 public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
@@ -76,14 +74,8 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
         shows.setIsSeries(true);
         BrowseRowDef showsDef = new BrowseRowDef(mActivity.getString(R.string.lbl_tv_series), shows, 60);
 
-        //Insert order based on pref
-        if (mApplication.getDisplayPriority() == DisplayPriorityType.Movies) {
-            mRows.add(moviesDef);
-            mRows.add(showsDef);
-        } else {
-            mRows.add(showsDef);
-            mRows.add(moviesDef);
-        }
+        mRows.add(showsDef);
+        mRows.add(moviesDef);
 
         //Sports
         RecordingQuery sports = new RecordingQuery();

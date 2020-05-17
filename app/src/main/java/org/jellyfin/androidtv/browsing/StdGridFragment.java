@@ -16,6 +16,7 @@ package org.jellyfin.androidtv.browsing;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -55,6 +56,7 @@ import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.HorizontalGridPresenter;
 import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.ViewQuery;
+import org.jellyfin.androidtv.search.SearchActivity;
 import org.jellyfin.androidtv.ui.CharSelectedListener;
 import org.jellyfin.androidtv.ui.DisplayPrefsPopup;
 import org.jellyfin.androidtv.ui.HorizontalGridFragment;
@@ -78,7 +80,6 @@ import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
-
 import timber.log.Timber;
 
 public class StdGridFragment extends HorizontalGridFragment implements IGridLoader {
@@ -319,7 +320,6 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                 backgroundManager.setBitmap(resource);
-                mApplication.setCurrentBackground(resource);
             }
         };
     }
@@ -456,7 +456,10 @@ public class StdGridFragment extends HorizontalGridFragment implements IGridLoad
         toolBar.addView(new ImageButton(getActivity(), R.drawable.ic_search, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TvApp.getApplication().showSearch(getActivity(), "music".equals(mFolder.getCollectionType()) || mFolder.getBaseItemType() == BaseItemType.MusicAlbum || mFolder.getBaseItemType() == BaseItemType.MusicArtist);
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                intent.putExtra("MusicOnly", "music".equals(mFolder.getCollectionType()) || mFolder.getBaseItemType() == BaseItemType.MusicAlbum || mFolder.getBaseItemType() == BaseItemType.MusicArtist);
+
+                startActivity(intent);
             }
         }));
 

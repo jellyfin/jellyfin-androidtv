@@ -197,8 +197,8 @@ public class Utils {
 
     public static int getMaxBitrate() {
         String maxRate = TvApp.getApplication().getUserPreferences().getMaxBitrate();
-        Float factor = Float.parseFloat(maxRate) * 10;
-        return Math.min(factor == 0 ? TvApp.getApplication().getAutoBitrate() : (factor.intValue() * 100000), TvApp.getApplication().getServerBitrateLimit());
+        float factor = Float.parseFloat(maxRate) * 10;
+        return Math.min(factor == 0 ? TvApp.getApplication().getAutoBitrate() : ((int) factor * 100000), 100000000);
     }
 
     public static PopupMenu createPopupMenu(Context context, View view, int gravity) {

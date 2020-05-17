@@ -388,7 +388,6 @@ public class PlaybackController {
 
     private void playInternal(final BaseItemDto item, final Long position, final VideoOptions vlcOptions, final VideoOptions internalOptions) {
         final ApiClient apiClient = mApplication.getApiClient();
-        mApplication.setCurrentPlayingItem(item);
         if (isLiveTv) {
             liveTvChannelName = " ("+item.getName()+")";
             updateTvProgramInfo();

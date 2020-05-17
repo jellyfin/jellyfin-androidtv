@@ -3,14 +3,7 @@ package org.jellyfin.androidtv;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.media.AudioManager;
-
-import androidx.core.content.ContextCompat;
-import androidx.palette.graphics.Palette;
 
 import org.acra.ACRA;
 import org.acra.annotation.AcraCore;
@@ -22,7 +15,6 @@ import org.jellyfin.androidtv.base.AppThemeCallbacks;
 import org.jellyfin.androidtv.base.AuthenticatedUserCallbacks;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
-import org.jellyfin.androidtv.model.DisplayPriorityType;
 import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.model.repository.ConnectionManagerRepository;
 import org.jellyfin.androidtv.playback.ExternalPlayerActivity;
@@ -34,15 +26,12 @@ import org.jellyfin.androidtv.preferences.SystemPreferences;
 import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.androidtv.preferences.enums.LoginBehavior;
 import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer;
-import org.jellyfin.androidtv.search.SearchActivity;
-import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.AndroidDevice;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.logging.AndroidLogger;
-import org.jellyfin.apiclient.model.configuration.ServerConfiguration;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserDto;
@@ -78,11 +67,9 @@ public class TvApp extends Application {
     private PlaybackManager playbackManager;
     private static TvApp app;
     private UserDto currentUser;
-    private BaseItemDto currentPlayingItem;
     private BaseItemDto lastPlayedItem;
     private PlaybackController playbackController;
     private ApiClient loginApiClient;
-    private AudioManager audioManager;
 
     private int autoBitrate;
     private String directItemId;
@@ -91,10 +78,6 @@ public class TvApp extends Application {
 
     private String lastDeletedItemId = "";
 
-    private ServerConfiguration serverConfiguration;
-
-    private int maxRemoteBitrate = -1;
-
     private Calendar lastPlayback = Calendar.getInstance();
     private Calendar lastMoviePlayback = Calendar.getInstance();
     private Calendar lastTvPlayback = Calendar.getInstance();
@@ -102,11 +85,6 @@ public class TvApp extends Application {
     private long lastVideoQueueChange = System.currentTimeMillis();
     private long lastFavoriteUpdate = System.currentTimeMillis();
     private long lastMusicPlayback = System.currentTimeMillis();
-
-    private GradientDrawable currentBackgroundGradient;
-
-    private boolean playingIntros;
-    private DisplayPriorityType displayPriority = DisplayPriorityType.Movies;
 
     private BaseActivity currentActivity;
 
@@ -125,9 +103,7 @@ public class TvApp extends Application {
     public void onCreate() {
         super.onCreate();
         app = (TvApp) getApplicationContext();
-        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         playbackManager = new PlaybackManager(new AndroidDevice(this), new AndroidLogger("PlaybackManager"));
-        setCurrentBackgroundGradient(new int[] {ContextCompat.getColor(this, R.color.lb_default_brand_color_dark), ContextCompat.getColor(this, R.color.lb_default_brand_color)});
 
         registerActivityLifecycleCallbacks(new AuthenticatedUserCallbacks());
         registerActivityLifecycleCallbacks(new AppThemeCallbacks());
@@ -159,10 +135,6 @@ public class TvApp extends Application {
         return currentUser != null ? connectionManager.GetApiClient(currentUser) : null;
     }
 
-    public BaseItemDto getCurrentPlayingItem() {
-        return currentPlayingItem;
-    }
-
     /**
      * @deprecated This function is causing a **lot** of issues because not all activities will set their self as "currentactivity". Try to receive a Context instance instead.
      */
@@ -173,10 +145,6 @@ public class TvApp extends Application {
 
     public void setCurrentActivity(BaseActivity activity) {
         currentActivity = activity;
-    }
-
-    public void setCurrentPlayingItem(BaseItemDto currentPlayingItem) {
-        this.currentPlayingItem = currentPlayingItem;
     }
 
     public ApiClient getLoginApiClient() {
@@ -193,13 +161,6 @@ public class TvApp extends Application {
 
     public void setPlaybackController(PlaybackController playbackController) {
         this.playbackController = playbackController;
-    }
-
-    public void showSearch(final Activity activity, boolean musicOnly) {
-        Intent intent = new Intent(activity, SearchActivity.class);
-        intent.putExtra("MusicOnly", musicOnly);
-
-        activity.startActivity(intent);
     }
 
     public LogonCredentials getConfiguredAutoCredentials() {
@@ -302,10 +263,6 @@ public class TvApp extends Application {
 
     public PlaybackManager getPlaybackManager() {
         return playbackManager;
-    }
-
-    public void setPlaybackManager(PlaybackManager playbackManager) {
-        this.playbackManager = playbackManager;
     }
 
     public Drawable getDrawableCompat(int id) {
@@ -440,7 +397,6 @@ public class TvApp extends Application {
         });
     }
 
-
     public String getDirectItemId() {
         return directItemId;
     }
@@ -471,45 +427,5 @@ public class TvApp extends Application {
 
     public void setLastVideoQueueChange(long lastVideoQueueChange) {
         this.lastVideoQueueChange = lastVideoQueueChange;
-    }
-
-    public boolean isPlayingIntros() {
-        return playingIntros;
-    }
-
-    public void setPlayingIntros(boolean playingIntros) {
-        this.playingIntros = playingIntros;
-    }
-
-    public ServerConfiguration getServerConfiguration() {
-        return serverConfiguration;
-    }
-
-    public int getServerBitrateLimit() { return maxRemoteBitrate > 0 ? maxRemoteBitrate : 100000000; }
-
-    public DisplayPriorityType getDisplayPriority() {
-        return displayPriority;
-    }
-
-    public void setDisplayPriority(DisplayPriorityType displayPriority) {
-        this.displayPriority = displayPriority;
-    }
-
-    public GradientDrawable getCurrentBackgroundGradient() {
-        return currentBackgroundGradient;
-    }
-
-    public void setCurrentBackground(Bitmap currentBackground) {
-        int[] colors = new int[2];
-        colors[0] = Utils.darker(Palette.from(currentBackground).generate().getMutedColor(ContextCompat.getColor(this, R.color.black_transparent)), .6f);
-        colors[1] = Utils.darker(colors[0], .1f);
-        setCurrentBackgroundGradient(colors);
-    }
-
-    private void setCurrentBackgroundGradient(int[] colors) {
-        currentBackgroundGradient = new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors);
-        currentBackgroundGradient.setCornerRadius(0f);
-        currentBackgroundGradient.setGradientCenter(.6f, .5f);
-        currentBackgroundGradient.setAlpha(200);
     }
 }
