@@ -47,4 +47,5 @@
     <string name="loading">Kraunasi…</string>
     <string name="video_error_unknown_error">Nepavyko paleisti</string>
     <string name="play">Žiūrėti</string>
+    <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 </resources>
