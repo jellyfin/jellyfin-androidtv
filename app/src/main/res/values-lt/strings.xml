@@ -48,4 +48,15 @@
     <string name="video_error_unknown_error">Nepavyko paleisti</string>
     <string name="play">Žiūrėti</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="msg_unable_to_cancel">Nepavyko atšaukti įrašymo</string>
+    <string name="msg_recording_cancelled">Įrašymas Atšauktas</string>
+    <string name="msg_unable_to_create_recording">Nepavyko sukurti įrašo</string>
+    <string name="msg_set_to_record">Programa nustatyta įrašymui</string>
+    <string name="lbl_record">Įrašyti</string>
+    <string name="lbl_cancel_recording">Atšaukti Įrašymą</string>
+    <string name="lbl_shuffle_all">Sumaišyti Visus</string>
+    <string name="lbl_status">%s / %s</string>
+    <string name="pref_max_bitrate_title">Maksimali transliacijos sparta</string>
+    <string name="pref_playback">Grojimas</string>
+    <string name="pref_login_behavior_title">Užkrovimo Elgsena</string>
 </resources>
