@@ -63,7 +63,7 @@
     <string name="lbl_cast_crew">Herci/Štáb</string>
     <string name="lbl_chapters">Kapitoly</string>
     <string name="lbl_specials">Speciály</string>
-    <string name="lbl_trailers">Trailery</string>
+    <string name="lbl_trailers">Upoutávky</string>
     <string name="lbl_items">Položky</string>
     <string name="lbl_item">Položka</string>
     <string name="lbl_seasons">Sezóny</string>
@@ -89,8 +89,8 @@
     <string name="msg_video_playback_error">"Chyba při přehrávání videa - "</string>
     <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>
     <string name="msg_access_restricted">Přístup omezen v této době</string>
-    <string name="lbl_trailer">"Trailer "</string>
-    <string name="lbl_play_trailers">Přehrát trailer(y)</string>
+    <string name="lbl_trailer">"Upoutávka "</string>
+    <string name="lbl_play_trailers">Přehrát upoutávky</string>
     <string name="lbl_please_wait">Prosím, čekejte</string>
     <string name="lbl_enter_user_name">Zadejte uživatelské jméno</string>
     <string name="lbl_enter_user_pw">Zadejte uživatelské heslo</string>
@@ -177,12 +177,12 @@
     <string name="lbl_filters">Filtry</string>
     <string name="msg_subtitles_loading">Načítají se titulky...</string>
     <string name="msg_unable_load_subs">Nelze načíst titulky</string>
-    <string name="msg_burn_sub_warning">Vypáleno s titulky může trvat několik minut. Prosím, buďte trpěliví...</string>
+    <string name="msg_burn_sub_warning">Vypálení titulků může trvat několik minut. Čekejte, prosím…</string>
     <string name="lbl_recording">Nahrávání</string>
     <string name="lbl_no_recordings">Žádné nahrávky</string>
-    <string name="lbl_live_tv_guide">Průvodce Live TV</string>
-    <string name="lbl_recorded_tv">TV nahrávky</string>
-    <string name="pref_live_tv_cat">LIVE TV</string>
+    <string name="lbl_live_tv_guide">Programový průvodce</string>
+    <string name="lbl_recorded_tv">Nahrané pořady</string>
+    <string name="pref_live_tv_cat">Televize</string>
     <string name="lbl_programs">Programy</string>
     <string name="lbl_albums">Alba</string>
     <string name="lbl_artists">Úmělci</string>
@@ -247,8 +247,8 @@
     <string name="lbl_reshuffle_queue">Znovu promíchat frontu</string>
     <string name="lbl_warning">Varování</string>
     <string name="sum_enable_cinema_mode">Pokud je povoleno na serveru, zobrazovat úvodníky a náhledy před přehráváním filmu</string>
-    <string name="lbl_direct_stream_live">Přímé vysílání živé TV</string>
-    <string name="msg_error_live_stream">Chyba vysílání živé TV. Opakování pokusu...</string>
+    <string name="lbl_direct_stream_live">Přímý televizní přenos</string>
+    <string name="msg_error_live_stream">Chyba při přenosu televizního vysílání. Opakování pokusu...</string>
     <string name="lbl_now_playing_album">z %s</string>
     <string name="lbl_now_playing_track">%s z %s</string>
     <string name="msg_error_signin">Došlo k chybě při přihlašování prostřednictvím uložených přihlašovacích údajů.</string>
