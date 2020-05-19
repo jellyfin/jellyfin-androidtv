@@ -501,6 +501,23 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     }
                 }
 
+                // Control fast forward and rewind if overlay hidden and not showing live TV
+                if (!mPlaybackController.isLiveTv()) {
+                    if (keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD || keyCode == KeyEvent.KEYCODE_BUTTON_R1 || keyCode ==KeyEvent.KEYCODE_BUTTON_R2) {
+                        mPlaybackController.skip(30000);
+                        if (!mIsVisible) show();
+                        setFadingEnabled(true);
+                        return true;
+                    }
+
+                    if (keyCode == KeyEvent.KEYCODE_MEDIA_REWIND || keyCode == KeyEvent.KEYCODE_BUTTON_L1 || keyCode == KeyEvent.KEYCODE_BUTTON_L2) {
+                        mPlaybackController.skip(-11000);
+                        if (!mIsVisible) show();
+                        setFadingEnabled(true);
+                        return true;
+                    }
+                }
+
                 if (!mIsVisible) {
                     if (!DeviceUtils.isFireTv() && !mPlaybackController.isLiveTv()) {
                         if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
