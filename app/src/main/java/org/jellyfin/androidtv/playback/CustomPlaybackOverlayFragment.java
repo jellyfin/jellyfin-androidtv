@@ -432,6 +432,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private View.OnKeyListener keyListener = new View.OnKeyListener() {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
             leanbackOverlayFragment.setShouldShowOverlay(true);
             if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP && mActivity != null && !mActivity.isFinishing()) {
                 mActivity.finish();
@@ -545,7 +546,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 //and then manage our fade timer
                 if (mFadeEnabled) startFadeTimer();
             }
-
+            }
             return false;
         }
     };
