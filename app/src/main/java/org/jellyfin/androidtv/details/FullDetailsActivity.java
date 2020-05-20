@@ -202,11 +202,11 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         startClock();
 
         //Update information that may have changed - delay slightly to allow changes to take on the server
-        if (mApplication.getLastPlayback().after(mLastUpdated) && mBaseItem.getBaseItemType() != BaseItemType.MusicArtist) {
+        if (mApplication.dataRefreshService.getLastPlayback() > mLastUpdated.getTimeInMillis() && mBaseItem.getBaseItemType() != BaseItemType.MusicArtist) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (mBaseItem.getBaseItemType() == BaseItemType.Episode && mApplication.getLastPlayback().after(mLastUpdated) && mApplication.getLastPlayedItem() != null && !mBaseItem.getId().equals(mApplication.getLastPlayedItem().getId()) && mApplication.getLastPlayedItem().getBaseItemType() == BaseItemType.Episode) {
+                    if (mBaseItem.getBaseItemType() == BaseItemType.Episode && mApplication.dataRefreshService.getLastPlayback() > mLastUpdated.getTimeInMillis() && mApplication.getLastPlayedItem() != null && !mBaseItem.getId().equals(mApplication.getLastPlayedItem().getId()) && mApplication.getLastPlayedItem().getBaseItemType() == BaseItemType.Episode) {
                         Timber.i("Re-loading after new episode playback");
                         loadItem(mApplication.getLastPlayedItem().getId());
                         mApplication.setLastPlayedItem(null); //blank this out so a detail screen we back up to doesn't also do this
@@ -777,7 +777,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             public void onResponse(UserItemDataDto response) {
                 mBaseItem.setUserData(response);
                 favButton.setImageResource(response.getIsFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart);
-                TvApp.getApplication().setLastFavoriteUpdate(System.currentTimeMillis());
+                TvApp.getApplication().dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
             }
         });
     }
@@ -800,7 +800,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                             public void onResponse() {
                                 msg.Cancel();
                                 Utils.showToast(mActivity, mBaseItem.getName() + " Deleted");
-                                TvApp.getApplication().setLastDeletedItemId(mBaseItem.getId());
+                                TvApp.getApplication().dataRefreshService.setLastDeletedItemId(mBaseItem.getId());
                                 finish();
                             }
 
@@ -993,7 +993,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                 @Override
                                 public void onResponse() {
                                     setRecTimer(null);
-                                    TvApp.getApplication().setLastDeletedItemId(mProgramInfo.getId());
+                                    TvApp.getApplication().dataRefreshService.setLastDeletedItemId(mProgramInfo.getId());
                                     Utils.showToast(mActivity, R.string.msg_recording_cancelled);
                                 }
 
@@ -1062,7 +1062,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                                 public void onResponse() {
                                                     setRecSeriesTimer(null);
                                                     setRecTimer(null);
-                                                    TvApp.getApplication().setLastDeletedItemId(mProgramInfo.getId());
+                                                    TvApp.getApplication().dataRefreshService.setLastDeletedItemId(mProgramInfo.getId());
                                                     Utils.showToast(mActivity, R.string.msg_recording_cancelled);
                                                 }
 
@@ -1192,7 +1192,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                         public void onResponse() {
                                             msg.Cancel();
                                             Utils.showToast(activity, mSeriesTimerInfo.getName() + " Canceled");
-                                            TvApp.getApplication().setLastDeletedItemId(mSeriesTimerInfo.getId());
+                                            TvApp.getApplication().dataRefreshService.setLastDeletedItemId(mSeriesTimerInfo.getId());
                                             finish();
                                         }
 
@@ -1420,7 +1420,15 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 if (mResumeButton != null && !mBaseItem.getCanResume())
                     mResumeButton.setVisibility(View.GONE);
                 //force lists to re-fetch
-                TvApp.getApplication().setLastPlayback(Calendar.getInstance());
+                TvApp.getApplication().dataRefreshService.setLastPlayback(System.currentTimeMillis());
+                switch (mBaseItem.getType()) {
+                    case "Movie":
+                        TvApp.getApplication().dataRefreshService.setLastMoviePlayback(System.currentTimeMillis());
+                        break;
+                    case "Episode":
+                        TvApp.getApplication().dataRefreshService.setLastTvPlayback(System.currentTimeMillis());
+                        break;
+                }
                 showMoreButtonIfNeeded();
             }
         });
@@ -1437,7 +1445,15 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 if (mResumeButton != null && !mBaseItem.getCanResume())
                     mResumeButton.setVisibility(View.GONE);
                 //force lists to re-fetch
-                TvApp.getApplication().setLastPlayback(Calendar.getInstance());
+                TvApp.getApplication().dataRefreshService.setLastPlayback(System.currentTimeMillis());
+                switch (mBaseItem.getType()) {
+                    case "Movie":
+                        TvApp.getApplication().dataRefreshService.setLastMoviePlayback(System.currentTimeMillis());
+                        break;
+                    case "Episode":
+                        TvApp.getApplication().dataRefreshService.setLastTvPlayback(System.currentTimeMillis());
+                        break;
+                }
                 showMoreButtonIfNeeded();
             }
         });

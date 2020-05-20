@@ -22,9 +22,6 @@ import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.querying.StdItemQuery;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
-
-import java.util.List;
-
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
@@ -34,6 +31,8 @@ import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
+
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -553,7 +552,7 @@ public class KeyProcessor {
             @Override
             public void onResponse(UserItemDataDto response) {
                 mCurrentActivity.sendMessage(CustomMessage.RefreshCurrentItem);
-                TvApp.getApplication().setLastFavoriteUpdate(System.currentTimeMillis());
+                TvApp.getApplication().dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
             }
 
             @Override

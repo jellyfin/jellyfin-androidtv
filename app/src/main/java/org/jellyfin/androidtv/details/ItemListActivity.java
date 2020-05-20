@@ -205,7 +205,7 @@ public class ItemListActivity extends BaseActivity {
         // and fire it to be sure we're updated
         mAudioEventListener.onPlaybackStateChange(MediaManager.isPlayingAudio() ? PlaybackController.PlaybackState.PLAYING : PlaybackController.PlaybackState.IDLE, MediaManager.getCurrentAudioItem());
 
-        if (!firstTime && mApplication.getLastPlayback().after(lastUpdated)) {
+        if (!firstTime && mApplication.dataRefreshService.getLastPlayback() > lastUpdated.getTimeInMillis()) {
             if (mItemId.equals(VIDEO_QUEUE)) {
                 //update this in case it changed - delay to allow for the changes
                 new Handler().postDelayed(new Runnable() {
@@ -627,7 +627,7 @@ public class ItemListActivity extends BaseActivity {
                             public void onResponse(UserItemDataDto response) {
                                 mBaseItem.setUserData(response);
                                 ((ImageButton) v).setImageResource(response.getIsFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart);
-                                TvApp.getApplication().setLastFavoriteUpdate(System.currentTimeMillis());
+                                TvApp.getApplication().dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
                             }
                         });
                     }
@@ -657,7 +657,7 @@ public class ItemListActivity extends BaseActivity {
                                     .setPositiveButton("Clear", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int whichButton) {
                                             MediaManager.setCurrentVideoQueue(new ArrayList<BaseItemDto>());
-                                            mApplication.setLastVideoQueueChange(System.currentTimeMillis());
+                                            mApplication.dataRefreshService.setLastVideoQueueChange(System.currentTimeMillis());
                                             finish();
                                         }
                                     })
@@ -678,7 +678,7 @@ public class ItemListActivity extends BaseActivity {
                                                 @Override
                                                 public void onResponse() {
                                                     Utils.showToast(mActivity, mBaseItem.getName() + " Deleted");
-                                                    TvApp.getApplication().setLastDeletedItemId(mBaseItem.getId());
+                                                    TvApp.getApplication().dataRefreshService.setLastDeletedItemId(mBaseItem.getId());
                                                     finish();
                                                 }
 

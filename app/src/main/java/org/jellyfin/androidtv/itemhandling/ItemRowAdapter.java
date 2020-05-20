@@ -2,12 +2,6 @@ package org.jellyfin.androidtv.itemhandling;
 
 import android.os.Handler;
 
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.PresenterSelector;
-
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.browsing.EnhancedBrowseFragment;
@@ -27,13 +21,6 @@ import org.jellyfin.androidtv.querying.ViewQuery;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.HorizontalGridFragment;
 import org.jellyfin.androidtv.util.Utils;
-
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.TimeZone;
-
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
@@ -66,6 +53,17 @@ import org.jellyfin.apiclient.model.search.SearchHint;
 import org.jellyfin.apiclient.model.search.SearchHintResult;
 import org.jellyfin.apiclient.model.search.SearchQuery;
 
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.TimeZone;
+
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.PresenterSelector;
 import timber.log.Timber;
 
 public class ItemRowAdapter extends ArrayObjectAdapter {
@@ -580,22 +578,22 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         for (ChangeTriggerType trigger : reRetrieveTriggers) {
             switch (trigger) {
                 case LibraryUpdated:
-                    retrieve |= lastFullRetrieve.before(app.getLastLibraryChange());
+                    retrieve |= lastFullRetrieve.before(app.dataRefreshService.getLastLibraryChange());
                     break;
                 case MoviePlayback:
-                    retrieve |= lastFullRetrieve.before(app.getLastMoviePlayback());
+                    retrieve |= lastFullRetrieve.before(app.dataRefreshService.getLastMoviePlayback());
                     break;
                 case TvPlayback:
-                    retrieve |= lastFullRetrieve.before(app.getLastTvPlayback());
+                    retrieve |= lastFullRetrieve.before(app.dataRefreshService.getLastTvPlayback());
                     break;
                 case MusicPlayback:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.getLastMusicPlayback();
+                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.dataRefreshService.getLastMusicPlayback();
                     break;
                 case FavoriteUpdate:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.getLastFavoriteUpdate();
+                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.dataRefreshService.getLastFavoriteUpdate();
                     break;
                 case VideoQueueChange:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.getLastVideoQueueChange();
+                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.dataRefreshService.getLastVideoQueueChange();
                     break;
                 case GuideNeedsLoad:
                     Calendar start = new GregorianCalendar(TimeZone.getTimeZone("Z"));

@@ -18,7 +18,6 @@ import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.model.repository.ConnectionManagerRepository;
 import org.jellyfin.androidtv.playback.ExternalPlayerActivity;
-import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.PlaybackManager;
 import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
@@ -26,6 +25,7 @@ import org.jellyfin.androidtv.preferences.SystemPreferences;
 import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.androidtv.preferences.enums.LoginBehavior;
 import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer;
+import org.jellyfin.androidtv.querying.DataRefreshService;
 import org.jellyfin.apiclient.interaction.AndroidDevice;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -37,7 +37,6 @@ import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 
-import java.util.Calendar;
 import java.util.HashMap;
 
 import timber.log.Timber;
@@ -76,15 +75,7 @@ public class TvApp extends Application {
 
     private HashMap<String, DisplayPreferences> displayPrefsCache = new HashMap<>();
 
-    private String lastDeletedItemId = "";
-
-    private Calendar lastPlayback = Calendar.getInstance();
-    private Calendar lastMoviePlayback = Calendar.getInstance();
-    private Calendar lastTvPlayback = Calendar.getInstance();
-    private Calendar lastLibraryChange = Calendar.getInstance();
-    private long lastVideoQueueChange = System.currentTimeMillis();
-    private long lastFavoriteUpdate = System.currentTimeMillis();
-    private long lastMusicPlayback = System.currentTimeMillis();
+    public final DataRefreshService dataRefreshService = new DataRefreshService();
 
     private BaseActivity currentActivity;
 
@@ -205,21 +196,6 @@ public class TvApp extends Application {
         return useExternalPlayer(itemType) ? ExternalPlayerActivity.class : PlaybackOverlayActivity.class;
     }
 
-    public Calendar getLastMoviePlayback() {
-        return lastMoviePlayback.after(lastPlayback) ? lastMoviePlayback : lastPlayback;
-    }
-
-    public void setLastMoviePlayback(Calendar lastMoviePlayback) {
-        this.lastMoviePlayback = lastMoviePlayback;
-        this.lastPlayback = lastMoviePlayback;
-    }
-
-    public void setLastFavoriteUpdate(long time) { lastFavoriteUpdate = time; }
-    public long getLastFavoriteUpdate() { return lastFavoriteUpdate; }
-
-    public void setLastMusicPlayback(long time) { lastMusicPlayback = time; }
-    public long getLastMusicPlayback() { return lastMusicPlayback; }
-
     /**
      * @deprecated Use `getUserPreferences().getResumePreroll()`
      */
@@ -230,31 +206,6 @@ public class TvApp extends Application {
         } catch (Exception e) {
             return 0;
         }
-    }
-
-    public Calendar getLastTvPlayback() {
-        return lastTvPlayback.after(lastPlayback) ? lastTvPlayback : lastPlayback;
-    }
-
-    public void setLastTvPlayback(Calendar lastTvPlayback) {
-        this.lastTvPlayback = lastTvPlayback;
-        this.lastPlayback = lastTvPlayback;
-    }
-
-    public Calendar getLastLibraryChange() {
-        return lastLibraryChange;
-    }
-
-    public void setLastLibraryChange(Calendar lastLibraryChange) {
-        this.lastLibraryChange = lastLibraryChange;
-    }
-
-    public Calendar getLastPlayback() {
-        return lastPlayback;
-    }
-
-    public void setLastPlayback(Calendar lastPlayback) {
-        this.lastPlayback = lastPlayback;
     }
 
     public boolean canManageRecordings() {
@@ -271,67 +222,6 @@ public class TvApp extends Application {
 //        }
 
         return getResources().getDrawable(id);
-    }
-
-    public boolean isPlayingVideo() {
-        return playbackController != null && currentActivity != null && currentActivity instanceof PlaybackOverlayActivity;
-    }
-
-    public void stopPlayback() {
-        if (isPlayingVideo()) {
-            currentActivity.finish();
-        } else if (MediaManager.isPlayingAudio()) {
-            MediaManager.stopAudio();
-        }
-    }
-
-    public void pausePlayback() {
-        if (MediaManager.isPlayingAudio()) {
-            MediaManager.pauseAudio();
-        } else if (isPlayingVideo()) {
-            playbackController.playPause();
-        }
-    }
-    public void unPausePlayback() {
-        if (isPlayingVideo()) {
-            playbackController.playPause();
-        } else if (MediaManager.hasAudioQueueItems()) {
-            MediaManager.resumeAudio();
-        }
-    }
-
-    public void playbackNext() {
-        if (isPlayingVideo()) {
-            playbackController.next();
-        } else if (MediaManager.hasAudioQueueItems()) {
-            MediaManager.nextAudioItem();
-        }
-    }
-
-    public void playbackPrev() {
-        if (isPlayingVideo()) {
-            playbackController.prev();
-        } else if (MediaManager.hasAudioQueueItems()) {
-            MediaManager.prevAudioItem();
-        }
-    }
-
-    public void playbackSeek(int pos) {
-        if (isPlayingVideo()) {
-            playbackController.seek(pos);
-        }
-    }
-
-    public void playbackJump() {
-        if (isPlayingVideo()) {
-            playbackController.skip(30000);
-        }
-    }
-
-    public void playbackJumpBack() {
-        if (playbackController != null) {
-            playbackController.skip(-11000);
-        }
     }
 
     public DisplayPreferences getCachedDisplayPrefs(String key) {
@@ -405,27 +295,11 @@ public class TvApp extends Application {
         this.directItemId = directItemId;
     }
 
-    public String getLastDeletedItemId() {
-        return lastDeletedItemId;
-    }
-
-    public void setLastDeletedItemId(String lastDeletedItemId) {
-        this.lastDeletedItemId = lastDeletedItemId;
-    }
-
     public BaseItemDto getLastPlayedItem() {
         return lastPlayedItem;
     }
 
     public void setLastPlayedItem(BaseItemDto lastPlayedItem) {
         this.lastPlayedItem = lastPlayedItem;
-    }
-
-    public long getLastVideoQueueChange() {
-        return lastVideoQueueChange;
-    }
-
-    public void setLastVideoQueueChange(long lastVideoQueueChange) {
-        this.lastVideoQueueChange = lastVideoQueueChange;
     }
 }

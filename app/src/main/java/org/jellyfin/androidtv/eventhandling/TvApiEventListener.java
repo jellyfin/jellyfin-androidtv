@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.eventhandling;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -10,6 +11,8 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.playback.PlaybackController;
+import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
 import org.jellyfin.androidtv.querying.StdItemQuery;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
@@ -27,7 +30,6 @@ import org.jellyfin.apiclient.model.session.PlaystateRequest;
 import org.jellyfin.apiclient.model.session.SessionInfoDto;
 
 import java.util.Arrays;
-import java.util.Calendar;
 
 import timber.log.Timber;
 
@@ -37,14 +39,14 @@ public class TvApiEventListener extends ApiEventListener {
         TvApp app = TvApp.getApplication();
         Timber.d("Got Playback stopped message from server");
         if (info.getUserId().equals(app.getCurrentUser().getId())) {
-            app.setLastPlayback(Calendar.getInstance());
+            app.dataRefreshService.setLastPlayback(System.currentTimeMillis());
             if (info.getNowPlayingItem() == null) return;
             switch (info.getNowPlayingItem().getType()) {
                 case "Movie":
-                    TvApp.getApplication().setLastMoviePlayback(Calendar.getInstance());
+                    TvApp.getApplication().dataRefreshService.setLastMoviePlayback(System.currentTimeMillis());
                     break;
                 case "Episode":
-                    TvApp.getApplication().setLastTvPlayback(Calendar.getInstance());
+                    TvApp.getApplication().dataRefreshService.setLastTvPlayback(System.currentTimeMillis());
                     break;
 
             }
@@ -55,37 +57,63 @@ public class TvApiEventListener extends ApiEventListener {
     public void onLibraryChanged(ApiClient client, LibraryUpdateInfo info) {
         Timber.d("Library Changed. Added %o items. Removed %o items. Changed %o items.", info.getItemsAdded().size(), info.getItemsRemoved().size(), info.getItemsUpdated().size());
         if (info.getItemsAdded().size() > 0 || info.getItemsRemoved().size() > 0)
-            TvApp.getApplication().setLastLibraryChange(Calendar.getInstance());
+            TvApp.getApplication().dataRefreshService.setLastLibraryChange(System.currentTimeMillis());
     }
 
     @Override
     public void onPlaystateCommand(ApiClient client, PlaystateRequest command) {
-        switch (command.getCommand()) {
+        PlaybackController playbackController = TvApp.getApplication().getPlaybackController();
 
+        switch (command.getCommand()) {
             case Stop:
-                TvApp.getApplication().stopPlayback();
+                if (MediaManager.isPlayingAudio())
+                    MediaManager.stopAudio();
+                else {
+                    Activity currentActivity = TvApp.getApplication().getCurrentActivity();
+
+                    if(currentActivity instanceof PlaybackOverlayActivity)
+                        currentActivity.finish();
+                }
                 break;
             case Pause:
-                TvApp.getApplication().pausePlayback();
+                if (MediaManager.isPlayingAudio())
+                    MediaManager.pauseAudio();
+                else if(playbackController != null)
+                    playbackController.playPause();
                 break;
             case Unpause:
-                TvApp.getApplication().unPausePlayback();
+                if (MediaManager.hasAudioQueueItems())
+                    MediaManager.resumeAudio();
+                else if(playbackController != null)
+                    playbackController.playPause();
                 break;
             case NextTrack:
-                TvApp.getApplication().playbackNext();
+                if (MediaManager.hasAudioQueueItems())
+                    MediaManager.nextAudioItem();
+                else if(playbackController != null)
+                    playbackController.next();
                 break;
             case PreviousTrack:
-                TvApp.getApplication().playbackPrev();
+                if (MediaManager.hasAudioQueueItems())
+                    MediaManager.prevAudioItem();
+                else if(playbackController != null)
+                    playbackController.prev();
                 break;
             case Seek:
-                Long pos = command.getSeekPositionTicks() / 10000;
-                TvApp.getApplication().playbackSeek(pos.intValue());
+                if (playbackController == null) break;
+
+                long pos = command.getSeekPositionTicks() / 10000;
+                playbackController.seek(pos);
                 break;
             case Rewind:
-                TvApp.getApplication().playbackJumpBack();
+                if (playbackController == null) break;
+
+                playbackController.skip(-11000);
                 break;
             case FastForward:
-                TvApp.getApplication().playbackJump();
+                if (playbackController == null) break;
+
+                playbackController.skip(30000);
                 break;
         }
     }
