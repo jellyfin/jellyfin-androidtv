@@ -179,6 +179,10 @@
             android:enabled="false"
             android:key="version"
             android:title="@string/lbl_version" />
+        <EditTextPreference
+            android:enabled="false"
+            android:key="device_model"
+            android:title="@string/pref_device_model" />
     </PreferenceCategory>
 
 </PreferenceScreen>

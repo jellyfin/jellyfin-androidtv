@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.preferences.ui
 
 import android.app.AlertDialog
+import android.os.Build
 import android.os.Bundle
 import androidx.leanback.preference.LeanbackPreferenceFragmentCompat
 import androidx.leanback.preference.LeanbackSettingsFragmentCompat
@@ -140,6 +141,10 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 
 			findPreference<EditTextPreference>("version")?.summaryProvider = Preference.SummaryProvider<EditTextPreference> {
 				Utils.getVersionString()
+			}
+
+			findPreference<EditTextPreference>("device_model")?.summaryProvider = Preference.SummaryProvider<EditTextPreference> {
+				"${Build.MANUFACTURER} ${Build.MODEL}"
 			}
 
 			findPreference<EditLongPreference>("libvlc_audio_delay")?.apply {
