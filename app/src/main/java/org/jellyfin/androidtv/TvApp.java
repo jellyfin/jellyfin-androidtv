@@ -18,7 +18,6 @@ import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.model.repository.ConnectionManagerRepository;
 import org.jellyfin.androidtv.playback.ExternalPlayerActivity;
-import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.PlaybackManager;
 import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
@@ -271,67 +270,6 @@ public class TvApp extends Application {
 //        }
 
         return getResources().getDrawable(id);
-    }
-
-    public boolean isPlayingVideo() {
-        return playbackController != null && currentActivity != null && currentActivity instanceof PlaybackOverlayActivity;
-    }
-
-    public void stopPlayback() {
-        if (isPlayingVideo()) {
-            currentActivity.finish();
-        } else if (MediaManager.isPlayingAudio()) {
-            MediaManager.stopAudio();
-        }
-    }
-
-    public void pausePlayback() {
-        if (MediaManager.isPlayingAudio()) {
-            MediaManager.pauseAudio();
-        } else if (isPlayingVideo()) {
-            playbackController.playPause();
-        }
-    }
-    public void unPausePlayback() {
-        if (isPlayingVideo()) {
-            playbackController.playPause();
-        } else if (MediaManager.hasAudioQueueItems()) {
-            MediaManager.resumeAudio();
-        }
-    }
-
-    public void playbackNext() {
-        if (isPlayingVideo()) {
-            playbackController.next();
-        } else if (MediaManager.hasAudioQueueItems()) {
-            MediaManager.nextAudioItem();
-        }
-    }
-
-    public void playbackPrev() {
-        if (isPlayingVideo()) {
-            playbackController.prev();
-        } else if (MediaManager.hasAudioQueueItems()) {
-            MediaManager.prevAudioItem();
-        }
-    }
-
-    public void playbackSeek(int pos) {
-        if (isPlayingVideo()) {
-            playbackController.seek(pos);
-        }
-    }
-
-    public void playbackJump() {
-        if (isPlayingVideo()) {
-            playbackController.skip(30000);
-        }
-    }
-
-    public void playbackJumpBack() {
-        if (playbackController != null) {
-            playbackController.skip(-11000);
-        }
     }
 
     public DisplayPreferences getCachedDisplayPrefs(String key) {
