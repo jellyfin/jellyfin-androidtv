@@ -25,6 +25,7 @@ import org.jellyfin.androidtv.preferences.SystemPreferences;
 import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.androidtv.preferences.enums.LoginBehavior;
 import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer;
+import org.jellyfin.androidtv.querying.DataRefreshService;
 import org.jellyfin.apiclient.interaction.AndroidDevice;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -36,7 +37,6 @@ import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 
-import java.util.Calendar;
 import java.util.HashMap;
 
 import timber.log.Timber;
@@ -75,15 +75,7 @@ public class TvApp extends Application {
 
     private HashMap<String, DisplayPreferences> displayPrefsCache = new HashMap<>();
 
-    private String lastDeletedItemId = "";
-
-    private Calendar lastPlayback = Calendar.getInstance();
-    private Calendar lastMoviePlayback = Calendar.getInstance();
-    private Calendar lastTvPlayback = Calendar.getInstance();
-    private Calendar lastLibraryChange = Calendar.getInstance();
-    private long lastVideoQueueChange = System.currentTimeMillis();
-    private long lastFavoriteUpdate = System.currentTimeMillis();
-    private long lastMusicPlayback = System.currentTimeMillis();
+    public final DataRefreshService dataRefreshService = new DataRefreshService();
 
     private BaseActivity currentActivity;
 
@@ -204,21 +196,6 @@ public class TvApp extends Application {
         return useExternalPlayer(itemType) ? ExternalPlayerActivity.class : PlaybackOverlayActivity.class;
     }
 
-    public Calendar getLastMoviePlayback() {
-        return lastMoviePlayback.after(lastPlayback) ? lastMoviePlayback : lastPlayback;
-    }
-
-    public void setLastMoviePlayback(Calendar lastMoviePlayback) {
-        this.lastMoviePlayback = lastMoviePlayback;
-        this.lastPlayback = lastMoviePlayback;
-    }
-
-    public void setLastFavoriteUpdate(long time) { lastFavoriteUpdate = time; }
-    public long getLastFavoriteUpdate() { return lastFavoriteUpdate; }
-
-    public void setLastMusicPlayback(long time) { lastMusicPlayback = time; }
-    public long getLastMusicPlayback() { return lastMusicPlayback; }
-
     /**
      * @deprecated Use `getUserPreferences().getResumePreroll()`
      */
@@ -229,31 +206,6 @@ public class TvApp extends Application {
         } catch (Exception e) {
             return 0;
         }
-    }
-
-    public Calendar getLastTvPlayback() {
-        return lastTvPlayback.after(lastPlayback) ? lastTvPlayback : lastPlayback;
-    }
-
-    public void setLastTvPlayback(Calendar lastTvPlayback) {
-        this.lastTvPlayback = lastTvPlayback;
-        this.lastPlayback = lastTvPlayback;
-    }
-
-    public Calendar getLastLibraryChange() {
-        return lastLibraryChange;
-    }
-
-    public void setLastLibraryChange(Calendar lastLibraryChange) {
-        this.lastLibraryChange = lastLibraryChange;
-    }
-
-    public Calendar getLastPlayback() {
-        return lastPlayback;
-    }
-
-    public void setLastPlayback(Calendar lastPlayback) {
-        this.lastPlayback = lastPlayback;
     }
 
     public boolean canManageRecordings() {
@@ -343,27 +295,11 @@ public class TvApp extends Application {
         this.directItemId = directItemId;
     }
 
-    public String getLastDeletedItemId() {
-        return lastDeletedItemId;
-    }
-
-    public void setLastDeletedItemId(String lastDeletedItemId) {
-        this.lastDeletedItemId = lastDeletedItemId;
-    }
-
     public BaseItemDto getLastPlayedItem() {
         return lastPlayedItem;
     }
 
     public void setLastPlayedItem(BaseItemDto lastPlayedItem) {
         this.lastPlayedItem = lastPlayedItem;
-    }
-
-    public long getLastVideoQueueChange() {
-        return lastVideoQueueChange;
-    }
-
-    public void setLastVideoQueueChange(long lastVideoQueueChange) {
-        this.lastVideoQueueChange = lastVideoQueueChange;
     }
 }

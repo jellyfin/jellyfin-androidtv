@@ -45,7 +45,6 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -349,7 +348,7 @@ public class MediaManager {
                             @Override
                             public void onResponse(PlaylistCreationResult response) {
                                 Toast.makeText(activity, "Queue saved as new playlist: "+text, Toast.LENGTH_LONG).show();
-                                TvApp.getApplication().setLastLibraryChange(Calendar.getInstance());
+                                TvApp.getApplication().dataRefreshService.setLastLibraryChange(System.currentTimeMillis());
                             }
 
                             @Override
@@ -398,7 +397,7 @@ public class MediaManager {
         if (mCurrentVideoQueue == null) mCurrentVideoQueue = new ArrayList<>();
         mCurrentVideoQueue.add(item);
         videoQueueModified = true;
-        TvApp.getApplication().setLastVideoQueueChange(System.currentTimeMillis());
+        TvApp.getApplication().dataRefreshService.setLastVideoQueueChange(System.currentTimeMillis());
         if (mCurrentVideoQueue.size() == 1 && TvApp.getApplication().getCurrentActivity() != null) {
             TvApp.getApplication().getCurrentActivity().sendMessage(CustomMessage.RefreshRows);
         }
@@ -586,7 +585,7 @@ public class MediaManager {
                 }
 
                 updateCurrentAudioItemPlaying(true);
-                TvApp.getApplication().setLastMusicPlayback(System.currentTimeMillis());
+                TvApp.getApplication().dataRefreshService.setLastMusicPlayback(System.currentTimeMillis());
 
                 ReportingHelper.reportStart(item, mCurrentAudioPosition * 10000);
                 for (AudioEventListener listener : mAudioEventListeners) {

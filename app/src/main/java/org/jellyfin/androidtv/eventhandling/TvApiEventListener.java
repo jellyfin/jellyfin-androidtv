@@ -30,7 +30,6 @@ import org.jellyfin.apiclient.model.session.PlaystateRequest;
 import org.jellyfin.apiclient.model.session.SessionInfoDto;
 
 import java.util.Arrays;
-import java.util.Calendar;
 
 import timber.log.Timber;
 
@@ -40,14 +39,14 @@ public class TvApiEventListener extends ApiEventListener {
         TvApp app = TvApp.getApplication();
         Timber.d("Got Playback stopped message from server");
         if (info.getUserId().equals(app.getCurrentUser().getId())) {
-            app.setLastPlayback(Calendar.getInstance());
+            app.dataRefreshService.setLastPlayback(System.currentTimeMillis());
             if (info.getNowPlayingItem() == null) return;
             switch (info.getNowPlayingItem().getType()) {
                 case "Movie":
-                    TvApp.getApplication().setLastMoviePlayback(Calendar.getInstance());
+                    TvApp.getApplication().dataRefreshService.setLastMoviePlayback(System.currentTimeMillis());
                     break;
                 case "Episode":
-                    TvApp.getApplication().setLastTvPlayback(Calendar.getInstance());
+                    TvApp.getApplication().dataRefreshService.setLastTvPlayback(System.currentTimeMillis());
                     break;
 
             }
@@ -58,7 +57,7 @@ public class TvApiEventListener extends ApiEventListener {
     public void onLibraryChanged(ApiClient client, LibraryUpdateInfo info) {
         Timber.d("Library Changed. Added %o items. Removed %o items. Changed %o items.", info.getItemsAdded().size(), info.getItemsRemoved().size(), info.getItemsUpdated().size());
         if (info.getItemsAdded().size() > 0 || info.getItemsRemoved().size() > 0)
-            TvApp.getApplication().setLastLibraryChange(Calendar.getInstance());
+            TvApp.getApplication().dataRefreshService.setLastLibraryChange(System.currentTimeMillis());
     }
 
     @Override

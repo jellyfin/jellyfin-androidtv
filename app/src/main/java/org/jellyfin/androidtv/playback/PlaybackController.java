@@ -1004,7 +1004,7 @@ public class PlaybackController {
     }
 
     public void removePreviousQueueItems() {
-        TvApp.getApplication().setLastVideoQueueChange(System.currentTimeMillis());
+        TvApp.getApplication().dataRefreshService.setLastVideoQueueChange(System.currentTimeMillis());
         if (isLiveTv || !MediaManager.isVideoQueueModified()) {
             MediaManager.clearVideoQueue();
             return;

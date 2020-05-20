@@ -9,8 +9,6 @@ import org.jellyfin.apiclient.model.session.PlaybackProgressInfo;
 import org.jellyfin.apiclient.model.session.PlaybackStartInfo;
 import org.jellyfin.apiclient.model.session.PlaybackStopInfo;
 
-import java.util.Calendar;
-
 import timber.log.Timber;
 
 public class ReportingHelper {
@@ -22,13 +20,13 @@ public class ReportingHelper {
             info.setPositionTicks(pos);
             TvApp.getApplication().getPlaybackManager().reportPlaybackStopped(info, streamInfo, apiClient.getServerInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), false, apiClient, new EmptyResponse());
 
-            TvApp.getApplication().setLastPlayback(Calendar.getInstance());
+            TvApp.getApplication().dataRefreshService.setLastPlayback(System.currentTimeMillis());
             switch (item.getBaseItemType()) {
                 case Movie:
-                    TvApp.getApplication().setLastMoviePlayback(Calendar.getInstance());
+                    TvApp.getApplication().dataRefreshService.setLastMoviePlayback(System.currentTimeMillis());
                     break;
                 case Episode:
-                    TvApp.getApplication().setLastTvPlayback(Calendar.getInstance());
+                    TvApp.getApplication().dataRefreshService.setLastTvPlayback(System.currentTimeMillis());
                     break;
             }
         }

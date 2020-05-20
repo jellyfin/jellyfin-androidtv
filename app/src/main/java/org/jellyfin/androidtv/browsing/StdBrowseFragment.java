@@ -132,9 +132,9 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
         ShowFanart = mApplication.getUserPreferences().getBackdropEnabled();
 
         //React to deletion
-        if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(TvApp.getApplication().getLastDeletedItemId())) {
+        if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(TvApp.getApplication().dataRefreshService.getLastDeletedItemId())) {
             ((ItemRowAdapter)mCurrentRow.getAdapter()).remove(mCurrentItem);
-            TvApp.getApplication().setLastDeletedItemId(null);
+            TvApp.getApplication().dataRefreshService.setLastDeletedItemId(null);
         }
 
         if (!justLoaded) {
