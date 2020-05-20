@@ -144,7 +144,7 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 			}
 
 			findPreference<EditTextPreference>("device_model")?.summaryProvider = Preference.SummaryProvider<EditTextPreference> {
-				Build.MODEL
+				"${Build.MANUFACTURER} ${Build.MODEL}"
 			}
 
 			findPreference<EditLongPreference>("libvlc_audio_delay")?.apply {
