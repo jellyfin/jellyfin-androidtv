@@ -126,7 +126,12 @@ public class PlaybackHelper {
                         ItemFields.ChildCount
                 });
                 query.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                query.setArtistIds(new String[]{mainItem.getId()});
+
+                if (mainItem.getBaseItemType() == BaseItemType.MusicArtist)
+                    query.setArtistIds(new String[]{mainItem.getId()});
+                else
+                    query.setParentId(mainItem.getId());
+
                 TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
