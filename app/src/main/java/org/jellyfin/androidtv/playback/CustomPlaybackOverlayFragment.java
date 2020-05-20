@@ -89,6 +89,7 @@ import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
+
 import timber.log.Timber;
 
 public class CustomPlaybackOverlayFragment extends Fragment implements IPlaybackOverlayFragment, ILiveTvGuide {
@@ -432,103 +433,121 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private View.OnKeyListener keyListener = new View.OnKeyListener() {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
-            leanbackOverlayFragment.setShouldShowOverlay(true);
-            if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP && mActivity != null && !mActivity.isFinishing()) {
-                mActivity.finish();
-                return true;
-            }
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                leanbackOverlayFragment.setShouldShowOverlay(true);
+                if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP && mActivity != null && !mActivity.isFinishing()) {
+                    mActivity.finish();
+                    return true;
+                }
 
-            if (mPopupPanelVisible && (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE)) {
-                // back should just hide the popup panel
-                hidePopupPanel();
-                leanbackOverlayFragment.hideOverlay();
-
-                // also close this if live tv
-                if (mPlaybackController.isLiveTv()) hide();
-                return true;
-            }
-
-            if (mPlaybackController.isLiveTv() && !mPopupPanelVisible && keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-                if (!leanbackOverlayFragment.isControlsOverlayVisible()) {
-                    leanbackOverlayFragment.setShouldShowOverlay(false);
+                if (mPopupPanelVisible && (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE)) {
+                    // back should just hide the popup panel
+                    hidePopupPanel();
                     leanbackOverlayFragment.hideOverlay();
-                    showQuickChannelChanger();
+
+                    // also close this if live tv
+                    if (mPlaybackController.isLiveTv()) hide();
                     return true;
                 }
-            }
 
-            if (mPopupPanelVisible && keyCode == KeyEvent.KEYCODE_DPAD_LEFT && mPopupRowPresenter.getPosition() == 0) {
-                mPopupRowsFragment.getView().requestFocus();
-                mPopupRowPresenter.setPosition(0);
-                return true;
-            }
-            if (mGuideVisible) {
-                if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE) {
-                    // go back to normal
-                    hideGuide();
-                    return true;
-                } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) &&
-                        (mSelectedProgram != null && mSelectedProgram.getChannelId() != null)) {
-                    // tune to the current channel
-                    Utils.beep();
-                    switchChannel(mSelectedProgram.getChannelId());
-                    return true;
-                } else {
-                    return false;
+                if (mPlaybackController.isLiveTv() && !mPopupPanelVisible && keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                    if (!leanbackOverlayFragment.isControlsOverlayVisible()) {
+                        leanbackOverlayFragment.setShouldShowOverlay(false);
+                        leanbackOverlayFragment.hideOverlay();
+                        showQuickChannelChanger();
+                        return true;
+                    }
                 }
-            }
 
-            if (mPlaybackController.isLiveTv() && keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_BUTTON_Y) {
-                showGuide();
-                return true;
-            }
-
-            if (mIsVisible && (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE)) {
-                //back should just hide the panel
-                hide();
-                return true;
-            }
-
-            if (keyCode != KeyEvent.KEYCODE_BACK && keyCode != KeyEvent.KEYCODE_BUTTON_B && keyCode != KeyEvent.KEYCODE_ESCAPE) {
-                if (mPopupPanelVisible) {
-                    // up or down should close panel
-                    if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN || keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-                        hidePopupPanel();
-                        if (mPlaybackController.isLiveTv()) hide(); //also close this if live tv
+                if (mPopupPanelVisible && keyCode == KeyEvent.KEYCODE_DPAD_LEFT && mPopupRowPresenter.getPosition() == 0) {
+                    mPopupRowsFragment.getView().requestFocus();
+                    mPopupRowPresenter.setPosition(0);
+                    return true;
+                }
+                if (mGuideVisible) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE) {
+                        // go back to normal
+                        hideGuide();
+                        return true;
+                    } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) &&
+                            (mSelectedProgram != null && mSelectedProgram.getChannelId() != null)) {
+                        // tune to the current channel
+                        Utils.beep();
+                        switchChannel(mSelectedProgram.getChannelId());
                         return true;
                     } else {
                         return false;
                     }
                 }
 
-                if (!mIsVisible) {
-                    if (!DeviceUtils.isFireTv() && !mPlaybackController.isLiveTv()) {
-                        if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-                            Utils.beep(100);
-                            mPlaybackController.skip(30000);
-                            return true;
-                        }
-
-                        if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                            Utils.beep(100);
-                            mPlaybackController.skip(-11000);
-                            return true;
-                        }
-                    }
-
-                    if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && mPlaybackController.canSeek()) {
-                        mPlaybackController.pause();
-                        return true;
-                    }
-
-                    //if we're not visible, show us
-                    show();
+                if (mPlaybackController.isLiveTv() && keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_BUTTON_Y) {
+                    showGuide();
+                    return true;
                 }
 
-                //and then manage our fade timer
-                if (mFadeEnabled) startFadeTimer();
-            }
+                if (mIsVisible && (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE)) {
+                    //back should just hide the panel
+                    hide();
+                    return true;
+                }
 
+                if (keyCode != KeyEvent.KEYCODE_BACK && keyCode != KeyEvent.KEYCODE_BUTTON_B && keyCode != KeyEvent.KEYCODE_ESCAPE) {
+                    if (mPopupPanelVisible) {
+                        // up or down should close panel
+                        if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN || keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                            hidePopupPanel();
+                            if (mPlaybackController.isLiveTv()) hide(); //also close this if live tv
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+
+                    // Control fast forward and rewind if overlay hidden and not showing live TV
+                    if (!mPlaybackController.isLiveTv()) {
+                        if (keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD || keyCode == KeyEvent.KEYCODE_BUTTON_R1 || keyCode == KeyEvent.KEYCODE_BUTTON_R2) {
+                            mPlaybackController.skip(30000);
+                            if (!mIsVisible) show();
+                            setFadingEnabled(true);
+                            return true;
+                        }
+
+                        if (keyCode == KeyEvent.KEYCODE_MEDIA_REWIND || keyCode == KeyEvent.KEYCODE_BUTTON_L1 || keyCode == KeyEvent.KEYCODE_BUTTON_L2) {
+                            mPlaybackController.skip(-11000);
+                            if (!mIsVisible) show();
+                            setFadingEnabled(true);
+                            return true;
+                        }
+                    }
+
+                    if (!mIsVisible) {
+                        if (!DeviceUtils.isFireTv() && !mPlaybackController.isLiveTv()) {
+                            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                                Utils.beep(100);
+                                mPlaybackController.skip(30000);
+                                return true;
+                            }
+
+                            if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                                Utils.beep(100);
+                                mPlaybackController.skip(-11000);
+                                return true;
+                            }
+                        }
+
+                        if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && mPlaybackController.canSeek()) {
+                            mPlaybackController.pause();
+                            return true;
+                        }
+
+                        //if we're not visible, show us
+                        show();
+                    }
+
+                    //and then manage our fade timer
+                    if (mFadeEnabled) startFadeTimer();
+                }
+            }
             return false;
         }
     };
