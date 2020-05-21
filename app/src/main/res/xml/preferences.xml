@@ -38,7 +38,7 @@
             android:key="pref_show_backdrop"
             android:title="@string/lbl_show_backdrop" />
         <ListPreference
-            android:defaultValue="VERTICAL"
+            android:defaultValue="HORIZONTAL"
             android:entries="@array/pref_grid_direction_entries"
             android:entryValues="@array/pref_grid_direction_values"
             android:key="grid_direction"
