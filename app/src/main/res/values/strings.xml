@@ -361,5 +361,5 @@
     <string name="pref_device_model">Device Model</string>
     <string name="grid_direction">Grid direction</string>
     <string name="grid_direction_horizontal">Horizontal</string>
-    <string name="grid_direction_vertical">Vertical</string>
+    <string name="grid_direction_vertical">Vertical (experimental)</string>
 </resources>

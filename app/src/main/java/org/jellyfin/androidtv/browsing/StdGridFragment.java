@@ -134,21 +134,42 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
         mCardHeight = getCardHeight(mPosterSizeSetting);
 
-        if (mApplication.getUserPreferences().getGridDirection() == GridDirection.HORIZONTAL) {
-            HorizontalGridPresenter gridPresenter = new HorizontalGridPresenter();
-            gridPresenter.setNumberOfRows(getGridHeight() / getCardHeight());
-            setGridPresenter(gridPresenter);
-        }else {
-            VerticalGridPresenter gridPresenter = new VerticalGridPresenter();
+        if (mApplication.getUserPreferences().getGridDirection() == GridDirection.HORIZONTAL)
+            setGridPresenter(new HorizontalGridPresenter());
+        else
+            setGridPresenter(new VerticalGridPresenter());
+
+        setGridSizes();
+
+        mJumplistPopup = new JumplistPopup(getActivity());
+    }
+
+    private void setGridSizes() {
+        Presenter gridPresenter = getGridPresenter();
+
+        if (gridPresenter instanceof HorizontalGridPresenter) {
+            ((HorizontalGridPresenter) gridPresenter).setNumberOfRows(getGridHeight() / getCardHeight());
+        } else if (gridPresenter instanceof VerticalGridPresenter) {
             // Why is this hardcoded you ask? Well did you ever look at getGridHeight()? Yup that one is hardcoded too
             // This whole fragment is only optimized for 16:9 screens anyway
             // is this bad? Yup it definitely is, we'll fix it when this screen is rewritten
-            // - Niels, 2020
-            gridPresenter.setNumberOfColumns(5);
-            setGridPresenter(gridPresenter);
-        }
 
-        mJumplistPopup = new JumplistPopup(getActivity());
+            int size;
+            switch (mPosterSizeSetting) {
+                case PosterSize.SMALL:
+                    size = 10;
+                    break;
+                case PosterSize.MED:
+                default:
+                    size = 6;
+                    break;
+                case PosterSize.LARGE:
+                    size = 5;
+                    break;
+            }
+
+            ((VerticalGridPresenter) gridPresenter).setNumberOfColumns(size);
+        }
     }
 
     @Override
@@ -284,10 +305,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                     if (autoHeight != mCardHeight) {
                         mCardHeight = autoHeight;
 
-                        Presenter gridPresenter = getGridPresenter();
-                        if (gridPresenter instanceof HorizontalGridPresenter)
-                            ((HorizontalGridPresenter)gridPresenter).setNumberOfRows(getGridHeight() / getCardHeight());
-
+                        setGridSizes();
                         createGrid();
                         Timber.d("Auto card height is %d", mCardHeight);
                         buildAdapter(rowDef);
@@ -373,10 +391,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                     mPosterSizeSetting = mDisplayPrefs.getCustomPrefs().get("PosterSize");
                     mCardHeight = getCardHeight(mPosterSizeSetting);
 
-                    Presenter gridPresenter = getGridPresenter();
-                    if (gridPresenter instanceof HorizontalGridPresenter)
-                        ((HorizontalGridPresenter)gridPresenter).setNumberOfRows(getGridHeight() / getCardHeight());
-
+                    setGridSizes();
                     createGrid();
                     loadGrid(mRowDef);
                 }
@@ -606,7 +621,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
             Presenter presenter = getGridPresenter();
             if (presenter instanceof HorizontalGridPresenter)
                 ((HorizontalGridPresenter) presenter).setPosition(MediaManager.getCurrentMediaPosition());
-            //tood vertical?
+            // Don't do anything for vertical grids as the presenter does not allow setting the position
 
             MediaManager.setCurrentMediaPosition(-1); // re-set so it doesn't mess with parent views
         }

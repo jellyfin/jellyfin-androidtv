@@ -41,9 +41,9 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	var backdropEnabled by booleanPreference("pref_show_backdrop", true)
 
 	/**
-	 * Enable background images while browsing
+	 * Preferred direction of grids, will not be used for **all** grids
 	 */
-	var gridDirection by enumPreference("grid_direction", GridDirection.VERTICAL)
+	var gridDirection by enumPreference("grid_direction", GridDirection.HORIZONTAL)
 
 	/**
 	 * Show premieres on home screen
