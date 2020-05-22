@@ -19,7 +19,7 @@ import org.jellyfin.androidtv.querying.StdItemQuery;
 import org.jellyfin.androidtv.querying.TrailersQuery;
 import org.jellyfin.androidtv.querying.ViewQuery;
 import org.jellyfin.androidtv.ui.GridButton;
-import org.jellyfin.androidtv.ui.HorizontalGridFragment;
+import org.jellyfin.androidtv.ui.GridFragment;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.IConnectionManager;
@@ -409,7 +409,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         return totalItems;
     }
 
-    public void setSortBy(HorizontalGridFragment.SortOption option) {
+    public void setSortBy(GridFragment.SortOption option) {
         if (!option.value.equals(mSortBy)) {
             mSortBy = option.value;
             switch (queryType) {

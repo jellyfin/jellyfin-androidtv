@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
-
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string-array name="app_theme_entries">
         <item>@string/pref_theme_dark</item>
         <item>@string/pref_theme_emerald</item>
@@ -11,15 +8,15 @@
         <item>Theme_Jellyfin</item>
         <item>Theme_Jellyfin_Emerald</item>
     </string-array>
-    <string-array name="pref_startup_entries" >
+    <string-array name="pref_startup_entries">
         <item>@string/pref_show_login</item>
         <item>@string/pref_auto_login</item>
     </string-array>
-    <string-array name="pref_startup_values" >
+    <string-array name="pref_startup_values">
         <item>SHOW_LOGIN</item>
         <item>AUTO_LOGIN</item>
     </string-array>
-    <string-array name="pref_bitrate_entries" >
+    <string-array name="pref_bitrate_entries">
         <item>Auto</item>
         <item>120 Mbits/sec</item>
         <item>110 Mbits/sec</item>
@@ -42,7 +39,7 @@
         <item>720 Kbits/sec</item>
         <item>420 Kbits/sec</item>
     </string-array>
-    <string-array name="pref_bitrate_values" >
+    <string-array name="pref_bitrate_values">
         <item>0</item>
         <item>120</item>
         <item>110</item>
@@ -65,7 +62,7 @@
         <item>0.72</item>
         <item>0.42</item>
     </string-array>
-    <string-array name="pref_preroll_options" >
+    <string-array name="pref_preroll_options">
         <item>None</item>
         <item>5 seconds</item>
         <item>10 seconds</item>
@@ -75,7 +72,7 @@
         <item>2 minutes</item>
         <item>5 minutes</item>
     </string-array>
-    <string-array name="pref_preroll_values" >
+    <string-array name="pref_preroll_values">
         <item>0</item>
         <item>5</item>
         <item>10</item>
@@ -85,7 +82,7 @@
         <item>120</item>
         <item>300</item>
     </string-array>
-    <string-array name="pref_audio_options" >
+    <string-array name="pref_audio_options">
         <item>@string/pref_audio_direct</item>
         <item>@string/pref_audio_compat</item>
     </string-array>
@@ -94,16 +91,24 @@
         <item>DIRECT_STREAM</item>
         <item>DOWNMIX_TO_STEREO</item>
     </string-array>
-    <string-array name="pref_video_player_entries" >
+    <string-array name="pref_video_player_entries">
         <item>@string/pref_video_player_auto</item>
         <item>@string/pref_video_player_exoplayer</item>
         <item>@string/pref_video_player_vlc</item>
         <item>@string/pref_video_player_external</item>
     </string-array>
-    <string-array name="pref_video_player_values" >
+    <string-array name="pref_video_player_values">
         <item>AUTO</item>
         <item>EXOPLAYER</item>
         <item>VLC</item>
         <item>EXTERNAL</item>
+    </string-array>
+    <string-array name="pref_grid_direction_entries">
+        <item>@string/grid_direction_horizontal</item>
+        <item>@string/grid_direction_vertical</item>
+    </string-array>
+    <string-array name="pref_grid_direction_values">
+        <item>HORIZONTAL</item>
+        <item>VERTICAL</item>
     </string-array>
 </resources>
