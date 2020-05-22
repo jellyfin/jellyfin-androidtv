@@ -110,7 +110,9 @@ jobs:
 
   - task: DeleteFiles@1
     displayName: 'Remove Unsigned APK'
-    inputs: '$(System.ArtifactsDirectory)/jellyfin-androidtv_release-unsigned_$(TAG).apk'
+    inputs:
+      sourceFolder: '$(System.ArtifactsDirectory)'
+      contents: 'jellyfin-androidtv_release-unsigned_$(TAG).apk'
 
   - task: GithubRelease@0
     displayName: 'GitHub Upload'
