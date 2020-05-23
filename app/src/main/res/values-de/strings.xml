@@ -360,4 +360,7 @@
     <string name="pref_app_theme">Thema</string>
     <string name="pref_theme_emerald">Smaragd klassisch</string>
     <string name="pref_theme_dark">Dunkel (Standard)</string>
+    <string name="grid_direction_vertical">Vertikal (experimentell)</string>
+    <string name="grid_direction_horizontal">Horizontal</string>
+    <string name="grid_direction">Rasterausrichtung</string>
 </resources>
