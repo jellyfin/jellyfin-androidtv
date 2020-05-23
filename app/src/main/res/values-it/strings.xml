@@ -360,4 +360,5 @@
     <string name="pref_libvlc_audio_delay_title">Ritardo audio di default di libVLC</string>
     <string name="pref_next_up_enabled_title">Abilita ritardo prima del video successivo</string>
     <string name="pref_next_up_timeout_title">Ritardo video successivo</string>
+    <string name="grid_direction_horizontal">Orizzontale</string>
 </resources>
