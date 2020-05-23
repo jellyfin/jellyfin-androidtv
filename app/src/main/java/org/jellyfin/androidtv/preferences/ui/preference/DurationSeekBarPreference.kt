@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.preferences.ui
+package org.jellyfin.androidtv.preferences.ui.preference
 
 import android.content.Context
 import android.graphics.Rect

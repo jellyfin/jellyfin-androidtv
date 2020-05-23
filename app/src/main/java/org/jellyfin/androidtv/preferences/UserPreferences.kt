@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.preferences
 import android.content.Context
 import android.view.KeyEvent
 import androidx.preference.PreferenceManager
+import org.acra.ACRA
 import org.jellyfin.androidtv.preferences.enums.*
 
 /**
@@ -15,10 +16,9 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	/* Authentication */
 	/**
 	 * Behavior for login when starting the app.
-	 * **note**: Currently settable via user-preferences only due too custom logic
+	 * **note**: Make sure to update the stored credentials when changing to AUTO_LOGIN
 	 */
 	var loginBehavior by enumPreference("login_behavior", LoginBehavior.SHOW_LOGIN)
-		private set
 
 	/**
 	 * Ask for password when starting the app
@@ -160,17 +160,17 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	/**
 	 * Enable ACRA crash reporting
 	 */
-	var acraEnabled by booleanPreference("acra.enable", true)
+	var acraEnabled by booleanPreference(ACRA.PREF_ENABLE_ACRA, true)
 
 	/**
 	 * Never prompt to report crash logs
 	 */
-	var acraNoPrompt by booleanPreference("acra.alwaysaccept", false)
+	var acraNoPrompt by booleanPreference(ACRA.PREF_ALWAYS_ACCEPT, false)
 
 	/**
 	 * Include system logs in crash reports
 	 */
-	var acraIncludeSystemLogs by booleanPreference("acra.syslog.enable", true)
+	var acraIncludeSystemLogs by booleanPreference(ACRA.PREF_ENABLE_SYSTEM_LOGS, true)
 
 	init {
 		// Migrations

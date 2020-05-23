@@ -82,7 +82,7 @@
             android:key="next_up_enabled"
             android:summary="@string/pref_next_up_enabled_summary"
             android:title="@string/pref_next_up_enabled_title" />
-        <org.jellyfin.androidtv.preferences.ui.DurationSeekBarPreference
+        <org.jellyfin.androidtv.preferences.ui.preference.DurationSeekBarPreference
             android:defaultValue="7000"
             android:dependency="next_up_enabled"
             android:key="next_up_timeout"
@@ -130,7 +130,7 @@
             android:defaultValue="true"
             android:key="pref_refresh_switching"
             android:title="@string/lbl_refresh_switching" />
-        <org.jellyfin.androidtv.preferences.ui.EditLongPreference
+        <org.jellyfin.androidtv.preferences.ui.preference.EditLongPreference
             android:inputType="number|numberSigned"
             android:key="libvlc_audio_delay"
             android:title="@string/pref_libvlc_audio_delay_title" />
