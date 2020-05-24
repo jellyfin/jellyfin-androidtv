@@ -360,4 +360,8 @@
     <string name="pref_app_theme">Motiv aplikace</string>
     <string name="pref_theme_dark">Tmavý (Výchozí)</string>
     <string name="pref_theme_emerald">Tradiční smaragd</string>
+    <string name="grid_direction_vertical">Vertikální (experiment)</string>
+    <string name="grid_direction_horizontal">Horizontální</string>
+    <string name="grid_direction">Směr mřížky</string>
+    <string name="pref_device_model">Model zařízení</string>
 </resources>
