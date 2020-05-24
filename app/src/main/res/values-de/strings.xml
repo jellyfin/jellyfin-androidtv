@@ -363,4 +363,5 @@
     <string name="grid_direction_vertical">Vertikal (experimentell)</string>
     <string name="grid_direction_horizontal">Horizontal</string>
     <string name="grid_direction">Rasterausrichtung</string>
+    <string name="pref_device_model">Gerätemodell</string>
 </resources>
