@@ -243,4 +243,16 @@
     <string name="lbl_load_channels">"Φόρτωση καναλιών "</string>
     <string name="msg_no_playable_items">Δεν βρέθηκαν στοιχεία για αναπαραγωγή</string>
     <string name="lbl_confirm_mark_unwatched">Αυτή η ενέργεια θα σημειώσει για όλο το περιεχόμενο ότι δεν έχει αναπαραχθεί. Είστε ΠΡΑΓΜΑΤΙΚΑ σίγουρος;</string>
+    <string name="pref_next_up_enabled_summary">Προεπισκόπιση του επομένου στη λίστα πριν την αναπαραγωγή</string>
+    <string name="watch_now">Δείτε τώρα</string>
+    <string name="pref_next_up_timeout_title">Χρόνος πριν την έναρξη αναπαραγωγής του επομένου</string>
+    <string name="pref_next_up_timeout_summary">Χρόνος αναμονής πριν την αναπαραγωγή του επόμενου στοιχείου</string>
+    <string name="pref_media_player">Προτιμώμενη εφαρμογή αναπαραγωγής</string>
+    <string name="pref_about_title">Περί</string>
+    <string name="pref_video_player_external">Εξωτερική εφαρμογή</string>
+    <string name="pref_video_player_auto">Αυτόματη επιλογή</string>
+    <string name="pref_theme_dark">Σκοτεινό (Προεπιλογή)</string>
+    <string name="lbl_my_media">Τα μέσα μου</string>
+    <string name="lbl_audio_delay">Καθυστέρηση ήχου</string>
+    <string name="lbl_unwatched">Δεν προβλήθηκε</string>
 </resources>
