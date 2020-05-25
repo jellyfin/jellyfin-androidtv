@@ -360,4 +360,8 @@
     <string name="pref_app_theme">Tema Aplicației</string>
     <string name="pref_theme_emerald">Smarald Clasic</string>
     <string name="pref_theme_dark">Întunecat (Implicit)</string>
+    <string name="grid_direction_vertical">Verticală (experimental)</string>
+    <string name="grid_direction_horizontal">Orizontală</string>
+    <string name="grid_direction">Direcţie grilă</string>
+    <string name="pref_device_model">Model de dispozitiv</string>
 </resources>
