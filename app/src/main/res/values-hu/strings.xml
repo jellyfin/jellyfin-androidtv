@@ -360,4 +360,8 @@
     <string name="msg_remote_already_playing">Távoli lejátszási kérelem figyelmen kívül lett hagyva. Állítsa le a jelenlegi médiaelem lejátszását előbb.</string>
     <string name="lbl_confirm_mark_unwatched">Ez az összes médiatartalmat megtekintettnek jelöli meg. TÉNYLEG biztos vagy a folytatásban\?</string>
     <string name="lbl_remove_dislike">Nem tetszés eltávolítása</string>
+    <string name="grid_direction_vertical">Függőleges (kísérlet)</string>
+    <string name="grid_direction_horizontal">Vízszintes</string>
+    <string name="grid_direction">Rács irány</string>
+    <string name="pref_device_model">Eszköz model</string>
 </resources>
