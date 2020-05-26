@@ -361,4 +361,7 @@
     <string name="pref_theme_emerald">经典翡翠色</string>
     <string name="pref_theme_dark">暗黑</string>
     <string name="pref_device_model">设备型号</string>
+    <string name="grid_direction_vertical">纵向（试验性功能）</string>
+    <string name="grid_direction_horizontal">横向</string>
+    <string name="grid_direction">网格排列方向</string>
 </resources>
