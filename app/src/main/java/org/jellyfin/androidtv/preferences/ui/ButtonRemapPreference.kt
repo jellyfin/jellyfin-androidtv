@@ -10,10 +10,21 @@ class ButtonRemapPreference(
 	context: Context,
 	attrs: AttributeSet? = null
 ) : DialogPreference(context, attrs) {
+
+	/**
+	 * Saves a KeyCode in this preference
+	 *
+	 * @param mKeyCode the KeyCode to save
+	 */
 	fun setKeyCode(mKeyCode: Int) {
 		persistInt(mKeyCode)
 	}
 
+	/**
+	 * Returns the saved KeyCode preference
+	 *
+	 * @return the saved KeyCode
+	 */
 	fun getKeyCode(): Int {
 		return getPersistedInt(-1)
 	}
