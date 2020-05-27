@@ -9,6 +9,7 @@ import androidx.leanback.widget.Action;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.PlaybackControlsRow;
 
+import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.overlay.actions.AdjustAudioDelayAction;
@@ -254,8 +255,11 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if (hasSubs() && keyCode == KeyEvent.KEYCODE_CAPTIONS && event.getAction() == KeyEvent.ACTION_UP) {
+        if (hasSubs() && event.getAction() == KeyEvent.ACTION_UP && keyCode == TvApp.getApplication().getUserPreferences().getSubtitleLanguageButtonKeyCode()) {
             closedCaptionsAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), v);
+        }
+        if (hasMultiAudio() && event.getAction() == KeyEvent.ACTION_UP && keyCode == TvApp.getApplication().getUserPreferences().getAudioLanguageButtonKeyCode()) {
+            selectAudioAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), v);
         }
         return super.onKey(v, keyCode, event);
     }

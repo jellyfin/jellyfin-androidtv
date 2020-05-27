@@ -4,7 +4,7 @@
     android:title="@string/settings_title">
 
     <PreferenceCategory android:title="@string/pref_authentication_cat">
-        <ListPreference
+            <ListPreference
             android:entries="@array/pref_startup_entries"
             android:entryValues="@array/pref_startup_values"
             android:key="login_behavior"
@@ -154,6 +154,25 @@
             android:defaultValue="true"
             android:key="pref_live_direct"
             android:title="@string/lbl_direct_stream_live" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="button_remapping"
+        android:title="Button Remapping">
+        <org.jellyfin.androidtv.preferences.ui.ButtonRemapPreference
+            android:defaultValue="222"
+            android:key="audio_language_button_keycode"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Audio language button"
+            android:dialogMessage="Press any button on the TV remote to assign it" />
+        <org.jellyfin.androidtv.preferences.ui.ButtonRemapPreference
+            android:defaultValue="175"
+            android:key="subtitle_language_button_keycode"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Subtitle language button"
+            android:dialogMessage="Press any button on the TV remote to assign it" />
     </PreferenceCategory>
 
     <PreferenceCategory

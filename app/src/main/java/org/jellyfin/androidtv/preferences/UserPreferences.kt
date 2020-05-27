@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.preferences
 
 import android.content.Context
+import android.view.KeyEvent
 import androidx.preference.PreferenceManager
 import org.jellyfin.androidtv.preferences.enums.*
 
@@ -144,6 +145,16 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	 * Preferred video player for live TV
 	 */
 	var liveTvVideoPlayer by enumPreference("live_tv_video_player", PreferredVideoPlayer.AUTO)
+
+	/**
+	 * Default keycode for audio language switch button on a tv remote
+	 */
+	var audioLanguageButtonKeyCode by intPreference("audio_language_button_keycode", KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK)
+
+	/**
+	 * Default keycode for subtitle language switch button on a tv remote
+	 */
+	var subtitleLanguageButtonKeyCode by intPreference("subtitle_language_button_keycode", KeyEvent.KEYCODE_CAPTIONS)
 
 	/* ACRA */
 	/**

@@ -5,13 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.leanback.preference.LeanbackPreferenceFragmentCompat
 import androidx.leanback.preference.LeanbackSettingsFragmentCompat
-import androidx.preference.CheckBoxPreference
-import androidx.preference.EditTextPreference
-import androidx.preference.ListPreference
-import androidx.preference.Preference
-import androidx.preference.PreferenceDialogFragmentCompat
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceScreen
+import androidx.preference.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.model.LogonCredentials
@@ -26,6 +20,16 @@ import java.io.IOException
 class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 	override fun onPreferenceStartInitialScreen() {
 		startPreferenceFragment(InnerUserPreferencesFragment())
+	}
+
+	override fun onPreferenceDisplayDialog(caller: PreferenceFragmentCompat, pref: Preference?): Boolean {
+		if (pref is ButtonRemapPreference) {
+			val f = ButtonRemapDialogFragment.newInstance(pref.key)
+			f.setTargetFragment(caller, 0)
+			startPreferenceFragment(f)
+			return true
+		}
+		return super.onPreferenceDisplayDialog(caller, pref)
 	}
 
 	override fun onPreferenceStartFragment(caller: PreferenceFragmentCompat, pref: Preference): Boolean {
