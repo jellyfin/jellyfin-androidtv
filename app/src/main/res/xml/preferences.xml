@@ -4,7 +4,7 @@
     android:title="@string/settings_title">
 
     <PreferenceCategory android:title="@string/pref_authentication_cat">
-            <ListPreference
+        <ListPreference
             android:entries="@array/pref_startup_entries"
             android:entryValues="@array/pref_startup_values"
             android:key="login_behavior"
