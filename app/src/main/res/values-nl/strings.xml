@@ -360,4 +360,8 @@
 \n
 \nDeze Prompt kan worden uitgeschakeld in het Crash Reporting deel in de Jellyfin app\'s Instellingen.</string>
     <string name="pref_acra_syslog">Neem systeemlogs op in crashrapporten. Dit kan privégegevens van andere applicaties bevatten als deze werden gelogd op het moment van de crash.</string>
+    <string name="grid_direction_vertical">Verticaal (experimenteel)</string>
+    <string name="grid_direction_horizontal">Horizontaal</string>
+    <string name="grid_direction">Raster richting</string>
+    <string name="pref_device_model">Apparaat model</string>
 </resources>
