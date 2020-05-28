@@ -12,7 +12,7 @@ class ButtonRemapPreference(
 ) : DialogPreference(context, attrs) {
 
 	/**
-	 * Saves a KeyCode in this preference
+	 * Saves a KeyCode in this preference.
 	 *
 	 * @param mKeyCode the KeyCode to save
 	 */
@@ -21,7 +21,7 @@ class ButtonRemapPreference(
 	}
 
 	/**
-	 * Returns the saved KeyCode preference
+	 * Returns the saved KeyCode preference.
 	 *
 	 * @return the saved KeyCode
 	 */

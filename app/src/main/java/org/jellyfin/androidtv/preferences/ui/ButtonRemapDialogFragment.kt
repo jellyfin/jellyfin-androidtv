@@ -81,9 +81,9 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 		private const val SAVE_STATE_KEYCODE = "ButtonRemapDialog.keycode"
 
 		/**
-		 * Creates a new ButtonRemapDialogFragment instance
+		 * Creates a new ButtonRemapDialogFragment instance.
 		 *
-		 * @param the preference key
+		 * @param key the preference key
 		 * @return the new ButtonRemapDialogFragment instance
 		 */
 		fun newInstance(key: String?): ButtonRemapDialogFragment {
