@@ -360,4 +360,8 @@
     <string name="pref_acra_alwaysaccept_enabled">Los reportes de errores serán enviados sin preguntar</string>
     <string name="pref_acra_alwaysaccept">Enviar reportes de errores sin preguntar</string>
     <string name="pref_acra_disabled">Los reportes de errores no serán enviados</string>
+    <string name="grid_direction_vertical">Vertical (experimental)</string>
+    <string name="grid_direction_horizontal">Horizontal</string>
+    <string name="grid_direction">Dirección de la cuadrícula</string>
+    <string name="pref_device_model">Modelo del dispositivo</string>
 </resources>
