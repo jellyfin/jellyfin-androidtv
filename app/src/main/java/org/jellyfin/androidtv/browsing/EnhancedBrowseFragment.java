@@ -27,8 +27,6 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
@@ -607,8 +605,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                     BackgroundManager.getInstance(getActivity()),
                     getActivity(),
                     url,
-                    false,
-                    new CenterCrop(),
                     mMetrics.widthPixels,
                     mMetrics.heightPixels
             );

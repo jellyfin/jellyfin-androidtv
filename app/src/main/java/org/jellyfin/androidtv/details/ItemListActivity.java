@@ -770,7 +770,6 @@ public class ItemListActivity extends BaseActivity {
 
             Glide.with(this)
                     .load(url)
-                    .skipMemoryCache(true)
                     .override(mMetrics.widthPixels, mMetrics.heightPixels)
                     .centerCrop()
                     .listener(new RequestListener<Drawable>() {

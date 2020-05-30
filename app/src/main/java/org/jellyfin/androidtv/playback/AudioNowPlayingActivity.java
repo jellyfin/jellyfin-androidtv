@@ -28,7 +28,6 @@ import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -394,7 +393,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
         Timber.d("Audio Poster url: %s", primaryImageUrl);
         Glide.with(mActivity)
                 .load(primaryImageUrl)
-                .skipMemoryCache(true)
                 .error(R.drawable.ic_album)
                 .override(posterWidth, posterHeight)
                 .centerInside()
@@ -582,8 +580,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
                     backgroundManager,
                     this,
                     url,
-                    true,
-                    new CenterCrop(),
                     mMetrics.widthPixels,
                     mMetrics.heightPixels
             );

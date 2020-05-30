@@ -1015,7 +1015,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             int width = Utils.convertDpToPixel(getActivity(), 150);
             String posterImageUrl = ImageUtils.getPrimaryImageUrl(item, mApplication.getApiClient(), false, false, preferSeries, height);
             if (posterImageUrl != null)
-                Glide.with(getActivity()).load(posterImageUrl).skipMemoryCache(true).override(width, height).centerInside().into(target);
+                Glide.with(getActivity()).load(posterImageUrl).override(width, height).centerInside().into(target);
         }
     }
 
@@ -1025,7 +1025,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             int width = Utils.convertDpToPixel(getActivity(), 180);
             String imageUrl = ImageUtils.getLogoImageUrl(item, mApplication.getApiClient());
             if (imageUrl != null)
-                Glide.with(getActivity()).load(imageUrl).skipMemoryCache(true).override(width, height).centerInside().into(target);
+                Glide.with(getActivity()).load(imageUrl).override(width, height).centerInside().into(target);
         }
     }
 

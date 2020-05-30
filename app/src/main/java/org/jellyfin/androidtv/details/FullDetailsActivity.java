@@ -317,7 +317,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         if (isFinishing()) return;
         Glide.with(mActivity)
                 .load(ImageUtils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true, false, false, posterHeight))
-                .skipMemoryCache(true)
                 .override(posterWidth, posterHeight)
                 .centerInside()
                 .into(mDorPresenter.getPosterView());
@@ -428,7 +427,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 Bitmap poster = Glide.with(mActivity)
                         .asBitmap()
                         .load(primaryImageUrl)
-                        .skipMemoryCache(true)
                         .submit()
                         .get();
                 mDetailsOverviewRow.setImageBitmap(mActivity, poster);

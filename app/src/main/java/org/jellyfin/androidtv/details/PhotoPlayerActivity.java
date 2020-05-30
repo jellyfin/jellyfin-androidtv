@@ -348,7 +348,6 @@ public class PhotoPlayerActivity extends BaseActivity {
                     .load(ImageUtils.getPrimaryImageUrl(photo, displayWidth, displayHeight))
                     .override(displayWidth, displayHeight)
                     .centerInside()
-                    .skipMemoryCache(true)
                     .error(R.drawable.tile_land_photo)
                     .listener(new RequestListener<Drawable>() {
                         @Override
