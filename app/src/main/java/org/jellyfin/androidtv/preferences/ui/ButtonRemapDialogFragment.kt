@@ -81,10 +81,10 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 			messageView.visibility = View.VISIBLE
 			messageView.text = mDialogMessage
 		}
-		mKeyCodeText = view.findViewById<TextView>(R.id.buttonKeyCodeTextView)
+		mKeyCodeText = view.findViewById(R.id.buttonKeyCodeTextView)
 		setKeyCodeText()
 
-		mSaveButton = view.findViewById<Button>(R.id.Save)
+		mSaveButton = view.findViewById(R.id.Save)
 		mSaveButton.setOnClickListener { _ ->
 			mSaveButton.isEnabled = false
 			mOriginalKeyCode = mKeyCode
@@ -95,6 +95,7 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 
 		val resetButton = view.findViewById<Button>(R.id.Reset)
 		resetButton.setOnClickListener { _ ->
+			// TODO: refactor this once the new preference workflow is here
 			when (preference.key) {
 				"audio_language_button_keycode" -> mKeyCode = KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK
 				"subtitle_language_button_keycode" -> mKeyCode = KeyEvent.KEYCODE_CAPTIONS
@@ -112,7 +113,7 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 	private fun setKeyCodeText() {
 		var keyCodeString = KeyEvent.keyCodeToString(mKeyCode)
 		if (keyCodeString.startsWith("KEYCODE")) {
-			keyCodeString = keyCodeString.split("_").drop(1).map { e -> e.toLowerCase(Locale.getDefault()).capitalize() }.joinToString(" ")
+			keyCodeString = keyCodeString.split("_").drop(1).joinToString(" ") { e -> e.toLowerCase(Locale.getDefault()).capitalize() }
 		}
 		else {
 			keyCodeString = "Unknown ($keyCodeString)"
