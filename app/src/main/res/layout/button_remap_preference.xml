@@ -32,7 +32,7 @@
         android:visibility="gone" />
 
     <TextView
-        android:id="@+id/buttonKeyCodeTextView"
+        android:id="@+id/textViewKeyCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="?android:attr/subtitleTextStyle"
@@ -51,7 +51,7 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <Button
-                android:id="@+id/Save"
+                android:id="@+id/buttonSave"
                 style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                 android:text="Save" />
 
             <Button
-                android:id="@+id/Reset"
+                android:id="@+id/buttonReset"
                 style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

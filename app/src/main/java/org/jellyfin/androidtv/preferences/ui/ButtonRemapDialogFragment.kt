@@ -8,6 +8,7 @@ import android.view.*
 import android.widget.Button
 import android.widget.TextView
 import androidx.leanback.preference.LeanbackPreferenceDialogFragmentCompat
+import kotlinx.android.synthetic.main.button_remap_preference.*
 import java.util.*
 
 class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
@@ -15,24 +16,23 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 	private var mDialogMessage: CharSequence? = null
 	private var mKeyCode: Int = 0
 	private var mOriginalKeyCode: Int = 0
-	private lateinit var mKeyCodeText: TextView
-	private lateinit var mSaveButton: Button
+	private var mIgnoreKeys = listOf(
+			KeyEvent.KEYCODE_BACK,
+			KeyEvent.KEYCODE_HOME,
+			KeyEvent.KEYCODE_APP_SWITCH,
+			KeyEvent.KEYCODE_DPAD_CENTER,
+			KeyEvent.KEYCODE_DPAD_UP,
+			KeyEvent.KEYCODE_DPAD_DOWN,
+			KeyEvent.KEYCODE_DPAD_LEFT,
+			KeyEvent.KEYCODE_DPAD_RIGHT)
 	private var mCheckKeys: View.OnKeyListener = View.OnKeyListener { _, keyCode, _ ->
 		// ignore navigation buttons
-		if (keyCode == KeyEvent.KEYCODE_BACK
-				|| keyCode == KeyEvent.KEYCODE_HOME
-				|| keyCode == KeyEvent.KEYCODE_APP_SWITCH
-				|| keyCode == KeyEvent.KEYCODE_DPAD_CENTER
-				|| keyCode == KeyEvent.KEYCODE_DPAD_UP
-				|| keyCode == KeyEvent.KEYCODE_DPAD_DOWN
-				|| keyCode == KeyEvent.KEYCODE_DPAD_LEFT
-				|| keyCode == KeyEvent.KEYCODE_DPAD_RIGHT
-		)
+		if (mIgnoreKeys.contains(keyCode))
 			false
 		else {
 			mKeyCode = keyCode
 			setKeyCodeText()
-			mSaveButton.isEnabled = mKeyCode != mOriginalKeyCode
+			requireView().findViewById<Button>(R.id.buttonSave).isEnabled = mKeyCode != mOriginalKeyCode
 			true
 		}
 	}
@@ -72,28 +72,27 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 		val styledInflater = inflater.cloneInContext(styledContext)
 		val view: View = styledInflater.inflate(R.layout.button_remap_preference,
 			container, false)
+		return view
+	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
 		if (!TextUtils.isEmpty(mDialogTitle)) {
-			val titleView = view.findViewById<View>(R.id.decor_title) as TextView
-			titleView.text = mDialogTitle
+			decor_title.text = mDialogTitle
 		}
 		if (!TextUtils.isEmpty(mDialogMessage)) {
-			val messageView = view.findViewById<View>(android.R.id.message) as TextView
-			messageView.visibility = View.VISIBLE
-			messageView.text = mDialogMessage
+			message.visibility = View.VISIBLE
+			message.text = mDialogMessage
 		}
-		mKeyCodeText = view.findViewById(R.id.buttonKeyCodeTextView)
-		setKeyCodeText()
 
-		mSaveButton = view.findViewById(R.id.Save)
-		mSaveButton.setOnClickListener { _ ->
+		buttonSave.setOnClickListener { _ ->
 			(preference as ButtonRemapPreference).setKeyCode(mKeyCode)
 			parentFragmentManager.popBackStack()
 		}
-		mSaveButton.isEnabled = false
-		mSaveButton.setOnKeyListener(mCheckKeys)
+		buttonSave.isEnabled = false
+		buttonSave.setOnKeyListener(mCheckKeys)
 
-		val resetButton = view.findViewById<Button>(R.id.Reset)
-		resetButton.setOnClickListener { _ ->
+		buttonReset.setOnClickListener { _ ->
 			// TODO: refactor this once the new preference workflow is here
 			when (preference.key) {
 				"audio_language_button_keycode" -> mKeyCode = KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK
@@ -104,14 +103,14 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 			(preference as ButtonRemapPreference).setKeyCode(mKeyCode)
 			parentFragmentManager.popBackStack()
 		}
-		resetButton.setOnKeyListener(mCheckKeys)
-		resetButton.requestFocus()
+		buttonReset.setOnKeyListener(mCheckKeys)
+		buttonReset.requestFocus()
 
-		return view
+		setKeyCodeText()
 	}
 
 	private fun setKeyCodeText() {
-		mKeyCodeText.text = ButtonRemapSummaryProvider.instance!!.provideSummary(mKeyCode)
+		textViewKeyCode.text = ButtonRemapSummaryProvider.instance!!.provideSummary(mKeyCode)
 	}
 
 	companion object {
