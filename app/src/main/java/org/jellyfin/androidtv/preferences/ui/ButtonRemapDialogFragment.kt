@@ -86,9 +86,8 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 
 		mSaveButton = view.findViewById(R.id.Save)
 		mSaveButton.setOnClickListener { _ ->
-			mSaveButton.isEnabled = false
-			mOriginalKeyCode = mKeyCode
 			(preference as ButtonRemapPreference).setKeyCode(mKeyCode)
+			parentFragmentManager.popBackStack()
 		}
 		mSaveButton.isEnabled = false
 		mSaveButton.setOnKeyListener(mCheckKeys)
@@ -103,6 +102,7 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 
 			setKeyCodeText()
 			(preference as ButtonRemapPreference).setKeyCode(mKeyCode)
+			parentFragmentManager.popBackStack()
 		}
 		resetButton.setOnKeyListener(mCheckKeys)
 		resetButton.requestFocus()
@@ -111,14 +111,7 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 	}
 
 	private fun setKeyCodeText() {
-		var keyCodeString = KeyEvent.keyCodeToString(mKeyCode)
-		if (keyCodeString.startsWith("KEYCODE")) {
-			keyCodeString = keyCodeString.split("_").drop(1).joinToString(" ") { e -> e.toLowerCase(Locale.getDefault()).capitalize() }
-		}
-		else {
-			keyCodeString = "Unknown ($keyCodeString)"
-		}
-		mKeyCodeText.text = keyCodeString
+		mKeyCodeText.text = ButtonRemapSummaryProvider.instance!!.provideSummary(mKeyCode)
 	}
 
 	companion object {

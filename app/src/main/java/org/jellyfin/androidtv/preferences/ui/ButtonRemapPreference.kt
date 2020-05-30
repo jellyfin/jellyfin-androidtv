@@ -3,8 +3,11 @@ package org.jellyfin.androidtv.preferences.ui
 import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
+import android.view.KeyEvent
 import androidx.preference.DialogPreference
+import androidx.preference.Preference.SummaryProvider
 import org.jellyfin.androidtv.R
+import java.util.*
 
 class ButtonRemapPreference(
 	context: Context,
@@ -41,6 +44,35 @@ class ButtonRemapPreference(
 	init {
 		// Explicitly set the layout or it will crash
 		dialogLayoutResource = R.layout.button_remap_preference
+		summaryProvider = ButtonRemapSummaryProvider.instance
 	}
 
+}
+
+class ButtonRemapSummaryProvider private constructor() : SummaryProvider<ButtonRemapPreference> {
+	override fun provideSummary(preference: ButtonRemapPreference): CharSequence {
+		return provideSummary(preference.getKeyCode())
+	}
+
+	fun provideSummary(keyCode: Int): CharSequence {
+		var keyCodeString = KeyEvent.keyCodeToString(keyCode)
+		if (keyCodeString.startsWith("KEYCODE")) {
+			keyCodeString = keyCodeString.split("_").drop(1).joinToString(" ") { e -> e.toLowerCase(Locale.getDefault()).capitalize() }
+		} else {
+			keyCodeString = "Unknown ($keyCodeString)"
+		}
+		return keyCodeString
+	}
+
+	companion object {
+		private var sButtonRemapSummaryProvider: ButtonRemapSummaryProvider? = null
+
+		val instance: ButtonRemapSummaryProvider?
+			get() {
+				if (sButtonRemapSummaryProvider == null) {
+					sButtonRemapSummaryProvider = ButtonRemapSummaryProvider()
+				}
+				return sButtonRemapSummaryProvider
+			}
+	}
 }
