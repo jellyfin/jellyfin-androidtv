@@ -1,16 +1,41 @@
 package org.jellyfin.androidtv.preferences.ui
 
+import org.jellyfin.androidtv.R
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
+import android.widget.Button
 import android.widget.TextView
 import androidx.leanback.preference.LeanbackPreferenceDialogFragmentCompat
+import java.util.*
 
 class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 	private var mDialogTitle: CharSequence? = null
 	private var mDialogMessage: CharSequence? = null
 	private var mKeyCode: Int = 0
+	private var mOriginalKeyCode: Int = 0
+	private lateinit var mKeyCodeText: TextView
+	private lateinit var mSaveButton: Button
+	private var mCheckKeys: View.OnKeyListener = View.OnKeyListener { _, keyCode, _ ->
+		// ignore navigation buttons
+		if (keyCode == KeyEvent.KEYCODE_BACK
+				|| keyCode == KeyEvent.KEYCODE_HOME
+				|| keyCode == KeyEvent.KEYCODE_APP_SWITCH
+				|| keyCode == KeyEvent.KEYCODE_DPAD_CENTER
+				|| keyCode == KeyEvent.KEYCODE_DPAD_UP
+				|| keyCode == KeyEvent.KEYCODE_DPAD_DOWN
+				|| keyCode == KeyEvent.KEYCODE_DPAD_LEFT
+				|| keyCode == KeyEvent.KEYCODE_DPAD_RIGHT
+		)
+			false
+		else {
+			mKeyCode = keyCode
+			setKeyCodeText()
+			mSaveButton.isEnabled = mKeyCode != mOriginalKeyCode
+			true
+		}
+	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -30,6 +55,7 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 			mDialogMessage = savedInstanceState.getCharSequence(SAVE_STATE_MESSAGE)
 			mKeyCode = savedInstanceState.getInt(SAVE_STATE_KEYCODE)
 		}
+		mOriginalKeyCode = mKeyCode
 	}
 
 	override fun onSaveInstanceState(outState: Bundle) {
@@ -41,13 +67,13 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
 							  savedInstanceState: Bundle?): View? {
-		val theme = org.jellyfin.androidtv.R.style.PreferenceThemeOverlayLeanback
+		val theme = R.style.PreferenceThemeOverlayLeanback
 		val styledContext: Context = ContextThemeWrapper(activity, theme)
 		val styledInflater = inflater.cloneInContext(styledContext)
-		val view: View = styledInflater.inflate(org.jellyfin.androidtv.R.layout.button_remap_preference,
+		val view: View = styledInflater.inflate(R.layout.button_remap_preference,
 			container, false)
 		if (!TextUtils.isEmpty(mDialogTitle)) {
-			val titleView = view.findViewById<View>(org.jellyfin.androidtv.R.id.decor_title) as TextView
+			val titleView = view.findViewById<View>(R.id.decor_title) as TextView
 			titleView.text = mDialogTitle
 		}
 		if (!TextUtils.isEmpty(mDialogMessage)) {
@@ -55,24 +81,43 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 			messageView.visibility = View.VISIBLE
 			messageView.text = mDialogMessage
 		}
-		val mKeyCodeText = view.findViewById<TextView>(org.jellyfin.androidtv.R.id.buttonKeyCodeTextView)
-		mKeyCodeText.text = mKeyCode.toString()
+		mKeyCodeText = view.findViewById<TextView>(R.id.buttonKeyCodeTextView)
+		setKeyCodeText()
 
-		view.isFocusableInTouchMode = true
-		view.requestFocus()
-		view.setOnKeyListener{ _, keyCode, _ ->
-			// ignore navigation buttons
-			if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME || keyCode == KeyEvent.KEYCODE_APP_SWITCH)
-				false
-			else {
-				mKeyCode = keyCode
-				mKeyCodeText.text = mKeyCode.toString()
-				(preference as ButtonRemapPreference).setKeyCode(mKeyCode)
-				true
-			}
+		mSaveButton = view.findViewById<Button>(R.id.Save)
+		mSaveButton.setOnClickListener { _ ->
+			mSaveButton.isEnabled = false
+			mOriginalKeyCode = mKeyCode
+			(preference as ButtonRemapPreference).setKeyCode(mKeyCode)
 		}
+		mSaveButton.isEnabled = false
+		mSaveButton.setOnKeyListener(mCheckKeys)
+
+		val resetButton = view.findViewById<Button>(R.id.Reset)
+		resetButton.setOnClickListener { _ ->
+			when (preference.key) {
+				"audio_language_button_keycode" -> mKeyCode = KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK
+				"subtitle_language_button_keycode" -> mKeyCode = KeyEvent.KEYCODE_CAPTIONS
+			}
+
+			setKeyCodeText()
+			(preference as ButtonRemapPreference).setKeyCode(mKeyCode)
+		}
+		resetButton.setOnKeyListener(mCheckKeys)
+		resetButton.requestFocus()
 
 		return view
+	}
+
+	private fun setKeyCodeText() {
+		var keyCodeString = KeyEvent.keyCodeToString(mKeyCode)
+		if (keyCodeString.startsWith("KEYCODE")) {
+			keyCodeString = keyCodeString.split("_").drop(1).map { e -> e.toLowerCase(Locale.getDefault()).capitalize() }.joinToString(" ")
+		}
+		else {
+			keyCodeString = "Unknown ($keyCodeString)"
+		}
+		mKeyCodeText.text = keyCodeString
 	}
 
 	companion object {
