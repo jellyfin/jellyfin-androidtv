@@ -20,6 +20,7 @@ fun BackgroundManager.drawable(
 	Glide.with(context)
 		.load(url)
 		.override(widthPixels, heightPixels)
+		.centerCrop()
 		.listener(object : RequestListener<Drawable?> {
 			override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable?>, isFirstResource: Boolean): Boolean {
 				Timber.e(e)
