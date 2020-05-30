@@ -29,7 +29,20 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.leanback.app.RowsSupportFragment;
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
+
+import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -76,19 +89,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.leanback.app.RowsSupportFragment;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
 
 import timber.log.Timber;
 
@@ -1015,7 +1015,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             int width = Utils.convertDpToPixel(getActivity(), 150);
             String posterImageUrl = ImageUtils.getPrimaryImageUrl(item, mApplication.getApiClient(), false, false, preferSeries, height);
             if (posterImageUrl != null)
-                Picasso.with(getActivity()).load(posterImageUrl).skipMemoryCache().resize(width, height).centerInside().into(target);
+                Glide.with(getActivity()).load(posterImageUrl).skipMemoryCache(true).override(width, height).centerInside().into(target);
         }
     }
 
@@ -1025,7 +1025,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             int width = Utils.convertDpToPixel(getActivity(), 180);
             String imageUrl = ImageUtils.getLogoImageUrl(item, mApplication.getApiClient());
             if (imageUrl != null)
-                Picasso.with(getActivity()).load(imageUrl).skipMemoryCache().resize(width, height).centerInside().into(target);
+                Glide.with(getActivity()).load(imageUrl).skipMemoryCache(true).override(width, height).centerInside().into(target);
         }
     }
 

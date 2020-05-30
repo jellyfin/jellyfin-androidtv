@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.details;
 
 import android.animation.Animator;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -11,21 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.flaviofaria.kenburnsview.KenBurnsView;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.base.BaseActivity;
-import org.jellyfin.androidtv.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.playback.MediaManager;
-import org.jellyfin.androidtv.presentation.MyRandomeKBGenerator;
-import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
-import org.jellyfin.androidtv.util.ImageUtils;
-import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-
+import androidx.annotation.Nullable;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
@@ -35,6 +22,23 @@ import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.flaviofaria.kenburnsview.KenBurnsView;
+
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.presentation.MyRandomeKBGenerator;
+import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
+import org.jellyfin.androidtv.util.ImageUtils;
+import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import timber.log.Timber;
 
@@ -338,15 +342,25 @@ public class PhotoPlayerActivity extends BaseActivity {
         if (photo != null) {
             if (target == nextImage) isLoadingNext = true;
             if (target == prevImage) isLoadingPrev = true;
-            Picasso.with(this)
+
+
+            Glide.with(this)
                     .load(ImageUtils.getPrimaryImageUrl(photo, displayWidth, displayHeight))
-                    .resize(displayWidth, displayHeight)
+                    .override(displayWidth, displayHeight)
                     .centerInside()
-                    .skipMemoryCache()
+                    .skipMemoryCache(true)
                     .error(R.drawable.tile_land_photo)
-                    .into(target, new Callback() {
+                    .listener(new RequestListener<Drawable>() {
                         @Override
-                        public void onSuccess() {
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> drawableTarget, boolean isFirstResource) {
+                            if (target == nextImage) isLoadingNext = false;
+                            if (target == prevImage) isLoadingPrev = false;
+                            Timber.d("Error loading item %s", photo.getName());
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> drawableTarget, DataSource dataSource, boolean isFirstResource) {
                             if (target == nextImage) isLoadingNext = false;
                             if (target == prevImage) isLoadingPrev = false;
                             Timber.d("Loaded item %s", photo.getName());
@@ -359,15 +373,9 @@ public class PhotoPlayerActivity extends BaseActivity {
                                     }
                                 }, 5000);
                             }
+                            return false;
                         }
-
-                        @Override
-                        public void onError() {
-                            if (target == nextImage) isLoadingNext = false;
-                            if (target == prevImage) isLoadingPrev = false;
-                            Timber.d("Error loading item %s", photo.getName());
-                        }
-                    });
+                    }).submit();
         }
     }
 

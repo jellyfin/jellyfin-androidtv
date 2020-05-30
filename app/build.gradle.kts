@@ -82,15 +82,8 @@ dependencies {
 	implementation("org.videolan.android:libvlc-all:3.2.5")
 
 	// Image utility
-	implementation("com.squareup.picasso:picasso:2.3.2")
-	implementation("com.github.bumptech.glide:glide:3.7.0")
+	implementation("com.github.bumptech.glide:glide:4.11.0")
 	implementation("com.flaviofaria:kenburnsview:1.0.6")
-
-	// HTTP utility
-	// NOTE: This is used by Picasso through reflection and can cause weird caching issues if removed!
-	val okhttpVersion = "2.7.5"
-	implementation("com.squareup.okhttp:okhttp:$okhttpVersion")
-	implementation("com.squareup.okhttp:okhttp-urlconnection:$okhttpVersion")
 
 	// Crash Reporting
 	val acraVersion = "5.4.0"

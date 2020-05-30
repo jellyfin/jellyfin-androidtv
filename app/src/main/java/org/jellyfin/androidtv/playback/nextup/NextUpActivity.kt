@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import androidx.leanback.app.BackgroundManager
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -67,9 +67,9 @@ class NextUpActivity : FragmentActivity() {
 			item.id,
 			title,
 			item.overview,
-			backdrop?.let { Picasso.with(this@NextUpActivity).load(it).get() },
-			thumbnail?.let { Picasso.with(this@NextUpActivity).load(it).get() },
-			logo?.let { Picasso.with(this@NextUpActivity).load(it).get() }
+			backdrop?.let { Glide.with(this@NextUpActivity).asBitmap().load(it).submit().get() },
+			thumbnail?.let { Glide.with(this@NextUpActivity).asBitmap().load(it).submit().get() },
+			logo?.let { Glide.with(this@NextUpActivity).asBitmap().load(it).submit().get() }
 		)
 	}
 }

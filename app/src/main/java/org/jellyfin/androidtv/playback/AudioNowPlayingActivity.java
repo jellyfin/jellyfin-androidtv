@@ -16,28 +16,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.base.BaseActivity;
-import org.jellyfin.androidtv.details.FullDetailsActivity;
-import org.jellyfin.androidtv.details.ItemListActivity;
-import org.jellyfin.androidtv.imagehandling.PicassoBackgroundManagerTarget;
-import org.jellyfin.androidtv.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.model.GotFocusEvent;
-import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
-import org.jellyfin.androidtv.ui.ClockUserView;
-import org.jellyfin.androidtv.ui.GenreButton;
-import org.jellyfin.androidtv.ui.ImageButton;
-import org.jellyfin.androidtv.util.ImageUtils;
-import org.jellyfin.androidtv.util.InfoLayoutHelper;
-import org.jellyfin.androidtv.util.KeyProcessor;
-import org.jellyfin.androidtv.util.TimeUtils;
-import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-
 import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
@@ -48,9 +26,32 @@ import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.base.BaseActivity;
+import org.jellyfin.androidtv.details.FullDetailsActivity;
+import org.jellyfin.androidtv.details.ItemListActivity;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.model.GotFocusEvent;
+import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
+import org.jellyfin.androidtv.ui.ClockUserView;
+import org.jellyfin.androidtv.ui.GenreButton;
+import org.jellyfin.androidtv.ui.ImageButton;
+import org.jellyfin.androidtv.util.BackgroundManagerUtilsKt;
+import org.jellyfin.androidtv.util.ImageUtils;
+import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.KeyProcessor;
+import org.jellyfin.androidtv.util.TimeUtils;
+import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+
 import timber.log.Timber;
 
-public class AudioNowPlayingActivity extends BaseActivity  {
+public class AudioNowPlayingActivity extends BaseActivity {
 
     private int BUTTON_SIZE;
 
@@ -75,7 +76,6 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     private TextView mSSUpNext;
     private String mDisplayDuration;
 
-    private Target mBackgroundTarget;
     private DisplayMetrics mMetrics;
 
     private TextView mArtistName;
@@ -239,7 +239,6 @@ public class AudioNowPlayingActivity extends BaseActivity  {
 
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         backgroundManager.attach(getWindow());
-        mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
         mMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
@@ -299,7 +298,8 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         switch (keyCode) {
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
             case KeyEvent.KEYCODE_MEDIA_PLAY:
-                if (MediaManager.isPlayingAudio()) MediaManager.pauseAudio(); else MediaManager.resumeAudio();
+                if (MediaManager.isPlayingAudio()) MediaManager.pauseAudio();
+                else MediaManager.resumeAudio();
                 if (ssActive) {
                     stopScreenSaver();
                 }
@@ -387,15 +387,16 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         Double aspect = ImageUtils.getImageAspectRatio(mBaseItem, false);
         int posterHeight = aspect > 1 ? Utils.convertDpToPixel(mActivity, 150) : Utils.convertDpToPixel(mActivity, 250);
         int posterWidth = (int) ((aspect) * posterHeight);
-        if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
+        if (posterHeight < 10)
+            posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
         String primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, mApplication.getApiClient(), false, posterHeight);
         Timber.d("Audio Poster url: %s", primaryImageUrl);
-        Picasso.with(mActivity)
+        Glide.with(mActivity)
                 .load(primaryImageUrl)
-                .skipMemoryCache()
+                .skipMemoryCache(true)
                 .error(R.drawable.ic_album)
-                .resize(posterWidth, posterHeight)
+                .override(posterWidth, posterHeight)
                 .centerInside()
                 .into(mPoster);
     }
@@ -446,7 +447,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
             mSongTitle.setText(item.getName());
             mAlbumTitle.setText(getResources().getString(R.string.lbl_now_playing_album, item.getAlbum()));
             mCurrentNdx.setText(getResources().getString(R.string.lbl_now_playing_track, MediaManager.getCurrentAudioQueueDisplayPosition(), MediaManager.getCurrentAudioQueueDisplaySize()));
-            mCurrentDuration = ((Long)((item.getRunTimeTicks() != null ? item.getRunTimeTicks() : 0) / 10000)).intValue();
+            mCurrentDuration = ((Long) ((item.getRunTimeTicks() != null ? item.getRunTimeTicks() : 0) / 10000)).intValue();
             //set progress to match duration
             mCurrentProgress.setMax(mCurrentDuration);
             addGenres(mGenreRow);
@@ -493,7 +494,7 @@ public class AudioNowPlayingActivity extends BaseActivity  {
 
             if (item instanceof BaseRowItem) {
                 //Keep counter
-                mCounter.setText(((BaseRowItem) item).getIndex()+1 + " | "+mQueueRow.getAdapter().size());
+                mCounter.setText(((BaseRowItem) item).getIndex() + 1 + " | " + mQueueRow.getAdapter().size());
             }
         }
     }
@@ -558,9 +559,9 @@ public class AudioNowPlayingActivity extends BaseActivity  {
         if (mBaseItem.getHasLogo() || mBaseItem.getParentLogoImageTag() != null) {
             if (ssActive) {
                 mLogoImage.setVisibility(View.VISIBLE);
-                Picasso.with(this)
+                Glide.with(this)
                         .load(ImageUtils.getLogoImageUrl(mBaseItem, TvApp.getApplication().getApiClient()))
-                        .resize(700, 200)
+                        .override(700, 200)
                         .centerInside()
                         .into(mLogoImage);
                 mArtistName.setVisibility(View.INVISIBLE);
@@ -572,15 +573,20 @@ public class AudioNowPlayingActivity extends BaseActivity  {
     }
 
     protected void updateBackground(String url) {
+        BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         if (url == null) {
-            BackgroundManager.getInstance(this).setDrawable(null);
+            backgroundManager.setDrawable(null);
         } else {
-            Picasso.with(this)
-                    .load(url)
-                    .skipMemoryCache()
-                    .resize(mMetrics.widthPixels, mMetrics.heightPixels)
-                    .centerCrop()
-                    .into(mBackgroundTarget);
+
+            BackgroundManagerUtilsKt.drawable(
+                    backgroundManager,
+                    this,
+                    url,
+                    true,
+                    new CenterCrop(),
+                    mMetrics.widthPixels,
+                    mMetrics.heightPixels
+            );
         }
     }
 }

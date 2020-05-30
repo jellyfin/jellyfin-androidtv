@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -34,10 +34,10 @@ public class ClockUserView extends RelativeLayout {
             username.setText(TvApp.getApplication().getCurrentUser().getName());
             ImageView userImage = (ImageView) v.findViewById(R.id.userImage);
             if (TvApp.getApplication().getCurrentUser().getPrimaryImageTag() != null) {
-                Picasso.with(context)
+                Glide.with(context)
                         .load(ImageUtils.getPrimaryImageUrl(TvApp.getApplication().getCurrentUser(), TvApp.getApplication().getApiClient()))
                         .error(R.drawable.ic_user)
-                        .resize(30,30)
+                        .override(30,30)
                         .centerInside()
                         .into(userImage);
             } else {

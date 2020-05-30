@@ -10,7 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -121,7 +121,7 @@ public class NowPlayingBug extends FrameLayout {
     private void setInfo(BaseItemDto item) {
         if (item == null) return;
 
-        Picasso.with(context).load(ImageUtils.getPrimaryImageUrl(item, TvApp.getApplication().getApiClient())).error(R.drawable.ic_album).resize(35,35).centerInside().into(npIcon);
+        Glide.with(context).load(ImageUtils.getPrimaryImageUrl(item, TvApp.getApplication().getApiClient())).error(R.drawable.ic_album).override(35,35).centerInside().into(npIcon);
         currentDuration = TimeUtils.formatMillis(item.getRunTimeTicks() != null ? item.getRunTimeTicks() / 10000 : 0);
         npDesc.setText(item.getAlbumArtist() != null ? item.getAlbumArtist() : item.getName());
     }

@@ -15,7 +15,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
-import com.squareup.picasso.Picasso;
+import androidx.leanback.app.BackgroundManager;
+import androidx.leanback.app.RowsSupportFragment;
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.ClassPresenterSelector;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.OnItemViewSelectedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
+
+import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -71,7 +83,6 @@ import org.jellyfin.apiclient.model.querying.SeasonQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -80,18 +91,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.RowsSupportFragment;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.ClassPresenterSelector;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.OnItemViewSelectedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
 import timber.log.Timber;
 
 public class FullDetailsActivity extends BaseActivity implements IRecordingIndicatorView {
@@ -314,10 +315,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     private void updatePoster() {
         if (isFinishing()) return;
-        Picasso.with(mActivity)
+        Glide.with(mActivity)
                 .load(ImageUtils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true, false, false, posterHeight))
-                .skipMemoryCache()
-                .resize(posterWidth, posterHeight)
+                .skipMemoryCache(true)
+                .override(posterWidth, posterHeight)
                 .centerInside()
                 .into(mDorPresenter.getPosterView());
     }
@@ -424,9 +425,11 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             }
             try {
                 //Main image
-                Bitmap poster = Picasso.with(mActivity)
+                Bitmap poster = Glide.with(mActivity)
+                        .asBitmap()
                         .load(primaryImageUrl)
-                        .skipMemoryCache()
+                        .skipMemoryCache(true)
+                        .submit()
                         .get();
                 mDetailsOverviewRow.setImageBitmap(mActivity, poster);
 
@@ -435,7 +438,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 int width = Utils.convertDpToPixel(mActivity, 100);
                 if (item.getStudios() != null && item.getStudios().length > 0 && item.getStudios()[0].getHasPrimaryImage()) {
                     String studioImageUrl = ImageUtils.getPrimaryImageUrl(item.getStudios()[0], mApplication.getApiClient(), height);
-                    if (studioImageUrl != null) mDetailsOverviewRow.setStudioBitmap(mActivity, Picasso.with(mActivity).load(studioImageUrl).resize(width, height).centerInside().get());
+                    if (studioImageUrl != null) mDetailsOverviewRow.setStudioBitmap(mActivity, Glide.with(mActivity).asBitmap().load(studioImageUrl).override(width, height).centerInside().submit().get());
                 } else {
                     if (item.getSeriesStudio() != null) {
                         String studioImageUrl = null;
@@ -447,11 +450,11 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }
-                        if (studioImageUrl != null) mDetailsOverviewRow.setStudioBitmap(mActivity, Picasso.with(mActivity).load(studioImageUrl).resize(width, height).centerInside().get());
+                        if (studioImageUrl != null) mDetailsOverviewRow.setStudioBitmap(mActivity, Glide.with(mActivity).asBitmap().load(studioImageUrl).override(width, height).centerInside().submit().get());
 
                     }
                 }
-            } catch (IOException e) {
+            } catch (ExecutionException | InterruptedException e) {
                 Timber.e(e, "Error loading image");
             }
 
