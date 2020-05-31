@@ -255,10 +255,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if (hasSubs() && event.getAction() == KeyEvent.ACTION_UP && keyCode == TvApp.getApplication().getUserPreferences().getSubtitleLanguageButtonKeyCode()) {
+        if (hasSubs() && event.getAction() == KeyEvent.ACTION_UP && keyCode == TvApp.getApplication().getUserPreferences().getShortcutSubtitleTrack()) {
             closedCaptionsAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), v);
         }
-        if (hasMultiAudio() && event.getAction() == KeyEvent.ACTION_UP && keyCode == TvApp.getApplication().getUserPreferences().getAudioLanguageButtonKeyCode()) {
+        if (hasMultiAudio() && event.getAction() == KeyEvent.ACTION_UP && keyCode == TvApp.getApplication().getUserPreferences().getShortcutAudioTrack()) {
             selectAudioAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), v);
         }
         return super.onKey(v, keyCode, event);

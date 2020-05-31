@@ -47,32 +47,25 @@ class ButtonRemapPreference(
 		summaryProvider = ButtonRemapSummaryProvider.instance
 	}
 
-}
-
-class ButtonRemapSummaryProvider private constructor() : SummaryProvider<ButtonRemapPreference> {
-	override fun provideSummary(preference: ButtonRemapPreference): CharSequence {
-		return provideSummary(preference.getKeyCode())
-	}
-
-	fun provideSummary(keyCode: Int): CharSequence {
-		var keyCodeString = KeyEvent.keyCodeToString(keyCode)
-		if (keyCodeString.startsWith("KEYCODE")) {
-			keyCodeString = keyCodeString.split("_").drop(1).joinToString(" ") { e -> e.toLowerCase(Locale.getDefault()).capitalize() }
-		} else {
-			keyCodeString = "Unknown ($keyCodeString)"
+	class ButtonRemapSummaryProvider private constructor() : SummaryProvider<ButtonRemapPreference> {
+		override fun provideSummary(preference: ButtonRemapPreference): CharSequence {
+			return provideSummary(preference.context, preference.getKeyCode())
 		}
-		return keyCodeString
-	}
 
-	companion object {
-		private var sButtonRemapSummaryProvider: ButtonRemapSummaryProvider? = null
-
-		val instance: ButtonRemapSummaryProvider?
-			get() {
-				if (sButtonRemapSummaryProvider == null) {
-					sButtonRemapSummaryProvider = ButtonRemapSummaryProvider()
-				}
-				return sButtonRemapSummaryProvider
+		fun provideSummary(context: Context, keyCode: Int): CharSequence {
+			var keyCodeString = KeyEvent.keyCodeToString(keyCode)
+			if (keyCodeString.startsWith("KEYCODE")) {
+				keyCodeString = keyCodeString.split("_").drop(1).joinToString(" ") { e -> e.toLowerCase(Locale.getDefault()).capitalize() }
+			} else {
+				keyCodeString = "${context.getString(R.string.lbl_unknown_key)} ($keyCodeString)"
 			}
+			return keyCodeString
+		}
+
+		companion object {
+			val instance by lazy { ButtonRemapSummaryProvider() }
+		}
 	}
 }
+
+

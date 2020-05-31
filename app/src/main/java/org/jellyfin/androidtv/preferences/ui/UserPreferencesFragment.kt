@@ -24,9 +24,9 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 
 	override fun onPreferenceDisplayDialog(caller: PreferenceFragmentCompat, pref: Preference?): Boolean {
 		if (pref is ButtonRemapPreference) {
-			val f = ButtonRemapDialogFragment.newInstance(pref.key)
-			f.setTargetFragment(caller, 0)
-			startPreferenceFragment(f)
+			val fragment = ButtonRemapDialogFragment.newInstance(pref.key)
+			fragment.setTargetFragment(caller, 0)
+			startPreferenceFragment(fragment)
 			return true
 		}
 		return super.onPreferenceDisplayDialog(caller, pref)
