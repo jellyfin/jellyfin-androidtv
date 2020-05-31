@@ -2,6 +2,7 @@ plugins {
 	id("com.android.application")
 	id("kotlin-android")
 	id("kotlin-android-extensions")
+	id("org.sonarqube")
 }
 
 android {
@@ -18,15 +19,13 @@ android {
 		versionName = "0.11.0"
 	}
 
+	// Use Java 1.8 features
+	val javaVersion = JavaVersion.VERSION_1_8
 	compileOptions {
-		// Use Java 1.8 features
-		sourceCompatibility = JavaVersion.VERSION_1_8
-		targetCompatibility = JavaVersion.VERSION_1_8
+		sourceCompatibility = javaVersion
+		targetCompatibility = javaVersion
 	}
-
-	kotlinOptions {
-		jvmTarget = compileOptions.targetCompatibility.toString()
-	}
+	kotlinOptions.jvmTarget = javaVersion.toString()
 
 	buildTypes {
 		getByName("release") {
@@ -98,3 +97,17 @@ dependencies {
 	testImplementation("junit:junit:4.12")
 	testImplementation("org.mockito:mockito-core:3.2.4")
 }
+
+// Sonarqube configuration
+sonarqube {
+	properties {
+		// Android linter report
+		property("sonar.androidLint.reportPaths", "build/reports/lint-results.xml")
+
+		// Detekt linter report
+		property("sonar.kotlin.detekt.reportPaths", "build/reports/detekt/detekt.xml")
+	}
+}
+
+// Execute Android linter in Sonarqube task
+tasks.getByPath(":sonarqube").setDependsOn(listOf(":app:lint", ":app:detekt"))

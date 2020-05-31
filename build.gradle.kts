@@ -23,6 +23,7 @@ allprojects {
 
 plugins {
 	id("io.gitlab.arturbosch.detekt").version("1.9.1")
+	id("org.sonarqube").version("3.0")
 }
 
 // Detekt configuration
