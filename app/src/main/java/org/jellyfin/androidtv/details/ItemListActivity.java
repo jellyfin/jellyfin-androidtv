@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -19,14 +20,19 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.leanback.app.BackgroundManager;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.flexbox.FlexboxLayout;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
-import org.jellyfin.androidtv.imagehandling.PicassoBackgroundManagerTarget;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.model.GotFocusEvent;
@@ -63,7 +69,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import androidx.leanback.app.BackgroundManager;
 import timber.log.Timber;
 
 public class ItemListActivity extends BaseActivity {
@@ -92,7 +97,6 @@ public class ItemListActivity extends BaseActivity {
 
     private TvApp mApplication;
     private BaseActivity mActivity;
-    private Target mBackgroundTarget;
     private DisplayMetrics mMetrics;
     private Handler mLoopHandler = new Handler();
     private Runnable mBackdropLoop;
@@ -155,7 +159,6 @@ public class ItemListActivity extends BaseActivity {
 
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         backgroundManager.attach(getWindow());
-        mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
 
         mItemId = getIntent().getStringExtra("ItemId");
         loadItem(mItemId);
@@ -503,10 +506,11 @@ public class ItemListActivity extends BaseActivity {
 
                 String primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), false, posterHeight);
 
-                Picasso.with(this)
+
+                Glide.with(this)
                         .load(primaryImageUrl)
-                        .resize(posterWidth,posterHeight)
-                        .centerInside()
+                        .override(posterWidth,posterHeight)
+                        .fitCenter()
                         .into(mPoster);
 
                 break;
@@ -758,15 +762,28 @@ public class ItemListActivity extends BaseActivity {
     }
 
     protected void updateBackground(String url) {
+
+        BackgroundManager backgroundInstance = BackgroundManager.getInstance(this);
         if (url == null) {
-            BackgroundManager.getInstance(this).setDrawable(null);
+            backgroundInstance.setDrawable(null);
         } else {
-            Picasso.with(this)
+
+            Glide.with(this)
                     .load(url)
-                    .skipMemoryCache()
-                    .resize(mMetrics.widthPixels, mMetrics.heightPixels)
+                    .override(mMetrics.widthPixels, mMetrics.heightPixels)
                     .centerCrop()
-                    .into(mBackgroundTarget);
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            backgroundInstance.setDrawable(resource);
+                            return false;
+                        }
+                    }).submit();
         }
     }
 }

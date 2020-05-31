@@ -17,7 +17,6 @@ package org.jellyfin.androidtv.browsing;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -33,9 +32,13 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+import androidx.leanback.app.BackgroundManager;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.OnItemViewSelectedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
+import androidx.leanback.widget.VerticalGridPresenter;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -63,6 +66,7 @@ import org.jellyfin.androidtv.ui.DisplayPrefsPopup;
 import org.jellyfin.androidtv.ui.GridFragment;
 import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.JumpList;
+import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -75,13 +79,6 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.OnItemViewSelectedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
-import androidx.leanback.widget.VerticalGridPresenter;
 import timber.log.Timber;
 
 public class StdGridFragment extends GridFragment implements IGridLoader {
@@ -96,7 +93,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ItemRowAdapter mGridAdapter;
-    private SimpleTarget<Bitmap> mBackgroundTarget;
     private DisplayMetrics mMetrics;
     private Timer mBackgroundTimer;
     private final Handler mHandler = new Handler();
@@ -352,13 +348,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
-
-        mBackgroundTarget = new SimpleTarget<Bitmap>(mMetrics.widthPixels, mMetrics.heightPixels) {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                backgroundManager.setBitmap(resource);
-            }
-        };
     }
 
     protected ImageButton mUnwatchedButton;
@@ -699,12 +688,13 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         if (url == null) {
             clearBackground();
         } else {
-            Glide.with(getActivity())
-                    .load(url)
-                    .asBitmap()
-                    .override(mMetrics.widthPixels, mMetrics.heightPixels)
-                    .centerCrop()
-                    .into(mBackgroundTarget);
+            BackgroundManagerExtensionsKt.drawable(
+                    BackgroundManager.getInstance(getActivity()),
+                    getActivity(),
+                    url,
+                    mMetrics.widthPixels,
+                    mMetrics.heightPixels
+            );
         }
     }
 

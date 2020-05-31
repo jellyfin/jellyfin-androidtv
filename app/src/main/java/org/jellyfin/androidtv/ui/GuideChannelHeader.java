@@ -8,14 +8,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.Utils;
-
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 
 /**
@@ -49,7 +48,11 @@ public class GuideChannelHeader extends RelativeLayout {
     }
 
     public void loadImage() {
-        Picasso.with(mActivity).load(ImageUtils.getPrimaryImageUrl(mChannel, TvApp.getApplication().getApiClient())).resize(IMAGE_WIDTH, IMAGE_HEIGHT).centerInside().into(mChannelImage);
+        Glide.with(mActivity)
+                .load(ImageUtils.getPrimaryImageUrl(mChannel, TvApp.getApplication().getApiClient()))
+                .override(IMAGE_WIDTH, IMAGE_HEIGHT)
+                .centerInside()
+                .into(mChannelImage);
     }
 
 }

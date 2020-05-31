@@ -5,9 +5,16 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+import androidx.leanback.widget.BaseCardView;
+import androidx.leanback.widget.Presenter;
+import androidx.palette.graphics.Palette;
+
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -22,10 +29,6 @@ import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 
 import java.util.Date;
-
-import androidx.leanback.widget.BaseCardView;
-import androidx.leanback.widget.Presenter;
-import androidx.palette.graphics.Palette;
 
 import timber.log.Timber;
 
@@ -327,18 +330,24 @@ public class CardPresenter extends Presenter {
                             .error(mDefaultCardImage)
                             .into(mCardView.getMainImageView());
                 } else {
+
                     Glide.with(mCardView.getContext())
-                            .load(url)
                             .asBitmap()
+                            .load(url)
                             .override(cardWidth, cardHeight)
                             .error(mDefaultCardImage)
-                            .into(new BitmapImageViewTarget(mCardView.getMainImageView()) {
+                            .listener(new RequestListener<Bitmap>() {
                                 @Override
-                                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                    super.onResourceReady(resource, glideAnimation);
-                                    mCardView.setBackgroundColor(Utils.darker(Palette.from(resource).generate().getMutedColor(TvApp.getApplication().getResources().getColor(R.color.lb_basic_card_bg_color)), .6f));
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                                    return false;
                                 }
-                            });
+
+                                @Override
+                                public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                                    mCardView.setBackgroundColor(Utils.darker(Palette.from(resource).generate().getMutedColor(TvApp.getApplication().getResources().getColor(R.color.lb_basic_card_bg_color)), .6f));
+                                    return false;
+                                }
+                            }).into(mCardView.getMainImageView());
                 }
             } catch (IllegalArgumentException e) {
                 Timber.i("Image load aborted due to activity closing");

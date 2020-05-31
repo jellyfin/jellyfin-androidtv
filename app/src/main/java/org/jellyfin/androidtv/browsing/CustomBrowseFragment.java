@@ -1,9 +1,13 @@
 package org.jellyfin.androidtv.browsing;
 
-import androidx.fragment.app.Fragment;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
@@ -14,14 +18,6 @@ import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
-import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -33,6 +29,7 @@ import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.ViewQuery;
+import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +49,6 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ArrayObjectAdapter mRowsAdapter;
-    private SimpleTarget<Bitmap> mBackgroundTarget;
     private DisplayMetrics mMetrics;
     private Timer mBackgroundTimer;
     private final Handler mHandler = new Handler();
@@ -199,14 +195,6 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
 
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
-
-        mBackgroundTarget = new SimpleTarget<Bitmap>(mMetrics.widthPixels, mMetrics.heightPixels) {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                backgroundManager.setBitmap(resource);
-            }
-        };
-
     }
 
     protected void setupUIElements() {
@@ -260,12 +248,14 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
         if (url == null) {
             clearBackground();
         } else {
-            Glide.with(getActivity())
-                    .load(url)
-                    .asBitmap()
-                    .override(mMetrics.widthPixels, mMetrics.heightPixels)
-                    .centerCrop()
-                    .into(mBackgroundTarget);
+
+            BackgroundManagerExtensionsKt.drawable(
+                    BackgroundManager.getInstance(getActivity()),
+                    getActivity(),
+                    url,
+                    mMetrics.widthPixels,
+                    mMetrics.heightPixels
+            );
         }
     }
 

@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.browsing;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,9 +13,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.leanback.app.BackgroundManager;
+import androidx.leanback.app.RowsSupportFragment;
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.ClassPresenterSelector;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.OnItemViewSelectedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -38,6 +47,7 @@ import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.ViewQuery;
 import org.jellyfin.androidtv.search.SearchActivity;
 import org.jellyfin.androidtv.ui.GridButton;
+import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.TextUtilsKt;
@@ -51,20 +61,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.RowsSupportFragment;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.ClassPresenterSelector;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.OnItemViewSelectedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
 
 public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     private static final int BACKGROUND_UPDATE_DELAY = 100;
@@ -95,7 +91,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
     protected BaseRowItem favSongsRowItem;
 
-    private SimpleTarget<Bitmap> mBackgroundTarget;
     private DisplayMetrics mMetrics;
 
     RowsSupportFragment mRowsFragment;
@@ -600,25 +595,19 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
-
-        mBackgroundTarget = new SimpleTarget<Bitmap>(mMetrics.widthPixels, mMetrics.heightPixels) {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                backgroundManager.setBitmap(resource);
-            }
-        };
     }
 
     protected void updateBackground(String url) {
         if (url == null) {
             clearBackground();
         } else {
-            Glide.with(getActivity())
-                    .load(url)
-                    .asBitmap()
-                    .override(mMetrics.widthPixels, mMetrics.heightPixels)
-                    .centerCrop()
-                    .into(mBackgroundTarget);
+            BackgroundManagerExtensionsKt.drawable(
+                    BackgroundManager.getInstance(getActivity()),
+                    getActivity(),
+                    url,
+                    mMetrics.widthPixels,
+                    mMetrics.heightPixels
+            );
         }
     }
 

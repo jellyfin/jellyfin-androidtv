@@ -15,7 +15,6 @@
 package org.jellyfin.androidtv.browsing;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -27,9 +26,16 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+import androidx.leanback.app.BackgroundManager;
+import androidx.leanback.app.BrowseSupportFragment;
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.OnItemViewSelectedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -46,6 +52,7 @@ import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.ViewQuery;
 import org.jellyfin.androidtv.search.SearchActivity;
 import org.jellyfin.androidtv.ui.ClockUserView;
+import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -56,16 +63,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.BrowseSupportFragment;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.OnItemViewSelectedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
 import timber.log.Timber;
 
 public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoader {
@@ -81,7 +78,6 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ArrayObjectAdapter mRowsAdapter;
-    private SimpleTarget<Bitmap> mBackgroundTarget;
     private DisplayMetrics mMetrics;
     private Timer mBackgroundTimer;
     private final Handler mHandler = new Handler();
@@ -243,13 +239,6 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
-        mBackgroundTarget = new SimpleTarget<Bitmap>(mMetrics.widthPixels, mMetrics.heightPixels) {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                backgroundManager.setBitmap(resource);
-            }
-        };
-
     }
 
     protected void setupUIElements() {
@@ -386,12 +375,14 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
         if (url == null) {
             clearBackground();
         } else {
-            Glide.with(getActivity())
-                    .load(url)
-                    .asBitmap()
-                    .override(mMetrics.widthPixels, mMetrics.heightPixels)
-                    .centerCrop()
-                    .into(mBackgroundTarget);
+
+            BackgroundManagerExtensionsKt.drawable(
+                    BackgroundManager.getInstance(getActivity()),
+                    getActivity(),
+                    url,
+                    mMetrics.widthPixels,
+                    mMetrics.heightPixels
+            );
         }
     }
 

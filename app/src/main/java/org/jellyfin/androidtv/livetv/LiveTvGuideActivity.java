@@ -26,7 +26,7 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -912,7 +912,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         if (mSelectedProgram.getId() != null) {
             mDisplayDate.setText(TimeUtils.getFriendlyDate(TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
             String url = ImageUtils.getPrimaryImageUrl(mSelectedProgram, TvApp.getApplication().getApiClient());
-            Picasso.with(mActivity).load(url).resize(IMAGE_SIZE, IMAGE_SIZE).centerInside().into(mImage);
+            Glide.with(mActivity).load(url).override(IMAGE_SIZE, IMAGE_SIZE).centerInside().into(mImage);
 
             //info row
             InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mInfoRow, false, false);
