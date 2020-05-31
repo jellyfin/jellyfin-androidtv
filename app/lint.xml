@@ -4,11 +4,12 @@
     <issue id="DuplicateStrings" severity="warning" />
     <issue id="EasterEgg" severity="fatal" />
     <issue id="MangledCRLF" severity="warning" />
-    <issue id="MissingRegistered" severity="fatal" />
     <issue id="NegativeMargin" severity="warning" />
     <issue id="NoHardKeywords" severity="warning" />
     <issue id="Registered" severity="warning" />
     <issue id="RequiredSize" severity="error" />
     <issue id="UnknownNullness" severity="informational" />
     <issue id="UnusedIds" severity="warning" />
+    <issue id="KotlinPropertyAccess" severity="warning" />
+    <issue id="LambdaLast" severity="warning" />
 </lint>
