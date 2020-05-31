@@ -40,7 +40,7 @@ import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.ClockUserView;
 import org.jellyfin.androidtv.ui.GenreButton;
 import org.jellyfin.androidtv.ui.ImageButton;
-import org.jellyfin.androidtv.util.BackgroundManagerUtilsKt;
+import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
@@ -576,7 +576,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             backgroundManager.setDrawable(null);
         } else {
 
-            BackgroundManagerUtilsKt.drawable(
+            BackgroundManagerExtensionsKt.drawable(
                     backgroundManager,
                     this,
                     url,

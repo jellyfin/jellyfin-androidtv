@@ -47,7 +47,7 @@ import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.ViewQuery;
 import org.jellyfin.androidtv.search.SearchActivity;
 import org.jellyfin.androidtv.ui.GridButton;
-import org.jellyfin.androidtv.util.BackgroundManagerUtilsKt;
+import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.TextUtilsKt;
@@ -601,7 +601,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         if (url == null) {
             clearBackground();
         } else {
-            BackgroundManagerUtilsKt.drawable(
+            BackgroundManagerExtensionsKt.drawable(
                     BackgroundManager.getInstance(getActivity()),
                     getActivity(),
                     url,

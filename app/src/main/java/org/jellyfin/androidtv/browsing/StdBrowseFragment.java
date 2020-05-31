@@ -52,7 +52,7 @@ import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.ViewQuery;
 import org.jellyfin.androidtv.search.SearchActivity;
 import org.jellyfin.androidtv.ui.ClockUserView;
-import org.jellyfin.androidtv.util.BackgroundManagerUtilsKt;
+import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -376,7 +376,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
             clearBackground();
         } else {
 
-            BackgroundManagerUtilsKt.drawable(
+            BackgroundManagerExtensionsKt.drawable(
                     BackgroundManager.getInstance(getActivity()),
                     getActivity(),
                     url,

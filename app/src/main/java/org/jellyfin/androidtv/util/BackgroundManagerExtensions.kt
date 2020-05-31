@@ -16,7 +16,6 @@ fun BackgroundManager.drawable(
 	widthPixels: Int,
 	heightPixels: Int
 ) {
-
 	Glide.with(context)
 		.load(url)
 		.override(widthPixels, heightPixels)
@@ -32,6 +31,4 @@ fun BackgroundManager.drawable(
 				return true
 			}
 		}).submit()
-
-
 }

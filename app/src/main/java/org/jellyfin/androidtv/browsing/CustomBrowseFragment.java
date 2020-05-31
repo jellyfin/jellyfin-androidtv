@@ -29,7 +29,7 @@ import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.ViewQuery;
-import org.jellyfin.androidtv.util.BackgroundManagerUtilsKt;
+import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -249,7 +249,7 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
             clearBackground();
         } else {
 
-            BackgroundManagerUtilsKt.drawable(
+            BackgroundManagerExtensionsKt.drawable(
                     BackgroundManager.getInstance(getActivity()),
                     getActivity(),
                     url,

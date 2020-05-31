@@ -66,7 +66,7 @@ import org.jellyfin.androidtv.ui.DisplayPrefsPopup;
 import org.jellyfin.androidtv.ui.GridFragment;
 import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.JumpList;
-import org.jellyfin.androidtv.util.BackgroundManagerUtilsKt;
+import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -688,7 +688,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         if (url == null) {
             clearBackground();
         } else {
-            BackgroundManagerUtilsKt.drawable(
+            BackgroundManagerExtensionsKt.drawable(
                     BackgroundManager.getInstance(getActivity()),
                     getActivity(),
                     url,
