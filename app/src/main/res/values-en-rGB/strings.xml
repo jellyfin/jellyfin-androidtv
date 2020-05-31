@@ -360,4 +360,8 @@
     <string name="pref_app_theme">App Theme</string>
     <string name="pref_theme_emerald">Classic Emerald</string>
     <string name="pref_theme_dark">Dark (Default)</string>
+    <string name="grid_direction_vertical">Vertical (experimental)</string>
+    <string name="grid_direction_horizontal">Horizontal</string>
+    <string name="grid_direction">Grid direction</string>
+    <string name="pref_device_model">Device Model</string>
 </resources>
