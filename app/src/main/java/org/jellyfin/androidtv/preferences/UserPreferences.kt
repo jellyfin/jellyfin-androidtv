@@ -147,14 +147,14 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	var liveTvVideoPlayer by enumPreference("live_tv_video_player", PreferredVideoPlayer.AUTO)
 
 	/**
-	 * Default keycode for audio language switch button on a tv remote
+	 * Shortcut used for changing the audio track
 	 */
-	var audioLanguageButtonKeyCode by intPreference("audio_language_button_keycode", KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK)
+	var shortcutAudioTrack by intPreference("shortcut_audio_track", KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK)
 
 	/**
-	 * Default keycode for subtitle language switch button on a tv remote
+	 * Shortcut used for changing the subtitle track
 	 */
-	var subtitleLanguageButtonKeyCode by intPreference("subtitle_language_button_keycode", KeyEvent.KEYCODE_CAPTIONS)
+	var shortcutSubtitleTrack by intPreference("shortcut_subtitle_track", KeyEvent.KEYCODE_CAPTIONS)
 
 	/* ACRA */
 	/**

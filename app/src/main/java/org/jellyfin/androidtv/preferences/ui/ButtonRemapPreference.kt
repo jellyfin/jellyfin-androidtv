@@ -37,8 +37,8 @@ class ButtonRemapPreference(
 			persistInt(defaultValue as Int)
 	}
 
-	override fun onGetDefaultValue(a: TypedArray?, index: Int): Any {
-		return a!!.getInt(index, -1)
+	override fun onGetDefaultValue(a: TypedArray, index: Int): Any {
+		return a.getInt(index, -1)
 	}
 
 	init {

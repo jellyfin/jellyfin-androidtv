@@ -24,7 +24,9 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 			KeyEvent.KEYCODE_DPAD_UP,
 			KeyEvent.KEYCODE_DPAD_DOWN,
 			KeyEvent.KEYCODE_DPAD_LEFT,
-			KeyEvent.KEYCODE_DPAD_RIGHT)
+			KeyEvent.KEYCODE_DPAD_RIGHT,
+			KeyEvent.KEYCODE_ENTER
+		)
 	private var mCheckKeys: View.OnKeyListener = View.OnKeyListener { _, keyCode, _ ->
 		// ignore navigation buttons
 		if (mIgnoreKeys.contains(keyCode))
@@ -40,7 +42,6 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		if (savedInstanceState == null) {
-			val preference = preference
 			mDialogTitle = preference.dialogTitle
 			mDialogMessage = preference.dialogMessage
 			if (preference is ButtonRemapPreference) {
@@ -65,14 +66,10 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 		outState.putInt(SAVE_STATE_KEYCODE, mKeyCode)
 	}
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-							  savedInstanceState: Bundle?): View? {
-		val theme = R.style.PreferenceThemeOverlayLeanback
-		val styledContext: Context = ContextThemeWrapper(activity, theme)
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+		val styledContext = ContextThemeWrapper(activity, R.style.PreferenceThemeOverlayLeanback)
 		val styledInflater = inflater.cloneInContext(styledContext)
-		val view: View = styledInflater.inflate(R.layout.button_remap_preference,
-			container, false)
-		return view
+		return styledInflater.inflate(R.layout.button_remap_preference, container, false)
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -124,12 +121,12 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 		 * @param key the preference key
 		 * @return the new ButtonRemapDialogFragment instance
 		 */
-		fun newInstance(key: String?): ButtonRemapDialogFragment {
-			val args = Bundle(1)
-			args.putString(ARG_KEY, key)
-			val fragment = ButtonRemapDialogFragment()
-			fragment.arguments = args
-			return fragment
+		fun newInstance(key: String): ButtonRemapDialogFragment {
+			return ButtonRemapDialogFragment().apply {
+				arguments = Bundle().apply {
+					putString(ARG_KEY, key)
+				}
+			}
 		}
 	}
 }
