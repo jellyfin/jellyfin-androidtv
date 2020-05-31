@@ -47,7 +47,7 @@ class ButtonRemapPreference(
 		summaryProvider = ButtonRemapSummaryProvider.instance
 	}
 
-	class ButtonRemapSummaryProvider private constructor() : SummaryProvider<ButtonRemapPreference> {
+	internal class ButtonRemapSummaryProvider private constructor() : SummaryProvider<ButtonRemapPreference> {
 		override fun provideSummary(preference: ButtonRemapPreference): CharSequence {
 			return provideSummary(preference.context, preference.getKeyCode())
 		}
