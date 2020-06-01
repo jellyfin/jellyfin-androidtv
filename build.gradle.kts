@@ -31,6 +31,7 @@ subprojects {
 
 	detekt {
 		buildUponDefaultConfig = true
+		ignoreFailures = true
 		config = files("$rootDir/detekt.yml")
 	}
 }
