@@ -31,7 +31,7 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 		else {
 			this.keyCode = keyCode
 			setKeyCodeText()
-			requireView().findViewById<Button>(R.id.buttonSave).isEnabled = this.keyCode != originalKeyCode
+			requireView().buttonSave.isEnabled = this.keyCode != originalKeyCode
 			true
 		}
 	}
@@ -71,10 +71,10 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		if (!TextUtils.isEmpty(dialogTitle)) {
+		if (dialogTitle.isNotBlank()) {
 			decor_title.text = dialogTitle
 		}
-		if (!TextUtils.isEmpty(dialogMessage)) {
+		if (dialogMessage.isNotBlank()) {
 			message.visibility = View.VISIBLE
 			message.text = dialogMessage
 		}

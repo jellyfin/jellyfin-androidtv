@@ -19,7 +19,7 @@ class ButtonRemapPreference(
 	 *
 	 * @param mKeyCode the KeyCode to save
 	 */
-	fun setKeyCode(mKeyCode: Int) {
+	fun setKeyCode(keyCode: Int) {
 		persistInt(mKeyCode)
 	}
 
@@ -67,5 +67,4 @@ class ButtonRemapPreference(
 		}
 	}
 }
-
 
