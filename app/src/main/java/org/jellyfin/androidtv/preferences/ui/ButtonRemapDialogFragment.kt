@@ -7,6 +7,7 @@ import android.view.*
 import android.widget.Button
 import androidx.leanback.preference.LeanbackPreferenceDialogFragmentCompat
 import kotlinx.android.synthetic.main.button_remap_preference.*
+import kotlinx.android.synthetic.main.button_remap_preference.view.*
 
 class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 	private var dialogTitle: CharSequence? = null
@@ -71,10 +72,10 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		if (dialogTitle.isNotBlank()) {
+		if (dialogTitle!!.isNotBlank()) {
 			decor_title.text = dialogTitle
 		}
-		if (dialogMessage.isNotBlank()) {
+		if (dialogMessage!!.isNotBlank()) {
 			message.visibility = View.VISIBLE
 			message.text = dialogMessage
 		}

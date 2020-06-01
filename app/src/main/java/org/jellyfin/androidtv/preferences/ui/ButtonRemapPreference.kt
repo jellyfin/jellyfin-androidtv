@@ -14,13 +14,19 @@ class ButtonRemapPreference(
 	attrs: AttributeSet? = null
 ) : DialogPreference(context, attrs) {
 
+	init {
+		// Explicitly set the layout or it will crash
+		dialogLayoutResource = R.layout.button_remap_preference
+		summaryProvider = ButtonRemapSummaryProvider.instance
+	}
+
 	/**
 	 * Saves a KeyCode in this preference.
 	 *
-	 * @param mKeyCode the KeyCode to save
+	 * @param keyCode the KeyCode to save
 	 */
 	fun setKeyCode(keyCode: Int) {
-		persistInt(mKeyCode)
+		persistInt(keyCode)
 	}
 
 	/**
@@ -37,14 +43,8 @@ class ButtonRemapPreference(
 			persistInt(defaultValue as Int)
 	}
 
-	override fun onGetDefaultValue(a: TypedArray, index: Int): Any {
-		return a.getInt(index, -1)
-	}
-
-	init {
-		// Explicitly set the layout or it will crash
-		dialogLayoutResource = R.layout.button_remap_preference
-		summaryProvider = ButtonRemapSummaryProvider.instance
+	override fun onGetDefaultValue(styledAttributes: TypedArray, index: Int): Any {
+		return styledAttributes.getInt(index, -1)
 	}
 
 	internal class ButtonRemapSummaryProvider private constructor() : SummaryProvider<ButtonRemapPreference> {
@@ -53,13 +53,12 @@ class ButtonRemapPreference(
 		}
 
 		fun provideSummary(context: Context, keyCode: Int): CharSequence {
-			var keyCodeString = KeyEvent.keyCodeToString(keyCode)
-			if (keyCodeString.startsWith("KEYCODE")) {
-				keyCodeString = keyCodeString.split("_").drop(1).joinToString(" ") { e -> e.toLowerCase(Locale.getDefault()).capitalize() }
+			val keyCodeString = KeyEvent.keyCodeToString(keyCode)
+			return if (keyCodeString.startsWith("KEYCODE")) {
+				keyCodeString.removePrefix("KEYCODE_").replace('_', ' ').toLowerCase(Locale.getDefault()).capitalize()
 			} else {
-				keyCodeString = "${context.getString(R.string.lbl_unknown_key)} ($keyCodeString)"
+				context.getString(R.string.lbl_unknown_key, keyCodeString)
 			}
-			return keyCodeString
 		}
 
 		companion object {
