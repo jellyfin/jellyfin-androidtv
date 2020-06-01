@@ -55,7 +55,7 @@ class ButtonRemapPreference(
 		fun provideSummary(context: Context, keyCode: Int): CharSequence {
 			val keyCodeString = KeyEvent.keyCodeToString(keyCode)
 			return if (keyCodeString.startsWith("KEYCODE")) {
-				keyCodeString.removePrefix("KEYCODE_").replace('_', ' ').toLowerCase(Locale.getDefault()).capitalize()
+				keyCodeString.removePrefix("KEYCODE_").toLowerCase(Locale.getDefault()).split("_").joinToString(" ") { it.capitalize() }
 			} else {
 				context.getString(R.string.lbl_unknown_key, keyCodeString)
 			}
