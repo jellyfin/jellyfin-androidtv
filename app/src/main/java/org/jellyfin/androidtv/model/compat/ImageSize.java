@@ -2,6 +2,8 @@ package org.jellyfin.androidtv.model.compat;
 
 import org.jellyfin.androidtv.util.Utils;
 
+import timber.log.Timber;
+
 /**
  * Struct ImageSize
  *
@@ -73,7 +75,9 @@ public final class ImageSize {
                 try {
                     _width = Double.parseDouble(parts[0]);
                     _height = Double.parseDouble(parts[1]);
-                } catch (NumberFormatException ex) {}
+                } catch (NumberFormatException ex) {
+                    Timber.e(ex, "Could not parse width and height");
+                }
             }
         }
     }

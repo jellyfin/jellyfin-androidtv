@@ -194,6 +194,7 @@ public class AuthenticationHelper {
             Timber.d("Saved credential JSON: %s", json);
             return SerializerRepository.INSTANCE.getSerializer().DeserializeFromString(json, LogonCredentials.class);
         } catch (IOException e) {
+            Timber.e(e, "IO Error while saving login");
             // none saved
             return new LogonCredentials(new ServerInfo(), new UserDto());
         } catch (Exception e) {
