@@ -12,7 +12,24 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.flaviofaria.kenburnsview.KenBurnsView;
+
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.presentation.MyRandomeKBGenerator;
+import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
+import org.jellyfin.androidtv.util.ImageUtils;
+import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
@@ -22,30 +39,9 @@ import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
-import com.flaviofaria.kenburnsview.KenBurnsView;
-
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.base.BaseActivity;
-import org.jellyfin.androidtv.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.playback.MediaManager;
-import org.jellyfin.androidtv.presentation.MyRandomeKBGenerator;
-import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
-import org.jellyfin.androidtv.util.ImageUtils;
-import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-
 import timber.log.Timber;
 
-/**
- * Created by Eric on 10/22/2015.
- */
-public class PhotoPlayerActivity extends BaseActivity {
+public class PhotoPlayerActivity extends FragmentActivity {
     BaseItemDto currentPhoto;
 
     KenBurnsView[] mainImages = new KenBurnsView[2];
@@ -123,7 +119,6 @@ public class PhotoPlayerActivity extends BaseActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         switch (keyCode) {
-
             case KeyEvent.KEYCODE_BACK:
             case KeyEvent.KEYCODE_B:
                 if (mPopupPanelVisible) {
@@ -167,21 +162,18 @@ public class PhotoPlayerActivity extends BaseActivity {
                 return true;
 
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                return handlePlayKey();
-
             case KeyEvent.KEYCODE_MEDIA_PLAY:
-                return handlePlayKey();
+                if (handlePlayKey())
+                    return true;
+                break;
 
             case KeyEvent.KEYCODE_MEDIA_PAUSE:
             case KeyEvent.KEYCODE_MEDIA_STOP:
                 stop();
                 return true;
-
-            default:
-                return false;
         }
 
-        return false;
+        return super.onKeyUp(keyCode, event);
     }
 
     protected boolean handlePlayKey() {
@@ -343,7 +335,6 @@ public class PhotoPlayerActivity extends BaseActivity {
             if (target == nextImage) isLoadingNext = true;
             if (target == prevImage) isLoadingPrev = true;
 
-
             Glide.with(this)
                     .load(ImageUtils.getPrimaryImageUrl(photo, displayWidth, displayHeight))
                     .override(displayWidth, displayHeight)
@@ -374,7 +365,8 @@ public class PhotoPlayerActivity extends BaseActivity {
                             }
                             return false;
                         }
-                    }).submit();
+                    })
+                    .into(target);
         }
     }
 
