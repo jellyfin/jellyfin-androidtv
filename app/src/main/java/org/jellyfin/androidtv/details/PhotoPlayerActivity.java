@@ -119,7 +119,6 @@ public class PhotoPlayerActivity extends FragmentActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         switch (keyCode) {
-
             case KeyEvent.KEYCODE_BACK:
             case KeyEvent.KEYCODE_B:
                 if (mPopupPanelVisible) {
@@ -164,18 +163,17 @@ public class PhotoPlayerActivity extends FragmentActivity {
 
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
             case KeyEvent.KEYCODE_MEDIA_PLAY:
-                return handlePlayKey();
+                if (handlePlayKey())
+                    return true;
+                break;
 
             case KeyEvent.KEYCODE_MEDIA_PAUSE:
             case KeyEvent.KEYCODE_MEDIA_STOP:
                 stop();
                 return true;
-
-            default:
-                return false;
         }
 
-        return false;
+        return super.onKeyUp(keyCode, event);
     }
 
     protected boolean handlePlayKey() {
