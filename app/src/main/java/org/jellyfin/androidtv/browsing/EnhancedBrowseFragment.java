@@ -13,20 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.RowsSupportFragment;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.ClassPresenterSelector;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.OnItemViewSelectedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
-
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
@@ -40,6 +26,7 @@ import org.jellyfin.androidtv.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.model.repository.SerializerRepository;
 import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
@@ -61,6 +48,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.leanback.app.BackgroundManager;
+import androidx.leanback.app.RowsSupportFragment;
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.ClassPresenterSelector;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.OnItemViewSelectedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
 
 public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     private static final int BACKGROUND_UPDATE_DELAY = 100;
@@ -207,7 +208,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     public void onResume() {
         super.onResume();
 
-        ShowFanart = mApplication.getUserPreferences().getBackdropEnabled();
+        ShowFanart = mApplication.getUserPreferences().get(UserPreferences.Companion.getBackdropEnabled());
 
         //React to deletion
         if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(TvApp.getApplication().dataRefreshService.getLastDeletedItemId())) {

@@ -5,7 +5,10 @@ import android.os.Build
 import android.os.Bundle
 import androidx.leanback.preference.LeanbackPreferenceFragmentCompat
 import androidx.leanback.preference.LeanbackSettingsFragmentCompat
-import androidx.preference.*
+import androidx.preference.Preference
+import androidx.preference.PreferenceDialogFragmentCompat
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceScreen
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.model.LogonCredentials
@@ -77,26 +80,26 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 						}
 					}
 
-					userPreferences.loginBehavior = it
+					userPreferences[UserPreferences.loginBehavior] = it
 				}
-				get { userPreferences.loginBehavior }
+				get { userPreferences[UserPreferences.loginBehavior] }
 				visible {
 					val configuredAutoCredentials = TvApp.getApplication().configuredAutoCredentials
 
 					// Auto login is disabled
-					userPreferences.loginBehavior != LoginBehavior.AUTO_LOGIN
+					userPreferences[UserPreferences.loginBehavior] != LoginBehavior.AUTO_LOGIN
 						// Or configured user is set to current user
 						|| configuredAutoCredentials.userDto.id == TvApp.getApplication().currentUser.id
 				}
 			}
 			checkboxPreference(R.string.pref_prompt_pw) {
-				set { userPreferences.passwordPromptEnabled = it }
-				get { userPreferences.passwordPromptEnabled }
+				set { userPreferences[UserPreferences.passwordPromptEnabled] = it }
+				get { userPreferences[UserPreferences.passwordPromptEnabled] }
 				visible {
 					val configuredAutoCredentials = TvApp.getApplication().configuredAutoCredentials
 
 					// Auto login is enabled
-					userPreferences.loginBehavior == LoginBehavior.AUTO_LOGIN
+					userPreferences[UserPreferences.loginBehavior] == LoginBehavior.AUTO_LOGIN
 						// Configured user is set to current user
 						&& configuredAutoCredentials.userDto.id == TvApp.getApplication().currentUser.id
 						// Configured user contains a password
@@ -104,12 +107,12 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 				}
 			}
 			checkboxPreference(R.string.pref_alt_pw_entry, R.string.pref_alt_pw_entry_desc) {
-				set { userPreferences.passwordDPadEnabled = it }
-				get { userPreferences.passwordDPadEnabled }
+				set { userPreferences[UserPreferences.passwordDPadEnabled] = it }
+				get { userPreferences[UserPreferences.passwordDPadEnabled] }
 			}
 			checkboxPreference(R.string.pref_live_tv_mode, R.string.pref_live_tv_mode_desc) {
-				set { userPreferences.liveTvMode = it }
-				get { userPreferences.liveTvMode }
+				set { userPreferences[UserPreferences.liveTvMode] = it }
+				get { userPreferences[UserPreferences.liveTvMode] }
 			}
 		}
 
@@ -117,28 +120,28 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 			userPreferences: UserPreferences
 		) = category(R.string.pref_general) {
 			enumPreference<AppTheme>(R.string.pref_app_theme) {
-				set { userPreferences.appTheme = it }
-				get { userPreferences.appTheme }
+				set { userPreferences[UserPreferences.appTheme] = it }
+				get { userPreferences[UserPreferences.appTheme] }
 			}
 			checkboxPreference(R.string.lbl_show_backdrop) {
-				set { userPreferences.backdropEnabled = it }
-				get { userPreferences.backdropEnabled }
+				set { userPreferences[UserPreferences.backdropEnabled] = it }
+				get { userPreferences[UserPreferences.backdropEnabled] }
 			}
 			checkboxPreference(R.string.lbl_show_premieres, R.string.desc_premieres) {
-				set { userPreferences.premieresEnabled = it }
-				get { userPreferences.premieresEnabled }
+				set { userPreferences[UserPreferences.premieresEnabled] = it }
+				get { userPreferences[UserPreferences.premieresEnabled] }
 			}
 			enumPreference<GridDirection>(R.string.grid_direction) {
-				set { userPreferences.gridDirection = it }
-				get { userPreferences.gridDirection }
+				set { userPreferences[UserPreferences.gridDirection] = it }
+				get { userPreferences[UserPreferences.gridDirection] }
 			}
 			checkboxPreference(R.string.lbl_enable_seasonal_themes, R.string.desc_seasonal_themes) {
-				set { userPreferences.seasonalGreetingsEnabled = it }
-				get { userPreferences.seasonalGreetingsEnabled }
+				set { userPreferences[UserPreferences.seasonalGreetingsEnabled] = it }
+				get { userPreferences[UserPreferences.seasonalGreetingsEnabled] }
 			}
 			checkboxPreference(R.string.lbl_enable_debug, R.string.desc_debug) {
-				set { userPreferences.debuggingEnabled = it }
-				get { userPreferences.debuggingEnabled }
+				set { userPreferences[UserPreferences.debuggingEnabled] = it }
+				get { userPreferences[UserPreferences.debuggingEnabled] }
 			}
 		}
 
@@ -170,25 +173,25 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 			)
 
 			listPreference(R.string.pref_max_bitrate_title, maxBitrateValues) {
-				get { userPreferences.maxBitrate }
-				set { userPreferences.maxBitrate = it }
+				get { userPreferences[UserPreferences.maxBitrate] }
+				set { userPreferences[UserPreferences.maxBitrate] = it }
 			}
 
 			checkboxPreference(R.string.lbl_tv_queuing, R.string.sum_tv_queuing) {
-				get { userPreferences.mediaQueuingEnabled }
-				set { userPreferences.mediaQueuingEnabled = it }
+				get { userPreferences[UserPreferences.mediaQueuingEnabled] }
+				set { userPreferences[UserPreferences.mediaQueuingEnabled] = it }
 			}
 
 			checkboxPreference(R.string.pref_next_up_enabled_title, R.string.pref_next_up_enabled_summary) {
-				get { userPreferences.nextUpEnabled }
-				set { userPreferences.nextUpEnabled = it }
-				enabled { userPreferences.mediaQueuingEnabled }
+				get { userPreferences[UserPreferences.nextUpEnabled] }
+				set { userPreferences[UserPreferences.nextUpEnabled] = it }
+				enabled { userPreferences[UserPreferences.mediaQueuingEnabled] }
 			}
 
 			seekbarPreference(R.string.pref_next_up_timeout_title, R.string.pref_next_up_timeout_summary, min = 3000, max = 30000, increment = 1000) {
-				get { userPreferences.nextUpTimeout }
-				set { userPreferences.nextUpTimeout = it }
-				enabled { userPreferences.mediaQueuingEnabled && userPreferences.nextUpEnabled }
+				get { userPreferences[UserPreferences.nextUpTimeout] }
+				set { userPreferences[UserPreferences.nextUpTimeout] = it }
+				enabled { userPreferences[UserPreferences.mediaQueuingEnabled] && userPreferences[UserPreferences.nextUpEnabled] }
 			}
 
 			val prerollValues = mapOf(
@@ -202,55 +205,55 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 				"300" to "5 minutes"
 			)
 			listPreference(R.string.lbl_resume_preroll, prerollValues) {
-				get { userPreferences.resumeSubtractDuration }
-				set { userPreferences.resumeSubtractDuration = it }
+				get { userPreferences[UserPreferences.resumeSubtractDuration] }
+				set { userPreferences[UserPreferences.resumeSubtractDuration] = it }
 			}
 
 			enumPreference<PreferredVideoPlayer>(R.string.pref_media_player) {
-				get { userPreferences.videoPlayer }
-				set { userPreferences.videoPlayer = it }
+				get { userPreferences[UserPreferences.videoPlayer] }
+				set { userPreferences[UserPreferences.videoPlayer] = it }
 			}
 
 			checkboxPreference(R.string.lbl_enable_cinema_mode, R.string.sum_enable_cinema_mode) {
-				get { userPreferences.cinemaModeEnabled }
-				set { userPreferences.cinemaModeEnabled = it }
-				enabled { userPreferences.videoPlayer != PreferredVideoPlayer.EXTERNAL }
+				get { userPreferences[UserPreferences.cinemaModeEnabled] }
+				set { userPreferences[UserPreferences.cinemaModeEnabled] = it }
+				enabled { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 			}
 
 			enumPreference<AudioBehavior>(R.string.lbl_audio_output) {
-				get { userPreferences.audioBehaviour }
-				set { userPreferences.audioBehaviour = it }
-				visible { userPreferences.videoPlayer != PreferredVideoPlayer.EXTERNAL && !DeviceUtils.isFireTv() && DeviceUtils.is50() }
+				get { userPreferences[UserPreferences.audioBehaviour] }
+				set { userPreferences[UserPreferences.audioBehaviour] = it }
+				visible { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL && !DeviceUtils.isFireTv() && DeviceUtils.is50() }
 			}
 
 			checkboxPreference(R.string.lbl_bitstream_ac3, R.string.desc_bitstream_ac3) {
-				get { userPreferences.ac3Enabled }
-				set { userPreferences.ac3Enabled = it }
-				visible { userPreferences.videoPlayer != PreferredVideoPlayer.EXTERNAL && !DeviceUtils.is60() }
+				get { userPreferences[UserPreferences.ac3Enabled] }
+				set { userPreferences[UserPreferences.ac3Enabled] = it }
+				visible { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL && !DeviceUtils.is60() }
 			}
 
 			checkboxPreference(R.string.lbl_bitstream_dts, R.string.desc_bitstream_ac3) {
-				get { userPreferences.dtsEnabled }
-				set { userPreferences.dtsEnabled = it }
-				enabled { userPreferences.videoPlayer != PreferredVideoPlayer.EXTERNAL }
+				get { userPreferences[UserPreferences.dtsEnabled] }
+				set { userPreferences[UserPreferences.dtsEnabled] = it }
+				enabled { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 			}
 
 			checkboxPreference(R.string.lbl_refresh_switching) {
-				get { userPreferences.refreshRateSwitchingEnabled }
-				set { userPreferences.refreshRateSwitchingEnabled = it }
+				get { userPreferences[UserPreferences.refreshRateSwitchingEnabled] }
+				set { userPreferences[UserPreferences.refreshRateSwitchingEnabled] = it }
 				visible { DeviceUtils.is60() }
-				enabled { userPreferences.videoPlayer != PreferredVideoPlayer.EXTERNAL }
+				enabled { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 			}
 
 			//TODO Add summary
 			//TODO Set inputType to number only
 			longPreference(R.string.pref_libvlc_audio_delay_title) {
-				get { userPreferences.libVLCAudioDelay }
-				set { userPreferences.libVLCAudioDelay = it }
+				get { userPreferences[UserPreferences.libVLCAudioDelay] }
+				set { userPreferences[UserPreferences.libVLCAudioDelay] = it }
 			}
 
 			checkboxPreference(R.string.pref_use_direct_path_title, R.string.pref_use_direct_path_summary) {
-				get { userPreferences.externalVideoPlayerSendPath }
+				get { userPreferences[UserPreferences.externalVideoPlayerSendPath] }
 				set {
 					if (it) {
 						AlertDialog.Builder(activity)
@@ -260,9 +263,9 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 							.show()
 					}
 
-					userPreferences.externalVideoPlayerSendPath = it
+					userPreferences[UserPreferences.externalVideoPlayerSendPath] = it
 				}
-				enabled { userPreferences.videoPlayer == PreferredVideoPlayer.EXTERNAL }
+				enabled { userPreferences[UserPreferences.videoPlayer] == PreferredVideoPlayer.EXTERNAL }
 			}
 		}
 
@@ -270,12 +273,12 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 			userPreferences: UserPreferences
 		) = category(R.string.pref_live_tv_cat) {
 			enumPreference<PreferredVideoPlayer>(R.string.pref_media_player) {
-				get { userPreferences.liveTvVideoPlayer }
-				set { userPreferences.liveTvVideoPlayer = it }
+				get { userPreferences[UserPreferences.liveTvVideoPlayer] }
+				set { userPreferences[UserPreferences.liveTvVideoPlayer] = it }
 			}
 			checkboxPreference(R.string.lbl_direct_stream_live) {
-				get { userPreferences.liveTvDirectPlayEnabled }
-				set { userPreferences.liveTvDirectPlayEnabled = it }
+				get { userPreferences[UserPreferences.liveTvDirectPlayEnabled] }
+				set { userPreferences[UserPreferences.liveTvDirectPlayEnabled] = it }
 			}
 		}
 
@@ -283,12 +286,12 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 				userPreferences: UserPreferences
 		) = category(R.string.pref_button_remapping_category) {
 			shortcutPreference(R.string.pref_audio_track_button) {
-				get { userPreferences.shortcutAudioTrack }
-				set { userPreferences.shortcutAudioTrack = it }
+				get { userPreferences[UserPreferences.shortcutAudioTrack] }
+				set { userPreferences[UserPreferences.shortcutAudioTrack] = it }
 			}
 			shortcutPreference(R.string.pref_subtitle_track_button) {
-				get { userPreferences.shortcutSubtitleTrack }
-				set { userPreferences.shortcutSubtitleTrack = it }
+				get { userPreferences[UserPreferences.shortcutSubtitleTrack] }
+				set { userPreferences[UserPreferences.shortcutSubtitleTrack] = it }
 			}
 		}
 
@@ -296,16 +299,16 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 				userPreferences: UserPreferences
 		) = category(R.string.pref_acra_category) {
 			checkboxPreference(R.string.pref_enable_acra, R.string.pref_acra_enabled, R.string.pref_acra_disabled) {
-				get { userPreferences.acraEnabled }
-				set { userPreferences.acraEnabled = it }
+				get { userPreferences[UserPreferences.acraEnabled] }
+				set { userPreferences[UserPreferences.acraEnabled] = it }
 			}
 			checkboxPreference(R.string.pref_acra_alwaysaccept, R.string.pref_acra_alwaysaccept_enabled, R.string.pref_acra_alwaysaccept_disabled) {
-				get { userPreferences.acraNoPrompt }
-				set { userPreferences.acraNoPrompt = it }
+				get { userPreferences[UserPreferences.acraNoPrompt] }
+				set { userPreferences[UserPreferences.acraNoPrompt] = it }
 			}
 			checkboxPreference(R.string.pref_acra_syslog, R.string.pref_acra_syslog_enabled, R.string.pref_acra_syslog_disabled) {
-				get { userPreferences.acraIncludeSystemLogs }
-				set { userPreferences.acraIncludeSystemLogs = it }
+				get { userPreferences[UserPreferences.acraIncludeSystemLogs] }
+				set { userPreferences[UserPreferences.acraIncludeSystemLogs] = it }
 			}
 		}
 
@@ -332,7 +335,7 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 
 		private fun addCustomBehavior() {
 			findPreference<EditLongPreference>("libvlc_audio_delay")?.apply {
-				text = TvApp.getApplication().userPreferences.libVLCAudioDelay.toString()
+				text = TvApp.getApplication().userPreferences[UserPreferences.libVLCAudioDelay].toString()
 				summaryProvider = Preference.SummaryProvider<EditLongPreference> {
 					"${it.text} ms"
 				}

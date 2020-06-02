@@ -8,9 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 
-import androidx.fragment.app.FragmentActivity;
-import androidx.leanback.app.BackgroundManager;
-
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.model.compat.PlaybackException;
@@ -29,6 +26,8 @@ import org.jellyfin.apiclient.model.session.PlayMethod;
 
 import java.util.List;
 
+import androidx.fragment.app.FragmentActivity;
+import androidx.leanback.app.BackgroundManager;
 import timber.log.Timber;
 
 public class ExternalPlayerActivity extends FragmentActivity {
@@ -139,8 +138,8 @@ public class ExternalPlayerActivity extends FragmentActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         UserPreferences prefs = mApplication.getUserPreferences();
-                        prefs.setVideoPlayer(PreferredVideoPlayer.AUTO);
-                        prefs.setLiveTvVideoPlayer(PreferredVideoPlayer.AUTO);
+                        prefs.set(UserPreferences.Companion.getVideoPlayer(), PreferredVideoPlayer.AUTO);
+                        prefs.set(UserPreferences.Companion.getLiveTvVideoPlayer(), PreferredVideoPlayer.AUTO);
                     }
                 })
                 .setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -211,7 +210,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
             final BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
             isLiveTv = item.getBaseItemType() == BaseItemType.TvChannel;
 
-            if (!isLiveTv && mApplication.getUserPreferences().getExternalVideoPlayerSendPath()) {
+            if (!isLiveTv && mApplication.getUserPreferences().get(UserPreferences.Companion.getExternalVideoPlayerSendPath())) {
                 // Just pass the path directly
                 mCurrentStreamInfo = new StreamInfo();
                 mCurrentStreamInfo.setPlayMethod(PlayMethod.DirectPlay);

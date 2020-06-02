@@ -3,13 +3,14 @@ package org.jellyfin.androidtv.presentation
 import android.app.Activity
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.preferences.UserPreferences
 import org.jellyfin.androidtv.preferences.enums.AppTheme
 import org.jellyfin.androidtv.preferences.ui.PreferencesActivity
 import java.util.*
 
 object ThemeManager {
 	private fun showAprilFools(): Boolean {
-		val enableGreetings = TvApp.getApplication().userPreferences.seasonalGreetingsEnabled
+		val enableGreetings = TvApp.getApplication().userPreferences[UserPreferences.seasonalGreetingsEnabled]
 		if (!enableGreetings) return false
 
 		val today = GregorianCalendar()

@@ -32,14 +32,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 
-import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.OnItemViewSelectedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
-import androidx.leanback.widget.VerticalGridPresenter;
-
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
@@ -55,6 +47,7 @@ import org.jellyfin.androidtv.model.ImageType;
 import org.jellyfin.androidtv.model.PosterSize;
 import org.jellyfin.androidtv.model.repository.SerializerRepository;
 import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.androidtv.preferences.enums.GridDirection;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.HorizontalGridPresenter;
@@ -79,6 +72,13 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import androidx.leanback.app.BackgroundManager;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.OnItemViewSelectedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
+import androidx.leanback.widget.VerticalGridPresenter;
 import timber.log.Timber;
 
 public class StdGridFragment extends GridFragment implements IGridLoader {
@@ -130,7 +130,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
         mCardHeight = getCardHeight(mPosterSizeSetting);
 
-        if (mApplication.getUserPreferences().getGridDirection() == GridDirection.HORIZONTAL)
+        if (mApplication.getUserPreferences().get(UserPreferences.Companion.getGridDirection()) == GridDirection.HORIZONTAL)
             setGridPresenter(new HorizontalGridPresenter());
         else
             setGridPresenter(new VerticalGridPresenter());
@@ -204,7 +204,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     public void onResume() {
         super.onResume();
 
-        ShowFanart = mApplication.getUserPreferences().getBackdropEnabled();
+        ShowFanart = mApplication.getUserPreferences().get(UserPreferences.Companion.getBackdropEnabled());
 
         if (!justLoaded) {
             //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing

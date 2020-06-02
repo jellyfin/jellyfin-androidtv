@@ -8,6 +8,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.details.ItemListActivity;
 import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -36,7 +37,7 @@ public class PlaybackHelper {
         switch (mainItem.getBaseItemType()) {
             case Episode:
                 items.add(mainItem);
-                if (TvApp.getApplication().getUserPreferences().getMediaQueuingEnabled()) {
+                if (TvApp.getApplication().getUserPreferences().get(UserPreferences.Companion.getMediaQueuingEnabled())) {
                     MediaManager.setVideoQueueModified(false); // we are automatically creating new queue
                     //add subsequent episodes
                     if (mainItem.getSeasonId() != null && mainItem.getIndexNumber() != null) {
@@ -207,7 +208,7 @@ public class PlaybackHelper {
                 break;
 
             default:
-                if (allowIntros && !TvApp.getApplication().useExternalPlayer(mainItem.getBaseItemType()) && TvApp.getApplication().getUserPreferences().getCinemaModeEnabled()) {
+                if (allowIntros && !TvApp.getApplication().useExternalPlayer(mainItem.getBaseItemType()) && TvApp.getApplication().getUserPreferences().get(UserPreferences.Companion.getCinemaModeEnabled())) {
                     //Intros
                     TvApp.getApplication().getApiClient().GetIntrosAsync(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
                         @Override

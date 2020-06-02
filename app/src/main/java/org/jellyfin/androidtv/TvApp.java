@@ -173,7 +173,7 @@ public class TvApp extends Application {
     }
 
     public boolean getIsAutoLoginConfigured() {
-        return getUserPreferences().getLoginBehavior() == LoginBehavior.AUTO_LOGIN && getConfiguredAutoCredentials().getServerInfo().getId() != null;
+        return getUserPreferences().get(UserPreferences.Companion.getLoginBehavior()) == LoginBehavior.AUTO_LOGIN && getConfiguredAutoCredentials().getServerInfo().getId() != null;
     }
 
     public boolean useExternalPlayer(BaseItemType itemType) {
@@ -183,10 +183,10 @@ public class TvApp extends Application {
             case Video:
             case Series:
             case Recording:
-                return getUserPreferences().getVideoPlayer() == PreferredVideoPlayer.EXTERNAL;
+                return getUserPreferences().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.EXTERNAL;
             case TvChannel:
             case Program:
-                return getUserPreferences().getLiveTvVideoPlayer() == PreferredVideoPlayer.EXTERNAL;
+                return getUserPreferences().get(UserPreferences.Companion.getLiveTvVideoPlayer()) == PreferredVideoPlayer.EXTERNAL;
             default:
                 return false;
         }
@@ -202,7 +202,7 @@ public class TvApp extends Application {
     @Deprecated
     public int getResumePreroll() {
         try {
-            return Integer.parseInt(getUserPreferences().getResumeSubtractDuration()) * 1000;
+            return Integer.parseInt(getUserPreferences().get(UserPreferences.Companion.getResumeSubtractDuration())) * 1000;
         } catch (Exception e) {
             Timber.e(e, "Unable to parse resume preroll");
             return 0;

@@ -2,8 +2,6 @@ package org.jellyfin.androidtv.preferences
 
 import android.content.SharedPreferences
 import timber.log.Timber
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
 
 /**
  * Basis for preference stores. Provides functions for delegated properties and migration functionality.
@@ -30,125 +28,62 @@ abstract class SharedPreferenceStore(
 	 */
 	protected val sharedPreferences: SharedPreferences
 ) {
-	/**
-	 * Version of the preference store. Used for migration.
-	 */
-	var version by intPreference("store_version", 1)
-		private set
-
-	// Basic types
-	/**
-	 * Delegated property function for integers
-	 *
-	 * @param key Key used to store setting as
-	 * @param default Default value
-	 *
-	 * @return Delegated property
-	 */
-	protected fun intPreference(key: String, default: Int) = object : ReadWriteProperty<SharedPreferenceStore, Int> {
-		override fun getValue(thisRef: SharedPreferenceStore, property: KProperty<*>): Int {
-			return sharedPreferences.getInt(key, default)
-		}
-
-		override fun setValue(thisRef: SharedPreferenceStore, property: KProperty<*>, value: Int) {
-			sharedPreferences.edit().putInt(key, value).apply()
-		}
+	// Internal helpers
+	private fun transaction(body: SharedPreferences.Editor.() -> Unit) {
+		val editor = sharedPreferences.edit()
+		editor.body()
+		editor.apply()
 	}
-	
-	/**
-	 * Delegated property function for longs
-	 *
-	 * @param key Key used to store setting as
-	 * @param default Default value
-	 *
-	 * @return Delegated property
-	 */
-	protected fun longPreference(key: String, default: Long) = object : ReadWriteProperty<SharedPreferenceStore, Long> {
-		override fun getValue(thisRef: SharedPreferenceStore, property: KProperty<*>): Long {
-			return sharedPreferences.getLong(key, default)
-		}
 
-		override fun setValue(thisRef: SharedPreferenceStore, property: KProperty<*>, value: Long) {
-			sharedPreferences.edit().putLong(key, value).apply()
+	// Getters and setters
+	// Primitive types
+	@Suppress("UNCHECKED_CAST")
+	operator fun <T : Preference<V>, V : Any> get(preference: T): V {
+		return when (preference.type) {
+			Int::class -> sharedPreferences.getInt(preference.key, preference.defaultValue as Int) as V
+			Long::class -> sharedPreferences.getLong(preference.key, preference.defaultValue as Long) as V
+			Boolean::class -> sharedPreferences.getBoolean(preference.key, preference.defaultValue as Boolean) as V
+			String::class -> sharedPreferences.getString(preference.key, preference.defaultValue as String) as V
+
+			else -> throw IllegalArgumentException("${preference.type.simpleName} type is not supported")
 		}
 	}
 
-	/**
-	 * Delegated property function for booleans
-	 *
-	 * @param key Key used to store setting as
-	 * @param default Default value
-	 *
-	 * @return Delegated property
-	 */
-	protected fun booleanPreference(key: String, default: Boolean) = object : ReadWriteProperty<SharedPreferenceStore, Boolean> {
-		override fun getValue(thisRef: SharedPreferenceStore, property: KProperty<*>): Boolean {
-			return sharedPreferences.getBoolean(key, default)
-		}
+	operator fun <T : Preference<V>, V : Any> set(preference: T, value: V) = transaction {
+		when (preference.type) {
+			Int::class -> putInt(preference.key, value as Int)
+			Long::class -> putLong(preference.key, value as Long)
+			Boolean::class -> putBoolean(preference.key, value as Boolean)
+			String::class -> putString(preference.key, value as String)
+			Enum::class -> putString(preference.key, value.toString())
 
-		override fun setValue(thisRef: SharedPreferenceStore, property: KProperty<*>, value: Boolean) {
-			sharedPreferences.edit().putBoolean(key, value).apply()
+			else -> throw IllegalArgumentException("${preference.type.simpleName} type is not supported")
 		}
 	}
 
-	/**
-	 * Delegated property function for strings
-	 *
-	 * @param key Key used to store setting as
-	 * @param default Default value
-	 *
-	 * @return Delegated property
-	 */
-	protected fun stringPreference(key: String, default: String) = object : ReadWriteProperty<SharedPreferenceStore, String> {
-		override fun getValue(thisRef: SharedPreferenceStore, property: KProperty<*>): String {
-			return sharedPreferences.getString(key, null) ?: default
-		}
+	// Enums
+	operator fun <T : Preference<V>, V: Enum<V>> get(preference: T): V {
+		val stringValue = sharedPreferences.getString(preference.key, null)
 
-		override fun setValue(thisRef: SharedPreferenceStore, property: KProperty<*>, value: String) {
-			sharedPreferences.edit().putString(key, value).apply()
-		}
+		return if (stringValue == null) preference.defaultValue
+		else preference.type.java.enumConstants?.find { it.name == stringValue } ?: preference.defaultValue
 	}
 
-	/**
-	 * Delegated property function for nullable strings
-	 *
-	 * @param key Key used to store setting as
-	 * @param default Default value
-	 *
-	 * @return Delegated property
-	 */
-	protected fun stringPreferenceNullable(key: String, default: String?) = object : ReadWriteProperty<SharedPreferenceStore, String?> {
-		override fun getValue(thisRef: SharedPreferenceStore, property: KProperty<*>): String? {
-			return sharedPreferences.getString(key, null) ?: default
-		}
-
-		override fun setValue(thisRef: SharedPreferenceStore, property: KProperty<*>, value: String?) {
-			if (value == null) sharedPreferences.edit().remove(key).apply()
-			else sharedPreferences.edit().putString(key, value).apply()
-		}
+	operator fun <T : Preference<V>, V: Enum<V>> set(preference: T, value: V) = transaction {
+		putString(preference.key, value.toString())
 	}
 
-	// Custom types
-	/**
-	 * Delegated property function for enums. Uses strings internally
-	 *
-	 * @param T Enum class for allowed values
-	 * @param key Key used to store setting as
-	 * @param default Default value
-	 *
-	 * @return Delegated property
-	 */
-	protected inline fun <reified T : Enum<T>> enumPreference(key: String, default: T) = object : ReadWriteProperty<SharedPreferenceStore, T> {
-		override fun getValue(thisRef: SharedPreferenceStore, property: KProperty<*>): T {
-			val stringValue = sharedPreferences.getString(key, null)
+	// Additional mutations
+	fun <T : Preference<V>, V : Any> getDefaultValue(preference: T): V {
+		return preference.defaultValue
+	}
 
-			return if (stringValue == null) default
-			else T::class.java.enumConstants?.find { it.name == stringValue } ?: default
-		}
+	fun <T : Preference<V>, V : Any> reset(preference: T) {
+		this[preference] = getDefaultValue(preference)
+	}
 
-		override fun setValue(thisRef: SharedPreferenceStore, property: KProperty<*>, value: T) {
-			sharedPreferences.edit().putString(key, value.toString()).apply()
-		}
+	fun <T : Preference<V>, V : Any> delete(preference: T) = transaction {
+		remove(preference.key)
 	}
 
 	// Migrations
@@ -169,16 +104,24 @@ abstract class SharedPreferenceStore(
 	 */
 	protected fun migration(toVersion: Int, body: MigrationEditor.(SharedPreferences) -> Unit) {
 		// Check if migration should be performed
-		if (version < toVersion) {
-			Timber.i("Migrating a preference store from version $version to $toVersion")
+		val currentVersion = this[VERSION]
+		if (currentVersion < toVersion) {
+			Timber.i("Migrating a preference store from version $currentVersion to $toVersion")
 
 			// Create a new editor and execute the migration
-			val editor = sharedPreferences.edit()
-			body(editor, sharedPreferences)
-			editor.apply()
+			transaction {
+				body(sharedPreferences)
+			}
 
 			// Update current store version
-			version = toVersion
+			this[VERSION] = toVersion
 		}
+	}
+
+	companion object {
+		/**
+		 * Version of the preference store. Used for migration.
+		 */
+		val VERSION = Preference.int("store_version", 1)
 	}
 }

@@ -8,12 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
-import androidx.preference.PreferenceManager;
-
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.browsing.MainActivity;
@@ -21,6 +15,7 @@ import org.jellyfin.androidtv.details.FullDetailsActivity;
 import org.jellyfin.androidtv.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.model.repository.ConnectionManagerRepository;
 import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 import org.jellyfin.apiclient.interaction.ConnectionResult;
@@ -30,6 +25,11 @@ import org.jellyfin.apiclient.model.apiclient.ConnectionState;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserDto;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.preference.PreferenceManager;
 import timber.log.Timber;
 
 public class StartupActivity extends FragmentActivity {
@@ -165,14 +165,14 @@ public class StartupActivity extends FragmentActivity {
                                 application.determineAutoBitrate();
                                 if (response.getHasPassword()
                                         && (!application.getIsAutoLoginConfigured()
-                                        || (application.getUserPreferences().getPasswordPromptEnabled()))) {
+                                        || (application.getUserPreferences().get(UserPreferences.Companion.getPasswordPromptEnabled())))) {
                                     //Need to prompt for pw
                                     Utils.processPasswordEntry(self, response, application.getDirectItemId());
                                 } else {
                                     openNextActivity();
                                 }
                             } else {
-                                if (response.getHasPassword() && application.getUserPreferences().getPasswordPromptEnabled()) {
+                                if (response.getHasPassword() && application.getUserPreferences().get(UserPreferences.Companion.getPasswordPromptEnabled())) {
                                     Utils.processPasswordEntry(self, response);
                                 } else {
                                     openNextActivity();
