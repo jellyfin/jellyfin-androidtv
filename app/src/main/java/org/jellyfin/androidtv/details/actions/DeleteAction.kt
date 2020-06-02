@@ -13,6 +13,7 @@ import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.model.itemtypes.BaseItem
 import org.jellyfin.androidtv.util.DelayedMessage
 import org.jellyfin.apiclient.interaction.EmptyResponse
+import timber.log.Timber
 
 class DeleteAction(private val context: Context, private val item: LiveData<out BaseItem>, private val onItemDeleted: () -> Unit) : Action {
 	override val visible = MediatorLiveData<Boolean>().apply {
@@ -35,13 +36,13 @@ class DeleteAction(private val context: Context, private val item: LiveData<out 
 					override fun onResponse() {
 						msg.Cancel()
 						Toast.makeText(context, context.getString(R.string.lbl_item_deleted, itemValue.title), Toast.LENGTH_LONG).show()
-						TvApp.getApplication().lastDeletedItemId = itemValue.id
+						TvApp.getApplication().dataRefreshService.lastDeletedItemId = itemValue.id
 						onItemDeleted()
 					}
 
 					override fun onError(ex: Exception) {
 						msg.Cancel()
-						TvApp.getApplication().logger.ErrorException("Failed to delete item %s", ex, itemValue.title)
+						Timber.e(ex,"Failed to delete item %s", itemValue.title)
 						Toast.makeText(context, ex.localizedMessage, Toast.LENGTH_LONG).show()
 					}
 				})
