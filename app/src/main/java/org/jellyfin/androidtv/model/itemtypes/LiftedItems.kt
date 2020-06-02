@@ -74,13 +74,21 @@ class Episode(original: BaseItemDto) : PlayableItem(original), Ratable {
 class Movie(original: BaseItemDto, externalTrailerLifter: BaseTrailerLifter) : PlayableItem(original), Ratable {
 	var productionYear: Int? = original.productionYear
 	val cast: List<BriefPersonData> = original.people.map(::BriefPersonData)
-	val localTrailerCount: Int = original.localTrailerCount
 
 	override val officialRating: String? = original.officialRating
 	override val communityRating: Float? = original.communityRating
 	override val criticsRating: Float? = original.criticRating
 
 	val externalTrailers: List<ExternalTrailer> = original.remoteTrailers.mapNotNull { externalTrailerLifter.lift(it) }
+}
+
+class Series(original: BaseItemDto) : BaseItem(original), Ratable {
+	var productionYear: Int? = original.productionYear
+	val cast: List<BriefPersonData> = original.people.map(::BriefPersonData)
+
+	override val officialRating: String? = original.officialRating
+	override val communityRating: Float? = original.communityRating
+	override val criticsRating: Float? = original.criticRating
 }
 
 class LocalTrailer(original: BaseItemDto) : PlayableItem(original)
