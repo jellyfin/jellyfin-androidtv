@@ -264,7 +264,7 @@
     <string name="lbl_latest_tv_shows">Poslední TV série</string>
     <string name="desc_suggestions_holiday">Vyzkoušejte některé z našich návrhů na dovolenou</string>
     <string name="title_suggestions_holiday">Šťastnou dovolenou!</string>
-    <string name="lbl_suggestions_holiday">Návrhy na dovolenou</string>
+    <string name="lbl_suggestions_holiday">Návrhy na Vánoce</string>
     <string name="desc_suggestions_halloween">Vyzkoušejte některé z našich strašidelných návrhů</string>
     <string name="title_suggestions_halloween">Veselý Halloween!</string>
     <string name="lbl_suggestions_halloween">Strašidelné návrhy</string>
@@ -364,4 +364,10 @@
     <string name="grid_direction_horizontal">Horizontální</string>
     <string name="grid_direction">Směr mřížky</string>
     <string name="pref_device_model">Model zařízení</string>
+    <string name="lbl_Reset">Obnovit</string>
+    <string name="pref_button_remapping_description">Stiskněte libovolné tlačítko na dálkovém ovládání TV pro přiřazení</string>
+    <string name="pref_subtitle_track_button">Tlačítko titulkové stopy</string>
+    <string name="pref_audio_track_button">Tlačítko zvukové stopy</string>
+    <string name="pref_button_remapping_category">Změna mapování kláves</string>
+    <string name="lbl_unknown_key">Neznámý (%1s)</string>
 </resources>
