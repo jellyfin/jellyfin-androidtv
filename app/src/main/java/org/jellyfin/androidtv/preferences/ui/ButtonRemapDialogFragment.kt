@@ -24,7 +24,7 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 			KeyEvent.KEYCODE_DPAD_LEFT,
 			KeyEvent.KEYCODE_DPAD_RIGHT,
 			KeyEvent.KEYCODE_ENTER
-		)
+	)
 	private var checkKeys: View.OnKeyListener = View.OnKeyListener { _, keyCode, _ ->
 		// ignore navigation buttons
 		if (ignoreKeys.contains(keyCode))
@@ -43,9 +43,9 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 			dialogTitle = preference.dialogTitle
 			dialogMessage = preference.dialogMessage
 			if (preference is ButtonRemapPreference) {
-				dialogTitle = preference.getDialogTitle()
-				dialogMessage = preference.getDialogMessage()
-				keyCode = (preference as ButtonRemapPreference).getKeyCode()
+				dialogTitle = preference.dialogTitle
+				dialogMessage = preference.dialogMessage
+				keyCode = (preference as ButtonRemapPreference).keyCode
 			} else {
 				throw IllegalArgumentException("Preference must be a ButtonRemapPreference")
 			}
@@ -72,13 +72,10 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		if (dialogTitle!!.isNotBlank()) {
-			decor_title.text = dialogTitle
-		}
-		if (dialogMessage!!.isNotBlank()) {
-			message.visibility = View.VISIBLE
-			message.text = dialogMessage
-		}
+
+		decor_title.text = preference.title
+		message.visibility = View.VISIBLE
+		message.text = getString(R.string.pref_button_remapping_description)
 
 		buttonSave.setOnClickListener { _ ->
 			(preference as ButtonRemapPreference).setKeyCode(keyCode)
@@ -89,6 +86,7 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 
 		buttonReset.setOnClickListener { _ ->
 			// TODO: refactor this once the new preference workflow is here
+			// FIXME: Doesn't work when using PreferenceDSL
 			when (preference.key) {
 				"shortcut_audio_track" -> keyCode = KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK
 				"shortcut_subtitle_track" -> keyCode = KeyEvent.KEYCODE_CAPTIONS

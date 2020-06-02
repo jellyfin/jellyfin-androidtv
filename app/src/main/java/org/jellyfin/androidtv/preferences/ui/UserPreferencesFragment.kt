@@ -26,11 +26,14 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 
 	override fun onPreferenceDisplayDialog(caller: PreferenceFragmentCompat, pref: Preference?): Boolean {
 		if (pref is ButtonRemapPreference) {
-			val fragment = ButtonRemapDialogFragment.newInstance(pref.key)
-			fragment.setTargetFragment(caller, 0)
+			val fragment = ButtonRemapDialogFragment.newInstance(pref.key).apply {
+				setTargetFragment(caller, 0)
+			}
 			startPreferenceFragment(fragment)
+
 			return true
 		}
+
 		return super.onPreferenceDisplayDialog(caller, pref)
 	}
 
@@ -276,8 +279,21 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 			}
 		}
 
+		private fun PreferenceScreen.shortcutsCategory(
+				userPreferences: UserPreferences
+		) = category(R.string.pref_button_remapping_category) {
+			shortcutPreference(R.string.pref_audio_track_button) {
+				get { userPreferences.shortcutAudioTrack }
+				set { userPreferences.shortcutAudioTrack = it }
+			}
+			shortcutPreference(R.string.pref_subtitle_track_button) {
+				get { userPreferences.shortcutSubtitleTrack }
+				set { userPreferences.shortcutSubtitleTrack = it }
+			}
+		}
+
 		private fun PreferenceScreen.crashReportingCategory(
-			userPreferences: UserPreferences
+				userPreferences: UserPreferences
 		) = category(R.string.pref_acra_category) {
 			checkboxPreference(R.string.pref_enable_acra, R.string.pref_acra_enabled, R.string.pref_acra_disabled) {
 				get { userPreferences.acraEnabled }
@@ -308,6 +324,7 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 				generalCategory(userPreferences)
 				playbackCategory(userPreferences)
 				liveTvCategory(userPreferences)
+				shortcutsCategory(userPreferences)
 				crashReportingCategory(userPreferences)
 				aboutCategory()
 			}

@@ -5,20 +5,17 @@ import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.view.KeyEvent
 import androidx.preference.DialogPreference
-import androidx.preference.Preference.SummaryProvider
 import org.jellyfin.androidtv.R
 import java.util.*
 
 class ButtonRemapPreference(
-	context: Context,
-	attrs: AttributeSet? = null
-) : DialogPreference(context, attrs) {
+		context: Context,
+		attrs: AttributeSet? = null
+) : DialogPreference(context) {
+	override fun getDialogLayoutResource() = R.layout.button_remap_preference
 
-	init {
-		// Explicitly set the layout or it will crash
-		dialogLayoutResource = R.layout.button_remap_preference
-		summaryProvider = ButtonRemapSummaryProvider.instance
-	}
+	var keyCode: Int = -1
+		private set
 
 	/**
 	 * Saves a KeyCode in this preference.
@@ -26,36 +23,38 @@ class ButtonRemapPreference(
 	 * @param keyCode the KeyCode to save
 	 */
 	fun setKeyCode(keyCode: Int) {
-		persistInt(keyCode)
-	}
+		if (keyCode == this.keyCode) return
 
-	/**
-	 * Returns the saved KeyCode preference.
-	 *
-	 * @return the saved KeyCode
-	 */
-	fun getKeyCode(): Int {
-		return getPersistedInt(-1)
+		this.keyCode = keyCode
+		persistInt(keyCode)
+		notifyChanged()
 	}
 
 	override fun onSetInitialValue(defaultValue: Any?) {
-		if (defaultValue != null)
-			persistInt(defaultValue as Int)
+		if (defaultValue is Int)
+			setKeyCode(defaultValue)
 	}
 
 	override fun onGetDefaultValue(styledAttributes: TypedArray, index: Int): Any {
 		return styledAttributes.getInt(index, -1)
 	}
 
-	internal class ButtonRemapSummaryProvider private constructor() : SummaryProvider<ButtonRemapPreference> {
+	class ButtonRemapSummaryProvider : SummaryProvider<ButtonRemapPreference> {
 		override fun provideSummary(preference: ButtonRemapPreference): CharSequence {
-			return provideSummary(preference.context, preference.getKeyCode())
+			return provideSummary(preference.context, preference.keyCode)
 		}
 
 		fun provideSummary(context: Context, keyCode: Int): CharSequence {
 			val keyCodeString = KeyEvent.keyCodeToString(keyCode)
+
 			return if (keyCodeString.startsWith("KEYCODE")) {
-				keyCodeString.removePrefix("KEYCODE_").toLowerCase(Locale.getDefault()).split("_").joinToString(" ") { it.capitalize() }
+				keyCodeString
+						.removePrefix("KEYCODE_")
+						.toLowerCase(Locale.getDefault())
+						.split("_")
+						.joinToString(" ") {
+							it.capitalize()
+						}
 			} else {
 				context.getString(R.string.lbl_unknown_key, keyCodeString)
 			}
