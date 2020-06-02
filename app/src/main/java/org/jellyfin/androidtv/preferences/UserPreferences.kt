@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.preferences
 
 import android.content.Context
+import android.view.KeyEvent
 import androidx.preference.PreferenceManager
 import org.jellyfin.androidtv.preferences.enums.*
 
@@ -144,6 +145,16 @@ class UserPreferences(context: Context) : SharedPreferenceStore(PreferenceManage
 	 * Preferred video player for live TV
 	 */
 	var liveTvVideoPlayer by enumPreference("live_tv_video_player", PreferredVideoPlayer.AUTO)
+
+	/**
+	 * Shortcut used for changing the audio track
+	 */
+	var shortcutAudioTrack by intPreference("shortcut_audio_track", KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK)
+
+	/**
+	 * Shortcut used for changing the subtitle track
+	 */
+	var shortcutSubtitleTrack by intPreference("shortcut_subtitle_track", KeyEvent.KEYCODE_CAPTIONS)
 
 	/* ACRA */
 	/**

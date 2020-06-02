@@ -362,4 +362,10 @@
     <string name="grid_direction">Grid direction</string>
     <string name="grid_direction_horizontal">Horizontal</string>
     <string name="grid_direction_vertical">Vertical (experimental)</string>
+    <string name="lbl_unknown_key">Unknown (%1s)</string>
+    <string name="pref_button_remapping_category">Button Remapping</string>
+    <string name="pref_audio_track_button">Audio track button</string>
+    <string name="pref_subtitle_track_button">Subtitle track button</string>
+    <string name="pref_button_remapping_description">Press any button on the TV remote to assign it</string>
+    <string name="lbl_Reset">Reset</string>
 </resources>
