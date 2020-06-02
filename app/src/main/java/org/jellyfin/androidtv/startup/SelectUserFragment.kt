@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.startup
 
 import android.content.Intent
-import android.os.Bundle
 import android.widget.Toast
 import androidx.leanback.widget.*
 import org.jellyfin.androidtv.R

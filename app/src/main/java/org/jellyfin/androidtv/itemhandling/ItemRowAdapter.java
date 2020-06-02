@@ -2,6 +2,12 @@ package org.jellyfin.androidtv.itemhandling;
 
 import android.os.Handler;
 
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.PresenterSelector;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.browsing.EnhancedBrowseFragment;
@@ -59,11 +65,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.PresenterSelector;
 import timber.log.Timber;
 
 public class ItemRowAdapter extends ArrayObjectAdapter {
