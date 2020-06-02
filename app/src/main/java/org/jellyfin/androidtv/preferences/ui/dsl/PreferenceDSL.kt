@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.preferences.ui.dsl
 
 import androidx.annotation.StringRes
 import androidx.preference.*
-import org.jellyfin.androidtv.preferences.ui.ButtonRemapPreference
+import org.jellyfin.androidtv.preferences.ui.preference.ButtonRemapPreference
 import org.jellyfin.androidtv.preferences.ui.preference.DurationSeekBarPreference
 import org.jellyfin.androidtv.preferences.ui.preference.EditLongPreference
 import java.util.*

@@ -159,14 +159,14 @@
     <PreferenceCategory
         android:key="button_remapping"
         android:title="@string/pref_button_remapping_category">
-        <org.jellyfin.androidtv.preferences.ui.ButtonRemapPreference
+        <org.jellyfin.androidtv.preferences.ui.preference.ButtonRemapPreference
             android:defaultValue="222"
             android:key="shortcut_audio_track"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="@string/pref_audio_track_button"
             android:dialogMessage="@string/pref_button_remapping_description" />
-        <org.jellyfin.androidtv.preferences.ui.ButtonRemapPreference
+        <org.jellyfin.androidtv.preferences.ui.preference.ButtonRemapPreference
             android:defaultValue="175"
             android:key="shortcut_subtitle_track"
             android:selectAllOnFocus="true"

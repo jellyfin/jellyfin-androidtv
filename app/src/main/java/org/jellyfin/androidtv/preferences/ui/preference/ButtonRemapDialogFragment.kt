@@ -1,13 +1,11 @@
-package org.jellyfin.androidtv.preferences.ui
+package org.jellyfin.androidtv.preferences.ui.preference
 
-import org.jellyfin.androidtv.R
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.*
-import android.widget.Button
 import androidx.leanback.preference.LeanbackPreferenceDialogFragmentCompat
 import kotlinx.android.synthetic.main.button_remap_preference.*
 import kotlinx.android.synthetic.main.button_remap_preference.view.*
+import org.jellyfin.androidtv.R
 
 class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 	private var dialogTitle: CharSequence? = null
