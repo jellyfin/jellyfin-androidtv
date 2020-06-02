@@ -364,4 +364,9 @@
     <string name="grid_direction_horizontal">Horizontal</string>
     <string name="grid_direction">Sens de la grille</string>
     <string name="grid_direction_vertical">Vertical (expérimental)</string>
+    <string name="lbl_Reset">Réinitialiser</string>
+    <string name="pref_button_remapping_description">Appuyez sur n\'importe lequel des boutons sur la télécommande pour l\'appairer</string>
+    <string name="pref_subtitle_track_button">Bouton piste de sous-titres</string>
+    <string name="pref_audio_track_button">Bouton piste audio</string>
+    <string name="lbl_unknown_key">Inconnu (%1s)</string>
 </resources>
