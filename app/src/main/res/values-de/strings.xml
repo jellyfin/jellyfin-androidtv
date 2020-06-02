@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="video_error_unknown_error">Fehler beim Laden des Videos</string>
     <string name="txt_loading">Laden…</string>
-    <string name="title_activity_select_user">AuswahlBenutzerAktivität</string>
+    <string name="title_activity_select_user"></string>
     <string name="home_title">Startbildschirm</string>
     <string name="btn_cancel">Abbrechen</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
@@ -324,9 +324,9 @@
     <string name="lbl_new_episodes">Neue Episoden</string>
     <string name="lbl_audio_delay">Audioverzögerung</string>
     <string name="lbl_new_only">Nur neue</string>
-    <string name="lbl_news">Nachrichten</string>
+    <string name="lbl_news">Neuigkeiten</string>
     <string name="lbl_latest_tv_shows">Neueste Serien</string>
-    <string name="title_activity_expanded_text">Erweiterte Textaktivität</string>
+    <string name="title_activity_expanded_text"></string>
     <string name="lbl_repeat_episodes">Folgen wiederholen</string>
     <string name="pref_acra_disabled">Absturzberichte werden nicht gesendet</string>
     <string name="pref_acra_category">Absturzberichte</string>
@@ -345,7 +345,7 @@
     <string name="pref_acra_syslog_enabled">System-Logs werden den Absturzberichten hinzugefügt</string>
     <string name="pref_acra_alwaysaccept_disabled">Ein Abfragedialog wird vor dem Senden jeglicher Absturzberichte angezeigt</string>
     <string name="pref_acra_alwaysaccept_enabled">Absturzberichte werden ohne Abfrage gesendet</string>
-    <string name="pref_acra_alwaysaccept">Absturzberichte ohne Abfrage senden</string>
+    <string name="pref_acra_alwaysaccept">Sende Absturzberichte ohne Aufforderung</string>
     <string name="pref_acra_enabled">Du wirst bei einem Absturz gefragt, ob du ihn melden möchtest</string>
     <string name="pref_enable_acra">Absturzmeldungen an die Entwickler</string>
     <string name="lbl_my_media">Meine Medien</string>
@@ -354,9 +354,9 @@
     <string name="watch_now">Jetzt anschauen</string>
     <string name="pref_libvlc_audio_delay_title">Standard Audio-Verzögerung für libVLC</string>
     <string name="pref_next_up_enabled_title">Aktiviere Vorschau des nächsten Titels</string>
-    <string name="pref_next_up_enabled_summary">Vorschau des nächsten Titels vor dem Abspielen</string>
+    <string name="pref_next_up_enabled_summary">Zeigt eine Vorschau an, bevor der nächste Inhalt abgespielt wird</string>
     <string name="pref_next_up_timeout_title">Dauer des Timers für automatische Wiedergabe</string>
-    <string name="pref_next_up_timeout_summary">Wartezeit vor dem Abspielen des nächsten Titels</string>
+    <string name="pref_next_up_timeout_summary">Wie lange soll gewartet werden, bevor das nächste Element abgespielt wird</string>
     <string name="pref_app_theme">Thema</string>
     <string name="pref_theme_emerald">Smaragd klassisch</string>
     <string name="pref_theme_dark">Dunkel (Standard)</string>
@@ -364,4 +364,10 @@
     <string name="grid_direction_horizontal">Horizontal</string>
     <string name="grid_direction">Rasterausrichtung</string>
     <string name="pref_device_model">Gerätemodell</string>
+    <string name="lbl_Reset">Zurücksetzen</string>
+    <string name="pref_button_remapping_description">Drücke eine Taste auf der Fernbedienung, um ihn zu belegen</string>
+    <string name="pref_subtitle_track_button">Untertiteltaste</string>
+    <string name="pref_audio_track_button">Audiospurtaste</string>
+    <string name="pref_button_remapping_category">Tastenneubelegung</string>
+    <string name="lbl_unknown_key">Unbekannt (%1s)</string>
 </resources>
