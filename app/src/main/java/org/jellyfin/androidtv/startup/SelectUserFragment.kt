@@ -20,16 +20,11 @@ import org.jellyfin.apiclient.model.apiclient.ServerInfo
 import java.util.*
 
 class SelectUserFragment : CustomBrowseFragment() {
-	private var mServer: ServerInfo? = null
-	override fun onActivityCreated(savedInstanceState: Bundle?) {
-		mServer = serializer.DeserializeFromString(activity!!.intent.getStringExtra("Server"), ServerInfo::class.java)
-		super.onActivityCreated(savedInstanceState)
-	}
 
 	override fun addAdditionalRows(rowAdapter: ArrayObjectAdapter) {
 		super.addAdditionalRows(rowAdapter)
 		val usersHeader = HeaderItem(rowAdapter.size().toLong(), mApplication.getString(R.string.lbl_select_user))
-		val usersAdapter = ItemRowAdapter(mServer, CardPresenter(), rowAdapter)
+		val usersAdapter = ItemRowAdapter(CardPresenter(), rowAdapter)
 		usersAdapter.Retrieve()
 		usersAdapter.add(BaseRowItem(GridButton(ENTER_MANUALLY, mApplication.getString(R.string.lbl_enter_manually), R.drawable.tile_edit)))
 		rowAdapter.add(ListRow(usersHeader, usersAdapter))
@@ -56,11 +51,11 @@ class SelectUserFragment : CustomBrowseFragment() {
 						connectionManager.GetAvailableServers(object : Response<ArrayList<ServerInfo?>>() {
 							override fun onResponse(serverResponse: ArrayList<ServerInfo?>) {
 								val serverIntent = Intent(activity, SelectServerActivity::class.java)
-								val payload: MutableList<String> = ArrayList()
+								val payload = mutableListOf<String>()
 								for (server in serverResponse) {
 									payload.add(serializer.SerializeToString(server))
 								}
-								serverIntent.putExtra("Servers", payload.toArray<String>(arrayOf<String>()))
+								serverIntent.putExtra("Servers", arrayOf(payload))
 								serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
 								requireActivity().startActivity(serverIntent)
 							}
