@@ -20,3 +20,18 @@ allprojects {
 		maven("https://dl.bintray.com/videolan/Android")
 	}
 }
+
+plugins {
+	id("io.gitlab.arturbosch.detekt").version("1.9.1")
+}
+
+// Detekt configuration
+subprojects {
+	plugins.apply("io.gitlab.arturbosch.detekt")
+
+	detekt {
+		buildUponDefaultConfig = true
+		ignoreFailures = true
+		config = files("$rootDir/detekt.yml")
+	}
+}
