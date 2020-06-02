@@ -1,5 +1,8 @@
 package org.jellyfin.androidtv.preferences.ui.dsl
 
+import org.jellyfin.androidtv.preferences.Preference
+import org.jellyfin.androidtv.preferences.SharedPreferenceStore
+
 class PreferenceOptions<T>(
 	val get: () -> T,
 	val set: (value: T) -> Unit,
@@ -40,4 +43,23 @@ class PreferenceOptions<T>(
 			)
 		}
 	}
+}
+
+// Bind enums
+// Implementation is the same but the compiler requires the type information
+fun <T : Enum<T>> PreferenceOptions.Builder<T>.bindEnum(
+	store: SharedPreferenceStore,
+	preference: Preference<T>
+) {
+	get { store[preference] }
+	set { store[preference] = it }
+}
+
+// Bind primitive types
+fun <T : Any> PreferenceOptions.Builder<T>.bind(
+	store: SharedPreferenceStore,
+	preference: Preference<T>
+) {
+	get { store[preference] }
+	set { store[preference] = it }
 }
