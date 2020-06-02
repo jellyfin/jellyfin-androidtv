@@ -55,7 +55,7 @@ android {
 
 dependencies {
 	// Jellyfin
-	implementation("com.github.jellyfin.jellyfin-apiclient-java:android:v0.6.0")
+	implementation("com.github.jellyfin.jellyfin-apiclient-java:android:v0.6.2")
 
 	// Kotlin
 	implementation(kotlin("stdlib-jdk8"))
