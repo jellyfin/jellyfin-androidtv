@@ -47,12 +47,11 @@ class SelectUserFragment : CustomBrowseFragment() {
 					SWITCH_SERVER -> {
 						// Present server selection
 						val connectionManager: IConnectionManager = getInstance(requireContext()).connectionManager
-						connectionManager.GetAvailableServers(object : Response<ArrayList<ServerInfo?>>() {
-							override fun onResponse(serverResponse: ArrayList<ServerInfo?>) {
+						connectionManager.GetAvailableServers(object : Response<ArrayList<ServerInfo>>() {
+							override fun onResponse(serverResponse: ArrayList<ServerInfo>) {
 								val serverIntent = Intent(activity, SelectServerActivity::class.java)
-								val payload = mutableListOf<String>()
-								for (server in serverResponse) {
-									payload.add(serializer.SerializeToString(server))
+								val payload : List<String> = serverResponse.map {
+									serializer.SerializeToString(it)
 								}
 								serverIntent.putExtra("Servers", payload.toTypedArray())
 								serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
@@ -60,10 +59,9 @@ class SelectUserFragment : CustomBrowseFragment() {
 							}
 						})
 					}
-					ENTER_MANUALLY ->                         // Manual login
-						AuthenticationHelper.enterManualUser(activity)
-					else -> Toast.makeText(activity, item.toString(), Toast.LENGTH_SHORT)
-							.show()
+					// Manual login
+					ENTER_MANUALLY ->  AuthenticationHelper.enterManualUser(activity)
+					else -> Toast.makeText(activity, item.toString(), Toast.LENGTH_SHORT).show()
 				}
 			} else if (item is BaseRowItem) {
 				if (item.gridButton != null &&
