@@ -3,19 +3,19 @@ package org.jellyfin.androidtv.search;
 import android.content.Context;
 import android.os.Handler;
 
-import org.jellyfin.androidtv.util.Utils;
-
 import androidx.leanback.app.SearchSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.ObjectAdapter;
 
-public class SearchProvider implements SearchSupportFragment.SearchResultProvider {
+import org.jellyfin.androidtv.util.Utils;
 
-    private static final int SEARCH_DELAY_MS = 1500;
+public class SearchProvider implements SearchSupportFragment.SearchResultProvider {
+    private static final int SEARCH_DELAY_MS = 600;
     private final Handler mHandler = new Handler();
     private ArrayObjectAdapter mRowsAdapter;
     private SearchRunnable mDelayedLoad;
+    private String lastQuery;
 
     SearchProvider(Context context, boolean musicOnly) {
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
@@ -53,6 +53,10 @@ public class SearchProvider implements SearchSupportFragment.SearchResultProvide
             mRowsAdapter.clear();
             return;
         }
+
+        // Don't search the same thing twice
+        if (query.equals(lastQuery)) return;
+        lastQuery = query;
 
         // Remove current delayed search (if any)
         mHandler.removeCallbacks(mDelayedLoad);
