@@ -363,4 +363,5 @@
     <string name="grid_direction_horizontal">Orizzontale</string>
     <string name="grid_direction_vertical">Verticale (sperimentale)</string>
     <string name="pref_device_model">Modello Dispositivo</string>
+    <string name="grid_direction">Verso della griglia</string>
 </resources>
