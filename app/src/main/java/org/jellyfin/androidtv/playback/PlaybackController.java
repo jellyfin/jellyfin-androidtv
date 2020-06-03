@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Handler;
 import android.view.Display;
-import android.view.View;
 import android.view.WindowManager;
 
 import org.jellyfin.androidtv.R;
@@ -53,7 +52,6 @@ public class PlaybackController {
 
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
-    SubtitleHelper mSubHelper;
     int mCurrentIndex = 0;
     private long mCurrentPosition = 0;
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
@@ -63,7 +61,6 @@ public class PlaybackController {
     private List<SubtitleStreamInfo> mSubtitleStreams;
 
     private IPlaybackOverlayFragment mFragment;
-    private View mSpinner;
     private Boolean spinnerOff = false;
 
     private VideoOptions mCurrentOptions;
@@ -98,7 +95,6 @@ public class PlaybackController {
         mFragment = fragment;
         mApplication = TvApp.getApplication();
         mHandler = new Handler();
-        mSubHelper = new SubtitleHelper(TvApp.getApplication().getCurrentActivity());
 
         refreshRateSwitchingEnabled = DeviceUtils.is60() && mApplication.getUserPreferences().getRefreshRateSwitchingEnabled();
         if (refreshRateSwitchingEnabled) getDisplayModes();
@@ -277,7 +273,6 @@ public class PlaybackController {
             case IDLE:
                 // start new playback
                 BaseItemDto item = getCurrentlyPlayingItem();
-                lastProgressPosition = 0;
 
                 // make sure item isn't missing
                 if (item.getLocationType() == LocationType.Virtual) {
@@ -590,9 +585,7 @@ public class PlaybackController {
                                                         "truehd".equals(response.getMediaSource().getDefaultAudioStream().getCodec()))))))) {
             mVideoManager.setCompatibleAudio();
             Timber.i("Setting compatible audio mode...");
-            //Utils.showToast(mApplication, "Compatible");
         } else {
-            //Utils.showToast(mApplication, "Default");
             mVideoManager.setAudioMode();
         }
 
@@ -615,15 +608,6 @@ public class PlaybackController {
         mApplication.setLastPlayedItem(item);
         if (!isRestart) ReportingHelper.reportStart(item, mbPos);
         isRestart = false;
-
-        //test
-//        mHandler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                mVideoManager.fakeError();
-//            }
-//        }, 15000);
-
     }
 
     private int getDefaultAudioIndex(StreamInfo info) {
@@ -631,31 +615,11 @@ public class PlaybackController {
     }
 
     public void startSpinner() {
-        if (mApplication.getCurrentActivity() != null) {
-            mApplication.getCurrentActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (mSpinner != null) mSpinner.setVisibility(View.VISIBLE);
-                    spinnerOff = false;
-                }
-            });
-
-        }
-
+        spinnerOff = false;
     }
 
     public void stopSpinner() {
-        if (mApplication.getCurrentActivity() != null) {
-            mApplication.getCurrentActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    spinnerOff = true;
-                    if (mSpinner != null) mSpinner.setVisibility(View.GONE);
-                }
-            });
-
-        }
-
+        spinnerOff = true;
     }
 
     public void switchAudioStream(int index) {
@@ -762,7 +726,6 @@ public class PlaybackController {
         }
 
     }
-
 
     public void pause() {
         mPlaybackState = PlaybackState.PAUSED;
@@ -873,13 +836,6 @@ public class PlaybackController {
             updateProgress = true; // re-enable true progress updates
         }
     };
-
-    private float playSpeed = 1;
-    public void togglePlaySpeed() {
-        if (playSpeed < 4) playSpeed += 1f;
-        else playSpeed = 1;
-        mVideoManager.setPlaySpeed(playSpeed);
-    }
 
     public void skip(int msec) {
         if (isPlaying() && spinnerOff && mVideoManager.getCurrentPosition() > 0) { //guard against skipping before playback has truly begun
@@ -1049,7 +1005,6 @@ public class PlaybackController {
         }
     }
 
-    private long lastProgressPosition;
     private boolean isRestart = false;
 
     private void setupCallbacks() {
@@ -1173,10 +1128,6 @@ public class PlaybackController {
         return mPlaybackState == PlaybackState.PAUSED;
     }
 
-    public boolean isIdle() {
-        return mPlaybackState == PlaybackState.IDLE;
-    }
-
     public int getZoomMode() {
         return mVideoManager.getZoomMode();
     }
@@ -1187,12 +1138,16 @@ public class PlaybackController {
         return mVideoManager.translateVlcAudioId(vlcId);
     }
 
-
-    /*
- * List of various states that we can be in
- */
+    /**
+     * List of various states that we can be in
+     */
     public enum PlaybackState {
-        PLAYING, PAUSED, BUFFERING, IDLE, SEEKING, UNDEFINED, ERROR;
+        PLAYING,
+        PAUSED,
+        BUFFERING,
+        IDLE,
+        SEEKING,
+        UNDEFINED,
+        ERROR
     }
-
 }

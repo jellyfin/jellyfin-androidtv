@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
@@ -29,14 +27,9 @@ import org.jellyfin.apiclient.model.dto.UserDto;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.UUID;
 
 import timber.log.Timber;
 
@@ -46,8 +39,6 @@ import timber.log.Timber;
 public class Utils {
     // send the tone to the "alarm" stream (classic beeps go there) with 50% volume
     private static final ToneGenerator TONE_GENERATOR = new ToneGenerator(AudioManager.STREAM_ALARM, 50);
-    // set of characters used for generating hexadecimal strings
-    private static final char[] HEX_CHARS = "0123456789ABCDEF".toCharArray();
 
     /**
      * Shows a (long) toast
@@ -181,20 +172,6 @@ public class Utils {
         }
     }
 
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            return BitmapFactory.decodeStream(input);
-        } catch (IOException e) {
-            // Log exception
-            return null;
-        }
-    }
-
     public static int getMaxBitrate() {
         String maxRate = TvApp.getApplication().getUserPreferences().getMaxBitrate();
         float factor = Float.parseFloat(maxRate) * 10;
@@ -239,27 +216,6 @@ public class Utils {
                             AuthenticationHelper.loginUser(user.getName(), pw, TvApp.getApplication().getLoginApiClient(), activity, directItemId);
                         }
                     }).show();
-        }
-    }
-
-    private static String convertToHex(byte[] data) {
-        char[] hexChars = new char[data.length * 2];
-        for (int j = 0; j < data.length; j++) {
-            int v = data[j] & 0xFF;
-            hexChars[j * 2] = HEX_CHARS[v >>> 4];
-            hexChars[j * 2 + 1] = HEX_CHARS[v & 0x0F];
-        }
-        return new String(hexChars);
-    }
-
-    public static String getMD5Hash(String text) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(text.getBytes(StandardCharsets.ISO_8859_1), 0, text.length());
-            byte[] md5hash = md.digest();
-            return convertToHex(md5hash);
-        } catch (NoSuchAlgorithmException e) {
-            return UUID.randomUUID().toString();
         }
     }
 
