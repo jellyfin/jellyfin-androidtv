@@ -98,7 +98,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private ServerInfo[] mServers;
     private List<ChapterItemInfo> mChapters;
     private List<BaseItemDto> mItems;
-    private ServerInfo mServer;
 
     private ArrayObjectAdapter mParent;
     private ListRow mRow;
@@ -379,10 +378,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
-    public ItemRowAdapter(ServerInfo serverInfo, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Presenter presenter, ArrayObjectAdapter parent) {
         super(presenter);
         mParent = parent;
-        mServer = serverInfo;
         queryType = QueryType.Users;
     }
 
@@ -682,7 +680,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 Retrieve(mTrailersQuery);
                 break;
             case Users:
-                RetrieveUsers(mServer);
+                RetrieveUsers();
                 break;
             case Search:
                 Retrieve(mSearchQuery);
@@ -705,7 +703,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         }
     }
 
-    private void RetrieveUsers(ServerInfo mServer) {
+    private void RetrieveUsers() {
         final ItemRowAdapter adapter = this;
         TvApp.getApplication().getLoginApiClient().GetPublicUsersAsync(new Response<UserDto[]>() {
             @Override
