@@ -271,7 +271,7 @@
     <string name="lbl_in_x_days">Om %d dager</string>
     <string name="lbl_bitstream_dts">Bitstream DTS-lyd</string>
     <string name="desc_premieres">Vis en rad med nye pilotepisoder for alle serier du ser på</string>
-    <string name="lbl_show_premieres">Vis sesongpremierer på hovedskjermen</string>
+    <string name="lbl_show_premieres">Vis sesongpremierer under blaing</string>
     <string name="lbl_refresh_switching">Bytte av oppdateringfrekvens</string>
     <string name="desc_use_vlc_livetv">Bruk VLC for strømming av direkte-TV når mulig</string>
     <string name="lbl_use_vlc_livetv">Prøv å bruke VLC for direkte-TV</string>
@@ -360,4 +360,14 @@
     <string name="pref_theme_emerald">Klassisk Smaragd</string>
     <string name="pref_app_theme">App-tema</string>
     <string name="pref_theme_dark">Mørk (Standard)</string>
+    <string name="lbl_Reset">Nullstill</string>
+    <string name="pref_button_remapping_description">Trykk en knapp på fjernkontrollen til TVen for å tildele den</string>
+    <string name="pref_subtitle_track_button">Undertekstknapp</string>
+    <string name="pref_audio_track_button">Lydsporknapp</string>
+    <string name="pref_button_remapping_category">Omkobling av knapper</string>
+    <string name="lbl_unknown_key">Ukjent (%1s)</string>
+    <string name="grid_direction_vertical">Vertikal (eksperimentell)</string>
+    <string name="grid_direction_horizontal">Horisontal</string>
+    <string name="grid_direction">Rutenettretning</string>
+    <string name="pref_device_model">Enhetsmodell</string>
 </resources>
