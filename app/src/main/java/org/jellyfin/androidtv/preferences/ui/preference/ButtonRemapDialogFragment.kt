@@ -71,27 +71,22 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
+		val buttonRemapPreference = preference as ButtonRemapPreference
+
 		decor_title.text = preference.title
 		message.visibility = View.VISIBLE
 		message.text = getString(R.string.pref_button_remapping_description)
 
 		buttonSave.setOnClickListener { _ ->
-			(preference as ButtonRemapPreference).setKeyCode(keyCode)
+			buttonRemapPreference.keyCode = keyCode
 			parentFragmentManager.popBackStack()
 		}
 		buttonSave.isEnabled = false
 		buttonSave.setOnKeyListener(checkKeys)
 
 		buttonReset.setOnClickListener { _ ->
-			// TODO: refactor this once the new preference workflow is here
-			// FIXME: Doesn't work when using PreferenceDSL
-			when (preference.key) {
-				"shortcut_audio_track" -> keyCode = KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK
-				"shortcut_subtitle_track" -> keyCode = KeyEvent.KEYCODE_CAPTIONS
-			}
-
 			setKeyCodeText()
-			(preference as ButtonRemapPreference).setKeyCode(keyCode)
+			buttonRemapPreference.keyCode = buttonRemapPreference.defaultKeyCode
 			parentFragmentManager.popBackStack()
 		}
 		buttonReset.setOnKeyListener(checkKeys)
@@ -101,7 +96,7 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 	}
 
 	private fun setKeyCodeText() {
-		textViewKeyCode.text = ButtonRemapPreference.ButtonRemapSummaryProvider.instance.provideSummary(requireContext(), keyCode)
+		textViewKeyCode.text = ButtonRemapPreference.ButtonRemapSummaryProvider.instance.getKeycodeName(requireContext(), keyCode)
 	}
 
 	companion object {

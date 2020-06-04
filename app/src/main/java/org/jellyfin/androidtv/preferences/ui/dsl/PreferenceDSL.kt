@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.preferences.ui.dsl
 
 import androidx.annotation.StringRes
 import androidx.preference.*
+import org.jellyfin.androidtv.preferences.SharedPreferenceStore
 import org.jellyfin.androidtv.preferences.ui.preference.ButtonRemapPreference
 import org.jellyfin.androidtv.preferences.ui.preference.DurationSeekBarPreference
 import java.util.*
@@ -178,26 +179,13 @@ inline fun <reified T : Enum<T>> PreferenceGroup.enumPreference(
 @PreferenceDSL
 fun PreferenceGroup.shortcutPreference(
 	@StringRes title: Int,
-	storeInit: PreferenceOptions.Builder<Int>.() -> Unit
+	store: SharedPreferenceStore,
+	preference: org.jellyfin.androidtv.preferences.Preference<Int>
 ) = appendPreference(ButtonRemapPreference(context, null)) {
-	val store = PreferenceOptions.Builder<Int>()
-		.apply { storeInit() }
-		.build()
-
 	setTitle(title)
 
+	setPreference(store, preference)
 	summaryProvider = ButtonRemapPreference.ButtonRemapSummaryProvider.instance
-
-	setKeyCode(store.get())
-	isEnabled = store.enabled()
-	isVisible = store.visible()
-	setOnPreferenceChangeListener { _, newValue ->
-		store.set(newValue as Int)
-		setKeyCode(store.get())
-
-		// Always return false because we save it
-		false
-	}
 }
 
 @PreferenceDSL
