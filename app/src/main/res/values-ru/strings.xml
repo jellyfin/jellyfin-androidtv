@@ -364,4 +364,10 @@
     <string name="grid_direction_horizontal">Горизонтальное</string>
     <string name="grid_direction">Направление сетки</string>
     <string name="pref_device_model">Модель устройства</string>
+    <string name="lbl_Reset">Сбросить</string>
+    <string name="pref_button_remapping_description">Нажмите любую кнопку на пульте ТВ чтобы назначить это</string>
+    <string name="pref_subtitle_track_button">Кнопка дорожки субтитров</string>
+    <string name="pref_audio_track_button">Кнопка аудио дорожки</string>
+    <string name="pref_button_remapping_category">Переназначение кнопок</string>
+    <string name="lbl_unknown_key">Неизвестно (%1s)</string>
 </resources>
