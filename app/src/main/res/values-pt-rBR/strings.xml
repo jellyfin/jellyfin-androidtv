@@ -364,4 +364,10 @@
     <string name="grid_direction_horizontal">Horizontal</string>
     <string name="grid_direction">Direção da grade</string>
     <string name="pref_device_model">Modelo do dispositivo</string>
+    <string name="lbl_Reset">Redefinir</string>
+    <string name="pref_button_remapping_description">Pressione qualquer botão no controle da TV para atribuí-lo</string>
+    <string name="pref_subtitle_track_button">Botão da legenda</string>
+    <string name="pref_audio_track_button">Botão da faixa de áudio</string>
+    <string name="pref_button_remapping_category">Remapeamento de botões</string>
+    <string name="lbl_unknown_key">Desconhecido (%1s)</string>
 </resources>
