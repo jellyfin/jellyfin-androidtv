@@ -14,10 +14,7 @@ class DurationSeekBarPreference(
 	context: Context,
 	attrs: AttributeSet? = null
 ) : SeekBarPreference(context, attrs) {
-	init {
-		// Explicitly set the layout or it will crash
-		layoutResource = androidx.preference.R.layout.preference_widget_seekbar_material
-	}
+	var valueFormatter = ValueFormatter()
 
 	override fun onBindViewHolder(view: PreferenceViewHolder) {
 		super.onBindViewHolder(view)
@@ -28,8 +25,12 @@ class DurationSeekBarPreference(
 
 			override fun getTransformation(source: CharSequence?, view: View): CharSequence? {
 				val numberValue = source?.toString()?.toIntOrNull() ?: return source
-				return (numberValue / 1000).toString()
+				return valueFormatter.display(numberValue)
 			}
 		}
+	}
+
+	open class ValueFormatter {
+		open fun display(value: Int): String = value.toString()
 	}
 }

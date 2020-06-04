@@ -369,6 +369,6 @@
     <string name="pref_button_remapping_description">Press any button on the TV remote to assign it</string>
     <string name="lbl_Reset">Reset</string>
     <string name="bitrate_auto">Auto</string>
-    <string name="bitrate_mbit">%s Mbit/s</string>
-    <string name="bitrate_kbit">%s Kbit/s</string>
+    <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
+    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
 </resources>

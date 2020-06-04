@@ -8,6 +8,7 @@ import org.jellyfin.androidtv.preferences.UserPreferences
 import org.jellyfin.androidtv.preferences.enums.AudioBehavior
 import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer
 import org.jellyfin.androidtv.preferences.ui.dsl.*
+import org.jellyfin.androidtv.preferences.ui.preference.DurationSeekBarPreference
 import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.androidtv.util.TimeUtils
 
@@ -23,9 +24,11 @@ fun PreferenceScreen.playbackCategory(
 		5.0, 3.0, 2.0, 1.5, 1.0, // 1 >=
 		0.72, 0.42 // 0 >=
 	).map {
-		val value = if (it == 0.0) activity.getString(R.string.bitrate_auto)
-		else if (it >= 1.0) activity.getString(R.string.bitrate_mbit, it)
-		else activity.getString(R.string.bitrate_kbit, it * 100.0)
+		val value = when {
+			it == 0.0 -> activity.getString(R.string.bitrate_auto)
+			it >= 1.0 -> activity.getString(R.string.bitrate_mbit, it)
+			else -> activity.getString(R.string.bitrate_kbit, it * 100.0)
+		}
 
 		it.toString().removeSuffix(".0") to value
 	}.toMap()
@@ -43,6 +46,14 @@ fun PreferenceScreen.playbackCategory(
 		it.toString() to value
 	}.toMap()
 
+	val secondsValueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+		override fun display(value: Int) = "${value / 1000}s"
+	}
+
+	val millisecondsValueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+		override fun display(value: Int) = "${value}ms"
+	}
+
 	listPreference(R.string.pref_max_bitrate_title, maxBitrateValues) {
 		bind(userPreferences, UserPreferences.maxBitrate)
 	}
@@ -53,7 +64,7 @@ fun PreferenceScreen.playbackCategory(
 		bind(userPreferences, UserPreferences.nextUpEnabled)
 		enabled { userPreferences[UserPreferences.mediaQueuingEnabled] }
 	}
-	seekbarPreference(R.string.pref_next_up_timeout_title, R.string.pref_next_up_timeout_summary, min = 3000, max = 30000, increment = 1000) {
+	seekbarPreference(R.string.pref_next_up_timeout_title, R.string.pref_next_up_timeout_summary, min = 3000, max = 30000, increment = 1000, valueFormatter = secondsValueFormatter) {
 		bind(userPreferences, UserPreferences.nextUpTimeout)
 		enabled { userPreferences[UserPreferences.mediaQueuingEnabled] && userPreferences[UserPreferences.nextUpEnabled] }
 	}
@@ -84,9 +95,7 @@ fun PreferenceScreen.playbackCategory(
 		visible { DeviceUtils.is60() }
 		enabled { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 	}
-	//TODO Add summary
-	//TODO Set inputType to number only
-	longPreference(R.string.pref_libvlc_audio_delay_title) {
+	seekbarPreference(R.string.pref_libvlc_audio_delay_title, min = -5000, max = 5000, valueFormatter = millisecondsValueFormatter) {
 		bind(userPreferences, UserPreferences.libVLCAudioDelay)
 	}
 	checkboxPreference(R.string.pref_use_direct_path_title, R.string.pref_use_direct_path_summary) {

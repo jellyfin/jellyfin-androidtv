@@ -13,7 +13,7 @@ import org.jellyfin.androidtv.preferences.enums.*
  * @param context Context to get the SharedPreferences from
  */
 class UserPreferences(context: Context) : SharedPreferenceStore(
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+	sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 ) {
 	companion object {
 		/* Authentication */
@@ -131,7 +131,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Default audio delay in milliseconds for libVLC
 		 */
-		var libVLCAudioDelay = Preference.long("libvlc_audio_delay", 0)
+		var libVLCAudioDelay = Preference.int("libvlc_audio_delay", 0)
 
 		/* Live TV */
 		/**
@@ -201,6 +201,10 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 					it.getBoolean("pref_enable_vlc_livetv", false) -> PreferredVideoPlayer.VLC
 					else -> PreferredVideoPlayer.AUTO
 				})
+		}
+
+		migration(toVersion = 4) {
+			putInt("libvlc_audio_delay", it.getLong("libvlc_audio_delay", 0).toInt())
 		}
 	}
 }

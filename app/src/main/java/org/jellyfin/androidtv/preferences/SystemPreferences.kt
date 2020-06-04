@@ -9,7 +9,7 @@ import android.content.Context
  * @param context Context to get the SharedPreferences from
  */
 class SystemPreferences(context: Context) : SharedPreferenceStore(
-		sharedPreferences = context.getSharedPreferences("systemprefs", Context.MODE_PRIVATE)
+	sharedPreferences = context.getSharedPreferences("systemprefs", Context.MODE_PRIVATE)
 ) {
 	companion object {
 		// Warnings

@@ -4,7 +4,6 @@ import androidx.annotation.StringRes
 import androidx.preference.*
 import org.jellyfin.androidtv.preferences.ui.preference.ButtonRemapPreference
 import org.jellyfin.androidtv.preferences.ui.preference.DurationSeekBarPreference
-import org.jellyfin.androidtv.preferences.ui.preference.EditLongPreference
 import java.util.*
 
 @DslMarker
@@ -18,6 +17,9 @@ inline fun <T : Preference> PreferenceGroup.appendPreference(
 	preference.isPersistent = false
 
 	addPreference(preference)
+
+	// Use random UUID as key because we need something unique but don't actually save anything
+	preference.key = UUID.randomUUID().toString()
 	preference.init()
 }
 
@@ -37,6 +39,7 @@ fun PreferenceGroup.seekbarPreference(
 	min: Int = 0,
 	max: Int = 100,
 	increment: Int = 1,
+	valueFormatter: DurationSeekBarPreference.ValueFormatter? = null,
 	storeInit: PreferenceOptions.Builder<Int>.() -> Unit
 ) = appendPreference(DurationSeekBarPreference(context)) {
 	val store = PreferenceOptions.Builder<Int>()
@@ -46,6 +49,8 @@ fun PreferenceGroup.seekbarPreference(
 	setTitle(title)
 
 	if (description != null) setSummary(description)
+
+	if (valueFormatter != null) this.valueFormatter = valueFormatter
 
 	setMin(min)
 	setMax(max)
@@ -65,33 +70,6 @@ fun PreferenceGroup.seekbarPreference(
 }
 
 @PreferenceDSL
-fun PreferenceGroup.longPreference(
-	@StringRes title: Int,
-	storeInit: PreferenceOptions.Builder<Long>.() -> Unit
-) = appendPreference(EditLongPreference(context, null)) {
-	val store = PreferenceOptions.Builder<Long>()
-		.apply { storeInit() }
-		.build()
-
-	setTitle(title)
-
-	// Use random UUID as key because we need something unique
-	// but don't actually save anything
-	key = UUID.randomUUID().toString()
-
-	value = store.get()
-	isEnabled = store.enabled()
-	isVisible = store.visible()
-	setOnPreferenceChangeListener { _, newValue ->
-		store.set(newValue as Long)
-		value = store.get()
-
-		// Always return false because we save it
-		false
-	}
-}
-
-@PreferenceDSL
 fun PreferenceGroup.listPreference(
 	@StringRes title: Int,
 	entries: Map<String, String>,
@@ -102,10 +80,6 @@ fun PreferenceGroup.listPreference(
 		.build()
 
 	setTitle(title)
-
-	// Use random UUID as key because we need something unique
-	// but don't actually save anything
-	key = UUID.randomUUID().toString()
 
 	entryValues = entries.keys.toTypedArray()
 	setEntries(entries.values.toTypedArray())
@@ -185,10 +159,6 @@ inline fun <reified T : Enum<T>> PreferenceGroup.enumPreference(
 
 	setTitle(title)
 
-	// Use random UUID as key because we need something unique
-	// but don't actually save anything
-	key = UUID.randomUUID().toString()
-
 	entryValues = values.keys.toTypedArray()
 	entries = values.values.toTypedArray()
 	summaryProvider = ListPreference.SimpleSummaryProvider.getInstance()
@@ -207,18 +177,14 @@ inline fun <reified T : Enum<T>> PreferenceGroup.enumPreference(
 
 @PreferenceDSL
 fun PreferenceGroup.shortcutPreference(
-		@StringRes title: Int,
-		storeInit: PreferenceOptions.Builder<Int>.() -> Unit
+	@StringRes title: Int,
+	storeInit: PreferenceOptions.Builder<Int>.() -> Unit
 ) = appendPreference(ButtonRemapPreference(context, null)) {
 	val store = PreferenceOptions.Builder<Int>()
-			.apply { storeInit() }
-			.build()
+		.apply { storeInit() }
+		.build()
 
 	setTitle(title)
-
-	// Use random UUID as key because we need something unique
-	// but don't actually save anything
-	key = UUID.randomUUID().toString()
 
 	summaryProvider = ButtonRemapPreference.ButtonRemapSummaryProvider.instance
 

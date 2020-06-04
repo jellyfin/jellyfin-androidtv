@@ -9,8 +9,8 @@ import org.jellyfin.androidtv.R
 import java.util.*
 
 class ButtonRemapPreference(
-		context: Context,
-		attrs: AttributeSet? = null
+	context: Context,
+	attrs: AttributeSet? = null
 ) : DialogPreference(context) {
 	override fun getDialogLayoutResource() = R.layout.button_remap_preference
 
@@ -49,12 +49,12 @@ class ButtonRemapPreference(
 
 			return if (keyCodeString.startsWith("KEYCODE")) {
 				keyCodeString
-						.removePrefix("KEYCODE_")
-						.toLowerCase(Locale.getDefault())
-						.split("_")
-						.joinToString(" ") {
-							it.capitalize()
-						}
+					.removePrefix("KEYCODE_")
+					.toLowerCase(Locale.getDefault())
+					.split("_")
+					.joinToString(" ") {
+						it.capitalize()
+					}
 			} else {
 				context.getString(R.string.lbl_unknown_key, keyCodeString)
 			}

@@ -13,15 +13,15 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 	private var keyCode: Int = 0
 	private var originalKeyCode: Int = 0
 	private var ignoreKeys = listOf(
-			KeyEvent.KEYCODE_BACK,
-			KeyEvent.KEYCODE_HOME,
-			KeyEvent.KEYCODE_APP_SWITCH,
-			KeyEvent.KEYCODE_DPAD_CENTER,
-			KeyEvent.KEYCODE_DPAD_UP,
-			KeyEvent.KEYCODE_DPAD_DOWN,
-			KeyEvent.KEYCODE_DPAD_LEFT,
-			KeyEvent.KEYCODE_DPAD_RIGHT,
-			KeyEvent.KEYCODE_ENTER
+		KeyEvent.KEYCODE_BACK,
+		KeyEvent.KEYCODE_HOME,
+		KeyEvent.KEYCODE_APP_SWITCH,
+		KeyEvent.KEYCODE_DPAD_CENTER,
+		KeyEvent.KEYCODE_DPAD_UP,
+		KeyEvent.KEYCODE_DPAD_DOWN,
+		KeyEvent.KEYCODE_DPAD_LEFT,
+		KeyEvent.KEYCODE_DPAD_RIGHT,
+		KeyEvent.KEYCODE_ENTER
 	)
 	private var checkKeys: View.OnKeyListener = View.OnKeyListener { _, keyCode, _ ->
 		// ignore navigation buttons

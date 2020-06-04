@@ -3,9 +3,9 @@ package org.jellyfin.androidtv.preferences
 import kotlin.reflect.KClass
 
 data class Preference<T : Any>(
-		val key: String,
-		val defaultValue: T,
-		val type: KClass<T>
+	val key: String,
+	val defaultValue: T,
+	val type: KClass<T>
 ) {
 	companion object {
 		fun int(key: String, defaultValue: Int) = Preference(key, defaultValue, Int::class)

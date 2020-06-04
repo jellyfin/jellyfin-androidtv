@@ -9,11 +9,9 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceScreen
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
-import org.jellyfin.androidtv.preferences.UserPreferences
 import org.jellyfin.androidtv.preferences.ui.category.*
 import org.jellyfin.androidtv.preferences.ui.preference.ButtonRemapDialogFragment
 import org.jellyfin.androidtv.preferences.ui.preference.ButtonRemapPreference
-import org.jellyfin.androidtv.preferences.ui.preference.EditLongPreference
 
 class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 	override fun onPreferenceStartInitialScreen() {
@@ -77,12 +75,12 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 		}
 
 		private fun addCustomBehavior() {
-			findPreference<EditLongPreference>("libvlc_audio_delay")?.apply {
-				text = TvApp.getApplication().userPreferences[UserPreferences.libVLCAudioDelay].toString()
-				summaryProvider = Preference.SummaryProvider<EditLongPreference> {
-					"${it.text} ms"
-				}
-			}
+//			findPreference<EditLongPreference>("libvlc_audio_delay")?.apply {
+//				text = TvApp.getApplication().userPreferences[UserPreferences.libVLCAudioDelay].toString()
+//				summaryProvider = Preference.SummaryProvider<EditLongPreference> {
+//					"${it.text} ms"
+//				}
+//			}
 		}
 	}
 }

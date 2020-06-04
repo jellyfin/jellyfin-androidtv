@@ -62,14 +62,15 @@ abstract class SharedPreferenceStore(
 	}
 
 	// Enums
-	operator fun <T : Preference<V>, V: Enum<V>> get(preference: T): V {
+	operator fun <T : Preference<V>, V : Enum<V>> get(preference: T): V {
 		val stringValue = sharedPreferences.getString(preference.key, null)
 
 		return if (stringValue == null) preference.defaultValue
-		else preference.type.java.enumConstants?.find { it.name == stringValue } ?: preference.defaultValue
+		else preference.type.java.enumConstants?.find { it.name == stringValue }
+			?: preference.defaultValue
 	}
 
-	operator fun <T : Preference<V>, V: Enum<V>> set(preference: T, value: V) = transaction {
+	operator fun <T : Preference<V>, V : Enum<V>> set(preference: T, value: V) = transaction {
 		putString(preference.key, value.toString())
 	}
 
