@@ -364,4 +364,10 @@
     <string name="grid_direction_horizontal">Horizontálne</string>
     <string name="grid_direction">Smer mriežky</string>
     <string name="pref_device_model">Model zariadenia</string>
+    <string name="lbl_Reset">Obnoviť</string>
+    <string name="pref_button_remapping_description">Stlačte akékoľvek tlačidlo na TV ovládači pre priradenie</string>
+    <string name="pref_subtitle_track_button">Tlačidlo titulkovej stopy</string>
+    <string name="pref_audio_track_button">Tlačidlo zvukovej stopy</string>
+    <string name="pref_button_remapping_category">Zmena mapovania kláves</string>
+    <string name="lbl_unknown_key">Neznámy (%1s)</string>
 </resources>
