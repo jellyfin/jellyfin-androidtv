@@ -8,6 +8,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.browsing.MainActivity;
@@ -25,11 +30,6 @@ import org.jellyfin.apiclient.model.apiclient.ConnectionState;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserDto;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
-import androidx.preference.PreferenceManager;
 import timber.log.Timber;
 
 public class StartupActivity extends FragmentActivity {
@@ -42,9 +42,6 @@ public class StartupActivity extends FragmentActivity {
         setContentView(R.layout.fragment_startup);
 
         application = (TvApp) getApplicationContext();
-
-        //Ensure we have prefs
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         //Ensure basic permissions
         if (Build.VERSION.SDK_INT >= 23 && (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED
