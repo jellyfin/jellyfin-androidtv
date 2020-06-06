@@ -118,7 +118,7 @@
     <string name="sum_tv_queuing">Füge den Rest der Staffeln der Warteschlange hinzu, wenn eine Episode abgespielt wird</string>
     <string name="lbl_search_hint">Suche Text (Auswahl für Tastatur)</string>
     <string name="lbl_play_first_unwatched">Starte Erste ungesehen</string>
-    <string name="lbl_confirm_mark_watched">Dies wird alles als gesehen markieren. Sind Sie sich SEHR sicher?</string>
+    <string name="lbl_confirm_mark_watched">Dies wird alles als gesehen markiert. Sind Sie sich SEHR sicher\?</string>
     <string name="lbl_mark_unplayed">Als ungesehen markieren</string>
     <string name="lbl_mark_played">Markiere gesehen</string>
     <string name="lbl_remove_favorite">Entferne Favorit</string>
