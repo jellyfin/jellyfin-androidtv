@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.model.compat;
 
-import java.util.Arrays;
-
 import org.jellyfin.androidtv.constants.CodecTypes;
 import org.jellyfin.androidtv.constants.MediaTypes;
 import org.jellyfin.androidtv.util.Utils;
@@ -25,6 +23,10 @@ import org.jellyfin.apiclient.model.logging.ILogger;
 import org.jellyfin.apiclient.model.mediainfo.MediaProtocol;
 import org.jellyfin.apiclient.model.mediainfo.TransportStreamTimestamp;
 import org.jellyfin.apiclient.model.session.PlayMethod;
+
+import java.util.Arrays;
+
+import timber.log.Timber;
 
 @Deprecated
 public class StreamBuilder
@@ -500,7 +502,9 @@ public class StreamBuilder
                 try {
                     int transcodingMaxAudioChannels = Integer.parseInt(transcodingProfile.getMaxAudioChannels());
                     playlistItem.setTranscodingMaxAudioChannels(transcodingMaxAudioChannels);
-                } catch (NumberFormatException ignored) {}
+                } catch (NumberFormatException e) {
+                    Timber.e(e);
+                }
             }
             playlistItem.setSubProtocol(transcodingProfile.getProtocol());
             playlistItem.setAudioStreamIndex(audioStreamIndex);
@@ -1047,7 +1051,9 @@ public class StreamBuilder
                     try {
                         int num = Integer.parseInt(value);
                         item.setAudioBitrate(num);
-                    } catch (NumberFormatException ignored) {}
+                    } catch (NumberFormatException e) {
+                        Timber.e(e);
+                    }
                     break;
                 }
                 case AudioChannels:
@@ -1055,7 +1061,9 @@ public class StreamBuilder
                     try {
                         int num = Integer.parseInt(value);
                         item.setMaxAudioChannels(num);
-                    } catch (NumberFormatException ignored) {}
+                    } catch (NumberFormatException e) {
+                        Timber.e(e);
+                    }
                     break;
                 }
                 case IsAnamorphic:
@@ -1075,7 +1083,9 @@ public class StreamBuilder
                     try {
                         int num = Integer.parseInt(value);
                         item.setMaxRefFrames(num);
-                    } catch (NumberFormatException ignored) {}
+                    } catch (NumberFormatException e) {
+                        Timber.e(e);
+                    }
                     break;
                 }
                 case VideoBitDepth:
@@ -1083,7 +1093,9 @@ public class StreamBuilder
                     try {
                         int num = Integer.parseInt(value);
                         item.setMaxVideoBitDepth(num);
-                    } catch (NumberFormatException ignored) {}
+                    } catch (NumberFormatException e) {
+                        Timber.e(e);
+                    }
                     break;
                 }
                 case VideoProfile:
@@ -1096,7 +1108,9 @@ public class StreamBuilder
                     try {
                         int num = Integer.parseInt(value);
                         item.setMaxHeight(num);
-                    } catch (NumberFormatException ignored) {}
+                    } catch (NumberFormatException e) {
+                        Timber.e(e);
+                    }
                     break;
                 }
                 case VideoBitrate:
@@ -1104,7 +1118,9 @@ public class StreamBuilder
                     try {
                         int num = Integer.parseInt(value);
                         item.setVideoBitrate(num);
-                    } catch (NumberFormatException ignored) {}
+                    } catch (NumberFormatException e) {
+                        Timber.e(e);
+                    }
                     break;
                 }
                 case VideoFramerate:
@@ -1112,7 +1128,9 @@ public class StreamBuilder
                     try {
                         float num = Float.parseFloat(value);
                         item.setMaxFramerate(num);
-                    } catch (NumberFormatException ignored) {}
+                    } catch (NumberFormatException e) {
+                        Timber.e(e);
+                    }
                     break;
                 }
                 case VideoLevel:
@@ -1120,7 +1138,9 @@ public class StreamBuilder
                     try {
                         int num = Integer.parseInt(value);
                         item.setVideoLevel(num);
-                    } catch (NumberFormatException ignored) {}
+                    } catch (NumberFormatException e) {
+                        Timber.e(e);
+                    }
                     break;
                 }
                 case Width:
@@ -1128,7 +1148,9 @@ public class StreamBuilder
                     try {
                         int num = Integer.parseInt(value);
                         item.setMaxWidth(num);
-                    } catch (NumberFormatException ignored) {}
+                    } catch (NumberFormatException e) {
+                        Timber.e(e);
+                    }
                     break;
                 }
             }

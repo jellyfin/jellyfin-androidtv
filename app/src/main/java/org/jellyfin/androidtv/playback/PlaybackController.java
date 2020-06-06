@@ -763,7 +763,7 @@ public class PlaybackController {
             try {
                 Thread.sleep(150);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Timber.e(e);
             }
             Long mbPos = mCurrentPosition * 10000;
             ReportingHelper.reportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);

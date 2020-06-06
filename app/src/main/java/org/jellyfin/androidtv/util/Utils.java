@@ -168,6 +168,7 @@ public class Utils {
 
             return true;
         } catch (Exception e) {
+            Timber.e(e);
             return false;
         }
     }

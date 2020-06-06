@@ -204,6 +204,7 @@ public class TvApp extends Application {
         try {
             return Integer.parseInt(getUserPreferences().getResumeSubtractDuration()) * 1000;
         } catch (Exception e) {
+            Timber.e(e, "Unable to parse resume preroll");
             return 0;
         }
     }

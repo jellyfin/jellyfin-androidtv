@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import timber.log.Timber;
+
 @Deprecated
 public class Api16Builder {
     protected AndroidProfileOptions Defaults;
@@ -52,8 +54,7 @@ public class Api16Builder {
 
                 ProcessMediaCodecInfoType(codecInfo, type, codecCapabilities, directPlayProfiles, codecProfiles);
             } catch (IllegalArgumentException ex) {
-                // silently ignore
-                //logger.Error("IllegalArgumentException thrown by codecInfo.getCapabilitiesForType(type). type: " + type);
+                Timber.e("IllegalArgumentException thrown by codecInfo.getCapabilitiesForType(type). type: %s", type);
             }
         }
     }

@@ -3,13 +3,14 @@ package org.jellyfin.androidtv.util;
 import android.media.MediaCodecInfo;
 import android.media.MediaCodecList;
 
-import org.jellyfin.androidtv.TvApp;
-
 import timber.log.Timber;
 
-import static android.media.MediaFormat.MIMETYPE_VIDEO_HEVC;
+import static android.media.MediaCodecInfo.CodecProfileLevel.H263Level10;
+import static android.media.MediaCodecInfo.CodecProfileLevel.H263Level45;
+import static android.media.MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel5;
+import static android.media.MediaCodecInfo.CodecProfileLevel.HEVCProfileMain10;
 import static android.media.MediaFormat.MIMETYPE_VIDEO_H263;
-import static android.media.MediaCodecInfo.CodecProfileLevel.*;
+import static android.media.MediaFormat.MIMETYPE_VIDEO_HEVC;
 
 public class MediaCodecCapabilitiesTest  {
     private static final String TAG = "MediaCodecCapabilitiesTest";
@@ -68,6 +69,7 @@ public class MediaCodecCapabilitiesTest  {
                     }
                 }
             } catch (IllegalArgumentException e) {
+                Timber.e(e);
             }
         }
         return false;
