@@ -1,31 +1,48 @@
 package org.jellyfin.androidtv.preferences.ui.category
 
-import androidx.preference.PreferenceScreen
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preferences.UserPreferences
 import org.jellyfin.androidtv.preferences.enums.AppTheme
 import org.jellyfin.androidtv.preferences.enums.GridDirection
-import org.jellyfin.androidtv.preferences.ui.dsl.*
+import org.jellyfin.androidtv.preferences.ui.dsl.OptionsScreen
+import org.jellyfin.androidtv.preferences.ui.dsl.checkbox
+import org.jellyfin.androidtv.preferences.ui.dsl.enum
 
-fun PreferenceScreen.generalCategory(
+fun OptionsScreen.generalCategory(
 	userPreferences: UserPreferences
-) = category(R.string.pref_general) {
-	enumPreference<AppTheme>(R.string.pref_app_theme) {
-		bindEnum(userPreferences, UserPreferences.appTheme)
+) = category {
+	setTitle(R.string.pref_general)
+
+	enum<AppTheme> {
+		setTitle(R.string.pref_app_theme)
+		bind(userPreferences, UserPreferences.appTheme)
 	}
-	checkboxPreference(R.string.lbl_show_backdrop) {
+
+	checkbox {
+		setTitle(R.string.lbl_show_backdrop)
 		bind(userPreferences, UserPreferences.backdropEnabled)
 	}
-	checkboxPreference(R.string.lbl_show_premieres, R.string.desc_premieres) {
+
+	checkbox {
+		setTitle(R.string.lbl_show_premieres)
+		setContent(R.string.desc_premieres)
 		bind(userPreferences, UserPreferences.premieresEnabled)
 	}
-	enumPreference<GridDirection>(R.string.grid_direction) {
-		bindEnum(userPreferences, UserPreferences.gridDirection)
+
+	enum<GridDirection> {
+		setTitle(R.string.grid_direction)
+		bind(userPreferences, UserPreferences.gridDirection)
 	}
-	checkboxPreference(R.string.lbl_enable_seasonal_themes, R.string.desc_seasonal_themes) {
+
+	checkbox {
+		setTitle(R.string.lbl_enable_seasonal_themes)
+		setContent(R.string.desc_seasonal_themes)
 		bind(userPreferences, UserPreferences.seasonalGreetingsEnabled)
 	}
-	checkboxPreference(R.string.lbl_enable_debug, R.string.desc_debug) {
+
+	checkbox {
+		setTitle(R.string.lbl_enable_debug)
+		setContent(R.string.desc_debug)
 		bind(userPreferences, UserPreferences.debuggingEnabled)
 	}
 }

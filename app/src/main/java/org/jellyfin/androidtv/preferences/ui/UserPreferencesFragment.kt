@@ -10,6 +10,7 @@ import androidx.preference.PreferenceScreen
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.preferences.ui.category.*
+import org.jellyfin.androidtv.preferences.ui.dsl.optionsScreen
 import org.jellyfin.androidtv.preferences.ui.preference.ButtonRemapDialogFragment
 import org.jellyfin.androidtv.preferences.ui.preference.ButtonRemapPreference
 
@@ -18,7 +19,7 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 		override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 			val userPreferences = TvApp.getApplication().userPreferences
 
-			preferenceScreen = preferenceManager.createPreferenceScreen(preferenceManager.context).apply {
+			preferenceScreen = optionsScreen(requireContext()) {
 				setTitle(R.string.settings_title)
 
 				// Add all categories (using extension functions in the "category" subpackage)
@@ -29,7 +30,7 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 				shortcutsCategory(userPreferences)
 				crashReportingCategory(userPreferences)
 				aboutCategory()
-			}
+			}.build(preferenceManager)
 		}
 	}
 

@@ -5,8 +5,6 @@ import android.util.AttributeSet
 import android.view.KeyEvent
 import androidx.preference.DialogPreference
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.preferences.Preference
-import org.jellyfin.androidtv.preferences.SharedPreferenceStore
 import java.util.*
 
 class ButtonRemapPreference(
@@ -15,26 +13,15 @@ class ButtonRemapPreference(
 ) : DialogPreference(context, attrs) {
 	override fun getDialogLayoutResource() = R.layout.button_remap_preference
 
-	private var store: SharedPreferenceStore? = null
-	private var preference: Preference<Int>? = null
-
-	fun setPreference(store: SharedPreferenceStore, preference: Preference<Int>) {
-		this.store = store
-		this.preference = preference
-
-		notifyChanged()
-	}
-
+	private var innerKeyCode: Int = -1
 	var keyCode: Int
-		get() {
-			return store!![preference!!]
-		}
+		get() = innerKeyCode
 		set(value) {
-			store!![preference!!] = value
+			innerKeyCode = value
+			notifyDependencyChange(false)
+			notifyChanged()
 		}
-
-	val defaultKeyCode: Int
-		get() = store!!.getDefaultValue(preference!!)
+	var defaultKeyCode: Int = -1
 
 	class ButtonRemapSummaryProvider : SummaryProvider<ButtonRemapPreference> {
 		override fun provideSummary(preference: ButtonRemapPreference): CharSequence {

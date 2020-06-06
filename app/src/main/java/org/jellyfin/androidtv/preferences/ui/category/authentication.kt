@@ -1,37 +1,41 @@
 package org.jellyfin.androidtv.preferences.ui.category
 
-import androidx.preference.PreferenceScreen
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.model.LogonCredentials
 import org.jellyfin.androidtv.preferences.UserPreferences
 import org.jellyfin.androidtv.preferences.enums.LoginBehavior
-import org.jellyfin.androidtv.preferences.ui.dsl.bind
-import org.jellyfin.androidtv.preferences.ui.dsl.category
-import org.jellyfin.androidtv.preferences.ui.dsl.checkboxPreference
-import org.jellyfin.androidtv.preferences.ui.dsl.enumPreference
+import org.jellyfin.androidtv.preferences.ui.dsl.OptionsScreen
+import org.jellyfin.androidtv.preferences.ui.dsl.checkbox
+import org.jellyfin.androidtv.preferences.ui.dsl.enum
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper
 import timber.log.Timber
 import java.io.IOException
 
-fun PreferenceScreen.authenticationCategory(
+fun OptionsScreen.authenticationCategory(
 	userPreferences: UserPreferences
-) = category(R.string.pref_authentication_cat) {
-	enumPreference<LoginBehavior>(R.string.pref_login_behavior_title) {
-		set {
-			if (it == LoginBehavior.AUTO_LOGIN) {
-				try {
-					val credentials = LogonCredentials(TvApp.getApplication().apiClient.serverInfo, TvApp.getApplication().currentUser)
-					AuthenticationHelper.saveLoginCredentials(credentials, TvApp.CREDENTIALS_PATH)
-				} catch (e: IOException) {
-					Timber.e(e, "Unable to save logon credentials")
-				}
-			}
+) = category {
+	setTitle(R.string.pref_authentication_cat)
 
-			userPreferences[UserPreferences.loginBehavior] = it
+	enum<LoginBehavior> {
+		setTitle(R.string.pref_login_behavior_title)
+		bind {
+			set {
+				if (it == LoginBehavior.AUTO_LOGIN) {
+					try {
+						val credentials = LogonCredentials(TvApp.getApplication().apiClient.serverInfo, TvApp.getApplication().currentUser)
+						AuthenticationHelper.saveLoginCredentials(credentials, TvApp.CREDENTIALS_PATH)
+					} catch (e: IOException) {
+						Timber.e(e, "Unable to save logon credentials")
+					}
+				}
+
+				userPreferences[UserPreferences.loginBehavior] = it
+			}
+			get { userPreferences[UserPreferences.loginBehavior] }
+			default { userPreferences.getDefaultValue(UserPreferences.loginBehavior) }
 		}
-		get { userPreferences[UserPreferences.loginBehavior] }
-		visible {
+		depends {
 			val configuredAutoCredentials = TvApp.getApplication().configuredAutoCredentials
 
 			// Auto login is disabled
@@ -40,9 +44,11 @@ fun PreferenceScreen.authenticationCategory(
 				|| configuredAutoCredentials.userDto.id == TvApp.getApplication().currentUser.id
 		}
 	}
-	checkboxPreference(R.string.pref_prompt_pw) {
+
+	checkbox {
+		setTitle(R.string.pref_prompt_pw)
 		bind(userPreferences, UserPreferences.passwordPromptEnabled)
-		visible {
+		depends {
 			val configuredAutoCredentials = TvApp.getApplication().configuredAutoCredentials
 
 			// Auto login is enabled
@@ -53,10 +59,16 @@ fun PreferenceScreen.authenticationCategory(
 				&& configuredAutoCredentials.userDto.hasPassword
 		}
 	}
-	checkboxPreference(R.string.pref_alt_pw_entry, R.string.pref_alt_pw_entry_desc) {
+
+	checkbox {
+		setTitle(R.string.pref_alt_pw_entry)
+		setContent(R.string.pref_alt_pw_entry_desc)
 		bind(userPreferences, UserPreferences.passwordDPadEnabled)
 	}
-	checkboxPreference(R.string.pref_live_tv_mode, R.string.pref_live_tv_mode_desc) {
+
+	checkbox {
+		setTitle(R.string.pref_live_tv_mode)
+		setContent(R.string.pref_live_tv_mode_desc)
 		bind(userPreferences, UserPreferences.liveTvMode)
 	}
 }

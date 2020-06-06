@@ -1,18 +1,24 @@
 package org.jellyfin.androidtv.preferences.ui.category
 
-import androidx.preference.PreferenceScreen
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preferences.UserPreferences
 import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer
-import org.jellyfin.androidtv.preferences.ui.dsl.*
+import org.jellyfin.androidtv.preferences.ui.dsl.OptionsScreen
+import org.jellyfin.androidtv.preferences.ui.dsl.checkbox
+import org.jellyfin.androidtv.preferences.ui.dsl.enum
 
-fun PreferenceScreen.liveTvCategory(
+fun OptionsScreen.liveTvCategory(
 	userPreferences: UserPreferences
-) = category(R.string.pref_live_tv_cat) {
-	enumPreference<PreferredVideoPlayer>(R.string.pref_media_player) {
-		bindEnum(userPreferences, UserPreferences.liveTvVideoPlayer)
+) = category {
+	setTitle(R.string.pref_live_tv_cat)
+
+	enum<PreferredVideoPlayer> {
+		setTitle(R.string.pref_media_player)
+		bind(userPreferences, UserPreferences.liveTvVideoPlayer)
 	}
-	checkboxPreference(R.string.lbl_direct_stream_live) {
+
+	checkbox {
+		setTitle(R.string.lbl_direct_stream_live)
 		bind(userPreferences, UserPreferences.liveTvDirectPlayEnabled)
 	}
 }

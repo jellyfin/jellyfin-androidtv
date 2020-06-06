@@ -1,14 +1,22 @@
 package org.jellyfin.androidtv.preferences.ui.category
 
-import androidx.preference.PreferenceScreen
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preferences.UserPreferences
-import org.jellyfin.androidtv.preferences.ui.dsl.category
-import org.jellyfin.androidtv.preferences.ui.dsl.shortcutPreference
+import org.jellyfin.androidtv.preferences.ui.dsl.OptionsScreen
+import org.jellyfin.androidtv.preferences.ui.dsl.shortcut
 
-fun PreferenceScreen.shortcutsCategory(
+fun OptionsScreen.shortcutsCategory(
 	userPreferences: UserPreferences
-) = category(R.string.pref_button_remapping_category) {
-	shortcutPreference(R.string.pref_audio_track_button, userPreferences, UserPreferences.shortcutAudioTrack)
-	shortcutPreference(R.string.pref_subtitle_track_button, userPreferences, UserPreferences.shortcutSubtitleTrack)
+) = category() {
+	setTitle(R.string.pref_button_remapping_category)
+
+	shortcut {
+		setTitle(R.string.pref_audio_track_button)
+		bind(userPreferences, UserPreferences.shortcutAudioTrack)
+	}
+
+	shortcut {
+		setTitle(R.string.pref_subtitle_track_button)
+		bind(userPreferences, UserPreferences.shortcutSubtitleTrack)
+	}
 }
