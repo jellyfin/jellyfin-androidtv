@@ -14,25 +14,32 @@ import org.jellyfin.androidtv.preferences.ui.preference.ButtonRemapDialogFragmen
 import org.jellyfin.androidtv.preferences.ui.preference.ButtonRemapPreference
 
 class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
-	override fun onPreferenceStartInitialScreen() {
-		startPreferenceFragment(InnerUserPreferencesFragment())
-	}
+	class InnerUserPreferencesFragment : LeanbackPreferenceFragmentCompat() {
+		override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+			val userPreferences = TvApp.getApplication().userPreferences
 
-	override fun onPreferenceDisplayDialog(caller: PreferenceFragmentCompat, pref: Preference?): Boolean {
-		if (pref is ButtonRemapPreference) {
-			val fragment = ButtonRemapDialogFragment.newInstance(pref.key).apply {
-				setTargetFragment(caller, 0)
+			preferenceScreen = preferenceManager.createPreferenceScreen(preferenceManager.context).apply {
+				setTitle(R.string.settings_title)
+
+				// Add all categories (using extension functions in the "category" subpackage)
+				authenticationCategory(userPreferences)
+				generalCategory(userPreferences)
+				playbackCategory(requireActivity(), userPreferences)
+				liveTvCategory(userPreferences)
+				shortcutsCategory(userPreferences)
+				crashReportingCategory(userPreferences)
+				aboutCategory()
 			}
-			startPreferenceFragment(fragment)
-
-			return true
 		}
-
-		return super.onPreferenceDisplayDialog(caller, pref)
 	}
+
+	override fun onPreferenceStartInitialScreen() = startPreferenceFragment(InnerUserPreferencesFragment())
 
 	override fun onPreferenceStartFragment(caller: PreferenceFragmentCompat, pref: Preference): Boolean {
-		val fragment = childFragmentManager.fragmentFactory.instantiate(requireActivity().classLoader, pref.fragment).apply {
+		val fragment = childFragmentManager.fragmentFactory.instantiate(
+			requireActivity().classLoader,
+			pref.fragment
+		).apply {
 			setTargetFragment(caller, 0)
 			arguments = pref.extras
 		}
@@ -56,31 +63,17 @@ class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 		return true
 	}
 
-	class InnerUserPreferencesFragment : LeanbackPreferenceFragmentCompat() {
-		override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-			val userPreferences = TvApp.getApplication().userPreferences
-
-			preferenceScreen = preferenceManager.createPreferenceScreen(preferenceManager.context).apply {
-				setTitle(R.string.settings_title)
-
-				// Add all categories (using extension functions in the "category" folder)
-				authenticationCategory(userPreferences)
-				generalCategory(userPreferences)
-				playbackCategory(requireActivity(), userPreferences)
-				liveTvCategory(userPreferences)
-				shortcutsCategory(userPreferences)
-				crashReportingCategory(userPreferences)
-				aboutCategory()
+	override fun onPreferenceDisplayDialog(caller: PreferenceFragmentCompat, pref: Preference): Boolean {
+		// Add dialog for shortcuts
+		if (pref is ButtonRemapPreference) {
+			val fragment = ButtonRemapDialogFragment.newInstance(pref.key).apply {
+				setTargetFragment(caller, 0)
 			}
+
+			startPreferenceFragment(fragment)
+			return true
 		}
 
-		private fun addCustomBehavior() {
-//			findPreference<EditLongPreference>("libvlc_audio_delay")?.apply {
-//				text = TvApp.getApplication().userPreferences[UserPreferences.libVLCAudioDelay].toString()
-//				summaryProvider = Preference.SummaryProvider<EditLongPreference> {
-//					"${it.text} ms"
-//				}
-//			}
-		}
+		return super.onPreferenceDisplayDialog(caller, pref)
 	}
 }

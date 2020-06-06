@@ -8,17 +8,17 @@ enum class AppTheme {
 	 * The default dark theme
 	 */
 	@EnumDisplayOptions(R.string.pref_theme_dark)
-	Theme_Jellyfin,
+	DARK,
 
 	/**
 	 * The "classic" emerald theme
 	 */
 	@EnumDisplayOptions(R.string.pref_theme_emerald)
-	Theme_Jellyfin_Emerald,
+	EMERALD,
 
 	/**
 	 * Theme inspired by Win 3.1's "hot dog stand"
 	 */
 	@EnumDisplayOptions(hidden = true)
-	Theme_Jellyfin_HotDogStand
+	HOT_DOG_STAND
 }

@@ -37,7 +37,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Select the app theme
 		 */
-		var appTheme = Preference.enum("app_theme", AppTheme.Theme_Jellyfin)
+		var appTheme = Preference.enum("app_theme", AppTheme.DARK)
 
 		/**
 		 * Enable background images while browsing

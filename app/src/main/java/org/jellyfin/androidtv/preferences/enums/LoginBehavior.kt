@@ -7,12 +7,12 @@ enum class LoginBehavior {
 	/**
 	 * Show login screen when starting the app
 	 */
-	@EnumDisplayOptions(name = R.string.pref_show_login)
+	@EnumDisplayOptions(R.string.pref_show_login)
 	SHOW_LOGIN,
 
 	/**
 	 * Login as the user who set this setting
 	 */
-	@EnumDisplayOptions(name = R.string.pref_auto_login)
+	@EnumDisplayOptions(R.string.pref_auto_login)
 	AUTO_LOGIN
 }
