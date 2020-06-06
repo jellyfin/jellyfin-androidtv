@@ -364,4 +364,7 @@
     <string name="grid_direction_vertical">Verticale (sperimentale)</string>
     <string name="pref_device_model">Modello Dispositivo</string>
     <string name="grid_direction">Verso della griglia</string>
+    <string name="lbl_Reset">Resetta</string>
+    <string name="pref_button_remapping_description">Premi un tasto del telecomando per assegnarlo</string>
+    <string name="lbl_unknown_key">Chiave Sconosciuta (%1s)</string>
 </resources>
