@@ -23,7 +23,7 @@ class OptionsScreen(
 	}
 
 	/**
-	 * Create androidx PreferenceScreen instance
+	 * Create androidx PreferenceScreen instance.
 	 */
 	fun build(preferenceManager: PreferenceManager): PreferenceScreen {
 		val container = OptionsUpdateFunContainer()

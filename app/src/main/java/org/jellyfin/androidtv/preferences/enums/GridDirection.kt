@@ -5,13 +5,13 @@ import org.jellyfin.androidtv.preferences.ui.dsl.EnumDisplayOptions
 
 enum class GridDirection {
 	/**
-	 * Horizontal
+	 * Horizontal.
 	 */
 	@EnumDisplayOptions(R.string.grid_direction_horizontal)
 	HORIZONTAL,
 
 	/**
-	 * Vertical
+	 * Vertical.
 	 */
 	@EnumDisplayOptions(R.string.grid_direction_vertical)
 	VERTICAL

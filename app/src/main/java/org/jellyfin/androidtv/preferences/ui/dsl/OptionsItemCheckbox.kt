@@ -15,16 +15,23 @@ class OptionsItemCheckbox(
 		SWITCH
 	}
 
-	var content: String? = null
+	var contentOn: String? = null
+	var contentOff: String? = null
 	var type: Type = Type.CHECKBOX
 
 	fun setTitle(@StringRes resId: Int) {
 		title = context.getString(resId)
 	}
 
-	fun setContent(@StringRes resId: Int) {
-		content = context.getString(resId)
+	fun setContent(@StringRes resIdOn: Int, @StringRes resIdOff: Int) {
+		contentOn = context.getString(resIdOn)
+		contentOff = context.getString(resIdOff)
 	}
+
+	/**
+	 * Set the content that will always show. The checked state does not matter,
+	 */
+	fun setContent(@StringRes resId: Int) = setContent(resId, resId)
 
 	override fun build(category: PreferenceCategory, container: OptionsUpdateFunContainer) {
 		val pref = when (type) {
@@ -37,7 +44,8 @@ class OptionsItemCheckbox(
 			it.isEnabled = dependencyCheckFun() && enabled
 			it.isVisible = visible
 			it.title = title
-			it.summary = content
+			it.summaryOn = contentOn
+			it.summaryOff = contentOff
 			it.isChecked = binder.get()
 			it.setOnPreferenceChangeListener { _, newValue ->
 				binder.set(newValue as Boolean)

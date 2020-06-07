@@ -203,6 +203,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 				})
 		}
 
+		// Change audio delay type from long to int
 		migration(toVersion = 4) {
 			putInt("libvlc_audio_delay", it.getLong("libvlc_audio_delay", 0).toInt())
 		}
