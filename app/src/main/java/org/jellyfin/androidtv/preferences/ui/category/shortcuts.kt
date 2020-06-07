@@ -7,7 +7,7 @@ import org.jellyfin.androidtv.preferences.ui.dsl.shortcut
 
 fun OptionsScreen.shortcutsCategory(
 	userPreferences: UserPreferences
-) = category() {
+) = category {
 	setTitle(R.string.pref_button_remapping_category)
 
 	shortcut {

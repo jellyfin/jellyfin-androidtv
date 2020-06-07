@@ -29,7 +29,7 @@ class OptionsScreen(
 		return preferenceManager.createPreferenceScreen(context).also {
 			it.isPersistent = false
 			it.title = title
-			nodes.forEach {node ->
+			nodes.forEach { node ->
 				node.build(it)
 			}
 		}
@@ -37,5 +37,6 @@ class OptionsScreen(
 }
 
 @OptionsDSL
-fun optionsScreen(context: Context, init: OptionsScreen.() -> Unit) = OptionsScreen(context)
-	.apply { init() }
+fun optionsScreen(context: Context, init: OptionsScreen.() -> Unit) =
+	OptionsScreen(context)
+		.apply { init() }

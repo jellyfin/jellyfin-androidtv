@@ -15,10 +15,9 @@ class OptionsItemShortcut(
 
 	override fun build(category: PreferenceCategory) {
 		ButtonRemapPreference(context).also {
-			category.addPreference(it)
-
 			it.isPersistent = false
 			it.key = UUID.randomUUID().toString()
+			category.addPreference(it)
 			it.isEnabled = dependencyCheckFun() && enabled
 			it.isVisible = visible
 			it.title = title

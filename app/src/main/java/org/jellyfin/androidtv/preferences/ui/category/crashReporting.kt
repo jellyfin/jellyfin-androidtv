@@ -7,7 +7,7 @@ import org.jellyfin.androidtv.preferences.ui.dsl.checkbox
 
 fun OptionsScreen.crashReportingCategory(
 	userPreferences: UserPreferences
-) = category() {
+) = category {
 	setTitle(R.string.pref_acra_category)
 
 	checkbox {

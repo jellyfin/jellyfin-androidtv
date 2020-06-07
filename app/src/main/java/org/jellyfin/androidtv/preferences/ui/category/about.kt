@@ -6,7 +6,7 @@ import org.jellyfin.androidtv.preferences.ui.dsl.OptionsScreen
 import org.jellyfin.androidtv.preferences.ui.dsl.info
 import org.jellyfin.androidtv.util.Utils
 
-fun OptionsScreen.aboutCategory() = category() {
+fun OptionsScreen.aboutCategory() = category {
 	setTitle(R.string.pref_about_title)
 
 	info {

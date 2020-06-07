@@ -8,7 +8,7 @@ import java.util.*
 
 class OptionsItemInfo(
 	private val context: Context
-) : OptionsItem() {
+) : OptionsItem {
 	var title: String? = null
 	var content: String? = null
 
@@ -22,10 +22,9 @@ class OptionsItemInfo(
 
 	override fun build(category: PreferenceCategory) {
 		EditTextPreference(context).also {
-			category.addPreference(it)
-
 			it.isPersistent = false
 			it.key = UUID.randomUUID().toString()
+			category.addPreference(it)
 			it.isEnabled = false
 			it.title = title
 			it.summary = content

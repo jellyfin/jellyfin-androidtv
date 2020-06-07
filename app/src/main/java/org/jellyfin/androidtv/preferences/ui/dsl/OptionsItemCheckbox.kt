@@ -27,16 +27,13 @@ class OptionsItemCheckbox(
 	}
 
 	override fun build(category: PreferenceCategory) {
-		val pref = when (type) {
+		when (type) {
 			Type.CHECKBOX -> CheckBoxPreference(context)
 			Type.SWITCH -> SwitchPreference(context)
-		}
-
-		pref.also {
-			category.addPreference(it)
-
+		}.also {
 			it.isPersistent = false
 			it.key = UUID.randomUUID().toString()
+			category.addPreference(it)
 			it.isEnabled = dependencyCheckFun() && enabled
 			it.isVisible = visible
 			it.title = title

@@ -47,10 +47,9 @@ class OptionsItemEnum<T : Enum<T>>(
 		val entries = getEntries()
 
 		ListPreference(context).also {
-			category.addPreference(it)
-
 			it.isPersistent = false
 			it.key = UUID.randomUUID().toString()
+			category.addPreference(it)
 			it.isEnabled = dependencyCheckFun() && enabled
 			it.isVisible = visible
 			it.title = title
@@ -70,11 +69,14 @@ class OptionsItemEnum<T : Enum<T>>(
 }
 
 @OptionsDSL
-fun <T : Enum<T>> OptionsCategory.enum(clazz: Class<T>, init: OptionsItemEnum<T>.() -> Unit) {
+fun <T : Enum<T>> OptionsCategory.enum(
+	clazz: Class<T>,
+	init: OptionsItemEnum<T>.() -> Unit
+) {
 	this += OptionsItemEnum(context, clazz).apply { init() }
 }
 
 @OptionsDSL
-inline fun <reified T : Enum<T>> OptionsCategory.enum(noinline init: OptionsItemEnum<T>.() -> Unit) {
-	enum(T::class.java, init)
-}
+inline fun <reified T : Enum<T>> OptionsCategory.enum(
+	noinline init: OptionsItemEnum<T>.() -> Unit
+) = enum(T::class.java, init)

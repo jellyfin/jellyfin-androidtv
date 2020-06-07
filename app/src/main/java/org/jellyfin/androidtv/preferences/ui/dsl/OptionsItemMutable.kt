@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.preferences.ui.dsl
 import org.jellyfin.androidtv.preferences.Preference
 import org.jellyfin.androidtv.preferences.SharedPreferenceStore
 
-abstract class OptionsItemMutable<T : Any> : OptionsItem() {
+abstract class OptionsItemMutable<T : Any> : OptionsItem {
 	var title: String? = null
 	var enabled: Boolean = true
 	var visible: Boolean = true
