@@ -24,8 +24,8 @@ class OptionsItemSeekbar(
 		content = context.getString(resId)
 	}
 
-	override fun build(category: PreferenceCategory) {
-		DurationSeekBarPreference(context).also {
+	override fun build(category: PreferenceCategory, container: OptionsUpdateFunContainer) {
+		val pref = DurationSeekBarPreference(context).also {
 			it.isPersistent = false
 			it.key = UUID.randomUUID().toString()
 			category.addPreference(it)
@@ -41,10 +41,15 @@ class OptionsItemSeekbar(
 			it.setOnPreferenceChangeListener { _, newValue ->
 				binder.set(newValue as Int)
 				it.value = binder.get()
+				container()
 
 				// Always return false because we save it
 				false
 			}
+		}
+
+		container += {
+			pref.isEnabled = dependencyCheckFun() && enabled
 		}
 	}
 }

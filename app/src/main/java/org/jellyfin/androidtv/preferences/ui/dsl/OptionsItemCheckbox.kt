@@ -26,8 +26,8 @@ class OptionsItemCheckbox(
 		content = context.getString(resId)
 	}
 
-	override fun build(category: PreferenceCategory) {
-		when (type) {
+	override fun build(category: PreferenceCategory, container: OptionsUpdateFunContainer) {
+		val pref = when (type) {
 			Type.CHECKBOX -> CheckBoxPreference(context)
 			Type.SWITCH -> SwitchPreference(context)
 		}.also {
@@ -42,10 +42,15 @@ class OptionsItemCheckbox(
 			it.setOnPreferenceChangeListener { _, newValue ->
 				binder.set(newValue as Boolean)
 				it.isChecked = binder.get()
+				container()
 
 				// Always return false because we save it
 				false
 			}
+		}
+
+		container += {
+			pref.isEnabled = dependencyCheckFun() && enabled
 		}
 	}
 }

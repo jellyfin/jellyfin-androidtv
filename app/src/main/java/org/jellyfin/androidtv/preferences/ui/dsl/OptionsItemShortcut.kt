@@ -13,8 +13,8 @@ class OptionsItemShortcut(
 		title = context.getString(resId)
 	}
 
-	override fun build(category: PreferenceCategory) {
-		ButtonRemapPreference(context).also {
+	override fun build(category: PreferenceCategory, container: OptionsUpdateFunContainer) {
+		val pref = ButtonRemapPreference(context).also {
 			it.isPersistent = false
 			it.key = UUID.randomUUID().toString()
 			category.addPreference(it)
@@ -27,9 +27,15 @@ class OptionsItemShortcut(
 			it.setOnPreferenceChangeListener { _, newValue ->
 				binder.set(newValue as Int)
 
+				container()
+
 				// Always return false because we save it
 				false
 			}
+		}
+
+		container += {
+			pref.isEnabled = dependencyCheckFun() && enabled
 		}
 	}
 }

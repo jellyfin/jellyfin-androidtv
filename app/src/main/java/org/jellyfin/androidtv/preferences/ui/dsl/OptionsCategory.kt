@@ -19,13 +19,13 @@ class OptionsCategory(
 		nodes.add(item)
 	}
 
-	fun build(screen: PreferenceScreen): PreferenceCategory {
+	fun build(screen: PreferenceScreen, container: OptionsUpdateFunContainer): PreferenceCategory {
 		return PreferenceCategory(context).also {
 			it.isPersistent = false
 			screen.addPreference(it)
 			it.title = title
 			nodes.forEach { node ->
-				node.build(it)
+				node.build(it, container)
 			}
 		}
 	}

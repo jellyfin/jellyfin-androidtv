@@ -43,10 +43,10 @@ class OptionsItemEnum<T : Enum<T>>(
 		}?.toMap().orEmpty()
 	}
 
-	override fun build(category: PreferenceCategory) {
+	override fun build(category: PreferenceCategory, container: OptionsUpdateFunContainer) {
 		val entries = getEntries()
 
-		ListPreference(context).also {
+		val pref = ListPreference(context).also {
 			it.isPersistent = false
 			it.key = UUID.randomUUID().toString()
 			category.addPreference(it)
@@ -60,10 +60,15 @@ class OptionsItemEnum<T : Enum<T>>(
 			it.setOnPreferenceChangeListener { _, newValue ->
 				binder.set(getValueByString(newValue as String) ?: binder.default())
 				it.value = binder.get().toString()
+				container()
 
 				// Always return false because we save it
 				false
 			}
+		}
+
+		container +=  {
+			pref.isEnabled = dependencyCheckFun() && enabled
 		}
 	}
 }

@@ -20,7 +20,7 @@ class OptionsItemInfo(
 		content = context.getString(resId)
 	}
 
-	override fun build(category: PreferenceCategory) {
+	override fun build(category: PreferenceCategory, container: OptionsUpdateFunContainer) {
 		EditTextPreference(context).also {
 			it.isPersistent = false
 			it.key = UUID.randomUUID().toString()

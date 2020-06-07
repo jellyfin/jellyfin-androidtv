@@ -26,11 +26,12 @@ class OptionsScreen(
 	 * Create androidx PreferenceScreen instance
 	 */
 	fun build(preferenceManager: PreferenceManager): PreferenceScreen {
+		val container = OptionsUpdateFunContainer()
 		return preferenceManager.createPreferenceScreen(context).also {
 			it.isPersistent = false
 			it.title = title
 			nodes.forEach { node ->
-				node.build(it)
+				node.build(it, container)
 			}
 		}
 	}

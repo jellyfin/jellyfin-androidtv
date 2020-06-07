@@ -15,8 +15,8 @@ class OptionsItemList(
 		title = context.getString(resId)
 	}
 
-	override fun build(category: PreferenceCategory) {
-		ListPreference(context).also {
+	override fun build(category: PreferenceCategory, container: OptionsUpdateFunContainer) {
+		val pref = ListPreference(context).also {
 			it.isPersistent = false
 			it.key = UUID.randomUUID().toString()
 			category.addPreference(it)
@@ -30,10 +30,15 @@ class OptionsItemList(
 			it.setOnPreferenceChangeListener { _, newValue ->
 				binder.set(newValue.toString())
 				it.value = binder.get()
+				container()
 
 				// Always return false because we save it
 				false
 			}
+		}
+
+		container += {
+			pref.isEnabled = dependencyCheckFun() && enabled
 		}
 	}
 }
