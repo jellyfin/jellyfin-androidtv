@@ -367,4 +367,5 @@
     <string name="lbl_Reset">Resetta</string>
     <string name="pref_button_remapping_description">Premi un tasto del telecomando per assegnarlo</string>
     <string name="lbl_unknown_key">Chiave Sconosciuta (%1s)</string>
+    <string name="pref_button_remapping_category">Rimappatura dei pulsanti</string>
 </resources>
