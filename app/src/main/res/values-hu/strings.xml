@@ -364,4 +364,10 @@
     <string name="grid_direction_horizontal">Vízszintes</string>
     <string name="grid_direction">Rács irány</string>
     <string name="pref_device_model">Eszköz model</string>
+    <string name="lbl_Reset">Visszaállítás</string>
+    <string name="pref_button_remapping_description">Nyomd meg valamelyik gombot a távirányítón a kiosztáshoz</string>
+    <string name="pref_subtitle_track_button">Feliratsáv gomb</string>
+    <string name="pref_audio_track_button">Hangsáv gomb</string>
+    <string name="pref_button_remapping_category">Gombok újrakiosztása</string>
+    <string name="lbl_unknown_key">Ismeretlen (%1s)</string>
 </resources>
