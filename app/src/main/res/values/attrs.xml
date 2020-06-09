@@ -17,4 +17,7 @@
             <enum name="critics" value="1" />
         </attr>
     </declare-styleable>
+    <declare-styleable name="FullHeightView">
+        <attr name="forced" format="boolean" />
+    </declare-styleable>
 </resources>
