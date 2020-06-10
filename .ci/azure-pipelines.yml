@@ -1,4 +1,8 @@
+variables:
+- group: 'jellyfin'
+
 trigger:
+  batch: true
   branches:
     include:
     - master
@@ -12,15 +16,123 @@ pr:
     include:
     - '*'
 
-pool:
-  vmImage: 'ubuntu-latest'
+jobs:
+- job: Test
+  displayName: 'Test'
 
-steps:
-- task: Gradle@2
-  inputs:
-    gradleWrapperFile: 'gradlew'
-    tasks: 'build'
-    publishJUnitResults: true
-    testResultsFiles: '**/TEST-*.xml'
-    javaHomeOption: 'JDKVersion'
-    sonarQubeRunAnalysis: false
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - task: Gradle@2
+    displayName: 'Run Tests'
+    inputs:
+      gradleWrapperFile: 'gradlew'
+      tasks: 'test'
+      publishJUnitResults: true
+      testResultsFiles: '**/TEST-*.xml'
+      javaHomeOption: 'JDKVersion'
+      sonarQubeRunAnalysis: false
+
+- job: Build
+  displayName: 'Build'
+
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - task: Gradle@2
+    displayName: 'Build Debug'
+    inputs:
+      gradleWrapperFile: 'gradlew'
+      tasks: 'assembleDebug'
+      publishJUnitResults: false
+      testResultsFiles: '**/TEST-*.xml'
+      javaHomeOption: 'JDKVersion'
+      sonarQubeRunAnalysis: false
+
+  - task: Gradle@2
+    displayName: 'Build Release'
+    inputs:
+      gradleWrapperFile: 'gradlew'
+      tasks: 'assembleRelease'
+      publishJUnitResults: false
+      testResultsFiles: '**/TEST-*.xml'
+      javaHomeOption: 'JDKVersion'
+      sonarQubeRunAnalysis: false
+
+  - task: CopyFiles@2
+    displayName: 'Copy APKs'
+    inputs:
+      SourceFolder: 'app/build/outputs/apk/'
+      Contents: '**/*.apk'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      flattenFolders: true
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish APKs'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'jellyfin-androidtv'
+      publishLocation: 'Container'
+
+- job: Publish
+  displayName: 'Publish'
+
+  dependsOn: Build
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
+
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - script: 'echo "##vso[task.setvariable variable=TAG]$(git describe --tags)"'
+    displayName: 'Set Tag Variable'
+
+  - task: DownloadPipelineArtifact@2
+    displayName: 'Download APKs'
+    inputs:
+      source: 'current'
+      artifact: 'jellyfin-androidtv'
+      path: '$(System.ArtifactsDirectory)'
+      runVersion: 'latest'
+
+  - task: DownloadSecureFile@1
+    displayName: 'Download KeyStore'
+    name: 'KeyStore'
+    inputs:
+      secureFile: 'keystore'
+
+  - script: '$(find / -name apksigner -print -quit) sign --ks ${KEYSTORE_SECUREFILEPATH} --ks-pass pass:${PASSWORD} --out ${SYSTEM_ARTIFACTSDIRECTORY}/jellyfin-androidtv_release_${TAG}.apk ${SYSTEM_ARTIFACTSDIRECTORY}/jellyfin-androidtv_release-unsigned_${TAG}.apk'
+    displayName: 'Sign Release APK'
+    env:
+      PASSWORD: $(KeyStorePassword)
+
+  - task: DeleteFiles@1
+    displayName: 'Remove Unsigned APK'
+    inputs:
+      sourceFolder: '$(System.ArtifactsDirectory)'
+      contents: 'jellyfin-androidtv_release-unsigned_$(TAG).apk'
+
+  - task: GithubRelease@0
+    displayName: 'GitHub Upload'
+    inputs:
+      gitHubConnection: Jellyfin Release Download
+      repositoryName: jellyfin/jellyfin-androidtv
+      assets: '$(System.ArtifactsDirectory)/*.apk'
+      action: 'edit'
+      assetUploadMode: 'replace'
+      tag: '$(TAG)'
+
+  - task: CopyFilesOverSSH@0
+    inputs:
+      sshEndpoint: repository
+      sourceFolder: '$(System.ArtifactsDirectory)'
+      contents: '**'
+      targetFolder: '/srv/repository/releases/client/androidtv/versions/$(TAG)'
+
+  - task: SSH@0
+    inputs:
+      sshEndpoint: repository
+      runOptions: 'inline'
+      inline: 'cd /srv/repository/releases/client/androidtv && rm -rf *.apk && ln -s versions/$(TAG)/jellyfin-androidtv_*_$(TAG).apk .'
