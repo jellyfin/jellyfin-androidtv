@@ -34,6 +34,25 @@ jobs:
       javaHomeOption: 'JDKVersion'
       sonarQubeRunAnalysis: false
 
+- job: sonarqube
+  displayName: 'Sonarqube'
+
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - task: SonarCloudPrepare@1
+    displayName: 'Prepare analysis on SonarCloud'
+    inputs:
+      SonarCloud: 'Sonarcloud for Jellyfin'
+      organization: 'jellyfin'
+      projectKey: 'jellyfin_androidtv'
+  - task: Gradle@2
+    displayName: 'Run Sonarqube gradle task'
+    inputs:
+      tasks: 'sonarqube'
+      sonarQubeRunAnalysis: true
+
 - job: Build
   displayName: 'Build'
 
