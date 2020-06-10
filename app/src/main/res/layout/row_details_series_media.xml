@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.jellyfin.androidtv.ui.FullHeightView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    app:forced="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/season_list"
+            android:layout_width="200dp"
+            android:layout_height="500dp"
+            android:layout_marginStart="48dp"
+            android:paddingTop="27dp"
+            android:paddingBottom="27dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/row_details_series_media_button" />
+
+        <ImageView
+            android:id="@+id/poster"
+            android:layout_width="116dp"
+            android:layout_height="174dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="27dp"
+            android:scaleType="centerInside"
+            app:layout_constraintStart_toEndOf="@id/season_list"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/banner_movie" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/season_container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="48dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/season_list"
+            app:layout_constraintTop_toBottomOf="@id/poster"
+            tools:listitem="@layout/row_details_series_media_item" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</org.jellyfin.androidtv.ui.FullHeightView>

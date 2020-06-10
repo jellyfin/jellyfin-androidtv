@@ -91,6 +91,8 @@ class Series(original: BaseItemDto) : BaseItem(original), Ratable {
 	override val criticsRating: Float? = original.criticRating
 }
 
+class Season(original: BaseItemDto) : BaseItem(original)
+
 class LocalTrailer(original: BaseItemDto) : PlayableItem(original)
 
 class Video(original: BaseItemDto) : PlayableItem(original)

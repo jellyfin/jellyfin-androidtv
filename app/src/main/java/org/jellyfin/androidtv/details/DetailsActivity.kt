@@ -42,6 +42,7 @@ class DetailsActivity : FragmentActivity() {
 			fragment = when (item) {
 				// TV/Movie
 				is Series -> SeriesDetailsFragment(item)
+				is Season -> TODO("Season details are not yet implemented")
 				is Movie -> MovieDetailsFragment(item)
 				is Episode -> EpisodeDetailsFragment(item)
 				is Video -> TODO("Video details are not yet implemented")

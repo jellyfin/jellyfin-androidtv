@@ -20,7 +20,7 @@ fun BaseItemDto.liftToNewFormat(): BaseItem {
 
 		// TV
 		BaseItemType.Series -> Series(this)
-		BaseItemType.Season -> Series(this)
+		BaseItemType.Season -> Season(this)
 		BaseItemType.Episode -> Episode(this)
 
 		// Video, like making-ofs and interviews

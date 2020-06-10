@@ -166,6 +166,25 @@ suspend fun ApiClient.getAlbumsForArtists(artists: Array<String>): List<Album>? 
 		}
 	})
 }
+
+suspend fun ApiClient.getSeasonsForSeries(series: Series): List<Season>? = suspendCoroutine { continuation ->
+	val query = SeasonQuery().apply {
+		fields = FIELDS_REQUIRED_FOR_LIFT
+		userId = currentUserId
+		seriesId = series.id
+	}
+
+	GetSeasonsAsync(query, object : Response<ItemsResult>() {
+		override fun onResponse(response: ItemsResult?) {
+			continuation.resume(response?.items?.map { it.liftToNewFormat() as Season }?.toList())
+		}
+
+		override fun onError(exception: Exception?) {
+			continuation.resume(null)
+		}
+	})
+}
+
 suspend fun ApiClient.getSongsForAlbum(albumId: String): List<Audio>? = suspendCoroutine { continuation ->
 	val query = ItemQuery().apply {
 		fields = FIELDS_REQUIRED_FOR_LIFT
