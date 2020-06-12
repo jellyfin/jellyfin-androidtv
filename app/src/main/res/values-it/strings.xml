@@ -165,7 +165,7 @@
     <string name="lbl_item">Elemento</string>
     <string name="lbl_items">Elementi</string>
     <string name="lbl_record_series">Registra serie</string>
-    <string name="lbl_cancel_series">Cancella serie</string>
+    <string name="lbl_cancel_series">Annulla Serie</string>
     <string name="lbl_cancel_recording">Cancella registrazione</string>
     <string name="lbl_search">Cerca</string>
     <string name="lbl_status">%s/%s</string>
