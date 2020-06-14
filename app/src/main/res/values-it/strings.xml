@@ -77,7 +77,7 @@
     <string name="lbl_people">Persone</string>
     <string name="lbl_none">Nessuno</string>
     <string name="msg_video_playback_error">"Errore di riproduzione video - "</string>
-    <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>
+    <string name="lbl_bracket_unknown">&lt;Sconosciuto&gt;</string>
     <string name="msg_access_restricted">Accesso ristretto in questo momento</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_please_wait">Prego attendere</string>
