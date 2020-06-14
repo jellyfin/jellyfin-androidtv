@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="video_error_unknown_error">Caricamento video fallito</string>
     <string name="txt_loading">Caricamento…</string>
-    <string name="title_activity_select_user">Schermata di selezione dell\'utente</string>
+    <string name="title_activity_select_user">Schermata di selezione utente</string>
     <string name="home_title">Home</string>
     <string name="btn_cancel">Annulla</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
@@ -16,7 +16,7 @@
     <string name="title_activity_dpad_pw">Inserisci Password</string>
     <string name="enter_password">Inserisci Password</string>
     <string name="dpad_entry_desc">Usa il D-Pad sul tuo telecomando per inserira una password numerica. Un click singolo per il primo numero in lista o doppio per il secondo. Es. : Click singolo con \"su\" per l\'1 o doppio click con \"seleziona\" per il 5. Tieni premuto per un secondo il tasto \"seleziona\" e poi rilascialo per concludere o il tasto \"sinistra\" per ricominciare.</string>
-    <string name="dpad_pw_cancel">* Tieni premuto il tasto \"giù\" per un secondo e poi rilascialo se hai una password alpha o se hai bisogno una tastiera per l\'immissione</string>
+    <string name="dpad_pw_cancel">* Tieni premuto il tasto \"giù\" per 1 secondo e poi rilascialo se hai una password alpha o se hai bisogno una tastiera per l\'immissione</string>
     <string name="chapters">Capitoli</string>
     <string name="pref_general">Generale</string>
     <string name="lbl_settings">Impostazioni</string>
@@ -51,7 +51,7 @@
     <string name="lbl_cancel">Annulla</string>
     <string name="lbl_record">Registra</string>
     <string name="msg_set_to_record">Programma da registrare</string>
-    <string name="msg_unable_to_create_recording">Impossibile creare la registrazione</string>
+    <string name="msg_unable_to_create_recording">Impossibile iniziare la registrazione</string>
     <string name="msg_recording_cancelled">Registrazione Annullata</string>
     <string name="msg_unable_to_cancel">Impossibile annullare la registrazione</string>
     <string name="lbl_cast_crew">Cast &amp; Crew</string>
@@ -165,7 +165,7 @@
     <string name="lbl_item">Elemento</string>
     <string name="lbl_items">Elementi</string>
     <string name="lbl_record_series">Registra serie</string>
-    <string name="lbl_cancel_series">Annulla Serie</string>
+    <string name="lbl_cancel_series">Elimina Serie</string>
     <string name="lbl_cancel_recording">Cancella registrazione</string>
     <string name="lbl_search">Cerca</string>
     <string name="lbl_status">%s/%s</string>
@@ -227,7 +227,7 @@
     <string name="msg_error_signin">Si è verificato un errore loggando con le proprie credenziali salvate.</string>
     <string name="msg_error_server_version">Versione del server non supportata. La versione del server deve essere %1$s o superiore.</string>
     <string name="lbl_play_trailers">Riproduci Trailers</string>
-    <string name="pref_alt_pw_entry">Password per pad direzionale personalizzata</string>
+    <string name="pref_alt_pw_entry">Password personalizzata per pad direzionale</string>
     <string name="pref_authentication_cat">Autenticazione</string>
     <string name="lbl_up_next_colon">"Prossima: "</string>
     <string name="msg_reshuffle_audio_queue">Metti in casuale l\'attuale coda audio\?</string>
@@ -271,7 +271,7 @@
     <string name="pref_live_tv_mode">Modalità TV in diretta</string>
     <string name="lbl_select_date">Seleziona data</string>
     <string name="lbl_in_x_days">Tra %d giorni</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS Audio</string>
+    <string name="lbl_bitstream_dts">Audio DTS</string>
     <string name="desc_premieres">Mostra una fila di nuovi episodi per ogni serie che stai guardando</string>
     <string name="lbl_on_schedule">In programmazione</string>
     <string name="lbl_hours">Ore</string>
@@ -368,4 +368,6 @@
     <string name="pref_button_remapping_description">Premi un tasto del telecomando per assegnarlo</string>
     <string name="lbl_unknown_key">Chiave Sconosciuta (%1s)</string>
     <string name="pref_button_remapping_category">Rimappatura dei pulsanti</string>
+    <string name="pref_subtitle_track_button">Sottotitoli</string>
+    <string name="pref_audio_track_button">Traccia audio</string>
 </resources>
