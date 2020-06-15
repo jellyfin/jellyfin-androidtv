@@ -364,4 +364,10 @@
     <string name="grid_direction_horizontal">Orizontală</string>
     <string name="grid_direction">Direcţie grilă</string>
     <string name="pref_device_model">Model de dispozitiv</string>
+    <string name="lbl_Reset">Reset</string>
+    <string name="pref_button_remapping_description">Apăsați orice buton de pe telecomandă TV pentru alocarea acestuia</string>
+    <string name="pref_subtitle_track_button">Buton pentru subtitrare</string>
+    <string name="pref_audio_track_button">Buton pentru calea audio</string>
+    <string name="pref_button_remapping_category">Buton de rearanjare</string>
+    <string name="lbl_unknown_key">Necunoscut (%1s)</string>
 </resources>
