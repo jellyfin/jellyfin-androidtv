@@ -1,2 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="pref_alt_pw_entry">Въвеждане на парола чрез контролер</string>
+    <string name="pref_prompt_pw">Подкана за парола</string>
+    <string name="pref_authentication_cat">Идентификация</string>
+    <string name="settings_title">Настройки</string>
+    <string name="pref_auto_login">Автоматично вписване ,като този потребител</string>
+    <string name="pref_max_bitrate_title">Максимален битрейт на потока</string>
+    <string name="pref_playback">Възпроизвеждане</string>
+    <string name="pref_show_login">Покажи екрана за вход</string>
+    <string name="pref_login_behavior_title">Поведение при стартиране</string>
+    <string name="byletter_letters">АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЬЮЯ</string>
+    <string name="btn_cancel">Отмени</string>
+    <string name="home_title">Главна</string>
+    <string name="title_activity_select_user">Изберете дейност на потребителя</string>
+    <string name="txt_loading">Зареждане…</string>
+    <string name="loading">Зареждане…</string>
+    <string name="video_error_unknown_error">Проблем при зареждането на видеото</string>
+    <string name="play">Пусни</string>
+</resources>
