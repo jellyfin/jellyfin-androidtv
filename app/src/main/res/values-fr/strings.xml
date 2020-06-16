@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="video_error_unknown_error">Échec de chargement de la vidéo</string>
-    <string name="txt_loading">Chargement…</string>
+    <string name="video_error_unknown_error">Échec du chargement de la vidéo</string>
+    <string name="txt_loading">Chargement …</string>
     <string name="title_activity_select_user">Sélection du compte utilisateur</string>
     <string name="home_title">Accueil</string>
     <string name="btn_cancel">Annuler</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_login_behavior_title">Démarrage</string>
-    <string name="pref_show_login">Écran de connexion</string>
+    <string name="pref_show_login">Afficher l\'écran de connexion</string>
     <string name="pref_playback">Lecture</string>
     <string name="pref_max_bitrate_title">Débit max de streaming</string>
     <string name="pref_auto_login">Se connecter automatiquement avec cet utilisateur</string>
     <string name="settings_title">Paramètres</string>
     <string name="pref_prompt_pw">Demander le mot de passe</string>
-    <string name="pref_alt_pw_entry">Utiliser la technique du mot de passe numérique d-pad</string>
-    <string name="pref_alt_pw_entry_desc">Active la saisie des mots de passe numérique avec les touches d-pad sans montrer le mot de passe à tout le monde dans la pièce</string>
+    <string name="pref_alt_pw_entry">Utiliser un code PIN personnalisé</string>
+    <string name="pref_alt_pw_entry_desc">Saisie personnalisée du mot de passe D-Pad Saisie du mot de passe numérique en utilisant uniquement les touches du D-Pad</string>
     <string name="title_activity_dpad_pw">Entrer le mot de passe</string>
     <string name="enter_password">Entrer le mot de passe</string>
-    <string name="dpad_entry_desc">Utilisez le bouton multidirectionnel de votre télécommande pour entrer un mot de passe numérique. Un simple clic sur un bouton sélectionne le premier chiffre ; un double-clic sélectionne le second. Exemples : un simple clic sur le bouton vers le haut sélectionne \'1\', un double-clic sélectionne \'5\'. Maintenez appuyé pendant 1 seconde puis relâchez le bouton \'select\' quand vous avez terminé, ou le bouton de gauche pour recommencer.</string>
+    <string name="dpad_entry_desc">Utilisez le bouton multidirectionnel de votre télécommande pour entrer un mot de passe numérique. Un simple clic sur un bouton sélectionne le premier chiffre de la liste ; un double-clic sélectionne le second. Exemples : un simple clic sur le bouton vers le haut sélectionne \'1\', un double-clic sélectionne \'5\'. Maintenez appuyé pendant 1 seconde puis relâchez le bouton \'select\' quand vous avez terminé, ou le bouton de gauche pour recommencer.</string>
     <string name="dpad_pw_cancel">* Maintenez appuyé pendant 1 seconde sur le bouton \'bas\' puis relâchez si vous avez un mot de passe alphanumérique ou si vous avez besoin d\'un clavier</string>
     <string name="chapters">Chapitres</string>
     <string name="pref_general">Général</string>
@@ -250,7 +250,7 @@
     <string name="lbl_use_vlc_livetv">Utiliser VLC pour la télévision en direct</string>
     <string name="lbl_vertical_stretch">Étirement vertical</string>
     <string name="lbl_zoom">Zoom</string>
-    <string name="loading">Chargement…</string>
+    <string name="loading">Chargement …</string>
     <string name="msg_audio_warning">Cette application a la possibilité de lire le flux de certains formats audio multi-canaux. Si votre matériel ne prend pas en charge ces formats, vous pouvez n\'entendre aucun son lors de la lecture de certains éléments. Si cela se produit, réglez le mode audio à «Downmix» dans les paramètres de lecture de l\'application.</string>
     <string name="play">Lire</string>
     <string name="lbl_at_any_time">tout le temps</string>
@@ -308,7 +308,7 @@
     <string name="msg_external_path">Cette fonction ne fonctionnera que si vous avez correctement configuré votre médiathèque sur le serveur avec des chemins d\'accès réseau ou des substitutions de chemins et que le client que vous utilisez peut accéder directement à ces emplacements via le réseau.</string>
     <string name="lbl_latest_tv_shows">Dernières séries TV</string>
     <string name="desc_suggestions_holiday">Essayer certaines de nos suggestions pour les fêtes</string>
-    <string name="title_suggestions_holiday">Bonnes vacances!</string>
+    <string name="title_suggestions_holiday">Bonnes vacances !</string>
     <string name="lbl_suggestions_holiday">Suggestions pour Noël</string>
     <string name="desc_suggestions_halloween">Essayez quelques-unes de nos suggestions effrayantes</string>
     <string name="title_suggestions_halloween">Joyeux Halloween !</string>
