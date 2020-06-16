@@ -17,4 +17,7 @@
     <string name="loading">Зареждане…</string>
     <string name="video_error_unknown_error">Проблем при зареждането на видеото</string>
     <string name="play">Пусни</string>
+    <string name="enter_password">Въведи парола</string>
+    <string name="title_activity_dpad_pw">Въведи парола</string>
+    <string name="pref_alt_pw_entry_desc">Въвеждане на цифрова парола посредством контролер</string>
 </resources>
