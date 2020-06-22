@@ -6,15 +6,15 @@
     <string name="home_title">Accueil</string>
     <string name="btn_cancel">Annuler</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
-    <string name="pref_login_behavior_title">Démarrage</string>
+    <string name="pref_login_behavior_title">Comportement de démarrage</string>
     <string name="pref_show_login">Afficher l\'écran de connexion</string>
     <string name="pref_playback">Lecture</string>
     <string name="pref_max_bitrate_title">Débit max de streaming</string>
     <string name="pref_auto_login">Se connecter automatiquement avec cet utilisateur</string>
     <string name="settings_title">Paramètres</string>
     <string name="pref_prompt_pw">Demander le mot de passe</string>
-    <string name="pref_alt_pw_entry">Utiliser un code PIN personnalisé</string>
-    <string name="pref_alt_pw_entry_desc">Saisie personnalisée du mot de passe D-Pad Saisie du mot de passe numérique en utilisant uniquement les touches du D-Pad</string>
+    <string name="pref_alt_pw_entry">Utiliser un code D-PAD personnalisé</string>
+    <string name="pref_alt_pw_entry_desc">Saisie du mot de passe numérique en utilisant uniquement les touches du D-Pad</string>
     <string name="title_activity_dpad_pw">Entrer le mot de passe</string>
     <string name="enter_password">Entrer le mot de passe</string>
     <string name="dpad_entry_desc">Utilisez le bouton multidirectionnel de votre télécommande pour entrer un mot de passe numérique. Un simple clic sur un bouton sélectionne le premier chiffre de la liste ; un double-clic sélectionne le second. Exemples : un simple clic sur le bouton vers le haut sélectionne \'1\', un double-clic sélectionne \'5\'. Maintenez appuyé pendant 1 seconde puis relâchez le bouton \'select\' quand vous avez terminé, ou le bouton de gauche pour recommencer.</string>
@@ -313,7 +313,7 @@
     <string name="desc_suggestions_halloween">Essayez quelques-unes de nos suggestions effrayantes</string>
     <string name="title_suggestions_halloween">Joyeux Halloween !</string>
     <string name="lbl_suggestions_halloween">Suggestions effrayantes</string>
-    <string name="lbl_favorite">Favori</string>
+    <string name="lbl_favorite">Préféré</string>
     <string name="lbl_image_size">Taille d\'image</string>
     <string name="lbl_image_type">Type d\'image</string>
     <string name="lbl_default_view">Vue par défaut</string>
