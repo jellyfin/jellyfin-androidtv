@@ -192,7 +192,7 @@
     <string name="sum_enable_cinema_mode">Hvis aktiveret på serveren, så vises intros og og previews før filmafspilning</string>
     <string name="lbl_enable_cinema_mode">Biograftilstand</string>
     <string name="lbl_episodes">Episoder</string>
-    <string name="lbl_albums">Albums</string>
+    <string name="lbl_albums">Album</string>
     <string name="lbl_album">Album</string>
     <string name="lbl_songs">Sange</string>
     <string name="lbl_song">Sang</string>
@@ -301,7 +301,7 @@
     <string name="lbl_sports">Sport</string>
     <string name="no_program_data">&lt;Ingen Program Data Tilgængelig&gt;</string>
     <string name="msg_record_entire_series">Vil du optage hele serien\?</string>
-    <string name="lbl_just_this_once">Kun én gang</string>
+    <string name="lbl_just_this_once">Kun denne gang</string>
     <string name="pref_acra_category">Rapportering om fejl og nedbrud</string>
     <string name="lbl_premieres">Premierer</string>
     <string name="lbl_new_episodes">Nye Episoder</string>
@@ -361,4 +361,13 @@
     <string name="pref_theme_dark">Mørkt (Standard)</string>
     <string name="pref_theme_emerald">Klassisk smaragd</string>
     <string name="lbl_audio_delay">Lydforsinkelse</string>
+    <string name="lbl_Reset">Reset</string>
+    <string name="pref_button_remapping_description">Tryk på én knap på fjernbetjeningen for at bruge den</string>
+    <string name="pref_subtitle_track_button">Undertekster knap</string>
+    <string name="pref_audio_track_button">Lydspor knap</string>
+    <string name="pref_button_remapping_category">Omkonfigurér Knap</string>
+    <string name="lbl_unknown_key">Ukendt (%1s)</string>
+    <string name="grid_direction_vertical">Vertikal (Eksperimentel)</string>
+    <string name="grid_direction_horizontal">Horisontal</string>
+    <string name="pref_device_model">Enhedsmodel</string>
 </resources>
