@@ -364,4 +364,10 @@
     <string name="grid_direction_vertical">纵向（试验性功能）</string>
     <string name="grid_direction_horizontal">横向</string>
     <string name="grid_direction">网格排列方向</string>
+    <string name="lbl_Reset">重置</string>
+    <string name="pref_button_remapping_description">按电视遥控器上的任何按钮进行分配</string>
+    <string name="pref_subtitle_track_button">字幕选择按键</string>
+    <string name="pref_audio_track_button">音轨按键</string>
+    <string name="pref_button_remapping_category">按键映射</string>
+    <string name="lbl_unknown_key">未知</string>
 </resources>
