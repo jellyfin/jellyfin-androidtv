@@ -30,6 +30,7 @@ import org.jellyfin.androidtv.model.ChapterItemInfo;
 import org.jellyfin.androidtv.model.InfoItem;
 import org.jellyfin.androidtv.model.repository.SerializerRepository;
 import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.CustomListRowPresenter;
 import org.jellyfin.androidtv.presentation.InfoCardPresenter;
@@ -702,7 +703,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     private void addInfoRows(ArrayObjectAdapter adapter) {
-        if (TvApp.getApplication().getUserPreferences().getDebuggingEnabled() && mBaseItem.getMediaSources() != null) {
+        if (TvApp.getApplication().getUserPreferences().get(UserPreferences.Companion.getDebuggingEnabled()) && mBaseItem.getMediaSources() != null) {
             for (MediaSourceInfo ms : mBaseItem.getMediaSources()) {
                 if (ms.getMediaStreams() != null && ms.getMediaStreams().size() > 0) {
                     HeaderItem header = new HeaderItem("Media Details"+(ms.getContainer() != null ? " (" +ms.getContainer()+")" : ""));

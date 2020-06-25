@@ -3,14 +3,12 @@ package org.jellyfin.androidtv.base
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import android.util.Log
-import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.preferences.UserPreferences
 import org.jellyfin.androidtv.preferences.enums.AppTheme
 import org.jellyfin.androidtv.preferences.ui.PreferencesActivity
 import org.jellyfin.androidtv.presentation.ThemeManager
-
-private const val LOG_TAG = "AppThemeCallbacks"
+import timber.log.Timber
 
 class AppThemeCallbacks : Application.ActivityLifecycleCallbacks {
 	private var lastTheme: AppTheme? = null
@@ -32,8 +30,8 @@ class AppThemeCallbacks : Application.ActivityLifecycleCallbacks {
 	}
 
 	override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-		TvApp.getApplication().userPreferences.appTheme.let {
-			Log.i(LOG_TAG, "Applying theme: $it")
+		TvApp.getApplication().userPreferences[UserPreferences.appTheme].let {
+			Timber.i("Applying theme: %s", it)
 			activity.setTheme(ThemeManager.getTheme(activity, it))
 			when (activity) {
 				is PreferencesActivity -> lastPreferencesTheme = it
@@ -44,9 +42,9 @@ class AppThemeCallbacks : Application.ActivityLifecycleCallbacks {
 
 	override fun onActivityResumed(activity: Activity) {
 		val lastThemeForActivity = if (activity is PreferencesActivity) lastPreferencesTheme else lastTheme
-		TvApp.getApplication().userPreferences.appTheme.let {
+		TvApp.getApplication().userPreferences[UserPreferences.appTheme].let {
 			if (lastThemeForActivity != null && lastThemeForActivity != it) {
-				Log.i(LOG_TAG, "Recreating activity to apply new theme: $lastThemeForActivity -> $it")
+				Timber.i("Recreating activity to apply new theme: %s -> %s", lastThemeForActivity, it)
 				activity.recreate()
 			}
 		}

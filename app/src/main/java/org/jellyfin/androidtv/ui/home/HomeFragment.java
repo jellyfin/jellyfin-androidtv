@@ -22,6 +22,8 @@ import org.jellyfin.androidtv.model.ChangeTriggerType;
 import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.playback.AudioEventListener;
 import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.preferences.SystemPreferences;
+import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.androidtv.preferences.enums.AudioBehavior;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
@@ -51,7 +53,6 @@ import java.util.regex.Pattern;
 
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.ListRow;
-
 import timber.log.Timber;
 
 public class HomeFragment extends StdBrowseFragment {
@@ -101,8 +102,8 @@ public class HomeFragment extends StdBrowseFragment {
         TvApp.getApplication().determineAutoBitrate();
 
         //First time audio message
-        if (!mApplication.getSystemPreferences().getAudioWarned()) {
-            mApplication.getSystemPreferences().setAudioWarned(true);
+        if (!mApplication.getSystemPreferences().get(SystemPreferences.Companion.getAudioWarned())) {
+            mApplication.getSystemPreferences().set(SystemPreferences.Companion.getAudioWarned(), true);
 
             new AlertDialog.Builder(mActivity)
                     .setTitle(mApplication.getString(R.string.lbl_audio_capabilitites))
@@ -111,7 +112,7 @@ public class HomeFragment extends StdBrowseFragment {
                     .setNegativeButton(mApplication.getString(R.string.btn_set_compatible_audio), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            mApplication.getUserPreferences().setAudioBehaviour(AudioBehavior.DOWNMIX_TO_STEREO);
+                            mApplication.getUserPreferences().set(UserPreferences.Companion.getAudioBehaviour(), AudioBehavior.DOWNMIX_TO_STEREO);
                         }
                     })
                     .setCancelable(false)
@@ -133,7 +134,7 @@ public class HomeFragment extends StdBrowseFragment {
             }
         });
 
-        if (mApplication.getUserPreferences().getLiveTvMode()) {
+        if (mApplication.getUserPreferences().get(UserPreferences.Companion.getLiveTvMode())) {
             // Open guide activity and tell it to start last channel
             Intent guide = new Intent(getActivity(), LiveTvGuideActivity.class);
             guide.putExtra("loadLast", true);

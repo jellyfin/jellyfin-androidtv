@@ -4,6 +4,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.model.ChangeTriggerType;
+import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.androidtv.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.querying.QueryType;
 import org.jellyfin.androidtv.querying.StdItemQuery;
@@ -37,7 +38,6 @@ import java.util.List;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
-
 import timber.log.Timber;
 
 public class BrowseViewFragment extends EnhancedBrowseFragment {
@@ -117,7 +117,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 mRows.add(new BrowseRowDef(mApplication.getResources().getString(R.string.lbl_next_up), nextUpQuery, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}));
 
                 //Premieres
-                if (mApplication.getUserPreferences().getPremieresEnabled()) {
+                if (mApplication.getUserPreferences().get(UserPreferences.Companion.getPremieresEnabled())) {
                     StdItemQuery newQuery = new StdItemQuery(new ItemFields[]{
                             ItemFields.DateCreated,
                             ItemFields.PrimaryImageAspectRatio,

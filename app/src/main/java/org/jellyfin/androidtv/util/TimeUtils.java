@@ -69,7 +69,7 @@ public class TimeUtils {
     public static String formatSeconds(int seconds) {
         // Seconds
         if (seconds < SECS_PER_MIN) {
-            return TvApp.getApplication().getString(R.string.lbl_seconds);
+            return seconds + " " + TvApp.getApplication().getString(R.string.lbl_seconds);
         }
 
         StringBuilder builder = new StringBuilder();

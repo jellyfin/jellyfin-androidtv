@@ -26,17 +26,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.BrowseSupportFragment;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.OnItemViewSelectedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
-
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.base.BaseActivity;
@@ -46,6 +35,7 @@ import org.jellyfin.androidtv.base.IMessageListener;
 import org.jellyfin.androidtv.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.querying.QueryType;
@@ -63,6 +53,16 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import androidx.leanback.app.BackgroundManager;
+import androidx.leanback.app.BrowseSupportFragment;
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.OnItemViewSelectedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
 import timber.log.Timber;
 
 public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoader {
@@ -125,7 +125,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
     public void onResume() {
         super.onResume();
 
-        ShowFanart = mApplication.getUserPreferences().getBackdropEnabled();
+        ShowFanart = mApplication.getUserPreferences().get(UserPreferences.Companion.getBackdropEnabled());
 
         //React to deletion
         if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(TvApp.getApplication().dataRefreshService.getLastDeletedItemId())) {

@@ -24,12 +24,12 @@ public class GuideFilters {
     public void load() {
         prefs = TvApp.getApplication().getSystemPreferences();
 
-        movies = prefs.getLiveTvGuideFilterMovies();
-        news = prefs.getLiveTvGuideFilterNews();
-        series = prefs.getLiveTvGuideFilterSeries();
-        kids = prefs.getLiveTvGuideFilterKids();
-        sports = prefs.getLiveTvGuideFilterSports();
-        premiere = prefs.getLiveTvGuideFilterPremiere();
+        movies = prefs.get(SystemPreferences.Companion.getLiveTvGuideFilterMovies());
+        news = prefs.get(SystemPreferences.Companion.getLiveTvGuideFilterNews());
+        series = prefs.get(SystemPreferences.Companion.getLiveTvGuideFilterSeries());
+        kids = prefs.get(SystemPreferences.Companion.getLiveTvGuideFilterKids());
+        sports = prefs.get(SystemPreferences.Companion.getLiveTvGuideFilterSports());
+        premiere = prefs.get(SystemPreferences.Companion.getLiveTvGuideFilterPremiere());
     }
 
     public boolean any() { return movies || news || series || kids || sports || premiere; }
@@ -82,7 +82,7 @@ public class GuideFilters {
 
     public void setMovies(boolean movies) {
         this.movies = movies;
-        prefs.setLiveTvGuideFilterMovies(movies);
+        prefs.set(SystemPreferences.Companion.getLiveTvGuideFilterMovies(), movies);
     }
 
     public boolean isNews() {
@@ -91,7 +91,7 @@ public class GuideFilters {
 
     public void setNews(boolean news) {
         this.news = news;
-        prefs.setLiveTvGuideFilterNews(news);
+        prefs.set(SystemPreferences.Companion.getLiveTvGuideFilterNews(), news);
     }
 
     public boolean isSeries() {
@@ -100,7 +100,7 @@ public class GuideFilters {
 
     public void setSeries(boolean series) {
         this.series = series;
-        prefs.setLiveTvGuideFilterSeries(series);
+        prefs.set(SystemPreferences.Companion.getLiveTvGuideFilterSeries(), series);
     }
 
     public boolean isKids() {
@@ -109,7 +109,7 @@ public class GuideFilters {
 
     public void setKids(boolean kids) {
         this.kids = kids;
-        prefs.setLiveTvGuideFilterKids(kids);
+        prefs.set(SystemPreferences.Companion.getLiveTvGuideFilterKids(), kids);
     }
 
     public boolean isSports() {
@@ -118,7 +118,7 @@ public class GuideFilters {
 
     public void setSports(boolean sports) {
         this.sports = sports;
-        prefs.setLiveTvGuideFilterSports(sports);
+        prefs.set(SystemPreferences.Companion.getLiveTvGuideFilterSports(), sports);
     }
 
     public boolean isPremiere() {
@@ -127,7 +127,7 @@ public class GuideFilters {
 
     public void setPremiere(boolean premiere) {
         this.premiere = premiere;
-        prefs.setLiveTvGuideFilterPremiere(premiere);
+        prefs.set(SystemPreferences.Companion.getLiveTvGuideFilterPremiere(), premiere);
     }
 
 }

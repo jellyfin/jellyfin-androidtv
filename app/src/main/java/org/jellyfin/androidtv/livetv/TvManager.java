@@ -45,7 +45,6 @@ import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.Presenter;
-
 import timber.log.Timber;
 
 /**
@@ -65,19 +64,19 @@ public class TvManager {
     private static LiveTvPrefs prefs = new LiveTvPrefs();
 
     public static String getLastLiveTvChannel() {
-        return TvApp.getApplication().getSystemPreferences().getLiveTvLastChannel();
+        return TvApp.getApplication().getSystemPreferences().get(SystemPreferences.Companion.getLiveTvLastChannel());
     }
 
     public static void setLastLiveTvChannel(String id) {
         SystemPreferences systemPreferences = TvApp.getApplication().getSystemPreferences();
-        systemPreferences.setLiveTvPrevChannel(systemPreferences.getLiveTvLastChannel());
-        systemPreferences.setLiveTvLastChannel(id);
+        systemPreferences.set(SystemPreferences.Companion.getLiveTvPrevChannel(), systemPreferences.get(SystemPreferences.Companion.getLiveTvLastChannel()));
+        systemPreferences.set(SystemPreferences.Companion.getLiveTvLastChannel(), id);
         updateLastPlayedDate(id);
         sortChannels();
     }
 
     public static String getPrevLiveTvChannel() {
-        return TvApp.getApplication().getSystemPreferences().getLiveTvPrevChannel();
+        return TvApp.getApplication().getSystemPreferences().get(SystemPreferences.Companion.getLiveTvPrevChannel());
     }
 
     public static List<ChannelInfoDto> getAllChannels() {

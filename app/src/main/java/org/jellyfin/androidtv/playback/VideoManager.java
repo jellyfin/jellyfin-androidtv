@@ -26,6 +26,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
@@ -501,7 +502,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 //            options.add("--subsdec-encoding");
 //            options.add("Universal (UTF-8)");
             options.add("--audio-desync");
-            options.add(String.valueOf(TvApp.getApplication().getUserPreferences().getLibVLCAudioDelay()));
+            options.add(String.valueOf(TvApp.getApplication().getUserPreferences().get(UserPreferences.Companion.getLibVLCAudioDelay())));
             options.add("-v");
 
             mLibVLC = new LibVLC(TvApp.getApplication(), options);
