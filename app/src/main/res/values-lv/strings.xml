@@ -360,4 +360,13 @@
     <string name="pref_theme_dark">Tumšais (Noklusējums)</string>
     <string name="pref_theme_emerald">Klasiskais Smaragds</string>
     <string name="pref_app_theme">Lietotnes Tēma</string>
+    <string name="lbl_Reset">Atiestatīt</string>
+    <string name="pref_button_remapping_description">Nospied jebkuru pogu uz TV pults lai to pārkartētu</string>
+    <string name="pref_subtitle_track_button">Subtitru celiņa poga</string>
+    <string name="pref_audio_track_button">Audio celiņu poga</string>
+    <string name="pref_button_remapping_category">Pogu pārkartēšana</string>
+    <string name="lbl_unknown_key">Nezināms (%1s)</string>
+    <string name="grid_direction_vertical">Vertikāls (eksperimentāls)</string>
+    <string name="grid_direction_horizontal">Horizontāls</string>
+    <string name="pref_device_model">Ierīces Modelis</string>
 </resources>
