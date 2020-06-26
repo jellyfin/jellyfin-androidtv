@@ -370,4 +370,7 @@
     <string name="pref_audio_track_button">Tlačidlo zvukovej stopy</string>
     <string name="pref_button_remapping_category">Zmena mapovania kláves</string>
     <string name="lbl_unknown_key">Neznámy (%1s)</string>
+    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
+    <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
+    <string name="bitrate_auto">Automaticky</string>
 </resources>
