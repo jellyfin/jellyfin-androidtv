@@ -77,4 +77,8 @@
     <string name="lbl_upcoming">আসন্ন</string>
     <string name="lbl_seasons">সীজন</string>
     <string name="lbl_series">সিরিয়াল</string>
+    <string name="lbl_other_options">অন্যান্য অপশন</string>
+    <string name="lbl_select_server">সার্ভার নির্বাচন করুন</string>
+    <string name="lbl_last_played">"আগে দেখা হয়েছে "</string>
+    <string name="lbl_directed_by">পরিচালক</string>
 </resources>
