@@ -362,7 +362,7 @@
     <string name="pref_theme_emerald">Klassisk smaragd</string>
     <string name="lbl_audio_delay">Lydforsinkelse</string>
     <string name="lbl_Reset">Reset</string>
-    <string name="pref_button_remapping_description">Tryk på én knap på fjernbetjeningen for at bruge den</string>
+    <string name="pref_button_remapping_description">Tryk på én knap på fjernbetjeningen for at tildele den</string>
     <string name="pref_subtitle_track_button">Undertekster knap</string>
     <string name="pref_audio_track_button">Lydspor knap</string>
     <string name="pref_button_remapping_category">Omkonfigurér Knap</string>
@@ -370,4 +370,5 @@
     <string name="grid_direction_vertical">Vertikal (Eksperimentel)</string>
     <string name="grid_direction_horizontal">Horisontal</string>
     <string name="pref_device_model">Enhedsmodel</string>
+    <string name="grid_direction">Grid retning</string>
 </resources>
