@@ -9,7 +9,7 @@
     <string name="msg_unable_to_cancel">রেকর্ডিং বাতিল করতে অক্ষম</string>
     <string name="msg_recording_cancelled">রেকর্ডিং বাতিল হয়েছে</string>
     <string name="msg_unable_to_create_recording">রেকর্ডিং তৈরি করতে অক্ষম</string>
-    <string name="msg_set_to_record">প্রোগ্রাম রেকর্ড সেট</string>
+    <string name="msg_set_to_record">প্রোগ্রাম রেকর্ড করা হবে</string>
     <string name="lbl_record">রেকর্ড</string>
     <string name="lbl_record_series">সিরিস রেকর্ড করুন</string>
     <string name="lbl_cancel_series">সিরিজ বাতিল করুন</string>
@@ -70,4 +70,11 @@
     <string name="loading">লোড হচ্ছে …</string>
     <string name="video_error_unknown_error">ভিডিও লোড করতে ব্যর্থ</string>
     <string name="play">চালু</string>
+    <string name="lbl_min">" সর্বনিম্ন"</string>
+    <string name="lbl_sd">SD</string>
+    <string name="lbl_watched">দেখা হয়েছে</string>
+    <string name="lbl_favorite">প্রিয়</string>
+    <string name="lbl_upcoming">আসন্ন</string>
+    <string name="lbl_seasons">সীজন</string>
+    <string name="lbl_series">সিরিয়াল</string>
 </resources>
