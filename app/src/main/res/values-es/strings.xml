@@ -370,4 +370,5 @@
     <string name="pref_subtitle_track_button">Botón de pista de subtítulos</string>
     <string name="pref_button_remapping_category">Reasignar botones</string>
     <string name="lbl_unknown_key">Desconocido (%1s)</string>
+    <string name="bitrate_auto">Auto</string>
 </resources>
