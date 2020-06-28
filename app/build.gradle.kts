@@ -8,7 +8,7 @@ android {
 	compileSdkVersion(29)
 	// Explicitly specify ndk version for Azure
 	// Can be removed when version 4.1.x of the Android Gradle plugin is relased
-	ndkVersion = "21.2.6472646"
+	ndkVersion = "21.3.6528147"
 
 	defaultConfig {
 		// Android version targets
