@@ -370,4 +370,7 @@
     <string name="pref_audio_track_button">Buton pentru calea audio</string>
     <string name="pref_button_remapping_category">Buton de rearanjare</string>
     <string name="lbl_unknown_key">Necunoscut (%1s)</string>
+    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
+    <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
+    <string name="bitrate_auto">Auto</string>
 </resources>
