@@ -370,4 +370,7 @@
     <string name="grid_direction_horizontal">Horisontal</string>
     <string name="grid_direction">Rutenettretning</string>
     <string name="pref_device_model">Enhetsmodell</string>
+    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
+    <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
+    <string name="bitrate_auto">Automatisk</string>
 </resources>
