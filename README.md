@@ -43,7 +43,7 @@
 <a href="https://repo.jellyfin.org/releases/client/androidtv/">Download archive</a>
 </p>
 
-Jellyfin Android TV is a Jellyfin client for Android TV, nVidia Shield, and Amazon Fire TV devices. We welcome all contributions and pull requests! If you have a larger feature in mind please open an issue so we can discuss the implementation before you start. Translations can be improved very easily from our <a href="https://translate.jellyfin.org/projects/jellyfin/jellyfin-androidtv">Weblate</a> instance. Look through the following graphic to see if your native language could use some work!
+Jellyfin Android TV is a Jellyfin client for Android TV, Nvidia Shield, and Amazon Fire TV devices. We welcome all contributions and pull requests! If you have a larger feature in mind please open an issue so we can discuss the implementation before you start. Translations can be improved very easily from our <a href="https://translate.jellyfin.org/projects/jellyfin/jellyfin-androidtv">Weblate</a> instance. Look through the following graphic to see if your native language could use some work!
 
 <a href="https://translate.jellyfin.org/engage/jellyfin/?utm_source=widget">
 <img src="https://translate.jellyfin.org/widgets/jellyfin/-/jellyfin-androidtv/multi-auto.svg" alt="Detailed Translation Status"/>
