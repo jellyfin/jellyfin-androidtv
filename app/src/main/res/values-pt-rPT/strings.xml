@@ -252,7 +252,7 @@
     <string name="pref_about_title">Sobre</string>
     <string name="pref_video_player_external">App externa</string>
     <string name="pref_video_player_vlc">libVLC</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
+    <string name="pref_video_player_exoplayer">Reprodutor Externo (ExoPlayer)</string>
     <string name="pref_video_player_auto">Escolher automaticamente</string>
     <string name="lbl_my_media">Meu Conteúdo</string>
     <string name="acra_dialog_title">Oh Não! Algo inesperado aconteceu.</string>
@@ -314,7 +314,7 @@
     <string name="pref_live_tv_mode">Modo televisão em directo</string>
     <string name="lbl_select_date">Selecionar data</string>
     <string name="lbl_in_x_days">Em %d dias</string>
-    <string name="lbl_show_premieres">Mostrar Temporadas \'Premieres\' no Menu Incial</string>
+    <string name="lbl_show_premieres">Mostrar \'Estreias\' de temporada no Menu Incial</string>
     <string name="desc_use_vlc_livetv">Usar VLC para a reprodução de Televisão em Directo quando disponível</string>
     <string name="lbl_use_vlc_livetv">Pedir para usar o VLC para Televisão em Directo</string>
     <string name="lbl_open">Aberto</string>
@@ -324,4 +324,53 @@
     <string name="lbl_current_queue">Lista actual de espera</string>
     <string name="btn_set_compatible_audio">Defenir \'downmix\' agora</string>
     <string name="btn_got_it">Vamos a isto</string>
+    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
+    <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
+    <string name="bitrate_auto">Automático</string>
+    <string name="lbl_Reset">Reiniciar</string>
+    <string name="pref_button_remapping_description">Pressione qualquer botão no seu comando do Televisor para atribuí-lo</string>
+    <string name="pref_subtitle_track_button">Botão da Faixa da Legenda</string>
+    <string name="pref_audio_track_button">Botão de faixa de áudio</string>
+    <string name="pref_button_remapping_category">Remapeamento de botões</string>
+    <string name="lbl_unknown_key">Desconhecido (%1s)</string>
+    <string name="grid_direction_vertical">Vertical (em fase experimental)</string>
+    <string name="grid_direction_horizontal">Horizontal</string>
+    <string name="grid_direction">Direção da Grelha</string>
+    <string name="pref_device_model">Modelo do Dispositivo</string>
+    <string name="pref_app_theme">Tema da Aplicação</string>
+    <string name="pref_libvlc_audio_delay_title">Atraso de áudio padrão para libVLC</string>
+    <string name="pref_next_up_enabled_title">Ativar ecrã \"A Seguir\"</string>
+    <string name="pref_next_up_enabled_summary">Prevê o próximo item na fila antes de reproduzir</string>
+    <string name="pref_next_up_timeout_title">Duração da janela \"A seguir\"</string>
+    <string name="pref_theme_emerald">Esmeralda Clássica</string>
+    <string name="pref_theme_dark">Escuro (Padrão)</string>
+    <string name="lbl_colored_backgrounds">Fundos com Código de Cores</string>
+    <string name="lbl_premieres">Estreias</string>
+    <string name="desc_suggestions_holiday">Experimente algumas de nossas sugestões para as férias</string>
+    <string name="desc_suggestions_halloween">Experimente uma das nossas sugestões assustadoras</string>
+    <string name="title_suggestions_halloween">Feliz dia das Bruxas!</string>
+    <string name="lbl_suggestions_halloween">Sugestões Assustadoras</string>
+    <string name="acra_dialog_text">Gostaria de enviar um relatório de falha para os desenvolvedores\?
+\n
+\nEsta informação será submetida numa aplicação de terceiros (tracepot).
+\n
+\nEsse aviso pode ser desativado na secção de \"Relatórios de Falhas\" nas configurações do Jellyfin.</string>
+    <string name="pref_acra_syslog_enabled">Registos de sistema será incluídos nos relatórios de falhas</string>
+    <string name="pref_acra_syslog">Incluir registos de sistema nos relatórios de falha. Isto pode incluir dados privados de outras aplicações caso estejam ligados no momento de falha.</string>
+    <string name="pref_acra_alwaysaccept_disabled">Uma janela de confirmação surgirá antes de enviar qualquer tipo de relatório de falha</string>
+    <string name="pref_acra_alwaysaccept_enabled">Relatórios de Falha serão enviados sem solicitação</string>
+    <string name="pref_acra_enabled">Será solicitado o envio de relatórios de falhas</string>
+    <string name="pref_use_direct_path_summary">Enviar o local do sistema de arquivos ao invés da URL de streaming</string>
+    <string name="pref_use_direct_path_title">Enviar Local Direto para reprodutor externo</string>
+    <string name="pref_external_live_tv_summary">Necessita de uma aplicação com capacidade de reproduzir transmissões ao vivo</string>
+    <string name="lbl_resume_preroll">Continuar Lançamentos</string>
+    <string name="lbl_show_indicators">Mostrar Indicadores Para</string>
+    <string name="lbl_premiere">Estreia</string>
+    <string name="title_activity_expanded_text">AtividadedeTextoExpandida</string>
+    <string name="lbl_episode_not_record">Esta série NÃO gravará</string>
+    <string name="lbl_bitstream_dts">Bitstream do Áudio DTS</string>
+    <string name="desc_premieres">Mostrar uma lista de novos episódio para cada uma das séries visualizadas</string>
+    <string name="lbl_refresh_switching">Alteração da Taxa de Atualização (Refresh Rate)</string>
+    <string name="lbl_show_backdrop">Exibir Imagem de Fundo ao Navegar</string>
+    <string name="msg_external_path">Esta funcionalidade irá apenas funcionar se uma biblioteca já tiver sido corretamente configurada no servidor com pastas na \"rede\" ou localmente, e se o cliente utilizado conseguir aceder diretamente a esta localização através da rede.</string>
 </resources>
