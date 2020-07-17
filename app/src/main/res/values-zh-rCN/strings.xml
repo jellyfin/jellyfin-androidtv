@@ -370,4 +370,7 @@
     <string name="pref_audio_track_button">音轨按键</string>
     <string name="pref_button_remapping_category">按键映射</string>
     <string name="lbl_unknown_key">未知</string>
+    <string name="bitrate_kbit">%1$,.0f 千比特/秒</string>
+    <string name="bitrate_mbit">%1$,.0f 兆比特/秒</string>
+    <string name="bitrate_auto">自动码率</string>
 </resources>
