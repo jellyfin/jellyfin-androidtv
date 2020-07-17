@@ -319,11 +319,11 @@
     <string name="lbl_default_view">Standardansicht</string>
     <string name="lbl_start_favorites">Setze Favoriten zum Anfang</string>
     <string name="lbl_colored_backgrounds">Farbkodierte Hintergründe</string>
-    <string name="lbl_hd_programs">HD-Sendungen</string>
+    <string name="lbl_hd_programs">HD Programme</string>
     <string name="lbl_live_broadcasts">Live-Übertragungen</string>
     <string name="lbl_new_episodes">Neue Episoden</string>
     <string name="lbl_audio_delay">Audioverzögerung</string>
-    <string name="lbl_new_only">Nur Neue</string>
+    <string name="lbl_new_only">Nur Neues</string>
     <string name="lbl_news">Neuigkeiten</string>
     <string name="lbl_latest_tv_shows">Neueste Serien</string>
     <string name="title_activity_expanded_text">Erweiterte Text-Aktivität</string>
@@ -346,7 +346,7 @@
     <string name="pref_acra_alwaysaccept_disabled">Ein Abfragedialog wird vor dem Senden jeglicher Absturzberichte angezeigt</string>
     <string name="pref_acra_alwaysaccept_enabled">Absturzberichte werden ohne Abfrage gesendet</string>
     <string name="pref_acra_alwaysaccept">Sende Absturzberichte ohne Aufforderung</string>
-    <string name="pref_acra_enabled">Sie werden bei einem Absturz gefragt, ob Sie ihn melden möchten</string>
+    <string name="pref_acra_enabled">Du wirst aufgefordert einen Absturzbericht zu senden</string>
     <string name="pref_enable_acra">Absturzmeldungen an die Entwickler senden</string>
     <string name="lbl_my_media">Meine Medien</string>
     <string name="pref_about_title">Über diese App</string>
