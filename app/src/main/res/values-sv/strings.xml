@@ -364,4 +364,13 @@
     <string name="pref_device_model">Enhetens modell</string>
     <string name="grid_direction_vertical">Vertikal (experimentell)</string>
     <string name="grid_direction_horizontal">Horisontell</string>
+    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
+    <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
+    <string name="bitrate_auto">Automatisk</string>
+    <string name="lbl_Reset">Återställ</string>
+    <string name="pref_button_remapping_description">Tryck på valfri knapp på TV-fjärrkontrollen för att tilldela den</string>
+    <string name="pref_subtitle_track_button">Undertextknapp</string>
+    <string name="pref_audio_track_button">Ljudspårsknapp</string>
+    <string name="pref_button_remapping_category">Mappa om knappar</string>
+    <string name="lbl_unknown_key">Okänd (%1s)</string>
 </resources>
