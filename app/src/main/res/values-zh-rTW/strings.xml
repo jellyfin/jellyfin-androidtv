@@ -232,4 +232,10 @@
     <string name="msg_unable_to_create_recording">無法創建錄影</string>
     <string name="msg_set_to_record">將要錄製的節目</string>
     <string name="lbl_performers">藝術家</string>
+    <string name="lbl_end_padding">結尾緩衝</string>
+    <string name="lbl_begin_padding">開頭緩衝</string>
+    <string name="msg_will_record">即將錄像</string>
+    <string name="msg_recording_now">錄像中</string>
+    <string name="lbl_runs">運行</string>
+    <string name="dpad_entry_desc">使用遙控器上的十字形按鍵輸入數字密碼。 單擊按鈕以選中列出的第一個數字，雙擊按鈕來第二個數字。 例如，單擊“向上”為1、雙擊“選擇”為5。請按住“選擇”按鈕1秒來完成輸入，或者按住“向左”按鈕以重新開始。</string>
 </resources>
