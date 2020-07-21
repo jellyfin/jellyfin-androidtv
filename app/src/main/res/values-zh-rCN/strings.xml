@@ -136,7 +136,7 @@
     <string name="pref_authentication_cat">认证</string>
     <string name="loading">载入中…</string>
     <string name="desc_info_panel">显示包含当前项目详细信息的面板，但不显示详细信息</string>
-    <string name="lbl_all_items">所有物品</string>
+    <string name="lbl_all_items">所有项目</string>
     <string name="msg_cancel_entire_series">你确定要取消整个系列吗\?</string>
     <string name="lbl_resume_preroll">简介</string>
     <string name="lbl_new_premieres">新的首映</string>
