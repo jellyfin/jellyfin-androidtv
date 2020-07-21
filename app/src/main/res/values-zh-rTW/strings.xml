@@ -238,4 +238,22 @@
     <string name="msg_recording_now">錄像中</string>
     <string name="lbl_runs">運行</string>
     <string name="dpad_entry_desc">使用遙控器上的十字形按鍵輸入數字密碼。 單擊按鈕以選中列出的第一個數字，雙擊按鈕來第二個數字。 例如，單擊“向上”為1、雙擊“選擇”為5。請按住“選擇”按鈕1秒來完成輸入，或者按住“向左”按鈕以重新開始。</string>
+    <string name="lbl_display_preferences">顯示首選項</string>
+    <string name="btn_done">完成</string>
+    <string name="lbl_starting_with">以某人的名字開頭</string>
+    <string name="lbl_rating">評級</string>
+    <string name="lbl_critic_rating">評級</string>
+    <string name="lbl_premier_date">首映時間</string>
+    <string name="lbl_name">名字</string>
+    <string name="lbl_from">來自</string>
+    <string name="lbl_sorted_by">排序方式</string>
+    <string name="lbl_all_items">所有項目</string>
+    <string name="lbl_showing">顯示</string>
+    <string name="desc_info_panel">顯示包含當前項目詳細信息的面板，但不顯示詳細信息</string>
+    <string name="lbl_show_info_panel">顯示信息板</string>
+    <string name="lbl_on">正在</string>
+    <string name="lbl_record_series">錄影</string>
+    <string name="lbl_cancel_series">取消</string>
+    <string name="pref_audio_compat">混合立體聲</string>
+    <string name="pref_audio_direct">直接</string>
 </resources>
