@@ -105,6 +105,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             }
         }).build();
 
+
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
         mExoPlayerView.setPlayer(mExoPlayer);
         mExoPlayer.addListener(new Player.EventListener() {
@@ -437,16 +438,24 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public long getAudioDelay() { return mVlcPlayer != null ? mVlcPlayer.getAudioDelay() / 1000 : 0;}
 
     public void setCompatibleAudio() {
-         if (!nativeMode) {
-             mVlcPlayer.setAudioOutput("opensles_android");
-             mVlcPlayer.setAudioOutputDevice("hdmi");
-         }
+        if (!nativeMode) {
+            mVlcPlayer.setAudioOutput("opensles_android");
+            mVlcPlayer.setAudioOutputDevice("hdmi");
+        }
     }
 
     public void setAudioMode() {
         if (!nativeMode) {
-            mVlcPlayer.setAudioOutput(Utils.downMixAudio() ? "opensles_android" : "android_audiotrack");
-            mVlcPlayer.setAudioOutputDevice("hdmi");
+            setVlcAudioOptions();
+        }
+    }
+
+    private void setVlcAudioOptions() {
+
+        if(!Utils.downMixAudio()) {
+            mVlcPlayer.setAudioDigitalOutputEnabled(true);
+        } else {
+            mVlcPlayer.setAudioOutput("opensles_android");
         }
     }
 
@@ -502,8 +511,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             TvApp.getApplication().getLogger().Info("Network buffer set to %d", buffer);
 
             mVlcPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
-            mVlcPlayer.setAudioOutput(Utils.downMixAudio() ? "opensles_android" : "android_audiotrack");
-            mVlcPlayer.setAudioOutputDevice("hdmi");
+            setVlcAudioOptions();
 
 
             mSurfaceHolder.addCallback(mSurfaceCallback);
