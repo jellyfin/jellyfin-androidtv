@@ -458,9 +458,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private void setVlcAudioOptions() {
 
         if(!Utils.downMixAudio()) {
+            mVlcPlayer.setAudioOutput("android_audiotrack");
             mVlcPlayer.setAudioDigitalOutputEnabled(true);
         } else {
-            mVlcPlayer.setAudioOutput("opensles_android");
+            setCompatibleAudio();
         }
     }
 
