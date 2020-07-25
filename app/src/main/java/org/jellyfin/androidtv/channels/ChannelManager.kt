@@ -106,6 +106,9 @@ class ChannelManager {
 			item.canResume -> {
 				setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE)
 				setLastPlaybackPositionMillis((item.resumePositionTicks / TICKS_IN_MILLISECOND).toInt())
+			}
+			// Episode runtime has been determined
+			item.runTimeTicks != null -> {
 				setDurationMillis((item.runTimeTicks / TICKS_IN_MILLISECOND).toInt())
 			}
 			// First episode of the season
