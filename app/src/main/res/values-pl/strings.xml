@@ -191,4 +191,26 @@
     <string name="lbl_runs">Działa</string>
     <string name="lbl_performers">Wykonawcy</string>
     <string name="dpad_entry_desc">Użyj klawiatury numerycznej na pilocie, aby wprowadzić hasło numeryczne. Pojedyncze kliknięcie dla pierwszego numeru z listy lub podwójne kliknięcie dla drugiego, np. pojedyncze kliknięcie \"w górę\" dla 1 lub podwójne kliknięcie \"wybierz\" dla 5. Przytrzymaj wciśnięty przycisk przez 1 sekundę i zwolnij przycisk \"wybierz\" aby zakończyć lub przycisk lewy aby rozpocząć od nowa.</string>
+    <string name="lbl_items_in_queue">Przedmioty w kolejce</string>
+    <string name="lbl_delete">Usuń</string>
+    <string name="lbl_save_as_playlist">Zapisz jako playlistę</string>
+    <string name="lbl_goto_now_playing">Wróć do obecnie odtwarzanego</string>
+    <string name="lbl_remove_from_queue">Usuń z kolejki</string>
+    <string name="lbl_now_playing">Obecnie odtwarzane</string>
+    <string name="lbl_up_next_colon">"Następne: "</string>
+    <string name="msg_reshuffle_audio_queue">Wymieszać obecną kolejkę muzyki\?</string>
+    <string name="lbl_shuffle">Losowo</string>
+    <string name="lbl_prev_item">Poprzedni element</string>
+    <string name="lbl_next_item">Następny element</string>
+    <string name="lbl_reshuffle_queue">Przemieszaj kolejkę</string>
+    <string name="lbl_open_album">Pokaż album</string>
+    <string name="lbl_open_artist">Pokaż artystę</string>
+    <string name="lbl_add_to_queue">Dodaj do kolejki</string>
+    <string name="msg_total_items_in_queue">" łącznie elementów w kolejce"</string>
+    <string name="msg_items_added">" przedmiotów dodanych"</string>
+    <string name="msg_added_item_to_queue">"Przedmiot dodany do kolejki na miejsce "</string>
+    <string name="lbl_recorded_tv">Nagrania TV</string>
+    <string name="msg_burn_sub_warning">Wypalenie napisów mogą zająć kilka minut.</string>
+    <string name="lbl_starting_with">Zaczynając od tych, których nazwa zaczyna się od</string>
+    <string name="lbl_from">od</string>
 </resources>
