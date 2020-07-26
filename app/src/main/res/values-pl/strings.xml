@@ -213,4 +213,13 @@
     <string name="msg_burn_sub_warning">Wypalenie napisów mogą zająć kilka minut.</string>
     <string name="lbl_starting_with">Zaczynając od tych, których nazwa zaczyna się od</string>
     <string name="lbl_from">od</string>
+    <string name="lbl_clear_queue">Wyczyść kolejkę</string>
+    <string name="desc_current_video_queue">Wideo obecnie w kolejce</string>
+    <string name="lbl_current_queue">Obecna kolejka</string>
+    <string name="lbl_vertical_stretch">Rozciągnij w pionie</string>
+    <string name="lbl_horizontal_stretch">Rozciągnij w poziomie</string>
+    <string name="lbl_normal">Normalny</string>
+    <string name="lbl_new_premieres">Nowe premiery</string>
+    <string name="lbl_forget">Zapomnij</string>
+    <string name="lbl_switch_server">Zmień serwer</string>
 </resources>
