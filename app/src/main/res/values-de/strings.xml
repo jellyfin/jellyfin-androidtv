@@ -77,7 +77,7 @@
     <string name="lbl_select_server">Wählen Sie einen Server</string>
     <string name="lbl_other_options">Weitere Optionen</string>
     <string name="lbl_enter_manually">Manuelle Eingabe</string>
-    <string name="lbl_select_user">Wählen Sie einen Benutzer</string>
+    <string name="lbl_select_user">Benutzer wählen</string>
     <string name="lbl_paren_login_as">" (einloggen als "</string>
     <string name="lbl_to_change_paren">" zum Wechseln)"</string>
     <string name="lbl_login_as">"Anmelden als "</string>
@@ -88,7 +88,7 @@
     <string name="lbl_none">Keine</string>
     <string name="msg_video_playback_error">"Video Wiedergabefehler - "</string>
     <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>
-    <string name="msg_access_restricted">Zugriffsbeschränkung zu dieser Zeit</string>
+    <string name="msg_access_restricted">Zugriff derzeit beschränkt</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_play_trailers">Starte Trailer</string>
     <string name="lbl_please_wait">Bitte warten</string>
@@ -97,7 +97,7 @@
     <string name="msg_little_longer">Es dauert ein wenig länger als erwartet...</string>
     <string name="lbl_no">Nein</string>
     <string name="lbl_yes">Ja</string>
-    <string name="msg_error_connecting_server">Fehler bei der Serververbindung</string>
+    <string name="msg_error_connecting_server">Fehler bei der Verbindung zum Server</string>
     <string name="msg_invalid_id_pw">Ungültiger Benutzername oder Passwort</string>
     <string name="lbl_version">"Version: "</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 oder https://meinserver.com</string>
@@ -106,11 +106,11 @@
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Geboren "</string>
     <string name="lbl_loading_elipses">Laden...</string>
-    <string name="msg_playback_not_allowed">Wiedergabe zu diesem Zeitpunkt nicht erlaubt</string>
-    <string name="msg_playback_restricted">Der Administrator hat die Wiedergabe dieses Elements zu diesem Zeitpunkt eingeschränkt</string>
+    <string name="msg_playback_not_allowed">Wiedergabe derzeit nicht erlaubt</string>
+    <string name="msg_playback_restricted">Der Administrator hat die Wiedergabe dieses Elements derzeit eingeschränkt</string>
     <string name="msg_playback_incompatible">Video-Format kann nicht wiedergegeben werden</string>
     <string name="lbl_never">Niemals</string>
-    <string name="msg_cannot_play_time">Wiedergabe zurzeit nicht möglich</string>
+    <string name="msg_cannot_play_time">Wiedergabe derzeit nicht möglich</string>
     <string name="msg_cannot_play">Dieser Eintrag kann nicht abgespielt werden</string>
     <string name="lbl_no_items">Keine Einträge</string>
     <string name="lbl_empty">Leer</string>
