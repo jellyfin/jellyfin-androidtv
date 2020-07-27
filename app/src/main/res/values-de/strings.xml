@@ -153,7 +153,7 @@
     <string name="lbl_goto_series">Gehe zu Serien</string>
     <string name="lbl_show_info_panel">Informationsfenster anzeigen</string>
     <string name="lbl_enable_debug">Debug-Optionen</string>
-    <string name="desc_info_panel">Zeige eine Tafel mit Details zum aktuellen Medium für Ansichten ohne Detailinformationen</string>
+    <string name="desc_info_panel">Zeige eine Tafel mit Details zum aktuellen Eintrag für Ansichten ohne Detailinformationen</string>
     <string name="desc_debug">Extra Informationen zum Debugging übermitteln</string>
     <string name="lbl_showing">Läuft</string>
     <string name="lbl_all_items">Alle Einträge</string>
@@ -181,10 +181,10 @@
     <string name="lbl_recording">Aufnahme</string>
     <string name="lbl_no_recordings">Keine Aufnahmen verfügbar</string>
     <string name="lbl_live_tv_guide">TV Programmübersicht</string>
-    <string name="lbl_recorded_tv">Aufnahmen</string>
-    <string name="pref_live_tv_cat">LIVE TV</string>
+    <string name="lbl_recorded_tv">TV Aufnahmen</string>
+    <string name="pref_live_tv_cat">Live-TV</string>
     <string name="msg_error_live_stream">Fehler beim Live-TV-Stream. Versuche erneut....</string>
-    <string name="lbl_direct_stream_live">Direct stream live TV</string>
+    <string name="lbl_direct_stream_live">Live TV direkt streamen</string>
     <string name="lbl_programs">Programme</string>
     <string name="lbl_albums">Alben</string>
     <string name="lbl_artists">Künstler</string>
@@ -192,12 +192,12 @@
     <string name="lbl_songs">Songs</string>
     <string name="lbl_album">Album</string>
     <string name="lbl_episodes">Episoden</string>
-    <string name="lbl_enable_cinema_mode">Aktiviere Kino-Modus</string>
+    <string name="lbl_enable_cinema_mode">Kino-Modus</string>
     <string name="sum_enable_cinema_mode">Zeige Intros und Vorschauen vor dem Hauptfilm, wenn auf dem Server aktiviert</string>
     <string name="lbl_playlists">Wiedergabelisten</string>
-    <string name="msg_added_item_to_queue">"Element wurde an Warteschlangenposition hinzugefügt. Position: "</string>
+    <string name="msg_added_item_to_queue">"Element wurde zur Warteschlange hinzugefügt. Position: "</string>
     <string name="msg_items_added">" Elemente hinzugefügt"</string>
-    <string name="msg_total_items_in_queue">" Gesamteinträge in Warteschlange"</string>
+    <string name="msg_total_items_in_queue">" Einträge in Warteschlange"</string>
     <string name="lbl_add_to_queue">Zur Warteschlange hinzufügen</string>
     <string name="lbl_open_artist">Zeige Künstler</string>
     <string name="lbl_open_album">Zeige Album</string>
@@ -217,10 +217,10 @@
     <string name="msg_item_added">" Element hinzugefügt"</string>
     <string name="btn_replace_queue">Ersetze Warteschlange</string>
     <string name="lbl_items_in_queue">Elemente in Warteschlange</string>
-    <string name="msg_replace_or_add_queue_q">Möchten Sie die aktuelle Playlist ersetzen oder sie hinzufügen?</string>
+    <string name="msg_replace_or_add_queue_q">Möchten Sie die aktuelle Warteschlange ersetzen oder zu ihr hinzufügen\?</string>
     <string name="lbl_enable_seasonal_themes">Aktiviere Saison Themes</string>
-    <string name="desc_seasonal_themes">Erlaube besondere Farben und Empfehlungen abhängig von der Jahreszeit</string>
-    <string name="desc_automatic_fav_songs">Automatische Playlist von favorisierten und gemochten Songs</string>
+    <string name="desc_seasonal_themes">Zeige besondere Farben und Empfehlungen zu bestimmten Jahreszeiten</string>
+    <string name="desc_automatic_fav_songs">Automatische Wiedergabeliste von favorisierten und gemochten Songs</string>
     <string name="lbl_switch_server">Server wechseln</string>
     <string name="lbl_forget">Vergessen</string>
     <string name="lbl_new_premieres">Neue Premieren</string>
@@ -228,22 +228,22 @@
     <string name="desc_bitstream_ac3">Benötigt abspielfähige Hardware</string>
     <string name="lbl_normal">Normal</string>
     <string name="lbl_zoom">Zoom</string>
-    <string name="lbl_horizontal_stretch">Horizontales Stretching</string>
-    <string name="lbl_vertical_stretch">Vertikales Stretching</string>
+    <string name="lbl_horizontal_stretch">Horizontales Dehnen</string>
+    <string name="lbl_vertical_stretch">Vertikales Dehnen</string>
     <string name="lbl_audio_capabilitites">Audio-Fähigkeiten</string>
-    <string name="msg_audio_warning">Diese App hat die Möglichkeit, bestimmte Multikanal-Audioformate direkt zu streamen. Wenn deine Hardware diese Formate nicht unterstützt, hören Sie möglicherweise keinen Ton bei den entsprechenden Dateien. Am wahrscheinlichsten ist dies bei der Wiedergabe über TV-Lautsprecher. Stellen Sie in diesem Fall den Audio-Modus in den Abspieleinstellungen der App auf \"Downmix\".</string>
+    <string name="msg_audio_warning">Diese App hat die Möglichkeit, bestimmte Multikanal-Audioformate direkt zu streamen. Wenn Ihre Hardware diese Formate nicht unterstützt, hören Sie möglicherweise keinen Ton bei den entsprechenden Dateien. Am wahrscheinlichsten ist dies bei der Wiedergabe über TV-Lautsprecher. Stellen Sie in diesem Fall den Audio-Modus in den Abspieleinstellungen der App auf \"Downmix\".</string>
     <string name="btn_got_it">Verstanden</string>
     <string name="btn_set_compatible_audio">Aktiviere Downmix jetzt</string>
     <string name="lbl_current_queue">Aktuelle Warteschlange</string>
-    <string name="desc_current_video_queue">Derzeitige Video-Dateien in der Abspiel-Warteschlange</string>
+    <string name="desc_current_video_queue">Zur Wiedergabe eingereihte Videos</string>
     <string name="lbl_clear_queue">Warteschlange leeren</string>
     <string name="lbl_play_next_up">Als Nächstes abspielen</string>
     <string name="lbl_open">Öffnen</string>
-    <string name="lbl_show_backdrop">Zeige Hintergrund während dem Browsen</string>
+    <string name="lbl_show_backdrop">Zeige Hintergrund während des Durchsuchens</string>
     <string name="lbl_use_vlc_livetv">Versuche VLC für Live-TV zu nutzen</string>
     <string name="desc_use_vlc_livetv">Nutze VLC für direkt gestreamtes Live-TV, wenn verfügbar</string>
     <string name="lbl_refresh_switching">Aktualisierungsrate umschalten</string>
-    <string name="lbl_show_premieres">Zeige Staffel-Premieren während dem Browsen</string>
+    <string name="lbl_show_premieres">Zeige Staffel-Premieren während des Durchsuchens</string>
     <string name="desc_premieres">Zeige eine Reihe neuer Episodenpiloten für jede Serie, die Sie sehen</string>
     <string name="lbl_bitstream_dts">DTS Audio bitstreamen</string>
     <string name="lbl_premiere">Premiere</string>
@@ -266,7 +266,7 @@
     <string name="lbl_resume_from">Weiterschauen ab %s</string>
     <string name="lbl_resume_preroll">Rücksprung vor dem Weiterschauen</string>
     <string name="lbl_guide_option_number">Kanalnummer</string>
-    <string name="lbl_guide_option_played">Zuletzt Wiedergeben</string>
+    <string name="lbl_guide_option_played">Zuletzt wiedergegeben</string>
     <string name="lbl_show_indicators">Symbole anzeigen für</string>
     <string name="lbl_sort_by">Sortieren nach</string>
     <string name="lbl_guest_stars">Gastauftritte</string>
@@ -340,13 +340,13 @@
 \nDiese Information wird an einen Drittanbieter übergeben (tracepot.com). 
 \n 
 \nDiese Abfrage kann in der Absturzbericht-Sektion in den Jellyfin-App-Einstellungen deaktiviert werden.</string>
-    <string name="acra_dialog_title">Oh nein! Irgendwas ist schiefgelaufen.</string>
+    <string name="acra_dialog_title">Oh nein! Etwas ist schiefgelaufen.</string>
     <string name="pref_acra_syslog_disabled">System-Logs werden den Absturzberichten nicht hinzugefügt</string>
     <string name="pref_acra_syslog_enabled">System-Logs werden den Absturzberichten hinzugefügt</string>
     <string name="pref_acra_alwaysaccept_disabled">Ein Abfragedialog wird vor dem Senden jeglicher Absturzberichte angezeigt</string>
     <string name="pref_acra_alwaysaccept_enabled">Absturzberichte werden ohne Abfrage gesendet</string>
     <string name="pref_acra_alwaysaccept">Sende Absturzberichte ohne Aufforderung</string>
-    <string name="pref_acra_enabled">Du wirst aufgefordert einen Absturzbericht zu senden</string>
+    <string name="pref_acra_enabled">Sie werden aufgefordert, einen Absturzbericht zu senden</string>
     <string name="pref_enable_acra">Absturzmeldungen an die Entwickler senden</string>
     <string name="lbl_my_media">Meine Medien</string>
     <string name="pref_about_title">Über diese App</string>
@@ -354,7 +354,7 @@
     <string name="watch_now">Jetzt anschauen</string>
     <string name="pref_libvlc_audio_delay_title">Standard Audio-Verzögerung für libVLC</string>
     <string name="pref_next_up_enabled_title">Aktiviere Vorschau des nächsten Titels</string>
-    <string name="pref_next_up_enabled_summary">Zeigt eine Vorschau an, bevor der nächste Inhalt abgespielt wird</string>
+    <string name="pref_next_up_enabled_summary">Vorschau anzeigen, bevor der nächste Inhalt abgespielt wird</string>
     <string name="pref_next_up_timeout_title">Dauer des Timers für automatische Wiedergabe</string>
     <string name="pref_next_up_timeout_summary">Wie lange soll gewartet werden, bevor das nächste Element abgespielt wird</string>
     <string name="pref_app_theme">Thema</string>
@@ -365,7 +365,7 @@
     <string name="grid_direction">Rasterausrichtung</string>
     <string name="pref_device_model">Gerätemodell</string>
     <string name="lbl_Reset">Zurücksetzen</string>
-    <string name="pref_button_remapping_description">Drücken Sie eine Taste auf der Fernbedienung, um ihn zu belegen</string>
+    <string name="pref_button_remapping_description">Drücken Sie eine Taste auf der Fernbedienung, um sie zu belegen</string>
     <string name="pref_subtitle_track_button">Untertiteltaste</string>
     <string name="pref_audio_track_button">Audiospurtaste</string>
     <string name="pref_button_remapping_category">Tastenneubelegung</string>
