@@ -114,14 +114,14 @@
     <string name="msg_cannot_play">Dieser Eintrag kann nicht abgespielt werden</string>
     <string name="lbl_no_items">Keine Einträge</string>
     <string name="lbl_empty">Leer</string>
-    <string name="lbl_tv_queuing">Alle untergeordneten Episoden in die Warteschlange stellen</string>
+    <string name="lbl_tv_queuing">Alle untergeordneten Episoden in die Warteschlange einreihen</string>
     <string name="sum_tv_queuing">Füge den Rest der Staffeln der Warteschlange hinzu, wenn eine Episode abgespielt wird</string>
     <string name="lbl_search_hint">Suche Text (Auswahl für Tastatur)</string>
     <string name="lbl_play_first_unwatched">Starte Erste ungesehen</string>
-    <string name="lbl_confirm_mark_watched">Dies wird alles als gesehen markiert. Sind Sie sich SEHR sicher\?</string>
+    <string name="lbl_confirm_mark_watched">Dies markiert den gesamten Inhalt als gesehen. Sind Sie sich SEHR sicher\?</string>
     <string name="lbl_mark_unplayed">Markiere als ungesehen</string>
     <string name="lbl_mark_played">Markiere als gesehen</string>
-    <string name="lbl_remove_favorite">Entferne Favorit</string>
+    <string name="lbl_remove_favorite">Favorit entfernen</string>
     <string name="lbl_add_favorite">Favorit hinzufügen</string>
     <string name="lbl_like">Mag ich</string>
     <string name="lbl_dislike">Mag ich nicht</string>
