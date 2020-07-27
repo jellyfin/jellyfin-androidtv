@@ -137,9 +137,9 @@
     <string name="lbl_tune_to_channel">Sintonizar canal</string>
     <string name="msg_recording_now">Grabando ahora</string>
     <string name="msg_will_record">Se grabará</string>
-    <string name="lbl_begin_padding">Comenzar relleno</string>
+    <string name="lbl_begin_padding">Comienza relleno</string>
     <string name="lbl_program_ended">Programa finalizado</string>
-    <string name="lbl_end_padding">Finalizar relleno</string>
+    <string name="lbl_end_padding">Termina relleno</string>
     <string name="lbl_similar_items_library">Elementos similares en tu biblioteca</string>
     <string name="lbl_record_any_channel">Grabar en cualquier canal</string>
     <string name="lbl_record_any_time">Grabar en cualquier momento</string>
@@ -370,7 +370,7 @@
     <string name="pref_subtitle_track_button">Botón de pista de subtítulos</string>
     <string name="pref_audio_track_button">Botón de pista de audio</string>
     <string name="pref_button_remapping_category">Resignación de botones</string>
-    <string name="lbl_unknown_key">Desconocido</string>
+    <string name="lbl_unknown_key">Desconocido (%1s)</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
 </resources>
