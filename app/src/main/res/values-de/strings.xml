@@ -152,7 +152,7 @@
     <string name="lbl_audio_output">Audio-Ausgabe</string>
     <string name="lbl_goto_series">Gehe zu Serien</string>
     <string name="lbl_show_info_panel">Informationsfenster anzeigen</string>
-    <string name="lbl_enable_debug">Aktiviere Debug-Optionen</string>
+    <string name="lbl_enable_debug">Debug-Optionen</string>
     <string name="desc_info_panel">Zeige eine Tafel mit Details zum aktuellen Medium für Ansichten ohne Detailinformationen</string>
     <string name="desc_debug">Extra Informationen zum Debugging übermitteln</string>
     <string name="lbl_showing">Läuft</string>
