@@ -371,4 +371,6 @@
     <string name="pref_audio_track_button">Botón de pista de audio</string>
     <string name="pref_button_remapping_category">Resignación de botones</string>
     <string name="lbl_unknown_key">Desconocido</string>
+    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
+    <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
 </resources>
