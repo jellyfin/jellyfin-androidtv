@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="play">Воспроизвести</string>
-    <string name="loading">Загружается…</string>
+    <string name="loading">Загрузка...</string>
     <string name="video_error_unknown_error">Не удалось воспроизвести видео</string>
     <string name="txt_loading">Идет загрузка…</string>
     <string name="title_activity_select_user">ВыборДействийПользователя</string>
@@ -276,7 +276,7 @@
     <string name="lbl_sports">Спорт</string>
     <string name="msg_record_entire_series">Записать весь сериал\?</string>
     <string name="pref_live_tv_mode">Режим эфира</string>
-    <string name="lbl_select_date">Выбор даты</string>
+    <string name="lbl_select_date">Выберите дату</string>
     <string name="lbl_in_x_days">За %d дней</string>
     <string name="lbl_warning">Внимание</string>
     <string name="lbl_now_playing_album">из %s</string>
@@ -302,7 +302,7 @@
     <string name="no_program_data">&lt;Не доступны данные программы&gt;</string>
     <string name="lbl_just_this_once">Только на этот раз</string>
     <string name="pref_live_tv_mode_desc">Перейти сразу к последнему просмотренному эфирному каналу</string>
-    <string name="msg_external_path">Эта функция будет работать только в том случае, если вы правильно настроили свою медиатеку на сервере с сетевыми путями или подстановкой путей, а используемый вами клиент может получить прямой доступ к этим местоположениям по сети.</string>
+    <string name="msg_external_path">Эта функция будет работать только в том случае, если вы правильно настроили свою библиотеку на сервере с сетевыми путями или подстановкой путей, а используемый вами клиент может получить прямой доступ к этим местоположениям по сети.</string>
     <string name="pref_authentication_cat">Аутентификация</string>
     <string name="msg_error_signin">При входе с сохранёнными учётными данными произошла ошибка.</string>
     <string name="msg_error_server_version">Неподдерживаемая версия сервера. Она должна быть %1$s или более.</string>
@@ -335,11 +335,11 @@
     <string name="pref_video_player_auto">Автоматический выбор</string>
     <string name="lbl_my_media">Мои медиаданные</string>
     <string name="acra_dialog_title">О нет! Что-то не так.</string>
-    <string name="acra_dialog_text">Вы желаете отправлять разработчикам отчёт о сбое\?
-\n
-\nЭта информация будет отправлена третьей стороне (tracepot.com).
-\n
-\nЭто предложение может быть отключено в разделе Отчё о сбое в Параметрах Jellyfin-приложения.</string>
+    <string name="acra_dialog_text">Вы желаете отправить разработчикам отчёт о сбое\? 
+\n 
+\nЭта информация будет отправлена третьей стороне (tracepot.com). 
+\n 
+\nЭто предложение может быть отключено в разделе Отчётов о сбоях в Параметрах приложения Jellyfin.</string>
     <string name="pref_acra_syslog_disabled">Системные журналы не будут включены в отчёты о сбоях</string>
     <string name="pref_acra_syslog_enabled">Системные журналы будут включены в отчёты о сбоях</string>
     <string name="pref_acra_alwaysaccept_disabled">Будет показано диалоговое окно перед отправкой любого отчёта о сбое</string>
