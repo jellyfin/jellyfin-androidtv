@@ -249,7 +249,7 @@
     <string name="desc_premieres">Показывать строку нового эпизода первой для просматриваемых сериалов</string>
     <string name="lbl_bitstream_dts">Транслировать DTS аудио</string>
     <string name="lbl_favorite">Избранное</string>
-    <string name="pref_external_live_tv_title">Используйте внешний плеер для Live TV</string>
+    <string name="pref_external_live_tv_title">Использовать внешний плеер для Live TV</string>
     <string name="lbl_song_title">Название песни</string>
     <string name="lbl_album_name">Название альбома</string>
     <string name="lbl_next_episode">Следующий эпизод</string>
@@ -287,7 +287,7 @@
     <string name="title_activity_expanded_text">РасширеннаяТекстоваяАктивность</string>
     <string name="pref_use_direct_path_summary">Выводить путь в файловой системе вместо URL потока</string>
     <string name="pref_use_direct_path_title">Прямой вывод на внешний проигрыватель</string>
-    <string name="pref_external_live_tv_summary">Требуется совместимое приложение для воспроизведения эфирных трансляций</string>
+    <string name="pref_external_live_tv_summary">Требуется совместимое приложение для воспроизведения прямых трансляций</string>
     <string name="lbl_more_like_this">Похожее</string>
     <string name="lbl_resume_preroll">Откат для возобновления</string>
     <string name="lbl_guide_option_played">Последнее воспроизведение</string>
