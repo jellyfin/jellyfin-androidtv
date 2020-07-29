@@ -249,17 +249,17 @@
     <string name="desc_premieres">Показывать строку нового эпизода первой для просматриваемых сериалов</string>
     <string name="lbl_bitstream_dts">Транслировать DTS аудио</string>
     <string name="lbl_favorite">Избранное</string>
-    <string name="pref_external_live_tv_title">Использовать для эфира внешний проигрыватель</string>
-    <string name="lbl_song_title">Название композиции</string>
+    <string name="pref_external_live_tv_title">Используйте внешний плеер для Live TV</string>
+    <string name="lbl_song_title">Название песни</string>
     <string name="lbl_album_name">Название альбома</string>
     <string name="lbl_next_episode">Следующий эпизод</string>
     <string name="lbl_previous_episode">Предыдущий эпизод</string>
     <string name="lbl_resume_from">Возобновить с %s</string>
     <string name="lbl_guide_option_number">Номер канала</string>
     <string name="lbl_show_indicators">Показывать индикаторы для</string>
-    <string name="lbl_sort_by">Сортировка по</string>
+    <string name="lbl_sort_by">Сортировать по</string>
     <string name="lbl_premiere">Премьера</string>
-    <string name="lbl_guest_stars">Приглашённые актёры</string>
+    <string name="lbl_guest_stars">Приглашённые звёзды</string>
     <string name="lbl_on_schedule">В расписании</string>
     <string name="lbl_at_any_time">В любое время</string>
     <string name="lbl_all_episodes">Все эпизоды</string>
@@ -267,7 +267,7 @@
     <string name="lbl_save">Сохранить</string>
     <string name="msg_settings_updated">Параметры обновлены</string>
     <string name="lbl_series_settings">Параметры сериала</string>
-    <string name="lbl_live">Эфир</string>
+    <string name="lbl_live">Прямой эфир</string>
     <string name="lbl_new">Новое</string>
     <string name="lbl_repeat">Повтор</string>
     <string name="lbl_all_recordings">Все записи</string>
@@ -275,7 +275,7 @@
     <string name="lbl_kids">Детское</string>
     <string name="lbl_sports">Спорт</string>
     <string name="msg_record_entire_series">Записать весь сериал\?</string>
-    <string name="pref_live_tv_mode">Режим эфира</string>
+    <string name="pref_live_tv_mode">Режим Live TV</string>
     <string name="lbl_select_date">Выберите дату</string>
     <string name="lbl_in_x_days">За %d дней</string>
     <string name="lbl_warning">Внимание</string>
@@ -288,7 +288,7 @@
     <string name="pref_use_direct_path_summary">Выводить путь в файловой системе вместо URL потока</string>
     <string name="pref_use_direct_path_title">Прямой вывод на внешний проигрыватель</string>
     <string name="pref_external_live_tv_summary">Требуется совместимое приложение для воспроизведения эфирных трансляций</string>
-    <string name="lbl_more_like_this">Ещё подобное этому</string>
+    <string name="lbl_more_like_this">Похожее</string>
     <string name="lbl_resume_preroll">Откат для возобновления</string>
     <string name="lbl_guide_option_played">Последнее воспроизведение</string>
     <string name="lbl_hours">час</string>
@@ -297,7 +297,7 @@
     <string name="lbl_minutes">мин</string>
     <string name="lbl_seconds">с</string>
     <string name="lbl_series_recordings">Сериальные записи</string>
-    <string name="lbl_episode_not_record">Эта передача НЕ записывается</string>
+    <string name="lbl_episode_not_record">Этот показ НЕ БУДЕТ записываться</string>
     <string name="lbl_schedule">Расписание</string>
     <string name="no_program_data">&lt;Не доступны данные программы&gt;</string>
     <string name="lbl_just_this_once">Только на этот раз</string>
