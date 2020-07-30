@@ -2,12 +2,6 @@ package org.jellyfin.androidtv.itemhandling;
 
 import android.os.Handler;
 
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.PresenterSelector;
-
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.browsing.EnhancedBrowseFragment;
@@ -65,6 +59,11 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.PresenterSelector;
 import timber.log.Timber;
 
 public class ItemRowAdapter extends ArrayObjectAdapter {
@@ -107,19 +106,21 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private int itemsLoaded = 0;
     private int totalItems = 0;
     private boolean fullyLoaded = false;
+
+    private final Object currentlyRetrievingSemaphore = new Object();
     private boolean currentlyRetrieving = false;
 
     private boolean preferParentThumb = false;
     private boolean staticHeight = false;
 
     public boolean isCurrentlyRetrieving() {
-        synchronized (this) {
+        synchronized (currentlyRetrievingSemaphore) {
             return currentlyRetrieving;
         }
     }
 
-    public void setCurrentlyRetrieving(boolean currentlyRetrieving) {
-        synchronized (this) {
+    protected void setCurrentlyRetrieving(boolean currentlyRetrieving) {
+        synchronized (currentlyRetrievingSemaphore) {
             this.currentlyRetrieving = currentlyRetrieving;
         }
     }
@@ -520,12 +521,16 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     public void RetrieveNext() {
+        if(fullyLoaded || isCurrentlyRetrieving()) {
+            return;
+        }
+
         switch (queryType) {
             case Persons:
-                if (fullyLoaded || mPersonsQuery == null || isCurrentlyRetrieving()) {
+                if (mPersonsQuery == null) {
                     return;
                 }
-                setCurrentlyRetrieving(true);
+                notifyRetrieveStarted();
 
                 //set the query to go get the next chunk
                 mPersonsQuery.setStartIndex(itemsLoaded);
@@ -533,10 +538,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
 
             case LiveTvChannel:
-                if (fullyLoaded || mTvChannelQuery == null || isCurrentlyRetrieving()) {
+                if (mTvChannelQuery == null) {
                     return;
                 }
-                setCurrentlyRetrieving(true);
+                notifyRetrieveStarted();
 
                 //set the query to go get the next chunk
                 mTvChannelQuery.setStartIndex(itemsLoaded);
@@ -544,10 +549,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
 
             case AlbumArtists:
-                if (fullyLoaded || mArtistsQuery == null || isCurrentlyRetrieving()) {
+                if (mArtistsQuery == null) {
                     return;
                 }
-                setCurrentlyRetrieving(true);
+                notifyRetrieveStarted();
 
                 //set the query to go get the next chunk
                 mArtistsQuery.setStartIndex(itemsLoaded);
@@ -555,10 +560,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
 
             default:
-                if (fullyLoaded || mQuery == null || isCurrentlyRetrieving()) {
+                if (mQuery == null) {
                     return;
                 }
-                setCurrentlyRetrieving(true);
+                notifyRetrieveStarted();
 
                 //set the query to go get the next chunk
                 mQuery.setStartIndex(itemsLoaded);
@@ -615,10 +620,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     public void Retrieve() {
-        setCurrentlyRetrieving(true);
+        notifyRetrieveStarted();
+
         lastFullRetrieve = Calendar.getInstance();
         itemsLoaded = 0;
-        notifyRetrieveStarted();
         switch (queryType) {
             case Items:
                 Retrieve(mQuery);
@@ -718,7 +723,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     removeRow();
                 }
 
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
 
             @Override
@@ -726,7 +731,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 Timber.e(exception, "Error retrieving users");
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 removeRow();
-                currentlyRetrieving = false;
+
+                notifyRetrieveFinished();
             }
         });
 
@@ -742,7 +748,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             removeRow();
         }
 
-        currentlyRetrieving = false;
+        notifyRetrieveFinished();
     }
 
     private void LoadChapters() {
@@ -755,7 +761,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             removeRow();
         }
 
-        currentlyRetrieving = false;
+        notifyRetrieveFinished();
     }
 
     private void LoadStaticItems() {
@@ -768,7 +774,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             removeRow();
         }
 
-        currentlyRetrieving = false;
+        notifyRetrieveFinished();
     }
 
     private void LoadStaticAudioItems() {
@@ -783,7 +789,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             removeRow();
         }
 
-        currentlyRetrieving = false;
+        notifyRetrieveFinished();
     }
 
     private void LoadServers() {
@@ -796,7 +802,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             removeRow();
         }
 
-        currentlyRetrieving = false;
+        notifyRetrieveFinished();
     }
 
     private static String[] ignoreTypes = new String[]{"books", "games"};
@@ -831,7 +837,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     removeRow();
                 }
 
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
 
             @Override
@@ -839,7 +845,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 Timber.e(exception, "Error retrieving items");
                 removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
         });
 
@@ -865,7 +871,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     setItemsLoaded(itemsLoaded + i);
                 }
 
-                currentlyRetrieving = false;
                 notifyRetrieveFinished();
             }
 
@@ -873,7 +878,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving search results");
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                currentlyRetrieving = false;
                 notifyRetrieveFinished();
             }
         });
@@ -934,7 +938,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     }
 
-    public void Retrieve(final ItemQuery query) {
+    private void Retrieve(final ItemQuery query) {
         TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
@@ -961,7 +965,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                 }
 
-                setCurrentlyRetrieving(false);
                 notifyRetrieveFinished();
             }
 
@@ -987,7 +990,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
 
                 }
-                setCurrentlyRetrieving(false);
                 notifyRetrieveFinished();
             }
 
@@ -1038,7 +1040,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     removeRow();
                 }
 
-                setCurrentlyRetrieving(false);
                 notifyRetrieveFinished();
 
             }
@@ -1070,7 +1071,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     removeRow();
                 }
 
-                setCurrentlyRetrieving(false);
                 notifyRetrieveFinished();
 
             }
@@ -1144,7 +1144,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                         if (adapter.size() == 0) {
                             removeRow();
                         }
-                        currentlyRetrieving = false;
+                        notifyRetrieveFinished();
                     }
                 });
 
@@ -1154,7 +1154,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     }
 
-    public void Retrieve(final NextUpQuery query) {
+    private void Retrieve(final NextUpQuery query) {
         final ItemRowAdapter adapter = this;
         TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(query, new Response<ItemsResult>() {
             @Override
@@ -1171,7 +1171,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     setItemsLoaded(itemsLoaded + i);
                     if (i == 0) {
                         removeRow();
-                        currentlyRetrieving = false;
+                        notifyRetrieveFinished();
                     } else {
                         //If this was for a single series, get the rest of the episodes in the season
                         if (query.getSeriesId() != null) {
@@ -1193,13 +1193,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                                             setItemsLoaded(itemsLoaded + n);
 
                                         }
-                                        currentlyRetrieving = false;
+                                        notifyRetrieveFinished();
                                     }
 
                                     @Override
                                     public void onError(Exception exception) {
                                         Timber.e(exception, "Unable to retrieve subsequent episodes in next up");
-                                        currentlyRetrieving = false;
+                                        notifyRetrieveFinished();
                                     }
                                 });
                             }
@@ -1209,7 +1209,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 } else {
                     // no results - don't show us
                     removeRow();
-                    currentlyRetrieving = false;
+                    notifyRetrieveFinished();
                 }
 
             }
@@ -1219,13 +1219,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 Timber.e(exception, "Error retrieving next up items");
                 removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
         });
 
     }
 
-    public void Retrieve(final LiveTvChannelQuery query) {
+    private void Retrieve(final LiveTvChannelQuery query) {
         final ItemRowAdapter adapter = this;
         TvApp.getApplication().getApiClient().GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
             @Override
@@ -1249,7 +1249,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     removeRow();
                 }
 
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
 
             @Override
@@ -1257,13 +1257,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 Timber.e(exception, "Error retrieving live tv channels");
                 removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
         });
 
     }
 
-    public void Retrieve(final RecommendedProgramQuery query) {
+    private void Retrieve(final RecommendedProgramQuery query) {
         final ItemRowAdapter adapter = this;
         TvApp.getApplication().getApiClient().GetRecommendedLiveTvProgramsAsync(query, new Response<ItemsResult>() {
             @Override
@@ -1290,7 +1290,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     removeRow();
                 }
 
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
 
             @Override
@@ -1299,13 +1299,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 removeRow();
                 //TODO suppress this message for now - put it back when server returns empty set for no live tv
                 //Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
         });
 
     }
 
-    public void Retrieve(final RecordingGroupQuery query) {
+    private void Retrieve(final RecordingGroupQuery query) {
         final ItemRowAdapter adapter = this;
         TvApp.getApplication().getApiClient().GetLiveTvRecordingGroupsAsync(query, new Response<ItemsResult>() {
             @Override
@@ -1333,7 +1333,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     removeRow();
                 }
 
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
 
             }
 
@@ -1342,12 +1342,12 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 Timber.e(exception, "Error retrieving live tv recording groups");
                 removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
         });
     }
 
-    public void Retrieve(final SeriesTimerQuery query) {
+    private void Retrieve(final SeriesTimerQuery query) {
         final ItemRowAdapter adapter = this;
         TvApp.getApplication().getApiClient().GetLiveTvSeriesTimersAsync(query, new Response<SeriesTimerInfoDtoResult>() {
             @Override
@@ -1373,8 +1373,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     removeRow();
                 }
 
-                currentlyRetrieving = false;
-
+                notifyRetrieveFinished();
             }
 
             @Override
@@ -1382,12 +1381,12 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 Timber.e(exception, "Error retrieving live tv series timers");
                 removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
         });
     }
 
-    public void Retrieve(final RecordingQuery query) {
+    private void Retrieve(final RecordingQuery query) {
         final ItemRowAdapter adapter = this;
         TvApp.getApplication().getApiClient().GetLiveTvRecordingsAsync(query, new Response<ItemsResult>() {
             @Override
@@ -1427,7 +1426,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     removeRow();
                 }
 
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
 
             @Override
@@ -1435,13 +1434,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 Timber.e(exception, "Error retrieving live tv recordings");
                 removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
         });
 
     }
 
-    public void Retrieve(final SpecialsQuery query) {
+    private void Retrieve(final SpecialsQuery query) {
         final ItemRowAdapter adapter = this;
         TvApp.getApplication().getApiClient().GetSpecialFeaturesAsync(TvApp.getApplication().getCurrentUser().getId(), query.getItemId(), new Response<BaseItemDto[]>() {
             @Override
@@ -1464,7 +1463,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     removeRow();
                 }
 
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
 
             @Override
@@ -1472,13 +1471,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 Timber.e(exception, "Error retrieving special features");
                 removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
         });
 
     }
 
-    public void Retrieve(final TrailersQuery query) {
+    private void Retrieve(final TrailersQuery query) {
         final ItemRowAdapter adapter = this;
         TvApp.getApplication().getApiClient().GetLocalTrailersAsync(TvApp.getApplication().getCurrentUser().getId(), query.getItemId(), new Response<BaseItemDto[]>() {
             @Override
@@ -1502,7 +1501,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     removeRow();
                 }
 
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
 
             @Override
@@ -1510,13 +1509,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 Timber.e(exception, "Error retrieving special features");
                 removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
         });
 
     }
 
-    public void RetrieveSimilarSeries(final SimilarItemsQuery query) {
+    private void RetrieveSimilarSeries(final SimilarItemsQuery query) {
         final ItemRowAdapter adapter = this;
         TvApp.getApplication().getApiClient().GetSimilarItems(query, new Response<ItemsResult>() {
             @Override
@@ -1539,7 +1538,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     removeRow();
                 }
 
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
 
             @Override
@@ -1547,13 +1546,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 Timber.e(exception, "Error retrieving similar series items");
                 removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
         });
 
     }
 
-    public void RetrieveSimilarMovies(final SimilarItemsQuery query) {
+    private void RetrieveSimilarMovies(final SimilarItemsQuery query) {
         final ItemRowAdapter adapter = this;
         TvApp.getApplication().getApiClient().GetSimilarItems(query, new Response<ItemsResult>() {
             @Override
@@ -1576,7 +1575,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     removeRow();
                 }
 
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
 
             @Override
@@ -1584,13 +1583,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 Timber.e(exception, "Error retrieving similar series items");
                 removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
         });
 
     }
 
-    public void Retrieve(final UpcomingEpisodesQuery query) {
+    private void Retrieve(final UpcomingEpisodesQuery query) {
         final ItemRowAdapter adapter = this;
         TvApp.getApplication().getApiClient().GetUpcomingEpisodesAsync(query, new Response<ItemsResult>() {
             @Override
@@ -1615,7 +1614,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     removeRow();
                 }
 
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
 
             @Override
@@ -1623,13 +1622,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 Timber.e(exception, "Error retrieving upcoming items");
                 removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
         });
 
     }
 
-    public void Retrieve(final PersonsQuery query) {
+    private void Retrieve(final PersonsQuery query) {
         final ItemRowAdapter adapter = this;
         TvApp.getApplication().getApiClient().GetPeopleAsync(query, new Response<ItemsResult>() {
             @Override
@@ -1652,7 +1651,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     removeRow();
                 }
 
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
 
             @Override
@@ -1660,13 +1659,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 Timber.e(exception, "Error retrieving people");
                 removeRow();
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
         });
 
     }
 
-    public void Retrieve(SeasonQuery query) {
+    private void Retrieve(SeasonQuery query) {
         final ItemRowAdapter adapter = this;
         TvApp.getApplication().getApiClient().GetSeasonsAsync(query, new Response<ItemsResult>() {
             @Override
@@ -1689,20 +1688,21 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     removeRow();
                 }
 
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
 
             @Override
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving season items");
                 Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                currentlyRetrieving = false;
+                notifyRetrieveFinished();
             }
         });
 
     }
 
-    public void notifyRetrieveFinished() {
+    protected void notifyRetrieveFinished() {
+        setCurrentlyRetrieving(false);
         if (mRetrieveFinishedListener != null) {
             mRetrieveFinishedListener.onResponse();
         }
@@ -1712,7 +1712,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.mRetrieveFinishedListener = response;
     }
 
-    public void notifyRetrieveStarted() {
+    protected void notifyRetrieveStarted() {
+        setCurrentlyRetrieving(true);
         if (mRetrieveStartedListener != null) {
             mRetrieveStartedListener.onResponse();
         }
