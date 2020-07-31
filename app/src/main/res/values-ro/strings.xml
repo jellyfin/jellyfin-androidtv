@@ -128,7 +128,7 @@
     <string name="title_activity_select_user">SelecteazăActivitateaUtilizatorului</string>
     <string name="txt_loading">Se încarcă…</string>
     <string name="loading">Se încarcă…</string>
-    <string name="video_error_unknown_error">Încărcare video eșuată</string>
+    <string name="video_error_unknown_error">Încărcarea video a eșuat</string>
     <string name="play">Rulează</string>
     <string name="lbl_rating">Evaluare</string>
     <string name="pref_audio_direct">Direcție</string>
