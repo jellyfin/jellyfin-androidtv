@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.util;
 
+import android.annotation.SuppressLint;
 import android.text.format.DateFormat;
 
 import org.jellyfin.androidtv.R;
@@ -9,14 +10,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 public class TimeUtils {
     private static final int MILLIS_PER_SEC = 1000;
-    private static final int MILLIS_PER_MIN = 60 * MILLIS_PER_SEC;
-    private static final int MILLIS_PER_HR = 60 * MILLIS_PER_MIN;
+    private static final long MILLIS_PER_MIN = TimeUnit.MINUTES.toMillis(1);
+    private static final long MILLIS_PER_HR = TimeUnit.HOURS.toMillis(1);
 
     private static final int SECS_PER_MIN = 60;
-    private static final int SECS_PER_HR = 60 * SECS_PER_MIN;
+    private static final long SECS_PER_HR = TimeUnit.HOURS.toSeconds(1);
+
+    private static final String DURATION_TIME_FORMAT_NO_HOURS = "%d:%02d";
+    private static final String DURATION_TIME_FORMAT_WITH_HOURS = "%d:%02d:%02d";
 
     public static long secondsToMillis(double seconds) {
         return Math.round(seconds * MILLIS_PER_SEC);
@@ -33,37 +38,22 @@ public class TimeUtils {
     /**
      * Formats time in milliseconds to hh:mm:ss string format.
      *
-     * @param millis
-     * @return
+     * @param millis Time in milliseconds
+     * @return Formatted time
      */
+    @SuppressLint("DefaultLocale")
     public static String formatMillis(long millis) {
-        long hr = millis / MILLIS_PER_HR;
+        long hr = TimeUnit.MILLISECONDS.toHours(millis);
         millis %= MILLIS_PER_HR;
-        long min = millis / MILLIS_PER_MIN;
+        long min = TimeUnit.MILLISECONDS.toMinutes(millis);
         millis %= MILLIS_PER_MIN;
-        long sec = millis / MILLIS_PER_SEC;
+        long sec = TimeUnit.MILLISECONDS.toSeconds(millis);
 
-        StringBuilder builder = new StringBuilder();
-        // Hours
-        if (hr > 0) {
-            builder.append(hr)
-                    .append(":");
+        if(hr > 0) {
+            return String.format(DURATION_TIME_FORMAT_WITH_HOURS, hr, min, sec);
+        } else {
+            return String.format(DURATION_TIME_FORMAT_NO_HOURS, min, sec);
         }
-        // Minutes
-        if (min >= 0) {
-            if (min < 9 && hr > 0) {
-                builder.append("0");
-            }
-            builder.append(min)
-                    .append(":");
-        }
-        // Seconds
-        if (sec < 10) {
-            builder.append("0");
-        }
-        builder.append(sec);
-
-        return builder.toString();
     }
 
     public static String formatSeconds(int seconds) {
