@@ -369,4 +369,8 @@
     <string name="grid_direction_vertical">Vertikāls (eksperimentāls)</string>
     <string name="grid_direction_horizontal">Horizontāls</string>
     <string name="pref_device_model">Ierīces Modelis</string>
+    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
+    <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
+    <string name="bitrate_auto">Auto</string>
+    <string name="grid_direction">Režģa virziens</string>
 </resources>
