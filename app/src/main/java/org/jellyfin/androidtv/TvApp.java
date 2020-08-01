@@ -16,7 +16,6 @@ import org.jellyfin.androidtv.base.AuthenticatedUserCallbacks;
 import org.jellyfin.androidtv.base.BaseActivity;
 import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.model.LogonCredentials;
-import org.jellyfin.androidtv.model.repository.ConnectionManagerRepository;
 import org.jellyfin.androidtv.playback.ExternalPlayerActivity;
 import org.jellyfin.androidtv.playback.PlaybackController;
 import org.jellyfin.androidtv.playback.PlaybackManager;
@@ -26,10 +25,13 @@ import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.androidtv.preferences.enums.LoginBehavior;
 import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer;
 import org.jellyfin.androidtv.querying.DataRefreshService;
+import org.jellyfin.apiclient.AppInfo;
+import org.jellyfin.apiclient.Jellyfin;
+import org.jellyfin.apiclient.JellyfinAndroidKt;
+import org.jellyfin.apiclient.JellyfinOptions;
 import org.jellyfin.apiclient.interaction.AndroidDevice;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
-import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.logging.AndroidLogger;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -68,7 +70,6 @@ public class TvApp extends Application {
     private UserDto currentUser;
     private BaseItemDto lastPlayedItem;
     private PlaybackController playbackController;
-    private ApiClient loginApiClient;
 
     private int autoBitrate;
     private String directItemId;
@@ -83,6 +84,9 @@ public class TvApp extends Application {
     private UserPreferences userPreferences;
     private SystemPreferences systemPreferences;
 
+    private Jellyfin jellyfin;
+    private ApiClient apiClient;
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -94,7 +98,13 @@ public class TvApp extends Application {
     public void onCreate() {
         super.onCreate();
         app = (TvApp) getApplicationContext();
-        playbackManager = new PlaybackManager(new AndroidDevice(this), new AndroidLogger("PlaybackManager"));
+        JellyfinOptions.Builder options = new JellyfinOptions.Builder();
+        JellyfinAndroidKt.android(options, this);
+        options.setLogger(new AndroidLogger());
+        options.setAppInfo(new AppInfo("Android TV", BuildConfig.VERSION_NAME));
+        jellyfin = new Jellyfin(options.build());
+
+        playbackManager = new PlaybackManager(AndroidDevice.fromContext(this), new AndroidLogger("PlaybackManager"));
 
         registerActivityLifecycleCallbacks(new AuthenticatedUserCallbacks());
         registerActivityLifecycleCallbacks(new AppThemeCallbacks());
@@ -121,9 +131,12 @@ public class TvApp extends Application {
         this.displayPrefsCache = new HashMap<>();
     }
 
+    public Jellyfin getJellyfin() {
+        return jellyfin;
+    }
+
     public ApiClient getApiClient() {
-        IConnectionManager connectionManager = ConnectionManagerRepository.Companion.getInstance(this).getConnectionManager();
-        return currentUser != null ? connectionManager.GetApiClient(currentUser) : null;
+        return apiClient;
     }
 
     /**
@@ -136,14 +149,6 @@ public class TvApp extends Application {
 
     public void setCurrentActivity(BaseActivity activity) {
         currentActivity = activity;
-    }
-
-    public ApiClient getLoginApiClient() {
-        return loginApiClient;
-    }
-
-    public void setLoginApiClient(ApiClient loginApiClient) {
-        this.loginApiClient = loginApiClient;
     }
 
     public PlaybackController getPlaybackController() {

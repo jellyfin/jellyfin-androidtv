@@ -5,21 +5,20 @@ import org.jellyfin.androidtv.model.compat.PlaybackException;
 import org.jellyfin.androidtv.model.compat.StreamBuilder;
 import org.jellyfin.androidtv.model.compat.StreamInfo;
 import org.jellyfin.androidtv.model.compat.VideoOptions;
-
-import java.util.ArrayList;
-
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.interaction.device.IDevice;
+import org.jellyfin.apiclient.logging.ILogger;
 import org.jellyfin.apiclient.model.dlna.PlaybackErrorCode;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.entities.MediaStream;
-import org.jellyfin.apiclient.model.logging.ILogger;
 import org.jellyfin.apiclient.model.mediainfo.PlaybackInfoRequest;
 import org.jellyfin.apiclient.model.session.PlaybackProgressInfo;
 import org.jellyfin.apiclient.model.session.PlaybackStartInfo;
 import org.jellyfin.apiclient.model.session.PlaybackStopInfo;
+
+import java.util.ArrayList;
 
 /**
  * Reimplementation of the PlaybackManager class from the apiclient with local item support removed.

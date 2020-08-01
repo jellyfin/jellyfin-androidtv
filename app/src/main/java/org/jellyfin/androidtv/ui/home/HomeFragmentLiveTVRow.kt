@@ -2,15 +2,7 @@ package org.jellyfin.androidtv.ui.home
 
 import android.app.Activity
 import android.content.Intent
-
-import androidx.leanback.widget.ArrayObjectAdapter
-import androidx.leanback.widget.HeaderItem
-import androidx.leanback.widget.ListRow
-import androidx.leanback.widget.OnItemViewClickedListener
-import androidx.leanback.widget.Presenter
-import androidx.leanback.widget.Row
-import androidx.leanback.widget.RowPresenter
-
+import androidx.leanback.widget.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.browsing.BrowseRecordingsActivity
@@ -18,7 +10,6 @@ import org.jellyfin.androidtv.browsing.BrowseScheduleActivity
 import org.jellyfin.androidtv.browsing.UserViewActivity
 import org.jellyfin.androidtv.constants.Extras
 import org.jellyfin.androidtv.livetv.LiveTvGuideActivity
-import org.jellyfin.androidtv.model.repository.SerializerRepository
 import org.jellyfin.androidtv.presentation.CardPresenter
 import org.jellyfin.androidtv.presentation.GridButtonPresenter
 import org.jellyfin.androidtv.ui.GridButton

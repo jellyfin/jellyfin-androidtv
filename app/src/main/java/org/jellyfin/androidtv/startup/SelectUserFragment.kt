@@ -7,20 +7,12 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.browsing.CustomBrowseFragment
 import org.jellyfin.androidtv.itemhandling.BaseRowItem
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter
-import org.jellyfin.androidtv.model.repository.ConnectionManagerRepository.Companion.getInstance
-import org.jellyfin.androidtv.model.repository.SerializerRepository.serializer
 import org.jellyfin.androidtv.presentation.CardPresenter
 import org.jellyfin.androidtv.presentation.GridButtonPresenter
 import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper
-import org.jellyfin.apiclient.interaction.EmptyResponse
-import org.jellyfin.apiclient.interaction.IConnectionManager
-import org.jellyfin.apiclient.interaction.Response
-import org.jellyfin.apiclient.model.apiclient.ServerInfo
-import java.util.*
 
 class SelectUserFragment : CustomBrowseFragment() {
-
 	override fun addAdditionalRows(rowAdapter: ArrayObjectAdapter) {
 		super.addAdditionalRows(rowAdapter)
 		val manualEntryRowItem = BaseRowItem(
@@ -66,18 +58,9 @@ class SelectUserFragment : CustomBrowseFragment() {
 				when (item.id) {
 					SWITCH_SERVER -> {
 						// Present server selection
-						val connectionManager: IConnectionManager = getInstance(requireContext()).connectionManager
-						connectionManager.GetAvailableServers(object : Response<ArrayList<ServerInfo>>() {
-							override fun onResponse(serverResponse: ArrayList<ServerInfo>) {
-								val serverIntent = Intent(activity, SelectServerActivity::class.java)
-								val payload : List<String> = serverResponse.map {
-									serializer.SerializeToString(it)
-								}
-								serverIntent.putExtra("Servers", payload.toTypedArray())
-								serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
-								requireActivity().startActivity(serverIntent)
-							}
-						})
+						val serverIntent = Intent(activity, SelectServerActivity::class.java)
+						serverIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+						requireActivity().startActivity(serverIntent)
 					}
 					// Manual login
 					ENTER_MANUALLY ->  AuthenticationHelper.enterManualUser(activity)
