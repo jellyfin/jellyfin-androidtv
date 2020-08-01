@@ -58,7 +58,11 @@ class SeriesMediaRowPresenter(
 	override fun onBindRowViewHolder(viewHolder: RowPresenter.ViewHolder, row: Any) {
 		viewHolder as ViewHolder
 		row as SeriesMediaRow
-		val series = row.item
+
+		if (row.seasons.size == 1) {
+			viewHolder.seasonList.visibility = View.GONE
+			setSelectedSeason(viewHolder, row.seasons.first())
+		}
 
 		(viewHolder.seasonList.adapter as SeasonListAdapter).apply {
 			setItems(row.seasons)
