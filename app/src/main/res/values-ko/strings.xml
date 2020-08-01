@@ -111,7 +111,7 @@
     <string name="lbl_dislike">싫어요</string>
     <string name="lbl_unlike">좋아요 취소</string>
     <string name="lbl_remove_dislike">싫어요 삭제</string>
-    <string name="lbl_confirm_mark_unwatched">모든 콘텐츠를 재생되었던 것으로 표시할 것입니다. 정말로 계속하시겠습니까\?</string>
+    <string name="lbl_confirm_mark_unwatched">모든 콘텐츠를 재생되지 않았던 것으로 표시할 것입니다. 정말로 계속하시겠습니까\?</string>
     <string name="msg_no_playable_items">재생가능한 항목 없음</string>
     <string name="lbl_unwatched">시청하지 않음</string>
     <string name="lbl_load_channels">"채널 불러오기 "</string>
@@ -231,7 +231,7 @@
     <string name="msg_remote_already_playing">원격 재생 요청 무시됨. 현재 재생중인 아이템을 먼저 멈추십시오.</string>
     <string name="lbl_record_any_channel">아무 채널에서나 기록하기</string>
     <string name="lbl_program_ended">방송 종료됨</string>
-    <string name="lbl_now_playing_track">%s 중 %s</string>
+    <string name="lbl_now_playing_track">%s(%s)</string>
     <string name="sum_tv_queuing">에피소드를 재생할 때 남은 시즌 대기열에 추가</string>
     <string name="lbl_tv_queuing">모든 후속 에피소드 대기열에 추가</string>
     <string name="lbl_never">안 함</string>
