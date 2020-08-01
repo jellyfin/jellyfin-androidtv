@@ -10,16 +10,30 @@
         android:layout_width="match_parent"
         android:layout_height="500dp">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="48dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="48dp" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/season_list"
-            android:layout_width="200dp"
-            android:layout_height="500dp"
-            android:layout_marginStart="48dp"
-            android:paddingTop="27dp"
-            android:paddingBottom="27dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guide_end"
+            app:layout_constraintStart_toStartOf="@id/guide_start"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/row_details_series_media_button" />
 
@@ -27,22 +41,19 @@
             android:id="@+id/poster"
             android:layout_width="116dp"
             android:layout_height="174dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="27dp"
             android:scaleType="centerInside"
-            app:layout_constraintStart_toEndOf="@id/season_list"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guide_start"
+            app:layout_constraintTop_toBottomOf="@id/season_list"
             tools:src="@drawable/banner_movie" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/season_container"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginEnd="48dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/season_list"
+            app:layout_constraintEnd_toEndOf="@id/guide_end"
+            app:layout_constraintStart_toStartOf="@id/guide_start"
             app:layout_constraintTop_toBottomOf="@id/poster"
             tools:listitem="@layout/row_details_series_media_item" />
     </androidx.constraintlayout.widget.ConstraintLayout>
