@@ -124,7 +124,8 @@ suspend fun ApiClient.getLocalTrailers(item: BaseItem): List<LocalTrailer>? = su
 	})
 }
 
-suspend fun ApiClient.getEpisodesOfSeason(episode: Episode): List<Episode>? = if (episode.seasonId != null) getEpisodesOfSeason(episode.seasonId) else null
+suspend fun ApiClient.getSisterEpisodes(episode: Episode): List<Episode>? = episode.seasonId?.let { getEpisodesOfSeason(episode.seasonId) }
+suspend fun ApiClient.getEpisodesOfSeason(season: Season): List<Episode>? = getEpisodesOfSeason(season.id)
 
 private suspend fun ApiClient.getEpisodesOfSeason(seasonId: String): List<Episode>? = suspendCoroutine { continuation ->
 	val query = StdItemQuery()

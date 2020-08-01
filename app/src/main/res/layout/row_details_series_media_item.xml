@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:paddingTop="16dp"
+    android:focusable="true"
+    android:clickable="true">
 
     <ImageView
         android:id="@+id/thumbnail"
@@ -21,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:textSize="42sp"
+        android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@id/thumbnail"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Episode 1" />

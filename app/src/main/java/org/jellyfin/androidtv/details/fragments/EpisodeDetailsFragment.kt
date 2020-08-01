@@ -18,7 +18,7 @@ import org.jellyfin.androidtv.model.itemtypes.Episode
 import org.jellyfin.androidtv.presentation.InfoCardPresenter
 import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.addIfNotEmpty
-import org.jellyfin.androidtv.util.apiclient.getEpisodesOfSeason
+import org.jellyfin.androidtv.util.apiclient.getSisterEpisodes
 import org.jellyfin.androidtv.util.dp
 
 class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment<Episode>(episode) {
@@ -102,7 +102,7 @@ class EpisodeDetailsFragment(private val episode: Episode) : BaseDetailsFragment
 		// Get additional information asynchronously
 		awaitAll(
 			async {
-				TvApp.getApplication().apiClient.getEpisodesOfSeason(episode)?.let { episodes ->
+				TvApp.getApplication().apiClient.getSisterEpisodes(episode)?.let { episodes ->
 					val adapter = (moreFromThisSeason.adapter as ArrayObjectAdapter)
 					adapter.apply { episodes.forEach(::add) }
 				}
