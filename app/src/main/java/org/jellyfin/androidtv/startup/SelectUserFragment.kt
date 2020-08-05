@@ -13,6 +13,7 @@ import org.jellyfin.androidtv.presentation.CardPresenter
 import org.jellyfin.androidtv.presentation.GridButtonPresenter
 import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper
+import org.jellyfin.apiclient.interaction.EmptyResponse
 import org.jellyfin.apiclient.interaction.IConnectionManager
 import org.jellyfin.apiclient.interaction.Response
 import org.jellyfin.apiclient.model.apiclient.ServerInfo
@@ -22,15 +23,34 @@ class SelectUserFragment : CustomBrowseFragment() {
 
 	override fun addAdditionalRows(rowAdapter: ArrayObjectAdapter) {
 		super.addAdditionalRows(rowAdapter)
-		val usersHeader = HeaderItem(rowAdapter.size().toLong(), mApplication.getString(R.string.lbl_select_user))
+		val manualEntryRowItem = BaseRowItem(
+			GridButton(ENTER_MANUALLY, getString(R.string.lbl_enter_manually), R.drawable.tile_edit)
+		)
+
+		val usersHeader = HeaderItem(rowAdapter.size().toLong(), getString(R.string.lbl_select_user))
 		val usersAdapter = ItemRowAdapter(CardPresenter(), rowAdapter)
+
+		usersAdapter.add(manualEntryRowItem)
+
+		usersAdapter.setRetrieveFinishedListener(
+			UserRetrieveFinishedListener(usersAdapter, manualEntryRowItem)
+		)
+
 		usersAdapter.Retrieve()
-		usersAdapter.add(BaseRowItem(GridButton(ENTER_MANUALLY, mApplication.getString(R.string.lbl_enter_manually), R.drawable.tile_edit)))
+
 		rowAdapter.add(ListRow(usersHeader, usersAdapter))
-		val gridHeader = HeaderItem(rowAdapter.size().toLong(), mApplication.getString(R.string.lbl_other_options))
+		val gridHeader = HeaderItem(rowAdapter.size().toLong(), getString(R.string.lbl_other_options))
 		val mGridPresenter = GridButtonPresenter()
 		val gridRowAdapter = ArrayObjectAdapter(mGridPresenter)
-		gridRowAdapter.add(GridButton(SWITCH_SERVER, mApplication.getString(R.string.lbl_switch_server), R.drawable.tile_port_server))
+
+		gridRowAdapter.add(
+			GridButton(
+				SWITCH_SERVER,
+				getString(R.string.lbl_switch_server),
+				R.drawable.tile_port_server
+			)
+		)
+
 		rowAdapter.add(ListRow(gridHeader, gridRowAdapter))
 	}
 
@@ -70,6 +90,16 @@ class SelectUserFragment : CustomBrowseFragment() {
 					AuthenticationHelper.enterManualUser(activity)
 				}
 			}
+		}
+	}
+
+	private class UserRetrieveFinishedListener(
+		private val usersAdapter: ItemRowAdapter,
+		private val rowItem: BaseRowItem
+	) : EmptyResponse() {
+		override fun onResponse() {
+			usersAdapter.remove(rowItem)
+			usersAdapter.add(rowItem)
 		}
 	}
 
