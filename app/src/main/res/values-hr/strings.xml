@@ -198,4 +198,6 @@
     <string name="lbl_to_change_paren">" -za izmjenu"</string>
     <string name="lbl_paren_login_as">" -(prijavi se kao "</string>
     <string name="lbl_runs">U tijeku</string>
+    <string name="lbl_artists">umjetnici</string>
+    <string name="lbl_albums">Albumi</string>
 </resources>
