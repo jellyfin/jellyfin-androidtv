@@ -268,7 +268,7 @@ public class ItemLauncher {
                     Utils.processPasswordEntry(activity, user);
 
                 } else {
-                    AuthenticationHelper.loginUser(user.getName(), "", application.getLoginApiClient(), activity);
+                    AuthenticationHelper.loginUser(user.getName(), "", application.getApiClient(), activity);
                 }
                 break;
 

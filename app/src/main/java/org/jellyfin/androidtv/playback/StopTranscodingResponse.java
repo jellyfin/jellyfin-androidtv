@@ -41,7 +41,7 @@ public class StopTranscodingResponse extends EmptyResponse {
 
     @Override
     public void onError(Exception ex) {
-        logger.ErrorException("Error in StopTranscodingProcesses", ex);
+        logger.error("Error in StopTranscodingProcesses", ex);
         onAny();
     }
 }

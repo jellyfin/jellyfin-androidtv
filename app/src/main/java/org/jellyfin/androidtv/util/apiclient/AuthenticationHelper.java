@@ -85,7 +85,7 @@ public class AuthenticationHelper {
                             }
                         }).setPositiveButton(activity.getString(R.string.lbl_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        loginUser(userName.getText().toString(), userPw.getText().toString(), TvApp.getApplication().getLoginApiClient(), activity);
+                        loginUser(userName.getText().toString(), userPw.getText().toString(), TvApp.getApplication().getApiClient(), activity);
                     }
                 }).show();
             }
@@ -114,8 +114,6 @@ public class AuthenticationHelper {
                         break;
                     case SignedIn:
                     case ServerSignIn:
-                        //Set api client for login
-                        TvApp.getApplication().setLoginApiClient(serverResult.getApiClient());
                         //Open user selection
                         Intent userIntent = new Intent(activity, SelectUserActivity.class);
                         userIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

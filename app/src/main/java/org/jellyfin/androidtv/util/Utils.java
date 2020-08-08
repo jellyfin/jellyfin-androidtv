@@ -215,7 +215,7 @@ public class Utils {
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             String pw = password.getText().toString();
-                            AuthenticationHelper.loginUser(user.getName(), pw, TvApp.getApplication().getLoginApiClient(), activity, directItemId);
+                            AuthenticationHelper.loginUser(user.getName(), pw, TvApp.getApplication().getApiClient(), activity, directItemId);
                         }
                     }).show();
         }

@@ -711,7 +711,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieveUsers() {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getLoginApiClient().GetPublicUsersAsync(new Response<UserDto[]>() {
+        TvApp.getApplication().getApiClient().GetPublicUsersAsync(new Response<UserDto[]>() {
             @Override
             public void onResponse(UserDto[] response) {
                 for (UserDto user : response) {

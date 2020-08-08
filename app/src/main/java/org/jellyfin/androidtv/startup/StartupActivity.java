@@ -153,7 +153,6 @@ public class StartupActivity extends FragmentActivity {
                     }
 
                     // Connected to server - load user and prompt for pw if necessary
-                    application.setLoginApiClient(response.getApiClient());
                     response.getApiClient().GetUserAsync(application.getConfiguredAutoCredentials().getUserDto().getId(), new Response<UserDto>() {
                         @Override
                         public void onResponse(final UserDto response) {
