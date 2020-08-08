@@ -31,6 +31,7 @@ import org.jellyfin.apiclient.JellyfinAndroidKt;
 import org.jellyfin.apiclient.JellyfinOptions;
 import org.jellyfin.apiclient.interaction.AndroidDevice;
 import org.jellyfin.apiclient.interaction.ApiClient;
+import org.jellyfin.apiclient.interaction.ApiEventListener;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.logging.AndroidLogger;
@@ -103,6 +104,7 @@ public class TvApp extends Application {
         options.setLogger(new AndroidLogger());
         options.setAppInfo(new AppInfo("Android TV", BuildConfig.VERSION_NAME));
         jellyfin = new Jellyfin(options.build());
+        apiClient = jellyfin.createApi(null, null, AndroidDevice.fromContext(this), new ApiEventListener());
 
         playbackManager = new PlaybackManager(AndroidDevice.fromContext(this), new AndroidLogger("PlaybackManager"));
 
