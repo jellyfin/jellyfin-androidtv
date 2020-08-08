@@ -9,7 +9,6 @@ import org.jellyfin.androidtv.livetv.TvManager;
 import org.jellyfin.androidtv.model.ChangeTriggerType;
 import org.jellyfin.androidtv.model.ChapterItemInfo;
 import org.jellyfin.androidtv.model.FilterOptions;
-import org.jellyfin.androidtv.model.repository.ConnectionManagerRepository;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.presentation.IPositionablePresenter;
 import org.jellyfin.androidtv.presentation.TextItemPresenter;
@@ -22,7 +21,6 @@ import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.GridFragment;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
-import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -811,8 +809,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private void retrieveViews() {
         final ItemRowAdapter adapter = this;
         final UserDto user = TvApp.getApplication().getCurrentUser();
-        final IConnectionManager connectionManager = ConnectionManagerRepository.Companion.getInstance(TvApp.getApplication()).getConnectionManager();
-        connectionManager.GetApiClient(user).GetUserViews(user.getId(), new Response<ItemsResult>() {
+        TvApp.getApplication().getApiClient().GetUserViews(user.getId(), new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
