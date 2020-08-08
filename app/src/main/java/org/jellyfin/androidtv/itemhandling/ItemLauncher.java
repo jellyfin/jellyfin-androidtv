@@ -20,14 +20,12 @@ import org.jellyfin.androidtv.details.PhotoPlayerActivity;
 import org.jellyfin.androidtv.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.model.ChapterItemInfo;
 import org.jellyfin.androidtv.model.ViewType;
-import org.jellyfin.androidtv.model.repository.ConnectionManagerRepository;
 import org.jellyfin.androidtv.model.repository.SerializerRepository;
 import org.jellyfin.androidtv.playback.MediaManager;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
-import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -258,8 +256,8 @@ public class ItemLauncher {
                 break;
             case Server:
                 //Log in to selected server
-                final IConnectionManager connectionManager = ConnectionManagerRepository.Companion.getInstance(activity).getConnectionManager();
-                AuthenticationHelper.signInToServer(connectionManager, rowItem.getServerInfo().getAddress(), activity);
+                application.getApiClient().ChangeServerLocation(rowItem.getServerInfo().getAddress());
+                AuthenticationHelper.enterManualUser(activity);
                 break;
 
             case User:

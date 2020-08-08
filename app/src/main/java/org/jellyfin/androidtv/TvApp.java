@@ -35,6 +35,7 @@ import org.jellyfin.apiclient.interaction.ApiEventListener;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.logging.AndroidLogger;
+import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserDto;
@@ -180,7 +181,9 @@ public class TvApp extends Application {
     }
 
     public boolean getIsAutoLoginConfigured() {
-        return getUserPreferences().get(UserPreferences.Companion.getLoginBehavior()) == LoginBehavior.AUTO_LOGIN && getConfiguredAutoCredentials().getServerInfo().getId() != null;
+        LogonCredentials credentials = getConfiguredAutoCredentials();
+        ServerInfo serverInfo = credentials != null ? credentials.getServerInfo() : null;
+        return getUserPreferences().get(UserPreferences.Companion.getLoginBehavior()) == LoginBehavior.AUTO_LOGIN && serverInfo != null;
     }
 
     public boolean useExternalPlayer(BaseItemType itemType) {
