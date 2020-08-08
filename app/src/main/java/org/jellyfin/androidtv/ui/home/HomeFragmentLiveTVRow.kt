@@ -10,6 +10,7 @@ import org.jellyfin.androidtv.browsing.BrowseScheduleActivity
 import org.jellyfin.androidtv.browsing.UserViewActivity
 import org.jellyfin.androidtv.constants.Extras
 import org.jellyfin.androidtv.livetv.LiveTvGuideActivity
+import org.jellyfin.androidtv.model.repository.SerializerRepository
 import org.jellyfin.androidtv.presentation.CardPresenter
 import org.jellyfin.androidtv.presentation.GridButtonPresenter
 import org.jellyfin.androidtv.ui.GridButton
