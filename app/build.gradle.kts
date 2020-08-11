@@ -13,8 +13,8 @@ android {
 		targetSdkVersion(29)
 
 		// Release version
-		versionCode = 908
-		versionName = "0.11.3"
+		versionCode = 909
+		versionName = "0.11.4"
 	}
 
 	compileOptions {
@@ -34,13 +34,21 @@ android {
 			applicationIdSuffix = ".debug"
 		}
 	}
+
+	applicationVariants.all {
+		val variant = this
+		variant.outputs.all {
+			val output = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
+			output.outputFileName = output.outputFileName
+				.replace("app-", "jellyfin-androidtv_")
+				.replace(".apk", "_${variant.versionName}.apk")
+		}
+	}
 }
 
 dependencies {
 	// Jellyfin
-	val jellyfinApiclientVersion= "v0.6.0"
-	implementation("com.github.jellyfin.jellyfin-apiclient-java:android:$jellyfinApiclientVersion")
-	implementation("com.github.jellyfin.jellyfin-apiclient-java:library:$jellyfinApiclientVersion")
+	implementation("com.github.jellyfin.jellyfin-apiclient-java:android:v0.6.4")
 
 	// Kotlin
 	implementation(kotlin("stdlib-jdk8"))

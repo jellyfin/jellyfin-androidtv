@@ -137,7 +137,7 @@ public class PlaybackController {
     }
 
     public BaseItemDto getCurrentlyPlayingItem() {
-        return mItems.get(mCurrentIndex);
+        return mItems.size() > mCurrentIndex ? mItems.get(mCurrentIndex) : null;
     }
     public MediaSourceInfo getCurrentMediaSource() { return mCurrentStreamInfo != null && mCurrentStreamInfo.getMediaSource() != null ? mCurrentStreamInfo.getMediaSource() : getCurrentlyPlayingItem().getMediaSources().get(0);}
     public StreamInfo getCurrentStreamInfo() { return mCurrentStreamInfo; }
@@ -998,13 +998,24 @@ public class PlaybackController {
         mReportLoop = new Runnable() {
             @Override
             public void run() {
+                BaseItemDto currentItem = getCurrentlyPlayingItem();
+                if (currentItem == null) {
+                    // Loop was called while nothing was playing!
+                    stopReportLoop();
+                    return;
+                }
+
+                if (mPlaybackState != PlaybackState.PLAYING) {
+                    // Playback was stopped, don't report progress anymore
+                    return;
+                }
 
                 long currentTime = isLiveTv ? getTimeShiftedProgress() : mVideoManager.getCurrentPosition();
                 if (isLiveTv && !directStreamLiveTv) {
                     mFragment.setSecondaryTime(getRealTimeProgress());
                 }
 
-                ReportingHelper.reportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, true);
+                ReportingHelper.reportProgress(currentItem, getCurrentStreamInfo(), currentTime * 10000, true);
                 mHandler.postDelayed(this, PROGRESS_REPORTING_PAUSE_INTERVAL);
             }
         };
