@@ -139,8 +139,8 @@
     <string name="lbl_sports">體育</string>
     <string name="lbl_select_date">選擇日期</string>
     <string name="lbl_open">打開</string>
-    <string name="lbl_clear_queue">清除隊列</string>
-    <string name="lbl_current_queue">當前隊列</string>
+    <string name="lbl_clear_queue">清除佇列</string>
+    <string name="lbl_current_queue">目前佇列</string>
     <string name="btn_got_it">得到</string>
     <string name="lbl_vertical_stretch">垂直延伸</string>
     <string name="lbl_horizontal_stretch">橫向拉伸</string>
@@ -297,8 +297,8 @@
     <string name="lbl_instant_mix">即時混合</string>
     <string name="msg_item_added">" 已加入項目"</string>
     <string name="btn_replace_queue">取代佇列</string>
-    <string name="lbl_items_in_queue">隊列中的項目</string>
-    <string name="msg_replace_or_add_queue_q">您想要替換當前隊列還是添加到它\?</string>
+    <string name="lbl_items_in_queue">佇列中的項目</string>
+    <string name="msg_replace_or_add_queue_q">您想要取代目前佇列或新增至其中\?</string>
     <string name="lbl_enable_seasonal_themes">季節主題</string>
     <string name="desc_seasonal_themes">在一年中的某些時候展示特殊的顏色和建議</string>
     <string name="desc_automatic_fav_songs">自動播放列表的喜愛和喜歡的歌曲</string>
@@ -308,7 +308,7 @@
     <string name="msg_audio_warning">這個應用程式有能力直接流某些多通道音訊格式。如果您的硬體不支持這些格式，您可能在播放某些項目時聽不到任何聲音。這可以透過在設置中將音訊模式更改為「downmix」來修復。</string>
     <string name="msg_external_path">只有在使用網路路徑或路徑替換且在伺服器上正確設置媒體庫，並使用的客戶機可以透過網路直接訪問這位址時，此功能才會生效。</string>
     <string name="btn_set_compatible_audio">現在設置 downmix</string>
-    <string name="desc_current_video_queue">當前正在排隊等待播放的影片項</string>
+    <string name="desc_current_video_queue">目前正在佇列等待播放的影片項目</string>
     <string name="lbl_play_next_up">播放下一個</string>
     <string name="lbl_show_backdrop">瀏覽時顯示背景</string>
     <string name="lbl_use_vlc_livetv">嘗試使用VLC進行電視直播</string>
@@ -355,7 +355,7 @@
     <string name="pref_video_player_exoplayer">ExoPlayer （系統播放器）</string>
     <string name="pref_video_player_vlc">libVLC （VLC解碼器）</string>
     <string name="pref_next_up_timeout_title">自動播放倒數計時時長</string>
-    <string name="pref_next_up_enabled_summary">播放前預覽下一個隊列項目</string>
+    <string name="pref_next_up_enabled_summary">播放前預覽下一個佇列項目</string>
     <string name="pref_next_up_enabled_title">允許播放下一個畫面</string>
     <string name="pref_libvlc_audio_delay_title">libVLC的默認音訊延遲</string>
     <string name="pref_theme_emerald">經典翡翠色</string>
