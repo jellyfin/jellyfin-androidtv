@@ -296,7 +296,7 @@
     <string name="lbl_up_next_colon">"下一個: "</string>
     <string name="lbl_instant_mix">即時混合</string>
     <string name="msg_item_added">" 已加入項目"</string>
-    <string name="btn_replace_queue">替換隊列</string>
+    <string name="btn_replace_queue">取代佇列</string>
     <string name="lbl_items_in_queue">隊列中的項目</string>
     <string name="msg_replace_or_add_queue_q">您想要替換當前隊列還是添加到它\?</string>
     <string name="lbl_enable_seasonal_themes">季節主題</string>
