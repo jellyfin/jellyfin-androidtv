@@ -192,8 +192,8 @@
     <string name="lbl_hour">小時</string>
     <string name="watch_now">立即播放</string>
     <string name="pref_app_theme">應用程式主題</string>
-    <string name="msg_burn_sub_warning">可能需要幾分鐘。請耐心等待…</string>
-    <string name="msg_unable_load_subs">字幕載入失敗</string>
+    <string name="msg_burn_sub_warning">燒錄字幕可能需要幾分鐘。請耐心等待…</string>
+    <string name="msg_unable_load_subs">無法讀取字幕</string>
     <string name="msg_subtitles_loading">載入字幕中……</string>
     <string name="lbl_filters">過濾器</string>
     <string name="lbl_next_up_tv">下一個電視節目</string>
@@ -241,12 +241,12 @@
     <string name="lbl_display_preferences">顯示偏好</string>
     <string name="btn_done">完成</string>
     <string name="lbl_starting_with">以某人的名字開頭</string>
-    <string name="lbl_rating">評級</string>
-    <string name="lbl_critic_rating">評級</string>
+    <string name="lbl_rating">評等</string>
+    <string name="lbl_critic_rating">評等</string>
     <string name="lbl_premier_date">首映時間</string>
     <string name="lbl_name">名字</string>
     <string name="lbl_from">來自</string>
-    <string name="lbl_sorted_by">按照</string>
+    <string name="lbl_sorted_by">排序按照</string>
     <string name="lbl_all_items">所有項目</string>
     <string name="lbl_showing">展示</string>
     <string name="desc_info_panel">顯示包含當前項目詳細訊息的面板，但不顯示詳細訊息</string>
