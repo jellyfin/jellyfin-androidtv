@@ -222,4 +222,5 @@
     <string name="lbl_new_premieres">Nowe premiery</string>
     <string name="lbl_forget">Zapomnij</string>
     <string name="lbl_switch_server">Zmień serwer</string>
+    <string name="msg_will_record">Będzie nagrywać</string>
 </resources>
