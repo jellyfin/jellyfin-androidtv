@@ -266,4 +266,12 @@
     <string name="lbl_record_any_channel">Nagrywaj na dowolnym kanale</string>
     <string name="lbl_end_padding">Wypełnienie końcowe</string>
     <string name="lbl_begin_padding">Rozpocznij wypełnianie</string>
+    <string name="lbl_schedule">Harmonogram</string>
+    <string name="lbl_live">Na żywo</string>
+    <string name="lbl_new">Nowy</string>
+    <string name="lbl_repeat">Powtórz</string>
+    <string name="lbl_all_recordings">Wszystkie nagrania</string>
+    <string name="lbl_recent_recordings">Najnowsze nagrania</string>
+    <string name="lbl_kids">Dzieci</string>
+    <string name="lbl_sports">Sport</string>
 </resources>
