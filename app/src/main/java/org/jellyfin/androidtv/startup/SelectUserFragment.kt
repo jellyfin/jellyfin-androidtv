@@ -11,6 +11,7 @@ import org.jellyfin.androidtv.presentation.CardPresenter
 import org.jellyfin.androidtv.presentation.GridButtonPresenter
 import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper
+import org.jellyfin.apiclient.interaction.EmptyResponse
 
 class SelectUserFragment : CustomBrowseFragment() {
 	override fun addAdditionalRows(rowAdapter: ArrayObjectAdapter) {
