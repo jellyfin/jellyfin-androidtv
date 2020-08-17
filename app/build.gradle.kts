@@ -57,7 +57,7 @@ android {
 
 dependencies {
 	// Jellyfin
-	implementation("com.github.jellyfin.jellyfin-apiclient-java:android:v0.6.4")
+	implementation("org.jellyfin.apiclient:android:0.7.2")
 
 	// Kotlin
 	implementation(kotlin("stdlib-jdk8"))
@@ -67,15 +67,15 @@ dependencies {
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutinesVersion")
 
 	// Android(x)
-	implementation("androidx.core:core-ktx:1.2.0")
-	implementation("androidx.fragment:fragment-ktx:1.2.4")
+	implementation("androidx.core:core-ktx:1.3.1")
+	implementation("androidx.fragment:fragment-ktx:1.2.5")
 	val androidxLeanbackVersion = "1.1.0-alpha03"
 	implementation("androidx.leanback:leanback:$androidxLeanbackVersion")
 	implementation("androidx.leanback:leanback-preference:$androidxLeanbackVersion")
 	val androidxPreferenceVersion = "1.1.1"
 	implementation("androidx.preference:preference:$androidxPreferenceVersion")
 	implementation("androidx.preference:preference-ktx:$androidxPreferenceVersion")
-	implementation("androidx.appcompat:appcompat:1.1.0")
+	implementation("androidx.appcompat:appcompat:1.2.0")
 	implementation("androidx.tvprovider:tvprovider:1.0.0")
 	implementation("androidx.palette:palette:1.0.0")
 	implementation("androidx.constraintlayout:constraintlayout:1.1.3")

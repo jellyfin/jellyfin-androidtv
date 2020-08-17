@@ -1,7 +1,6 @@
 buildscript {
 	repositories {
 		jcenter()
-		mavenCentral()
 		google()
 	}
 
@@ -14,9 +13,7 @@ buildscript {
 allprojects {
 	repositories {
 		jcenter()
-		mavenCentral()
 		google()
-		maven("https://jitpack.io")
 		maven("https://dl.bintray.com/videolan/Android")
 	}
 }
