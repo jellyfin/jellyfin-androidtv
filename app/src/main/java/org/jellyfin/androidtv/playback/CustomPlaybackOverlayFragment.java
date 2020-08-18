@@ -1086,7 +1086,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                                     cancelRecording(program, true);
                                 }
                             })
-                            .setNegativeButton("Just this one", new DialogInterface.OnClickListener() {
+                            .setNegativeButton(R.string.just_one, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     cancelRecording(program, false);

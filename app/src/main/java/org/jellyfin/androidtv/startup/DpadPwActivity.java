@@ -92,10 +92,10 @@ public class DpadPwActivity extends FragmentActivity {
                     final Activity activity = this;
                     password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     new AlertDialog.Builder(this)
-                            .setTitle("Enter Password")
-                            .setMessage("Please enter password for " + user.getName())
+                            .setTitle(R.string.password_prompt)
+                            .setMessage(R.string.password_prompt_message + user.getName())
                             .setView(password)
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.lbl_ok, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     String pw = password.getText().toString();
                                     AuthenticationHelper.loginUser(user.getName(), pw, TvApp.getApplication().getLoginApiClient(), activity, directItemId);

@@ -333,7 +333,7 @@ public class MediaManager {
         name.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         new AlertDialog.Builder(activity)
                 .setTitle(R.string.lbl_save_as_playlist)
-                .setMessage("Enter a name for the new playlist")
+                .setMessage(R.string.lbl_new_playlist_name)
                 .setView(name)
                 .setPositiveButton(R.string.btn_done, new DialogInterface.OnClickListener() {
                     @Override
@@ -347,7 +347,7 @@ public class MediaManager {
                         TvApp.getApplication().getApiClient().CreatePlaylist(request, new Response<PlaylistCreationResult>() {
                             @Override
                             public void onResponse(PlaylistCreationResult response) {
-                                Toast.makeText(activity, "Queue saved as new playlist: "+text, Toast.LENGTH_LONG).show();
+                                Toast.makeText(activity, activity.getString(R.string.msg_queue_saved) + text, Toast.LENGTH_LONG).show();
                                 TvApp.getApplication().dataRefreshService.setLastLibraryChange(System.currentTimeMillis());
                             }
 
@@ -407,7 +407,7 @@ public class MediaManager {
             total += video.getRunTimeTicks() / 10000;
         }
 
-        Utils.showToast(TvApp.getApplication(), item.getName() + " added to video queue. Ends: "+android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(new Date(total)));
+        Utils.showToast(TvApp.getApplication(), item.getName() + TvApp.getApplication().getString(R.string.msg_added_to_video) +android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(new Date(total)));
         return mCurrentVideoQueue.size()-1;
     }
 
@@ -479,7 +479,7 @@ public class MediaManager {
         }
 
         if (!audioInitialized) {
-            Utils.showToast(TvApp.getApplication(), "Unable to play audio");
+            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.audio_error));
         }
 
         return audioInitialized;
@@ -596,7 +596,7 @@ public class MediaManager {
 
             @Override
             public void onError(Exception exception) {
-                Utils.showToast(TvApp.getApplication(), "Unable to play audio " + exception.getLocalizedMessage());
+                Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.audio_error) + exception.getLocalizedMessage());
             }
         });
 

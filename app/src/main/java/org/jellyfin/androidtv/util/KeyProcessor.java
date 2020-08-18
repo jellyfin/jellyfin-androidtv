@@ -423,7 +423,7 @@ public class KeyProcessor {
                         @Override
                         public void onResponse(ItemsResult response) {
                             if (response.getTotalRecordCount() == 0) {
-                                Utils.showToast(mCurrentActivity, "No items to play");
+                                Utils.showToast(mCurrentActivity, R.string.msg_no_items);
                             } else {
                                 PlaybackHelper.retrieveAndPlay(response.getItems()[0].getId(), false, mCurrentActivity);
                             }
@@ -525,7 +525,7 @@ public class KeyProcessor {
             @Override
             public void onError(Exception exception) {
                 Timber.e(exception, "Error setting played status");
-                Utils.showToast(mCurrentActivity, "Error setting played status");
+                Utils.showToast(mCurrentActivity, R.string.playing_error);
             }
         });
 
@@ -541,7 +541,7 @@ public class KeyProcessor {
             @Override
             public void onError(Exception exception) {
                 Timber.e(exception, "Error setting played status");
-                Utils.showToast(mCurrentActivity, "Error setting played status");
+                Utils.showToast(mCurrentActivity, R.string.playing_error);
             }
         });
 
@@ -558,7 +558,7 @@ public class KeyProcessor {
             @Override
             public void onError(Exception exception) {
                 Timber.e(exception, "Error setting favorite status");
-                Utils.showToast(mCurrentActivity, "Error setting favorite status");
+                Utils.showToast(mCurrentActivity, R.string.favorite_error);
             }
         });
 
@@ -575,7 +575,7 @@ public class KeyProcessor {
                 @Override
                 public void onError(Exception exception) {
                     Timber.e(exception, "Error clearing like status");
-                    Utils.showToast(mCurrentActivity, "Error clearing like status");
+                    Utils.showToast(mCurrentActivity, R.string.like_clearing_error);
                 }
             });
 
@@ -589,7 +589,7 @@ public class KeyProcessor {
                 @Override
                 public void onError(Exception exception) {
                     Timber.e(exception, "Error setting like status");
-                    Utils.showToast(mCurrentActivity, "Error setting like status");
+                    Utils.showToast(mCurrentActivity, R.string.like_setting_error);
                 }
             });
         }

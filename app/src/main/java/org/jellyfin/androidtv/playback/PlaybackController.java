@@ -179,13 +179,13 @@ public class PlaybackController {
         playbackRetries++;
 
         if (playbackRetries < 3) {
-            Utils.showToast(mApplication, "Player error encountered.  Will re-try...");
+            Utils.showToast(mApplication, mApplication.getString(R.string.player_error));
             Timber.i("Player error encountered - retrying");
             stop();
             play(mCurrentPosition);
 
         } else {
-            Utils.showToast(mApplication, "Too many errors. Giving up.");
+            Utils.showToast(mApplication, mApplication.getString(R.string.too_many_errors));
             mPlaybackState = PlaybackState.ERROR;
             stop();
             mFragment.finish();
@@ -279,8 +279,8 @@ public class PlaybackController {
                 if (item.getLocationType() == LocationType.Virtual) {
                     if (hasNextItem()) {
                         new AlertDialog.Builder(mApplication.getCurrentActivity())
-                                .setTitle("Episode Missing")
-                                .setMessage("This episode is missing from your library.  Would you like to skip it and continue to the next one?")
+                                .setTitle(R.string.episode_missing)
+                                .setMessage(R.string.episode_missing_message)
                                 .setPositiveButton(mApplication.getResources().getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -298,8 +298,8 @@ public class PlaybackController {
                         return;
                     } else {
                         new AlertDialog.Builder(mApplication.getCurrentActivity())
-                                .setTitle("Episode Missing")
-                                .setMessage("This episode is missing from your library.  Playback will stop.")
+                                .setTitle(R.string.episode_missing)
+                                .setMessage(R.string.episode_missing_message_2)
                                 .setPositiveButton(mApplication.getResources().getString(R.string.lbl_ok), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -660,7 +660,7 @@ public class PlaybackController {
 
         MediaStream stream = StreamHelper.getMediaStream(getCurrentMediaSource(), index);
         if (stream == null) {
-            Utils.showToast(mApplication, "Unable to select subtitle");
+            Utils.showToast(mApplication, mApplication.getString(R.string.subtitle_error));
             return;
         }
 
@@ -815,10 +815,10 @@ public class PlaybackController {
         } else {
             if (mVideoManager.isNativeMode() && !isLiveTv && ContainerTypes.TS.equals(mCurrentStreamInfo.getContainer())) {
                 //Exo does not support seeking in .ts
-                Utils.showToast(TvApp.getApplication(), "Unable to seek");
+                Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
             } else if (mVideoManager.seekTo(pos) >= 0) {
             } else {
-                Utils.showToast(TvApp.getApplication(), "Unable to seek");
+                Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
             }
 
         }
@@ -951,7 +951,7 @@ public class PlaybackController {
                 } else {
                     // do the seek
                     if (mVideoManager.seekTo(position) < 0)
-                        Utils.showToast(TvApp.getApplication(), "Unable to seek");
+                        Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
 
                     mPlaybackState = PlaybackState.PLAYING;
                     updateProgress = true;

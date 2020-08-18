@@ -292,7 +292,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
             } catch (Exception e) {
                 Timber.e(e, "Error seeking in VLC");
-                Utils.showToast(mActivity, "Unable to seek");
+                Utils.showToast(mActivity,  mActivity.getString(R.string.seek_error));
                 return -1;
             }
         }
