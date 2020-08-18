@@ -49,12 +49,10 @@ class NextUpActivity : FragmentActivity() {
 		}
 	}
 
-	private fun safelyLoadBitmap(url: String): Bitmap? {
-		return try {
-			Glide.with(this@NextUpActivity).asBitmap().load(url).submit().get()
-		} catch (e: Exception) {
-			null
-		}
+	private fun safelyLoadBitmap(url: String): Bitmap? = try {
+		Glide.with(this).asBitmap().load(url).submit().get()
+	} catch (e: Exception) {
+		null
 	}
 
 	private suspend fun loadItemData(id: String) = withContext(Dispatchers.IO) {
