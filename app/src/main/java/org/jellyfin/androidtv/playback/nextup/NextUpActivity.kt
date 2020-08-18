@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.playback.nextup
 
+import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import androidx.leanback.app.BackgroundManager
 import com.bumptech.glide.Glide
@@ -12,8 +12,7 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.apiclient.model.dto.ImageOptions
-
-private const val LOG_TAG = "NextUpActivity"
+import timber.log.Timber
 
 class NextUpActivity : FragmentActivity() {
 	private lateinit var fragment: NextUpFragment
@@ -23,7 +22,7 @@ class NextUpActivity : FragmentActivity() {
 
 		val id = intent.getStringExtra("id")
 		if (id == null) {
-			Log.e(LOG_TAG, "No id found in bundle at onCreate().")
+			Timber.e("No id found in bundle at onCreate().")
 			finish()
 			return
 		}
@@ -36,7 +35,7 @@ class NextUpActivity : FragmentActivity() {
 			val data = loadItemData(id)
 
 			if (data == null) {
-				Log.e(LOG_TAG, "Unable to load data at onCreate().")
+				Timber.e("Unable to load data at onCreate().")
 				finish()
 				return@launch
 			}
@@ -47,6 +46,14 @@ class NextUpActivity : FragmentActivity() {
 				.beginTransaction()
 				.add(android.R.id.content, fragment)
 				.commit()
+		}
+	}
+
+	private fun safelyLoadBitmap(url: String): Bitmap? {
+		return try {
+			Glide.with(this@NextUpActivity).asBitmap().load(url).submit().get()
+		} catch (e: Exception) {
+			null
 		}
 	}
 
@@ -67,9 +74,9 @@ class NextUpActivity : FragmentActivity() {
 			item.id,
 			title,
 			item.overview,
-			backdrop?.let { Glide.with(this@NextUpActivity).asBitmap().load(it).submit().get() },
-			thumbnail?.let { Glide.with(this@NextUpActivity).asBitmap().load(it).submit().get() },
-			logo?.let { Glide.with(this@NextUpActivity).asBitmap().load(it).submit().get() }
+			backdrop?.let { safelyLoadBitmap(it) },
+			thumbnail?.let { safelyLoadBitmap(it) },
+			logo?.let { safelyLoadBitmap(it) }
 		)
 	}
 }
