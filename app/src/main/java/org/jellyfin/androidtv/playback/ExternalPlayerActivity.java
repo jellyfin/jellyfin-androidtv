@@ -92,8 +92,8 @@ public class ExternalPlayerActivity extends FragmentActivity {
             //If item didn't play as long as its duration - confirm we want to mark watched
             if (!isLiveTv && playerFinishedTime - mLastPlayerStart < runtime * .9) {
                 new AlertDialog.Builder(this)
-                        .setTitle("Mark Watched")
-                        .setMessage("The item didn't appear to play as long as its duration. Mark watched?")
+                        .setTitle(getResources().getString(R.string.mark_watched))
+                        .setMessage(getResources().getString(R.string.mark_watched_desvription))
                         .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

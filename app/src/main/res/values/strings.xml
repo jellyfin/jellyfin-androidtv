@@ -371,4 +371,6 @@
     <string name="bitrate_auto">Auto</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
+    <string name="mark_watched">Mark Watched</string>
+    <string name="mark_watched_message">The item didn't appear to play as long as its duration. Mark watched?</string>
 </resources>
