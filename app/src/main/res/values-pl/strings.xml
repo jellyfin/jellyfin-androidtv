@@ -361,4 +361,16 @@
     <string name="lbl_save">Zapisz</string>
     <string name="msg_settings_updated">Ustawienia zaktualizowane</string>
     <string name="lbl_series_settings">Ustawienia seriali</string>
+    <string name="bitrate_kbit">Szybkość transmisji %1$,.0f Kbit/s</string>
+    <string name="bitrate_mbit">Szybkość transmisji %1$,.0f Mbit/s</string>
+    <string name="pref_next_up_enabled_title">Włącz ekran kolejnego odcinka</string>
+    <string name="pref_next_up_timeout_title">Czas oczekiwania na następny odcinek</string>
+    <string name="pref_video_player_vlc">Odtwarzacz VLC</string>
+    <string name="pref_video_player_exoplayer">Odtwarzacz ExoPlayer</string>
+    <string name="pref_use_direct_path_summary">Przekaż ścieżkę systemu plików zamiast adresu URL przesyłania strumieniowego</string>
+    <string name="lbl_resume_preroll">Wznów przed filmem</string>
+    <string name="title_activity_expanded_text">Aktywny tekst rozszerzony</string>
+    <string name="lbl_series_recordings">Nagrywanie seryjne</string>
+    <string name="lbl_episode_not_record">Ten serial NIE będzie nagrany</string>
+    <string name="lbl_play_next_up">Odtwórz kolejny</string>
 </resources>
