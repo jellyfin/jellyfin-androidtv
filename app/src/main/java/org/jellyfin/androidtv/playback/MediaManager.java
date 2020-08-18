@@ -347,7 +347,7 @@ public class MediaManager {
                         TvApp.getApplication().getApiClient().CreatePlaylist(request, new Response<PlaylistCreationResult>() {
                             @Override
                             public void onResponse(PlaylistCreationResult response) {
-                                Toast.makeText(activity, activity.getString(R.string.msg_queue_saved) + text, Toast.LENGTH_LONG).show();
+                                Toast.makeText(activity, activity.getString(R.string.msg_queue_saved, text), Toast.LENGTH_LONG).show();
                                 TvApp.getApplication().dataRefreshService.setLastLibraryChange(System.currentTimeMillis());
                             }
 
@@ -407,7 +407,7 @@ public class MediaManager {
             total += video.getRunTimeTicks() / 10000;
         }
 
-        Utils.showToast(TvApp.getApplication(), item.getName() + TvApp.getApplication().getString(R.string.msg_added_to_video) +android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(new Date(total)));
+        Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_added_to_video, item.getName(), android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(new Date(total))));
         return mCurrentVideoQueue.size()-1;
     }
 
@@ -596,7 +596,7 @@ public class MediaManager {
 
             @Override
             public void onError(Exception exception) {
-                Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.audio_error) + exception.getLocalizedMessage());
+                Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.audio_error, exception.getLocalizedMessage()));
             }
         });
 

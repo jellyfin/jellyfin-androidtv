@@ -675,13 +675,13 @@ public class ItemListActivity extends BaseActivity {
                         } else {
                             new AlertDialog.Builder(mActivity)
                                     .setTitle(R.string.lbl_delete)
-                                    .setMessage(R.string.warning_0 + mBaseItem.getName() + R.string.warning_1)
+                                    .setMessage(getString(R.string.delete_warning, mBaseItem.getName()))
                                     .setPositiveButton(R.string.lbl_delete, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int whichButton) {
                                             TvApp.getApplication().getApiClient().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
                                                 @Override
                                                 public void onResponse() {
-                                                    Utils.showToast(mActivity, mBaseItem.getName() + R.string.lbl_deleted);
+                                                    Utils.showToast(mActivity, getString(R.string.lbl_deleted, mBaseItem.getName()));
                                                     TvApp.getApplication().dataRefreshService.setLastDeletedItemId(mBaseItem.getId());
                                                     finish();
                                                 }

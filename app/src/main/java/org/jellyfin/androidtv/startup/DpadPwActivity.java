@@ -93,7 +93,7 @@ public class DpadPwActivity extends FragmentActivity {
                     password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     new AlertDialog.Builder(this)
                             .setTitle(R.string.password_prompt)
-                            .setMessage(R.string.password_prompt_message + user.getName())
+                            .setMessage(getString(R.string.password_prompt_message, user.getName()))
                             .setView(password)
                             .setPositiveButton(R.string.lbl_ok, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
