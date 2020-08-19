@@ -14,7 +14,6 @@ allprojects {
 	repositories {
 		jcenter()
 		google()
-		maven("https://dl.bintray.com/videolan/Android")
 	}
 }
 
