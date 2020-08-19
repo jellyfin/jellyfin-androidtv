@@ -657,8 +657,8 @@ public class ItemListActivity extends BaseActivity {
                         if (mBaseItem.getId().equals(VIDEO_QUEUE)) {
                             new AlertDialog.Builder(mActivity)
                                     .setTitle(R.string.lbl_clear_queue)
-                                    .setMessage("Clear current video queue?")
-                                    .setPositiveButton("Clear", new DialogInterface.OnClickListener() {
+                                    .setMessage(R.string.clear_expanded)
+                                    .setPositiveButton(R.string.lbl_clear, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int whichButton) {
                                             MediaManager.setCurrentVideoQueue(new ArrayList<BaseItemDto>());
                                             mApplication.dataRefreshService.setLastVideoQueueChange(System.currentTimeMillis());
@@ -675,13 +675,13 @@ public class ItemListActivity extends BaseActivity {
                         } else {
                             new AlertDialog.Builder(mActivity)
                                     .setTitle(R.string.lbl_delete)
-                                    .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
-                                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                    .setMessage(getString(R.string.delete_warning, mBaseItem.getName()))
+                                    .setPositiveButton(R.string.lbl_delete, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int whichButton) {
                                             TvApp.getApplication().getApiClient().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
                                                 @Override
                                                 public void onResponse() {
-                                                    Utils.showToast(mActivity, mBaseItem.getName() + " Deleted");
+                                                    Utils.showToast(mActivity, getString(R.string.lbl_deleted, mBaseItem.getName()));
                                                     TvApp.getApplication().dataRefreshService.setLastDeletedItemId(mBaseItem.getId());
                                                     finish();
                                                 }
@@ -696,7 +696,7 @@ public class ItemListActivity extends BaseActivity {
                                     .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            Utils.showToast(mActivity, "Item NOT Deleted");
+                                            Utils.showToast(mActivity, R.string.not_deleted);
                                         }
                                     })
                                     .show();

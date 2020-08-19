@@ -92,8 +92,8 @@ public class ExternalPlayerActivity extends FragmentActivity {
             //If item didn't play as long as its duration - confirm we want to mark watched
             if (!isLiveTv && playerFinishedTime - mLastPlayerStart < runtime * .9) {
                 new AlertDialog.Builder(this)
-                        .setTitle("Mark Watched")
-                        .setMessage("The item didn't appear to play as long as its duration. Mark watched?")
+                        .setTitle(R.string.mark_watched)
+                        .setMessage(R.string.mark_watched_message)
                         .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -127,14 +127,14 @@ public class ExternalPlayerActivity extends FragmentActivity {
         if (!MediaManager.isVideoQueueModified()) MediaManager.clearVideoQueue();
 
         new AlertDialog.Builder(this)
-                .setTitle("No Player")
-                .setMessage("It doesn't appear you have a video capable app installed.  This option requires you install a 3rd party application for playing video content.")
+                .setTitle(R.string.no_player)
+                .setMessage(R.string.no_player_message)
                 .setPositiveButton(R.string.btn_got_it, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 })
-                .setNegativeButton("Turn this option off", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.turn_off, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         UserPreferences prefs = mApplication.getUserPreferences();

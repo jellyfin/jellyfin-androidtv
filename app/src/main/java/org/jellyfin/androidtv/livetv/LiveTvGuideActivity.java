@@ -368,8 +368,8 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
     private void requestGuidePage(final long startTime) {
         new AlertDialog.Builder(mActivity)
-                .setTitle("Load Guide Data")
-                .setMessage("Load " + (startTime > mCurrentLocalGuideStart ? "next " : "previous ") +getGuideHours()+" hours?")
+                .setTitle(R.string.lbl_load_guide_data)
+                .setMessage(startTime > mCurrentLocalGuideStart ? getString(R.string.msg_live_tv_next, getGuideHours()) : getString(R.string.msg_live_tv_prev, getGuideHours()))
                 .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
