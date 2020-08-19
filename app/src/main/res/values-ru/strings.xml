@@ -4,7 +4,7 @@
     <string name="loading">Загрузка...</string>
     <string name="video_error_unknown_error">Не удалось воспроизвести видео</string>
     <string name="txt_loading">Идет загрузка…</string>
-    <string name="title_activity_select_user">ВыборДействийПользователя</string>
+    <string name="title_activity_select_user">Выбор Действий Пользователя</string>
     <string name="home_title">Главное</string>
     <string name="btn_cancel">Отменить</string>
     <string name="byletter_letters">АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
