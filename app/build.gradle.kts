@@ -16,8 +16,8 @@ android {
 		targetSdkVersion(29)
 
 		// Release version
-		versionCode = 905
-		versionName = "0.11.0"
+		versionCode = getVersionCode(project.version.toString()) ?: 1
+		versionName = project.version.toString()
 	}
 
 	compileOptions {
@@ -50,7 +50,7 @@ android {
 			val output = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
 			output.outputFileName = output.outputFileName
 				.replace("app-", "jellyfin-androidtv_")
-				.replace(".apk", "_${variant.versionName}.apk")
+				.replace(".apk", "_v${variant.versionName}.apk")
 		}
 	}
 }
