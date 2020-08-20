@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="video_error_unknown_error">Fehler beim Laden des Videos</string>
     <string name="txt_loading">Laden…</string>
-    <string name="title_activity_select_user">BenutzerAktivitätAuswählen</string>
+    <string name="title_activity_select_user">Benutzeraktivität Auswählen</string>
     <string name="home_title">Startbildschirm</string>
     <string name="btn_cancel">Abbrechen</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
