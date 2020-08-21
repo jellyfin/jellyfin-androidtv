@@ -12,6 +12,12 @@ buildscript {
 }
 
 allprojects {
+	// Versioning
+	allprojects {
+		group = "org.jellyfin.apiclient"
+		version = getProperty("jellyfin.version")?.removePrefix("v") ?: "DEV"
+	}
+	// Dependencies
 	repositories {
 		jcenter()
 		mavenCentral()

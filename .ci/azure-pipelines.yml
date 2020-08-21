@@ -41,6 +41,10 @@ jobs:
     vmImage: 'ubuntu-latest'
 
   steps:
+  - script: 'echo "##vso[task.setvariable variable=JELLYFIN_VERSION]$(git describe --tags)"'
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
+    displayName: 'Set Version Variable'
+
   - task: Gradle@2
     displayName: 'Build Debug'
     inputs:
@@ -86,8 +90,8 @@ jobs:
     vmImage: 'ubuntu-latest'
 
   steps:
-  - script: 'echo "##vso[task.setvariable variable=TAG]$(git describe --tags)"'
-    displayName: 'Set Tag Variable'
+  - script: 'echo "##vso[task.setvariable variable=JELLYFIN_VERSION]$(git describe --tags)"'
+    displayName: 'Set Version Variable'
 
   - task: DownloadPipelineArtifact@2
     displayName: 'Download APKs'
@@ -103,7 +107,7 @@ jobs:
     inputs:
       secureFile: 'keystore'
 
-  - script: '$(find / -name apksigner -print -quit) sign --ks ${KEYSTORE_SECUREFILEPATH} --ks-pass pass:${PASSWORD} --out ${SYSTEM_ARTIFACTSDIRECTORY}/jellyfin-androidtv_release_${TAG}.apk ${SYSTEM_ARTIFACTSDIRECTORY}/jellyfin-androidtv_release-unsigned_${TAG}.apk'
+  - script: '$(find / -name apksigner -print -quit) sign --ks ${KEYSTORE_SECUREFILEPATH} --ks-pass pass:${PASSWORD} --out ${SYSTEM_ARTIFACTSDIRECTORY}/jellyfin-androidtv_release_${JELLYFIN_VERSION}.apk ${SYSTEM_ARTIFACTSDIRECTORY}/jellyfin-androidtv_release-unsigned_${JELLYFIN_VERSION}.apk'
     displayName: 'Sign Release APK'
     env:
       PASSWORD: $(KeyStorePassword)
@@ -112,7 +116,7 @@ jobs:
     displayName: 'Remove Unsigned APK'
     inputs:
       sourceFolder: '$(System.ArtifactsDirectory)'
-      contents: 'jellyfin-androidtv_release-unsigned_$(TAG).apk'
+      contents: 'jellyfin-androidtv_release-unsigned_$(JELLYFIN_VERSION).apk'
 
   - task: GithubRelease@0
     displayName: 'GitHub Upload'
@@ -122,17 +126,17 @@ jobs:
       assets: '$(System.ArtifactsDirectory)/*.apk'
       action: 'edit'
       assetUploadMode: 'replace'
-      tag: '$(TAG)'
+      tag: '$(JELLYFIN_VERSION)'
 
   - task: CopyFilesOverSSH@0
     inputs:
       sshEndpoint: repository
       sourceFolder: '$(System.ArtifactsDirectory)'
       contents: '**'
-      targetFolder: '/srv/repository/releases/client/androidtv/versions/$(TAG)'
+      targetFolder: '/srv/repository/releases/client/androidtv/versions/$(JELLYFIN_VERSION)'
 
   - task: SSH@0
     inputs:
       sshEndpoint: repository
       runOptions: 'inline'
-      inline: 'cd /srv/repository/releases/client/androidtv && rm -rf *.apk && ln -s versions/$(TAG)/jellyfin-androidtv_*_$(TAG).apk .'
+      inline: 'cd /srv/repository/releases/client/androidtv && rm -rf *.apk && ln -s versions/$(JELLYFIN_VERSION)/jellyfin-androidtv_*_$(JELLYFIN_VERSION).apk .'
