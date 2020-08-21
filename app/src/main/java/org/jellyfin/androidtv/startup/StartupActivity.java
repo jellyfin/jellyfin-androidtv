@@ -17,17 +17,11 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.browsing.MainActivity;
 import org.jellyfin.androidtv.details.FullDetailsActivity;
 import org.jellyfin.androidtv.itemhandling.ItemLauncher;
-import org.jellyfin.androidtv.model.LogonCredentials;
 import org.jellyfin.androidtv.playback.MediaManager;
-import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
-import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.UserDto;
-import org.jellyfin.apiclient.model.session.SessionInfoDto;
 
 import timber.log.Timber;
 
@@ -125,56 +119,7 @@ public class StartupActivity extends FragmentActivity {
         //See if we are coming in via direct entry
         application.setDirectItemId(getIntent().getStringExtra("ItemId"));
 
-        //Load any saved login creds
-        application.setConfiguredAutoCredentials(AuthenticationHelper.getSavedLoginCredentials(TvApp.CREDENTIALS_PATH));
-
-        //And use those credentials if option is set
-        if (application.getIsAutoLoginConfigured() || application.getDirectItemId() != null) {
-            ApiClient apiClient = TvApp.getApplication().getApiClient();
-            LogonCredentials credentials = application.getConfiguredAutoCredentials();
-            ServerInfo server = credentials != null ? credentials.getServerInfo() : null;
-            String address = server != null ? server.getAddress() : null;
-            String accessToken = server != null ? server.getAccessToken() : null;
-            String userId = server != null ? server.getUserId() : null;
-            if (address != null) apiClient.ChangeServerLocation(address);
-            if (accessToken != null) apiClient.SetAuthenticationInfo(accessToken, userId);
-
-            //Auto login as configured user - first connect to server
-            apiClient.GetCurrentSessionAsync(new Response<SessionInfoDto[]>() {
-                @Override
-                public void onResponse(SessionInfoDto[] response) {
-                    SessionInfoDto session = response.length >= 1 ? response[0] : null;
-                    if (session != null ){
-                        apiClient.GetUserAsync(application.getConfiguredAutoCredentials().getUserDto().getId(), new Response<UserDto>() {
-                            @Override
-                            public void onResponse(final UserDto response) {
-                                application.setCurrentUser(response);
-                                if (application.getDirectItemId() != null) {
-                                    application.determineAutoBitrate();
-                                    if (response.getHasPassword()
-                                            && (!application.getIsAutoLoginConfigured()
-                                            || (application.getUserPreferences().get(UserPreferences.Companion.getPasswordPromptEnabled())))) {
-                                        //Need to prompt for pw
-                                        Utils.processPasswordEntry(self, response, application.getDirectItemId());
-                                    } else {
-                                        openNextActivity();
-                                    }
-                                } else {
-                                    if (response.getHasPassword() && application.getUserPreferences().get(UserPreferences.Companion.getPasswordPromptEnabled())) {
-                                        Utils.processPasswordEntry(self, response);
-                                    } else {
-                                        openNextActivity();
-                                    }
-                                }
-                            }
-                        });
-                    } else {
-                        Utils.showToast(self, R.string.msg_error_server_unavailable + ": " + application.getConfiguredAutoCredentials().getServerInfo().getName());
-                    }
-                }
-            });
-        } else {
-            AuthenticationHelper.enterManualServerAddress(this);
-        }
+        // Ask for server information
+        AuthenticationHelper.enterManualServerAddress(this);
     }
 }
