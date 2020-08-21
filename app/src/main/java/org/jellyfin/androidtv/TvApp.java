@@ -22,7 +22,6 @@ import org.jellyfin.androidtv.playback.PlaybackManager;
 import org.jellyfin.androidtv.playback.PlaybackOverlayActivity;
 import org.jellyfin.androidtv.preferences.SystemPreferences;
 import org.jellyfin.androidtv.preferences.UserPreferences;
-import org.jellyfin.androidtv.preferences.enums.LoginBehavior;
 import org.jellyfin.androidtv.preferences.enums.PreferredVideoPlayer;
 import org.jellyfin.androidtv.querying.DataRefreshService;
 import org.jellyfin.apiclient.AppInfo;
@@ -35,7 +34,6 @@ import org.jellyfin.apiclient.interaction.ApiEventListener;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.logging.AndroidLogger;
-import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserDto;
@@ -57,8 +55,6 @@ import timber.log.Timber;
 )
 @AcraLimiter
 public class TvApp extends Application {
-    // The minimum supported server version. Trying to connect to an older server will display an error.
-    public static final String MINIMUM_SERVER_VERSION = "10.3.0";
     public static final String CREDENTIALS_PATH = "org.jellyfin.androidtv.login.json";
 
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
@@ -178,12 +174,6 @@ public class TvApp extends Application {
     public SystemPreferences getSystemPreferences() {
         if (this.systemPreferences == null) this.systemPreferences = new SystemPreferences(this);
         return this.systemPreferences;
-    }
-
-    public boolean getIsAutoLoginConfigured() {
-        LogonCredentials credentials = getConfiguredAutoCredentials();
-        ServerInfo serverInfo = credentials != null ? credentials.getServerInfo() : null;
-        return getUserPreferences().get(UserPreferences.Companion.getLoginBehavior()) == LoginBehavior.AUTO_LOGIN && serverInfo != null;
     }
 
     public boolean useExternalPlayer(BaseItemType itemType) {

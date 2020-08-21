@@ -113,9 +113,6 @@ public class StartupActivity extends FragmentActivity {
     }
 
     private void establishConnection() {
-        // workaround...
-        Activity self = this;
-
         //See if we are coming in via direct entry
         application.setDirectItemId(getIntent().getStringExtra("ItemId"));
 
