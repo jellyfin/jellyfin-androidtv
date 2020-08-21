@@ -47,7 +47,9 @@ public class AuthenticationHelper {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String addressValue = address.getText().toString();
                 Timber.d("Entered address: %s", addressValue);
-                TvApp.getApplication().getApiClient().ChangeServerLocation(addressValue);
+                ServerInfo info = new ServerInfo();
+                info.setAddress(addressValue);
+                TvApp.getApplication().getApiClient().EnableAutomaticNetworking(info);
                 AuthenticationHelper.enterManualUser(activity);
             }
         }).show();
