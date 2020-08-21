@@ -228,6 +228,7 @@ public class MediaManager {
 
                 mVlcPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
                 if(!Utils.downMixAudio()) {
+                    mVlcPlayer.setAudioOutput("android_audiotrack");
                     mVlcPlayer.setAudioDigitalOutputEnabled(true);
                 } else {
                     mVlcPlayer.setAudioOutput("opensles_android");
