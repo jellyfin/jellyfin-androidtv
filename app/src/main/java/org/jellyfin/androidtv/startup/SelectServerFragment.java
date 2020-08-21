@@ -19,7 +19,6 @@ import org.jellyfin.androidtv.base.IKeyListener;
 import org.jellyfin.androidtv.base.IMessageListener;
 import org.jellyfin.androidtv.browsing.CustomBrowseFragment;
 import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
-import org.jellyfin.androidtv.model.repository.SerializerRepository;
 import org.jellyfin.androidtv.presentation.CardPresenter;
 import org.jellyfin.androidtv.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.GridButton;
@@ -36,10 +35,11 @@ public class SelectServerFragment extends CustomBrowseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        // TODO Don't read from extras but retrieve server list ourselves
         String[] passedItems = getActivity().getIntent().getStringArrayExtra("Servers");
         if (passedItems != null) {
             for (String json : passedItems) {
-                mServers.add(SerializerRepository.INSTANCE.getSerializer().DeserializeFromString(json, ServerInfo.class));
+                //mServers.add(SerializerRepository.INSTANCE.getSerializer().DeserializeFromString(json, ServerInfo.class));
             }
         }
 

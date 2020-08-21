@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -18,17 +17,11 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.browsing.MainActivity;
 import org.jellyfin.androidtv.details.FullDetailsActivity;
 import org.jellyfin.androidtv.itemhandling.ItemLauncher;
-import org.jellyfin.androidtv.model.repository.ConnectionManagerRepository;
 import org.jellyfin.androidtv.playback.MediaManager;
-import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
-import org.jellyfin.apiclient.interaction.ConnectionResult;
-import org.jellyfin.apiclient.interaction.IConnectionManager;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.apiclient.ConnectionState;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.UserDto;
 
 import timber.log.Timber;
 
@@ -120,85 +113,10 @@ public class StartupActivity extends FragmentActivity {
     }
 
     private void establishConnection() {
-        // workaround...
-        Activity self = this;
-
         //See if we are coming in via direct entry
         application.setDirectItemId(getIntent().getStringExtra("ItemId"));
 
-        //Load any saved login creds
-        application.setConfiguredAutoCredentials(AuthenticationHelper.getSavedLoginCredentials(TvApp.CREDENTIALS_PATH));
-
-        final IConnectionManager connectionManager = ConnectionManagerRepository.Companion.getInstance(this).getConnectionManager();
-
-        //And use those credentials if option is set
-        if (application.getIsAutoLoginConfigured() || application.getDirectItemId() != null) {
-            //Auto login as configured user - first connect to server
-            connectionManager.Connect(application.getConfiguredAutoCredentials().getServerInfo(), new Response<ConnectionResult>() {
-                @Override
-                public void onResponse(ConnectionResult response) {
-                    // Saved server login is unavailable
-                    if (response.getState() == ConnectionState.Unavailable) {
-                        Utils.showToast(self, R.string.msg_error_server_unavailable + ": " + application.getConfiguredAutoCredentials().getServerInfo().getName());
-                        AuthenticationHelper.automaticSignIn(connectionManager, self);
-                        return;
-                    }
-
-                    // Check the server version
-                    if (!response.getServers().isEmpty() &&
-                            !AuthenticationHelper.isSupportedServerVersion(response.getServers().get(0))) {
-                        Utils.showToast(self, getString(R.string.msg_error_server_version, TvApp.MINIMUM_SERVER_VERSION));
-                        AuthenticationHelper.automaticSignIn(connectionManager, self);
-                        return;
-                    }
-
-                    // Connected to server - load user and prompt for pw if necessary
-                    application.setLoginApiClient(response.getApiClient());
-                    response.getApiClient().GetUserAsync(application.getConfiguredAutoCredentials().getUserDto().getId(), new Response<UserDto>() {
-                        @Override
-                        public void onResponse(final UserDto response) {
-                            application.setCurrentUser(response);
-                            if (application.getDirectItemId() != null) {
-                                application.determineAutoBitrate();
-                                if (response.getHasPassword()
-                                        && (!application.getIsAutoLoginConfigured()
-                                        || (application.getUserPreferences().get(UserPreferences.Companion.getPasswordPromptEnabled())))) {
-                                    //Need to prompt for pw
-                                    Utils.processPasswordEntry(self, response, application.getDirectItemId());
-                                } else {
-                                    openNextActivity();
-                                }
-                            } else {
-                                if (response.getHasPassword() && application.getUserPreferences().get(UserPreferences.Companion.getPasswordPromptEnabled())) {
-                                    Utils.processPasswordEntry(self, response);
-                                } else {
-                                    openNextActivity();
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onError(Exception exception) {
-                            Timber.e(exception, "Error Signing in");
-                            Utils.showToast(self, R.string.msg_error_signin);
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    AuthenticationHelper.automaticSignIn(connectionManager, self);
-                                }
-                            }, 5000);
-                        }
-                    });
-                }
-
-                @Override
-                public void onError(Exception exception) {
-                    Utils.showToast(self, R.string.msg_error_connecting_server + ": " + application.getConfiguredAutoCredentials().getServerInfo().getName());
-                    AuthenticationHelper.automaticSignIn(connectionManager, self);
-                }
-            });
-        } else {
-            AuthenticationHelper.automaticSignIn(connectionManager, self);
-        }
+        // Ask for server information
+        AuthenticationHelper.enterManualServerAddress(this);
     }
 }

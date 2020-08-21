@@ -1,8 +1,7 @@
 package org.jellyfin.androidtv.model.repository
 
-import org.jellyfin.apiclient.model.serialization.GsonJsonSerializer
-import org.jellyfin.apiclient.model.serialization.IJsonSerializer
+import org.jellyfin.apiclient.serialization.GsonJsonSerializer
 
 object SerializerRepository {
-	val serializer: IJsonSerializer = GsonJsonSerializer()
+	val serializer = GsonJsonSerializer()
 }

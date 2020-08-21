@@ -3,11 +3,10 @@ package org.jellyfin.androidtv.playback;
 import org.jellyfin.androidtv.model.compat.AudioOptions;
 import org.jellyfin.androidtv.model.compat.StreamInfo;
 import org.jellyfin.androidtv.model.compat.VideoOptions;
-
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.logging.ILogger;
+import org.jellyfin.apiclient.logging.ILogger;
 
 @Deprecated
 public class StopTranscodingResponse extends EmptyResponse {
@@ -42,7 +41,7 @@ public class StopTranscodingResponse extends EmptyResponse {
 
     @Override
     public void onError(Exception ex) {
-        logger.ErrorException("Error in StopTranscodingProcesses", ex);
+        logger.error("Error in StopTranscodingProcesses", ex);
         onAny();
     }
 }

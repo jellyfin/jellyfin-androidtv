@@ -10,14 +10,14 @@ import android.view.KeyEvent;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentActivity;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.model.repository.SerializerRepository;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 import org.jellyfin.apiclient.model.dto.UserDto;
-
-import androidx.fragment.app.FragmentActivity;
 
 import timber.log.Timber;
 
@@ -76,7 +76,7 @@ public class DpadPwActivity extends FragmentActivity {
                     Timber.d("Password finished");
                     Utils.makeTone(ToneGenerator.TONE_CDMA_ANSWER, 200);
                     processed = true;
-                    AuthenticationHelper.loginUser(user.getName(), password, TvApp.getApplication().getLoginApiClient(), this, directItemId);
+                    AuthenticationHelper.loginUser(user.getName(), password, TvApp.getApplication().getApiClient(), this, directItemId);
                     return true;
                 }
                 if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT && System.currentTimeMillis() - lastKeyDown > longPressSensitivity) {
@@ -98,7 +98,7 @@ public class DpadPwActivity extends FragmentActivity {
                             .setPositiveButton(R.string.lbl_ok, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     String pw = password.getText().toString();
-                                    AuthenticationHelper.loginUser(user.getName(), pw, TvApp.getApplication().getLoginApiClient(), activity, directItemId);
+                                    AuthenticationHelper.loginUser(user.getName(), pw, TvApp.getApplication().getApiClient(), activity, directItemId);
                                 }
                             }).show();
                     return true;

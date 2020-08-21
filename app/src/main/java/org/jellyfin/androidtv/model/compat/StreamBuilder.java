@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.model.compat;
 import org.jellyfin.androidtv.constants.CodecTypes;
 import org.jellyfin.androidtv.constants.MediaTypes;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.logging.ILogger;
 import org.jellyfin.apiclient.model.dlna.CodecProfile;
 import org.jellyfin.apiclient.model.dlna.CodecType;
 import org.jellyfin.apiclient.model.dlna.ConditionProcessor;
@@ -19,7 +20,6 @@ import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.MediaStreamType;
 import org.jellyfin.apiclient.model.extensions.ListHelper;
-import org.jellyfin.apiclient.model.logging.ILogger;
 import org.jellyfin.apiclient.model.mediainfo.MediaProtocol;
 import org.jellyfin.apiclient.model.mediainfo.TransportStreamTimestamp;
 import org.jellyfin.apiclient.model.session.PlayMethod;
@@ -356,7 +356,7 @@ public class StreamBuilder
         {
             String tempVar = options.getProfile().getName();
             String tempVar2 = item.getPath();
-            _logger.Info("Profile: {0}, No direct play profiles found for Path: {1}", (tempVar != null) ? tempVar : "Unknown Profile", (tempVar2 != null) ? tempVar2 : "Unknown path");
+            _logger.info("Profile: {0}, No direct play profiles found for Path: {1}", (tempVar != null) ? tempVar : "Unknown Profile", (tempVar2 != null) ? tempVar2 : "Unknown path");
         }
 
         return playMethods;
@@ -436,7 +436,7 @@ public class StreamBuilder
 
         String tempVar4 = options.getProfile().getName();
         String tempVar5 = item.getPath();
-        _logger.Info("Profile: {0}, Path: {1}, isEligibleForDirectPlay: {2}, isEligibleForDirectStream: {3}", (tempVar4 != null) ? tempVar4 : "Unknown Profile", (tempVar5 != null) ? tempVar5 : "Unknown path", isEligibleForDirectPlay, isEligibleForDirectStream);
+        _logger.info("Profile: {0}, Path: {1}, isEligibleForDirectPlay: {2}, isEligibleForDirectStream: {3}", (tempVar4 != null) ? tempVar4 : "Unknown Profile", (tempVar5 != null) ? tempVar5 : "Unknown path", isEligibleForDirectPlay, isEligibleForDirectStream);
 
         if (isEligibleForDirectPlay || isEligibleForDirectStream)
         {
@@ -687,7 +687,7 @@ public class StreamBuilder
         {
             String tempVar = profile.getName();
             String tempVar2 = mediaSource.getPath();
-            _logger.Info("Profile: {0}, Cannot direct stream with no known video stream. Path: {1}", (tempVar != null) ? tempVar : "Unknown Profile", (tempVar2 != null) ? tempVar2 : "Unknown path");
+            _logger.info("Profile: {0}, Cannot direct stream with no known video stream. Path: {1}", (tempVar != null) ? tempVar : "Unknown Profile", (tempVar2 != null) ? tempVar2 : "Unknown path");
 
             return null;
         }
@@ -707,7 +707,7 @@ public class StreamBuilder
         {
             String tempVar3 = profile.getName();
             String tempVar4 = mediaSource.getPath();
-            _logger.Info("Profile: {0}, No direct play profiles found for Path: {1}", (tempVar3 != null) ? tempVar3 : "Unknown Profile", (tempVar4 != null) ? tempVar4 : "Unknown path");
+            _logger.info("Profile: {0}, No direct play profiles found for Path: {1}", (tempVar3 != null) ? tempVar3 : "Unknown Profile", (tempVar4 != null) ? tempVar4 : "Unknown path");
 
             return null;
         }
@@ -768,7 +768,7 @@ public class StreamBuilder
         {
             String tempVar6 = profile.getName();
             String tempVar7 = mediaSource.getPath();
-            _logger.Info("Profile: {0}, DirectPlay=false. Reason=Unknown video codec. Path: {1}", (tempVar6 != null) ? tempVar6 : "Unknown Profile", (tempVar7 != null) ? tempVar7 : "Unknown path");
+            _logger.info("Profile: {0}, DirectPlay=false. Reason=Unknown video codec. Path: {1}", (tempVar6 != null) ? tempVar6 : "Unknown Profile", (tempVar7 != null) ? tempVar7 : "Unknown path");
 
             return null;
         }
@@ -817,7 +817,7 @@ public class StreamBuilder
             {
                 String tempVar8 = profile.getName();
                 String tempVar9 = mediaSource.getPath();
-                _logger.Info("Profile: {0}, DirectPlay=false. Reason=Unknown audio codec. Path: {1}", (tempVar8 != null) ? tempVar8 : "Unknown Profile", (tempVar9 != null) ? tempVar9 : "Unknown path");
+                _logger.info("Profile: {0}, DirectPlay=false. Reason=Unknown audio codec. Path: {1}", (tempVar8 != null) ? tempVar8 : "Unknown Profile", (tempVar9 != null) ? tempVar9 : "Unknown path");
 
                 return null;
             }
@@ -874,7 +874,7 @@ public class StreamBuilder
         String tempVar = profile.getName();
         String tempVar2 = condition.getValue();
         String tempVar3 = mediaSource.getPath();
-        _logger.Info("Profile: {0}, DirectPlay=false. Reason={1}.{2} Condition: {3}. ConditionValue: {4}. IsRequired: {5}. Path: {6}", type, (tempVar != null) ? tempVar : "Unknown Profile", condition.getProperty(), condition.getCondition(), (tempVar2 != null) ? tempVar2 : "", condition.getIsRequired(), (tempVar3 != null) ? tempVar3 : "Unknown path");
+        _logger.info("Profile: {0}, DirectPlay=false. Reason={1}.{2} Condition: {3}. ConditionValue: {4}. IsRequired: {5}. Path: {6}", type, (tempVar != null) ? tempVar : "Unknown Profile", condition.getProperty(), condition.getCondition(), (tempVar2 != null) ? tempVar2 : "", condition.getIsRequired(), (tempVar3 != null) ? tempVar3 : "Unknown path");
     }
 
     private boolean IsEligibleForDirectPlay(MediaSourceInfo item, Integer maxBitrate, MediaStream subtitleStream, VideoOptions options, PlayMethod playMethod)
@@ -885,7 +885,7 @@ public class StreamBuilder
 
             if (subtitleProfile.getMethod() != SubtitleDeliveryMethod.External && subtitleProfile.getMethod() != SubtitleDeliveryMethod.Embed)
             {
-                _logger.Info("Not eligible for {0} due to unsupported subtitles", playMethod);
+                _logger.info("Not eligible for {0} due to unsupported subtitles", playMethod);
                 return false;
             }
         }
@@ -973,19 +973,19 @@ public class StreamBuilder
     {
         if (maxBitrate == null)
         {
-            _logger.Info("Cannot direct play due to unknown supported bitrate");
+            _logger.info("Cannot direct play due to unknown supported bitrate");
             return false;
         }
 
         if (item.getBitrate() == null)
         {
-            _logger.Info("Cannot direct play due to unknown content bitrate");
+            _logger.info("Cannot direct play due to unknown content bitrate");
             return false;
         }
 
         if (item.getBitrate() > maxBitrate)
         {
-            _logger.Info("Bitrate exceeds DirectPlay limit");
+            _logger.info("Bitrate exceeds DirectPlay limit");
             return false;
         }
 

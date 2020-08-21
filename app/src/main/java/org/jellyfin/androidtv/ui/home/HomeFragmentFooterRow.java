@@ -3,14 +3,6 @@ package org.jellyfin.androidtv.ui.home;
 import android.app.Activity;
 import android.content.Intent;
 
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.preferences.ui.PreferencesActivity;
-import org.jellyfin.androidtv.presentation.CardPresenter;
-import org.jellyfin.androidtv.presentation.GridButtonPresenter;
-import org.jellyfin.androidtv.startup.SelectUserActivity;
-import org.jellyfin.androidtv.ui.GridButton;
-
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
@@ -18,6 +10,14 @@ import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
+
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.preferences.ui.PreferencesActivity;
+import org.jellyfin.androidtv.presentation.CardPresenter;
+import org.jellyfin.androidtv.presentation.GridButtonPresenter;
+import org.jellyfin.androidtv.startup.SelectUserActivity;
+import org.jellyfin.androidtv.ui.GridButton;
 
 public class HomeFragmentFooterRow extends HomeFragmentRow implements OnItemViewClickedListener {
     private static final int LOGOUT = 0;
@@ -47,9 +47,6 @@ public class HomeFragmentFooterRow extends HomeFragmentRow implements OnItemView
         switch (((GridButton) item).getId()) {
             case LOGOUT:
                 TvApp app = TvApp.getApplication();
-
-                // Present user selection
-                app.setLoginApiClient(app.getApiClient());
 
                 // Open login activity
                 Intent selectUserIntent = new Intent(activity, SelectUserActivity.class);
