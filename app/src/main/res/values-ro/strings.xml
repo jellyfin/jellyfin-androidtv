@@ -125,7 +125,7 @@
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="btn_cancel">Anulare</string>
     <string name="home_title">Acasă</string>
-    <string name="title_activity_select_user">SelecteazăActivitateaUtilizatorului</string>
+    <string name="title_activity_select_user">Selectează Activitatea Utilizatorului</string>
     <string name="txt_loading">Se încarcă…</string>
     <string name="loading">Se încarcă…</string>
     <string name="video_error_unknown_error">Încărcarea video a eșuat</string>
