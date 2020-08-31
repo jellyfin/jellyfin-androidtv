@@ -322,7 +322,7 @@
     <string name="btn_cancel">Cancel</string>
     <string name="home_title">Home</string>
     <string name="txt_loading">Loading…</string>
-    <string name="title_activity_select_user">SelectUserActivity</string>
+    <string name="title_activity_select_user">Select User Activity</string>
     <string name="loading">Loading…</string>
     <string name="video_error_unknown_error">Failed to load video</string>
     <string name="play">Play</string>
