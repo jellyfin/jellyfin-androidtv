@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="video_error_unknown_error">Kunne ikke laste video</string>
     <string name="txt_loading">Laster inn…</string>
-    <string name="title_activity_select_user">SelectUserActivity</string>
+    <string name="title_activity_select_user">Velg brukeraktivitet</string>
     <string name="home_title">Hjem</string>
     <string name="btn_cancel">Avbryt</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ</string>
