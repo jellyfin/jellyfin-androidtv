@@ -68,7 +68,7 @@
     <string name="lbl_last_played">"Reproducido Recientemente "</string>
     <string name="lbl_select_server">Seleccione un servidor</string>
     <string name="lbl_other_options">Otras opciones</string>
-    <string name="lbl_enter_manually">Ingresar Manualmente</string>
+    <string name="lbl_enter_manually">Introduzca Manualmente</string>
     <string name="lbl_select_user">Seleccionar un Usuario</string>
     <string name="lbl_paren_login_as">" (iniciar sesión como "</string>
     <string name="lbl_to_change_paren">" para cambiar)"</string>
