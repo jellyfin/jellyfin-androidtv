@@ -318,7 +318,7 @@
     <string name="lbl_image_type">Тип рисунка</string>
     <string name="lbl_default_view">Представление по умолчанию</string>
     <string name="lbl_start_favorites">Разместить избранные в начале</string>
-    <string name="lbl_colored_backgrounds">Обозначеннные цветом фоны</string>
+    <string name="lbl_colored_backgrounds">Цветовое кодирование фонов</string>
     <string name="lbl_hd_programs">HD-передачи</string>
     <string name="lbl_repeat_episodes">Повтор эпизодов</string>
     <string name="lbl_premieres">Премьеры</string>
@@ -339,7 +339,7 @@
 \n 
 \nЭта информация будет отправлена третьей стороне (tracepot.com). 
 \n 
-\nЭто предложение может быть отключено в разделе Отчётов о сбоях в Параметрах приложения Jellyfin.</string>
+\nЭто предложение может быть отключено в разделе Отчёт о сбое в Параметрах Jellyfin-приложения.</string>
     <string name="pref_acra_syslog_disabled">Системные журналы не будут включены в отчёты о сбоях</string>
     <string name="pref_acra_syslog_enabled">Системные журналы будут включены в отчёты о сбоях</string>
     <string name="pref_acra_alwaysaccept_disabled">Будет показано диалоговое окно перед отправкой любого отчёта о сбое</string>
@@ -349,15 +349,15 @@
     <string name="pref_acra_enabled">Вам будет предложено отправлять отчёты о сбоях</string>
     <string name="pref_enable_acra">Отправка разработчикам отчёта о сбое</string>
     <string name="pref_acra_category">Отчёт о сбое</string>
-    <string name="pref_next_up_enabled_summary">Предварительный просмотр перед воспроизведением следующего очередного элемента</string>
+    <string name="pref_next_up_enabled_summary">Предпросмотр следующего элемента в очереди до воспроизведения</string>
     <string name="pref_next_up_timeout_title">Длительность таймера Очередного</string>
     <string name="pref_next_up_timeout_summary">Как долго ждать, прежде чем воспроизвести следующий элемент</string>
-    <string name="pref_libvlc_audio_delay_title">Задержка аудио по умолчанию для libVLC</string>
+    <string name="pref_libvlc_audio_delay_title">Задержка по умолчанию аудио для libVLC</string>
     <string name="pref_next_up_enabled_title">Включить экран Очередное</string>
     <string name="watch_now">Смотреть сейчас</string>
     <string name="pref_media_player">Предпочитаемый проигрыватель</string>
     <string name="pref_about_title">О программе</string>
-    <string name="pref_app_theme">Тема Приложении</string>
+    <string name="pref_app_theme">Тема приложения</string>
     <string name="pref_theme_emerald">Классическая изумрудная</string>
     <string name="pref_theme_dark">Тёмная (по умолчанию)</string>
     <string name="grid_direction_vertical">Вертикальное (экспериментально)</string>
@@ -365,7 +365,7 @@
     <string name="grid_direction">Направление сетки</string>
     <string name="pref_device_model">Модель устройства</string>
     <string name="lbl_Reset">Сбросить</string>
-    <string name="pref_button_remapping_description">Нажмите любую кнопку на пульте ТВ чтобы назначить это</string>
+    <string name="pref_button_remapping_description">Нажмите любую кнопку на пульте ТВ, чтобы её переназначить</string>
     <string name="pref_subtitle_track_button">Кнопка дорожки субтитров</string>
     <string name="pref_audio_track_button">Кнопка аудио дорожки</string>
     <string name="pref_button_remapping_category">Переназначение кнопок</string>
