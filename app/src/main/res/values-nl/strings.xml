@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="video_error_unknown_error">Laden van de video is mislukt</string>
     <string name="txt_loading">Laden…</string>
-    <string name="title_activity_select_user">KiesGebruikersActiviteit</string>
+    <string name="title_activity_select_user">Selecteer Gebruikersactiviteit</string>
     <string name="home_title">Hoofdpagina</string>
     <string name="btn_cancel">Annuleren</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
