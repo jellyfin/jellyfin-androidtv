@@ -5,14 +5,14 @@ import android.content.Intent
 import androidx.leanback.widget.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
-import org.jellyfin.androidtv.browsing.BrowseRecordingsActivity
-import org.jellyfin.androidtv.browsing.BrowseScheduleActivity
-import org.jellyfin.androidtv.browsing.UserViewActivity
+import org.jellyfin.androidtv.ui.browsing.BrowseRecordingsActivity
+import org.jellyfin.androidtv.ui.browsing.BrowseScheduleActivity
+import org.jellyfin.androidtv.ui.browsing.UserViewActivity
 import org.jellyfin.androidtv.constants.Extras
-import org.jellyfin.androidtv.livetv.LiveTvGuideActivity
-import org.jellyfin.androidtv.model.repository.SerializerRepository
-import org.jellyfin.androidtv.presentation.CardPresenter
-import org.jellyfin.androidtv.presentation.GridButtonPresenter
+import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity
+import org.jellyfin.androidtv.data.repository.SerializerRepository
+import org.jellyfin.androidtv.ui.presentation.CardPresenter
+import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter
 import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 

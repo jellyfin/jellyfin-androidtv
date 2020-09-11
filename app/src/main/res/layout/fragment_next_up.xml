@@ -79,7 +79,7 @@
             app:layout_constraintTop_toBottomOf="@id/title"
             tools:text="Episode description" />
 
-        <org.jellyfin.androidtv.playback.nextup.NextUpButtons
+        <org.jellyfin.androidtv.ui.playback.nextup.NextUpButtons
             android:id="@+id/fragment_next_up_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

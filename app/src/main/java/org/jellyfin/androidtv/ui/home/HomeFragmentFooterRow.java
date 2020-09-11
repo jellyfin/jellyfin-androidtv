@@ -13,10 +13,10 @@ import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.preferences.ui.PreferencesActivity;
-import org.jellyfin.androidtv.presentation.CardPresenter;
-import org.jellyfin.androidtv.presentation.GridButtonPresenter;
-import org.jellyfin.androidtv.startup.SelectUserActivity;
+import org.jellyfin.androidtv.ui.preferences.PreferencesActivity;
+import org.jellyfin.androidtv.ui.presentation.CardPresenter;
+import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
+import org.jellyfin.androidtv.ui.startup.SelectUserActivity;
 import org.jellyfin.androidtv.ui.GridButton;
 
 public class HomeFragmentFooterRow extends HomeFragmentRow implements OnItemViewClickedListener {

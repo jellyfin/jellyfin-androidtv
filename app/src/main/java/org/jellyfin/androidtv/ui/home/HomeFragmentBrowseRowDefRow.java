@@ -1,10 +1,10 @@
 package org.jellyfin.androidtv.ui.home;
 
-import org.jellyfin.androidtv.browsing.BrowseRowDef;
-import org.jellyfin.androidtv.itemhandling.ItemRowAdapter;
-import org.jellyfin.androidtv.presentation.CardPresenter;
-import org.jellyfin.androidtv.querying.QueryType;
-import org.jellyfin.androidtv.querying.ViewQuery;
+import org.jellyfin.androidtv.ui.browsing.BrowseRowDef;
+import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.ui.presentation.CardPresenter;
+import org.jellyfin.androidtv.constants.QueryType;
+import org.jellyfin.androidtv.data.querying.ViewQuery;
 
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;

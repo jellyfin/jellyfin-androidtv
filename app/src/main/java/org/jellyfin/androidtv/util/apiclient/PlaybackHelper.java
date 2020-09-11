@@ -6,8 +6,8 @@ import android.content.Intent;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.details.ItemListActivity;
-import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.ui.details.ItemListActivity;
+import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.Response;

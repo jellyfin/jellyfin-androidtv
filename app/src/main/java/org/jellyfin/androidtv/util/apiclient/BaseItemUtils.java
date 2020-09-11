@@ -5,7 +5,7 @@ import android.text.format.DateFormat;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.model.ChapterItemInfo;
+import org.jellyfin.androidtv.data.model.ChapterItemInfo;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 

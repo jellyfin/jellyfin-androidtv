@@ -39,7 +39,7 @@
 
         <fragment
             android:id="@+id/leanback_fragment"
-            android:name="org.jellyfin.androidtv.playback.overlay.LeanbackOverlayFragment"
+            android:name="org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center" />

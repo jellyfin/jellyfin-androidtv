@@ -2,9 +2,9 @@ package org.jellyfin.androidtv.ui.home;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.browsing.BrowseRowDef;
-import org.jellyfin.androidtv.model.ChangeTriggerType;
-import org.jellyfin.androidtv.presentation.CardPresenter;
+import org.jellyfin.androidtv.ui.browsing.BrowseRowDef;
+import org.jellyfin.androidtv.constants.ChangeTriggerType;
+import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.apiclient.model.configuration.UserConfiguration;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.querying.ItemFields;

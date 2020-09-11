@@ -3,8 +3,8 @@ package org.jellyfin.androidtv.ui.home;
 import android.content.Context;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.playback.MediaManager;
-import org.jellyfin.androidtv.presentation.CardPresenter;
+import org.jellyfin.androidtv.ui.playback.MediaManager;
+import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;

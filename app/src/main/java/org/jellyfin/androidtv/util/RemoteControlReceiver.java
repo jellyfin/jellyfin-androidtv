@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.view.KeyEvent;
 
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.playback.AudioNowPlayingActivity;
-import org.jellyfin.androidtv.playback.MediaManager;
+import org.jellyfin.androidtv.ui.playback.AudioNowPlayingActivity;
+import org.jellyfin.androidtv.ui.playback.MediaManager;
 
 import timber.log.Timber;
 

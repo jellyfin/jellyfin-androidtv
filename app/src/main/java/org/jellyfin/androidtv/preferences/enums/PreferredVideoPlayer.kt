@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.preferences.enums
 
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.preferences.ui.dsl.EnumDisplayOptions
+import org.jellyfin.androidtv.ui.preferences.dsl.EnumDisplayOptions
 
 enum class PreferredVideoPlayer {
 	/**

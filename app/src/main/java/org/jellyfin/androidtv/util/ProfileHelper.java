@@ -5,7 +5,7 @@ import android.os.Build;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constants.CodecTypes;
 import org.jellyfin.androidtv.constants.ContainerTypes;
-import org.jellyfin.androidtv.model.compat.AndroidProfileOptions;
+import org.jellyfin.androidtv.data.compat.AndroidProfileOptions;
 import org.jellyfin.androidtv.preferences.UserPreferences;
 import org.jellyfin.apiclient.model.dlna.CodecProfile;
 import org.jellyfin.apiclient.model.dlna.CodecType;

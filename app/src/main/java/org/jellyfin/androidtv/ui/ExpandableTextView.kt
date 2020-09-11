@@ -7,7 +7,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.app.ActivityOptionsCompat
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
-import org.jellyfin.androidtv.details.ExpandedTextActivity
+import org.jellyfin.androidtv.ui.details.ExpandedTextActivity
 import org.jellyfin.androidtv.util.getActivity
 
 class ExpandableTextView(context: Context, attrs: AttributeSet?) : AppCompatTextView(context, attrs) {

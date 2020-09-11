@@ -10,10 +10,10 @@ import android.widget.EditText;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.browsing.MainActivity;
-import org.jellyfin.androidtv.details.FullDetailsActivity;
-import org.jellyfin.androidtv.model.LogonCredentials;
-import org.jellyfin.androidtv.model.repository.SerializerRepository;
+import org.jellyfin.androidtv.ui.browsing.MainActivity;
+import org.jellyfin.androidtv.ui.details.FullDetailsActivity;
+import org.jellyfin.androidtv.data.model.LogonCredentials;
+import org.jellyfin.androidtv.data.repository.SerializerRepository;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
