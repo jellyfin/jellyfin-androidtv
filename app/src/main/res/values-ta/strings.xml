@@ -1,2 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="btn_cancel">ரத்துசெய்</string>
+    <string name="home_title">முகப்பு</string>
+    <string name="title_activity_select_user">பயனர் செயல்பாட்டைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="txt_loading">ஏற்றுகிறது…</string>
+    <string name="loading">ஏற்றுகிறது…</string>
+    <string name="video_error_unknown_error">வீடியோவை ஏற்றுவதில் தோல்வி</string>
+    <string name="play">இயக்கு</string>
+</resources>
