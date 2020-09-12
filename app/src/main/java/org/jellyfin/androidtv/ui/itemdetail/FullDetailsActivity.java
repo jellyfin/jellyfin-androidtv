@@ -29,7 +29,6 @@ import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
 import org.jellyfin.androidtv.data.model.InfoItem;
-import org.jellyfin.androidtv.data.repository.SerializerRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
@@ -72,6 +71,7 @@ import org.jellyfin.apiclient.model.querying.NextUpQuery;
 import org.jellyfin.apiclient.model.querying.SeasonQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
+import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -95,6 +95,8 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class FullDetailsActivity extends BaseActivity implements IRecordingIndicatorView {
 
@@ -158,11 +160,11 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         mChannelId = getIntent().getStringExtra("ChannelId");
         String programJson = getIntent().getStringExtra("ProgramInfo");
         if (programJson != null) {
-            mProgramInfo = SerializerRepository.INSTANCE.getSerializer().DeserializeFromString(programJson, BaseItemDto.class);
+            mProgramInfo = get(GsonJsonSerializer.class).DeserializeFromString(programJson, BaseItemDto.class);
         }
         String timerJson = getIntent().getStringExtra("SeriesTimer");
         if (timerJson != null) {
-            mSeriesTimerInfo = SerializerRepository.INSTANCE.getSerializer().DeserializeFromString(timerJson, SeriesTimerInfoDto.class);
+            mSeriesTimerInfo = get(GsonJsonSerializer.class).DeserializeFromString(timerJson, SeriesTimerInfoDto.class);
         }
 
         registerMessageListener(new IMessageListener() {

@@ -14,12 +14,14 @@ import androidx.fragment.app.FragmentActivity;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.data.repository.SerializerRepository;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 import org.jellyfin.apiclient.model.dto.UserDto;
+import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
 
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class DpadPwActivity extends FragmentActivity {
 
@@ -45,7 +47,7 @@ public class DpadPwActivity extends FragmentActivity {
         title = (TextView)findViewById(R.id.dpad_pw_text);
         pwField = (TextView)findViewById(R.id.dpad_pw_display);
 
-        user = SerializerRepository.INSTANCE.getSerializer().DeserializeFromString(getIntent().getStringExtra("User"), UserDto.class);
+        user = get(GsonJsonSerializer.class).DeserializeFromString(getIntent().getStringExtra("User"), UserDto.class);
         directItemId = getIntent().getStringExtra("ItemId");
 
         title.setText(title.getText() + " for "+ user.getName());

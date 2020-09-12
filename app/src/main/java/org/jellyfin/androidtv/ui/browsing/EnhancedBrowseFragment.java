@@ -13,42 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
-import org.jellyfin.androidtv.constant.CustomMessage;
-import org.jellyfin.androidtv.ui.shared.IKeyListener;
-import org.jellyfin.androidtv.ui.shared.IMessageListener;
-import org.jellyfin.androidtv.constant.Extras;
-import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
-import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
-import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
-import org.jellyfin.androidtv.data.repository.SerializerRepository;
-import org.jellyfin.androidtv.ui.playback.MediaManager;
-import org.jellyfin.androidtv.preference.UserPreferences;
-import org.jellyfin.androidtv.ui.presentation.CardPresenter;
-import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
-import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
-import org.jellyfin.androidtv.constant.QueryType;
-import org.jellyfin.androidtv.data.querying.ViewQuery;
-import org.jellyfin.androidtv.ui.search.SearchActivity;
-import org.jellyfin.androidtv.ui.GridButton;
-import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
-import org.jellyfin.androidtv.util.InfoLayoutHelper;
-import org.jellyfin.androidtv.util.KeyProcessor;
-import org.jellyfin.androidtv.util.TextUtilsKt;
-import org.jellyfin.apiclient.interaction.EmptyResponse;
-import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
-import org.jellyfin.apiclient.model.entities.DisplayPreferences;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.leanback.app.BackgroundManager;
@@ -62,6 +26,44 @@ import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
+
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.constant.CustomMessage;
+import org.jellyfin.androidtv.constant.Extras;
+import org.jellyfin.androidtv.constant.QueryType;
+import org.jellyfin.androidtv.data.querying.ViewQuery;
+import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.ui.GridButton;
+import org.jellyfin.androidtv.ui.shared.BaseActivity;
+import org.jellyfin.androidtv.ui.shared.IKeyListener;
+import org.jellyfin.androidtv.ui.shared.IMessageListener;
+import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
+import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
+import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.ui.playback.MediaManager;
+import org.jellyfin.androidtv.ui.presentation.CardPresenter;
+import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
+import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
+import org.jellyfin.androidtv.ui.search.SearchActivity;
+import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
+import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.KeyProcessor;
+import org.jellyfin.androidtv.util.TextUtilsKt;
+import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
+import org.jellyfin.apiclient.model.entities.DisplayPreferences;
+import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     private static final int BACKGROUND_UPDATE_DELAY = 100;
@@ -170,7 +172,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     }
 
     protected void setupViews() {
-        mFolder = SerializerRepository.INSTANCE.getSerializer().DeserializeFromString(getActivity().getIntent().getStringExtra(Extras.Folder), BaseItemDto.class);
+        mFolder = get(GsonJsonSerializer.class).DeserializeFromString(getActivity().getIntent().getStringExtra(Extras.Folder), BaseItemDto.class);
         if (mFolder == null) return;
 
         if (mFolder.getCollectionType() != null) {
@@ -410,7 +412,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                             @Override
                             public void onResponse(DisplayPreferences response) {
                                 Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
-                                folderIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(mFolder));
+                                folderIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(mFolder));
                                 getActivity().startActivity(folderIntent);
                             }
                         });
@@ -422,7 +424,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                             @Override
                             public void onResponse(DisplayPreferences response) {
                                 Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
-                                folderIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(mFolder));
+                                folderIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(mFolder));
                                 folderIntent.putExtra(Extras.IncludeType, "MusicAlbum");
                                 getActivity().startActivity(folderIntent);
                             }
@@ -435,7 +437,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                             @Override
                             public void onResponse(DisplayPreferences response) {
                                 Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
-                                folderIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(mFolder));
+                                folderIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(mFolder));
                                 folderIntent.putExtra(Extras.IncludeType, "AlbumArtist");
                                 getActivity().startActivity(folderIntent);
                             }
@@ -444,7 +446,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
                     case BY_LETTER:
                         Intent intent = new Intent(getActivity(), ByLetterActivity.class);
-                        intent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(mFolder));
+                        intent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(mFolder));
                         intent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(intent);
@@ -452,7 +454,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
                     case GENRES:
                         Intent genreIntent = new Intent(getActivity(), ByGenreActivity.class);
-                        genreIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(mFolder));
+                        genreIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(mFolder));
                         genreIntent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(genreIntent);
@@ -460,7 +462,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
                     case SUGGESTED:
                         Intent suggIntent = new Intent(getActivity(), SuggestedMoviesActivity.class);
-                        suggIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(mFolder));
+                        suggIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(mFolder));
                         suggIntent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(suggIntent);
@@ -468,7 +470,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
                     case PERSONS:
                         Intent personIntent = new Intent(getActivity(), BrowsePersonsActivity.class);
-                        personIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(mFolder));
+                        personIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(mFolder));
                         personIntent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(personIntent);
@@ -496,7 +498,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         seriesTimers.setId("SERIESTIMERS");
                         seriesTimers.setCollectionType("SeriesTimers");
                         seriesTimers.setName(mActivity.getString(R.string.lbl_series_recordings));
-                        seriesIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(seriesTimers));
+                        seriesIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(seriesTimers));
 
                         getActivity().startActivity(seriesIntent);
                         break;
@@ -512,7 +514,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         BaseItemDto folder = new BaseItemDto();
                         folder.setId("");
                         folder.setName(TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv));
-                        recordings.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(folder));
+                        recordings.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(folder));
                         mActivity.startActivity(recordings);
                         break;
 

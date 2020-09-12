@@ -11,6 +11,8 @@ import org.acra.annotation.AcraDialog;
 import org.acra.annotation.AcraHttpSender;
 import org.acra.annotation.AcraLimiter;
 import org.acra.sender.HttpSender;
+import org.jellyfin.androidtv.data.eventhandling.TvApiEventListener;
+import org.jellyfin.androidtv.di.AppModuleKt;
 import org.jellyfin.androidtv.ui.shared.AppThemeCallbacks;
 import org.jellyfin.androidtv.ui.shared.AuthenticatedUserCallbacks;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
@@ -38,10 +40,15 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
+import org.koin.android.java.KoinAndroidApplication;
+import org.koin.core.KoinApplication;
+import org.koin.core.context.GlobalContext;
 
 import java.util.HashMap;
 
 import timber.log.Timber;
+
+import static org.koin.core.context.ContextFunctionsKt.startKoin;
 
 @AcraCore(buildConfigClass = BuildConfig.class)
 @AcraHttpSender(
@@ -101,9 +108,14 @@ public class TvApp extends Application {
         options.setLogger(new AndroidLogger());
         options.setAppInfo(new AppInfo("Android TV", BuildConfig.VERSION_NAME));
         jellyfin = new Jellyfin(options.build());
-        apiClient = jellyfin.createApi(null, null, AndroidDevice.fromContext(this), new ApiEventListener());
+        apiClient = jellyfin.createApi(null, null, AndroidDevice.fromContext(this), new TvApiEventListener());
 
         playbackManager = new PlaybackManager(AndroidDevice.fromContext(this), new AndroidLogger("PlaybackManager"));
+
+        // Start Koin
+        KoinApplication koin = KoinAndroidApplication.create(this)
+                .modules(AppModuleKt.getAppModule());
+        startKoin(new GlobalContext(), koin);
 
         registerActivityLifecycleCallbacks(new AuthenticatedUserCallbacks());
         registerActivityLifecycleCallbacks(new AppThemeCallbacks());
