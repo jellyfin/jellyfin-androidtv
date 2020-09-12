@@ -32,12 +32,12 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name="org.jellyfin.androidtv.ui.browsing.MainActivity"
+            android:name=".ui.browsing.MainActivity"
             android:label="@string/app_name"
             android:logo="@drawable/app_logo"
             android:screenOrientation="landscape" />
         <activity
-            android:name="org.jellyfin.androidtv.ui.startup.StartupActivity"
+            android:name=".ui.startup.StartupActivity"
             android:label="@string/app_name"
             android:logo="@drawable/app_logo"
             android:noHistory="true"
@@ -49,75 +49,78 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity-alias
+            android:name=".startup.StartupActivity"
+            android:targetActivity=".ui.startup.StartupActivity" />
         <activity
-            android:name="org.jellyfin.androidtv.ui.startup.SelectUserActivity"
+            android:name=".ui.startup.SelectUserActivity"
             android:label="@string/title_activity_select_user"
             android:screenOrientation="landscape" />
         <activity
-            android:name="org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity"
+            android:name=".ui.playback.PlaybackOverlayActivity"
             android:label="PlaybackOverlayActivity"
             android:colorMode="wideColorGamut"
             android:screenOrientation="landscape" />
 
         <activity
-            android:name="org.jellyfin.androidtv.ui.browsing.GenericFolderActivity"
+            android:name=".ui.browsing.GenericFolderActivity"
             android:screenOrientation="landscape" />
 
         <activity
-            android:name="org.jellyfin.androidtv.ui.browsing.UserViewActivity"
+            android:name=".ui.browsing.UserViewActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name="org.jellyfin.androidtv.ui.startup.SelectServerActivity"
+            android:name=".ui.startup.SelectServerActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name="org.jellyfin.androidtv.ui.browsing.CollectionActivity"
+            android:name=".ui.browsing.CollectionActivity"
 
             android:screenOrientation="landscape" />
         <activity
-            android:name="org.jellyfin.androidtv.ui.browsing.ByLetterActivity"
+            android:name=".ui.browsing.ByLetterActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name="org.jellyfin.androidtv.ui.browsing.ByGenreActivity"
+            android:name=".ui.browsing.ByGenreActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name="org.jellyfin.androidtv.ui.preference.PreferencesActivity"
+            android:name=".ui.preference.PreferencesActivity"
             android:theme="@style/Theme.Jellyfin.Preferences" />
         <activity
-            android:name="org.jellyfin.androidtv.ui.browsing.SuggestedMoviesActivity"
+            android:name=".ui.browsing.SuggestedMoviesActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name="org.jellyfin.androidtv.ui.browsing.BrowsePersonsActivity"
+            android:name=".ui.browsing.BrowsePersonsActivity"
             android:screenOrientation="landscape" />
         <activity
             android:name=".ui.search.SearchActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name="org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity"
+            android:name=".ui.itemdetail.FullDetailsActivity"
             android:screenOrientation="landscape" />
         <activity
             android:name=".ui.livetv.LiveTvGuideActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name="org.jellyfin.androidtv.ui.browsing.GenericGridActivity"
+            android:name=".ui.browsing.GenericGridActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name="org.jellyfin.androidtv.ui.browsing.BrowseRecordingsActivity"
+            android:name=".ui.browsing.BrowseRecordingsActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name="org.jellyfin.androidtv.ui.browsing.BrowseScheduleActivity"
+            android:name=".ui.browsing.BrowseScheduleActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name="org.jellyfin.androidtv.ui.itemdetail.PhotoPlayerActivity"
+            android:name=".ui.itemdetail.PhotoPlayerActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name="org.jellyfin.androidtv.ui.itemdetail.ItemListActivity"
+            android:name=".ui.itemdetail.ItemListActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name="org.jellyfin.androidtv.ui.playback.AudioNowPlayingActivity"
+            android:name=".ui.playback.AudioNowPlayingActivity"
             android:screenOrientation="landscape" />
-        <activity android:name="org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity" />
+        <activity android:name=".ui.playback.ExternalPlayerActivity" />
         <activity
-            android:name="org.jellyfin.androidtv.ui.startup.DpadPwActivity"
+            android:name=".ui.startup.DpadPwActivity"
             android:label="@string/title_activity_dpad_pw"
             android:screenOrientation="landscape" />
 
@@ -128,10 +131,10 @@
         </receiver>
 
         <activity
-            android:name="org.jellyfin.androidtv.ui.itemdetail.ExpandedTextActivity"
+            android:name=".ui.itemdetail.ExpandedTextActivity"
             android:label="@string/title_activity_expanded_text"
             android:screenOrientation="landscape" />
-        <activity android:name="org.jellyfin.androidtv.ui.playback.nextup.NextUpActivity"
+        <activity android:name=".ui.playback.nextup.NextUpActivity"
             android:noHistory="true"
             android:screenOrientation="landscape" />
     </application>
