@@ -1,13 +1,13 @@
 plugins {
 	id("com.android.application")
-	id("kotlin-android")
-	id("kotlin-android-extensions")
+	kotlin("android")
+	kotlin("android.extensions")
 }
 
 android {
 	compileSdkVersion(29)
 	// Explicitly specify ndk version for Azure
-	// Can be removed when version 4.1.x of the Android Gradle plugin is relased
+	// Can be removed when version 4.1.x of the Android Gradle plugin is released
 	ndkVersion = "21.3.6528147"
 
 	defaultConfig {
@@ -16,8 +16,8 @@ android {
 		targetSdkVersion(29)
 
 		// Release version
-		versionCode = getVersionCode(project.version.toString()) ?: 1
-		versionName = project.version.toString()
+		versionName = project.getVersionName()
+		versionCode = getVersionCode(versionName)
 	}
 
 	compileOptions {
@@ -57,7 +57,7 @@ android {
 
 dependencies {
 	// Jellyfin
-	implementation("org.jellyfin.apiclient:android:0.7.2")
+	implementation("org.jellyfin.apiclient:android:0.7.4")
 
 	// Kotlin
 	implementation(kotlin("stdlib-jdk8"))

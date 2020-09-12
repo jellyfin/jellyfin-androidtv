@@ -1,8 +1,10 @@
+import java.util.*
+
 include(":app")
 
 // Load properties from local.properties
-val properties = java.util.Properties().apply {
-	val location = file("local.properties")
+val properties = Properties().apply {
+	val location = File("local.properties")
 	if (location.exists())
 		load(location.inputStream())
 }
