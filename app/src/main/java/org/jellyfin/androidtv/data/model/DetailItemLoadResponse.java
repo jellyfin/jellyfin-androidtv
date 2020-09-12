@@ -1,6 +1,6 @@
 package org.jellyfin.androidtv.data.model;
 
-import org.jellyfin.androidtv.ui.details.FullDetailsActivity;
+import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 

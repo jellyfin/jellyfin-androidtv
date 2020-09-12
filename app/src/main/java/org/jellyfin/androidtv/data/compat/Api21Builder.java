@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.data.compat;
 import android.media.MediaCodecInfo;
 import android.util.Range;
 
-import org.jellyfin.androidtv.constants.CodecTypes;
+import org.jellyfin.androidtv.constant.CodecTypes;
 import org.jellyfin.apiclient.model.dlna.CodecProfile;
 import org.jellyfin.apiclient.model.dlna.CodecType;
 import org.jellyfin.apiclient.model.dlna.ProfileCondition;

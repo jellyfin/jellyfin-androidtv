@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.constants.QueryType;
+import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 
 import org.jellyfin.apiclient.interaction.Response;

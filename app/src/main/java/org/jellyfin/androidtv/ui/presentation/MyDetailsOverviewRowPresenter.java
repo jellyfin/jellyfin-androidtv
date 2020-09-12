@@ -13,7 +13,7 @@ import com.google.android.flexbox.FlexboxLayout;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.ui.details.MyDetailsOverviewRow;
+import org.jellyfin.androidtv.ui.itemdetail.MyDetailsOverviewRow;
 import org.jellyfin.androidtv.data.model.InfoItem;
 import org.jellyfin.androidtv.ui.GenreButton;
 import org.jellyfin.androidtv.ui.TextUnderButton;

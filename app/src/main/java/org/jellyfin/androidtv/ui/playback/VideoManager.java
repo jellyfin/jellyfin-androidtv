@@ -26,7 +26,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.preferences.UserPreferences;
+import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;

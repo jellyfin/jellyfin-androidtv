@@ -10,7 +10,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.data.model.LiveTvPrefs;
-import org.jellyfin.androidtv.preferences.SystemPreferences;
+import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;

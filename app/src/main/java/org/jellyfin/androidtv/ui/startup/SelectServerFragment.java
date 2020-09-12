@@ -14,7 +14,7 @@ import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.ui.base.BaseActivity;
-import org.jellyfin.androidtv.constants.CustomMessage;
+import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.ui.base.IKeyListener;
 import org.jellyfin.androidtv.ui.base.IMessageListener;
 import org.jellyfin.androidtv.ui.browsing.CustomBrowseFragment;

@@ -8,7 +8,7 @@ import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.ui.browsing.BrowseRecordingsActivity
 import org.jellyfin.androidtv.ui.browsing.BrowseScheduleActivity
 import org.jellyfin.androidtv.ui.browsing.UserViewActivity
-import org.jellyfin.androidtv.constants.Extras
+import org.jellyfin.androidtv.constant.Extras
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity
 import org.jellyfin.androidtv.data.repository.SerializerRepository
 import org.jellyfin.androidtv.ui.presentation.CardPresenter

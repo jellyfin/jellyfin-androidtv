@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.ui.livetv;
 
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.preferences.SystemPreferences;
+import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 

@@ -46,7 +46,7 @@ import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.constants.CustomMessage;
+import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.ui.base.IMessageListener;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;

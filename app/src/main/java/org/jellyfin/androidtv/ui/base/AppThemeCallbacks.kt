@@ -4,9 +4,9 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import org.jellyfin.androidtv.TvApp
-import org.jellyfin.androidtv.preferences.UserPreferences
-import org.jellyfin.androidtv.preferences.enums.AppTheme
-import org.jellyfin.androidtv.ui.preferences.PreferencesActivity
+import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.preference.constant.AppTheme
+import org.jellyfin.androidtv.ui.preference.PreferencesActivity
 import org.jellyfin.androidtv.ui.presentation.ThemeManager
 import timber.log.Timber
 

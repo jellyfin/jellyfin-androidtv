@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.ui.browsing;
 
-import org.jellyfin.androidtv.constants.ChangeTriggerType;
-import org.jellyfin.androidtv.constants.QueryType;
+import org.jellyfin.androidtv.constant.ChangeTriggerType;
+import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 
 import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;

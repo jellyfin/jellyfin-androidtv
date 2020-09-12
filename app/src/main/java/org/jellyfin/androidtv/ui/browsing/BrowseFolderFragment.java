@@ -13,7 +13,7 @@ import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.constants.Extras;
+import org.jellyfin.androidtv.constant.Extras;
 import org.jellyfin.androidtv.data.repository.SerializerRepository;
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.GridButton;

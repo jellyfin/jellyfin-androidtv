@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.ui.browsing;
 
 import android.os.Bundle;
 
-import org.jellyfin.androidtv.constants.Extras;
+import org.jellyfin.androidtv.constant.Extras;
 
 import timber.log.Timber;
 

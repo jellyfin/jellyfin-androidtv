@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.ui.home;
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
-import org.jellyfin.androidtv.constants.QueryType;
+import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 
 import androidx.leanback.widget.ArrayObjectAdapter;

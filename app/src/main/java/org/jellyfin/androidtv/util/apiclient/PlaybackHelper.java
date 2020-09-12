@@ -6,9 +6,9 @@ import android.content.Intent;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.ui.details.ItemListActivity;
+import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
-import org.jellyfin.androidtv.preferences.UserPreferences;
+import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;

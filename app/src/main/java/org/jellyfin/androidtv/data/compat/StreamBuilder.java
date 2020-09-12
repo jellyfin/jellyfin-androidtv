@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.data.compat;
 
-import org.jellyfin.androidtv.constants.CodecTypes;
-import org.jellyfin.androidtv.constants.MediaTypes;
+import org.jellyfin.androidtv.constant.CodecTypes;
+import org.jellyfin.androidtv.constant.MediaTypes;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.logging.ILogger;
 import org.jellyfin.apiclient.model.dlna.CodecProfile;

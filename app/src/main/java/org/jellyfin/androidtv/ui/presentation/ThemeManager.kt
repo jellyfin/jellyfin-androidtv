@@ -3,9 +3,9 @@ package org.jellyfin.androidtv.ui.presentation
 import android.app.Activity
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
-import org.jellyfin.androidtv.preferences.UserPreferences
-import org.jellyfin.androidtv.preferences.enums.AppTheme
-import org.jellyfin.androidtv.ui.preferences.PreferencesActivity
+import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.preference.constant.AppTheme
+import org.jellyfin.androidtv.ui.preference.PreferencesActivity
 import java.util.*
 
 object ThemeManager {

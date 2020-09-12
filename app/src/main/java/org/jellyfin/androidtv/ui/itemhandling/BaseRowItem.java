@@ -219,9 +219,9 @@ public class BaseRowItem {
             case LiveTvProgram:
             case LiveTvRecording:
                 switch (imageType) {
-                    case org.jellyfin.androidtv.constants.ImageType.BANNER:
+                    case org.jellyfin.androidtv.constant.ImageType.BANNER:
                         return ImageUtils.getBannerImageUrl(baseItem, TvApp.getApplication().getApiClient(), maxHeight);
-                    case org.jellyfin.androidtv.constants.ImageType.THUMB:
+                    case org.jellyfin.androidtv.constant.ImageType.THUMB:
                         return ImageUtils.getThumbImageUrl(baseItem, TvApp.getApplication().getApiClient(), maxHeight);
                     default:
                         return getPrimaryImageUrl(maxHeight);

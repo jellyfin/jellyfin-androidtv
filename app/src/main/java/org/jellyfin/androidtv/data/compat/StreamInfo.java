@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.data.compat;
 
-import org.jellyfin.androidtv.constants.ContainerTypes;
-import org.jellyfin.androidtv.constants.MediaTypes;
+import org.jellyfin.androidtv.constant.ContainerTypes;
+import org.jellyfin.androidtv.constant.MediaTypes;
 import org.jellyfin.androidtv.util.Utils;
 
 import java.util.ArrayList;

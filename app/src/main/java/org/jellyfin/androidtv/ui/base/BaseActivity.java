@@ -6,7 +6,7 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.constants.CustomMessage;
+import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.ui.search.SearchActivity;
 
 import androidx.fragment.app.FragmentActivity;

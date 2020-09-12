@@ -1,6 +1,6 @@
 package org.jellyfin.androidtv.ui.base;
 
-import org.jellyfin.androidtv.constants.CustomMessage;
+import org.jellyfin.androidtv.constant.CustomMessage;
 
 /**
  * Created by Eric on 4/20/2015.

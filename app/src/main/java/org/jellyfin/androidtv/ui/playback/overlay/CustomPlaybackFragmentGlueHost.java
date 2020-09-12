@@ -9,7 +9,7 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
-import org.jellyfin.androidtv.ui.playback.overlay.actions.CustomAction;
+import org.jellyfin.androidtv.ui.playback.overlay.action.CustomAction;
 
 public class CustomPlaybackFragmentGlueHost extends PlaybackSupportFragmentGlueHost {
 

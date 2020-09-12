@@ -3,8 +3,8 @@ package org.jellyfin.androidtv.ui.browsing;
 import android.os.Bundle;
 
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.constants.Extras;
-import org.jellyfin.androidtv.constants.ChangeTriggerType;
+import org.jellyfin.androidtv.constant.Extras;
+import org.jellyfin.androidtv.constant.ChangeTriggerType;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 
 import org.jellyfin.apiclient.model.dto.BaseItemType;
