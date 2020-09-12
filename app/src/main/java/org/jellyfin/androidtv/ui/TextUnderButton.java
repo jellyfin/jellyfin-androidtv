@@ -10,9 +10,6 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.model.GotFocusEvent;
 import org.jellyfin.androidtv.util.Utils;
 
-/**
- * Created by Eric on 2/20/2015.
- */
 public class TextUnderButton extends RelativeLayout {
 
     public static int STATE_PRIMARY = 0;

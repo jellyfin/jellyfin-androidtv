@@ -17,9 +17,6 @@ import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 
-/**
- * Created by Eric on 5/4/2015.
- */
 public class GuideChannelHeader extends RelativeLayout {
     final int IMAGE_WIDTH = Utils.convertDpToPixel(TvApp.getApplication(), 50);
     final int IMAGE_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 30);

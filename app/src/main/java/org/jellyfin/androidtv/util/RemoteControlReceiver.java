@@ -11,9 +11,6 @@ import org.jellyfin.androidtv.ui.playback.MediaManager;
 
 import timber.log.Timber;
 
-/**
- * Created by Eric on 4/17/2015.
- */
 public class RemoteControlReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {

@@ -12,9 +12,6 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.ui.livetv.ILiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
 
-/**
- * Created by Eric on 5/8/2015.
- */
 public class GuidePagingButton extends RelativeLayout {
 
     private int startRow;

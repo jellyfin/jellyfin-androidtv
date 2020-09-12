@@ -47,9 +47,6 @@ import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.Presenter;
 import timber.log.Timber;
 
-/**
- * Created by Eric on 9/4/2015.
- */
 public class TvManager {
     private static final String DISPLAY_PREFS_APP_NAME = "jellyfin";
 
@@ -448,6 +445,4 @@ public class TvManager {
         cal.setTime(fulldate);
         return cal.get(Calendar.DAY_OF_YEAR);
     }
-
-
 }

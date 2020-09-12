@@ -9,9 +9,6 @@ import org.jellyfin.androidtv.util.Utils;
 
 import androidx.appcompat.widget.AppCompatButton;
 
-/**
- * Created by Eric on 4/30/2015.
- */
 public class TextButton extends AppCompatButton {
     public TextButton(Context context) {
         super(context);
@@ -29,7 +26,7 @@ public class TextButton extends AppCompatButton {
         } else {
             setTextSize(size);
             int trueSize = Utils.convertDpToPixel(context, size);
-            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(trueSize*2 +15, trueSize + 40);
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(trueSize * 2 + 15, trueSize + 40);
 
             setLayoutParams(lp);
         }
@@ -45,6 +42,4 @@ public class TextButton extends AppCompatButton {
             }
         }
     };
-
-
 }

@@ -2,9 +2,6 @@ package org.jellyfin.androidtv.ui.playback;
 
 import org.videolan.libvlc.MediaPlayer.Event;
 
-/**
- * Created by Eric on 6/13/2015.
- */
 public class VlcEventHandler implements org.videolan.libvlc.MediaPlayer.EventListener {
 
     private PlaybackListener onCompletionListener;

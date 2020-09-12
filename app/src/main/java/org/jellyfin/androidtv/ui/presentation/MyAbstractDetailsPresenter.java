@@ -12,9 +12,6 @@ import android.widget.TextView;
 
 import org.jellyfin.androidtv.util.Utils;
 
-/**
- * Created by Eric on 12/19/2014.
- */
 public abstract class MyAbstractDetailsPresenter extends Presenter {
 
     public static class ViewHolder extends Presenter.ViewHolder {

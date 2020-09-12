@@ -2,9 +2,6 @@ package org.jellyfin.androidtv.data.model;
 
 import org.jellyfin.apiclient.model.entities.ChapterInfo;
 
-/**
- * Created by Eric on 2/12/2015.
- */
 public class ChapterItemInfo extends ChapterInfo {
     private String itemId;
 

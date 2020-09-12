@@ -7,9 +7,6 @@ import android.widget.FrameLayout;
 
 import org.jellyfin.androidtv.R;
 
-/**
- * Created by Eric on 11/22/2015.
- */
 public class DetailRowView extends FrameLayout {
     public DetailRowView(Context context) {
         super(context);
@@ -24,8 +21,5 @@ public class DetailRowView extends FrameLayout {
     private void inflateView(Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.new_details_overview_row, this);
-
     }
-
-
 }

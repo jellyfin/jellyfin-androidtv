@@ -1,9 +1,5 @@
 package org.jellyfin.androidtv.data.model;
 
-/**
- * Created by spam on 10/4/2016.
- */
-
 public class LiveTvPrefs {
     public String channelOrder = "DatePlayed";
     public boolean showNewIndicator;

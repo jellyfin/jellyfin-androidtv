@@ -5,9 +5,6 @@ import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
-/**
- * Created by Eric on 5/13/2015.
- */
 public class GuideFilters {
     private SystemPreferences prefs;
     private boolean movies;

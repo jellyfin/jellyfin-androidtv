@@ -6,15 +6,11 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.livetv.TimerQuery;
 
-/**
- * Created by Eric on 9/3/2015.
- */
 public class BrowseScheduleFragment extends EnhancedBrowseFragment {
 
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     @Override
@@ -25,8 +21,5 @@ public class BrowseScheduleFragment extends EnhancedBrowseFragment {
                 if (response == 0) mActivity.setTitle("No Scheduled Recordings");
             }
         });
-
     }
-
-
 }

@@ -17,9 +17,6 @@ import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
-/**
- * Created by Eric on 11/21/2015.
- */
 public class ItemRowView extends FrameLayout {
     Context mContext;
     RelativeLayout mWholeRow;

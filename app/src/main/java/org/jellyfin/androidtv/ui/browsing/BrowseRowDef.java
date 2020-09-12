@@ -18,9 +18,6 @@ import org.jellyfin.apiclient.model.querying.SeasonQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 
-/**
- * Created by Eric on 12/4/2014.
- */
 public class BrowseRowDef {
     private String headerText;
     private ItemQuery query;
@@ -249,4 +246,3 @@ public class BrowseRowDef {
         return recordingGroupQuery;
     }
 }
-

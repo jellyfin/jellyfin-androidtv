@@ -15,9 +15,6 @@ import java.util.List;
 
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
-/**
- * Created by Eric on 5/22/2015.
- */
 public class MyDetailsOverviewRow extends Row {
     private BaseItemDto mItem;
     private Drawable mImageDrawable;
