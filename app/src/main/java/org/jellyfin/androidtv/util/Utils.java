@@ -178,7 +178,7 @@ public class Utils {
     }
 
     public static int getMaxBitrate() {
-        String maxRate = TvApp.getApplication().getUserPreferences().get(UserPreferences.Companion.getMaxBitrate());
+        String maxRate = get(UserPreferences.class).get(UserPreferences.Companion.getMaxBitrate());
         float factor = Float.parseFloat(maxRate) * 10;
         return Math.min(factor == 0 ? TvApp.getApplication().getAutoBitrate() : ((int) factor * 100000), 100000000);
     }
@@ -201,7 +201,7 @@ public class Utils {
     }
 
     public static void processPasswordEntry(final Activity activity, final UserDto user, final String directItemId) {
-        if (TvApp.getApplication().getUserPreferences().get(UserPreferences.Companion.getPasswordDPadEnabled())) {
+        if (get(UserPreferences.class).get(UserPreferences.Companion.getPasswordDPadEnabled())) {
             Intent pwIntent = new Intent(activity, DpadPwActivity.class);
             pwIntent.putExtra("User", get(GsonJsonSerializer.class).SerializeToString(user));
             pwIntent.putExtra("ItemId", directItemId);
@@ -231,7 +231,7 @@ public class Utils {
             return true;
         }
 
-        return (DeviceUtils.isFireTv() && !DeviceUtils.is50()) || TvApp.getApplication().getUserPreferences().get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO;
+        return (DeviceUtils.isFireTv() && !DeviceUtils.is50()) || get(UserPreferences.class).get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO;
     }
 
     /**

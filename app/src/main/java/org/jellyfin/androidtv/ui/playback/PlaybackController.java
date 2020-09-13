@@ -99,17 +99,17 @@ public class PlaybackController {
         mApplication = TvApp.getApplication();
         mHandler = new Handler();
 
-        refreshRateSwitchingEnabled = DeviceUtils.is60() && mApplication.getUserPreferences().get(UserPreferences.Companion.getRefreshRateSwitchingEnabled());
+        refreshRateSwitchingEnabled = DeviceUtils.is60() && get(UserPreferences.class).get(UserPreferences.Companion.getRefreshRateSwitchingEnabled());
         if (refreshRateSwitchingEnabled) getDisplayModes();
 
         // Set default value for useVlc field
         // when set to auto the default will be exoplayer
-        useVlc = mApplication.getUserPreferences().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.VLC;
+        useVlc = get(UserPreferences.class).get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.VLC;
     }
 
     public void init(VideoManager mgr) {
         mVideoManager = mgr;
-        directStreamLiveTv = mApplication.getUserPreferences().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled());
+        directStreamLiveTv = get(UserPreferences.class).get(UserPreferences.Companion.getLiveTvDirectPlayEnabled());
         setupCallbacks();
     }
 
@@ -352,7 +352,7 @@ public class PlaybackController {
                 internalOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
                 internalOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
                 DeviceProfile internalProfile = ProfileHelper.getBaseProfile(isLiveTv);
-                if (DeviceUtils.is60() || mApplication.getUserPreferences().get(UserPreferences.Companion.getAc3Enabled())) {
+                if (DeviceUtils.is60() || get(UserPreferences.class).get(UserPreferences.Companion.getAc3Enabled())) {
                     ProfileHelper.setExoOptions(internalProfile, isLiveTv, true);
                     ProfileHelper.addAc3Streaming(internalProfile, true);
                     Timber.i("*** Using extended Exoplayer profile options");
@@ -391,7 +391,7 @@ public class PlaybackController {
             updateTvProgramInfo();
             TvManager.setLastLiveTvChannel(item.getId());
             //Choose appropriate player now to avoid opening two streams
-            if (!directStreamLiveTv || mApplication.getUserPreferences().get(UserPreferences.Companion.getLiveTvVideoPlayer()) != PreferredVideoPlayer.VLC) {
+            if (!directStreamLiveTv || get(UserPreferences.class).get(UserPreferences.Companion.getLiveTvVideoPlayer()) != PreferredVideoPlayer.VLC) {
                 //internal/exo player
                 Timber.i("Using internal player for Live TV");
                 mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
@@ -443,7 +443,7 @@ public class PlaybackController {
                                             vlcResponse.getMediaSource().getVideoStream().getWidth() > 1200);
                             Timber.i(useDeinterlacing ? "Explicit deinterlacing will be used" : "Explicit deinterlacing will NOT be used");
 
-                            PreferredVideoPlayer preferredVideoPlayer = mApplication.getUserPreferences().get(UserPreferences.Companion.getVideoPlayer());
+                            PreferredVideoPlayer preferredVideoPlayer = get(UserPreferences.class).get(UserPreferences.Companion.getVideoPlayer());
 
                             Timber.i("User preferred player is: %s", preferredVideoPlayer);
 
@@ -459,7 +459,7 @@ public class PlaybackController {
                                 useVlc = !vlcErrorEncountered &&
                                         !vlcResponse.getPlayMethod().equals(PlayMethod.Transcode) &&
                                         (DeviceUtils.is60() ||
-                                                !mApplication.getUserPreferences().get(UserPreferences.Companion.getAc3Enabled()) ||
+                                                !get(UserPreferences.class).get(UserPreferences.Companion.getAc3Enabled()) ||
                                                 vlcResponse.getMediaSource() == null ||
                                                 vlcResponse.getMediaSource().getDefaultAudioStream() == null ||
                                                 (!"ac3".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec()) &&
@@ -467,7 +467,7 @@ public class PlaybackController {
                                         (Utils.downMixAudio() ||
                                                 !DeviceUtils.is60() ||
                                                 internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ||
-                                                !mApplication.getUserPreferences().get(UserPreferences.Companion.getDtsEnabled()) ||
+                                                !get(UserPreferences.class).get(UserPreferences.Companion.getDtsEnabled()) ||
                                                 internalResponse.getMediaSource() == null ||
                                                 internalResponse.getMediaSource().getDefaultAudioStream() == null ||
                                                 (!internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dca") &&
@@ -550,7 +550,7 @@ public class PlaybackController {
         setPlaybackMethod(response.getPlayMethod());
 
         // Force VLC when media is not live TV and the preferred player is VLC
-        boolean forceVlc = !isLiveTv && mApplication.getUserPreferences().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.VLC;
+        boolean forceVlc = !isLiveTv && get(UserPreferences.class).get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.VLC;
 
         if (forceVlc || (useVlc && (!getPlaybackMethod().equals(PlayMethod.Transcode) || isLiveTv))) {
             Timber.i("Playing back in VLC.");
@@ -993,7 +993,7 @@ public class PlaybackController {
         if (nextItem != null) {
             Timber.d("Moving to next queue item. Index: " + (mCurrentIndex + 1));
 
-            if (mApplication.getUserPreferences().get(UserPreferences.Companion.getNextUpEnabled())) {
+            if (get(UserPreferences.class).get(UserPreferences.Companion.getNextUpEnabled())) {
                 // Show "Next Up" fragment
                 spinnerOff = false;
                 mFragment.showNextUp(nextItem.getId());

@@ -121,7 +121,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 mRows.add(new BrowseRowDef(mApplication.getResources().getString(R.string.lbl_next_up), nextUpQuery, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}));
 
                 //Premieres
-                if (mApplication.getUserPreferences().get(UserPreferences.Companion.getPremieresEnabled())) {
+                if (get(UserPreferences.class).get(UserPreferences.Companion.getPremieresEnabled())) {
                     StdItemQuery newQuery = new StdItemQuery(new ItemFields[]{
                             ItemFields.DateCreated,
                             ItemFields.PrimaryImageAspectRatio,

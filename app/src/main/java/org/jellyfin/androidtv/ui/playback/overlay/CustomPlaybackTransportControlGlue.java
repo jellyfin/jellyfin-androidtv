@@ -4,7 +4,12 @@ import android.content.Context;
 import android.view.KeyEvent;
 import android.view.View;
 
-import org.jellyfin.androidtv.TvApp;
+import androidx.leanback.media.PlaybackTransportControlGlue;
+import androidx.leanback.widget.Action;
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.PlaybackControlsRow;
+
+import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.overlay.action.AdjustAudioDelayAction;
@@ -16,12 +21,8 @@ import org.jellyfin.androidtv.ui.playback.overlay.action.PreviousLiveTvChannelAc
 import org.jellyfin.androidtv.ui.playback.overlay.action.RecordAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SelectAudioAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ZoomAction;
-import org.jellyfin.androidtv.preference.UserPreferences;
 
-import androidx.leanback.media.PlaybackTransportControlGlue;
-import androidx.leanback.widget.Action;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.PlaybackControlsRow;
+import static org.koin.java.KoinJavaComponent.get;
 
 public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue {
 
@@ -256,10 +257,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if (hasSubs() && event.getAction() == KeyEvent.ACTION_UP && keyCode == TvApp.getApplication().getUserPreferences().get(UserPreferences.Companion.getShortcutSubtitleTrack())) {
+        if (hasSubs() && event.getAction() == KeyEvent.ACTION_UP && keyCode == get(UserPreferences.class).get(UserPreferences.Companion.getShortcutSubtitleTrack())) {
             closedCaptionsAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), v);
         }
-        if (hasMultiAudio() && event.getAction() == KeyEvent.ACTION_UP && keyCode == TvApp.getApplication().getUserPreferences().get(UserPreferences.Companion.getShortcutAudioTrack())) {
+        if (hasMultiAudio() && event.getAction() == KeyEvent.ACTION_UP && keyCode == get(UserPreferences.class).get(UserPreferences.Companion.getShortcutAudioTrack())) {
             selectAudioAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), v);
         }
         return super.onKey(v, keyCode, event);

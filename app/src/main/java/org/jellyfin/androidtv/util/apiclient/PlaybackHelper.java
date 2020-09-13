@@ -40,7 +40,7 @@ public class PlaybackHelper {
         switch (mainItem.getBaseItemType()) {
             case Episode:
                 items.add(mainItem);
-                if (TvApp.getApplication().getUserPreferences().get(UserPreferences.Companion.getMediaQueuingEnabled())) {
+                if (get(UserPreferences.class).get(UserPreferences.Companion.getMediaQueuingEnabled())) {
                     MediaManager.setVideoQueueModified(false); // we are automatically creating new queue
                     //add subsequent episodes
                     if (mainItem.getSeasonId() != null && mainItem.getIndexNumber() != null) {
@@ -211,7 +211,7 @@ public class PlaybackHelper {
                 break;
 
             default:
-                if (allowIntros && !TvApp.getApplication().useExternalPlayer(mainItem.getBaseItemType()) && TvApp.getApplication().getUserPreferences().get(UserPreferences.Companion.getCinemaModeEnabled())) {
+                if (allowIntros && !TvApp.getApplication().useExternalPlayer(mainItem.getBaseItemType()) && get(UserPreferences.class).get(UserPreferences.Companion.getCinemaModeEnabled())) {
                     //Intros
                     get(ApiClient.class).GetIntrosAsync(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
                         @Override

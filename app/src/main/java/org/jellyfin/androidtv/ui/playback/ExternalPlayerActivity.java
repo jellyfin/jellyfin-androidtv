@@ -141,7 +141,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
                 .setNegativeButton(R.string.turn_off, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        UserPreferences prefs = mApplication.getUserPreferences();
+                        UserPreferences prefs = get(UserPreferences.class);
                         prefs.set(UserPreferences.Companion.getVideoPlayer(), PreferredVideoPlayer.AUTO);
                         prefs.set(UserPreferences.Companion.getLiveTvVideoPlayer(), PreferredVideoPlayer.AUTO);
                     }
@@ -214,7 +214,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
             final BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
             isLiveTv = item.getBaseItemType() == BaseItemType.TvChannel;
 
-            if (!isLiveTv && mApplication.getUserPreferences().get(UserPreferences.Companion.getExternalVideoPlayerSendPath())) {
+            if (!isLiveTv && get(UserPreferences.class).get(UserPreferences.Companion.getExternalVideoPlayerSendPath())) {
                 // Just pass the path directly
                 mCurrentStreamInfo = new StreamInfo();
                 mCurrentStreamInfo.setPlayMethod(PlayMethod.DirectPlay);

@@ -7,10 +7,11 @@ import android.view.View
 import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.fragment_next_up_buttons.view.*
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.koin.core.KoinComponent
+import org.koin.core.get
 
-class NextUpButtons(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyle: Int = 0) : FrameLayout(context, attrs, defStyleAttr, defStyle) {
+class NextUpButtons(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyle: Int = 0) : FrameLayout(context, attrs, defStyleAttr, defStyle), KoinComponent {
 	constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0, 0)
 
 	private var countdownTimer: CountDownTimer? = null
@@ -28,7 +29,7 @@ class NextUpButtons(context: Context, attrs: AttributeSet? = null, defStyleAttr:
 	}
 
 	fun startTimer() {
-		val duration = TvApp.getApplication().userPreferences[UserPreferences.nextUpTimeout].toLong()
+		val duration = get<UserPreferences>()[UserPreferences.nextUpTimeout].toLong()
 
 		// Cancel current timer if one is already set
 		countdownTimer?.cancel()

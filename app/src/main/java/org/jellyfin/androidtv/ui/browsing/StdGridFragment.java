@@ -133,7 +133,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
         mCardHeight = getCardHeight(mPosterSizeSetting);
 
-        if (mApplication.getUserPreferences().get(UserPreferences.Companion.getGridDirection()) == GridDirection.HORIZONTAL)
+        if (get(UserPreferences.class).get(UserPreferences.Companion.getGridDirection()) == GridDirection.HORIZONTAL)
             setGridPresenter(new HorizontalGridPresenter());
         else
             setGridPresenter(new VerticalGridPresenter());
@@ -207,7 +207,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     public void onResume() {
         super.onResume();
 
-        ShowFanart = mApplication.getUserPreferences().get(UserPreferences.Companion.getBackdropEnabled());
+        ShowFanart = get(UserPreferences.class).get(UserPreferences.Companion.getBackdropEnabled());
 
         if (!justLoaded) {
             //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing

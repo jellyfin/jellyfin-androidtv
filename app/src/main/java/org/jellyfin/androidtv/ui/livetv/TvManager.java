@@ -65,11 +65,11 @@ public class TvManager {
     private static LiveTvPrefs prefs = new LiveTvPrefs();
 
     public static String getLastLiveTvChannel() {
-        return TvApp.getApplication().getSystemPreferences().get(SystemPreferences.Companion.getLiveTvLastChannel());
+        return get(SystemPreferences.class).get(SystemPreferences.Companion.getLiveTvLastChannel());
     }
 
     public static void setLastLiveTvChannel(String id) {
-        SystemPreferences systemPreferences = TvApp.getApplication().getSystemPreferences();
+        SystemPreferences systemPreferences = get(SystemPreferences.class);
         systemPreferences.set(SystemPreferences.Companion.getLiveTvPrevChannel(), systemPreferences.get(SystemPreferences.Companion.getLiveTvLastChannel()));
         systemPreferences.set(SystemPreferences.Companion.getLiveTvLastChannel(), id);
         updateLastPlayedDate(id);
@@ -77,7 +77,7 @@ public class TvManager {
     }
 
     public static String getPrevLiveTvChannel() {
-        return TvApp.getApplication().getSystemPreferences().get(SystemPreferences.Companion.getLiveTvPrevChannel());
+        return get(SystemPreferences.class).get(SystemPreferences.Companion.getLiveTvPrevChannel());
     }
 
     public static List<ChannelInfoDto> getAllChannels() {

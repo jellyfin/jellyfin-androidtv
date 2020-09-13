@@ -1,9 +1,10 @@
 package org.jellyfin.androidtv.ui.livetv;
 
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class GuideFilters {
     private SystemPreferences prefs;
@@ -19,7 +20,7 @@ public class GuideFilters {
     }
 
     public void load() {
-        prefs = TvApp.getApplication().getSystemPreferences();
+        prefs = get(SystemPreferences.class);
 
         movies = prefs.get(SystemPreferences.Companion.getLiveTvGuideFilterMovies());
         news = prefs.get(SystemPreferences.Companion.getLiveTvGuideFilterNews());

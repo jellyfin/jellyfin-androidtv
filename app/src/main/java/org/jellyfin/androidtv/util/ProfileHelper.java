@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.util;
 
 import android.os.Build;
 
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.CodecTypes;
 import org.jellyfin.androidtv.constant.ContainerTypes;
 import org.jellyfin.androidtv.data.compat.AndroidProfileOptions;
@@ -26,6 +25,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class ProfileHelper {
     private static MediaCodecCapabilitiesTest MediaTest = new MediaCodecCapabilitiesTest();
@@ -272,7 +273,7 @@ public class ProfileHelper {
         profile.setName("Android-Exo");
 
         List<DirectPlayProfile> directPlayProfiles = new ArrayList<>();
-        if (!isLiveTv || TvApp.getApplication().getUserPreferences().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled())) {
+        if (!isLiveTv || get(UserPreferences.class).get(UserPreferences.Companion.getLiveTvDirectPlayEnabled())) {
             DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
             List<String> containers = new ArrayList<>();
             if (isLiveTv) {

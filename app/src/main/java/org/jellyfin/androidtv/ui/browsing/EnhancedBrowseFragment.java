@@ -210,7 +210,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     public void onResume() {
         super.onResume();
 
-        ShowFanart = mApplication.getUserPreferences().get(UserPreferences.Companion.getBackdropEnabled());
+        ShowFanart = get(UserPreferences.class).get(UserPreferences.Companion.getBackdropEnabled());
 
         //React to deletion
         if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(TvApp.getApplication().dataRefreshService.getLastDeletedItemId())) {

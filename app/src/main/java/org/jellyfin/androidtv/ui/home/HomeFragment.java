@@ -106,8 +106,8 @@ public class HomeFragment extends StdBrowseFragment {
         TvApp.getApplication().determineAutoBitrate();
 
         //First time audio message
-        if (!mApplication.getSystemPreferences().get(SystemPreferences.Companion.getAudioWarned())) {
-            mApplication.getSystemPreferences().set(SystemPreferences.Companion.getAudioWarned(), true);
+        if (!get(SystemPreferences.class).get(SystemPreferences.Companion.getAudioWarned())) {
+            get(SystemPreferences.class).set(SystemPreferences.Companion.getAudioWarned(), true);
 
             new AlertDialog.Builder(mActivity)
                     .setTitle(mApplication.getString(R.string.lbl_audio_capabilitites))
@@ -116,7 +116,7 @@ public class HomeFragment extends StdBrowseFragment {
                     .setNegativeButton(mApplication.getString(R.string.btn_set_compatible_audio), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            mApplication.getUserPreferences().set(UserPreferences.Companion.getAudioBehaviour(), AudioBehavior.DOWNMIX_TO_STEREO);
+                            get(UserPreferences.class).set(UserPreferences.Companion.getAudioBehaviour(), AudioBehavior.DOWNMIX_TO_STEREO);
                         }
                     })
                     .setCancelable(false)
@@ -138,7 +138,7 @@ public class HomeFragment extends StdBrowseFragment {
             }
         });
 
-        if (mApplication.getUserPreferences().get(UserPreferences.Companion.getLiveTvMode())) {
+        if (get(UserPreferences.class).get(UserPreferences.Companion.getLiveTvMode())) {
             // Open guide activity and tell it to start last channel
             Intent guide = new Intent(getActivity(), LiveTvGuideActivity.class);
             guide.putExtra("loadLast", true);

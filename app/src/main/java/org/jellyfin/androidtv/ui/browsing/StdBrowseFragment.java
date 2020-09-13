@@ -65,6 +65,8 @@ import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 import timber.log.Timber;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoader {
     private static final int BACKGROUND_UPDATE_DELAY = 100;
 
@@ -125,7 +127,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
     public void onResume() {
         super.onResume();
 
-        ShowFanart = mApplication.getUserPreferences().get(UserPreferences.Companion.getBackdropEnabled());
+        ShowFanart = get(UserPreferences.class).get(UserPreferences.Companion.getBackdropEnabled());
 
         //React to deletion
         if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(TvApp.getApplication().dataRefreshService.getLastDeletedItemId())) {

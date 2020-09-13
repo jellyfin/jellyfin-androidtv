@@ -8,7 +8,7 @@ import androidx.preference.PreferenceDialogFragmentCompat
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceScreen
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.preference.category.*
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.jellyfin.androidtv.ui.preference.custom.ButtonRemapDialogFragment
@@ -20,7 +20,7 @@ import org.koin.core.get
 class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 	class InnerUserPreferencesFragment : LeanbackPreferenceFragmentCompat(), KoinComponent {
 		override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-			val userPreferences = TvApp.getApplication().userPreferences
+			val userPreferences = get<UserPreferences>()
 
 			preferenceScreen = optionsScreen(requireContext()) {
 				setTitle(R.string.settings_title)
