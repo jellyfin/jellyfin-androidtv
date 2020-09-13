@@ -49,6 +49,7 @@ import java.util.HashMap;
 import timber.log.Timber;
 
 import static org.koin.core.context.ContextFunctionsKt.startKoin;
+import static org.koin.java.KoinJavaComponent.get;
 
 @AcraCore(buildConfigClass = BuildConfig.class)
 @AcraHttpSender(
@@ -89,7 +90,6 @@ public class TvApp extends Application {
     private UserPreferences userPreferences;
     private SystemPreferences systemPreferences;
 
-    private Jellyfin jellyfin;
     private ApiClient apiClient;
 
     @Override
@@ -102,20 +102,20 @@ public class TvApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        app = (TvApp) getApplicationContext();
-        JellyfinOptions.Builder options = new JellyfinOptions.Builder();
-        JellyfinAndroidKt.android(options, this);
-        options.setLogger(new AndroidLogger());
-        options.setAppInfo(new AppInfo("Android TV", BuildConfig.VERSION_NAME));
-        jellyfin = new Jellyfin(options.build());
-        apiClient = jellyfin.createApi(null, null, AndroidDevice.fromContext(this), new TvApiEventListener());
-
-        playbackManager = new PlaybackManager(AndroidDevice.fromContext(this), new AndroidLogger("PlaybackManager"));
 
         // Start Koin
         KoinApplication koin = KoinAndroidApplication.create(this)
                 .modules(AppModuleKt.getAppModule());
         startKoin(new GlobalContext(), koin);
+
+        app = (TvApp) getApplicationContext();
+        JellyfinOptions.Builder options = new JellyfinOptions.Builder();
+        JellyfinAndroidKt.android(options, this);
+        options.setLogger(new AndroidLogger());
+        options.setAppInfo(new AppInfo("Android TV", BuildConfig.VERSION_NAME));
+        apiClient = get(Jellyfin.class).createApi(null, null, AndroidDevice.fromContext(this), new TvApiEventListener());
+
+        playbackManager = new PlaybackManager(AndroidDevice.fromContext(this), new AndroidLogger("PlaybackManager"));
 
         registerActivityLifecycleCallbacks(new AuthenticatedUserCallbacks());
         registerActivityLifecycleCallbacks(new AppThemeCallbacks());
@@ -142,9 +142,6 @@ public class TvApp extends Application {
         this.displayPrefsCache = new HashMap<>();
     }
 
-    public Jellyfin getJellyfin() {
-        return jellyfin;
-    }
 
     public ApiClient getApiClient() {
         return apiClient;
