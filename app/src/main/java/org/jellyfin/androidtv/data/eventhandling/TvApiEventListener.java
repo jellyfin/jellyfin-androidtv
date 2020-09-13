@@ -33,6 +33,8 @@ import java.util.Arrays;
 
 import timber.log.Timber;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 public class TvApiEventListener extends ApiEventListener {
     @Override
     public void onPlaybackStopped(ApiClient client, SessionInfoDto info) {
@@ -161,7 +163,7 @@ public class TvApiEventListener extends ApiEventListener {
                     ItemFields.ChildCount
             });
             query.setIds(command.getItemIds());
-            TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+            get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                 @Override
                 public void onResponse(ItemsResult response) {
                     if (response.getItems() != null && response.getItems().length > 0) {

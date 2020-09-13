@@ -22,6 +22,7 @@ import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.AudioBehavior;
 import org.jellyfin.androidtv.ui.startup.DpadPwActivity;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
 
@@ -217,7 +218,7 @@ public class Utils {
                     .setPositiveButton(R.string.lbl_ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             String pw = password.getText().toString();
-                            AuthenticationHelper.loginUser(user.getName(), pw, TvApp.getApplication().getApiClient(), activity, directItemId);
+                            AuthenticationHelper.loginUser(user.getName(), pw, get(ApiClient.class), activity, directItemId);
                         }
                     }).show();
         }

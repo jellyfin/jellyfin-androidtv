@@ -25,6 +25,7 @@ import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -242,7 +243,7 @@ public class ItemLauncher {
             case Chapter:
                 final ChapterItemInfo chapter = rowItem.getChapterInfo();
                 //Start playback of the item at the chapter point
-                application.getApiClient().GetItemAsync(chapter.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                get(ApiClient.class).GetItemAsync(chapter.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         List<BaseItemDto> items = new ArrayList<>();
@@ -258,7 +259,7 @@ public class ItemLauncher {
                 break;
             case Server:
                 //Log in to selected server
-                application.getApiClient().ChangeServerLocation(rowItem.getServerInfo().getAddress());
+                get(ApiClient.class).ChangeServerLocation(rowItem.getServerInfo().getAddress());
                 AuthenticationHelper.enterManualUser(activity);
                 break;
 
@@ -268,14 +269,14 @@ public class ItemLauncher {
                     Utils.processPasswordEntry(activity, user);
 
                 } else {
-                    AuthenticationHelper.loginUser(user.getName(), "", application.getApiClient(), activity);
+                    AuthenticationHelper.loginUser(user.getName(), "", get(ApiClient.class), activity);
                 }
                 break;
 
             case SearchHint:
                 final SearchHint hint = rowItem.getSearchHint();
                 //Retrieve full item for display and playback
-                application.getApiClient().GetItemAsync(hint.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                get(ApiClient.class).GetItemAsync(hint.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         if (response.getIsFolderItem() && response.getBaseItemType() != BaseItemType.Series) {
@@ -332,7 +333,7 @@ public class ItemLauncher {
                     case Play:
                         if (program.getPlayAccess() == PlayAccess.Full) {
                             //Just play it directly - need to retrieve program channel via items api to convert to BaseItem
-                            TvApp.getApplication().getApiClient().GetItemAsync(program.getChannelId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                            get(ApiClient.class).GetItemAsync(program.getChannelId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
                                     List<BaseItemDto> items = new ArrayList<>();
@@ -353,7 +354,7 @@ public class ItemLauncher {
             case LiveTvChannel:
                 //Just tune to it by playing
                 final ChannelInfoDto channel = rowItem.getChannelInfo();
-                TvApp.getApplication().getApiClient().GetItemAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                get(ApiClient.class).GetItemAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         PlaybackHelper.getItemsToPlay(response, false, false, new Response<List<BaseItemDto>>() {
@@ -384,7 +385,7 @@ public class ItemLauncher {
                     case Play:
                         if (rowItem.getRecordingInfo().getPlayAccess() == PlayAccess.Full) {
                             //Just play it directly but need to retrieve as base item
-                            TvApp.getApplication().getApiClient().GetItemAsync(rowItem.getRecordingInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                            get(ApiClient.class).GetItemAsync(rowItem.getRecordingInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
                                     Intent intent = new Intent(activity, application.getPlaybackActivityClass(rowItem.getBaseItemType()));

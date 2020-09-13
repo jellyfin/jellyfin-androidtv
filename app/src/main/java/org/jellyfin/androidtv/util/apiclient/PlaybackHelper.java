@@ -6,10 +6,11 @@ import android.content.Intent;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
-import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -28,6 +29,8 @@ import java.util.Collections;
 import java.util.List;
 
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class PlaybackHelper {
     public static void getItemsToPlay(final BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<BaseItemDto>> outerResponse) {
@@ -56,7 +59,7 @@ public class PlaybackHelper {
                                 ItemFields.ChildCount
                         });
                         query.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                        TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+                        get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                             @Override
                             public void onResponse(ItemsResult response) {
                                 if (response.getTotalRecordCount() > 0) {
@@ -104,7 +107,7 @@ public class PlaybackHelper {
                         ItemFields.ChildCount
                 });
                 query.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+                get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
                         Collections.addAll(items, response.getItems());
@@ -128,7 +131,7 @@ public class PlaybackHelper {
                 });
                 query.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 query.setArtistIds(new String[]{mainItem.getId()});
-                TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+                get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
                         outerResponse.onResponse(Arrays.asList(response.getItems()));
@@ -155,7 +158,7 @@ public class PlaybackHelper {
                         ItemFields.ChildCount
                 });
                 query.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+                get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
                         outerResponse.onResponse(Arrays.asList(response.getItems()));
@@ -170,7 +173,7 @@ public class PlaybackHelper {
                 }
 
                 //We retrieve the channel the program is on (which should be the program's parent)
-                TvApp.getApplication().getApiClient().GetItemAsync(mainItem.getParentId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                get(ApiClient.class).GetItemAsync(mainItem.getParentId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         // fill in info about the specific program for display
@@ -191,7 +194,7 @@ public class PlaybackHelper {
 
             case TvChannel:
                 // Retrieve full channel info for display
-                TvApp.getApplication().getApiClient().GetLiveTvChannelAsync(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ChannelInfoDto>() {
+                get(ApiClient.class).GetLiveTvChannelAsync(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ChannelInfoDto>() {
                     @Override
                     public void onResponse(ChannelInfoDto response) {
                         // get current program info and fill it into our item
@@ -210,7 +213,7 @@ public class PlaybackHelper {
             default:
                 if (allowIntros && !TvApp.getApplication().useExternalPlayer(mainItem.getBaseItemType()) && TvApp.getApplication().getUserPreferences().get(UserPreferences.Companion.getCinemaModeEnabled())) {
                     //Intros
-                    TvApp.getApplication().getApiClient().GetIntrosAsync(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
+                    get(ApiClient.class).GetIntrosAsync(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
                         @Override
                         public void onResponse(ItemsResult response) {
                             if (response.getTotalRecordCount() > 0){
@@ -281,7 +284,7 @@ public class PlaybackHelper {
     }
 
     public static void retrieveAndPlay(String id, final boolean shuffle, final Long position, final Context activity) {
-        TvApp.getApplication().getApiClient().GetItemAsync(id, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+        get(ApiClient.class).GetItemAsync(id, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
             @Override
             public void onResponse(BaseItemDto response) {
                 Long pos = position != null ? position / 10000 : response.getUserData() != null ? (response.getUserData().getPlaybackPositionTicks() / 10000) - TvApp.getApplication().getResumePreroll() : 0;
@@ -318,7 +321,7 @@ public class PlaybackHelper {
                 ItemFields.Genres,
                 ItemFields.ChildCount
         });
-        TvApp.getApplication().getApiClient().GetInstantMixFromItem(query, new Response<ItemsResult>() {
+        get(ApiClient.class).GetInstantMixFromItem(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 outerResponse.onResponse(response.getItems());
@@ -335,7 +338,7 @@ public class PlaybackHelper {
         items.add(mainItem);
         if (mainItem.getPartCount() != null && mainItem.getPartCount() > 1) {
             // get additional parts
-            TvApp.getApplication().getApiClient().GetAdditionalParts(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
+            get(ApiClient.class).GetAdditionalParts(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
                 @Override
                 public void onResponse(ItemsResult response) {
                     Collections.addAll(items, response.getItems());

@@ -2,24 +2,31 @@ package org.jellyfin.androidtv.ui.itemhandling;
 
 import android.os.Handler;
 
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.PresenterSelector;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.ui.browsing.EnhancedBrowseFragment;
-import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.constant.ChangeTriggerType;
+import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
 import org.jellyfin.androidtv.data.model.FilterOptions;
-import org.jellyfin.androidtv.ui.playback.MediaManager;
-import org.jellyfin.androidtv.ui.presentation.IPositionablePresenter;
-import org.jellyfin.androidtv.ui.presentation.TextItemPresenter;
-import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.SpecialsQuery;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.querying.TrailersQuery;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.GridFragment;
+import org.jellyfin.androidtv.ui.browsing.EnhancedBrowseFragment;
+import org.jellyfin.androidtv.ui.livetv.TvManager;
+import org.jellyfin.androidtv.ui.playback.MediaManager;
+import org.jellyfin.androidtv.ui.presentation.IPositionablePresenter;
+import org.jellyfin.androidtv.ui.presentation.TextItemPresenter;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.apiclient.ServerInfo;
@@ -50,6 +57,7 @@ import org.jellyfin.apiclient.model.results.SeriesTimerInfoDtoResult;
 import org.jellyfin.apiclient.model.search.SearchHint;
 import org.jellyfin.apiclient.model.search.SearchHintResult;
 import org.jellyfin.apiclient.model.search.SearchQuery;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -57,11 +65,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.PresenterSelector;
 import timber.log.Timber;
 
 public class ItemRowAdapter extends ArrayObjectAdapter {
@@ -709,7 +712,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieveUsers() {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetPublicUsersAsync(new Response<UserDto[]>() {
+        KoinJavaComponent.get(ApiClient.class).GetPublicUsersAsync(new Response<UserDto[]>() {
             @Override
             public void onResponse(UserDto[] response) {
                 for (UserDto user : response) {
@@ -809,7 +812,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private void retrieveViews() {
         final ItemRowAdapter adapter = this;
         final UserDto user = TvApp.getApplication().getCurrentUser();
-        TvApp.getApplication().getApiClient().GetUserViews(user.getId(), new Response<ItemsResult>() {
+        KoinJavaComponent.get(ApiClient.class).GetUserViews(user.getId(), new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
@@ -850,7 +853,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieve(SearchQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetSearchHintsAsync(query, new Response<SearchHintResult>() {
+        KoinJavaComponent.get(ApiClient.class).GetSearchHintsAsync(query, new Response<SearchHintResult>() {
             @Override
             public void onResponse(SearchHintResult response) {
                 if (response.getSearchHints() != null && response.getSearchHints().length > 0) {
@@ -892,7 +895,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             case AlbumArtists:
                 mArtistsQuery.setLimit(1); // minimum result set because we just need total record count
 
-                TvApp.getApplication().getApiClient().GetAlbumArtistsAsync(mArtistsQuery, new Response<ItemsResult>() {
+                KoinJavaComponent.get(ApiClient.class).GetAlbumArtistsAsync(mArtistsQuery, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
                         mArtistsQuery.setLimit(chunkSize > 0 ? chunkSize : null);
@@ -916,7 +919,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 sizeQuery.setParentId(mQuery.getParentId());
                 sizeQuery.setLimit(1); // minimum result set because we just need total record count
 
-                TvApp.getApplication().getApiClient().GetItemsAsync(sizeQuery, new Response<ItemsResult>() {
+                KoinJavaComponent.get(ApiClient.class).GetItemsAsync(sizeQuery, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
                         outerResponse.onResponse(response.getTotalRecordCount());
@@ -936,7 +939,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     private void retrieve(final ItemQuery query) {
-        TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+        KoinJavaComponent.get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
@@ -1013,7 +1016,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     private void retrieve(ArtistsQuery query) {
-        TvApp.getApplication().getApiClient().GetAlbumArtistsAsync(query, new Response<ItemsResult>() {
+        KoinJavaComponent.get(ApiClient.class).GetAlbumArtistsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
@@ -1043,7 +1046,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     private void retrieve(LatestItemsQuery query) {
-        TvApp.getApplication().getApiClient().GetLatestItems(query, new Response<BaseItemDto[]>() {
+        KoinJavaComponent.get(ApiClient.class).GetLatestItems(query, new Response<BaseItemDto[]>() {
             @Override
             public void onResponse(BaseItemDto[] response) {
                 if (response != null && response.length > 0) {
@@ -1079,10 +1082,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         nextUp.setUserId(query.getUserId());
         nextUp.setParentId(query.getParentId());
         nextUp.setLimit(50);
-        TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(nextUp, new Response<ItemsResult>() {
+        KoinJavaComponent.get(ApiClient.class).GetNextUpEpisodesAsync(nextUp, new Response<ItemsResult>() {
             @Override
             public void onResponse(final ItemsResult nextUpResponse) {
-                TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+                KoinJavaComponent.get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
                         if (adapter.size() > 0) {
@@ -1151,7 +1154,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieve(final NextUpQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetNextUpEpisodesAsync(query, new Response<ItemsResult>() {
+        KoinJavaComponent.get(ApiClient.class).GetNextUpEpisodesAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(final ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
@@ -1176,7 +1179,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                                 rest.setUserId(query.getUserId());
                                 rest.setParentId(first.getSeasonId());
                                 rest.setStartIndex(first.getIndexNumber());
-                                TvApp.getApplication().getApiClient().GetItemsAsync(rest, new Response<ItemsResult>() {
+                                KoinJavaComponent.get(ApiClient.class).GetItemsAsync(rest, new Response<ItemsResult>() {
                                     @Override
                                     public void onResponse(ItemsResult innerResponse) {
                                         if (response.getItems() != null) {
@@ -1222,7 +1225,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieve(final LiveTvChannelQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
+        KoinJavaComponent.get(ApiClient.class).GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
             @Override
             public void onResponse(ChannelInfoDtoResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
@@ -1260,7 +1263,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieve(final RecommendedProgramQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetRecommendedLiveTvProgramsAsync(query, new Response<ItemsResult>() {
+        KoinJavaComponent.get(ApiClient.class).GetRecommendedLiveTvProgramsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 TvManager.updateProgramsNeedsLoadTime();
@@ -1302,7 +1305,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieve(final RecordingGroupQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetLiveTvRecordingGroupsAsync(query, new Response<ItemsResult>() {
+        KoinJavaComponent.get(ApiClient.class).GetLiveTvRecordingGroupsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
@@ -1344,7 +1347,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieve(final SeriesTimerQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetLiveTvSeriesTimersAsync(query, new Response<SeriesTimerInfoDtoResult>() {
+        KoinJavaComponent.get(ApiClient.class).GetLiveTvSeriesTimersAsync(query, new Response<SeriesTimerInfoDtoResult>() {
             @Override
             public void onResponse(SeriesTimerInfoDtoResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
@@ -1383,7 +1386,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieve(final RecordingQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetLiveTvRecordingsAsync(query, new Response<ItemsResult>() {
+        KoinJavaComponent.get(ApiClient.class).GetLiveTvRecordingsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
@@ -1437,7 +1440,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieve(final SpecialsQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetSpecialFeaturesAsync(TvApp.getApplication().getCurrentUser().getId(), query.getItemId(), new Response<BaseItemDto[]>() {
+        KoinJavaComponent.get(ApiClient.class).GetSpecialFeaturesAsync(TvApp.getApplication().getCurrentUser().getId(), query.getItemId(), new Response<BaseItemDto[]>() {
             @Override
             public void onResponse(BaseItemDto[] response) {
                 if (response.length > 0) {
@@ -1474,7 +1477,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieve(final TrailersQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetLocalTrailersAsync(TvApp.getApplication().getCurrentUser().getId(), query.getItemId(), new Response<BaseItemDto[]>() {
+        KoinJavaComponent.get(ApiClient.class).GetLocalTrailersAsync(TvApp.getApplication().getCurrentUser().getId(), query.getItemId(), new Response<BaseItemDto[]>() {
             @Override
             public void onResponse(BaseItemDto[] response) {
                 if (response.length > 0) {
@@ -1512,7 +1515,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieveSimilarSeries(final SimilarItemsQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetSimilarItems(query, new Response<ItemsResult>() {
+        KoinJavaComponent.get(ApiClient.class).GetSimilarItems(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
@@ -1549,7 +1552,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieveSimilarMovies(final SimilarItemsQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetSimilarItems(query, new Response<ItemsResult>() {
+        KoinJavaComponent.get(ApiClient.class).GetSimilarItems(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
@@ -1586,7 +1589,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieve(final UpcomingEpisodesQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetUpcomingEpisodesAsync(query, new Response<ItemsResult>() {
+        KoinJavaComponent.get(ApiClient.class).GetUpcomingEpisodesAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
@@ -1625,7 +1628,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieve(final PersonsQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetPeopleAsync(query, new Response<ItemsResult>() {
+        KoinJavaComponent.get(ApiClient.class).GetPeopleAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
@@ -1662,7 +1665,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieve(SeasonQuery query) {
         final ItemRowAdapter adapter = this;
-        TvApp.getApplication().getApiClient().GetSeasonsAsync(query, new Response<ItemsResult>() {
+        KoinJavaComponent.get(ApiClient.class).GetSeasonsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {

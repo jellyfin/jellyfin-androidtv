@@ -2,13 +2,18 @@ package org.jellyfin.androidtv.ui.browsing;
 
 import android.os.Handler;
 
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
-import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -23,10 +28,9 @@ import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
     @Override
@@ -113,7 +117,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
     private void addNext24Timers() {
         final TimerQuery scheduled = new TimerQuery();
         final long ticks24 = 1000 * 60 * 60 * 24;
-        TvApp.getApplication().getApiClient().GetLiveTvTimersAsync(scheduled, new Response<TimerInfoDtoResult>() {
+        get(ApiClient.class).GetLiveTvTimersAsync(scheduled, new Response<TimerInfoDtoResult>() {
             @Override
             public void onResponse(TimerInfoDtoResult response) {
                 List<BaseItemDto> nearTimers = new ArrayList<>();

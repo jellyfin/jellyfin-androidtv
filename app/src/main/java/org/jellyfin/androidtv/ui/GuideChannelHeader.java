@@ -15,7 +15,10 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class GuideChannelHeader extends RelativeLayout {
     final int IMAGE_WIDTH = Utils.convertDpToPixel(TvApp.getApplication(), 50);
@@ -46,7 +49,7 @@ public class GuideChannelHeader extends RelativeLayout {
 
     public void loadImage() {
         Glide.with(mActivity)
-                .load(ImageUtils.getPrimaryImageUrl(mChannel, TvApp.getApplication().getApiClient()))
+                .load(ImageUtils.getPrimaryImageUrl(mChannel, get(ApiClient.class)))
                 .override(IMAGE_WIDTH, IMAGE_HEIGHT)
                 .centerInside()
                 .into(mChannelImage);

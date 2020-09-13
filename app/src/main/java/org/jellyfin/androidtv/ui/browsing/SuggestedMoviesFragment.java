@@ -6,7 +6,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
-
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.entities.SortOrder;
@@ -14,6 +14,8 @@ import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class SuggestedMoviesFragment extends EnhancedBrowseFragment {
     @Override
@@ -33,7 +35,7 @@ public class SuggestedMoviesFragment extends EnhancedBrowseFragment {
         lastPlayed.setLimit(8);
         lastPlayed.setRecursive(true);
 
-        TvApp.getApplication().getApiClient().GetItemsAsync(lastPlayed, new Response<ItemsResult>() {
+        get(ApiClient.class).GetItemsAsync(lastPlayed, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 for (BaseItemDto item : response.getItems()) {

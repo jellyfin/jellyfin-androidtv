@@ -46,7 +46,7 @@ public class AuthenticationHelper {
                 Timber.d("Entered address: %s", addressValue);
                 ServerInfo info = new ServerInfo();
                 info.setAddress(addressValue);
-                TvApp.getApplication().getApiClient().EnableAutomaticNetworking(info);
+                get(ApiClient.class).EnableAutomaticNetworking(info);
                 AuthenticationHelper.enterManualUser(activity);
             }
         }).show();
@@ -77,7 +77,7 @@ public class AuthenticationHelper {
                             }
                         }).setPositiveButton(activity.getString(R.string.lbl_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        loginUser(userName.getText().toString(), userPw.getText().toString(), TvApp.getApplication().getApiClient(), activity);
+                        loginUser(userName.getText().toString(), userPw.getText().toString(), get(ApiClient.class), activity);
                     }
                 }).show();
             }

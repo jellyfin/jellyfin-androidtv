@@ -9,12 +9,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.util.apiclient.getItem
+import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.dto.ImageOptions
+import org.koin.core.KoinComponent
+import org.koin.core.get
 import timber.log.Timber
 
-class NextUpActivity : FragmentActivity() {
+class NextUpActivity : FragmentActivity(), KoinComponent {
 	private lateinit var fragment: NextUpFragment
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,11 +58,11 @@ class NextUpActivity : FragmentActivity() {
 	}
 
 	private suspend fun loadItemData(id: String) = withContext(Dispatchers.IO) {
-		val item = TvApp.getApplication().apiClient.getItem(id) ?: return@withContext null
+		val item = get<ApiClient>().getItem(id) ?: return@withContext null
 
-		val backdrop = TvApp.getApplication().apiClient.GetBackdropImageUrls(item, ImageOptions()).firstOrNull()
-		val thumbnail = TvApp.getApplication().apiClient.GetImageUrl(item, ImageOptions())
-		val logo = TvApp.getApplication().apiClient.GetLogoImageUrl(item, ImageOptions())
+		val backdrop = get<ApiClient>().GetBackdropImageUrls(item, ImageOptions()).firstOrNull()
+		val thumbnail = get<ApiClient>().GetImageUrl(item, ImageOptions())
+		val logo = get<ApiClient>().GetLogoImageUrl(item, ImageOptions())
 
 		val title = if (item.indexNumber != null && item.name != null)
 			"${item.indexNumber}. ${item.name}"

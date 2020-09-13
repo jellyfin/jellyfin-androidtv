@@ -8,6 +8,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 
+import androidx.fragment.app.FragmentActivity;
+import androidx.leanback.app.BackgroundManager;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
@@ -18,6 +21,7 @@ import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.util.ProfileHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -26,9 +30,9 @@ import org.jellyfin.apiclient.model.session.PlayMethod;
 
 import java.util.List;
 
-import androidx.fragment.app.FragmentActivity;
-import androidx.leanback.app.BackgroundManager;
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class ExternalPlayerActivity extends FragmentActivity {
 
@@ -171,7 +175,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
     }
 
     protected void markPlayed(String itemId) {
-        mApplication.getApiClient().MarkPlayedAsync(itemId, mApplication.getCurrentUser().getId(), null, new Response<UserItemDataDto>());
+        get(ApiClient.class).MarkPlayedAsync(itemId, mApplication.getCurrentUser().getId(), null, new Response<UserItemDataDto>());
     }
 
     protected void playNext() {
@@ -218,20 +222,20 @@ public class ExternalPlayerActivity extends FragmentActivity {
             } else {
                 //Build options for player
                 VideoOptions options = new VideoOptions();
-                options.setDeviceId(mApplication.getApiClient().getDeviceId());
+                options.setDeviceId(get(ApiClient.class).getDeviceId());
                 options.setItemId(item.getId());
                 options.setMediaSources(item.getMediaSources());
                 options.setMaxBitrate(Utils.getMaxBitrate());
                 options.setProfile(ProfileHelper.getExternalProfile());
 
                 // Get playback info for each player and then decide on which one to use
-                mApplication.getPlaybackManager().getVideoStreamInfo(mApplication.getApiClient().getServerInfo().getId(), options, item.getResumePositionTicks(), false, mApplication.getApiClient(), new Response<StreamInfo>() {
+                mApplication.getPlaybackManager().getVideoStreamInfo(get(ApiClient.class).getServerInfo().getId(), options, item.getResumePositionTicks(), false, get(ApiClient.class), new Response<StreamInfo>() {
                     @Override
                     public void onResponse(StreamInfo response) {
                         mCurrentStreamInfo = response;
 
                         //Construct a static URL to sent to player
-                        //String url = mApplication.getApiClient().getApiUrl() + "/videos/" + response.getItemId() + "/stream?static=true&mediaSourceId=" + response.getMediaSourceId();
+                        //String url = get(ApiClient.class).getApiUrl() + "/videos/" + response.getItemId() + "/stream?static=true&mediaSourceId=" + response.getMediaSourceId();
 
                         String url = response.getMediaUrl();
                         //And request an activity to play it
@@ -301,6 +305,5 @@ public class ExternalPlayerActivity extends FragmentActivity {
             Timber.e(e, "Error launching external player");
             handlePlayerError();
         }
-
     }
 }

@@ -90,8 +90,6 @@ public class TvApp extends Application {
     private UserPreferences userPreferences;
     private SystemPreferences systemPreferences;
 
-    private ApiClient apiClient;
-
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -109,11 +107,6 @@ public class TvApp extends Application {
         startKoin(new GlobalContext(), koin);
 
         app = (TvApp) getApplicationContext();
-        JellyfinOptions.Builder options = new JellyfinOptions.Builder();
-        JellyfinAndroidKt.android(options, this);
-        options.setLogger(new AndroidLogger());
-        options.setAppInfo(new AppInfo("Android TV", BuildConfig.VERSION_NAME));
-        apiClient = get(Jellyfin.class).createApi(null, null, AndroidDevice.fromContext(this), new TvApiEventListener());
 
         playbackManager = new PlaybackManager(AndroidDevice.fromContext(this), new AndroidLogger("PlaybackManager"));
 
@@ -140,11 +133,6 @@ public class TvApp extends Application {
         this.currentUser = currentUser;
         TvManager.clearCache();
         this.displayPrefsCache = new HashMap<>();
-    }
-
-
-    public ApiClient getApiClient() {
-        return apiClient;
     }
 
     /**
@@ -244,7 +232,7 @@ public class TvApp extends Application {
 
     public void updateDisplayPrefs(String app, DisplayPreferences preferences) {
         displayPrefsCache.put(preferences.getId(), preferences);
-        getApiClient().UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), app, new EmptyResponse());
+        get(ApiClient.class).UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), app, new EmptyResponse());
         Timber.d("Display prefs updated for %s isFavorite: %s", preferences.getId(), preferences.getCustomPrefs().get("FavoriteOnly"));
     }
 
@@ -257,7 +245,7 @@ public class TvApp extends Application {
             Timber.d("Display prefs loaded from cache %s", key);
             outerResponse.onResponse(displayPrefsCache.get(key));
         } else {
-            getApiClient().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), app, new Response<DisplayPreferences>(){
+            get(ApiClient.class).GetDisplayPreferencesAsync(key, getCurrentUser().getId(), app, new Response<DisplayPreferences>(){
                 @Override
                 public void onResponse(DisplayPreferences response) {
                     if (response.getSortBy() == null) response.setSortBy("SortName");
@@ -287,8 +275,7 @@ public class TvApp extends Application {
     }
 
     public void determineAutoBitrate() {
-        if (getApiClient() == null) return;
-        getApiClient().detectBitrate(new Response<Long>() {
+        get(ApiClient.class).detectBitrate(new Response<Long>() {
             @Override
             public void onResponse(Long response) {
                 autoBitrate = response.intValue();

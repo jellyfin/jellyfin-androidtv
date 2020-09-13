@@ -10,7 +10,6 @@ import android.view.WindowManager;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.ContainerTypes;
-import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
@@ -18,6 +17,7 @@ import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.ImageButton;
+import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ProfileHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -44,6 +44,8 @@ import org.jellyfin.apiclient.model.session.PlayMethod;
 import java.util.List;
 
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class PlaybackController {
     // Frequency to report playback progress
@@ -325,7 +327,7 @@ public class PlaybackController {
 
                 //Build options for each player
                 VideoOptions vlcOptions = new VideoOptions();
-                vlcOptions.setDeviceId(mApplication.getApiClient().getDeviceId());
+                vlcOptions.setDeviceId(get(ApiClient.class).getDeviceId());
                 vlcOptions.setItemId(item.getId());
                 vlcOptions.setMediaSources(item.getMediaSources());
                 vlcOptions.setMaxBitrate(Utils.getMaxBitrate());
@@ -341,7 +343,7 @@ public class PlaybackController {
                 vlcOptions.setProfile(vlcProfile);
 
                 VideoOptions internalOptions = new VideoOptions();
-                internalOptions.setDeviceId(mApplication.getApiClient().getDeviceId());
+                internalOptions.setDeviceId(get(ApiClient.class).getDeviceId());
                 internalOptions.setItemId(item.getId());
                 internalOptions.setMediaSources(item.getMediaSources());
                 internalOptions.setMaxBitrate(Utils.getMaxBitrate());
@@ -383,7 +385,7 @@ public class PlaybackController {
     }
 
     private void playInternal(final BaseItemDto item, final Long position, final VideoOptions vlcOptions, final VideoOptions internalOptions) {
-        final ApiClient apiClient = mApplication.getApiClient();
+        final ApiClient apiClient = get(ApiClient.class);
         if (isLiveTv) {
             liveTvChannelName = " ("+item.getName()+")";
             updateTvProgramInfo();
@@ -569,7 +571,7 @@ public class PlaybackController {
         }
 
         // get subtitle info
-        mSubtitleStreams = response.GetSubtitleProfiles(false, mApplication.getApiClient().getApiUrl(), mApplication.getApiClient().getAccessToken());
+        mSubtitleStreams = response.GetSubtitleProfiles(false, get(ApiClient.class).getApiUrl(), get(ApiClient.class).getAccessToken());
 
         mFragment.updateDisplay();
         String path = response.getMediaUrl();
@@ -695,8 +697,8 @@ public class PlaybackController {
                     mVideoManager.disableSubs();
                     mFragment.showSubLoadingMsg(true);
                     stream.setDeliveryMethod(SubtitleDeliveryMethod.External);
-                    stream.setDeliveryUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/0/Stream.JSON", mApplication.getApiClient().getApiUrl(), mCurrentStreamInfo.getItemId(), mCurrentStreamInfo.getMediaSourceId(), String.valueOf(stream.getIndex())));
-                    mApplication.getApiClient().getSubtitles(stream.getDeliveryUrl(), new Response<SubtitleTrackInfo>() {
+                    stream.setDeliveryUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/0/Stream.JSON", get(ApiClient.class).getApiUrl(), mCurrentStreamInfo.getItemId(), mCurrentStreamInfo.getMediaSourceId(), String.valueOf(stream.getIndex())));
+                    get(ApiClient.class).getSubtitles(stream.getDeliveryUrl(), new Response<SubtitleTrackInfo>() {
 
                         @Override
                         public void onResponse(final SubtitleTrackInfo info) {
@@ -798,7 +800,7 @@ public class PlaybackController {
         if (mPlaybackMethod == PlayMethod.Transcode && ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer())) {
             //mkv transcodes require re-start of stream for seek
             mVideoManager.stopPlayback();
-            mApplication.getPlaybackManager().changeVideoStream(mCurrentStreamInfo, mApplication.getApiClient().getServerInfo().getId(), mCurrentOptions, pos * 10000, mApplication.getApiClient(), new Response<StreamInfo>() {
+            mApplication.getPlaybackManager().changeVideoStream(mCurrentStreamInfo, get(ApiClient.class).getServerInfo().getId(), mCurrentOptions, pos * 10000, get(ApiClient.class), new Response<StreamInfo>() {
                 @Override
                 public void onResponse(StreamInfo response) {
                     mCurrentStreamInfo = response;
@@ -857,7 +859,7 @@ public class PlaybackController {
         // Get the current program info when playing a live TV channel
         final BaseItemDto channel = getCurrentlyPlayingItem();
         if (channel.getBaseItemType() == BaseItemType.TvChannel) {
-            TvApp.getApplication().getApiClient().GetLiveTvChannelAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ChannelInfoDto>() {
+            get(ApiClient.class).GetLiveTvChannelAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ChannelInfoDto>() {
                 @Override
                 public void onResponse(ChannelInfoDto response) {
                     BaseItemDto program = response.getCurrentProgram();

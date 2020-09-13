@@ -31,24 +31,27 @@ import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.data.model.GotFocusEvent;
+import org.jellyfin.androidtv.ui.ClockUserView;
+import org.jellyfin.androidtv.ui.GenreButton;
+import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.data.model.GotFocusEvent;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
-import org.jellyfin.androidtv.ui.ClockUserView;
-import org.jellyfin.androidtv.ui.GenreButton;
-import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class AudioNowPlayingActivity extends BaseActivity {
 
@@ -389,7 +392,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         if (posterHeight < 10)
             posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
-        String primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, mApplication.getApiClient(), false, posterHeight);
+        String primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, get(ApiClient.class), false, posterHeight);
         Timber.d("Audio Poster url: %s", primaryImageUrl);
         Glide.with(mActivity)
                 .load(primaryImageUrl)
@@ -449,7 +452,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             //set progress to match duration
             mCurrentProgress.setMax(mCurrentDuration);
             addGenres(mGenreRow);
-            updateBackground(ImageUtils.getBackdropImageUrl(item, TvApp.getApplication().getApiClient(), true));
+            updateBackground(ImageUtils.getBackdropImageUrl(item, get(ApiClient.class), true));
         }
     }
 
@@ -501,7 +504,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mBackdropLoop = new Runnable() {
             @Override
             public void run() {
-                updateBackground(ImageUtils.getBackdropImageUrl(mBaseItem, TvApp.getApplication().getApiClient(), true));
+                updateBackground(ImageUtils.getBackdropImageUrl(mBaseItem, get(ApiClient.class), true));
                 //manage our "screen saver" too
                 if (MediaManager.isPlayingAudio() && !ssActive && System.currentTimeMillis() - lastUserInteraction > 60000) {
                     startScreenSaver();
@@ -558,7 +561,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             if (ssActive) {
                 mLogoImage.setVisibility(View.VISIBLE);
                 Glide.with(this)
-                        .load(ImageUtils.getLogoImageUrl(mBaseItem, TvApp.getApplication().getApiClient()))
+                        .load(ImageUtils.getLogoImageUrl(mBaseItem, get(ApiClient.class)))
                         .override(700, 200)
                         .centerInside()
                         .into(mLogoImage);

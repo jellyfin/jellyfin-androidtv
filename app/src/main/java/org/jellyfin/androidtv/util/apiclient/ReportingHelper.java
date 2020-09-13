@@ -11,11 +11,13 @@ import org.jellyfin.apiclient.model.session.PlaybackStopInfo;
 
 import timber.log.Timber;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 public class ReportingHelper {
     public static void reportStopped(BaseItemDto item, StreamInfo streamInfo, long pos) {
         if (item != null && streamInfo != null) {
             PlaybackStopInfo info = new PlaybackStopInfo();
-            ApiClient apiClient = TvApp.getApplication().getApiClient();
+            ApiClient apiClient = get(ApiClient.class);
             info.setItemId(item.getId());
             info.setPositionTicks(pos);
             TvApp.getApplication().getPlaybackManager().reportPlaybackStopped(info, streamInfo, apiClient.getServerInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), false, apiClient, new EmptyResponse());
@@ -36,14 +38,14 @@ public class ReportingHelper {
         PlaybackStartInfo startInfo = new PlaybackStartInfo();
         startInfo.setItemId(item.getId());
         startInfo.setPositionTicks(pos);
-        TvApp.getApplication().getPlaybackManager().reportPlaybackStart(startInfo, false, TvApp.getApplication().getApiClient(), new EmptyResponse());
+        TvApp.getApplication().getPlaybackManager().reportPlaybackStart(startInfo, false, get(ApiClient.class), new EmptyResponse());
         Timber.i("Playback of %s started.", item.getName());
     }
 
     public static void reportProgress(BaseItemDto item, StreamInfo currentStreamInfo, Long position, boolean isPaused) {
         if (item != null && currentStreamInfo != null) {
             PlaybackProgressInfo info = new PlaybackProgressInfo();
-            ApiClient apiClient = TvApp.getApplication().getApiClient();
+            ApiClient apiClient = get(ApiClient.class);
             info.setItemId(item.getId());
             info.setPositionTicks(position);
             info.setIsPaused(isPaused);

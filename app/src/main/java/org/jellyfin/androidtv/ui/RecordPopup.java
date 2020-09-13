@@ -23,6 +23,7 @@ import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -32,6 +33,8 @@ import org.jellyfin.apiclient.model.livetv.TimerInfoDto;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class RecordPopup {
     final int SERIES_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 420);
@@ -120,7 +123,7 @@ public class RecordPopup {
                     mCurrentOptions.setRecordAnyChannel(mAnyChannel.isChecked());
                     mCurrentOptions.setRecordAnyTime(mAnyTime.isChecked());
 
-                    TvApp.getApplication().getApiClient().UpdateLiveTvSeriesTimerAsync(mCurrentOptions, new EmptyResponse() {
+                    get(ApiClient.class).UpdateLiveTvSeriesTimerAsync(mCurrentOptions, new EmptyResponse() {
                         @Override
                         public void onResponse() {
                             mPopup.dismiss();
@@ -143,13 +146,13 @@ public class RecordPopup {
                     updated.setIsPrePaddingRequired(mCurrentOptions.getIsPrePaddingRequired());
                     updated.setIsPostPaddingRequired(mCurrentOptions.getIsPostPaddingRequired());
 
-                    TvApp.getApplication().getApiClient().UpdateLiveTvTimerAsync(updated, new EmptyResponse() {
+                    get(ApiClient.class).UpdateLiveTvTimerAsync(updated, new EmptyResponse() {
                         @Override
                         public void onResponse() {
                             mPopup.dismiss();
                             mActivity.sendMessage(CustomMessage.ActionComplete);
                             // we have to re-retrieve the program to get the timer id
-                            TvApp.getApplication().getApiClient().GetLiveTvProgramAsync(mProgramId, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                            get(ApiClient.class).GetLiveTvProgramAsync(mProgramId, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
                                     mSelectedView.setRecTimer(response.getTimerId());
