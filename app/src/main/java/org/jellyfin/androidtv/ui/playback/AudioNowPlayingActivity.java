@@ -94,7 +94,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
     private ArrayObjectAdapter mRowsAdapter;
     private static PositionableListRowPresenter mAudioQueuePresenter;
 
-    private TvApp mApplication;
     private AudioNowPlayingActivity mActivity;
     private Handler mLoopHandler = new Handler();
     private Runnable mBackdropLoop;
@@ -116,7 +115,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
         lastUserInteraction = System.currentTimeMillis();
 
         BUTTON_SIZE = Utils.convertDpToPixel(this, 35);
-        mApplication = TvApp.getApplication();
         mActivity = this;
 
         mClock = findViewById(R.id.clock);
