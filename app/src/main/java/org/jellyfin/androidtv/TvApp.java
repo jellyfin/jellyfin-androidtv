@@ -38,10 +38,11 @@ import org.koin.core.context.GlobalContext;
 
 import java.util.HashMap;
 
+import kotlin.Lazy;
 import timber.log.Timber;
 
 import static org.koin.core.context.ContextFunctionsKt.startKoin;
-import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @AcraCore(buildConfigClass = BuildConfig.class)
 @AcraHttpSender(
@@ -78,6 +79,9 @@ public class TvApp extends Application {
     private BaseActivity currentActivity;
 
     private LogonCredentials configuredAutoCredentials;
+
+    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -161,10 +165,10 @@ public class TvApp extends Application {
             case Video:
             case Series:
             case Recording:
-                return get(UserPreferences.class).get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.EXTERNAL;
+                return userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.EXTERNAL;
             case TvChannel:
             case Program:
-                return get(UserPreferences.class).get(UserPreferences.Companion.getLiveTvVideoPlayer()) == PreferredVideoPlayer.EXTERNAL;
+                return userPreferences.getValue().get(UserPreferences.Companion.getLiveTvVideoPlayer()) == PreferredVideoPlayer.EXTERNAL;
             default:
                 return false;
         }
@@ -180,7 +184,7 @@ public class TvApp extends Application {
     @Deprecated
     public int getResumePreroll() {
         try {
-            return Integer.parseInt(get(UserPreferences.class).get(UserPreferences.Companion.getResumeSubtractDuration())) * 1000;
+            return Integer.parseInt(userPreferences.getValue().get(UserPreferences.Companion.getResumeSubtractDuration())) * 1000;
         } catch (Exception e) {
             Timber.e(e, "Unable to parse resume preroll");
             return 0;
@@ -209,7 +213,7 @@ public class TvApp extends Application {
 
     public void updateDisplayPrefs(String app, DisplayPreferences preferences) {
         displayPrefsCache.put(preferences.getId(), preferences);
-        get(ApiClient.class).UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), app, new EmptyResponse());
+        apiClient.getValue().UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), app, new EmptyResponse());
         Timber.d("Display prefs updated for %s isFavorite: %s", preferences.getId(), preferences.getCustomPrefs().get("FavoriteOnly"));
     }
 
@@ -222,7 +226,7 @@ public class TvApp extends Application {
             Timber.d("Display prefs loaded from cache %s", key);
             outerResponse.onResponse(displayPrefsCache.get(key));
         } else {
-            get(ApiClient.class).GetDisplayPreferencesAsync(key, getCurrentUser().getId(), app, new Response<DisplayPreferences>(){
+            apiClient.getValue().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), app, new Response<DisplayPreferences>(){
                 @Override
                 public void onResponse(DisplayPreferences response) {
                     if (response.getSortBy() == null) response.setSortBy("SortName");
@@ -252,7 +256,7 @@ public class TvApp extends Application {
     }
 
     public void determineAutoBitrate() {
-        get(ApiClient.class).detectBitrate(new Response<Long>() {
+        apiClient.getValue().detectBitrate(new Response<Long>() {
             @Override
             public void onResponse(Long response) {
                 autoBitrate = response.intValue();

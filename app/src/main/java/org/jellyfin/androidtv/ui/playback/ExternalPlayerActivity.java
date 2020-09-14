@@ -30,9 +30,11 @@ import org.jellyfin.apiclient.model.session.PlayMethod;
 
 import java.util.List;
 
+import kotlin.Lazy;
 import timber.log.Timber;
 
 import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class ExternalPlayerActivity extends FragmentActivity {
 
@@ -48,6 +50,9 @@ public class ExternalPlayerActivity extends FragmentActivity {
     Long mPosition = 0l;
     boolean isLiveTv;
     boolean noPlayerError;
+
+    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,9 +146,8 @@ public class ExternalPlayerActivity extends FragmentActivity {
                 .setNegativeButton(R.string.turn_off, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        UserPreferences prefs = get(UserPreferences.class);
-                        prefs.set(UserPreferences.Companion.getVideoPlayer(), PreferredVideoPlayer.AUTO);
-                        prefs.set(UserPreferences.Companion.getLiveTvVideoPlayer(), PreferredVideoPlayer.AUTO);
+                        userPreferences.getValue().set(UserPreferences.Companion.getVideoPlayer(), PreferredVideoPlayer.AUTO);
+                        userPreferences.getValue().set(UserPreferences.Companion.getLiveTvVideoPlayer(), PreferredVideoPlayer.AUTO);
                     }
                 })
                 .setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -175,7 +179,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
     }
 
     protected void markPlayed(String itemId) {
-        get(ApiClient.class).MarkPlayedAsync(itemId, mApplication.getCurrentUser().getId(), null, new Response<UserItemDataDto>());
+        apiClient.getValue().MarkPlayedAsync(itemId, mApplication.getCurrentUser().getId(), null, new Response<UserItemDataDto>());
     }
 
     protected void playNext() {
@@ -214,7 +218,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
             final BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
             isLiveTv = item.getBaseItemType() == BaseItemType.TvChannel;
 
-            if (!isLiveTv && get(UserPreferences.class).get(UserPreferences.Companion.getExternalVideoPlayerSendPath())) {
+            if (!isLiveTv && userPreferences.getValue().get(UserPreferences.Companion.getExternalVideoPlayerSendPath())) {
                 // Just pass the path directly
                 mCurrentStreamInfo = new StreamInfo();
                 mCurrentStreamInfo.setPlayMethod(PlayMethod.DirectPlay);
@@ -222,14 +226,14 @@ public class ExternalPlayerActivity extends FragmentActivity {
             } else {
                 //Build options for player
                 VideoOptions options = new VideoOptions();
-                options.setDeviceId(get(ApiClient.class).getDeviceId());
+                options.setDeviceId(apiClient.getValue().getDeviceId());
                 options.setItemId(item.getId());
                 options.setMediaSources(item.getMediaSources());
                 options.setMaxBitrate(Utils.getMaxBitrate());
                 options.setProfile(ProfileHelper.getExternalProfile());
 
                 // Get playback info for each player and then decide on which one to use
-                get(PlaybackManager.class).getVideoStreamInfo(get(ApiClient.class).getServerInfo().getId(), options, item.getResumePositionTicks(), false, get(ApiClient.class), new Response<StreamInfo>() {
+                get(PlaybackManager.class).getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), options, item.getResumePositionTicks(), false, apiClient.getValue(), new Response<StreamInfo>() {
                     @Override
                     public void onResponse(StreamInfo response) {
                         mCurrentStreamInfo = response;
