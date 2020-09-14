@@ -14,6 +14,7 @@ import org.acra.sender.HttpSender;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.model.LogonCredentials;
 import org.jellyfin.androidtv.di.AppModuleKt;
+import org.jellyfin.androidtv.di.PlaybackModuleKt;
 import org.jellyfin.androidtv.di.PreferenceModuleKt;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
@@ -65,7 +66,6 @@ public class TvApp extends Application {
     public static final int LIVE_TV_SCHEDULE_OPTION_ID = 4000;
     public static final int LIVE_TV_SERIES_OPTION_ID = 5000;
 
-    private PlaybackManager playbackManager;
     private static TvApp app;
     private UserDto currentUser;
     private BaseItemDto lastPlayedItem;
@@ -93,17 +93,16 @@ public class TvApp extends Application {
     public void onCreate() {
         super.onCreate();
 
+        app = (TvApp) getApplicationContext();
+
         // Start Koin
         KoinApplication koin = KoinAndroidApplication.create(this)
                 .modules(
                         AppModuleKt.getAppModule(),
+                        PlaybackModuleKt.getPlaybackModule(),
                         PreferenceModuleKt.getPreferenceModule()
                 );
         startKoin(new GlobalContext(), koin);
-
-        app = (TvApp) getApplicationContext();
-
-        playbackManager = new PlaybackManager(AndroidDevice.fromContext(this), new AndroidLogger("PlaybackManager"));
 
         registerActivityLifecycleCallbacks(new AuthenticatedUserCallbacks());
         registerActivityLifecycleCallbacks(new AppThemeCallbacks());
@@ -193,10 +192,6 @@ public class TvApp extends Application {
 
     public boolean canManageRecordings() {
         return currentUser != null && currentUser.getPolicy().getEnableLiveTvManagement();
-    }
-
-    public PlaybackManager getPlaybackManager() {
-        return playbackManager;
     }
 
     public Drawable getDrawableCompat(int id) {

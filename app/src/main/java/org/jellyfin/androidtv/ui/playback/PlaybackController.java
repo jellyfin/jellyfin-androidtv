@@ -43,15 +43,19 @@ import org.jellyfin.apiclient.model.session.PlayMethod;
 
 import java.util.List;
 
+import kotlin.Lazy;
 import timber.log.Timber;
 
 import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class PlaybackController {
     // Frequency to report playback progress
     private final static long PROGRESS_REPORTING_INTERVAL = TimeUtils.secondsToMillis(3);
     // Frequency to report paused state
     private static final long PROGRESS_REPORTING_PAUSE_INTERVAL = TimeUtils.secondsToMillis(15);
+
+    private Lazy<PlaybackManager> playbackManager = inject(PlaybackManager.class);
 
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
@@ -394,7 +398,7 @@ public class PlaybackController {
             if (!directStreamLiveTv || get(UserPreferences.class).get(UserPreferences.Companion.getLiveTvVideoPlayer()) != PreferredVideoPlayer.VLC) {
                 //internal/exo player
                 Timber.i("Using internal player for Live TV");
-                mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
+                playbackManager.getValue().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
                     @Override
                     public void onResponse(StreamInfo response) {
                         mVideoManager.init(getBufferAmount(), false);
@@ -411,7 +415,7 @@ public class PlaybackController {
             } else {
                 //VLC
                 Timber.i("Using VLC for Live TV");
-                mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), vlcOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
+                playbackManager.getValue().getVideoStreamInfo(apiClient.getServerInfo().getId(), vlcOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
                     @Override
                     public void onResponse(StreamInfo response) {
                         mVideoManager.init(getBufferAmount(), response.getMediaSource().getVideoStream().getIsInterlaced() && (response.getMediaSource().getVideoStream().getWidth() == null || response.getMediaSource().getVideoStream().getWidth() > 1200));
@@ -429,11 +433,11 @@ public class PlaybackController {
             }
         } else {
             // Get playback info for each player and then decide on which one to use
-            mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), vlcOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
+            playbackManager.getValue().getVideoStreamInfo(apiClient.getServerInfo().getId(), vlcOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
                 @Override
                 public void onResponse(final StreamInfo vlcResponse) {
                     Timber.i("VLC would %s", vlcResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream");
-                    mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
+                    playbackManager.getValue().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
                         @Override
                         public void onResponse(StreamInfo internalResponse) {
                             Timber.i("Internal player would %s", internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream");
@@ -488,7 +492,7 @@ public class PlaybackController {
                                 newProfile.setDirectPlayProfiles(new DirectPlayProfile[]{});
                                 internalOptions.setProfile(newProfile);
                                 Timber.i("Forcing transcode due to non-default audio chosen");
-                                mApplication.getPlaybackManager().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
+                                playbackManager.getValue().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
                                     @Override
                                     public void onResponse(StreamInfo response) {
                                         //re-set this
@@ -800,7 +804,7 @@ public class PlaybackController {
         if (mPlaybackMethod == PlayMethod.Transcode && ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer())) {
             //mkv transcodes require re-start of stream for seek
             mVideoManager.stopPlayback();
-            mApplication.getPlaybackManager().changeVideoStream(mCurrentStreamInfo, get(ApiClient.class).getServerInfo().getId(), mCurrentOptions, pos * 10000, get(ApiClient.class), new Response<StreamInfo>() {
+            playbackManager.getValue().changeVideoStream(mCurrentStreamInfo, get(ApiClient.class).getServerInfo().getId(), mCurrentOptions, pos * 10000, get(ApiClient.class), new Response<StreamInfo>() {
                 @Override
                 public void onResponse(StreamInfo response) {
                     mCurrentStreamInfo = response;

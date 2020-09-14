@@ -29,11 +29,4 @@ val appModule = module {
 				eventListener = TvApiEventListener()
 		)
 	}
-
-	single {
-		PlaybackManager(
-				AndroidDevice.fromContext(androidApplication()),
-				AndroidLogger("PlaybackManager")
-		)
-	}
 }

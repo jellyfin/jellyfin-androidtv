@@ -229,7 +229,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
                 options.setProfile(ProfileHelper.getExternalProfile());
 
                 // Get playback info for each player and then decide on which one to use
-                mApplication.getPlaybackManager().getVideoStreamInfo(get(ApiClient.class).getServerInfo().getId(), options, item.getResumePositionTicks(), false, get(ApiClient.class), new Response<StreamInfo>() {
+                get(PlaybackManager.class).getVideoStreamInfo(get(ApiClient.class).getServerInfo().getId(), options, item.getResumePositionTicks(), false, get(ApiClient.class), new Response<StreamInfo>() {
                     @Override
                     public void onResponse(StreamInfo response) {
                         mCurrentStreamInfo = response;

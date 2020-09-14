@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.util.apiclient;
 
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
+import org.jellyfin.androidtv.ui.playback.PlaybackManager;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -20,7 +21,7 @@ public class ReportingHelper {
             ApiClient apiClient = get(ApiClient.class);
             info.setItemId(item.getId());
             info.setPositionTicks(pos);
-            TvApp.getApplication().getPlaybackManager().reportPlaybackStopped(info, streamInfo, apiClient.getServerInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), false, apiClient, new EmptyResponse());
+            get(PlaybackManager.class).reportPlaybackStopped(info, streamInfo, apiClient.getServerInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), false, apiClient, new EmptyResponse());
 
             TvApp.getApplication().dataRefreshService.setLastPlayback(System.currentTimeMillis());
             switch (item.getBaseItemType()) {
@@ -38,7 +39,7 @@ public class ReportingHelper {
         PlaybackStartInfo startInfo = new PlaybackStartInfo();
         startInfo.setItemId(item.getId());
         startInfo.setPositionTicks(pos);
-        TvApp.getApplication().getPlaybackManager().reportPlaybackStart(startInfo, false, get(ApiClient.class), new EmptyResponse());
+        get(PlaybackManager.class).reportPlaybackStart(startInfo, false, get(ApiClient.class), new EmptyResponse());
         Timber.i("Playback of %s started.", item.getName());
     }
 
@@ -55,7 +56,7 @@ public class ReportingHelper {
                 info.setAudioStreamIndex(TvApp.getApplication().getPlaybackController().getAudioStreamIndex());
                 info.setSubtitleStreamIndex(TvApp.getApplication().getPlaybackController().getSubtitleStreamIndex());
             }
-            TvApp.getApplication().getPlaybackManager().reportPlaybackProgress(info, currentStreamInfo, false, apiClient, new EmptyResponse());
+            get(PlaybackManager.class).reportPlaybackProgress(info, currentStreamInfo, false, apiClient, new EmptyResponse());
         }
     }
 }
