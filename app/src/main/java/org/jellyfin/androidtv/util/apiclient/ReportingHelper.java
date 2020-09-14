@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.util.apiclient;
 
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.model.compat.StreamInfo;
+import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.jellyfin.androidtv.startup.StartupActivity">
+    tools:context=".ui.startup.StartupActivity">
 
     <ImageView
         android:id="@+id/fragment_startup_logo"

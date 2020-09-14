@@ -14,10 +14,10 @@ import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.playback.AudioEventListener;
-import org.jellyfin.androidtv.playback.AudioNowPlayingActivity;
-import org.jellyfin.androidtv.playback.MediaManager;
-import org.jellyfin.androidtv.playback.PlaybackController;
+import org.jellyfin.androidtv.ui.playback.AudioEventListener;
+import org.jellyfin.androidtv.ui.playback.AudioNowPlayingActivity;
+import org.jellyfin.androidtv.ui.playback.MediaManager;
+import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;

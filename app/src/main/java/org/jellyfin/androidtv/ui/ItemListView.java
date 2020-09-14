@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.querying.StdItemQuery;
+import org.jellyfin.androidtv.data.querying.StdItemQuery;
 
 import java.util.ArrayList;
 import java.util.List;

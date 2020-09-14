@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.livetv.ILiveTvGuide;
-import org.jellyfin.androidtv.livetv.TvManager;
+import org.jellyfin.androidtv.ui.livetv.ILiveTvGuide;
+import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;

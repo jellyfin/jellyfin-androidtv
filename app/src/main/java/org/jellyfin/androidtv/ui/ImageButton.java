@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.model.GotFocusEvent;
+import org.jellyfin.androidtv.data.model.GotFocusEvent;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
