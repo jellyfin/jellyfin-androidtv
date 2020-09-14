@@ -78,7 +78,7 @@ class HomeFragmentLiveTVRow(val activity: Activity) : HomeFragmentRow(), OnItemV
 					Intent(activity, UserViewActivity::class.java).apply {
 						putExtra(
 							Extras.Folder,
-								serializer.SerializeToString(
+							serializer.SerializeToString(
 								BaseItemDto().apply {
 									id = "SERIESTIMERS"
 									collectionType = "SeriesTimers"
