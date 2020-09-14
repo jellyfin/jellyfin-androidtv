@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.ui.startup
 
 import android.os.Bundle
-import org.jellyfin.androidtv.ui.base.BaseActivity
+import org.jellyfin.androidtv.ui.shared.BaseActivity
 
 class SelectServerActivity : BaseActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {

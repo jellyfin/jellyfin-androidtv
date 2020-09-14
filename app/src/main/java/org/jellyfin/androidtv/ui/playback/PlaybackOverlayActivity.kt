@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import org.jellyfin.androidtv.TvApp
-import org.jellyfin.androidtv.ui.base.BaseActivity
+import org.jellyfin.androidtv.ui.shared.BaseActivity
 
 /**
  * PlaybackOverlayActivity for video playback that loads PlaybackOverlayFragment

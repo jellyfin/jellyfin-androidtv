@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.ui.search;
 import android.os.Bundle;
 import android.speech.SpeechRecognizer;
 
-import org.jellyfin.androidtv.ui.base.BaseActivity;
+import org.jellyfin.androidtv.ui.shared.BaseActivity;
 
 import androidx.fragment.app.Fragment;
 

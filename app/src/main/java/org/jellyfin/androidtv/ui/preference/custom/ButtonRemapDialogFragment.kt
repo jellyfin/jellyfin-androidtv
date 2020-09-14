@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.ui.preference.preference
+package org.jellyfin.androidtv.ui.preference.custom
 
 import android.os.Bundle
 import android.view.*

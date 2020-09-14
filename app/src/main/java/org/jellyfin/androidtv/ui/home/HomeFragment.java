@@ -10,7 +10,7 @@ import android.util.ArrayMap;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.CustomMessage;
-import org.jellyfin.androidtv.ui.base.IMessageListener;
+import org.jellyfin.androidtv.ui.shared.IMessageListener;
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef;
 import org.jellyfin.androidtv.ui.browsing.IRowLoader;
 import org.jellyfin.androidtv.ui.browsing.StdBrowseFragment;

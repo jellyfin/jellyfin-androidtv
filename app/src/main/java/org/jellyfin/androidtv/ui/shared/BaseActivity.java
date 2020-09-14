@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.ui.base;
+package org.jellyfin.androidtv.ui.shared;
 
 import android.content.Intent;
 import android.os.Bundle;

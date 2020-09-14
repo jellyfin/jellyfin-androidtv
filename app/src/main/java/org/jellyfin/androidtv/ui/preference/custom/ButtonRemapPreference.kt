@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.ui.preference.preference
+package org.jellyfin.androidtv.ui.preference.custom
 
 import android.content.Context
 import android.util.AttributeSet

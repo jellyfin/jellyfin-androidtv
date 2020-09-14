@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.ui.preference.dsl
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.preference.PreferenceCategory
-import org.jellyfin.androidtv.ui.preference.preference.DurationSeekBarPreference
+import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
 import java.util.*
 
 class OptionsItemSeekbar(

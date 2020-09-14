@@ -11,8 +11,8 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.ui.preference.category.*
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
-import org.jellyfin.androidtv.ui.preference.preference.ButtonRemapDialogFragment
-import org.jellyfin.androidtv.ui.preference.preference.ButtonRemapPreference
+import org.jellyfin.androidtv.ui.preference.custom.ButtonRemapDialogFragment
+import org.jellyfin.androidtv.ui.preference.custom.ButtonRemapPreference
 
 class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 	class InnerUserPreferencesFragment : LeanbackPreferenceFragmentCompat() {

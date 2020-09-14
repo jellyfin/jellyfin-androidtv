@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.ui.preference.dsl
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.preference.PreferenceCategory
-import org.jellyfin.androidtv.ui.preference.preference.ButtonRemapPreference
+import org.jellyfin.androidtv.ui.preference.custom.ButtonRemapPreference
 import java.util.*
 
 class OptionsItemShortcut(
