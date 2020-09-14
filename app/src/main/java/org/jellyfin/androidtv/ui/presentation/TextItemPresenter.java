@@ -6,9 +6,6 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-/**
- * Created by Eric on 1/12/2015.
- */
 public class TextItemPresenter extends Presenter {
     private static final int ITEM_WIDTH = 400;
     private static final int ITEM_HEIGHT = 200;

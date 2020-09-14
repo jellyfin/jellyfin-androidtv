@@ -1,10 +1,5 @@
 package org.jellyfin.androidtv.ui.presentation;
 
-/**
- * Created by Eric on 12/29/2014.
- * Modified ImageCard with no fade on the badge
- */
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -27,6 +22,7 @@ import org.jellyfin.androidtv.util.Utils;
 import androidx.leanback.widget.BaseCardView;
 
 /**
+ * Modified ImageCard with no fade on the badge
  * A card view with an {@link ImageView} as its main region.
  */
 public class MyImageCardView extends BaseCardView {

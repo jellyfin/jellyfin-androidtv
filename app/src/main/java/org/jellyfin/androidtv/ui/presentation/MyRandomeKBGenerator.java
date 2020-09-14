@@ -28,9 +28,6 @@ import org.jellyfin.androidtv.util.MathUtils;
 
 import java.util.Random;
 
-/**
- * Created by Eric on 10/26/2015.
- */
 public class MyRandomeKBGenerator implements TransitionGenerator {
 
     /** Default value for the transition duration in milliseconds. */

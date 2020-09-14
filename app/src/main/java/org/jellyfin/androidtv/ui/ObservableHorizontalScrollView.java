@@ -4,9 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.HorizontalScrollView;
 
-/**
- * Created by Eric on 5/4/2015.
- */
 public class ObservableHorizontalScrollView extends HorizontalScrollView {
     private HorizontalScrollViewListener scrollViewListener = null;
 
@@ -33,5 +30,4 @@ public class ObservableHorizontalScrollView extends HorizontalScrollView {
             scrollViewListener.onScrollChanged(this, x, y, oldx, oldy);
         }
     }
-
 }

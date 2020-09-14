@@ -5,9 +5,6 @@ import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.RowPresenter;
 import android.view.View;
 
-/**
- * Created by Eric on 10/12/2015.
- */
 public class CustomListRowPresenter extends ListRowPresenter {
 
     private View viewHolder;

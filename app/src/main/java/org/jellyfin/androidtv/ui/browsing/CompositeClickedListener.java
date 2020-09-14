@@ -8,9 +8,6 @@ import androidx.leanback.widget.RowPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Eric on 4/15/2015.
- */
 public class CompositeClickedListener implements OnItemViewClickedListener {
     private List<OnItemViewClickedListener> registeredListeners = new ArrayList<>();
 

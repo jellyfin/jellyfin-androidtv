@@ -5,9 +5,6 @@ import android.media.MediaPlayer;
 import android.util.AttributeSet;
 import android.widget.VideoView;
 
-/**
- * Created by Eric on 6/13/2015.
- */
 public class StdVideoView extends VideoView implements IVideoView {
     public StdVideoView(Context context) {
         super(context);
@@ -23,7 +20,6 @@ public class StdVideoView extends VideoView implements IVideoView {
 
     @Override
     public void onActivityCreated(PlaybackOverlayActivity activity) {
-
     }
 
     @Override

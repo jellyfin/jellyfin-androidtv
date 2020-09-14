@@ -15,9 +15,6 @@ import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 
-/**
- * Created by spam on 6/28/2016.
- */
 public class MyChannelCardView extends FrameLayout {
     private TextView mChannelName;
     private TextView mProgramName;

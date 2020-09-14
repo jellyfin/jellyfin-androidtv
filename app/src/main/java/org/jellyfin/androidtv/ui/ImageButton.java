@@ -11,9 +11,6 @@ import org.jellyfin.androidtv.data.model.GotFocusEvent;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
-/**
- * Created by Eric on 2/20/2015.
- */
 public class ImageButton extends AppCompatImageView {
 
     public static int STATE_PRIMARY = 0;

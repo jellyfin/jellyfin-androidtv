@@ -1,9 +1,5 @@
 package org.jellyfin.androidtv.ui.presentation;
 
-/**
- * Created by Eric on 8/17/2015.
- */
-
 import androidx.leanback.widget.FocusHighlight;
 import androidx.leanback.widget.FocusHighlightHelper;
 import androidx.leanback.widget.HorizontalGridView;
@@ -25,7 +21,6 @@ import org.jellyfin.androidtv.R;
 
 /**
  * A presenter that renders objects in a horizontal grid.
- *
  */
 public class HorizontalGridPresenter extends Presenter {
     private static final String TAG = "GridPresenter";

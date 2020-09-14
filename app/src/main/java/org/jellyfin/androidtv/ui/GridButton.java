@@ -1,8 +1,5 @@
 package org.jellyfin.androidtv.ui;
 
-/**
- * Created by Eric on 12/23/2014.
- */
 public class GridButton {
     private int id;
     private String text;

@@ -2,9 +2,6 @@ package org.jellyfin.androidtv.ui.playback;
 
 import android.media.MediaPlayer;
 
-/**
- * Created by Eric on 6/13/2015.
- */
 public interface IVideoView {
     public int getDuration();
     public int getCurrentPosition();
