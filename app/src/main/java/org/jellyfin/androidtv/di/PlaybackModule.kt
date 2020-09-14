@@ -9,8 +9,8 @@ import org.koin.dsl.module
 val playbackModule = module {
 	single {
 		PlaybackManager(
-				AndroidDevice.fromContext(androidApplication()),
-				AndroidLogger("PlaybackManager")
+			AndroidDevice.fromContext(androidApplication()),
+			AndroidLogger("PlaybackManager")
 		)
 	}
 }

@@ -25,8 +25,8 @@ val appModule = module {
 
 	single {
 		get<Jellyfin>().createApi(
-				device = AndroidDevice.fromContext(androidApplication()),
-				eventListener = TvApiEventListener()
+			device = AndroidDevice.fromContext(androidApplication()),
+			eventListener = TvApiEventListener()
 		)
 	}
 }
