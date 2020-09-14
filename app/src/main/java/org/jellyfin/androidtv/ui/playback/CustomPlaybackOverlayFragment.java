@@ -91,9 +91,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import kotlin.Lazy;
 import timber.log.Timber;
 
-import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class CustomPlaybackOverlayFragment extends Fragment implements IPlaybackOverlayFragment, ILiveTvGuide {
     ImageView mLogoImage;
@@ -161,6 +162,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     int mCurrentDuration;
     private LeanbackOverlayFragment leanbackOverlayFragment;
     private VideoManager videoManager = null;
+
+    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -571,7 +574,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         } else {
             mPlaybackController.stop();
             hideGuide();
-            get(ApiClient.class).GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+            apiClient.getValue().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
                 @Override
                 public void onResponse(BaseItemDto response) {
                     List<BaseItemDto> items = new ArrayList<BaseItemDto>();
@@ -922,7 +925,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         @Override
         public void run() {
             if (mSelectedProgram.getOverview() == null && mSelectedProgram.getId() != null) {
-                get(ApiClient.class).GetItemAsync(mSelectedProgram.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                apiClient.getValue().GetItemAsync(mSelectedProgram.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         mSelectedProgram = response;
@@ -1016,7 +1019,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         if (getActivity() != null && !getActivity().isFinishing()) {
             int height = Utils.convertDpToPixel(getActivity(), 300);
             int width = Utils.convertDpToPixel(getActivity(), 150);
-            String posterImageUrl = ImageUtils.getPrimaryImageUrl(item, get(ApiClient.class), false, false, preferSeries, height);
+            String posterImageUrl = ImageUtils.getPrimaryImageUrl(item, apiClient.getValue(), false, false, preferSeries, height);
             if (posterImageUrl != null)
                 Glide.with(getActivity()).load(posterImageUrl).override(width, height).centerInside().into(target);
         }
@@ -1026,7 +1029,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         if (getActivity() != null && !getActivity().isFinishing()) {
             int height = Utils.convertDpToPixel(getActivity(), 60);
             int width = Utils.convertDpToPixel(getActivity(), 180);
-            String imageUrl = ImageUtils.getLogoImageUrl(item, get(ApiClient.class));
+            String imageUrl = ImageUtils.getLogoImageUrl(item, apiClient.getValue());
             if (imageUrl != null)
                 Glide.with(getActivity()).load(imageUrl).override(width, height).centerInside().into(target);
         }
@@ -1136,7 +1139,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private void cancelRecording(BaseItemDto program, boolean series) {
         if (program != null) {
             if (series) {
-                get(ApiClient.class).CancelLiveTvSeriesTimerAsync(program.getSeriesTimerId(), new EmptyResponse() {
+                apiClient.getValue().CancelLiveTvSeriesTimerAsync(program.getSeriesTimerId(), new EmptyResponse() {
                     @Override
                     public void onResponse() {
                         Utils.showToast(mActivity, R.string.msg_recording_cancelled);
@@ -1150,7 +1153,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     }
                 });
             } else {
-                get(ApiClient.class).CancelLiveTvTimerAsync(program.getTimerId(), new EmptyResponse() {
+                apiClient.getValue().CancelLiveTvTimerAsync(program.getTimerId(), new EmptyResponse() {
                     @Override
                     public void onResponse() {
                         Utils.showToast(mActivity, R.string.msg_recording_cancelled);
@@ -1169,12 +1172,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     private void recordProgram(final BaseItemDto program, final boolean series) {
         if (program != null) {
-            get(ApiClient.class).GetDefaultLiveTvTimerInfo(new Response<SeriesTimerInfoDto>() {
+            apiClient.getValue().GetDefaultLiveTvTimerInfo(new Response<SeriesTimerInfoDto>() {
                 @Override
                 public void onResponse(SeriesTimerInfoDto response) {
                     response.setProgramId(program.getId());
                     if (series) {
-                        get(ApiClient.class).CreateLiveTvSeriesTimerAsync(response, new EmptyResponse() {
+                        apiClient.getValue().CreateLiveTvSeriesTimerAsync(response, new EmptyResponse() {
                             @Override
                             public void onResponse() {
                                 Utils.showToast(mActivity, R.string.msg_set_to_record);
@@ -1188,7 +1191,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                             }
                         });
                     } else {
-                        get(ApiClient.class).CreateLiveTvTimerAsync(response, new EmptyResponse() {
+                        apiClient.getValue().CreateLiveTvTimerAsync(response, new EmptyResponse() {
                             @Override
                             public void onResponse() {
                                 Utils.showToast(mActivity, R.string.msg_set_to_record);

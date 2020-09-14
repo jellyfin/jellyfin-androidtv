@@ -13,11 +13,12 @@ import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.dto.ImageOptions
 import org.koin.core.KoinComponent
-import org.koin.core.get
+import org.koin.core.inject
 import timber.log.Timber
 
 class NextUpActivity : FragmentActivity(), KoinComponent {
 	private lateinit var fragment: NextUpFragment
+	private val apiClient: ApiClient by inject()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -58,11 +59,11 @@ class NextUpActivity : FragmentActivity(), KoinComponent {
 	}
 
 	private suspend fun loadItemData(id: String) = withContext(Dispatchers.IO) {
-		val item = get<ApiClient>().getItem(id) ?: return@withContext null
+		val item = apiClient.getItem(id) ?: return@withContext null
 
-		val backdrop = get<ApiClient>().GetBackdropImageUrls(item, ImageOptions()).firstOrNull()
-		val thumbnail = get<ApiClient>().GetImageUrl(item, ImageOptions())
-		val logo = get<ApiClient>().GetLogoImageUrl(item, ImageOptions())
+		val backdrop = apiClient.GetBackdropImageUrls(item, ImageOptions()).firstOrNull()
+		val thumbnail = apiClient.GetImageUrl(item, ImageOptions())
+		val logo = apiClient.GetLogoImageUrl(item, ImageOptions())
 
 		val title = if (item.indexNumber != null && item.name != null)
 			"${item.indexNumber}. ${item.name}"

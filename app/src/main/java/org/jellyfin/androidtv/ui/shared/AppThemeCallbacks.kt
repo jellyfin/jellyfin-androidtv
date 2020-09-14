@@ -8,12 +8,13 @@ import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity
 import org.jellyfin.androidtv.ui.presentation.ThemeManager
 import org.koin.core.KoinComponent
-import org.koin.core.get
+import org.koin.core.inject
 import timber.log.Timber
 
 class AppThemeCallbacks : Application.ActivityLifecycleCallbacks, KoinComponent {
 	private var lastTheme: AppTheme? = null
 	private var lastPreferencesTheme: AppTheme? = null
+	private val userPreferences: UserPreferences by inject()
 
 	override fun onActivityPaused(activity: Activity) {
 	}
@@ -31,7 +32,7 @@ class AppThemeCallbacks : Application.ActivityLifecycleCallbacks, KoinComponent 
 	}
 
 	override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-		get<UserPreferences>()[UserPreferences.appTheme].let {
+		userPreferences[UserPreferences.appTheme].let {
 			Timber.i("Applying theme: %s", it)
 			activity.setTheme(ThemeManager.getTheme(activity, it))
 			when (activity) {
@@ -43,7 +44,7 @@ class AppThemeCallbacks : Application.ActivityLifecycleCallbacks, KoinComponent 
 
 	override fun onActivityResumed(activity: Activity) {
 		val lastThemeForActivity = if (activity is PreferencesActivity) lastPreferencesTheme else lastTheme
-		get<UserPreferences>()[UserPreferences.appTheme].let {
+		userPreferences[UserPreferences.appTheme].let {
 			if (lastThemeForActivity != null && lastThemeForActivity != it) {
 				Timber.i("Recreating activity to apply new theme: %s -> %s", lastThemeForActivity, it)
 				activity.recreate()

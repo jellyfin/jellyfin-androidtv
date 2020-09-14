@@ -70,9 +70,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import kotlin.Lazy;
 import timber.log.Timber;
 
-import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class ItemListActivity extends BaseActivity {
 
@@ -106,6 +107,8 @@ public class ItemListActivity extends BaseActivity {
 
     private boolean firstTime = true;
     private Calendar lastUpdated = Calendar.getInstance();
+
+    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -383,7 +386,7 @@ public class ItemListActivity extends BaseActivity {
                 setBaseItem(queue);
                 break;
             default:
-                get(ApiClient.class).GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                apiClient.getValue().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         setBaseItem(response);
@@ -422,7 +425,7 @@ public class ItemListActivity extends BaseActivity {
                     favSongs.setFilters(new ItemFilter[]{ItemFilter.IsFavoriteOrLikes});
                     favSongs.setSortBy(new String[]{ItemSortBy.Random});
                     favSongs.setLimit(150);
-                    get(ApiClient.class).GetItemsAsync(favSongs, itemResponse);
+                    apiClient.getValue().GetItemsAsync(favSongs, itemResponse);
                     break;
                 case VIDEO_QUEUE:
                     //Show current queue
@@ -442,7 +445,7 @@ public class ItemListActivity extends BaseActivity {
                             ItemFields.ChildCount
                     });
                     playlistSongs.setLimit(150);
-                    get(ApiClient.class).GetPlaylistItems(playlistSongs, itemResponse);
+                    apiClient.getValue().GetPlaylistItems(playlistSongs, itemResponse);
                     break;
             }
         } else {
@@ -457,7 +460,7 @@ public class ItemListActivity extends BaseActivity {
             songs.setIncludeItemTypes(new String[]{"Audio"});
             songs.setSortBy(new String[] {ItemSortBy.SortName});
             songs.setLimit(200);
-            get(ApiClient.class).GetItemsAsync(songs, itemResponse);
+            apiClient.getValue().GetItemsAsync(songs, itemResponse);
         }
     }
 
@@ -507,7 +510,7 @@ public class ItemListActivity extends BaseActivity {
                 int posterWidth = (int)((aspect) * posterHeight);
                 if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(this, 150);  //Guard against zero size images causing picasso to barf
 
-                String primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, get(ApiClient.class), false, posterHeight);
+                String primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, apiClient.getValue(), false, posterHeight);
 
 
                 Glide.with(this)
@@ -629,7 +632,7 @@ public class ItemListActivity extends BaseActivity {
                     @Override
                     public void onClick(final View v) {
                         UserItemDataDto data = mBaseItem.getUserData();
-                        get(ApiClient.class).UpdateFavoriteStatusAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
+                        apiClient.getValue().UpdateFavoriteStatusAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
                             @Override
                             public void onResponse(UserItemDataDto response) {
                                 mBaseItem.setUserData(response);
@@ -681,7 +684,7 @@ public class ItemListActivity extends BaseActivity {
                                     .setMessage(getString(R.string.delete_warning, mBaseItem.getName()))
                                     .setPositiveButton(R.string.lbl_delete, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int whichButton) {
-                                            get(ApiClient.class).DeleteItem(mBaseItem.getId(), new EmptyResponse() {
+                                            apiClient.getValue().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
                                                 @Override
                                                 public void onResponse() {
                                                     Utils.showToast(mActivity, getString(R.string.lbl_deleted, mBaseItem.getName()));
@@ -749,10 +752,10 @@ public class ItemListActivity extends BaseActivity {
     }
 
     private void updateBackdrop() {
-        String url = ImageUtils.getBackdropImageUrl(mBaseItem, get(ApiClient.class), true);
+        String url = ImageUtils.getBackdropImageUrl(mBaseItem, apiClient.getValue(), true);
         if (url == null) {
             BaseItemDto item = getRandomListItem();
-            if (item != null) url = ImageUtils.getBackdropImageUrl(item, get(ApiClient.class), true);
+            if (item != null) url = ImageUtils.getBackdropImageUrl(item, apiClient.getValue(), true);
         }
         if (url != null) updateBackground(url);
 

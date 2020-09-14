@@ -49,9 +49,10 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
+import kotlin.Lazy;
 import timber.log.Timber;
 
-import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class AudioNowPlayingActivity extends BaseActivity {
 
@@ -104,6 +105,8 @@ public class AudioNowPlayingActivity extends BaseActivity {
 
     private long lastUserInteraction;
     private boolean ssActive;
+
+    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -392,7 +395,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         if (posterHeight < 10)
             posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
-        String primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, get(ApiClient.class), false, posterHeight);
+        String primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, apiClient.getValue(), false, posterHeight);
         Timber.d("Audio Poster url: %s", primaryImageUrl);
         Glide.with(mActivity)
                 .load(primaryImageUrl)
@@ -452,7 +455,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             //set progress to match duration
             mCurrentProgress.setMax(mCurrentDuration);
             addGenres(mGenreRow);
-            updateBackground(ImageUtils.getBackdropImageUrl(item, get(ApiClient.class), true));
+            updateBackground(ImageUtils.getBackdropImageUrl(item, apiClient.getValue(), true));
         }
     }
 
@@ -504,7 +507,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mBackdropLoop = new Runnable() {
             @Override
             public void run() {
-                updateBackground(ImageUtils.getBackdropImageUrl(mBaseItem, get(ApiClient.class), true));
+                updateBackground(ImageUtils.getBackdropImageUrl(mBaseItem, apiClient.getValue(), true));
                 //manage our "screen saver" too
                 if (MediaManager.isPlayingAudio() && !ssActive && System.currentTimeMillis() - lastUserInteraction > 60000) {
                     startScreenSaver();
@@ -561,7 +564,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             if (ssActive) {
                 mLogoImage.setVisibility(View.VISIBLE);
                 Glide.with(this)
-                        .load(ImageUtils.getLogoImageUrl(mBaseItem, get(ApiClient.class)))
+                        .load(ImageUtils.getLogoImageUrl(mBaseItem, apiClient.getValue()))
                         .override(700, 200)
                         .centerInside()
                         .into(mLogoImage);
@@ -578,7 +581,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
         if (url == null) {
             backgroundManager.setDrawable(null);
         } else {
-
             BackgroundManagerExtensionsKt.drawable(
                     backgroundManager,
                     this,

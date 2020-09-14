@@ -22,9 +22,11 @@ import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer
 import org.koin.core.KoinComponent
-import org.koin.core.get
+import org.koin.core.inject
 
 class HomeFragmentLiveTVRow(val activity: Activity) : HomeFragmentRow(), OnItemViewClickedListener, KoinComponent {
+	private val serializer: GsonJsonSerializer by inject()
+
 	override fun addToRowsAdapter(cardPresenter: CardPresenter?, rowsAdapter: ArrayObjectAdapter) {
 		val header = HeaderItem(rowsAdapter.size().toLong(), activity.getString(R.string.pref_live_tv_cat))
 		val adapter = ArrayObjectAdapter(GridButtonPresenter())
@@ -57,7 +59,7 @@ class HomeFragmentLiveTVRow(val activity: Activity) : HomeFragmentRow(), OnItemV
 					Intent(activity, BrowseRecordingsActivity::class.java).apply {
 						putExtra(
 							Extras.Folder,
-							get<GsonJsonSerializer>().SerializeToString(
+							serializer.SerializeToString(
 								BaseItemDto().apply {
 									id = ""
 									name = activity.getString(R.string.lbl_recorded_tv)
@@ -76,7 +78,7 @@ class HomeFragmentLiveTVRow(val activity: Activity) : HomeFragmentRow(), OnItemV
 					Intent(activity, UserViewActivity::class.java).apply {
 						putExtra(
 							Extras.Folder,
-								get<GsonJsonSerializer>().SerializeToString(
+								serializer.SerializeToString(
 								BaseItemDto().apply {
 									id = "SERIESTIMERS"
 									collectionType = "SeriesTimers"

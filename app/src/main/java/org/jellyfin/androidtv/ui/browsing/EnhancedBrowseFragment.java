@@ -63,7 +63,10 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import kotlin.Lazy;
+
 import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     private static final int BACKGROUND_UPDATE_DELAY = 100;
@@ -107,6 +110,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     CardPresenter mCardPresenter;
     protected BaseRowItem mCurrentItem;
     protected ListRow mCurrentRow;
+
+    private Lazy<GsonJsonSerializer> serializer = inject(GsonJsonSerializer.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -172,7 +177,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     }
 
     protected void setupViews() {
-        mFolder = get(GsonJsonSerializer.class).DeserializeFromString(getActivity().getIntent().getStringExtra(Extras.Folder), BaseItemDto.class);
+        mFolder = serializer.getValue().DeserializeFromString(getActivity().getIntent().getStringExtra(Extras.Folder), BaseItemDto.class);
         if (mFolder == null) return;
 
         if (mFolder.getCollectionType() != null) {
@@ -412,7 +417,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                             @Override
                             public void onResponse(DisplayPreferences response) {
                                 Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
-                                folderIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(mFolder));
+                                folderIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
                                 getActivity().startActivity(folderIntent);
                             }
                         });
@@ -424,7 +429,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                             @Override
                             public void onResponse(DisplayPreferences response) {
                                 Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
-                                folderIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(mFolder));
+                                folderIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
                                 folderIntent.putExtra(Extras.IncludeType, "MusicAlbum");
                                 getActivity().startActivity(folderIntent);
                             }
@@ -437,7 +442,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                             @Override
                             public void onResponse(DisplayPreferences response) {
                                 Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
-                                folderIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(mFolder));
+                                folderIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
                                 folderIntent.putExtra(Extras.IncludeType, "AlbumArtist");
                                 getActivity().startActivity(folderIntent);
                             }
@@ -446,7 +451,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
                     case BY_LETTER:
                         Intent intent = new Intent(getActivity(), ByLetterActivity.class);
-                        intent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(mFolder));
+                        intent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
                         intent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(intent);
@@ -454,7 +459,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
                     case GENRES:
                         Intent genreIntent = new Intent(getActivity(), ByGenreActivity.class);
-                        genreIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(mFolder));
+                        genreIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
                         genreIntent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(genreIntent);
@@ -462,7 +467,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
                     case SUGGESTED:
                         Intent suggIntent = new Intent(getActivity(), SuggestedMoviesActivity.class);
-                        suggIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(mFolder));
+                        suggIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
                         suggIntent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(suggIntent);
@@ -470,7 +475,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
                     case PERSONS:
                         Intent personIntent = new Intent(getActivity(), BrowsePersonsActivity.class);
-                        personIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(mFolder));
+                        personIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
                         personIntent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(personIntent);
@@ -498,7 +503,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         seriesTimers.setId("SERIESTIMERS");
                         seriesTimers.setCollectionType("SeriesTimers");
                         seriesTimers.setName(mActivity.getString(R.string.lbl_series_recordings));
-                        seriesIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(seriesTimers));
+                        seriesIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(seriesTimers));
 
                         getActivity().startActivity(seriesIntent);
                         break;
@@ -514,7 +519,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         BaseItemDto folder = new BaseItemDto();
                         folder.setId("");
                         folder.setName(TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv));
-                        recordings.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(folder));
+                        recordings.putExtra(Extras.Folder, serializer.getValue().SerializeToString(folder));
                         mActivity.startActivity(recordings);
                         break;
 

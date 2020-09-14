@@ -18,10 +18,9 @@ public class ReportingHelper {
     public static void reportStopped(BaseItemDto item, StreamInfo streamInfo, long pos) {
         if (item != null && streamInfo != null) {
             PlaybackStopInfo info = new PlaybackStopInfo();
-            ApiClient apiClient = get(ApiClient.class);
             info.setItemId(item.getId());
             info.setPositionTicks(pos);
-            get(PlaybackManager.class).reportPlaybackStopped(info, streamInfo, apiClient.getServerInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), false, apiClient, new EmptyResponse());
+            get(PlaybackManager.class).reportPlaybackStopped(info, streamInfo, get(ApiClient.class).getServerInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), false, get(ApiClient.class), new EmptyResponse());
 
             TvApp.getApplication().dataRefreshService.setLastPlayback(System.currentTimeMillis());
             switch (item.getBaseItemType()) {
@@ -46,7 +45,6 @@ public class ReportingHelper {
     public static void reportProgress(BaseItemDto item, StreamInfo currentStreamInfo, Long position, boolean isPaused) {
         if (item != null && currentStreamInfo != null) {
             PlaybackProgressInfo info = new PlaybackProgressInfo();
-            ApiClient apiClient = get(ApiClient.class);
             info.setItemId(item.getId());
             info.setPositionTicks(position);
             info.setIsPaused(isPaused);
@@ -56,7 +54,7 @@ public class ReportingHelper {
                 info.setAudioStreamIndex(TvApp.getApplication().getPlaybackController().getAudioStreamIndex());
                 info.setSubtitleStreamIndex(TvApp.getApplication().getPlaybackController().getSubtitleStreamIndex());
             }
-            get(PlaybackManager.class).reportPlaybackProgress(info, currentStreamInfo, false, apiClient, new EmptyResponse());
+            get(PlaybackManager.class).reportPlaybackProgress(info, currentStreamInfo, false, get(ApiClient.class), new EmptyResponse());
         }
     }
 }

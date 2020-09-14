@@ -19,8 +19,8 @@ import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.constant.CustomMessage;
+import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -34,7 +34,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
-import static org.koin.java.KoinJavaComponent.get;
+import kotlin.Lazy;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class RecordPopup {
     final int SERIES_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 420);
@@ -67,6 +69,8 @@ public class RecordPopup {
     String HOURS = TvApp.getApplication().getString(R.string.lbl_hours);
     ArrayList<String> mPaddingDisplayOptions = new ArrayList<>(Arrays.asList(TvApp.getApplication().getString(R.string.lbl_on_schedule),"1  "+MINUTE,"5  "+MINUTES,"15 "+MINUTES,"30 "+MINUTES,"60 "+MINUTES,"90 "+MINUTES,"2  "+HOURS,"3  "+HOURS));
     ArrayList<Integer> mPaddingValues = new ArrayList<>(Arrays.asList(0,60,300,900,1800,3600,5400,7200,10800));
+
+    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
     public RecordPopup(BaseActivity activity, View anchorView, int left, int top, int width) {
         mActivity = activity;
@@ -123,7 +127,7 @@ public class RecordPopup {
                     mCurrentOptions.setRecordAnyChannel(mAnyChannel.isChecked());
                     mCurrentOptions.setRecordAnyTime(mAnyTime.isChecked());
 
-                    get(ApiClient.class).UpdateLiveTvSeriesTimerAsync(mCurrentOptions, new EmptyResponse() {
+                    apiClient.getValue().UpdateLiveTvSeriesTimerAsync(mCurrentOptions, new EmptyResponse() {
                         @Override
                         public void onResponse() {
                             mPopup.dismiss();
@@ -146,13 +150,13 @@ public class RecordPopup {
                     updated.setIsPrePaddingRequired(mCurrentOptions.getIsPrePaddingRequired());
                     updated.setIsPostPaddingRequired(mCurrentOptions.getIsPostPaddingRequired());
 
-                    get(ApiClient.class).UpdateLiveTvTimerAsync(updated, new EmptyResponse() {
+                    apiClient.getValue().UpdateLiveTvTimerAsync(updated, new EmptyResponse() {
                         @Override
                         public void onResponse() {
                             mPopup.dismiss();
                             mActivity.sendMessage(CustomMessage.ActionComplete);
                             // we have to re-retrieve the program to get the timer id
-                            get(ApiClient.class).GetLiveTvProgramAsync(mProgramId, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                            apiClient.getValue().GetLiveTvProgramAsync(mProgramId, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
                                     mSelectedView.setRecTimer(response.getTimerId());

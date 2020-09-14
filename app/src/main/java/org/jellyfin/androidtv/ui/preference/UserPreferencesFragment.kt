@@ -16,12 +16,13 @@ import org.jellyfin.androidtv.ui.preference.custom.ButtonRemapPreference
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.koin.core.KoinComponent
 import org.koin.core.get
+import org.koin.core.inject
 
 class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
 	class InnerUserPreferencesFragment : LeanbackPreferenceFragmentCompat(), KoinComponent {
-		override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-			val userPreferences = get<UserPreferences>()
+		private val userPreferences: UserPreferences by inject()
 
+		override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 			preferenceScreen = optionsScreen(requireContext()) {
 				setTitle(R.string.settings_title)
 

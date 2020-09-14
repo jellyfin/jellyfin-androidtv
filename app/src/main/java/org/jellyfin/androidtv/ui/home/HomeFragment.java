@@ -55,9 +55,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import kotlin.Lazy;
 import timber.log.Timber;
 
 import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class HomeFragment extends StdBrowseFragment {
     // Copied from jellyfin-web (homesections.js#getDefaultSection)
@@ -79,6 +81,8 @@ public class HomeFragment extends StdBrowseFragment {
 
     private ChannelManager channelManager;
 
+    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
+
     private AudioEventListener audioEventListener = new AudioEventListener() {
         @Override
         public void onQueueStatusChanged(boolean hasQueue) {
@@ -94,7 +98,7 @@ public class HomeFragment extends StdBrowseFragment {
 
         // Save last login so we can get back proper context on entry
         try {
-            AuthenticationHelper.saveLoginCredentials(new LogonCredentials(get(ApiClient.class).getServerInfo(), TvApp.getApplication().getCurrentUser()), TvApp.CREDENTIALS_PATH);
+            AuthenticationHelper.saveLoginCredentials(new LogonCredentials(apiClient.getValue().getServerInfo(), TvApp.getApplication().getCurrentUser()), TvApp.CREDENTIALS_PATH);
         } catch (IOException e) {
             Timber.e(e, "Unable to save login credentials");
         }
@@ -221,7 +225,7 @@ public class HomeFragment extends StdBrowseFragment {
         TvApp application = TvApp.getApplication();
 
         // Update the views before creating rows
-        get(ApiClient.class).GetUserViews(application.getCurrentUser().getId(), new Response<ItemsResult>() {
+        apiClient.getValue().GetUserViews(application.getCurrentUser().getId(), new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 views = response;

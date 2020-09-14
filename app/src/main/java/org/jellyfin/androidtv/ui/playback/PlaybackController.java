@@ -46,7 +46,6 @@ import java.util.List;
 import kotlin.Lazy;
 import timber.log.Timber;
 
-import static org.koin.java.KoinJavaComponent.get;
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class PlaybackController {
@@ -55,7 +54,9 @@ public class PlaybackController {
     // Frequency to report paused state
     private static final long PROGRESS_REPORTING_PAUSE_INTERVAL = TimeUtils.secondsToMillis(15);
 
+    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<PlaybackManager> playbackManager = inject(PlaybackManager.class);
+    private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
 
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
@@ -103,17 +104,17 @@ public class PlaybackController {
         mApplication = TvApp.getApplication();
         mHandler = new Handler();
 
-        refreshRateSwitchingEnabled = DeviceUtils.is60() && get(UserPreferences.class).get(UserPreferences.Companion.getRefreshRateSwitchingEnabled());
+        refreshRateSwitchingEnabled = DeviceUtils.is60() && userPreferences.getValue().get(UserPreferences.Companion.getRefreshRateSwitchingEnabled());
         if (refreshRateSwitchingEnabled) getDisplayModes();
 
         // Set default value for useVlc field
         // when set to auto the default will be exoplayer
-        useVlc = get(UserPreferences.class).get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.VLC;
+        useVlc = userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.VLC;
     }
 
     public void init(VideoManager mgr) {
         mVideoManager = mgr;
-        directStreamLiveTv = get(UserPreferences.class).get(UserPreferences.Companion.getLiveTvDirectPlayEnabled());
+        directStreamLiveTv = userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled());
         setupCallbacks();
     }
 
@@ -331,7 +332,7 @@ public class PlaybackController {
 
                 //Build options for each player
                 VideoOptions vlcOptions = new VideoOptions();
-                vlcOptions.setDeviceId(get(ApiClient.class).getDeviceId());
+                vlcOptions.setDeviceId(apiClient.getValue().getDeviceId());
                 vlcOptions.setItemId(item.getId());
                 vlcOptions.setMediaSources(item.getMediaSources());
                 vlcOptions.setMaxBitrate(Utils.getMaxBitrate());
@@ -347,7 +348,7 @@ public class PlaybackController {
                 vlcOptions.setProfile(vlcProfile);
 
                 VideoOptions internalOptions = new VideoOptions();
-                internalOptions.setDeviceId(get(ApiClient.class).getDeviceId());
+                internalOptions.setDeviceId(apiClient.getValue().getDeviceId());
                 internalOptions.setItemId(item.getId());
                 internalOptions.setMediaSources(item.getMediaSources());
                 internalOptions.setMaxBitrate(Utils.getMaxBitrate());
@@ -356,7 +357,7 @@ public class PlaybackController {
                 internalOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
                 internalOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
                 DeviceProfile internalProfile = ProfileHelper.getBaseProfile(isLiveTv);
-                if (DeviceUtils.is60() || get(UserPreferences.class).get(UserPreferences.Companion.getAc3Enabled())) {
+                if (DeviceUtils.is60() || userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())) {
                     ProfileHelper.setExoOptions(internalProfile, isLiveTv, true);
                     ProfileHelper.addAc3Streaming(internalProfile, true);
                     Timber.i("*** Using extended Exoplayer profile options");
@@ -389,16 +390,15 @@ public class PlaybackController {
     }
 
     private void playInternal(final BaseItemDto item, final Long position, final VideoOptions vlcOptions, final VideoOptions internalOptions) {
-        final ApiClient apiClient = get(ApiClient.class);
         if (isLiveTv) {
             liveTvChannelName = " ("+item.getName()+")";
             updateTvProgramInfo();
             TvManager.setLastLiveTvChannel(item.getId());
             //Choose appropriate player now to avoid opening two streams
-            if (!directStreamLiveTv || get(UserPreferences.class).get(UserPreferences.Companion.getLiveTvVideoPlayer()) != PreferredVideoPlayer.VLC) {
+            if (!directStreamLiveTv || userPreferences.getValue().get(UserPreferences.Companion.getLiveTvVideoPlayer()) != PreferredVideoPlayer.VLC) {
                 //internal/exo player
                 Timber.i("Using internal player for Live TV");
-                playbackManager.getValue().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
+                playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), internalOptions, position * 10000, false, apiClient.getValue(), new Response<StreamInfo>() {
                     @Override
                     public void onResponse(StreamInfo response) {
                         mVideoManager.init(getBufferAmount(), false);
@@ -415,7 +415,7 @@ public class PlaybackController {
             } else {
                 //VLC
                 Timber.i("Using VLC for Live TV");
-                playbackManager.getValue().getVideoStreamInfo(apiClient.getServerInfo().getId(), vlcOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
+                playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), vlcOptions, position * 10000, false, apiClient.getValue(), new Response<StreamInfo>() {
                     @Override
                     public void onResponse(StreamInfo response) {
                         mVideoManager.init(getBufferAmount(), response.getMediaSource().getVideoStream().getIsInterlaced() && (response.getMediaSource().getVideoStream().getWidth() == null || response.getMediaSource().getVideoStream().getWidth() > 1200));
@@ -433,11 +433,11 @@ public class PlaybackController {
             }
         } else {
             // Get playback info for each player and then decide on which one to use
-            playbackManager.getValue().getVideoStreamInfo(apiClient.getServerInfo().getId(), vlcOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
+            playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), vlcOptions, position * 10000, false, apiClient.getValue(), new Response<StreamInfo>() {
                 @Override
                 public void onResponse(final StreamInfo vlcResponse) {
                     Timber.i("VLC would %s", vlcResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream");
-                    playbackManager.getValue().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
+                    playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), internalOptions, position * 10000, false, apiClient.getValue(), new Response<StreamInfo>() {
                         @Override
                         public void onResponse(StreamInfo internalResponse) {
                             Timber.i("Internal player would %s", internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream");
@@ -447,7 +447,7 @@ public class PlaybackController {
                                             vlcResponse.getMediaSource().getVideoStream().getWidth() > 1200);
                             Timber.i(useDeinterlacing ? "Explicit deinterlacing will be used" : "Explicit deinterlacing will NOT be used");
 
-                            PreferredVideoPlayer preferredVideoPlayer = get(UserPreferences.class).get(UserPreferences.Companion.getVideoPlayer());
+                            PreferredVideoPlayer preferredVideoPlayer = userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer());
 
                             Timber.i("User preferred player is: %s", preferredVideoPlayer);
 
@@ -463,7 +463,7 @@ public class PlaybackController {
                                 useVlc = !vlcErrorEncountered &&
                                         !vlcResponse.getPlayMethod().equals(PlayMethod.Transcode) &&
                                         (DeviceUtils.is60() ||
-                                                !get(UserPreferences.class).get(UserPreferences.Companion.getAc3Enabled()) ||
+                                                !userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled()) ||
                                                 vlcResponse.getMediaSource() == null ||
                                                 vlcResponse.getMediaSource().getDefaultAudioStream() == null ||
                                                 (!"ac3".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec()) &&
@@ -471,7 +471,7 @@ public class PlaybackController {
                                         (Utils.downMixAudio() ||
                                                 !DeviceUtils.is60() ||
                                                 internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ||
-                                                !get(UserPreferences.class).get(UserPreferences.Companion.getDtsEnabled()) ||
+                                                !userPreferences.getValue().get(UserPreferences.Companion.getDtsEnabled()) ||
                                                 internalResponse.getMediaSource() == null ||
                                                 internalResponse.getMediaSource().getDefaultAudioStream() == null ||
                                                 (!internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dca") &&
@@ -492,7 +492,7 @@ public class PlaybackController {
                                 newProfile.setDirectPlayProfiles(new DirectPlayProfile[]{});
                                 internalOptions.setProfile(newProfile);
                                 Timber.i("Forcing transcode due to non-default audio chosen");
-                                playbackManager.getValue().getVideoStreamInfo(apiClient.getServerInfo().getId(), internalOptions, position * 10000, false, apiClient, new Response<StreamInfo>() {
+                                playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), internalOptions, position * 10000, false, apiClient.getValue(), new Response<StreamInfo>() {
                                     @Override
                                     public void onResponse(StreamInfo response) {
                                         //re-set this
@@ -522,10 +522,7 @@ public class PlaybackController {
                     handlePlaybackInfoError(exception);
                 }
             });
-
-
         }
-
     }
 
     private void handlePlaybackInfoError(Exception exception) {
@@ -544,7 +541,6 @@ public class PlaybackController {
                     break;
             }
         }
-
     }
 
     private void startItem(BaseItemDto item, long position, StreamInfo response) {
@@ -554,7 +550,7 @@ public class PlaybackController {
         setPlaybackMethod(response.getPlayMethod());
 
         // Force VLC when media is not live TV and the preferred player is VLC
-        boolean forceVlc = !isLiveTv && get(UserPreferences.class).get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.VLC;
+        boolean forceVlc = !isLiveTv && userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.VLC;
 
         if (forceVlc || (useVlc && (!getPlaybackMethod().equals(PlayMethod.Transcode) || isLiveTv))) {
             Timber.i("Playing back in VLC.");
@@ -566,7 +562,6 @@ public class PlaybackController {
                 Timber.i("Setting max audio to 2-channels");
                 mCurrentStreamInfo.setMaxAudioChannels(2);
             }
-
         }
 
         // set refresh rate
@@ -575,7 +570,7 @@ public class PlaybackController {
         }
 
         // get subtitle info
-        mSubtitleStreams = response.GetSubtitleProfiles(false, get(ApiClient.class).getApiUrl(), get(ApiClient.class).getAccessToken());
+        mSubtitleStreams = response.GetSubtitleProfiles(false, apiClient.getValue().getApiUrl(), apiClient.getValue().getAccessToken());
 
         mFragment.updateDisplay();
         String path = response.getMediaUrl();
@@ -701,8 +696,8 @@ public class PlaybackController {
                     mVideoManager.disableSubs();
                     mFragment.showSubLoadingMsg(true);
                     stream.setDeliveryMethod(SubtitleDeliveryMethod.External);
-                    stream.setDeliveryUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/0/Stream.JSON", get(ApiClient.class).getApiUrl(), mCurrentStreamInfo.getItemId(), mCurrentStreamInfo.getMediaSourceId(), String.valueOf(stream.getIndex())));
-                    get(ApiClient.class).getSubtitles(stream.getDeliveryUrl(), new Response<SubtitleTrackInfo>() {
+                    stream.setDeliveryUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/0/Stream.JSON", apiClient.getValue().getApiUrl(), mCurrentStreamInfo.getItemId(), mCurrentStreamInfo.getMediaSourceId(), String.valueOf(stream.getIndex())));
+                    apiClient.getValue().getSubtitles(stream.getDeliveryUrl(), new Response<SubtitleTrackInfo>() {
 
                         @Override
                         public void onResponse(final SubtitleTrackInfo info) {
@@ -804,7 +799,7 @@ public class PlaybackController {
         if (mPlaybackMethod == PlayMethod.Transcode && ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer())) {
             //mkv transcodes require re-start of stream for seek
             mVideoManager.stopPlayback();
-            playbackManager.getValue().changeVideoStream(mCurrentStreamInfo, get(ApiClient.class).getServerInfo().getId(), mCurrentOptions, pos * 10000, get(ApiClient.class), new Response<StreamInfo>() {
+            playbackManager.getValue().changeVideoStream(mCurrentStreamInfo, apiClient.getValue().getServerInfo().getId(), mCurrentOptions, pos * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                 @Override
                 public void onResponse(StreamInfo response) {
                     mCurrentStreamInfo = response;
@@ -863,7 +858,7 @@ public class PlaybackController {
         // Get the current program info when playing a live TV channel
         final BaseItemDto channel = getCurrentlyPlayingItem();
         if (channel.getBaseItemType() == BaseItemType.TvChannel) {
-            get(ApiClient.class).GetLiveTvChannelAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ChannelInfoDto>() {
+            apiClient.getValue().GetLiveTvChannelAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ChannelInfoDto>() {
                 @Override
                 public void onResponse(ChannelInfoDto response) {
                     BaseItemDto program = response.getCurrentProgram();
@@ -997,7 +992,7 @@ public class PlaybackController {
         if (nextItem != null) {
             Timber.d("Moving to next queue item. Index: " + (mCurrentIndex + 1));
 
-            if (get(UserPreferences.class).get(UserPreferences.Companion.getNextUpEnabled())) {
+            if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpEnabled())) {
                 // Show "Next Up" fragment
                 spinnerOff = false;
                 mFragment.showNextUp(nextItem.getId());

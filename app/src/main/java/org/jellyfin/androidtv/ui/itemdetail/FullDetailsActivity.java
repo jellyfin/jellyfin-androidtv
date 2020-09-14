@@ -85,7 +85,6 @@ import org.jellyfin.apiclient.model.querying.SeasonQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
-import org.koin.java.KoinJavaComponent;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -97,9 +96,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import kotlin.Lazy;
 import timber.log.Timber;
 
 import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class FullDetailsActivity extends BaseActivity implements IRecordingIndicatorView {
 
@@ -137,6 +138,9 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     private BaseItemDto mBaseItem;
 
+    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private Lazy<GsonJsonSerializer> serializer = inject(GsonJsonSerializer.class);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -163,11 +167,11 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         mChannelId = getIntent().getStringExtra("ChannelId");
         String programJson = getIntent().getStringExtra("ProgramInfo");
         if (programJson != null) {
-            mProgramInfo = get(GsonJsonSerializer.class).DeserializeFromString(programJson, BaseItemDto.class);
+            mProgramInfo = serializer.getValue().DeserializeFromString(programJson, BaseItemDto.class);
         }
         String timerJson = getIntent().getStringExtra("SeriesTimer");
         if (timerJson != null) {
-            mSeriesTimerInfo = get(GsonJsonSerializer.class).DeserializeFromString(timerJson, SeriesTimerInfoDto.class);
+            mSeriesTimerInfo = serializer.getValue().DeserializeFromString(timerJson, SeriesTimerInfoDto.class);
         }
 
         registerMessageListener(new IMessageListener() {
@@ -175,7 +179,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             public void onMessageReceived(CustomMessage message) {
                 if (message == CustomMessage.ActionComplete && mSeriesTimerInfo != null && mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer) {
                     //update info
-                    get(ApiClient.class).GetLiveTvSeriesTimerAsync(mSeriesTimerInfo.getId(), new Response<SeriesTimerInfoDto>() {
+                    apiClient.getValue().GetLiveTvSeriesTimerAsync(mSeriesTimerInfo.getId(), new Response<SeriesTimerInfoDto>() {
                         @Override
                         public void onResponse(SeriesTimerInfoDto response) {
                             mSeriesTimerInfo = response;
@@ -219,7 +223,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                         mApplication.setLastPlayedItem(null); //blank this out so a detail screen we back up to doesn't also do this
                     } else {
                         Timber.d("Updating info after playback");
-                        get(ApiClient.class).GetItemAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                        apiClient.getValue().GetItemAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
                             @Override
                             public void onResponse(BaseItemDto response) {
                                 if (!isFinishing()) {
@@ -322,7 +326,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private void updatePoster() {
         if (isFinishing()) return;
         Glide.with(mActivity)
-                .load(ImageUtils.getPrimaryImageUrl(mBaseItem, get(ApiClient.class), true, false, false, posterHeight))
+                .load(ImageUtils.getPrimaryImageUrl(mBaseItem, apiClient.getValue(), true, false, false, posterHeight))
                 .override(posterWidth, posterHeight)
                 .centerInside()
                 .into(mDorPresenter.getPosterView());
@@ -338,12 +342,12 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         if (mChannelId != null && mProgramInfo == null) {
             // if we are displaying a live tv channel - we want to get whatever is showing now on that channel
             final FullDetailsActivity us = this;
-            get(ApiClient.class).GetLiveTvChannelAsync(mChannelId, TvApp.getApplication().getCurrentUser().getId(), new Response<ChannelInfoDto>() {
+            apiClient.getValue().GetLiveTvChannelAsync(mChannelId, TvApp.getApplication().getCurrentUser().getId(), new Response<ChannelInfoDto>() {
                 @Override
                 public void onResponse(ChannelInfoDto response) {
                     mProgramInfo = response.getCurrentProgram();
                     mItemId = mProgramInfo.getId();
-                    get(ApiClient.class).GetItemAsync(mItemId, mApplication.getCurrentUser().getId(), new DetailItemLoadResponse(us));
+                    apiClient.getValue().GetItemAsync(mItemId, mApplication.getCurrentUser().getId(), new DetailItemLoadResponse(us));
 
                 }
             });
@@ -358,7 +362,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
             setBaseItem(item);
         } else {
-            get(ApiClient.class).GetItemAsync(id, mApplication.getCurrentUser().getId(), new DetailItemLoadResponse(this));
+            apiClient.getValue().GetItemAsync(id, mApplication.getCurrentUser().getId(), new DetailItemLoadResponse(this));
         }
 
         mLastUpdated = Calendar.getInstance();
@@ -393,8 +397,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             posterWidth = (int)((aspect) * posterHeight);
             if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
-            String primaryImageUrl = ImageUtils.getLogoImageUrl(mBaseItem, KoinJavaComponent.get(ApiClient.class), 600);
-            if (primaryImageUrl == null) primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, KoinJavaComponent.get(ApiClient.class), true, false, false, posterHeight);
+            String primaryImageUrl = ImageUtils.getLogoImageUrl(mBaseItem, apiClient.getValue(), 600);
+            if (primaryImageUrl == null) primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, apiClient.getValue(), true, false, false, posterHeight);
             mDetailsOverviewRow = new MyDetailsOverviewRow(item);
 
             mDetailsOverviewRow.setSummary(item.getOverview());
@@ -441,7 +445,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 int height = Utils.convertDpToPixel(mActivity, 40);
                 int width = Utils.convertDpToPixel(mActivity, 100);
                 if (item.getStudios() != null && item.getStudios().length > 0 && item.getStudios()[0].getHasPrimaryImage()) {
-                    String studioImageUrl = ImageUtils.getPrimaryImageUrl(item.getStudios()[0], KoinJavaComponent.get(ApiClient.class), height);
+                    String studioImageUrl = ImageUtils.getPrimaryImageUrl(item.getStudios()[0], apiClient.getValue(), height);
                     if (studioImageUrl != null) mDetailsOverviewRow.setStudioBitmap(mActivity, Glide.with(mActivity).asBitmap().load(studioImageUrl).override(width, height).centerInside().submit().get());
                 } else {
                     if (item.getSeriesStudio() != null) {
@@ -450,7 +454,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                             ImageOptions options = new ImageOptions();
                             options.setMaxHeight(height);
                             options.setImageType(ImageType.Primary);
-                            studioImageUrl = KoinJavaComponent.get(ApiClient.class).GetStudioImageUrl(URLEncoder.encode(item.getSeriesStudio(), "utf-8"), options);
+                            studioImageUrl =apiClient.getValue().GetStudioImageUrl(URLEncoder.encode(item.getSeriesStudio(), "utf-8"), options);
                         } catch (UnsupportedEncodingException e) {
                             Timber.e(e, "Unsupported encoding");
                         }
@@ -779,7 +783,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     private void toggleFavorite() {
         UserItemDataDto data = mBaseItem.getUserData();
-        get(ApiClient.class).UpdateFavoriteStatusAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
+        apiClient.getValue().UpdateFavoriteStatusAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
             @Override
             public void onResponse(UserItemDataDto response) {
                 mBaseItem.setUserData(response);
@@ -802,7 +806,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         final DelayedMessage msg = new DelayedMessage(mActivity, 150);
-                        get(ApiClient.class).DeleteItem(mBaseItem.getId(), new EmptyResponse() {
+                        apiClient.getValue().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
                             @Override
                             public void onResponse() {
                                 msg.Cancel();
@@ -855,7 +859,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     NextUpQuery nextUpQuery = new NextUpQuery();
                     nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
                     nextUpQuery.setSeriesId(mBaseItem.getId());
-                    get(ApiClient.class).GetNextUpEpisodesAsync(nextUpQuery, new Response<ItemsResult>() {
+                    apiClient.getValue().GetNextUpEpisodesAsync(nextUpQuery, new Response<ItemsResult>() {
                         @Override
                         public void onResponse(ItemsResult response) {
                             if (response.getItems().length > 0) {
@@ -935,7 +939,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             TextUnderButton trailer = new TextUnderButton(this, R.drawable.ic_trailer, buttonSize, getString(R.string.lbl_play_trailers), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    get(ApiClient.class).GetLocalTrailersAsync(TvApp.getApplication().getCurrentUser().getId(), mBaseItem.getId(), new Response<BaseItemDto[]>() {
+                    apiClient.getValue().GetLocalTrailersAsync(TvApp.getApplication().getCurrentUser().getId(), mBaseItem.getId(), new Response<BaseItemDto[]>() {
                         @Override
                         public void onResponse(BaseItemDto[] response) {
                             play(response, 0, false);
@@ -962,14 +966,14 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     public void onClick(View v) {
                         if (mProgramInfo.getTimerId() == null) {
                             //Create one-off recording with defaults
-                            get(ApiClient.class).GetDefaultLiveTvTimerInfo(mProgramInfo.getId(), new Response<SeriesTimerInfoDto>() {
+                            apiClient.getValue().GetDefaultLiveTvTimerInfo(mProgramInfo.getId(), new Response<SeriesTimerInfoDto>() {
                                 @Override
                                 public void onResponse(SeriesTimerInfoDto response) {
-                                    get(ApiClient.class).CreateLiveTvTimerAsync(response, new EmptyResponse() {
+                                    apiClient.getValue().CreateLiveTvTimerAsync(response, new EmptyResponse() {
                                         @Override
                                         public void onResponse() {
                                             // we have to re-retrieve the program to get the timer id
-                                            get(ApiClient.class).GetLiveTvProgramAsync(mProgramInfo.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                                                 @Override
                                                 public void onResponse(BaseItemDto response) {
                                                     mProgramInfo = response;
@@ -996,7 +1000,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                 }
                             });
                         } else {
-                            get(ApiClient.class).CancelLiveTvTimerAsync(mProgramInfo.getTimerId(), new EmptyResponse() {
+                            apiClient.getValue().CancelLiveTvTimerAsync(mProgramInfo.getTimerId(), new EmptyResponse() {
                                 @Override
                                 public void onResponse() {
                                     setRecTimer(null);
@@ -1023,14 +1027,14 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     public void onClick(View v) {
                         if (mProgramInfo.getSeriesTimerId() == null) {
                             //Create series recording with default options
-                            get(ApiClient.class).GetDefaultLiveTvTimerInfo(mProgramInfo.getId(), new Response<SeriesTimerInfoDto>() {
+                            apiClient.getValue().GetDefaultLiveTvTimerInfo(mProgramInfo.getId(), new Response<SeriesTimerInfoDto>() {
                                 @Override
                                 public void onResponse(SeriesTimerInfoDto response) {
-                                    get(ApiClient.class).CreateLiveTvSeriesTimerAsync(response, new EmptyResponse() {
+                                    apiClient.getValue().CreateLiveTvSeriesTimerAsync(response, new EmptyResponse() {
                                         @Override
                                         public void onResponse() {
                                             // we have to re-retrieve the program to get the timer id
-                                            get(ApiClient.class).GetLiveTvProgramAsync(mProgramInfo.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                                                 @Override
                                                 public void onResponse(BaseItemDto response) {
                                                     mProgramInfo = response;
@@ -1064,7 +1068,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                     .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            get(ApiClient.class).CancelLiveTvSeriesTimerAsync(mProgramInfo.getSeriesTimerId(), new EmptyResponse() {
+                                            apiClient.getValue().CancelLiveTvSeriesTimerAsync(mProgramInfo.getSeriesTimerId(), new EmptyResponse() {
                                                 @Override
                                                 public void onResponse() {
                                                     setRecSeriesTimer(null);
@@ -1137,7 +1141,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             adjacent.setUserId(TvApp.getApplication().getCurrentUser().getId());
             adjacent.setSeriesId(mBaseItem.getSeriesId());
             adjacent.setAdjacentTo(mBaseItem.getId());
-            get(ApiClient.class).GetEpisodesAsync(adjacent, new Response<ItemsResult>() {
+            apiClient.getValue().GetEpisodesAsync(adjacent, new Response<ItemsResult>() {
                 @Override
                 public void onResponse(ItemsResult response) {
                     if (response.getTotalRecordCount() > 0) {
@@ -1194,7 +1198,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                             .setPositiveButton(R.string.lbl_cancel_series, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     final DelayedMessage msg = new DelayedMessage(activity, 150);
-                                    get(ApiClient.class).CancelLiveTvSeriesTimerAsync(mSeriesTimerInfo.getId(), new EmptyResponse() {
+                                    apiClient.getValue().CancelLiveTvSeriesTimerAsync(mSeriesTimerInfo.getId(), new EmptyResponse() {
                                         @Override
                                         public void onResponse() {
                                             msg.Cancel();
@@ -1330,7 +1334,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             getWindowManager().getDefaultDisplay().getSize(size);
             mRecordPopup = new RecordPopup(this, mRowsFragment.getView(), (size.x/2) - (width/2), mRowsFragment.getView().getTop()+40, width);
         }
-        get(ApiClient.class).GetLiveTvSeriesTimerAsync(id, new Response<SeriesTimerInfoDto>() {
+        apiClient.getValue().GetLiveTvSeriesTimerAsync(id, new Response<SeriesTimerInfoDto>() {
             @Override
             public void onResponse(SeriesTimerInfoDto response) {
                 if (recordSeries || Utils.isTrue(program.getIsSports())){
@@ -1338,11 +1342,11 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     mRecordPopup.show();
                 } else {
                     //just record with defaults
-                    get(ApiClient.class).CreateLiveTvTimerAsync(response, new EmptyResponse() {
+                    apiClient.getValue().CreateLiveTvTimerAsync(response, new EmptyResponse() {
                         @Override
                         public void onResponse() {
                             // we have to re-retrieve the program to get the timer id
-                            get(ApiClient.class).GetLiveTvProgramAsync(mProgramInfo.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
                                     setRecTimer(response.getTimerId());
@@ -1418,7 +1422,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     };
 
     private void markPlayed() {
-        get(ApiClient.class).MarkPlayedAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), null, new Response<UserItemDataDto>() {
+        apiClient.getValue().MarkPlayedAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), null, new Response<UserItemDataDto>() {
             @Override
             public void onResponse(UserItemDataDto response) {
                 mBaseItem.setUserData(response);
@@ -1443,7 +1447,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     private void markUnPlayed() {
-        get(ApiClient.class).MarkUnplayedAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), new Response<UserItemDataDto>() {
+        apiClient.getValue().MarkUnplayedAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), new Response<UserItemDataDto>() {
             @Override
             public void onResponse(UserItemDataDto response) {
                 mBaseItem.setUserData(response);

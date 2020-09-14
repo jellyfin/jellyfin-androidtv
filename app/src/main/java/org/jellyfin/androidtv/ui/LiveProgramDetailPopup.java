@@ -28,9 +28,10 @@ import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 
 import java.util.Date;
 
+import kotlin.Lazy;
 import timber.log.Timber;
 
-import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class LiveProgramDetailPopup {
     final int MOVIE_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 540);
@@ -55,6 +56,8 @@ public class LiveProgramDetailPopup {
     View mAnchor;
     int mPosLeft;
     int mPosTop;
+
+    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
     public LiveProgramDetailPopup(BaseActivity activity, int width, EmptyResponse tuneAction) {
         mActivity = activity;
@@ -127,7 +130,7 @@ public class LiveProgramDetailPopup {
                     cancel.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            get(ApiClient.class).CancelLiveTvTimerAsync(program.getTimerId(), new EmptyResponse() {
+                            apiClient.getValue().CancelLiveTvTimerAsync(program.getTimerId(), new EmptyResponse() {
                                 @Override
                                 public void onResponse() {
                                     selectedGridView.setRecTimer(null);
@@ -157,14 +160,14 @@ public class LiveProgramDetailPopup {
                         @Override
                         public void onClick(View v) {
                             //Create one-off recording with defaults
-                            get(ApiClient.class).GetDefaultLiveTvTimerInfo(mProgram.getId(), new Response<SeriesTimerInfoDto>() {
+                            apiClient.getValue().GetDefaultLiveTvTimerInfo(mProgram.getId(), new Response<SeriesTimerInfoDto>() {
                                 @Override
                                 public void onResponse(SeriesTimerInfoDto response) {
-                                    get(ApiClient.class).CreateLiveTvTimerAsync(response, new EmptyResponse() {
+                                    apiClient.getValue().CreateLiveTvTimerAsync(response, new EmptyResponse() {
                                         @Override
                                         public void onResponse() {
                                             // we have to re-retrieve the program to get the timer id
-                                            get(ApiClient.class).GetLiveTvProgramAsync(mProgram.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                                            apiClient.getValue().GetLiveTvProgramAsync(mProgram.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                                                 @Override
                                                 public void onResponse(BaseItemDto response) {
                                                     mProgram = response;
@@ -213,7 +216,7 @@ public class LiveProgramDetailPopup {
                                         .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                get(ApiClient.class).CancelLiveTvSeriesTimerAsync(program.getSeriesTimerId(), new EmptyResponse() {
+                                                apiClient.getValue().CancelLiveTvSeriesTimerAsync(program.getSeriesTimerId(), new EmptyResponse() {
                                                     @Override
                                                     public void onResponse() {
                                                         selectedGridView.setRecSeriesTimer(null);
@@ -243,14 +246,14 @@ public class LiveProgramDetailPopup {
                             @Override
                             public void onClick(View v) {
                                 //Create series recording with defaults
-                                get(ApiClient.class).GetDefaultLiveTvTimerInfo(mProgram.getId(), new Response<SeriesTimerInfoDto>() {
+                                apiClient.getValue().GetDefaultLiveTvTimerInfo(mProgram.getId(), new Response<SeriesTimerInfoDto>() {
                                     @Override
                                     public void onResponse(SeriesTimerInfoDto response) {
-                                        get(ApiClient.class).CreateLiveTvSeriesTimerAsync(response, new EmptyResponse() {
+                                        apiClient.getValue().CreateLiveTvSeriesTimerAsync(response, new EmptyResponse() {
                                             @Override
                                             public void onResponse() {
                                                 // we have to re-retrieve the program to get the timer id
-                                                get(ApiClient.class).GetLiveTvProgramAsync(mProgram.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                                                apiClient.getValue().GetLiveTvProgramAsync(mProgram.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                                                     @Override
                                                     public void onResponse(BaseItemDto response) {
                                                         mProgram = response;
@@ -361,7 +364,7 @@ public class LiveProgramDetailPopup {
 
     public void showRecordingOptions(final boolean recordSeries) {
         if (mRecordPopup == null) mRecordPopup = new RecordPopup(mActivity, mAnchor, mPosLeft, mPosTop, mPopup.getWidth());
-        get(ApiClient.class).GetLiveTvSeriesTimerAsync(mProgram.getSeriesTimerId(), new Response<SeriesTimerInfoDto>() {
+        apiClient.getValue().GetLiveTvSeriesTimerAsync(mProgram.getSeriesTimerId(), new Response<SeriesTimerInfoDto>() {
             @Override
             public void onResponse(SeriesTimerInfoDto response) {
                 mRecordPopup.setContent(mProgram, response, mSelectedProgramView, recordSeries);
