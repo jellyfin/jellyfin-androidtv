@@ -13,13 +13,11 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentActivity;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
-import org.koin.java.KoinJavaComponent;
 
 import timber.log.Timber;
 
