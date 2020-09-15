@@ -372,4 +372,5 @@
     <string name="pref_audio_track_button">Traccia audio</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
+    <string name="bitrate_auto">Automatico</string>
 </resources>
