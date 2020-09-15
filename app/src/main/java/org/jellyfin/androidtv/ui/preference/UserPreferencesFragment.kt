@@ -8,22 +8,26 @@ import androidx.preference.PreferenceDialogFragmentCompat
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceScreen
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.preference.category.*
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.jellyfin.androidtv.ui.preference.custom.ButtonRemapDialogFragment
 import org.jellyfin.androidtv.ui.preference.custom.ButtonRemapPreference
+import org.jellyfin.apiclient.interaction.ApiClient
+import org.koin.core.KoinComponent
+import org.koin.core.get
+import org.koin.core.inject
 
 class UserPreferencesFragment : LeanbackSettingsFragmentCompat() {
-	class InnerUserPreferencesFragment : LeanbackPreferenceFragmentCompat() {
-		override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-			val userPreferences = TvApp.getApplication().userPreferences
+	class InnerUserPreferencesFragment : LeanbackPreferenceFragmentCompat(), KoinComponent {
+		private val userPreferences: UserPreferences by inject()
 
+		override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 			preferenceScreen = optionsScreen(requireContext()) {
 				setTitle(R.string.settings_title)
 
 				// Add all categories (using extension functions in the "category" subpackage)
-				authenticationCategory(userPreferences)
+				authenticationCategory(userPreferences, get<ApiClient>())
 				generalCategory(userPreferences)
 				playbackCategory(requireActivity(), userPreferences)
 				liveTvCategory(userPreferences)

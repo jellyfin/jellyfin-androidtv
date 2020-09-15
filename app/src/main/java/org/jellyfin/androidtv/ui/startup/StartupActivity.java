@@ -20,10 +20,13 @@ import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class StartupActivity extends FragmentActivity {
     private static final int NETWORK_PERMISSION = 1;
@@ -48,7 +51,7 @@ public class StartupActivity extends FragmentActivity {
     }
 
     private void start() {
-        if (application.getCurrentUser() != null && application.getApiClient() != null && MediaManager.isPlayingAudio()) {
+        if (application.getCurrentUser() != null && MediaManager.isPlayingAudio()) {
             openNextActivity();
         } else {
             //clear audio queue in case left over from last run
@@ -66,7 +69,7 @@ public class StartupActivity extends FragmentActivity {
 
         if (itemId != null) {
             if (itemIsUserView) {
-                application.getApiClient().GetItemAsync(itemId, application.getApiClient().getCurrentUserId(), new Response<BaseItemDto>() {
+                get(ApiClient.class).GetItemAsync(itemId, get(ApiClient.class).getCurrentUserId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto item) {
                         ItemLauncher.launchUserView(item, self, true);

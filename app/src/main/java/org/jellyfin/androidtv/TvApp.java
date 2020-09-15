@@ -11,37 +11,38 @@ import org.acra.annotation.AcraDialog;
 import org.acra.annotation.AcraHttpSender;
 import org.acra.annotation.AcraLimiter;
 import org.acra.sender.HttpSender;
+import org.jellyfin.androidtv.data.model.DataRefreshService;
+import org.jellyfin.androidtv.data.model.LogonCredentials;
+import org.jellyfin.androidtv.di.AppModuleKt;
+import org.jellyfin.androidtv.di.PlaybackModuleKt;
+import org.jellyfin.androidtv.di.PreferenceModuleKt;
+import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.shared.AppThemeCallbacks;
 import org.jellyfin.androidtv.ui.shared.AuthenticatedUserCallbacks;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
-import org.jellyfin.androidtv.data.model.LogonCredentials;
 import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
-import org.jellyfin.androidtv.ui.playback.PlaybackManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity;
-import org.jellyfin.androidtv.preference.SystemPreferences;
-import org.jellyfin.androidtv.preference.UserPreferences;
-import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
-import org.jellyfin.androidtv.data.model.DataRefreshService;
-import org.jellyfin.apiclient.AppInfo;
-import org.jellyfin.apiclient.Jellyfin;
-import org.jellyfin.apiclient.JellyfinAndroidKt;
-import org.jellyfin.apiclient.JellyfinOptions;
-import org.jellyfin.apiclient.interaction.AndroidDevice;
 import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.ApiEventListener;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.logging.AndroidLogger;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
+import org.koin.android.java.KoinAndroidApplication;
+import org.koin.core.KoinApplication;
+import org.koin.core.context.GlobalContext;
 
 import java.util.HashMap;
 
+import kotlin.Lazy;
 import timber.log.Timber;
+
+import static org.koin.core.context.ContextFunctionsKt.startKoin;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @AcraCore(buildConfigClass = BuildConfig.class)
 @AcraHttpSender(
@@ -63,7 +64,6 @@ public class TvApp extends Application {
     public static final int LIVE_TV_SCHEDULE_OPTION_ID = 4000;
     public static final int LIVE_TV_SERIES_OPTION_ID = 5000;
 
-    private PlaybackManager playbackManager;
     private static TvApp app;
     private UserDto currentUser;
     private BaseItemDto lastPlayedItem;
@@ -79,11 +79,9 @@ public class TvApp extends Application {
     private BaseActivity currentActivity;
 
     private LogonCredentials configuredAutoCredentials;
-    private UserPreferences userPreferences;
-    private SystemPreferences systemPreferences;
 
-    private Jellyfin jellyfin;
-    private ApiClient apiClient;
+    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -95,15 +93,17 @@ public class TvApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        app = (TvApp) getApplicationContext();
-        JellyfinOptions.Builder options = new JellyfinOptions.Builder();
-        JellyfinAndroidKt.android(options, this);
-        options.setLogger(new AndroidLogger());
-        options.setAppInfo(new AppInfo("Android TV", BuildConfig.VERSION_NAME));
-        jellyfin = new Jellyfin(options.build());
-        apiClient = jellyfin.createApi(null, null, AndroidDevice.fromContext(this), new ApiEventListener());
 
-        playbackManager = new PlaybackManager(AndroidDevice.fromContext(this), new AndroidLogger("PlaybackManager"));
+        app = (TvApp) getApplicationContext();
+
+        // Start Koin
+        KoinApplication koin = KoinAndroidApplication.create(this)
+                .modules(
+                        AppModuleKt.getAppModule(),
+                        PlaybackModuleKt.getPlaybackModule(),
+                        PreferenceModuleKt.getPreferenceModule()
+                );
+        startKoin(new GlobalContext(), koin);
 
         registerActivityLifecycleCallbacks(new AuthenticatedUserCallbacks());
         registerActivityLifecycleCallbacks(new AppThemeCallbacks());
@@ -128,14 +128,6 @@ public class TvApp extends Application {
         this.currentUser = currentUser;
         TvManager.clearCache();
         this.displayPrefsCache = new HashMap<>();
-    }
-
-    public Jellyfin getJellyfin() {
-        return jellyfin;
-    }
-
-    public ApiClient getApiClient() {
-        return apiClient;
     }
 
     /**
@@ -166,16 +158,6 @@ public class TvApp extends Application {
         this.configuredAutoCredentials = configuredAutoCredentials;
     }
 
-    public UserPreferences getUserPreferences() {
-        if (this.userPreferences == null) this.userPreferences = new UserPreferences(this);
-        return this.userPreferences;
-    }
-
-    public SystemPreferences getSystemPreferences() {
-        if (this.systemPreferences == null) this.systemPreferences = new SystemPreferences(this);
-        return this.systemPreferences;
-    }
-
     public boolean useExternalPlayer(BaseItemType itemType) {
         switch (itemType) {
             case Movie:
@@ -183,10 +165,10 @@ public class TvApp extends Application {
             case Video:
             case Series:
             case Recording:
-                return getUserPreferences().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.EXTERNAL;
+                return userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.EXTERNAL;
             case TvChannel:
             case Program:
-                return getUserPreferences().get(UserPreferences.Companion.getLiveTvVideoPlayer()) == PreferredVideoPlayer.EXTERNAL;
+                return userPreferences.getValue().get(UserPreferences.Companion.getLiveTvVideoPlayer()) == PreferredVideoPlayer.EXTERNAL;
             default:
                 return false;
         }
@@ -202,7 +184,7 @@ public class TvApp extends Application {
     @Deprecated
     public int getResumePreroll() {
         try {
-            return Integer.parseInt(getUserPreferences().get(UserPreferences.Companion.getResumeSubtractDuration())) * 1000;
+            return Integer.parseInt(userPreferences.getValue().get(UserPreferences.Companion.getResumeSubtractDuration())) * 1000;
         } catch (Exception e) {
             Timber.e(e, "Unable to parse resume preroll");
             return 0;
@@ -211,10 +193,6 @@ public class TvApp extends Application {
 
     public boolean canManageRecordings() {
         return currentUser != null && currentUser.getPolicy().getEnableLiveTvManagement();
-    }
-
-    public PlaybackManager getPlaybackManager() {
-        return playbackManager;
     }
 
     public Drawable getDrawableCompat(int id) {
@@ -235,7 +213,7 @@ public class TvApp extends Application {
 
     public void updateDisplayPrefs(String app, DisplayPreferences preferences) {
         displayPrefsCache.put(preferences.getId(), preferences);
-        getApiClient().UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), app, new EmptyResponse());
+        apiClient.getValue().UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), app, new EmptyResponse());
         Timber.d("Display prefs updated for %s isFavorite: %s", preferences.getId(), preferences.getCustomPrefs().get("FavoriteOnly"));
     }
 
@@ -248,7 +226,7 @@ public class TvApp extends Application {
             Timber.d("Display prefs loaded from cache %s", key);
             outerResponse.onResponse(displayPrefsCache.get(key));
         } else {
-            getApiClient().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), app, new Response<DisplayPreferences>(){
+            apiClient.getValue().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), app, new Response<DisplayPreferences>(){
                 @Override
                 public void onResponse(DisplayPreferences response) {
                     if (response.getSortBy() == null) response.setSortBy("SortName");
@@ -278,8 +256,7 @@ public class TvApp extends Application {
     }
 
     public void determineAutoBitrate() {
-        if (getApiClient() == null) return;
-        getApiClient().detectBitrate(new Response<Long>() {
+        apiClient.getValue().detectBitrate(new Response<Long>() {
             @Override
             public void onResponse(Long response) {
                 autoBitrate = response.intValue();

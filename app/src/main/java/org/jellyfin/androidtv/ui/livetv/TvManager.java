@@ -6,14 +6,20 @@ import android.text.format.DateUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.Presenter;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.data.model.LiveTvPrefs;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
+import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -41,11 +47,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.Presenter;
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class TvManager {
     private static final String DISPLAY_PREFS_APP_NAME = "jellyfin";
@@ -61,11 +65,11 @@ public class TvManager {
     private static LiveTvPrefs prefs = new LiveTvPrefs();
 
     public static String getLastLiveTvChannel() {
-        return TvApp.getApplication().getSystemPreferences().get(SystemPreferences.Companion.getLiveTvLastChannel());
+        return get(SystemPreferences.class).get(SystemPreferences.Companion.getLiveTvLastChannel());
     }
 
     public static void setLastLiveTvChannel(String id) {
-        SystemPreferences systemPreferences = TvApp.getApplication().getSystemPreferences();
+        SystemPreferences systemPreferences = get(SystemPreferences.class);
         systemPreferences.set(SystemPreferences.Companion.getLiveTvPrevChannel(), systemPreferences.get(SystemPreferences.Companion.getLiveTvLastChannel()));
         systemPreferences.set(SystemPreferences.Companion.getLiveTvLastChannel(), id);
         updateLastPlayedDate(id);
@@ -73,7 +77,7 @@ public class TvManager {
     }
 
     public static String getPrevLiveTvChannel() {
-        return TvApp.getApplication().getSystemPreferences().get(SystemPreferences.Companion.getLiveTvPrevChannel());
+        return get(SystemPreferences.class).get(SystemPreferences.Companion.getLiveTvPrevChannel());
     }
 
     public static List<ChannelInfoDto> getAllChannels() {
@@ -197,7 +201,7 @@ public class TvManager {
         query.setSortOrder("DatePlayed".equals(prefs.channelOrder) ? SortOrder.Descending : null);
         query.setSortBy(new String[] {"DatePlayed".equals(prefs.channelOrder) ? "DatePlayed" : "SortName"});
         Timber.d("*** About to load channels");
-        TvApp.getApplication().getApiClient().GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
+        get(ApiClient.class).GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
             @Override
             public void onResponse(final ChannelInfoDtoResult response) {
                 Timber.d("*** channel query response");
@@ -270,7 +274,7 @@ public class TvManager {
 
             Timber.d("*** About to get programs");
 
-            TvApp.getApplication().getApiClient().GetLiveTvProgramsAsync(query, new Response<ItemsResult>() {
+            get(ApiClient.class).GetLiveTvProgramsAsync(query, new Response<ItemsResult>() {
                 @Override
                 public void onResponse(ItemsResult response) {
                     Timber.d("*** About to build dictionary");
@@ -383,7 +387,7 @@ public class TvManager {
     }
 
     public static void getScheduleRowsAsync(TimerQuery query, final Presenter presenter, final ArrayObjectAdapter rowAdapter, final Response<Integer> outerResponse) {
-        TvApp.getApplication().getApiClient().GetLiveTvTimersAsync(query, new Response<TimerInfoDtoResult>() {
+        get(ApiClient.class).GetLiveTvTimersAsync(query, new Response<TimerInfoDtoResult>() {
             @Override
             public void onResponse(TimerInfoDtoResult response) {
                 List<BaseItemDto> currentTimers = new ArrayList<>();

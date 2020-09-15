@@ -11,6 +11,7 @@ import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.apiclient.ServerInfo;
@@ -26,6 +27,10 @@ import org.jellyfin.apiclient.model.search.SearchHint;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+
+import kotlin.Lazy;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class BaseRowItem {
     private int index;
@@ -43,6 +48,8 @@ public class BaseRowItem {
     protected boolean staticHeight = false;
     private SelectAction selectAction = SelectAction.ShowDetails;
     private boolean isPlaying;
+
+    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
     public BaseRowItem(int index, BaseItemDto item) {
         this(index, item, false, false);
@@ -220,9 +227,9 @@ public class BaseRowItem {
             case LiveTvRecording:
                 switch (imageType) {
                     case org.jellyfin.androidtv.constant.ImageType.BANNER:
-                        return ImageUtils.getBannerImageUrl(baseItem, TvApp.getApplication().getApiClient(), maxHeight);
+                        return ImageUtils.getBannerImageUrl(baseItem, apiClient.getValue(), maxHeight);
                     case org.jellyfin.androidtv.constant.ImageType.THUMB:
-                        return ImageUtils.getThumbImageUrl(baseItem, TvApp.getApplication().getApiClient(), maxHeight);
+                        return ImageUtils.getThumbImageUrl(baseItem, apiClient.getValue(), maxHeight);
                     default:
                         return getPrimaryImageUrl(maxHeight);
                 }
@@ -236,15 +243,15 @@ public class BaseRowItem {
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
-                return ImageUtils.getPrimaryImageUrl(baseItem, TvApp.getApplication().getApiClient(), preferParentThumb, maxHeight);
+                return ImageUtils.getPrimaryImageUrl(baseItem, apiClient.getValue(), preferParentThumb, maxHeight);
             case Person:
-                return ImageUtils.getPrimaryImageUrl(person, TvApp.getApplication().getApiClient(), maxHeight);
+                return ImageUtils.getPrimaryImageUrl(person, apiClient.getValue(), maxHeight);
             case User:
-                return ImageUtils.getPrimaryImageUrl(user, TvApp.getApplication().getApiClient());
+                return ImageUtils.getPrimaryImageUrl(user, apiClient.getValue());
             case Chapter:
                 return chapterInfo.getImagePath();
             case LiveTvChannel:
-                return ImageUtils.getPrimaryImageUrl(channelInfo, TvApp.getApplication().getApiClient());
+                return ImageUtils.getPrimaryImageUrl(channelInfo, apiClient.getValue());
             case Server:
                 return ImageUtils.getResourceUrl(R.drawable.tile_port_server);
             case GridButton:
@@ -253,9 +260,9 @@ public class BaseRowItem {
                 return ImageUtils.getResourceUrl(R.drawable.tile_land_series_timer);
             case SearchHint:
                 if (Utils.isNonEmpty(searchHint.getPrimaryImageTag())) {
-                    return ImageUtils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag(), TvApp.getApplication().getApiClient());
+                    return ImageUtils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag(), apiClient.getValue());
                 } else if (Utils.isNonEmpty(searchHint.getThumbImageItemId())) {
-                    return ImageUtils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag(), TvApp.getApplication().getApiClient());
+                    return ImageUtils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag(), apiClient.getValue());
                 }
         }
         return null;
@@ -501,7 +508,7 @@ public class BaseRowItem {
 
     public String getBackdropImageUrl() {
         if (type == ItemType.BaseItem) {
-            return ImageUtils.getBackdropImageUrl(baseItem, TvApp.getApplication().getApiClient(), true);
+            return ImageUtils.getBackdropImageUrl(baseItem, apiClient.getValue(), true);
         }
 
         return null;
@@ -538,7 +545,7 @@ public class BaseRowItem {
     public void refresh(final EmptyResponse outerResponse) {
         switch (type) {
             case BaseItem:
-                TvApp.getApplication().getApiClient().GetItemAsync(getItemId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                apiClient.getValue().GetItemAsync(getItemId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         baseItem = response;

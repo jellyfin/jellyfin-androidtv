@@ -1,16 +1,21 @@
 package org.jellyfin.androidtv.ui.browsing;
 
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.constant.ChangeTriggerType;
-import org.jellyfin.androidtv.preference.UserPreferences;
-import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
+import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.GridButton;
+import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -35,13 +40,16 @@ import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
+import kotlin.Lazy;
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class BrowseViewFragment extends EnhancedBrowseFragment {
     private boolean isLiveTvLibrary;
+
+    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
     @Override
     protected void setupQueries(final IRowLoader rowLoader) {
@@ -117,7 +125,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 mRows.add(new BrowseRowDef(mApplication.getResources().getString(R.string.lbl_next_up), nextUpQuery, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}));
 
                 //Premieres
-                if (mApplication.getUserPreferences().get(UserPreferences.Companion.getPremieresEnabled())) {
+                if (get(UserPreferences.class).get(UserPreferences.Companion.getPremieresEnabled())) {
                     StdItemQuery newQuery = new StdItemQuery(new ItemFields[]{
                             ItemFields.DateCreated,
                             ItemFields.PrimaryImageAspectRatio,
@@ -279,7 +287,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 recordings.setLimit(40);
 
                 //Do a straight query and then split the returned items into logical groups
-                TvApp.getApplication().getApiClient().GetLiveTvRecordingsAsync(recordings, new Response<ItemsResult>() {
+                apiClient.getValue().GetLiveTvRecordingsAsync(recordings, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
                         final ItemsResult recordingsResponse = response;
@@ -287,7 +295,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
                         // Also get scheduled recordings for next 24 hours
                         final TimerQuery scheduled = new TimerQuery();
-                        TvApp.getApplication().getApiClient().GetLiveTvTimersAsync(scheduled, new Response<TimerInfoDtoResult>() {
+                        apiClient.getValue().GetLiveTvTimersAsync(scheduled, new Response<TimerInfoDtoResult>() {
                             @Override
                             public void onResponse(TimerInfoDtoResult response) {
                                 List<BaseItemDto> nearTimers = new ArrayList<>();
@@ -406,7 +414,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 query.setImageTypeLimit(1);
                 query.setSortBy(new String[]{ItemSortBy.SortName});
 
-                TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+                apiClient.getValue().GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
                         if (response.getTotalRecordCount() > 0) {

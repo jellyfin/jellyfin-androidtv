@@ -82,6 +82,10 @@ dependencies {
 	implementation("androidx.recyclerview:recyclerview:1.1.0")
 	implementation("com.google.android:flexbox:2.0.1")
 
+	// Dependency Injection
+	val koinVersion = "2.1.6"
+	implementation("org.koin:koin-android-viewmodel:$koinVersion")
+
 	// Media players
 	implementation("com.amazon.android:exoplayer:2.11.3")
 	implementation("org.videolan.android:libvlc-all:3.2.5")

@@ -6,8 +6,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import androidx.core.graphics.drawable.toBitmap
-import androidx.tvprovider.media.tv.*
+import androidx.tvprovider.media.tv.Channel
+import androidx.tvprovider.media.tv.ChannelLogoUtils
+import androidx.tvprovider.media.tv.PreviewProgram
+import androidx.tvprovider.media.tv.TvContractCompat
 import androidx.tvprovider.media.tv.TvContractCompat.WatchNextPrograms
+import androidx.tvprovider.media.tv.WatchNextProgram
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -19,18 +23,21 @@ import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.apiclient.getNextUpEpisodes
 import org.jellyfin.androidtv.util.apiclient.getUserViews
 import org.jellyfin.androidtv.util.dp
+import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.drawing.ImageFormat
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.ImageOptions
 import org.jellyfin.apiclient.model.querying.ItemFields
 import org.jellyfin.apiclient.model.querying.NextUpQuery
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
 /**
  * Manages channels on the android tv home screen
  *
  * More info: https://developer.android.com/training/tv/discovery/recommendations-channel
  */
-class ChannelManager {
+class ChannelManager : KoinComponent {
 	private companion object {
 		/**
 		 * Amount of ticks found in a millisecond, used for calculation
@@ -39,6 +46,7 @@ class ChannelManager {
 	}
 
 	private val application = TvApp.getApplication()
+	private val apiClient: ApiClient by inject()
 
 	/**
 	 * Check if the app can use Leanback features and is API level 26 or higher
@@ -101,14 +109,14 @@ class ChannelManager {
 			.setAppLinkIntent(Intent(application, StartupActivity::class.java))
 			.build())
 
-		val response = application.apiClient.getUserViews() ?: return
+		val response = apiClient.getUserViews() ?: return
 
 		// Delete current items
 		application.contentResolver.delete(TvContractCompat.PreviewPrograms.CONTENT_URI, null, null)
 
 		// Add new items
 		application.contentResolver.bulkInsert(TvContractCompat.PreviewPrograms.CONTENT_URI, response.items.map { item ->
-			val imageUri = if (item.hasPrimaryImage) Uri.parse(application.apiClient.GetImageUrl(item, ImageOptions()))
+			val imageUri = if (item.hasPrimaryImage) Uri.parse(apiClient.GetImageUrl(item, ImageOptions()))
 			else Uri.parse(ImageUtils.getResourceUrl(R.drawable.tile_land_tv))
 
 			PreviewProgram.Builder()
@@ -137,7 +145,7 @@ class ChannelManager {
 		val user = application.currentUser ?: return@withContext
 
 		// Get new items
-		val response = application.apiClient.getNextUpEpisodes(NextUpQuery().apply {
+		val response = apiClient.getNextUpEpisodes(NextUpQuery().apply {
 			userId = user.id
 			imageTypeLimit = 1
 			limit = 10
@@ -165,7 +173,7 @@ class ChannelManager {
 
 		// Poster image
 		setPosterArtAspectRatio(WatchNextPrograms.ASPECT_RATIO_16_9)
-		setPosterArtUri(Uri.parse(application.apiClient.GetImageUrl(item, ImageOptions().apply {
+		setPosterArtUri(Uri.parse(apiClient.GetImageUrl(item, ImageOptions().apply {
 			format = ImageFormat.Png
 			height = 288
 			width = 512

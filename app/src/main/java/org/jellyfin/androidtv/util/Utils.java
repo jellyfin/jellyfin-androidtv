@@ -18,12 +18,13 @@ import android.widget.Toast;
 import org.jellyfin.androidtv.BuildConfig;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.data.repository.SerializerRepository;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.AudioBehavior;
 import org.jellyfin.androidtv.ui.startup.DpadPwActivity;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.UserDto;
+import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -33,6 +34,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 /**
  * A collection of utility methods, all static.
@@ -175,7 +178,7 @@ public class Utils {
     }
 
     public static int getMaxBitrate() {
-        String maxRate = TvApp.getApplication().getUserPreferences().get(UserPreferences.Companion.getMaxBitrate());
+        String maxRate = get(UserPreferences.class).get(UserPreferences.Companion.getMaxBitrate());
         float factor = Float.parseFloat(maxRate) * 10;
         return Math.min(factor == 0 ? TvApp.getApplication().getAutoBitrate() : ((int) factor * 100000), 100000000);
     }
@@ -198,9 +201,9 @@ public class Utils {
     }
 
     public static void processPasswordEntry(final Activity activity, final UserDto user, final String directItemId) {
-        if (TvApp.getApplication().getUserPreferences().get(UserPreferences.Companion.getPasswordDPadEnabled())) {
+        if (get(UserPreferences.class).get(UserPreferences.Companion.getPasswordDPadEnabled())) {
             Intent pwIntent = new Intent(activity, DpadPwActivity.class);
-            pwIntent.putExtra("User", SerializerRepository.INSTANCE.getSerializer().SerializeToString(user));
+            pwIntent.putExtra("User", get(GsonJsonSerializer.class).SerializeToString(user));
             pwIntent.putExtra("ItemId", directItemId);
             pwIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             activity.startActivity(pwIntent);
@@ -215,7 +218,7 @@ public class Utils {
                     .setPositiveButton(R.string.lbl_ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             String pw = password.getText().toString();
-                            AuthenticationHelper.loginUser(user.getName(), pw, TvApp.getApplication().getApiClient(), activity, directItemId);
+                            AuthenticationHelper.loginUser(user.getName(), pw, get(ApiClient.class), activity, directItemId);
                         }
                     }).show();
         }
@@ -228,7 +231,7 @@ public class Utils {
             return true;
         }
 
-        return (DeviceUtils.isFireTv() && !DeviceUtils.is50()) || TvApp.getApplication().getUserPreferences().get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO;
+        return (DeviceUtils.isFireTv() && !DeviceUtils.is50()) || get(UserPreferences.class).get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO;
     }
 
     /**

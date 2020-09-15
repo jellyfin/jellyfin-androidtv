@@ -1,12 +1,16 @@
 package org.jellyfin.androidtv.ui.livetv;
 
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
+import kotlin.Lazy;
+
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class GuideFilters {
-    private SystemPreferences prefs;
+    private Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
+
     private boolean movies;
     private boolean news;
     private boolean series;
@@ -19,14 +23,12 @@ public class GuideFilters {
     }
 
     public void load() {
-        prefs = TvApp.getApplication().getSystemPreferences();
-
-        movies = prefs.get(SystemPreferences.Companion.getLiveTvGuideFilterMovies());
-        news = prefs.get(SystemPreferences.Companion.getLiveTvGuideFilterNews());
-        series = prefs.get(SystemPreferences.Companion.getLiveTvGuideFilterSeries());
-        kids = prefs.get(SystemPreferences.Companion.getLiveTvGuideFilterKids());
-        sports = prefs.get(SystemPreferences.Companion.getLiveTvGuideFilterSports());
-        premiere = prefs.get(SystemPreferences.Companion.getLiveTvGuideFilterPremiere());
+        movies = systemPreferences.getValue().get(SystemPreferences.Companion.getLiveTvGuideFilterMovies());
+        news = systemPreferences.getValue().get(SystemPreferences.Companion.getLiveTvGuideFilterNews());
+        series = systemPreferences.getValue().get(SystemPreferences.Companion.getLiveTvGuideFilterSeries());
+        kids = systemPreferences.getValue().get(SystemPreferences.Companion.getLiveTvGuideFilterKids());
+        sports = systemPreferences.getValue().get(SystemPreferences.Companion.getLiveTvGuideFilterSports());
+        premiere = systemPreferences.getValue().get(SystemPreferences.Companion.getLiveTvGuideFilterPremiere());
     }
 
     public boolean any() { return movies || news || series || kids || sports || premiere; }
@@ -79,7 +81,7 @@ public class GuideFilters {
 
     public void setMovies(boolean movies) {
         this.movies = movies;
-        prefs.set(SystemPreferences.Companion.getLiveTvGuideFilterMovies(), movies);
+        systemPreferences.getValue().set(SystemPreferences.Companion.getLiveTvGuideFilterMovies(), movies);
     }
 
     public boolean isNews() {
@@ -88,7 +90,7 @@ public class GuideFilters {
 
     public void setNews(boolean news) {
         this.news = news;
-        prefs.set(SystemPreferences.Companion.getLiveTvGuideFilterNews(), news);
+        systemPreferences.getValue().set(SystemPreferences.Companion.getLiveTvGuideFilterNews(), news);
     }
 
     public boolean isSeries() {
@@ -97,7 +99,7 @@ public class GuideFilters {
 
     public void setSeries(boolean series) {
         this.series = series;
-        prefs.set(SystemPreferences.Companion.getLiveTvGuideFilterSeries(), series);
+        systemPreferences.getValue().set(SystemPreferences.Companion.getLiveTvGuideFilterSeries(), series);
     }
 
     public boolean isKids() {
@@ -106,7 +108,7 @@ public class GuideFilters {
 
     public void setKids(boolean kids) {
         this.kids = kids;
-        prefs.set(SystemPreferences.Companion.getLiveTvGuideFilterKids(), kids);
+        systemPreferences.getValue().set(SystemPreferences.Companion.getLiveTvGuideFilterKids(), kids);
     }
 
     public boolean isSports() {
@@ -115,7 +117,7 @@ public class GuideFilters {
 
     public void setSports(boolean sports) {
         this.sports = sports;
-        prefs.set(SystemPreferences.Companion.getLiveTvGuideFilterSports(), sports);
+        systemPreferences.getValue().set(SystemPreferences.Companion.getLiveTvGuideFilterSports(), sports);
     }
 
     public boolean isPremiere() {
@@ -124,7 +126,6 @@ public class GuideFilters {
 
     public void setPremiere(boolean premiere) {
         this.premiere = premiere;
-        prefs.set(SystemPreferences.Companion.getLiveTvGuideFilterPremiere(), premiere);
+        systemPreferences.getValue().set(SystemPreferences.Companion.getLiveTvGuideFilterPremiere(), premiere);
     }
-
 }

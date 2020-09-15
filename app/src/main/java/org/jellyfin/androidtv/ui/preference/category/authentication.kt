@@ -9,11 +9,13 @@ import org.jellyfin.androidtv.ui.preference.dsl.OptionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
 import org.jellyfin.androidtv.ui.preference.dsl.enum
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper
+import org.jellyfin.apiclient.interaction.ApiClient
 import timber.log.Timber
 import java.io.IOException
 
 fun OptionsScreen.authenticationCategory(
-	userPreferences: UserPreferences
+	userPreferences: UserPreferences,
+	apiClient: ApiClient
 ) = category {
 	setTitle(R.string.pref_authentication_cat)
 
@@ -23,7 +25,7 @@ fun OptionsScreen.authenticationCategory(
 			set {
 				if (it == LoginBehavior.AUTO_LOGIN) {
 					try {
-						val credentials = LogonCredentials(TvApp.getApplication().apiClient.serverInfo, TvApp.getApplication().currentUser)
+						val credentials = LogonCredentials(apiClient.serverInfo, TvApp.getApplication().currentUser)
 						AuthenticationHelper.saveLoginCredentials(credentials, TvApp.CREDENTIALS_PATH)
 					} catch (e: IOException) {
 						Timber.e(e, "Unable to save logon credentials")

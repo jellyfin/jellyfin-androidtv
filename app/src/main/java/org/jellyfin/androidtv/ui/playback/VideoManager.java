@@ -41,6 +41,8 @@ import java.util.List;
 
 import timber.log.Timber;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     public final static int ZOOM_NORMAL = 0;
@@ -512,7 +514,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 //            options.add("--subsdec-encoding");
 //            options.add("Universal (UTF-8)");
             options.add("--audio-desync");
-            options.add(String.valueOf(TvApp.getApplication().getUserPreferences().get(UserPreferences.Companion.getLibVLCAudioDelay())));
+            options.add(String.valueOf(get(UserPreferences.class).get(UserPreferences.Companion.getLibVLCAudioDelay())));
             options.add("-v");
 
             mLibVLC = new LibVLC(TvApp.getApplication(), options);

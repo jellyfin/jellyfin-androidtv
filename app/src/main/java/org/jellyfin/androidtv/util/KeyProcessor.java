@@ -10,17 +10,18 @@ import android.widget.PopupMenu;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.constant.CustomMessage;
+import org.jellyfin.androidtv.data.querying.StdItemQuery;
+import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.itemdetail.PhotoPlayerActivity;
 import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.playback.AudioNowPlayingActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
-import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -32,6 +33,8 @@ import org.jellyfin.apiclient.model.querying.ItemsResult;
 import java.util.List;
 
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class KeyProcessor {
 
@@ -368,7 +371,7 @@ public class KeyProcessor {
                         });
 
                     } else {
-                        TvApp.getApplication().getApiClient().GetItemAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                        get(ApiClient.class).GetItemAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                             @Override
                             public void onResponse(BaseItemDto response) {
                                 MediaManager.addToVideoQueue(response);
@@ -392,7 +395,7 @@ public class KeyProcessor {
                     query.setLimit(1);
                     query.setExcludeItemTypes(new String[] {"Series","Season","Folder","MusicAlbum","Playlist","BoxSet"});
                     query.setFilters(new ItemFilter[] {ItemFilter.IsUnplayed});
-                    TvApp.getApplication().getApiClient().GetItemsAsync(query, new Response<ItemsResult>() {
+                    get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                         @Override
                         public void onResponse(ItemsResult response) {
                             if (response.getTotalRecordCount() == 0) {
@@ -489,7 +492,7 @@ public class KeyProcessor {
     };
 
     private static void markPlayed() {
-        TvApp.getApplication().getApiClient().MarkPlayedAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), null, new Response<UserItemDataDto>() {
+        get(ApiClient.class).MarkPlayedAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), null, new Response<UserItemDataDto>() {
             @Override
             public void onResponse(UserItemDataDto response) {
                 mCurrentActivity.sendMessage(CustomMessage.RefreshCurrentItem);
@@ -505,7 +508,7 @@ public class KeyProcessor {
     }
 
     private static void markUnplayed() {
-        TvApp.getApplication().getApiClient().MarkUnplayedAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), new Response<UserItemDataDto>() {
+        get(ApiClient.class).MarkUnplayedAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), new Response<UserItemDataDto>() {
             @Override
             public void onResponse(UserItemDataDto response) {
                 mCurrentActivity.sendMessage(CustomMessage.RefreshCurrentItem);
@@ -521,7 +524,7 @@ public class KeyProcessor {
     }
 
     private static void toggleFavorite(boolean fav) {
-        TvApp.getApplication().getApiClient().UpdateFavoriteStatusAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), fav, new Response<UserItemDataDto>() {
+        get(ApiClient.class).UpdateFavoriteStatusAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), fav, new Response<UserItemDataDto>() {
             @Override
             public void onResponse(UserItemDataDto response) {
                 mCurrentActivity.sendMessage(CustomMessage.RefreshCurrentItem);
@@ -539,7 +542,7 @@ public class KeyProcessor {
 
     private static void toggleLikes(Boolean likes) {
         if (likes == null) {
-            TvApp.getApplication().getApiClient().ClearUserItemRatingAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), new Response<UserItemDataDto>() {
+            get(ApiClient.class).ClearUserItemRatingAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), new Response<UserItemDataDto>() {
                 @Override
                 public void onResponse(UserItemDataDto response) {
                     mCurrentActivity.sendMessage(CustomMessage.RefreshCurrentItem);
@@ -553,7 +556,7 @@ public class KeyProcessor {
             });
 
         } else {
-            TvApp.getApplication().getApiClient().UpdateUserItemRatingAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), likes, new Response<UserItemDataDto>() {
+            get(ApiClient.class).UpdateUserItemRatingAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), likes, new Response<UserItemDataDto>() {
                 @Override
                 public void onResponse(UserItemDataDto response) {
                     mCurrentActivity.sendMessage(CustomMessage.RefreshCurrentItem);

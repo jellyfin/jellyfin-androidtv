@@ -6,6 +6,9 @@ import android.view.KeyEvent;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.constant.Extras;
+import org.jellyfin.androidtv.constant.ViewType;
+import org.jellyfin.androidtv.data.model.ChapterItemInfo;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.browsing.BrowseRecordingsActivity;
 import org.jellyfin.androidtv.ui.browsing.BrowseScheduleActivity;
@@ -13,19 +16,16 @@ import org.jellyfin.androidtv.ui.browsing.CollectionActivity;
 import org.jellyfin.androidtv.ui.browsing.GenericFolderActivity;
 import org.jellyfin.androidtv.ui.browsing.GenericGridActivity;
 import org.jellyfin.androidtv.ui.browsing.UserViewActivity;
-import org.jellyfin.androidtv.constant.Extras;
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.itemdetail.PhotoPlayerActivity;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
-import org.jellyfin.androidtv.data.model.ChapterItemInfo;
-import org.jellyfin.androidtv.constant.ViewType;
-import org.jellyfin.androidtv.data.repository.SerializerRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -34,11 +34,14 @@ import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.search.SearchHint;
+import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class ItemLauncher {
     public static void launch(BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity) {
@@ -62,14 +65,14 @@ public class ItemLauncher {
                         if (ViewType.GRID.equals(response.getCustomPrefs().get("DefaultView"))) {
                             // open grid browsing
                             Intent folderIntent = new Intent(context, GenericGridActivity.class);
-                            folderIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
+                            folderIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
                             context.startActivity(folderIntent);
                             if (finishParent) context.finish();
 
                         } else {
                             // open user view browsing
                             Intent intent = new Intent(context, UserViewActivity.class);
-                            intent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
+                            intent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
 
                             context.startActivity(intent);
                             if (finishParent) context.finish();
@@ -78,7 +81,7 @@ public class ItemLauncher {
                     case "livetv":
                         // open user view browsing
                         Intent intent = new Intent(context, UserViewActivity.class);
-                        intent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
+                        intent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
 
                         context.startActivity(intent);
                         if (finishParent) context.finish();
@@ -86,7 +89,7 @@ public class ItemLauncher {
                     default:
                         // open generic folder browsing
                         Intent folderIntent = new Intent(context, GenericGridActivity.class);
-                        folderIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
+                        folderIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
                         context.startActivity(folderIntent);
                         if (finishParent) context.finish();
                 }
@@ -149,7 +152,7 @@ public class ItemLauncher {
                     case RecordingGroup:
                         //Start activity for enhanced browse
                         Intent seasonIntent = new Intent(activity, GenericFolderActivity.class);
-                        seasonIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
+                        seasonIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
                         if (noHistory) {
                             seasonIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         }
@@ -161,7 +164,7 @@ public class ItemLauncher {
                     case BoxSet:
                         // open collection browsing
                         Intent collectionIntent = new Intent(activity, CollectionActivity.class);
-                        collectionIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
+                        collectionIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
                         if (noHistory) {
                             collectionIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         }
@@ -186,7 +189,7 @@ public class ItemLauncher {
                         @Override
                         public void onResponse(DisplayPreferences response) {
                             Intent intent = new Intent(activity, GenericGridActivity.class);
-                            intent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(baseItem));
+                            intent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
                             if (noHistory) {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                             }
@@ -240,7 +243,7 @@ public class ItemLauncher {
             case Chapter:
                 final ChapterItemInfo chapter = rowItem.getChapterInfo();
                 //Start playback of the item at the chapter point
-                application.getApiClient().GetItemAsync(chapter.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                get(ApiClient.class).GetItemAsync(chapter.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         List<BaseItemDto> items = new ArrayList<>();
@@ -256,7 +259,7 @@ public class ItemLauncher {
                 break;
             case Server:
                 //Log in to selected server
-                application.getApiClient().ChangeServerLocation(rowItem.getServerInfo().getAddress());
+                get(ApiClient.class).ChangeServerLocation(rowItem.getServerInfo().getAddress());
                 AuthenticationHelper.enterManualUser(activity);
                 break;
 
@@ -266,20 +269,20 @@ public class ItemLauncher {
                     Utils.processPasswordEntry(activity, user);
 
                 } else {
-                    AuthenticationHelper.loginUser(user.getName(), "", application.getApiClient(), activity);
+                    AuthenticationHelper.loginUser(user.getName(), "", get(ApiClient.class), activity);
                 }
                 break;
 
             case SearchHint:
                 final SearchHint hint = rowItem.getSearchHint();
                 //Retrieve full item for display and playback
-                application.getApiClient().GetItemAsync(hint.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                get(ApiClient.class).GetItemAsync(hint.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         if (response.getIsFolderItem() && response.getBaseItemType() != BaseItemType.Series) {
                             // open generic folder browsing
                             Intent intent = new Intent(activity, GenericGridActivity.class);
-                            intent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(response));
+                            intent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(response));
 
                             activity.startActivity(intent);
 
@@ -297,7 +300,7 @@ public class ItemLauncher {
                                 intent.putExtra("ItemType", response.getBaseItemType().name());
 
                                 intent.putExtra("ChannelId", response.getChannelId());
-                                intent.putExtra("ProgramInfo", SerializerRepository.INSTANCE.getSerializer().SerializeToString(response));
+                                intent.putExtra("ProgramInfo", get(GsonJsonSerializer.class).SerializeToString(response));
                             }
                             activity.startActivity(intent);
                         }
@@ -323,14 +326,14 @@ public class ItemLauncher {
                         programIntent.putExtra("ItemType", program.getBaseItemType().name());
 
                         programIntent.putExtra("ChannelId", program.getChannelId());
-                        programIntent.putExtra("ProgramInfo", SerializerRepository.INSTANCE.getSerializer().SerializeToString(program));
+                        programIntent.putExtra("ProgramInfo", get(GsonJsonSerializer.class).SerializeToString(program));
 
                         activity.startActivity(programIntent);
                         break;
                     case Play:
                         if (program.getPlayAccess() == PlayAccess.Full) {
                             //Just play it directly - need to retrieve program channel via items api to convert to BaseItem
-                            TvApp.getApplication().getApiClient().GetItemAsync(program.getChannelId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                            get(ApiClient.class).GetItemAsync(program.getChannelId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
                                     List<BaseItemDto> items = new ArrayList<>();
@@ -351,7 +354,7 @@ public class ItemLauncher {
             case LiveTvChannel:
                 //Just tune to it by playing
                 final ChannelInfoDto channel = rowItem.getChannelInfo();
-                TvApp.getApplication().getApiClient().GetItemAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                get(ApiClient.class).GetItemAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         PlaybackHelper.getItemsToPlay(response, false, false, new Response<List<BaseItemDto>>() {
@@ -382,7 +385,7 @@ public class ItemLauncher {
                     case Play:
                         if (rowItem.getRecordingInfo().getPlayAccess() == PlayAccess.Full) {
                             //Just play it directly but need to retrieve as base item
-                            TvApp.getApplication().getApiClient().GetItemAsync(rowItem.getRecordingInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                            get(ApiClient.class).GetItemAsync(rowItem.getRecordingInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
                                     Intent intent = new Intent(activity, application.getPlaybackActivityClass(rowItem.getBaseItemType()));
@@ -405,7 +408,7 @@ public class ItemLauncher {
                 Intent timerIntent = new Intent(activity, FullDetailsActivity.class);
                 timerIntent.putExtra("ItemId", rowItem.getItemId());
                 timerIntent.putExtra("ItemType", "SeriesTimer");
-                timerIntent.putExtra("SeriesTimer", SerializerRepository.INSTANCE.getSerializer().SerializeToString(rowItem.getSeriesTimerInfo()));
+                timerIntent.putExtra("SeriesTimer", get(GsonJsonSerializer.class).SerializeToString(rowItem.getSeriesTimerInfo()));
 
                 activity.startActivity(timerIntent);
                 break;
@@ -423,7 +426,7 @@ public class ItemLauncher {
                         BaseItemDto folder = new BaseItemDto();
                         folder.setId("");
                         folder.setName(TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv));
-                        recordings.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(folder));
+                        recordings.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(folder));
                         activity.startActivity(recordings);
                         break;
 
@@ -450,7 +453,7 @@ public class ItemLauncher {
                         seriesTimers.setId("SERIESTIMERS");
                         seriesTimers.setCollectionType("SeriesTimers");
                         seriesTimers.setName(activity.getString(R.string.lbl_series_recordings));
-                        seriesIntent.putExtra(Extras.Folder, SerializerRepository.INSTANCE.getSerializer().SerializeToString(seriesTimers));
+                        seriesIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(seriesTimers));
 
                         activity.startActivity(seriesIntent);
                         break;

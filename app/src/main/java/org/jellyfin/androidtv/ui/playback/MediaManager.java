@@ -23,13 +23,13 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.CustomMessage;
+import org.jellyfin.androidtv.constant.QueryType;
+import org.jellyfin.androidtv.data.compat.AudioOptions;
+import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
-import org.jellyfin.androidtv.data.compat.AudioOptions;
-import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
-import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ProfileHelper;
 import org.jellyfin.androidtv.util.RemoteControlReceiver;
@@ -50,6 +50,8 @@ import java.util.Date;
 import java.util.List;
 
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class MediaManager {
     private static ItemRowAdapter mCurrentMediaAdapter;
@@ -350,7 +352,7 @@ public class MediaManager {
                         request.setMediaType(type == TYPE_AUDIO ? "Audio" : "Video");
                         request.setName(text);
                         request.setItemIdList(type == TYPE_AUDIO ? getCurrentAudioQueueItemIds() : getCurrentVideoQueueItemIds());
-                        TvApp.getApplication().getApiClient().CreatePlaylist(request, new Response<PlaylistCreationResult>() {
+                        get(ApiClient.class).CreatePlaylist(request, new Response<PlaylistCreationResult>() {
                             @Override
                             public void onResponse(PlaylistCreationResult response) {
                                 Toast.makeText(activity, activity.getString(R.string.msg_queue_saved, text), Toast.LENGTH_LONG).show();
@@ -550,7 +552,7 @@ public class MediaManager {
     private static void playInternal(final BaseItemDto item, final int pos) {
         if (!ensureInitialized()) return;
         ensureAudioFocus();
-        final ApiClient apiClient = TvApp.getApplication().getApiClient();
+        final ApiClient apiClient = get(ApiClient.class);
         AudioOptions options = new AudioOptions();
         options.setDeviceId(apiClient.getDeviceId());
         options.setItemId(item.getId());
@@ -563,7 +565,7 @@ public class MediaManager {
             ProfileHelper.setVlcOptions(profile, false);
         }
         options.setProfile(profile);
-        TvApp.getApplication().getPlaybackManager().getAudioStreamInfo(apiClient.getServerInfo().getId(), options, item.getResumePositionTicks(), false, apiClient, new Response<StreamInfo>() {
+        get(PlaybackManager.class).getAudioStreamInfo(apiClient.getServerInfo().getId(), options, item.getResumePositionTicks(), false, apiClient, new Response<StreamInfo>() {
             @Override
             public void onResponse(StreamInfo response) {
                 mCurrentAudioItem = item;

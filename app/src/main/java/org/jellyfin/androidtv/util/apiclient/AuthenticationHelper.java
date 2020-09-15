@@ -10,20 +10,22 @@ import android.widget.EditText;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.data.model.LogonCredentials;
 import org.jellyfin.androidtv.ui.browsing.MainActivity;
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity;
-import org.jellyfin.androidtv.data.model.LogonCredentials;
-import org.jellyfin.androidtv.data.repository.SerializerRepository;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 import org.jellyfin.apiclient.model.users.AuthenticationResult;
+import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class AuthenticationHelper {
     public static void enterManualServerAddress(final Activity activity) {
@@ -44,7 +46,7 @@ public class AuthenticationHelper {
                 Timber.d("Entered address: %s", addressValue);
                 ServerInfo info = new ServerInfo();
                 info.setAddress(addressValue);
-                TvApp.getApplication().getApiClient().EnableAutomaticNetworking(info);
+                get(ApiClient.class).EnableAutomaticNetworking(info);
                 AuthenticationHelper.enterManualUser(activity);
             }
         }).show();
@@ -75,7 +77,7 @@ public class AuthenticationHelper {
                             }
                         }).setPositiveButton(activity.getString(R.string.lbl_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        loginUser(userName.getText().toString(), userPw.getText().toString(), TvApp.getApplication().getApiClient(), activity);
+                        loginUser(userName.getText().toString(), userPw.getText().toString(), get(ApiClient.class), activity);
                     }
                 }).show();
             }
@@ -115,7 +117,7 @@ public class AuthenticationHelper {
     public static void saveLoginCredentials(LogonCredentials creds, String fileName) throws IOException {
         TvApp app = TvApp.getApplication();
         OutputStream credsFile = app.openFileOutput(fileName, Context.MODE_PRIVATE);
-        credsFile.write(SerializerRepository.INSTANCE.getSerializer().SerializeToString(creds).getBytes());
+        credsFile.write(get(GsonJsonSerializer.class).SerializeToString(creds).getBytes());
         credsFile.close();
         app.setConfiguredAutoCredentials(creds);
     }

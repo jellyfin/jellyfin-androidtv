@@ -7,30 +7,34 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.ArrayMap;
 
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.ListRow;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.constant.ChangeTriggerType;
 import org.jellyfin.androidtv.constant.CustomMessage;
+import org.jellyfin.androidtv.constant.HomeSectionType;
+import org.jellyfin.androidtv.constant.QueryType;
+import org.jellyfin.androidtv.data.model.LogonCredentials;
+import org.jellyfin.androidtv.data.querying.StdItemQuery;
+import org.jellyfin.androidtv.data.querying.ViewQuery;
+import org.jellyfin.androidtv.integration.ChannelManager;
+import org.jellyfin.androidtv.preference.SystemPreferences;
+import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.constant.AudioBehavior;
 import org.jellyfin.androidtv.ui.shared.IMessageListener;
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef;
 import org.jellyfin.androidtv.ui.browsing.IRowLoader;
 import org.jellyfin.androidtv.ui.browsing.StdBrowseFragment;
-import org.jellyfin.androidtv.integration.ChannelManager;
-import org.jellyfin.androidtv.constant.HomeSectionType;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
-import org.jellyfin.androidtv.constant.ChangeTriggerType;
-import org.jellyfin.androidtv.data.model.LogonCredentials;
 import org.jellyfin.androidtv.ui.playback.AudioEventListener;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
-import org.jellyfin.androidtv.preference.SystemPreferences;
-import org.jellyfin.androidtv.preference.UserPreferences;
-import org.jellyfin.androidtv.preference.constant.AudioBehavior;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
-import org.jellyfin.androidtv.constant.QueryType;
-import org.jellyfin.androidtv.data.querying.StdItemQuery;
-import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.entities.LocationType;
@@ -51,9 +55,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.ListRow;
+import kotlin.Lazy;
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class HomeFragment extends StdBrowseFragment {
     // Copied from jellyfin-web (homesections.js#getDefaultSection)
@@ -75,6 +81,8 @@ public class HomeFragment extends StdBrowseFragment {
 
     private ChannelManager channelManager;
 
+    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
+
     private AudioEventListener audioEventListener = new AudioEventListener() {
         @Override
         public void onQueueStatusChanged(boolean hasQueue) {
@@ -90,7 +98,7 @@ public class HomeFragment extends StdBrowseFragment {
 
         // Save last login so we can get back proper context on entry
         try {
-            AuthenticationHelper.saveLoginCredentials(new LogonCredentials(TvApp.getApplication().getApiClient().getServerInfo(), TvApp.getApplication().getCurrentUser()), TvApp.CREDENTIALS_PATH);
+            AuthenticationHelper.saveLoginCredentials(new LogonCredentials(apiClient.getValue().getServerInfo(), TvApp.getApplication().getCurrentUser()), TvApp.CREDENTIALS_PATH);
         } catch (IOException e) {
             Timber.e(e, "Unable to save login credentials");
         }
@@ -102,8 +110,8 @@ public class HomeFragment extends StdBrowseFragment {
         TvApp.getApplication().determineAutoBitrate();
 
         //First time audio message
-        if (!mApplication.getSystemPreferences().get(SystemPreferences.Companion.getAudioWarned())) {
-            mApplication.getSystemPreferences().set(SystemPreferences.Companion.getAudioWarned(), true);
+        if (!get(SystemPreferences.class).get(SystemPreferences.Companion.getAudioWarned())) {
+            get(SystemPreferences.class).set(SystemPreferences.Companion.getAudioWarned(), true);
 
             new AlertDialog.Builder(mActivity)
                     .setTitle(mApplication.getString(R.string.lbl_audio_capabilitites))
@@ -112,7 +120,7 @@ public class HomeFragment extends StdBrowseFragment {
                     .setNegativeButton(mApplication.getString(R.string.btn_set_compatible_audio), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            mApplication.getUserPreferences().set(UserPreferences.Companion.getAudioBehaviour(), AudioBehavior.DOWNMIX_TO_STEREO);
+                            get(UserPreferences.class).set(UserPreferences.Companion.getAudioBehaviour(), AudioBehavior.DOWNMIX_TO_STEREO);
                         }
                     })
                     .setCancelable(false)
@@ -134,7 +142,7 @@ public class HomeFragment extends StdBrowseFragment {
             }
         });
 
-        if (mApplication.getUserPreferences().get(UserPreferences.Companion.getLiveTvMode())) {
+        if (get(UserPreferences.class).get(UserPreferences.Companion.getLiveTvMode())) {
             // Open guide activity and tell it to start last channel
             Intent guide = new Intent(getActivity(), LiveTvGuideActivity.class);
             guide.putExtra("loadLast", true);
@@ -217,7 +225,7 @@ public class HomeFragment extends StdBrowseFragment {
         TvApp application = TvApp.getApplication();
 
         // Update the views before creating rows
-        application.getApiClient().GetUserViews(application.getCurrentUser().getId(), new Response<ItemsResult>() {
+        apiClient.getValue().GetUserViews(application.getCurrentUser().getId(), new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 views = response;

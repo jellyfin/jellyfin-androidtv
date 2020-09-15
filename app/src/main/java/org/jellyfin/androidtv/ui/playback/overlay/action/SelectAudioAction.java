@@ -7,14 +7,16 @@ import android.view.View;
 import android.widget.PopupMenu;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
+import org.jellyfin.androidtv.ui.playback.PlaybackManager;
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue;
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 
 import java.util.List;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class SelectAudioAction extends CustomAction {
 
@@ -26,7 +28,7 @@ public class SelectAudioAction extends CustomAction {
     @Override
     public void handleClickAction(PlaybackController playbackController, LeanbackOverlayFragment leanbackOverlayFragment, Context context, View view) {
 
-        List<MediaStream> audioTracks = TvApp.getApplication().getPlaybackManager().getInPlaybackSelectableAudioStreams(playbackController.getCurrentStreamInfo());
+        List<MediaStream> audioTracks = get(PlaybackManager.class).getInPlaybackSelectableAudioStreams(playbackController.getCurrentStreamInfo());
         Integer currentAudioIndex = playbackController.getAudioStreamIndex();
         if (!playbackController.isNativeMode() && currentAudioIndex > audioTracks.size()) {
             //VLC has translated this to an ID - we need to translate back to our index positionally

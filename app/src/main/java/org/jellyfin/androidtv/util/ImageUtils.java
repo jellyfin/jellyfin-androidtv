@@ -25,6 +25,8 @@ import androidx.annotation.AnyRes;
 
 import timber.log.Timber;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 public class ImageUtils {
     public static final double ASPECT_RATIO_2_3 = .66667;
     public static final double ASPECT_RATIO_16_9 = 1.779;
@@ -97,7 +99,7 @@ public class ImageUtils {
         options.setMaxWidth(width);
         options.setMaxHeight(height);
         options.setImageType(ImageType.Primary);
-        return TvApp.getApplication().getApiClient().GetImageUrl(item, options);
+        return get(ApiClient.class).GetImageUrl(item, options);
     }
 
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient) {

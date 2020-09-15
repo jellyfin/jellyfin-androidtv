@@ -13,6 +13,9 @@ import com.bumptech.glide.Glide;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.util.ImageUtils;
+import org.jellyfin.apiclient.interaction.ApiClient;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class ClockUserView extends RelativeLayout {
     public ClockUserView(Context context) {
@@ -35,7 +38,7 @@ public class ClockUserView extends RelativeLayout {
             ImageView userImage = (ImageView) v.findViewById(R.id.userImage);
             if (TvApp.getApplication().getCurrentUser().getPrimaryImageTag() != null) {
                 Glide.with(context)
-                        .load(ImageUtils.getPrimaryImageUrl(TvApp.getApplication().getCurrentUser(), TvApp.getApplication().getApiClient()))
+                        .load(ImageUtils.getPrimaryImageUrl(TvApp.getApplication().getCurrentUser(), get(ApiClient.class)))
                         .error(R.drawable.ic_user)
                         .override(30,30)
                         .centerInside()
