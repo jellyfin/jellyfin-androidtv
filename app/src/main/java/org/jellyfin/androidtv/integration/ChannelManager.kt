@@ -37,7 +37,7 @@ import org.koin.core.inject
  *
  * More info: https://developer.android.com/training/tv/discovery/recommendations-channel
  */
-class ChannelManager: KoinComponent {
+class ChannelManager : KoinComponent {
 	private companion object {
 		/**
 		 * Amount of ticks found in a millisecond, used for calculation

@@ -9,7 +9,7 @@ import org.koin.core.KoinComponent
 import org.koin.core.get
 import java.util.*
 
-object ThemeManager: KoinComponent {
+object ThemeManager : KoinComponent {
 	private fun showAprilFools(): Boolean {
 		val enableGreetings = get<UserPreferences>()[UserPreferences.seasonalGreetingsEnabled]
 		if (!enableGreetings) return false
