@@ -373,4 +373,20 @@
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="bitrate_auto">Auto</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
+    <string name="msg_queue_saved">File d\'attente sauvée comme nouvelle liste de lecture : %1$s</string>
+    <string name="msg_no_items">Aucun élément à jouer</string>
+    <string name="subtitle_error">Impossible de sélectionner le sous-titre</string>
+    <string name="too_many_errors">Trop d\'erreurs. Abandon</string>
+    <string name="lbl_new_playlist_name">Entrez un nom pour la nouvelle liste de lecture</string>
+    <string name="episode_missing_message_2">Cet épisode manque dans votre bibliothèque. La lecture sera arrêtée.</string>
+    <string name="episode_missing_message">Cet épisode manque dans votre bibliothèque. Voulez-vous le sauter et continuer avec le suivant \?</string>
+    <string name="episode_missing">Épisode manquant</string>
+    <string name="delete_warning">Ceci va EFFACER DÉFINITIVEMENT %1$s de votre bibliothèque. Êtes-vous RÉELLEMENT sûr \?</string>
+    <string name="clear_expanded">Vider la file d\'attente de vidéos \?</string>
+    <string name="lbl_clear">Vider</string>
+    <string name="password_prompt_message">Veuillez entrer le mode de passe pour %1$s</string>
+    <string name="password_prompt">Saisir le mot de passe</string>
+    <string name="no_player_message">Aucune application capable de lire des vidéos ne semble installée. Cette option nécessite l\'installation d\'une application tierce de lecture vidéo.</string>
+    <string name="no_player">Aucun lecteur</string>
+    <string name="mark_watched_message">L\'entrée ne semble pas avoir été jouée autant longtemps que sa durée. Marquer comme vu \?</string>
 </resources>
