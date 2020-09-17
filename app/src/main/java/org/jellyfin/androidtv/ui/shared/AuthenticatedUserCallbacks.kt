@@ -7,9 +7,6 @@ import android.os.Bundle
 import android.util.Log
 
 import org.jellyfin.androidtv.TvApp
-import org.jellyfin.androidtv.ui.startup.DpadPwActivity
-import org.jellyfin.androidtv.ui.startup.SelectServerActivity
-import org.jellyfin.androidtv.ui.startup.SelectUserActivity
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 
 private const val LOG_TAG = "AuthUserCallbacks"
@@ -37,9 +34,6 @@ class AuthenticatedUserCallbacks : Application.ActivityLifecycleCallbacks {
 	override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
 		when (activity) {
 			// Ignore startup activities
-			is DpadPwActivity,
-			is SelectServerActivity,
-			is SelectUserActivity,
 			is StartupActivity -> return
 			// All other activities should have a current user
 			else -> {

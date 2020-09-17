@@ -413,4 +413,7 @@
     <string name="play_with_exo_player">Play with ExoPlayer</string>
     <string name="play_with_external_app">Play with external app</string>
     <string name="play_with">Play with</string>
+    <string name="lbl_add_server">Add Server</string>
+    <string name="lbl_sign_in">Please Sign In</string>
+    <string name="lbl_manual_login">Manual Login</string>
 </resources>
