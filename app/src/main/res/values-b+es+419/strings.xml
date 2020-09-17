@@ -141,7 +141,7 @@
     <string name="lbl_favorite">Favorito</string>
     <string name="lbl_select_date">Seleccionar fecha</string>
     <string name="lbl_all_recordings">Todas las grabaciones</string>
-    <string name="title_activity_select_user">Selecionar Actividad de Usuario</string>
+    <string name="title_activity_select_user">Seleccionar Actividad de Usuario</string>
     <string name="pref_use_direct_path_title">Pasar ruta directa al reproductor externo</string>
     <string name="lbl_series_settings">Configuración de series</string>
     <string name="lbl_schedule">Programar</string>
