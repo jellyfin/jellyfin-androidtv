@@ -22,6 +22,8 @@ import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import timber.log.Timber;
 
@@ -109,7 +111,17 @@ public class AuthenticationHelper {
             public void onError(Exception exception) {
                 super.onError(exception);
                 Timber.e(exception, "Error logging in");
-                Utils.showToast(activity, activity.getString(R.string.msg_invalid_id_pw));
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                exception.printStackTrace(pw);
+                String sStackTrace = sw.toString(); // stack trace as a string
+                if (sStackTrace.contains("no protocol") && sStackTrace.contains("Bad URL")) {
+                    Utils.showToast(activity, activity.getString(R.string.msg_enter_protocol));
+                    enterManualServerAddress(activity);
+                } else  {
+                    Utils.showToast(activity, activity.getString(R.string.msg_invalid_id_pw));
+                    enterManualServerAddress(activity);
+                }
             }
         });
     }
