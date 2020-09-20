@@ -397,4 +397,7 @@
     <string name="msg_live_tv_next">Charger les prochaines %1$d heures \?</string>
     <string name="lbl_load_guide_data">Charger données du Guide</string>
     <string name="mark_watched">Marquer comme lue</string>
+    <string name="turn_off">Désactiver cette option</string>
+    <string name="not_deleted">Élément NON Supprimé</string>
+    <string name="lbl_deleted">%1$s Supprimé</string>
 </resources>
