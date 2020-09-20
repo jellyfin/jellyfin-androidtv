@@ -389,4 +389,12 @@
     <string name="no_player_message">Aucune application capable de lire des vidéos ne semble installée. Cette option nécessite l\'installation d\'une application tierce de lecture vidéo.</string>
     <string name="no_player">Aucun lecteur</string>
     <string name="mark_watched_message">L\'entrée ne semble pas avoir été jouée autant longtemps que sa durée. Marquer comme vu \?</string>
+    <string name="audio_error">Incapable de jouer l\'audio %1$s</string>
+    <string name="msg_added_to_video">%1$s ajouté à la liste de lecture. Prend fin : %2$s</string>
+    <string name="player_error">Une erreur sur le lecteur est arrivée. Nous allons réessayer...</string>
+    <string name="seek_error">Impossible de chercher</string>
+    <string name="msg_live_tv_prev">Charger les précédentes %1$d heures \?</string>
+    <string name="msg_live_tv_next">Charger les prochaines %1$d heures \?</string>
+    <string name="lbl_load_guide_data">Charger données du Guide</string>
+    <string name="mark_watched">Marquer comme lue</string>
 </resources>
