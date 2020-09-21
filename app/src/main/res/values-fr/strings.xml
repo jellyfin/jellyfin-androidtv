@@ -400,4 +400,6 @@
     <string name="turn_off">Désactiver cette option</string>
     <string name="not_deleted">Élément NON Supprimé</string>
     <string name="lbl_deleted">%1$s Supprimé</string>
+    <string name="favorite_error">Erreur d\'enregistrement du statut favori</string>
+    <string name="playing_error">Erreur d\'enregistrement du statut de lecture</string>
 </resources>
