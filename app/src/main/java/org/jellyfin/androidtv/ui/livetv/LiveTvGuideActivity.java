@@ -937,6 +937,12 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             }
         } else {
             mInfoRow.removeAllViews();
+
+            TextView channelName = new TextView(mActivity);
+            channelName.setTextSize(16);
+            channelName.setText(TvManager.getChannel(TvManager.getAllChannelsIndex(mSelectedProgram.getChannelId())).getName());
+            mInfoRow.addView(channelName);
+
             mBackdrop.setImageResource(R.drawable.banner_tv);
             mImage.setImageResource(R.drawable.blank10x10);
         }

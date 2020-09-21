@@ -954,6 +954,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mGuideInfoRow, false, false);
         } else {
             mGuideInfoRow.removeAllViews();
+
+            TextView channelName = new TextView(mActivity);
+            channelName.setTextSize(16);
+            channelName.setText(TvManager.getChannel(TvManager.getAllChannelsIndex(mSelectedProgram.getChannelId())).getName());
+            mGuideInfoRow.addView(channelName);
         }
 
     }
