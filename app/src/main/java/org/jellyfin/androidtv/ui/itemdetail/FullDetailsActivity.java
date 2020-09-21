@@ -14,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.RowsSupportFragment;
@@ -40,6 +41,7 @@ import org.jellyfin.androidtv.data.querying.SpecialsQuery;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.querying.TrailersQuery;
 import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.IRecordingIndicatorView;
 import org.jellyfin.androidtv.ui.RecordPopup;
 import org.jellyfin.androidtv.ui.TextUnderButton;
@@ -140,7 +142,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<GsonJsonSerializer> serializer = inject(GsonJsonSerializer.class);
-
+    private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -839,6 +841,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private TextUnderButton queueButton = null;
     private TextUnderButton deleteButton = null;
     private TextUnderButton moreButton;
+    private TextUnderButton playWith = null;
 
     private void addButtons(int buttonSize) {
         String buttonLabel;
@@ -935,6 +938,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         }
 
+
+        mDetailsOverviewRow.addAction(playWith);
         if (mBaseItem.getLocalTrailerCount() != null && mBaseItem.getLocalTrailerCount() > 0) {
             TextUnderButton trailer = new TextUnderButton(this, R.drawable.ic_trailer, buttonSize, getString(R.string.lbl_play_trailers), new View.OnClickListener() {
                 @Override
@@ -1136,6 +1141,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
             mDetailsOverviewRow.addAction(mPrevButton);
 
+
+
             //now go get our prev episode id
             EpisodeQuery adjacent = new EpisodeQuery();
             adjacent.setUserId(TvApp.getApplication().getCurrentUser().getId());
@@ -1261,6 +1268,15 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             }
         });
 
+        playWith = new TextUnderButton(this, R.drawable.ic_add, buttonSize, 3, "Play with", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                PopupMenu more = new PopupMenu(mActivity, view);
+                more.inflate(R.menu.menu_details_play_with);
+                more.setOnMenuItemClickListener(playWithMenuListener);
+            }
+        });
         moreButton.setVisibility(View.GONE);
         mDetailsOverviewRow.addAction(moreButton);
         if (mBaseItem.getBaseItemType() != BaseItemType.Episode) showMoreButtonIfNeeded();  //Episodes check for previous and then call this above
@@ -1321,6 +1337,26 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 case R.id.delete:
                     deleteItem();
                     return true;
+            }
+            return false;
+        }
+    };
+
+    PopupMenu.OnMenuItemClickListener playWithMenuListener = new PopupMenu.OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            switch (item.getItemId()) {
+
+                case R.id.play_with_vlc:
+                        userPreferences.getValue().set(UserPreferences.Companion.getVideoPlayer(), PreferredVideoPlayer.VLC);
+                    return true;
+                case R.id.play_with_exo:
+                    userPreferences.getValue().set(UserPreferences.Companion.getVideoPlayer(), PreferredVideoPlayer.EXOPLAYER);
+                    return true;
+                case R.id.play_with_external:
+                    userPreferences.getValue().set(UserPreferences.Companion.getVideoPlayer(), PreferredVideoPlayer.EXTERNAL);
+                    return true;
+
             }
             return false;
         }
