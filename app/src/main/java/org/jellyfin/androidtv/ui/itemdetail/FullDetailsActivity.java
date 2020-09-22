@@ -841,7 +841,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private TextUnderButton queueButton = null;
     private TextUnderButton deleteButton = null;
     private TextUnderButton moreButton;
-    private TextUnderButton playWith = null;
+    private TextUnderButton playWithButton = null;
 
     private void addButtons(int buttonSize) {
         String buttonLabel;
@@ -939,7 +939,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         }
 
 
-        mDetailsOverviewRow.addAction(playWith);
+
         if (mBaseItem.getLocalTrailerCount() != null && mBaseItem.getLocalTrailerCount() > 0) {
             TextUnderButton trailer = new TextUnderButton(this, R.drawable.ic_trailer, buttonSize, getString(R.string.lbl_play_trailers), new View.OnClickListener() {
                 @Override
@@ -1267,16 +1267,20 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 more.show();
             }
         });
+        if (userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.EXTERNAL) {
+            playWithButton = new TextUnderButton(this, R.drawable.ic_add, buttonSize, 3, "Play with", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(mApplication, "Play With Button", Toast.LENGTH_SHORT).show();
+                    PopupMenu more = new PopupMenu(mActivity, view);
+                    more.inflate(R.menu.menu_details_play_with);
+                    more.setOnMenuItemClickListener(playWithMenuListener);
+                    more.show();
+                }
+            });
+            mDetailsOverviewRow.addAction(playWithButton);
+        }
 
-        playWith = new TextUnderButton(this, R.drawable.ic_add, buttonSize, 3, "Play with", new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                PopupMenu more = new PopupMenu(mActivity, view);
-                more.inflate(R.menu.menu_details_play_with);
-                more.setOnMenuItemClickListener(playWithMenuListener);
-            }
-        });
         moreButton.setVisibility(View.GONE);
         mDetailsOverviewRow.addAction(moreButton);
         if (mBaseItem.getBaseItemType() != BaseItemType.Episode) showMoreButtonIfNeeded();  //Episodes check for previous and then call this above
@@ -1349,12 +1353,15 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                 case R.id.play_with_vlc:
                         userPreferences.getValue().set(UserPreferences.Companion.getVideoPlayer(), PreferredVideoPlayer.VLC);
+                    play(mBaseItem, 0, false);
                     return true;
                 case R.id.play_with_exo:
                     userPreferences.getValue().set(UserPreferences.Companion.getVideoPlayer(), PreferredVideoPlayer.EXOPLAYER);
+                    play(mBaseItem, 0, false);
                     return true;
                 case R.id.play_with_external:
                     userPreferences.getValue().set(UserPreferences.Companion.getVideoPlayer(), PreferredVideoPlayer.EXTERNAL);
+                    play(mBaseItem, 0, false);
                     return true;
 
             }
