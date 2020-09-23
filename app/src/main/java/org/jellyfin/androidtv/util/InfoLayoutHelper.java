@@ -41,16 +41,15 @@ public class InfoLayoutHelper {
         }
     }
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
+        layout.removeAllViews();
         if (item.getId() != null) {
             addInfoRow(activity, item, layout, includeRuntime, includeEndTime, StreamHelper.getFirstAudioStream(item));
         }else{
-            layout.removeAllViews();
             addProgramChannel(activity, item, layout);
         }
     }
 
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime, MediaStream audioStream) {
-        layout.removeAllViews();
         addCriticInfo(activity, item, layout);
         switch (item.getBaseItemType()) {
             case Episode:

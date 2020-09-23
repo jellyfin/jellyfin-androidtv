@@ -947,13 +947,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private void detailUpdateInternal() {
         mGuideTitle.setText(mSelectedProgram.getName());
         mSummary.setText(mSelectedProgram.getOverview());
+        //info row
+        InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mGuideInfoRow, false, false);
         if (mSelectedProgram.getId() != null) {
             mDisplayDate.setText(TimeUtils.getFriendlyDate(TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
-
-            //info row
-            InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mGuideInfoRow, false, false);
-        } else {
-            mGuideInfoRow.removeAllViews();
         }
 
     }
