@@ -775,22 +775,27 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
         if (programs.size() == 0) {
             if (mFilters.any()) return null; // don't show rows with no program data
-
-            BaseItemDto empty = new BaseItemDto();
             //TODO split into 30min segments
 
-            int duration = ((Long)((mCurrentLocalGuideEnd - mCurrentLocalGuideStart) / 60000)).intValue();
-            empty.setName("  <No Program Data Available>");
-            empty.setChannelId(channelId);
-            empty.setStartDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart)));
-            empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart+(duration*60000))));
-            ProgramGridCell cell = new ProgramGridCell(this, this, empty);
-            cell.setId(currentCellId++);
-            cell.setLayoutParams(new ViewGroup.LayoutParams(duration * PIXELS_PER_MINUTE, ROW_HEIGHT));
-            cell.setFocusable(true);
-            programRow.addView(cell);
-            cell.setLast();
-            cell.setFirst();
+            int minutes = ((Long)((mCurrentLocalGuideEnd - mCurrentLocalGuideStart) / 60000)).intValue();
+            int slot = 0;
+            do {
+                BaseItemDto empty = new BaseItemDto();
+                empty.setName("  " + getString(R.string.no_program_data));
+                empty.setChannelId(channelId);
+                empty.setStartDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*slot) * 60000))));
+                empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30+(slot+1)) * 60000))));
+                ProgramGridCell cell = new ProgramGridCell(this, this, empty);
+                cell.setId(currentCellId++);
+                cell.setLayoutParams(new ViewGroup.LayoutParams(30 * PIXELS_PER_MINUTE, ROW_HEIGHT));
+                cell.setFocusable(true);
+                programRow.addView(cell);
+                if (slot == 0)
+                    cell.setFirst();
+                if (slot == 17)
+                    cell.setLast();
+                slot++;
+            } while((30*slot)*60000 < minutes*60000);
             return programRow;
         }
 
@@ -803,7 +808,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             if (start > prevEnd) {
                 // fill empty time slot
                 BaseItemDto empty = new BaseItemDto();
-                empty.setName("  <No Program Data Available>");
+                empty.setName("  " + getString(R.string.no_program_data));
                 empty.setChannelId(channelId);
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
                 Long duration = (start - prevEnd);
@@ -842,7 +847,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         if (prevEnd < mCurrentLocalGuideEnd) {
             // fill empty time slot
             BaseItemDto empty = new BaseItemDto();
-            empty.setName("  <No Program Data Available>");
+            empty.setName("  " + getString(R.string.no_program_data));
             empty.setChannelId(channelId);
             empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
             Long duration = (mCurrentLocalGuideEnd - prevEnd);
