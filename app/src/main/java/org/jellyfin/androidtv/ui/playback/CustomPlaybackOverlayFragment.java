@@ -866,7 +866,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             if (start > prevEnd) {
                 // fill empty time slot
                 BaseItemDto empty = new BaseItemDto();
-                empty.setName("  <No Program Data Available>");
+                empty.setName("  " + getString(R.string.no_program_data));
                 empty.setChannelId(channelId);
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
                 Long duration = (start - prevEnd);
