@@ -41,7 +41,12 @@ public class InfoLayoutHelper {
         }
     }
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
-        addInfoRow(activity, item, layout, includeRuntime, includeEndTime, StreamHelper.getFirstAudioStream(item));
+        if (item.getId() != null) {
+            addInfoRow(activity, item, layout, includeRuntime, includeEndTime, StreamHelper.getFirstAudioStream(item));
+        }else{
+            layout.removeAllViews();
+            addProgramChannel(activity, item, layout);
+        }
     }
 
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime, MediaStream audioStream) {
@@ -166,6 +171,13 @@ public class InfoLayoutHelper {
             layout.addView(textView);
 
         }
+    }
+
+    private static void addProgramChannel(Activity activity, BaseItemDto item, LinearLayout layout){
+        TextView name = new TextView(activity);
+        name.setTextSize(textSize);
+        name.setText(BaseItemUtils.getProgramUnknownChannelName(item));
+        layout.addView(name);
     }
 
     private static void addProgramInfo(Activity activity, BaseItemDto item, LinearLayout layout) {

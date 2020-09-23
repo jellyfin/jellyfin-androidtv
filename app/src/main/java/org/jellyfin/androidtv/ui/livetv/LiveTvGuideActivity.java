@@ -771,10 +771,14 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
         LinearLayout programRow = new LinearLayout(this);
 
+        //TODO replace all <No Program....> with resource string
+
         if (programs.size() == 0) {
             if (mFilters.any()) return null; // don't show rows with no program data
 
             BaseItemDto empty = new BaseItemDto();
+            //TODO split into 30min segments
+
             int duration = ((Long)((mCurrentLocalGuideEnd - mCurrentLocalGuideStart) / 60000)).intValue();
             empty.setName("  <No Program Data Available>");
             empty.setChannelId(channelId);
@@ -912,13 +916,14 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
         mTitle.setText(mSelectedProgram.getName());
         mSummary.setText(mSelectedProgram.getOverview());
+
+        //info row
+        InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mInfoRow, false, false);
+
         if (mSelectedProgram.getId() != null) {
             mDisplayDate.setText(TimeUtils.getFriendlyDate(TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
             String url = ImageUtils.getPrimaryImageUrl(mSelectedProgram, get(ApiClient.class));
             Glide.with(mActivity).load(url).override(IMAGE_SIZE, IMAGE_SIZE).centerInside().into(mImage);
-
-            //info row
-            InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mInfoRow, false, false);
 
             if (Utils.isTrue(mSelectedProgram.getIsNews())) {
                 mBackdrop.setImageResource(R.drawable.banner_news);
@@ -936,7 +941,6 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 mBackdrop.setImageResource(R.drawable.banner_tv);
             }
         } else {
-            mInfoRow.removeAllViews();
             mBackdrop.setImageResource(R.drawable.banner_tv);
             mImage.setImageResource(R.drawable.blank10x10);
         }
