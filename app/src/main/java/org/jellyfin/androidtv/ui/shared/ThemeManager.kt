@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.ui.presentation
+package org.jellyfin.androidtv.ui.shared
 
 import android.app.Activity
 import org.jellyfin.androidtv.R

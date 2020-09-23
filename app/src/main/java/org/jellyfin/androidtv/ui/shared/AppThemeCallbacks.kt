@@ -6,7 +6,6 @@ import android.os.Bundle
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity
-import org.jellyfin.androidtv.ui.presentation.ThemeManager
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import timber.log.Timber
