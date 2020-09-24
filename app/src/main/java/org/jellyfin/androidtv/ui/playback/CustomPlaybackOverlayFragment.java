@@ -605,39 +605,19 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         return mCurrentLocalGuideEnd;
     }
 
-    public void switchChannelKeepGuide(String id) {
-        if (id == null) return;
-        if (mPlaybackController.getCurrentlyPlayingItem().getId().equals(id)) {
-            // same channel, just dismiss overlay
-            //hideGuide();
-        } else {
-            mPlaybackController.stop();
-            //hideGuide();
-            apiClient.getValue().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
-                @Override
-                public void onResponse(BaseItemDto response) {
-                    List<BaseItemDto> items = new ArrayList<BaseItemDto>();
-                    items.add(response);
-                    mPlaybackController.setItems(items);
-                    mPlaybackController.play(0);
-                }
-
-                @Override
-                public void onError(Exception exception) {
-                    Utils.showToast(mApplication, R.string.msg_video_playback_error);
-                    finish();
-                }
-            });
-        }
+    public void switchChannel(String id) {
+        switchChannel(id, true);
     }
 
-    public void switchChannel(String id) {
+    public void switchChannel(String id, boolean hideGuide) {
         if (id == null) return;
         if (mPlaybackController.getCurrentlyPlayingItem().getId().equals(id)) {
             // same channel, just dismiss overlay
-            hideGuide();
+            if (hideGuide)
+                hideGuide();
         } else {
             mPlaybackController.stop();
+            if (hideGuide)
             hideGuide();
             apiClient.getValue().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
                 @Override
@@ -756,7 +736,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     private void hideGuide() {
         mTvGuide.setVisibility(View.GONE);
-        mPlaybackController.mVideoManager.setVideoFullSize();
+        mPlaybackController.mVideoManager.setVideoFullSize(true);
         mGuideVisible = false;
     }
 

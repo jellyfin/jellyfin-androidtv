@@ -55,7 +55,7 @@ public class GuideChannelHeader extends RelativeLayout {
             setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    fragment.switchChannelKeepGuide(channel.getId());
+                    fragment.switchChannel(channel.getId(), false);
                 }
             });
         }
