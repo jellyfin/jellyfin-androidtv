@@ -464,6 +464,20 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         }
     };
 
+    public boolean onKeyUp(int keyCode, KeyEvent event){
+        if ((event.getFlags() & KeyEvent.FLAG_CANCELED_LONG_PRESS) == 0) {
+            if (mGuideVisible && mSelectedProgram != null && mSelectedProgram.getChannelId() != null)
+                switchChannel(mSelectedProgram.getChannelId());
+            return true;
+        }
+        return false;
+    }
+
+    public boolean onKeyLongPress(int keyCode, KeyEvent event){
+        showProgramOptions();
+        return true;
+    }
+
     private View.OnKeyListener keyListener = new View.OnKeyListener() {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -908,7 +922,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 empty.setChannelId(channelId);
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*slot) * 60000))));
                 empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30+(slot+1)) * 60000))));
-                ProgramGridCell cell = new ProgramGridCell(mActivity, this, empty, true);
+                ProgramGridCell cell = new ProgramGridCell(mActivity, this, empty, false);
                 cell.setId(currentCellId++);
                 cell.setLayoutParams(new ViewGroup.LayoutParams(30 * PIXELS_PER_MINUTE, LiveTvGuideActivity.ROW_HEIGHT));
                 cell.setFocusable(true);
@@ -938,7 +952,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
                 Long duration = (start - prevEnd);
                 empty.setEndDate(TimeUtils.convertToUtcDate(new Date(prevEnd + duration)));
-                ProgramGridCell cell = new ProgramGridCell(mActivity, mFragment, empty, true);
+                ProgramGridCell cell = new ProgramGridCell(mActivity, mFragment, empty, false);
                 cell.setId(currentCellId++);
                 cell.setLayoutParams(new ViewGroup.LayoutParams(((Long) (duration / 60000)).intValue() * PIXELS_PER_MINUTE, LiveTvGuideActivity.ROW_HEIGHT));
                 cell.setFocusable(true);
@@ -949,7 +963,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             prevEnd = end;
             Long duration = (end - start) / 60000;
             if (duration > 0) {
-                ProgramGridCell program = new ProgramGridCell(mActivity, mFragment, item, true);
+                ProgramGridCell program = new ProgramGridCell(mActivity, mFragment, item, false);
                 program.setId(currentCellId++);
                 program.setLayoutParams(new ViewGroup.LayoutParams(duration.intValue() * PIXELS_PER_MINUTE, LiveTvGuideActivity.ROW_HEIGHT));
                 program.setFocusable(true);
