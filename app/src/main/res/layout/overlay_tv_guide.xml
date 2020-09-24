@@ -12,7 +12,7 @@
         android:scaleType="center"
         android:alpha=".6" />
 
-    <ScrollView
+    <org.jellyfin.androidtv.ui.ObservableScrollView
         android:layout_width="160sp"
         android:layout_height="match_parent"
         android:id="@+id/channelScroller"
@@ -30,7 +30,7 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:id="@+id/channels"/>
-    </ScrollView>
+    </org.jellyfin.androidtv.ui.ObservableScrollView>
 
     <org.jellyfin.androidtv.ui.ObservableScrollView
         android:layout_width="match_parent"

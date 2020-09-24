@@ -121,7 +121,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private LinearLayout mChannels;
     private LinearLayout mTimeline;
     private LinearLayout mProgramRows;
-    private ScrollView mChannelScroller;
+    private ObservableScrollView mChannelScroller;
     private HorizontalScrollView mTimelineScroller;
     private View mGuideSpinner;
 
@@ -313,6 +313,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             @Override
             public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
                 mChannelScroller.scrollTo(x, y);
+            }
+        });
+
+        mChannelScroller.setScrollViewListener(new ScrollViewListener() {
+            @Override
+            public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+                programVScroller.scrollTo(x, y);
             }
         });
 
@@ -713,6 +720,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             Calendar needLoadTime = (Calendar) mCurrentGuideStart.clone();
             needLoadTime.add(Calendar.MINUTE, 30);
             needLoad = now.after(needLoadTime);
+            if (mSelectedProgramView != null)
+                mSelectedProgramView.requestFocus();
         }
         if (needLoad) {
             loadGuide();
