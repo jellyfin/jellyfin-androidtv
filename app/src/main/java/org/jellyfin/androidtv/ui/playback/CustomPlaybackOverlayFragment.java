@@ -26,9 +26,9 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -352,6 +352,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }
         });
 
+        mActivity.getOnBackPressedDispatcher().addCallback(backPressedCallback);
+
 
         Intent intent = mActivity.getIntent();
         int startPos = intent.getIntExtra("Position", 0);
@@ -443,6 +445,25 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         }
     };
 
+    private OnBackPressedCallback backPressedCallback = new OnBackPressedCallback(true) {
+
+        @Override
+        public void handleOnBackPressed() {
+            if (mPopupPanelVisible) {
+                // back should just hide the popup panel
+                hidePopupPanel();
+                leanbackOverlayFragment.hideOverlay();
+
+                // also close this if live tv
+                if (mPlaybackController.isLiveTv()) hide();
+            } else if (mGuideVisible) {
+                hideGuide();
+            } else {
+                mActivity.finish();
+            }
+        }
+    };
+
     private View.OnKeyListener keyListener = new View.OnKeyListener() {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -459,14 +480,19 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     return true;
                 }
 
-                if (mPopupPanelVisible && (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE)) {
-                    // back should just hide the popup panel
-                    hidePopupPanel();
-                    leanbackOverlayFragment.hideOverlay();
+                if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE) {
+                    if (mPopupPanelVisible) {
+                        // back should just hide the popup panel
+                        hidePopupPanel();
+                        leanbackOverlayFragment.hideOverlay();
 
-                    // also close this if live tv
-                    if (mPlaybackController.isLiveTv()) hide();
-                    return true;
+                        // also close this if live tv
+                        if (mPlaybackController.isLiveTv()) hide();
+                        return true;
+                    } else if (mGuideVisible) {
+                        hideGuide();
+                        return true;
+                    }
                 }
 
                 if (mPlaybackController.isLiveTv() && !mPopupPanelVisible && !mGuideVisible && keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
