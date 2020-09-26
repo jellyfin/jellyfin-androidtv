@@ -58,7 +58,7 @@
     <string name="msg_video_playback_error">"Xảy Ra Lỗi Khi Phát Video - "</string>
     <string name="lbl_none">Không</string>
     <string name="lbl_recordings">Ghi lại</string>
-    <string name="lbl_videos"></string>
+    <string name="lbl_videos"/>
     <string name="lbl_people">Mọi người</string>
     <string name="lbl_tv">TV</string>
     <string name="lbl_login_as">"Đăng nhập với tư cách "</string>
@@ -76,7 +76,7 @@
     <string name="lbl_favorite">Yêu thích</string>
     <string name="lbl_upcoming">Sắp tới</string>
     <string name="lbl_seasons">Mùa</string>
-    <string name="lbl_series">Chuỗi</string>
+    <string name="lbl_series">Bộ Phim</string>
     <string name="lbl_item">Mục</string>
     <string name="lbl_items">Mục</string>
     <string name="lbl_trailers">Giới thiệu</string>
@@ -88,8 +88,8 @@
     <string name="msg_unable_to_create_recording">Không thể tạo bản ghi</string>
     <string name="msg_set_to_record">Chương trình thiết lập để ghi lại</string>
     <string name="lbl_record">Ghi lại</string>
-    <string name="lbl_record_series">Ghi Loạt</string>
-    <string name="lbl_cancel_series">Hủy Loạt</string>
+    <string name="lbl_record_series">Ghi Bộ Phim</string>
+    <string name="lbl_cancel_series">Hủy Bộ Phim</string>
     <string name="lbl_cancel_recording">Hủy Ghi</string>
     <string name="lbl_cancel">Hủy</string>
     <string name="lbl_play">Phát</string>
@@ -98,15 +98,15 @@
     <string name="lbl_because_you_watched">"Bởi vì bạn đã xem "</string>
     <string name="lbl_latest_additions">Bổ Sung Gần Đây Nhất</string>
     <string name="lbl_other">Khác</string>
-    <string name="lbl_tv_series">Phim TV Nhiều Tập</string>
+    <string name="lbl_tv_series">Chương Trình TV</string>
     <string name="lbl_movies">Phim</string>
     <string name="lbl_collections">Bộ Sưu Tập</string>
     <string name="lbl_other_channels">Các Kênh Khác</string>
     <string name="lbl_favorite_channels">Kênh Yêu Thích</string>
-    <string name="lbl_coming_up">Sắp diễn ra</string>
+    <string name="lbl_coming_up">Sắp Công Chiếu</string>
     <string name="lbl_favorites">Yêu thích</string>
     <string name="lbl_by_name">Theo Tên</string>
-    <string name="lbl_latest">Gần Đây Nhất</string>
+    <string name="lbl_latest">Mới Nhất</string>
     <string name="msg_not_implemented">" không được thực hiện"</string>
     <string name="lbl_search">Tìm kiếm</string>
     <string name="lbl_performers">Người biểu diễn</string>
@@ -116,7 +116,7 @@
     <string name="lbl_by_letter">Theo Ký Tự</string>
     <string name="lbl_views">Lượt xem</string>
     <string name="lbl_on_now">Ngay Bây Giờ</string>
-    <string name="lbl_next_up_tv">TV Tiếp Theo</string>
+    <string name="lbl_next_up_tv">TV Kế Tiếp</string>
     <string name="lbl_next_up">Kế Tiếp</string>
     <string name="lbl_latest_movies">Những Phim Gần Đây</string>
     <string name="lbl_continue_watching">Tiếp Tục Xem</string>
@@ -124,13 +124,13 @@
     <string name="lbl_logout">Thoát</string>
     <string name="lbl_settings">Cài đặt</string>
     <string name="pref_general">Chung</string>
-    <string name="chapters">Chương</string>
+    <string name="chapters">Phân cảnh</string>
     <string name="dpad_pw_cancel">* Giữ nút \'xuống\' trong 1 giây và thả ra nếu bạn có mật khẩu alpha hoặc cần bàn phím để nhập</string>
-    <string name="dpad_entry_desc">Sử dụng D-Pad trên điều khiển từ xa của bạn để nhập mật khẩu số. Nhấp một lần vào nút cho số được liệt kê đầu tiên hoặc nhấp đúp vào nút thứ hai. ví dụ. Nhấp một lần vào \'lên\' trong 1 hoặc nhấp đúp vào \'chọn\' trong 5. Nhấn giữ trong 1 giây và nhả nút \'chọn\' khi hoàn tất hoặc nút bên trái để bắt đầu lại.</string>
+    <string name="dpad_entry_desc">Sử dụng phím mũi tên trên điều khiển từ xa của bạn để nhập mật khẩu số. Nhấp một lần vào nút cho số được liệt kê đầu tiên hoặc nhấp đúp vào nút thứ hai. ví dụ. Nhấp một lần vào \'lên\' trong 1 hoặc nhấp đúp vào \'chọn\' trong 5. Nhấn giữ trong 1 giây và nhả nút \'chọn\' khi hoàn tất hoặc nút bên trái để bắt đầu lại.</string>
     <string name="enter_password">Nhập Mật Khẩu</string>
     <string name="title_activity_dpad_pw">Nhập mật khẩu</string>
-    <string name="pref_alt_pw_entry_desc">Nhập mật khẩu dạng số chỉ bằng các phím D-Pad</string>
-    <string name="pref_alt_pw_entry">Nhập mật khẩu phím 4 hướng trên remote</string>
+    <string name="pref_alt_pw_entry_desc">Nhập mật khẩu dạng số chỉ bằng các phím mũi tên</string>
+    <string name="pref_alt_pw_entry">Nhập mật khẩu bằng phím mũi tên tùy chỉnh</string>
     <string name="pref_prompt_pw">Nhắc Nhở Mật khẩu</string>
     <string name="pref_authentication_cat">Xác thực</string>
     <string name="settings_title">Cài đặt</string>
@@ -187,7 +187,7 @@
     <string name="lbl_all_items">Tất Cả Các Mục</string>
     <string name="lbl_showing">Hiển thị</string>
     <string name="desc_debug">Cung cấp thêm thông tin để gỡ lỗi</string>
-    <string name="desc_info_panel">Hiển thị bảng có thông tin chi tiết về mục hiện tại cho các màn hình không có thông tin chi tiết</string>
+    <string name="desc_info_panel">Hiển thị bảng thông tin chi tiết về mục hiện tại cho các màn hình không có thông tin chi tiết</string>
     <string name="lbl_enable_debug">Tùy chọn gỡ lỗi</string>
     <string name="lbl_show_info_panel">Hiển thị bảng thông tin</string>
     <string name="lbl_goto_series">Đi tới Loạt Phim</string>
@@ -323,7 +323,7 @@
     <string name="lbl_add_to_queue">Thêm vào hàng đợi</string>
     <string name="msg_total_items_in_queue">" tổng số mục trong hàng đợi"</string>
     <string name="msg_items_added">" mục đã được thêm"</string>
-    <string name="lbl_albums"></string>
+    <string name="lbl_albums"/>
     <string name="lbl_runs">Chạy</string>
     <string name="just_one">Chỉ cái này thôi</string>
     <string name="turn_off">Tắt tùy chọn này</string>
@@ -388,4 +388,13 @@
     <string name="lbl_repeat_episodes">Lặp lại các tập</string>
     <string name="lbl_bitstream_dts">Luồng bit âm thanh DTS</string>
     <string name="pref_audio_direct">Trực tiếp</string>
+    <string name="lbl_resume_preroll">Bắt đầu lại phần đầu</string>
+    <string name="pref_audio_compat">Giảm mức xuống âm thanh nổi</string>
+    <string name="lbl_end_padding">Kết thúc đệm</string>
+    <string name="lbl_begin_padding">Bắt đầu đệm</string>
+    <string name="seek_error">Không thể tua</string>
+    <string name="pref_button_remapping_category">Nút Ánh Xạ</string>
+    <string name="pref_about_title">Thông Tin</string>
+    <string name="lbl_colored_backgrounds">Mã màu Phông nền</string>
+    <string name="lbl_direct_stream_live">Luồng Phát Truyền Hình Trực Tiếp</string>
 </resources>
