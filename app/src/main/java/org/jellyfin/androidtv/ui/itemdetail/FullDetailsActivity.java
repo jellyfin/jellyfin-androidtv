@@ -45,6 +45,7 @@ import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.IRecordingIndicatorView;
 import org.jellyfin.androidtv.ui.RecordPopup;
 import org.jellyfin.androidtv.ui.TextUnderButton;
+import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.shared.IMessageListener;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
@@ -891,18 +892,25 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             mDetailsOverviewRow.addAction(mResumeButton);
             boolean resumeButtonVisible = (mBaseItem.getBaseItemType() == BaseItemType.Series && !mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume());
             mResumeButton.setVisibility(resumeButtonVisible ? View.VISIBLE : View.GONE);
-
-            TextUnderButton play = new TextUnderButton(this, R.drawable.ic_play, buttonSize, 2, getString(BaseItemUtils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    play(mBaseItem, 0, false);
-                }
-            });
-            mDetailsOverviewRow.addAction(play);
+            boolean isPlayerPrefChoose = userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.CHOOSE;
+            TextUnderButton play = null;
+            if (!isPlayerPrefChoose) {
+                play = new TextUnderButton(this, R.drawable.ic_play, buttonSize, 2, getString(BaseItemUtils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        play(mBaseItem, 0, false);
+                    }
+                });
+                mDetailsOverviewRow.addAction(play);    
+            }
+            
             if (resumeButtonVisible) {
                 mResumeButton.requestFocus();
             } else {
-                play.requestFocus();
+                if (!isPlayerPrefChoose) {
+                    play.requestFocus();
+                }
+                
             }
 
             if (!mBaseItem.getIsFolderItem() && !BaseItemUtils.isLiveTv(mBaseItem)) {
@@ -1267,11 +1275,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 more.show();
             }
         });
-        if (userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.EXTERNAL) {
-            playWithButton = new TextUnderButton(this, R.drawable.ic_add, buttonSize, 3, "Play with", new View.OnClickListener() {
+        if (userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.CHOOSE) {
+            playWithButton = new TextUnderButton(this, R.drawable.ic_add, buttonSize, 3, getString(R.string.play_with), new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(mApplication, "Play With Button", Toast.LENGTH_SHORT).show();
                     PopupMenu more = new PopupMenu(mActivity, view);
                     more.inflate(R.menu.menu_details_play_with);
                     more.setOnMenuItemClickListener(playWithMenuListener);
@@ -1345,6 +1352,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             return false;
         }
     };
+    PlaybackController playbackController= new  PlaybackController(MediaManager.getCurrentVideoQueue());
 
     PopupMenu.OnMenuItemClickListener playWithMenuListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
@@ -1352,15 +1360,15 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             switch (item.getItemId()) {
 
                 case R.id.play_with_vlc:
-                        userPreferences.getValue().set(UserPreferences.Companion.getVideoPlayer(), PreferredVideoPlayer.VLC);
+                        userPreferences.getValue().set(UserPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.VLC);
                     play(mBaseItem, 0, false);
                     return true;
                 case R.id.play_with_exo:
-                    userPreferences.getValue().set(UserPreferences.Companion.getVideoPlayer(), PreferredVideoPlayer.EXOPLAYER);
+                    userPreferences.getValue().set(UserPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.EXOPLAYER);
                     play(mBaseItem, 0, false);
                     return true;
                 case R.id.play_with_external:
-                    userPreferences.getValue().set(UserPreferences.Companion.getVideoPlayer(), PreferredVideoPlayer.EXTERNAL);
+                    userPreferences.getValue().set(UserPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.EXTERNAL);
                     play(mBaseItem, 0, false);
                     return true;
 

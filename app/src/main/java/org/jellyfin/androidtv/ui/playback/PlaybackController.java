@@ -112,6 +112,19 @@ public class PlaybackController {
         useVlc = userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.VLC;
     }
 
+    public PlaybackController(List<BaseItemDto> items) {
+        mItems = items;
+        mApplication = TvApp.getApplication();
+        mHandler = new Handler();
+
+        refreshRateSwitchingEnabled = DeviceUtils.is60() && userPreferences.getValue().get(UserPreferences.Companion.getRefreshRateSwitchingEnabled());
+        if (refreshRateSwitchingEnabled) getDisplayModes();
+
+        // Set default value for useVlc field
+        // when set to auto the default will be exoplayer
+        useVlc = userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.VLC;
+    }
+
     public void init(VideoManager mgr) {
         mVideoManager = mgr;
         directStreamLiveTv = userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled());
@@ -478,6 +491,11 @@ public class PlaybackController {
                                                         !internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dts"))) &&
                                         (!DeviceUtils.isFireTvStick() ||
                                                 (vlcResponse.getMediaSource().getVideoStream() != null && vlcResponse.getMediaSource().getVideoStream().getWidth() < 1000));
+                            } else if (preferredVideoPlayer == PreferredVideoPlayer.CHOOSE) {
+                                PreferredVideoPlayer preferredVideoPlayerByPlayWith = userPreferences.getValue().get(UserPreferences.Companion.getChosenPlayer());
+
+
+                                System.out.println("PREFERRED PLAYER " + preferredVideoPlayerByPlayWith.name());
                             }
 
                             Timber.i(useVlc ? "Preferring VLC" : "Will use internal player");

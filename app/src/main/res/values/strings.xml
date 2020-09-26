@@ -349,6 +349,7 @@
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_vlc">libVLC</string>
     <string name="pref_video_player_external">External app</string>
+    <string name="pref_video_player_choose">Always ask</string>
     <string name="pref_about_title">About</string>
     <string name="pref_media_player">Preferred media player</string>
     <string name="pref_next_up_timeout_summary">How long to wait before playing the next item</string>
@@ -403,4 +404,8 @@
     <string name="not_deleted">Item NOT Deleted</string>
     <string name="turn_off">Turn this option off</string>
     <string name="just_one">Just this one</string>
+    <string name="play_with_vlc">Play with Vlc</string>
+    <string name="play_with_exo_player">Play with Exo Player</string>
+    <string name="play_with_external_app">Play with External App</string>
+    <string name="play_with">Play with</string>
 </resources>
