@@ -80,7 +80,6 @@ public class GuideChannelHeader extends RelativeLayout {
         } else {
             setBackground(getResources().getDrawable(R.drawable.light_border));
         }
-//        TvApp.getApplication().getLogger().Debug("Focus on " + mProgram.getName() + " was " + (gainFocus ? "gained" : "lost"));
     }
 
 }

@@ -324,10 +324,13 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 // bring up filter selection
                 showFilterOptions();
                 break;
-                //TODO look more into this
             case KeyEvent.KEYCODE_DPAD_CENTER:
                 if ((event.getFlags() & KeyEvent.FLAG_CANCELED_LONG_PRESS) == 0) {
-                    PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, this);
+                    Date curUTC = TimeUtils.convertToUtcDate(new Date());
+                    if (mSelectedProgram.getStartDate().before(curUTC) && mSelectedProgram.getEndDate().after(curUTC))
+                        PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, this);
+                    else
+                        showProgramOptions();
                     return true;
                 }
             case KeyEvent.KEYCODE_MEDIA_PLAY:
@@ -878,7 +881,6 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         //If not at end of time period - fill in the rest
         if (prevEnd < mCurrentLocalGuideEnd) {
             // fill empty time slot
-            //TODO fill with 30 min slots
             BaseItemDto empty = new BaseItemDto();
             empty.setName("  " + getString(R.string.no_program_data));
             empty.setChannelId(channelId);

@@ -466,9 +466,14 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     public boolean onKeyUp(int keyCode, KeyEvent event){
         if ((event.getFlags() & KeyEvent.FLAG_CANCELED_LONG_PRESS) == 0) {
-            if (mGuideVisible && mSelectedProgram != null && mSelectedProgram.getChannelId() != null)
-                switchChannel(mSelectedProgram.getChannelId());
-            return true;
+            if (mGuideVisible && mSelectedProgram != null && mSelectedProgram.getChannelId() != null) {
+                Date curUTC = TimeUtils.convertToUtcDate(new Date());
+                if (mSelectedProgram.getStartDate().before(curUTC) && mSelectedProgram.getEndDate().after(curUTC))
+                    switchChannel(mSelectedProgram.getChannelId());
+                else
+                    showProgramOptions();
+                return true;
+            }
         }
         return false;
     }
@@ -632,7 +637,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         } else {
             mPlaybackController.stop();
             if (hideGuide)
-            hideGuide();
+                hideGuide();
             apiClient.getValue().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
                 @Override
                 public void onResponse(BaseItemDto response) {
