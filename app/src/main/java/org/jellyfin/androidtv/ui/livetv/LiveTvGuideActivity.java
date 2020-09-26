@@ -327,7 +327,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             case KeyEvent.KEYCODE_DPAD_CENTER:
                 if ((event.getFlags() & KeyEvent.FLAG_CANCELED_LONG_PRESS) == 0) {
                     Date curUTC = TimeUtils.convertToUtcDate(new Date());
-                    if (mSelectedProgram.getStartDate().before(curUTC) && mSelectedProgram.getEndDate().after(curUTC))
+                    if (mSelectedProgram.getStartDate().before(curUTC))
                         PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, this);
                     else
                         showProgramOptions();

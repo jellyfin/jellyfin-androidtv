@@ -468,7 +468,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         if ((event.getFlags() & KeyEvent.FLAG_CANCELED_LONG_PRESS) == 0) {
             if (mGuideVisible && mSelectedProgram != null && mSelectedProgram.getChannelId() != null) {
                 Date curUTC = TimeUtils.convertToUtcDate(new Date());
-                if (mSelectedProgram.getStartDate().before(curUTC) && mSelectedProgram.getEndDate().after(curUTC))
+                if (mSelectedProgram.getStartDate().before(curUTC))
                     switchChannel(mSelectedProgram.getChannelId());
                 else
                     showProgramOptions();
