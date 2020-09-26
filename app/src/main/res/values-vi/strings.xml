@@ -58,7 +58,7 @@
     <string name="msg_video_playback_error">"Xảy Ra Lỗi Khi Phát Video - "</string>
     <string name="lbl_none">Không</string>
     <string name="lbl_recordings">Ghi lại</string>
-    <string name="lbl_videos">Videos</string>
+    <string name="lbl_videos"></string>
     <string name="lbl_people">Mọi người</string>
     <string name="lbl_tv">TV</string>
     <string name="lbl_login_as">"Đăng nhập với tư cách "</string>
@@ -130,12 +130,12 @@
     <string name="enter_password">Nhập Mật Khẩu</string>
     <string name="title_activity_dpad_pw">Nhập mật khẩu</string>
     <string name="pref_alt_pw_entry_desc">Nhập mật khẩu dạng số chỉ bằng các phím D-Pad</string>
-    <string name="pref_alt_pw_entry">Nhập mật khẩu D-Pad tùy chỉnh</string>
-    <string name="pref_prompt_pw">Nhắc lại Mật khẩu</string>
+    <string name="pref_alt_pw_entry">Nhập mật khẩu phím 4 hướng trên remote</string>
+    <string name="pref_prompt_pw">Nhắc Nhở Mật khẩu</string>
     <string name="pref_authentication_cat">Xác thực</string>
     <string name="settings_title">Cài đặt</string>
     <string name="pref_auto_login">Tự động đăng nhập với tư cách người dùng này</string>
-    <string name="pref_max_bitrate_title">Tốc độ bit truyền tối đa</string>
+    <string name="pref_max_bitrate_title">Tốc độ bit phát trực tiếp tối đa</string>
     <string name="pref_playback">Trình Phát</string>
     <string name="pref_show_login">Hiển thị màn hình đăng nhập</string>
     <string name="pref_login_behavior_title">Hành động Khởi động</string>
@@ -298,7 +298,7 @@
     <string name="lbl_new_premieres">Công chiếu mới</string>
     <string name="lbl_forget">Quên</string>
     <string name="lbl_switch_server">Chuyển đổi máy chủ</string>
-    <string name="desc_automatic_fav_songs">Danh sách phát tự động các bài hát được yêu thích và mục yêu thích</string>
+    <string name="desc_automatic_fav_songs">Danh sách phát tự động bài hát yêu thích và mục yêu thích</string>
     <string name="desc_seasonal_themes">Hiển thị các màu và gợi ý đặc biệt vào những thời điểm nhất định trong năm</string>
     <string name="lbl_enable_seasonal_themes">Chủ đề theo mùa</string>
     <string name="msg_replace_or_add_queue_q">Bạn có muốn thay thế hàng đợi hiện tại hoặc thêm vào hàng đợi đó không\?</string>
@@ -323,7 +323,7 @@
     <string name="lbl_add_to_queue">Thêm vào hàng đợi</string>
     <string name="msg_total_items_in_queue">" tổng số mục trong hàng đợi"</string>
     <string name="msg_items_added">" mục đã được thêm"</string>
-    <string name="lbl_albums">Albums</string>
+    <string name="lbl_albums"></string>
     <string name="lbl_runs">Chạy</string>
     <string name="just_one">Chỉ cái này thôi</string>
     <string name="turn_off">Tắt tùy chọn này</string>
