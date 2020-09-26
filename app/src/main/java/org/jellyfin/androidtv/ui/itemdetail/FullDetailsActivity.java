@@ -45,6 +45,7 @@ import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.IRecordingIndicatorView;
 import org.jellyfin.androidtv.ui.RecordPopup;
 import org.jellyfin.androidtv.ui.TextUnderButton;
+import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.shared.IMessageListener;
@@ -1369,7 +1370,19 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     return true;
                 case R.id.play_with_external:
                     userPreferences.getValue().set(UserPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.EXTERNAL);
-                    play(mBaseItem, 0, false);
+                    PlaybackHelper.getItemsToPlay(mBaseItem, false , false, new Response<List<BaseItemDto>>() {
+                        @Override
+                        public void onResponse(List<BaseItemDto> response) {
+                            if (mBaseItem.getBaseItemType() == BaseItemType.MusicArtist) {
+                                MediaManager.playNow(response);
+                            } else {
+                                Intent intent = new Intent(FullDetailsActivity.this, ExternalPlayerActivity.class);
+                                MediaManager.setCurrentVideoQueue(response);
+                                intent.putExtra("Position", 0);
+                                startActivity(intent);
+                            }
+                        }
+                    });
                     return true;
 
             }
@@ -1523,14 +1536,14 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
-        final Activity activity = this;
+
         PlaybackHelper.getItemsToPlay(item, pos == 0 && item.getBaseItemType() == BaseItemType.Movie, shuffle, new Response<List<BaseItemDto>>() {
             @Override
             public void onResponse(List<BaseItemDto> response) {
                 if (item.getBaseItemType() == BaseItemType.MusicArtist) {
                     MediaManager.playNow(response);
                 } else {
-                    Intent intent = new Intent(activity, mApplication.getPlaybackActivityClass(item.getBaseItemType()));
+                    Intent intent = new Intent(FullDetailsActivity.this, mApplication.getPlaybackActivityClass(item.getBaseItemType()));
                     MediaManager.setCurrentVideoQueue(response);
                     intent.putExtra("Position", pos);
                     startActivity(intent);

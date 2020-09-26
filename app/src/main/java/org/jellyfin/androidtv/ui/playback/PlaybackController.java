@@ -493,7 +493,12 @@ public class PlaybackController {
                                                 (vlcResponse.getMediaSource().getVideoStream() != null && vlcResponse.getMediaSource().getVideoStream().getWidth() < 1000));
                             } else if (preferredVideoPlayer == PreferredVideoPlayer.CHOOSE) {
                                 PreferredVideoPlayer preferredVideoPlayerByPlayWith = userPreferences.getValue().get(UserPreferences.Companion.getChosenPlayer());
-
+                                if (preferredVideoPlayerByPlayWith == PreferredVideoPlayer.VLC) {
+                                    useVlc = true;
+                                } else if (preferredVideoPlayerByPlayWith == PreferredVideoPlayer.EXOPLAYER) {
+                                    // Make sure to not use VLC
+                                    useVlc = false;
+                                }
 
                                 System.out.println("PREFERRED PLAYER " + preferredVideoPlayerByPlayWith.name());
                             }
