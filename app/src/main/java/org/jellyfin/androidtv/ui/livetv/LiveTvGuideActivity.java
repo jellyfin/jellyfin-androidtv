@@ -601,6 +601,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             mHd.setChecked(prefs.showHDIndicator);
             mRepeat.setChecked(prefs.showRepeatIndicator);
             mLive.setChecked(prefs.showLiveIndicator);
+            mFavTop.setChecked(prefs.favsAtTop);
             mNew.setChecked(prefs.showNewIndicator);
             mRepeat.setChecked(prefs.showRepeatIndicator);
             mColorCode.setChecked(prefs.colorCodeGuide);
