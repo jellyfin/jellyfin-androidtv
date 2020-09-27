@@ -815,7 +815,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 empty.setName("  " + getString(R.string.no_program_data));
                 empty.setChannelId(channelId);
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*slot) * 60000))));
-                empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30+(slot+1)) * 60000))));
+                empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*(slot+1)) * 60000))));
                 ProgramGridCell cell = new ProgramGridCell(this, this, empty, false);
                 cell.setId(currentCellId++);
                 cell.setLayoutParams(new ViewGroup.LayoutParams(30 * PIXELS_PER_MINUTE, ROW_HEIGHT));
@@ -826,7 +826,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 if (slot == (minutes / 30) - 1)
                     cell.setLast();
                 slot++;
-            } while((30*slot)*60000 < minutes*60000);
+            } while((30*slot) < minutes);
             return programRow;
         }
 
