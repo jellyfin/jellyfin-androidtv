@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.preference
 
 import android.content.Context
+import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 
 /**
  * System preferences are not possible to modify by the user.
@@ -59,5 +60,11 @@ class SystemPreferences(context: Context) : SharedPreferenceStore(
 		 * Stores whether the sports filter is active in the channel guide or not
 		 */
 		val liveTvGuideFilterSports = Preference.boolean("guide_filter_sports", false)
+
+		/**
+		 * chosen player for play with button - changes every time user chooses a player with "play with" button
+		 */
+
+		var chosenPlayer = Preference.enum("chosen_player", PreferredVideoPlayer.VLC)
 	}
 }

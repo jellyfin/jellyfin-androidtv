@@ -40,6 +40,7 @@ import org.jellyfin.androidtv.data.model.InfoItem;
 import org.jellyfin.androidtv.data.querying.SpecialsQuery;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.querying.TrailersQuery;
+import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.IRecordingIndicatorView;
@@ -145,6 +146,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<GsonJsonSerializer> serializer = inject(GsonJsonSerializer.class);
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
+    private Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -843,7 +845,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private TextUnderButton queueButton = null;
     private TextUnderButton deleteButton = null;
     private TextUnderButton moreButton;
-    private TextUnderButton playWithButton = null;
+    private TextUnderButton playButton = null;
 
     private void addButtons(int buttonSize) {
         String buttonLabel;
@@ -889,65 +891,72 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             }
         });
 
-        if (BaseItemUtils.canPlay(mBaseItem)) {
-            mDetailsOverviewRow.addAction(mResumeButton);
-            boolean resumeButtonVisible = (mBaseItem.getBaseItemType() == BaseItemType.Series && !mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume());
-            mResumeButton.setVisibility(resumeButtonVisible ? View.VISIBLE : View.GONE);
-            boolean isPlayerPrefChoose = userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.CHOOSE;
-            TextUnderButton play = null;
-            if (!isPlayerPrefChoose) {
-                play = new TextUnderButton(this, R.drawable.ic_play, buttonSize, 2, getString(BaseItemUtils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
+        //playButton becomes playWith button
+        if (userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.CHOOSE) {
+            playButton = new TextUnderButton(this, R.drawable.ic_add, buttonSize, 3, getString(R.string.play_with), new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    PopupMenu more = new PopupMenu(mActivity, view);
+                    more.inflate(R.menu.menu_details_play_with);
+                    more.setOnMenuItemClickListener(playWithMenuListener);
+                    more.show();
+                }
+            });
+            mDetailsOverviewRow.addAction(playButton);
+        } else { //here playButton is only a play button
+            if (BaseItemUtils.canPlay(mBaseItem)) {
+                mDetailsOverviewRow.addAction(mResumeButton);
+                boolean resumeButtonVisible = (mBaseItem.getBaseItemType() == BaseItemType.Series && !mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume());
+                mResumeButton.setVisibility(resumeButtonVisible ? View.VISIBLE : View.GONE);
+
+                playButton = new TextUnderButton(this, R.drawable.ic_play, buttonSize, 2, getString(BaseItemUtils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         play(mBaseItem, 0, false);
                     }
                 });
-                mDetailsOverviewRow.addAction(play);    
-            }
-            
-            if (resumeButtonVisible) {
-                mResumeButton.requestFocus();
-            } else {
-                if (!isPlayerPrefChoose) {
-                    play.requestFocus();
+
+                mDetailsOverviewRow.addAction(playButton);
+
+                if (resumeButtonVisible) {
+                    mResumeButton.requestFocus();
+                } else {
+                    playButton.requestFocus();
                 }
-                
-            }
 
-            if (!mBaseItem.getIsFolderItem() && !BaseItemUtils.isLiveTv(mBaseItem)) {
-                queueButton = new TextUnderButton(this, R.drawable.ic_add, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        addItemToQueue();
-                    }
-                });
-                mDetailsOverviewRow.addAction(queueButton);
-            }
+                if (!mBaseItem.getIsFolderItem() && !BaseItemUtils.isLiveTv(mBaseItem)) {
+                    queueButton = new TextUnderButton(this, R.drawable.ic_add, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            addItemToQueue();
+                        }
+                    });
+                    mDetailsOverviewRow.addAction(queueButton);
+                }
 
-            if (mBaseItem.getIsFolderItem()) {
-                TextUnderButton shuffle = new TextUnderButton(this, R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        play(mBaseItem, 0, true);
-                    }
-                });
-                mDetailsOverviewRow.addAction(shuffle);
-            }
+                if (mBaseItem.getIsFolderItem()) {
+                    TextUnderButton shuffle = new TextUnderButton(this, R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            play(mBaseItem, 0, true);
+                        }
+                    });
+                    mDetailsOverviewRow.addAction(shuffle);
+                }
 
-            if (mBaseItem.getBaseItemType() == BaseItemType.MusicArtist) {
-                TextUnderButton imix = new TextUnderButton(this, R.drawable.ic_mix, buttonSize, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Utils.beep();
-                        PlaybackHelper.playInstantMix(mBaseItem.getId());
-                    }
-                });
-                mDetailsOverviewRow.addAction(imix);
-            }
+                if (mBaseItem.getBaseItemType() == BaseItemType.MusicArtist) {
+                    TextUnderButton imix = new TextUnderButton(this, R.drawable.ic_mix, buttonSize, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Utils.beep();
+                            PlaybackHelper.playInstantMix(mBaseItem.getId());
+                        }
+                    });
+                    mDetailsOverviewRow.addAction(imix);
+                }
 
+            }
         }
-
-
 
         if (mBaseItem.getLocalTrailerCount() != null && mBaseItem.getLocalTrailerCount() > 0) {
             TextUnderButton trailer = new TextUnderButton(this, R.drawable.ic_trailer, buttonSize, getString(R.string.lbl_play_trailers), new View.OnClickListener() {
@@ -1276,18 +1285,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 more.show();
             }
         });
-        if (userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.CHOOSE) {
-            playWithButton = new TextUnderButton(this, R.drawable.ic_add, buttonSize, 3, getString(R.string.play_with), new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    PopupMenu more = new PopupMenu(mActivity, view);
-                    more.inflate(R.menu.menu_details_play_with);
-                    more.setOnMenuItemClickListener(playWithMenuListener);
-                    more.show();
-                }
-            });
-            mDetailsOverviewRow.addAction(playWithButton);
-        }
+
 
         moreButton.setVisibility(View.GONE);
         mDetailsOverviewRow.addAction(moreButton);
@@ -1353,23 +1351,22 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             return false;
         }
     };
-    PlaybackController playbackController= new  PlaybackController(MediaManager.getCurrentVideoQueue());
 
-    PopupMenu.OnMenuItemClickListener playWithMenuListener = new PopupMenu.OnMenuItemClickListener() {
+    private PopupMenu.OnMenuItemClickListener playWithMenuListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             switch (item.getItemId()) {
 
                 case R.id.play_with_vlc:
-                        userPreferences.getValue().set(UserPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.VLC);
+                    systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.VLC);
                     play(mBaseItem, 0, false);
                     return true;
                 case R.id.play_with_exo:
-                    userPreferences.getValue().set(UserPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.EXOPLAYER);
+                    systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.EXOPLAYER);
                     play(mBaseItem, 0, false);
                     return true;
                 case R.id.play_with_external:
-                    userPreferences.getValue().set(UserPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.EXTERNAL);
+                    systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.EXTERNAL);
                     PlaybackHelper.getItemsToPlay(mBaseItem, false , false, new Response<List<BaseItemDto>>() {
                         @Override
                         public void onResponse(List<BaseItemDto> response) {

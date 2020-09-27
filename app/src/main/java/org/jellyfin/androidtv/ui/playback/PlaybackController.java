@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
+import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.ImageButton;
@@ -57,6 +58,7 @@ public class PlaybackController {
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<PlaybackManager> playbackManager = inject(PlaybackManager.class);
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
+    private Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
 
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
@@ -101,19 +103,6 @@ public class PlaybackController {
     public PlaybackController(List<BaseItemDto> items, IPlaybackOverlayFragment fragment) {
         mItems = items;
         mFragment = fragment;
-        mApplication = TvApp.getApplication();
-        mHandler = new Handler();
-
-        refreshRateSwitchingEnabled = DeviceUtils.is60() && userPreferences.getValue().get(UserPreferences.Companion.getRefreshRateSwitchingEnabled());
-        if (refreshRateSwitchingEnabled) getDisplayModes();
-
-        // Set default value for useVlc field
-        // when set to auto the default will be exoplayer
-        useVlc = userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.VLC;
-    }
-
-    public PlaybackController(List<BaseItemDto> items) {
-        mItems = items;
         mApplication = TvApp.getApplication();
         mHandler = new Handler();
 
@@ -492,15 +481,11 @@ public class PlaybackController {
                                         (!DeviceUtils.isFireTvStick() ||
                                                 (vlcResponse.getMediaSource().getVideoStream() != null && vlcResponse.getMediaSource().getVideoStream().getWidth() < 1000));
                             } else if (preferredVideoPlayer == PreferredVideoPlayer.CHOOSE) {
-                                PreferredVideoPlayer preferredVideoPlayerByPlayWith = userPreferences.getValue().get(UserPreferences.Companion.getChosenPlayer());
-                                if (preferredVideoPlayerByPlayWith == PreferredVideoPlayer.VLC) {
-                                    useVlc = true;
-                                } else if (preferredVideoPlayerByPlayWith == PreferredVideoPlayer.EXOPLAYER) {
-                                    // Make sure to not use VLC
-                                    useVlc = false;
-                                }
+                                PreferredVideoPlayer preferredVideoPlayerByPlayWith = systemPreferences.getValue().get(SystemPreferences.Companion.getChosenPlayer());
 
-                                System.out.println("PREFERRED PLAYER " + preferredVideoPlayerByPlayWith.name());
+                                useVlc = preferredVideoPlayerByPlayWith == PreferredVideoPlayer.VLC;
+
+                                Timber.i("PREFERRED PLAYER %s", preferredVideoPlayerByPlayWith.name());
                             }
 
                             Timber.i(useVlc ? "Preferring VLC" : "Will use internal player");

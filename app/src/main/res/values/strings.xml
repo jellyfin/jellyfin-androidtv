@@ -405,7 +405,7 @@
     <string name="turn_off">Turn this option off</string>
     <string name="just_one">Just this one</string>
     <string name="play_with_vlc">Play with Vlc</string>
-    <string name="play_with_exo_player">Play with Exo Player</string>
-    <string name="play_with_external_app">Play with External App</string>
+    <string name="play_with_exo_player">Play with ExoPlayer</string>
+    <string name="play_with_external_app">Play with external app</string>
     <string name="play_with">Play with</string>
 </resources>

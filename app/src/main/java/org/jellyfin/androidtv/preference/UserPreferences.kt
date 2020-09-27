@@ -174,12 +174,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Include system logs in crash reports
 		 */
 		var acraIncludeSystemLogs = Preference.boolean(ACRA.PREF_ENABLE_SYSTEM_LOGS, true)
-
-		/**
-		 * chosen player for play with button - changes every time user chooses a player with "play with" button
-		 */
-
-		var chosenPlayer = Preference.enum("chosen_player",PreferredVideoPlayer.VLC)
 	}
 
 	init {
