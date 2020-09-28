@@ -762,27 +762,24 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private void loadGuide() {
         mGuideSpinner.setVisibility(View.VISIBLE);
         fillTimeLine(mGuideHours);
-        if (mAllChannels == null) {
-            TvManager.loadAllChannels(new Response<Integer>() {
-                @Override
-                public void onResponse(Integer ndx) {
-                    if (ndx >= PAGE_SIZE) {
-                        // last channel is not in first page so grab a set where it will be in the middle
-                        ndx = ndx - (PAGE_SIZE / 2);
-                    } else {
-                        ndx = 0; // just start at beginning
-                    }
-
-                    mAllChannels = TvManager.getAllChannels();
-                    if (mAllChannels.size() > 0) {
-                        displayChannels(ndx, PAGE_SIZE);
-                    } else {
-                        mGuideSpinner.setVisibility(View.GONE);
-                    }
+        TvManager.loadAllChannels(new Response<Integer>() {
+            @Override
+            public void onResponse(Integer ndx) {
+                if (ndx >= PAGE_SIZE) {
+                    // last channel is not in first page so grab a set where it will be in the middle
+                    ndx = ndx - (PAGE_SIZE / 2);
+                } else {
+                    ndx = 0; // just start at beginning
                 }
-            });
 
-        }
+                mAllChannels = TvManager.getAllChannels();
+                if (mAllChannels.size() > 0) {
+                    displayChannels(ndx, PAGE_SIZE);
+                } else {
+                    mGuideSpinner.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     public void displayChannels(int start, int max) {
@@ -903,7 +900,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             mFilterStatus.setText(" for next " + mGuideHours + " hours");
             mFilterStatus.setTextColor(Color.GRAY);
 
-            mGuideSpinner.setVisibility(View.GONE);
             if (firstRow != null) firstRow.requestFocus();
         }
     }

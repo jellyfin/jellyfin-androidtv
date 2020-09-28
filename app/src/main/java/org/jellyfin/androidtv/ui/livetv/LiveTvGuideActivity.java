@@ -237,7 +237,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     }
 
     private void reload() {
-        fillTimeLine(mCurrentLocalGuideStart, getGuideHours());
+        fillTimeLine(System.currentTimeMillis(), getGuideHours());
         displayChannels(mCurrentDisplayChannelStartNdx, PAGE_SIZE);
         mLastLoad = System.currentTimeMillis();
     }
@@ -249,7 +249,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         if (mLoadLastChannel) {
             mLoadLastChannel = false;
             String channel = TvManager.getLastLiveTvChannel();
-            if (channel != null) {
+            if (TvManager.getAllChannelsIndex(channel) != -1) {
                 PlaybackHelper.retrieveAndPlay(channel, false, this);
             } else {
                 doLoad();
@@ -260,7 +260,10 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     }
 
     protected void doLoad() {
-        if (TvManager.shouldForceReload() || System.currentTimeMillis() > mLastLoad + 3600000) {
+        Calendar curTime = Calendar.getInstance();
+        curTime.setTime(new Date());
+
+        if (TvManager.shouldForceReload() || curTime.getTimeInMillis() >= mCurrentLocalGuideStart + 1800000) {
             if (mAllChannels == null) {
                 mAllChannels = TvManager.getAllChannels();
                 if (mAllChannels == null) {
