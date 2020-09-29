@@ -263,7 +263,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         Calendar curTime = Calendar.getInstance();
         curTime.setTime(new Date());
 
-        if (TvManager.shouldForceReload() || curTime.getTimeInMillis() >= mCurrentLocalGuideStart + 1800000) {
+        if (TvManager.shouldForceReload() || curTime.getTimeInMillis() >= mCurrentLocalGuideStart + 1800000  || mChannels.getChildCount() == 0) {
             if (mAllChannels == null) {
                 mAllChannels = TvManager.getAllChannels();
                 if (mAllChannels == null) {
