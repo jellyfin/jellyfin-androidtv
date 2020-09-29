@@ -13,6 +13,7 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.model.LogonCredentials;
 import org.jellyfin.androidtv.ui.browsing.MainActivity;
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity;
+import org.jellyfin.androidtv.ui.shared.KeyboardFocusChangeListener;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
@@ -32,6 +33,7 @@ public class AuthenticationHelper {
         final EditText address = new EditText(activity);
         address.setHint(activity.getString(R.string.lbl_ip_hint));
         address.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
+        address.setOnFocusChangeListener(new KeyboardFocusChangeListener());
         new AlertDialog.Builder(activity)
                 .setTitle(activity.getString(R.string.lbl_enter_server_address))
                 .setMessage(activity.getString(R.string.lbl_valid_server_address))
@@ -55,6 +57,7 @@ public class AuthenticationHelper {
     public static void enterManualUser(final Activity activity) {
         final EditText userName = new EditText(activity);
         userName.setInputType(InputType.TYPE_CLASS_TEXT);
+        userName.setOnFocusChangeListener(new KeyboardFocusChangeListener());
         new AlertDialog.Builder(activity)
                 .setTitle(activity.getString(R.string.lbl_enter_user_name))
                 .setView(userName)
@@ -68,6 +71,7 @@ public class AuthenticationHelper {
                 Timber.d("Entered user: %s", userValue);
                 final EditText userPw = new EditText(activity);
                 userPw.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                userPw.setOnFocusChangeListener(new KeyboardFocusChangeListener());
                 new AlertDialog.Builder(activity)
                         .setTitle(activity.getString(R.string.lbl_enter_user_pw))
                         .setView(userPw)
