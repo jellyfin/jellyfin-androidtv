@@ -371,4 +371,8 @@
     <string name="grid_direction_horizontal">Horisontal</string>
     <string name="pref_device_model">Enhedsmodel</string>
     <string name="grid_direction">Grid retning</string>
+    <string name="password_prompt">Tast kodeord</string>
+    <string name="no_player">Ingen afspiller</string>
+    <string name="mark_watched">Set</string>
+    <string name="bitrate_auto">Auto</string>
 </resources>
