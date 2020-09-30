@@ -329,6 +329,8 @@
     <string name="title_suggestions_holiday">Happy Holidays!</string>
     <string name="desc_suggestions_holiday">Try some of our holiday suggestions</string>
     <string name="lbl_latest_tv_shows">Latest TV Shows</string>
+    <string name="lbl_tv_channel_status">%1$d of %2$d channels</string>
+    <string name="lbl_tv_filter_status"> for next %1$d hours</string>
     <string name="lbl_news">News</string>
     <string name="lbl_new_only">New Only</string>
     <string name="lbl_audio_delay">Audio Delay</string>

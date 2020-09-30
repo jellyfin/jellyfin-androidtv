@@ -251,8 +251,10 @@ public class TvManager {
             if (prefs.favsAtTop) {
                 Collections.sort(allChannels, new Comparator<ChannelInfoDto>() {
                     @Override
-                    public int compare(ChannelInfoDto channelInfoDto, ChannelInfoDto t1) {
-                        return -Boolean.compare(channelInfoDto.getUserData().getIsFavorite(), t1.getUserData().getIsFavorite());
+                    public int compare(ChannelInfoDto channelOne, ChannelInfoDto channelTwo) {
+                        boolean channelOneFav = channelOne.getUserData() != null && channelOne.getUserData().getIsFavorite();
+                        boolean channelTwoFav = channelTwo.getUserData() != null && channelTwo.getUserData().getIsFavorite();
+                        return -Boolean.compare(channelOneFav, channelTwoFav);
                     }
                 });
             }

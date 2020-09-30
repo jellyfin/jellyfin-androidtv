@@ -103,12 +103,12 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             mSubtitlesSurface.setVisibility(View.GONE);
         }
 
-        mExoPlayer = new SimpleExoPlayer.Builder(TvApp.getApplication(), new DefaultRenderersFactory(TvApp.getApplication()) {
+        mExoPlayer = new SimpleExoPlayer.Builder(TvApp.getApplication(), (new DefaultRenderersFactory(TvApp.getApplication()) {
             @Override
             protected void buildTextRenderers(Context context, TextOutput output, Looper outputLooper, int extensionRendererMode, ArrayList<Renderer> out) {
                 // Do not add text renderers since we handle subtitles
             }
-        }).build();
+        }).setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF)).build();
 
 
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);

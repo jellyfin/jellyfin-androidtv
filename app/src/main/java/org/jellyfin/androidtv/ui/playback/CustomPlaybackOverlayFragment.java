@@ -896,8 +896,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 mProgramRows.addView(new GuidePagingButton(mActivity, mFragment, mCurrentDisplayChannelEndNdx + 1, getString(R.string.lbl_load_channels) + mAllChannels.get(mCurrentDisplayChannelEndNdx + 1).getNumber() + " - " + mAllChannels.get(pageDnEnd).getNumber()));
             }
 
-            mChannelStatus.setText(displayedChannels + " of " + mAllChannels.size() + " channels");
-            mFilterStatus.setText(" for next " + mGuideHours + " hours");
+            mChannelStatus.setText(getResources().getString(R.string.lbl_tv_channel_status, displayedChannels, mAllChannels.size()));
+            mFilterStatus.setText(getResources().getString(R.string.lbl_tv_filter_status, mGuideHours));
             mFilterStatus.setTextColor(Color.GRAY);
 
             if (firstRow != null) firstRow.requestFocus();
