@@ -26,9 +26,9 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -121,7 +121,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private LinearLayout mChannels;
     private LinearLayout mTimeline;
     private LinearLayout mProgramRows;
-    private ScrollView mChannelScroller;
+    private ObservableScrollView mChannelScroller;
     private HorizontalScrollView mTimelineScroller;
     private View mGuideSpinner;
 
@@ -134,7 +134,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private long mCurrentLocalGuideEnd;
     private int mCurrentDisplayChannelStartNdx = 0;
     private int mCurrentDisplayChannelEndNdx = 0;
-    private int mGuideHours = 6;
+    private int mGuideHours = 9;
     private List<ChannelInfoDto> mAllChannels;
     private String mFirstFocusChannelId;
 
@@ -316,6 +316,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             }
         });
 
+        mChannelScroller.setScrollViewListener(new ScrollViewListener() {
+            @Override
+            public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+                programVScroller.scrollTo(x, y);
+            }
+        });
+
         mTimelineScroller = mActivity.findViewById(R.id.timelineHScroller);
         mTimelineScroller.setFocusable(false);
         mTimelineScroller.setFocusableInTouchMode(false);
@@ -344,6 +351,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 if (message.equals(CustomMessage.ActionComplete)) dismissProgramOptions();
             }
         });
+
+        mActivity.getOnBackPressedDispatcher().addCallback(backPressedCallback);
 
 
         Intent intent = mActivity.getIntent();
@@ -436,27 +445,76 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         }
     };
 
+    private OnBackPressedCallback backPressedCallback = new OnBackPressedCallback(true) {
+
+        @Override
+        public void handleOnBackPressed() {
+            if (mPopupPanelVisible) {
+                // back should just hide the popup panel
+                hidePopupPanel();
+                leanbackOverlayFragment.hideOverlay();
+
+                // also close this if live tv
+                if (mPlaybackController.isLiveTv()) hide();
+            } else if (mGuideVisible) {
+                hideGuide();
+            } else {
+                mActivity.finish();
+            }
+        }
+    };
+
+    public boolean onKeyUp(int keyCode, KeyEvent event){
+        if ((event.getFlags() & KeyEvent.FLAG_CANCELED_LONG_PRESS) == 0) {
+            if (mGuideVisible && mSelectedProgram != null && mSelectedProgram.getChannelId() != null) {
+                Date curUTC = TimeUtils.convertToUtcDate(new Date());
+                if (mSelectedProgram.getStartDate().before(curUTC))
+                    switchChannel(mSelectedProgram.getChannelId());
+                else
+                    showProgramOptions();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean onKeyLongPress(int keyCode, KeyEvent event){
+        showProgramOptions();
+        return true;
+    }
+
     private View.OnKeyListener keyListener = new View.OnKeyListener() {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                leanbackOverlayFragment.setShouldShowOverlay(true);
+                if (!mGuideVisible)
+                    leanbackOverlayFragment.setShouldShowOverlay(true);
+                else {
+                    leanbackOverlayFragment.setShouldShowOverlay(false);
+                    leanbackOverlayFragment.hideOverlay();
+                }
+
                 if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP && mActivity != null && !mActivity.isFinishing()) {
                     mActivity.finish();
                     return true;
                 }
 
-                if (mPopupPanelVisible && (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE)) {
-                    // back should just hide the popup panel
-                    hidePopupPanel();
-                    leanbackOverlayFragment.hideOverlay();
+                if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B || keyCode == KeyEvent.KEYCODE_ESCAPE) {
+                    if (mPopupPanelVisible) {
+                        // back should just hide the popup panel
+                        hidePopupPanel();
+                        leanbackOverlayFragment.hideOverlay();
 
-                    // also close this if live tv
-                    if (mPlaybackController.isLiveTv()) hide();
-                    return true;
+                        // also close this if live tv
+                        if (mPlaybackController.isLiveTv()) hide();
+                        return true;
+                    } else if (mGuideVisible) {
+                        hideGuide();
+                        return true;
+                    }
                 }
 
-                if (mPlaybackController.isLiveTv() && !mPopupPanelVisible && keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                if (mPlaybackController.isLiveTv() && !mPopupPanelVisible && !mGuideVisible && keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
                     if (!leanbackOverlayFragment.isControlsOverlayVisible()) {
                         leanbackOverlayFragment.setShouldShowOverlay(false);
                         leanbackOverlayFragment.hideOverlay();
@@ -465,7 +523,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     }
                 }
 
-                if (mPopupPanelVisible && keyCode == KeyEvent.KEYCODE_DPAD_LEFT && mPopupRowPresenter.getPosition() == 0) {
+                if (mPopupPanelVisible && !mGuideVisible && keyCode == KeyEvent.KEYCODE_DPAD_LEFT && mPopupRowPresenter.getPosition() == 0) {
                     mPopupRowsFragment.getView().requestFocus();
                     mPopupRowPresenter.setPosition(0);
                     return true;
@@ -482,7 +540,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         switchChannel(mSelectedProgram.getChannelId());
                         return true;
                     } else {
-                        return false;
+                        return true;
                     }
                 }
 
@@ -567,13 +625,19 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     public void switchChannel(String id) {
+        switchChannel(id, true);
+    }
+
+    public void switchChannel(String id, boolean hideGuide) {
         if (id == null) return;
         if (mPlaybackController.getCurrentlyPlayingItem().getId().equals(id)) {
             // same channel, just dismiss overlay
-            hideGuide();
+            if (hideGuide)
+                hideGuide();
         } else {
             mPlaybackController.stop();
-            hideGuide();
+            if (hideGuide)
+                hideGuide();
             apiClient.getValue().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
                 @Override
                 public void onResponse(BaseItemDto response) {
@@ -670,6 +734,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     public void showGuide() {
         hide();
+        leanbackOverlayFragment.setShouldShowOverlay(false);
+        leanbackOverlayFragment.hideOverlay();
         mPlaybackController.mVideoManager.contractVideo(Utils.convertDpToPixel(mActivity, 300));
         mTvGuide.setVisibility(View.VISIBLE);
         mGuideVisible = true;
@@ -679,6 +745,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             Calendar needLoadTime = (Calendar) mCurrentGuideStart.clone();
             needLoadTime.add(Calendar.MINUTE, 30);
             needLoad = now.after(needLoadTime);
+            if (mSelectedProgramView != null)
+                mSelectedProgramView.requestFocus();
         }
         if (needLoad) {
             loadGuide();
@@ -687,34 +755,31 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     private void hideGuide() {
         mTvGuide.setVisibility(View.GONE);
-        mPlaybackController.mVideoManager.setVideoFullSize();
+        mPlaybackController.mVideoManager.setVideoFullSize(true);
         mGuideVisible = false;
     }
 
     private void loadGuide() {
         mGuideSpinner.setVisibility(View.VISIBLE);
         fillTimeLine(mGuideHours);
-        if (mAllChannels == null) {
-            TvManager.loadAllChannels(new Response<Integer>() {
-                @Override
-                public void onResponse(Integer ndx) {
-                    if (ndx >= PAGE_SIZE) {
-                        // last channel is not in first page so grab a set where it will be in the middle
-                        ndx = ndx - (PAGE_SIZE / 2);
-                    } else {
-                        ndx = 0; // just start at beginning
-                    }
-
-                    mAllChannels = TvManager.getAllChannels();
-                    if (mAllChannels.size() > 0) {
-                        displayChannels(ndx, PAGE_SIZE);
-                    } else {
-                        mGuideSpinner.setVisibility(View.GONE);
-                    }
+        TvManager.loadAllChannels(new Response<Integer>() {
+            @Override
+            public void onResponse(Integer ndx) {
+                if (ndx >= PAGE_SIZE) {
+                    // last channel is not in first page so grab a set where it will be in the middle
+                    ndx = ndx - (PAGE_SIZE / 2);
+                } else {
+                    ndx = 0; // just start at beginning
                 }
-            });
 
-        }
+                mAllChannels = TvManager.getAllChannels();
+                if (mAllChannels.size() > 0) {
+                    displayChannels(ndx, PAGE_SIZE);
+                } else {
+                    mGuideSpinner.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     public void displayChannels(int start, int max) {
@@ -804,7 +869,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 mActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        GuideChannelHeader header = new GuideChannelHeader(mActivity, channel);
+                        GuideChannelHeader header = getChannelHeader(mActivity, channel, true);
                         mChannels.addView(header);
                         header.loadImage();
                         mProgramRows.addView(row);
@@ -831,30 +896,45 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 mProgramRows.addView(new GuidePagingButton(mActivity, mFragment, mCurrentDisplayChannelEndNdx + 1, getString(R.string.lbl_load_channels) + mAllChannels.get(mCurrentDisplayChannelEndNdx + 1).getNumber() + " - " + mAllChannels.get(pageDnEnd).getNumber()));
             }
 
-            mChannelStatus.setText(displayedChannels + " of " + mAllChannels.size() + " channels");
-            mFilterStatus.setText(" for next " + mGuideHours + " hours");
+            mChannelStatus.setText(getResources().getString(R.string.lbl_tv_channel_status, displayedChannels, mAllChannels.size()));
+            mFilterStatus.setText(getResources().getString(R.string.lbl_tv_filter_status, mGuideHours));
             mFilterStatus.setTextColor(Color.GRAY);
 
-            mGuideSpinner.setVisibility(View.GONE);
             if (firstRow != null) firstRow.requestFocus();
         }
     }
 
     private int currentCellId = 0;
 
+    private GuideChannelHeader getChannelHeader(Context context, ChannelInfoDto channel, boolean focusable){
+        return new GuideChannelHeader(context, this, channel, focusable);
+    }
+
     private LinearLayout getProgramRow(List<BaseItemDto> programs, String channelId) {
         LinearLayout programRow = new LinearLayout(mActivity);
         if (programs.size() == 0) {
-            BaseItemDto empty = new BaseItemDto();
-            empty.setName(mApplication.getString(R.string.no_program_data));
-            empty.setChannelId(channelId);
-            empty.setStartDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart)));
-            empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + (150 * 60000))));
-            ProgramGridCell cell = new ProgramGridCell(mActivity, mFragment, empty);
-            cell.setId(currentCellId++);
-            cell.setLayoutParams(new ViewGroup.LayoutParams(150 * PIXELS_PER_MINUTE, LiveTvGuideActivity.ROW_HEIGHT));
-            cell.setFocusable(true);
-            programRow.addView(cell);
+
+            int minutes = ((Long)((mCurrentLocalGuideEnd - mCurrentLocalGuideStart) / 60000)).intValue();
+            int slot = 0;
+
+            do {
+                BaseItemDto empty = new BaseItemDto();
+                empty.setName("  " + getString(R.string.no_program_data));
+                empty.setChannelId(channelId);
+                empty.setStartDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*slot) * 60000))));
+                empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*(slot+1)) * 60000))));
+                ProgramGridCell cell = new ProgramGridCell(mActivity, this, empty, false);
+                cell.setId(currentCellId++);
+                cell.setLayoutParams(new ViewGroup.LayoutParams(30 * PIXELS_PER_MINUTE, LiveTvGuideActivity.ROW_HEIGHT));
+                cell.setFocusable(true);
+                programRow.addView(cell);
+                if (slot == 0)
+                    cell.setFirst();
+                if (slot == (minutes / 30) - 1)
+                    cell.setLast();
+                slot++;
+            } while((30*slot) < minutes);
+
             return programRow;
         }
 
@@ -863,15 +943,17 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             long start = item.getStartDate() != null ? TimeUtils.convertToLocalDate(item.getStartDate()).getTime() : getCurrentLocalStartDate();
             if (start < getCurrentLocalStartDate()) start = getCurrentLocalStartDate();
             if (start > getCurrentLocalEndDate()) continue;
+            if (start < prevEnd) continue;
+
             if (start > prevEnd) {
                 // fill empty time slot
                 BaseItemDto empty = new BaseItemDto();
-                empty.setName("  <No Program Data Available>");
+                empty.setName("  " + getString(R.string.no_program_data));
                 empty.setChannelId(channelId);
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
                 Long duration = (start - prevEnd);
                 empty.setEndDate(TimeUtils.convertToUtcDate(new Date(prevEnd + duration)));
-                ProgramGridCell cell = new ProgramGridCell(mActivity, mFragment, empty);
+                ProgramGridCell cell = new ProgramGridCell(mActivity, mFragment, empty, false);
                 cell.setId(currentCellId++);
                 cell.setLayoutParams(new ViewGroup.LayoutParams(((Long) (duration / 60000)).intValue() * PIXELS_PER_MINUTE, LiveTvGuideActivity.ROW_HEIGHT));
                 cell.setFocusable(true);
@@ -882,10 +964,15 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             prevEnd = end;
             Long duration = (end - start) / 60000;
             if (duration > 0) {
-                ProgramGridCell program = new ProgramGridCell(mActivity, mFragment, item);
+                ProgramGridCell program = new ProgramGridCell(mActivity, mFragment, item, false);
                 program.setId(currentCellId++);
                 program.setLayoutParams(new ViewGroup.LayoutParams(duration.intValue() * PIXELS_PER_MINUTE, LiveTvGuideActivity.ROW_HEIGHT));
                 program.setFocusable(true);
+
+                if (start == getCurrentLocalStartDate())
+                    program.setFirst();
+                if (end == getCurrentLocalEndDate())
+                    program.setLast();
 
                 programRow.addView(program);
             }
@@ -947,22 +1034,22 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private void detailUpdateInternal() {
         mGuideTitle.setText(mSelectedProgram.getName());
         mSummary.setText(mSelectedProgram.getOverview());
+        //info row
+        InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mGuideInfoRow, false, false);
         if (mSelectedProgram.getId() != null) {
             mDisplayDate.setText(TimeUtils.getFriendlyDate(TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
-
-            //info row
-            InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mGuideInfoRow, false, false);
-        } else {
-            mGuideInfoRow.removeAllViews();
         }
 
     }
 
-    public void setSelectedProgram(ProgramGridCell programView) {
-        mSelectedProgramView = programView;
-        mSelectedProgram = programView.getProgram();
-        mHandler.removeCallbacks(detailUpdateTask);
-        mHandler.postDelayed(detailUpdateTask, 500);
+    public void setSelectedProgram(RelativeLayout programView) {
+        if (programView instanceof ProgramGridCell) {
+            ProgramGridCell newView = (ProgramGridCell) programView;
+            mSelectedProgramView = newView;
+            mSelectedProgram = newView.getProgram();
+            mHandler.removeCallbacks(detailUpdateTask);
+            mHandler.postDelayed(detailUpdateTask, 500);
+        }
     }
 
     public void dismissProgramOptions() {

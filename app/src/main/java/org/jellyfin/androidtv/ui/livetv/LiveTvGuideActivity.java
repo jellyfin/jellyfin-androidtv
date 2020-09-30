@@ -22,6 +22,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -236,7 +237,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     }
 
     private void reload() {
-        fillTimeLine(mCurrentLocalGuideStart, getGuideHours());
+        fillTimeLine(System.currentTimeMillis(), getGuideHours());
         displayChannels(mCurrentDisplayChannelStartNdx, PAGE_SIZE);
         mLastLoad = System.currentTimeMillis();
     }
@@ -248,7 +249,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         if (mLoadLastChannel) {
             mLoadLastChannel = false;
             String channel = TvManager.getLastLiveTvChannel();
-            if (channel != null) {
+            if (TvManager.getAllChannelsIndex(channel) != -1) {
                 PlaybackHelper.retrieveAndPlay(channel, false, this);
             } else {
                 doLoad();
@@ -259,7 +260,8 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     }
 
     protected void doLoad() {
-        if (TvManager.shouldForceReload() || System.currentTimeMillis() > mLastLoad + 3600000) {
+
+        if (TvManager.shouldForceReload() || System.currentTimeMillis() >= mCurrentLocalGuideStart + 1800000  || mChannels.getChildCount() == 0) {
             if (mAllChannels == null) {
                 mAllChannels = TvManager.getAllChannels();
                 if (mAllChannels == null) {
@@ -297,12 +299,41 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     }
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode){
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+                event.startTracking();
+                return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+        switch (keyCode){
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+                showProgramOptions();
+                return true;
+        }
+        return super.onKeyLongPress(keyCode, event);
+    }
+
+    @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_MENU:
                 // bring up filter selection
                 showFilterOptions();
                 break;
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+                if ((event.getFlags() & KeyEvent.FLAG_CANCELED_LONG_PRESS) == 0) {
+                    Date curUTC = TimeUtils.convertToUtcDate(new Date());
+                    if (mSelectedProgram.getStartDate().before(curUTC))
+                        PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, this);
+                    else
+                        showProgramOptions();
+                    return true;
+                }
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
                 if ((mDetailPopup == null || !mDetailPopup.isShowing())
@@ -571,6 +602,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             mHd.setChecked(prefs.showHDIndicator);
             mRepeat.setChecked(prefs.showRepeatIndicator);
             mLive.setChecked(prefs.showLiveIndicator);
+            mFavTop.setChecked(prefs.favsAtTop);
             mNew.setChecked(prefs.showNewIndicator);
             mRepeat.setChecked(prefs.showRepeatIndicator);
             mColorCode.setChecked(prefs.colorCodeGuide);
@@ -718,7 +750,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        GuideChannelHeader header = new GuideChannelHeader(mActivity, channel);
+                        GuideChannelHeader header = getChannelHeader(mActivity, channel, false);
                         mChannels.addView(header);
                         header.loadImage();
                         mProgramRows.addView(row);
@@ -767,6 +799,10 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
     private int currentCellId = 0;
 
+    private GuideChannelHeader getChannelHeader(Context context, ChannelInfoDto channel, boolean focusable){
+        return new GuideChannelHeader(context, null, channel, focusable);
+    }
+
     private LinearLayout getProgramRow(List<BaseItemDto> programs, String channelId) {
 
         LinearLayout programRow = new LinearLayout(this);
@@ -774,19 +810,25 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         if (programs.size() == 0) {
             if (mFilters.any()) return null; // don't show rows with no program data
 
-            BaseItemDto empty = new BaseItemDto();
-            int duration = ((Long)((mCurrentLocalGuideEnd - mCurrentLocalGuideStart) / 60000)).intValue();
-            empty.setName("  <No Program Data Available>");
-            empty.setChannelId(channelId);
-            empty.setStartDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart)));
-            empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart+(duration*60000))));
-            ProgramGridCell cell = new ProgramGridCell(this, this, empty);
-            cell.setId(currentCellId++);
-            cell.setLayoutParams(new ViewGroup.LayoutParams(duration * PIXELS_PER_MINUTE, ROW_HEIGHT));
-            cell.setFocusable(true);
-            programRow.addView(cell);
-            cell.setLast();
-            cell.setFirst();
+            int minutes = ((Long)((mCurrentLocalGuideEnd - mCurrentLocalGuideStart) / 60000)).intValue();
+            int slot = 0;
+            do {
+                BaseItemDto empty = new BaseItemDto();
+                empty.setName("  " + getString(R.string.no_program_data));
+                empty.setChannelId(channelId);
+                empty.setStartDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*slot) * 60000))));
+                empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*(slot+1)) * 60000))));
+                ProgramGridCell cell = new ProgramGridCell(this, this, empty, false);
+                cell.setId(currentCellId++);
+                cell.setLayoutParams(new ViewGroup.LayoutParams(30 * PIXELS_PER_MINUTE, ROW_HEIGHT));
+                cell.setFocusable(true);
+                programRow.addView(cell);
+                if (slot == 0)
+                    cell.setFirst();
+                if (slot == (minutes / 30) - 1)
+                    cell.setLast();
+                slot++;
+            } while((30*slot) < minutes);
             return programRow;
         }
 
@@ -796,15 +838,19 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             if (start < getCurrentLocalStartDate()) {
                 start = getCurrentLocalStartDate();
             }
+
+            if (start < prevEnd)
+                continue;
+
             if (start > prevEnd) {
                 // fill empty time slot
                 BaseItemDto empty = new BaseItemDto();
-                empty.setName("  <No Program Data Available>");
+                empty.setName("  " + getString(R.string.no_program_data));
                 empty.setChannelId(channelId);
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
                 Long duration = (start - prevEnd);
                 empty.setEndDate(TimeUtils.convertToUtcDate(new Date(prevEnd+duration)));
-                ProgramGridCell cell = new ProgramGridCell(this, this, empty);
+                ProgramGridCell cell = new ProgramGridCell(this, this, empty, false);
                 cell.setId(currentCellId++);
                 cell.setLayoutParams(new ViewGroup.LayoutParams(((Long)(duration / 60000)).intValue() * PIXELS_PER_MINUTE, ROW_HEIGHT));
                 cell.setFocusable(true);
@@ -819,7 +865,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             Long duration = (end - start) / 60000;
             //TvApp.getApplication().getLogger().Debug("Duration for "+item.getName()+" is "+duration.intValue());
             if (duration > 0) {
-                ProgramGridCell program = new ProgramGridCell(this, this, item);
+                ProgramGridCell program = new ProgramGridCell(this, this, item, false);
                 program.setId(currentCellId++);
                 program.setLayoutParams(new ViewGroup.LayoutParams(duration.intValue() * PIXELS_PER_MINUTE, ROW_HEIGHT));
                 program.setFocusable(true);
@@ -838,12 +884,12 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         if (prevEnd < mCurrentLocalGuideEnd) {
             // fill empty time slot
             BaseItemDto empty = new BaseItemDto();
-            empty.setName("  <No Program Data Available>");
+            empty.setName("  " + getString(R.string.no_program_data));
             empty.setChannelId(channelId);
             empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
             Long duration = (mCurrentLocalGuideEnd - prevEnd);
             empty.setEndDate(TimeUtils.convertToUtcDate(new Date(prevEnd+duration)));
-            ProgramGridCell cell = new ProgramGridCell(this, this, empty);
+            ProgramGridCell cell = new ProgramGridCell(this, this, empty, false);
             cell.setId(currentCellId++);
             cell.setLayoutParams(new ViewGroup.LayoutParams(((Long)(duration / 60000)).intValue() * PIXELS_PER_MINUTE, ROW_HEIGHT));
             cell.setFocusable(true);
@@ -912,13 +958,14 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
         mTitle.setText(mSelectedProgram.getName());
         mSummary.setText(mSelectedProgram.getOverview());
+
+        //info row
+        InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mInfoRow, false, false);
+
         if (mSelectedProgram.getId() != null) {
             mDisplayDate.setText(TimeUtils.getFriendlyDate(TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
             String url = ImageUtils.getPrimaryImageUrl(mSelectedProgram, get(ApiClient.class));
             Glide.with(mActivity).load(url).override(IMAGE_SIZE, IMAGE_SIZE).centerInside().into(mImage);
-
-            //info row
-            InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mInfoRow, false, false);
 
             if (Utils.isTrue(mSelectedProgram.getIsNews())) {
                 mBackdrop.setImageResource(R.drawable.banner_news);
@@ -936,17 +983,18 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 mBackdrop.setImageResource(R.drawable.banner_tv);
             }
         } else {
-            mInfoRow.removeAllViews();
             mBackdrop.setImageResource(R.drawable.banner_tv);
             mImage.setImageResource(R.drawable.blank10x10);
         }
     }
 
-    public void setSelectedProgram(ProgramGridCell programView) {
-        mSelectedProgramView = programView;
-        mSelectedProgram = programView.getProgram();
-        mHandler.removeCallbacks(detailUpdateTask);
-        mHandler.postDelayed(detailUpdateTask, 500);
-        mLastFocusChanged = System.currentTimeMillis();
+    public void setSelectedProgram(RelativeLayout programView) {
+        if (programView instanceof ProgramGridCell) {
+            ProgramGridCell newView = (ProgramGridCell) programView;
+            mSelectedProgramView = newView;
+            mSelectedProgram = newView.getProgram();
+            mHandler.removeCallbacks(detailUpdateTask);
+            mHandler.postDelayed(detailUpdateTask, 500);
+        }
     }
 }

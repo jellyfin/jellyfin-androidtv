@@ -248,6 +248,17 @@ public class TvManager {
                 }));
             }
 
+            if (prefs.favsAtTop) {
+                Collections.sort(allChannels, new Comparator<ChannelInfoDto>() {
+                    @Override
+                    public int compare(ChannelInfoDto channelOne, ChannelInfoDto channelTwo) {
+                        boolean channelOneFav = channelOne.getUserData() != null && channelOne.getUserData().getIsFavorite();
+                        boolean channelTwoFav = channelTwo.getUserData() != null && channelTwo.getUserData().getIsFavorite();
+                        return -Boolean.compare(channelOneFav, channelTwoFav);
+                    }
+                });
+            }
+
             //And  fill in channel IDs
             ndx = fillChannelIds();
         }
