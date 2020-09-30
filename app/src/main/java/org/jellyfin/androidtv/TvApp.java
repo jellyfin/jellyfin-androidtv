@@ -56,6 +56,7 @@ import static org.koin.java.KoinJavaComponent.inject;
 )
 @AcraLimiter
 public class TvApp extends Application {
+    public static final String DISPLAY_PREFS_APP_NAME = "ATV";
     public static final String CREDENTIALS_PATH = "org.jellyfin.androidtv.login.json";
 
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
@@ -218,7 +219,7 @@ public class TvApp extends Application {
     }
 
     public void getDisplayPrefsAsync(String key, Response<DisplayPreferences> response) {
-        getDisplayPrefsAsync(key, "ATV", response);
+        getDisplayPrefsAsync(key, DISPLAY_PREFS_APP_NAME, response);
     }
 
     public void getDisplayPrefsAsync(final String key, String app, final Response<DisplayPreferences> outerResponse) {
@@ -231,7 +232,8 @@ public class TvApp extends Application {
                 public void onResponse(DisplayPreferences response) {
                     if (response.getSortBy() == null) response.setSortBy("SortName");
                     if (response.getCustomPrefs() == null) response.setCustomPrefs(new HashMap<String, String>());
-                    displayPrefsCache.put(key, response);
+                    if (app.equals(TvApp.DISPLAY_PREFS_APP_NAME))
+                        displayPrefsCache.put(key, response);
                     Timber.d("Display prefs loaded and saved in cache %s", key);
                     outerResponse.onResponse(response);
                 }
