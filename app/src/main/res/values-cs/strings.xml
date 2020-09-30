@@ -405,4 +405,6 @@
     <string name="no_player">Žádný přehrávač</string>
     <string name="mark_watched_message">Zdá se, že položka nebyla přehrávána celá. Označit přesto jako zhlédnutou\?</string>
     <string name="mark_watched">Označit jako zhlédnuté</string>
+    <string name="lbl_tv_filter_status">po dalších %1$d hodin</string>
+    <string name="lbl_tv_channel_status">%1$d z %2$d kanálů</string>
 </resources>
