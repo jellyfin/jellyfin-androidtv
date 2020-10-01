@@ -856,7 +856,7 @@ public class PlaybackController {
     }
 
     public void fastForward() {
-        if (System.currentTimeMillis() - lastRewind > 2000) {
+        if (System.currentTimeMillis() - lastFF > 2000) {
             startTime = System.currentTimeMillis();
             speedMultiplier = 1;
         }
@@ -864,7 +864,7 @@ public class PlaybackController {
         if (speedMultiplier > 6)
             speedMultiplier = 6;
         skip((baseSkip*speedMultiplier));
-        lastRewind = System.currentTimeMillis();
+        lastFF = System.currentTimeMillis();
     }
 
     public void skip(int msec) {
