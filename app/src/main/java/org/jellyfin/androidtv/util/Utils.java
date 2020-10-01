@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.text.InputType;
@@ -232,20 +231,5 @@ public class Utils {
         }
 
         return (DeviceUtils.isFireTv() && !DeviceUtils.is50()) || get(UserPreferences.class).get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO;
-    }
-
-    /**
-     * Returns darker version of specified <code>color</code>.
-     */
-    public static int darker(int color, float factor) {
-        int a = Color.alpha(color);
-        int r = Color.red(color);
-        int g = Color.green(color);
-        int b = Color.blue(color);
-
-        return Color.argb(a,
-                Math.max((int) (r * factor), 0),
-                Math.max((int) (g * factor), 0),
-                Math.max((int) (b * factor), 0));
     }
 }
