@@ -1075,10 +1075,28 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     public void setSelectedProgram(RelativeLayout programView) {
         mSelectedProgramView = programView;
-        if (programView instanceof ProgramGridCell) {
+        if (mSelectedProgramView instanceof ProgramGridCell) {
             mSelectedProgram = ((ProgramGridCell)mSelectedProgramView).getProgram();
             mHandler.removeCallbacks(detailUpdateTask);
             mHandler.postDelayed(detailUpdateTask, 500);
+        } else if (mSelectedProgramView instanceof GuideChannelHeader) {
+            for (int i = 0; i < mChannels.getChildCount(); i++) {
+                if (mSelectedProgramView == mChannels.getChildAt(i)) {
+                    LinearLayout programRow = (LinearLayout)mProgramRows.getChildAt(i);
+                    Date utcTime = TimeUtils.convertToUtcDate(new Date());
+                    for (int ii = 0; ii < programRow.getChildCount(); ii++) {
+                        ProgramGridCell prog = (ProgramGridCell)programRow.getChildAt(ii);
+                        if (prog.getProgram() != null && prog.getProgram().getStartDate().before(utcTime) && prog.getProgram().getEndDate().after(utcTime)) {
+                            mSelectedProgram = prog.getProgram();
+                            if (mSelectedProgram != null) {
+                                mHandler.removeCallbacks(detailUpdateTask);
+                                mHandler.postDelayed(detailUpdateTask, 500);
+                            }
+                            return;
+                        }
+                    }
+                }
+            }
         }
     }
 

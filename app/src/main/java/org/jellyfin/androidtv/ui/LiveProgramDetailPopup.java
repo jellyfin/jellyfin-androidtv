@@ -37,7 +37,6 @@ import timber.log.Timber;
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class LiveProgramDetailPopup {
-    private final int MOVIE_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 540);
     private final int NORMAL_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 400);
 
     private PopupWindow mPopup;
