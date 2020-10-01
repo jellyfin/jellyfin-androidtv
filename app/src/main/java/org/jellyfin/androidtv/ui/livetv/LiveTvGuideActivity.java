@@ -561,6 +561,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                     prefs.colorCodeGuide = mColorCode.isChecked();
                     prefs.showRepeatIndicator = mRepeat.isChecked();
                     prefs.channelOrder = mCurrentSort;
+                    prefs.showLiveIndicator = mLive.isChecked();
 
                     TvManager.updatePrefs(prefs);
 
