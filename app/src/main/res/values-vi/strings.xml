@@ -58,7 +58,7 @@
     <string name="msg_video_playback_error">"Xảy Ra Lỗi Khi Phát Video - "</string>
     <string name="lbl_none">Không</string>
     <string name="lbl_recordings">Ghi lại</string>
-    <string name="lbl_videos"/>
+    <string name="lbl_videos">Videos</string>
     <string name="lbl_people">Mọi người</string>
     <string name="lbl_tv">TV</string>
     <string name="lbl_login_as">"Đăng nhập với tư cách "</string>
@@ -323,7 +323,7 @@
     <string name="lbl_add_to_queue">Thêm vào hàng đợi</string>
     <string name="msg_total_items_in_queue">" tổng số mục trong hàng đợi"</string>
     <string name="msg_items_added">" mục đã được thêm"</string>
-    <string name="lbl_albums"/>
+    <string name="lbl_albums">Albums</string>
     <string name="lbl_runs">Chạy</string>
     <string name="just_one">Chỉ cái này thôi</string>
     <string name="turn_off">Tắt tùy chọn này</string>
@@ -397,4 +397,10 @@
     <string name="pref_about_title">Thông Tin</string>
     <string name="lbl_colored_backgrounds">Mã màu Phông nền</string>
     <string name="lbl_direct_stream_live">Luồng Phát Truyền Hình Trực Tiếp</string>
+    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
+    <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
+    <string name="lbl_album">Album</string>
+    <string name="lbl_min">" phút"</string>
+    <string name="lbl_tv_filter_status">trong %1$d giờ tiếp theo</string>
+    <string name="lbl_tv_channel_status">%1$d trong số %2$d kênh</string>
 </resources>
