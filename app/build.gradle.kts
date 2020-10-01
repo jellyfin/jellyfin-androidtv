@@ -77,7 +77,6 @@ dependencies {
 	implementation("androidx.preference:preference-ktx:$androidxPreferenceVersion")
 	implementation("androidx.appcompat:appcompat:1.2.0")
 	implementation("androidx.tvprovider:tvprovider:1.0.0")
-	implementation("androidx.palette:palette:1.0.0")
 	implementation("androidx.constraintlayout:constraintlayout:1.1.3")
 	implementation("androidx.recyclerview:recyclerview:1.1.0")
 	implementation("com.google.android:flexbox:2.0.1")
