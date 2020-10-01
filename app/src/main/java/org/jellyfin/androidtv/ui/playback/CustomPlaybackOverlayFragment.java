@@ -81,6 +81,7 @@ import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.ChapterInfoDto;
+import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackEvent;
@@ -126,7 +127,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private View mGuideSpinner;
 
     private BaseItemDto mSelectedProgram;
-    private ProgramGridCell mSelectedProgramView;
+    private RelativeLayout mSelectedProgramView;
     private boolean mGuideVisible = false;
     private Calendar mCurrentGuideStart;
     private Calendar mCurrentGuideEnd;
@@ -466,21 +467,49 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     public boolean onKeyUp(int keyCode, KeyEvent event){
         if ((event.getFlags() & KeyEvent.FLAG_CANCELED_LONG_PRESS) == 0) {
-            if (mGuideVisible && mSelectedProgram != null && mSelectedProgram.getChannelId() != null) {
+            if (mGuideVisible && mSelectedProgramView instanceof ProgramGridCell && mSelectedProgram != null && mSelectedProgram.getChannelId() != null) {
                 Date curUTC = TimeUtils.convertToUtcDate(new Date());
                 if (mSelectedProgram.getStartDate().before(curUTC))
                     switchChannel(mSelectedProgram.getChannelId());
                 else
                     showProgramOptions();
                 return true;
+            }else if (mSelectedProgramView instanceof GuideChannelHeader) {
+                switchChannel(((GuideChannelHeader)mSelectedProgramView).getChannel().getId(), false);
             }
         }
         return false;
     }
 
     public boolean onKeyLongPress(int keyCode, KeyEvent event){
-        showProgramOptions();
+        if (mSelectedProgramView instanceof ProgramGridCell)
+            showProgramOptions();
+        else if(mSelectedProgramView instanceof GuideChannelHeader)
+            toggleFavorite();
         return true;
+    }
+
+    public void refreshFavorite(String channelId){
+        for (int i = 0; i < mChannels.getChildCount(); i++) {
+            GuideChannelHeader gch = (GuideChannelHeader)mChannels.getChildAt(i);
+            if (gch.getChannel().getId().equals(channelId))
+                gch.refreshFavorite();
+        }
+    }
+
+    private void toggleFavorite() {
+        GuideChannelHeader header = (GuideChannelHeader)mSelectedProgramView;
+        UserItemDataDto data = header.getChannel().getUserData();
+        if (data != null) {
+            apiClient.getValue().UpdateFavoriteStatusAsync(header.getChannel().getId(), TvApp.getApplication().getCurrentUser().getId(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
+                @Override
+                public void onResponse(UserItemDataDto response) {
+                    header.getChannel().setUserData(response);
+                    header.findViewById(R.id.favImage).setVisibility(response.getIsFavorite() ? View.VISIBLE : View.GONE);
+                    TvApp.getApplication().dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
+                }
+            });
+        }
     }
 
     private View.OnKeyListener keyListener = new View.OnKeyListener() {
@@ -869,7 +898,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 mActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        GuideChannelHeader header = getChannelHeader(mActivity, channel, true);
+                        GuideChannelHeader header = getChannelHeader(mActivity, channel);
                         mChannels.addView(header);
                         header.loadImage();
                         mProgramRows.addView(row);
@@ -900,14 +929,16 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             mFilterStatus.setText(getResources().getString(R.string.lbl_tv_filter_status, mGuideHours));
             mFilterStatus.setTextColor(Color.GRAY);
 
+            mGuideSpinner.setVisibility(View.GONE);
+
             if (firstRow != null) firstRow.requestFocus();
         }
     }
 
     private int currentCellId = 0;
 
-    private GuideChannelHeader getChannelHeader(Context context, ChannelInfoDto channel, boolean focusable){
-        return new GuideChannelHeader(context, this, channel, focusable);
+    private GuideChannelHeader getChannelHeader(Context context, ChannelInfoDto channel){
+        return new GuideChannelHeader(context, this, channel);
     }
 
     private LinearLayout getProgramRow(List<BaseItemDto> programs, String channelId) {
@@ -1043,10 +1074,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     public void setSelectedProgram(RelativeLayout programView) {
+        mSelectedProgramView = programView;
         if (programView instanceof ProgramGridCell) {
-            ProgramGridCell newView = (ProgramGridCell) programView;
-            mSelectedProgramView = newView;
-            mSelectedProgram = newView.getProgram();
+            mSelectedProgram = ((ProgramGridCell)mSelectedProgramView).getProgram();
             mHandler.removeCallbacks(detailUpdateTask);
             mHandler.postDelayed(detailUpdateTask, 500);
         }
@@ -1061,13 +1091,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     public void showProgramOptions() {
         if (mSelectedProgram == null) return;
         if (mDetailPopup == null)
-            mDetailPopup = new LiveProgramDetailPopup(mActivity, Utils.convertDpToPixel(mActivity, 600), new EmptyResponse() {
+            mDetailPopup = new LiveProgramDetailPopup(mActivity, this, Utils.convertDpToPixel(mActivity, 600), new EmptyResponse() {
                 @Override
                 public void onResponse() {
                     switchChannel(mSelectedProgram.getChannelId());
                 }
             });
-        mDetailPopup.setContent(mSelectedProgram, mSelectedProgramView);
+        mDetailPopup.setContent(mSelectedProgram, (ProgramGridCell)mSelectedProgramView);
         mDetailPopup.show(mGuideTitle, 0, mGuideTitle.getTop() - 10);
 
     }

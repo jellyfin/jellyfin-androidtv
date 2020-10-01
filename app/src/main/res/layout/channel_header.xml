@@ -35,4 +35,14 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/channelName"
         android:scaleType="center" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/favImage"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/channelImage"
+        android:scaleType="center"
+        android:src="@drawable/ic_heart_red"
+        android:visibility="gone" />
 </RelativeLayout>

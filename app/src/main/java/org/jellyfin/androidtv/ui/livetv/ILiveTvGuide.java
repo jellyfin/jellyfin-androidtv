@@ -7,4 +7,5 @@ public interface ILiveTvGuide {
     public long getCurrentLocalStartDate();
     public void showProgramOptions();
     public void setSelectedProgram(RelativeLayout programView);
+    public void refreshFavorite(String channelId);
 }
