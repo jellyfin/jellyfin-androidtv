@@ -17,13 +17,6 @@ public class VideoPlayerAdapter extends PlayerAdapter {
     private final PlaybackController playbackController;
     private CustomPlaybackOverlayFragment customPlaybackOverlayFragment;
 
-    private long lastFF = 0;
-    private long lastRewind = 0;
-
-    private long startTime = 0;
-    private int baseSkip = 5000;
-    private int speedMultiplier = 1;
-
     VideoPlayerAdapter(PlaybackController playbackController) {
         this.playbackController = playbackController;
     }
