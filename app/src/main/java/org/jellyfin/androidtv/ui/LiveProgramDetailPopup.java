@@ -37,29 +37,29 @@ import timber.log.Timber;
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class LiveProgramDetailPopup {
-    final int MOVIE_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 540);
-    final int NORMAL_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 400);
+    private final int MOVIE_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 540);
+    private final int NORMAL_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 400);
 
-    PopupWindow mPopup;
-    BaseItemDto mProgram;
-    ProgramGridCell mSelectedProgramView;
-    BaseActivity mActivity;
-    ILiveTvGuide mTvGuide;
-    TextView mDTitle;
-    TextView mDSummary;
-    TextView mDRecordInfo;
-    LinearLayout mDTimeline;
-    LinearLayout mDInfoRow;
-    LinearLayout mDButtonRow;
-    LinearLayout mDSimilarRow;
-    Button mFirstButton;
-    Button mSeriesSettingsButton;
+    private PopupWindow mPopup;
+    private BaseItemDto mProgram;
+    private ProgramGridCell mSelectedProgramView;
+    private BaseActivity mActivity;
+    private ILiveTvGuide mTvGuide;
+    private TextView mDTitle;
+    private TextView mDSummary;
+    private TextView mDRecordInfo;
+    private LinearLayout mDTimeline;
+    private LinearLayout mDInfoRow;
+    private LinearLayout mDButtonRow;
+    private LinearLayout mDSimilarRow;
+    private Button mFirstButton;
+    private Button mSeriesSettingsButton;
 
-    EmptyResponse mTuneAction;
+    private EmptyResponse mTuneAction;
 
-    View mAnchor;
-    int mPosLeft;
-    int mPosTop;
+    private View mAnchor;
+    private int mPosLeft;
+    private int mPosTop;
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
