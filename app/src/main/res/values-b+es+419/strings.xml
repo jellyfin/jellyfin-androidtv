@@ -373,4 +373,14 @@
     <string name="pref_subtitle_track_button">Botón de pista de subtítulos</string>
     <string name="pref_audio_track_button">Botón de pista de audio</string>
     <string name="pref_button_remapping_category">Remapeo de botones</string>
+    <string name="clear_expanded">¿Desea limpiar la cola de reproducción de videos\?</string>
+    <string name="lbl_clear">Limpiar</string>
+    <string name="password_prompt_message">Introduzca la contraseña para %1$s</string>
+    <string name="password_prompt">Introducir contraseña</string>
+    <string name="no_player_message">No parece tener instalada una aplicación para reproducir video. Esta opción requiere instalar una aplicación de terceros para reproducir video.</string>
+    <string name="no_player">Reproductor no encontrado</string>
+    <string name="mark_watched_message">Este elemento no parece haberse reproducido completo. ¿Desea marcarlo como visto de todas formas\?</string>
+    <string name="mark_watched">Marcar como visto</string>
+    <string name="lbl_tv_filter_status">Durante las %1$d horas siguientes</string>
+    <string name="lbl_tv_channel_status">%1$d de %2$d canales</string>
 </resources>
