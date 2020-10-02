@@ -403,4 +403,6 @@
     <string name="favorite_error">Erreur d\'enregistrement du statut favori</string>
     <string name="playing_error">Erreur d\'enregistrement du statut de lecture</string>
     <string name="just_one">Celui-ci uniquement</string>
+    <string name="lbl_tv_filter_status">pour les %1$d prochaines heures</string>
+    <string name="lbl_tv_channel_status">%1$d sur %2$d canaux</string>
 </resources>
