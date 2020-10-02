@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="video_error_unknown_error">Fallo al cargar el video</string>
     <string name="txt_loading">Cargando…</string>
-    <string name="title_activity_select_user">SelecionarActividadUsuario</string>
+    <string name="title_activity_select_user">Selecionar Actividad de Usuario</string>
     <string name="home_title">Inicio</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
@@ -373,4 +373,35 @@
     <string name="lbl_unknown_key">Desconocido (%1s)</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
+    <string name="just_one">Unicamente esto</string>
+    <string name="turn_off">Desactive esta opción</string>
+    <string name="not_deleted">Elemento NO Eliminado</string>
+    <string name="lbl_deleted">Se ha eliminado %1$s</string>
+    <string name="favorite_error">Error al introducir el estado de favorito</string>
+    <string name="playing_error">Error al introducir el estado de reproducido</string>
+    <string name="audio_error">No se puede reproducir audio %1$s</string>
+    <string name="msg_added_to_video">Se ha agregado %1$s a la cola de reproducción. Termina: %2$s</string>
+    <string name="msg_queue_saved">Cola de reproducción guardada como nueva lista: %1$s</string>
+    <string name="msg_no_items">No hay elementos para reproducir</string>
+    <string name="subtitle_error">No se puede seleccionar pista de subtítulos</string>
+    <string name="too_many_errors">Demasiados errores. Deteniéndose</string>
+    <string name="player_error">Se ha encontrado un error en el reproductor. Se reintentará...</string>
+    <string name="msg_live_tv_prev">¿Desea cargar las %1$d horas anteriores\?</string>
+    <string name="msg_live_tv_next">¿Desea cargar las %1$d horas siguientes\?</string>
+    <string name="lbl_load_guide_data">Cargar Guía de Programas</string>
+    <string name="lbl_new_playlist_name">Introduzca un nombre para la nueva lista de reproducción</string>
+    <string name="episode_missing_message_2">Este episodio no está presente en la biblioteca. La reproducción se detendrá.</string>
+    <string name="episode_missing_message">Este episodio no está presente en la biblioteca. ¿Desea omitirlo y continuar al siguiente\?</string>
+    <string name="episode_missing">Episodio Faltante</string>
+    <string name="delete_warning">Esto eliminará %1$s PERMANENTEMENTE de la biblioteca. ¿Está seguro\?</string>
+    <string name="clear_expanded">¿Desea limpiar la cola de reproducción de videos\?</string>
+    <string name="lbl_clear">Limpiar</string>
+    <string name="password_prompt_message">Introduzca contraseña para %1$s</string>
+    <string name="password_prompt">Introducir contraseña</string>
+    <string name="no_player_message">Parece que no tiene instalada una aplicación capaz de reproducir video. Esta opción requiere instalar una aplicación de terceros para reproducir videos.</string>
+    <string name="no_player">Reproductor no encontrado</string>
+    <string name="mark_watched_message">El elemento no parece haberse reproducido completo. ¿Desea marcarlo como visto\?</string>
+    <string name="mark_watched">Marcar como visto</string>
+    <string name="lbl_tv_filter_status">durante las próximas %1$d horas</string>
+    <string name="lbl_tv_channel_status">%1$d de %2$d canales</string>
 </resources>
