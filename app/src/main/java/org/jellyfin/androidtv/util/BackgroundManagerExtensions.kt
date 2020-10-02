@@ -1,6 +1,10 @@
 package org.jellyfin.androidtv.util
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.ColorFilter
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import androidx.leanback.app.BackgroundManager
 import com.bumptech.glide.Glide
@@ -27,6 +31,9 @@ fun BackgroundManager.drawable(
 			}
 
 			override fun onResourceReady(resource: Drawable?, model: Any, target: Target<Drawable?>, dataSource: DataSource, isFirstResource: Boolean): Boolean {
+				val filter: ColorFilter = PorterDuffColorFilter(Color.BLACK, PorterDuff.Mode.DST_OVER)
+				resource?.colorFilter = filter
+				resource?.alpha = 50
 				drawable = resource
 				return true
 			}
