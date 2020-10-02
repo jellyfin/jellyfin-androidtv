@@ -383,4 +383,25 @@
     <string name="mark_watched">Marcar como visto</string>
     <string name="lbl_tv_filter_status">Durante las %1$d horas siguientes</string>
     <string name="lbl_tv_channel_status">%1$d de %2$d canales</string>
+    <string name="just_one">Únicamente esto</string>
+    <string name="turn_off">Desactivar esta opción</string>
+    <string name="not_deleted">Elemento no eliminado</string>
+    <string name="lbl_deleted">Se ha eliminado %1$s</string>
+    <string name="favorite_error">Error al introducir estado de favorito</string>
+    <string name="playing_error">Error al introducir estado de reproducción</string>
+    <string name="audio_error">No se pudo reproducir audio %1$s</string>
+    <string name="msg_added_to_video">Se ha agregado %1$s a la cola de reproducción. Termina: %2$s</string>
+    <string name="msg_queue_saved">Cola de reproducción guardada como lista: %1$s</string>
+    <string name="msg_no_items">No hay elementos para reproducir</string>
+    <string name="subtitle_error">No se pudo seleccionar el subtítulo</string>
+    <string name="too_many_errors">Demasiados errores. Deteniéndose</string>
+    <string name="player_error">Se ha encontrado un error en el reproductor. Reintentando...</string>
+    <string name="msg_live_tv_prev">¿Desea cargar las %1$d horas anteriores\?</string>
+    <string name="msg_live_tv_next">¿Desea cargar las %1$d horas siguientes\?</string>
+    <string name="lbl_load_guide_data">Cargar Guía de Programas</string>
+    <string name="lbl_new_playlist_name">Introduzca un nombre para la nueva lista de reproducción</string>
+    <string name="episode_missing_message_2">Este episodio no está presente en la biblioteca. La reproducción se detendrá.</string>
+    <string name="episode_missing_message">Este episodio no está presente en la biblioteca. ¿Desea omitirlo y continuar con el que sigue\?</string>
+    <string name="episode_missing">Episodio Faltante</string>
+    <string name="delete_warning">Se eliminará %1$s PERMANENTEMENTE de la biblioteca. ¿Desea continuar\?</string>
 </resources>
