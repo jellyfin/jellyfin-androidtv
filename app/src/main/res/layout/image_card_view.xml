@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:gravity="end">
+        android:gravity="end" >
 
         <ImageView
             android:id="@+id/main_image"
@@ -30,7 +30,9 @@
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
-            android:contentDescription="@null" />
+            android:contentDescription="@null"
+            android:cropToPadding="true"
+            android:padding="3dp" />
 
         <ImageView
             android:id="@+id/favIcon"
@@ -38,8 +40,9 @@
             android:layout_height="25dp"
             android:src="@drawable/ic_heart_red"
             android:alpha="0.8"
-            android:layout_alignBottom="@+id/main_image"
+            android:layout_alignBottom="@+id/resumeProgress"
             android:layout_alignEnd="@+id/main_image"
+            android:paddingBottom="6dp"
             android:visibility="gone" />
 
         <ProgressBar
@@ -47,8 +50,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/resumeProgress"
-            android:layout_alignParentBottom="true"
+            android:layout_alignBottom="@+id/main_image"
             android:maxHeight="5sp"
+            android:paddingBottom="3dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
             android:visibility="gone"
             android:max="100" />
 
@@ -59,8 +65,8 @@
             android:layout_alignEnd="@id/main_image"
             android:gravity="end"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="4dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="5dp"
             android:layout_alignParentEnd="true"
             android:visibility="gone">
 
@@ -159,7 +165,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="@dimen/lb_basic_card_info_text_margin"
                 android:fontFamily="sans-serif-condensed"
-                android:textColor="@color/lb_basic_card_title_text_color"
+                android:textColor="@color/gray_gradient_end"
                 android:textSize="@dimen/lb_basic_card_title_text_size"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
@@ -175,7 +181,7 @@
                 android:layout_marginStart="@dimen/lb_basic_card_info_text_margin"
                 android:layout_marginBottom="@dimen/lb_basic_card_info_text_margin"
                 android:fontFamily="sans-serif-condensed"
-                android:textColor="@color/lb_basic_card_content_text_color"
+                android:textColor="@color/gray_gradient_end"
                 android:textSize="@dimen/lb_basic_card_content_text_size"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
@@ -190,6 +196,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_below="@id/title_text"
                 android:scaleType="fitCenter"
+                android:alpha="0.25"
                 android:visibility="gone"
                 android:contentDescription="@null" />
 
