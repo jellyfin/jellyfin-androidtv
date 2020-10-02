@@ -11,7 +11,10 @@ public class PositionableListRowPresenter extends CustomListRowPresenter impleme
 
     private ListRowPresenter.ViewHolder viewHolder;
 
-    public PositionableListRowPresenter() { super(); }
+    public PositionableListRowPresenter() {
+        super();
+        setShadowEnabled(false);
+    }
 
     public PositionableListRowPresenter(Drawable background, Integer padding) {
         super(background, padding);

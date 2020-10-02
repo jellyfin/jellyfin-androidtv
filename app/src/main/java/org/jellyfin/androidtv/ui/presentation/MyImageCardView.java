@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.presentation;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -93,6 +94,23 @@ public class MyImageCardView extends BaseCardView {
                 a.recycle();
             }
         }
+
+        v.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    mTitleView.setTextColor(getResources().getColor(R.color.lb_basic_card_title_text_color));
+                    mContentView.setTextColor(getResources().getColor(R.color.lb_basic_card_title_text_color));
+                    mImageView.setBackground(getResources().getDrawable(R.drawable.white_border));
+                    mBadgeImage.setAlpha(1.0f);
+                } else {
+                    mTitleView.setTextColor(getResources().getColor(R.color.gray_gradient_end));
+                    mContentView.setTextColor(getResources().getColor(R.color.gray_gradient_end));
+                    mImageView.setBackground(null);
+                    mBadgeImage.setAlpha(0.25f);
+                }
+            }
+        });
     }
 
 
