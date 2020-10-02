@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.presentation;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
