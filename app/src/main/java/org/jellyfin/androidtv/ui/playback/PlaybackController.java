@@ -844,27 +844,29 @@ public class PlaybackController {
     };
 
     public void rewind() {
-        if (System.currentTimeMillis() - lastRewind > 2000) {
-            startTime = System.currentTimeMillis();
+        long curTime = System.currentTimeMillis();
+        if (curTime - lastRewind > 2000) {
+            startTime = curTime;
             speedMultiplier = 1;
         }
-        speedMultiplier = ((int)(System.currentTimeMillis() - startTime) / 4000) + 1;
+        speedMultiplier = ((int)(curTime - startTime) / 4000) + 1;
         if (speedMultiplier > 6)
             speedMultiplier = 6;
         skip(-(baseSkip*speedMultiplier));
-        lastRewind = System.currentTimeMillis();
+        lastRewind = curTime;
     }
 
     public void fastForward() {
-        if (System.currentTimeMillis() - lastFF > 2000) {
-            startTime = System.currentTimeMillis();
+        long curTime = System.currentTimeMillis();
+        if (curTime - lastFF > 2000) {
+            startTime = curTime;
             speedMultiplier = 1;
         }
-        speedMultiplier = ((int)(System.currentTimeMillis() - startTime) / 4000) + 1;
+        speedMultiplier = ((int)(curTime - startTime) / 4000) + 1;
         if (speedMultiplier > 6)
             speedMultiplier = 6;
         skip((baseSkip*speedMultiplier));
-        lastFF = System.currentTimeMillis();
+        lastFF = curTime;
     }
 
     public void skip(int msec) {
