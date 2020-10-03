@@ -4,7 +4,7 @@ import androidx.leanback.widget.PlaybackSeekDataProvider;
 
 public class CustomSeekProvider extends PlaybackSeekDataProvider {
 
-    private final long SEEK_LENGTH = 10_000;
+    private final long SEEK_LENGTH = 30_000;
     private final VideoPlayerAdapter videoPlayerAdapter;
 
     CustomSeekProvider(VideoPlayerAdapter videoPlayerAdapter) {

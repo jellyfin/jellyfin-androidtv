@@ -18,7 +18,7 @@ public class CustomSeekProviderTest {
 
         CustomSeekProvider customSeekProvider = new CustomSeekProvider(videoPlayerAdapter);
 
-        long[] expected = new long[]{0L, 10_000L, 20_000L, 30_000L, 40_000L, 50_000L, 60_000L, 70_000L, 80_000L, 90_000L};
+        long[] expected = new long[]{0L, 30_000L, 60_000L, 90_000L};
         long[] actual = customSeekProvider.getSeekPositions();
 
         assertArrayEquals(expected, actual);
@@ -32,7 +32,7 @@ public class CustomSeekProviderTest {
 
         CustomSeekProvider customSeekProvider = new CustomSeekProvider(videoPlayerAdapter);
 
-        long[] expected = new long[]{0L, 10_000, 20_000, 30_000, 40_000, 50_000, 60_000, 70_000, 80_000, 90_000, 100_000, 110_000, 120_000, 130_000};
+        long[] expected = new long[]{0L, 30_000, 60_000, 90_000, 120_000, 130_000};
         long[] actual = customSeekProvider.getSeekPositions();
 
         assertArrayEquals(expected, actual);
