@@ -18,6 +18,17 @@ public class PositionableListRowPresenter extends CustomListRowPresenter impleme
 
     public PositionableListRowPresenter(Drawable background, Integer padding) {
         super(background, padding);
+        setShadowEnabled(false);
+    }
+
+    @Override
+    public boolean isUsingDefaultShadow() {
+        return false;
+    }
+
+    @Override
+    protected void onSelectLevelChanged(RowPresenter.ViewHolder holder) {
+        //Do nothing - this removes the shadow on the out of focus rows of image cards
     }
 
     @Override
