@@ -142,6 +142,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 showFilterOptions();
             }
         });
+        findViewById(R.id.filterButton).setContentDescription(getString(R.string.lbl_filters));
 
         findViewById(R.id.optionsButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,6 +150,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 showOptions();
             }
         });
+        findViewById(R.id.optionsButton).setContentDescription(getString(R.string.lbl_other_options));
 
         findViewById(R.id.dateButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,6 +158,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 showDatePicker();
             }
         });
+        findViewById(R.id.dateButton).setContentDescription(getString(R.string.lbl_select_date));
 
         mResetButton = findViewById(R.id.resetButton);
         mResetButton.setOnClickListener(new View.OnClickListener() {

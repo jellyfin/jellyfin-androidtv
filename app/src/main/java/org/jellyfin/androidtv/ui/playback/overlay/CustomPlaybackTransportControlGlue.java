@@ -9,6 +9,8 @@ import androidx.leanback.widget.Action;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.PlaybackControlsRow;
 
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
@@ -63,15 +65,24 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         fastForwardAction = new PlaybackControlsRow.FastForwardAction(context);
         skipNextAction = new PlaybackControlsRow.SkipNextAction(context);
         selectAudioAction = new SelectAudioAction(context, this);
+        selectAudioAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_audio_track)});
         closedCaptionsAction = new ClosedCaptionsAction(context, this);
+        closedCaptionsAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_subtitle_track)});
         adjustAudioDelayAction = new AdjustAudioDelayAction(context, this);
+        adjustAudioDelayAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_audio_delay)});
         zoomAction = new ZoomAction(context, this);
+        zoomAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_zoom)});
         chapterAction = new ChapterAction(context, this);
+        chapterAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_chapters)});
 
         previousLiveTvChannelAction = new PreviousLiveTvChannelAction(context, this);
+        previousLiveTvChannelAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_prev_item)});
         channelBarChannelAction = new ChannelBarChannelAction(context, this);
+        channelBarChannelAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_other_channels)});
         guideAction = new GuideAction(context, this);
+        guideAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_live_tv_guide)});
         recordAction = new RecordAction(context, this);
+        recordAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_record)});
     }
 
     @Override

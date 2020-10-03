@@ -57,6 +57,7 @@
     <string name="lbl_play_all">Play All</string>
     <string name="lbl_shuffle_all">Shuffle All</string>
     <string name="lbl_play">Play</string>
+    <string name="lbl_pause">Pause</string>
     <string name="lbl_cancel">Cancel</string>
     <string name="lbl_cancel_recording">Cancel Recording</string>
     <string name="lbl_cancel_series">Cancel Series</string>
@@ -246,6 +247,8 @@
     <string name="lbl_horizontal_stretch">Horizontal Stretch</string>
     <string name="lbl_vertical_stretch">Vertical Stretch</string>
     <string name="lbl_audio_capabilitites">Audio Capabilities</string>
+    <string name="lbl_audio_track">Select audio track</string>
+    <string name="lbl_subtitle_track">Select subtitle track</string>
     <string name="msg_audio_warning">This app has the ability to direct stream certain multi-channel audio formats. If your hardware does not support these formats, you may hear no sound when playing certain items. This can be fixed by changing the audio mode to \'downmix\' in the settings.</string>
     <string name="msg_external_path">This feature will only work if you have properly set up your library on the server with network paths or path substitution and the client you are using can directly access these locations over the network.</string>
     <string name="btn_got_it">Got it</string>
