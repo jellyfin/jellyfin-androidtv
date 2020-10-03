@@ -1037,6 +1037,8 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             for (int i = 0; i < mChannels.getChildCount(); i++) {
                 if (mSelectedProgramView == mChannels.getChildAt(i)) {
                     LinearLayout programRow = (LinearLayout)mProgramRows.getChildAt(i);
+                    if (programRow == null)
+                        return;
                     Date utcTime = TimeUtils.convertToUtcDate(new Date());
                     for (int ii = 0; ii < programRow.getChildCount(); ii++) {
                         ProgramGridCell prog = (ProgramGridCell)programRow.getChildAt(ii);
