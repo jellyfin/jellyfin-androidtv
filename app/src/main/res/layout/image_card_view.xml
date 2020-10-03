@@ -23,76 +23,86 @@
         android:visibility="gone"
         android:gravity="end" >
 
-        <ImageView
-            android:id="@+id/main_image"
-            lb:layout_viewType="main"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
-            android:contentDescription="@null"
-            android:cropToPadding="true"
-            android:padding="3dp" />
-
-        <ImageView
-            android:id="@+id/favIcon"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/ic_heart_red"
-            android:alpha="0.8"
-            android:layout_alignBottom="@+id/resumeProgress"
-            android:layout_alignEnd="@+id/main_image"
-            android:paddingBottom="6dp"
-            android:visibility="gone" />
-
-        <ProgressBar
-            style="@style/overlay_progress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/resumeProgress"
-            android:layout_alignBottom="@+id/main_image"
-            android:maxHeight="5sp"
-            android:paddingBottom="3dp"
-            android:paddingLeft="3dp"
-            android:paddingRight="3dp"
-            android:visibility="gone"
-            android:max="100" />
-
         <RelativeLayout
-            android:id="@+id/watchedIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/main_image"
-            android:gravity="end"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="5dp"
-            android:layout_alignParentEnd="true"
-            android:visibility="gone">
+            android:id="@+id/main_wrap"
+            android:padding="7dp"
+            android:gravity="end" >
 
             <ImageView
-                android:id="@+id/watched"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/circle_accent" />
+                    android:id="@+id/main_image"
+                    lb:layout_viewType="main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@null"
+                    android:cropToPadding="true" />
 
-            <TextView
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:id="@+id/unwatchedCount"
-                android:textAlignment="center"
-                android:visibility="invisible"
-                android:gravity="center"
-                android:layout_marginTop="5dp" />
+                <ImageView
+                    android:id="@+id/favIcon"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_heart_red"
+                    android:alpha="0.8"
+                    android:layout_alignBottom="@+id/resumeProgress"
+                    android:layout_alignEnd="@+id/main_image"
+                    android:paddingBottom="3dp"
+                    android:visibility="gone" />
 
-            <ImageView
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:id="@+id/checkMark"
-                android:src="@drawable/ic_watch"
-                android:layout_alignEnd="@+id/watched"
-                android:layout_alignTop="@+id/watched"
-                android:layout_marginTop="-7dp" />
+                <ProgressBar
+                    style="@style/overlay_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/resumeProgress"
+                    android:layout_alignBottom="@+id/main_image"
+                    android:maxHeight="5sp"
+                    android:visibility="gone"
+                    android:max="100" />
+
+                <RelativeLayout
+                    android:id="@+id/watchedIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/main_image"
+                    android:gravity="end"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="5dp"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/watched"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/circle_accent" />
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/unwatchedCount"
+                        android:textAlignment="center"
+                        android:visibility="invisible"
+                        android:gravity="center"
+                        android:layout_alignTop="@+id/watched"
+                        android:layout_alignEnd="@+id/watched"
+                        android:layout_alignStart="@+id/watched"
+                        android:layout_alignBottom="@+id/watched" />
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:id="@+id/checkMark"
+                        android:src="@drawable/ic_watch"
+                        android:gravity="center"
+                        android:layout_alignTop="@+id/watched"
+                        android:layout_alignEnd="@+id/watched"
+                        android:layout_alignStart="@+id/watched"
+                        android:layout_alignBottom="@+id/watched" />
+
+                </RelativeLayout>
 
         </RelativeLayout>
 
@@ -102,9 +112,9 @@
             android:layout_height="wrap_content"
             android:padding="4dp"
             android:gravity="center_vertical"
-            android:layout_alignBottom="@id/main_image"
-            android:layout_alignEnd="@id/main_image"
-            android:layout_alignStart="@id/main_image"
+            android:layout_alignBottom="@id/main_wrap"
+            android:layout_alignEnd="@id/main_wrap"
+            android:layout_alignStart="@id/main_wrap"
             android:background="@color/black_transparent_light">
 
             <ImageView
