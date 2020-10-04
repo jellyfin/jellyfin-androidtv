@@ -91,6 +91,9 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     private HorizontalScrollView mTimelineScroller;
     private View mSpinner;
     private View mResetButton;
+    private View mFilterButton;
+    private View mOptionsButton;
+    private View mDateButton;
 
     private BaseItemDto mSelectedProgram;
     private ProgramGridCell mSelectedProgramView;
@@ -136,29 +139,32 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         mSpinner = findViewById(R.id.spinner);
         mSpinner.setVisibility(View.VISIBLE);
 
-        findViewById(R.id.filterButton).setOnClickListener(new View.OnClickListener() {
+        mFilterButton = findViewById(R.id.filterButton);
+        mFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showFilterOptions();
             }
         });
-        findViewById(R.id.filterButton).setContentDescription(getString(R.string.lbl_filters));
+        mFilterButton.setContentDescription(getString(R.string.lbl_filters));
 
-        findViewById(R.id.optionsButton).setOnClickListener(new View.OnClickListener() {
+        mOptionsButton = findViewById(R.id.optionsButton);
+        mOptionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showOptions();
             }
         });
-        findViewById(R.id.optionsButton).setContentDescription(getString(R.string.lbl_other_options));
+        mOptionsButton.setContentDescription(getString(R.string.lbl_other_options));
 
-        findViewById(R.id.dateButton).setOnClickListener(new View.OnClickListener() {
+        mDateButton = findViewById(R.id.dateButton);
+        mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePicker();
             }
         });
-        findViewById(R.id.dateButton).setContentDescription(getString(R.string.lbl_select_date));
+        mDateButton.setContentDescription(getString(R.string.lbl_select_date));
 
         mResetButton = findViewById(R.id.resetButton);
         mResetButton.setOnClickListener(new View.OnClickListener() {
