@@ -65,15 +65,15 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         fastForwardAction = new PlaybackControlsRow.FastForwardAction(context);
         skipNextAction = new PlaybackControlsRow.SkipNextAction(context);
         selectAudioAction = new SelectAudioAction(context, this);
-        selectAudioAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_audio_track)});
+        selectAudioAction.setLabels(new String[]{context.getString(R.string.lbl_audio_track)});
         closedCaptionsAction = new ClosedCaptionsAction(context, this);
-        closedCaptionsAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_subtitle_track)});
+        closedCaptionsAction.setLabels(new String[]{context.getString(R.string.lbl_subtitle_track)});
         adjustAudioDelayAction = new AdjustAudioDelayAction(context, this);
-        adjustAudioDelayAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_audio_delay)});
+        adjustAudioDelayAction.setLabels(new String[]{context.getString(R.string.lbl_audio_delay)});
         zoomAction = new ZoomAction(context, this);
-        zoomAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_zoom)});
+        zoomAction.setLabels(new String[]{context.getString(R.string.lbl_zoom)});
         chapterAction = new ChapterAction(context, this);
-        chapterAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_chapters)});
+        chapterAction.setLabels(new String[]{context.getString(R.string.lbl_chapters)});
 
         previousLiveTvChannelAction = new PreviousLiveTvChannelAction(context, this);
         previousLiveTvChannelAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_prev_item)});
