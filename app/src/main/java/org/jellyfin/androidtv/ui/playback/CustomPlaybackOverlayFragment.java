@@ -111,6 +111,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     public static final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(TvApp.getApplication(), 7);
     public static final int PAGE_SIZE = 75;
     RelativeLayout mTvGuide;
+    private RelativeLayout mChannelNumberView;
+    private TextView mChannelNumberTextView;
     private TextView mDisplayDate;
     private TextView mGuideTitle;
     private TextView mGuideCurrentTitle;
@@ -158,6 +160,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     boolean mFadeEnabled = false;
     boolean mIsVisible = false;
     boolean mPopupPanelVisible = false;
+    private boolean mChannelNumberVisible = false;
+    private String mChannelNumber = "";
 
     int mCurrentDuration;
     private LeanbackOverlayFragment leanbackOverlayFragment;
@@ -231,8 +235,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         // And the Live Guide element
         mTvGuide = (RelativeLayout) inflater.inflate(R.layout.overlay_tv_guide, null);
+        mChannelNumberView = (RelativeLayout) inflater.inflate(R.layout.guide_channel_number, null);
+
+        root.addView(mChannelNumberView);
         root.addView(mTvGuide);
         mTvGuide.setVisibility(View.GONE);
+        mChannelNumberView.setVisibility(View.GONE);
 
         root.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -305,6 +313,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mTimeline = mActivity.findViewById(R.id.timeline);
         mProgramRows = mActivity.findViewById(R.id.programRows);
         mGuideSpinner = mActivity.findViewById(R.id.spinner);
+        mChannelNumberTextView = mActivity.findViewById(R.id.guide_channel_number);
 
         mProgramRows.setFocusable(false);
         mChannelScroller = mActivity.findViewById(R.id.channelScroller);
@@ -487,6 +496,40 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
+
+                if (mChannelNumberVisible && keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+                    List<ChannelInfoDto> channels = TvManager.getAllChannels();
+                    for (ChannelInfoDto channel:
+                         channels) {
+                        if (channel.getNumber().equals(mChannelNumber)) {
+                            switchChannel(channel.getId());
+                            break;
+                        }
+                    }
+
+                    mChannelNumber = "";
+                    mChannelNumberVisible = false;
+                    mChannelNumberView.setVisibility(View.GONE);
+                }
+
+                if (!mGuideVisible && keyCode >= KeyEvent.KEYCODE_0 && keyCode <= KeyEvent.KEYCODE_9) {
+                    leanbackOverlayFragment.setShouldShowOverlay(false);
+                    if (mPopupPanelVisible)
+                        hidePopupPanel();
+                    if (mIsVisible)
+                        leanbackOverlayFragment.hideOverlay();
+
+                    mChannelNumber += String.valueOf(keyCode - 7);
+                    mChannelNumberVisible = true;
+                    mChannelNumberView.setVisibility(View.VISIBLE);
+                    mChannelNumberTextView.setText(mChannelNumber);
+                }
+                Timber.d("Key Code: " + String.valueOf(keyCode));
+
+                //166 up
+                //167 down
+                //229 last channel
+
                 if (!mGuideVisible)
                     leanbackOverlayFragment.setShouldShowOverlay(true);
                 else {
