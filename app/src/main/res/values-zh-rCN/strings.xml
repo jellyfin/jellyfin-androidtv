@@ -369,8 +369,18 @@
     <string name="pref_subtitle_track_button">字幕选择按键</string>
     <string name="pref_audio_track_button">音轨按键</string>
     <string name="pref_button_remapping_category">按键映射</string>
-    <string name="lbl_unknown_key">未知</string>
+    <string name="lbl_unknown_key">未知(%1s)</string>
     <string name="bitrate_kbit">%1$,.0f 千比特/秒</string>
     <string name="bitrate_mbit">%1$,.0f 兆比特/秒</string>
     <string name="bitrate_auto">自动码率</string>
+    <string name="delete_warning">这将永久地从你的库中删除 %1$s。你确定吗？</string>
+    <string name="clear_expanded">清除当前视频队列？</string>
+    <string name="lbl_clear">清除</string>
+    <string name="password_prompt_message">请输入 %1$s 的密码</string>
+    <string name="password_prompt">输入密码</string>
+    <string name="no_player_message">你似乎没有安装可播放视频的应用。此选项需要您安装第三方应用来播放视频内容。</string>
+    <string name="no_player">无播放器</string>
+    <string name="mark_watched">标记为已观看</string>
+    <string name="lbl_tv_filter_status">接下来的 %1$d 小时</string>
+    <string name="lbl_tv_channel_status">%2$d 个频道中的第 %1$d 个</string>
 </resources>
