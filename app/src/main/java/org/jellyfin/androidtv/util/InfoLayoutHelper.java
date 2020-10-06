@@ -14,15 +14,14 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.SeriesStatus;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class InfoLayoutHelper {
 
@@ -140,16 +139,6 @@ public class InfoLayoutHelper {
             amt.setTextSize(textSize);
             amt.setText(count.toString()+" "+ label +"  ");
             layout.addView(amt);
-        }
-    }
-
-    private static void addSeasonCount(Activity activity, BaseItemDto item, LinearLayout layout) {
-        if (item.getChildCount() != null && item.getChildCount() > 0) {
-            TextView amt = new TextView(activity);
-            amt.setTextSize(textSize);
-            amt.setText(item.getChildCount().toString()+" "+ (item.getChildCount() == 1 ? activity.getResources().getString(R.string.lbl_season) : activity.getResources().getString(R.string.lbl_seasons)) +"  ");
-            layout.addView(amt);
-
         }
     }
 
@@ -415,14 +404,5 @@ public class InfoLayoutHelper {
         mSpacer.setTextSize(size);
         mSpacer.setText(sp);
         layout.addView(mSpacer);
-    }
-
-    public static void addResourceImage(Activity activity, LinearLayout layout, int imgResource, int width, int height) {
-        ImageView image = new ImageView(activity);
-        image.setImageResource(imgResource);
-        if (width > 0) image.setMaxWidth(width);
-        if (height > 0) image.setMaxHeight(height);
-        image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        layout.addView(image);
     }
 }

@@ -1,10 +1,7 @@
 package org.jellyfin.androidtv.util;
 
-import android.os.Build;
-
 import org.jellyfin.androidtv.constant.CodecTypes;
 import org.jellyfin.androidtv.constant.ContainerTypes;
-import org.jellyfin.androidtv.data.compat.AndroidProfileOptions;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.apiclient.model.dlna.CodecProfile;
 import org.jellyfin.apiclient.model.dlna.CodecType;
@@ -468,14 +465,5 @@ public class ProfileHelper {
         subs.setFormat(format);
         subs.setMethod(method);
         return subs;
-    }
-
-    public static AndroidProfileOptions getProfileOptions() {
-        AndroidProfileOptions options = new AndroidProfileOptions(Build.MODEL);
-        options.SupportsHls = false;
-        options.SupportsMkv = true;
-//        options.SupportsAc3 = is60();
-//        options.SupportsDts = is60();
-        return options;
     }
 }
