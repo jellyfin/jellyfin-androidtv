@@ -13,8 +13,8 @@ import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.ui.livetv.ILiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
-import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -28,37 +28,32 @@ public class GuideChannelHeader extends RelativeLayout {
     final int HEADER_WIDTH = Utils.convertDpToPixel(TvApp.getApplication(), 160);
 
     private ImageView mChannelImage;
+    private ImageView mFavImage;
     private ChannelInfoDto mChannel;
     private Context mContext;
-    private CustomPlaybackOverlayFragment mActivity;
+    private ILiveTvGuide mTvGuide;
 
-    public GuideChannelHeader(Context context, CustomPlaybackOverlayFragment fragment, ChannelInfoDto channel, boolean focusable) {
+    public GuideChannelHeader(Context context, ILiveTvGuide tvGuide, ChannelInfoDto channel) {
         super(context);
-        initComponent(context, fragment, channel, focusable);
+        initComponent(context, tvGuide, channel);
     }
 
-    private void initComponent(Context context, CustomPlaybackOverlayFragment fragment, ChannelInfoDto channel, boolean focusable) {
+    private void initComponent(Context context, ILiveTvGuide tvGuide, ChannelInfoDto channel) {
         mContext = context;
         mChannel = channel;
+        mTvGuide = tvGuide;
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.channel_header, this, false);
         v.setLayoutParams(new AbsListView.LayoutParams(HEADER_WIDTH, LiveTvGuideActivity.ROW_HEIGHT));
         this.addView(v);
-        this.setFocusable(false);
+        this.setFocusable(true);
         ((TextView) findViewById(R.id.channelName)).setText(channel.getName());
         ((TextView) findViewById(R.id.channelNumber)).setText(channel.getNumber());
-        mChannelImage = (ImageView) findViewById(R.id.channelImage);
+        mChannelImage = findViewById(R.id.channelImage);
+        mFavImage = findViewById(R.id.favImage);
 
-        if (fragment != null) {
-            mActivity = fragment;
-            this.setFocusable(focusable);
-            setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    fragment.switchChannel(channel.getId(), false);
-                }
-            });
-        }
+        if (mChannel.getUserData() != null && mChannel.getUserData().getIsFavorite())
+            mFavImage.setVisibility(View.VISIBLE);
     }
 
     public void loadImage() {
@@ -69,6 +64,15 @@ public class GuideChannelHeader extends RelativeLayout {
                 .into(mChannelImage);
     }
 
+    public ChannelInfoDto getChannel() { return mChannel; }
+
+    public void refreshFavorite() {
+        if (mChannel.getUserData() != null && mChannel.getUserData().getIsFavorite())
+            mFavImage.setVisibility(View.VISIBLE);
+        else
+            mFavImage.setVisibility(View.GONE);
+    }
+
     @Override
     protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
@@ -76,7 +80,7 @@ public class GuideChannelHeader extends RelativeLayout {
         if (gainFocus) {
             setBackgroundColor(Utils.getThemeColor(getContext(), android.R.attr.colorAccent));
 
-            mActivity.setSelectedProgram(this);
+            mTvGuide.setSelectedProgram(this);
         } else {
             setBackground(getResources().getDrawable(R.drawable.light_border));
         }
