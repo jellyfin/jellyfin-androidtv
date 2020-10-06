@@ -91,10 +91,7 @@ public class CardPresenter extends Presenter {
                     } else if (imageType.equals(ImageType.THUMB)) {
                         aspect = ImageUtils.ASPECT_RATIO_16_9;
                     } else {
-                        if (itemDto.getBaseItemType() == BaseItemType.UserView)
-                            aspect = ImageUtils.ASPECT_RATIO_16_9;
-                        else
-                            aspect = Utils.getSafeValue(ImageUtils.getImageAspectRatio(itemDto, m.getPreferParentThumb()), ImageUtils.ASPECT_RATIO_7_9);
+                        aspect = Utils.getSafeValue(ImageUtils.getImageAspectRatio(itemDto, m.getPreferParentThumb()), ImageUtils.ASPECT_RATIO_7_9);
                     }
                     switch (itemDto.getBaseItemType()) {
                         case Audio:

@@ -52,6 +52,9 @@ public class ImageUtils {
             }
         }
 
+        if (item.getBaseItemType() == BaseItemType.UserView && item.getHasPrimaryImage())
+            return ImageUtils.ASPECT_RATIO_16_9;
+
         return item.getPrimaryImageAspectRatio() != null ? item.getPrimaryImageAspectRatio() : ASPECT_RATIO_7_9;
     }
 
