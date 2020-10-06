@@ -30,7 +30,6 @@ import androidx.leanback.widget.RowPresenter;
 import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.model.GotFocusEvent;
 import org.jellyfin.androidtv.ui.ClockUserView;
 import org.jellyfin.androidtv.ui.GenreButton;
