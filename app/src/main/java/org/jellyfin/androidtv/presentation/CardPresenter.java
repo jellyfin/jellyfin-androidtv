@@ -26,6 +26,7 @@ import org.jellyfin.androidtv.util.Utils;
 import java.util.Date;
 
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
@@ -100,7 +101,10 @@ public class CardPresenter extends Presenter {
                     } else if (imageType.equals(ImageType.THUMB)) {
                         aspect = ImageUtils.ASPECT_RATIO_16_9;
                     } else {
-                        aspect = Utils.getSafeValue(ImageUtils.getImageAspectRatio(itemDto, m.getPreferParentThumb()), ImageUtils.ASPECT_RATIO_7_9);
+                        if (itemDto.getBaseItemType() == BaseItemType.UserView)
+                            aspect = ImageUtils.ASPECT_RATIO_16_9;
+                        else
+                            aspect = Utils.getSafeValue(ImageUtils.getImageAspectRatio(itemDto, m.getPreferParentThumb()), ImageUtils.ASPECT_RATIO_7_9);
                     }
                     switch (itemDto.getBaseItemType()) {
                         case Audio:
