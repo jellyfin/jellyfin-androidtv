@@ -34,6 +34,16 @@ jobs:
       javaHomeOption: 'JDKVersion'
       sonarQubeRunAnalysis: false
 
+  - task: Gradle@2
+    displayName: 'Run Lint'
+    inputs:
+      gradleWrapperFile: 'gradlew'
+      tasks: 'lint'
+      publishJUnitResults: false
+      testResultsFiles: '**/TEST-*.xml'
+      javaHomeOption: 'JDKVersion'
+      sonarQubeRunAnalysis: false
+
 - job: Build
   displayName: 'Build'
 
