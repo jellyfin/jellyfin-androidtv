@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
+import androidx.core.content.ContextCompat;
 import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
@@ -477,7 +478,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
             ClassPresenterSelector ps = new ClassPresenterSelector();
             ps.addClassPresenter(MyDetailsOverviewRow.class, mDorPresenter);
-            mListRowPresenter = new CustomListRowPresenter(getDrawable(R.color.black_transparent_light), Utils.convertDpToPixel(mActivity, 10));
+            mListRowPresenter = new CustomListRowPresenter(ContextCompat.getDrawable(mActivity, R.color.black_transparent_light), Utils.convertDpToPixel(mActivity, 10));
             ps.addClassPresenter(ListRow.class, mListRowPresenter);
             mRowsAdapter = new ArrayObjectAdapter(ps);
             mRowsFragment.setAdapter(mRowsAdapter);

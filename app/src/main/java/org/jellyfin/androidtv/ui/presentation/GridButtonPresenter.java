@@ -4,13 +4,14 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.core.content.ContextCompat;
+import androidx.leanback.widget.Presenter;
+
 import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.ui.GridButton;
-
-import androidx.leanback.widget.Presenter;
 
 public class GridButtonPresenter extends Presenter {
 
@@ -40,7 +41,7 @@ public class GridButtonPresenter extends Presenter {
             super(view);
 
             mCardView = (MyImageCardView) view;
-            mDefaultCardImage = TvApp.getApplication().getResources().getDrawable(R.drawable.tile_settings);
+            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_settings);
         }
 
         public void setItem(GridButton m, int width, int height) {

@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
@@ -82,7 +84,7 @@ public class GuideChannelHeader extends RelativeLayout {
 
             mTvGuide.setSelectedProgram(this);
         } else {
-            setBackground(getResources().getDrawable(R.drawable.light_border));
+            setBackground(ContextCompat.getDrawable(getContext(), R.drawable.light_border));
         }
     }
 

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.ContextCompat
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.ui.itemdetail.ExpandedTextActivity
@@ -12,7 +13,7 @@ import org.jellyfin.androidtv.util.getActivity
 
 class ExpandableTextView(context: Context, attrs: AttributeSet?) : AppCompatTextView(context, attrs) {
 	init {
-		background = context.getDrawable(R.drawable.expanded_text)
+		background = ContextCompat.getDrawable(context, R.drawable.expanded_text)
 		transitionName = ExpandedTextActivity.TRANSITION_NAME
 
 		setOnClickListener {

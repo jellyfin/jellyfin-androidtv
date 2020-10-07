@@ -26,22 +26,34 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+import androidx.leanback.app.BackgroundManager;
+import androidx.leanback.app.BrowseSupportFragment;
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.OnItemViewSelectedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.constant.CustomMessage;
-import org.jellyfin.androidtv.ui.shared.IKeyListener;
-import org.jellyfin.androidtv.ui.shared.IMessageListener;
+import org.jellyfin.androidtv.constant.QueryType;
+import org.jellyfin.androidtv.data.querying.ViewQuery;
+import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.ui.ClockUserView;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
-import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
-import org.jellyfin.androidtv.constant.QueryType;
-import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.ui.search.SearchActivity;
-import org.jellyfin.androidtv.ui.ClockUserView;
+import org.jellyfin.androidtv.ui.shared.BaseActivity;
+import org.jellyfin.androidtv.ui.shared.IKeyListener;
+import org.jellyfin.androidtv.ui.shared.IMessageListener;
 import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
@@ -53,16 +65,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.BrowseSupportFragment;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.OnItemViewSelectedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
 import timber.log.Timber;
 
 import static org.koin.java.KoinJavaComponent.get;
@@ -244,7 +246,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
     }
 
     protected void setupUIElements() {
-        if (ShowBadge) setBadgeDrawable(getActivity().getResources().getDrawable(R.drawable.app_logo_transparent));
+        if (ShowBadge) setBadgeDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.app_logo_transparent));
         setTitle(MainTitle); // Badge, when set, takes precedent over title
         setHeadersState(HEADERS_ENABLED);
         setHeadersTransitionOnBackEnabled(true);
