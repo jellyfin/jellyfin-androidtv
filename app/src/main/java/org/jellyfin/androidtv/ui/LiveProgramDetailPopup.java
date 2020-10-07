@@ -13,11 +13,13 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.ui.livetv.ILiveTvGuide;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
+import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -356,7 +358,7 @@ public class LiveProgramDetailPopup {
                     @Override
                     public void onResponse(UserItemDataDto response) {
                         channel.setUserData(response);
-                        fave.setImageDrawable(mActivity.getResources().getDrawable(response.getIsFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart));
+                        fave.setImageDrawable(ContextCompat.getDrawable(mActivity, response.getIsFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart));
                         mTvGuide.refreshFavorite(channel.getId());
                         TvApp.getApplication().dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
                     }
@@ -369,7 +371,7 @@ public class LiveProgramDetailPopup {
 
     private android.widget.ImageButton addImgButton(LinearLayout layout, int imgResource) {
         android.widget.ImageButton btn = new android.widget.ImageButton(mActivity);
-        btn.setImageDrawable(mActivity.getResources().getDrawable(imgResource));
+        btn.setImageDrawable(ContextCompat.getDrawable(mActivity, imgResource));
         btn.setBackgroundResource(R.drawable.jellyfin_button);
         layout.addView(btn);
         return btn;

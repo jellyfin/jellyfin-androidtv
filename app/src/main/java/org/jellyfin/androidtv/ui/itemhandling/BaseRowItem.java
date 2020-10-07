@@ -3,6 +3,8 @@ package org.jellyfin.androidtv.ui.itemhandling;
 import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 
+import androidx.core.content.ContextCompat;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
@@ -518,9 +520,9 @@ public class BaseRowItem {
         switch (type) {
             case BaseItem:
                 if (baseItem.getBaseItemType() == BaseItemType.Movie && baseItem.getCriticRating() != null) {
-                    return baseItem.getCriticRating() > 59 ? TvApp.getApplication().getDrawableCompat(R.drawable.fresh) : TvApp.getApplication().getDrawableCompat(R.drawable.rotten);
+                    return baseItem.getCriticRating() > 59 ? ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.fresh) : ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.rotten);
                 } else if (baseItem.getBaseItemType() == BaseItemType.Program && baseItem.getTimerId() != null) {
-                    return baseItem.getSeriesTimerId() != null ? TvApp.getApplication().getDrawableCompat(R.drawable.ic_record_series_red) : TvApp.getApplication().getDrawableCompat(R.drawable.ic_record_red);
+                    return baseItem.getSeriesTimerId() != null ? ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.ic_record_series_red) : ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.ic_record_red);
                 }
                 break;
             case Person:
@@ -528,18 +530,18 @@ public class BaseRowItem {
                 break;
             case User:
                 if (user.getHasPassword()) {
-                    return TvApp.getApplication().getDrawableCompat(R.drawable.ic_lock);
+                    return ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.ic_lock);
                 }
                 break;
             case LiveTvProgram:
                 if (baseItem.getTimerId() != null) {
-                    return baseItem.getSeriesTimerId() != null ? TvApp.getApplication().getDrawableCompat(R.drawable.ic_record_series_red) : TvApp.getApplication().getDrawableCompat(R.drawable.ic_record_red);
+                    return baseItem.getSeriesTimerId() != null ? ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.ic_record_series_red) : ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.ic_record_red);
                 }
             case Chapter:
                 break;
         }
 
-        return TvApp.getApplication().getDrawableCompat(R.drawable.blank10x10);
+        return ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.blank10x10);
     }
 
     public void refresh(final EmptyResponse outerResponse) {

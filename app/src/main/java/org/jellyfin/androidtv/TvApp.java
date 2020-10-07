@@ -198,10 +198,6 @@ public class TvApp extends Application {
         return currentUser != null && currentUser.getPolicy().getEnableLiveTvManagement();
     }
 
-    public Drawable getDrawableCompat(int id) {
-        return ContextCompat.getDrawable(this, id);
-    }
-
     public DisplayPreferences getCachedDisplayPrefs(String key) {
         return displayPrefsCache.containsKey(key) ? displayPrefsCache.get(key) : new DisplayPreferences();
     }

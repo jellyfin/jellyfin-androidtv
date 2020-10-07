@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.tvprovider.media.tv.Channel
 import androidx.tvprovider.media.tv.ChannelLogoUtils
@@ -93,7 +94,9 @@ class ChannelManager : KoinComponent {
 		}
 
 		// Update logo
-		ChannelLogoUtils.storeChannelLogo(application, ContentUris.parseId(uri), application.resources.getDrawable(R.drawable.ic_jellyfin, null).toBitmap(80.dp, 80.dp))
+		ResourcesCompat.getDrawable(application.resources, R.drawable.ic_jellyfin, null)?.let {
+			ChannelLogoUtils.storeChannelLogo(application, ContentUris.parseId(uri), it.toBitmap(80.dp, 80.dp))
+		}
 
 		return uri
 	}
