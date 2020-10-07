@@ -373,4 +373,14 @@
     <string name="bitrate_auto">Auto</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
+    <string name="just_one">Únicamente esto</string>
+    <string name="turn_off">Desactivar esta opción</string>
+    <string name="not_deleted">Elemento no eliminado</string>
+    <string name="lbl_deleted">%1$s Borrado</string>
+    <string name="like_setting_error">Error actualizando el estado de me gusta</string>
+    <string name="like_clearing_error">Error reseteando el estado de me gusta</string>
+    <string name="favorite_error">Error actualizando el estado de favorito</string>
+    <string name="playing_error">Error actualizando el estado de reproducción</string>
+    <string name="audio_error">No se puede reproducir audio %1$s</string>
+    <string name="lbl_tv_channel_status">%1$d de %2$d canales</string>
 </resources>
