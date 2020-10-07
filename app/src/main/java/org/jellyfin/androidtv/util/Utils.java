@@ -25,10 +25,6 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -82,17 +78,6 @@ public class Utils {
 
     public static boolean isTrue(Boolean value) {
         return value != null && value;
-    }
-
-    public static String readStringFromStream(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream result = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int length;
-        while ((length = inputStream.read(buffer)) != -1) {
-            result.write(buffer, 0, length);
-        }
-
-        return result.toString(StandardCharsets.UTF_8.name());
     }
 
     public static String getVersionString() {

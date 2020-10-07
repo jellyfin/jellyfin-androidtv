@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.util;
 
 import android.media.MediaCodecInfo;
 import android.media.MediaCodecList;
-import android.media.MediaFormat;
 
 import timber.log.Timber;
 
@@ -15,13 +14,7 @@ public class MediaUtils {
         }
         return result;
     }
-    public static boolean canDecode(MediaFormat format) {
-        if (sMCL.findDecoderForFormat(format) == null) {
-            Timber.i("no decoder for %s", format.toString());
-            return false;
-        }
-        return true;
-    }
+
     public static boolean checkDecoder(String... mimes) {
         return check(hasCodecForMimes(false /* encoder */, mimes), "no decoder found");
     }
