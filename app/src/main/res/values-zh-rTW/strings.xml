@@ -369,7 +369,7 @@
     <string name="pref_subtitle_track_button">字幕選擇按鍵</string>
     <string name="pref_audio_track_button">音軌按鍵</string>
     <string name="pref_button_remapping_category">按鍵映射</string>
-    <string name="lbl_unknown_key">未知</string>
+    <string name="lbl_unknown_key">未知 (%1s)</string>
     <string name="bitrate_auto">自動位元率</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/秒</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/秒</string>
