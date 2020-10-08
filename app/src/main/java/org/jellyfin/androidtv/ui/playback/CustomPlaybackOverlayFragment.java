@@ -71,7 +71,7 @@ import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
-import org.jellyfin.androidtv.util.KeyUtilsKt;
+import org.jellyfin.androidtv.util.KeyUtils;
 import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -517,7 +517,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
 
                 if (mPlaybackController.isLiveTv()) {
-                    if (mChannelNumberVisible && KeyUtilsKt.isSelect(keyCode)) {
+                    if (mChannelNumberVisible && KeyUtils.isSelect(keyCode)) {
                         mHandler.removeCallbacks(mHideNumberTask);
                         switchChannelByNumber(mChannelNumber);
                         hideChannelNumberView();
@@ -525,7 +525,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     }
 
                     if (!mGuideVisible) {
-                        if (KeyUtilsKt.isNumber(keyCode)) {
+                        if (KeyUtils.isNumber(keyCode)) {
                             leanbackOverlayFragment.setShouldShowOverlay(false);
                             if (mPopupPanelVisible)
                                 hidePopupPanel();
@@ -543,11 +543,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         } else if (keyCode == KeyEvent.KEYCODE_LAST_CHANNEL) {
                             switchChannel(TvManager.getPrevLiveTvChannel());
                             return true;
-                        } else if (KeyUtilsKt.isChannelSurfDown(keyCode)) {
+                        } else if (KeyUtils.isChannelSurfDown(keyCode)) {
                             leanbackOverlayFragment.setShouldShowOverlay(false);
                             channelButton(false);
                             return true;
-                        } else if (KeyUtilsKt.isChannelSurfUp(keyCode)) {
+                        } else if (KeyUtils.isChannelSurfUp(keyCode)) {
                             leanbackOverlayFragment.setShouldShowOverlay(false);
                             channelButton(true);
                             return true;

@@ -2,15 +2,23 @@ package org.jellyfin.androidtv.util
 
 import android.view.KeyEvent
 
-inline class KeyCode(val keyCode: Int)
+object KeyUtils {
+	@JvmStatic
+	fun isSelect(code: Int) = code == KeyEvent.KEYCODE_DPAD_CENTER || code == KeyEvent.KEYCODE_ENTER
 
-inline fun KeyCode.isSelect() = this.keyCode == KeyEvent.KEYCODE_DPAD_CENTER || this.keyCode == KeyEvent.KEYCODE_ENTER
+	@JvmStatic
+	fun isNumber(code: Int) = code >= KeyEvent.KEYCODE_0 && code <= KeyEvent.KEYCODE_9
 
-inline fun KeyCode.isNumber() = this.keyCode >= KeyEvent.KEYCODE_0 && this.keyCode <= KeyEvent.KEYCODE_9
-
-inline fun KeyCode.isChannelSurfUp() = this.keyCode == KeyEvent.KEYCODE_PAGE_UP || this.keyCode == KeyEvent.KEYCODE_CHANNEL_UP
-inline fun KeyCode.isChannelSurfDown() = this.keyCode == KeyEvent.KEYCODE_PAGE_DOWN || this.keyCode == KeyEvent.KEYCODE_CHANNEL_DOWN
-inline fun KeyCode.isChannelUp() = this.keyCode == KeyEvent.KEYCODE_CHANNEL_UP
-inline fun KeyCode.isChannelDown() = this.keyCode == KeyEvent.KEYCODE_CHANNEL_DOWN
-inline fun KeyCode.isPageUp() = this.keyCode == KeyEvent.KEYCODE_PAGE_UP
-inline fun KeyCode.isPageDown() = this.keyCode == KeyEvent.KEYCODE_PAGE_DOWN
+	@JvmStatic
+	fun isChannelSurfUp(code: Int) = code == KeyEvent.KEYCODE_PAGE_UP || code == KeyEvent.KEYCODE_CHANNEL_UP
+	@JvmStatic
+	fun isChannelSurfDown(code: Int) = code == KeyEvent.KEYCODE_PAGE_DOWN || code == KeyEvent.KEYCODE_CHANNEL_DOWN
+	@JvmStatic
+	fun isChannelUp(code: Int) = code == KeyEvent.KEYCODE_CHANNEL_UP
+	@JvmStatic
+	fun isChannelDown(code: Int) = code == KeyEvent.KEYCODE_CHANNEL_DOWN
+	@JvmStatic
+	fun isPageUp(code: Int) = code == KeyEvent.KEYCODE_PAGE_UP
+	@JvmStatic
+	fun isPageDown(code: Int) = code == KeyEvent.KEYCODE_PAGE_DOWN
+}
