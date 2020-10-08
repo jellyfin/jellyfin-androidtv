@@ -139,6 +139,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private int mGuideHours = 9;
     private List<ChannelInfoDto> mAllChannels;
     private String mFirstFocusChannelId;
+    private int mChannelOffset = 0;
 
     PlaybackController mPlaybackController;
     private List<BaseItemDto> mItemsToPlay;
@@ -512,32 +513,48 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         public boolean onKey(View v, int keyCode, KeyEvent event) {
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
 
-                if (mChannelNumberVisible && keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-                    mHandler.removeCallbacks(mHideNumberTask);
-                    switchChannelByNumber(mChannelNumber);
-                    hideChannelNumberView();
-                }
+                if (mPlaybackController.isLiveTv()) {
+                    if (mChannelNumberVisible && keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+                        mHandler.removeCallbacks(mHideNumberTask);
+                        switchChannelByNumber(mChannelNumber);
+                        hideChannelNumberView();
+                        return true;
+                    }
 
-                if (!mGuideVisible && keyCode >= KeyEvent.KEYCODE_0 && keyCode <= KeyEvent.KEYCODE_9) {
-                    leanbackOverlayFragment.setShouldShowOverlay(false);
-                    if (mPopupPanelVisible)
-                        hidePopupPanel();
-                    if (mIsVisible)
-                        leanbackOverlayFragment.hideOverlay();
+                    if (!mGuideVisible) {
+                        if (keyCode >= KeyEvent.KEYCODE_0 && keyCode <= KeyEvent.KEYCODE_9) {
+                            leanbackOverlayFragment.setShouldShowOverlay(false);
+                            if (mPopupPanelVisible)
+                                hidePopupPanel();
+                            if (mIsVisible)
+                                leanbackOverlayFragment.hideOverlay();
 
-                    mChannelNumber += String.valueOf(keyCode - 7);
-                    mChannelNumberVisible = true;
-                    mChannelNumberView.setVisibility(View.VISIBLE);
-                    mChannelNumberTextView.setText(mChannelNumber);
+                            mChannelNumber += String.valueOf(keyCode - 7);
+                            mChannelNumberVisible = true;
+                            mChannelNumberView.setVisibility(View.VISIBLE);
+                            mChannelNumberTextView.setText(mChannelNumber);
 
-                    mHandler.removeCallbacks(mHideNumberTask);
-                    mHandler.postDelayed(mHideNumberTask, 5000);
+                            mHandler.removeCallbacks(mHideNumberTask);
+                            mHandler.postDelayed(mHideNumberTask, 5000);
+                            return true;
+                        } else if (keyCode == KeyEvent.KEYCODE_LAST_CHANNEL) {
+                            switchChannel(TvManager.getPrevLiveTvChannel());
+                            return true;
+                        } else if (keyCode == KeyEvent.KEYCODE_CHANNEL_DOWN) {
+                            leanbackOverlayFragment.setShouldShowOverlay(false);
+                            channelButton(false);
+                            return true;
+                        } else if (keyCode == KeyEvent.KEYCODE_CHANNEL_UP) {
+                            leanbackOverlayFragment.setShouldShowOverlay(false);
+                            channelButton(true);
+                            return true;
+                        }
+                    }
                 }
                 Timber.d("Key Code: " + String.valueOf(keyCode));
 
                 //166 up
                 //167 down
-                //229 last channel
 
                 if (!mGuideVisible)
                     leanbackOverlayFragment.setShouldShowOverlay(true);
@@ -683,10 +700,52 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         }
     }
 
+    private void channelButton(boolean up) {
+        int oldOffset = mChannelOffset;
+        if (up) mChannelOffset += 1;
+        else mChannelOffset -= 1;
+
+        if (mAllChannels == null)
+            mAllChannels = TvManager.getAllChannels();
+
+        if (mAllChannels.size() > 0) {
+            if ("DatePlayed".equals(TvManager.getPrefs().channelOrder)) {
+                //Sort by channel number
+            }
+
+            String id = mPlaybackController.getCurrentlyPlayingItem().getChannelId();
+
+            if (id == null) {
+                mChannelOffset = oldOffset;
+                return;
+            }
+
+            int curChannelNdx = TvManager.getAllChannelsIndex(id);
+
+            if (curChannelNdx + mChannelOffset < 0 || curChannelNdx + mChannelOffset > (mAllChannels.size() - 1)) {
+                mChannelOffset = oldOffset;
+                return;
+            }
+
+            ChannelInfoDto channel =  TvManager.getChannel(curChannelNdx + mChannelOffset);
+
+            mChannelNumberVisible = true;
+            mChannelNumber = channel.getNumber();
+            mChannelNumberView.setVisibility(View.VISIBLE);
+            mChannelNumberTextView.setText(mChannelNumber);
+
+            mHandler.removeCallbacks(mHideNumberTask);
+            mHandler.postDelayed(mHideNumberTask, 5000);
+        }
+    }
+
     private void hideChannelNumberView() {
         mChannelNumber = "";
+        mChannelOffset = 0;
         mChannelNumberVisible = false;
         mChannelNumberView.setVisibility(View.GONE);
+
+        leanbackOverlayFragment.setShouldShowOverlay(true);
     }
 
     public long getCurrentLocalStartDate() {
